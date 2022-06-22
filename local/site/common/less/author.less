@@ -32,10 +32,10 @@
 @buttonyMenuBackgroundColor: @barvaEditButtony;
 @lastButtonMenuBackgroundColor: @barvaEditButtony;
 @lastButtonMenuBackgroundColorHover: @white;
-@buttonySvisleMenuPositionTop: -25px;
+@buttonySvisleMenuPositionTop: -25px;  
 @buttonySvisleMenuPositionLeft: auto;
 @buttonySvisleMenuPositionRight: @hodnota0;
-@buttonySvisleMenuVnorenePositionRight: 33px;
+@buttonySvisleMenuVnorenePositionRight: 33px; 
 @buttonySvisleMenuVnorenePositionTop: -32px; 
 @buttonySvisleMenuRadkaBorderLeft: 1px solid rgba(34,36,38,.15);
 @buttonySvisleMenuRadkaBorderRadius: 0;
@@ -44,7 +44,7 @@
 @buttonSvisleMenuKosSecondIconSize: 0.9em;
 @buttonSvisleMenuKosSecondIconPositionleft: 7px;
 @buttonyPresmerovaniMenuMargin: @hodnota0 @hodnota0 @hodnota0 5px;
-@buttonyPresmerovaniMenuVnorenePositionRight: 62px;
+@buttonyPresmerovaniMenuVnorenePositionRight: 12px;
 @buttonyPresmerovaniMenuVnorenePositionTop: -26px;
 @buttonyVodorovneMenuHeight: 28px;
 @buttonyVodorovneMenuPositionTop: @hodnota0;
@@ -354,6 +354,16 @@ body{
                 }
             }
         }
+        /*SVISLÉ MENU BLOKY*/
+        &.bloky{
+            .buttons{
+                .nested:first-of-type{
+                    > .buttons{
+                        right: 32px;
+                    }
+                }
+            }
+        }
         /*SVISLÉ MENU KOŠ*/
         &.kos{
             .buttons{
@@ -403,6 +413,9 @@ body{
         }
     }
     .presmerovani-menu, .vodorovne-menu{
+        li.parent > form{
+            display: contents;
+        }
         /*buttony velké jako položka menu*/
         /*není to u .buttons protože to je jen obal - nastaví výšku celé sady, ale buttony nezmenší*/
         .button{

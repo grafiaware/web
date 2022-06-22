@@ -9,6 +9,7 @@
 namespace Red\Model\Entity;
 
 use Model\Entity\EntityAbstract;
+use DateTime;
 
 /**
  * Description of Article
@@ -58,7 +59,12 @@ class Paper extends EntityAbstract implements PaperInterface {
         return $this->editor;
     }
 
-    public function getUpdated(): \DateTime {
+    /**
+     * Hodnota může být null po insertu do db, po kterém nenásledovalo zpětné načtení dat.
+     *
+     * @return DateTime|null
+     */
+    public function getUpdated(): ?DateTime {
         return $this->updated;
     }
 
@@ -102,7 +108,13 @@ class Paper extends EntityAbstract implements PaperInterface {
         return $this;
     }
 
-    public function setUpdated(\DateTime $updated): PaperInterface {
+    /**
+     * Hodnota může být null po insertu do db, po kterém nenásledovalo zpětné načtení dat.
+     *
+     * @param DateTime $updated
+     * @return PaperInterface
+     */
+    public function setUpdated(DateTime $updated=null): PaperInterface {
         $this->updated = $updated;
         return $this;
     }

@@ -62,11 +62,7 @@ class MenuRootRepo extends RepoAbstract {
     protected function createEntity() {
         return new MenuRoot();
     }
-
-    protected function indexFromKeyParams($name) {
-        return $name;
-    }
-
+    
     protected function indexFromEntity(MenuRootInterface $menuRoot) {
         return $menuRoot->getName();
     }

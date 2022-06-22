@@ -8,7 +8,7 @@
 
 namespace Component\View\Manage;
 
-use Component\View\StatusComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\ViewModel\Manage\StatusBoardViewModelInterface;
 use Pes\View\Template\PhpTemplate;
@@ -21,7 +21,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class StatusBoardComponent extends StatusComponentAbstract {
+class StatusBoardComponent extends ComponentCompositeAbstract {
 
     /**
      * @var StatusViewModelInterface
@@ -30,13 +30,13 @@ class StatusBoardComponent extends StatusComponentAbstract {
 
     //renderuje template nebo NonPermittedContentRenderer
 
-    public function beforeRenderingHook(): void {
-        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateStatusBoard()));
-        } else {
-            $this->setRendererName(NoPermittedContentRenderer::class);
-        }
-    }
+//    public function beforeRenderingHook(): void {
+//        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+//            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateStatusBoard()));
+//        } else {
+//            $this->setRendererName(NoPermittedContentRenderer::class);
+//        }
+//    }
 
     public function getComponentPermissions(): array {
         return [

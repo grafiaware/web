@@ -8,7 +8,7 @@
 
 namespace Component\View\Manage;
 
-use Component\View\StatusComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
@@ -21,7 +21,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class LoginLogoutComponent extends StatusComponentAbstract {
+class LoginLogoutComponent extends ComponentCompositeAbstract {
 
     /**
      * @var StatusViewModelInterface
@@ -30,15 +30,15 @@ class LoginLogoutComponent extends StatusComponentAbstract {
 
     //renderuje template login nebo logout
 
-    public function beforeRenderingHook(): void {
-        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-            if ($this->contextData->isUserLoggedIn()) {
-                $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogout()));
-            } else {
-                $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogin()));
-            }
-        } else {
-            $this->setRendererName(NoContentForStatusRenderer::class);
-        }
-    }
+//    public function beforeRenderingHook(): void {
+//        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+//            if ($this->contextData->isUserLoggedIn()) {
+//                $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogout()));
+//            } else {
+//                $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogin()));
+//            }
+//        } else {
+//            $this->setRendererName(NoContentForStatusRenderer::class);
+//        }
+//    }
 }

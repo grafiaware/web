@@ -16,7 +16,7 @@ use Status\Model\Enum\FlashSeverityEnum;
 use Access\Enum\RoleEnum;
 use Access\Enum\AllowedActionEnum;
 
-use Component\View\AccessComponentInterface;
+use Component\View\ComponentInterface;
 
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\ItemActionRepoInterface;
@@ -218,7 +218,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     /**
      *
-     * @param AccessComponentInterface $component
+     * @param ComponentInterface $component
      * @param type $action
      * @return bool
      */

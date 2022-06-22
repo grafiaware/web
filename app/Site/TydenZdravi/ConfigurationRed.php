@@ -190,25 +190,22 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'menu.componentsServices' => [
                     'menu.svisle' => [
-                        'root_name' => 'menu_vertical',
-                        'with_rootItem' => false,
-                        'itemtype' => 'menu',
-                        'menuwraprenderer' => 'menu.svisle.menuwraprenderer',
-                        'levelwraprenderer' => 'menu.svisle.levelwraprenderer'
+                        'rootName' => 'menu_vertical',
+                        'withRootItem' => false,
+                        'itemtype' => 'multilevel',
+                        'levelRenderer' => 'menu.svisle.levelRenderer',
                         ],
                     'menu.bloky' => [
-                        'root_name' => 'blocks',
-                        'with_rootItem' => true,
-                        'itemtype' => 'block',
-                        'menuwraprenderer' => 'menu.bloky.menuwraprenderer',
-                        'levelwraprenderer' => 'menu.bloky.levelwraprenderer'
+                        'rootName' => 'blocks',
+                        'withRootItem' => true,
+                        'itemtype' => 'onelevel',
+                        'levelRenderer' => 'menu.bloky.levelRenderer',
                         ],
                     'menu.kos' => [
-                        'root_name' => 'trash',
-                        'with_rootItem' => true,
+                        'rootName' => 'trash',
+                        'withRootItem' => true,
                         'itemtype' => 'trash',
-                        'menuwraprenderer' => 'menu.kos.menuwraprenderer',
-                        'levelwraprenderer' => 'menu.kos.levelwraprenderer'
+                        'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],
             // parametry kontext - service mapy jsou:

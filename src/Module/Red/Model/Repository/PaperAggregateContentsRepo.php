@@ -11,12 +11,12 @@ namespace Red\Model\Repository;
 use Model\Repository\RepoInterface;
 //use Model\Repository\RepoReadonlyInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContent;
+use Red\Model\Entity\PaperAggregatePaperSection;
 use Red\Model\Dao\PaperDao;
 use Red\Model\Hydrator\PaperHydrator;
-use Red\Model\Repository\PaperContentRepo;
+use Red\Model\Repository\PaperSectionRepo;
 use Red\Model\Hydrator\PaperChildHydrator;
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 
 /**
@@ -27,13 +27,13 @@ use Red\Model\Entity\PaperContentInterface;
 class PaperAggregateContentsRepo extends PaperRepo implements RepoInterface, PaperRepoInterface {
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator,
-            PaperContentRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {
+            PaperSectionRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {
         parent::__construct($paperDao, $paperHydrator);
-        $this->registerOneToManyAssociation(PaperContentInterface::class, 'id', $paperContentRepo);
+        $this->registerOneToManyAssociation(PaperSectionInterface::class, 'id', $paperContentRepo);
         $this->registerHydrator($paperChildHydrator);
     }
 
     protected function createEntity() {
-        return new PaperAggregatePaperContent();
+        return new PaperAggregatePaperSection();
     }
 }

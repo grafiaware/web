@@ -9,6 +9,9 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 use Pes\View\Renderer\PhpTemplateRenderer;
 
+use Component\Renderer\Html\Menu\MenuRenderer;
+use Component\Renderer\Html\Menu\LevelRenderer;
+
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\Renderer\Html\Menu\ItemRendererEditable;
 use Component\Renderer\Html\Menu\ItemBlockRenderer;
@@ -16,36 +19,38 @@ use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
 use Component\Renderer\Html\Menu\ItemTrashRenderer;
 use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
-use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
-use Component\Renderer\Html\Authored\Paper\PaperRenderer;
-use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\ButtonsRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
 use Component\Renderer\Html\Manage\SelectTemplateRenderer;
 
-//use Component\Renderer\Html\Authored\Paper\ElementWrapper;
-//use Component\Renderer\Html\Authored\Paper\ElementEditableWrapper;
-//use Component\Renderer\Html\Authored\Paper\Buttons;
+use Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PerexRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\SectionsRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
 
-use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
-use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
-use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
-use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
+use Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
+use Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
 
-use Component\Renderer\Html\Authored\Article\ArticleRenderer;
-use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
-
-use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
-use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
+use Component\Renderer\Html\Content\Authored\Multipage\MultipageRenderer;
+use Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEditable;
 
 use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 use Component\Renderer\Html\Manage\EditContentSwitchOffRenderer;
 use Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
 
+use Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
+
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
-use Component\Renderer\Html\MenuItem\TypeSelect\ItemTypeSelectRenderer;
+use Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
 
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\View\Renderer\InterpolateRenderer;
@@ -68,6 +73,14 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
+    /**
+     * ###############  POZOR! ###############
+     * Všechny renderery jsou vyráběny jako service (singleton). Ve skutečnosti většina z nich dědí HtmlRendererAbstract, který má konstruktor a přijímá classMap.
+     * To znamená, že render jednoho typu vznikne jen jeden a používá se stéle tentýž renderer se stejnou class mapou
+     * #######################################
+     *
+     * @return iterable
+     */
     public function getServicesDefinitions(): iterable {
         return array_merge(ConfigurationCache::renderer(),
                 [
@@ -80,7 +93,30 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         NoPermittedContentRenderer::class => function(ContainerInterface $c) {
             return new NoPermittedContentRenderer();
         },
+        // menu
 
+        ButtonsItemManipulationRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsItemManipulationRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuAddMultilevelRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuAddMultilevelRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuAddOnelevelRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuAddOnelevelRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuCutCopyRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuCutCopyRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuDeleteRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuDeleteRenderer($c->get('menu.itembuttons.classmap'));
+        },
+
+        MenuRenderer::class => function(ContainerInterface $c) {
+            return new MenuRenderer();
+        },
+        LevelRenderer::class => function(ContainerInterface $c) {
+            return new LevelRenderer($classMap);
+        },
         ###########################
         # menu item renderer
         ###########################
@@ -120,16 +156,6 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperRendererEditable::class => function(ContainerInterface $c) {
                 return new PaperRendererEditable($c->get('authored.editable.classmap'));
             },
-//
-//            ElementWrapper::class => function(ContainerInterface $c) {
-//                return new ElementWrapper($c->get('authored.classmap'));
-//            },
-//            ElementEditableWrapper::class => function(ContainerInterface $c) {
-//                return new ElementEditableWrapper($c->get('authored.editable.classmap'));
-//            },
-//            Buttons::class => function(ContainerInterface $c) {
-//                return new Buttons($c->get('authored.editable.classmap'));
-//            },
 
             HeadlineRenderer::class => function(ContainerInterface $c) {
                 return new HeadlineRenderer($c->get('authored.classmap'));

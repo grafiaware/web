@@ -8,8 +8,9 @@
 
 namespace Component\View;
 
-use Pes\View\CompositeView;
-use Pes\View\Template\TemplateInterface;
+use Pes\View\View;
+
+use Component\View\ComponentInterface;
 
 use Configuration\ComponentConfigurationInterface;
 
@@ -18,7 +19,7 @@ use Configuration\ComponentConfigurationInterface;
  *
  * @author pes2704
  */
-abstract class ComponentAbstract extends CompositeView {
+abstract class ComponentAbstract extends View implements ComponentInterface {
 
     /**
      *
@@ -30,26 +31,12 @@ abstract class ComponentAbstract extends CompositeView {
         $this->configuration = $configuration;
     }
 
-    /**
-     * Vytvoří nový CompositeView s rendererem zadaným jako parametr.
-     * Vytvořenému COmponentView jako data nastaví contextData komponenty, jako renderer kontener mu nastaví renderer kontejner komponenty.
-     *
-     * @param type $rendererClassname
-     * @return CompositeView
-     */
-    protected function createCompositeViewWithRenderer($rendererClassname) {
-        // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
-        return (new CompositeView())->setData($this->contextData)->setRendererName($rendererClassname)->setRendererContainer($this->rendererContainer);
-    }
-
-    /**
-     * Vytvoří nový CompositeView a šablonou zadanou jako parametr.
-     * Vytvořenému COmponentView jako data nastaví contextData komponenty, jako renderer kontener mu nastaví renderer kontejner komponenty.
-     *
-     * @param PhpTemplateInterface $template
-     * @return CompositeView
-     */
-    protected function createCompositeViewWithTemplate(TemplateInterface $template) {
-        return (new CompositeView())->setData($this->contextData)->setTemplate($template)->setRendererContainer($this->rendererContainer);
+    public function getComponentPermissions(): array {
+        return [
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
+        ];
     }
 }

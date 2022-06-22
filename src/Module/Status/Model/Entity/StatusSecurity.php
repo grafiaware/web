@@ -11,6 +11,7 @@ namespace Status\Model\Entity;
 use Model\Entity\EntityAbstract;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
+use Red\Model\Entity\UserActionsInterface;
 
 /**
  * Description of Login
@@ -25,7 +26,12 @@ class StatusSecurity extends EntityAbstract implements StatusSecurityInterface {
     private $loginAggregate;
 
     /**
-     * Vrací jméno
+     * @var UserActionsInterface
+     */
+    private $userActions;
+
+    /**
+     * Vrací LoginAggregateFull - login s credentials a registration
      *
      * @return LoginAggregateFullInterface|null
      */
@@ -33,18 +39,34 @@ class StatusSecurity extends EntityAbstract implements StatusSecurityInterface {
         return $this->loginAggregate;
     }
 
+    public function remove(): StatusSecurityInterface {
+        $this->loginAggregate = null;
+        $this->userActions = null;
+        return $this;
+    }
 
     /**
      * {@inheritdoc}
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
-    public function renewSecurityStatus(LoginAggregateFullInterface $loginAggregate=null): StatusSecurityInterface {
+    public function renew(LoginAggregateFullInterface $loginAggregate, UserActionsInterface $userActions): StatusSecurityInterface {
         $this->loginAggregate = $loginAggregate;
+        $this->userActions = $userActions;
         return $this;
     }
 
     public function hasSecurityContext(): bool {
         return isset($this->loginAggregate) AND $this->loginAggregate->isPersisted();
+    }
+
+    ## user action
+
+    /**
+     *
+     * @return UserActionsInterface|null
+     */
+    public function getUserActions(): ?UserActionsInterface {
+        return $this->userActions;
     }
 }

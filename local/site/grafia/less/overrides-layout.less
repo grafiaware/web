@@ -144,11 +144,22 @@
         }
         button:not(.fluid){
             position: relative;
-            left: 15%;
+            left: -1%;
             margin-bottom: 15px;
             &.positive{
                 left: 20%;
             }
+        }
+        
+    }
+    .modal.page.login{
+        .fluid.buttons{
+            margin-top: 35px;
+            margin-bottom: 7px;
+        }
+        p > .tertiary.button{
+            position: absolute;
+            bottom: 60px;
         }
     }
         
@@ -266,11 +277,20 @@
                 border-radius: 0 0 4px 4px;
             }
         }
+        li.parent{
+            border-top: 2px solid @transparentBlack;
+            > ul{
+                border-top: 2px solid @transparentBlack;
+            }
+        }
         li{
             position: relative;
             &:hover{
                 z-index: 2;
                 background-color: @white;
+            }
+            a, p{
+                padding: 7px;
             }
         }
         li:not(:first-child){ 
@@ -296,11 +316,15 @@
             }
         }*/
         .menu {
+           margin-top: 0;
            margin-left: 5px;
            padding: 0;
             .item{
                 border-bottom: 0;
                 list-style-type: inherit;
+                a, p{
+                    padding: 7px;
+                }
             }
         }
 /*        .item::before{
@@ -316,7 +340,7 @@
     .ui.dropdown .menu{
         left: 26px;
     }
-    .hidden-submenu{
+    .hlavni-menu .hidden-submenu{
         ul{
             display: none;
         }
@@ -455,10 +479,32 @@
 
 /*********/
 .button-edit-menu{
-    position: relative;
+    position:relative;
+    right: 10px;
     float: right;
-    margin-top: -30px;
-    margin-bottom: 30px;
+    margin-top: -60px;
+    //margin-bottom: 30px;
+}
+.menu-login{
+    position: absolute;
+    box-shadow: 0 0 1px 1px @lightGrey;
+    border-radius: 5px;
+    display: none;
+    width: 200px;
+    padding: 20px 20px;
+    background: white;
+    z-index: 10;
+    right: -55px;
+    .input{
+        box-shadow: 0 0 1px 1px @backgroundLightGrey;
+        border-radius: 5px;
+        margin: 8px;
+    }
+}
+.hlavni-menu{
+    .button-edit-menu{
+        margin-top: -60px;
+    }
 }
 
 //Poznamky a flash

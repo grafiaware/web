@@ -4,7 +4,7 @@ namespace Component\Renderer\Html\Manage;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Pes\Text\Html;
-use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
 
 /**
  * Description of ToggleEditButtonRenderer

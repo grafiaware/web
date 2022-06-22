@@ -2,7 +2,23 @@
     $('.ui.dropdown')
       .dropdown()
     ;
-
+    //prihlaseni (otevreni/zavreni pres ikonu)
+    $('.btn-login').click(function(){
+        $(this).siblings('.menu-login').toggle();
+    });
+    //modalni okno pro prihlaseni
+    $('.ui.page.button').click(function(){
+        $('.page.modal').modal({
+            closable: false,
+            useCSS   : true,
+        })
+        .modal('show');
+    });
+    $('.ui.hide.button').click(function(){
+       $('.page.modal').modal('hide');
+    });
+    
+    
     //flash message
     $('.flashtoast')
         .toast({
@@ -22,11 +38,11 @@
 
 
     //odeslani prihlasovaciho formulare pri stisku klavesy Enter
-    $('.loginEnterKey').keyup(function(event){
-        if(event.keyCode === 13){
-            $('.positive.button').click();
-        }
-    });
+//    $('.loginEnterKey').keyup(function(event){
+//        if(event.keyCode === 13){
+//            $('.positive.button').click();
+//        }
+//    });
 
     //veletrh online
     //checkbox v registraci (zastupuji vystavovatele)
@@ -106,11 +122,11 @@ function initLoadedEditableElements() {
             });
 
             //semantic-ui dropdown (použitý např. pro přihlašování)
-            $('.ui.dropdown').dropdown();
+            //$('.ui.dropdown').dropdown();
             //menu semantic-ui dropdown reaguje na událost hover
             $('.svisle-menu .ui.dropdown').dropdown({on: 'hover'});
             //výběr šablony pro stránku - vlastní dropdown, protože jsou dva vnořený
-            $('.ui.selection.dropdown').dropdown();
+            //$('.ui.selection.dropdown').dropdown();
 
             $('.calendarWrap .ui.calendar').calendar({
                 type: 'date',

@@ -43,6 +43,13 @@ $("body").on("click", '.button.hideCalendarWrap',
         }
     );
 
+////pokus: vybraná položka menu zůstane viditelná (rolovaní) - s ID u html::p v ItemRendererEditable
+////potřeba vyřešit rolování pouze v menu nav, teď se posouvá celá stránka
+////a vyřešit odsazení (top), aby u položky byly vidět buttony
+//$(document).ready(function(){
+//      var element = document.getElementById("presd");
+//      element.scrollIntoView();
+//});
 
 //.borderDance - animovaný border kolem editačního tagu (mravenci), animace nastavena v author.less
 function showHeight(height, width) {

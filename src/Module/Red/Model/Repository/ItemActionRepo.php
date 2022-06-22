@@ -62,10 +62,6 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
         return new ItemAction();
     }
 
-    protected function indexFromKeyParams($typeFk, $itemId) {
-        return $typeFk.$itemId;
-
-    }
     protected function indexFromEntity(ItemActionInterface $itemAction) {
         return $itemAction->getTypeFk().$itemAction->getItemId();
     }

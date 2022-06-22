@@ -279,17 +279,23 @@ abstract class RepoAbstract {
     private function addAssociated($row) {
 //    private function addAssociated($row, EntityInterface $entity) {
         foreach ($this->associations as $interfaceName => $association) {
-            if (isset($row[$interfaceName])) {
-                if (!($row[$interfaceName] instanceof \Traversable)) {
-                    $cls = get_called_class();
-                    throw new UnableAddAssotiationsException("Nelze přidat asociované entity v repository '$cls'. V řádku dat (rowData) je položka pro asociované entity '$interfaceName', ale není Traversable.");
-                }
-                foreach ($row[$interfaceName] as $assocEntity) {  // asociovaná entita nemusí existovat - agregát je i tak validní
-                    if (!$assocEntity->isPersisted()) {
-                        $association->addAssociatedEntity($assocEntity);  // child repo add
+            if (isset($row[$interfaceName])) { // asociovaná entita nemusí existovat - agregát je i tak validní
+                if ($association instanceof AssociationOneToManyInterface) {
+                    foreach ($row[$interfaceName] as $assocEntity) {
+                        if (!$assocEntity->isPersisted()) {
+                            $association->addAssociatedEntity($assocEntity);  // child repo add
+                        }
                     }
+                } elseif($association instanceof AssociationOneToOneInterface) {
+                        $assocEntity = $row[$interfaceName];
+                        if (!$assocEntity->isPersisted()) {
+                            $association->addAssociatedEntity($assocEntity);  // child repo add
+                        }
+                } else {
+                    throw new \LogicException("Neznámý typ asociace pro $interfaceName");
                 }
             }
+
         }
     }
 

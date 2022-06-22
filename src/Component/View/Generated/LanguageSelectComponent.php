@@ -1,7 +1,7 @@
 <?php
 namespace Component\View\Generated;
 
-use Component\View\StatusComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 
 use Component\ViewModel\Generated\LanguageSelectViewModel;
 
@@ -10,7 +10,7 @@ use Component\ViewModel\Generated\LanguageSelectViewModel;
  *
  * @author pes2704
  */
-class LanguageSelectComponent extends StatusComponentAbstract {
+class LanguageSelectComponent extends ComponentCompositeAbstract {
 
     /**
      * @var LanguageSelectViewModel

@@ -1,13 +1,13 @@
 <?php
 namespace Component\View\Element;
 
-use Component\View\ComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 
 /**
  * Description of ElementComponent
  *
  * @author pes2704
  */
-class ElementComponent extends ComponentAbstract {
-    //
+class ElementComponent extends ComponentCompositeAbstract {
+
 }

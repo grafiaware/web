@@ -11,6 +11,7 @@ namespace Status\Model\Entity;
 use Model\Entity\EntityInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
+use Red\Model\Entity\UserActionsInterface;
 
 /**
  * Třída nemá metodu getUser(), nikdy nevrací celý objekt User. Tak nelze měnit vlastnosti objektu User získaného z StatusSecurity.
@@ -37,7 +38,22 @@ interface StatusSecurityInterface extends EntityInterface {
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
-    public function renewSecurityStatus(LoginAggregateFullInterface $loginAggregate=null): StatusSecurityInterface;
+    public function remove(): StatusSecurityInterface;
+
+    /**
+     *
+     * @param LoginAggregateFullInterface $loginAggregate
+     * @param UserActionsInterface $userActions
+     * @return StatusSecurityInterface
+     */
+    public function renew(LoginAggregateFullInterface $loginAggregate, UserActionsInterface $userActions): StatusSecurityInterface;
 
     public function hasSecurityContext(): bool;
+
+
+    /**
+     *
+     * @return UserActionsInterface|null
+     */
+    public function getUserActions(): ?UserActionsInterface;
 }

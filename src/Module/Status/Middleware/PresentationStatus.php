@@ -50,13 +50,13 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
                         )
                 )
             );
-        $statusPresentation = $this->createStatusIfNotExists();
-        $this->presetPresentationLanguage($statusPresentation, $request);
+        $statusPresentation = $this->getOrCreateStatusIfNotExists();
+        $this->presetPresentationStatus($statusPresentation, $request);
         $response = $handler->handle($request);
         return $response;
     }
 
-    private function createStatusIfNotExists() {
+    private function getOrCreateStatusIfNotExists() {
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
 
@@ -73,14 +73,11 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      *
      * @param type $statusPresentation
      */
-    private function presetPresentationLanguage(StatusPresentation $statusPresentation, ServerRequestInterface $request) {
+    private function presetPresentationStatus(StatusPresentation $statusPresentation, ServerRequestInterface $request) {
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguage())) {
             $language = $this->getRequestedLanguage($request);
             $statusPresentation->setLanguage($language);
-        }
-        if (is_null($statusPresentation->getUserActions())) {
-            $statusPresentation->setUserActions(new UserActions());  // má default hodnoty
         }
     }
 

@@ -9,8 +9,8 @@
 namespace Component\Renderer\Html\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
-use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
 
 use Model\Entity\MenuItemAggregateHierarchyInterface;
 use Model\Entity\MenuItemAggregatePaperInterface;
@@ -60,7 +60,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                         )
                         //.Html::tag('i', ['class'=>$this->classMap->get('Component', 'div div div i3')])
                     )
-                    .Html::tag('content', ['id'=>"content_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->get('Component', 'div div content')], $paper->getPaperContent())
+                    .Html::tag('content', ['id'=>"content_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->get('Component', 'div div content')], $paper->getPaperSection())
                 );
         } else {
             $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');

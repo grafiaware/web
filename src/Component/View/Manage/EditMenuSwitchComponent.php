@@ -8,9 +8,7 @@
 
 namespace Component\View\Manage;
 
-use Component\View\StatusComponentAbstract;
-use Component\Renderer\Html\NoPermittedContentRenderer;
-use Pes\View\Template\PhpTemplate;
+use Component\View\ComponentAbstract;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -20,22 +18,12 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class EditMenuSwitchComponent  extends StatusComponentAbstract {
-
-    //renderuje template nebo NonPermittedContentRenderer
-
-    public function beforeRenderingHook(): void {
-        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateControlEditMenu()));
-        } else {
-            $this->setRendererName(NoPermittedContentRenderer::class);
-        }
-    }
+class EditMenuSwitchComponent extends ComponentAbstract {
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
-//            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class],
         ];
     }
 }

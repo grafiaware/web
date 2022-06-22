@@ -30,11 +30,10 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @return ResponseInterface
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
         $language = $this->statusPresentationRepo->get()->getLanguage();
         $response = $response->withHeader('Content-Language', $language->getLocale());
 
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
         if ($userActions AND $userActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-cache');
         } else {

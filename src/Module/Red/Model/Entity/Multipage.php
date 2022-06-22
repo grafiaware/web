@@ -9,6 +9,7 @@
 namespace Red\Model\Entity;
 
 use Model\Entity\EntityAbstract;
+use DateTime;
 
 /**
  * Description of Article
@@ -39,7 +40,12 @@ class Multipage extends EntityAbstract implements MultipageInterface {
         return $this->editor;
     }
 
-    public function getUpdated() {
+    /**
+     * Hodnota může být null po insertu do db, po kterém nenásledovalo zpětné načtení dat.
+     *
+     * @return DateTime|null
+     */
+    public function getUpdated(): ?DateTime {
         return $this->updated;
     }
 
@@ -63,7 +69,13 @@ class Multipage extends EntityAbstract implements MultipageInterface {
         return $this;
     }
 
-    public function setUpdated($updated): MultipageInterface {
+    /**
+     * Hodnota může být null po insertu do db, po kterém nenásledovalo zpětné načtení dat.
+     *
+     * @param DateTime $updated
+     * @return MultipageInterface
+     */
+    public function setUpdated(DateTime $updated=null): MultipageInterface {
         $this->updated = $updated;
         return $this;
     }

@@ -29,9 +29,9 @@ use Component\View\Flash\FlashComponent;
 use Red\Model\Entity\MenuItemInterface;
 
 ####################
-use Pes\View\ViewFactory;
 use Pes\View\View;
-use Pes\View\ViewInterface;
+use Pes\View\CompositeView;
+use Pes\View\CompositeViewInterface;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 use Pes\View\Renderer\ImplodeRenderer;
@@ -131,9 +131,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * View s tempate layout.php a data pro template
      * @return CompositeView
      */
-    private function getLayoutView(ServerRequestInterface $request) {
-        /** @var ViewInterface $view */
-        $view = $this->container->get(View::class);
+    private function getLayoutView(ServerRequestInterface $request): CompositeViewInterface {
+        /** @var CompositeViewInterface $view */
+        $view = $this->container->get(CompositeView::class);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['layout']));
         $view->setData(
                 [
@@ -302,7 +302,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     private function getMenuComponents() {
 
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
 
         $components = [];
         foreach (ConfigurationCache::menu()['menu.contextServiceMap'] as $contextName => $serviceName) {
@@ -361,8 +361,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 //    }
 
     private function isPartInEditableMode() {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        return $userActions->presentAnyInEditableMode();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return isset($userActions) ? $userActions->presentAnyInEditableMode() : false;
     }
 
     private function isUserLoggedIn() {

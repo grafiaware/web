@@ -9,6 +9,7 @@
 namespace Red\Model\Entity;
 
 use Model\Entity\EntityAbstract;
+use DateTime;
 
 /**
  * Description of Article
@@ -44,7 +45,12 @@ class Article extends EntityAbstract implements ArticleInterface {
         return $this->editor;
     }
 
-    public function getUpdated() {
+    /**
+     * Hodnota může být null po insertu do db, po kterém nenásledovalo zpětné načtení dat.
+     *
+     * @return DateTime|null
+     */
+    public function getUpdated(): ?DateTime {
         return $this->updated;
     }
 
@@ -73,7 +79,13 @@ class Article extends EntityAbstract implements ArticleInterface {
         return $this;
     }
 
-    public function setUpdated($updated): ArticleInterface {
+    /**
+     * Hodnota může být null po insertu do db, po kterém nenásledovalo zpětné načtení dat.
+     *
+     * @param DateTime $updated
+     * @return ArticleInterface
+     */
+    public function setUpdated(DateTime $updated=null): ArticleInterface {
         $this->updated = $updated;
         return $this;
     }

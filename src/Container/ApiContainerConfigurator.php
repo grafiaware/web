@@ -39,11 +39,11 @@ use Red\Middleware\Redactor\Controler\FilesUploadControler;
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
 
 // generator service
-use GeneratorService\ContentGeneratorRegistry;
-use GeneratorService\Paper\PaperService;
-use GeneratorService\Article\ArticleService;
-use GeneratorService\StaticTemplate\StaticService;
-use GeneratorService\Multipage\MultipageService;
+use Service\ContentGenerator\ContentGeneratorRegistry;
+use Service\ContentGenerator\Paper\PaperService;
+use Service\ContentGenerator\Article\ArticleService;
+use Service\ContentGenerator\StaticTemplate\StaticService;
+use Service\ContentGenerator\Multipage\MultipageService;
 
 // array model
 use Events\Model\Arraymodel\Event;
@@ -68,7 +68,7 @@ use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
 use Red\Model\Repository\PaperAggregateContentsRepo;
 use Red\Model\Repository\PaperRepo;
-use Red\Model\Repository\PaperContentRepo;
+use Red\Model\Repository\PaperSectionRepo;
 use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\MultipageRepo;
 use Red\Model\Repository\ItemActionRepo;
@@ -156,7 +156,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(PaperContentRepo::class));
+                        $c->get(PaperSectionRepo::class));
             },
             FilesUploadControler::class => function(ContainerInterface $c) {
                 return new FilesUploadControler(
@@ -190,17 +190,17 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // generator service
 
-            // volání nastavených služeb GeneratorService ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
+            // volání nastavených služeb Service\ContentGenerator ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
 
             ContentGeneratorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ContentGeneratorRegistry(
                         $c->get(MenuItemTypeRepo::class)
                     );
                 // lazy volání služby kontejneru
-                $factory->registerGeneratorService('paper', function() use ($c) {return $c->get(PaperService::class);});
-                $factory->registerGeneratorService('article', function() use ($c) {return $c->get(ArticleService::class);});
-                $factory->registerGeneratorService('static', function() use ($c) {return $c->get(StaticService::class);});
-                $factory->registerGeneratorService('multipage', function() use ($c) {return $c->get(MultipageService::class);});
+                $factory->registerService('paper', function() use ($c) {return $c->get(PaperService::class);});
+                $factory->registerService('article', function() use ($c) {return $c->get(ArticleService::class);});
+                $factory->registerService('static', function() use ($c) {return $c->get(StaticService::class);});
+                $factory->registerService('multipage', function() use ($c) {return $c->get(MultipageService::class);});
                 return $factory;
             },
             PaperService::class => function(ContainerInterface $c) {

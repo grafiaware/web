@@ -19,7 +19,6 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Enum\FlashSeverityEnum;
 
 use Red\Model\Repository\ItemActionRepo;
-
 use Red\Model\Entity\ItemAction;
 use Red\Model\Enum\AuthoredTypeEnum;
 
@@ -30,6 +29,10 @@ use Red\Model\Enum\AuthoredTypeEnum;
  */
 class ItemActionControler extends FrontControlerAbstract {
 
+    /**
+     *
+     * @var ItemActionRepo
+     */
     private $itemActionRepo;
 
     public function __construct(
@@ -41,29 +44,29 @@ class ItemActionControler extends FrontControlerAbstract {
         $this->itemActionRepo = $itemActionRepo;
     }
 
-
     public function addUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        $typeFk = (new AuthoredTypeEnum())($typeFk);
-        if (! $userActions->hasUserItemAction($typeFk, $itemId)) {
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $userActions = $statusSecurity->getUserActions();
+        $typeFkEnumValue = (new AuthoredTypeEnum())($typeFk);
+        if (! $userActions->hasUserItemAction($typeFkEnumValue, $itemId)) {
             $itemAction = new ItemAction();
-            $itemAction->setTypeFk($typeFk);
+            $itemAction->setTypeFk($typeFkEnumValue);
             $itemAction->setItemId($itemId);
             $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
             $this->itemActionRepo->add($itemAction);  // do repo
             $userActions->addUserItemAction($itemAction);  // do statusu
-            $this->addFlashMessage("add user action for $typeFk (item $itemId)", FlashSeverityEnum::INFO);
+            $this->addFlashMessage("add user action for $typeFkEnumValue (item $itemId)", FlashSeverityEnum::INFO);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function removeUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
         // mažu nezávisle itemAction z statusPresentation (session) i z itemActionRepo (db) - hrozí chyby při opakované modeslání požadavku POST nebo naopak při ztrátě session
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();  // načtení ze sesiion
         if ($userActions->hasUserItemAction($typeFk, $itemId)) {
             $userActions->removeUserItemAction($userActions->getUserItemAction($typeFk, $itemId));
         }
-        $itemAction = $this->itemActionRepo->get($typeFk, $itemId);  // nestačí načíst itemAction z UserAction - v itemActionRepo pak není entity v kolekci a nelze volat remove
+        $itemAction = $this->itemActionRepo->get($typeFk, $itemId);  // načtení z db
         if (isset($itemAction)) {
             $this->itemActionRepo->remove($itemAction);
         }

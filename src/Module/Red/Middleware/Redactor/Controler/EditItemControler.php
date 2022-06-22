@@ -12,7 +12,7 @@ use Pes\Http\Response;
 use Pes\Text\FriendlyUrl;
 
 use Model\Entity\MenuItemInterface;
-use GeneratorService\ContentGeneratorRegistryInterface;
+use Service\ContentGenerator\ContentGeneratorRegistryInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -106,7 +106,7 @@ class EditItemControler extends FrontControlerAbstract {
      * Zkotroluje a nastaví položce menu (menu item) požadovaný typ. Typ menu item před voláním této metody musí být prázdný (typ empty) a pro požadovaný typ musí být zaregistrován generátor
      * obsahu nového prvku v ContentGeneratorRegistry.
      *
-     * Metoda nastaví typ menu item a generuje nový obsah pomocí GeneratorService zaregistrované pro daný typ v ContentGeneratorRegistry.
+     * Metoda nastaví typ menu item a generuje nový obsah pomocí Service\ContentGenerator zaregistrované pro daný typ v ContentGeneratorRegistry.
      *
      * @param ServerRequestInterface $request
      * @param string $uid

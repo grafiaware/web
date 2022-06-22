@@ -10,6 +10,7 @@ namespace Component\ViewModel\Menu\Item;
 
 use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
+use Component\View\ComponentInterface;
 
 /**
  * Description of ItemViwModel
@@ -17,6 +18,9 @@ use Red\Model\Entity\HierarchyAggregateInterface;
  * @author pes2704
  */
 class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
+
+    private $uniqid;
+
 
     /**
      * @var HierarchyAggregateInterface
@@ -31,9 +35,12 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     private $isCutted;
     private $menuEditable;
 
-    private $innerHtml;
+    private $child;
 
     public function __construct(HierarchyAggregateInterface $hierarchaAggregate, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable) {
+
+        $this->uniqid = uniqid();
+
         $this->hierarchyAggregate = $hierarchaAggregate;
         $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;
@@ -45,8 +52,8 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         parent::__construct();
     }
 
-    public function setInnerHtml($innerHtml): void {
-        $this->innerHtml = $innerHtml;
+    public function setChild(ComponentInterface $child): void {
+        $this->child = $child;
     }
 
     /**
@@ -78,8 +85,8 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         return $this->isCutted;
     }
 
-    public function getInnerHtml() {
-        return $this->innerHtml ?? '';
+    public function getChild(): ?ComponentInterface {
+        return $this->child;
     }
 
     public function isMenuEditable() {

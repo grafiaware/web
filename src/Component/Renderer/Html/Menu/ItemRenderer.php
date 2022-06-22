@@ -2,10 +2,12 @@
 namespace  Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 use Red\Model\Entity\MenuItemInterface;
-use Red\Model\Entity\HierarchyAggregateInterface;
+use Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Component\View\Menu\ItemComponentInterface;
+
+use Pes\Type\ContextDataInterface;
 
 use Pes\Text\Html;
 
@@ -28,58 +30,47 @@ class ItemRenderer extends HtmlRendererAbstract {
      */
     protected $viewModel;
 
-    public function render($viewModel=NULL) {
-        $this->viewModel = $viewModel;
-        $menuItem = $this->viewModel->getHierarchyAggregate()->getMenuItem();
-
-            return $this->renderNoneditableItem($menuItem);
+    public function render(iterable $viewModel=NULL) {
+        return $this->renderNoneditableItem($viewModel);
     }
 
-    private function renderNoneditableItem(MenuItemInterface $menuItem) {
-        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
+    private function renderNoneditableItem(ItemViewModelInterface $viewModel) {
+        $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
+        $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
         $innerHtml = Html::tag('a',
                         [
                             'class'=>[
                                 $this->classMap->get('Item', 'li a'),
-                                $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                                $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                                 ],
                             'href'=> "web/v1/page/item/{$menuItem->getUidFk()}"
                         ],
                         Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                             $menuItem->getTitle()
-                            .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                            .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                         )
-                        . $semafor
                     )
-                    .$this->viewModel->getInnerHtml();
+                    .$levelHtml;
         $html = Html::tag(     'li',
                 ['class'=>[
-                    $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolve($this->viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
-                    $this->classMap->resolve($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
+                    $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
+                    $this->classMap->resolve($viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                 'data-red-style'=> $this->redLiEditableStyle()
+                 'data-red-style'=> $this->redLiEditableStyle($viewModel)
                ],
                 $innerHtml
                 );
         return $html;
-
     }
 
-    private function semafor(MenuItemInterface $menuItem) {
-        $active =$menuItem->getActive();
-        return Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
-                    Html::tag('i', [
-                        'class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished'),
-                        'title'=> $active ? "published" :  "not published"
-                        ])
-                );
-    }
-    private function redLiEditableStyle() {
+    private function redLiEditableStyle($viewModel) {
         return
-            ($this->viewModel->isOnPath() ? "onpath " : "")
-            .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")
-            .($this->viewModel->isPresented() ? "presented " : "")
-            .($this->viewModel->isCutted() ? "cutted " : "") ;
+            ($viewModel->isLeaf() ? "leaf " : "")
+            .($viewModel->isOnPath() ? "onpath " : "")
+            .("realDepth:".$viewModel->getRealDepth()." ")
+            .(($viewModel->getRealDepth() == 1) ? "dropdown " : "")
+            .($viewModel->isPresented() ? "presented " : "")
+            .($viewModel->isCutted() ? "cutted " : "") ;
     }
 }

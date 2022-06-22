@@ -13,7 +13,6 @@ use Model\Entity\EntityInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\ItemActionInterface;
-use Red\Model\Entity\UserActionsInterface;
 
 use Status\Model\Entity\StatusPresentationInterface;
 
@@ -74,20 +73,16 @@ interface StatusPresentationInterface extends EntityInterface {
     public function setMenuItem(MenuItemInterface $menuItem): StatusPresentationInterface;
 
     /**
-     *
-     * @return UserActionsInterface|null
+     * Jméno poslední template zobrazené v náhledu template
      */
-    public function getUserActions(): ?UserActionsInterface;
-
-    /**
-     *
-     * @param UserActionsInterface $userActions
-     * @return StatusPresentationInterface
-     */
-    public function setUserActions(UserActionsInterface $userActions): StatusPresentationInterface;
-
     public function getLastTemplateName();
 
+    /**
+     * Jméno poslední template zobrazené v náhledu template
+     *
+     * @param type $templateName
+     * @return StatusPresentationInterface
+     */
     public function setLastTemplateName($templateName): StatusPresentationInterface;
 
     /**

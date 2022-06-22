@@ -50,10 +50,6 @@ class BlockRepo extends RepoAbstract implements BlockRepoInterface, RepoReadonly
         $this->removeEntity($block);
     }
 
-    protected function indexFromKeyParams($name) {
-        return $name;
-    }
-
     protected function indexFromEntity(BlockInterface $block) {
         return $block->getName();
     }

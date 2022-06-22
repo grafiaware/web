@@ -18,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 
 
 use Red\Model\Entity\Paper;
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -36,6 +36,11 @@ use UnexpectedValueException;
  * @author pes2704
  */
 class PaperControler extends AuthoredControlerAbstract {
+
+    const PEREX_CONTENT = 'perex_content';
+    const HEADLINE_CONTENT = 'headline_content';
+    const SECTION_CONTENT = 'section_content';
+
 
     private $paperAggregateRepo;
 
@@ -169,7 +174,7 @@ class PaperControler extends AuthoredControlerAbstract {
      * @return ResponseInterface
      */
     public function update(ServerRequestInterface $request, $paperId): ResponseInterface {
-        /** @var PaperAggregatePaperContentInterface $paperAggregate */
+        /** @var PaperAggregatePaperSectionInterface $paperAggregate */
         $paperAggregate = $this->paperAggregateRepo->get($paperId);
         if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
@@ -207,14 +212,19 @@ class PaperControler extends AuthoredControlerAbstract {
      * @return ResponseInterface
      */
     public function updateHeadline(ServerRequestInterface $request, $paperId): ResponseInterface {
-        /** @var PaperAggregatePaperContentInterface $paperAggregate */
+        /** @var PaperAggregatePaperSectionInterface $paperAggregate */
         $paperAggregate = $this->paperAggregateRepo->get($paperId);
         if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
             $postParams = $request->getParsedBody();
-                $paperAggregate->setHeadline($postParams["headline_$paperId"]);
-                $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
+            $name = self::HEADLINE_CONTENT."$paperId";
+            foreach ($postParams as $key => $value) {
+                if (strpos($key, $name)===0) {
+                    $paperAggregate->setHeadline($value);
+                    $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
+                }
+            }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -226,14 +236,19 @@ class PaperControler extends AuthoredControlerAbstract {
      * @return ResponseInterface
      */
     public function updatePerex(ServerRequestInterface $request, $paperId): ResponseInterface {
-        /** @var PaperAggregatePaperContentInterface $paperAggregate */
+        /** @var PaperAggregatePaperSectionInterface $paperAggregate */
         $paperAggregate = $this->paperAggregateRepo->get($paperId);
         if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
             $postParams = $request->getParsedBody();
-            $paperAggregate->setPerex($postParams["perex_$paperId"]);
-            $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
+            $name = self::PEREX_CONTENT."$paperId";
+            foreach ($postParams as $key => $value) {
+                if (strpos($key, $name)===0) {
+                    $paperAggregate->setPerex($value);
+                    $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
+                }
+            }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -244,16 +259,21 @@ class PaperControler extends AuthoredControlerAbstract {
      * @param type $paperId
      * @return ResponseInterface
      */
-    public function updateContent(ServerRequestInterface $request, $paperId, $contentId): ResponseInterface {
-        /** @var PaperAggregatePaperContentInterface $paperAggregate */
+    public function updateSection(ServerRequestInterface $request, $paperId, $contentId): ResponseInterface {
+        /** @var PaperAggregatePaperSectionInterface $paperAggregate */
         $paperAggregate = $this->paperAggregateRepo->get($paperId);
         if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
-            $content = $paperAggregate->getPaperContent($contentId);
+            $section = $paperAggregate->getPaperSection($contentId);
             $postParams = $request->getParsedBody();
-            $content->setContent($postParams["content_{$content->getId()}"]);
-            $this->addFlashMessage('Content updated', FlashSeverityEnum::SUCCESS);
+            $name = self::SECTION_CONTENT."$paperId";
+            foreach ($postParams as $key => $value) {
+                if (strpos($key, $name)===0) {
+                    $section->setContent($value);
+                    $this->addFlashMessage('Section updated', FlashSeverityEnum::SUCCESS);
+                }
+            }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

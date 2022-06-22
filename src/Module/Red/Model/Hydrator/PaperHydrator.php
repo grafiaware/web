@@ -23,12 +23,12 @@ class PaperHydrator implements HydratorInterface {
 
     /**
      *
-     * @param PaperInterface $paperHeadline
+     * @param PaperInterface $paper
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $paperHeadline, RowDataInterface $rowData) {
-        /** @var PaperInterface $paperHeadline */
-        $paperHeadline
+    public function hydrate(EntityInterface $paper, RowDataInterface $rowData) {
+        /** @var PaperInterface $paper */
+        $paper
             ->setId($rowData->offsetGet('id'))
             ->setMenuItemIdFk($rowData->offsetGet('menu_item_id_fk'))
             ->setHeadline($rowData->offsetGet('headline'))
@@ -41,18 +41,18 @@ class PaperHydrator implements HydratorInterface {
 
     /**
      *
-     * @param PaperInterface $paperHeadline
+     * @param PaperInterface $paper
      * @param type $rowData
      */
-    public function extract(EntityInterface $paperHeadline, RowDataInterface $rowData) {
-        /** @var PaperInterface $paperHeadline */
-        $rowData->offsetSet('id',  $paperHeadline->getId()); // id je autoincrement - readonly, hodnota pro where
-        $rowData->offsetSet('menu_item_id_fk',  $paperHeadline->getMenuItemIdFk());
-        $rowData->offsetSet('headline',  $paperHeadline->getHeadline());
-        $rowData->offsetSet('perex',  $paperHeadline->getPerex());
-        $rowData->offsetSet('template',  $paperHeadline->getTemplate());
-        $rowData->offsetSet('keywords',  $paperHeadline->getKeywords());
-        $rowData->offsetSet('editor',  $paperHeadline->getEditor());
+    public function extract(EntityInterface $paper, RowDataInterface $rowData) {
+        /** @var PaperInterface $paper */
+        $rowData->offsetSet('id',  $paper->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('menu_item_id_fk',  $paper->getMenuItemIdFk());
+        $rowData->offsetSet('headline',  $paper->getHeadline());
+        $rowData->offsetSet('perex',  $paper->getPerex());
+        $rowData->offsetSet('template',  $paper->getTemplate());
+        $rowData->offsetSet('keywords',  $paper->getKeywords());
+        $rowData->offsetSet('editor',  $paper->getEditor());
         // updated je timestamp
         // id je autoincrement - readonly
     }

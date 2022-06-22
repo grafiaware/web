@@ -1,7 +1,7 @@
 <?php
 namespace Component\View\Element;
 
-use Component\View\ComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Pes\View\InheritDataViewInterface;
 use Pes\View\ViewInterface;
 
@@ -10,7 +10,7 @@ use Pes\View\ViewInterface;
  *
  * @author pes2704
  */
-class ElementInheritDataComponent extends ComponentAbstract implements InheritDataViewInterface {
+class ElementInheritDataComponent extends ComponentCompositeAbstract implements InheritDataViewInterface {
 
     /**
      * Předá data beze změny.

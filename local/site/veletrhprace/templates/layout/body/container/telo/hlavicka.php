@@ -1,11 +1,11 @@
 <?php
 use Site\ConfigurationCache;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Pes\Text\Text;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregatePaperContentInterface $paperAggregate */
+/** @var PaperAggregatePaperSectionInterface $paperAggregate */
 ?>
 
             <h1><?= Text::mono('Veletrh práce a vzdělávání <span>online</span>')?>

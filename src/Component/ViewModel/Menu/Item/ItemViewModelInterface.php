@@ -9,21 +9,23 @@
 namespace Component\ViewModel\Menu\Item;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
+use Component\ViewModel\ViewModelInterface;
+use Component\View\ComponentInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ItemViewModelInterface {
+interface ItemViewModelInterface extends ViewModelInterface {
 
-    public function setInnerHtml($innerHtml): void;
+    public function setChild(ComponentInterface $childComponent): void;
 
     public function isOnPath();
     public function isLeaf();
     public function isPresented();
     public function isPasteMode();
     public function isCutted();
-    public function getInnerHtml();
+    public function getChild(): ?ComponentInterface;
     public function getRealDepth();
     public function isMenuEditable();
 
