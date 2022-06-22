@@ -25,10 +25,7 @@ use Pes\Database\Statement\Exception\ExecuteException;
  * @author vlse2610
  */
 class LoginDaoTest extends AppRunner {
-    private $container;
-    
-        
-
+    private $container;            
     /**
      *
      * @var LoginDao
@@ -36,15 +33,11 @@ class LoginDaoTest extends AppRunner {
     private $dao;
 
     private static $loginNameTouple ;
-    private static $loginNameTouple_poUpdate;
     private static $companyIdTouple;
-    private static $jobidTouple;
+    private static $jobIdTouple;
     private static $visitorJobTouples;
     private static $visitorProfileTouples;
-    private static $representativeIdTouple;
-    
-    private static $nameUpdated;
-
+    private static $representativeIdTouple;    
 
 
     public static function setUpBeforeClass(): void {
@@ -71,19 +64,9 @@ class LoginDaoTest extends AppRunner {
                            'pozadovane_vzdelani_stupen' => 1
                          ]);
         $ok = $jobDao->insert($jobData);      
-        self::$jobidTouple = ['id' => $jobDao->lastInsertIdValue() ]; 
-             
+        self::$jobIdTouple = ['id' => $jobDao->lastInsertIdValue() ]; 
+                             
         
-        
-        
-        
-//        /** @var LoginDao $loginDao */
-//        $loginDao = $container->get(LoginDao::class);    
-//        $companyData = new RowData();
-//        $companyData->offsetSet( 'name' , "pomocna pro jobTagDaoTest"  );
-//        $loginDao->insert($companyData);
-//        self::$companyIdTouple = $loginDao->getLastInsertIdTouple();
-                
     }
 
     protected function setUp(): void {
@@ -97,20 +80,7 @@ class LoginDaoTest extends AppRunner {
     protected function tearDown(): void {
     }
 
-    public static function tearDownAfterClass(): void {
-         $container =
-            (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
-            );
-        /** @var CompanyDao $companyDao */
-        $companyDao = $container->get(CompanyDao::class);        
-        $companyRow = $companyDao->get( ['id' => self::$companyIdTouple ['id']  ]);
-        $companyDao->delete($companyRow);
-       
-        //smazani company smazalo job, company_contact, company_address, representative
-        //smazani job smazalo visitor_job_request, job_to_tag
-
-        
+    public static function tearDownAfterClass(): void {       
 
     }
 
@@ -150,11 +120,11 @@ class LoginDaoTest extends AppRunner {
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao = $this->container->get(VisitorJobRequestDao::class);  
         $visitorJobRequesData = new RowData();
-        $visitorJobRequesData->import( [ 'login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobidTouple['id'], 
+        $visitorJobRequesData->import( ['login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobIdTouple['id'], 
                                         'position_name' => 'sedící spící'] );
         $visitorJobRequestDao->insert($visitorJobRequesData);   
         /**  @var RowData  $row */
-        $row = $visitorJobRequestDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobidTouple['id'] ] );
+        $row = $visitorJobRequestDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobIdTouple['id'] ] );
         self::$visitorJobTouples  = $visitorJobRequestDao->getPrimaryKeyTouples($row->getArrayCopy());      
         
         // nova visitor_profile
@@ -167,11 +137,10 @@ class LoginDaoTest extends AppRunner {
         $row = $visitorProfileDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  ] );
         self::$visitorProfileTouples  = $visitorProfileDao->getPrimaryKeyTouples($row->getArrayCopy());      
        
-        // nova enroll - priprava potrebne propojene tabulky ...melo by byt take ...a neni udelano
-        
-        
+        // nova enroll - priprava potrebne propojene tabulky ...melo by byt take ...a neni udelano                
     }
 
+    
     public function testGetExistingRow() {
         $loginRow = $this->dao->get(self::$loginNameTouple);
         $this->assertInstanceOf(RowDataInterface::class, $loginRow);
@@ -181,6 +150,8 @@ class LoginDaoTest extends AppRunner {
         $loginRow = $this->dao->get( self::$loginNameTouple );
         $this->assertCount(1, $loginRow);
     }
+    
+    
 
     public function testUpdate_and_Exception() {
         // neupdatuje, protoze nastaven RESTRICT na tabulkach propojenych pres login_name
@@ -189,8 +160,8 @@ class LoginDaoTest extends AppRunner {
         $this->assertIsString( $loginRow['login_name'] );
               
         $this->setUp();
-        self::$nameUpdated = str_replace('bucha', 'bubuchac',$loginRow['login_name']);
-        $loginRow['login_name'] = self::$nameUpdated;
+        $nameUpdated = str_replace('bucha', 'bubuchac',$loginRow['login_name']);
+        $loginRow['login_name'] = $nameUpdated;
         $this->expectException(ExecuteException::class);
         $this->dao->update($loginRow);
        
@@ -200,12 +171,11 @@ class LoginDaoTest extends AppRunner {
            
 
     public function testAfterUpdate_and_Exception()   {  
-         // testuji, zda  login_name v login, a login_login_name ve visitor_profile  zustalo stejne         
+        // testuji, zda  login_name v login, a login_login_name ve visitor_profile  zustalo stejne         
         $loginRowRereaded = $this->dao->get( self::$loginNameTouple  );         
         
-         /** @var VisitorProfileDao $visitorProfileDao */
+        /** @var VisitorProfileDao $visitorProfileDao */
         $visitorProfileDao = $this->container->get(VisitorProfileDao::class);  
-        $visitorProfileData = new RowData();
         /**  @var RowData  $row */
         $row = $visitorProfileDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  ] );        
                 
@@ -230,34 +200,31 @@ class LoginDaoTest extends AppRunner {
        }
     
     public function testDelete() {
-         //napred smazat vsechny zavisle, pak login
+        //napred smazat vsechny zavisle, pak smazat login        
+        /** @var VisitorProfileDao $visitorProfileDao */
+        $visitorProfileDao = $this->container->get(VisitorProfileDao::class);  
+        /**  @var RowData  $visitorData */
+        $visitorData = $visitorProfileDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  ] );       
+        $ok1 = $visitorProfileDao->delete($visitorData);  
+                        
+        /** @var CompanyDao $companyDao */
+        $companyDao = $this->container->get(CompanyDao::class);        
+        $companyRow = $companyDao->get( ['id' => self::$companyIdTouple ['id']  ]);
+        $ok2 = $companyDao->delete($companyRow);       
+        //smazani company smazalo job, company_contact, company_address, representative
+        //smazani job smazalo visitor_job_request, job_to_tag
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-//        //delete Company - amze job, jobToTag
-//        /** @var LoginDao $companyDao */
-//        $companyDao = $this->container->get(CompanyDao::class);    
-//        $companyData = $companyDao->get(self::$companyIdTouple );
-//        $ok = $companyDao->delete($companyData);              
-//                
-//        //pak smazat jobTag  
-//        $this->setUp();
-//        $jobTagRow = $this->dao->get(self::$jobTagTouple_poUpdate);
-//        $this->dao->delete($jobTagRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        //kontrola, ze smazano
-//        $this->setUp();
-//        $jobTagRow = $this->dao->get(self::$jobTagTouple_poUpdate);
-//        $this->assertNull($jobTagRow);
-//         
+        //pak smazat login
+        $this->setUp();
+        $loginRow = $this->dao->get( self::$loginNameTouple );
+        $this->dao->delete($loginRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        //kontrola, ze smazano
+        $this->setUp();
+        $loginRow = $this->dao->get( self::$loginNameTouple );
+        $this->assertNull($loginRow);                         
+                        
    }
 }
 
