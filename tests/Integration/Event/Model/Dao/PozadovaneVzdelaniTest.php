@@ -30,7 +30,7 @@ class  PozadovaneVzdelaniTest extends AppRunner {
     private $dao;
 
     private static $pozadovaneVzdelaniTouple;
-
+    private static $pozadovaneVzdelaniTouple_poUpdate;
     private static $jobIdTouple;   
     private static $companyIdTouple;
 
@@ -41,20 +41,18 @@ class  PozadovaneVzdelaniTest extends AppRunner {
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
-            );
-        
+            );        
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);    
         $companyData = new RowData();
         $companyData->offsetSet( 'name' , "pomocna pro PozadovaneVzdelaniTest"  );
         $companyDao->insert($companyData);
-        self::$companyIdTouple = $companyDao->getLastInsertIdTouple();
-        
-        
-                
+        self::$companyIdTouple = $companyDao->getLastInsertIdTouple();                                
     }
 
+    
     protected function setUp(): void {
+        
         $this->container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
@@ -66,6 +64,14 @@ class  PozadovaneVzdelaniTest extends AppRunner {
     }
 
     public static function tearDownAfterClass(): void {
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+            );
+         /** @var CompanyDao $companyDao */
+        $companyDao = $container->get(CompanyDao::class);            
+        $companyData = $companyDao->get(self::$companyIdTouple);
+        $companyDao->delete($companyData);
 
     }
 
@@ -97,11 +103,10 @@ class  PozadovaneVzdelaniTest extends AppRunner {
         $jobData = new RowData();
         $jobData->import( ['pozadovane_vzdelani_stupen' => 100, 'company_id' =>self::$companyIdTouple['id']] );
         $jobDao->insert($jobData);    
-        self::$jobIdTouple = $jobDao->getLastInsertIdTouple();
-        
-
+        self::$jobIdTouple = $jobDao->getLastInsertIdTouple();        
    }
 
+   
     public function testGetExistingRow() {
         $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple);
         $this->assertInstanceOf(RowDataInterface::class, $pozadovaneVzdelaniRow);
@@ -116,46 +121,29 @@ class  PozadovaneVzdelaniTest extends AppRunner {
     
     
    public function testUpdate() {
+        /** @var RowData $pozadovaneVzdelaniRow */   
         $pozadovaneVzdelaniRow = $this->dao->get( self::$pozadovaneVzdelaniTouple );
-        $stupen = $pozadovaneVzdelaniRow['stupen'];
         $this->assertIsInt( $pozadovaneVzdelaniRow['stupen'] );
-        $vzdelani = $pozadovaneVzdelaniRow['vzdelani'];
         $this->assertIsString( $pozadovaneVzdelaniRow['vzdelani'] );
-         
-        
-        $this->setUp();
-        /** @var RowData $pozadovaneVzdelaniRow1 */       
-        $pozadovaneVzdelaniRow1 - new RowData();
-        $pozadovaneVzdelaniRow1->offsetSet( 'vzdelani' , "BBBBB"  );
-        $pozadovaneVzdelaniRow1->offsetSet( 'stupen' , "200"  );
+                 
+        $this->setUp();                      
+        $pozadovaneVzdelaniRow->offsetSet( 'vzdelani' , "BBBBB"  );
+        $pozadovaneVzdelaniRow->offsetSet( 'stupen' , "200"  );
 
-        $this->dao->update($pozadovaneVzdelaniRow1);
+        $ok = $this->dao->update($pozadovaneVzdelaniRow);
         $this->assertEquals(1, $this->dao->getRowCount());
         
-        //kontrola v job - je CASCADE
+        //--------------------------------------------------------
+        //kontrola stupen v job - je CASCADE
          /** @var JobDao $jobDao */
         $jobDao = $this->container->get(JobDao::class);
         $jobData = $jobDao->get( self::$jobIdTouple );
-        $this->assertEquals( $pozadovaneVzdelaniRow1['stupen']  ,$jobData['stupen'] );
+        $this->assertEquals( $pozadovaneVzdelaniRow['stupen'], $jobData['pozadovane_vzdelani_stupen'] );
 
-
-        
-//        $rowArray = $jobTagRow->getArrayCopy();
-//        self::$jobTagTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);  
-//
-//        $this->setUp();
-//        $a = [ 'job_tag_tag' => self::$jobTagTouple_poUpdate ['tag'] , 'job_id'=>self::$jobIdTouple['id'] ] ;
-//        $jobTagRowRereaded = $this->dao->get(  self::$jobTagTouple_poUpdate   );
-//        $this->assertEquals($jobTagRow, $jobTagRowRereaded);
-//        $this->assertStringContainsString('kiki', $jobTagRowRereaded['tag']);  
-//        
-//        //kontrola CASCADE u update
-//        //kontrola, ze v job_to_zag je taky updatovany tag
-//        /**  @var JobToTagDao  $jobToTagDao */
-//        $jobToTagDao = $this->container->get(JobToTagDao::class);
-//        $jobToTagRow = $jobToTagDao->get( [ 'job_tag_tag' => self::$jobTagTouple_poUpdate ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ] );
-//        $this->assertEquals( self::$jobTagTouple_poUpdate ['tag'], $jobToTagRow['job_tag_tag'] );
-        
+        /** @var RowData $rowD */
+        $rowD =  $this->dao->get( ['stupen' => "200"] );           
+        $rowArray = $rowD->getArrayCopy();
+        self::$pozadovaneVzdelaniTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);         
     }
 
     
@@ -168,31 +156,35 @@ class  PozadovaneVzdelaniTest extends AppRunner {
 
    
     public function testDeleteException() {   
-        // kontrola RESTRICT = že nevymaže pozadovane vzdelani, kdyz je  pouzit v job
-        $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple);
+        // kontrola RESTRICT = že nevymaže pozadovane vzdelani, kdyz je pouzit v job
+        $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple_poUpdate);
         $this->expectException(ExecuteException::class);
         $this->dao->delete($pozadovaneVzdelaniRow);                
     }
     
-//    public function testDelete() {
-//        //delete Company - amze job, jobToTag
-//        /** @var CompanyDao $companyDao */
-//        $companyDao = $this->container->get(CompanyDao::class);    
-//        $companyData = $companyDao->get(self::$companyIdTouple );
-//        $ok = $companyDao->delete($companyData);              
-//                
-//        //pak smazat jobTag  
-//        $this->setUp();
-//        $jobTagRow = $this->dao->get(self::$jobTagTouple_poUpdate);
-//        $this->dao->delete($jobTagRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        //kontrola, ze smazano
-//        $this->setUp();
-//        $jobTagRow = $this->dao->get(self::$jobTagTouple_poUpdate);
-//        $this->assertNull($jobTagRow);
-//         
-//   }
+    
+    public function testDelete() {
+      
+        //smazat job, kde pouzito pozadovane_vzdelani_stupen       
+        /** @varJobDao $jobDao */
+        $jobDao = $this->container->get(JobDao::class);            
+        /** @var RowData $jobRow */
+        $jobRow = $jobDao->get(self::$jobIdTouple);
+        $ok = $jobDao->delete( $jobRow );
+        $this->assertEquals(1, $jobDao->getRowCount());
+                
+        //pak smazat pozadovane vzdelani 
+        $this->setUp();
+        $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple_poUpdate);
+        $this->dao->delete($pozadovaneVzdelaniRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        //kontrola, ze smazano
+        $this->setUp();
+        $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple_poUpdate);
+        $this->assertNull($pozadovaneVzdelaniRow);
+        
+   }
 }
 
 
