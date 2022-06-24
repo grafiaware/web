@@ -11,6 +11,7 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Dao\LoginDao;
 use Events\Model\Dao\JobDao;
+use Events\Model\Dao\CompanyDao;
 
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
@@ -29,7 +30,7 @@ class VisitorJobRequestTest  extends AppRunner {
      */
     private $dao;
     
-    private static $loginTouple;
+    private static $loginName;
     private static $companyIdTouple;
     private static $jobIdTouple;
 
@@ -44,7 +45,7 @@ class VisitorJobRequestTest  extends AppRunner {
             );
         
         // nový login login_name, company, job
-        $prefix = "testVisitorJobRequestDaoTest";
+        $prefix = "Visi.JobReq.DaoTest";
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
         // prefix + uniquid - bez zamykání db
@@ -55,10 +56,10 @@ class VisitorJobRequestTest  extends AppRunner {
         $loginData = new RowData();
         $loginData->import(['login_name' => $loginName]);
         $loginDao->insert($loginData);
-        self::$loginTouple = $loginDao->get(['login_name' => $loginName])['login_name'];
+        self::$loginName = $loginDao->get(['login_name' => $loginName])['login_name'];
              
         /** @var CompanyDao $companyDao */
-        $companyDao = $container->get(CompanyDao::class);    
+        $companyDao = $container->get( CompanyDao::class);    
         $companyData = new RowData();
         $companyData->offsetSet( 'name' , "pomocna pro VisitorJobRequestDaoTest"  );
         $companyDao->insert($companyData);
@@ -98,117 +99,80 @@ class VisitorJobRequestTest  extends AppRunner {
         //smaze company a job
         $companyDao = $container->get(CompanyDao::class);
         $companyRow = $companyDao->get( self::$companyIdTouple );
-        $companyDao->delete($companyRow);      
-            
-                
+        $companyDao->delete($companyRow);                                  
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $loginRow  = $loginDao->get( ['login_name' => self::$loginTouple ] );
+        $loginRow  = $loginDao->get( ['login_name' => self::$loginName ] );
         $loginDao->delete($loginRow); 
-
     }
 
+    
     public function testSetUp() {       
         $this->assertInstanceOf(VisitorJobRequestDao::class, $this->dao);
-
     }
-//
-//    public function testInsert() {
-//        $rowData = new RowData();
-//        $rowData->import(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
-//        $this->dao->insert($rowData);
-//        $this->assertEquals(1, $this->dao->getRowCount());       
-//                
-//    }
-//
-//    public function testGet() {
-//        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRow);
-//    }
-//
-//    public function test2Columns() {
-//        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
-//        $this->assertCount(2, $enrollRow);
-//    }
 
     
+    public function testInsert() {
+        $rowData = new RowData();
+        $rowData->import( [  'login_login_name' => self::$loginName, 
+                             'job_id' => self::$jobIdTouple['id'],
+                             'position_name' => 'název pozice Tesař'
+                          ] );        
+        $this->dao->insert($rowData);
+        $this->assertEquals(1, $this->dao->getRowCount());                                  
+    }
+
+    public function testGet() {
+        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName] );
+        $this->assertInstanceOf(RowDataInterface::class, $visitorJobRequestRow);
+    }
+
+    public function test13Columns() {
+        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName] );
+        $this->assertCount(13, $visitorJobRequestRow);
+    }
+
+    
+            
+    public function testUpdate() {
+        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName ]);
+        $loginName = $visitorJobRequestRow['login_login_name'];
+        $this->assertIsString($visitorJobRequestRow['login_login_name']);
+
+        
+        $this->setUp();
+        $visitorJobRequestRow['name'] = "jmeno nevim čeho";
+        $this->dao->update($visitorJobRequestRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        $this->setUp();
+        $visitorJobRequestRowRereaded = $this->dao->get( ['login_login_name' => self::$loginName ]);
+        $this->assertInstanceOf(RowDataInterface::class, $visitorJobRequestRowRereaded);
+        $this->assertEquals( "jmeno nevim čeho", $visitorJobRequestRowRereaded['name']);
+
+     }
+          
+     
+     
+    public function testFind() {
+        $visitorJobRequestRowsArray = $this->dao->find();
+        $this->assertIsArray($visitorJobRequestRowsArray);
+        $this->assertGreaterThanOrEqual(1, count($visitorJobRequestRowsArray));
+        $this->assertInstanceOf(RowDataInterface::class, $visitorJobRequestRowsArray[0]);
+    }
+  
     
     
-    
-    
-//    public function testFindExistingRowsByLoginName() {
-//        $enrollRows = $this->dao->findByLoginNameFk(['login_login_name_fk' => self::$login_login_name_fk]);
-//        $this->assertIsArray($enrollRows);
-//        $this->assertGreaterThan(0, count($enrollRows));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRows[0]);
-//    }
-//
-//    public function testFindExistingRowsByEventId() {
-//        $enrollRows = $this->dao->findByEventIdFk(['event_id_fk' => self::$event_id_fk]);
-//        $this->assertIsArray($enrollRows);
-//        $this->assertGreaterThan(0, count($enrollRows));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRows[0]);
-//    }
-//
-//    public function testUpdate() {
-//        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
-//        $eventId = $enrollRow['event_id_fk'];
-//        $this->assertIsString($enrollRow['login_login_name_fk']);
-//        $this->assertIsInt($enrollRow['event_id_fk']);
-//        //
-//        $this->setUp();
-//        $enrollRow['event_id_fk'] = self::$event_id_fk_2;
-//        $this->dao->update($enrollRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $enrollRowRereaded = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk_2]);
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRowRereaded);
-//        $this->assertEquals(self::$event_id_fk_2, $enrollRowRereaded['event_id_fk']);
-//
-//    }
-//
-//    public function testFindByLoginNameFk() {
-//        $enrollRowsRereaded = $this->dao->findByLoginNameFk(['login_login_name_fk' => self::$login_login_name_fk]);
-//        $this->assertIsArray($enrollRowsRereaded);
-//        $this->assertGreaterThanOrEqual(1, count($enrollRowsRereaded));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsRereaded[0]);
-//    }
-//
-//    public function testFindByEventIdFk() {
-//        $enrollRowsRereaded = $this->dao->findByEventIdFk(['event_id_fk' => self::$event_id_fk_2]);
-//        $this->assertIsArray($enrollRowsRereaded);
-//        $this->assertGreaterThanOrEqual(1, count($enrollRowsRereaded));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsRereaded[0]);
-//    }
-//
-//    public function testFind() {
-//        $enrollRowsArray = $this->dao->find();
-//        $this->assertIsArray($enrollRowsArray);
-//        $this->assertGreaterThanOrEqual(1, count($enrollRowsArray));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsArray[0]);
-//    }
-//
-//    public function testDelete() {
-//        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk_2]);
-//
-//        $this->dao->delete($enrollRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $this->dao->delete($enrollRow);
-//        $this->assertEquals(0, $this->dao->getRowCount());
-//        
-//      
-//        
-//        //kontrola RESTRICT
-//        //smazal enroll,  nesmazal login  = OK
-//        /** @var LoginDao $loginDao */
-//        $loginDao = $this->container->get(LoginDao::class);
-//        $loginRow  = $loginDao->get( ['login_name' => self::$login_login_name_fk  ] );       
-//        $this->assertCount(1, $loginRow);
-//
-//         
-//        //smazat v event vetu s  id=self::$event_id_fk - provede v tearDownAfterClass
-//    }
+    public function testDelete() {
+        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName ]);
+        $this->dao->delete($visitorJobRequestRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        $this->setUp();
+        $this->dao->delete($visitorJobRequestRow);
+        $this->assertEquals(0, $this->dao->getRowCount());                     
+
+   }
+   
+   
 }
