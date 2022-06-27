@@ -20,7 +20,7 @@ use Pes\Database\Statement\Exception\ExecuteException;
  *
  * @author vlse2610
  */
-class  PozadovaneVzdelaniTest extends AppRunner {
+class  PozadovaneVzdelaniDaoTest extends AppRunner {
     private $container;
 
     /**
