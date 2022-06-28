@@ -38,6 +38,9 @@ class DocumentDaoTest  extends AppRunner {
     private static $companyIdTouple;
     private static $jobIdTouple;
     private static $documentIdTouple;
+    
+    private static $visitorProfileTouple;
+    private static $visitorJobRequestTouple;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -101,11 +104,19 @@ class DocumentDaoTest  extends AppRunner {
                 )
             );
         
-        //smaze company a job
+        //smaze company a job a visitor_job_request
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
         $companyRow = $companyDao->get( self::$companyIdTouple );
         $companyDao->delete($companyRow);  
+        
+        //smazat  visitor_profile    
+        /** @var VisitorProfileDao $visitorProfileDao */
+        $visitorProfileDao = $container->get(VisitorProfileDao::class);
+        $visitorProfileRow  = $visitorProfileDao->get( self::$visitorProfileTouple );
+        $visitorProfileDao->delete($visitorProfileRow); 
+        
+        
         //smaze login
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
@@ -172,48 +183,75 @@ class DocumentDaoTest  extends AppRunner {
 
     
     
-    public function testDelete_proVisitorJobrequest() {      
+    public function testDelete_proVisitorJobRequest() {   
+        $documentRow = new RowData();    
+        $documentRow->import( [ 'document_filename' => 'jmenoFilename_testDeleteVJR'                              
+                          ] );        
+        $this->dao->insert($documentRow);
+        $documentIdTouple = $this->dao->getLastInsertIdTouple();
+        
+        
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao = $this->container->get(VisitorJobRequestDao::class);
         /** @var RowData $visitorJobRequestRow */
         $visitorJobRequestRow = new RowData();        
         $visitorJobRequestRow->import( ['job_id'  => self::$jobIdTouple['id'],
                                         'login_login_name'  => self::$loginName,
-                                        'letter_document'  => self::$documentIdTouple['id'],
-                                        'cv_document'  => self::$documentIdTouple ['id'],
+                                        'letter_document'  => $documentIdTouple['id'],
+                                        'cv_document'  => $documentIdTouple['id'],
                                         'position_name'  => 'jméno pozice'
                                        ] );
-        $visitorJobRequestDao->insert( $visitorJobRequestRow );     
-        $visitorJobRequestTouple = $visitorJobRequestDao->getPrimaryKeyTouples($visitorJobRequestDao);
-        
-        
-       
-        // kontrola SET NULL = že nastavi null v visitor_job_request
-        $documentRow = $this->dao->get(  self::$documentIdTouple );
-        $this->dao->delete($documentRow);                 
+        $visitorJobRequestDao->insert( $visitorJobRequestRow );       
+        self::$visitorJobRequestTouple = $visitorJobRequestDao->getPrimaryKeyTouples( $visitorJobRequestRow->getArrayCopy() );
+      
+        // kontrola SET NULL = že nastavi null ve visitor_job_request
+        $documentRowReaded = $this->dao->get(  $documentIdTouple );
+        $this->dao->delete($documentRowReaded);                 
         //kontrola null
-        $visitorJobRequestDao = $this->container->get(VisitorJobRequestDao::class);
-        /** @var RowData $visitorJobRequestRow */
-        $visitorJobRequestRow =$visitorJobRequestDao->get($visitorJobRequestTouple);
-        $this->assertNull( $visitorJobRequestRow['cv_document']);
-        $this->assertNull( $visitorJobRequestRow['letter_document']);
-
+        /** @var RowData $visitorJobRequestRow2 */
+        $visitorJobRequestRow2 = $visitorJobRequestDao->get( self::$visitorJobRequestTouple);
+        $this->assertNull( $visitorJobRequestRow2['cv_document']);
+        $this->assertNull( $visitorJobRequestRow2['letter_document']);   
         
+        //zustava věta  ve visitor_job_request
     }
        
     
-//     public function testDeleteException_VisitorProfile() {   
-//        // kontrola RESTRICT = že nevymaže document, kdyz je pouzit v visitor_profile
-//        $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple_poUpdate);
-//        $this->expectException(ExecuteException::class);
-//        $this->dao->delete($pozadovaneVzdelaniRow);                
-//    }
-    
+     public function testDelete_proVisitorProfile() {   
+        $documentRow = new RowData();    
+        $documentRow->import( [ 'document_filename' => 'jmenoFilename_testDeleteVP'                              
+                          ] );        
+        $this->dao->insert($documentRow);
+        $documentIdTouple = $this->dao->getLastInsertIdTouple();
+        
+        
+        /** @var VisitorProfileDao $visitorProfileDao */
+        $visitorProfileDao = $this->container->get(VisitorProfileDao::class);
+        /** @var RowData $visitorProfileRow */
+        $visitorProfileRow = new RowData();        
+        $visitorProfileRow->import( [   'login_login_name'  => self::$loginName,
+                                        'letter_document'  => $documentIdTouple['id'],
+                                        'cv_document'  => $documentIdTouple['id'],
+                                       ] );
+        $visitorProfileDao->insert( $visitorProfileRow );     
+        self::$visitorProfileTouple = $visitorProfileDao->getPrimaryKeyTouples( $visitorProfileRow->getArrayCopy() );
+      
+        // kontrola SET NULL = že nastavi null ve visitor_job_request
+        $documentRowReaded = $this->dao->get(  $documentIdTouple );
+        $this->dao->delete($documentRowReaded);                 
+        //kontrola null
+        /** @var RowData $visitorProfileRow2 */
+        $visitorProfileRow2 = $visitorProfileDao->get( self::$visitorProfileTouple );
+        $this->assertNull( $visitorProfileRow2['cv_document']);
+        $this->assertNull( $visitorProfileRow2['letter_document']);  
+        
+        //zustava věta  ve visitor_profile
+    }        
     
 
-    //delete smaze i visitor_job_request, i  visitor_profile
+    
     public function testDelete() {
-        $documentRow = $this->dao->get( ['login_login_name' => self::$loginName ]);
+        $documentRow = $this->dao->get( self::$documentIdTouple );
         $this->dao->delete($documentRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
