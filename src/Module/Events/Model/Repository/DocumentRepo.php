@@ -36,7 +36,7 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
      * @return DocumentInterface|null
      */
     public function get($id): ?DocumentInterface {
-        $key = $this->dataManager->getForeignKeyTouples(['id'=>$id]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
 

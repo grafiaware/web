@@ -37,7 +37,8 @@ class VisitorJobRequestRepo extends RepoAbstract implements VisitorJobRequestRep
      * @param string $positionName
      * @return VisitorJobRequestInterface|null
      */
-    public function get($loginName, $shortName, $positionName): ?VisitorJobRequestInterface {
+    public function get($loginName): ?VisitorJobRequestInterface {
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name'=>$loginName]);
         return $this->getEntity($loginName, $shortName, $positionName);
     }
 
