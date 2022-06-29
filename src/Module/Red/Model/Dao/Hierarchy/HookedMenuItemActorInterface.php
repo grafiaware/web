@@ -35,16 +35,6 @@ interface HookedMenuItemActorInterface {
     public function add(HandlerInterface $transactionHandler, $parentUid, $uid);
 
     /**
-     * Metoda trash
-     *
-     * Provede příkazy potřebné před provedením přesunutí položek hierarchie do koše.
-     *
-     * @param HandlerInterface $transactionHandler Databázový handler se spuštěnou transakcí
-     * @param array $uidsArray Pole primárních klíčů položek (pole uid) připravených v transakci pro smazání.
-     */
-    public function trash(HandlerInterface $transactionHandler, $uidsArray);
-
-    /**
      * Metoda delete
      *
      * Provede příkazy potřebné před tím, než jsou v transakci smazány položky hierarchie. Musí smazat nebo změnit cizí klíče u položek tabulky,

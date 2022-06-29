@@ -249,7 +249,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
 //                'data-position'=>'top right',
 //                'type'=>'submit',
 //                'formmethod'=>'post',
-//                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cutescape",
+//                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cutcopyescape",
 //                    ],
 //                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cutted')])
 //            );

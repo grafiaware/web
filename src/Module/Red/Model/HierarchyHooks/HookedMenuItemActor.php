@@ -20,13 +20,8 @@ class HookedMenuItemActor extends HookedActorAbstract {
 
     const NEW_TITLE = 'Title';
 
-    #### tyto konstanty musí odpovídat existujícím hodnotám v databázi ####
-    const NEW_ITEM_TYPE_FK = 'empty';
-    const TRASH_ITEM_TYPE_FK = 'trash';
-
     private $menuItemTableName;
     private $newTitle;
-    private $newItemTypeFk;
     private $trashItemTypeFk;
 
     /**
@@ -35,12 +30,10 @@ class HookedMenuItemActor extends HookedActorAbstract {
      * @param type $newItemTypeFk Typ nově vytvořené položky. Default hodnota zadána konstantou třídy.
      * @param type $trashItemTypeFk Typ položky, která je v koši. Default hodnota zadána konstantou třídy.
      */
-    public function __construct($menuItemTableName, $newTitle = self::NEW_TITLE, $newItemTypeFk=self::NEW_ITEM_TYPE_FK, $trashItemTypeFk= self::TRASH_ITEM_TYPE_FK) {
+    public function __construct($menuItemTableName, $newTitle = self::NEW_TITLE) {
         $this->menuItemTableName = $menuItemTableName;
         //TODO: Svoboda Message
         $this->newTitle = $newTitle;
-        $this->newItemTypeFk = $newItemTypeFk;
-        $this->trashItemTypeFk = $trashItemTypeFk;
     }
 
     /**
@@ -70,34 +63,18 @@ class HookedMenuItemActor extends HookedActorAbstract {
 
         ;
         // lang_code_fk zkopírované z předchůdce (rodiče nebo sourozence), nové uid, type_fk zkopírované z předchůdce (rodiče nebo sourozence)
+        // SELECT podle uid vybere všechny jazykové verze předchůdce -> přidává item ve všech jazycích, ve kterých je předchůdce
         // default title zadané jako instanční proměnná, prettyuri zřetězení z lang_code_fk a nového uid
         // ostatní sloupce mají default hodnoty dané definicí tabulky.
         // select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk - standartně verze pro všechny jazyky
         $stmt = $transactionHandler->prepare(
-                " INSERT INTO $this->menuItemTableName (lang_code_fk, uid_fk, type_fk, title, prettyuri)
-                    SELECT lang_code_fk, '$uid', '$this->newItemTypeFk', '$this->newTitle', CONCAT(lang_code_fk, '$uid')
+                " INSERT INTO $this->menuItemTableName (lang_code_fk, uid_fk, title, prettyuri)
+                    SELECT lang_code_fk, '$uid', '$this->newTitle', CONCAT(lang_code_fk, '$uid')
                     FROM $this->menuItemTableName
                     WHERE uid_fk=:predecessorUid
                     ");
         $stmt->bindParam(':predecessorUid', $predecessorUid);
         $stmt->execute();
-    }
-
-    /**
-     * {@inheritdoc}
-     * Metoda trash nastaví položky menu_item přesunuté do koše jako neaktivní typ položky (type_fk) nastaví na hodnotu určenou pro koš.
-     * Hodnota typu koš je dána konstantou třídy. Metoda nastaví jako neaktivní položky ve všech jazykových verzích.
-     */
-    public function trash(HandlerInterface $transactionHandler, $uidsArray) {
-        $this->checkTransaction($transactionHandler);
-        $in = $this->getInFromUidsArray($uidsArray);
-
-        // přesunuté do koše - nastavím neaktivní
-        $transactionHandler->exec(
-            "UPDATE $this->menuItemTableName
-            SET active = 0, type_fk = '".$this->trashItemTypeFk."¨
-            WHERE uid_fk IN ( $in )"
-            );
     }
 
     /**

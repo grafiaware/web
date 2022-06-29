@@ -80,6 +80,30 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
+    protected function getButtonPaste(MenuItemInterface $menuItem) {
+        return Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button.paste'),
+                'data-tooltip'=>'Vložit jako sourozence',
+                'type'=>'submit',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/paste",
+                    ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addsiblings')])
+            );
+    }
+
+    protected function getButtonPasteChild(MenuItemInterface $menuItem) {
+        return Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button.paste'),
+                'data-tooltip'=>'Vložit jako potomka',
+                'type'=>'submit',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/pastechild",
+                    ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addchildren')])
+            );
+    }
+
     protected function getButtonCut(MenuItemInterface $menuItem) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
@@ -103,6 +127,19 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/copy",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.copy')])
+            );
+    }
+
+    protected function getButtonCutCopyEscape(MenuItemInterface $menuItem) {
+        return  Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button'),
+                'data-tooltip'=>'Zrušit přesunutí nebo kopírování',
+                'data-position'=>'top right',
+                'type'=>'submit',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cutcopyescape",
+                    ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cutted')])
             );
     }
 

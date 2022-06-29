@@ -50,8 +50,10 @@ interface MenuViewModelInterface extends ViewModelInterface {
     public function withRootItem($withRootItem=false): void ;
 
     public function setItemType($itemType);
-    
+
     public function getItemType();
+    
+    public function getPostCommand($key);
 
     /**
      * Vrací prezentovanou položku hierarchie, pokud je položkou tohoto modelu menu. Řídí se hodnotami status presentation.

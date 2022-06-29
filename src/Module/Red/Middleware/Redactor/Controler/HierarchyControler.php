@@ -7,17 +7,14 @@ use FrontControler\FrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Repository\MenuRootRepo;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
-
 use Status\Model\Enum\FlashSeverityEnum;
 
-use Red\Model\Repository\{
-    MenuRootRepo
-};
-
+use LogicException;
 /**
  * Description of Controler
  *
@@ -67,7 +64,16 @@ class HierarchyControler extends FrontControlerAbstract {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $statusFlash->setMessage("cut - item: $langCode/$uid selected for cut&patse operation", FlashSeverityEnum::INFO);
+        $statusFlash->setMessage("cut - item: $langCode/$uid selected for cut&paste operation", FlashSeverityEnum::INFO);
+
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }
+
+    public function copy(ServerRequestInterface $request, $uid) {
+        $statusFlash = $this->statusFlashRepo->get();
+        $statusFlash->setPostCommand(['copy'=>$uid]);  // command s životností do dalšího POST requestu
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $statusFlash->setMessage("copy - item: $langCode/$uid selected for copy&paste operation", FlashSeverityEnum::INFO);
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -81,26 +87,59 @@ class HierarchyControler extends FrontControlerAbstract {
     }
 
     public function paste(ServerRequestInterface $request, $uid) {
-        $parentUid = $this->editHierarchyDao->getNode($uid)['parent_uid'];
+        $parentUid = $this->editHierarchyDao->getp($uid)['parent_uid']; // TODO: upravit parent!!!
         $statusFlash = $this->statusFlashRepo->get();
-        $pasteduid = $statusFlash->getPostCommand()['cut'];  // command s životností do dalšího POST requestu
         if (isset($parentUid)) {
-            $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid);
-            $this->addFlashMessage('pasted as a sibling', FlashSeverityEnum::SUCCESS);
+            $postCommand = $statusFlash->getPostCommand();
+            $key = array_key_first($postCommand);
+            $pasteduid = $postCommand[$key];
+            switch ($key) {
+                case 'cut':
+                    $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid);
+                    $this->addFlashMessage('cut items pasted as a siblings', FlashSeverityEnum::SUCCESS);
+                    break;
+                case 'copy':
+                    $this->editHierarchyDao->copySubTreeAsSiebling($pasteduid, $uid);
+                    $this->addFlashMessage('copied items pasted as a siblings', FlashSeverityEnum::SUCCESS);
+                    break;
+                default:
+                    $this->addFlashMessage("Unknown post command.", FlashSeverityEnum::WARNING);
+                    break;
+            }
         } else {
             $this->addFlashMessage('unable to paste, item has no parent', FlashSeverityEnum::WARNING);
         }
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid");
     }
 
     public function pastechild(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
-        $pasteduid = $statusFlash->getPostCommand()['cut'];  // command s životností do dalšího POST requestu
-        $this->editHierarchyDao->moveSubTreeAsChild($pasteduid, $uid);
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $this->addFlashMessage('pasted as a child', FlashSeverityEnum::SUCCESS);
-        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid");
+
+        $statusFlash = $this->statusFlashRepo->get();
+        $success = false;
+        $postCommand = $statusFlash->getPostCommand();
+        if (is_array($postCommand) ) {
+            $key = array_key_first($postCommand);
+            $pasteduid = $postCommand[$key];
+            switch ($key) {
+                case 'cut':
+                    $this->editHierarchyDao->moveSubTreeAsChild($pasteduid, $uid);
+                    $this->addFlashMessage('cut items pasted as a child', FlashSeverityEnum::SUCCESS);
+                    $success = true;
+                    break;
+                case 'copy':
+                    $this->editHierarchyDao->copySubTreeAsChild($pasteduid, $uid);
+                    $this->addFlashMessage('copied items pasted as a child', FlashSeverityEnum::SUCCESS);
+                    $success = true;
+                    break;
+                default:
+                    $this->addFlashMessage("Unknown post command.", FlashSeverityEnum::WARNING);
+                    break;
+            }
+        }else {
+            $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
+        }
+        return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
     }
 
     public function delete(ServerRequestInterface $request, $uid) {

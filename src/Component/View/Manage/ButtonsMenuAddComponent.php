@@ -9,7 +9,7 @@ use Access\Enum\RoleEnum;
  *
  * @author pes2704
  */
-class ButtonsMenuAddOnelevelComponent extends ButtonsMenuComponentAbstract {
+class ButtonsMenuAddComponent extends ButtonsMenuComponentAbstract {
 
     public function getComponentPermissions(): array {
         return [

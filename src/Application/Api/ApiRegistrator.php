@@ -128,7 +128,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/add'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/addchild'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/cut'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/cutescape'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/copy'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/cutcopyescape'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/paste'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/pastechild'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/delete'));
