@@ -1,5 +1,5 @@
 <?php
-namespace Service\TemplateService\Exception;
+namespace Red\Service\TemplateService\Exception;
 
 use UnexpectedValueException;
 

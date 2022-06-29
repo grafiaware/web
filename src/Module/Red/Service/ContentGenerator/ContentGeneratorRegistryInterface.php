@@ -1,6 +1,6 @@
 <?php
 
-namespace Service\ContentGenerator;
+namespace Red\Service\ContentGenerator;
 
 /**
  *

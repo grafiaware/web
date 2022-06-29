@@ -168,7 +168,7 @@ use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Repository\MultipageRepo;
 
 // template service
-use Service\TemplateService\TemplateSeeker;
+use Red\Service\TemplateService\TemplateSeeker;
 
 // view
 use Pes\View\View;

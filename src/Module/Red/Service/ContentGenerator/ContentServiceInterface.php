@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Service\ContentGenerator;
+namespace Red\Service\ContentGenerator;
 
 
 /**

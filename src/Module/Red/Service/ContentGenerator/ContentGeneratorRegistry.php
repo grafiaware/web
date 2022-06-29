@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Service\ContentGenerator;
+namespace Red\Service\ContentGenerator;
 
-use Service\ContentGenerator\Exception;
+use Red\Service\ContentGenerator\Exception;
 
 use Red\Model\Repository\MenuItemTypeRepo;
 

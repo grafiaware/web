@@ -23,22 +23,7 @@ class ItemTypeSelectViewModel extends MenuItemViewModel implements ItemTypeSelec
      * @return MenuItemTypeInterface array of
      */
     public function getTypeTransitions() {
-        $itemType = $this->getStatus()->getPresentedMenuItem()->getTypeFk();
-        $typeTransitions = [
-            'root' => '',
-            'empty' => ['static', 'paper', 'article', 'multipage'],
-            'redirect' => '',
-            'static' => '',
-            'paper' => '',
-            'article' => '',
-            'trash' => '',
-            'generated' => ''
-        ];
-        if (array_key_exists($itemType, $typeTransitions)) {
-            return $typeTransitions[$itemType];
-        } else {
-            throw new \UnexpectedValueException("No transitions for menu item type '$itemType'.");
-        }
+        return ['static', 'paper', 'article', 'multipage'];
     }
 
     public function getIterator(): \Traversable {

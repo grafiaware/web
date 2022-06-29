@@ -6,37 +6,37 @@
  * and open the template in the editor.
  */
 
-namespace Service\ContentGenerator\Multipage;
+namespace Red\Service\ContentGenerator\Article;
 
-use Service\ContentGenerator\ContentServiceAbstract;
+use Red\Service\ContentGenerator\ContentServiceAbstract;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\MultipageRepo;
+use Red\Model\Repository\ArticleRepo;
 
-use Red\Model\Entity\Multipage;
+use Red\Model\Entity\Article;
 
 /**
  * Description of PaperService
  *
  * @author pes2704
  */
-class MultipageService extends ContentServiceAbstract {
+class ArticleService extends ContentServiceAbstract {
 
     /**
-     * @var PaperRepo
+     * @var ArticleRepo
      */
-    protected $multipageRepo;
+    protected $articleRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            MultipageRepo $multipageRepo
+            ArticleRepo $articleRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
-        $this->multipageRepo = $multipageRepo;
+        $this->articleRepo = $articleRepo;
     }
 
     /**
@@ -46,9 +46,9 @@ class MultipageService extends ContentServiceAbstract {
      * @return void
      */
     public function initialize($menuItemIdFk): void {
-        $multipage = new Multipage();
-        $multipage->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-        $multipage->setMenuItemIdFk($menuItemIdFk);
-        $this->multipageRepo->add($multipage);
+        $article = new Article();
+        $article->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
+        $article->setMenuItemIdFk($menuItemIdFk);
+        $this->articleRepo->add($article);
     }
 }

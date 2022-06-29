@@ -1,5 +1,5 @@
 <?php
-namespace Service\TemplateService;
+namespace Red\Service\TemplateService;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

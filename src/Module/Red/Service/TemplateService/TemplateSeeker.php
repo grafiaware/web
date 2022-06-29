@@ -1,10 +1,10 @@
 <?php
-namespace Service\TemplateService;
+namespace Red\Service\TemplateService;
 
 use Configuration\TemplateControlerConfigurationInterface;
 
-use Service\TemplateService\Exception\UnknownTemplateTypeException;
-use Service\TemplateService\Exception\TemplateNotFoundException;
+use Red\Service\TemplateService\Exception\UnknownTemplateTypeException;
+use Red\Service\TemplateService\Exception\TemplateNotFoundException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -1,4 +1,7 @@
 <?php
+namespace Red\Service\TemplateService\Exception;
+
+use LogicException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,12 +9,11 @@
  * and open the template in the editor.
  */
 
-namespace Service\ContentGenerator\Exception;
-
 /**
+ * Description of UnknownTemplateTypeException
  *
  * @author pes2704
  */
-interface ContentGeneratorExceptionInterface {
+class UnknownTemplateTypeException extends LogicException implements TemplateServiceExceptionInterface {
     //put your code here
 }

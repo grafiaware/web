@@ -39,11 +39,11 @@ use Red\Middleware\Redactor\Controler\FilesUploadControler;
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
 
 // generator service
-use Service\ContentGenerator\ContentGeneratorRegistry;
-use Service\ContentGenerator\Paper\PaperService;
-use Service\ContentGenerator\Article\ArticleService;
-use Service\ContentGenerator\StaticTemplate\StaticService;
-use Service\ContentGenerator\Multipage\MultipageService;
+use Red\Service\ContentGenerator\ContentGeneratorRegistry;
+use Red\Service\ContentGenerator\Paper\PaperService;
+use Red\Service\ContentGenerator\Article\ArticleService;
+use Red\Service\ContentGenerator\StaticTemplate\StaticService;
+use Red\Service\ContentGenerator\Multipage\MultipageService;
 
 // array model
 use Events\Model\Arraymodel\Event;
@@ -190,7 +190,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // generator service
 
-            // volání nastavených služeb Service\ContentGenerator ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
+            // volání nastavených služeb Red\Service\ContentGenerator ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
 
             ContentGeneratorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ContentGeneratorRegistry(
