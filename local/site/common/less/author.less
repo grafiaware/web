@@ -178,7 +178,8 @@
 @ribbonPageIconTransform: translateX(25%);
 @ribbonPageIconCornerPositionRight: -10px;
 @sectionTrashCornerPositionRight: 0;
-@sectionTrashCornerPositionTop: 5px;
+@sectionTrashCornerPositionTop: 5px; 
+@sectionTrashCornerWidth: 2em; 
 //Buttony pro content
 @buttonyContentWidth: 100px;
 @buttonyContentPositionRight: 6px;
@@ -564,6 +565,7 @@ body{
             left: @sectionTrashCornerPositionLeft;
             top: @sectionTrashCornerPositionTop;
             transform: @sectionTrashTransform;
+            width: @sectionTrashCornerWidth;
             .trash.purple.icon:not(.editDate){
                 top: @sectionTrashRibbonIconPositionTop;
                 position: relative;
