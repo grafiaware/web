@@ -39,22 +39,43 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
-
-    public function find($whereClause=null, $touplesToBind=[]) {
+    /**
+     * 
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return DocumentInterface[]
+     */
+    public function find($whereClause=null, $touplesToBind=[]) : array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
 
-    public function findAll() {
+    /**
+     * 
+     * @return DocumentInterface[]
+     */
+    public function findAll() : array  {
         return $this->findEntities();
     }
-
-    public function add(DocumentInterface $document) {
+    
+    /**
+     * 
+     * @param DocumentInterface $document
+     * @return void
+     */
+    public function add(DocumentInterface $document) : void {
         $this->addEntity($document);
     }
-
-    public function remove(DocumentInterface $document) {
+    
+    /**
+     * 
+     * @param DocumentInterface $document
+     * @return void
+     */
+    public function remove(DocumentInterface $document) : void {
         $this->removeEntity($document);
     }
+
+
 
     protected function createEntity() {
         return new Document();

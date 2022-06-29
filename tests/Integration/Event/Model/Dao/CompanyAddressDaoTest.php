@@ -18,33 +18,23 @@ use Events\Model\Dao\CompanyAddressDao;
  *
  */
 class CompanyAddressDaoTest  extends AppRunner {
-
     private $container;
     /**
      *
      * @var CompanyAddressDao
      */
-    private $dao;
-        // `company_address`.`company_id`,
-        // `company_address`.`name`,
-        // `company_address`.`lokace`,
-        // `company_address`.`psc`,
-        // `company_address`.`obec` "
+    private $dao;       
+    
     private static $company_id_address;
     private static $company_id2_address;
-
     private static $prefix = 'CompanyAddressTest ';
 
+    
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
-            );
+                (new DbEventsContainerConfigurator())->configure( (new Container( ) ) ) );
 
         // nova company - priprava potrebne propojene tabulky
         /** @var CompanyDao $companyDao */
@@ -67,12 +57,8 @@ class CompanyAddressDaoTest  extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
-            );
+                (new DbEventsContainerConfigurator())->configure(  (new Container(  )  ) ) );
+        
         $this->dao = $this->container->get(CompanyAddressDao::class);  // vždy nový objekt
     }
 
@@ -131,16 +117,9 @@ class CompanyAddressDaoTest  extends AppRunner {
         $this->setUp(); //nove dao
         $rowRereaded = $this->dao->get(self::$company_id_address);
         $this->assertEquals("mala firma", $rowRereaded['name']);
-
-
-//        $this->setUp(); //nove dao
-//        $companyAddressRow['company_id'] = self::$company_company_id_fk2;
-//        $this->dao->update($companyAddressRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-
-
     }
 
+    
     public function testFind() {
         $companyAddressRowArray = $this->dao->find();
         $this->assertIsArray($companyAddressRowArray);

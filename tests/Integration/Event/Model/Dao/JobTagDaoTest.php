@@ -23,7 +23,6 @@ use Pes\Database\Statement\Exception\ExecuteException;
  */
 class  JobTagDaoTest extends AppRunner {
     private $container;
-
     /**
      *
      * @var JobTagDao
@@ -144,8 +143,7 @@ class  JobTagDaoTest extends AppRunner {
         /**  @var JobToTagDao  $jobToTagDao */
         $jobToTagDao = $this->container->get(JobToTagDao::class);
         $jobToTagRow = $jobToTagDao->get( [ 'job_tag_tag' => self::$jobTagTouple_poUpdate ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ] );
-        $this->assertEquals( self::$jobTagTouple_poUpdate ['tag'], $jobToTagRow['job_tag_tag'] );
-        
+        $this->assertEquals( self::$jobTagTouple_poUpdate ['tag'], $jobToTagRow['job_tag_tag'] );        
     }
 
     

@@ -21,7 +21,6 @@ use Model\RowData\RowDataInterface;
  * @author vlse2610
  */
 class VisitorProfileDaoTest extends AppRunner {
-
     private $container;
     /**
      *
@@ -36,9 +35,8 @@ class VisitorProfileDaoTest extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container( ) ) )
+            (new EventsContainerConfigurator())->configure( 
+                    (new DbEventsContainerConfigurator())->configure(  (new Container( ) ) )
             );
         // nový login_name  pro TestCase
         $prefix = "testVisitorProfileDao";

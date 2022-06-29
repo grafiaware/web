@@ -53,9 +53,10 @@ class InstitutionDaoTest extends AppRunner {
 
     public function testSetUp() {
         $this->assertInstanceOf(InstitutionDao::class, $this->dao);
-
     }
-      public function testInsert() {
+    
+    
+    public function testInsert() {
         $rowData = new RowData();
         $rowData->offsetSet('name', "testInstitutionDao-NNN");
         $rowData->offsetSet('institution_type_id', null );
@@ -73,10 +74,7 @@ class InstitutionDaoTest extends AppRunner {
                                    'institution_id_fk' => self::$idTouple['id']
                                   ] );
         $eventContentDao->insert($evenContentData);    
-        self::$eventContentTouple = $eventContentDao->getLastInsertIdTouple();
-        
-        
-        
+        self::$eventContentTouple = $eventContentDao->getLastInsertIdTouple();            
     }
 
     public function testGetExistingRow() {

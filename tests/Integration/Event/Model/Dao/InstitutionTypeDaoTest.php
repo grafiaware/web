@@ -19,8 +19,6 @@ use Pes\Database\Statement\Exception\ExecuteException;
  * @author pes2704
  */
 class InstitutionTypeDaoTest extends AppRunner {
-
-
     private $container;
 
     /**
@@ -33,11 +31,7 @@ class InstitutionTypeDaoTest extends AppRunner {
     private static $institutionIdTouple;
 
     public static function setUpBeforeClass(): void {                
-        self::bootstrapBeforeClass();
-        
-        
-        
-        
+        self::bootstrapBeforeClass();           
     }
 
     protected function setUp(): void {

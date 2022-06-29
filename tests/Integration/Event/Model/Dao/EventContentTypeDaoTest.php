@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 use Test\AppRunner\AppRunner;
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
@@ -24,10 +23,7 @@ use Pes\Database\Statement\Exception\ExecuteException;
  * @author pes2704
  */
 class EventContentTypeDaoTest extends AppRunner {
-
-
     private $container;
-
     /**
      *
      * @var EventContentTypeDao
@@ -141,7 +137,7 @@ class EventContentTypeDaoTest extends AppRunner {
     //nelze mazat pomoci new RowData + RowData->import!
     //protože v RowData jsou pak "nova" data, a  "nova" data nelze mazat  metodou ->delete!
     //pro takovy zpusob mazaní nutno použít buď:  objekt PdoRowData a metodou ->forcedSet nastavit přříslušná data jako "stará"
-    //nebo postup: napřed přečíst, pak smazat
+    //nebo postup: !napřed přečíst, pak smazat!
     
     //kontrola RESTRICT    
     public function testDeleteException1() {              

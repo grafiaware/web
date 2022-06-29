@@ -14,7 +14,6 @@ use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Dao\LoginDao;
 
-
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
@@ -24,10 +23,7 @@ use Model\RowData\RowDataInterface;
  * @author vlse2610
  */
 class CompanyDaoTest  extends AppRunner {
-
-
     private $container;
-
     /**
      *
      * @var CompanyDao
@@ -36,8 +32,7 @@ class CompanyDaoTest  extends AppRunner {
     
     private static $login_login_name;
     private static $id;
-       
-        
+    
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -77,15 +72,13 @@ class CompanyDaoTest  extends AppRunner {
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
-            );
-         
+            );         
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);   
         $loginRow = $loginDao->get(['login_name' => self::$login_login_name ]);
         $loginDao->delete($loginRow);
-
-
     }
+    
 
     public function testSetUp() {
         $this->assertInstanceOf(CompanyDao::class, $this->dao);
@@ -180,12 +173,12 @@ class CompanyDaoTest  extends AppRunner {
         $this->dao->delete($companyRow);
         $this->assertEquals(1, $this->dao->getRowCount());
         
-        //je-li nastavenao cascade na company_address.company_id, smaže i zavislou radku v company_address
+        //je-li nastaveno cascade na company_address.company_id, smaže i zavislou radku v company_address
         /** @var CompanyAddressDao $companyAddressDao */
         $companyAddressDao = $this->container->get(CompanyAddressDao::class);  
         $companyAddressRow = $companyAddressDao->get( [  'company_id'=> self::$id['id'] ] );
         $this->assertNull($companyAddressRow);        
-        //je-li nastavenao cascade na company_contact.company_id, smaže i zavislou radku v company_contact
+        //je-li nastaveno cascade na company_contact.company_id, smaže i zavislou radku v company_contact
         /** @var CompanyContactDao $companyContactDao */
         $companyContactDao = $this->container->get(CompanyContactDao::class);  
         $companyContactRows = $companyContactDao->find(  $whereClause = " company_id = :company_id", $touplesToBind =  [  'company_id'=> self::$id['id'] ]  );

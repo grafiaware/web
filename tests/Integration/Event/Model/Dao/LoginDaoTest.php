@@ -103,8 +103,7 @@ class LoginDaoTest extends AppRunner {
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
         //-------------------------------------------------        
-        
-        
+                
         //nova representative
         /** @var RepresentativeDao $representativeDao */
         $representativeDao = $this->container->get(RepresentativeDao::class);

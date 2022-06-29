@@ -19,8 +19,6 @@ use Events\Model\Dao\EventDao;
  * @author pes2704
  */
 class EventContentDaoTest extends AppRunner {
-
-
     private $container;
 
     /**
@@ -152,7 +150,7 @@ class EventContentDaoTest extends AppRunner {
         $this->assertNull($eventContentRow);
         
         // kontrola SET
-        // zda se nastavil event.event_content_id_fk NULL
+        // zda se nastavil v event   event_content_id_fk na NULL
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get(EventDao::class);
         $eventData = $eventDao->get( ['id' => self::$event_id  ] );

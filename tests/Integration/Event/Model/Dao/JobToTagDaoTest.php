@@ -25,7 +25,6 @@ use Model\RowData\RowDataInterface;
  * @author 
  */
 class JobToTagDaoTest extends AppRunner {
-
     private $container;
     /**
      *
@@ -43,11 +42,7 @@ class JobToTagDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure( (new Container(   )  ) )
             );
                      
         // nový  Company, PozadovaneVzdelani, Job, JobTtag,
@@ -93,11 +88,7 @@ class JobToTagDaoTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(  (new Container() )  )
             );
         $this->dao = $this->container->get( JobToTagDao::class);  // vždy nový objekt
     }
@@ -110,11 +101,7 @@ class JobToTagDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure( (new Container( ) )  )
             );
         
         

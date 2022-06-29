@@ -22,7 +22,6 @@ use Pes\Database\Statement\Exception\ExecuteException;
  */
 class  PozadovaneVzdelaniDaoTest extends AppRunner {
     private $container;
-
     /**
      *
      * @var PozadovaneVzdelaniDao
@@ -33,7 +32,6 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
     private static $pozadovaneVzdelaniTouple_poUpdate;
     private static $jobIdTouple;   
     private static $companyIdTouple;
-
 
 
     public static function setUpBeforeClass(): void {

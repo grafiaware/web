@@ -47,9 +47,7 @@ class DocumentDaoTest  extends AppRunner {
         
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container()   )
-                )
+                (new DbEventsContainerConfigurator())->configure(   (new Container()   )   )
             );
         
         // nový login login_name, company, job

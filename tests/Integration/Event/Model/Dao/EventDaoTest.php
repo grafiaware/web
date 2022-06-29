@@ -22,10 +22,7 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 class EventDaoTest extends AppRunner {
-
-
     private $container;
-
     /**
      *
      * @var EventDao
