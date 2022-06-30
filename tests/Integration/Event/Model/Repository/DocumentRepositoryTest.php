@@ -1,24 +1,16 @@
 <?php
 declare(strict_types=1);
-
 namespace Test\Integration\Repository;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
 //use Container\DbUpgradeContainerConfigurator;
-use Container\HierarchyContainerConfigurator;
+//use Container\HierarchyContainerConfigurator;
 //use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
-
 
 use Events\Model\Entity\Document;
 use Events\Model\Dao\DocumentDao;
@@ -32,13 +24,11 @@ use Model\RowData\RowData;
  * @author pes2704
  */
 class DocumentRepositoryTest extends AppRunner {
-
-
     private $container;
 
     /**
      *
-     * @var VisitorProfileRepo
+     * @var DocumentRepo
      */
     private $documentRepo;
 
@@ -94,7 +84,9 @@ class DocumentRepositoryTest extends AppRunner {
         $documentDao = $container->get(DocumentDao::class);
 
         $dir = __DIR__;
-        $rows = $documentDao->find("document_filename LIKE '$dir%'", []);
+        $rows = $documentDao->find( 'document_filename LIKE "' . $dir . '%"', []);
+        //$rows = $documentDao->find( "document_filename LIKE 'C:%.doc'", []);
+
         foreach($rows as $row) {
             $documentDao->delete($row);
         }
@@ -131,8 +123,8 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     public function testGetAfterSetup() {
-        $visitorProfile = $this->documentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
-        $this->assertInstanceOf(Document::class, $visitorProfile);
+        $document = $this->documentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $this->assertInstanceOf(Document::class, $document);
     }
 
     public function testAdd() {
@@ -176,14 +168,17 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     public function testFindAll() {
-        $visitorProfile = $this->documentRepo->findAll();
-        $this->assertTrue(is_array($visitorProfile));
+        $documentsArray = $this->documentRepo->findAll();
+        $this->assertTrue(is_array($documentsArray));
+        $this->assertGreaterThan(0,count($documentsArray)); //jsou tam minimalne 2
     }
 
     public function testFind() {
         $dir = __DIR__;
-        $documents = $this->documentRepo->find("document_filename LIKE '$dir%'", []);
+        $documents = $this->documentRepo->find( 'document_filename LIKE "' . $dir . '%"', []); 
+        //$documents = $this->documentRepo->find( "document_filename LIKE 'C:%.doc'", []);
         $this->assertTrue(is_array($documents));
+        $this->assertGreaterThan(0,count($documents)); //jsou tam minimalne 2
     }
 
     public function testRemove() {
