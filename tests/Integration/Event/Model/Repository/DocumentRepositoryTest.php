@@ -84,8 +84,12 @@ class DocumentRepositoryTest extends AppRunner {
         $documentDao = $container->get(DocumentDao::class);
 
         $dir = __DIR__;
-        $rows = $documentDao->find( 'document_filename LIKE "' . $dir . '%"', []);
+        //$rows = $documentDao->find( 'document_filename LIKE "' . $dir . '%"', []);
         //$rows = $documentDao->find( "document_filename LIKE 'C:%.doc'", []);
+        // oescapovat 
+        $dir = str_replace('\\', '\\\\\\\\', $dir);  //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
+        $rows = $documentDao->find( "document_filename LIKE '$dir%'", []); 
+
 
         foreach($rows as $row) {
             $documentDao->delete($row);
@@ -123,7 +127,7 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     public function testGetAfterSetup() {
-        $document = $this->documentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $document = $this->documentRepo->get(self::$idCv);    
         $this->assertInstanceOf(Document::class, $document);
     }
 
@@ -141,7 +145,7 @@ class DocumentRepositoryTest extends AppRunner {
         $document->setDocumentFilename($filepathName);
 
         $this->documentRepo->add($document);
-        $this->assertTrue($document->isPersisted());  // DocumentDao je DaoAutoincrementKeyInterface, k zápisu dojde ihned
+        $this->assertTrue($document->isPersisted());  // !!!!!! DocumentDao je DaoAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
 
 //        $cvFinfo = new \SplFileInfo($cvFilepathName);
 //        $file = $cvFinfo->openFile();
@@ -175,14 +179,19 @@ class DocumentRepositoryTest extends AppRunner {
 
     public function testFind() {
         $dir = __DIR__;
-        $documents = $this->documentRepo->find( 'document_filename LIKE "' . $dir . '%"', []); 
+        //$documents = $this->documentRepo->find( 'document_filename LIKE "' . $dir . '%"', []); 
         //$documents = $this->documentRepo->find( "document_filename LIKE 'C:%.doc'", []);
+        //$documents = $this->documentRepo->find( "document_filename LIKE '" . $dir . "%'", []); 
+        
+        $dir = str_replace('\\', '\\\\\\\\', $dir);     //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
+        $documents = $this->documentRepo->find( "document_filename LIKE '$dir%'", []); 
+        
         $this->assertTrue(is_array($documents));
         $this->assertGreaterThan(0,count($documents)); //jsou tam minimalne 2
     }
 
     public function testRemove() {
-        $document = $this->documentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $document = $this->documentRepo->get(self::$idCv);    
         $this->assertInstanceOf(Document::class, $document);
         $this->documentRepo->remove($document);
         $this->assertFalse($document->isPersisted());
