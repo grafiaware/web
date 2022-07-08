@@ -10,6 +10,8 @@ use Model\Builder\SqlInterface;
 
 use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
+use Pes\Text\FriendlyUrl;
+
 /**
  * Třída pro editaci nested set hierarchie.
  *
@@ -549,23 +551,71 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node >= @target_left_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_left_node");
 
-            $sqlInsertToTarget = "INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)";
-            $statementInsertToTarget = $this->getPreparedStatement($sqlInsertToTarget);
+            $preparedInsertToTarget = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
+            $preparedSelectSourceItem = $this->getPreparedStatement("
+                    SELECT lang_code_fk, type_fk, id, `list`, `order`, title, prettyuri, active, auto_generated
+                        FROM
+                        $this->itemTableName
+                        WHERE
+                        $this->itemTableName.uid_fk=:source_uid
+                ");
+            $preparedInsertTargetItem = $this->getPreparedStatement("
+                    INSERT INTO menu_item (lang_code_fk, uid_fk, type_fk, `list`, `order`, title, prettyuri, active, auto_generated)
+                    VALUES (:lang_code_fk, :uid_fk, :type_fk, :list, :order, :title, :prettyuri, :active, :auto_generated)
+                ");
+
+            $preparedCopyArticle = $this->getPreparedStatement("
+                    INSERT INTO article (menu_item_id_fk, article, template, editor, updated)
+                        SELECT :new_menu_item_id, article, template, editor, updated
+                        FROM
+                        article
+                        WHERE
+                        article.menu_item_id_fk=:source_menu_item_id
+                ");
+            $preparedCopyPaper = $this->getPreparedStatement("
+                    INSERT INTO paper (menu_item_id_fk, headline, perex, template, keywords, editor, updated)
+                        SELECT :new_menu_item_id, headline, perex, template, keywords, editor, updated
+                        FROM
+                        paper
+                        WHERE
+                        paper.menu_item_id_fk=:source_menu_item_id
+                ");
+            $preparedCopyMultipage = $this->getPreparedStatement("
+                    INSERT INTO multipage (menu_item_id_fk, template, editor, updated)
+                        SELECT :new_menu_item_id, template, editor, updated
+                        FROM
+                        multipage
+                        WHERE
+                        multipage.menu_item_id_fk=:source_menu_item_id
+                ");
             foreach ($target as $targetRow) {
                 $sourceUid = $targetRow['uid'];
                 $targetUid = $this->createNewUidWithinTransaction($dbhTransact);
                 $targetRow['uid'] = $targetUid;
-                $this->bindParams($statementInsertToTarget, $targetRow);
-                $success = $statementInsertToTarget->execute();
-                $inserted = $dbhTransact->exec("
-                    INSERT INTO menu_item (lang_code_fk, uid_fk, type_fk, `list`, `order`, title, prettyuri, active, auto_generated)
-
-                    SELECT lang_code_fk, '$targetUid', type_fk, `list`, `order`, title, prettyuri, active, auto_generated
-                    FROM
-                    $this->itemTableName
-                    WHERE
-                    $this->itemTableName.uid_fk='$sourceUid'
-                ");
+                $this->bindParams($preparedInsertToTarget, $targetRow);
+                $success = $preparedInsertToTarget->execute();
+                $this->bindParams($preparedSelectSourceItem, ['source_uid'=>$sourceUid]);
+                $preparedSelectSourceItem->execute();
+                $sourceItems = $preparedSelectSourceItem->fetchAll(\PDO::FETCH_ASSOC);  // item pro všechny jazykové verze
+                foreach ($sourceItems as $sourceItem) {
+                    // tabulka menu_item: unique key a) kombinace lang_code a uid, b) prettyUri
+                    // při volání metody dao get c parametrem check duplicities vzniká chyba při duplicitě lang_code a list
+                    // -> uid - nový uid, list - prázdný (jinak by vznikly duplicity při vývěru podle jazyka a listu)
+                    // prettyUri - složit s novým uid
+                    $this->bindParams($preparedInsertTargetItem, [
+                        'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 'type_fk'=>$sourceItem['type_fk'],
+                        'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
+                        'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title']),
+                        'active'=>$sourceItem['active'], 'auto_generated'=>$sourceItem['auto_generated']]);
+                    $preparedInsertTargetItem->execute();
+                    $lastMenuItemId = $dbhTransact->lastInsertId();
+                    $this->bindParams($preparedCopyArticle, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                    $articleCount = $preparedCopyArticle->execute();
+                    $this->bindParams($preparedCopyPaper, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                    $paperCount = $preparedCopyPaper->execute();
+                    $this->bindParams($preparedCopyMultipage, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                    $multipageCount = $preparedCopyMultipage->execute();
+                }
             }
 
             // insert menu_item

@@ -23,7 +23,7 @@ class ItemTypeSelectViewModel extends MenuItemViewModel implements ItemTypeSelec
      * @return MenuItemTypeInterface array of
      */
     public function getTypeTransitions() {
-        return ['static', 'paper', 'article', 'multipage'];
+        return ['paper', 'article', 'multipage', 'static'];
     }
 
     public function getIterator(): \Traversable {

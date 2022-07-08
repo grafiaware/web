@@ -128,7 +128,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(MenuItemRepo::class),
                         $c->get(HierarchyAggregateReadonlyDao::class),
-                        $c->get(ContentGeneratorRegistry::class));
+                        $c->get(ContentGeneratorRegistry::class)
+                        );
             },
             PaperControler::class => function(ContainerInterface $c) {
                 return new PaperControler(
@@ -234,6 +235,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MultipageRepo::class)
                     );
             },
+
 
             // view
             'renderLogger' => function(ContainerInterface $c) {

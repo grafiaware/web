@@ -42,16 +42,16 @@ class HookedMenuItemActor extends HookedActorAbstract {
      *
      * {@inheritdoc}
      *
-     * Typ nové položky menu je dán konstantou třídy (hodnota pro prázdnou položku) a titulek nové položky menu je dán instanční proměnnou
-     * (default hodnota zadána konstantou třídy).
+     * Titulek nové položky menu je dán instanční proměnnou (default hodnota zadána konstantou třídy).
      *
-     * Vkládá:
+     * Vkládá do tabulky tyto hodnoty:
      * - lang_code_fk - zkopíruje z předchůdce (rodiče nebo sourozence), uid předchůdce je zadáno jako parameetr $predecessorUuid,
      *                  Hodnoty lang_code_fk čte vnořeným selectem, select vrací a insert vloží tolik jazykových mutací položky,
      *                  kolik mutací má předchůdce.
-     * - type_fk - nový type_fk zadaný konstantou třídy, musí odpovídat hodnotě vyhrazené v databázi pro prázdnou položku menu
      * - nové uid - zadáno jako parametr metody
-     * - title zadané jako instanční proměnná třídy nebo konstantou třídy
+     * - title zadané jako instanční proměnná třídy nebo default hodnota zadána konstantou třídy
+     * - prettyUri - prettyUri - zřetězení lang_code_fk a nového uid
+     * 
      * Ostatní sloupce mají default hodnoty databázové tabulky.
      *
      * @param HandlerInterface $transactionHandler
@@ -60,10 +60,9 @@ class HookedMenuItemActor extends HookedActorAbstract {
      */
     public function add(HandlerInterface $transactionHandler, $predecessorUid, $uid) {
         $this->checkTransaction($transactionHandler);
-
-        ;
-        // lang_code_fk zkopírované z předchůdce (rodiče nebo sourozence), nové uid, type_fk zkopírované z předchůdce (rodiče nebo sourozence)
-        // SELECT podle uid vybere všechny jazykové verze předchůdce -> přidává item ve všech jazycích, ve kterých je předchůdce
+        // tabulka menu_item: unique key a) kombinace lang_code a uid, b) prettyUri
+        // lang_code_fk zkopírované z předchůdce (rodiče nebo sourozence), nové uid, type_fk zkopírované z předchůdce (rodiče nebo sourozence), prettyUri - zřetězení lang_code_fk a nového uid
+        // SELECT podle uid předchůdce vybere všechny jazykové verze předchůdce -> přidává item ve všech jazycích, ve kterých je předchůdce
         // default title zadané jako instanční proměnná, prettyuri zřetězení z lang_code_fk a nového uid
         // ostatní sloupce mají default hodnoty dané definicí tabulky.
         // select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk - standartně verze pro všechny jazyky

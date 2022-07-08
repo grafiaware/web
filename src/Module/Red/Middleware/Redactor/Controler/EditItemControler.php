@@ -24,7 +24,6 @@ use Red\Model\Repository\MenuItemRepo;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
-
 /**
  * Description of Controler
  *
@@ -33,21 +32,21 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 class EditItemControler extends FrontControlerAbstract {
 
     /**
-     *
      * @var MenuItemRepo
      */
     private $menuItemRepo;
 
-    /**
-     *
-     * @var HierarchyAggregateReadonlyDao
-     */
-    private $hierarchyDao;
 
     /**
      * @var ContentGeneratorRegistryInterface
      */
     private $contentGeneratorRegistry;
+
+    /**
+     * @var HierarchyAggregateReadonlyDao
+     */
+    private $hierarchyDao;
+
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -55,11 +54,12 @@ class EditItemControler extends FrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo,
             MenuItemRepo $menuItemRepo,
             HierarchyAggregateReadonlyDao $hierarchyDao,
-            ContentGeneratorRegistryInterface $contentGeneratorFactory) {
+            ContentGeneratorRegistryInterface $contentGeneratorFactory
+            ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
-        $this->contentGeneratorRegistry = $contentGeneratorFactory;
         $this->hierarchyDao = $hierarchyDao;
+        $this->contentGeneratorRegistry = $contentGeneratorFactory;
     }
 
     public function toggle(ServerRequestInterface $request, $uid) {
@@ -92,12 +92,20 @@ class EditItemControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
      }
 
+     /**
+      * Nastaví nový titulek a také hodnotu prettyUri.
+      *
+      *
+      * @param ServerRequestInterface $request
+      * @param type $uid
+      * @return type
+      */
     public function title(ServerRequestInterface $request, $uid) {
         $menuItem = $this->getMenuItem($uid);
         $postTitle = (new RequestParams())->getParam($request, 'title');
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
         $menuItem->setTitle($postTitle);
-        $menuItem->setPrettyuri(FriendlyUrl::friendlyUrlText($postTitle));
+        $menuItem->setPrettyuri($menuItem->getLangCodeFk().$menuItem->getUidFk().'-'.FriendlyUrl::friendlyUrlText($postTitle));
         $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
         return $this->okMessageResponse("Uložen nový titulek položky menu:".PHP_EOL.$postTitle);
     }
