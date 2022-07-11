@@ -87,29 +87,36 @@ class HierarchyControler extends FrontControlerAbstract {
     }
 
     public function paste(ServerRequestInterface $request, $uid) {
-        $parentUid = $this->editHierarchyDao->getp($uid)['parent_uid']; // TODO: upravit parent!!!
+        $parentUid = $this->editHierarchyDao->getParentNode($uid)['uid'];
         $statusFlash = $this->statusFlashRepo->get();
+        $success = false;
         if (isset($parentUid)) {
             $postCommand = $statusFlash->getPostCommand();
-            $key = array_key_first($postCommand);
-            $pasteduid = $postCommand[$key];
-            switch ($key) {
-                case 'cut':
-                    $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid);
-                    $this->addFlashMessage('cut items pasted as a siblings', FlashSeverityEnum::SUCCESS);
-                    break;
-                case 'copy':
-                    $this->editHierarchyDao->copySubTreeAsSiebling($pasteduid, $uid);
-                    $this->addFlashMessage('copied items pasted as a siblings', FlashSeverityEnum::SUCCESS);
-                    break;
-                default:
-                    $this->addFlashMessage("Unknown post command.", FlashSeverityEnum::WARNING);
-                    break;
+            if (is_array($postCommand) ) {
+                $key = array_key_first($postCommand);
+                $pasteduid = $postCommand[$key];
+                switch ($key) {
+                    case 'cut':
+                        $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid);
+                        $this->addFlashMessage('cut items pasted as a siblings', FlashSeverityEnum::SUCCESS);
+                        $success = true;
+                        break;
+                    case 'copy':
+                        $this->editHierarchyDao->copySubTreeAsSiebling($pasteduid, $uid);
+                        $this->addFlashMessage('copied items pasted as a siblings', FlashSeverityEnum::SUCCESS);
+                        $success = true;
+                        break;
+                    default:
+                        $this->addFlashMessage("Unknown post command.", FlashSeverityEnum::WARNING);
+                        break;
+                }
+            }else {
+                $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
             }
         } else {
             $this->addFlashMessage('unable to paste, item has no parent', FlashSeverityEnum::WARNING);
         }
-        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid");
+        return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
     }
 
     public function pastechild(ServerRequestInterface $request, $uid) {

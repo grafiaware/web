@@ -386,7 +386,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
     }
 
     /**
-     * Vrací rodiče (nikoli předky) prvku.
+     * Vrací přímého rodiče (nikoli předky) prvku.
      *
      * @param type $langCode
      * @param type $uid
