@@ -2,11 +2,6 @@
 declare(strict_types=1);
 namespace Test\Integration\Repository;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 use Test\AppRunner\AppRunner;
 
@@ -26,7 +21,6 @@ use Model\RowData\RowData;
  * @author pes2704
  */
 class EventContentTypeRepositoryTest extends AppRunner {
-
     private $container;
 
     /**
@@ -37,25 +31,20 @@ class EventContentTypeRepositoryTest extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
-
-
-            $container =
+        $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                    (new Container( ) )  )
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
 
-        // toto je příprava testu
+        // toto je příprava testu, vlozi 1 typ
         /** @var EventContentTypeDao $eventContentTypeDao */
         $eventContentTypeDao = $container->get(EventContentTypeDao::class);
         $rowData = new RowData();
-        $type =  "testEvCtTypeType";
+        $type =  "testEventContentType";
         $rowData->offsetSet('type', $type);
         $rowData->offsetSet('name', "testEventContentTypeName");
         $eventContentTypeDao->insert($rowData);
@@ -64,7 +53,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
     private static function deleteRecords(Container $container) {
         /** @var EventContentTypeDao $eventContentTypeDao */
         $eventContentTypeDao = $container->get(EventContentTypeDao::class);
-        $row = $eventContentTypeDao->get(['type'=>'testEvCtTypeType']);
+        $row = $eventContentTypeDao->get(['type'=>'testEventContentType']);
         if (isset($row)) {
             $eventContentTypeDao->delete($row);
         }
@@ -91,23 +80,28 @@ class EventContentTypeRepositoryTest extends AppRunner {
         self::deleteRecords($container);
     }
 
+    
     public function testSetUp() {
         $this->assertInstanceOf(EventContentTypeRepo::class, $this->eventContentTypeRepo);
     }
 
+    
     public function testGetNonExisted() {
         $eventContentTypeRepo = $this->eventContentTypeRepo->get('QQfffg  ghghgh');
         $this->assertNull($eventContentTypeRepo);
     }
+    
+    
 
     public function testGetAndRemoveAfterSetup() {
-        $eventContentType = $this->eventContentTypeRepo->get('testEvCtTypeType');    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        /** @var EventContentType $eventContentType */
+        $eventContentType = $this->eventContentTypeRepo->get('testEventContentType');   
         $this->assertInstanceOf(EventContentType::class, $eventContentType);
 
         $eventContentType = $this->eventContentTypeRepo->remove($eventContentType);
         $this->assertNull($eventContentType);
     }
-
+ 
     public function testGetAfterRemove() {
         $eventContentType = $this->eventContentTypeRepo->get('testEvCtTypeType');
         $this->assertNull($eventContentType);
@@ -118,7 +112,10 @@ class EventContentTypeRepositoryTest extends AppRunner {
         $eventContentType->setType('testEvCtTypeType');
         $eventContentType->setName('testEventContentTypeName');
         $this->eventContentTypeRepo->add($eventContentType);
-        $this->assertTrue($eventContentType->isPersisted());  // DaoKeyDbVerifiedInterface
+        
+        $this->assertFalse($eventContentType->isPersisted());  // DaoKeyDbVerifiedInterface
+        // neni persisted, protoze neni automaticky generovany klic
+        
     }
 
     public function testFindAll() {

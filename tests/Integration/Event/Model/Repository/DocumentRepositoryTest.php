@@ -19,6 +19,7 @@ use Events\Model\Repository\DocumentRepo;
 use Model\RowData\RowData;
 
 
+
 /**
  *
  * @author pes2704
@@ -34,7 +35,6 @@ class DocumentRepositoryTest extends AppRunner {
 
     private static $idCv;
     private static $idLetter;
-    private static $idCvAdded;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -60,6 +60,7 @@ class DocumentRepositoryTest extends AppRunner {
         $letterFilepathName = __DIR__."/".$letterFilename;
         $letterMime = finfo_file($finfo, $letterFilepathName);
         $letterContent = file_get_contents($letterFilepathName);
+        finfo_close($finfo);
 
         $rowData = new RowData();
         $rowData->import([
@@ -89,10 +90,10 @@ class DocumentRepositoryTest extends AppRunner {
         // oescapovat 
         $dir = str_replace('\\', '\\\\\\\\', $dir);  //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
         $rows = $documentDao->find( "document_filename LIKE '$dir%'", []); 
-
-
+        
+       
         foreach($rows as $row) {
-            $documentDao->delete($row);
+            $ok = $documentDao->delete($row);
         }
     }
 
@@ -140,6 +141,8 @@ class DocumentRepositoryTest extends AppRunner {
         $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
         $mime = finfo_file($finfo, $filepathName);
         $content = file_get_contents($filepathName);
+        finfo_close($finfo);
+        
         $document->setDocument($content);
         $document->setDocumentMimetype($mime);
         $document->setDocumentFilename($filepathName);
@@ -158,8 +161,10 @@ class DocumentRepositoryTest extends AppRunner {
 
         $filepathName = __DIR__."/".$cvFilename;
         $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-        $mime = finfo_file($finfo, $filepathName);
+        $mime = finfo_file($finfo, $filepathName);        
         $content = file_get_contents($filepathName);
+        finfo_close($finfo);
+
         $document->setDocument($content);
         $document->setDocumentMimetype($mime);
         $document->setDocumentFilename($filepathName);
@@ -185,9 +190,9 @@ class DocumentRepositoryTest extends AppRunner {
         
         $dir = str_replace('\\', '\\\\\\\\', $dir);     //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
         $documents = $this->documentRepo->find( "document_filename LIKE '$dir%'", []); 
-        
         $this->assertTrue(is_array($documents));
         $this->assertGreaterThan(0,count($documents)); //jsou tam minimalne 2
+                       
     }
 
     public function testRemove() {
