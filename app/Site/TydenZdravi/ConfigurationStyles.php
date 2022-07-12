@@ -8,10 +8,16 @@
 
 namespace Site\TydenZdravi;
 
-use \Pes\View\Renderer\ClassMap\ClassMap;
-use  Component\Renderer\Html\Menu\{
-    LevelRenderer, MenuWrapEditableRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
-};
+use Pes\View\Renderer\ClassMap\ClassMap;
+use Component\Renderer\Html\Menu\LevelRenderer;
+use Component\Renderer\Html\Menu\MenuWrapEditableRenderer;
+use Component\Renderer\Html\Menu\ItemRenderer;
+use Component\Renderer\Html\Menu\ItemRendererEditable;
+use Component\Renderer\Html\Menu\ItemBlockRenderer;
+use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
+use Component\Renderer\Html\Menu\ItemTrashRenderer;
+use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
+
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 /**
@@ -33,7 +39,11 @@ class ConfigurationStyles extends ConfigurationRed {
             // default hodnoty
             'buttons' => [
                             'button' => 'ui button',
-                            'div.buttons' => 'editSize ui basic icon buttons', //sefinovat - používané small
+                            'button.disabled' => 'ui button disabled',
+                            'div.buttons' => 'editSize ui basic icon buttons',
+                            'div.buttonsRow' => 'ui basic icons',
+                            'div.buttonsChangeView' => 'ui button nested',                       //  'line' nebo 'ui button nested'
+                            'div.buttonsChangeViewGroup' => 'ui basic icon buttons',             //  'ui basic icon' (pro line) nebo 'ui basic icon buttons' (pro nested)
                             'button.paste' => 'ui button paste',
                             'div.buttonsWrap' => 'contentButtons page-edit',
                             'div.ribbon' => 'ui right ribbon teal basic label cornerWithTools page-edit',
@@ -42,14 +52,15 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.ribbon-disabled' => 'ui right ribbon label page-edit black basic',
                             'button.template' => 'ui button toggleTemplateSelect',
                             'div.editMode' => 'zapnout_editaci',
-                            'div.editMode button' => 'ui editingButtons_size teal icon button',
-                            'div.offEditMode button' => 'ui editingButtons_size teal basic icon button',
+                            'button.editMode' => 'ui editingButtons_size teal icon button',
+                            'button.editMode.disabled' => 'ui editingButtons_size teal icon button disabled',
+                            'button.offEditMode' => 'ui editingButtons_size teal basic icon button',
                             'div.wrapTrash' => 'contentButtons trash',
                             'div.wrapContent' => 'contentButtons',
                             'div.wrapShowDate' => 'calendarWrap editShowDate',
                             'div.wrapEventDate' => 'calendarWrap editEventDate',
                             'div.buttonsEditDate' => 'editingButtons_size ui basic icon buttons editDate',
-                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',        ///div.buttons = div.buttonsContent - zkontrolovat!!!
+                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',
                             'button.showDate' => 'ui button toolsShowDate',
                             'button.eventDate' => 'ui button toolsEventDate',
                             'button.content' => 'ui button hideCalendarWrap',
@@ -60,6 +71,9 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.publish' => 'red toggle off icon',
                             'icon.cut' => 'cut icon',
                             'icon.cutted' => 'red cut icon',
+                            'icon.copy' => 'copy icon',
+                            'icon.plus' => 'plus icon',
+                            'icon.object' => 'object ungroup icon',
                             'icon.addsiblings' => 'add circle icon',
                             'icon.movetotrash' => 'purple trash icon',
                             'icon.addchildren' => ' arrow circle right icon',
@@ -67,9 +81,10 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.delete' => 'trash icon',
                             'icon.exclamation' => 'corner red exclamation icon',
                             'icon.templateSelect' => 'clone outline icon',
-                            'icon.template' => 'file alternate icon',
+                            'icon.template' => 'stamp alternate icon',
+                            'icon.templateremove' => 'stamp red alternate icon',
                             'icon.arrange' => 'sort numeric down icon',
-                            'icon.editMode' => 'pencil alternate icon', //???
+                            'icon.editMode' => 'pencil alternate icon',
                             'icon.changedisplaydate' => 'violet calendar alternate icon',
                             'icon.changeeventdate' => 'yellow money check icon',
                             'icon.arrowup' => 'top right corner arrow up icon',
@@ -80,8 +95,11 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.save' => 'save icon',
                             'icon.cancel' => 'red times circle icon',
                             'icon.restore' => 'sync icon',
+                            'icon.clipboard' => 'clipboard outline icon',
                             'semafor.published' => 'circle icon green',
-                            'semafor.notpublished' => 'circle icon inverted red',
+                            'semafor.notpublished' => 'circle icon red',
+                            'semafor.actual' => 'clock outline icon green',
+                            'semafor.notactual' => 'clock outline icon red',
                             'semafor.trashed' => 'circle icon inverted purple',
                         ],
             'menu_items' => [
@@ -102,12 +120,9 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
             'paper_template_select' => [
                             'div button' => 'ui huge fade animated button toggleTemplateSelect', ///vybirani sablon pro article???
-                            'div.hidden' => 'hidden content', ///vybirani sablon pro article???
-                            'div.visible' => 'visible content', ///vybirani sablon pro article???
-                            'div i' => 'file alternate teal icon', ///vybirani sablon pro article???
-
-
-
+                            'div.hidden' => 'hidden content',
+                            'div.visible' => 'visible content',
+                            'div i' => 'file alternate teal icon',
                             'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',
@@ -137,6 +152,7 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.kos.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
+
         ###########################
         # menu classmap
         ###########################
@@ -219,6 +235,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'perex'=>'',
                         ],
                      'Content' => [
+                        'section'=>'',
                         'content'=>'',
                         ],
                      'Buttons' => self::rendererDefaults()['buttons'],
@@ -230,9 +247,9 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                      'Template' => [
-                        'div.templateMultipage' => 'template-multipage',
-                        'div.templateMultipageTrash' => 'template-multipage trash',
-                        'div.templatePaper' => 'template-paper',
+                        'div.templateMultipage' => 'template-multipageedit',
+                        'div.templateMultipageTrash' => 'template-multipageedit trash',
+                        'div.templatePaper' => 'template-paperedit',
                         'div.templatePaperTrash' => 'template-paper trash',
                         'div.templateArticle' => 'template-articleedit',
                         'div.templateArticleTrash' => 'template-articleedit trash',
@@ -252,6 +269,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'section'=>'',
                         'section.trash'=>'trash',
                         'div.semafor'=>'semafor',
+                        'div.semafor-radek'=>'semafor-radek',
                         'div.ribbon'=>'ui right ribbon grey inverted label cornerWithTools',
                         'ribbon.svg' => 'ribbon-svg',
                         'ribbon.priority' => 'content-priority',
@@ -266,8 +284,6 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Buttons' => self::rendererDefaults()['buttons'],
                      'Icons' => self::rendererDefaults()['icons_buttons'],
-                        //////
-                     'PaperTemplateSelect' => self::rendererDefaults()['paper_template_select'],
                     ]
                 );
             },
