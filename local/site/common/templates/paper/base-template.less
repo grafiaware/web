@@ -20,7 +20,7 @@
 }
 .tiny_select_template_paper, .tiny_select_template_multipage{
     .vertikalne-prohodit, .horizontalne-prohodit{
-        box-shadow: @sablonyOhraniceniProFlexDirection;
+        box-shadow: @sablonyOhraniceniProFlexDirection ;
     } 
 }
 .vertikalne-prohodit{
@@ -28,6 +28,43 @@
 }
 .horizontalne-prohodit{
     flex-direction: row-reverse; 
+}
+
+main .obr-upoutavka{
+    margin-top: -30px;
+    .nadpis.primarni-barva.presah{
+        width: 130%; 
+        text-align: right;
+        position: absolute;
+        bottom: 15px;
+        font-weight: 500; 
+        font-size: @h4;
+        headline{
+            background-color: inherit;
+            color: inherit;
+            padding: 0;
+            margin: 0;
+            text-align: inherit;
+        }
+    }
+    .blok.podnadpis{
+        width: 45%;
+        text-align: left;
+        padding: 20px 40px !important;
+        position: absolute;
+        transform: translateY(50%);
+        top: 50%;
+        right: 25px;
+        //font-size: @bigFontSize + 2;
+    }
+    img{
+        width: 100%;
+        height: auto;
+        margin-bottom: 5px;
+        &.sirsi-obr{
+            width: 103%;
+        }
+    }
 }
 
 [data-template="images_paper"]{
