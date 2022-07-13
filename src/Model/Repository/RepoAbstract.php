@@ -307,7 +307,6 @@ abstract class RepoAbstract {
             $index = $this->indexFromEntity($entity);
             $this->removed[$index] = $entity;
             unset($this->collection[$index]);
-            $entity->setUnpersisted();
             $entity->lock();
         } else {   // smazání nepersistované entity před uložením do db
             foreach ($this->new as $key => $new) {
