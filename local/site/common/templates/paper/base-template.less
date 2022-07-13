@@ -10,7 +10,15 @@
 *******************************/ 
 @import (optional) "@{siteTemplatePath}";  
 
-
+.headline-reset{
+    background-color: inherit;
+    color: inherit;
+    text-align: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0;
+    margin: 0;
+}
 
 #circle content p{
     margin: 0;
@@ -30,7 +38,7 @@
     flex-direction: row-reverse; 
 }
 
-main .obr-upoutavka{
+.obr-upoutavka{
     margin-top: -30px;
     .nadpis.primarni-barva.presah{
         width: 130%; 
@@ -39,12 +47,9 @@ main .obr-upoutavka{
         bottom: 15px;
         font-weight: 500; 
         font-size: @h4;
+       // position: relative;
         headline{
-            background-color: inherit;
-            color: inherit;
-            padding: 0;
-            margin: 0;
-            text-align: inherit;
+            .headline-reset; 
         }
     }
     .blok.podnadpis{
@@ -77,9 +82,6 @@ main .obr-upoutavka{
     }
     &.obr-upoutavka{
         margin-top: 10px;
-        img{
-            max-width: 103%;
-        }
         .blok.podnadpis{
             width: 50%;
         }

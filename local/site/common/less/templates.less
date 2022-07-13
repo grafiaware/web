@@ -17,11 +17,11 @@
 /*******************************        
          styly pro šablony multipage v site
          templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less"; 
-*******************************/ 
+*******************************/       
 &{         
 @templateType: "multipage";                                                                                   
+@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";     
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
-@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";
 } 
 
 /*******************************
@@ -30,8 +30,8 @@
 *******************************/ 
 &{         
 @templateType: "article";                                                                                   
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 } 
 
 /*******************************
@@ -40,8 +40,8 @@
 *******************************/ 
 &{    
 @templateType: "paper";                                     
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 }  
 
 /*******************************
@@ -50,8 +50,8 @@
 *******************************/ 
 &{          
 @templateType: "paper-content";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";  
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";         
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";  
 }
           
 /*******************************
@@ -60,8 +60,8 @@
 *******************************/ 
 &{       
 @templateType: "author";                                             
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 }
 
 /*******************************
