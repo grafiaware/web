@@ -12,7 +12,7 @@ use Pes\Http\Response;
 use Pes\Text\FriendlyUrl;
 
 use Model\Entity\MenuItemInterface;
-use Service\ContentGenerator\ContentGeneratorRegistryInterface;
+use Red\Service\ContentGenerator\ContentGeneratorRegistryInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -24,7 +24,6 @@ use Red\Model\Repository\MenuItemRepo;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
-
 /**
  * Description of Controler
  *
@@ -33,21 +32,21 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 class EditItemControler extends FrontControlerAbstract {
 
     /**
-     *
      * @var MenuItemRepo
      */
     private $menuItemRepo;
 
-    /**
-     *
-     * @var HierarchyAggregateReadonlyDao
-     */
-    private $hierarchyDao;
 
     /**
      * @var ContentGeneratorRegistryInterface
      */
     private $contentGeneratorRegistry;
+
+    /**
+     * @var HierarchyAggregateReadonlyDao
+     */
+    private $hierarchyDao;
+
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -55,11 +54,12 @@ class EditItemControler extends FrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo,
             MenuItemRepo $menuItemRepo,
             HierarchyAggregateReadonlyDao $hierarchyDao,
-            ContentGeneratorRegistryInterface $contentGeneratorFactory) {
+            ContentGeneratorRegistryInterface $contentGeneratorFactory
+            ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
-        $this->contentGeneratorRegistry = $contentGeneratorFactory;
         $this->hierarchyDao = $hierarchyDao;
+        $this->contentGeneratorRegistry = $contentGeneratorFactory;
     }
 
     public function toggle(ServerRequestInterface $request, $uid) {
@@ -92,12 +92,20 @@ class EditItemControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
      }
 
+     /**
+      * Nastaví nový titulek a také hodnotu prettyUri.
+      *
+      *
+      * @param ServerRequestInterface $request
+      * @param type $uid
+      * @return type
+      */
     public function title(ServerRequestInterface $request, $uid) {
         $menuItem = $this->getMenuItem($uid);
         $postTitle = (new RequestParams())->getParam($request, 'title');
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
         $menuItem->setTitle($postTitle);
-        $menuItem->setPrettyuri(FriendlyUrl::friendlyUrlText($postTitle));
+        $menuItem->setPrettyuri($menuItem->getLangCodeFk().$menuItem->getUidFk().'-'.FriendlyUrl::friendlyUrlText($postTitle));
         $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
         return $this->okMessageResponse("Uložen nový titulek položky menu:".PHP_EOL.$postTitle);
     }
@@ -106,7 +114,7 @@ class EditItemControler extends FrontControlerAbstract {
      * Zkotroluje a nastaví položce menu (menu item) požadovaný typ. Typ menu item před voláním této metody musí být prázdný (typ empty) a pro požadovaný typ musí být zaregistrován generátor
      * obsahu nového prvku v ContentGeneratorRegistry.
      *
-     * Metoda nastaví typ menu item a generuje nový obsah pomocí Service\ContentGenerator zaregistrované pro daný typ v ContentGeneratorRegistry.
+     * Metoda nastaví typ menu item a generuje nový obsah pomocí Red\Service\ContentGenerator zaregistrované pro daný typ v ContentGeneratorRegistry.
      *
      * @param ServerRequestInterface $request
      * @param string $uid
@@ -119,7 +127,7 @@ class EditItemControler extends FrontControlerAbstract {
         /** @var MenuItemInterface $langMenuItem */
         $isEmpty = true;
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
-            if ($langMenuItem->getTypeFk() != ContentGeneratorRegistryInterface::EMPTY_MENU_ITEM_TYPE) {
+            if ($langMenuItem->getTypeFk()) {
                 $isEmpty = false;
                 user_error("Pokus o nastavení typu položce menu, která již má typ. Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' je typu {$langMenuItem->getTypeFk()}.");
             }

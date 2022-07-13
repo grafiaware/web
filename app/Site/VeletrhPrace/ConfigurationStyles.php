@@ -77,7 +77,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.delete' => 'trash icon',
                             'icon.exclamation' => 'corner red exclamation icon',
                             'icon.templateSelect' => 'clone outline icon',
-                            'icon.template' => 'file alternate icon',
+                            'icon.template' => 'stamp alternate icon',
+                            'icon.templateremove' => 'stamp red alternate icon',
                             'icon.arrange' => 'sort numeric down icon',
                             'icon.editMode' => 'pencil alternate icon',
                             'icon.changedisplaydate' => 'violet calendar alternate icon',
@@ -114,7 +115,6 @@ class ConfigurationStyles extends ConfigurationRed {
                             //'li.isnotleaf icon' => 'chevron-icon', //dropdown icon
                         ],
             'paper_template_select' => [
-                            //ke smazání
                             'div button' => 'ui huge fade animated button toggleTemplateSelect', ///vybirani sablon pro article???
                             'div.hidden' => 'hidden content',
                             'div.visible' => 'visible content',
@@ -148,7 +148,6 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.kos.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
-
 
         ###########################
         # menu classmap
@@ -193,13 +192,19 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'Item' => self::rendererDefaults()['menu_items'],
-                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
             'menu.item.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'Item' => self::rendererDefaults()['menu_items'],
+                        'Buttons' => self::rendererDefaults()['buttons'],
+                        'Icons' => self::rendererDefaults()['icons_buttons']
+                    ]);
+            },
+            'menu.itembuttons.classmap' => function() {
+                return new ClassMap (
+                    [
                         'Buttons' => self::rendererDefaults()['buttons'],
                         'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
@@ -234,8 +239,8 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                      'Template' => [
-                        'div.templateMultipage' => 'template-multipage',
-                        'div.templateMultipageTrash' => 'template-multipage trash',
+                        'div.templateMultipage' => 'template-multipageedit',
+                        'div.templateMultipageTrash' => 'template-multipageedit trash',
                         'div.templatePaper' => 'template-paperedit',
                         'div.templatePaperTrash' => 'template-paper trash',
                         'div.templateArticle' => 'template-articleedit',

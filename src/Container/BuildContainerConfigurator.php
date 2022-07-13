@@ -99,12 +99,6 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         ]
                         );
                     },
-                'build.config.make' => function(ContainerInterface $c) {
-                    return [
-                        'items' =>  ConfigurationCache::build()['build.config.make.items'],
-                        'roots' =>  ConfigurationCache::build()['build.config.make.roots'],
-                        ];
-                    },
                 'build.config.convert' => function(ContainerInterface $c) {
                     return [
                         'source_table_name' =>  $c->get('dbold.db.connection.name').'.'.ConfigurationCache::build()['build.config.convert.copy']['source'],

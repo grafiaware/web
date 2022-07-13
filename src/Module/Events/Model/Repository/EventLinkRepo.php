@@ -48,12 +48,12 @@ class EventLinkRepo extends RepoAbstract implements EventLinkRepoInterface {
         return $this->findEntities();
     }
 
-    public function add(EventLinkInterface $eventContent) {
-        $this->addEntity($eventContent);
+    public function add(EventLinkInterface $eventLink) {
+        $this->addEntity($eventLink);
     }
 
-    public function remove(EventLinkInterface $eventContent) {
-        $this->removeEntity($eventContent);
+    public function remove(EventLinkInterface $eventLink) {
+        $this->removeEntity($eventLink);
     }
 
     protected function createEntity() : EventLinkInterface {

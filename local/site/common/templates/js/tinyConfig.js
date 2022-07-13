@@ -1,6 +1,6 @@
 var tinyConfig = {
     basePath: '{{basePath}}',
-    contentCss: ['{{urlStylesCss}}', '{{urlSemanticCss}}', '{{urlContentTemplatesCss}}'],
+    contentCss: ['{{urlStylesCss}}', '{{urlSemanticCss}}', '{{urlContentTemplatesCss}}', '{{urlMediaCss}}'],
     toolbarsLang: '{{toolbarsLang}}'
 };
 var templates_multipage= [

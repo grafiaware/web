@@ -214,7 +214,29 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $response;
     }
 
-    // permissions
+    ####
+    # request params
+    ####
+
+    /**
+     * Vrací hodnotu POST parametru s indexem začínajicím zadaným prefixem.
+     * Předpokládá, že metoda $request->getParsedBody() vrací array, nikoli objekt.
+     *
+     * @param ServerRequestInterface $request
+     * @param type $namePrefix
+     * @return string
+     */
+    protected function paramValue(ServerRequestInterface $request, $namePrefix) {
+        $postParams = $request->getParsedBody();
+        $params = array_filter($postParams, function($key) use ($namePrefix) {
+            return strpos($key, $namePrefix)===0;
+        }, ARRAY_FILTER_USE_KEY);
+        return count($params) ? end($params) : '';
+    }
+
+    ####
+    # permissions
+    ####
 
     /**
      *

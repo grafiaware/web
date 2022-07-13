@@ -120,7 +120,7 @@
 @sectionRendererMargin: initial;
 @sectionRendererMarginTop: initial;
 @articleRendererMargin: 10px 7px;
-@rendererBoxShadow: 0 0 0 1px @teal;
+@rendererBoxShadow: 0 0 1px 1px @teal;
 @rendererTrashBoxShadow: 0 0 0 1px darken(@barvaKos,20);
 @trashContentOpacity: 0.5; 
 @trashContentFilter: grayscale(1); 
@@ -152,7 +152,7 @@
 @ribbonPositionRigth: auto;
 @ribbonPositionLeft: auto;
 @ribbonZIndex: 1;
-@ribbonTransform: translateX(-197px); 
+@ribbonTransform: translateX(-197px);  
 @ribbonActiveZIndex: 15;
 @ribbonIconTransform: translateX(50%);
 @ribbonCornerIconFontSize: 1em;
@@ -162,7 +162,7 @@
 @ribbonContentPriorityPositionPositionTop: -6px;
 @ribbonContentPriorityMarginRight: -9px;
 @ribbonContentPriorityMarginLeft: 0px;
-@ribbonContentPrioritySpanPositionRight: 12px;
+@ribbonContentPrioritySpanPositionRight: 12px; 
 @ribbonContentPrioritySpanPositionTop: 6px;
 @ribbonContentPrioritySpanFontSize: 1rem;
 @ribbonContentPrioritySpanFontWeight: 700;
@@ -178,7 +178,8 @@
 @ribbonPageIconTransform: translateX(25%);
 @ribbonPageIconCornerPositionRight: -10px;
 @sectionTrashCornerPositionRight: 0;
-@sectionTrashCornerPositionTop: 5px;
+@sectionTrashCornerPositionTop: 5px; 
+@sectionTrashCornerWidth: 2em; 
 //Buttony pro content
 @buttonyContentWidth: 100px;
 @buttonyContentPositionRight: 6px;
@@ -192,7 +193,7 @@
 @fontSizeCalendar: 1.1rem;
 @fontSizeCalendarInput: 1.2rem;
 @buttonyKalendarPositionTop: -42px;
-@buttonyKalendarPositionRight: @hodnota0;
+@buttonyKalendarPositionRight: @hodnota0; 
 @buttonyKalendarBackgroundColor: @barvaEditButtonyTmava;
 @divKalendarWidth: 350px;
 @divKalendarPositionTop: @hodnota0;
@@ -564,6 +565,7 @@ body{
             left: @sectionTrashCornerPositionLeft;
             top: @sectionTrashCornerPositionTop;
             transform: @sectionTrashTransform;
+            width: @sectionTrashCornerWidth;
             .trash.purple.icon:not(.editDate){
                 top: @sectionTrashRibbonIconPositionTop;
                 position: relative;
@@ -653,7 +655,7 @@ body{
             margin-top: @sectionRendererMarginTop;
         }
     }
-     .template-article, .template-articleedit{
+     .template-article, .template-articleedit, .template-paper, .template-paperedit{
         margin: @articleRendererMargin;
     }
     .template-multipage, .template-multipageedit, .template-article, .template-articleedit, .template-paper, .template-paperedit{
@@ -717,7 +719,7 @@ body{
         .template-article{
             margin: @rendererMultipageArticleMargin;
         }
-        .template-paper, .template-paperedit{
+        .template-paper, .template-paperedit, .template-multipage, .template-multipageedit{
             margin: @rendererMultipagePaperMargin;
         }
         > .semafor{
@@ -832,7 +834,9 @@ body{
         width: @buttonyContentPageWidth;  
         right: @buttonyContentPagePositionRight;
         top: @buttonyContentPagePositionTop;
-        background-color: @buttonyContentBackgroundColor;
+        > .buttons{
+            background-color: @buttonyContentBackgroundColor;
+        }
         &.trash .editContent{
             background-color: @lastButtonContentBackgroundColor;
         }

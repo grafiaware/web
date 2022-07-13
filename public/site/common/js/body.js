@@ -7,8 +7,16 @@
         $(this).siblings('.menu-login').toggle();
     });
     //modalni okno pro prihlaseni
-    $('.ui.page.button').click(function(){
-        $('.page.modal').modal({
+    $('.btn-login').click(function(){
+        $('.page.modal.login').modal({
+            closable: false,
+            useCSS   : true,
+        })
+        .modal('show');
+    });
+    //modalni okno pro registraci
+    $('.btn-register').click(function(){
+        $('.page.modal.register').modal({
             closable: false,
             useCSS   : true,
         })

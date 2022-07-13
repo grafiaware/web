@@ -1,3 +1,18 @@
+
+- změň REST uri takto:
+
+přidej lang_code do uri - jen kombinace lang_code a uri je klíč, je unikátní -> lang_code má být v uri, janak mají různé jazykové verze stejsou uri
+host/web/web/v1/page/item/6299be00d5f2d změň na host/web/web/v1/page/cs/item/6299be00d5f2d
+
+přidej na konec uri slug
+
+host/web/web/v1/page/cs/item/6299be00d5f2d/toto-je-slug-vytvořeny-titulku-stranky
+
+ - změnit:
+ slug nemusí být unikátní (to jen human&SEO readable), ukikátnost je dána kombinací lang_code a uid, sloupec prettyUri v databázové tabulce menu_item pak nemusí a nesmí být UNIQUE
+ generování hodnoty prettyUri v metodě EditItemControler->title()
+ generování hodnoty v HierarchyAggregateEditDao->copySubTreeAsChild a copySubTreeAsSiebling
+
 <?php
 
 /*

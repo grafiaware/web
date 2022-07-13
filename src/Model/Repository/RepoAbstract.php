@@ -235,6 +235,13 @@ abstract class RepoAbstract {
         return new PdoRowData();
     }
 
+    /**
+     *
+     * @param EntityInterface $entity
+     * @return void
+     * @throws OperationWithLockedEntityException
+     * @throws UnableAddEntityException
+     */
     protected function addEntity(EntityInterface $entity): void {
         if ($entity->isLocked()) {
             throw new OperationWithLockedEntityException("Nelze přidávat přidanou nebo smazanou entitu.");
@@ -299,6 +306,12 @@ abstract class RepoAbstract {
         }
     }
 
+    /**
+     *
+     * @param EntityInterface $entity
+     * @return void
+     * @throws OperationWithLockedEntityException
+     */
     protected function removeEntity(EntityInterface $entity): void {
         if ($entity->isLocked()) {
             throw new OperationWithLockedEntityException("Nelze mazat přidanou nebo smazanou entitu.");
@@ -307,7 +320,6 @@ abstract class RepoAbstract {
             $index = $this->indexFromEntity($entity);
             $this->removed[$index] = $entity;
             unset($this->collection[$index]);
-            $entity->setUnpersisted();
             $entity->lock();
         } else {   // smazání nepersistované entity před uložením do db
             foreach ($this->new as $key => $new) {

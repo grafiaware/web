@@ -197,7 +197,7 @@ class DatabaseController extends BuildControllerAbstract {
 
         $conversionSteps[] = function() {
             // [type, list, title]
-            $rootsDefinitions = $this->container->get('build.config.make')['items'];
+            $rootsDefinitions = $this->container->get('build.config.make.items');
             $executedSql = [];
             foreach ($rootsDefinitions as $rootDef) {
                 $executedSql[] .= $this->executeFromTemplate("page2_2_insertIntoMenuItemNewMenuRoot.sql", ['menu_root_type' => $rootDef[0], 'menu_root_list'=>$rootDef[1], 'menu_root_title'=>$rootDef[2]]);

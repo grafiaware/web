@@ -12,10 +12,10 @@ use Configuration\ComponentConfigurationInterface;
 use Component\ViewModel\StatusViewModelInterface;
 
 use Access\AccessPresentationInterface;
-use Service\TemplateService\TemplateSeekerInterface;
+use Red\Service\TemplateService\TemplateSeekerInterface;
 
-use Service\TemplateService\Exception\Service\TemplateServiceExceptionInterface;
-use Service\TemplateService\Exception\TemplateNotFoundException;
+use Red\Service\TemplateService\Exception\Red\Service\TemplateServiceExceptionInterface;
+use Red\Service\TemplateService\Exception\TemplateNotFoundException;
 
 use Pes\View\Template\PhpTemplate;
 
@@ -96,7 +96,7 @@ class TemplatedComponent extends AuthoredComponentAbstract implements InheritDat
                 } catch (NoTemplateFileException $noTemplExc) {
                     $template = new ImplodeTemplate();
                 }
-            } catch (Service\TemplateServiceExceptionInterface $exc) {
+            } catch (Red\Service\TemplateServiceExceptionInterface $exc) {
                 $template = new ImplodeTemplate();
             }
 

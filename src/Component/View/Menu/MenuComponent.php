@@ -20,15 +20,19 @@ use Component\View\Menu\ItemComponent;
 use Component\View\Menu\ItemComponentInterface;
 
 use Component\View\Manage\ButtonsMenuItemManipulationComponent;
-use Component\View\Manage\ButtonsMenuAddMultilevelComponent;
+use Component\View\Manage\ButtonsMenuAddComponent;
 use Component\View\Manage\ButtonsMenuAddOnelevelComponent;
 use Component\View\Manage\ButtonsMenuCutCopyComponent;
+use Component\View\Manage\ButtonsMenuCutCopyEscapeComponent;
 use Component\View\Manage\ButtonsMenuDeleteComponent;
 
 use Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
 use Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
 use Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuPasteOnelevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuPasteMultilevelRenderer;
 use Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
 use Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 
 use Access\Enum\AccessPresentationEnum;
@@ -190,23 +194,27 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 
     private function createItemButtonsComponent(): ItemButtonsComponent {
         $itemButtons = new ItemButtonsComponent($this->configuration);  // typu InheritData - dědí ItemViewModel
+        $cut = $this->contextData->getPostCommand('cut') ? true : false;
+        $copy = $this->contextData->getPostCommand('copy') ? true :false;
+        $pasteMode = ($cut OR $copy);
+
         #### buttons ####
         $buttonComponents = [];
         switch ((new ItemTypeEnum())($this->contextData->getItemType())) {
             // ButtonsXXX komponenty jsou typu InheritData - dědí ItemViewModel
             case ItemTypeEnum::MULTILEVEL:
-                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
-                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuAddMultilevelComponent($this->configuration), ButtonsMenuAddMultilevelRenderer::class);
-                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+                $buttonComponents[] = $this->createItemManipulationButtons();
+                $buttonComponents[] = $this->createAddOrPasteMultilevelButtons($pasteMode);
+                $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
                 break;
             case ItemTypeEnum::ONELEVEL:
-                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
-                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuAddOnelevelComponent($this->configuration), ButtonsMenuAddOnelevelRenderer::class);
-                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+                $buttonComponents[] = $this->createItemManipulationButtons();
+                $buttonComponents[] = $this->createAddOrPasteOnelevelButtons($pasteMode);
+                $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
                 break;
             case ItemTypeEnum::TRASH:
-                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
-                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuDeleteComponent($this->configuration), ButtonsMenuDeleteRenderer::class);
+                $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
+                $buttonComponents[] = $this->createDeleteButtons();
                 break;
             default:
                 throw new LogicException("Nerozpoznán typ položek menu (hodnota vrácená metodou viewModel->getItemType())");
@@ -214,6 +222,38 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         }
         $itemButtons->appendComponentViewCollection($buttonComponents);
         return $itemButtons;
+    }
+
+    private function createItemManipulationButtons() {
+        return $this->setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
+    }
+
+    private function createDeleteButtons() {
+        return $this->setRenderingByAccess(new ButtonsMenuDeleteComponent($this->configuration), ButtonsMenuDeleteRenderer::class);
+    }
+
+    private function createCutCopyButtons($pasteMode) {
+        if ($pasteMode) {
+            return $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyEscapeRenderer::class);
+        } else {
+            return $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+        }
+    }
+
+    private function createAddOrPasteOnelevelButtons($pasteMode) {
+        if ($pasteMode) {
+            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteOnelevelRenderer::class);
+        } else {
+            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddOnelevelRenderer::class);
+        }
+    }
+
+    private function createAddOrPasteMultilevelButtons($pasteMode) {
+        if ($pasteMode) {
+            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteMultilevelRenderer::class);
+        } else {
+            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddMultilevelRenderer::class);
+        }
     }
 
     private function setRenderingByAccess(ViewInterface $component, $rendererName) {

@@ -44,7 +44,10 @@ use Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
 use Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
 use Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
 use Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuPasteMultilevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuPasteOnelevelRenderer;
 use Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
 use Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
@@ -104,8 +107,17 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ButtonsMenuAddOnelevelRenderer::class => function(ContainerInterface $c) {
             return new ButtonsMenuAddOnelevelRenderer($c->get('menu.itembuttons.classmap'));
         },
+        ButtonsMenuPasteMultilevelRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuPasteMultilevelRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuPasteOnelevelRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuPasteOnelevelRenderer($c->get('menu.itembuttons.classmap'));
+        },
         ButtonsMenuCutCopyRenderer::class => function(ContainerInterface $c) {
             return new ButtonsMenuCutCopyRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuCutCopyEscapeRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuCutCopyEscapeRenderer($c->get('menu.itembuttons.classmap'));
         },
         ButtonsMenuDeleteRenderer::class => function(ContainerInterface $c) {
             return new ButtonsMenuDeleteRenderer($c->get('menu.itembuttons.classmap'));

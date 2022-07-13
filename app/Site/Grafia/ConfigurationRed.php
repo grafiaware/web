@@ -151,8 +151,8 @@ class ConfigurationRed extends ConfigurationDb {
             // linkEditorCss links
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
             'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
-            'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
-
+            'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",
+            'urlMediaCss' => self::RED_LINKS_COMMON."css/media.css",
             // home page
             'home_page' => ['block', 'home'],
 //           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test

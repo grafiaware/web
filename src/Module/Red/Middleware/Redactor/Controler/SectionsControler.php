@@ -37,47 +37,54 @@ use Pes\Text\Message;
  */
 class SectionsControler extends FrontControlerAbstract {
 
-    private $paperContentRepo;
+    const SECTION_CONTENT = 'section_content';
+
+    private $paperSectionRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            PaperSectionRepo $paperContentRepo) {
+            PaperSectionRepo $paperSectionRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->paperContentRepo = $paperContentRepo;
+        $this->paperSectionRepo = $paperSectionRepo;
     }
 
     /**
      *
      * @param ServerRequestInterface $request
-     * @param string $paperId
-     * @param string $contentId
+     * @param string $sectionId
      * @return type
      */
-    public function update(ServerRequestInterface $request, $paperId, $contentId): ResponseInterface {
-        $content = $this->paperContentRepo->get($contentId);
-        $postContent = (new RequestParams())->getParam($request, 'content_'.$contentId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
-        $content->setContent($postContent);
-        $this->addFlashMessage('Section updated', FlashSeverityEnum::SUCCESS);
+    public function update(ServerRequestInterface $request, $sectionId): ResponseInterface {
+        /** @var PaperSectionInterface $section */
+        $section = $this->paperSectionRepo->get($sectionId);
+        if (!isset($section)) {
+            user_error("Neexistuje sekce se zadaným id.$sectionId");
+        } else {
+            $namePrefix = self::SECTION_CONTENT.$sectionId;
+            $sectionPost = $this->paramValue($request, $namePrefix);
+            $section->setContent($sectionPost);
+            $this->addFlashMessage('Section updated', FlashSeverityEnum::SUCCESS);
+        }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function toggle(ServerRequestInterface $request, $paperId, $contentId) {
-        $content = $this->paperContentRepo->get($contentId);
-        $active = $content->getActive() ? 0 : 1;  //active je integer
-        $content->setActive($active);
+    public function toggle(ServerRequestInterface $request, $sectionId) {
+        $section = $this->paperSectionRepo->get($sectionId);
+        $active = $section->getActive() ? 0 : 1;  //active je integer
+        $section->setActive($active);
         $this->addFlashMessage("Section toggle(".($active?'true':'false').")", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function actual(ServerRequestInterface $request, $paperId, $contentId) {
-        $content = $this->paperContentRepo->get($contentId);
+    public function actual(ServerRequestInterface $request, $sectionId) {
+        $content = $this->paperSectionRepo->get($sectionId);
         $button = (new RequestParams())->getParam($request, 'button');
         switch ($button) {
             case 'calendar':
-                $showTime = $this->timeFromParam($request, "show_$contentId");
-                $hideTime = $this->timeFromParam($request, "hide_$contentId");
+                $showTime = $this->timeFromParam($request, "show_$sectionId");
+                $hideTime = $this->timeFromParam($request, "hide_$sectionId");
 
                 $error = false;
                 if (isset($showTime) AND isset($hideTime) AND $showTime > $hideTime) {
@@ -105,13 +112,13 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function event(ServerRequestInterface $request, $paperId, $contentId) {
-        $content = $this->paperContentRepo->get($contentId);
+    public function event(ServerRequestInterface $request, $sectionId) {
+        $content = $this->paperSectionRepo->get($sectionId);
         $button = (new RequestParams())->getParam($request, 'button');
         switch ($button) {
             case 'calendar':
-                $eventStartTime = $this->timeFromParam($request, "start_$contentId");
-                $eventEndTime = $this->timeFromParam($request, "end_$contentId");
+                $eventStartTime = $this->timeFromParam($request, "start_$sectionId");
+                $eventEndTime = $this->timeFromParam($request, "end_$sectionId");
 
                 $error = false;
                 if (isset($eventStartTime) AND isset($eventEndTime) AND $eventStartTime > $eventEndTime) {
@@ -150,86 +157,98 @@ class SectionsControler extends FrontControlerAbstract {
         return $dateTime ? $dateTime : null;
 
     }
-    public function up(ServerRequestInterface $request, $paperId, $contentId) {
-        $contents = $this->paperContentRepo->findByReference($paperId);
-        $content = $this->paperContentRepo->get($contentId);
-        $selectedContentPriority = $content->getPriority();
+    public function up(ServerRequestInterface $request, $sectionId) {
+        /** @var PaperSectionInterface $section */
+        $section = $this->paperSectionRepo->get($sectionId);
+        $sections = $this->paperSectionRepo->findByReference($section->getPaperIdFk());
+        $selectedSectionPriority = $section->getPriority();
         $shifted = false;
-        foreach ($contents as $contentItem) {
-            /** @var PaperSectionInterface $contentItem */
-            if ($contentItem->getPriority() == $selectedContentPriority+1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
-                $contentItem->setPriority($selectedContentPriority);
-                $content->setPriority($selectedContentPriority+1);
+        foreach ($sections as $sectionsItem) {
+            /** @var PaperSectionInterface $sectionsItem */
+            if ($sectionsItem->getPriority() == $selectedSectionPriority+1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
+                $sectionsItem->setPriority($selectedSectionPriority);
+                $section->setPriority($selectedSectionPriority+1);
                 $shifted = true;
             }
         }
         if ($shifted) {
-                $this->addFlashMessage("Section up - priorita změněna $selectedContentPriority -> ".($selectedContentPriority+1), FlashSeverityEnum::SUCCESS);
+                $this->addFlashMessage("Section up - priorita změněna $selectedSectionPriority -> ".($selectedSectionPriority+1), FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function down(ServerRequestInterface $request, $paperId, $contentId) {
-        $contents = $this->paperContentRepo->findByReference($paperId);
-        $content = $this->paperContentRepo->get($contentId);
-        $selectedContentPriority = $content->getPriority();
+    public function down(ServerRequestInterface $request, $sectionId) {
+        /** @var PaperSectionInterface $section */
+        $section = $this->paperSectionRepo->get($sectionId);
+        $sections = $this->paperSectionRepo->findByReference($section->getPaperIdFk());
+        $selectedSectionPriority = $section->getPriority();
         $shifted = false;
-        foreach ($contents as $contentItem) {
-            /** @var PaperSectionInterface $contentItem */
-            if ($contentItem->getPriority() == $selectedContentPriority-1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
-                $contentItem->setPriority($selectedContentPriority);
-                $content->setPriority($selectedContentPriority-1);
+        foreach ($sections as $sectionsItem) {
+            /** @var PaperSectionInterface $sectionsItem */
+            if ($sectionsItem->getPriority() == $selectedSectionPriority-1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
+                $sectionsItem->setPriority($selectedSectionPriority);
+                $section->setPriority($selectedSectionPriority-1);
                 $shifted = true;
             }
         }
         if ($shifted) {
-            $this->addFlashMessage("Section down - priorita změněna $selectedContentPriority -> ".($selectedContentPriority-1), FlashSeverityEnum::SUCCESS);
+            $this->addFlashMessage("Section down - priorita změněna $selectedSectionPriority -> ".($selectedSectionPriority-1), FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    /**
+     * Metoda přidí novou, první sekci. POZOR! Jako parametr má id paper.
+     * @param ServerRequestInterface $request
+     * @param type $paperId
+     * @return type
+     */
     public function add(ServerRequestInterface $request, $paperId) {
         $priority = 1;
         // pro případ volání add i v situaci, kdy již existuje obsah
-        $contents = $this->paperContentRepo->findByReference($paperId);
-        foreach ($contents as $contentItem) {
-            /** @var PaperSectionInterface $contentItem */
-            $contentItem->setPriority($contentItem->getPriority()+1);
+        $sections = $this->paperSectionRepo->findByReference($paperId);
+        foreach ($sections as $sectionsItem) {
+            /** @var PaperSectionInterface $sectionsItem */
+            $sectionsItem->setPriority($sectionsItem->getPriority()+1);
         }
-        $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
+        $this->paperSectionRepo->add($this->createNewContent($paperId, $priority));
         $this->addFlashMessage("Section add - Nová sekce, priorita $priority", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function addAbove(ServerRequestInterface $request, $paperId, $contentId) {
-        $contents = $this->paperContentRepo->findByReference($paperId);
-        $content = $this->paperContentRepo->get($contentId);
-        $priority = $content->getPriority();
-        foreach ($contents as $contentItem) {
-            /** @var PaperSectionInterface $contentItem */
-            $itemPriority = $contentItem->getPriority();
+    public function addAbove(ServerRequestInterface $request, $contentId) {
+        /** @var PaperSectionInterface $section */
+        $section = $this->paperSectionRepo->get($contentId);
+        $paperId = $section->getPaperIdFk();
+        $sections = $this->paperSectionRepo->findByReference($paperId);
+        $priority = $section->getPriority();
+        foreach ($sections as $sectionsItem) {
+            /** @var PaperSectionInterface $sectionsItem */
+            $itemPriority = $sectionsItem->getPriority();
             if ($itemPriority>$priority) {  // obsahy s vyšší prioritou - zvětším jim prioritu o 1 - vznikne díra pro nový content
-                $contentItem->setPriority($itemPriority+1);
+                $sectionsItem->setPriority($itemPriority+1);
             }
         }
-        $this->paperContentRepo->add($this->createNewContent($paperId, $priority+1));
-        $this->addFlashMessage("Section addAbove - priorita $priority", FlashSeverityEnum::SUCCESS);
+        $this->paperSectionRepo->add($this->createNewContent($paperId, $priority+1));
+        $this->addFlashMessage("Section addAbove - priorita $priority+1", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function addBelow(ServerRequestInterface $request, $paperId, $contentId) {
-        $contents = $this->paperContentRepo->findByReference($paperId);
-        $content = $this->paperContentRepo->get($contentId);
-        $priority = $content->getPriority();
-        foreach ($contents as $contentItem) {
-            /** @var PaperSectionInterface $contentItem */
-            $itemPriority = $contentItem->getPriority();
+    public function addBelow(ServerRequestInterface $request, $sectionId) {
+        /** @var PaperSectionInterface $section */
+        $section = $this->paperSectionRepo->get($sectionId);
+        $paperId = $section->getPaperIdFk();
+        $sections = $this->paperSectionRepo->findByReference($paperId);
+        $priority = $section->getPriority();
+        foreach ($sections as $sectionsItem) {
+            /** @var PaperSectionInterface $sectionsItem */
+            $itemPriority = $sectionsItem->getPriority();
             if ($itemPriority >= $priority) {  // obsahy s vyšší nebo rovnou prioritou - zvětším jim prioritu o 1 - vznikne díra pro nový content
-                $contentItem->setPriority($itemPriority+1);
+                $sectionsItem->setPriority($itemPriority+1);
             }
         }
-        $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
-        $this->addFlashMessage("Section addBelow - priorita $priority", FlashSeverityEnum::SUCCESS);
+        $this->paperSectionRepo->add($this->createNewContent($paperId, $priority));
+        $this->addFlashMessage("Section addBelow - priorita $priority-1", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -241,17 +260,19 @@ class SectionsControler extends FrontControlerAbstract {
         return $newContent;
     }
 
-    public function trash(ServerRequestInterface $request, $paperId, $contentId) {
-        $contents = $this->paperContentRepo->findByReference($paperId);
-        $content = $this->paperContentRepo->get($contentId);
-        $priority = $content->getPriority();
-        $content->setPriority(0);   // "koš" - s prioritou 0 může být více contentů
-        $content->setActive(0);
-        foreach ($contents as $contentItem) {
-            /** @var PaperSectionInterface $contentItem */
-            $itemPriority = $contentItem->getPriority();
+    public function trash(ServerRequestInterface $request, $sectionId) {
+        /** @var PaperSectionInterface $section */
+        $section = $this->paperSectionRepo->get($sectionId);
+        $paperId = $section->getPaperIdFk();
+        $sections = $this->paperSectionRepo->findByReference($paperId);
+        $priority = $section->getPriority();
+        $section->setPriority(0);   // "koš" - s prioritou 0 může být více contentů
+        $section->setActive(0);
+        foreach ($sections as $sectionsItem) {
+            /** @var PaperSectionInterface $sectionsItem */
+            $itemPriority = $sectionsItem->getPriority();
             if ($itemPriority>$priority) {  // obsahy s vyšší prioritou - zmenším jim prioritu o 1 - zavřu díru po odloženém do "koše"
-                $contentItem->setPriority($itemPriority-1);
+                $sectionsItem->setPriority($itemPriority-1);
             }
         }
         $this->addFlashMessage("Section trash - sekce odložena do koše pro Paper.", FlashSeverityEnum::SUCCESS);
@@ -259,25 +280,26 @@ class SectionsControler extends FrontControlerAbstract {
 
     }
 
-    public function restore(ServerRequestInterface $request, $paperId, $contentId) {
-        $contents = $this->paperContentRepo->findByReference($paperId);
-        $content = $this->paperContentRepo->get($contentId);
-        $priority = $content->getPriority();
-        foreach ($contents as $contentItem) {
+    public function restore(ServerRequestInterface $request, $sectionId) {
+        /** @var PaperSectionInterface $section */
+        $section = $this->paperSectionRepo->get($sectionId);
+        $paperId = $section->getPaperIdFk();
+        $sections = $this->paperSectionRepo->findByReference($paperId);
+        foreach ($sections as $contentItem) {
             /** @var PaperSectionInterface $contentItem */
             $itemPriority = $contentItem->getPriority();
             if ($itemPriority != 0) {  // mimo obsahů v "koši"
                 $contentItem->setPriority($itemPriority+1); // uvolním pozici s prioritou 1
             }
         }
-        $content->setPriority(1);   // z "koše" - obnoveno s prioritou 1, zůstává neaktivní
+        $section->setPriority(1);   // z "koše" - obnoveno s prioritou 1, zůstává neaktivní
         $this->addFlashMessage("Section restore - obnovena sekce z koše.", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function delete(ServerRequestInterface $request, $paperId, $contentId) {
-        $content = $this->paperContentRepo->get($contentId);
-        $this->paperContentRepo->remove($content);
+    public function delete(ServerRequestInterface $request, $sectiontId) {
+        $section = $this->paperSectionRepo->get($sectiontId);
+        $this->paperSectionRepo->remove($section);
         $this->addFlashMessage("Section delete - smazána sekce.", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

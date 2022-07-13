@@ -331,51 +331,6 @@ class ConfigurationStyles extends ConfigurationRed {
                 );
             },
 
-//            'block.classmap' => function() {
-//                return new ClassMap (
-//                    [
-//                     'Headline' => [
-//                        'div'=>'',
-//                        'headline'=>'',
-//                        ],
-//                     'Perex' => [
-//                        'perex'=>'',
-//                        ],
-//                    'Content' => [
-//                        'content'=>''
-//                        ],
-//                    ]
-//                );
-//            },
-//            'block.editable.classmap' => function() {
-//                return new ClassMap (
-//                    [
-//                     'Headline' => [
-//                        'section'=>'',
-//                        'headline.edit-text'=>'borderDance edit-text',
-//                        ],
-//                    'Perex' => [
-//                        'section'=>'',
-//                        'perex.edit-html'=>'borderDance edit-html',
-//                        ],
-//                    'Content' => [
-//                        'section'=>'',
-//                        'div.semafor'=>'semafor',
-//                        'section.trash'=>'trash',
-//                        'div.ribbon'=>'ui right tiny corner blue label cornerWithTools',
-//                        'i1.published' => 'circle icon green',
-//                        'i1.notpublished' => 'circle icon red',
-//                        'i.trash' => 'trash icon purple',
-//                        'content'=>'borderDance',
-//                        'div.trash_content'=>'trash_content'
-//                        ],
-//                    'PaperTemplateButtons' => self::rendererDefaults()['paper_template_edit_buttons'],
-//                    'PaperButtons' => self::rendererDefaults()['paper_edit_buttons'],
-//                    'ContentButtons' => self::rendererDefaults()['content_edit_buttons'],
-//                    'TrashButtons' => self::rendererDefaults()['deleted_content_buttons'],
-//                    ]
-//                );
-//            },
         ###########################
         # generated classmap
         ###########################

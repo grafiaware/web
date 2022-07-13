@@ -62,7 +62,6 @@ class MultipageControler extends AuthoredControlerAbstract {
         if (!isset($multipage)) {
             user_error("Neexistuje multipage se zadaným id $multipageId");
         } else {
-            $postTemplateName = (new RequestParams())->getParam($request, self::MULTIPAGE_TEMPLATE_NAME.$multipageId, '');
             $statusPresentation = $this->statusPresentationRepo->get();
             $lastTemplateName = $statusPresentation->getLastTemplateName() ?? '';
             $statusPresentation->setLastTemplateName('');

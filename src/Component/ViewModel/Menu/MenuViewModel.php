@@ -98,6 +98,10 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         return $this->itemType;
     }
 
+    public function getPostCommand($key) {
+        return $this->status->getFlashPostCommand($key);
+    }
+
     /**
      * {@inheritdoc}
      *

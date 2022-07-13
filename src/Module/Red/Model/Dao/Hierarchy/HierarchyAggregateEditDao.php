@@ -10,6 +10,8 @@ use Model\Builder\SqlInterface;
 
 use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
+use Pes\Text\FriendlyUrl;
+
 /**
  * Třída pro editaci nested set hierarchie.
  *
@@ -19,6 +21,10 @@ use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggregateEditDaoInterface {
 
     protected $hookedActor;
+
+    protected $nestedSetTableName;
+
+    private $itemTableName;
 
     /**
      *
@@ -35,6 +41,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
     public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
         parent::__construct($handler, $sql, $fetchClassName);
         $this->nestedSetTableName = $this->getTableName();
+        $this->itemTableName = $this->getItemTableName();
         $this->contextFactory = $contextFactory;
     }
 
@@ -48,6 +55,10 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
 
     public function getTableName(): string {
         return 'hierarchy';
+    }
+
+    private function getItemTableName(): string {
+        return 'menu_item';
     }
 
     /**
@@ -93,6 +104,35 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
         return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
     }
 
+
+    /**
+     * Vrací řádek s položkami: depth, uid, left_node, right_node, parent_uid
+     * @param type $uid
+     * @return array|null
+     */
+    public function getParentNode($uid) {
+        $sql =
+            "SELECT
+                (COUNT(grand_parent.uid) - 1) AS depth,
+                parent.uid, parent.left_node, parent.right_node, parent.parent_uid
+                FROM
+                $this->nestedSetTableName AS node
+                CROSS JOIN
+                $this->nestedSetTableName AS parent
+                ON parent.left_node<node.left_node AND parent.right_node>node.right_node
+                CROSS JOIN
+                $this->nestedSetTableName AS grand_parent ON parent.left_node BETWEEN grand_parent.left_node AND grand_parent.right_node
+                WHERE node.uid = :uid
+                GROUP BY parent.uid
+                ORDER BY parent.left_node DESC
+            LIMIT 1"
+                ;
+        $stmt = $this->getPreparedStatement($sql);
+        $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
+    }
+
 #### editační metody ########################################################
 
     /**
@@ -126,7 +166,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $uid = $this->getNewUidWithinTransaction($dbhTransact);
+            $uid = $this->createNewUidWithinTransaction($dbhTransact);
 
             /*** insert the new node ***/
             $stmt = $this->getPreparedStatement(
@@ -161,7 +201,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
      * @return type
      * @throws \LogicException Tuto metodu lze volat pouze v průběhu spuštěné databázové transakce.
      */
-    private function getNewUidWithinTransaction(HandlerInterface $dbhTransact) {
+    private function createNewUidWithinTransaction(HandlerInterface $dbhTransact) {
         if ($dbhTransact->inTransaction()) {
             do {
                 $uid = uniqid();
@@ -170,8 +210,8 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                         FROM $this->nestedSetTableName
                         WHERE uid = :uid LOCK IN SHARE MODE");   //nelze použít LOCK TABLES - to commitne aktuální transakci!
                 $stmt->bindParam(':uid', $uid);
-                $stmt->execute();
-            } while ($stmt->rowCount());
+                $stmt->execute();   // vrací uid pokud již v tabulce existuje
+            } while ($stmt->rowCount());    // pokud bylo uid nalezeno, vykoná další cyklus
             return $uid;
         } else {
             throw new \LogicException('Tuto metodu lze volat pouze v průběhu spuštěné databázové transakce.');
@@ -203,7 +243,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     "UPDATE $this->nestedSetTableName
                     SET left_node = left_node + 2
                     WHERE left_node > @myLeft");
-            $uid = $this->getNewUidWithinTransaction($dbhTransact);
+            $uid = $this->createNewUidWithinTransaction($dbhTransact);
             $stmt = $this->getPreparedStatement(
                     "INSERT INTO $this->nestedSetTableName(uid, left_node, right_node, parent_uid) VALUES(:uid, @myLeft + 1, @myLeft + 2, :parent_uid)");
             $stmt->bindParam(':uid', $uid);
@@ -244,7 +284,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     "UPDATE $this->nestedSetTableName
                     SET left_node = left_node + 2
                     WHERE left_node > @myRight");
-            $uid = $this->getNewUidWithinTransaction($dbhTransact);
+            $uid = $this->createNewUidWithinTransaction($dbhTransact);
             $stmt = $this->getPreparedStatement(
                     "INSERT INTO $this->nestedSetTableName(uid, left_node, right_node, parent_uid) VALUES(:uid, @myRight, @myRight + 1, :parent_uid)");
             $stmt->bindParam(':uid', $uid);
@@ -289,7 +329,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     SET left_node = left_node + 2
                     WHERE left_node > @myRight");
             /*** insert the new node ***/
-            $uid = $this->getNewUidWithinTransaction($dbhTransact);
+            $uid = $this->createNewUidWithinTransaction($dbhTransact);
             $stmt = $this->getPreparedStatement(
                     "INSERT INTO $this->nestedSetTableName(uid, left_node, right_node, parent_uid) VALUES (:uid, @myRight + 1, @myRight + 2, @parentUid)");  // přidá doprava za zadaný uzel - t.j. bezprostředně pod vybranou položku při svislém zobrazení
             $stmt->bindParam(':uid', $uid);
@@ -498,6 +538,177 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
         } catch(Exception $e) {
             $dbhTransact->rollBack();
             throw new Exception($e);
+        }
+    }
+
+    /**
+     * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako dítě cílového uzlu.
+     *
+     * @param string $sourceUid uid zdrojového uzlu
+     * @param string $targetUid uid cílového uzlu
+     * @throws Exception
+     */
+    public function copySubTreeAsChild($sourceUid, $targetUid): void {
+        $dbhTransact = $this->dbHandler;
+        try {
+            // parametry
+            $dbhTransact->beginTransaction();
+
+            $stmt = $this->getPreparedStatement("SET @sourceId := :source_uid");
+            $stmt->bindParam(':source_uid', $sourceUid);
+            $stmt->execute();
+            $stmt = $this->getPreparedStatement("SET @targetId := :target_uid");
+            $stmt->bindParam(':target_uid', $targetUid);
+            $stmt->execute();
+
+            // data zdrojového uzlu
+            $dbhTransact->exec("SELECT left_node, right_node, right_node-left_node+1 INTO @source_left_node, @source_right_node, @source_width
+                FROM $this->nestedSetTableName WHERE uid = @sourceId");
+
+            // data cílového uzlu
+            $dbhTransact->exec("SELECT left_node INTO @target_left_node
+                FROM $this->nestedSetTableName WHERE uid = @targetId");
+
+            // cílová data ze zdrojových dat (před vytvořením cílového prostoru - přídáním cílového prostoru se mohou zdrojová data posunout doprava)
+            $stmt = $this->getPreparedStatement("
+                    SELECT uid, left_node - (@source_left_node - @target_left_node - 1) AS left_node, right_node - (@source_left_node - @target_left_node - 1) AS right_node
+                    FROM $this->nestedSetTableName WHERE left_node BETWEEN @source_left_node AND @source_right_node
+                ");
+            $stmt->execute();
+            $targetData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            // vytvoř cílový volný prostor
+            $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node >= @target_left_node");
+            $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_left_node");
+
+            // kopíruj obsahy
+            $this->copySourceContentIntoTarget($dbhTransact, $targetData);
+
+            $dbhTransact->commit();
+        } catch(Exception $e) {
+            $dbhTransact->rollBack();
+            throw new Exception($e);
+        }
+    }
+
+    /**
+     * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu.
+     *
+     * @param type $sourceUid
+     * @param type $targetUid
+     * @return void
+     * @throws Exception
+     */
+    public function copySubTreeAsSiebling($sourceUid, $targetUid): void {
+        $dbhTransact = $this->dbHandler;
+        try {
+            // parametry
+            $dbhTransact->beginTransaction();
+
+            $stmt = $this->getPreparedStatement("SET @sourceId := :source_uid");
+            $stmt->bindParam(':source_uid', $sourceUid);
+            $stmt->execute();
+            $stmt = $this->getPreparedStatement("SET @targetId := :target_uid");
+            $stmt->bindParam(':target_uid', $targetUid);
+            $stmt->execute();
+
+            // data zdrojového uzlu
+            $dbhTransact->exec("SELECT left_node, right_node, right_node-left_node+1 INTO @source_left_node, @source_right_node, @source_width
+                FROM $this->nestedSetTableName WHERE uid = @sourceId");
+
+            // data cílového uzlu
+            $dbhTransact->exec("SELECT right_node INTO @target_right_node
+                FROM $this->nestedSetTableName WHERE uid = @targetId");
+
+            // cílová data ze zdrojových dat (před vytvořením cílového prostoru - přídáním cílového prostoru se mohou zdrojová data posunout doprava)
+            $stmt = $this->getPreparedStatement("
+                    SELECT uid, left_node - (@source_left_node - @target_right_node - 1) AS left_node, right_node - (@source_left_node - @target_right_node - 1) AS right_node
+                    FROM $this->nestedSetTableName WHERE left_node BETWEEN @source_left_node AND @source_right_node
+                ");
+            $stmt->execute();
+            $targetData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            // vytvoř cílový volný prostor
+            $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node > @target_right_node");
+            $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_right_node");
+
+            // kopíruj obsahy
+            $this->copySourceContentIntoTarget($dbhTransact, $targetData);
+
+            $dbhTransact->commit();
+        } catch(Exception $e) {
+            $dbhTransact->rollBack();
+            throw new Exception($e);
+        }
+    }
+
+
+    private function copySourceContentIntoTarget($dbhTransact, $targetData) {
+        $preparedInsertToTarget = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
+        $preparedSelectSourceItem = $this->getPreparedStatement("
+                SELECT lang_code_fk, type_fk, id, `list`, `order`, title, prettyuri, active, auto_generated
+                    FROM
+                    $this->itemTableName
+                    WHERE
+                    $this->itemTableName.uid_fk=:source_uid
+            ");
+        $preparedInsertTargetItem = $this->getPreparedStatement("
+                INSERT INTO menu_item (lang_code_fk, uid_fk, type_fk, `list`, `order`, title, prettyuri, active, auto_generated)
+                VALUES (:lang_code_fk, :uid_fk, :type_fk, :list, :order, :title, :prettyuri, :active, :auto_generated)
+            ");
+
+        $preparedCopyArticle = $this->getPreparedStatement("
+                INSERT INTO article (menu_item_id_fk, article, template, editor, updated)
+                    SELECT :new_menu_item_id, article, template, editor, updated
+                    FROM
+                    article
+                    WHERE
+                    article.menu_item_id_fk=:source_menu_item_id
+            ");
+        $preparedCopyPaper = $this->getPreparedStatement("
+                INSERT INTO paper (menu_item_id_fk, headline, perex, template, keywords, editor, updated)
+                    SELECT :new_menu_item_id, headline, perex, template, keywords, editor, updated
+                    FROM
+                    paper
+                    WHERE
+                    paper.menu_item_id_fk=:source_menu_item_id
+            ");
+        $preparedCopyMultipage = $this->getPreparedStatement("
+                INSERT INTO multipage (menu_item_id_fk, template, editor, updated)
+                    SELECT :new_menu_item_id, template, editor, updated
+                    FROM
+                    multipage
+                    WHERE
+                    multipage.menu_item_id_fk=:source_menu_item_id
+            ");
+        foreach ($targetData as $targetRow) {
+            $sourceUid = $targetRow['uid'];
+            $targetUid = $this->createNewUidWithinTransaction($dbhTransact);
+            $targetRow['uid'] = $targetUid;
+            $this->bindParams($preparedInsertToTarget, $targetRow);
+            $success = $preparedInsertToTarget->execute();
+            $this->bindParams($preparedSelectSourceItem, ['source_uid'=>$sourceUid]);
+            $preparedSelectSourceItem->execute();
+            $sourceItems = $preparedSelectSourceItem->fetchAll(\PDO::FETCH_ASSOC);  // item pro všechny jazykové verze
+            foreach ($sourceItems as $sourceItem) {
+                // tabulka menu_item: unique key a) kombinace lang_code a uid, b) prettyUri
+                // při volání metody dao get c parametrem check duplicities vzniká chyba při duplicitě lang_code a list
+                // -> uid - nový uid, list - prázdný (jinak by vznikly duplicity při vývěru podle jazyka a listu)
+                // prettyUri - složit s novým uid
+                $this->bindParams($preparedInsertTargetItem, [
+                    'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 'type_fk'=>$sourceItem['type_fk'],
+                    'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
+                    'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title']),
+                    'active'=>$sourceItem['active'], 'auto_generated'=>$sourceItem['auto_generated']]);
+                $preparedInsertTargetItem->execute();
+                $lastMenuItemId = $dbhTransact->lastInsertId();
+                $this->bindParams($preparedCopyArticle, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $articleCount = $preparedCopyArticle->execute();
+                $this->bindParams($preparedCopyPaper, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $paperCount = $preparedCopyPaper->execute();
+                $this->bindParams($preparedCopyMultipage, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $multipageCount = $preparedCopyMultipage->execute();
+            }
         }
     }
 

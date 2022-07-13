@@ -32,14 +32,14 @@ use Component\View\Content\Authored\AuthoredComponentInterface;
 use Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
 use Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
 
-use Service\TemplateService\Exception\TemplateServiceExceptionInterface;
+use Red\Service\TemplateService\Exception\TemplateServiceExceptionInterface;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
-use Service\TemplateService\TemplateSeekerInterface;
+use Red\Service\TemplateService\TemplateSeekerInterface;
 use Red\Model\Enum\AuthoredTemplateTypeEnum;
 
 use Pes\Text\Message;

@@ -27,10 +27,10 @@ interface EventLinkRepoInterface extends RepoInterface  {
     public function findAll() :array ;
 
 
-    public function add(EventLinkInterface $eventContentType);
+    public function add(EventLinkInterface $eventLink);
 
 
-    public function remove(EventLinkInterface $eventContent) ;
 
+    public function remove(EventLinkInterface $eventLink) ;
 
 }
