@@ -65,10 +65,10 @@ class ArticleControler extends AuthoredControlerAbstract {
             user_error("Neexistuje article se zadaným id $articleId");
         } else {
             $namePrefix = self::ARTICLE_CONTENT.$articleId;
-            $$article = $this->paramValue($request, $namePrefix);
+            $articlePost = $this->paramValue($request, $namePrefix);
             $statusPresentation = $this->statusPresentationRepo->get();
             $statusPresentation->setLastTemplateName('');
-            $article->setContent($article);
+            $article->setContent($articlePost);
             $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

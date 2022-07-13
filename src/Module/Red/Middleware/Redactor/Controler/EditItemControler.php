@@ -127,7 +127,7 @@ class EditItemControler extends FrontControlerAbstract {
         /** @var MenuItemInterface $langMenuItem */
         $isEmpty = true;
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
-            if ($langMenuItem->getTypeFk() != ContentGeneratorRegistryInterface::EMPTY_MENU_ITEM_TYPE) {
+            if ($langMenuItem->getTypeFk()) {
                 $isEmpty = false;
                 user_error("Pokus o nastavení typu položce menu, která již má typ. Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' je typu {$langMenuItem->getTypeFk()}.");
             }

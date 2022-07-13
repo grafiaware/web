@@ -9,6 +9,8 @@
 namespace Red\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\TypeHydratorAbstract;
+
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
@@ -19,7 +21,7 @@ use Red\Model\Entity\PaperInterface;
  *
  * @author pes2704
  */
-class PaperHydrator implements HydratorInterface {
+class PaperHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
@@ -29,14 +31,14 @@ class PaperHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $paper, RowDataInterface $rowData) {
         /** @var PaperInterface $paper */
         $paper
-            ->setId($rowData->offsetGet('id'))
-            ->setMenuItemIdFk($rowData->offsetGet('menu_item_id_fk'))
-            ->setHeadline($rowData->offsetGet('headline'))
-            ->setPerex($rowData->offsetGet('perex'))
-            ->setTemplate($rowData->offsetGet('template'))
-            ->setKeywords($rowData->offsetGet('keywords'))
-            ->setEditor($rowData->offsetGet('editor'))
-            ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL);
+            ->setId($this->getPhpValue($rowData,'id'))
+            ->setMenuItemIdFk($this->getPhpValue($rowData,'menu_item_id_fk'))
+            ->setHeadline($this->getPhpValue($rowData,'headline'))
+            ->setPerex($this->getPhpValue($rowData,'perex'))
+            ->setTemplate($this->getPhpValue($rowData,'template'))
+            ->setKeywords($this->getPhpValue($rowData,'keywords'))
+            ->setEditor($this->getPhpValue($rowData,'editor'))
+            ->setUpdated($this->getPhpDatetime($rowData,'updated'));
     }
 
     /**
@@ -46,13 +48,13 @@ class PaperHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $paper, RowDataInterface $rowData) {
         /** @var PaperInterface $paper */
-        $rowData->offsetSet('id',  $paper->getId()); // id je autoincrement - readonly, hodnota pro where
-        $rowData->offsetSet('menu_item_id_fk',  $paper->getMenuItemIdFk());
-        $rowData->offsetSet('headline',  $paper->getHeadline());
-        $rowData->offsetSet('perex',  $paper->getPerex());
-        $rowData->offsetSet('template',  $paper->getTemplate());
-        $rowData->offsetSet('keywords',  $paper->getKeywords());
-        $rowData->offsetSet('editor',  $paper->getEditor());
+        $this->setSqlValue($rowData, 'id',  $paper->getId()); // id je autoincrement - readonly, hodnota pro where
+        $this->setSqlValue($rowData, 'menu_item_id_fk',  $paper->getMenuItemIdFk());
+        $this->setSqlValue($rowData, 'headline',  $paper->getHeadline());
+        $this->setSqlValue($rowData, 'perex',  $paper->getPerex());
+        $this->setSqlValue($rowData, 'template',  $paper->getTemplate());
+        $this->setSqlValue($rowData, 'keywords',  $paper->getKeywords());
+        $this->setSqlValue($rowData, 'editor',  $paper->getEditor());
         // updated je timestamp
         // id je autoincrement - readonly
     }

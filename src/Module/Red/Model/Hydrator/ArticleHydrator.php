@@ -9,6 +9,7 @@
 namespace Red\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
@@ -20,7 +21,7 @@ use Red\Model\Entity\ArticleInterface;
  *
  * @author pes2704
  */
-class ArticleHydrator implements HydratorInterface {
+class ArticleHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
@@ -30,12 +31,12 @@ class ArticleHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $article, RowDataInterface $rowData) {
         /** @var ArticleInterface $article */
         $article
-            ->setId($rowData->offsetGet('id'))
-            ->setMenuItemIdFk($rowData->offsetGet('menu_item_id_fk'))
-            ->setContent($rowData->offsetGet('article'))
-            ->setTemplate($rowData->offsetGet('template'))
-            ->setEditor($rowData->offsetGet('editor'))
-            ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL);
+            ->setId($this->getPhpValue($rowData,'id'))
+            ->setMenuItemIdFk($this->getPhpValue($rowData,'menu_item_id_fk'))
+            ->setContent($this->getPhpValue($rowData,'article'))
+            ->setTemplate($this->getPhpValue($rowData,'template'))
+            ->setEditor($this->getPhpValue($rowData,'editor'))
+            ->setUpdated($this->getPhpDatetime($rowData,'updated'));
     }
 
     /**
@@ -45,11 +46,11 @@ class ArticleHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $article, RowDataInterface $rowData) {
         /** @var ArticleInterface $article */
-        $rowData->offsetSet('id', $article->getId()); // id je autoincrement - readonly, hodnota pro where
-        $rowData->offsetSet('menu_item_id_fk', $article->getMenuItemIdFk());
-        $rowData->offsetSet('article', $article->getContent());
-        $rowData->offsetSet('template', $article->getTemplate());
-        $rowData->offsetSet('editor', $article->getEditor());
+        $this->setSqlValue($rowData, 'id', $article->getId()); // id je autoincrement - readonly, hodnota pro where
+        $this->setSqlValue($rowData, 'menu_item_id_fk', $article->getMenuItemIdFk());
+        $this->setSqlValue($rowData, 'article', $article->getContent());
+        $this->setSqlValue($rowData, 'template', $article->getTemplate());
+        $this->setSqlValue($rowData, 'editor', $article->getEditor());
         // updated je timestamp
         // id je autoincrement - readonly
     }

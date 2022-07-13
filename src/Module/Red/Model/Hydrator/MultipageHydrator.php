@@ -9,6 +9,7 @@
 namespace Red\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
@@ -20,7 +21,7 @@ use Red\Model\Entity\MultipageInterface;
  *
  * @author pes2704
  */
-class MultipageHydrator implements HydratorInterface {
+class MultipageHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
@@ -30,11 +31,11 @@ class MultipageHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $multipage, RowDataInterface $rowData) {
         /** @var MultipageInterface $multipage */
         $multipage
-            ->setId($rowData->offsetGet('id'))
-            ->setMenuItemIdFk($rowData->offsetGet('menu_item_id_fk'))
-            ->setTemplate($rowData->offsetGet('template'))
-            ->setEditor($rowData->offsetGet('editor'))
-            ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL);
+            ->setId($this->getPhpValue($rowData,'id'))
+            ->setMenuItemIdFk($this->getPhpValue($rowData,'menu_item_id_fk'))
+            ->setTemplate($this->getPhpValue($rowData,'template'))
+            ->setEditor($this->getPhpValue($rowData,'editor'))
+            ->setUpdated($this->getPhpDatetime($rowData,'updated'));
     }
 
     /**
@@ -44,10 +45,10 @@ class MultipageHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $multipage, RowDataInterface $rowData) {
         /** @var MultipageInterface $multipage */
-        $rowData->offsetSet('id', $multipage->getId()); // id je autoincrement - readonly, hodnota pro where
-        $rowData->offsetSet('menu_item_id_fk', $multipage->getMenuItemIdFk());
-        $rowData->offsetSet('template', $multipage->getTemplate());
-        $rowData->offsetSet('editor', $multipage->getEditor());
+        $this->setSqlValue($rowData, 'id', $multipage->getId()); // id je autoincrement - readonly, hodnota pro where
+        $this->setSqlValue($rowData, 'menu_item_id_fk', $multipage->getMenuItemIdFk());
+        $this->setSqlValue($rowData, 'template', $multipage->getTemplate());
+        $this->setSqlValue($rowData, 'editor', $multipage->getEditor());
         // updated je timestamp
         // id je autoincrement - readonly
     }

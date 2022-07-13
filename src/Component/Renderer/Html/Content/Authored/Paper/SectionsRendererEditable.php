@@ -181,7 +181,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             .Html::tag('div',
                [
                'class'=> 'ikona-popis',
-               'data-tooltip'=> $active ? "actual" : "not actual",
+               'data-tooltip'=> $actual ? "actual" : "not actual",
                ],
                 Html::tag('i',
                    [
