@@ -109,16 +109,6 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         #### PaperController ####
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper', function(ServerRequestInterface $request) {
-                /** @var PaperControler $ctrl */
-                $ctrl = $this->container->get(PaperControler::class);
-                return $ctrl->create($request);
-        });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId', function(ServerRequestInterface $request, $paperId) {
-                /** @var PaperControler $ctrl */
-                $ctrl = $this->container->get(PaperControler::class);
-                return $ctrl->update($request, $paperId);
-        });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/template', function(ServerRequestInterface $request, $paperId) {
                 /** @var PaperControler $ctrl */
                 $ctrl = $this->container->get(PaperControler::class);
@@ -171,68 +161,63 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(Controler\SectionsControler::class);
                 return $ctrl->add($request, $paperId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->update($request, $paperId, $sectionId);
+                return $ctrl->update($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/toggle', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/toggle', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->toggle($request, $paperId, $sectionId);
+                return $ctrl->toggle($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/actual', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/actual', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->actual($request, $paperId, $sectionId);
+                return $ctrl->actual($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/event', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/event', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->event($request, $paperId, $sectionId);
+                return $ctrl->event($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/up', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/up', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->up($request, $paperId, $sectionId);
+                return $ctrl->up($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/down', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/down', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->down($request, $paperId, $sectionId);
+                return $ctrl->down($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/add_above', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/add_above', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->addAbove($request, $paperId, $sectionId);
+                return $ctrl->addAbove($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/add_below', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/add_below', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->addBelow($request, $paperId, $sectionId);
+                return $ctrl->addBelow($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/trash', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/trash', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->trash($request, $paperId, $sectionId);
+                return $ctrl->trash($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/restore', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/restore', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->restore($request, $paperId, $sectionId);
+                return $ctrl->restore($request, $sectionId);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:sectionId/delete', function(ServerRequestInterface $request, $paperId, $sectionId) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/delete', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->delete($request, $paperId, $sectionId);
+                return $ctrl->delete($request, $sectionId);
         });
 
         #### EditItemController ####
-        $routeGenerator->addRouteForAction('POST', '/red/v1/menu', function(ServerRequestInterface $request) {
-                /** @var EditItemControler $ctrl */
-                $ctrl = $this->container->get(EditItemControler::class);
-                return $ctrl->toggle($request, $menuItemId);
-        });
         $routeGenerator->addRouteForAction('POST', '/red/v1/menu/:menuItemUidFk/toggle', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemControler $ctrl */
                 $ctrl = $this->container->get(EditItemControler::class);

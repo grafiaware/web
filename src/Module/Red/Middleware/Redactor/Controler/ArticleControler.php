@@ -64,10 +64,11 @@ class ArticleControler extends AuthoredControlerAbstract {
         if (!isset($article)) {
             user_error("Neexistuje article se zadaným id $articleId");
         } else {
-            $postContent = (new RequestParams())->getParam($request, self::ARTICLE_CONTENT.$articleId, '');
+            $namePrefix = self::ARTICLE_CONTENT.$articleId;
+            $$article = $this->paramValue($request, $namePrefix);
             $statusPresentation = $this->statusPresentationRepo->get();
             $statusPresentation->setLastTemplateName('');
-            $article->setContent($postContent);
+            $article->setContent($article);
             $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -84,7 +85,6 @@ class ArticleControler extends AuthoredControlerAbstract {
         if (!isset($article)) {
             user_error("Neexistuje article se zadaným id $articleId");
         } else {
-            $postTemplateName = (new RequestParams())->getParam($request, self::ARTICLE_TEMPLATE_NAME.$articleId, '');
             $postTemplateContent = (new RequestParams())->getParam($request, self::ARTICLE_TEMPLATE_CONTENT.$articleId, '');
             $statusPresentation = $this->statusPresentationRepo->get();
             $lastTemplateName = $statusPresentation->getLastTemplateName() ?? '';

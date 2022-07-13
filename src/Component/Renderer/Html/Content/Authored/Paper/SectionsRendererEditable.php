@@ -13,7 +13,7 @@ use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Entity\PaperSectionInterface;
-use Red\Middleware\Redactor\Controler\PaperControler;
+use Red\Middleware\Redactor\Controler\SectionsControler;
 
 use Pes\Text\Html;
 
@@ -40,7 +40,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             foreach ($contents as $paperContent) {
                 /** @var PaperSectionInterface $paperContent */
                 if ($paperContent->getPriority() > 0) {  // není v koši
-                    $sections[] = $this->getContentForm($viewModel, $paperAggregate, $paperContent);
+                    $sections[] = $this->getContentForm($viewModel, $paperContent);
                 } else {  // je v koši
                     $sections[] = $this->getTrashContent($paperContent);
                 }
@@ -93,23 +93,23 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         return $right;
     }
 
-    private function getContentForm(PaperViewModelInterface $viewModel, PaperAggregatePaperSectionInterface $paperAggregate, PaperSectionInterface $paperContent) {
+    private function getContentForm(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
         return
-        Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
+       Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
             Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                        $this->getRibbonContent($paperContent)
+                        $this->getRibbonContent($paperSection)
                 )
             )
             .
-            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/section/{$paperContent->getId()}"],
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/section/{$paperSection->getId()}"],
                 Html::tag('content',
                     [
-                    'id' => PaperControler::SECTION_CONTENT."{$paperContent->getId()}_{$viewModel->getComponentUid()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                    'id' => SectionsControler::SECTION_CONTENT."{$paperSection->getId()}_{$viewModel->getComponentUid()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                     'class'=>$this->classMap->get('Content', 'content'),
-                    'data-owner'=>$paperContent->getEditor()
+                    'data-owner'=>$paperSection->getEditor()
                     ],
-                    $paperContent->getContent() ?? ""
+                    $paperSection->getContent() ?? ""
                 )
             )
         );
@@ -215,7 +215,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 )
             )
         )
-        .$this->getContentButtons($paperContent)
+        .$this->getSectionButtons($paperContent)
         ;
     }
 
@@ -306,12 +306,11 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         return $textDatumyUdalosti;
     }
 
-    private function getContentButtons(PaperSectionInterface $paperContent) {
+    private function getSectionButtons(PaperSectionInterface $paperSection) {
 
-        $paperIdFk = $paperContent->getPaperIdFk();
-        $paperContentId = $paperContent->getId();
-        $active = $paperContent->getActive();
-        $actual = $paperContent->getActual();
+        $sectionId = $paperSection->getId();
+        $active = $paperSection->getActive();
+        $actual = $paperSection->getActual();
 
         $btnAktivni = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
@@ -320,7 +319,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'toggle',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/toggle",
+                    'formaction'=>"red/v1/section/$sectionId/toggle",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
                 );
@@ -331,13 +330,13 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/trash",
+                    'formaction'=>"red/v1/section/$sectionId/trash",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
                 );
         $btnDatumyZobrazeni = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.showDate'),
-                    'data-tooltip'=> $this->textDatumyZobrazeni($paperContent),
+                    'data-tooltip'=> $this->textDatumyZobrazeni($paperSection),
                     'data-position'=>'top right',
                     'onclick'=>'event.preventDefault();'
                     ],
@@ -352,7 +351,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/actual",
+                    'formaction'=>"red/v1/section/$sectionId/actual",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.permanently')])
                 );
@@ -364,7 +363,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/actual",
+                    'formaction'=>"red/v1/section/$sectionId/actual",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.save')])
                 );
@@ -378,7 +377,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             );
         $btnDatumyUdalosti = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.eventDate'),
-                    'data-tooltip'=> $this->textDatumyUdalosti($paperContent),
+                    'data-tooltip'=> $this->textDatumyUdalosti($paperSection),
                     'data-position'=>'top right',
                     'onclick'=>'event.preventDefault();'
                     ],
@@ -393,7 +392,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/event",
+                    'formaction'=>"red/v1/section/$sectionId/event",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.permanently')])
                 );
@@ -405,7 +404,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/event",
+                    'formaction'=>"red/v1/section/$sectionId/event",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.save')])
                 );
@@ -424,7 +423,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/up",
+                    'formaction'=>"red/v1/section/$sectionId/up",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movecontent')])
@@ -438,21 +437,21 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/down",
+                    'formaction'=>"red/v1/section/$sectionId/down",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movecontent')])
                         .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
                     )
                 );
-        $btnPridatObsahPred =                 Html::tag('button',
+        $btnPridatObsahPred = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Přidat další obsah před',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/add_above",
+                    'formaction'=>"red/v1/section/$sectionId/add_above",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
@@ -466,7 +465,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/add_below",
+                    'formaction'=>"red/v1/section/$sectionId/add_below",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
@@ -499,8 +498,8 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.wholeRow')],
                     Html::tag('p', ['class'=>''], 'Uveřejnit obsah')
                 )
-                .$this->calendar('datum od', "show_$paperContentId", 'Klikněte pro výběr', $this->getShowTimeText($paperContent))
-                .$this->calendar('datum do', "hide_$paperContentId", 'Klikněte pro výběr', $this->getHideTimeText($paperContent))
+                .$this->calendar('datum od', "show_$sectionId", 'Klikněte pro výběr', $this->getShowTimeText($paperSection))
+                .$this->calendar('datum do', "hide_$sectionId", 'Klikněte pro výběr', $this->getHideTimeText($paperSection))
 
             )
         )
@@ -513,8 +512,8 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.wholeRow')],
                     Html::tag('p', ['class'=>''], 'Nastavit datum události')
                 )
-                .$this->calendar('datum od', "start_$paperContentId", 'Klikněte pro výběr', $this->getEventStartTimeText($paperContent))
-                .$this->calendar('datum do', "end_$paperContentId", 'Klikněte pro výběr', $this->getEventEndTimeText($paperContent))
+                .$this->calendar('datum od', "start_$sectionId", 'Klikněte pro výběr', $this->getEventStartTimeText($paperSection))
+                .$this->calendar('datum do', "end_$sectionId", 'Klikněte pro výběr', $this->getEventEndTimeText($paperSection))
 
             )
         );
@@ -546,7 +545,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/restore",
+                        'formaction'=>"red/v1/section/$paperContentId/restore",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
                     )
@@ -559,7 +558,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/delete",
+                        'formaction'=>"red/v1/section/$paperContentId/delete",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.delete')])
                     )
