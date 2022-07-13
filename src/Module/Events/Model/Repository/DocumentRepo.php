@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
@@ -16,7 +9,7 @@ use Events\Model\Entity\Document;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
 
-use Model\Repository\Exception\UnableRecreateEntityException;
+//use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu
