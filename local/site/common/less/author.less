@@ -834,7 +834,9 @@ body{
         width: @buttonyContentPageWidth;  
         right: @buttonyContentPagePositionRight;
         top: @buttonyContentPagePositionTop;
-        background-color: @buttonyContentBackgroundColor;
+        > .buttons{
+            background-color: @buttonyContentBackgroundColor;
+        }
         &.trash .editContent{
             background-color: @lastButtonContentBackgroundColor;
         }
