@@ -341,7 +341,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                                     // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
                                     'urlStylesCss' => ConfigurationCache::layoutController()['urlStylesCss'],
                                     'urlSemanticCss' => ConfigurationCache::layoutController()['urlSemanticCss'],
-                                    'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss']
+                                    'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss'],
+                                    'urlMediaCss' => ConfigurationCache::layoutController()['urlMediaCss']                                    
                         ]),
 
                         'urlTinyMCE' => ConfigurationCache::layoutController()['urlTinyMCE'],
