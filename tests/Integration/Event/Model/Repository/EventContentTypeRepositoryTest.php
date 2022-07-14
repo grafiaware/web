@@ -102,25 +102,49 @@ class EventContentTypeRepositoryTest extends AppRunner {
         $this->assertNull($eventContentType);
     }
  
+    
+    
     public function testGetAfterRemove() {
-        $eventContentType = $this->eventContentTypeRepo->get('testEvCtTypeType');
+        $eventContentType = $this->eventContentTypeRepo->get('testEventContentType');
         $this->assertNull($eventContentType);
     }
+    
+    
 
     public function testAdd() {
+        /** @var EventContentType $eventContentType */
         $eventContentType = new EventContentType();
-        $eventContentType->setType('testEvCtTypeType');
-        $eventContentType->setName('testEventContentTypeName');
+        $eventContentType->setType('testEventContentType1');
+        $eventContentType->setName('testEventContentTypeName1');
         $this->eventContentTypeRepo->add($eventContentType);
         
-        $this->assertFalse($eventContentType->isPersisted());  // DaoKeyDbVerifiedInterface
-        // neni persisted, protoze neni automaticky generovany klic
+        $this->assertFalse($eventContentType->isPersisted());  
+        // neni persisted, protoze neni automaticky generovany klic, zapise se hned
         
     }
+    
+    public function testAddAndReread() {
+        /** @var EventContentType $eventContentType */
+        $eventContentType = new EventContentType();
+        $eventContentType->setType('testEventContentType1');
+        $eventContentType->setName('testEventContentTypeName1');
+        $this->eventContentTypeRepo->add($eventContentType);
+
+        $this->eventContentTypeRepo->flush();
+        $eventContentTypeRereaded = $this->eventContentTypeRepo->get($eventContentType->getType());
+        $this->assertInstanceOf(EventContentType::class, $eventContentTypeRereaded);
+        
+        $this->assertTrue($eventContentTypeRereaded->isPersisted());
+    }
+    
+        
+    
 
     public function testFindAll() {
         $eventContentTypes = $this->eventContentTypeRepo->findAll();
         $this->assertTrue(is_array($eventContentTypes));
+        $this->assertGreaterThan(0,count($eventContentTypes)); //jsou tam minimalne 2
+
     }
 
 //    public function testGetAfterAdd() {

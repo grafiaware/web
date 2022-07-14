@@ -149,7 +149,7 @@ class DocumentRepositoryTest extends AppRunner {
         $document->setDocumentFilename($filepathName);
 
         $this->documentRepo->add($document);
-        $this->assertTrue($document->isPersisted());  // !!!!!! DocumentDao je DaoAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
+        $this->assertTrue($document->isPersisted());  // !!!!!! DocumentDao ma DaoAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
 
 //        $cvFinfo = new \SplFileInfo($cvFilepathName);
 //        $file = $cvFinfo->openFile();
