@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
+namespace Test\Integration\Event\Model\Repository;
 
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
@@ -43,6 +43,10 @@ class DocumentRepositoryTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
+        
+        // mazání - zde jen pro případ, že minulý test nebyl dokončen
+        self::deleteRecords($container);
+        
         self::insertRecords($container);
     }
 
@@ -71,6 +75,7 @@ class DocumentRepositoryTest extends AppRunner {
         ]);
         $documentDao->insert($rowData);
         self::$idCv = $documentDao->lastInsertIdValue();
+        
         $rowData = new RowData();
         $rowData->import([
             'document' => $letterContent,
@@ -91,8 +96,7 @@ class DocumentRepositoryTest extends AppRunner {
         // oescapovat 
         $dir = str_replace('\\', '\\\\\\\\', $dir);  //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
         $rows = $documentDao->find( "document_filename LIKE '$dir%'", []); 
-        
-       
+               
         foreach($rows as $row) {
             $ok = $documentDao->delete($row);
         }
@@ -149,10 +153,9 @@ class DocumentRepositoryTest extends AppRunner {
         $document->setDocumentFilename($filepathName);
 
         $this->documentRepo->add($document);
-        $this->assertTrue($document->isPersisted());  // !!!!!! DocumentDao ma DaoAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
+        $this->assertTrue($document->isPersisted());  // !!!!!! DocumentDao ma DaoEditAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
+        // pro automaticky|generovany klic (tento pripad zde ) a  pro  overovany klic  - !!! zapise se hned !!!             
 
-//        $cvFinfo = new \SplFileInfo($cvFilepathName);
-//        $file = $cvFinfo->openFile();
     }
 
     public function testAddAndReread() {
@@ -207,7 +210,7 @@ class DocumentRepositoryTest extends AppRunner {
         $this->documentRepo->remove($document);
     }
         
-        public function testRemove() {
+    public function testRemove() {
         $document = $this->documentRepo->get(self::$idCv);    
         $this->assertInstanceOf(Document::class, $document);
         $this->assertTrue($document->isPersisted());
@@ -220,6 +223,7 @@ class DocumentRepositoryTest extends AppRunner {
         $this->documentRepo->flush();
         // document uz neni locked
         $this->assertFalse($document->isLocked());
+       
         // pokus o čtení, document uz  neni
         $document = $this->documentRepo->get(self::$idCv);
         $this->assertNull($document);

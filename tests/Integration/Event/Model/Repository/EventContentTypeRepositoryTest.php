@@ -1,10 +1,8 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
-
+namespace Test\Integration\Event\Model\Repository;
 
 use Test\AppRunner\AppRunner;
-
 use Pes\Container\Container;
 
 use Test\Integration\Event\Container\EventsContainerConfigurator;
@@ -12,6 +10,7 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentTypeDao;
 use Events\Model\Repository\EventContentTypeRepo;
+use Model\Repository\Exception\UnableAddEntityException;
 
 use Events\Model\Entity\EventContentType;
 use Model\RowData\RowData;
@@ -28,7 +27,10 @@ class EventContentTypeRepositoryTest extends AppRunner {
      * @var EventContentTypeRepo
      */
     private $eventContentTypeRepo;
+    
+    private static $type_klic = "testEventContentType";
 
+    
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
@@ -39,23 +41,31 @@ class EventContentTypeRepositoryTest extends AppRunner {
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
-
+        
+        self::insertRecords($container);
+    }
+    
+    
+    private static function insertRecords(Container $container) {
         // toto je příprava testu, vlozi 1 typ
         /** @var EventContentTypeDao $eventContentTypeDao */
         $eventContentTypeDao = $container->get(EventContentTypeDao::class);
         $rowData = new RowData();
-        $type =  "testEventContentType";
-        $rowData->offsetSet('type', $type);
-        $rowData->offsetSet('name', "testEventContentTypeName");
+        //$type =  "testEventContentType";
+        $rowData->offsetSet('type', self::$type_klic );
+        $rowData->offsetSet('name', self::$type_klic . "Name");
         $eventContentTypeDao->insert($rowData);
     }
+    
 
     private static function deleteRecords(Container $container) {
         /** @var EventContentTypeDao $eventContentTypeDao */
         $eventContentTypeDao = $container->get(EventContentTypeDao::class);
-        $row = $eventContentTypeDao->get(['type'=>'testEventContentType']);
-        if (isset($row)) {
-            $eventContentTypeDao->delete($row);
+        //$row = $eventContentTypeDao->get(['type'=>'testEventContentType']);
+        
+        $rows = $eventContentTypeDao->find( "type LIKE '". self::$type_klic . "%'", []);                
+        foreach($rows as $row) {
+            $ok =  $eventContentTypeDao->delete($row);
         }
     }
 
@@ -67,6 +77,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
         $this->eventContentTypeRepo = $this->container->get(EventContentTypeRepo::class);
     }
 
+  
     protected function tearDown(): void {
         $this->eventContentTypeRepo->flush();
     }
@@ -95,17 +106,15 @@ class EventContentTypeRepositoryTest extends AppRunner {
 
     public function testGetAndRemoveAfterSetup() {
         /** @var EventContentType $eventContentType */
-        $eventContentType = $this->eventContentTypeRepo->get('testEventContentType');   
+        $eventContentType = $this->eventContentTypeRepo->get( self::$type_klic );   
         $this->assertInstanceOf(EventContentType::class, $eventContentType);
 
-        $eventContentType = $this->eventContentTypeRepo->remove($eventContentType);
-        $this->assertNull($eventContentType);
+        $v = $this->eventContentTypeRepo->remove($eventContentType);
+        $this->assertNull($v);
     }
  
-    
-    
     public function testGetAfterRemove() {
-        $eventContentType = $this->eventContentTypeRepo->get('testEventContentType');
+        $eventContentType = $this->eventContentTypeRepo->get( self::$type_klic );
         $this->assertNull($eventContentType);
     }
     
@@ -114,59 +123,96 @@ class EventContentTypeRepositoryTest extends AppRunner {
     public function testAdd() {
         /** @var EventContentType $eventContentType */
         $eventContentType = new EventContentType();
-        $eventContentType->setType('testEventContentType1');
-        $eventContentType->setName('testEventContentTypeName1');
-        $this->eventContentTypeRepo->add($eventContentType);
-        
-        $this->assertFalse($eventContentType->isPersisted());  
-        // neni persisted, protoze neni automaticky generovany klic, zapise se hned
+        $eventContentType->setType(self::$type_klic .'1');
+        $eventContentType->setName(self::$type_klic .'Name1');
+        $this->eventContentTypeRepo->add($eventContentType);        
+        // pro automaticky|generovany klic a pro  overovany klic (tento pripad zde ) - !!! zapise se hned !!!    DaoEditKeyDbVerifiedInterface        
+        $this->assertTrue($eventContentType->isPersisted());  
+        $this->assertFalse($eventContentType->isLocked());
         
     }
+    
+    public function testAddTheSame() {
+        /** @var EventContentType $eventContentType */
+        $eventContentType = new EventContentType();
+        $eventContentType->setType(self::$type_klic .'1');
+        $eventContentType->setName(self::$type_klic .'Name1');
+                
+        $this->expectException( UnableAddEntityException::class );
+        $this->eventContentTypeRepo->add($eventContentType);               
+    }
+    
     
     public function testAddAndReread() {
         /** @var EventContentType $eventContentType */
         $eventContentType = new EventContentType();
-        $eventContentType->setType('testEventContentType1');
-        $eventContentType->setName('testEventContentTypeName1');
+        $eventContentType->setType(self::$type_klic . '2');
+        $eventContentType->setName(self::$type_klic . 'Name2');
         $this->eventContentTypeRepo->add($eventContentType);
 
         $this->eventContentTypeRepo->flush();
+        $this->assertTrue($eventContentType->isPersisted());  
+        $this->assertFalse($eventContentType->isLocked());
+
+        /** @var EventContentType $eventContentTypeRereaded */
         $eventContentTypeRereaded = $this->eventContentTypeRepo->get($eventContentType->getType());
-        $this->assertInstanceOf(EventContentType::class, $eventContentTypeRereaded);
-        
+        $this->assertInstanceOf(EventContentType::class, $eventContentTypeRereaded);        
         $this->assertTrue($eventContentTypeRereaded->isPersisted());
-    }
-    
+        $this->assertFalse($eventContentType->isLocked());
+    }    
         
-    
 
     public function testFindAll() {
         $eventContentTypes = $this->eventContentTypeRepo->findAll();
         $this->assertTrue(is_array($eventContentTypes));
         $this->assertGreaterThan(0,count($eventContentTypes)); //jsou tam minimalne 2
-
     }
+  
+//ZATIM NEMA FIND metodu    
+//    public function testFind() {                                         
+//        $rows =  $this->eventContentTypeRepo->find( "type LIKE '" . self::$type_klic . "%'", []);   
+//
+//        $this->assertTrue(is_array($rows));
+//        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2                
+//                       
+//    }
+    
+    
+    public function testRemove_OperationWithLockedEntity() {
+        /** @var EventContentType $eventContentType */
+        $eventContentType = $this->eventContentTypeRepo->get(self::$type_klic . "1");    
+        $this->assertInstanceOf(EventContentType::class, $eventContentType);
+        $this->assertTrue($eventContentType->isPersisted());
+        $this->assertFalse($eventContentType->isLocked());
+        
+        $eventContentType->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
+        $this->eventContentTypeRepo->remove($document);
+    }
+    
+    
+    public function testRemove() {
+        /** @var EventContentType $eventContentType */
+        $eventContentType = $this->eventContentTypeRepo->get(self::$type_klic . "1" );
+                
+        $this->assertInstanceOf(EventContentType::class, $eventContentType);
+        $this->assertTrue($eventContentType->isPersisted());
+        $this->assertFalse($eventContentType->isLocked());
+        
+        $this->eventContentTypeRepo->remove($eventContentType);
+        
+        $this->assertTrue($eventContentType->isPersisted());
+        $this->assertTrue($eventContentType->isLocked());   // maže až při flush
+        $this->eventContentTypeRepo->flush();
+        //  uz neni locked
+        $this->assertFalse($eventContentType->isLocked());
+        
+        // pokus o čtení, EventContentType.self::$type_klic  uz  neni
+        $eventContentType = $this->eventContentTypeRepo->get(self::$type_klic . "1" );
+        $this->assertNull($eventContentType);
+        
+    }
+            
 
-//    public function testGetAfterAdd() {
-//        $event = $this->eventTypeRepo->get("XXXXXX");
-//        $this->assertInstanceOf(EventContentType::class, $event);
-//        $this->assertTrue($event->getPublished());
-//    }
-//
-//    public function testGetAndRemoveAfterAdd() {
-//        $event = $this->eventTypeRepo->get("XXXXXX");
-//        $this->eventTypeRepo->remove($event);
-//        $this->assertTrue($event->isLocked(), 'EventContentType není zamčena po remove.');
-//    }
-//
-//    public function testAddAndReread() {
-//        $event = new EventContentType();
-//        $event->setLoginName("XXXXXX");
-//        $this->eventTypeRepo->add($event);
-//        $this->eventTypeRepo->flush();
-//        $event = $this->eventTypeRepo->get($event->getLoginName());
-//        $this->assertTrue($event->isPersisted(), 'EventContentType není persistován.');
-//        $this->assertTrue(is_string($event->getLoginName()));
-//    }
 
 }
