@@ -259,7 +259,7 @@ abstract class RepoAbstract {
                 $index = $this->indexFromEntity($entity);  // z hodnoty klíče
                 $this->collection[$index] = $entity;
                 $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
-            } elseif ($this->dataManager instanceof DaoKeyDbVerifiedInterface ) {
+            } elseif ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface ) {
                 $rowData = $this->createRowData();
                 $this->extract($entity, $rowData);
                 try {
