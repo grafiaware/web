@@ -37,7 +37,7 @@ class EventRepo extends RepoAbstract implements EventRepoInterface {
      * @return EventInterface|null
      */
     public function get($id): ?EventInterface {
-        $key = $this->dataManager->getForeignKeyTouples(['id'=>$id]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
 

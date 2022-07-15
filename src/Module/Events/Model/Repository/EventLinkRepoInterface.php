@@ -30,7 +30,7 @@ interface EventLinkRepoInterface extends RepoInterface  {
     public function add(EventLinkInterface $eventLink);
 
 
-    public function remove(EventLinkInterface $eventLink) ;
 
+    public function remove(EventLinkInterface $eventLink) ;
 
 }

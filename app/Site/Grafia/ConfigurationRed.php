@@ -160,6 +160,7 @@ class ConfigurationRed extends ConfigurationDb {
             'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
             'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+            'templates.unknownContent' => self::RED_TEMPLATES_COMMON.'layout/error/unknownContent.php',
             'layout_blocks' => [
                     'rychleOdkazy' => 'a3',
                     'nejblizsiAkce' => 'a2',

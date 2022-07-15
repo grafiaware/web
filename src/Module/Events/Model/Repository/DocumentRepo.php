@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
@@ -16,7 +9,7 @@ use Events\Model\Entity\Document;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
 
-use Model\Repository\Exception\UnableRecreateEntityException;
+//use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu
@@ -36,25 +29,46 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
      * @return DocumentInterface|null
      */
     public function get($id): ?DocumentInterface {
-        $key = $this->dataManager->getForeignKeyTouples(['id'=>$id]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
-
-    public function find($whereClause=null, $touplesToBind=[]) {
+    /**
+     * 
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return DocumentInterface[]
+     */
+    public function find($whereClause=null, $touplesToBind=[]) : array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
 
-    public function findAll() {
+    /**
+     * 
+     * @return DocumentInterface[]
+     */
+    public function findAll() : array  {
         return $this->findEntities();
     }
-
-    public function add(DocumentInterface $document) {
+    
+    /**
+     * 
+     * @param DocumentInterface $document
+     * @return void
+     */
+    public function add(DocumentInterface $document) : void {
         $this->addEntity($document);
     }
-
-    public function remove(DocumentInterface $document) {
+    
+    /**
+     * 
+     * @param DocumentInterface $document
+     * @return void
+     */
+    public function remove(DocumentInterface $document) : void {
         $this->removeEntity($document);
     }
+
+
 
     protected function createEntity() {
         return new Document();

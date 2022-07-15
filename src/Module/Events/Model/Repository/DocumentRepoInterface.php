@@ -17,7 +17,39 @@ use Events\Model\Entity\DocumentInterface;
  * @author pes2704
  */
 interface DocumentRepoInterface extends RepoInterface {
+    /**
+     *
+     * @param type $id
+     * @return DocumentInterface|null
+     */
     public function get($id): ?DocumentInterface;
-    public function add(DocumentInterface $document);
-    public function remove(DocumentInterface $document);
+    
+    
+    /**
+     * 
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return DocumentInterface[]
+     */
+    public function find($whereClause=null, $touplesToBind=[]) : array ;
+    
+     /**
+     * 
+     * @return DocumentInterface[]
+     */
+    public function findAll() : array  ;
+    
+    /**
+     * 
+     * @param DocumentInterface $document
+     * @return void
+     */
+    public function add(DocumentInterface $document) :void;
+    
+    /**
+     * 
+     * @param DocumentInterface $document
+     * @return void
+     */
+    public function remove(DocumentInterface $document) : void ;
 }

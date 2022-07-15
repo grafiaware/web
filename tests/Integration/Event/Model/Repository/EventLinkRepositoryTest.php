@@ -8,7 +8,7 @@ namespace Test\Integration\Repository;
  * and open the template in the editor.
  */
 
-use PHPUnit\Framework\TestCase;
+use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
@@ -26,7 +26,7 @@ use Model\RowData\RowData;
  *
  * @author pes2704
  */
-class EventLinkRepositoryTest extends TestCase {
+class EventLinkRepositoryTest extends AppRunner {
 
     private $container;
 
@@ -119,7 +119,6 @@ class EventLinkRepositoryTest extends TestCase {
         $eventContent = new EventPresentation();
         $eventContent->setEventIdFk(null);
         $eventContent->setShow(false);
-        $eventContent->setPlatform("testEventPresentation Platform test add");
         $eventContent->setUrl("https://tqwrqwztrrwqz.zu?aaaa=555@ddd=6546546");
         $this->eventLinkRepo->add($eventContent);
         $this->assertTrue($eventContent->isLocked());

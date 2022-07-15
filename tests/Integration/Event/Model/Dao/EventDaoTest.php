@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
 
@@ -22,10 +23,7 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 class EventDaoTest extends AppRunner {
-
-
     private $container;
-
     /**
      *
      * @var EventDao

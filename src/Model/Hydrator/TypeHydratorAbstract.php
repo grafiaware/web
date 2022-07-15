@@ -13,6 +13,11 @@ use DateTime;
 abstract class TypeHydratorAbstract implements HydratorInterface {
 
     /**
+     * Získá z objektu RowData jednu hodnotu podle zadaného jména.
+     * Z hodnoty sql typu datetime nebo date nebo timestamp vytvoří PHP objekt typu DateTime nebo null.
+     *
+     * Poradí si jen se vtupními hodnotami bez desetinné části udáje o sekundách, tedy např. 1970-01-01 00:00:01 nebo 1970-01-01, neumí 1970-01-01 00:00:01.123456
+     * Pro nesprávný vstupní formát, kdy se nepodaří vytvořit objekt DateTime vrací null.
      *
      * @param RowDataInterface $rowData
      * @param type $name
@@ -32,6 +37,9 @@ abstract class TypeHydratorAbstract implements HydratorInterface {
     }
 
     /**
+     * Nastaví objektu RowData jednu hodnotu podle zadaného jména.
+     * Z hodnoty PHP typu DateTime vytvoří string hoodnoty typu sql datetime ne timestamp, vždy ve formátu 'Y-m-d H:i:s', např. 1970-01-01 00:00:01
+     * Pokud hodnota parametru je null, hodnotu zadanémo jména v RowData objektu smaže (unset) .
      *
      * @param RowDataInterface $rowData
      * @param type $name
@@ -43,6 +51,8 @@ abstract class TypeHydratorAbstract implements HydratorInterface {
     }
 
     /**
+     * Získá z objektu RowData jednu hodnotu podle zadaného jména.
+     * Pokud hodnota neexistuje vrací null.
      *
      * @param RowDataInterface $rowData
      * @param type $name
@@ -59,6 +69,8 @@ abstract class TypeHydratorAbstract implements HydratorInterface {
     }
 
     /**
+     * Nastaví objektu RowData jednu hodnotu podle zadaného jména.
+     * Pokud hodnota parametru je null, hodnotu zadanémo jména v RowData objektu smaže (unset) .
      *
      * @param RowDataInterface $rowData
      * @param type $name

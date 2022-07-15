@@ -17,7 +17,7 @@ use Events\Model\Entity\EnrollInterface;
  * @author pes2704
  */
 interface EnrollRepoInterface extends RepoInterface {
-    public function get($id): ?EnrollDaoInterface;
+    public function get($loginName, $eventId): ?EnrollDaoInterface;
     public function add(EnrollDaoInterface $enroll);
     public function remove(EnrollDaoInterface $enroll);
 }

@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
 
@@ -20,10 +21,7 @@ use Pes\Database\Statement\Exception\ExecuteException;
  * @author vlse2610
  */
 class EventLinkPhaseDaoTest extends AppRunner {
-
-
     private $container;
-
     /**
      *
      * @var EventLinkPhaseDao
@@ -90,7 +88,6 @@ class EventLinkPhaseDaoTest extends AppRunner {
 
     public function testUpdate() {
         $eventLinkPhaseRow = $this->dao->get(self::$eventLinkPhaseIdTouple);
-        //$name = $eventLinkPhaseRow['text'];
         $this->assertIsString($eventLinkPhaseRow['text']);
         //
         $this->setUp();

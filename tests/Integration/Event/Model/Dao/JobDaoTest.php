@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
 
@@ -25,7 +26,6 @@ use Model\RowData\RowDataInterface;
  */
 class JobDaoTest  extends AppRunner {
     private $container;
-
     /**
      *
      * @var JobDao
@@ -42,11 +42,7 @@ class JobDaoTest  extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(   (new Container(  )   )    )
             );
         
         // do company ulozit -- potrebuju company_id pro job
@@ -96,15 +92,9 @@ class JobDaoTest  extends AppRunner {
     public static function tearDownAfterClass(): void {
          $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure( (new Container(  ) )   )
             );
-                
-
-        
+   
         /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
         $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);    
         $pozadovaneVzdelaniData = $pozadovaneVzdelaniDao->get(['stupen' => "999"]);

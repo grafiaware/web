@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
 
@@ -20,13 +21,13 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 class EnrollDaoTest extends AppRunner {
-
     private $container;
     /**
      *
      * @var EnrollDao
      */
     private $dao;
+    
     private static $login_login_name_fk;
     private static $event_id_fk;
     private static $event_id_fk_2;
@@ -35,11 +36,7 @@ class EnrollDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure((new Container( ) )   )
             );
         // nový login login_name a event id pro TestCase
         $prefix = "testVisitorForEnrollDaoTest";
@@ -71,26 +68,19 @@ class EnrollDaoTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(  (new Container()) )
             );
         $this->dao = $this->container->get(EnrollDao::class);  // vždy nový objekt
     }
 
+    
     protected function tearDown(): void {
     }
 
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(  (new Container( )) )
             );
         
         $eventDao = $container->get(EventDao::class);
@@ -106,11 +96,11 @@ class EnrollDaoTest extends AppRunner {
 
     }
 
+    
     public function testSetUp() {
         $this->assertIsString(self::$login_login_name_fk);
         $this->assertIsString(self::$event_id_fk);
         $this->assertInstanceOf(EnrollDao::class, $this->dao);
-
     }
 
     public function testInsert() {

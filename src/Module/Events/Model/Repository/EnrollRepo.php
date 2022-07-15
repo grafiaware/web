@@ -35,8 +35,8 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
      * @param type $id
      * @return EnrollInterface|null
      */
-    public function get($id): ?EnrollDaoInterface {
-        $key = $this->dataManager->getForeignKeyTouples(['login_login_name_fk'=>$id]);
+    public function get($loginName, $eventId): ?EnrollDaoInterface {
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name_fk' => $loginName, 'event_id_fk' => $eventId]);
         return $this->getEntity($key);
     }
 

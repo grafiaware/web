@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
@@ -29,25 +22,38 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
         $this->dataManager = $eventContentTypeDao;
         $this->registerHydrator($eventContentTypeHydrator);
     }
-
+   
+   
     /**
-     *d
+     * 
      * @param string $type
      * @return EventContentTypeInterface|null
      */
-    public function get($type): ?EventContentTypeInterface {
-        $key = $this->dataManager->getForeignKeyTouples(['type'=>$type]);
+    public function get(string $type): ?EventContentTypeInterface {
+        $key = $this->dataManager->getPrimaryKeyTouples(['type'=>$type]);
         return $this->getEntity($key);    }
 
-    public function findAll() {
+    /**
+     * 
+     * @return EventContentTypeInterface[]
+     */    
+    public function findAll() :array  {
         return $this->findEntities();
     }
-
-    public function add(EventContentTypeInterface $eventContentType) {
+    /**
+     * 
+     * @param EventContentTypeInterface $eventContentType
+     * @return void
+     */
+    public function add(EventContentTypeInterface $eventContentType) :void {
         $this->addEntity($eventContentType);
     }
-
-    public function remove(EventContentTypeInterface $eventContentType) {
+    /**
+     * 
+     * @param EventContentTypeInterface $eventContentType
+     * @return void
+     */
+    public function remove(EventContentTypeInterface $eventContentType) :void {
         $this->removeEntity($eventContentType);
     }
 

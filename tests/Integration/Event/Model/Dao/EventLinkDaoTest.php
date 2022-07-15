@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
 
@@ -21,10 +22,7 @@ use Events\Model\Dao\EventDao;
  * @author vlse2610
  */
 class EventLinkDaoTest extends AppRunner {
-
-
     private $container;
-
     /**
      *
      * @var EventLinkDao
@@ -172,7 +170,6 @@ class EventLinkDaoTest extends AppRunner {
     public function testFind() {
         $eventLinkRow = $this->dao->find();
         $this->assertIsArray($eventLinkRow);
-        //$pocet = count($eventLinkRow);
         $this->assertGreaterThanOrEqual(1, count($eventLinkRow));
         $this->assertInstanceOf(RowDataInterface::class, $eventLinkRow[0]);
     }

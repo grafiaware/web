@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
 
@@ -17,13 +18,13 @@ use Model\RowData\RowDataInterface;
  *
  */
 class CompanyContactDaoTest extends AppRunner {
-
     private $container;
     /**
      *
      * @var CompanyContactDao
      */
     private $dao;
+    
     private static $company_company_id_fk;
     private static $id;     //treba tvorit touple dvojice
 
@@ -32,11 +33,7 @@ class CompanyContactDaoTest extends AppRunner {
 
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure( (new Container(  )  ) )
             );
 
         // nova company
@@ -63,10 +60,11 @@ class CompanyContactDaoTest extends AppRunner {
 
     protected function tearDown(): void {
     }
+    
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+            (new EventsContainerConfigurator())->configure(  
+                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);        
@@ -80,6 +78,7 @@ class CompanyContactDaoTest extends AppRunner {
         $this->assertInstanceOf(CompanyContactDao::class, $this->dao);
     }
 
+    
     public function testInsert() {
         $rowData = new RowData();        
         $rowData->import(
@@ -88,11 +87,7 @@ class CompanyContactDaoTest extends AppRunner {
                 'phones' => null,
                 'mobiles' => null,
                 'emails' => null] );                
-//        $rowData->offsetSet('company_id', self::$company_company_id_fk );
-//        $rowData->offsetSet('name', null);
-//        $rowData->offsetSet('phones', null);
-//        $rowData->offsetSet('mobiles', null);
-//        $rowData->offsetSet('emails', null);
+
 
         $this->dao->insert($rowData);
         self::$id =  $this->dao->getLastInsertIdTouple(); //pro autoincrement

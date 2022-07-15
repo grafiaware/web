@@ -24,7 +24,7 @@ interface VisitorJobRequestRepoInterface extends RepoInterface {
      * @param string $positionName
      * @return VisitorJobRequestInterface|null
      */
-    public function get($loginName, $shortName, $positionName): ?VisitorJobRequestInterface;
+    public function get($loginName): ?VisitorJobRequestInterface;
 
     public function add(VisitorJobRequestInterface $visitorDataPost);
 

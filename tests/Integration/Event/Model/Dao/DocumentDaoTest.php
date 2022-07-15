@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
 
@@ -47,9 +48,7 @@ class DocumentDaoTest  extends AppRunner {
         
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container()   )
-                )
+                (new DbEventsContainerConfigurator())->configure(   (new Container()   )   )
             );
         
         // nový login login_name, company, job

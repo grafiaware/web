@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
 
@@ -79,12 +80,7 @@ class RepresentativeDaoTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
-            );
+                (new DbEventsContainerConfigurator())->configure( (new Container() ) ) );
         $this->dao = $this->container->get(RepresentativeDao::class);  // vždy nový objekt        
     }
 
@@ -109,13 +105,6 @@ class RepresentativeDaoTest extends AppRunner {
 
         $loginRow = $loginDao->get(['login_name' => self::$login_login_name ]);
         $loginDao->delete($loginRow);
-
-//        /** @var RepresentativeDao $representativeDao */
-//        $representativeDao = $container->get(RepresentativeDao::class);   
-//        $representativeRow = $representativeDao->get(['login_login_name' => self::$login_login_name ]);
-//        if ( $representativeRow ) {
-//            $representativeDao->delete($representativeRow);
-//        }
 
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);  
