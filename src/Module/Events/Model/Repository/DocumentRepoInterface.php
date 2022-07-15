@@ -51,5 +51,5 @@ interface DocumentRepoInterface extends RepoInterface {
      * @param DocumentInterface $document
      * @return void
      */
-    public function remove(DocumentInterface $document);
+    public function remove(DocumentInterface $document) : void ;
 }

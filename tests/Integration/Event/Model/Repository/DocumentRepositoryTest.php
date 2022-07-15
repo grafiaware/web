@@ -16,6 +16,7 @@ use Events\Model\Entity\Document;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Repository\DocumentRepo;
 
+use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
 
 
@@ -148,7 +149,7 @@ class DocumentRepositoryTest extends AppRunner {
         $document->setDocumentFilename($filepathName);
 
         $this->documentRepo->add($document);
-        $this->assertTrue($document->isPersisted());  // !!!!!! DocumentDao je DaoAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
+        $this->assertTrue($document->isPersisted());  // !!!!!! DocumentDao ma DaoAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
 
 //        $cvFinfo = new \SplFileInfo($cvFilepathName);
 //        $file = $cvFinfo->openFile();
@@ -195,15 +196,31 @@ class DocumentRepositoryTest extends AppRunner {
                        
     }
 
-    public function testRemove() {
+    public function testRemove_OperationWithLockedEntity() {
         $document = $this->documentRepo->get(self::$idCv);    
         $this->assertInstanceOf(Document::class, $document);
+        $this->assertTrue($document->isPersisted());
+        $this->assertFalse($document->isLocked());
+        
+        $document->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
         $this->documentRepo->remove($document);
-        $this->assertFalse($document->isPersisted());
+    }
+        
+        public function testRemove() {
+        $document = $this->documentRepo->get(self::$idCv);    
+        $this->assertInstanceOf(Document::class, $document);
+        $this->assertTrue($document->isPersisted());
+        $this->assertFalse($document->isLocked());
+
+        $this->documentRepo->remove($document);
+        
+        $this->assertTrue($document->isPersisted());
         $this->assertTrue($document->isLocked());   // maže až při flush
         $this->documentRepo->flush();
+        // document uz neni locked
         $this->assertFalse($document->isLocked());
-        // pokus o čtení
+        // pokus o čtení, document uz  neni
         $document = $this->documentRepo->get(self::$idCv);
         $this->assertNull($document);
     }
