@@ -192,6 +192,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
      * Generuje uid unikátní v rámci tabulky. Metodu lze použít jen v průběhu již spuštěné transakce.
      *
      * Generuje uid pomocí PHP funkce uniqid(), ale ověří, že vygenerované uid skutečně není v tabulce dosud použito, pokud je, generuje nové uid.
+     * Funkce uniquid (bez prefixua s bez vyšší entropue) generuje řetězec dlouhý 13 znaků,
      *
      * Aby byla zaručena unikátnost uid v rámci jedné tabulky, je nutné, aby čtení tabulky při zjišťování existence uid a následný zápis nového
      * zázamu proběhly se zamčenou tabulkou. Tato metoda používá příkaz "SELECT uid FROM hierarchy_table WHERE uid = :uid LOCK IN SHARE MODE", který zamkne přečtené záznamy až
@@ -698,7 +699,8 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                 $this->bindParams($preparedInsertTargetItem, [
                     'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 'type_fk'=>$sourceItem['type_fk'],
                     'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
-                    'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title']),
+                    // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž EditItemControler)
+                    'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title'], 80),
                     'active'=>$sourceItem['active'], 'auto_generated'=>$sourceItem['auto_generated']]);
                 $preparedInsertTargetItem->execute();
                 $lastMenuItemId = $dbhTransact->lastInsertId();

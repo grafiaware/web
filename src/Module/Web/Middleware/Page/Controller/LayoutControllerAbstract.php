@@ -262,44 +262,29 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param type $menuItem
      * @return View
      */
-    private function getContentLoadScript(MenuItemInterface $menuItem=null) {
+    private function getContentLoadScript(MenuItemInterface $menuItem) {
         /** @var View $view */
         $view = $this->container->get(View::class);
+        
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $uid = uniqid();
-        if (isset($menuItem)) {
-            $menuItemType = $menuItem->getTypeFk();
-            if (!isset($menuItemType)) {
-                $menuItemType = 'empty';
-            }
-            if ($menuItemType!='static') {
-                $id = $menuItem->getId();
-            } else {
-                $id = $this->getNameForStaticPage($menuItem);
-            }
-            $view->setData([
-                            'loaderWrapperElementId' => "{$menuItemType}_item_{$id}_$uid",
-                            'apiUri' => "web/v1/$menuItemType/$id"
-                            ]);
-            $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
-        } else {
-            $loaderCounter++;
-            $view->setRenderer(new ImplodeRenderer());
-            $view->setData([
-                            'loaderWrapperElementId' => "unknown_item_$loaderCounter",
-                            'apiUri' => "web/v1/unknown"
-                            ]);
+        $menuItemType = $menuItem->getTypeFk();
+        if (!isset($menuItemType)) {
+            $menuItemType = 'empty';
         }
+        if ($menuItemType!='static') {
+            $id = $menuItem->getId();
+        } else {
+            $id = $this->getNameForStaticPage($menuItem);
+        }
+        $view->setData([
+                        'loaderWrapperElementId' => "{$menuItemType}_item_{$id}_$uid",
+                        'apiUri' => "web/v1/$menuItemType/$id"
+                        ]);
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
         return $view;
     }
 
-    private function getUnknownContentView($message='') {
-        /** @var View $view */
-        $view = $this->container->get(View::class);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.unknownContent']))
-                ->setData(['message'=>$message]);
-        return $view;
-    }
 
     private function getNameForStaticPage(MenuItemInterface $menuItem) {
         $menuItemPrettyUri = $menuItem->getPrettyuri();
@@ -311,6 +296,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         return $name;
     }
 
+    private function getUnknownContentView($message='') {
+        /** @var View $view */
+        $view = $this->container->get(View::class);
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.unknownContent']))
+                ->setData(['message'=>$message]);
+        return $view;
+    }
 
 #
 ##### menu komponenty ##############################################################
