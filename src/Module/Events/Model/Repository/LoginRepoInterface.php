@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
@@ -20,10 +13,10 @@ interface LoginRepoInterface extends RepoInterface  {
 
     /**
      *
-     * @param type $loginName
+     * @param string $loginName
      * @return LoginInterface|null
      */
-    public function get($loginName): ?LoginInterface;
+    public function get( string $loginName): ?LoginInterface;
 
     /**
      *

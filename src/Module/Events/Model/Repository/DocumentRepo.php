@@ -3,7 +3,6 @@ namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Entity\Document;
 use Events\Model\Dao\DocumentDao;

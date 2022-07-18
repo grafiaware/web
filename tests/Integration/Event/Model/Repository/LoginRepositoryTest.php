@@ -1,20 +1,10 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
+namespace Test\Integration\Event\Model\Repository;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-use PHPUnit\Framework\TestCase;
-
-use Pes\Http\Factory\EnvironmentFactory;
-
-use Application\WebAppFactory;
-
+use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
+
 
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
@@ -30,7 +20,7 @@ use Model\RowData\RowData;
  *
  * @author pes2704
  */
-class LoginRepositoryTest extends TestCase {
+class LoginRepositoryTest extends AppRunner {
 
     private $container;
 
@@ -40,61 +30,57 @@ class LoginRepositoryTest extends TestCase {
      */
     private $loginRepo;
 
-    static $uidForEmail;
+    private static $loginKlic = "testLogin";
+    
 
     public static function setUpBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
-
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
-
+        self::bootstrapBeforeClass();
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                    (new Container( ) ) )
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
+        
+        self::insertRecords($container);
 
-        // toto je příprava testu
+
+//        // toto je příprava testu
+//        /** @var LoginDao $loginDao */
+//        $loginDao = $container->get(LoginDao::class);
+//        $rowData = new RowData();
+//        $rowData->offsetSet('login_name', self::$loginKlic);
+//        $loginDao->insert($rowData);
+    }
+    
+    
+    private static function insertRecords(Container $container) {
+        // toto je příprava testu, vlozi 1 login
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $rowData = new RowData();
-        $rowData->offsetSet('login_name', 'testLogin');
-        $loginDao->insertWithKeyVerification($rowData);
+        $rowData = new RowData();        
+        $rowData->offsetSet('login_name', self::$loginKlic);
+        $loginDao->insert($rowData);
     }
 
-    private static function deleteRecords(Container $container) {
+    private static function deleteRecords(Container $container) {        
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $rowData = new RowData();
-        $rowData->offsetSet('login_name', "testLogin");
-        $loginDao->delete($rowData);
+        
+        $rows = $loginDao->find( "login_name LIKE '". self::$loginKlic . "%'", []);                
+        foreach($rows as $row) {
+            $ok =  $loginDao->delete($row);
+        }
+
     }
 
     protected function setUp(): void {
-//        $environment = $this->mock(
-//                ['HTTP_USER_AGENT'=>'AppRunner']
-//
-//                );
-//        $this->app = (new WebAppFactory())->createFromEnvironment($environment);
-
         $this->container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                    (new Container(  ) )  )
             );
 
         $this->loginRepo = $this->container->get(LoginRepo::class);
@@ -108,10 +94,7 @@ class LoginRepositoryTest extends TestCase {
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                    (new Container( ) ) )
             );
 
         self::deleteRecords($container);
@@ -127,7 +110,7 @@ class LoginRepositoryTest extends TestCase {
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $login = $this->loginRepo->get("testLogin");
+        $login = $this->loginRepo->get(self::$loginKlic);
         $this->assertInstanceOf(Login::class, $login);
 
         $login = $this->loginRepo->remove($login);
@@ -135,39 +118,56 @@ class LoginRepositoryTest extends TestCase {
     }
 
     public function testGetAfterRemove() {
-        $login = $this->loginRepo->get("testLogin");
+        $login = $this->loginRepo->get(self::$loginKlic);
         $this->assertNull($login);
     }
 
     public function testAdd() {
         $login = new Login();
-        $login->setLoginName("testLogin");
+        $login->setLoginName(self::$loginKlic);
         $this->loginRepo->add($login);
+        
+        // pro automaticky|generovany klic a pro  overovany klic (tento pripad zde ) - !!! zapise se hned !!!   DaoEditKeyDbVerifiedInterface
         $this->assertTrue($login->isPersisted());
+        $this->assertFalse($login->isLocked());
         // Login není zamčena po add. protože LoginDao je typu Model\Dao\DaoKeyDbVerifiedInterface
-        // naopak je isPersisted hned po ->add() protože je typu Model\Dao\DaoKeyDbVerifiedInterface
+        // je isPersisted hned po ->add() protože je typu Model\Dao\DaoKeyDbVerifiedInterface
     }
 
+    
     public function testGetAfterAdd() {
-        $login = $this->loginRepo->get("testLogin");
+        $login = $this->loginRepo->get(self::$loginKlic);
         $this->assertInstanceOf(Login::class, $login);
         $this->assertTrue(is_string($login->getLoginName()));
     }
+    
 
-    public function testGetAndRemoveAfterAdd() {
-        $login = $this->loginRepo->get("testLogin");
-        $this->loginRepo->remove($login);
-        $this->assertTrue($login->isLocked(), 'Login není zamčena po remove.');
-    }
 
+    
     public function testAddAndReread() {
         $login = new Login();
-        $login->setLoginName("testLogin");
+        $login->setLoginName(self::$loginKlic . "1");
         $this->loginRepo->add($login);
         $this->loginRepo->flush();
-        $login = $this->loginRepo->get($login->getLoginName());
-        $this->assertTrue($login->isPersisted(), 'Login není persistován.');
+        
+        $login = $this->loginRepo->get($login->getLoginName());      
+        $this->assertTrue($login->isPersisted() );
+        $this->assertFalse($login->isLocked());
         $this->assertTrue(is_string($login->getLoginName()));
+        $this->assertEquals(self::$loginKlic . "1", $login->getLoginName());
     }
 
+    
+    //remove
+    
+//    public function testGetAndRemoveAfterAdd() {
+//        $login = $this->loginRepo->get("testLogin");
+//        $this->loginRepo->remove($login);
+//        $this->assertTrue($login->isLocked(), 'Login není zamčena po remove.');
+//    }
+    
+   
+    
+    
+    
 }

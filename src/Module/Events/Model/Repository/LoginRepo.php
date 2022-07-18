@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
@@ -18,7 +11,7 @@ use Events\Model\Dao\LoginDao;
 use Events\Model\Repository\LoginRepoInterface;
 
 /**
- * Description of MenuItemRepo
+ * Description of LoginRepo
  *
  * @author pes2704
  */
@@ -33,18 +26,26 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
 
     /**
      *
-     * @param type $loginName
+     * @param string $loginName
      * @return LoginInterface|null
      */
-    public function get($loginName): ?LoginInterface {
+    public function get(string $loginName): ?LoginInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['login_name'=>$loginName]);
         return $this->getEntity($key);
     }
 
+    /**
+     *
+     * @param LoginInterface $login
+     */
     public function add(LoginInterface $login) {
         $this->addEntity($login);
     }
-
+    
+    /**
+     *
+     * @param LoginInterface $login
+     */
     public function remove(LoginInterface $login) {
         $this->removeEntity($login);
     }

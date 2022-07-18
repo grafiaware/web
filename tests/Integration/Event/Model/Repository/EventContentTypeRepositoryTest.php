@@ -11,6 +11,7 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 use Events\Model\Dao\EventContentTypeDao;
 use Events\Model\Repository\EventContentTypeRepo;
 use Model\Repository\Exception\UnableAddEntityException;
+use Model\Repository\Exception\OperationWithLockedEntityException;
 
 use Events\Model\Entity\EventContentType;
 use Model\RowData\RowData;
@@ -168,13 +169,13 @@ class EventContentTypeRepositoryTest extends AppRunner {
         $this->assertGreaterThan(0,count($eventContentTypes)); //jsou tam minimalne 2
     }
   
+    
 //ZATIM NEMA FIND metodu    
 //    public function testFind() {                                         
 //        $rows =  $this->eventContentTypeRepo->find( "type LIKE '" . self::$type_klic . "%'", []);   
 //
 //        $this->assertTrue(is_array($rows));
-//        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2                
-//                       
+//        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2                                       
 //    }
     
     
@@ -187,7 +188,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
         
         $eventContentType->lock();
         $this->expectException( OperationWithLockedEntityException::class);
-        $this->eventContentTypeRepo->remove($document);
+        $this->eventContentTypeRepo->remove($eventContentType);
     }
     
     
@@ -207,7 +208,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
         //  uz neni locked
         $this->assertFalse($eventContentType->isLocked());
         
-        // pokus o čtení, EventContentType.self::$type_klic  uz  neni
+        // pokus o čtení, entita EventContentType.self::$type_klic  uz  neni
         $eventContentType = $this->eventContentTypeRepo->get(self::$type_klic . "1" );
         $this->assertNull($eventContentType);
         
