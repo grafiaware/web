@@ -5,10 +5,6 @@ namespace Test\Integration\Event\Model\Repository;
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
-//use Container\DbUpgradeContainerConfigurator;
-//use Container\HierarchyContainerConfigurator;
-//use Test\Integration\Model\Container\TestModelContainerConfigurator;
-
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 

@@ -5,16 +5,15 @@ namespace Test\Integration\Event\Model\Repository;
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
-
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Model\Repository\Exception\OperationWithLockedEntityException;
+use Model\RowData\RowData;
 
 use Events\Model\Dao\LoginDao;
 use Events\Model\Repository\LoginRepo;
-
 use Events\Model\Entity\Login;
 
-use Model\RowData\RowData;
 
 /**
  *
@@ -46,13 +45,6 @@ class LoginRepositoryTest extends AppRunner {
         
         self::insertRecords($container);
 
-
-//        // toto je příprava testu
-//        /** @var LoginDao $loginDao */
-//        $loginDao = $container->get(LoginDao::class);
-//        $rowData = new RowData();
-//        $rowData->offsetSet('login_name', self::$loginKlic);
-//        $loginDao->insert($rowData);
     }
     
     
@@ -156,17 +148,45 @@ class LoginRepositoryTest extends AppRunner {
         $this->assertTrue(is_string($login->getLoginName()));
         $this->assertEquals(self::$loginKlic . "1", $login->getLoginName());
     }
-
-    
-    //remove
-    
-//    public function testGetAndRemoveAfterAdd() {
-//        $login = $this->loginRepo->get("testLogin");
-//        $this->loginRepo->remove($login);
-//        $this->assertTrue($login->isLocked(), 'Login není zamčena po remove.');
-//    }
     
    
+    
+    public function testRemove_OperationWithLockedEntity() {
+        /** @var Login $login */
+        $login = $this->loginRepo->get(self::$loginKlic . "1");    
+        $this->assertInstanceOf(Login::class, $login);
+        $this->assertTrue($login->isPersisted());
+        $this->assertFalse($login->isLocked());
+        
+        $login->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
+        $this->loginRepo->remove($login);
+    }
+    
+    
+    
+    
+    public function testRemove() {
+        /** @var Login $login */
+        $login = $this->loginRepo->get(self::$loginKlic . "1" );
+                
+        $this->assertInstanceOf(Login::class, $login);
+        $this->assertTrue($login->isPersisted());
+        $this->assertFalse($login->isLocked());
+        
+        $this->loginRepo->remove($login);
+        
+        $this->assertTrue($login->isPersisted());
+        $this->assertTrue($login->isLocked());   // zatim zamcena entita, maže až při flush
+        $this->loginRepo->flush();
+        //  uz neni locked
+        $this->assertFalse($login->isLocked());
+        
+        // pokus o čtení, entita Login.self::$loginKlic  uz  neni
+        $login = $this->loginRepo->get(self::$loginKlic . "1" );
+        $this->assertNull($login);
+        
+    }
     
     
     

@@ -7,11 +7,12 @@ use Events\Model\Entity\DocumentInterface;
 use Events\Model\Entity\Document;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
+use Events\Model\Repository\DocumentRepoInterface;
 
 //use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
- * Description of Menu
+ * Description of DocumentRepo
  *
  * @author pes2704
  */
