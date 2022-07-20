@@ -9,6 +9,7 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Entity\Document;
+use Events\Model\Entity\DocumentInterface;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Repository\DocumentRepo;
 
@@ -120,7 +121,7 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(DocumentRepo::class, $this->documentRepo);
+        $this->assertInstanceOf( DocumentRepo::class, $this->documentRepo);
     }
 
     public function testGetNonExisted() {
@@ -130,7 +131,7 @@ class DocumentRepositoryTest extends AppRunner {
 
     public function testGetAfterSetup() {
         $document = $this->documentRepo->get(self::$idCv);    
-        $this->assertInstanceOf(Document::class, $document);
+        $this->assertInstanceOf(DocumentInterface::class, $document);
     }
 
     public function testAdd() {
@@ -172,7 +173,7 @@ class DocumentRepositoryTest extends AppRunner {
         $this->documentRepo->add($document);
         $this->documentRepo->flush();
         $documentRereaded = $this->documentRepo->get($document->getId());
-        $this->assertInstanceOf(Document::class, $documentRereaded);
+        $this->assertInstanceOf(DocumentInterface::class, $documentRereaded);
         $this->assertTrue($documentRereaded->isPersisted());
     }
 
@@ -197,7 +198,7 @@ class DocumentRepositoryTest extends AppRunner {
 
     public function testRemove_OperationWithLockedEntity() {
         $document = $this->documentRepo->get(self::$idCv);    
-        $this->assertInstanceOf(Document::class, $document);
+        $this->assertInstanceOf(DocumentInterface::class, $document);
         $this->assertTrue($document->isPersisted());
         $this->assertFalse($document->isLocked());
         
@@ -208,7 +209,7 @@ class DocumentRepositoryTest extends AppRunner {
         
     public function testRemove() {
         $document = $this->documentRepo->get(self::$idCv);    
-        $this->assertInstanceOf(Document::class, $document);
+        $this->assertInstanceOf(DocumentInterface::class, $document);
         $this->assertTrue($document->isPersisted());
         $this->assertFalse($document->isLocked());
 

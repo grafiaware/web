@@ -1,6 +1,7 @@
 <?php
-
 namespace Events\Model\Entity;
+
+use Model\Entity\EntityInterface;
 
 /**
  *

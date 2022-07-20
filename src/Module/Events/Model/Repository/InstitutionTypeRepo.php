@@ -43,7 +43,7 @@ class InstitutionTypeRepo extends RepoAbstract implements InstitutionTypeRepoInt
      */    
     public function find($whereClause=null, $touplesToBind=[]) : array {
         return $this->findEntities($whereClause, $touplesToBind);
-}
+    }
     
     
      /**

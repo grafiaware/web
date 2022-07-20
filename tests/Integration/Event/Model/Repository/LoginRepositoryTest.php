@@ -13,6 +13,8 @@ use Model\RowData\RowData;
 use Events\Model\Dao\LoginDao;
 use Events\Model\Repository\LoginRepo;
 use Events\Model\Entity\Login;
+use Events\Model\Entity\LoginInterface;
+
 
 
 /**
@@ -103,7 +105,7 @@ class LoginRepositoryTest extends AppRunner {
 
     public function testGetAndRemoveAfterSetup() {
         $login = $this->loginRepo->get(self::$loginKlic);
-        $this->assertInstanceOf(Login::class, $login);
+        $this->assertInstanceOf(LoginInterface::class, $login);
 
         $login = $this->loginRepo->remove($login);
         $this->assertNull($login);
@@ -129,7 +131,7 @@ class LoginRepositoryTest extends AppRunner {
     
     public function testGetAfterAdd() {
         $login = $this->loginRepo->get(self::$loginKlic);
-        $this->assertInstanceOf(Login::class, $login);
+        $this->assertInstanceOf(LoginInterface::class, $login);
         $this->assertTrue(is_string($login->getLoginName()));
     }
     
@@ -154,7 +156,7 @@ class LoginRepositoryTest extends AppRunner {
     public function testRemove_OperationWithLockedEntity() {
         /** @var Login $login */
         $login = $this->loginRepo->get(self::$loginKlic . "1");    
-        $this->assertInstanceOf(Login::class, $login);
+        $this->assertInstanceOf(LoginInterface::class, $login);
         $this->assertTrue($login->isPersisted());
         $this->assertFalse($login->isLocked());
         
@@ -170,7 +172,7 @@ class LoginRepositoryTest extends AppRunner {
         /** @var Login $login */
         $login = $this->loginRepo->get(self::$loginKlic . "1" );
                 
-        $this->assertInstanceOf(Login::class, $login);
+        $this->assertInstanceOf(LoginInterface::class, $login);
         $this->assertTrue($login->isPersisted());
         $this->assertFalse($login->isLocked());
         

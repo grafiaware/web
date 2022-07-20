@@ -10,7 +10,6 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Entity\InstitutionType;
 use Events\Model\Entity\InstitutionTypeInterface;
-
 use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Repository\InstitutionTypeRepo;
 
@@ -107,7 +106,7 @@ class InstitutionTypeRepositoryTest extends AppRunner {
 
     public function testGetAfterSetup() {
         $institutionType = $this->institutionTypeRepo->get(self::$institutionTypeId);    
-        $this->assertInstanceOf(InstitutionType::class, $institutionType);
+        $this->assertInstanceOf(InstitutionTypeInterface::class, $institutionType);
     }
 
  
@@ -129,7 +128,7 @@ class InstitutionTypeRepositoryTest extends AppRunner {
         $this->institutionTypeRepo->add($institutionType);
         $this->institutionTypeRepo->flush();
         $institutionTypeRereaded = $this->institutionTypeRepo->get($institutionType->getId());
-        $this->assertInstanceOf(InstitutionType::class, $institutionTypeRereaded);
+        $this->assertInstanceOf(InstitutionTypeInterface::class, $institutionTypeRereaded);
         $this->assertTrue($institutionTypeRereaded->isPersisted());
         $this->assertFalse($institutionTypeRereaded->isLocked());
     }
@@ -151,7 +150,7 @@ class InstitutionTypeRepositoryTest extends AppRunner {
 
     public function testRemove_OperationWithLockedEntity() {
         $institutionType = $this->institutionTypeRepo->get(self::$institutionTypeId);    
-        $this->assertInstanceOf(InstitutionType::class, $institutionType);
+        $this->assertInstanceOf(InstitutionTypeInterface::class, $institutionType);
         $this->assertTrue($institutionType->isPersisted());
         $this->assertFalse($institutionType->isLocked());
         
@@ -163,7 +162,7 @@ class InstitutionTypeRepositoryTest extends AppRunner {
     
     public function testRemove() {
         $institutionType = $this->institutionTypeRepo->get(self::$institutionTypeId);    
-        $this->assertInstanceOf(InstitutionType::class, $institutionType);
+        $this->assertInstanceOf(InstitutionTypeInterface::class, $institutionType);
         $this->assertTrue($institutionType->isPersisted());
         $this->assertFalse($institutionType->isLocked());
 

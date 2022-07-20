@@ -34,10 +34,13 @@ class Institution extends EntityAbstract implements InstitutionInterface {
 
     public function setName( $name ): InstitutionInterface {
         $this->name = $name;
+        return $this;
     }
 
     public function setInstitutionTypeId($institutionTypeId): InstitutionInterface {
         $this->institutionTypeId = $institutionTypeId;
+        return $this;
+
     }
 
 

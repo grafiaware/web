@@ -1,9 +1,7 @@
 <?php
 namespace Events\Model\Repository;
 
-
 use Model\Repository\RepoInterface;
-
 use Events\Model\Entity\InstitutionInterface;
 
 /**
@@ -49,5 +47,6 @@ interface InstitutionRepoInterface  extends RepoInterface {
      * @param InstitutionInterface $institution
      * @return void
      */
-    public function remove(InstitutionType $institution) : void ;
+    public function remove(InstitutionInterface $institution) : void ;
+    
 }

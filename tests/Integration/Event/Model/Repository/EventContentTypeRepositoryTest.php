@@ -108,7 +108,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
     public function testGetAndRemoveAfterSetup() {
         /** @var EventContentType $eventContentType */
         $eventContentType = $this->eventContentTypeRepo->get( self::$typeKlic );   
-        $this->assertInstanceOf(EventContentType::class, $eventContentType);
+        $this->assertInstanceOf(EventContentTypeInterface::class, $eventContentType);
 
         $v = $this->eventContentTypeRepo->remove($eventContentType);
         $this->assertNull($v);
@@ -157,7 +157,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
 
         /** @var EventContentType $eventContentTypeRereaded */
         $eventContentTypeRereaded = $this->eventContentTypeRepo->get($eventContentType->getType());
-        $this->assertInstanceOf(EventContentType::class, $eventContentTypeRereaded);        
+        $this->assertInstanceOf(EventContentTypeInterface::class, $eventContentTypeRereaded);        
         $this->assertTrue($eventContentTypeRereaded->isPersisted());
         $this->assertFalse($eventContentType->isLocked());
     }    
@@ -182,7 +182,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
     public function testRemove_OperationWithLockedEntity() {
         /** @var EventContentType $eventContentType */
         $eventContentType = $this->eventContentTypeRepo->get(self::$typeKlic . "1");    
-        $this->assertInstanceOf(EventContentType::class, $eventContentType);
+        $this->assertInstanceOf(EventContentTypeInterface::class, $eventContentType);
         $this->assertTrue($eventContentType->isPersisted());
         $this->assertFalse($eventContentType->isLocked());
         
@@ -196,7 +196,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
         /** @var EventContentType $eventContentType */
         $eventContentType = $this->eventContentTypeRepo->get(self::$typeKlic . "1" );
                 
-        $this->assertInstanceOf(EventContentType::class, $eventContentType);
+        $this->assertInstanceOf(EventContentTypeInterface::class, $eventContentType);
         $this->assertTrue($eventContentType->isPersisted());
         $this->assertFalse($eventContentType->isLocked());
         
