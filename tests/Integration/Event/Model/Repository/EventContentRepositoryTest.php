@@ -1,21 +1,20 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
+namespace Test\Integration\Event\Model\Repository;
 
-
-
-use PHPUnit\Framework\TestCase;
-
+use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
-use Events\Model\Dao\EventContentDao;
-use Events\Model\Repository\EventLinkRepo;
 
 use Events\Model\Entity\EventContent;
+use Events\Model\Entity\EventContentInterface;
+use Events\Model\Dao\EventContentDao;
+use Events\Model\Repository\EventContentRepo;
 
+use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
 
 // eventrepo
@@ -27,12 +26,11 @@ use Events\Model\Entity\EventType;
 
 use Pes\Database\Statement\Exception\ExecuteException;
 
-/**
- *
- * @author pes2704
- */
-class EventContentRepositoryTest extends TestCase {
 
+/**
+ * Description of EventContentRepositoryTest
+ */
+class EventContentRepositoryTest extends AppRunner {
     private $container;
 
     /**
