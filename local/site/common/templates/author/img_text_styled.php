@@ -1,3 +1,4 @@
+<div class="" data-template="<?="img_text_styled" ?>">
     <div class="blok-sedy-obr-text">
         <div class="ui two column grid">
             <div class="ten wide column">
@@ -14,3 +15,4 @@
             </div>
         </div>
     </div>
+</div>

@@ -142,3 +142,36 @@
 /*    max-height: 300px;
     max-width: 300px;*/
 }
+
+.segment(@color, @backgroundColor, @border, @borderRadius, @boxShadow){
+    color: @color;
+    background-color: @backgroundColor;
+    border: @border;
+    border-radius: @borderRadius;
+    box-shadow: @boxShadow
+}
+
+[data-template="bordered_rows"]{
+    [data-template="two_blocks_styled"]{
+/*        .segment{
+            border-radius: 100px 0 100px 0;
+            box-shadow: none;
+            background: 0 0;
+            color: @grey;
+        }*/
+        /*.segment(@color, @backgroundColor, @border, @borderRadius, @box-shadow)*/
+        .segment{
+            .segment(@grey,0 0,1px solid,100px 0 100px 0,none);
+        }
+    }       
+}
+[data-template="divided_rows"]{
+    [data-template="two_blocks_styled"]{
+        .segment{
+            border: 0;
+            border-left: 2px double @primaryColor;
+            border-radius: 0;
+            box-shadow: none;
+        }
+    }       
+}

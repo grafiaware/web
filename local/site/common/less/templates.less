@@ -11,9 +11,19 @@
 /******************************* 
          layout.less: @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables"
 *******************************/
-@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";    
+@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";        
 
-                                               
+
+/*******************************
+         styly pro šablony author v site
+         templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
+*******************************/ 
+&{       
+@templateType: "author";                                             
+@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
+}
+         
 /*******************************        
          styly pro šablony multipage v site
          templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less"; 
@@ -36,7 +46,7 @@
 
 /*******************************
          styly pro šablony paper    
-         templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";  
+         templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";             
 *******************************/ 
 &{    
 @templateType: "paper";                                     
@@ -54,15 +64,6 @@
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";  
 }
           
-/*******************************
-         styly pro šablony author v site
-         templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
-*******************************/ 
-&{       
-@templateType: "author";                                             
-@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
-}
 
 /*******************************
          styly pro šablony static v site

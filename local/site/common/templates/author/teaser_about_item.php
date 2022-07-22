@@ -1,4 +1,4 @@
-        <div class="">
+        <div class="" data-template="<?="teaser_about_item" ?>">
             <div class="ui padded grid stackable centered">
                 <div class="sixteen wide column">
                     <p class="text velky primarni-barva zadne-okraje">Architekt kybernetické bezpečnosti</p>

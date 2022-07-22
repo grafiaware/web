@@ -1,3 +1,4 @@
+<div class="" data-template="<?= "two_columns_divided" ?>">
     <div class="dva-sloupce-nadpis">
         <div class="ui two column grid internally celled stackable centered">
             <div class="seven wide column">
@@ -15,3 +16,4 @@
             </div>
         </div>
     </div>
+</div>
