@@ -152,10 +152,11 @@ class InstitutionRepositoryTest extends AppRunner {
         $this->assertInstanceOf(InstitutionInterface::class, $institutionRereaded);
         $this->assertTrue($institutionRereaded->isPersisted());
         $this->assertFalse($institutionRereaded->isLocked());
-        //$institutionRereaded, $institution ... jsou odkazy na stejny objekt      
-        
+       
+        //$institutionRereaded, $institution ... jsou odkazy na stejny objekt              
         self::$idI = $institution->getId();
         self::$idR = $institutionRereaded->getId();
+        $this->assertEquals(self::$idI, self::$idR );
         
         $institution->setInstitutionTypeId(self::$institutionTypeId);
     }    
