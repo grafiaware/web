@@ -12,6 +12,9 @@ use Events\Model\Entity\EventContent;
 use Events\Model\Entity\EventContentInterface;
 use Events\Model\Dao\EventContentDao;
 use Events\Model\Repository\EventContentRepo;
+use Events\Model\Repository\EventContentRepoInterface;
+use Events\Model\Dao\InstitutionDao;
+use Events\Model\Dao\InstitutionTypeDao;
 
 use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
@@ -41,16 +44,17 @@ class EventContentRepositoryTest extends AppRunner {
     private static $eventContentId;
     private static $eventContentTitle = "testEventContentRepo";
     
-    private static $institutionId;
+    private static $pripravaInstitutionId;
     private static $institutionName = "proTestEventContentRepo";
     
-    private static $institutionTypeId;
+    private static $pripravaInstitutionTypeId;
     private static $institutionType = "proTestEventContentRepo";
     
-    private static $idI;
-    private static $idR;
+    private static $idI_poAdd;
+    private static $idR_poAddRereaded;
 
     public static function setUpBeforeClass(): void {       
+        self::bootstrapBeforeClass();
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
@@ -76,7 +80,7 @@ class EventContentRepositoryTest extends AppRunner {
         $eventContentDao->insert($rowData);
         self::$eventContentId = $eventContentDao->lastInsertIdValue();
          
-        //---------------------------------------------------------------------- 
+        //----------------priprava------------------------------------------------------ 
         /** @var InstitutionDao $institutionDao */
         $institutionDao = $container->get(InstitutionDao::class);  
         $rowData = new RowData();
@@ -84,7 +88,7 @@ class EventContentRepositoryTest extends AppRunner {
             'name' => self::$institutionName
         ]);
         $institutionDao->insert($rowData);                
-        self::$institutionId = $institutionDao->lastInsertIdValue();        
+        self::$pripravaInstitutionId = $institutionDao->lastInsertIdValue();        
         /** @var InstitutionTypeDao $institutionTypeDao */
         $institutionTypeDao = $container->get(InstitutionTypeDao::class);  
         $rowData = new RowData();
@@ -92,7 +96,7 @@ class EventContentRepositoryTest extends AppRunner {
             'institution_type' => self::$institutionType
         ]);
         $institutionTypeDao->insert($rowData);                
-        self::$institutionTypeId = $institutionTypeDao->lastInsertIdValue();
+        self::$pripravaInstitutionTypeId = $institutionTypeDao->lastInsertIdValue();
     }
     
     
@@ -162,29 +166,47 @@ class EventContentRepositoryTest extends AppRunner {
     public function testGetAfterSetup() {
         $eventContent = $this->eventContentRepo->get(self::$eventContentId);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
         $this->assertInstanceOf(EventContentInterface::class, $eventContent);
-
-//        $event = $this->eventContentRepo->remove($event);
-//        $this->assertNull($event);
     }
 
-//    public function testGetAfterRemove() {
-//        $event = $this->eventContentRepo->get(self::$id);
-//        $this->assertNull($event);
-//    }
 
-//    public function testAdd() {
-//
-//        $eventContent = new EventContent();
-//        $eventContent->setInstitutionIdFk(null);
-//        $eventContent->setParty("testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk");
-//        $eventContent->setPerex("testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů");
-//        $eventContent->setTitle("testEventContentPřednáška");
-//        $this->eventContentRepo->add($eventContent);
-//        $this->assertTrue($eventContent->isPersisted());
-//        self::$id = $eventContent->getId();  // autoincrement id
-//        $this->assertIsInt(self::$id);
-//    }
-//
+
+    public function testAdd() {
+        $eventContent = new EventContent();
+        $eventContent->setInstitutionIdFk(null);
+        $eventContent->setParty("testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk");
+        $eventContent->setPerex("testEventContent Perexůrjheů");
+        $eventContent->setTitle("testEventContent TitlePřednáška");
+        
+        $this->eventContentRepo->add($eventContent); //zapise hned
+          /** @var EventContent $eventContentRereaded */
+        $eventContentRereaded = $this->eventContentRepo->get($eventContent->getId());
+        $this->assertInstanceOf(EventContentInterface::class, $eventContentRereaded);
+        $this->assertTrue($eventContentRereaded->isPersisted());
+        $this->assertFalse($eventContentRereaded->isLocked());
+       
+        //$eventContentRereaded, $eventContent ... jsou odkazy na stejny objekt              
+        self::$idI_poAdd = $eventContent->getId();
+        self::$idR_poAddRereaded = $eventContentRereaded->getId();
+        $this->assertEquals(self::$idI_poAdd, self::$idR_poAddRereaded );        
+        
+        $eventContent->setInstitutionIdFk( self::$pripravaInstitutionId ); //zapise do entity, ktera je v repository
+
+
+    }
+
+    public function testAddAndReread_II() {        
+        $eventContent = $this->eventContentRepo->get(self::$idI_poAdd);
+    
+        /** @var EventContent $eventContentRereaded2 */
+        $eventContentRereaded2 = $this->eventContentRepo->get($eventContent->getId());
+        $this->assertInstanceOf(InstitutionInterface::class, $eventContentRereaded2);
+        $this->assertTrue($eventContentRereaded2->isPersisted());
+        $this->assertFalse($eventContentRereaded2->isLocked());
+
+        $this->assertEquals(self::$pripravaInstitutionId, $eventContentRereaded2->getInstitutionIdFk() );
+    }
+    
+    
 //    public function testFindAll() {
 //        $eventContents = $this->eventContentRepo->findAll();
 //        $this->assertTrue(is_array($eventContents));

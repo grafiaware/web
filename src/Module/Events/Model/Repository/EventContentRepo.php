@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
@@ -13,6 +6,7 @@ use Model\Hydrator\HydratorInterface;
 
 use Events\Model\Entity\EventContent;
 use Events\Model\Entity\EventContentInterface;
+use Events\Model\Repository\EventContentRepoInterface;
 
 use Events\Model\Dao\EventContentDao;
 
@@ -40,30 +34,58 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
         return $this->getEntity($key);
     }
 
+    /**
+     * 
+     * @return EventContentInterface[]
+     */
     public function find($whereClause="", $touplesToBind=[]): array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
 
+    /**
+     * 
+     * @return EventContentInterface[]
+     */
     public function findAll(): array {
         return $this->findEntities();
     }
 
-    public function add(EventContentInterface $eventContent) {
+    /**
+     * 
+     * @param EventContentInterface $eventContent
+     * @return void
+     */
+    public function add(EventContentInterface $eventContent) :void  {
         $this->addEntity($eventContent);
     }
-
-    public function remove(EventContentInterface $eventContent) {
+    
+     
+    /**
+     * 
+     * @param EventContentInterface $eventContent
+     * @return void
+     */
+    public function remove(EventContentInterface $eventContent) :void {
         $this->removeEntity($eventContent);
     }
 
+    
+    
+    /**
+     * 
+     * @param EventContentInterface $eventContent
+     * @return void
+     */
     protected function createEntity() : EventContentInterface {
         return new EventContent();
     }
 
+    
     protected function indexFromEntity(EventContentInterface $eventLink) {
         return $eventLink->getId();
     }
 
+    
     protected function indexFromRow($row) {
         return $row['id'];
     }

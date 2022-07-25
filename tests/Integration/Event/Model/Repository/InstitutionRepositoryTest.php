@@ -158,7 +158,7 @@ class InstitutionRepositoryTest extends AppRunner {
         self::$idR = $institutionRereaded->getId();
         $this->assertEquals(self::$idI, self::$idR );
         
-        $institution->setInstitutionTypeId(self::$institutionTypeId);
+        $institution->setInstitutionTypeId(self::$institutionTypeId); //zapise do entity, ktera je v repository
     }    
     
     public function testAddAndReread_II() {        

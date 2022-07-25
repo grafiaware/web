@@ -1,0 +1,8 @@
+debug | 2022-07-25 11:03:53 | [2022-07-25 11:03:53] Logger start. Log file: C:\APACHEROOT\web\testsTestLogs/Events/Database.log. Mode 'w+'.
+debug | 2022-07-25 11:03:53 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=xxxxxxxxxxx
+debug | 2022-07-25 11:03:53 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
