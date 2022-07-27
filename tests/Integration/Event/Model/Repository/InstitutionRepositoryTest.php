@@ -211,7 +211,7 @@ class InstitutionRepositoryTest extends AppRunner {
         $this->assertTrue($institution->isPersisted());
         $this->assertTrue($institution->isLocked());   // maže až při flush
         $this->institutionRepo->flush();
-        // document uz neni locked
+        //  uz neni locked
         $this->assertFalse($institution->isLocked());
        
         // pokus o čtení, institution uz  neni

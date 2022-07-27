@@ -10,13 +10,12 @@ namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
 use Events\Model\Entity\EnrollInterface;
 use Events\Model\Entity\Enroll;
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
 
-use Model\Repository\Exception\UnableRecreateEntityException;
+//use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu
@@ -31,8 +30,9 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
     }
 
     /**
-     *
-     * @param type $id
+     * 
+     * @param type $loginName
+     * @param type $eventId
      * @return EnrollInterface|null
      */
     public function get($loginName, $eventId): ?EnrollDaoInterface {
@@ -40,19 +40,40 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
         return $this->getEntity($key);
     }
 
-    public function findByLoginName($loginName) {
+   
+    /**
+     * 
+     * @param type $loginName     
+     * @return EnrollInterface[]
+     */
+    public function findByLoginName($loginName) : array{
         return $this->findEntities("login_name = :login_name", [":login_name"=>$loginName]);
     }
-
-    public function findAll() {
+    
+    /**
+     * 
+     * @return EnrollInterface[]
+     */
+    public function findAll() : array {
         return $this->findEntities();
     }
 
-    public function add(EnrollDaoInterface $enroll) {
+   
+    /**
+     * 
+     * @param EnrollInterface $enroll
+     * @return void
+     */
+    public function add(EnrollInterface $enroll) :void {
         $this->addEntity($enroll);
     }
 
-    public function remove(EnrollDaoInterface $enroll) {
+    /**
+     * 
+     * @param EnrollInterface $enroll
+     * @return void
+     */
+    public function remove(EnrollInterface $enroll) :void {
         $this->removeEntity($enroll);
     }
 

@@ -1,15 +1,8 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
+namespace Test\Integration\Event\Model\Repository;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-use PHPUnit\Framework\TestCase;
-
+use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
 use Test\Integration\Event\Container\EventsContainerConfigurator;
@@ -17,7 +10,6 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventDao;
 use Events\Model\Repository\EventRepo;
-
 use Events\Model\Entity\Event;
 
 use Model\RowData\RowData;
@@ -25,9 +17,8 @@ use Model\RowData\RowData;
 
 /**
  *
- * @author pes2704
  */
-class EventRepositoryTest extends TestCase {
+class EventRepositoryTest extends AppRunner {
 
     private $container;
 
@@ -37,33 +28,22 @@ class EventRepositoryTest extends TestCase {
      */
     private $eventRepo;
 
-    private static $id;
+    private static $idEvent;
 
     private static $startTimestamp;
 
-    public static function setUpBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
-
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
-
+    public static function setUpBeforeClass(): void {     
+        self::bootstrapBeforeClass();
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                    (new Container( )  )  )
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
 
+        
         // toto je příprava testu
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
@@ -72,14 +52,15 @@ class EventRepositoryTest extends TestCase {
         $rowData->offsetSet('start', self::$startTimestamp);
         $rowData->offsetSet('end', (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'));
         $eventDao->insert($rowData);
-        self::$id = $eventDao->lastInsertIdValue();
+        self::$idEvent = $eventDao->lastInsertIdValue();
     }
 
     private static function deleteRecords(Container $container) {
-        /** @var EventDao $eventDao */
+//        /** @var EventDao $eventDao */
 //        $eventDao = $container->get(EventDao::class);
+//        
 //        $rowData = new RowData();
-//        $rowData->import(['id'=>self::$id]);
+//        $rowData->import(['id'=>self::$idEvent]);
 //        $eventDao->delete($rowData);
     }
 
@@ -99,12 +80,8 @@ class EventRepositoryTest extends TestCase {
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                    (new Container(   ) ) )
             );
-
         self::deleteRecords($container);
     }
 
@@ -117,8 +94,9 @@ class EventRepositoryTest extends TestCase {
         $this->assertNull($event);
     }
 
+    
     public function testGetAndRemoveAfterSetup() {
-        $event = $this->eventRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $event = $this->eventRepo->get(self::$idEvent);
         $this->assertInstanceOf(Event::class, $event);
 
         $event = $this->eventRepo->remove($event);
@@ -126,18 +104,19 @@ class EventRepositoryTest extends TestCase {
     }
 
     public function testGetAfterRemove() {
-        $event = $this->eventRepo->get(self::$id);
+        $event = $this->eventRepo->get(self::$idEvent);
         $this->assertNull($event);
     }
+    
 
-    public function testAdd() {
-        $event = new Event();
-        $event->setPublished(true);
-        $event->setStart((new\DateTime())->setDate(1999, 7, 11)->setTime(14, 55));
-        $event->setEnd( ( clone $event->getStart())->modify("+1 hour"));
-        $this->eventRepo->add($event);
-        $this->assertTrue($event->isPersisted());
-    }
+//    public function testAdd() {
+//        $event = new Event();
+//        $event->setPublished(true);
+//        $event->setStart((new\DateTime())->setDate(1999, 7, 11)->setTime(14, 55));
+//        $event->setEnd( ( clone $event->getStart())->modify("+1 hour"));
+//        $this->eventRepo->add($event);
+//        $this->assertTrue($event->isPersisted());
+//    }
 
     public function testFindAll() {
         $events = $this->eventRepo->findAll();

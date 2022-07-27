@@ -12,21 +12,11 @@ use Events\Model\Entity\EventContent;
 use Events\Model\Entity\EventContentInterface;
 use Events\Model\Dao\EventContentDao;
 use Events\Model\Repository\EventContentRepo;
-use Events\Model\Repository\EventContentRepoInterface;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Dao\InstitutionTypeDao;
 
 use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
-
-// eventrepo
-use Events\Model\Repository\EventRepo;
-use Events\Model\Entity\EventInterface;
-// event type repo
-use Events\Model\Repository\EventContentTypeRepo;
-use Events\Model\Entity\EventContentType;
-
-use Pes\Database\Statement\Exception\ExecuteException;
 
 
 /**
@@ -42,7 +32,7 @@ class EventContentRepositoryTest extends AppRunner {
     private $eventContentRepo;
 
     private static $eventContentId;
-    private static $eventContentTitle = "testEventContentRepo";
+    private static $eventContentTitle = "testEventContent";
     
     private static $pripravaInstitutionId;
     private static $institutionName = "proTestEventContentRepo";
@@ -51,7 +41,7 @@ class EventContentRepositoryTest extends AppRunner {
     private static $institutionType = "proTestEventContentRepo";
     
     private static $idI_poAdd;
-    private static $idR_poAddRereaded;
+    private static $idR_poAddRereaded; //pro test
 
     public static function setUpBeforeClass(): void {       
         self::bootstrapBeforeClass();
@@ -71,12 +61,12 @@ class EventContentRepositoryTest extends AppRunner {
     private static function insertRecords(Container $container) {
          
         // toto je příprava testu
-        /** @var EventContentDao $eventTContentDao */
+        /** @var EventContentDao $eventContentDao */
         $eventContentDao = $container->get(EventContentDao::class);
         $rowData = new RowData();
         $rowData->offsetSet('party', "Kluk, Ťuk, Muk, Kuk, Buk, Guk");
         $rowData->offsetSet('perex', "sůheůrjheů");
-        $rowData->offsetSet('title', self::$eventContentTitle);
+        $rowData->offsetSet('title', self::$eventContentTitle . "titlePrednasky");
         $eventContentDao->insert($rowData);
         self::$eventContentId = $eventContentDao->lastInsertIdValue();
          
@@ -106,11 +96,7 @@ class EventContentRepositoryTest extends AppRunner {
         $eventContentDao = $container->get(EventContentDao::class);
         $rows = $eventContentDao->find("title LIKE '". self::$eventContentTitle . "%'", []);
         foreach($rows as $row) {
-           // try {
-                $eventContentDao->delete($row);
-           // } catch (\PDOException $e) {
-           //     echo $e->getMessage();
-           // }
+                $eventContentDao->delete($row);          
         }
         //-------------------------------------------------------------
          /** @var InstitutionDao $institutionDao */
@@ -199,7 +185,7 @@ class EventContentRepositoryTest extends AppRunner {
     
         /** @var EventContent $eventContentRereaded2 */
         $eventContentRereaded2 = $this->eventContentRepo->get($eventContent->getId());
-        $this->assertInstanceOf(InstitutionInterface::class, $eventContentRereaded2);
+        $this->assertInstanceOf(EventContent::class, $eventContentRereaded2);
         $this->assertTrue($eventContentRereaded2->isPersisted());
         $this->assertFalse($eventContentRereaded2->isLocked());
 
@@ -207,39 +193,81 @@ class EventContentRepositoryTest extends AppRunner {
     }
     
     
-//    public function testFindAll() {
-//        $eventContents = $this->eventContentRepo->findAll();
-//        $this->assertTrue(is_array($eventContents));
-//    }
-//
-//    public function testFind() {
-//        $eventContents = $this->eventContentRepo->find("perex LIKE 'testEventContent%'", []);
-//        $this->assertTrue(is_array($eventContents));
-//    }
-//
-//    public function testGetAfterAdd() {
-//        $eventContent = $this->eventContentRepo->get(self::$id);
-//        $this->assertInstanceOf(EventContent::class, $eventContent);
-//        $this->assertIsString($eventContent->getParty());
-//    }
-//
-//    public function testGetAndRemoveAfterAdd() {
-//        $eventContent = $this->eventContentRepo->get(self::$id);
-//        $this->eventContentRepo->remove($eventContent);
-//        $this->assertTrue($eventContent->isLocked(), 'EventContent není zamčena po remove.');
-//    }
-//
-//    public function testAddAndReread() {
-//        $eventContent = new EventContent();
-//        $eventContent->setParty("testEventContent Fšicí");
-//        $eventContent->setPerex("testEventContent Vážení přátelé ANO!");
-//        $eventContent->setTitle("testEventContent Přednáška pro fšecky.");
-//        $this->eventContentRepo->add($eventContent);
-//        $this->eventContentRepo->flush();
-//        $eventContentRe = $this->eventContentRepo->get($eventContent->getId());
-//        $this->assertTrue($eventContentRe->isPersisted(), 'EventContent není persistován.');
-//        $this->assertTrue(is_string($eventContent->getPerex()));
-//        self::$id = $eventContentRe->getId();
-//    }
+    public function testFindAll() {
+        $eventContents = $this->eventContentRepo->findAll();
+        $this->assertTrue(is_array($eventContents));
+    }
+    
+    
+
+    public function testFind() {
+        $eventContents = $this->eventContentRepo->find("perex LIKE 'testEventContent%'", []);
+        $this->assertTrue(is_array($eventContents));
+    }
+
+    
+    
+    public function testGetAfterAdd() {
+        $eventContent = $this->eventContentRepo->get(self::$idI_poAdd);
+        $this->assertInstanceOf(EventContent::class, $eventContent);
+        $this->assertIsString($eventContent->getParty());
+    }
+
+    
+    public function testGetAndRemoveAfterAdd() {
+        $eventContent = $this->eventContentRepo->get(self::$idI_poAdd);
+        $this->eventContentRepo->remove($eventContent);
+        $this->assertTrue($eventContent->isPersisted());
+        $this->assertTrue($eventContent->isLocked());
+    }
+    
+    
+
+    public function testAddAndReread() {
+        $eventContent = new EventContent();
+        $eventContent->setParty("testEventContent Fšicí");
+        $eventContent->setPerex("testEventContent Vážení přátelé ANO!");
+        $eventContent->setTitle("testEventContent Přednáška pro fšecky.");
+        $this->eventContentRepo->add($eventContent);  //zapise hned, auto gener.klic
+        //$this->eventContentRepo->flush();
+        
+        $eventContentRe = $this->eventContentRepo->get($eventContent->getId());
+        $this->assertTrue($eventContentRe->isPersisted() );
+        $this->assertTrue(is_string($eventContent->getPerex()));
+    }
+    
+    
+    public function testRemove_OperationWithLockedEntity() {
+        $eventContent = $this->eventContentRepo->get(self::$eventContentId);    
+        $this->assertInstanceOf( EventContent::class, $eventContent);
+        $this->assertTrue($eventContent->isPersisted());
+        $this->assertFalse($eventContent->isLocked());
+        
+        $eventContent->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
+        $this->eventContentRepo->remove($eventContent);
+    }
+
+    
+    public function testRemove() {
+        $eventContent = $this->eventContentRepo->get(self::$eventContentId);    
+        $this->assertInstanceOf(EventContent::class, $eventContent);
+        $this->assertTrue($eventContent->isPersisted());
+        $this->assertFalse($eventContent->isLocked());
+
+        $this->eventContentRepo->remove($eventContent);
+        
+        $this->assertTrue($eventContent->isPersisted());
+        $this->assertTrue($eventContent->isLocked());   // maže až při flush
+        $this->eventContentRepo->flush();
+        // uz neni locked
+        $this->assertFalse($eventContent->isLocked());
+       
+        // pokus o čtení, entita uz  neni
+        $eventContent = $this->eventContentRepo->get(self::$eventContentId);
+        $this->assertNull($eventContent);
+    }
+    
+    
 
 }

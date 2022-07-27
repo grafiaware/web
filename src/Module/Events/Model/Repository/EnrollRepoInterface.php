@@ -1,23 +1,52 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
 
 use Events\Model\Entity\EnrollInterface;
 
+
+
+
 /**
  *
- * @author pes2704
+ * 
  */
-interface EnrollRepoInterface extends RepoInterface {
-    public function get($loginName, $eventId): ?EnrollDaoInterface;
-    public function add(EnrollDaoInterface $enroll);
-    public function remove(EnrollDaoInterface $enroll);
+interface EnrollRepoInterface  extends RepoInterface { 
+    /**
+     * 
+     * @param type $loginName
+     * @param type $eventId
+     * @return EnrollInterface|null
+     */
+    public function get($loginName, $eventId): ?EnrollInterface ;
+          
+    /**
+     * 
+     * @param type $loginName     
+     * @return EnrollInterface[]
+     */
+    public function findByLoginName($loginName) : array;
+    
+    /**
+     * 
+     * @return EnrollInterface[]
+     */
+    public function findAll(): array  ;
+    
+    /**
+     * 
+     * @param EnrollInterface $enroll
+     * @return void
+     */
+    public function add(EnrollInterface $enroll) :void;
+    
+    /**
+     * 
+     * @param EnrollInterface $enroll
+     * @return void
+     */
+    public function remove(EnrollInterface $enroll)  :void;
+    
+    
 }
