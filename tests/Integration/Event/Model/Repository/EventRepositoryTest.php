@@ -11,15 +11,14 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 use Events\Model\Dao\EventDao;
 use Events\Model\Repository\EventRepo;
 use Events\Model\Entity\Event;
+use Events\Model\Entity\EventInterface;
 
 use Model\RowData\RowData;
-
 
 /**
  *
  */
 class EventRepositoryTest extends AppRunner {
-
     private $container;
 
     /**
@@ -29,8 +28,9 @@ class EventRepositoryTest extends AppRunner {
     private $eventRepo;
 
     private static $idEvent;
-
-    private static $startTimestamp;
+    private static $startTimestamp = '2000-01-01 01:01:01' ;    
+    private static $idI_poAdd ;
+    private static $idR_poAddRereaded ;
 
     public static function setUpBeforeClass(): void {     
         self::bootstrapBeforeClass();
@@ -42,26 +42,27 @@ class EventRepositoryTest extends AppRunner {
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
-
         
         // toto je příprava testu
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
         $rowData = new RowData();
         $rowData->offsetSet('published', true);
-        $rowData->offsetSet('start', self::$startTimestamp);
-        $rowData->offsetSet('end', (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'));
+        $rowData->offsetSet('start', self::$startTimestamp  );
+        //     $d=(new \DateTime())->format('Y-m-d H:i:s');                
+        $rowData->offsetSet('end',   (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'));
         $eventDao->insert($rowData);
         self::$idEvent = $eventDao->lastInsertIdValue();
     }
 
     private static function deleteRecords(Container $container) {
-//        /** @var EventDao $eventDao */
-//        $eventDao = $container->get(EventDao::class);
-//        
-//        $rowData = new RowData();
-//        $rowData->import(['id'=>self::$idEvent]);
-//        $eventDao->delete($rowData);
+        /** @var EventDao $eventDao */
+        $eventDao = $container->get(EventDao::class);
+        
+        $rows = $eventDao->find( "  `start` = '" . self::$startTimestamp  . "'"   /*, [] */ );               
+        foreach($rows as $row) {
+            $ok = $eventDao->delete($row);
+        }       
     }
 
     protected function setUp(): void {
@@ -95,33 +96,76 @@ class EventRepositoryTest extends AppRunner {
     }
 
     
-    public function testGetAndRemoveAfterSetup() {
+    public function testGetAfterSetup() {
         $event = $this->eventRepo->get(self::$idEvent);
-        $this->assertInstanceOf(Event::class, $event);
-
-        $event = $this->eventRepo->remove($event);
-        $this->assertNull($event);
+        $this->assertInstanceOf(EventInterface::class, $event);
+        
     }
 
-    public function testGetAfterRemove() {
-        $event = $this->eventRepo->get(self::$idEvent);
-        $this->assertNull($event);
+    
+    
+//    public function testRemoveAfterSetup() {
+//        $event = $this->eventRepo->get(self::$idEvent);
+//        $o = $this->eventRepo->remove($event);        
+//        $this->assertNull($o);
+//    }        
+//    public function testGetAfterRemove() {
+//        $event = $this->eventRepo->get(self::$idEvent);
+//        $this->assertNull($event);
+//    }
+    
+        
+        
+        
+
+    public function testAdd() {
+        $event = new Event();
+        $event->setPublished(true);
+        $event->setStart( \DateTime::createFromFormat( 'Y-m-d H:i:s', self::$startTimestamp) );        //clone $event->getStart())->modify("+1 hour")
+        $event->setEnd(   \DateTime::createFromFormat( 'Y-m-d H:i:s', self::$startTimestamp)->modify("+1 hour") );
+        $this->eventRepo->add($event);  // zapise hned
+        
+        $this->assertTrue($event->isPersisted());
+        
+//        $event->setInstitutionIdFk(null);
+//        $event->setParty("testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk");
+//        $event->setPerex("testEventContent Perexůrjheů");
+//        $event->setTitle("testEventContent TitlePřednáška");
+               
+        /** @var Event $eventRereaded */
+        $eventRereaded = $this->eventRepo->get($event->getId());
+        $this->assertInstanceOf( EventInterface::class, $eventRereaded);
+        $this->assertTrue($eventRereaded->isPersisted());
+        $this->assertFalse($eventRereaded->isLocked());
+       
+        //$eventRereaded, $event ... jsou odkazy na stejny objekt              
+        self::$idI_poAdd = $event->getId();
+        self::$idR_poAddRereaded = $eventRereaded->getId();
+        $this->assertEquals(self::$idI_poAdd, self::$idR_poAddRereaded );                      
     }
     
+    
 
-//    public function testAdd() {
-//        $event = new Event();
-//        $event->setPublished(true);
-//        $event->setStart((new\DateTime())->setDate(1999, 7, 11)->setTime(14, 55));
-//        $event->setEnd( ( clone $event->getStart())->modify("+1 hour"));
-//        $this->eventRepo->add($event);
-//        $this->assertTrue($event->isPersisted());
-//    }
+    public function testAddAndReread_II() {        
+        $event = $this->eventRepo->get(self::$idI_poAdd);
+    
+        /** @var  $eventContentRereaded2 */
+        $eventRereaded2 = $this->eventRepo->get($event->getId());
+        $this->assertInstanceOf(EventInterface::class, $eventRereaded2);
+        $this->assertTrue($eventRereaded2->isPersisted());
+        $this->assertFalse($eventRereaded2->isLocked());
 
+    }
+    
+    
+    
     public function testFindAll() {
         $events = $this->eventRepo->findAll();
         $this->assertTrue(is_array($events));
     }
+    
+    
+    
 
 
 

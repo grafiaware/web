@@ -164,6 +164,7 @@ class EventContentRepositoryTest extends AppRunner {
         $eventContent->setTitle("testEventContent TitlePřednáška");
         
         $this->eventContentRepo->add($eventContent); //zapise hned
+        
           /** @var EventContent $eventContentRereaded */
         $eventContentRereaded = $this->eventContentRepo->get($eventContent->getId());
         $this->assertInstanceOf(EventContentInterface::class, $eventContentRereaded);
@@ -176,9 +177,9 @@ class EventContentRepositoryTest extends AppRunner {
         $this->assertEquals(self::$idI_poAdd, self::$idR_poAddRereaded );        
         
         $eventContent->setInstitutionIdFk( self::$pripravaInstitutionId ); //zapise do entity, ktera je v repository
-
-
     }
+    
+    
 
     public function testAddAndReread_II() {        
         $eventContent = $this->eventContentRepo->get(self::$idI_poAdd);
