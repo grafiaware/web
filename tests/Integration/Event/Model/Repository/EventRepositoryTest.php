@@ -14,6 +14,7 @@ use Events\Model\Entity\Event;
 use Events\Model\Entity\EventInterface;
 
 use Model\RowData\RowData;
+use Model\Repository\Exception\OperationWithLockedEntityException;
 
 /**
  *
@@ -29,8 +30,8 @@ class EventRepositoryTest extends AppRunner {
 
     private static $idEvent;
     private static $startTimestamp = '2000-01-01 01:01:01' ;    
-    private static $idI_poAdd ;
-    private static $idR_poAddRereaded ;
+    private static $idEvent_poAdd ;
+    private static $idEvent_poAddRereaded ;
 
     public static function setUpBeforeClass(): void {     
         self::bootstrapBeforeClass();
@@ -103,7 +104,7 @@ class EventRepositoryTest extends AppRunner {
     }
 
     
-    
+//    asi zbytecne
 //    public function testRemoveAfterSetup() {
 //        $event = $this->eventRepo->get(self::$idEvent);
 //        $o = $this->eventRepo->remove($event);        
@@ -118,7 +119,7 @@ class EventRepositoryTest extends AppRunner {
         
         
 
-    public function testAdd() {
+    public function testAddAndReread_I() {
         $event = new Event();
         $event->setPublished(true);
         $event->setStart( \DateTime::createFromFormat( 'Y-m-d H:i:s', self::$startTimestamp) );        //clone $event->getStart())->modify("+1 hour")
@@ -139,56 +140,70 @@ class EventRepositoryTest extends AppRunner {
         $this->assertFalse($eventRereaded->isLocked());
        
         //$eventRereaded, $event ... jsou odkazy na stejny objekt              
-        self::$idI_poAdd = $event->getId();
-        self::$idR_poAddRereaded = $eventRereaded->getId();
-        $this->assertEquals(self::$idI_poAdd, self::$idR_poAddRereaded );                      
+        self::$idEvent_poAdd = $event->getId();
+        self::$idEvent_poAddRereaded = $eventRereaded->getId();
+        $this->assertEquals(self::$idEvent_poAdd, self::$idEvent_poAddRereaded );                      
     }
     
     
 
     public function testAddAndReread_II() {        
-        $event = $this->eventRepo->get(self::$idI_poAdd);
+        $event = $this->eventRepo->get(self::$idEvent_poAdd);
     
         /** @var  $eventContentRereaded2 */
         $eventRereaded2 = $this->eventRepo->get($event->getId());
         $this->assertInstanceOf(EventInterface::class, $eventRereaded2);
         $this->assertTrue($eventRereaded2->isPersisted());
         $this->assertFalse($eventRereaded2->isLocked());
-
-    }
-    
+    }    
     
     
     public function testFindAll() {
         $events = $this->eventRepo->findAll();
         $this->assertTrue(is_array($events));
+    }       
+    
+
+    public function testGetAndRemoveAfterAdd() {
+        $event = $this->eventRepo->get(self::$idEvent_poAdd);
+        $this->eventRepo->remove($event);
+        $this->assertTrue($event->isLocked());  
+    }
+
+     public function testRemove_OperationWithLockedEntity() {
+        $event = $this->eventRepo->get(self::$idEvent);
+        $this->assertInstanceOf( Event::class, $event);
+        $this->assertTrue($event->isPersisted());
+        $this->assertFalse($event->isLocked());
+        
+        $event->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
+        $this->eventRepo->remove($event);
+    }
+
+    
+    public function testRemove() {
+        $event = $this->eventRepo->get(self::$idEvent);
+        $this->assertInstanceOf(Event::class, $event);
+        $this->assertTrue($event->isPersisted());
+        $this->assertFalse($event->isLocked());
+
+        $this->eventRepo->remove($event);
+        
+        $this->assertTrue($event->isPersisted());
+        $this->assertTrue($event->isLocked());   // maže až při flush
+        $this->eventRepo->flush();
+        // uz neni locked
+        $this->assertFalse($event->isLocked());
+       
+        // pokus o čtení, entita uz  neni
+        $event = $this->eventRepo->get(self::$idEvent);
+        $this->assertNull($event);
     }
     
     
+
     
-
-
-
-//    public function testGetAfterAdd() {
-//        $event = $this->eventRepo->get("XXXXXX");
-//        $this->assertInstanceOf(Event::class, $event);
-//        $this->assertTrue($event->getPublished());
-//    }
-//
-//    public function testGetAndRemoveAfterAdd() {
-//        $event = $this->eventRepo->get("XXXXXX");
-//        $this->eventRepo->remove($event);
-//        $this->assertTrue($event->isLocked(), 'Event není zamčena po remove.');
-//    }
-//
-//    public function testAddAndReread() {
-//        $event = new Event();
-//        $event->setLoginName("XXXXXX");
-//        $this->eventRepo->add($event);
-//        $this->eventRepo->flush();
-//        $event = $this->eventRepo->get($event->getLoginName());
-//        $this->assertTrue($event->isPersisted(), 'Event není persistován.');
-//        $this->assertTrue(is_string($event->getLoginName()));
-//    }
+    
 
 }

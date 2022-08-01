@@ -11,7 +11,6 @@ use Events\Model\Entity\EventInterface;
 
 
 //class EventHydrator extends DatetimeHydrator {
-    //abstract class TypeHydratorAbstract implements HydratorInterface
 class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {    
 
     //  `event`.`id`
@@ -28,10 +27,7 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
      * @param RowDataInterface $rowData
      */
     public function hydrate(EntityInterface $event, RowDataInterface $rowData) {
-        $s = \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('start'));
-        
-        /** @var EventInterface $event */
-        $event
+        $s = \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('start'));               
 //            ->setId($rowData->offsetGet('id'))
 //            ->setPublished($rowData->offsetGet('published') )
 //            ->setStart($this->getPhpDatetime($rowData, 'start'))
@@ -39,7 +35,9 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
 //            ->setEnrollLinkIdFk($rowData->offsetGet('enroll_link_id_fk')  )
 //            ->setEnterLinkIdFk($rowData->offsetGet('enter_link_id_fk'))
 //            ->setEventContentIdFk($rowData->offsetGet('event_content_id_fk')  );
-
+       
+        /** @var EventInterface $event */
+        $event
             ->setId( $this->getPhpValue($rowData,'id'))
             ->setPublished( $this->getPhpValue($rowData,'published') )
             ->setStart($this->getPhpDatetime($rowData, 'start'))
@@ -55,26 +53,19 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
      * @param EntityInterface $event
      * @param RowDataInterface $rowData
      */
-    public function extract(EntityInterface $event, RowDataInterface $rowData) {
-//       
-//        // id je autoincrement
+    public function extract(EntityInterface $event, RowDataInterface $rowData) {       
 //        $rowData->offsetSet('published', $event->getPublished());
 //        $rowData->offsetSet('start', $this->getSqlDatetime($event->getStart()));
-// //  $rowData->offsetSet('start', $this->setSqlDatetime($rowData, 'start', $event->getStart()) );
-//        $rowData->offsetSet('end', $this->getSqlDatetime($event->getEnd(), ) );
-// //  $rowData->offsetSet('end', $this->setSqlDatetime($rowData,'end', $event->getEnd()) );
-//        
+//        $rowData->offsetSet('end', $this->getSqlDatetime($event->getEnd(), ) );        
 //        $rowData->offsetSet('enroll_link_id_fk', $event->getEnrollLinkIdFk());
 //        $rowData->offsetSet('enter_link_id_fk', $event->getEnterLinkIdFk());
 //        $rowData->offsetSet('event_content_id_fk', $event->getEventContentIdFk());
         
         /** @var EventInterface $event */
         // id je autoincrement readonly
-
         $this->setSqlValue($rowData, 'published', $event->getPublished()) ;
         $this->setSqlDatetime($rowData, 'start', $event->getStart()) ;
-        $this->setSqlDatetime($rowData, 'end',  $event->getEnd()) ;
-        
+        $this->setSqlDatetime($rowData, 'end',  $event->getEnd()) ;        
         $this->setSqlValue($rowData, 'enroll_link_id_fk', $event->getEnrollLinkIdFk());
         $this->setSqlValue($rowData, 'enter_link_id_fk', $event->getEnterLinkIdFk());
         $this->setSqlValue($rowData, 'event_content_id_fk', $event->getEventContentIdFk());               

@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
@@ -29,18 +22,21 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
         $this->registerHydrator($enrollHydrator);
     }
 
+    
     /**
      * 
      * @param type $loginName
      * @param type $eventId
      * @return EnrollInterface|null
      */
-    public function get($loginName, $eventId): ?EnrollDaoInterface {
+    public function get($loginName, $eventId): ?EnrollInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name_fk' => $loginName, 'event_id_fk' => $eventId]);
         return $this->getEntity($key);
     }
 
-   
+     
+           
+    
     /**
      * 
      * @param type $loginName     
@@ -59,6 +55,7 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
     }
 
    
+   
     /**
      * 
      * @param EnrollInterface $enroll
@@ -67,6 +64,8 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
     public function add(EnrollInterface $enroll) :void {
         $this->addEntity($enroll);
     }
+    
+    
 
     /**
      * 
@@ -76,18 +75,22 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
     public function remove(EnrollInterface $enroll) :void {
         $this->removeEntity($enroll);
     }
+    
+    
 
     protected function createEntity() {
         return new Enroll();
     }
 
-    protected function indexFromEntity(EnrollDaoInterface $enroll) {
-        return $enroll->getId();
+    protected function indexFromEntity(EnrollInterface $enroll) {
+       return $enroll->getLoginLoginNameFk() . $enroll->getEventIdFk() ;
     }
 
     protected function indexFromRow($row) {
-        return $row['id'];
-    }
-
-
+        return $row['login_login_name_fk']. $row['event_id_fk'] ;
+    }       
+    
 }
+
+        //return $itemAction->getTypeFk().$itemAction->getItemId();
+         //        return $row['type_fk'].$row['item_id'];

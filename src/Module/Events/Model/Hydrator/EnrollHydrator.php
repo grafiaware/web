@@ -5,6 +5,7 @@ namespace Events\Model\Hydrator;
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\EnrollInterface;
 
@@ -13,7 +14,7 @@ use Events\Model\Entity\EnrollInterface;
  *
  * @author pes2704
  */
-class EnrollHydrator implements HydratorInterface {
+class EnrollHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
@@ -22,9 +23,17 @@ class EnrollHydrator implements HydratorInterface {
      */
     public function hydrate(EntityInterface $enroll, RowDataInterface $rowData) {
         /** @var EnrollInterface $enroll */
+        $e = $this->getPhpValue($rowData,'login_login_name_fk' );
+        $e1 = $this->getPhpValue($rowData,'event_id_fk') ;
+        
         $enroll
-            ->setLoginLoginNameFk($rowData->offsetGet('login_login_name_fk'))
-            ->setEventIdFk($rowData->offsetGet('event_id_fk'))
+           //      ->setPublished( $this->getPhpValue($rowData,'published') )
+           // ->setLoginLoginNameFk($rowData->offsetGet('login_login_name_fk'))
+           // ->setEventIdFk($rowData->offsetGet('event_id_fk'))
+            
+            ->setLoginLoginNameFk( $this->getPhpValue($rowData,'login_login_name_fk') )
+            ->setEventIdFk( $this->getPhpValue($rowData,'event_id_fk'))   
+                
             ;
     }
 
@@ -35,8 +44,18 @@ class EnrollHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $enroll, RowDataInterface $rowData) {
         /** @var EnrollInterface $enroll */
-        $rowData->offsetSet('login_login_name_fk', $enroll->getLoginLoginNameFk());
-        $rowData->offsetSet('event_id_fk', $enroll->getEventIdFk());
+        //$l = $enroll->getLoginLoginNameFk();
+        //$rowData->offsetSet('login_login_name_fk', $enroll->getLoginLoginNameFk());
+        //$l1 = $enroll->getEventIdFk();
+        //$rowData->offsetSet('event_id_fk', $enroll->getEventIdFk());
+        
+        $l =   $enroll->getLoginLoginNameFk() ;
+        $this->setSqlValue($rowData, 'login_login_name_fk',  $enroll->getLoginLoginNameFk() );
+        
+        $l1 =  $enroll->getEventIdFk() ;
+        $this->setSqlValue($rowData, 'event_id_fk', $enroll->getEventIdFk() );
+
+        
     }
 
 }
