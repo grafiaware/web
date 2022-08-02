@@ -14,10 +14,10 @@ class EventLinkPhase extends EntityAbstract implements EventLinkPhaseInterface {
     private $id;
     private $text;
 
-    public function getId() : int {
+    public function getId()  {
         return $this->id;
     }
-    public function getText() : ?string {
+    public function getText()  {
         return $this->text;
     }
 

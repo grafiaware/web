@@ -21,7 +21,7 @@ class Event extends EntityAbstract implements EventInterface {
     private $enterLinkIdFk;
     private $eventContentIdFk;
 
-    public function getId(): ?int {
+    public function getId() {
         return $this->id;
     }
 
@@ -37,15 +37,15 @@ class Event extends EntityAbstract implements EventInterface {
         return $this->end;
     }
 
-    public function getEnrollLinkIdFk() : ?int {
+    public function getEnrollLinkIdFk()  {
         return $this->enrollLinkIdFk;
     }
 
-    public function getEnterLinkIdFk() : ?int {
+    public function getEnterLinkIdFk()  {
         return $this->enterLinkIdFk;
     }
 
-    public function getEventContentIdFk(): ?int {
+    public function getEventContentIdFk() {
         return $this->eventContentIdFk;
     }
 

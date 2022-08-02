@@ -16,17 +16,17 @@ use Model\Entity\EntityInterface;
  */
 interface EventContentInterface extends EntityInterface {
 
-    public function getId(): ?int;
+    public function getId();
 
-    public function getTitle(): ?string;
+    public function getTitle();
 
-    public function getPerex(): ?string;
+    public function getPerex();
 
-    public function getParty(): ?string;
+    public function getParty();
 
-    public function getEventContentTypeFk(): ?string;
+    public function getEventContentTypeFk();
 
-    public function getInstitutionIdFk(): ?int;
+    public function getInstitutionIdFk();
 
     public function setId($id): EventContentInterface;
 

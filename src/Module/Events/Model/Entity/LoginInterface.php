@@ -15,6 +15,6 @@ use Model\Entity\EntityInterface;
  * @author pes2704
  */
 interface LoginInterface extends EntityInterface {
-    public function getLoginName(): ?string;
+    public function getLoginName();
     public function setLoginName(string $loginName): LoginInterface;
 }

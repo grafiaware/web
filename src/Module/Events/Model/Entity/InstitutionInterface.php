@@ -9,11 +9,11 @@ use Model\Entity\EntityInterface;
  */
 interface InstitutionInterface  extends EntityInterface {
    
-    public function getId(): ?int ;
+    public function getId() ;
     
-    public function getName(): ?string ;
+    public function getName() ;
     
-    public function getInstitutionTypeId() : ?int;
+    public function getInstitutionTypeId() ;
     
    
     

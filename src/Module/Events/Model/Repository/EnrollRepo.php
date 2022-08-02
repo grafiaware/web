@@ -43,8 +43,18 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
      * @return EnrollInterface[]
      */
     public function findByLoginName($loginName) : array{
-        return $this->findEntities("login_name = :login_name", [":login_name"=>$loginName]);
+        return $this->findEntities("login_login_name_fk = :login_login_name_fk", [":login_login_name_fk"=>$loginName]);
     }
+    
+    /**
+     * 
+     * @param type $eventId     
+     * @return EnrollInterface[]
+     */
+    public function findByEvent($eventId) : array{
+        return $this->findEntities("event_id_fk = :event_id_fk", [":event_id_fk"=>$eventId]);
+    }
+    
     
     /**
      * 

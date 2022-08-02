@@ -19,14 +19,14 @@ class Representative  extends EntityAbstract implements RepresentativeInterface 
      *
      * @return int
      */
-    public function getCompanyId() : int {
+    public function getCompanyId()  {
         return $this->companyId;
     }
     /**
      *
      * @return string
      */
-    public function getLoginLoginName() :string {
+    public function getLoginLoginName() {
         return $this->loginLoginName;
     }
     /**

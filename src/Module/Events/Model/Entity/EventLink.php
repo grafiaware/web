@@ -16,19 +16,19 @@ class EventLink extends EntityAbstract implements EventLinkInterface {
     private $href;
     private $linkPhaseIdFk;
 
-    public function getId() : int {
+    public function getId()  {
         return $this->id;
     }
 
-    public function getShow() : ?int {
+    public function getShow()  {
         return $this->show;
     }
 
-    public function getHref(): ?string {
+    public function getHref() {
         return $this->href;
     }
 
-    public function getLinkPhaseIdFk(): ?int  {
+    public function getLinkPhaseIdFk()  {
         return $this->linkPhaseIdFk;
     }
 

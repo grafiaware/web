@@ -22,7 +22,7 @@ class Login extends EntityAbstract implements LoginInterface {
      *
      * @return string|null
      */
-    public function getLoginName(): ?string {
+    public function getLoginName() {
         return $this->loginName;
     }
 

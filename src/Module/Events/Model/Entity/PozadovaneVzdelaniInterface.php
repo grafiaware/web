@@ -14,12 +14,12 @@ interface PozadovaneVzdelaniInterface extends EntityInterface {
      * 
      * @return int
      */    
-    public function getStupen() :int ;    
+    public function getStupen()  ;    
     /**
      * 
      * @return string
      */
-    public function getVzdelani() :string ;    
+    public function getVzdelani() ;    
     /**
      * 
      * @param int $stupen

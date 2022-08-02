@@ -17,11 +17,11 @@ class InstitutionType  extends EntityAbstract implements InstitutionTypeInterfac
     private $id;
     private $institutionType;
 
-    public function getId(): int {
+    public function getId() {
         return $this->id;
     }
 
-    public function getInstitutionType(): ?string {
+    public function getInstitutionType() {
         return $this->institutionType;
     }
 

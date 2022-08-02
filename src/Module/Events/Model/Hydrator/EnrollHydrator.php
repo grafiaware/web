@@ -26,11 +26,7 @@ class EnrollHydrator extends TypeHydratorAbstract implements HydratorInterface {
         $e = $this->getPhpValue($rowData,'login_login_name_fk' );
         $e1 = $this->getPhpValue($rowData,'event_id_fk') ;
         
-        $enroll
-           //      ->setPublished( $this->getPhpValue($rowData,'published') )
-           // ->setLoginLoginNameFk($rowData->offsetGet('login_login_name_fk'))
-           // ->setEventIdFk($rowData->offsetGet('event_id_fk'))
-            
+        $enroll                     
             ->setLoginLoginNameFk( $this->getPhpValue($rowData,'login_login_name_fk') )
             ->setEventIdFk( $this->getPhpValue($rowData,'event_id_fk'))   
                 
@@ -42,13 +38,7 @@ class EnrollHydrator extends TypeHydratorAbstract implements HydratorInterface {
      * @param EnrollInterface $enroll
      * @param type $rowData
      */
-    public function extract(EntityInterface $enroll, RowDataInterface $rowData) {
-        /** @var EnrollInterface $enroll */
-        //$l = $enroll->getLoginLoginNameFk();
-        //$rowData->offsetSet('login_login_name_fk', $enroll->getLoginLoginNameFk());
-        //$l1 = $enroll->getEventIdFk();
-        //$rowData->offsetSet('event_id_fk', $enroll->getEventIdFk());
-        
+    public function extract(EntityInterface $enroll, RowDataInterface $rowData) {        
         $l =   $enroll->getLoginLoginNameFk() ;
         $this->setSqlValue($rowData, 'login_login_name_fk',  $enroll->getLoginLoginNameFk() );
         

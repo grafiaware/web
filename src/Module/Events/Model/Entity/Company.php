@@ -19,21 +19,21 @@ class Company  extends EntityAbstract implements CompanyInterface {
      *
      * @return int
      */
-    public function getId() : int {
+    public function getId()  {
         return $this->id;
     }
     /**
      *
      * @return string|null
      */
-    public function getName() : ?string {
+    public function getName()  {
         return $this->name;
     }
     /**
      *
      * @return string|null
      */
-    public function getEventInstitutionName30() : ?string {
+    public function getEventInstitutionName30()  {
         return $this->eventInstitutionName30;
     }
     /**

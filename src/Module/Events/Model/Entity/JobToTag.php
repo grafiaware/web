@@ -19,7 +19,7 @@ class JobToTag extends EntityAbstract implements JobToTagInterface {
     *
     * @return int
     */
-    public function getJobId() : int{
+    public function getJobId() {
         return $this->jobId;
     }
     /**

@@ -17,7 +17,7 @@ class JobTag  extends EntityAbstract implements JobTagInterface {
      *
      * @return string|null
      */
-    public function getTag() : ?string {
+    public function getTag()  {
         return $this->tag;
     }
 

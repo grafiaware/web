@@ -10,7 +10,7 @@ use Model\Entity\EntityInterface;
  */
 interface EventInterface extends EntityInterface {
 
-    public function getId(): ?int;
+    public function getId();
 
     public function getPublished(): bool;
 
@@ -18,11 +18,11 @@ interface EventInterface extends EntityInterface {
 
     public function getEnd():  ?\DateTime;
     
-    public function getEnrollLinkIdFk() : ?int;   
+    public function getEnrollLinkIdFk() ;   
 
-    public function getEnterLinkIdFk() : ?int ;        
+    public function getEnterLinkIdFk()  ;        
 
-    public function getEventContentIdFk():?int;
+    public function getEventContentIdFk();
 
     public function setId($id): EventInterface;
 

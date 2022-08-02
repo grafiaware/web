@@ -15,13 +15,13 @@ interface RepresentativeInterface extends EntityInterface {
      * 
      * @return int
      */ 
-    public function getCompanyId() : int ;
+    public function getCompanyId()  ;
     
     /**
      * 
      * @return string
      */
-    public function getLoginLoginName() :string ;
+    public function getLoginLoginName() ;
     
     /**
      * 

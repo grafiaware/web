@@ -15,13 +15,13 @@ class Institution extends EntityAbstract implements InstitutionInterface {
     private $name;
     private $institutionTypeId;
 
-    public function getId(): ?int {
+    public function getId() {
         return $this->id;
     }
-    public function getName(): ?string {
+    public function getName() {
         return $this->name;
     }
-    public function getInstitutionTypeId() : ?int {
+    public function getInstitutionTypeId()  {
         return $this->institutionTypeId;
     }
 

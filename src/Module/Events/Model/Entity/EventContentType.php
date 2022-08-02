@@ -20,7 +20,7 @@ class EventContentType extends EntityAbstract implements EventContentTypeInterfa
      */
     private $name;
 
-    public function getType(): ?string {
+    public function getType() {
         return $this->type;
     }
 
@@ -28,7 +28,7 @@ class EventContentType extends EntityAbstract implements EventContentTypeInterfa
      *
      * @return string|null
      */
-    public function getName(): ?string {
+    public function getName() {
         return $this->name;
     }
 

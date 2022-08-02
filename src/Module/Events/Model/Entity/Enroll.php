@@ -22,11 +22,11 @@ class Enroll extends EntityAbstract implements EnrollInterface {
     private $loginLoginNameFk;
     private $eventIdFk;
 
-    public function getLoginLoginNameFk(): string {
+    public function getLoginLoginNameFk()  {
         return $this->loginLoginNameFk;
     }
 
-    public function getEventIdFk(): int {
+    public function getEventIdFk() {
         return $this->eventIdFk;
     }
 

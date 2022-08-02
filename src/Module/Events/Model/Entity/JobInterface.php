@@ -15,43 +15,43 @@ interface JobInterface extends EntityInterface {
      * 
      * @return int
      */
-    public function getCompanyId() : int ;
+    public function getCompanyId()  ;
     
     /**
      * 
      * @return int
      */
-    public function getPozadovaneVzdelaniStupen() : int ;
+    public function getPozadovaneVzdelaniStupen()  ;
     
     /**
      * 
      * @return string|null
      */
-    public function getNazev(): ?string ;
+    public function getNazev() ;
     
     /**
      * 
      * @return string|null
      */
-    public function getMistoVykonu() : ?string;
+    public function getMistoVykonu() ;
     
     /**
      * 
      * @return string|null
      */
-    public function getPopisPozice() : ?string;
+    public function getPopisPozice() ;
     
     /**
      * 
      * @return string|null
      */
-    public function getPozadujeme() : ?string;
+    public function getPozadujeme() ;
     
     /**
      * 
      * @return string|null
      */
-    public function getNabizime(): ?string;        
+    public function getNabizime();        
     /**
      * 
      * @param type $id

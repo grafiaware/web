@@ -14,32 +14,32 @@ interface CompanyContactInterface extends EntityInterface {
      * 
      * @return int
      */
-    public function getId() : int;    
+    public function getId() ;    
     /**
      * 
      * @return int
      */
-    public function getCompanyId() : int;    
+    public function getCompanyId() ;    
     /**
      * 
      * @return string|null
      */
-    public function getName() :?string ;  
+    public function getName()  ;  
     /**
      * 
      * @return string|null
      */
-    public function getPhones() :?string ;    
+    public function getPhones()  ;    
     /**
      * 
      * @return string|null
      */
-    public function getMobiles() :?string ;
+    public function getMobiles()  ;
     /**
      * 
      * @return string|null
      */
-    public function getEmails() :?string ;    
+    public function getEmails()  ;    
     /**
      * 
      * @param type $id

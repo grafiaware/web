@@ -13,27 +13,27 @@ interface CompanyAddressInterface extends EntityInterface {
      * 
      * @return int
      */
-    public function getCompanyId() :int ;   
+    public function getCompanyId()  ;   
     /**
      * 
      * @return string
      */
-    public function getName() :string ;   
+    public function getName() ;   
     /**
      * 
      * @return string
      */
-    public function getLokace()  :string ;   
+    public function getLokace()  ;   
     /**
      * 
      * @return string|null
      */
-    public function getPsc()  :?string ;    
+    public function getPsc()   ;    
     /**
      * 
      * @return string|null
      */
-    public function getObec() :?string ;    
+    public function getObec()  ;    
     /**
      * 
      * @param int $companyId

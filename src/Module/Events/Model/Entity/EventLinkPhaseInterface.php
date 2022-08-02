@@ -9,9 +9,9 @@ use Model\Entity\EntityInterface;
  */
 interface EventLinkPhaseInterface extends EntityInterface {
    
-    public function getId() : int;    
+    public function getId() ;    
 
-    public function getText() : ?string;    
+    public function getText() ;    
     
     public function setId($id) :EventLinkPhaseInterface;
     

@@ -18,14 +18,14 @@ class PozadovaneVzdelani extends EntityAbstract implements PozadovaneVzdelaniInt
      *
      * @return int
      */
-    public function getStupen() :int {
+    public function getStupen()  {
         return $this->stupen;
     }
     /**
      *
      * @return string
      */
-    public function getVzdelani() :string {
+    public function getVzdelani() {
         return $this->vzdelani;
     }
     /**

@@ -23,42 +23,42 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
      *
      * @return int
      */
-    public function getId() : int {
+    public function getId()  {
         return $this->id;
     }
     /**
      *
      * @return int
      */
-    public function getCompanyId() : int {
+    public function getCompanyId()  {
         return $this->companyId;
     }
     /**
      *
      * @return string|null
      */
-    public function getName() :?string {
+    public function getName()  {
         return $this->name;
     }
     /**
      *
      * @return string|null
      */
-    public function getPhones() :?string {
+    public function getPhones()  {
         return $this->phones;
     }
     /**
      *
      * @return string|null
      */
-    public function getMobiles() :?string {
+    public function getMobiles()  {
         return $this->mobiles;
     }
     /**
      *
      * @return string|null
      */
-    public function getEmails() :?string {
+    public function getEmails()  {
         return $this->emails;
     }
     /**

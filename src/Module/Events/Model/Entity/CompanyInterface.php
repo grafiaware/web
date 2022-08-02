@@ -12,17 +12,17 @@ interface CompanyInterface   extends EntityInterface {
     * 
     * @return int
     */       
-    public function getId() : int;    
+    public function getId() ;    
     /**
      * 
      * @return string|null
      */
-    public function getName() : ?string ;       
+    public function getName()  ;       
     /**
      * 
      * @return string|null
      */ 
-    public function getEventInstitutionName30() :?string ;    
+    public function getEventInstitutionName30()  ;    
     /**
      * 
      * @param type $id

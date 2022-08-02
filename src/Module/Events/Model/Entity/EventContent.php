@@ -20,27 +20,27 @@ class EventContent extends EntityAbstract implements EventContentInterface {
     private $eventContentTypeFk;
     private $institutionIdFk;
 
-    public function getId(): ?int {
+    public function getId() {
         return $this->id;
     }
 
-    public function getTitle(): ?string {
+    public function getTitle() {
         return $this->title;
     }
 
-    public function getPerex(): ?string {
+    public function getPerex() {
         return $this->perex;
     }
 
-    public function getParty(): ?string {
+    public function getParty() {
         return $this->party;
     }
 
-    public function getEventContentTypeFk(): ?string {
+    public function getEventContentTypeFk() {
         return $this->eventContentTypeFk;
     }
 
-    public function getInstitutionIdFk(): ?int {
+    public function getInstitutionIdFk() {
         return $this->institutionIdFk;
     }
 

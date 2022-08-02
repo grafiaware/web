@@ -20,13 +20,13 @@ interface EventContentTypeInterface extends EntityInterface {
      *
      * @return string|null
      */
-    public function getType(): ?string;
+    public function getType();
 
     /**
      *
      * @return string|null
      */
-    public function getName(): ?string;
+    public function getName();
 
     /**
      *

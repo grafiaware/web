@@ -18,39 +18,32 @@ class CompanyAddress extends EntityAbstract implements CompanyAddressInterface {
     private $psc;
     private $obec;
 
-    /**
-     *
-     * @return int
-     */
-    public function getCompanyId() :int {
+    
+    
+    public function getCompanyId()  {
         return $this->companyId;
     }
-    /**
-     *
-     * @return string
-     */
-    public function getName() :string {
+    
+    public function getName() {
         return $this->name;
     }
-    /**
-     *
-     * @return string
-     */
-    public function getLokace()  :string {
+    
+    
+    public function getLokace()  {
         return $this->lokace;
     }
     /**
      *
      * @return string|null
      */
-    public function getPsc()  :?string {
+    public function getPsc()   {
         return $this->psc;
     }
     /**
      *
      * @return string|null
      */
-    public function getObec() :?string{
+    public function getObec() {
         return $this->obec;
     }
     /**

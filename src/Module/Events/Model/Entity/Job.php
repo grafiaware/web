@@ -30,49 +30,49 @@ class Job extends EntityAbstract implements JobInterface {
      *
      * @return int
      */
-    public function getCompanyId() : int {
+    public function getCompanyId()  {
         return $this->companyId;
     }
     /**
      *
      * @return int
      */
-    public function getPozadovaneVzdelaniStupen() : int {
+    public function getPozadovaneVzdelaniStupen()  {
         return $this->pozadovaneVzdelaniStupen;
     }
     /**
      *
      * @return string|null
      */
-    public function getNazev(): ?string {
+    public function getNazev() {
         return $this->nazev;
     }
     /**
      *
      * @return string|null
      */
-    public function getMistoVykonu() : ?string{
+    public function getMistoVykonu() {
         return $this->mistoVykonu;
     }
     /**
      *
      * @return string|null
      */
-    public function getPopisPozice() : ?string{
+    public function getPopisPozice() {
         return $this->popisPozice;
     }
     /**
      *
      * @return string|null
      */
-    public function getPozadujeme() : ?string{
+    public function getPozadujeme() {
         return $this->pozadujeme;
     }
     /**
      *
      * @return string|null
      */
-    public function getNabizime(): ?string {
+    public function getNabizime() {
         return $this->nabizime;
     }
 

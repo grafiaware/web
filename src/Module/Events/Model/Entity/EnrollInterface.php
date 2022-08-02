@@ -16,9 +16,9 @@ use Model\Entity\EntityInterface;
  */
 interface EnrollInterface extends EntityInterface {
 
-    public function getLoginLoginNameFk(): string;
+    public function getLoginLoginNameFk() ;
 
-    public function getEventIdFk(): int;
+    public function getEventIdFk();
 
     public function setLoginLoginNameFk($loginLoginNameFk): EnrollInterface;
 

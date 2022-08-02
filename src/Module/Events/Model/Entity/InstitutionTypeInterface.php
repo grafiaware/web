@@ -9,9 +9,9 @@ use Model\Entity\EntityInterface;
  */
 interface InstitutionTypeInterface  extends EntityInterface {
     
-    public function getId(): int ;
+    public function getId() ;
 
-    public function getInstitutionType(): ?string;            
+    public function getInstitutionType();            
     
 
     public function setId($id): InstitutionTypeInterface;

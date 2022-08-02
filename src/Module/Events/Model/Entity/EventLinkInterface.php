@@ -10,13 +10,13 @@ use Model\Entity\EntityInterface;
 interface EventLinkInterface  extends EntityInterface {
     
 
-    public function getId() : int;    
+    public function getId() ;    
 
-    public function getShow() : ?int;    
+    public function getShow() ;    
 
-    public function getHref() : ?string;    
+    public function getHref() ;    
 
-    public function getLinkPhaseIdFk(): ?int;    
+    public function getLinkPhaseIdFk();    
 
     
     public function setId($id) :EventLinkInterface;

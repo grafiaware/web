@@ -15,7 +15,7 @@ interface JobToTagInterface extends EntityInterface {
     * 
     * @return int
     */
-    public function getJobId() : int;
+    public function getJobId() ;
     
      /**
      * 
