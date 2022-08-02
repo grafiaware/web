@@ -10,12 +10,14 @@ namespace Events\Model\Entity;
 
 use Model\Entity\EntityAbstract;
 
+use Events\Model\Entity\EnrollInterface;
+
 /**
  * Description of Enroll
  *
  * @author pes2704
  */
-class Enroll extends EntityAbstract implements EnrollDaoInterface {
+class Enroll extends EntityAbstract implements EnrollInterface {
 
     private $loginLoginNameFk;
     private $eventIdFk;
@@ -28,12 +30,13 @@ class Enroll extends EntityAbstract implements EnrollDaoInterface {
         return $this->eventIdFk;
     }
 
-    public function setLoginLoginNameFk($loginLoginNameFk): EnrollDaoInterface {
+    
+    public function setLoginLoginNameFk($loginLoginNameFk): EnrollInterface {
         $this->loginLoginNameFk = $loginLoginNameFk;
         return $this;
     }
 
-    public function setEventIdFk($eventFdFk): EnrollDaoInterface {
+    public function setEventIdFk($eventFdFk): EnrollInterface {
         $this->eventIdFk = $eventFdFk;
         return $this;
     }

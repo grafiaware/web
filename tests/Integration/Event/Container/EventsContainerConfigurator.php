@@ -258,8 +258,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             EventContentHydrator::class => function(ContainerInterface $c) {
                 return new EventContentHydrator();
             },
-            EventLinkRepo::class => function(ContainerInterface $c) {
-                return new Eventc($c->get(EventContentDao::class), $c->get(EventContentHydrator::class));
+            EventContentRepo::class => function(ContainerInterface $c) {
+                return new EventContentRepo($c->get(EventContentDao::class), $c->get(EventContentHydrator::class));
             },
 
             // eventLink

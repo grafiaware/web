@@ -12,6 +12,7 @@ use Events\Model\Entity\Institution;
 use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Repository\InstitutionRepo;
+use Events\Model\Dao\InstitutionTypeDao;
 
 use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
@@ -35,7 +36,11 @@ class InstitutionRepositoryTest extends AppRunner {
     private static $institutionId;
     private static $institutionName = "testInstitutionRepo";
     
-
+    private static $institutionTypeId;
+    private static $institutionType = "proTestInstitutionRepo";
+    
+    private static $idI;
+    private static $idR;
     
 
     public static function setUpBeforeClass(): void {
@@ -54,24 +59,39 @@ class InstitutionRepositoryTest extends AppRunner {
     private static function insertRecords(Container $container) {
         /** @var InstitutionDao $institutionDao */
         $institutionDao = $container->get(InstitutionDao::class);  
-
         $rowData = new RowData();
         $rowData->import([
             'name' => self::$institutionName
         ]);
-        $institutionDao->insert($rowData);
-                
+        $institutionDao->insert($rowData);                
         self::$institutionId = $institutionDao->lastInsertIdValue();
+        
+        //------------------------------
+        /** @var InstitutionTypeDao $institutionTypeDao */
+        $institutionTypeDao = $container->get(InstitutionTypeDao::class);  
+        $rowData = new RowData();
+        $rowData->import([
+            'institution_type' => self::$institutionType
+        ]);
+        $institutionTypeDao->insert($rowData);                
+        self::$institutionTypeId = $institutionTypeDao->lastInsertIdValue();
     }
 
-    private static function deleteRecords(Container $container) {
+    private static function deleteRecords(Container $container) {                      
         /** @var InstitutionDao $institutionDao */
-        $institutionDao = $container->get(InstitutionDao::class);
-        
+        $institutionDao = $container->get(InstitutionDao::class);        
         $rows = $institutionDao->find( "name LIKE '". self::$institutionName . "%'", [] );               
         foreach($rows as $row) {
             $ok = $institutionDao->delete($row);
         }
+                
+         /** @var InstitutionTypeDao $institutionTypeDao */
+        $institutionTypeDao = $container->get(InstitutionTypeDao::class);        
+        $rows = $institutionTypeDao->find( "institution_type LIKE '". self::$institutionType . "%'", [] );               
+        foreach($rows as $row) {
+            $ok = $institutionTypeDao->delete($row);
+        }
+        
     }
 
     protected function setUp(): void {
@@ -122,16 +142,35 @@ class InstitutionRepositoryTest extends AppRunner {
     }
 
     
-    public function testAddAndReread() {
+    public function testAddAndReread_I() {
         $institution = new Institution();       
         $institution->setName(self::$institutionName);        
 
-        $this->institutionRepo->add($institution);
-        $this->institutionRepo->flush();
+        $this->institutionRepo->add($institution); //zapise hned
+        /** @var Institution $institutionRereaded */
         $institutionRereaded = $this->institutionRepo->get($institution->getId());
         $this->assertInstanceOf(InstitutionInterface::class, $institutionRereaded);
         $this->assertTrue($institutionRereaded->isPersisted());
         $this->assertFalse($institutionRereaded->isLocked());
+       
+        //$institutionRereaded, $institution ... jsou odkazy na stejny objekt              
+        self::$idI = $institution->getId();
+        self::$idR = $institutionRereaded->getId();
+        $this->assertEquals(self::$idI, self::$idR );
+        
+        $institution->setInstitutionTypeId(self::$institutionTypeId); //zapise do entity, ktera je v repository
+    }    
+    
+    public function testAddAndReread_II() {        
+        $institution = $this->institutionRepo->get(self::$idI);
+    
+        /** @var Institution $institutionRereaded2 */
+        $institutionRereaded2 = $this->institutionRepo->get($institution->getId());
+        $this->assertInstanceOf(InstitutionInterface::class, $institutionRereaded2);
+        $this->assertTrue($institutionRereaded2->isPersisted());
+        $this->assertFalse($institutionRereaded2->isLocked());
+
+        $this->assertEquals(self::$institutionTypeId, $institutionRereaded2->getInstitutionTypeId());
     }
 
     
@@ -172,7 +211,7 @@ class InstitutionRepositoryTest extends AppRunner {
         $this->assertTrue($institution->isPersisted());
         $this->assertTrue($institution->isLocked());   // maže až při flush
         $this->institutionRepo->flush();
-        // document uz neni locked
+        //  uz neni locked
         $this->assertFalse($institution->isLocked());
        
         // pokus o čtení, institution uz  neni

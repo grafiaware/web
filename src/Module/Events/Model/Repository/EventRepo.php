@@ -40,18 +40,36 @@ class EventRepo extends RepoAbstract implements EventRepoInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
-
+    
+    /**
+     * 
+     * @return EventInterface[]
+     */
     public function findAll(): array{
         return $this->findEntities();
     }
 
-    public function add(EventInterface $event) {
+    
+    /**
+     * 
+     * @param EventInterface $event
+     * @return void
+     */
+    public function add(EventInterface $event): void {
         $this->addEntity($event);
     }
-
-    public function remove(EventInterface $event) {
+    
+    
+    /**
+     * 
+     * @param EventInterface $event
+     * @return void
+     */
+    public function remove(EventInterface $event): void {
         $this->removeEntity($event);
     }
+    
+    
 
     protected function createEntity() {
         return new Event();

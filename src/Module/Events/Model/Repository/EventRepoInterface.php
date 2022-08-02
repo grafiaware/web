@@ -25,14 +25,25 @@ interface EventRepoInterface extends RepoInterface  {
      */
     public function get($id): ?EventInterface;
     
-
+    /**
+     * 
+     * @return EventInterface
+     */
     public function findAll(): array;
     
-
-    public function add(EventInterface $event);
+    /**
+     * 
+     * @param EventInterface $event
+     * @return void
+     */
+    public function add(EventInterface $event): void;
     
-
-    public function remove(EventInterface $event);
+    /**
+     * 
+     * @param EventInterface $event
+     * @return void
+     */
+    public function remove(EventInterface $event): void;
     
     
     
