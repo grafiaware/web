@@ -1,3 +1,4 @@
+        <div class="" data-template="<?="job" ?>">  
             <div class="title active">
                 <p class="podnadpis"><i class="dropdown icon"></i><span class="">Název pozice, Místo výkonu</span>
                     <span class="ui big red tag label">kategorie</span>                            </p>
@@ -36,3 +37,4 @@
                     </div>
                 </div>
             </div>
+        </div>
