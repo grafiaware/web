@@ -56,7 +56,7 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions(): iterable {
+    public function getServicesOverrideDefinitions(): iterable {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
             'dbUpgradeLogger' => function(ContainerInterface $c) {

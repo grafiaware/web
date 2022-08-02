@@ -1,0 +1,628 @@
+.layout{
+    font-weight: @normal;
+    /* VLASTNÍ HTML TAGY */
+    headline, content, block, div[class=""], perex{
+        display: block;
+        position: relative;
+        span[class=""]{
+            display: inline-block;
+        }
+    }  
+    img{
+        max-width: 100%; //aby se obrázek "vešel" do semantických obalů
+        max-height: 100%; //aby šel obrázek deformovat při nastavení vlastní výšky a šířky v Tiny  
+    }
+    header{ 
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        margin: 50px 0;
+        h1{
+            font-size: @h1;
+            text-transform: uppercase;
+            font-weight: 300;
+            span{
+                color: @primaryColor;
+                text-transform: none;
+                font-weight: 500;
+                margin: auto 20px;
+            }
+        }
+    }
+    
+    /***FIXNÍ LIŠTA fix-bar***/
+    .column:not(.editMenu) > .fix-bar{
+        width: 10%;
+        height: 100%;
+        position: fixed;
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        z-index: 2;
+        .prihlaseni{ 
+            top: 17%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            .icon.button:not(.labeled){
+                background-color: transparent;
+                > .user.icon, .address.card.icon{
+                    color: @invertedTextColor;
+                    //font-size: 1.45em;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                        transition: 0.2s all;
+                    }
+                }
+            }
+            .dropdown{
+                .header.item{
+                    background-color: @white;
+                    cursor: default;
+                    text-align: center;
+                    &:hover{
+                        background-color: @white;
+                    }
+                    .icon{ 
+                        opacity: 1;
+                    }
+                }
+                .menu{
+                    padding: 0 12px 20px 12px;
+                }
+                input{
+                    border: 1px solid @lightGrey !important;
+                    //font-size: 0.8em;
+                }
+                button.fluid{
+                    margin: 5px 0;
+                   // font-size: 0.8em;
+                    &.tertiary{
+                        //font-size: 0.62em;
+                        &:hover{
+                            box-shadow: 0 0;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+                .ui.labeled.icon.button > .icon::before{
+                    top: -10px;
+                }
+            }
+            .ui.left.pointing.dropdown:not(.top) > .menu{
+                //top: -145px;
+            }
+            .ui.left.pointing.dropdown:not(.top) > .menu::after{
+                //top: 175px;
+            }
+            .logout{
+                i.sign.out.icon{
+                    color: @invertedTextColor;
+                    //font-size: 2em;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                    }
+                }
+                i.user.circle.icon{
+                    color: @invertedTextColor;
+                    //font-size: 1.2em;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                    }
+                }
+                .profil-ikona{
+                    text-align: center;
+                }
+                .dropdown .header.item{
+                    //font-size: 1.3em;
+                }
+            }
+            > form{ //v tomhle formu je tlacitko Akce
+                > div.icon{
+                    color: @invertedTextColor;
+                    //font-size: 1.8em ;
+                    opacity: 1;
+                    padding: 7px;
+
+                }
+                label{
+                    color: @textColor !important;
+                    //font-size: 0.7em;
+                    font-weight: 400;
+                }
+            }
+            button:not(.fluid){
+                position: relative;
+                left: 10%;
+                //font-size: 1.2em;
+                &.positive{
+                    left: 6%;
+                    //font-size: 0.92em;
+                    padding-top: 0.6em;
+                    padding-bottom: 0.6em;
+                }
+            }
+            .input-company{
+                display: none;
+                &.show{
+                    display: block;
+                    margin: 10px 0;
+                }
+            }
+        }
+        //hamburger menu
+        #mySidenav{
+            display: none;
+            height: 100%;
+            width: 33%;
+            background-color: @primaryColor;
+            position: fixed!important;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            overflow: auto;
+            -webkit-animation: animateleft 0.4s;
+            animation: animateleft 0.4s;
+            padding: 40px 20px 20px ;
+            &.open{
+                display: block !important;
+            }
+        }
+        #myOverlay{
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+            z-index: 1;
+        }
+        .svisle-menu .vertical.menu{
+            margin-left: 20px;
+/*            span > .icon{
+                position: absolute;
+                right: 0;
+            }*/
+        }
+        .svisle-menu .menu .onpath{
+            left: 7%;
+        }
+    }
+    .column.editMenu > .fix-bar{
+        width: 400px;
+        height: 102%;
+        position: relative;
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        #mySidenav{
+            display: block;
+            width: 100%;
+            background-color: @primaryColor;
+            position: relative;
+            overflow: hidden;
+            padding: 0 0 20px 10px;
+            .prihlaseni{
+                margin-bottom: 10px;
+                right: 15px;
+                top: -50px;
+                position: absolute;
+            }
+        }
+        .svisle-menu .menu .onpath{
+            left: 2%;
+        }
+        .close-item .close.slim-icon{
+            display: none;
+        }
+        > .icon-menu{
+            display: none;
+        }
+        > .nav-mobile{
+            display: none;
+        }
+        > .prihlaseni{
+            width: 100%;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            .icon.button:not(.labeled){
+                background-color: transparent;
+                > .user.icon, .address.card.icon{
+                    color: @invertedTextColor;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                        transition: 0.2s all;
+                    }
+                }
+            }
+            .dropdown{
+                .header.item{
+                    background-color: @white;
+                    cursor: default;
+                    text-align: center;
+                    &:hover{
+                        background-color: @white;
+                    }
+                    .icon{
+                        opacity: 1;
+                    }
+                }
+                .menu{
+                    padding: 0 12px 20px 12px;
+                    .ui.button{
+                        font-size: 1.3rem;
+                    }
+                }
+                input{
+                    border: 1px solid @lightGrey !important;
+                }
+                button.fluid{
+                    margin: 5px 0;
+                    &.tertiary{
+                        &:hover{
+                            box-shadow: 0 0;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+                .ui.labeled.icon.button > .icon::before{
+                    top: -10px;
+                }
+            }
+            .ui.left.pointing.dropdown:not(.top) > .menu{
+                top: -145px;
+            }
+            .ui.left.pointing.dropdown:not(.top) > .menu::after{
+                top: 175px;
+            }
+            .logout{
+                i.sign.out.icon{
+                    color: @invertedTextColor;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                    }
+                }
+                i.user.circle.icon{
+                    color: @invertedTextColor;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                    }
+                }
+                .profil-ikona{
+                    text-align: center;
+                }
+                .dropdown .header.item{
+                    font-size: 1.3rem;
+                }
+            }
+            > form{  //v tomhle formu je tlacitko Akce
+                > div.icon{
+                    color: @invertedTextColor;
+                    //font-size: 1.8em;
+                    opacity: 1;
+                    padding: 7px;
+
+                }
+                label{
+                    color: @textColor !important;
+                    //font-size: 0.7em;
+                    font-weight: 400;
+                }
+            }
+            button:not(.fluid){
+                position: relative;
+                left: 10%;
+                //font-size: 1.2em;
+                &.positive{
+                    left: 6%;
+                    //font-size: 0.92em;
+                    padding-top: 0.6em;
+                    padding-bottom: 0.6em;
+                }
+            }
+            .input-company{
+                display: none;
+                &.show{
+                    display: block;
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+    .form.huge input[type="checkbox"]{
+        vertical-align: middle;
+    }
+    
+    /***SVISLE MENU***/
+    nav ul{
+        padding: 0;
+        list-style: none;
+    }
+    .svisle-menu.kos .vertical.menu {
+        margin-left: 0;
+    }
+    .svisle-menu .vertical.menu .item{
+        color: @invertedTextColor;
+    }
+    .column .fix-bar .svisle-menu .menu{
+        li:not(.leaf) > a > .chevron-icon::before{
+            content: "\f078";
+          //  height: 1em;
+          //  width: 1.18em;
+            font-family: Icons;
+            font-weight: 400;
+            font-style: normal;
+           // font-size: 1em;
+            text-align: center;
+            margin: 0 0 0 .5em;
+            position: absolute;
+            right: 5px;
+            color: @invertedTextColor;
+            backface-visibility: hidden;
+        }
+        .item a.presented, .item p.presented{
+            color: darken(@primaryColor, 15);
+            > .chevron-icon::before{
+                    color: darken(@primaryColor, 15);
+                }
+        }
+        .onpath{
+            position: relative;
+            a:not(.presented){
+                color: @invertedTextColor;
+            }
+            a.presented{
+                color: darken(@primaryColor, 15);
+            }
+        }
+    }
+    .hidden-submenu{
+        ul{
+            display: none; 
+        }
+        .parent{
+            > ul{
+                display: block;
+            }
+        }
+    }
+    //hamburger menu
+    .nav-mobile{
+     font-size: @bigSize * @emSize;
+      margin: 5px 0;
+      &:hover{
+          cursor: pointer;
+      }
+    }
+    .close-item{
+      i:hover, .hamburger_dontclose:hover{
+          cursor: pointer;
+      }
+      .hamburger_dontclose{
+          margin-top: 30px;
+      }
+    }
+    .close-item > a > i.times.circle.icon,
+    .nav-mobile > i.bars.icon{
+        margin: 0;
+    }
+    .nav-mobile{ 
+        font-size: @bigSize * @emSize;
+    }
+    [data-red-renderer="MultipageRenderer"] > [data-red-renderer]{
+        margin-top: 35px;
+        margin-bottom: 35px;
+    }
+    article div[data-template]{
+        margin: 14px;
+    }
+    
+    /***/
+    form{
+        position: relative;
+    }
+    .close-item{
+        font-size: @hugeSize * @emSize;
+        border-bottom: 3px solid @invertedTextColor;
+        margin: 50px 0 15px;
+        padding: 40px 20px 40px 0;
+        position: relative;
+        .hamburger-icon{
+            position: absolute;
+            top: -45px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            cursor: auto;
+        }
+        img{
+            position: absolute;
+            top: -45px;
+            left: 120px;
+        }
+        .close.slim-icon{
+            content: "";
+            position: absolute;
+            width: 63px;
+            height: 63px;
+            right: 20px;
+            top: -45px;
+            display: block;
+            &:hover{
+                opacity: 0.8;
+                transition: 0.2s all;
+            }
+            &::before, &::after{
+                position: absolute;
+                left: 30px;
+                top: -4px;
+                content: ' ';
+                height: 70px;
+                width: 3px;
+                background-color: @invertedTextColor
+                
+            }
+            &::before{
+                transform: rotate(45deg);
+            }
+            &::after{
+                transform: rotate(-45deg);
+            }
+            &.none{
+                display: none;
+            }
+            &:not(.none){
+                display: block;
+            }
+        }
+    }
+    .svisle-menu.kos{
+        li{
+            position: relative; 
+        }
+    }
+    .svisle-menu:first-child {
+       // display: none;
+    }
+    
+    @-webkit-keyframes animateleft {
+      from {
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        left: 0;
+        opacity: 1;
+      }
+    }
+    @keyframes animateleft {
+      from {
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        left: 0;
+        opacity: 1;
+      }
+    }
+    .nav-mobile{
+       z-index: 1;
+    }
+    .nav-mobile{
+        align-items: center;
+        position: relative;
+        padding: 5px;
+        height: 70px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        top: 15%;
+        &:hover{
+            transition: 0.2s all;
+        }
+        > span:hover{
+            opacity: 0.8;
+        }
+    }
+    .nav-mobile:not(.active){
+        display: none;
+    }
+    main{
+        min-height: 1000px;
+        padding: 0 10px;
+    }
+    headline{
+        font-size: @h2;
+        font-weight: 500;
+    }
+    perex{
+        margin-top: 30px !important;
+        margin-bottom: 30px !important;
+    }
+    
+    /***PATIČKA***/
+    > .ui.grid > .row{
+        padding-bottom: 0;
+    }
+    footer{
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        padding: 50px 10px 50px 13% ;
+        font-size: @smallFontSize ; 
+        footer a{ 
+            color: @invertedTextColor !important; 
+            &:hover{
+                color: @invertedTextColor !important;
+            }
+        }
+    }
+    /*flash message*/
+    .small.toast{ 
+       // font-size: 1.3rem;
+    }
+    //smazat až bude accordion v menu jen v editacnim rezimu
+    .accordion.border{
+        border: 1px solid #FFFFFF96;
+        margin: 10px auto 0;
+        padding: 10px 20px;
+        a{
+            color: @invertedTextColor;
+            &:hover{
+                text-decoration: underline;
+                transition: 0.3s all;
+            }
+        }
+    }
+/*    article{
+        padding-left: 1rem;
+        padding-right: 1.4rem;
+        margin: 10px 10px 30px;
+    }*/
+/*    .editable article.mce-content-body:not(.mce-edit-focus), 
+    .editable article .mce-content-body:not(.mce-edit-focus){
+        margin: 3rem;
+        padding: 0;
+    }*/
+}
+body#tinymce{
+   // font-size: 24px;
+    font-weight: 400;
+}
+
+/*****/
+.button-edit-menu{
+    top: 0;
+    position: relative;
+    //left: 94%;
+    float:right;
+    right: 15px;
+}
+.editMenu .button-edit-menu{
+    top: -40px;
+}
+
+//Poznamky a flash
+@poznamkyPositionLeft: auto;
+@poznamkyPositionRight: 10px;
+@poznamkyPositionTop: 70px;
+@poznamkyFontSize: 15px;
+@poznamkyWidth: 350px;
+
+
+/*************/
+

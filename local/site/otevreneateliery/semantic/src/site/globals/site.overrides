@@ -1,0 +1,55 @@
+/*******************************
+         Site Overrides
+*******************************/
+.ui.grid>.column:not(.row), .ui.grid>.row>.column{
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+}
+.obr-upoutavka{
+    .ui.grid>.column:not(.row){
+        padding-top: 0.15rem;
+        padding-bottom: 0.15rem;
+    }
+}
+p{
+    margin: 0 0 0.55em;
+}
+footer a{
+    color: @invertedTextColor !important; 
+    &:hover{
+        color: @invertedTextColor !important;
+    }
+}
+main a:not(.item):not(.button):not(.link-img):not(.image), 
+footer a:not(.item):not(.button):not(.link-img):not(.image){
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    &:hover::after{
+        transform: scaleX(1);
+        background-color: @linkColor; 
+    }
+    &::after{
+        background: none; 
+        position: absolute;
+        top: auto;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 2px;
+        background-color: @linkColor; 
+        content: ''; 
+        transition: linear 0.2s;
+        backface-visibility: hidden;
+        transform: translateX(-100%);
+    }
+}
+footer a{
+    &::after{
+        background-color: @invertedTextColor !important;
+    }
+    &:hover::after{
+        background-color: @invertedTextColor !important;
+    }
+}

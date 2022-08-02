@@ -49,26 +49,14 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                     (new HierarchyContainerConfigurator())->configure(
                        (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(
-//                                    (new LoginContainerConfigurator())->configure(
-                                        (new MailContainerConfigurator())->configure(
-                                            new Container($this->getApp()->getAppContainer())
-                                        )
-//                                    )
+                                    (new MailContainerConfigurator())->configure(
+                                        new Container($this->getApp()->getAppContainer())
+                                    )
                                 )
                             )
                         )
                     )
                 );
-//                (new ApiContainerConfigurator())->configure(
-//                            (new Container(
-////                                    (new LoginContainerConfigurator())->configure(
-//                                        (new MailContainerConfigurator())->configure(
-//                                            new Container($this->getApp()->getAppContainer())
-//                                        )
-////                                    )
-//                                )
-//                            )
-//                );
 
 ####################################
         /** @var RouteSegmentGenerator $routeGenerator */
