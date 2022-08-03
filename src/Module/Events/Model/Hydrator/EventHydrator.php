@@ -10,7 +10,6 @@ use Model\RowData\RowDataInterface;
 use Events\Model\Entity\EventInterface;
 
 
-//class EventHydrator extends DatetimeHydrator {
 class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {    
 
     //  `event`.`id`
@@ -28,14 +27,6 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
      */
     public function hydrate(EntityInterface $event, RowDataInterface $rowData) {
         $s = \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('start'));               
-//            ->setId($rowData->offsetGet('id'))
-//            ->setPublished($rowData->offsetGet('published') )
-//            ->setStart($this->getPhpDatetime($rowData, 'start'))
-//            ->setEnd($this->getPhpDatetime($rowData, 'end'))
-//            ->setEnrollLinkIdFk($rowData->offsetGet('enroll_link_id_fk')  )
-//            ->setEnterLinkIdFk($rowData->offsetGet('enter_link_id_fk'))
-//            ->setEventContentIdFk($rowData->offsetGet('event_content_id_fk')  );
-       
         /** @var EventInterface $event */
         $event
             ->setId( $this->getPhpValue($rowData,'id'))
@@ -53,14 +44,7 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
      * @param EntityInterface $event
      * @param RowDataInterface $rowData
      */
-    public function extract(EntityInterface $event, RowDataInterface $rowData) {       
-//        $rowData->offsetSet('published', $event->getPublished());
-//        $rowData->offsetSet('start', $this->getSqlDatetime($event->getStart()));
-//        $rowData->offsetSet('end', $this->getSqlDatetime($event->getEnd(), ) );        
-//        $rowData->offsetSet('enroll_link_id_fk', $event->getEnrollLinkIdFk());
-//        $rowData->offsetSet('enter_link_id_fk', $event->getEnterLinkIdFk());
-//        $rowData->offsetSet('event_content_id_fk', $event->getEventContentIdFk());
-        
+    public function extract(EntityInterface $event, RowDataInterface $rowData) {               
         /** @var EventInterface $event */
         // id je autoincrement readonly
         $this->setSqlValue($rowData, 'published', $event->getPublished()) ;
