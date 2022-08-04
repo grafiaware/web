@@ -122,8 +122,14 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
                     $first = false;
                 }
                 if ($itemDepth>$currDepth) {
-                    $itemViewModelStack[$itemDepth][] = $itemViewModel;
-                    $currDepth = $itemDepth;
+                    if ($itemDepth-$currDepth==1) {
+                        $itemViewModelStack[$itemDepth][] = $itemViewModel;
+                        $currDepth = $itemDepth;
+                    } else {
+                        //TODO: log nebo např. render span s hlášením
+//                        $uidWithNonactiveParent = $itemViewModel->getHierarchyAggregate()->getUid();
+//                        throw new LogicException( "Poškozené menu - neaktivní položka má aktivní potomky. Neaktivní nadřízená položka nad položkou s uid '$uidWithNonactiveParent'.");
+                    }
                 } elseif ($itemDepth<$currDepth) {
                     $this->createChildrenComponents($currDepth, $itemDepth, $itemViewModelStack);
                     $itemViewModelStack[$itemDepth][] = $itemViewModel;

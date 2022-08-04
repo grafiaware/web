@@ -9,13 +9,9 @@
 namespace Site\VeletrhPrace;
 
 use Application\WebAppFactory;
+use Component\View\Generated\LanguageSelectComponent;
+use Component\View\Generated\SearchPhraseComponent;
 use Component\View\Flash\FlashComponent;
-use Component\View\Manage\{
-    LoginComponent,
-    RegisterComponent,
-    LogoutComponent,
-    UserActionComponent
-};
 
 /**
  * Description of Configuration
@@ -84,7 +80,6 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'component.logs.directory' => 'Logs/App/Web',
             'component.logs.render' => 'Render.log',
-            // common layout templates
             'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
             'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
 //            'component.template.register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
@@ -165,8 +160,17 @@ class ConfigurationRed extends ConfigurationDb {
             'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
             'templates.unknownContent' => self::RED_TEMPLATES_COMMON.'layout/error/unknownContent.php',
             'layout_blocks' => [
-
-                ]
+                ],
+            // parametry kontext - service mapy jsou:
+            //'context_name' => 'service_name'
+            //      'context_name' - jméno proměnné v šabloně (bez znaku $),
+            //      'service_name' => jméno služby component kontejneru,
+            'contextServiceMap' => [
+                    'flash' => FlashComponent::class,
+                    'menuSvisle' => 'menu.svisle',
+                    'bloky' => 'menu.bloky',
+                    'kos' => 'menu.kos',
+                ],
             ];
     }
     public static function menu() {
@@ -202,15 +206,7 @@ class ConfigurationRed extends ConfigurationDb {
                         'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],
-            // parametry kontext - service mapy jsou:
-            //'context_name' => 'service_name'
-            //      'context_name' - jméno proměnné v šabloně (bez znaku $),
-            //      'service_name' => jméno služby component kontejneru,
-            'menu.contextServiceMap' => [
-                    'menuSvisle' => 'menu.svisle',
-                    'bloky' => 'menu.bloky',
-                    'kos' => 'menu.kos',
-                ],
+
             ];
     }
 

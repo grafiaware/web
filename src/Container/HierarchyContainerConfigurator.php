@@ -162,7 +162,9 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'MenuItemAllDao' => function(ContainerInterface $c) {
                 return new MenuItemDao(
-                        $c->get(HandlerInterface::class), PdoRowData::class);
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             MenuItemDao::class => function(ContainerInterface $c) {
                 return new MenuItemDao(
