@@ -3,7 +3,6 @@
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
-
 use Events\Model\Repository\InstitutionTypeRepo;
 use Events\Model\Repository\InstitutionTypeRepoInterface;
 

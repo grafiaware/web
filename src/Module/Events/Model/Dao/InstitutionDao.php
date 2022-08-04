@@ -5,6 +5,8 @@ use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
+use Model\Dao\DaoFkNonuniqueInterface;
+use Model\Dao\DaoFkNonuniqueTrait;
 
 
 /**
@@ -12,9 +14,11 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author vlse2610
  */
-class InstitutionDao  extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface {
+class InstitutionDao  extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
 
     use DaoAutoincrementTrait;
+    use DaoFkNonuniqueTrait;
+
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
@@ -23,6 +27,11 @@ class InstitutionDao  extends DaoEditAbstract implements DaoEditAutoincrementKey
     public function getAttributes(): array {
         return [
             'id', 'name', 'institution_type_id'
+        ];
+    }
+     public function getForeignKeyAttributes(): array {
+        return [
+            'institution_type_id'=>['institution_type_id']
         ];
     }
 

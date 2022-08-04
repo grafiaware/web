@@ -8,18 +8,20 @@ use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Entity\Institution;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Hydrator\InstitutionHydrator;
+use Model\Repository\RepoAssotiatedManyInterface;
 
 /**
  * Description of InstitutionRepo
  *
  * @author vlse2610
  */
-class InstitutionRepo extends RepoAbstract implements InstitutionRepoInterface {    
+class InstitutionRepo extends RepoAbstract implements RepoAssotiatedManyInterface, InstitutionRepoInterface {    
 
     public function __construct( InstitutionDao $institutionDao, InstitutionHydrator $institutionHydrator) {
         $this->dataManager = $institutionDao;
         $this->registerHydrator($institutionHydrator);
     }    
+
 
 
    /**
@@ -33,7 +35,16 @@ class InstitutionRepo extends RepoAbstract implements InstitutionRepoInterface {
     }
     
     
-    
+      /**
+     *
+     * @param type $institutionTypeId
+     * @return iterable
+     */
+    public function findByReference($institutionTypeId): iterable {
+        $key = $this->dataManager->getForeignKeyTouples('institution_type_id', ['institution_type_id'=>$institutionTypeId]);
+        return $this->findEntitiesByReference('institution_type_id', $key);
+    }
+  
     /**
      * 
      * @param type $whereClause

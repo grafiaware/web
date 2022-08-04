@@ -9,6 +9,8 @@ use Events\Model\Entity\InstitutionInterface;
  * @author vlse2610
  */
 interface InstitutionRepoInterface  extends RepoInterface {
+    
+   
    /**
     * 
     * @param type $id

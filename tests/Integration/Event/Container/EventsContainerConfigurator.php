@@ -59,6 +59,9 @@ use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
 
+use Events\Model\Hydrator\InstitutionTypeChildHydrator; 
+use Events\Model\Repository\InstitutionTypeAggregateInstitutionRepo;
+
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Hydrator\CompanyHydrator;
 use Events\Model\Repository\CompanyRepo;
@@ -305,7 +308,20 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             InstitutionTypeRepo::class => function(ContainerInterface $c) {
                 return new InstitutionTypeRepo($c->get(InstitutionTypeDao::class), $c->get(InstitutionTypeHydrator::class));
             },
-
+                    
+            //InstitutionTypeAggregateInstitution
+            InstitutionTypeChildHydrator::class => function(ContainerInterface $c) {
+                return new InstitutionTypeChildHydrator();
+            },                                        
+            InstitutionTypeAggregateInstitutionRepo::class => function(ContainerInterface $c) {
+                return new InstitutionTypeAggregateInstitutionRepo(
+                    $c->get(InstitutionTypeDao::class),
+                    $c->get(InstitutionTypeHydrator::class),
+                    $c->get(InstitutionRepo::class),
+                    $c->get(InstitutionTypeChildHydrator::class) );
+            },
+                 
+            /**/       
 
             //Company
             CompanyDao::class => function(ContainerInterface $c) {
