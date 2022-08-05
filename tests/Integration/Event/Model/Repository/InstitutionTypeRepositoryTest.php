@@ -83,7 +83,8 @@ class InstitutionTypeRepositoryTest extends AppRunner {
     }
 
     protected function tearDown(): void {
-        $this->institutionTypeRepo->flush();
+        //$this->institutionTypeRepo->flush();
+        $this->institutionTypeRepo->__destruct();
     }
 
     public static function tearDownAfterClass(): void {

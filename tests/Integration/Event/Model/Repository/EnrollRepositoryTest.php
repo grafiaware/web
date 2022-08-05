@@ -141,7 +141,8 @@ class EnrollRepositoryTest extends AppRunner {
     }
 
     protected function tearDown(): void {
-        $this->enrollRepo->flush();
+        //$this->enrollRepo->flush();
+        $this->enrollRepo->__destruct();
     }
 
     public static function tearDownAfterClass(): void {

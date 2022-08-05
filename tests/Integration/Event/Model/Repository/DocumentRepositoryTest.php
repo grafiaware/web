@@ -108,7 +108,8 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     protected function tearDown(): void {
-        $this->documentRepo->flush();
+       // $this->documentRepo->flush();
+        $this->documentRepo->__destruct();
     }
 
     public static function tearDownAfterClass(): void {

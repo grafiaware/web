@@ -80,7 +80,9 @@ class EventLinkRepositoryTest extends AppRunner {
     }
 
     protected function tearDown(): void {
-        $this->eventLinkRepo->flush();
+        //$this->eventLinkRepo->flush();
+        $this->eventLinkRepo->__destruct();
+        
     }
 
     public static function tearDownAfterClass(): void {

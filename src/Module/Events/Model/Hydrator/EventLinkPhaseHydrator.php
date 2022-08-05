@@ -27,8 +27,12 @@ class EventLinkPhaseHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
         /** @var EventLinkPhaseInterface $eventLinkPhase */
         $eventLinkPhase
-            ->setId($rowData->offsetGet('id'))
-            ->setText($rowData->offsetGet('text')  );
+            ->setId( $this->getPhpValue( $rowData,'id' ) )
+            ->setText( $this->getPhpValue($rowData, 'text' ) );
+//         $enroll                     
+//            ->setLoginLoginNameFk( $this->getPhpValue($rowData,'login_login_name_fk') )
+//            ->setEventIdFk( $this->getPhpValue($rowData,'event_id_fk'))                   
+            ;
     }
 
     /**

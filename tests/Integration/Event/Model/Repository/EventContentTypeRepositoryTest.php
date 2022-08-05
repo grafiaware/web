@@ -14,6 +14,7 @@ use Model\Repository\Exception\UnableAddEntityException;
 use Model\Repository\Exception\OperationWithLockedEntityException;
 
 use Events\Model\Entity\EventContentType;
+use Events\Model\Entity\EventContentTypeInterface;
 use Model\RowData\RowData;
 
 /**
@@ -80,7 +81,8 @@ class EventContentTypeRepositoryTest extends AppRunner {
 
   
     protected function tearDown(): void {
-        $this->eventContentTypeRepo->flush();
+        //$this->eventContentTypeRepo->flush();
+        $this->eventContentTypeRepo->__destruct();
     }
 
     public static function tearDownAfterClass(): void {

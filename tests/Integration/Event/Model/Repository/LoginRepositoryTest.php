@@ -81,7 +81,8 @@ class LoginRepositoryTest extends AppRunner {
     }
 
     protected function tearDown(): void {
-        $this->loginRepo->flush();
+        //$this->loginRepo->flush();
+        $this->loginRepo->__destruct();
     }
 
     public static function tearDownAfterClass(): void {

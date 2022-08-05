@@ -76,6 +76,7 @@ class EventRepositoryTest extends AppRunner {
 
     protected function tearDown(): void {
         $this->eventRepo->flush();
+        $this->eventRepo->__destruct(); 
     }
 
     public static function tearDownAfterClass(): void {

@@ -10,7 +10,6 @@ use Pes\Container\Container;
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
-//use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 use Events\Model\Repository\InstitutionTypeAggregateInstitutionRepo;
 use Events\Model\Entity\InstitutionTypeAggregateInstitution;
 use Events\Model\Entity\InstitutionTypeAggregateInstitutionInterface;
@@ -23,13 +22,6 @@ use Events\Model\Repository\InstitutionTypeRepo;
 use Events\Model\Dao\InstitutionTypeDao;
 
 use Model\RowData\RowData;
-
-//use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-//use Red\Model\Repository\MenuItemAggregatePaperRepo;
-
-//use Red\Model\Entity\MenuItemAggregatePaper;
-//use Red\Model\Entity\PaperAggregatePaperSection;
-
 
 
 /**
@@ -47,17 +39,13 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
      */
     private $institutionTypeAggregateInstitutionRepo;
 
-    private static $institutionId;
+    private static $institutionId1;
+    private static $institutionId2;
     private static $institutionName = "proTestInstitutionTypeAggInstitutionRepo";
     
     private static $institutionTypeId;
     private static $institutionType = "proTestInstitutionTypeAggInstitutionRepo";
     
-//    private $title;
-//    private $langCode;
-//    private $uid;
-//    private $id;
-//    private $prettyUri;
 
 
     public static function setUpBeforeClass(): void {
@@ -74,7 +62,7 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
     }
     
     
-     private static function insertRecords(Container $container) {
+    private static function insertRecords(Container $container) {
         /** @var InstitutionTypeDao $institutionTypeDao */
         $institutionTypeDao = $container->get(InstitutionTypeDao::class);  
         $rowData = new RowData();
@@ -84,44 +72,44 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
         $institutionTypeDao->insert($rowData);                
         self::$institutionTypeId = $institutionTypeDao->lastInsertIdValue();
          
-          /** @var InstitutionDao $institutionDao */
+          /** @var InstitutionDao $institutionDao */ //1
         $institutionDao = $container->get(InstitutionDao::class);  
         $rowData = new RowData();
         $rowData->import([
-            'name' => self::$institutionName,
+            'name' => self::$institutionName . "1",
             'institution_type_id' => self::$institutionTypeId
         ]);
         $institutionDao->insert($rowData);                
-        self::$institutionId = $institutionDao->lastInsertIdValue();
+        self::$institutionId1 = $institutionDao->lastInsertIdValue();
         
+        /** @var InstitutionDao $institutionDao */ //2
         $institutionDao = $container->get(InstitutionDao::class);  
         $rowData = new RowData();
         $rowData->import([
-            'name' => self::$institutionName,
+            'name' => self::$institutionName  . "2",
             'institution_type_id' => self::$institutionTypeId
         ]);
         $institutionDao->insert($rowData);                
-        self::$institutionId = $institutionDao->lastInsertIdValue();
-        //------------------------------        
-         
+        self::$institutionId2 = $institutionDao->lastInsertIdValue();
+       
     }
 
+    
     private static function deleteRecords(Container $container) {
         
-//         /** @var InstitutionDao $institutionDao */
-//        $institutionDao = $container->get(InstitutionDao::class);        
-//        $rows = $institutionDao->find( "name LIKE '". self::$institutionName . "%'", [] );               
-//        foreach($rows as $row) {
-//            $ok = $institutionDao->delete($row);
-//        }
-//                
-//         /** @var InstitutionTypeDao $institutionTypeDao */
-//        $institutionTypeDao = $container->get(InstitutionTypeDao::class);        
-//        $rows = $institutionTypeDao->find( "institution_type LIKE '". self::$institutionType . "%'", [] );               
-//        foreach($rows as $row) {
-//            $ok = $institutionTypeDao->delete($row);
-//        }
-        
+         /** @var InstitutionDao $institutionDao */
+        $institutionDao = $container->get(InstitutionDao::class);        
+        $rows = $institutionDao->find( "name LIKE '". self::$institutionName . "%'", [] );               
+        foreach($rows as $row) {
+            $ok = $institutionDao->delete($row);
+        }
+                
+         /** @var InstitutionTypeDao $institutionTypeDao */
+        $institutionTypeDao = $container->get(InstitutionTypeDao::class);        
+        $rows = $institutionTypeDao->find( "institution_type LIKE '". self::$institutionType . "%'", [] );               
+        foreach($rows as $row) {
+            $ok = $institutionTypeDao->delete($row);
+        }        
         
     }
     
@@ -134,24 +122,13 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
             );
         $this->institutionTypeAggregateInstitutionRepo = $this->container->get(InstitutionTypeAggregateInstitutionRepo::class);
 
-
-//        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
-//        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
-//        $this->langCode = 'cs';
-//        $this->title = 'Tests Integration';
-//        $node = $hierarchyDao->getByTitleHelper($this->langCode, $this->title);
-//        if (!isset($node)) {
-//            throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
-//        }
-//        //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
-//        $this->uid = $node['uid'];
-//        $this->id = $node['id'];
-//        $this->prettyUri = $node['prettyUri'] ?? null;
     }
     
     
+    
     protected function tearDown(): void {
-        $this->institutionTypeAggregateInstitutionRepo->flush();
+        //$this->institutionTypeAggregateInstitutionRepo->flush();
+        $this->institutionTypeAggregateInstitutionRepo->__destruct();
     }
     
     
@@ -161,18 +138,21 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-
         self::deleteRecords($container);
     }
 
     
-    public function testSetUp() {
-        
+    public function testSetUp() {        
         $this->assertInstanceOf( InstitutionTypeAggregateInstitutionRepo::class, $this->institutionTypeAggregateInstitutionRepo );
     }
 
     
-    
+    /**
+     * $this->institutionTypeAggregateInstitutionRepo->get() vrací aggregovanou entitu  s agregovanými všemi Instituties (pole),
+     * které mají  jako cizi klic v Institution.event_id_fk klic InstitutionType.id.
+     * Instituties (pole)  je  privatni vlastnost $institutions = []  entity InstitutionTypeAggregateInstitution.
+     * InstitutionType-parent, Institution-child
+     */
     public function testGet() {
         /**  @var InstitutionTypeAggregateInstitution $institutionTypeAgg */
         $institutionTypeAgg = $this->institutionTypeAggregateInstitutionRepo->get( self::$institutionTypeId );                       
@@ -180,46 +160,41 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
         $institutions = $institutionTypeAgg->getInstitutionsArray();
         $this->assertEquals ( self::$institutionType, $institutionTypeAgg->getInstitutionType());
         
-        
-        
-        
-        
-        
-//        $this->assertEquals($this->title, $entity->getTitle());
-//        /** @var PaperAggregatePaperSection $paper */      // není interface
-//        $paper = $entity->getPaper();
-//        
-//        $this->assertInstanceOf(PaperAggregatePaperSection::class, $paper);
-//        $contents = $paper->getPaperContentsArray();
-//        $this->assertIsArray($contents);
-//        $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
+        $this->assertTrue(is_array($institutions));
+        $this->assertIsArray($institutions);
+        $this->assertGreaterThan(0,count($institutions)); //jsou tam minimalne 2
+        $this->assertInstanceOf(Institution::class, $institutions[0]);  
 
     }
     
     
 
-    public function testGetById() {
-//        $entity = $this->menuItemAggRepo->getById($this->id);
-//        $this->assertInstanceOf(MenuItemAggregatePaper::class, $entity);
-//        $this->assertEquals($this->title, $entity->getTitle());
-//        /** @var PaperAggregatePaperSection $paper */      // není interface
-//        $paper = $entity->getPaper();
-//        $this->assertInstanceOf(PaperAggregatePaperSection::class, $paper);
-//        $contents = $paper->getPaperContentsArray();
-//        $this->assertIsArray($contents);
-//        $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
-
+    public function testFindAll() {        
+        /**  @var InstitutionTypeAggregateInstitution $institutionTypeAgg */
+        $institutionTypeAgg = $this->institutionTypeAggregateInstitutionRepo->findAll();     
+        $this->assertTrue(is_array($institutionTypeAgg));        
     }
 
-    public function testFindByPaperFulltextSearch() {
-//        // Stop here and mark this test as incomplete.
-//        $this->markTestIncomplete(
-//          'This test has not been implemented yet.'
-//        );
-//
-//        $items = $this->menuItemAggRepo->findByPaperFulltextSearch($this->langCode, "Grafia", false, false);
-//        $this->assertIsArray($items);
-//        $this->assertTrue(count($items) > 0, 'Nebyl nalezen alespoň jeden výskyt řetězce.');
+    
+    
+    public function testUpdateInstitution_I_nastaveni() {
+         /**  @var InstitutionTypeAggregateInstitution $institutionTypeAgg */
+        $institutionTypeAgg = $this->institutionTypeAggregateInstitutionRepo->get( self::$institutionTypeId ); 
+        $institutionsArray = $institutionTypeAgg->getInstitutionsArray();
+        $this->assertIsArray($institutionsArray);
+        foreach ($institutionsArray as $key => $value) {
+            $institutionsArray[$key]->setName(self::$institutionName . "upgrade");
+        }            
+    }    
+    public function testUpdateInstitution_II_kontrola() {
+         /**  @var InstitutionTypeAggregateInstitution $institutionTypeAgg */
+        $institutionTypeAgg = $this->institutionTypeAggregateInstitutionRepo->get( self::$institutionTypeId ); 
+        $institutionsArray = $institutionTypeAgg->getInstitutionsArray();
+        foreach ($institutionsArray as $key => $value) {
+            $institutionsArray[$key]->setName(self::$institutionName . "upgrade");
+            $this->assertEquals( self::$institutionName . "upgrade",  $institutionsArray[$key]->getName() );
+        }
+            
     }
 
 }
