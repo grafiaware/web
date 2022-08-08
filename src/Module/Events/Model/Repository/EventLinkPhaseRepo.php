@@ -30,9 +30,9 @@ class EventLinkPhaseRepo extends RepoAbstract implements EventLinkPhaseRepoInter
     /**
     * 
     * @param type $id
-    * @return InstitutionTypeInterface|null
+    * @return EventLinkPhaseInterface|null
     */  
-    public function get($id): ?InstitutionTypeInterface {
+    public function get($id): ?EventLinkPhaseInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
@@ -43,7 +43,7 @@ class EventLinkPhaseRepo extends RepoAbstract implements EventLinkPhaseRepoInter
      * 
      * @param type $whereClause
      * @param type $touplesToBind
-     * @return InstitutionTypeInterface[]
+     * @return EventLinkPhaseInterface[]
      */    
     public function find($whereClause=null, $touplesToBind=[]) : array {
         return $this->findEntities($whereClause, $touplesToBind);
@@ -52,7 +52,7 @@ class EventLinkPhaseRepo extends RepoAbstract implements EventLinkPhaseRepoInter
     
      /**
      * 
-     * @return InstitutionTypeInterface[]
+     * @return EventLinkPhaseInterface[]
      */
     public function findAll() : array  {
        return $this->findEntities();
@@ -61,32 +61,32 @@ class EventLinkPhaseRepo extends RepoAbstract implements EventLinkPhaseRepoInter
     
     /**
      * 
-     * @param InstitutionTypeInterface $institutionType
+     * @param EventLinkPhaseInterface $eventLinkPhase
      * @return void
      */
-    public function add(InstitutionTypeInterface $institutionType) :void {
-        $this->addEntity($institutionType);
+    public function add(EventLinkPhaseInterface $eventLinkPhase) :void {
+        $this->addEntity($eventLinkPhase);
     }
     
     
     /**
      * 
-     * @param InstitutionTypeInterface $institutionType
+     * @param EventLinkPhaseInterface $eventLinkPhase
      * @return void
      */
-    public function remove(InstitutionTypeInterface $institutionType) : void {
-        $this->removeEntity($institutionType);
+    public function remove( EventLinkPhaseInterface $eventLinkPhase) : void {
+        $this->removeEntity($eventLinkPhase);
     }
  
         
     
 
     protected function createEntity() {
-        return new InstitutionType();
+        return new EventLinkPhase();
     }
 
-    protected function indexFromEntity(InstitutionTypeInterface $institutionType) {
-        return $institutionType->getId();
+    protected function indexFromEntity(EventLinkPhaseInterface $eventLinkPhase) {
+        return $eventLinkPhase->getId();
     }
 
     protected function indexFromRow($row) {

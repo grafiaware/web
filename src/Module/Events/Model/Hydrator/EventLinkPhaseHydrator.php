@@ -2,6 +2,7 @@
 namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
@@ -13,7 +14,7 @@ use Events\Model\Entity\EventLinkPhaseInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhaseHydrator implements HydratorInterface {
+class EventLinkPhaseHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
 //    `event_link_phase`.`id` ,
 //    `event_link_phase`.`text`
@@ -28,10 +29,7 @@ class EventLinkPhaseHydrator implements HydratorInterface {
         /** @var EventLinkPhaseInterface $eventLinkPhase */
         $eventLinkPhase
             ->setId( $this->getPhpValue( $rowData,'id' ) )
-            ->setText( $this->getPhpValue($rowData, 'text' ) );
-//         $enroll                     
-//            ->setLoginLoginNameFk( $this->getPhpValue($rowData,'login_login_name_fk') )
-//            ->setEventIdFk( $this->getPhpValue($rowData,'event_id_fk'))                   
+            ->setText( $this->getPhpValue($rowData, 'text' ) );                
             ;
     }
 
@@ -41,9 +39,7 @@ class EventLinkPhaseHydrator implements HydratorInterface {
      * @param RowDataInterface $rowData
      */
     public function extract(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
-        /** @var EventLinkPhaseInterface $eventLinkPhase */
-        // id je autoincrement
-        $rowData->offsetSet('text', $eventLinkPhase->getText());
+        $this->setSqlValue($rowData, 'text',  $eventLinkPhase->getText() );
     }
 
 

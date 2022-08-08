@@ -1,15 +1,16 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
 use Events\Model\Entity\EventLinkInterface;
+
+use Model\Repository\RepoAbstract;
+
+use Events\Model\Dao\EventLinkPhaseDao;
+use Events\Model\Hydrator\EventLinkPhaseHydrator;
+use Events\Model\Repository\EventLinkPhaseRepoInterface;
+use Events\Model\Entity\EventLinkPhase;
+use Events\Model\Entity\EventLinkPhaseInterface;
 
 /**
  *
@@ -18,19 +19,40 @@ use Events\Model\Entity\EventLinkInterface;
 interface EventLinkRepoInterface extends RepoInterface  {
   /**
      *
-     * @param string $id
+     * @param type $id
      * @return EventLinkInterface|null
      */
     public function get($id): ?EventLinkInterface ;
 
+    
+    
+    /**
+     * 
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return EventLinkInterface[]
+     */
     public function find($whereClause="", $touplesToBind=[]): array;
+    
+    /**
+     * 
+     * @return EventLinkInterface[]
+     */
     public function findAll() :array ;
 
+    /**
+     * 
+     * @param EventLinkInterface $eventLink 
+     * @return void
+     */
+    public function add(EventLinkInterface $eventLink) : void ;
 
-    public function add(EventLinkInterface $eventLink);
 
-
-
-    public function remove(EventLinkInterface $eventLink) ;
+    /**
+     * 
+     * @param EventLinkInterface $eventLink 
+     * @return void
+     */
+    public function remove(EventLinkInterface $eventLink)  : void ;
 
 }

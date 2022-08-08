@@ -1,38 +1,30 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-use Model\Hydrator\HydratorInterface;
 
 use Events\Model\Entity\EventLink;
 use Events\Model\Entity\EventLinkInterface;
-
 use Events\Model\Dao\EventLinkDao;
+use Events\Model\Hydrator\EventLinkHydrator;
+use Events\Model\Repository\EventLinkRepoInterface;
+
 
 /**
  * Description of EventLinkRepo
  *
- * @author pes2704
+ * @author vlse2610
  */
-class EventLinkRepo extends RepoAbstract implements EventLinkRepoInterface {
+class EventLinkRepo  extends RepoAbstract implements EventLinkRepoInterface {    
 
-    protected $dao;
-
-    public function __construct(EventLinkDao $eventLinkDao, HydratorInterface $eventLinkHydrator) {
+    public function __construct(EventLinkDao $eventLinkDao, EventLinkHydrator $eventLinkHydrator) {
         $this->dataManager = $eventLinkDao;
         $this->registerHydrator($eventLinkHydrator);
     }
 
     /**
      *
-     * @param string $id
+     * @param type $id
      * @return EventLinkInterface|null
      */
     public function get($id): ?EventLinkInterface {
@@ -40,21 +32,43 @@ class EventLinkRepo extends RepoAbstract implements EventLinkRepoInterface {
         return $this->getEntity($key);
     }
 
+    /**
+     * 
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return EventLinkInterface[]
+     */
     public function find($whereClause="", $touplesToBind=[]): array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
 
+    /**
+     * 
+     * @return EventLinkInterface[]
+     */
     public function findAll(): array {
         return $this->findEntities();
     }
 
-    public function add(EventLinkInterface $eventLink) {
+    /**
+     * 
+     * @param EventLinkInterface $eventLink 
+     * @return void
+     */
+    public function add(EventLinkInterface $eventLink) : void {
         $this->addEntity($eventLink);
     }
-
-    public function remove(EventLinkInterface $eventLink) {
+    /**
+     * 
+     * @param EventLinkInterface $eventLink
+     * @return void
+     */
+    public function remove(EventLinkInterface $eventLink)  :void {
         $this->removeEntity($eventLink);
     }
+    
+    
+    
 
     protected function createEntity() : EventLinkInterface {
         return new EventLink();

@@ -6,6 +6,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Events\Model\Entity\EventLinkInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 
 /**
@@ -13,7 +14,7 @@ use Events\Model\Entity\EventLinkInterface;
  *
  * @author vlse2610
  */
-class EventLinkHydrator implements HydratorInterface {
+class EventLinkHydrator extends TypeHydratorAbstract implements HydratorInterface {
 //   `event_link`.`id` ,
 //   `event_link`.`show` ,
 //   `event_link`.`href`,
@@ -27,10 +28,11 @@ class EventLinkHydrator implements HydratorInterface {
       public function hydrate( EntityInterface $eventLink, RowDataInterface $rowData) {
         /** @var EventLinkInterface $eventLink */
         $eventLink
-            ->setId($rowData->offsetGet('id'))
-            ->setShow($rowData->offsetGet('show'))
-            ->setHref($rowData->offsetGet('href') )
-            ->setLinkPhaseIdFk($rowData->offsetGet('link_phase_id_fk')  );
+            ->setId( $this->getPhpValue( $rowData, 'id'))
+            ->setShow( $this->getPhpValue( $rowData, 'show') )
+            ->setHref( $this->getPhpValue( $rowData, 'href' ) )
+            ->setLinkPhaseIdFk( $this->getPhpValue( $rowData, 'link_phase_id_fk' ) ) ;            
+        
     }
 
     /**
@@ -41,9 +43,9 @@ class EventLinkHydrator implements HydratorInterface {
     public function extract(EntityInterface $eventLink, RowDataInterface $rowData) {
         /** @var EventLinkInterface $eventLink */
         // id je autoincrement
-        $rowData->offsetSet('show', $eventLink->getShow()  );
-        $rowData->offsetSet('href', $eventLink->getHref()  );
-        $rowData->offsetSet('link_phase_id_fk', $eventLink->getLinkPhaseIdFk()  );
+        $this->setSqlValue($rowData, 'show', $eventLink->getShow()  );
+        $this->setSqlValue($rowData, 'href', $eventLink->getHref()  );
+        $this->setSqlValue($rowData, 'link_phase_id_fk', $eventLink->getLinkPhaseIdFk()  );
     }
 
 }
