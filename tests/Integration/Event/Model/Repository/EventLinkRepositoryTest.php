@@ -16,6 +16,7 @@ use Events\Model\Repository\EventLinkRepo;
 use Events\Model\Entity\EventLink;
 use Events\Model\Entity\EventLinkInterface;
 
+use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
 
 
@@ -35,6 +36,11 @@ class EventLinkRepositoryTest extends AppRunner {
     private static $eventLinkPhaseId;
     
     private static $eventLinkId;
+    /**
+     * 
+     * @var EventLink
+     */
+    private static $eventLink2;
         
     
     
@@ -71,6 +77,7 @@ class EventLinkRepositoryTest extends AppRunner {
         $rowData->import([
             'link_phase_id_fk' => self::$eventLinkPhaseId,
             'show' => true,
+            
             'href' =>  "https://pro" . self::$eventLinkPhaseText . "estEventLinkccaas54f654sdf654sd65f4"
         ]);
         $eventLinkDao->insert($rowData);                
@@ -146,12 +153,12 @@ class EventLinkRepositoryTest extends AppRunner {
         $this->assertInstanceOf(EventLinkInterface::class, $eventLink);
 
         $this->eventLinkRepo->remove($eventLink);
-        $this->assertNull($event);
         
         $this->assertTrue($eventLink->isPersisted());
         $this->assertTrue($eventLink->isLocked()); 
     }
 
+    
     public function testGetAfterRemove() {
         $eventLink = $this->eventLinkRepo->get(self::$eventLinkId);
         $this->assertNull($eventLink);
@@ -163,146 +170,77 @@ class EventLinkRepositoryTest extends AppRunner {
     
     
     public function testAdd() {
-
         $eventLink = new EventLink();
         // svoboda
-//        $eventLink->setShow( false );
-        
+//        $eventLink->setShow( false );        
         $eventLink->setShow( 0 );
-        
-        
-        
+   
         $eventLink->setHref("https://tqwrqwz" . self::$eventLinkPhaseText  . "trrwqz.zu?aaaa=555@ddd=6546546");
         $eventLink->setLinkPhaseIdFk(self::$eventLinkPhaseId);
-        $this->eventLinkRepo->add($eventLink);
+        $this->eventLinkRepo->add($eventLink);  //zapise hned
         
         $this->assertFalse($eventLink->isLocked());
+        $this->assertTrue($eventLink->isPersisted());
+        
+        self::$eventLink2 = $this->eventLinkRepo->get($eventLink->getId());        
+
+    }
+    
+    
+    public function testReread() {
+        
+        $eventLinkRereaded = $this->eventLinkRepo->get( self::$eventLink2->getId() );
+        $this->assertInstanceOf(EventLinkInterface::class, $eventLinkRereaded);
+        $this->assertTrue($eventLinkRereaded->isPersisted());
+        $this->assertFalse($eventLinkRereaded->isLocked());
+        
     }
     
 
     public function testfindAll() {
-        $eventContents = $this->eventLinkRepo->findAll();
-        $this->assertTrue(is_array($eventContents));
+        $eventLink = $this->eventLinkRepo->findAll();
+        $this->assertTrue(is_array($eventLink));
+    }
+    
+    
+    public function testFind() {      
+       $eventLinkArray = $this->eventLinkRepo->find( "href LIKE '%" . self::$eventLinkPhaseText . "%'", []); 
+       $this->assertTrue(is_array($eventLinkArray));
+       $this->assertGreaterThan(0,count($eventLinkArray)); //jsou tam minimalne 2
+                       
     }
 
-//    public function testGetAfterAdd() {
-//        $event = $this->eventTypeRepo->get("XXXXXX");
-//        $this->assertInstanceOf(EventPresentation::class, $event);
-//        $this->assertTrue($event->getPublished());
-//    }
-//
-//    public function testGetAndRemoveAfterAdd() {
-//        $event = $this->eventTypeRepo->get("XXXXXX");
-//        $this->eventTypeRepo->remove($event);
-//        $this->assertTrue($event->isLocked(), 'EventPresentation není zamčena po remove.');
-//    }
-//
-//    public function testAddAndReread() {
-//        $event = new EventPresentation();
-//        $event->setLoginName("XXXXXX");
-//        $this->eventTypeRepo->add($event);
-//        $this->eventTypeRepo->flush();
-//        $event = $this->eventTypeRepo->get($event->getLoginName());
-//        $this->assertTrue($event->isPersisted(), 'EventPresentation není persistován.');
-//        $this->assertTrue(is_string($event->getLoginName()));
-//    }
+
+    public function testRemove_OperationWithLockedEntity() {
+        $eventLink = $this->eventLinkRepo->get(self::$eventLink2->getId() );    
+        $this->assertInstanceOf(EventLinkInterface::class, $eventLink);
+        $this->assertTrue($eventLink->isPersisted());
+        $this->assertFalse($eventLink->isLocked());
+        
+        $eventLink->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
+        $this->eventLinkRepo->remove($eventLink);
+    }
+
+    
+    public function testRemove() {
+        $eventLink = $this->eventLinkRepo->get(self::$eventLink2->getId() );    
+        $this->assertInstanceOf(EventLinkInterface::class, $eventLink);
+        $this->assertTrue($eventLink->isPersisted());
+        $this->assertFalse($eventLink->isLocked());
+
+        $this->eventLinkRepo->remove($eventLink);
+        
+        $this->assertTrue($eventLink->isPersisted());
+        $this->assertTrue($eventLink->isLocked());   // maže až při flush
+       
+        $this->eventLinkRepo->flush();
+        //  uz neni locked
+        $this->assertFalse($eventLink->isLocked());
+       
+        // pokus o čtení, institution uz  neni
+        $eventLink = $this->eventLinkRepo->get( self::$eventLink2->getId() );
+        $this->assertNull($eventLink);
+    }
 
 }
-
- 
-
-   
-
-//---------------------------------------------------    
- 
-//    
-//    public function testAdd() {
-//        $institution = new Institution();
-//        $institution->setName(self::$institutionName);                       
-//       
-//        $this->institutionRepo->add($institution);
-//        $this->assertTrue($institution->isPersisted());  // !!!!!! InstitutionDao ma DaoEditAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
-//        // pro automaticky|generovany klic (tento pripad zde ) a  pro  overovany klic  - !!! zapise se hned !!!       
-//        $this->assertFalse($institution->isLocked());
-//    }
-//
-//    
-//    public function testAddAndReread_I() {
-//        $institution = new Institution();       
-//        $institution->setName(self::$institutionName);        
-//
-//        $this->institutionRepo->add($institution); //zapise hned
-//        /** @var Institution $institutionRereaded */
-//        $institutionRereaded = $this->institutionRepo->get($institution->getId());
-//        $this->assertInstanceOf(InstitutionInterface::class, $institutionRereaded);
-//        $this->assertTrue($institutionRereaded->isPersisted());
-//        $this->assertFalse($institutionRereaded->isLocked());
-//       
-//        //$institutionRereaded, $institution ... jsou odkazy na stejny objekt              
-//        self::$idI = $institution->getId();
-//        self::$idR = $institutionRereaded->getId();
-//        $this->assertEquals(self::$idI, self::$idR );
-//        
-//        $institution->setInstitutionTypeId(self::$institutionTypeId); //zapise do entity, ktera je v repository
-//    }    
-//    
-//    public function testAddAndReread_II() {        
-//        $institution = $this->institutionRepo->get(self::$idI);
-//    
-//        /** @var Institution $institutionRereaded2 */
-//        $institutionRereaded2 = $this->institutionRepo->get($institution->getId());
-//        $this->assertInstanceOf(InstitutionInterface::class, $institutionRereaded2);
-//        $this->assertTrue($institutionRereaded2->isPersisted());
-//        $this->assertFalse($institutionRereaded2->isLocked());
-//
-//        $this->assertEquals(self::$institutionTypeId, $institutionRereaded2->getInstitutionTypeId());
-//    }
-//
-//    
-//    public function testFindAll() {
-//        $institutionsArray = $this->institutionRepo->findAll();
-//        $this->assertTrue(is_array($institutionsArray));
-//        $this->assertGreaterThan(0,count($institutionsArray)); //jsou tam minimalne 2
-//    }
-//
-//    
-//    public function testFind() {      
-//        $institutionsArray = $this->institutionRepo->find( "name LIKE '" . self::$institutionName . "%'", []); 
-//        $this->assertTrue(is_array($institutionsArray));
-//        $this->assertGreaterThan(0,count($institutionsArray)); //jsou tam minimalne 2
-//                       
-//    }
-//
-//    public function testRemove_OperationWithLockedEntity() {
-//        $institution = $this->institutionRepo->get(self::$institutionId);    
-//        $this->assertInstanceOf(InstitutionInterface::class, $institution);
-//        $this->assertTrue($institution->isPersisted());
-//        $this->assertFalse($institution->isLocked());
-//        
-//        $institution->lock();
-//        $this->expectException( OperationWithLockedEntityException::class);
-//        $this->institutionRepo->remove($institution);
-//    }
-//
-//    
-//    public function testRemove() {
-//        $institution = $this->institutionRepo->get(self::$institutionId);    
-//        $this->assertInstanceOf(InstitutionInterface::class, $institution);
-//        $this->assertTrue($institution->isPersisted());
-//        $this->assertFalse($institution->isLocked());
-//
-//        $this->institutionRepo->remove($institution);
-//        
-//        $this->assertTrue($institution->isPersisted());
-//        $this->assertTrue($institution->isLocked());   // maže až při flush
-//        $this->institutionRepo->flush();
-//        //  uz neni locked
-//        $this->assertFalse($institution->isLocked());
-//       
-//        // pokus o čtení, institution uz  neni
-//        $institution = $this->institutionRepo->get(self::$institutionId);
-//        $this->assertNull($institution);
-//    }
-
-
-
