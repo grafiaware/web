@@ -2,6 +2,8 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\CompanyInterface;
+use Model\Entity\EntityInterface;
+
 
 /**
  *

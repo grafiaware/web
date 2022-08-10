@@ -4,14 +4,11 @@ namespace Test\Integration\Event\Model\Repository;
 
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
-
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
-
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Dao\EventLinkDao;
-
 use Events\Model\Repository\EventLinkRepo;
 use Events\Model\Entity\EventLink;
 use Events\Model\Entity\EventLinkInterface;
@@ -32,7 +29,7 @@ class EventLinkRepositoryTest extends AppRunner {
      */
     private $eventLinkRepo;
 
-    private static $eventLinkPhaseText = "proEventLinkTest";    
+    private static $eventLinkPhaseText = "proEventLinkRepoTest";    
     private static $eventLinkPhaseId;
     
     private static $eventLinkId;
@@ -40,13 +37,7 @@ class EventLinkRepositoryTest extends AppRunner {
      * 
      * @var EventLink
      */
-    private static $eventLink2;
-        
-    
-    
-    private static $idI;
-    private static $idR;
-    
+    private static $eventLink2;            
 
 
     public static function setUpBeforeClass(): void {
@@ -68,39 +59,36 @@ class EventLinkRepositoryTest extends AppRunner {
         $rowData->import([
             'text' => self::$eventLinkPhaseText ]);
         $eventLinkPhaseDao->insert($rowData);                
-        self::$eventLinkPhaseId = $eventLinkPhaseDao->lastInsertIdValue();
-        
+        self::$eventLinkPhaseId = $eventLinkPhaseDao->lastInsertIdValue();        
         
         /** @var EventLinkDao $eventLinkDao */
         $eventLinkDao = $container->get(EventLinkDao::class);  
         $rowData = new RowData();
         $rowData->import([
             'link_phase_id_fk' => self::$eventLinkPhaseId,
-            'show' => true,
-            
-            'href' =>  "https://pro" . self::$eventLinkPhaseText . "estEventLinkccaas54f654sdf654sd65f4"
+            'show' => true,            
+            'href' =>  "https://pro" . self::$eventLinkPhaseText . "estEventLinkeeeeeeeeeeee"
         ]);
         $eventLinkDao->insert($rowData);                
         self::$eventLinkId = $eventLinkDao->lastInsertIdValue();        
-        //------------------------------                                
+       
     }
 
     
     private static function deleteRecords(Container $container) {
-//        /** @var EventLinkDao $eventLinkDao */
-//        $eventLinkDao = $container->get(EventLinkDao::class);
-//        $rows = $eventLinkDao->find( " href LIKE '". "%" . self::$eventLinkPhaseText . "%'", [] );
-//        foreach($rows as $row) {
-//            $ok = $eventLinkDao->delete($row);
-//        }
-//        
-//         /** @var EventLinkPhaseDao $eventLinkPhaseDao */
-//        $eventLinkPhaseDao = $container->get(EventLinkPhaseDao::class);        
-//        $rows = $eventLinkPhaseDao->find( "text LIKE '". "%" . self::$eventLinkPhaseText . "%'", [] );               
-//        foreach($rows as $row) {
-//            $ok = $eventLinkPhaseDao->delete($row);
-//        }
-                
+        /** @var EventLinkDao $eventLinkDao */
+        $eventLinkDao = $container->get(EventLinkDao::class);
+        $rows = $eventLinkDao->find( " href LIKE '". "%" . self::$eventLinkPhaseText . "%'", [] );
+        foreach($rows as $row) {
+            $ok = $eventLinkDao->delete($row);
+        }
+        
+         /** @var EventLinkPhaseDao $eventLinkPhaseDao */
+        $eventLinkPhaseDao = $container->get(EventLinkPhaseDao::class);        
+        $rows = $eventLinkPhaseDao->find( "text LIKE '". "%" . self::$eventLinkPhaseText . "%'", [] );               
+        foreach($rows as $row) {
+            $ok = $eventLinkPhaseDao->delete($row);
+        }                
     } 
 
     
@@ -125,21 +113,19 @@ class EventLinkRepositoryTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-
         self::deleteRecords($container);
     }
-
     
     
     public function testSetUp() {
         $this->assertInstanceOf(EventLinkRepo::class, $this->eventLinkRepo);
     }
+    
 
     public function testGetNonExisted() {
         $eventLink = $this->eventLinkRepo->get(0);
         $this->assertNull($eventLink);
     }
-    
     
     
     public function testGetAfterSetup() {
@@ -151,9 +137,7 @@ class EventLinkRepositoryTest extends AppRunner {
     public function testGetAndRemoveAfterSetup() {
         $eventLink = $this->eventLinkRepo->get(self::$eventLinkId);    
         $this->assertInstanceOf(EventLinkInterface::class, $eventLink);
-
-        $this->eventLinkRepo->remove($eventLink);
-        
+        $this->eventLinkRepo->remove($eventLink);        
         $this->assertTrue($eventLink->isPersisted());
         $this->assertTrue($eventLink->isLocked()); 
     }
@@ -164,10 +148,7 @@ class EventLinkRepositoryTest extends AppRunner {
         $this->assertNull($eventLink);
     }
 
-    
-    
-    
-    
+   
     
     public function testAdd() {
         $eventLink = new EventLink();
@@ -187,13 +168,11 @@ class EventLinkRepositoryTest extends AppRunner {
     }
     
     
-    public function testReread() {
-        
+    public function testReread() {        
         $eventLinkRereaded = $this->eventLinkRepo->get( self::$eventLink2->getId() );
         $this->assertInstanceOf(EventLinkInterface::class, $eventLinkRereaded);
         $this->assertTrue($eventLinkRereaded->isPersisted());
-        $this->assertFalse($eventLinkRereaded->isLocked());
-        
+        $this->assertFalse($eventLinkRereaded->isLocked());        
     }
     
 
