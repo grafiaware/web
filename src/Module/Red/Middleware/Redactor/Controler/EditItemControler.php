@@ -21,10 +21,11 @@ use Status\Model\Enum\FlashSeverityEnum;
 
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Service\MenuItemxManipulator\MenuItemManipulatorInterface;
+use Red\Service\MenuItemxManipulator\MenuItemManipulator;
 use Red\Service\ContentGenerator\ContentGeneratorRegistryInterface;
+use Red\Service\MenuItemxManipulator\MenuItemToggleResultEnum;
 
-use LogicException;
+use Pes\Type\Exception\ValueNotInEnumException;
 
 /**
  * Description of Controler
@@ -39,7 +40,7 @@ class EditItemControler extends FrontControlerAbstract {
     private $menuItemRepo;
 
     /**
-     * @var MenuItemManipulatorInterface
+     * @var MenuItemManipulator
      */
     private $menuItemxManipulator;
 
@@ -60,7 +61,7 @@ class EditItemControler extends FrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo,
             MenuItemRepo $menuItemRepo,
             HierarchyAggregateReadonlyDao $hierarchyDao,
-            MenuItemManipulatorInterface $menuItemxManipulator,
+            MenuItemManipulator $menuItemxManipulator,
             ContentGeneratorRegistryInterface $contentGeneratorFactory
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
@@ -87,26 +88,32 @@ class EditItemControler extends FrontControlerAbstract {
     public function toggle(ServerRequestInterface $request, $uid) {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $msg = $this->menuItemxManipulator->toggleItems($langCode, $uid);
-        switch ($msg) {
-            case MenuItemManipulatorInterface::DEACTOVATE_ONE:
-                $this->addFlashMessage("menuItem toggle(false)", FlashSeverityEnum::SUCCESS);
-                break;
-            case MenuItemManipulatorInterface::DEACTOVATE_WITH_DESCENDANTS:
-                $this->addFlashMessage("menuItem toggle(false)", FlashSeverityEnum::SUCCESS);
-                $this->addFlashMessage("Item inactivated with all its descendants.", FlashSeverityEnum::WARNING);
-                break;
-            case MenuItemManipulatorInterface::ACTIVATE_ONE:
-                $this->addFlashMessage("menuItem toggle(true)", FlashSeverityEnum::SUCCESS);
-                break;
-            case MenuItemManipulatorInterface::UNABLE_ACTIVATE:
-                $this->addFlashMessage("unable to menuItem toggle(true)", FlashSeverityEnum::WARNING);
-                $this->addFlashMessage("Parent item is not active.", FlashSeverityEnum::INFO);
-                break;
-            default:
-                throw new LogicException(" Neznámy výsledek operace menuItemxManipulator->toggleItems()!");
-                break;
+
+        try {
+            $toggleResult = new MenuItemToggleResultEnum();
+            switch ($toggleResult($msg)) {
+                case MenuItemToggleResultEnum::DEACTOVATE_ONE:
+                    $this->addFlashMessage("menuItem toggle(false)", FlashSeverityEnum::SUCCESS);
+                    break;
+                case MenuItemToggleResultEnum::DEACTOVATE_WITH_DESCENDANTS:
+                    $this->addFlashMessage("menuItem toggle(false)", FlashSeverityEnum::SUCCESS);
+                    $this->addFlashMessage("Item inactivated with all its descendants.", FlashSeverityEnum::WARNING);
+                    break;
+                case MenuItemToggleResultEnum::ACTIVATE_ONE:
+                    $this->addFlashMessage("menuItem toggle(true)", FlashSeverityEnum::SUCCESS);
+                    break;
+                case MenuItemToggleResultEnum::UNABLE_ACTIVATE:
+                    $this->addFlashMessage("unable to menuItem toggle(true)", FlashSeverityEnum::WARNING);
+                    $this->addFlashMessage("Parent item is not active.", FlashSeverityEnum::INFO);
+                    break;
+            }
+            return $this->redirectSeeLastGet($request); // 303 See Other
+
+        } catch (ValueNotInEnumException $notInEnumExc) {
+            throw new ValueNotInEnumException(" Neznámy výsledek operace menuItemxManipulator->toggleItems()!");;
         }
-        return $this->redirectSeeLastGet($request); // 303 See Other
+
+
      }
 
      /**
