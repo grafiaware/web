@@ -160,8 +160,8 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
     }
 
     /**
-     * Full tree ve formě řazeného seznamu získaného traverzováním okolo stronu. V položkách seznamu vrací name, id, depth, breadcrumb.
-     * Depth je hloubka položky ve stromu (kořen má hloubku 0), breadcrumb je řetězec "drobečkové navigace" - zřetězená
+     * Full tree ve formě řazeného seznamu získaného traverzováním okolo stronu. V položkách seznamu vrací name, id, depth.
+     * Depth je hloubka položky ve stromu (kořen má hloubku 0)
      *
      * @return type
      */
@@ -209,16 +209,24 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
             .$this->selected()
             ."FROM
                 (SELECT
-                    node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    node.uid, (COUNT(parent.uid) - sub_tree.depth) AS depth, node.left_node, node.right_node, node.parent_uid
                 FROM
                     $this->nestedSetTableName AS node
                     CROSS JOIN
                     $this->nestedSetTableName AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
                     CROSS JOIN
                     $this->nestedSetTableName AS sub_parent ON node.left_node BETWEEN sub_parent.left_node AND sub_parent.right_node
+                    CROSS JOIN
+                    (SELECT node.uid, (COUNT(parent.uid) - 1) AS depth
+					FROM
+						$this->nestedSetTableName AS node
+						CROSS JOIN
+						$this->nestedSetTableName AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                        WHERE node.uid = :uid2
+					GROUP BY node.uid) AS sub_tree
                 WHERE sub_parent.uid = :uid
                 GROUP BY node.uid "
-                .(isset($maxDepth) ? "HAVING depth BETWEEN 1 AND :maxdepth" : "")
+                .(isset($maxDepth) ? "HAVING depth <= :maxdepth" : "")
                 .") AS nested_set
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
@@ -227,6 +235,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
                 ;
         $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $rootUid, \PDO::PARAM_STR);
+        $stmt->bindParam(':uid2', $rootUid, \PDO::PARAM_STR);
         if(isset($maxDepth)) {
             $stmt->bindParam(':maxdepth', $maxDepth, \PDO::PARAM_INT);
         }
@@ -319,70 +328,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * @return array
      */
     public function getImmediateSubNodes($langCode, $uid){
-        return $this->getSubNodes($langCode, $uid, 1);
-    }
-
-    /**
-     * Vrací potomky rodičovského prvku. Pokud je zadána hloubka, vrací jen potomky do maximální hloubky jejich umístění v celém stromu, jinak vrací celý postrom.
-     *
-     * @param string $langCode
-     * @param string $parentUid uid rodičovského porvku
-     * @param type $maxDepth
-     * @return array
-     */
-    public function getSubNodes($langCode, $parentUid, $maxDepth=NULL){
-        $sql =
-            "SELECT "
-            .$this->selected()
-            ."FROM
-                (
-                SELECT
-                    node.uid, (COUNT(node.uid)-1) AS depth, node.left_node, node.right_node, node.parent_uid
-                FROM
-                    $this->nestedSetTableName AS node
-                        CROSS JOIN
-                    $this->nestedSetTableName AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
-                        CROSS JOIN
-                    $this->nestedSetTableName AS sub_parent ON parent.left_node BETWEEN sub_parent.left_node AND sub_parent.right_node
-                WHERE sub_parent.uid = :uid
-
-                GROUP BY node.uid"
-//            ."FROM
-//                (SELECT
-//                    node.uid, (COUNT(parent.uid) -1) AS depth, (COUNT(parent.uid) - sub_tree.depth -1) AS nsdepth, node.left_node, node.right_node, node.parent_uid
-//                FROM
-//                    $this->nestedSetTableName AS node
-//                    CROSS JOIN
-//                    $this->nestedSetTableName AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
-//                    CROSS JOIN
-//                    $this->nestedSetTableName AS sub_parent ON node.left_node BETWEEN sub_parent.left_node AND sub_parent.right_node
-//                    CROSS JOIN
-//                    (SELECT
-//                        node.uid, (COUNT(parent.uid) - 1) AS depth
-//                        FROM
-//                            $this->nestedSetTableName AS node
-//                            CROSS JOIN
-//                            $this->nestedSetTableName AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
-//                        WHERE node.uid = :uid
-//                        GROUP BY node.uid
-//                        ORDER BY node.left_node) AS sub_tree
-//                WHERE sub_parent.uid = sub_tree.uid
-//                GROUP BY node.uid "
-                .(isset($maxDepth) ? " HAVING depth BETWEEN 1 AND :maxdepth " : "")
-                .") AS nested_set
-                    INNER JOIN
-                $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
-                ." ORDER BY nested_set.left_node"
-            ;
-        $stmt = $this->getPreparedStatement($sql);
-        $stmt->bindParam(':uid', $parentUid, \PDO::PARAM_STR);
-        if(isset($maxDepth)) {
-            $stmt->bindParam(':maxdepth', $maxDepth, \PDO::PARAM_INT);
-        }
-        $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchALL();
+        return $this->getSubTree($langCode, $uid, 1);
     }
 
     /**

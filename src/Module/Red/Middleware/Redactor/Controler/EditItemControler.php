@@ -12,7 +12,6 @@ use Pes\Http\Response;
 use Pes\Text\FriendlyUrl;
 
 use Model\Entity\MenuItemInterface;
-use Red\Service\ContentGenerator\ContentGeneratorRegistryInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -21,8 +20,11 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Enum\FlashSeverityEnum;
 
 use Red\Model\Repository\MenuItemRepo;
-
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Service\MenuItemxManipulator\MenuItemManipulatorInterface;
+use Red\Service\ContentGenerator\ContentGeneratorRegistryInterface;
+
+use LogicException;
 
 /**
  * Description of Controler
@@ -36,6 +38,10 @@ class EditItemControler extends FrontControlerAbstract {
      */
     private $menuItemRepo;
 
+    /**
+     * @var MenuItemManipulatorInterface
+     */
+    private $menuItemxManipulator;
 
     /**
      * @var ContentGeneratorRegistryInterface
@@ -54,40 +60,51 @@ class EditItemControler extends FrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo,
             MenuItemRepo $menuItemRepo,
             HierarchyAggregateReadonlyDao $hierarchyDao,
+            MenuItemManipulatorInterface $menuItemxManipulator,
             ContentGeneratorRegistryInterface $contentGeneratorFactory
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
         $this->hierarchyDao = $hierarchyDao;
+        $this->menuItemxManipulator = $menuItemxManipulator;
         $this->contentGeneratorRegistry = $contentGeneratorFactory;
     }
 
+    /**
+     * Přepne položku pasivní (nepublikovanou) na aktivní (publikovanou) a naopak.
+     *
+     * Pozor! Nesmí nastat situace kdy pasivní položka menu má aktivní potomky - to by způsobilo chybné načítání celé
+     * struktury menu v needitačním režimu (mimo redakčního systému).
+     *
+     * Pokud je položka aktivní přepne na pasivní i všechny její potomky
+     * Pokud je položka pasivní zjití jestli její rodič je aktivní, pokud rodič je aktivní přepne tuto položku na aktivní (potomky nemění),
+     * pokud je rodič pasivní nemění nic (ponechá položku pasivní).
+     *
+     * @param ServerRequestInterface $request
+     * @param type $uid
+     * @return type
+     */
     public function toggle(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->getMenuItem($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $active = $menuItem->getActive();
-        if ($active) {
-            $subNodes = $this->hierarchyDao->getSubNodes($langCode, $uid);  // včetně "kořene"
-            foreach ($subNodes as $node) {
-                $menuItem = $this->menuItemRepo->get($langCode, $node['uid']);
-                if (isset($menuItem)) {
-                    $menuItem->setActive(0);  //active je integer
-                }
-            }
-            $this->addFlashMessage("menuItem toggle(false)", FlashSeverityEnum::SUCCESS);
-            if (count($subNodes)>1) {
+        $msg = $this->menuItemxManipulator->toggleItems($langCode, $uid);
+        switch ($msg) {
+            case MenuItemManipulatorInterface::DEACTOVATE_ONE:
+                $this->addFlashMessage("menuItem toggle(false)", FlashSeverityEnum::SUCCESS);
+                break;
+            case MenuItemManipulatorInterface::DEACTOVATE_WITH_DESCENDANTS:
+                $this->addFlashMessage("menuItem toggle(false)", FlashSeverityEnum::SUCCESS);
                 $this->addFlashMessage("Item inactivated with all its descendants.", FlashSeverityEnum::WARNING);
-            }
-        } else {
-            $parent = $this->hierarchyDao->getParent($langCode, $uid);
-            $parentMenuItem = $this->menuItemRepo->get($langCode, $parent['uid']);
-            if (isset($parentMenuItem)AND $parentMenuItem->getActive()) {
-                $menuItem->setActive(1);  //active je integer
+                break;
+            case MenuItemManipulatorInterface::ACTIVATE_ONE:
                 $this->addFlashMessage("menuItem toggle(true)", FlashSeverityEnum::SUCCESS);
-            } else {
+                break;
+            case MenuItemManipulatorInterface::UNABLE_ACTIVATE:
                 $this->addFlashMessage("unable to menuItem toggle(true)", FlashSeverityEnum::WARNING);
                 $this->addFlashMessage("Parent item is not active.", FlashSeverityEnum::INFO);
-            }
+                break;
+            default:
+                throw new LogicException(" Neznámy výsledek operace menuItemxManipulator->toggleItems()!");
+                break;
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
      }

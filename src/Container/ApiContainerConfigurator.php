@@ -38,12 +38,15 @@ use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
 
+// services
 // generator service
 use Red\Service\ContentGenerator\ContentGeneratorRegistry;
 use Red\Service\ContentGenerator\Paper\PaperService;
 use Red\Service\ContentGenerator\Article\ArticleService;
 use Red\Service\ContentGenerator\StaticTemplate\StaticService;
 use Red\Service\ContentGenerator\Multipage\MultipageService;
+// menu itemmanipulator
+use Red\Service\MenuItemxManipulator\MenuItemManipulator;
 
 // array model
 use Events\Model\Arraymodel\Event;
@@ -128,6 +131,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(MenuItemRepo::class),
                         $c->get(HierarchyAggregateReadonlyDao::class),
+                        $c->get(MenuItemManipulator::class),
                         $c->get(ContentGeneratorRegistry::class)
                         );
             },
@@ -236,7 +240,10 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
 
-
+            MenuItemManipulator::class => function(ContainerInterface $c) {
+                return new MenuItemManipulator($c->get(MenuItemRepo::class),
+                        $c->get(HierarchyAggregateReadonlyDao::class));
+            },
             // view
             'renderLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);

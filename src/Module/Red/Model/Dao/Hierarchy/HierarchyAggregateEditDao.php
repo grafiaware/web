@@ -633,7 +633,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node > @target_right_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_right_node");
 
-            // kopíruj obsahy
+            // kopíruj obsahy - metoda kopíruje položky menu_item
             $this->copySourceContentIntoTarget($dbhTransact, $targetData);
 
             $dbhTransact->commit();
@@ -643,7 +643,13 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
         }
     }
 
-
+    /**
+     * Metoda kopíruje položky menu_item
+     *
+     * 
+     * @param type $dbhTransact
+     * @param type $targetData
+     */
     private function copySourceContentIntoTarget($dbhTransact, $targetData) {
         $preparedInsertToTarget = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
         $preparedSelectSourceItem = $this->getPreparedStatement("

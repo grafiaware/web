@@ -328,7 +328,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel->withRootItem($menuConfig['withRootItem']);
                     $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
 
-                    $viewModel->setMaxDepth(1);
+//                    $viewModel->setMaxDepth(2);
 
                     $component->setData($viewModel);
                 } else {

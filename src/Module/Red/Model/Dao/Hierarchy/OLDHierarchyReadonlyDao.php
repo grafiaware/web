@@ -292,7 +292,7 @@ class HierarchyReadonlyDao extends HierarchyEditDao implements HierarchyAggregat
      * @return array
      */
     public function getImmediateSubNodes($langCode, $uid){
-        return $this->getSubNodes($langCode, $uid, 1);
+        return $this->getSubTree($langCode, $uid, 1);
     }
 
     /**
@@ -303,7 +303,7 @@ class HierarchyReadonlyDao extends HierarchyEditDao implements HierarchyAggregat
      * @param type $maxDepth
      * @return array
      */
-    public function getSubNodes($langCode, $parentUid, $maxDepth=NULL){
+    public function getSubTree($langCode, $parentUid, $maxDepth=NULL){
         $sql =
             "SELECT "
             .$this->selected()
