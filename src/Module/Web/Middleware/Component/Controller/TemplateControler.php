@@ -93,7 +93,7 @@ class TemplateControler extends FrontControlerAbstract {
         $templates['article'] = [
         [ 'title' => 'Šablona pro příspěvek', 'description' => 'Jednoduchá šablona pro vložení textu a obrázku.',       'url' => 'web/v1/articletemplate/web_post'],
         [ 'title' => 'Šablona pro popis knihy', 'description' => 'Popis knihy i autora, obrázky a důležité informace.',       'url' => 'web/v1/articletemplate/book_description'],
-        [ 'title' => 'Kousíčková šablona', 'description' => 'Popis knihy i autora, obrázky a důležité informace.',       'url' => 'web/v1/articletemplate/book_description_Lebenhart'],
+        [ 'title' => 'Kousíčková šablona *', 'description' => 'Popis knihy i autora, obrázky a důležité informace.',       'url' => 'web/v1/articletemplate/book_description_Lebenhart'],
         [ 'title' => 'Šablona pro kurz', 'description' => 'Hlavní stránka kurzu. Napište lidem základní informace i recenze od účastníků.',       'url' => 'web/v1/articletemplate/retraining_course'],
         [ 'title' => 'Šablona pro produkt / službu', 'description' => 'Zviditelněte svůj produkt či službu.',       'url' => 'web/v1/articletemplate/product_page'],
         [ 'title' => 'Šablona pro produkt / službu 2', 'description' => 'Zviditelněte svůj produkt či službu.',       'url' => 'web/v1/articletemplate/introduce_subject'],
@@ -110,8 +110,8 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => 'template paper with images', 'description' => 'popis',       'url' => 'web/v1/papertemplate/images_paper'],
         [ 'title' => 'template paper column cards', 'description' => 'popis',       'url' => 'web/v1/papertemplate/column_cards'],
         [ 'title' => 'template paper columns', 'description' => 'popis',       'url' => 'web/v1/papertemplate/columns'],
-        [ 'title' => 'template paper divided_rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/divided_rows'],
-        [ 'title' => 'template paper bordered_rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/bordered_rows'],
+        [ 'title' => 'template paper divided_rows *', 'description' => 'popis',       'url' => 'web/v1/papertemplate/divided_rows'],
+        [ 'title' => 'template paper bordered_rows *', 'description' => 'popis',       'url' => 'web/v1/papertemplate/bordered_rows'],
         [ 'title' => 'template paper rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/rows'],
         [ 'title' => 'template paper carousel', 'description' => 'popis',       'url' => 'web/v1/papertemplate/carouselForPaper'],
             ];
@@ -131,7 +131,7 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => '3 stejně vysoké obrázky  v řádce', 'description' => 'popis',       'url' => 'web/v1/authortemplate/stretched_images'],
         [ 'title' => '3 stejně vysoké obsahy v řádce', 'description' => 'popis',       'url' => 'web/v1/authortemplate/stretched_blocks'],
         [ 'title' => 'template two columns divided', 'description' => 'popis',       'url' => 'web/v1/authortemplate/two_columns_divided'],
-        [ 'title' => 'template two blocks styled', 'description' => 'popis',       'url' => 'web/v1/authortemplate/two_blocks_styled'],
+        [ 'title' => 'template two blocks styled *', 'description' => 'popis',       'url' => 'web/v1/authortemplate/two_blocks_styled'],
         [ 'title' => 'template img & text styled', 'description' => 'popis',       'url' => 'web/v1/authortemplate/img_text_styled'],
         [ 'title' => 'template job', 'description' => 'popis',       'url' => 'web/v1/authortemplate/job'],
         [ 'title' => 'Lorem ipsum', 'description' => 'Vložení lorem ipsum', 'url' => 'web/v1/authortemplate/lorem_ipsum'],
