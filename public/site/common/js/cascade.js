@@ -88,10 +88,10 @@ function getApiUri(element) {
 }
 
 /**
- * Načte pomocí funkce fetchElement() nové obsahy všech elementů, které jsou potomky zadaného elementu nebo dokumentu. Potomky hledá podle zadaného jména třídy.
+ * Načte pomocí funkce fetchElement() nové obsahy všech elementů, které jsou potomky zadaného elementu nebo dokumentu a mají třídu zadaného jména.
  * Nalezené potomky nahradí za nově načtené elementy.
  * Z každého nalezeného potomka použije hodnotu atributu data-red-apiuri jako URI požadavku, pomocí kterého získá nový obsah - HTML text.
- * Volání p robíhá rekurzivně. Na nově načtený element (a jeho potomky) je znovu volána tato funkce a pokud jsou v nové načteném elementu nalezeny elementy se zadaným jménom třídy,
+ * Volání robíhá rekurzivně. Na nově načtený element (a jeho potomky) je znovu volána tato funkce a pokud jsou v nové načteném elementu nalezeny elementy se zadaným jménem třídy,
  * jsou rekurzivně nahrazeny nově načtenými obsahy.
  *
  * @param {Element} element Element nebo Document

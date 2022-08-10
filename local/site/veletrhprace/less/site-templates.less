@@ -146,4 +146,22 @@
 .column.padding-vertical{
     padding: 2em 1rem !important;
 }
+[data-template="bordered_rows"]{
+    [data-template="two_blocks_styled"]{
+        .segment{
+            border: 0;
+            border-radius: 0;
+            background: @lightGrey;
+        }
+    }       
+}
+[data-template="divided_rows"]{
+    [data-template="two_blocks_styled"]{
+        .segment{
+            border: 2px solid @primaryColor;
+            border-radius: 0;
+            box-shadow: none;
+        }
+    }       
+}
 

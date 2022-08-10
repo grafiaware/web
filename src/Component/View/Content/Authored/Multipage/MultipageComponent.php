@@ -58,19 +58,24 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
     ### load scripts ###
 
     protected function getContentLoadScript($menuItem) {
+        $view = new View();
+
+        // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        $uid = uniqid();
         $menuItemType = $menuItem->getTypeFk();
+        if (!isset($menuItemType)) {
+            $menuItemType = 'empty';
+        }
         if ($menuItemType!='static') {
             $id = $menuItem->getId();
         } else {
             $id = $this->getNameForStaticPage($menuItem);
         }
-        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $view = (new View())
-                    ->setData([
-                        'loaderWrapperElementId' => "content_for_item_{$id}_with_type_{$menuItemType}",
+        $view->setData([
+                        'loaderWrapperElementId' => "{$menuItemType}_item_{$id}_$uid",
                         'apiUri' => "web/v1/$menuItemType/$id"
                         ]);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));  //TODO: loader element oddělit samostatně
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
         $view->setRendererContainer($this->rendererContainer);
         return $view;
     }

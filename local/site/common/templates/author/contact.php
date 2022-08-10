@@ -1,3 +1,4 @@
+    <div class="" data-template="<?="contact" ?>">  
         <div class="ui segment">
             <h3 class="ui header">Pozice (Jednatelka)</h3>
             <div class="content">
@@ -9,6 +10,7 @@
                 <p>Kancelář: Budilova 4, Plzeň</p>
             </div>
         </div>
+    </div>
 
 
 

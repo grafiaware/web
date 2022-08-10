@@ -1,3 +1,4 @@
+        <div class="" data-template="<?="celled_blocks" ?>">  
             <div class="ui stackable two column grid internally celled">
                 <div class="row">
                     <div class="column">
@@ -32,3 +33,4 @@
                     </div>
                 </div>  
             </div> 
+        </div>

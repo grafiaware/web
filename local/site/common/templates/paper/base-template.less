@@ -10,15 +10,22 @@
 *******************************/ 
 @import (optional) "@{siteTemplatePath}";  
 
-.headline-reset{
-    background-color: inherit;
+/*.headline-reset(){ 
+    background-color: inherit; 
     color: inherit;
-    text-align: inherit;
+    text-align: inherit; 
     font-size: inherit;
-    font-weight: inherit;
-    padding: 0;
+    font-weight: inherit; 
+    padding: 0; 
     margin: 0;
 }
+.segment(@color, @backgroundColor, @border, @borderRadius, @boxShadow){
+    color: @color;
+    background-color: @backgroundColor;
+    border: @border; 
+    border-radius: @borderRadius;
+    box-shadow: @boxShadow
+}*/
 
 #circle content p{
     margin: 0;
@@ -47,9 +54,8 @@
         bottom: 15px;
         font-weight: 500; 
         font-size: @h4;
-       // position: relative;
         headline{
-            .headline-reset; 
+            .headline-reset(); 
         }
     }
     .blok.podnadpis{
@@ -91,3 +97,10 @@
     }
 }
 
+/*.segment(@color, @backgroundColor, @border, @borderRadius, @box-shadow){
+    color: @color;
+    background-color: @backgroundColor;
+    border: @border;
+    border-radius: @borderRadius;
+    box-shadow: @boxShadow
+}*/

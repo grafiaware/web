@@ -1,3 +1,4 @@
+        <div class="" data-template="<?="citation" ?>">            
             <div class="ui stackable grid equal width">
                 <div class="column middle aligned right aligned tablet computer only"> 
                     <i class="quote left icon grey big"></i>
@@ -20,3 +21,4 @@
                     </div>
                 </div> 
             </div>
+        </div>

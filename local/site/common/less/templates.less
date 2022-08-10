@@ -1,7 +1,23 @@
+.headline-reset(){ 
+    background-color: inherit; 
+    color: inherit;
+    text-align: inherit; 
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0; 
+    margin: 0;
+}
+.segment(@color, @backgroundColor, @border, @borderRadius, @boxShadow){
+    color: @color;
+    background-color: @backgroundColor;
+    border: @border; 
+    border-radius: @borderRadius; 
+    box-shadow: @boxShadow
+} 
 /*******************************
          layout.less: @import "../../site-definitions.less"              
 *******************************/                  
-@import "../../site-definitions.less";                                                 
+@import "../../site-definitions.less";                                                  
            
 /*******************************
          layout.less: @import "../../@{sitename}/semantic/src/themes/default/globals/site.variables" 
@@ -10,14 +26,24 @@
 
 /******************************* 
          layout.less: @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables"
-*******************************/
-@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";    
+*******************************/ 
+@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";        
 
-                                               
+
+/*******************************
+         styly pro šablony author v site  
+         templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
+*******************************/ 
+&{       
+@templateType: "author";                                             
+@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
+}
+         
 /*******************************        
          styly pro šablony multipage v site
          templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less"; 
-*******************************/       
+*******************************/        
 &{         
 @templateType: "multipage";                                                                                   
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";     
@@ -28,7 +54,7 @@
          styly pro šablony article v site
          templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less"; 
 *******************************/ 
-&{         
+&{                    
 @templateType: "article";                                                                                   
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
@@ -36,7 +62,7 @@
 
 /*******************************
          styly pro šablony paper    
-         templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";  
+         templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";             
 *******************************/ 
 &{    
 @templateType: "paper";                                     
@@ -54,19 +80,10 @@
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";  
 }
           
-/*******************************
-         styly pro šablony author v site
-         templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
-*******************************/ 
-&{       
-@templateType: "author";                                             
-@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
-}
 
 /*******************************
          styly pro šablony static v site
-         templates.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"       
+         templates.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"           
 *******************************/ 
 @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"; 
    
