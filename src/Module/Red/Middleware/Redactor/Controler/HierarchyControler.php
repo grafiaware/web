@@ -87,10 +87,10 @@ class HierarchyControler extends FrontControlerAbstract {
     }
 
     public function paste(ServerRequestInterface $request, $uid) {
-        $parentUid = $this->editHierarchyDao->getParentNode($uid)['uid'];
+        $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
         $statusFlash = $this->statusFlashRepo->get();
         $success = false;
-        if (isset($parentUid)) {
+        if (isset($parentNode)) {
             $postCommand = $statusFlash->getPostCommand();
             if (is_array($postCommand) ) {
                 $key = array_key_first($postCommand);

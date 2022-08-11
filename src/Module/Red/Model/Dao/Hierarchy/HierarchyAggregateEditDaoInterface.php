@@ -14,11 +14,13 @@ namespace Red\Model\Dao\Hierarchy;
  */
 interface HierarchyAggregateEditDaoInterface {
 
-#### pomocné čtecí metody ###################################################
-
-    public function getNode($uid);
-
-    public function getNodeByTitle($item);
+#### helper #################################################
+    /**
+     * Pomocná metoda - čte data jen z db tabulky pro nested set (hierarchy), nikoli agregátní
+     *
+     * @param string $uid
+     */
+    public function getParentNodeHelper($uid);
 
 #### editační metody ###################################################;#####
     /**
@@ -91,7 +93,7 @@ interface HierarchyAggregateEditDaoInterface {
      * @throws Exception
      */
     public function moveSubTreeAsChild($sourceUid, $targetUid): void;
-    
+
     /**
      * Přesune podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu.
      *

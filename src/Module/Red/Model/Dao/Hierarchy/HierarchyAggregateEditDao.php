@@ -78,39 +78,15 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
     }
 
 #### pomocné čtecí metody ###################################################
-    /**
-     * `uid`, `left_node`, `right_node`, `parent_uid`, `lang_code_fk`AS lang_code, `uid_fk`, `type_fk`, `id`, `list`, `order`, `title`, `active`,`auto_generated`
-     *
-     * @param type $uid
-     * @return array
-     */
-    public function getNode($uid) {
-        $stmt = $this->getPreparedStatement(
-            "SELECT *
-            FROM $this->nestedSetTableName
-            WHERE uid = :uid");
-        $stmt->bindParam(':uid', $uid);
-        $stmt->execute();
-        return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
-    }
-
-    public function getNodeByTitle($title) {
-        $stmt = $this->getPreparedStatement(
-            "SELECT *
-            FROM $this->viewName
-            WHERE title = :title");
-        $stmt->bindParam(':title', $title);
-        $stmt->execute();
-        return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
-    }
-
 
     /**
+     * Pomocná metoda - čte data jen z db tabulky pro nested set (hierarchy), nikoli agregátní.
      * Vrací řádek s položkami: depth, uid, left_node, right_node, parent_uid
+     *
      * @param type $uid
      * @return array|null
      */
-    public function getParentNode($uid) {
+    public function getParentNodeHelper($uid) {
         $sql =
             "SELECT
                 (COUNT(grand_parent.uid) - 1) AS depth,
@@ -646,7 +622,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
     /**
      * Metoda kopíruje položky menu_item
      *
-     * 
+     *
      * @param type $dbhTransact
      * @param type $targetData
      */
@@ -698,16 +674,22 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
             $preparedSelectSourceItem->execute();
             $sourceItems = $preparedSelectSourceItem->fetchAll(\PDO::FETCH_ASSOC);  // item pro všechny jazykové verze
             foreach ($sourceItems as $sourceItem) {
-                // tabulka menu_item: unique key a) kombinace lang_code a uid, b) prettyUri
+                // a) tabulka menu_item: unique key a) kombinace lang_code a uid, b) prettyUri
                 // při volání metody dao get c parametrem check duplicities vzniká chyba při duplicitě lang_code a list
-                // -> uid - nový uid, list - prázdný (jinak by vznikly duplicity při vývěru podle jazyka a listu)
+                // b) aktivní menu_item pod neaktivní - vyvolá chybné načtení stromu položek menu v needitačním režimu - ve stromu jsou "díry"
+                // a "rekurzivní" renderování selže
+                // ->
+                // a) uid - nový uid, list - prázdný (jinak by vznikly duplicity při výběru podle jazyka a listu)
                 // prettyUri - složit s novým uid
+                // active - vždy 0 - zjednodušené řešení, zkopírované položky jsou vřdy všechny neaktivní
                 $this->bindParams($preparedInsertTargetItem, [
                     'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 'type_fk'=>$sourceItem['type_fk'],
                     'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
                     // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž EditItemControler)
                     'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title'], 80),
-                    'active'=>$sourceItem['active'], 'auto_generated'=>$sourceItem['auto_generated']]);
+//                    'active'=>$sourceItem['active'],
+                    'active'=>0,
+                    'auto_generated'=>$sourceItem['auto_generated']]);
                 $preparedInsertTargetItem->execute();
                 $lastMenuItemId = $dbhTransact->lastInsertId();
                 $this->bindParams($preparedCopyArticle, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
