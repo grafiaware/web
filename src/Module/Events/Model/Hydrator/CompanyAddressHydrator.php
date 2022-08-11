@@ -37,6 +37,10 @@ class CompanyAddressHydrator implements HydratorInterface {
             ->setPsc($rowData->offsetGet('psc'))   
             ->setObec($rowData->offsetGet('obec'))   
             ;
+        
+        ->setId( $this->getPhpValue( $rowData, 'id') )   
+            ->setName($this->getPhpValue( $rowData, 'name' ) )
+            ->setEventInstitutionName30( $this->getPhpValue( $rowData, 'eventInstitutionName30') );   
     }
 
     
@@ -53,5 +57,8 @@ class CompanyAddressHydrator implements HydratorInterface {
         $rowData->offsetSet('psc', $companyAddress->getPsc());
         $rowData->offsetSet('obec', $companyAddress->getObec());
     }
+    
+     $this->setSqlValue( $rowData, 'name', $company->getName() );
+        $this->setSqlValue( $rowData, 'eventInstitutionName30', $company->getEventInstitutionName30() );      
 
 }

@@ -15,6 +15,6 @@ interface EventLinkPhaseInterface extends EntityInterface {
     
     public function setId($id) :EventLinkPhaseInterface;
     
-    public function setText( string $text=null) :EventLinkPhaseInterface;      
+    public function setText( $text=null) :EventLinkPhaseInterface;      
       
 }

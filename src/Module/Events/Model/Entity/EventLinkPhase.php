@@ -26,7 +26,7 @@ class EventLinkPhase extends EntityAbstract implements EventLinkPhaseInterface {
         return $this;
     }
 
-    public function setText( string $text=null) :EventLinkPhaseInterface {
+    public function setText(  $text=null) :EventLinkPhaseInterface {
         $this->text = $text;
         return $this;
     }

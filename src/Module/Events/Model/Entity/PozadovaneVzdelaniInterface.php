@@ -25,13 +25,13 @@ interface PozadovaneVzdelaniInterface extends EntityInterface {
      * @param int $stupen
      * @return PozadovaneVzdelaniInterface
      */
-    public function setStupen(int $stupen) : PozadovaneVzdelaniInterface ;
+    public function setStupen( $stupen) : PozadovaneVzdelaniInterface ;
     /**
      * 
      * @param string $vzdelani
      * @return PozadovaneVzdelaniInterface
      */
-    public function setVzdelani( string $vzdelani) : PozadovaneVzdelaniInterface ;
+    public function setVzdelani(  $vzdelani) : PozadovaneVzdelaniInterface ;
    
     
 }

@@ -48,10 +48,10 @@ class CompanyContactHydrator extends TypeHydratorAbstract implements HydratorInt
         /** @var CompanyContactInterface $companyContact */
         // id je autoincrement
          $this->setSqlValue( $rowData, 'company_id', $companyContact->getCompanyId());       
-         $this->setSqlValue( $rowData. 'name', $companyContact->getName());
-         $this->setSqlValue( $rowData. 'phones', $companyContact->getPhones());
-         $this->setSqlValue( $rowData. 'mobiles', $companyContact->getMobiles());
-         $this->setSqlValue( $rowData. 'emails', $companyContact->getEmails());             
+         $this->setSqlValue( $rowData, 'name', $companyContact->getName());
+         $this->setSqlValue( $rowData, 'phones', $companyContact->getPhones());
+         $this->setSqlValue( $rowData, 'mobiles', $companyContact->getMobiles());
+         $this->setSqlValue( $rowData, 'emails', $companyContact->getEmails());             
     }
     
     

@@ -28,14 +28,14 @@ interface RepresentativeInterface extends EntityInterface {
      * @param int $companyId
      * @return RepresentativeInterface
      */
-    public function setCompanyId( int $companyId) : RepresentativeInterface ;
+    public function setCompanyId(  $companyId) : RepresentativeInterface ;
     
     /**
      * 
      * @param string $loginLoginName
      * @return RepresentativeInterface
      */
-    public function setLoginLoginName( string $loginLoginName)  : RepresentativeInterface;
+    public function setLoginLoginName(  $loginLoginName)  : RepresentativeInterface;
     
 
 

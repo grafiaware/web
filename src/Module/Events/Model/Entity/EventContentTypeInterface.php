@@ -33,13 +33,13 @@ interface EventContentTypeInterface extends EntityInterface {
      * @param string $type
      * @return EventContentTypeInterface
      */
-    public function setType(string $type): EventContentTypeInterface;
+    public function setType( $type): EventContentTypeInterface;
 
     /**
      *
      * @param string $name
      * @return EventContentTypeInterface
      */
-    public function setName(string $name): EventContentTypeInterface;
+    public function setName( $name): EventContentTypeInterface;
 
 }

@@ -26,31 +26,19 @@ class Job extends EntityAbstract implements JobInterface {
         return $this->id;
     }
 
-    /**
-     *
-     * @return int
-     */
+    
     public function getCompanyId()  {
         return $this->companyId;
     }
-    /**
-     *
-     * @return int
-     */
+    
     public function getPozadovaneVzdelaniStupen()  {
         return $this->pozadovaneVzdelaniStupen;
     }
-    /**
-     *
-     * @return string|null
-     */
+   
     public function getNazev() {
         return $this->nazev;
     }
-    /**
-     *
-     * @return string|null
-     */
+    
     public function getMistoVykonu() {
         return $this->mistoVykonu;
     }
@@ -91,7 +79,7 @@ class Job extends EntityAbstract implements JobInterface {
      * @param int $companyId
      * @return JobInterface
      */
-    public function setCompanyId(int $companyId) : JobInterface{
+    public function setCompanyId( $companyId) : JobInterface{
         $this->companyId = $companyId;
         return $this;
     }
@@ -100,7 +88,7 @@ class Job extends EntityAbstract implements JobInterface {
      * @param int $pozadovaneVzdelaniStupen
      * @return JobInterface
      */
-    public function setPozadovaneVzdelaniStupen( int $pozadovaneVzdelaniStupen) : JobInterface{
+    public function setPozadovaneVzdelaniStupen(  $pozadovaneVzdelaniStupen) : JobInterface{
         $this->pozadovaneVzdelaniStupen = $pozadovaneVzdelaniStupen;
         return $this;
     }
@@ -109,7 +97,7 @@ class Job extends EntityAbstract implements JobInterface {
      * @param string $nazev
      * @return JobInterface
      */
-    public function setNazev(string $nazev=null) : JobInterface{
+    public function setNazev( $nazev=null) : JobInterface{
         $this->nazev = $nazev;
         return $this;
     }
@@ -118,7 +106,7 @@ class Job extends EntityAbstract implements JobInterface {
      * @param string $mistoVykonu
      * @return JobInterface
      */
-    public function setMistoVykonu(string $mistoVykonu=null ) : JobInterface{
+    public function setMistoVykonu( $mistoVykonu=null ) : JobInterface{
         $this->mistoVykonu = $mistoVykonu;
         return $this;
     }
@@ -128,7 +116,7 @@ class Job extends EntityAbstract implements JobInterface {
      * @param string $popisPozice
      * @return JobInterface
      */
-    public function setPopisPozice(string $popisPozice=null) : JobInterface{
+    public function setPopisPozice( $popisPozice=null) : JobInterface{
         $this->popisPozice = $popisPozice;
         return $this;
     }
@@ -137,7 +125,7 @@ class Job extends EntityAbstract implements JobInterface {
     * @param string $pozadujeme
     * @return JobInterface
     */
-    public function setPozadujeme(string $pozadujeme=null ) : JobInterface{
+    public function setPozadujeme( $pozadujeme=null ) : JobInterface{
         $this->pozadujeme = $pozadujeme;
         return $this;
     }
@@ -146,7 +134,7 @@ class Job extends EntityAbstract implements JobInterface {
      * @param string $nabizime
      * @return JobInterface
      */
-    public function setNabizime(string $nabizime=null) : JobInterface{
+    public function setNabizime( $nabizime=null) : JobInterface{
         $this->nabizime = $nabizime;
         return $this;
     }

@@ -32,7 +32,6 @@ class CompanyRepositoryTest extends AppRunner {
     private static $companyName = "proCompanyRepoTest";    
     private static $companyId;
     
-    //private static $eventLinkId;
     /**
      * 
      * @var Company
@@ -156,8 +155,8 @@ class CompanyRepositoryTest extends AppRunner {
     
 
     public function testfindAll() {
-        $company = $this->companyRepo->findAll();
-        $this->assertTrue(is_array($company));
+        $companyArray = $this->companyRepo->findAll();
+        $this->assertTrue(is_array($companyArray));
     }
     
     
