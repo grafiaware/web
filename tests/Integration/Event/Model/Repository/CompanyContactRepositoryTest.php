@@ -156,10 +156,10 @@ class CompanyContactRepositoryTest extends AppRunner {
         $companyContact = new CompanyContact();      
         $companyContact->setName( self::$companyContactName  . "trrwqz.zu?aa" );
         $companyContact->setCompanyId(  self::$companyId );
-        $this->companyContactRepo->add($companyContact);  //zapise hned
-        
-        $this->assertFalse($companyContact->isLocked());
+        $this->companyContactRepo->add($companyContact);  //zapise hned        
+       
         $this->assertTrue($companyContact->isPersisted());
+        $this->assertFalse($companyContact->isLocked());
         
         self::$companyContact2 = $this->companyContactRepo->get($companyContact->getId());        
     }
