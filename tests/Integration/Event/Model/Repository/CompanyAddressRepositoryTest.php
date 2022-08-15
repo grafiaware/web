@@ -35,14 +35,9 @@ class CompanyAddressRepositoryTest extends AppRunner {
     //private static $companyAddressId;
     
     private static $companyId;
-    private static $companyId2;
+    //private static $companyId2;
 
-    
-    /**
-     * 
-     * @var CompanyAddress
-     */
-    //private static $companyAddress2;            
+             
 
 
     public static function setUpBeforeClass(): void {
@@ -129,8 +124,8 @@ class CompanyAddressRepositoryTest extends AppRunner {
     
 
     public function testGetNonExisted() {
-        $companyContact = $this->companyAddressRepo->get(0);
-        $this->assertNull($companyContact);
+        $companyAddress = $this->companyAddressRepo->get(0);
+        $this->assertNull($companyAddress);
     }
     
     
@@ -177,6 +172,21 @@ class CompanyAddressRepositoryTest extends AppRunner {
         $this->assertFalse($companyAddressRereaded->isLocked());        
     }
     
+//    /**
+//     * Pokus o zapsani věty do company_address se stejným primárním klíčem. 
+//     * Na úrovni DB nastane chyba (tj. OK) a nic se neprovede. Nijak se ale nepozná,že nastala.
+//     */
+//    public function testAdd2() {
+//        $companyAddress = new CompanyAddress();      
+//        $companyAddress->setName( self::$companyAddressName  . "trr222" );
+//        $companyAddress->setCompanyId(  self::$companyId );
+//        $companyAddress->setLokace( self::$companyAddressName );
+//        $this->companyAddressRepo->add($companyAddress);  //nezapise hned!!! --nenigenerovany ani overovany
+//        
+//        $this->assertFalse($companyAddress->isPersisted());
+//        $this->assertTrue($companyAddress->isLocked());        
+//    }
+    
 
     public function testfindAll() {
         $companyAddressArray = $this->companyAddressRepo->findAll();
@@ -192,37 +202,37 @@ class CompanyAddressRepositoryTest extends AppRunner {
     }
 
 
-//    public function testRemove_OperationWithLockedEntity() {
-//        $companyContact = $this->companyAddressRepo->get(self::$companyAddress2->getId() );    
-//        $this->assertInstanceOf(CompanyAddressInterface::class, $companyContact);
-//        $this->assertTrue($companyContact->isPersisted());
-//        $this->assertFalse($companyContact->isLocked());
-//        
-//        $companyContact->lock();
-//        $this->expectException( OperationWithLockedEntityException::class);
-//        $this->companyAddressRepo->remove($companyContact);
-//    }
-//
-//    
-//    public function testRemove() {
-//        $companyContact = $this->companyAddressRepo->get(self::$companyAddress2->getId() );    
-//        $this->assertInstanceOf( CompanyAddressInterface::class, $companyContact);
-//        $this->assertTrue($companyContact->isPersisted());
-//        $this->assertFalse($companyContact->isLocked());
-//
-//        $this->companyAddressRepo->remove($companyContact);
-//        
-//        $this->assertTrue($companyContact->isPersisted());
-//        $this->assertTrue($companyContact->isLocked());   // maže až při flush
-//       
-//        $this->companyAddressRepo->flush();
-//        //  uz neni locked
-//        $this->assertFalse($companyContact->isLocked());
-//       
-//        // pokus o čtení, institution uz  neni
-//        $companyContact2 = $this->companyAddressRepo->get( self::$companyAddress2->getId() );
-//        $this->assertNull($companyContact2);
-//    }
+    public function testRemove_OperationWithLockedEntity() {
+        $companyAddress = $this->companyAddressRepo->get( self::$companyId );    
+        $this->assertInstanceOf(CompanyAddressInterface::class,  $companyAddress);
+        $this->assertTrue( $companyAddress->isPersisted());
+        $this->assertFalse( $companyAddress->isLocked());
+        
+        $companyAddress->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
+        $this->companyAddressRepo->remove( $companyAddress);
+    }
+
+    
+    public function testRemove() {
+        $companyAddress = $this->companyAddressRepo->get(self::$companyId );    
+        $this->assertInstanceOf( CompanyAddressInterface::class,  $companyAddress);
+        $this->assertTrue( $companyAddress->isPersisted());
+        $this->assertFalse( $companyAddress->isLocked());
+
+        $this->companyAddressRepo->remove($companyAddress);
+        
+        $this->assertTrue($companyAddress->isPersisted());
+        $this->assertTrue($companyAddress->isLocked());   // maže až při flush
+       
+        $this->companyAddressRepo->flush();
+        //  uz neni locked
+        $this->assertFalse($companyAddress->isLocked());
+       
+        // pokus o čtení, institution uz  neni
+        $companyAddress2 = $this->companyAddressRepo->get(self::$companyId );
+        $this->assertNull($companyAddress2);
+    }
 
 }
 
