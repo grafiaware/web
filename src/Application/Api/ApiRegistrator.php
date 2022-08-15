@@ -155,7 +155,9 @@ class ApiRegistrator {
 
         ### build module ###
         #
-        #### BuildController ####
+        #### BuildController #### '/build/listconfig'
+        $registry->register($this->getPrototype->withUrlPattern('/build/listconfig'));
+
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/createusers'));

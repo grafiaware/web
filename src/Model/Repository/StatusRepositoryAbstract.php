@@ -16,7 +16,7 @@ use Model\Dao\StatusDao;
  *
  * @author pes2704
  */
-class StatusRepositoryAbstract extends RepoAbstract {
+abstract class StatusRepositoryAbstract {
 
     /**
      * @var StatusDao

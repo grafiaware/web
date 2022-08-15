@@ -27,7 +27,7 @@ use Pes\Http\Response;
  */
 class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildControllerInterface {
 
-    const RELATIVE_SQLFILE_PATH = "src/Middleware/Build/Sql/";
+    const RELATIVE_SQLFILE_PATH = "src/Module/Build/Middleware/Build/Sql/";
 
     const TIME_LIMIT = 100;
 
@@ -47,11 +47,6 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
 
     /** @var InterpolateRenderer */
     private $interpolateRenderer;
-
-    public function injectContainer(ContainerInterface $buildContainer): BuildControllerInterface {
-        $this->container = $buildContainer;
-        return $this;
-    }
 
     protected function executeSteps($steps) {
 

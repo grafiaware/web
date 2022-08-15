@@ -89,7 +89,10 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     }
 
     /**
-     * Nastaví renderery z kontejneru podle jmen zadaných setRendererName() a setRendererNames(), nastaví parametry menu.
+     * Z pole ItemModelů vygeneruje "strom" komponentů - menu komponentě přidá kompozitní level komponenty, předtím jednotlivým level komponentám přidá komponentní item komponenty,
+     * atd.
+     * Výsledkem je tato komponenta s kompozitními komponentami (view) připravená na renderování.
+     * 
      * @return void
      * @throws \LogicException
      */
@@ -104,7 +107,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 //        $this->setRenderer($menuWrapRenderer);
 
         // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek
-        $this->contextData->setMaxDepth(null);
         $this->editableMode = $this->contextData->presentEditableMenu();
 
         $subtreeItemModels = $this->contextData->getItemModels();
@@ -122,9 +124,16 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
                     $first = false;
                 }
                 if ($itemDepth>$currDepth) {
-                    $itemViewModelStack[$itemDepth][] = $itemViewModel;
-                    $currDepth = $itemDepth;
+//                    if ($itemDepth-$currDepth==1) {
+                        $itemViewModelStack[$itemDepth][] = $itemViewModel;
+                        $currDepth = $itemDepth;
+//                    } else {
+//                        //TODO: log nebo např. render span s hlášením
+//                        $uidWithNonactiveParent = $itemViewModel->getHierarchyAggregate()->getUid();
+////                        throw new LogicException( "Poškozené menu - neaktivní položka má aktivní potomky. Neaktivní nadřízená položka nad položkou s uid '$uidWithNonactiveParent'.");
+//                    }
                 } elseif ($itemDepth<$currDepth) {
+                    // následující dva řádky jsou přehozené
                     $this->createChildrenComponents($currDepth, $itemDepth, $itemViewModelStack);
                     $itemViewModelStack[$itemDepth][] = $itemViewModel;
                     $currDepth = $itemDepth;
@@ -142,7 +151,11 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             $itemComponents = $this->createItemComponents($itemViewModelStack[$i]);
             $levelComponent = $this->createLevelComponent($targetDepth, $itemComponents);
             unset($itemViewModelStack[$i]);
-            end($itemViewModelStack[$i-1])->setChild($levelComponent);
+            if (!isset($itemViewModelStack[$i-1])) {
+                $stop = true;
+            } else {
+                end($itemViewModelStack[$i-1])->setChild($levelComponent);
+            }
         }
     }
 

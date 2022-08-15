@@ -37,11 +37,10 @@ interface HierarchyAggregateReadonlyDaoInterface extends DaoInterface {
 
     /**
      * Subtree ve formě řazeného seznamu.
+     * Vrací potomky rodičovského prvku. Pokud je zadána hloubka, vrací jen potomky do maximální hloubky jejich umístění v podstromu, jinak vrací celý podstrom.
      *
      * @param string $langCode
      * @param string $rootUid Uid kořenového prvku podstromu.
-     * @param bool $active
-     * @param bool $actual
      * @param int $maxDepth
      * @return array
      */
@@ -80,18 +79,6 @@ interface HierarchyAggregateReadonlyDaoInterface extends DaoInterface {
      * @return array
      */
     public function getImmediateSubNodes($langCode, $nodeUid);
-
-    /**
-     * Vrací potomky rodičovského prvku. Pokud je zadán, vrací jen potomky do maximální hloubky jejich umístění v celém stromu, jinak vrací celý postrom.
-     *
-     * @param string $langCode
-     * @param string $parentUid uid rodičovského porvku
-     * @param type $active
-     * @param type $actual
-     * @param type $maxDepth
-     * @return array
-     */
-    public function getSubNodes($langCode, $parentUid, $maxDepth=NULL);
 
     /**
      * Vrací rodiče (nikoli předky) prvku.

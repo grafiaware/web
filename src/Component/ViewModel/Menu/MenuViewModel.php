@@ -25,7 +25,11 @@ use Component\ViewModel\Menu\Enum\ItemTypeEnum;
  */
 class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface {
 
+    /**
+     * @var StatusViewModel
+     */
     private $status;
+
     private $menuRootRepo;
     private $hierarchyRepo;
     private $presentedMenuNode;
@@ -141,7 +145,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     public function getSubTreeNodes() {
         // root uid z jména komponenty
         if (!isset($this->menuRootName)) {
-            user_error("Název kořene menu nebyl zadán. Název kořenr menu je nutné zadat metodou setMenuRootName().", E_USER_WARNING);
+            user_error("Název kořene menu nebyl zadán. Název kořene menu je nutné zadat metodou setMenuRootName().", E_USER_WARNING);
         }
         $menuRoot = $this->menuRootRepo->get($this->menuRootName);
         if (!isset($menuRoot)) {

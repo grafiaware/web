@@ -8,12 +8,14 @@
 
 namespace Build\Middleware\Build\Controller;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 use Build\Middleware\Build\Exception\HierarchyStepFailedException;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
 use Pes\Database\Manipulator\Manipulator;
 
-
+use Container\BuildContainerConfigurator;
 
 /**
  * Description of DatabaseController
@@ -21,6 +23,19 @@ use Pes\Database\Manipulator\Manipulator;
  * @author pes2704
  */
 class DatabaseController extends BuildControllerAbstract {
+
+    public function listConfig(ServerRequestInterface $request) {
+        $configurator = new BuildContainerConfigurator();
+        $params = "<h3>Params</h3><pre>".print_r($configurator->getParams(), true)."</pre>";
+        $factoriesNames = array_keys($configurator->getFactoriesDefinitions());
+        $factoriesValuesList = [];
+        foreach ($factoriesNames as $name) {
+            $factoriesValuesList[$name] = $this->container->get($name);
+        }
+        $factories = "<h3>Factories values</h3><pre>".print_r($factoriesValuesList, true)."</pre>";
+        $html = "<div>".$params.PHP_EOL.$factories."</div>" ;
+        return $this->createResponseFromString($request, $html);
+    }
 
     public function dropDb() {
         ####
@@ -69,10 +84,10 @@ class DatabaseController extends BuildControllerAbstract {
 
     public function dropUsers() {
         $dropSteps[] = function() {
-            return $this->executeFromTemplate("drop_user_everyone_template.sql", $this->container->get('build.config.users.everyone'));
+            return $this->executeFromTemplate("drop_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
         };
         $dropSteps[] = function() {
-            return $this->executeFromTemplate("drop_users_granted_template.sql", $this->container->get('build.config.users.granted'));
+            return $this->executeFromTemplate("drop_users_granted_template.sql", $this->container->get('build.config.createdropusers.granted'));
         };
         // users
 
@@ -130,10 +145,10 @@ class DatabaseController extends BuildControllerAbstract {
         #
         ####
         $createSteps[] = function() {
-            return $this->executeFromTemplate("create_user_everyone_template.sql", $this->container->get('build.config.users.everyone'));
+            return $this->executeFromTemplate("create_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
         };
         $createSteps[] = function() {
-            return $this->executeFromTemplate("create_granted_users_template.sql", $this->container->get('build.config.users.granted'));
+            return $this->executeFromTemplate("create_granted_users_template.sql", $this->container->get('build.config.createdropusers.granted'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_create_database');

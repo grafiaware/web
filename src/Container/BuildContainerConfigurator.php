@@ -40,7 +40,7 @@ use Red\Model\HierarchyHooks\HookedMenuItemActor;
 use Red\Model\HierarchyHooks\ArticleTitleUpdater;
 use Red\Model\HierarchyHooks\MenuListStyles;
 
-use Middleware\Build\Controller\DatabaseController;
+use Build\Middleware\Build\Controller\DatabaseController;
 
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
@@ -73,7 +73,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
                         ];
                     },
-                'build.config.users.everyone' => function(ContainerInterface $c) {
+                'build.config.createdropusers.everyone' => function(ContainerInterface $c) {
                     return array_merge(
                         ConfigurationCache::build()['build.config.users.everyone'],
                         [
@@ -86,7 +86,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         ]
                         );
                     },
-                'build.config.users.granted' => function(ContainerInterface $c) {
+                'build.config.createdropusers.granted' => function(ContainerInterface $c) {
                     return array_merge(
                         ConfigurationCache::build()['build.config.users.granted'],
                         [
@@ -194,6 +194,11 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class)))->injectContainer($c);
             },
+        ];
+    }
+
+    public function getServicesOverrideDefinitions(): iterable {
+        return [
             // Account a Handler "přetěžují" Account a Handler z DbOld kontejneru
             Account::class => function(ContainerInterface $c) {
                 return new Account(

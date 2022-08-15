@@ -91,7 +91,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions(): iterable {
+    public function getServicesOverrideDefinitions(): iterable {
         return [
             // LoginContainer musí mít DbOld kontejner jako delegáta
             //
@@ -123,7 +123,11 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AttributesProvider::class),
                         $c->get('loginDbLogger'));
             },
+        ];
+    }
 
+    public function getServicesDefinitions(): iterable {
+        return [
             Sql::class => function(ContainerInterface $c) {
                 return new Sql();
             },

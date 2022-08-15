@@ -34,11 +34,13 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         $this->container =
             (new BuildContainerConfigurator())->configure(
-                (new DbUpgradeContainerConfigurator())->configure(
-                    new Container(      // pro DbUpgrade musí bý nový kontejner - jeho konfigurace přepisuje objekty v DbOld
-                        (new LoginContainerConfigurator())->configure(
-                            (new DbOldContainerConfigurator())->configure(
-                                new Container($this->getApp()->getAppContainer())
+                new Container(      // pro Build musí bý nový kontejner - jeho konfigurace přepisuje objekty v DbUpgrade
+                    (new DbUpgradeContainerConfigurator())->configure(
+                        new Container(      // pro DbUpgrade musí bý nový kontejner - jeho konfigurace přepisuje objekty v DbOld
+                            (new LoginContainerConfigurator())->configure(
+                                (new DbOldContainerConfigurator())->configure(
+                                    new Container($this->getApp()->getAppContainer())
+                                )
                             )
                         )
                     )
@@ -50,6 +52,12 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         #### DatabaseController ####
+        $routeGenerator->addRouteForAction('GET', '/build/listconfig', function(ServerRequestInterface $request) {
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
+            return $ctrl->listConfig($request);
+            });
+
         $routeGenerator->addRouteForAction('GET', '/build/createdb', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);

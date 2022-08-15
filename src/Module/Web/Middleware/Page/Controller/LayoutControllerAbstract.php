@@ -175,8 +175,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
 
         $views = array_merge(
-                ['content' => $this->getContentLoadScript($menuItem)],
-                $this->getBasicViews(),
+                [
+                    'content' => $this->getContentLoadScript($menuItem),
+                ],
+
                 $this->getEditableModeViews($request),
                 $this->getLoggedOnOffViews(),
                 $this->getMenuComponents(),
@@ -186,14 +188,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 $this->getAuthoredLayoutBlockLoaders(),
             );
         return $views;
-    }
-
-    private function getBasicViews() {
-        return [
-                'languageSelect' => $this->container->get(LanguageSelectComponent::class),
-                'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
-                'flash' => $this->container->get(FlashComponent::class),
-            ];
     }
 
     private function getEditableModeViews($request) {
@@ -265,7 +259,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getContentLoadScript(MenuItemInterface $menuItem) {
         /** @var View $view */
         $view = $this->container->get(View::class);
-        
+
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $uid = uniqid();
         $menuItemType = $menuItem->getTypeFk();
@@ -313,11 +307,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return View[]
      */
     private function getMenuComponents() {
-
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-
         $components = [];
-        foreach (ConfigurationCache::menu()['menu.contextServiceMap'] as $contextName => $serviceName) {
+        foreach (ConfigurationCache::layoutController()['contextServiceMap'] as $contextName => $serviceName) {
             $components[$contextName] = $this->container->get($serviceName);
         }
         return $components;

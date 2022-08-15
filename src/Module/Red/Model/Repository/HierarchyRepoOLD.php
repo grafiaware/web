@@ -136,7 +136,7 @@ class HierarchyRepoOLD extends RepoAbstract implements RepoReadonlyInterface {
      */
     public function getSubNodes($langCode, $parentUid, $maxDepth=NULL) {
         $subTree = [];
-        foreach($this->dao->getSubNodes($langCode, $parentUid, $maxDepth) as $row) {
+        foreach($this->dao->getSubTree($langCode, $parentUid, $maxDepth) as $row) {
             $index = $this->indexFromRow($row);
             $this->recreateEntity($index, $row);
             $subTree[] = $this->collection[$index];

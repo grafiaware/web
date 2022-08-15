@@ -9,13 +9,9 @@
 namespace Site\Grafia;
 
 use Application\WebAppFactory;
+use Component\View\Generated\LanguageSelectComponent;
+use Component\View\Generated\SearchPhraseComponent;
 use Component\View\Flash\FlashComponent;
-use Component\View\Manage\{
-    LoginComponent,
-    RegisterComponent,
-    LogoutComponent,
-    UserActionComponent
-};
 
 /**
  * Description of Configuration
@@ -170,7 +166,21 @@ class ConfigurationRed extends ConfigurationDb {
                     'mapa' => 'a6',
                     'logo' => 'a7',
                     'banner' => 'a8',
-                ]
+                ],
+            // parametry kontext - service mapy jsou:
+            //'context_name' => 'service_name'
+            //      'context_name' - jméno proměnné v šabloně (bez znaku $),
+            //      'service_name' => jméno služby component kontejneru,
+            'contextServiceMap' => [
+                    'languageSelect' => LanguageSelectComponent::class,
+                    'searchPhrase' => SearchPhraseComponent::class,
+                    'flash' => FlashComponent::class,
+                    'menuPresmerovani' => 'menu.presmerovani',
+                    'menuVodorovne' => 'menu.vodorovne',
+                    'menuSvisle' => 'menu.svisle',
+                    'bloky' => 'menu.bloky',
+                    'kos' => 'menu.kos',
+                ],
             ];
     }
     public static function menu() {
@@ -215,17 +225,7 @@ class ConfigurationRed extends ConfigurationDb {
                         'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],
-            // parametry kontext - service mapy jsou:
-            //'context_name' => 'service_name'
-            //      'context_name' - jméno proměnné v šabloně (bez znaku $),
-            //      'service_name' => jméno služby component kontejneru,
-            'menu.contextServiceMap' => [
-                    'menuPresmerovani' => 'menu.presmerovani',
-                    'menuVodorovne' => 'menu.vodorovne',
-                    'menuSvisle' => 'menu.svisle',
-                    'bloky' => 'menu.bloky',
-                    'kos' => 'menu.kos',
-                ],
+
             ];
     }
 

@@ -1,0 +1,4 @@
+/*******************************
+    User Variable Overrides
+*******************************/ 
+@tooltipFontSize: 17px;  
