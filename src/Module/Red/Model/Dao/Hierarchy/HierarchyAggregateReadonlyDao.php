@@ -36,7 +36,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
 
     protected $nestedSetTableName;
 
-    private $itemTableName;
+    protected $itemTableName;
 
     /**
      *
@@ -99,10 +99,10 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
 #################
 
     /**
-     * Vrací jeden node podle primárního klíče (kompozitní klíč lang_code_fk a uid_fk)
-     * @param string $langCode Hodnota existující v sloupci tabulky language.lang_code
-     * @param string $uid
-     * @return array
+     * Vrací pole dat jednoho node a položky menu podle primárního klíče (kompozitní klíč lang_code_fk a uid_fk)
+     *
+     * @param array $id Asociativní pole s indexy odpovídajícími poli vrácenému metodou getPrimaryKeyAttributes()
+     * @return array|null Asociativní pole s indexy odpovídajícími poli vrácenému metodou getAttributes()
      */
     public function get(array $id) {
         $sql =
@@ -131,9 +131,10 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
 
     /**
      * JEN POMOCNÁ FUNKCE PRO LADĚNÍ
+     * Vrací pole dat jednoho node a položky menu podle dvojice hodnot (lang_code_fk a title)
      * Vrací node podle title v tabulce $this->itemTableName - není nijak zaručena unikátnost title!
-     * @param string $title
-     * @return array
+     * @param array $langCodeAndTitle Asociativní pole s indexy lang_code_fk a title
+     * @return array|null
      */
     public function getByTitleHelper(array $langCodeAndTitle) {
         $sql =
@@ -160,10 +161,11 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
     }
 
     /**
-     * Full tree ve formě řazeného seznamu získaného traverzováním okolo stronu. V položkách seznamu vrací name, id, depth.
+     * Full tree ve formě řazeného seznamu získaného traverzováním okolo stronu.
+     * V položkách seznamu vrací pole dat jednoho node a položky menu (asociativní pole (řádek dat) s indexy odpovídajícími poli vrácenému metodou getAttributes()).
      * Depth je hloubka položky ve stromu (kořen má hloubku 0)
      *
-     * @return type
+     * @return array Pole polí, první rozměr číselný, každá položka je asociativní pole (řádek dat) s indexy odpovídajícími poli vrácenému metodou getAttributes()
      */
     public function getFullTree($langCode) {
 //        $stmt = $this->getPreparedStatement(
@@ -196,12 +198,15 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
     }
 
     /**
-     * Subtree ve formě řazeného seznamu.
+     * Subtree ve formě řazeného seznamu získaného traverzováním okolo podstronu.
+     * V položkách seznamu vrací pole dat jednoho node a položky menu (asociativní pole (řádek dat) s indexy odpovídajícími poli vrácenému metodou getAttributes()).
+     * Depth je hloubka položky ve stromu (kořen má hloubku 0)
+     *
      *
      * @param string $langCode
      * @param string $rootUid Uid kořenového prvku podstromu.
      * @param int $maxDepth
-     * @return array
+     * @return array Pole polí, první rozměr číselný, každá položka je asociativní pole (řádek dat) s indexy odpovídajícími poli vrácenému metodou getAttributes()
      */
     public function getSubTree($langCode, $rootUid, $maxDepth=NULL){
         $sql =

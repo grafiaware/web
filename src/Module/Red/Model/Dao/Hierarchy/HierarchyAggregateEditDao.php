@@ -2,11 +2,8 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoEditAbstract;
-
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Pes\Database\Handler\HandlerInterface;
-use Model\Context\ContextFactoryInterface;
-use Model\Builder\SqlInterface;
 
 use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
@@ -18,48 +15,9 @@ use Pes\Text\FriendlyUrl;
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
  * V tutoriálu jsou přepracované sql skripty, které zveřejnil http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/ - a od té doby je všichni kopíruji.
  */
-class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggregateEditDaoInterface {
+class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements HierarchyAggregateEditDaoInterface {
 
     protected $hookedActor;
-
-    protected $nestedSetTableName;
-
-    private $itemTableName;
-
-    /**
-     *
-     * @var ContextFactoryInterface
-     */
-    protected $contextFactory;
-
-    /**
-     *
-     * @param HandlerInterface $handler
-     * @param strimg $nestedSetTableName Jméno tabulky obsahující nested set hierarchii položek. Používá se pro editaci hierarchie.
-     * @param ContextFactoryInterface $contextFactory
-     */
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
-        parent::__construct($handler, $sql, $fetchClassName);
-        $this->nestedSetTableName = $this->getTableName();
-        $this->itemTableName = $this->getItemTableName();
-        $this->contextFactory = $contextFactory;
-    }
-
-    public function getPrimaryKeyAttributes(): array {
-        return ['lang_code_fk', 'uid'];
-    }
-
-    public function getAttributes(): array {
-        ;
-    }
-
-    public function getTableName(): string {
-        return 'hierarchy';
-    }
-
-    private function getItemTableName(): string {
-        return 'menu_item';
-    }
 
     /**
      * Jako parametr příjímá objekt HookedContentActionsInterface, jeho metody jsou volány při operacích vkládání nebo mazání položek v hierarchii.
@@ -325,10 +283,9 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
 
 
     /**
-     * Smaže uzel, pokud je to list, t.j. uzel na konci větve grafu uzlů. Vrací uid rodiče smazaného uzlu pro účely navigace.
+     * Smaže uzel, pokud je to list, t.j. uzel na konci větve grafu uzlů.
      *
      * @param string $nodeUid
-     * @return string parent_uid
      */
     public function deleteLeafNode($nodeUid){
         $dbhTransact = $this->dbHandler;
@@ -360,8 +317,6 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     WHERE left_node > @myRight");
 
             $dbhTransact->commit();
-            return $nodeRow['parent_uid'];
-
         } catch(Exception $e) {
             $dbhTransact->rollBack();
             throw new Exception($e);
@@ -369,10 +324,9 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
     }
 
     /**
-     * Smaže uzel a všechny jeho potomky. Vrací uid rodiče zadaného uzlu pro účely navigace.
+     * Smaže uzel a všechny jeho potomky.
      *
      * @param string $nodeUid
-     * @return string parent_uid
      */
     public function deleteSubTree($nodeUid){
         $dbhTransact = $this->dbHandler;
@@ -402,8 +356,6 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     "UPDATE $this->nestedSetTableName SET left_node = left_node - @myWidth
                     WHERE left_node > @myRight");
             $dbhTransact->commit();
-            return $nodeRow['parent_uid'];
-
         } catch(Exception $e) {
             $dbhTransact->rollBack();
             throw new Exception($e);
@@ -412,12 +364,18 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
 
     /**
      * Přesune podstrom (zdrojový uzel a všechny jeho potomky) jako dítě cílového uzlu.
+     * Defaultně deaktivuje všechny položky menu příslušné k přesunutým uzlům.
+     *
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
      * @param string $sourceUid uid zdrojového uzlu
      * @param string $targetUid uid cílového uzlu
+     * @param type $targetUid
+     * @param bool $deactivate
+     * @return void
      * @throws Exception
      */
-    public function moveSubTreeAsChild($sourceUid, $targetUid): void {
+    public function moveSubTreeAsChild($sourceUid, $targetUid, $deactivate=true): void {
         $dbhTransact = $this->dbHandler;
         try {
 
@@ -452,7 +410,15 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
             // vytvoř cílový volný prostor
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node >= @target_left_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_left_node");
-            //
+
+            // deaktivace položek /menu item) - vybírá se jen podle uid -> deaktivuji všechny jazykové verze
+            if ($deactivate) {
+                // MySQL syntaxe!
+                $dbhTransact->exec("UPDATE hierarchy AS nested_set INNER JOIN menu_item AS items SET items.active = 0
+                    WHERE
+                     nested_set.left_node < 0 AND nested_set.uid=items.uid_fk");
+            }
+            // vrácení podstromu do nested set
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET
                 left_node = 0 - left_node - (@source_left_node - @target_left_node - 1),
                 right_node = 0 - right_node - (@source_left_node - @target_left_node - 1)
@@ -466,12 +432,17 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
 
     /**
      * Přesune podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu.
+     * Defaultně deaktivuje všechny položky menu příslušné k přesunutým uzlům.
+     *
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
      * @param string $sourceUid uid zdrojového uzlu
      * @param string $targetUid uid cílového uzlu
+     * @param bool $deactivate
+     * @return void
      * @throws Exception
      */
-    public function moveSubTreeAsSiebling($sourceUid, $targetUid): void {
+    public function moveSubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): void {
         $dbhTransact = $this->dbHandler;
         try {
 
@@ -506,7 +477,15 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
             // vytvoř cílový volný prostor "vpravo" od cíle
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node > @target_right_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_right_node");
-            //
+
+            // deaktivace položek /menu item) - vybírá se jen podle uid -> deaktivuji všechny jazykové verze
+            if ($deactivate) {
+                // MySQL syntaxe!
+                $dbhTransact->exec("UPDATE hierarchy AS nested_set INNER JOIN menu_item AS items SET items.active = 0
+                    WHERE
+                     nested_set.left_node < 0 AND nested_set.uid=items.uid_fk");
+            }
+            // vrácení podstromu do nested set
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET
                 left_node = 0 - left_node - (@source_left_node - @target_right_node - 1),
                 right_node = 0 - right_node - (@source_left_node - @target_right_node - 1)
@@ -519,13 +498,16 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
     }
 
     /**
-     * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako dítě cílového uzlu.
+     * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako dítě cílového uzlu. Zkopíroje také položky menu (menu item).
+     * Defaultně zkopírované položky nastaví jako neaktivní (nepublikované).
+     *
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
      * @param string $sourceUid uid zdrojového uzlu
      * @param string $targetUid uid cílového uzlu
      * @throws Exception
      */
-    public function copySubTreeAsChild($sourceUid, $targetUid): void {
+    public function copySubTreeAsChild($sourceUid, $targetUid, $deactivate=true): void {
         $dbhTransact = $this->dbHandler;
         try {
             // parametry
@@ -552,14 +534,14 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     FROM $this->nestedSetTableName WHERE left_node BETWEEN @source_left_node AND @source_right_node
                 ");
             $stmt->execute();
-            $targetData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $targetNodes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
             // vytvoř cílový volný prostor
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node >= @target_left_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_left_node");
 
             // kopíruj obsahy
-            $this->copySourceContentIntoTarget($dbhTransact, $targetData);
+            $this->copySourceContentIntoTarget($dbhTransact, $targetNodes, $deactivate);
 
             $dbhTransact->commit();
         } catch(Exception $e) {
@@ -569,14 +551,17 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
     }
 
     /**
-     * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu.
+     * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu. Zkopíroje také položky menu (menu item).
+     * Defaultně zkopírované položky nastaví jako neaktivní (nepublikované).
+     *
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
      * @param type $sourceUid
      * @param type $targetUid
      * @return void
      * @throws Exception
      */
-    public function copySubTreeAsSiebling($sourceUid, $targetUid): void {
+    public function copySubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): void {
         $dbhTransact = $this->dbHandler;
         try {
             // parametry
@@ -610,7 +595,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_right_node");
 
             // kopíruj obsahy - metoda kopíruje položky menu_item
-            $this->copySourceContentIntoTarget($dbhTransact, $targetData);
+            $this->copySourceContentIntoTarget($dbhTransact, $targetData, $deactivate);
 
             $dbhTransact->commit();
         } catch(Exception $e) {
@@ -620,13 +605,17 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
     }
 
     /**
-     * Metoda kopíruje položky menu_item
+     * Metoda kopíruje položky menu_item podle pole nodů zadaného jako parametr. Kopíruje položky všech jazykových verzí.
+     * Defaultně zkopírované položky nastaví jako neaktivní (nepublikované).
+     *
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu. To musí být splněno ve všech jazykových verzích.
      *
      *
-     * @param type $dbhTransact
-     * @param type $targetData
+     * @param type $dbhTransact transact handler
+     * @param array $targetNodes pole dat cílových položek nested set (hierarchy nodes)
+     * @param bool $deactivate
      */
-    private function copySourceContentIntoTarget($dbhTransact, $targetData) {
+    private function copySourceContentIntoTarget($dbhTransact, $targetNodes, $deactivate=true) {
         $preparedInsertToTarget = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
         $preparedSelectSourceItem = $this->getPreparedStatement("
                 SELECT lang_code_fk, type_fk, id, `list`, `order`, title, prettyuri, active, auto_generated
@@ -664,11 +653,11 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     WHERE
                     multipage.menu_item_id_fk=:source_menu_item_id
             ");
-        foreach ($targetData as $targetRow) {
-            $sourceUid = $targetRow['uid'];
+        foreach ($targetNodes as $node) {
+            $sourceUid = $node['uid'];
             $targetUid = $this->createNewUidWithinTransaction($dbhTransact);
-            $targetRow['uid'] = $targetUid;
-            $this->bindParams($preparedInsertToTarget, $targetRow);
+            $node['uid'] = $targetUid;
+            $this->bindParams($preparedInsertToTarget, $node);
             $success = $preparedInsertToTarget->execute();
             $this->bindParams($preparedSelectSourceItem, ['source_uid'=>$sourceUid]);
             $preparedSelectSourceItem->execute();
@@ -687,8 +676,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
                     // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž EditItemControler)
                     'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title'], 80),
-//                    'active'=>$sourceItem['active'],
-                    'active'=>0,
+                    'active'=> ($deactivate ? 0 : $sourceItem['active']),
                     'auto_generated'=>$sourceItem['auto_generated']]);
                 $preparedInsertTargetItem->execute();
                 $lastMenuItemId = $dbhTransact->lastInsertId();
@@ -704,8 +692,12 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
 
     /**
      * Smaže uzel a jeho potomky posune na jeho místo.
+     *
+     * @param type $nodeUid
+     * @return void
+     * @throws Exception
      */
-    public function replaceNodeWithChild($nodeUid){
+    public function replaceNodeWithChild($nodeUid): void {
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
@@ -741,8 +733,6 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
                     WHERE left_node > @myRight");
 
             $dbhTransact->commit();
-            return $nodeRow['parent_uid'];
-
         } catch(Exception $e) {
             $dbhTransact->rollBack();
             throw new Exception($e);

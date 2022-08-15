@@ -86,16 +86,26 @@ class HierarchyControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    /**
+     * Provede zkopírování nebo přesunutí položek menu vybraných k zkopírování nebo přesunutí. Kopírované nebo přesouvané položky umístí jako sourozence node se zadaným uid a to "za"
+     * zadaný node.
+     * Všechny zkopírované nebo přesouvané položky menu deaktivuje.
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu. To musí být splněno ve všech jazykových verzích.
+     *
+     * @param ServerRequestInterface $request
+     * @param type $uid
+     * @return type
+     */
     public function paste(ServerRequestInterface $request, $uid) {
-        $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
+        $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);  // vrací jen node - bez položky menu
         $statusFlash = $this->statusFlashRepo->get();
         $success = false;
         if (isset($parentNode)) {
             $postCommand = $statusFlash->getPostCommand();
             if (is_array($postCommand) ) {
-                $key = array_key_first($postCommand);
-                $pasteduid = $postCommand[$key];
-                switch ($key) {
+                $command = array_key_first($postCommand);
+                $pasteduid = $postCommand[$command];
+                switch ($command) {
                     case 'cut':
                         $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid);
                         $this->addFlashMessage('cut items pasted as a siblings', FlashSeverityEnum::SUCCESS);
@@ -119,6 +129,16 @@ class HierarchyControler extends FrontControlerAbstract {
         return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
     }
 
+    /**
+     * Provede zkopírování nebo přesunutí položek menu vybraných k zkopírování nebo přesunutí. Kopírované nebo přesouvané položky umístí jako potomka node se zadaným uid.
+     * 
+     * Všechny zkopírované nebo přesouvané položky menu deaktivuje.
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu. To musí být splněno ve všech jazykových verzích.
+     *
+     * @param ServerRequestInterface $request
+     * @param type $uid
+     * @return type
+     */
     public function pastechild(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
 
@@ -126,9 +146,9 @@ class HierarchyControler extends FrontControlerAbstract {
         $success = false;
         $postCommand = $statusFlash->getPostCommand();
         if (is_array($postCommand) ) {
-            $key = array_key_first($postCommand);
-            $pasteduid = $postCommand[$key];
-            switch ($key) {
+            $command = array_key_first($postCommand);
+            $pasteduid = $postCommand[$command];
+            switch ($command) {
                 case 'cut':
                     $this->editHierarchyDao->moveSubTreeAsChild($pasteduid, $uid);
                     $this->addFlashMessage('cut items pasted as a child', FlashSeverityEnum::SUCCESS);
@@ -151,11 +171,12 @@ class HierarchyControler extends FrontControlerAbstract {
 
     public function delete(ServerRequestInterface $request, $uid) {
         // opatrná varianta - maže jen leaf - nutno mazat po jednom uzlu (to se musí projevit i v renderování obládacích prvků - tlačítek, nabízet smazat jen pro leaf)
-//        $parentUid = $this->editHierarchyDao->deleteLeafNode($uid);
-        $parentUid = $this->editHierarchyDao->deleteSubTree($uid);
+        $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
+        $this->editHierarchyDao->deleteSubTree($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);
-        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$parentUid");
+        $redirectUid = isset($parentNode) ? $parentNode['uid'] : $uid;
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$redirectUid");
     }
 
     // odloženo!!
@@ -166,10 +187,12 @@ class HierarchyControler extends FrontControlerAbstract {
 
 
     public function trash(ServerRequestInterface $request, $uid) {
+        $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
         $trashUid = $this->menuRootRepo->get(self::TRASH_MENU_ROOT)->getUidFk();
         $this->editHierarchyDao->moveSubTreeAsChild($uid, $trashUid);
         $this->addFlashMessage('trash', FlashSeverityEnum::SUCCESS);
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        $redirectUid = isset($parentNode) ? $parentNode['uid'] : $uid;
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$redirectUid");
     }
 
 }

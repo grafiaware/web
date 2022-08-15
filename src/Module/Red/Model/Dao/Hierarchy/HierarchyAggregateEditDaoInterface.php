@@ -8,11 +8,13 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
+
 /**
  *
  * @author pes2704
  */
-interface HierarchyAggregateEditDaoInterface {
+interface HierarchyAggregateEditDaoInterface extends HierarchyAggregateReadonlyDaoInterface {
 
 #### helper #################################################
     /**
@@ -86,24 +88,67 @@ interface HierarchyAggregateEditDaoInterface {
     public function deleteSubTree($nodeUid);
 
     /**
-     * Přesune podstrom (zadaný uzel a všechny jeho potomky) jako dítě cílového uzlu.
+     * Přesune podstrom (zdrojový uzel a všechny jeho potomky) jako dítě cílového uzlu.
+     * Defaultně deaktivuje všechny položky menu příslušné k přesunutým uzlům.
      *
-     * @param type $sourceUid
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
+     *
+     * @param string $sourceUid uid zdrojového uzlu
+     * @param string $targetUid uid cílového uzlu
      * @param type $targetUid
+     * @param bool $deactivate
+     * @return void
      * @throws Exception
      */
-    public function moveSubTreeAsChild($sourceUid, $targetUid): void;
+    public function moveSubTreeAsChild($sourceUid, $targetUid, $deactivate=true): void;
 
     /**
      * Přesune podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu.
+     * Defaultně deaktivuje všechny položky menu příslušné k přesunutým uzlům.
+     *
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
+     *
+     * @param string $sourceUid uid zdrojového uzlu
+     * @param string $targetUid uid cílového uzlu
+     * @param bool $deactivate
+     * @return void
+     * @throws Exception
+     */
+    public function moveSubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): void;
+
+    /**
+     * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako dítě cílového uzlu. Zkopíroje také položky menu (menu item).
+     * Defaultně zkopírované položky nastaví jako neaktivní (nepublikované).
+     *
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
      * @param string $sourceUid uid zdrojového uzlu
      * @param string $targetUid uid cílového uzlu
      * @throws Exception
      */
-    public function moveSubTreeAsSiebling($sourceUid, $targetUid): void;
+    public function copySubTreeAsChild($sourceUid, $targetUid, $deactivate=true): void;
 
-    public function replaceNodeWithChild($nodeUid);
+    /**
+     * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu. Zkopíroje také položky menu (menu item).
+     * Defaultně zkopírované položky nastaví jako neaktivní (nepublikované).
+     *
+     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
+     *
+     * @param type $sourceUid
+     * @param type $targetUid
+     * @return void
+     * @throws Exception
+     */
+    public function copySubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): void;
+
+    /**
+     * Smaže uzel a jeho potomky posune na jeho místo.
+     *
+     * @param type $nodeUid
+     * @return void
+     * @throws Exception
+     */
+    public function replaceNodeWithChild($nodeUid): void;
 
 //    public function convertAdjacencyListToNestedSet();
 }

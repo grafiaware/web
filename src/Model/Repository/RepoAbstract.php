@@ -25,10 +25,11 @@ use Model\Repository\Association\AssociationOneToOneInterface;
 use Model\Repository\Association\AssociationOneToManyInterface;
 use Model\Repository\RepoAssotiatedOneInterface;
 use Model\Repository\RepoAssotiatedManyInterface;
+
+use Model\Repository\Exception\BadReturnedTypeException;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 use Model\Repository\Exception\UnableRecreateEntityException;
 use Model\Repository\Exception\BadImplemntastionOfChildRepository;
-
 use Model\Repository\Exception\UnableAddEntityException;
 use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\Repository\Exception\UnableAddAssotiationsException;
@@ -107,8 +108,34 @@ abstract class RepoAbstract {
         }
     }
 
-    protected function createEntity() {
-        throw new BadImplemntastionOfChildRepository("Child repository must implement method createEntity().");
+//    abstract protected function createEntity(): EntityInterface;
+//
+//    abstract protected function indexFromEntity($menuRoot): string;
+//
+//    abstract protected function indexFromRow($row): string;
+
+    private function callCreateEntity() {
+        $entity = $this->createEntity();
+        if (! $entity instanceof EntityInterface) {
+            throw new BadReturnedTypeException("Protected moethod ".get_called_class()."->createEntity() must return instance of ".EntityInterface::class.", ". get_class($entity)." returned.");
+        }
+        return $entity;
+    }
+
+    private function callIndexFromRow($row) {
+        $index = $this->indexFromRow($row);
+        if (!is_int($index) AND !is_string($index)) {
+            throw new BadReturnedTypeException("Protected moethod ".get_called_class()."->indexFromRow() must return integer or string, ". gettype($index)." returned.");
+        }
+        return $index;
+    }
+
+    private function callIndexFromEntity($entity) {
+        $index = $this->indexFromEntity($entity);
+        if (!is_int($index) AND !is_string($index)) {
+            throw new BadReturnedTypeException("Protected moethod ".get_called_class()."->indexFromEntity() must return integer or string, ". gettype($index)." returned.");
+        }
+        return $index;
     }
 
     /**
@@ -117,7 +144,7 @@ abstract class RepoAbstract {
      * @return EntityInterface|null
      */
     protected function getEntity(array $id) {
-        $index = $this->indexFromRow($id);
+        $index = $this->callIndexFromRow($id);
         if (!isset($this->collection[$index]) AND !isset($this->removed[$index])) {
             $this->recreateEntity($index, $this->recreateData($index, $id));
         }
@@ -176,7 +203,7 @@ abstract class RepoAbstract {
         if (!isset($rowData)) {
             return null;
         }
-        $index = $this->indexFromRow($rowData);
+        $index = $this->callIndexFromRow($rowData);
         if (!isset($this->collection[$index]) AND !isset($this->removed[$index])) {
             $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
             $this->recreateEntity($index, $rowData);
@@ -206,7 +233,7 @@ abstract class RepoAbstract {
      */
     private function recreateEntity($index, RowDataInterface $rowData = null) {
         if(isset($rowData)) {
-            $entity = $this->createEntity();  // definována v konkrétní třídě - adept na entity managera
+            $entity = $this->callCreateEntity();  // definována v konkrétní třídě - adept na entity managera
             try {
                 $this->recreateAssociations($rowData);
             } catch (UnableToCreateAssotiatedChildEntity $unex) {
@@ -247,7 +274,7 @@ abstract class RepoAbstract {
             throw new OperationWithLockedEntityException("Nelze přidávat přidanou nebo smazanou entitu.");
         }
         if ($entity->isPersisted()) {
-            $this->collection[$this->indexFromEntity($entity)] = $entity;
+            $this->collection[$this->callIndexFromEntity($entity)] = $entity;
         } else {
             if ($this->dataManager instanceof DaoEditAutoincrementKeyInterface) {
                 $rowData = $this->createRowData();
@@ -256,7 +283,7 @@ abstract class RepoAbstract {
                 $entity->setPersisted();
                 $this->dataManager->setAutoincrementedValue($rowData);
                 $this->hydrate($entity, $rowData);  //získá hodnotu klíče
-                $index = $this->indexFromEntity($entity);  // z hodnoty klíče
+                $index = $this->callIndexFromEntity($entity);  // z hodnoty klíče
                 $this->collection[$index] = $entity;
                 $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
             } elseif ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface ) {
@@ -265,7 +292,7 @@ abstract class RepoAbstract {
                 try {
                     $this->dataManager->insert($rowData);
                     $entity->setPersisted();
-                    $index = $this->indexFromEntity($entity);
+                    $index = $this->callIndexFromEntity($entity);
                     $this->collection[$index] = $entity;
                     $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
                 } catch ( DaoKeyVerificationFailedException $verificationFailedExc) {
@@ -317,7 +344,7 @@ abstract class RepoAbstract {
             throw new OperationWithLockedEntityException("Nelze mazat přidanou nebo smazanou entitu.");
         }
         if ($entity->isPersisted()) {
-            $index = $this->indexFromEntity($entity);
+            $index = $this->callIndexFromEntity($entity);
             $this->removed[$index] = $entity;
             unset($this->collection[$index]);
             $entity->lock();
