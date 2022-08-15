@@ -4,13 +4,6 @@ namespace Events\Model\Repository;
 use Model\Repository\RepoInterface;
 use Events\Model\Entity\EventLinkInterface;
 
-use Model\Repository\RepoAbstract;
-
-use Events\Model\Dao\EventLinkPhaseDao;
-use Events\Model\Hydrator\EventLinkPhaseHydrator;
-use Events\Model\Repository\EventLinkPhaseRepoInterface;
-use Events\Model\Entity\EventLinkPhase;
-use Events\Model\Entity\EventLinkPhaseInterface;
 
 /**
  *

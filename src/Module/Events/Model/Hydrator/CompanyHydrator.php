@@ -1,8 +1,8 @@
 <?php
 namespace Events\Model\Hydrator;
 
-
 use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
@@ -13,34 +13,35 @@ use Events\Model\Entity\CompanyInterface;
  *
  * @author
  */
-class CompanyHydrator implements HydratorInterface {
+class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
      * @param EntityInterface $company
-     * @param type $row
+     * @param RowDataInterface $row
      */
-    public function hydrate(EntityInterface $company, RowDataInterface $rowData) {
+    public function hydrate( EntityInterface $company, RowDataInterface $rowData) {
         /** @var CompanyInterface $company */
         $company
                 //`company`.`id`,
                 //`company`.`name`,
                 //`company`.`eventInstitutionName30`
-            ->sesId($rowData->offsetGet('id'))   
-            ->setName($rowData->offsetGet('name'))
-            ->setEventInstitutionName30($rowData->offsetGet('eventInstitutionName30'));
+            ->setId( $this->getPhpValue( $rowData, 'id') )   
+            ->setName($this->getPhpValue( $rowData, 'name' ) )
+            ->setEventInstitutionName30( $this->getPhpValue( $rowData, 'eventInstitutionName30') );                        
     } 
-
+    
+    
     /**
      *
-     * @param EntityInterface $eventContentType
-     * @param array $row
+     * @param EntityInterface $company
+     * @param RowDataInterface $row
      */
-    public function extract(EntityInterface $eventContentType, RowDataInterface $rowData) {
+    public function extract(EntityInterface $company, RowDataInterface $rowData) {
         /** @var CompanyInterface $company */
         // id je autoincrement       
-        $rowData->offsetSet('name', $company->getName() );
-        $rowData->offsetSet('eventInstitutionName30', $company->getEventInstitutionName30() ); 
+        $this->setSqlValue( $rowData, 'name', $company->getName() );
+        $this->setSqlValue( $rowData, 'eventInstitutionName30', $company->getEventInstitutionName30() );         
     }
 
 }

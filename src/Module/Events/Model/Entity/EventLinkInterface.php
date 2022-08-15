@@ -23,7 +23,7 @@ interface EventLinkInterface  extends EntityInterface {
     
     public function setShow($show) :EventLinkInterface;   
 
-    public function setHref( string $href=null) :EventLinkInterface;      
+    public function setHref(  $href=null) :EventLinkInterface;      
       
     public function setLinkPhaseIdFk($linkPhaseIdFk) :EventLinkInterface;   
 }

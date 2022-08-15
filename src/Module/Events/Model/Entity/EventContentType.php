@@ -37,7 +37,7 @@ class EventContentType extends EntityAbstract implements EventContentTypeInterfa
      * @param string $type
      * @return EventContentTypeInterface
      */
-    public function setType(string $type): EventContentTypeInterface {
+    public function setType( $type): EventContentTypeInterface {
         $this->type = $type;
         return $this;
     }
@@ -47,7 +47,7 @@ class EventContentType extends EntityAbstract implements EventContentTypeInterfa
      * @param string $name
      * @return EventContentTypeInterface
      */
-    public function setName(string $name): EventContentTypeInterface {
+    public function setName( $name): EventContentTypeInterface {
         $this->name = $name;
         return $this;
     }

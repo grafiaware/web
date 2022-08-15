@@ -10,15 +10,9 @@ use Model\Entity\EntityInterface;
 interface CompanyContactInterface extends EntityInterface {
 
     
-    /**
-     * 
-     * @return int
-     */
+    
     public function getId() ;    
-    /**
-     * 
-     * @return int
-     */
+    
     public function getCompanyId() ;    
     /**
      * 
@@ -42,7 +36,7 @@ interface CompanyContactInterface extends EntityInterface {
     public function getEmails()  ;    
     /**
      * 
-     * @param type $id
+     * @param string $id
      * @return CompanyContactInterface
      */
     public function setId(  $id) :CompanyContactInterface;   
@@ -51,31 +45,31 @@ interface CompanyContactInterface extends EntityInterface {
      * @param int $company_id
      * @return CompanyContactInterface
      */
-    public function setCompanyId( int $companyId) :CompanyContactInterface ;      
+    public function setCompanyId(  $companyId) :CompanyContactInterface ;      
     /**
      * 
      * @param string $name
      * @return CompanyContactInterface
      */
-    public function setName(string $name=null) :CompanyContactInterface ;    
+    public function setName( $name=null) :CompanyContactInterface ;    
     /**
      * 
      * @param string $phones
      * @return CompanyContactInterface
      */
-    public function setPhones(string $phones=null) :CompanyContactInterface ;    
+    public function setPhones( $phones=null) :CompanyContactInterface ;    
     /**
      * 
      * @param string $mobiles
      * @return CompanyContactInterface
      */
-    public function setMobiles( string $mobiles=null) :CompanyContactInterface ;    
+    public function setMobiles(  $mobiles=null) :CompanyContactInterface ;    
     /**
      * 
      * @param string $emails
      * @return CompanyContactInterface
      */
-    public function setEmails(string $emails=null) :CompanyContactInterface ;    
+    public function setEmails( $emails=null) :CompanyContactInterface ;    
         
     
 }

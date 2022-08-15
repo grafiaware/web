@@ -42,7 +42,7 @@ class PozadovaneVzdelani extends EntityAbstract implements PozadovaneVzdelaniInt
      * @param string $vzdelani
      * @return PozadovaneVzdelaniInterface
      */
-    public function setVzdelani( string $vzdelani) : PozadovaneVzdelaniInterface {
+    public function setVzdelani(  $vzdelani) : PozadovaneVzdelaniInterface {
         $this->vzdelani = $vzdelani;
         return $this;
     }

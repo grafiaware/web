@@ -19,17 +19,12 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
     private $mobiles;
     private $emails;
 
-    /**
-     *
-     * @return int
-     */
+    
     public function getId()  {
         return $this->id;
     }
-    /**
-     *
-     * @return int
-     */
+    
+    
     public function getCompanyId()  {
         return $this->companyId;
     }
@@ -63,19 +58,19 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
     }
     /**
      *
-     * @param type $id
+     * @param string $id
      * @return CompanyContactInterface
      */
-    public function setId(  $id) :CompanyContactInterface{
+    public function setId( $id) :CompanyContactInterface{
         $this->id = $id;
         return $this;
     }
     /**
      *
-     * @param int $company_id
+     * @param string $company_id
      * @return CompanyContactInterface
      */
-    public function setCompanyId( int $companyId) :CompanyContactInterface {
+    public function setCompanyId( $companyId ) :CompanyContactInterface {
         $this->companyId = $companyId;
         return $this;
     }
@@ -84,7 +79,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
      * @param string $name
      * @return CompanyContactInterface
      */
-    public function setName(string $name=null) :CompanyContactInterface {
+    public function setName( $name=null) :CompanyContactInterface {
         $this->name = $name;
         return $this;
     }
@@ -93,7 +88,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
      * @param string $phones
      * @return CompanyContactInterface
      */
-    public function setPhones(string $phones=null) :CompanyContactInterface {
+    public function setPhones( $phones=null) :CompanyContactInterface {
         $this->phones = $phones;
         return $this;
     }
@@ -102,7 +97,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
      * @param string $mobiles
      * @return CompanyContactInterface
      */
-    public function setMobiles( string $mobiles=null) :CompanyContactInterface {
+    public function setMobiles(  $mobiles=null) :CompanyContactInterface {
         $this->mobiles = $mobiles;
         return $this;
     }
@@ -111,7 +106,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
      * @param string $emails
      * @return CompanyContactInterface
      */
-    public function setEmails(string $emails=null) :CompanyContactInterface {
+    public function setEmails( $emails=null) :CompanyContactInterface {
         $this->emails = $emails;
         return $this;
     }

@@ -9,10 +9,6 @@ use Model\Entity\EntityInterface;
  */
 interface CompanyAddressInterface extends EntityInterface {
 
-    /**
-     * 
-     * @return int
-     */
     public function getCompanyId()  ;   
     /**
      * 
@@ -39,31 +35,31 @@ interface CompanyAddressInterface extends EntityInterface {
      * @param int $companyId
      * @return $this
      */
-    public function setCompanyId( int $companyId);    
+    public function setCompanyId( $companyId);    
     /**
      * 
      * @param string $name
      * @return CompanyAddressInterface
      */
-    public function setName( string $name) :CompanyAddressInterface;    
+    public function setName( $name) :CompanyAddressInterface;    
     /**
      * 
      * @param string $lokace
      * @return CompanyAddressInterface
      */
-    public function setLokace( string $lokace) :CompanyAddressInterface ;    
+    public function setLokace( $lokace) :CompanyAddressInterface ;    
     /**
      * 
      * @param string $psc
      * @return CompanyAddressInterface
      */
-    public function setPsc( string $psc= null):CompanyAddressInterface ;
+    public function setPsc(  $psc= null):CompanyAddressInterface ;
     /**
      * 
      * @param string $obec
      * @return CompanyAddressInterface
      */
-    public function setObec( string $obec= null ):CompanyAddressInterface;    
+    public function setObec(  $obec= null ):CompanyAddressInterface;    
 
    
 }

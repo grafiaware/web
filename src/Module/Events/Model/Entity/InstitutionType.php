@@ -30,7 +30,7 @@ class InstitutionType  extends EntityAbstract implements InstitutionTypeInterfac
         return $this;
     }
 
-    public function setInstitutionType( string $value=null ): InstitutionTypeInterface {
+    public function setInstitutionType(  $value=null ): InstitutionTypeInterface {
         $this->institutionType = $value;
         return $this;
     }

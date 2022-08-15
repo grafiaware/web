@@ -4,7 +4,6 @@
 namespace Events\Model\Entity;
 
 use Model\Entity\EntityAbstract;
-use Model\Entity\EntityGeneratedKeyInterface;
 
 /**
  * Description of Login
@@ -31,7 +30,7 @@ class Login extends EntityAbstract implements LoginInterface {
      * @param string $loginName
      * @return LoginInterface
      */
-    public function setLoginName(string $loginName): LoginInterface {
+    public function setLoginName( $loginName): LoginInterface {
         $this->loginName = $loginName;
         return $this;
     }

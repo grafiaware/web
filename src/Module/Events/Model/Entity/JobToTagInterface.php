@@ -29,7 +29,7 @@ interface JobToTagInterface extends EntityInterface {
      * @param int $jobId
      * @return JobToTagInterface
      */
-    public function setJobId( int $jobId) : JobToTagInterface ;                    
+    public function setJobId(  $jobId) : JobToTagInterface ;                    
    
            
     /**
@@ -37,7 +37,7 @@ interface JobToTagInterface extends EntityInterface {
      * @param string $jobTagTag
      * @return JobToTagInterface
      */
-    public function setJobTagTag( string $jobTagTag) : JobToTagInterface;
+    public function setJobTagTag(  $jobTagTag) : JobToTagInterface;
     
 
     

@@ -23,7 +23,7 @@ interface JobTagInterface extends EntityInterface {
      * @param string $tag
      * @return JobTagInterface
      */
-    public function setTag(string $tag) : JobTagInterface ;
+    public function setTag( $tag) : JobTagInterface ;
        
     
 }

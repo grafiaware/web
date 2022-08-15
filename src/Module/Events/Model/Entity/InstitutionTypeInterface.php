@@ -16,6 +16,6 @@ interface InstitutionTypeInterface  extends EntityInterface {
 
     public function setId($id): InstitutionTypeInterface;
 
-    public function setInstitutionType(string $value=null): InstitutionTypeInterface;
+    public function setInstitutionType( $value=null): InstitutionTypeInterface;
 
     }

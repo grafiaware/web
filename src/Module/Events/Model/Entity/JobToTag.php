@@ -35,7 +35,7 @@ class JobToTag extends EntityAbstract implements JobToTagInterface {
      * @param int $jobId
      * @return JobToTagInterface
      */
-    public function setJobId( int $jobId) : JobToTagInterface {
+    public function setJobId(  $jobId) : JobToTagInterface {
         $this->jobId = $jobId;
         return $this;
     }
@@ -45,7 +45,7 @@ class JobToTag extends EntityAbstract implements JobToTagInterface {
      * @param string $jobTagTag
      * @return JobToTagInterface
      */
-    public function setJobTagTag( string $jobTagTag) : JobToTagInterface {
+    public function setJobTagTag(  $jobTagTag) : JobToTagInterface {
         $this->jobTagTag = $jobTagTag;
         return $this;
     }

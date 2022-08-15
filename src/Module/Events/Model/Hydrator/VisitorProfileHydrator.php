@@ -45,7 +45,7 @@ class VisitorProfileHydrator implements HydratorInterface {
     /**
      *
      * @param VisitorProfileInterface $visitorProfile
-     * @param type $rowData
+     * @param RowDataInterface $rowData
      */
     public function extract(EntityInterface $visitorProfile, RowDataInterface $rowData) {
         /** @var VisitorProfileInterface $visitorProfile */

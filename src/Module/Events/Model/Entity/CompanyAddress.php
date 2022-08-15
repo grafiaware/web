@@ -51,7 +51,7 @@ class CompanyAddress extends EntityAbstract implements CompanyAddressInterface {
      * @param int $companyId
      * @return $this
      */
-    public function setCompanyId( int $companyId) {
+    public function setCompanyId(  $companyId) {
         $this->companyId = $companyId;
         return $this;
     }
@@ -60,7 +60,7 @@ class CompanyAddress extends EntityAbstract implements CompanyAddressInterface {
      * @param string $name
      * @return CompanyAddressInterface
      */
-    public function setName( string $name) :CompanyAddressInterface {
+    public function setName( $name) :CompanyAddressInterface {
         $this->name = $name;
         return $this;
     }
@@ -69,7 +69,7 @@ class CompanyAddress extends EntityAbstract implements CompanyAddressInterface {
      * @param string $lokace
      * @return CompanyAddressInterface
      */
-    public function setLokace( string $lokace) :CompanyAddressInterface {
+    public function setLokace( $lokace) :CompanyAddressInterface {
         $this->lokace = $lokace;
         return $this;
     }
@@ -78,7 +78,7 @@ class CompanyAddress extends EntityAbstract implements CompanyAddressInterface {
      * @param string $psc
      * @return CompanyAddressInterface
      */
-    public function setPsc( string $psc= null):CompanyAddressInterface {
+    public function setPsc( $psc = null):CompanyAddressInterface {
         $this->psc = $psc;
         return $this;
     }
@@ -87,7 +87,7 @@ class CompanyAddress extends EntityAbstract implements CompanyAddressInterface {
      * @param string $obec
      * @return CompanyAddressInterface
      */
-    public function setObec( string $obec= null ):CompanyAddressInterface {
+    public function setObec(  $obec= null ):CompanyAddressInterface {
         $this->obec = $obec;
         return $this;
     }

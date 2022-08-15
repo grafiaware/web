@@ -48,7 +48,7 @@ class VisitorJobRequestHydrator implements HydratorInterface {
     /**
      *
      * @param VisitorJobRequestInterface $visitorDataPost
-     * @param type $row
+     * @param RowDataInterface $row
      */
     public function extract(EntityInterface $visitorDataPost, RowDataInterface $rowData) {
         /** @var VisitorJobRequestInterface $visitorDataPost */

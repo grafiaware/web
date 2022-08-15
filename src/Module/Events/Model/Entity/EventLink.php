@@ -42,7 +42,7 @@ class EventLink extends EntityAbstract implements EventLinkInterface {
         return $this;
     }
 
-    public function setHref( string $href=null) :EventLinkInterface{
+    public function setHref(  $href=null) :EventLinkInterface{
         $this->href = $href;
         return $this;
     }

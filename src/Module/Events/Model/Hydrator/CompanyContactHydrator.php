@@ -4,6 +4,7 @@ namespace Events\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\CompanyContactInterface;
 
@@ -12,7 +13,7 @@ use Events\Model\Entity\CompanyContactInterface;
  *
  * @author vlse2610
  */
-class CompanyContactHydrator implements HydratorInterface {
+class CompanyContactHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
 //  `company_contact``id`  // NOT NULL AUTO_INCREMENT,
 //  `company_id`   NOT NULL,
@@ -29,12 +30,13 @@ class CompanyContactHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $companyContact, RowDataInterface $rowData) {
         /** @var CompanyContactInterface $companyContact */
         $companyContact
-            ->setId($rowData->offsetGet('id'))
-            ->setCompanyId($rowData->offsetGet('company_id'))           
-            ->setName($rowData->offsetGet('name'))
-            ->setPhones($rowData->offsetGet('phones'))
-            ->setMobiles($rowData->offsetGet('mobiles'))
-            ->setEmails($rowData->offsetGet('emails')); 
+            ->setId ($this->getPhpValue( $rowData, 'id' ))
+            ->setCompanyId( $this->getPhpValue( $rowData, 'company_id' ))           
+            ->setName( $this->getPhpValue( $rowData, 'name' ))
+            ->setPhones( $this->getPhpValue( $rowData, 'phones' ))
+            ->setMobiles( $this->getPhpValue( $rowData, 'mobiles' ))
+            ->setEmails( $this->getPhpValue( $rowData, 'emails' )); 
+                          
     }
 
     /**
@@ -45,12 +47,11 @@ class CompanyContactHydrator implements HydratorInterface {
     public function extract(EntityInterface $companyContact, RowDataInterface $rowData) {
         /** @var CompanyContactInterface $companyContact */
         // id je autoincrement
-        $rowData->offsetSet('company_id', $companyContact->getCompanyId());       
-        $rowData->offsetSet('name', $companyContact->getName());
-        $rowData->offsetSet('phones', $companyContact->getPhones());
-        $rowData->offsetSet('mobiles', $companyContact->getMobiles());
-        $rowData->offsetSet('emails', $companyContact->getEmails());
-
+         $this->setSqlValue( $rowData, 'company_id', $companyContact->getCompanyId());       
+         $this->setSqlValue( $rowData, 'name', $companyContact->getName());
+         $this->setSqlValue( $rowData, 'phones', $companyContact->getPhones());
+         $this->setSqlValue( $rowData, 'mobiles', $companyContact->getMobiles());
+         $this->setSqlValue( $rowData, 'emails', $companyContact->getEmails());             
     }
     
     
