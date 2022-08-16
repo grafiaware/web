@@ -42,6 +42,17 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
         $this->addEntity($login);
     }
     
+//    
+//    /**
+//     * 
+//     * @return LoginInterface[]
+//     */
+//    public function findAll(): array {
+//        return $this->findEntities();
+//    }
+
+    
+    
     /**
      *
      * @param LoginInterface $login

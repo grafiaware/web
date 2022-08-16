@@ -8,6 +8,7 @@ use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Hydrator\RepresentativeHydrator;
 use Events\Model\Repository\RepresentativeRepoInterface;
+use Events\Model\Entity\Company;
 
 
 /**
@@ -53,6 +54,17 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
         return $this->findEntities();
     }
 
+    
+    /**
+     * 
+     * @param type $companyId     
+     * @return Company[]
+     */
+    public function findByCompany($companyId) : array{
+        return $this->findEntities("company_id = :company_id", [":company_id"=>$companyId] );
+    }
+    
+    
    /**
      * 
      * @param RepresentativeInterface $representative 
@@ -80,7 +92,7 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
     }
 
     protected function indexFromEntity(RepresentativeInterface $representative) {
-        return $companyAddress->getLoginLoginName();
+        return $representative->getLoginLoginName();
     }
 
     protected function indexFromRow( $row ) {

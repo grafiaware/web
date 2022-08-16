@@ -28,6 +28,15 @@ interface EnrollRepoInterface  extends RepoInterface {
      */
     public function findByLoginName($loginName) : array;
     
+        
+    /**
+     * 
+     * @param type $eventId     
+     * @return EnrollInterface[]
+     */
+    public function findByEvent($eventId) : array;
+    
+        
     /**
      * 
      * @return EnrollInterface[]

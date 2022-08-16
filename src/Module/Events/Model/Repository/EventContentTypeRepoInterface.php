@@ -6,7 +6,7 @@ use Events\Model\Entity\EventContentTypeInterface;
 
 /**
  *
- * @author pes2704
+ * @author vlse2610
  */
 interface EventContentTypeRepoInterface extends RepoInterface  {
    

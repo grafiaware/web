@@ -121,7 +121,7 @@ class EnrollRepositoryTest extends AppRunner {
             $ok = $eventDao->delete($row);
         }       
         
-          /** @var LoginDao $loginDao */
+         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);        
         $rows = $loginDao->find( " login_name LIKE '". self::$enrollLoginString . "%'", [] );               
         foreach($rows as $row) {

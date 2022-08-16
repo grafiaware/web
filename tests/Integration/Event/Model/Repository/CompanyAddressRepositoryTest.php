@@ -174,7 +174,7 @@ class CompanyAddressRepositoryTest extends AppRunner {
     
 //    /**
 //     * Pokus o zapsani věty do company_address se stejným primárním klíčem. 
-//     * Na úrovni DB nastane chyba (tj. OK) a nic se neprovede. Nijak se ale nepozná,že nastala.
+//     * Na úrovni DB nastane chyba (tj. OK) a nic se neprovede. Nijak se ale neda poznat,že nastala?
 //     */
 //    public function testAdd2() {
 //        $companyAddress = new CompanyAddress();      

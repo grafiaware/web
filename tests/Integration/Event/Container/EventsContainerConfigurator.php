@@ -25,7 +25,7 @@ use Events\Model\Repository\LoginRepo;
 
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Hydrator\RepresentativeHydrator;
-//use RepresentativeRepo
+use Events\Model\Repository\RepresentativeRepo;
 
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
