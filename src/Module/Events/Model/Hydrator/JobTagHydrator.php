@@ -6,13 +6,16 @@ use Model\Entity\EntityInterface;
 
 use Events\Model\Entity\JobTag;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
+use Model\Hydrator\HydratorInterface;
+
 
 /**
  * Description of JobTagHydrator
  *
  * @author vlse2610
  */
-class JobTagHydrator implements HydratorInterface {
+class JobTagHydrator extends TypeHydratorAbstract implements HydratorInterface {
     
    /**
     * 
@@ -23,7 +26,7 @@ class JobTagHydrator implements HydratorInterface {
         /** @var  JobTag $jobTag */
         $jobTag                
              
-            ->setTag($rowData->offsetGet('tag'));
+            ->setTag($this->getPhpValue($rowData, 'tag' ));
     } 
 
     /**
@@ -33,6 +36,6 @@ class JobTagHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $jobTag, RowDataInterface $rowData) {
         /** @var  JobTag $jobTag */
-        $rowData->offsetSet('tag', $jobTag->getTag() ); 
+        $this->setSqlValue( $rowData, 'tag', $jobTag->getTag() ); 
     }
 }

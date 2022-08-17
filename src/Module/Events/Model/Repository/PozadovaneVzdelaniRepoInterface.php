@@ -10,9 +10,10 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
  */
 interface PozadovaneVzdelaniRepoInterface extends RepoInterface  {
    
+   
     /**
      * 
-     * @param  $stupen
+     * @param type $stupen
      * @return PozadovaneVzdelaniInterface|null
      */
     public function get( $stupen): ?PozadovaneVzdelaniInterface ;
@@ -26,15 +27,15 @@ interface PozadovaneVzdelaniRepoInterface extends RepoInterface  {
     
     /**
      * 
-     * @param PozadovaneVzdelaniInterface $stupen
+     * @param PozadovaneVzdelaniInterface $pozadovaneVzdelani
      * @return void
      */
-    public function add(PozadovaneVzdelaniInterface $stupen ) :void ; 
+    public function add(PozadovaneVzdelaniInterface $pozadovaneVzdelani ) :void ; 
     
     /**
      * 
-     * @param PozadovaneVzdelaniInterface $eventContentType
+     * @param PozadovaneVzdelaniInterface $pozadovaneVzdelani
      * @return void
      */
-    public function remove(PozadovaneVzdelaniInterface $stupen) :void ;
+    public function remove(PozadovaneVzdelaniInterface $pozadovaneVzdelani) :void ;
 }

@@ -1,10 +1,8 @@
 <?php
-
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditInterface;
-use Model\Dao\DaoAutoincrementTrait;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 
 /**
@@ -12,18 +10,14 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author vlse2610
  */
-class JobTagDao  extends DaoEditAbstract /*implements DaoEditInterface*/ {
-
-   // use DaoAutoincrementTrait;
+class JobTagDao    extends DaoEditAbstract  implements DaoEditKeyDbVerifiedInterface {   
 
     public function getPrimaryKeyAttributes(): array {
         return ['tag'];
     }
 
     public function getAttributes(): array {
-        return [
-            'tag'
-        ];
+        return [ 'tag'  ];
     }
 
     public function getTableName(): string {

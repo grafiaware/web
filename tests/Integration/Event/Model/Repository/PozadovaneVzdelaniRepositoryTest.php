@@ -136,88 +136,90 @@ class PozadovaneVzdelaniRepositoryTest extends AppRunner {
         $this->assertFalse($pozadovaneVzdelani->isLocked());
         
     }
-//    
-//    public function testAddTheSame() {
-//        /** @var EventContentType $eventContentType */
-//        $eventContentType = new EventContentType();
-//        $eventContentType->setType(self::$typeKlic .'1');
-//        $eventContentType->setName(self::$typeKlic .'Name1');
-//                
-//        $this->expectException( UnableAddEntityException::class );
-//        $this->eventContentTypeRepo->add($eventContentType);               
-//    }
-//    
-//    
-//    public function testAddAndReread() {
-//        /** @var EventContentType $eventContentType */
-//        $eventContentType = new EventContentType();
-//        $eventContentType->setType(self::$typeKlic . '2');
-//        $eventContentType->setName(self::$typeKlic . 'Name2');
-//        $this->eventContentTypeRepo->add($eventContentType);
-//
-//        $this->eventContentTypeRepo->flush();
-//        $this->assertTrue($eventContentType->isPersisted());  
-//        $this->assertFalse($eventContentType->isLocked());
-//
-//        /** @var EventContentType $eventContentTypeRereaded */
-//        $eventContentTypeRereaded = $this->eventContentTypeRepo->get($eventContentType->getType());
-//        $this->assertInstanceOf(EventContentTypeInterface::class, $eventContentTypeRereaded);        
-//        $this->assertTrue($eventContentTypeRereaded->isPersisted());
-//        $this->assertFalse($eventContentType->isLocked());
-//    }    
-//        
-//
-//    public function testFindAll() {
-//        $eventContentTypes = $this->eventContentTypeRepo->findAll();
-//        $this->assertTrue(is_array($eventContentTypes));
-//        $this->assertGreaterThan(0,count($eventContentTypes)); //jsou tam minimalne 2
-//    }
-//  
-//    
+
+    
+    
+    public function testAddTheSame() {
+        /** @var PozadovaneVzdelani $pozadovaneVzdelani */
+        $pozadovaneVzdelani = new PozadovaneVzdelani();
+        $pozadovaneVzdelani->setStupen(self::$stupenKlic .'1');
+        $pozadovaneVzdelani->setVzdelani(self::$stupenKlic .'Name1');
+                
+        $this->expectException( UnableAddEntityException::class );
+        $this->pozadovaneVzdelaniRepo->add($pozadovaneVzdelani);               
+    }
+
+    
+    public function testAddAndReread() {
+        /** @var PozadovaneVzdelani $pozadovaneVzdelani */
+        $pozadovaneVzdelani = new PozadovaneVzdelani();
+        $pozadovaneVzdelani->setStupen(self::$stupenKlic .'2');
+        $pozadovaneVzdelani->setVzdelani(self::$stupenKlic .'Name2');
+        $this->pozadovaneVzdelaniRepo->add($pozadovaneVzdelani); // overovany klic zapise hned
+
+       // $this->pozadovaneVzdelaniRepo->flush();
+        $this->assertTrue($pozadovaneVzdelani->isPersisted());  
+        $this->assertFalse($pozadovaneVzdelani->isLocked());
+
+                /** @var PozadovaneVzdelani $pozadovaneVzdelaniRereaded */
+        $pozadovaneVzdelaniRereaded = $this->pozadovaneVzdelaniRepo->get($pozadovaneVzdelani->getStupen());
+        $this->assertInstanceOf(PozadovaneVzdelaniInterface::class, $pozadovaneVzdelaniRereaded);        
+        $this->assertTrue($pozadovaneVzdelaniRereaded->isPersisted());
+        $this->assertFalse($pozadovaneVzdelaniRereaded->isLocked());
+    }    
+        
+
+    public function testFindAll() {
+        $pozadovaneVzdelaniArray = $this->pozadovaneVzdelaniRepo->findAll();
+        $this->assertTrue(is_array($pozadovaneVzdelaniArray));
+        $this->assertGreaterThan(0,count($pozadovaneVzdelaniArray)); //jsou tam minimalne 2
+    }
+  
+
 ////ZATIM NEMA FIND metodu    
-////    public function testFind() {                                         
-////        $rows =  $this->eventContentTypeRepo->find( "type LIKE '" . self::$typeKlic . "%'", []);   
-////
-////        $this->assertTrue(is_array($rows));
-////        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2                                       
-////    }
-//    
-//    
-//    public function testRemove_OperationWithLockedEntity() {
-//        /** @var EventContentType $eventContentType */
-//        $eventContentType = $this->eventContentTypeRepo->get(self::$typeKlic . "1");    
-//        $this->assertInstanceOf(EventContentTypeInterface::class, $eventContentType);
-//        $this->assertTrue($eventContentType->isPersisted());
-//        $this->assertFalse($eventContentType->isLocked());
-//        
-//        $eventContentType->lock();
-//        $this->expectException( OperationWithLockedEntityException::class);
-//        $this->eventContentTypeRepo->remove($eventContentType);
+//    public function testFind() {                                         
+//        $rows =  $this->pozadovaneVzdelaniRepo->find( " vzdelani LIKE '" . self::$stupenKlic . "%'", []);   
+//
+//        $this->assertTrue(is_array($rows));
+//        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2                                       
 //    }
-//    
-//    
-//    public function testRemove() {
-//        /** @var EventContentType $eventContentType */
-//        $eventContentType = $this->eventContentTypeRepo->get(self::$typeKlic . "1" );
-//                
-//        $this->assertInstanceOf(EventContentTypeInterface::class, $eventContentType);
-//        $this->assertTrue($eventContentType->isPersisted());
-//        $this->assertFalse($eventContentType->isLocked());
-//        
-//        $this->eventContentTypeRepo->remove($eventContentType);
-//        
-//        $this->assertTrue($eventContentType->isPersisted());
-//        $this->assertTrue($eventContentType->isLocked());   // maže až při flush
-//        $this->eventContentTypeRepo->flush();
-//        //  uz neni locked
-//        $this->assertFalse($eventContentType->isLocked());
-//        
-//        // pokus o čtení, entita EventContentType.self::$typeKlic  uz  neni
-//        $eventContentType = $this->eventContentTypeRepo->get(self::$typeKlic . "1" );
-//        $this->assertNull($eventContentType);
-//        
-//    }
-//            
+    
+    
+    public function testRemove_OperationWithLockedEntity() {
+        /** @var PozadovaneVzdelani $pozadovaneVzdelani */
+        $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get(self::$stupenKlic . "1");    
+        $this->assertInstanceOf(PozadovaneVzdelani::class, $pozadovaneVzdelani);
+        $this->assertTrue($pozadovaneVzdelani->isPersisted());
+        $this->assertFalse($pozadovaneVzdelani->isLocked());
+        
+        $pozadovaneVzdelani->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
+        $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
+    }
+    
+    
+    public function testRemove() {
+        /** @var PozadovaneVzdelani $pozadovaneVzdelani */
+        $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get(self::$stupenKlic . "1" );
+                
+        $this->assertInstanceOf(PozadovaneVzdelaniInterface::class, $pozadovaneVzdelani);
+        $this->assertTrue($pozadovaneVzdelani->isPersisted());
+        $this->assertFalse($pozadovaneVzdelani->isLocked());
+        
+        $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
+        
+        $this->assertTrue($pozadovaneVzdelani->isPersisted());
+        $this->assertTrue($pozadovaneVzdelani->isLocked());   // maže až při flush
+        $this->pozadovaneVzdelaniRepo->flush();
+        //  uz neni locked
+        $this->assertFalse($pozadovaneVzdelani->isLocked());
+        
+        // pokus o čtení, entita PozadovaneVzdelani.self::$stupenKlic  uz  neni
+        $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get(self::$stupenKlic . "1" );
+        $this->assertNull($pozadovaneVzdelani);
+        
+    }
+            
 
 
 }

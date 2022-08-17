@@ -11,13 +11,14 @@ use Events\Model\Entity\JobTagInterface;
  * @author vlse2610
  */
 class JobTag  extends EntityAbstract implements JobTagInterface {
+    
     private $tag;
 
     /**
      *
-     * @return string|null
+     * @return string
      */
-    public function getTag()  {
+    public function getTag() : string  {
         return $this->tag;
     }
 

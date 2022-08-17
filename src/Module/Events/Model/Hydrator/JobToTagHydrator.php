@@ -6,12 +6,15 @@ use Model\Entity\EntityInterface;
 
 use Events\Model\Entity\JobToTag;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
+
+
 /**
  * Description of JobToTagHydrator
  *
  * @author vlse2610
  */
-class JobToTagHydrator implements HydratorInterface {
+class JobToTagHydrator extends TypeHydratorAbstract implements HydratorInterface {
     
     /**
      * 

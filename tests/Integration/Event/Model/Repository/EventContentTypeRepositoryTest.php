@@ -153,7 +153,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
         $eventContentType->setName(self::$typeKlic . 'Name2');
         $this->eventContentTypeRepo->add($eventContentType);
 
-        $this->eventContentTypeRepo->flush();
+        //$this->eventContentTypeRepo->flush();   //overovany klic (tento pripad zde ) - !!! zapise se hned
         $this->assertTrue($eventContentType->isPersisted());  
         $this->assertFalse($eventContentType->isLocked());
 

@@ -2,7 +2,6 @@
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-//use Model\Hydrator\PozadovaneVzdelaniHydrator;
 
 use Events\Model\Hydrator\PozadovaneVzdelaniHydrator;
 use Events\Model\Entity\PozadovaneVzdelani;
@@ -44,7 +43,7 @@ class PozadovaneVzdelaniRepo extends RepoAbstract implements PozadovaneVzdelaniR
     }
     /**
      * 
-     * @param PozadovaneVzdelaniInterface $stupen
+     * @param PozadovaneVzdelaniInterface $pozadovaneVzdelani
      * @return void
      */
     public function add(PozadovaneVzdelaniInterface $pozadovaneVzdelani) :void {
@@ -53,7 +52,7 @@ class PozadovaneVzdelaniRepo extends RepoAbstract implements PozadovaneVzdelaniR
     
      /**
      * 
-     * @param PozadovaneVzdelaniInterface $stupen
+     * @param PozadovaneVzdelaniInterface $pozadovaneVzdelani
      * @return void
      */
     public function remove(PozadovaneVzdelaniInterface $pozadovaneVzdelani) :void {
