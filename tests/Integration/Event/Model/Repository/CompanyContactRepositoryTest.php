@@ -183,7 +183,7 @@ class CompanyContactRepositoryTest extends AppRunner {
     public function testFind() {      
        $companyContactArray = $this->companyContactRepo->find( " name LIKE '%" . self::$companyContactName . "%'", []); 
        $this->assertTrue(is_array($companyContactArray));
-       $this->assertGreaterThan(0,count($companyContactArray)); //jsou tam minimalne 2
+       $this->assertGreaterThan(0,count($companyContactArray)); //jsou tam
                        
     }
 

@@ -3,10 +3,11 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-
 use Events\Model\Entity\JobToTag;
+
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
+use Model\Hydrator\HydratorInterface; 
 
 
 /**
@@ -24,8 +25,9 @@ class JobToTagHydrator extends TypeHydratorAbstract implements HydratorInterface
     public function hydrate(EntityInterface $jobToTag, RowDataInterface $rowData) {
         /** @var JobToTag $jobToTag */
         $jobToTag                
-            ->setJobId($rowData->offsetGet('job_id'))
-            ->setJobTagTag($rowData->offsetGet('job_tag_tag'));
+            ->setJobId($this->getPhpValue( $rowData, 'job_id' ) )
+            ->setJobTagTag($this->getPhpValue( $rowData,'job_tag_tag') );
+        
     } 
 
     /**
@@ -37,8 +39,9 @@ class JobToTagHydrator extends TypeHydratorAbstract implements HydratorInterface
         /** @var JobToTag $jobToTag */
         
         // neni autoincrement       
-        $rowData->offsetSet('jobId', $jobToTag->getJobId() );
-        $rowData->offsetSet('jobTagTag', $jobToTag->getJobTagTag() ); 
+        $this->setSqlValue( $rowData, 'job_id', $jobToTag->getJobId() );
+        $this->setSqlValue( $rowData, 'job_tag_tag', $jobToTag->getJobTagTag() ); 
+        
     }
     
     

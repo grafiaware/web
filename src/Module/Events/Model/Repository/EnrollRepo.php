@@ -101,6 +101,3 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
     }       
     
 }
-
-        //return $itemAction->getTypeFk().$itemAction->getItemId();
-         //        return $row['type_fk'].$row['item_id'];
