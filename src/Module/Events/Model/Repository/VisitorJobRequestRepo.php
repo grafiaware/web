@@ -1,27 +1,22 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-use Model\Entity\EntityInterface;
 
 use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
+use Events\Model\Repository\VisitorJobRequestRepoInterface;
 
-use Model\Repository\Exception\UnableRecreateEntityException;
+//use Model\Repository\Exception\UnableRecreateEntityException;
+
 
 /**
  * Description of Menu
  *
- * @author pes2704
+ * @author
  */
 class VisitorJobRequestRepo extends RepoAbstract implements VisitorJobRequestRepoInterface {
 
@@ -30,50 +25,83 @@ class VisitorJobRequestRepo extends RepoAbstract implements VisitorJobRequestRep
         $this->registerHydrator($visitorDataPostHydrator);
     }
 
+    
     /**
-     *
-     * @param string $loginName
-     * @param string $shortName
-     * @param string $positionName
+     * 
+     * @param type $loginName
      * @return VisitorJobRequestInterface|null
      */
     public function get($loginName): ?VisitorJobRequestInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name'=>$loginName]);
-        return $this->getEntity($loginName, $shortName, $positionName);
+        return $this->getEntity($key);
     }
 
-    public function find($whereClause=null, $touplesToBind=[]) {
+    
+    /**
+     * 
+     * @return VisitorJobRequestInterface[]
+     */
+    public function find($whereClause=null, $touplesToBind=[]) : array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
 
-    public function findAll() {
+   
+    /**
+     * 
+     * @return VisitorJobRequestInterface[]
+     */
+    public function findAll() : array{
         return $this->findEntities();
     }
-
-    public function findAllForPosition($shortName, $positionName) {
-        $whereClause = "`short_name` = :short_name AND `position_name` = :position_name";
+    
+    
+    /**
+     * 
+     * @return VisitorJobRequestInterface[]
+     */
+    public function findByLoginNameAndPosition($loginName, $positionName): array {
+        $whereClause = "login_name = :login_name AND `login_name` = :login_name";
         $touplesToBind = [':short_name' => $shortName, ':position_name' => $positionName];
         return $this->findEntities($whereClause, $touplesToBind);
+        
+                return $this->findEntities("login_login_name_fk = :login_login_name_fk", [":login_login_name_fk"=>$loginName]);
+
     }
 
-    public function add(VisitorJobRequestInterface $visitorDataPost) {
-        $this->addEntity($visitorDataPost);
+    
+    /**
+     * 
+     * @param VisitorJobRequestInterface $visitorJobRequest
+     * @return void
+     */
+    public function add(VisitorJobRequestInterface $visitorJobRequest) :void {
+        $this->addEntity($visitorJobRequest);
+    }
+    
+    
+    /**
+     * 
+     * @param VisitorJobRequestInterface $visitorJobRequest
+     * @return void
+     */
+    public function remove(VisitorJobRequestInterface $visitorJobRequest) :void {
+        $this->removeEntity($visitorJobRequest);
     }
 
-    public function remove(VisitorJobRequestInterface $visitorDataPost) {
-        $this->removeEntity($visitorDataPost);
-    }
-
+    
+    
+    
     protected function createEntity() {
         return new VisitorJobRequest();
     }
 
-    protected function indexFromEntity(VisitorJobRequestInterface $visitorDataPost) {
-        return $visitorDataPost->getLoginLoginName().$visitorDataPost->getJobId().$visitorDataPost->getPositionName();
+    protected function indexFromEntity(VisitorJobRequestInterface $visitorJobRequest) {
+        return $visitorJobRequest->getLoginLoginName();
     }
+    
 
     protected function indexFromRow($row) {
-        return $row['login_name'].$row['short_name'].$row['position_name'];
+        return $row['login_name'];
     }
 
 
