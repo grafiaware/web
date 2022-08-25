@@ -16,24 +16,18 @@ interface VisitorJobRequestRepoInterface extends RepoInterface {
      * @return VisitorJobRequestInterface|null
      */
     public function get($loginName): ?VisitorJobRequestInterface;
-    
-    
-    
+ 
     /**
      * 
      * @return VisitorJobRequestInterface[]
      */
     public function find($whereClause=null, $touplesToBind=[]) : array ;
-    
-    
-    
+         
     /**
      * 
      * @return VisitorJobRequestInterface[]
      */
-    public function findAll() : array;
-    
-    
+    public function findAll() : array;        
     
     /**
      * 
