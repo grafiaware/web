@@ -58,13 +58,9 @@ class VisitorJobRequestRepo extends RepoAbstract implements VisitorJobRequestRep
      * 
      * @return VisitorJobRequestInterface[]
      */
-    public function findByLoginNameAndPosition($loginName, $positionName): array {
-//        $whereClause = "login_name = :login_name AND position_name = :position_name";
-//        $touplesToBind = [':login_name' => $shortName, ':position_name' => $positionName];
-//        return $this->findEntities($whereClause, $touplesToBind);
-        
-          return $this->findEntities( "login_name = :login_name AND position_name = :position_name",
-                                      [':login_name' => $shortName, ':position_name' => $positionName]);
+    public function findByLoginNameAndPosition($loginName, $positionName): array {        
+          return $this->findEntities( "login_login_name = :login_login_name AND position_name = :position_name",
+                                      [':login_login_name' => $shortName, ':position_name' => $positionName]);
     }
 
     

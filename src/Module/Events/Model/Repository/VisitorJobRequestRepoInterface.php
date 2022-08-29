@@ -6,7 +6,7 @@ use Events\Model\Entity\VisitorJobRequestInterface;
 
 /**
  *
- * @author
+ * 
  */
 interface VisitorJobRequestRepoInterface extends RepoInterface {
   

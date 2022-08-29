@@ -1,25 +1,19 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
+
 
 use Events\Model\Entity\VisitorProfileInterface;
 
 /**
  * Description of PaperHydrator
  *
- * @author pes2704
  */
-class VisitorProfileHydrator implements HydratorInterface {
+class VisitorProfileHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
@@ -29,17 +23,18 @@ class VisitorProfileHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $visitorProfile, RowDataInterface $rowData) {
         /** @var VisitorProfileInterface $visitorProfile */
         $visitorProfile
-                ->setLoginLoginName($rowData->offsetGet('login_login_name'))
-                ->setPrefix($rowData->offsetGet('prefix'))
-                ->setName($rowData->offsetGet('name'))
-                ->setSurname($rowData->offsetGet('surname'))
-                ->setPostfix($rowData->offsetGet('postfix'))
-                ->setEmail($rowData->offsetGet('email'))
-                ->setPhone($rowData->offsetGet('phone'))
-                ->setCvEducationText($rowData->offsetGet('cv_education_text'))
-                ->setCvSkillsText($rowData->offsetGet('cv_skills_text'))
-                ->setCvDocument($rowData->offsetGet('cv_document'))
-                ->setLetterDocument($rowData->offsetGet('letter_document'));
+                ->setLoginLoginName($this->getPhpValue($rowData,'login_login_name'))
+                ->setPrefix($this->getPhpValue  ($rowData, 'prefix'))
+                ->setName($this->getPhpValue    ($rowData, 'name'))
+                ->setSurname($this->getPhpValue ($rowData, 'surname'))
+                ->setPostfix($this->getPhpValue ($rowData, 'postfix'))
+                ->setEmail($this->getPhpValue   ($rowData, 'email'))
+                ->setPhone($this->getPhpValue   ($rowData, 'phone'))
+                ->setCvEducationText($this->getPhpValue ($rowData,'cv_education_text'))
+                ->setCvSkillsText($this->getPhpValue    ($rowData,'cv_skills_text'))
+                ->setCvDocument($this->getPhpValue      ($rowData,'cv_document'))
+                ->setLetterDocument($this->getPhpValue  ($rowData,'letter_document'));
+        
     }
 
     /**
@@ -49,16 +44,17 @@ class VisitorProfileHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $visitorProfile, RowDataInterface $rowData) {
         /** @var VisitorProfileInterface $visitorProfile */
-            $rowData->offsetSet('login_login_name', $visitorProfile->getLoginLoginName());
-            $rowData->offsetSet('prefix', $visitorProfile->getPrefix());
-            $rowData->offsetSet('name', $visitorProfile->getName());
-            $rowData->offsetSet('postfix', $visitorProfile->getPostfix());
-            $rowData->offsetSet('email', $visitorProfile->getEmail());
-            $rowData->offsetSet('phone', $visitorProfile->getPhone());
-            $rowData->offsetSet('cv_education_text', $visitorProfile->getCvEducationText());
-            $rowData->offsetSet('cv_skills_text', $visitorProfile->getCvSkillsText());
-            $rowData->offsetSet('cv_document', $visitorProfile->getCvDocument());
-            $rowData->offsetSet('letter_document', $visitorProfile->getLetterDocument());
+             $this->setSqlValue($rowData, 'login_login_name', $visitorProfile->getLoginLoginName());
+             $this->setSqlValue($rowData, 'prefix', $visitorProfile->getPrefix());
+             $this->setSqlValue($rowData, 'name', $visitorProfile->getName());
+             $this->setSqlValue($rowData, 'postfix', $visitorProfile->getPostfix());
+             $this->setSqlValue($rowData, 'email', $visitorProfile->getEmail());
+             $this->setSqlValue($rowData, 'phone', $visitorProfile->getPhone());
+             $this->setSqlValue($rowData, 'cv_education_text', $visitorProfile->getCvEducationText());
+             $this->setSqlValue($rowData, 'cv_skills_text', $visitorProfile->getCvSkillsText());
+             $this->setSqlValue($rowData, 'cv_document', $visitorProfile->getCvDocument());
+             $this->setSqlValue($rowData, 'letter_document', $visitorProfile->getLetterDocument());
+                        
     }
 
 }
