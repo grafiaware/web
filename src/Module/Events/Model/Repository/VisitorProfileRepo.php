@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
@@ -18,7 +11,7 @@ use Events\Model\Hydrator\VisitorProfileHydrator;
 /**
  * Description of Menu
  *
- * @author pes2704
+ * @author
  */
 class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInterface {
 
@@ -33,26 +26,48 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
      * @return VisitorProfileInterface|null
      */
     public function get($loginName): ?VisitorProfileInterface {
-        $key = $this->dataManager->getForeignKeyTouples(['login_login_name'=>$loginName]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name'=>$loginName]);
         return $this->getEntity($key);
     }
-
-    public function find($whereClause=null, $touplesToBind=[]) {
+    
+    /**
+     * 
+     * @return VisitorProfileInterface[]
+     */
+    public function find($whereClause=null, $touplesToBind=[]): array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
 
-    public function findAll() {
+    
+    /**
+     * 
+     * @return VisitorProfileInterface[]
+     */
+    public function findAll()  : array {
         return $this->findEntities();
     }
-
-    public function add(VisitorProfileInterface $visitorProfile) {
+    
+    
+     /**
+     * 
+     * @param VisitorProfileInterface $visitorJobRequest
+     * @return void
+     */
+    public function add(VisitorProfileInterface $visitorProfile) : void {
         $this->addEntity($visitorProfile);
     }
 
-    public function remove(VisitorProfileInterface $visitorProfile) {
+    /**
+     * 
+     * @param VisitorProfileInterface $visitorJobRequest
+     * @return void
+     */
+    public function remove(VisitorProfileInterface $visitorProfile): void {
         $this->removeEntity($visitorProfile);
     }
 
+    
+    
     protected function createEntity() {
         return new VisitorProfile();
     }

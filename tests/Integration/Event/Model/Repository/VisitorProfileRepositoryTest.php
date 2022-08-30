@@ -12,8 +12,10 @@ use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
 
 use Events\Model\Dao\LoginDao;
+use Events\Model\Dao\DocumentDao;
 
 use Events\Model\Entity\VisitorProfile;
+use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Repository\VisitorProfileRepo;
 
@@ -30,20 +32,11 @@ class VisitorProfileRepositoryTest extends AppRunner {
      *
      * @var VisitorProfileRepo
      */
-    private $visitorProfileRepo;
-    
+    private $visitorProfileRepo;    
     
     private static $loginNameTest = "testVisitorProfileRepo";
     private static $loginNameAdded;
-    private static $visitorProfileAdded;
-
-    
-    
-    //private static $positionNameAdded;
-    
-//    private static $companyId;
-//    private static $jobId1;
-
+    private static $idCv;       
     
 
     public static function setUpBeforeClass(): void {
@@ -60,40 +53,26 @@ class VisitorProfileRepositoryTest extends AppRunner {
     
     private static function insertRecord(Container $container ) {        
         // toto je příprava testu
-
             // login
-        self::$loginNameTest = self::insertLoginRecord($container);
-           
-            //company
-          /** @var CompanyDao $companyDao */
-        $companyDao = $container->get(CompanyDao::class);  
-        $rowData = new RowData();
-        $rowData->import([
-            'name' => self::$loginNameTest ]);
-        $companyDao->insert($rowData);                
-        self::$companyId = $companyDao->lastInsertIdValue();         
-            
-            //job
-        /** @var JobDao $jobDao */
-        $jobDao = $container->get(JobDao::class);  
-        $rowData = new RowData();
-        $rowData->import([
-            'pozadovane_vzdelani_stupen' => 1,  
-            'company_id'  =>   self::$companyId,
-            'nazev'   => self::$loginNameTest . "1" ]);
-        $jobDao->insert($rowData);                
-              self::$jobId1 = $jobDao->lastInsertIdValue();         
+        self::$loginNameTest = self::insertLoginRecord($container);           
         
-        //visitorJobRequest        
-        /** @var VisitorJobRequestDao $visitorJobRequestDao */
-        $visitorJobRequestDao = $container->get(VisitorJobRequestDao::class);
+         /** @var DocumentDao $documentDao */
+        $documentDao = $container->get(DocumentDao::class);
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+
+        $cvFilename = "CV.doc";        
+        $cvFilepathName = __DIR__."/".$cvFilename;
+        $cvMime = finfo_file($finfo, $cvFilepathName);
+        $cvContent = file_get_contents($cvFilepathName);       
         $rowData = new RowData();
         $rowData->import([
-            'login_login_name' => self::$loginNameTest,
-            'job_id' => self::$jobId1,
-            'position_name' => self::$loginNameTest
+            'document' => $cvContent,
+            'document_filename' => $cvFilepathName,
+            'document_mimetype' => $cvMime,
         ]);
-        $visitorJobRequestDao->insert($rowData);
+        $documentDao->insert($rowData);
+        self::$idCv = $documentDao->lastInsertIdValue();                
+        
     }
 
     
@@ -115,34 +94,34 @@ class VisitorProfileRepositoryTest extends AppRunner {
     
 
     private static function deleteRecords(Container $container) {
-        /** @var VisitorJobRequestDao $visitorJobRequestDao */
-        $visitorJobRequestDao = $container->get(VisitorJobRequestDao::class);        
-        $rows = $visitorJobRequestDao->find( "login_login_name LIKE '". self::$loginNameTest  . "%'", []);      
+        /** @var VisitorProfileDao $visitorProfileDao */
+        $visitorProfileDao = $container->get(VisitorProfileDao::class);        
+        $rows = $visitorProfileDao->find( "login_login_name LIKE '". self::$loginNameTest  . "%'", []);      
         foreach($rows as $row) {
-            $visitorJobRequestDao->delete($row);
+            $visitorProfileDao->delete($row);
         }        
-    
-         /** @var JobDao $jobDao */  //job
-        $jobDao = $container->get(JobDao::class);        
-        $rows = $jobDao->find(  " nazev LIKE '". self::$loginNameTest. "%'", []);                   
-        foreach($rows as $row) {
-            $ok = $jobDao->delete($row);
-        }               
         
-         /** @var CompanyDao $companyDao */ 
-        $companyDao = $container->get(CompanyDao::class);        
-        $rows = $companyDao->find( " name LIKE '". self::$loginNameTest . "%'", [] );               
+        /** @var DocumentDao $documentDao */
+        $documentDao = $container->get(DocumentDao::class);
+        $dir = __DIR__;
+        //$rows = $documentDao->find( 'document_filename LIKE "' . $dir . '%"', []);
+        //$rows = $documentDao->find( "document_filename LIKE 'C:%.doc'", []);
+        // oescapovat 
+        $dir = str_replace('\\', '\\\\\\\\', $dir);  //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
+        $rows = $documentDao->find( "document_filename LIKE '$dir%'", []);                
         foreach($rows as $row) {
-            $ok = $companyDao->delete($row);
-        }       
-                
-         /** @var LoginDao $loginDao */
+            $ok = $documentDao->delete($row);
+        }    
+        
+        //login
+          /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);        
         $rows = $loginDao->find( " login_name LIKE '". self::$loginNameTest  . "%'", []);      
         foreach($rows as $row) {
             $loginDao->delete($row);
         }  
-          
+        
+        
         
     }
 
@@ -151,149 +130,139 @@ class VisitorProfileRepositoryTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->visitorJobRequestRepo = $this->container->get(VisitorJobRequestRepo::class);
+        $this->visitorProfileRepo = $this->container->get(VisitorProfileRepo::class);
     }
 
     protected function tearDown(): void {
-        $this->visitorJobRequestRepo->flush();
+        $this->visitorProfileRepo->flush();
     }
-
+    
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-
         self::deleteRecords($container);
     }
 
+    
+    
     public function testSetUp() {
-        $this->assertInstanceOf(VisitorJobRequestRepo::class, $this->visitorJobRequestRepo);
+        $this->assertInstanceOf(VisitorProfileRepo::class, $this->visitorProfileRepo);
     }
 
     
     public function testGetNonExisted() {
-        $visitorJobRequest = $this->visitorJobRequestRepo->get('dlksdhfweuih');
-        $this->assertNull($visitorJobRequest);
+        $visitorProfile = $this->visitorProfileRepo->get('dlksdhfweuih');
+        $this->assertNull($visitorProfile);
     }
 
-    public function testGetAfterSetup() {
-        $visitorJobRequest = $this->visitorJobRequestRepo->get(self::$loginNameTest);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
-        $this->assertInstanceOf(VisitorJobRequest::class, $visitorJobRequest);
-    }
 
     
     public function testAdd() {
         self::$loginNameAdded = self::insertLoginRecord($this->container);
-        self::$positionNameAdded = "Krotitel dravé zvěře";
-
-        $visitorJobRequest = new VisitorJobRequest();
-        $visitorJobRequest->setLoginLoginName( self::$loginNameAdded );
-        $visitorJobRequest->setJobId(self::$jobId1);        
-        $visitorJobRequest->setPositionName ( self::$positionNameAdded );
+        $visitorProfile = new VisitorProfile();
+        $visitorProfile->setLoginLoginName( self::$loginNameAdded );
                         
-        $visitorJobRequest->setPrefix("Bleble.");
-        $visitorJobRequest->setName("Jméno");
-        $visitorJobRequest->setSurname("Příjmení");
-        $visitorJobRequest->setPostfix("Blabla.");
-        $visitorJobRequest->setEmail("qwertzuio@twrqew.qt");
-        $visitorJobRequest->setPhone('+999 888 777 666');
-        $visitorJobRequest->setCvEducationText("Školy mám.");
-        $visitorJobRequest->setCvSkillsText("Umím fčecko nejlýp.");
+        $visitorProfile->setPrefix("Bleble.");
+        $visitorProfile->setName("Jméno");
+        $visitorProfile->setSurname("Příjmení");
+        $visitorProfile->setPostfix("Blabla.");
+        $visitorProfile->setEmail("qwertzuio@twrqew.qt");
+        $visitorProfile->setPhone('+999 888 777 666');
+        $visitorProfile->setCvEducationText("Školy mám.");
+        $visitorProfile->setCvSkillsText("Umím fčecko nejlýp.");        
+        //dokument
+        $visitorProfile->setCvDocument(self::$idCv);
+        $visitorProfile->setLetterDocument(self::$idCv);
 
-        $this->visitorJobRequestRepo->add($visitorJobRequest);
-        $this->assertTrue($visitorJobRequest->isLocked());
-        self::$visitorJobRequestAdded = $visitorJobRequest;
-
+        $this->visitorProfileRepo->add($visitorProfile);
+        $this->assertTrue($visitorProfile->isLocked());
     }
     
 
     public function testGetAfterAdd() {
-        $visitorJobRequest = $this->visitorJobRequestRepo->get(self::$loginNameAdded);
-        $this->assertInstanceOf(VisitorJobRequest::class, $visitorJobRequest);
+        $visitorProfile = $this->visitorProfileRepo->get(self::$loginNameAdded);
+        $this->assertInstanceOf(VisitorProfileInterface::class, $visitorProfile);
     }
 
+         
+    
+    
     public function testAddAndReread() {
         $loginName = self::insertLoginRecord($this->container);
         
-        /** @var VisitorJobRequest $visitorJobRequest */        
-        $visitorJobRequest = new VisitorJobRequest();
-        $visitorJobRequest->setLoginLoginName($loginName);
-        $visitorJobRequest->setJobId(self::$jobId1);
-        
-        $visitorJobRequest->setPositionName("Duch");
-        $visitorJobRequest->setPrefix("Trdlo.");
-        $visitorJobRequest->setName("Julián");
-        $visitorJobRequest->setSurname("Bublifuk");
-        
-        $this->visitorJobRequestRepo->add($visitorJobRequest);
-        $this->visitorJobRequestRepo->flush();
-        $visitorJobRequestRereaded = $this->visitorJobRequestRepo->get($loginName);
-        $this->assertInstanceOf(VisitorJobRequest::class, $visitorJobRequestRereaded);
-        $this->assertTrue($visitorJobRequestRereaded->isPersisted());
+        /** @var VisitorProfile $visitorProfile */        
+        $visitorProfile = new VisitorProfile();
+        $visitorProfile->setLoginLoginName($loginName);
+                
+        $visitorProfile->setPrefix("Bleble.");
+        $visitorProfile->setName("Jméno");
+        $visitorProfile->setSurname("Příjmení");
+        $visitorProfile->setPostfix("Blabla.");
+        $visitorProfile->setEmail("qwertzuio@twrqew.qt");
+        $visitorProfile->setPhone('+999 888 777 666');
+        $visitorProfile->setCvEducationText("Školy mám.");
+        $visitorProfile->setCvSkillsText("Umím fčecko nejlýp.");
+                        
+        $this->visitorProfileRepo->add($visitorProfile);
+        $this->visitorProfileRepo->flush();
+        $visitorProfileRereaded = $this->visitorProfileRepo->get($loginName);
+        $this->assertInstanceOf(VisitorProfileInterface::class, $visitorProfileRereaded);
+        $this->assertTrue($visitorProfileRereaded->isPersisted());
     }
 
     public function testFindAll() {
-        $visitorJobRequests = $this->visitorJobRequestRepo->findAll();
-        $this->assertTrue(is_array($visitorJobRequests));
+        $visitorProfiles = $this->visitorProfileRepo->findAll();
+        $this->assertTrue(is_array($visitorProfiles));
     }
 
     
     public function testFind() {
         $name = self::$loginNameTest;
-        $visitorsJobRequests = $this->visitorJobRequestRepo->find("login_login_name LIKE '$name%'", []);
-        $this->assertTrue(is_array($visitorsJobRequests));
+        $visitorProfiles = $this->visitorProfileRepo->find("login_login_name LIKE '$name%'", []);
+        $this->assertTrue(is_array($visitorProfiles));
     }
     
-    
-    public function testFindByLoginNameAndPosition () {
-        $visitorsJobRequests = $this->visitorJobRequestRepo->findByLoginNameAndPosition ( self::$loginNameAdded, self::$positionNameAdded );
-        $this->assertTrue(is_array( $visitorsJobRequests ));    
-    }
-    
-    
-                
+ 
 
-    
     public function testRemove_OperationWithLockedEntity() {
         $loginName = self::insertLoginRecord($this->container);
         
-        /** @var VisitorJobRequest $visitorJobRequest */        
-        $visitorJobRequest = new VisitorJobRequest();
-        $visitorJobRequest->setLoginLoginName( $loginName );
-        $visitorJobRequest->setJobId(self::$jobId1);
-        $visitorJobRequest->setPositionName("DuchLocked");
+        /** @var VisitorProfile  $visitorProfile */        
+        $visitorProfile = new VisitorProfile();
+        $visitorProfile->setLoginLoginName( $loginName );        
         
-        $this->visitorJobRequestRepo->add($visitorJobRequest);
+        $this->visitorProfileRepo->add($visitorProfile);
        
-        $this->assertFalse($visitorJobRequest->isPersisted());
-        $this->assertTrue($visitorJobRequest->isLocked());
+        $this->assertFalse($visitorProfile->isPersisted());
+        $this->assertTrue($visitorProfile->isLocked());
 
         $this->expectException( OperationWithLockedEntityException::class);
-        $this->visitorJobRequestRepo->remove($visitorJobRequest);
+        $this->visitorProfileRepo->remove($visitorProfile);
    }
 
 
    
     public function testRemove() {
-        /** @var VisitorJobRequest $visitorJobRequest */
-        $visitorJobRequest = $this->visitorJobRequestRepo->get( self::$loginNameAdded );
+        /** @var VisitorProfile  $visitorProfile */        
+        $visitorProfile = $this->visitorProfileRepo->get( self::$loginNameAdded );
                
-        $this->assertInstanceOf(VisitorJobRequest::class, $visitorJobRequest);
-        $this->assertTrue($visitorJobRequest->isPersisted());
-        $this->assertFalse($visitorJobRequest->isLocked());
+        $this->assertInstanceOf(VisitorProfileInterface::class, $visitorProfile);
+        $this->assertTrue($visitorProfile->isPersisted());
+        $this->assertFalse($visitorProfile->isLocked());
         
-        $this-$this->visitorJobRequestRepo->remove($visitorJobRequest);
+        $this-$this->visitorProfileRepo->remove($visitorProfile);
         
-        $this->assertTrue($visitorJobRequest->isPersisted());
-        $this->assertTrue($visitorJobRequest->isLocked());   // zatim zamcena entita, maže až při flush
-        $this->visitorJobRequestRepo->flush();
+        $this->assertTrue($visitorProfile->isPersisted());
+        $this->assertTrue($visitorProfile->isLocked());   // zatim zamcena entita, maže až při flush
+        $this->visitorProfileRepo->flush();
         //  uz neni locked
-        $this->assertFalse($visitorJobRequest->isLocked());
+        $this->assertFalse($visitorProfile->isLocked());
         
-        // pokus o čtení, entita Login.self::$loginKlic  uz  neni
-        $visitorJobRequest = $this->visitorJobRequestRepo->get(  self::$loginNameAdded );
-        $this->assertNull($visitorJobRequest);
+        // pokus o čtení, entita VisitorProfile.$loginNameAdded uz  neni
+        $visitorProfile = $this->visitorProfileRepo->get(  self::$loginNameAdded );
+        $this->assertNull($visitorProfile);
         
     }
     

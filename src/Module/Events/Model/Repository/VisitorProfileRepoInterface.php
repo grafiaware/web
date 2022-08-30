@@ -14,40 +14,38 @@ interface VisitorProfileRepoInterface extends RepoInterface {
     /**
      * 
      * @param type $loginName
-     * @return VisitorJobRequestInterface|null
+     * @return VisitorProfileInterface|null
      */
     public function get($id): ?VisitorProfileInterface;
     
-     /**
+    /**
      * 
-     * @return VisitorJobRequestInterface[]
+     * @return VisitorProfileInterface[]
      */
     public function find($whereClause=null, $touplesToBind=[]) : array ;
-//    {
-//        return $this->findEntities($whereClause, $touplesToBind);
-//    }
+    
    
     /**
      * 
-     * @return VisitorJobRequestInterface[]
+     * @return VisitorProfileInterface[]
      */
     public function findAll() : array ;
-//    {
-//        return $this->findEntities();
-//    }
+
+    
     
      /**
      * 
-     * @param VisitorJobRequestInterface $visitorJobRequest
+     * @param VisitorProfileInterface $visitorJobRequest
      * @return void
      */
-    public function add(VisitorProfileInterface $enroll);
+    public function add(VisitorProfileInterface $enroll) : void ;
     
     
     /**
      * 
-     * @param VisitorJobRequestInterface $visitorJobRequest
+     * @param VisitorProfileInterface $visitorJobRequest
      * @return void
      */
-    public function remove(VisitorProfileInterface $enroll);
+    public function remove(VisitorProfileInterface $enroll): void ;
+    
 }

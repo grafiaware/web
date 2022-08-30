@@ -86,14 +86,12 @@ class DocumentRepositoryTest extends AppRunner {
     private static function deleteRecords(Container $container) {
         /** @var DocumentDao $documentDao */
         $documentDao = $container->get(DocumentDao::class);
-
         $dir = __DIR__;
         //$rows = $documentDao->find( 'document_filename LIKE "' . $dir . '%"', []);
         //$rows = $documentDao->find( "document_filename LIKE 'C:%.doc'", []);
         // oescapovat 
         $dir = str_replace('\\', '\\\\\\\\', $dir);  //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
-        $rows = $documentDao->find( "document_filename LIKE '$dir%'", []); 
-               
+        $rows = $documentDao->find( "document_filename LIKE '$dir%'", []);                
         foreach($rows as $row) {
             $ok = $documentDao->delete($row);
         }

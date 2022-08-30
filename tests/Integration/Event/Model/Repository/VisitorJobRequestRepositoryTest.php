@@ -15,6 +15,7 @@ use Events\Model\Dao\JobDao;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Entity\VisitorJobRequest;
+use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Repository\VisitorJobRequestRepo;
 
 /**
@@ -174,7 +175,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
 
     public function testGetAfterSetup() {
         $visitorJobRequest = $this->visitorJobRequestRepo->get(self::$loginNameTest);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
-        $this->assertInstanceOf(VisitorJobRequest::class, $visitorJobRequest);
+        $this->assertInstanceOf(VisitorJobRequestInterface::class, $visitorJobRequest);
     }
 
     
@@ -205,7 +206,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
 
     public function testGetAfterAdd() {
         $visitorJobRequest = $this->visitorJobRequestRepo->get(self::$loginNameAdded);
-        $this->assertInstanceOf(VisitorJobRequest::class, $visitorJobRequest);
+        $this->assertInstanceOf(VisitorJobRequestInterface::class, $visitorJobRequest);
     }
 
     public function testAddAndReread() {
@@ -286,7 +287,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
         //  uz neni locked
         $this->assertFalse($visitorJobRequest->isLocked());
         
-        // pokus o čtení, entita Login.self::$loginKlic  uz  neni
+        // pokus o čtení, entita VisitorJobRequest.self::$loginNameAdded  uz  neni
         $visitorJobRequest = $this->visitorJobRequestRepo->get(  self::$loginNameAdded );
         $this->assertNull($visitorJobRequest);
         
