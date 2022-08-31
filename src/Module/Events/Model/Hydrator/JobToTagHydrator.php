@@ -19,7 +19,7 @@ class JobToTagHydrator extends TypeHydratorAbstract implements HydratorInterface
     
     /**
      * 
-     * @param EntityInterface $jobToTag
+     * @param JobToTag $jobToTag
      * @param RowDataInterface $rowData
      */
     public function hydrate(EntityInterface $jobToTag, RowDataInterface $rowData) {
@@ -32,7 +32,7 @@ class JobToTagHydrator extends TypeHydratorAbstract implements HydratorInterface
 
     /**
      * 
-     * @param EntityInterface $jobToTag
+     * @param JobToTag $jobToTag
      * @param RowDataInterface $rowData
      */
     public function extract(EntityInterface $jobToTag, RowDataInterface $rowData) {

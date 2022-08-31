@@ -17,7 +17,7 @@ class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface 
 
     /**
      *
-     * @param EntityInterface $company
+     * @param CompanyInterface $company
      * @param RowDataInterface $row
      */
     public function hydrate( EntityInterface $company, RowDataInterface $rowData) {
@@ -26,15 +26,15 @@ class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface 
                 //`company`.`id`,
                 //`company`.`name`,
                 //`company`.`eventInstitutionName30`
-            ->setId( $this->getPhpValue( $rowData, 'id') )   
-            ->setName($this->getPhpValue( $rowData, 'name' ) )
-            ->setEventInstitutionName30( $this->getPhpValue( $rowData, 'eventInstitutionName30') );                        
+            ->setId( $this->getPhpValue ( $rowData, 'id') )   
+            ->setName( $this->getPhpValue( $rowData, 'name' ) )
+            ->setEventInstitutionName30 ( $this->getPhpValue( $rowData, 'eventInstitutionName30') );                        
     } 
     
     
     /**
      *
-     * @param EntityInterface $company
+     * @param CompanyInterface $company
      * @param RowDataInterface $row
      */
     public function extract(EntityInterface $company, RowDataInterface $rowData) {

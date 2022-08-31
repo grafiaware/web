@@ -22,20 +22,20 @@ class EventLinkPhaseHydrator extends TypeHydratorAbstract implements HydratorInt
 
     /**
      * 
-     * @param EntityInterface $eventLinkPhase
+     * @param EventLinkPhaseInterface $eventLinkPhase
      * @param RowDataInterface $rowData
      */
     public function hydrate(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
         /** @var EventLinkPhaseInterface $eventLinkPhase */
         $eventLinkPhase
-            ->setId( $this->getPhpValue( $rowData,'id' ) )
-            ->setText( $this->getPhpValue($rowData, 'text' ) );                
+            ->setId($this->getPhpValue( $rowData,'id' ) )
+            ->setText($this->getPhpValue( $rowData, 'text' ) );                
             ;
     }
 
     /**
      *
-     * @param EntityInterface $event
+     * @param EventLinkPhaseInterface $event
      * @param RowDataInterface $rowData
      */
     public function extract(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {

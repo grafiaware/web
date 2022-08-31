@@ -39,9 +39,9 @@ interface InstitutionTypeAggregateInstitutionInterface extends InstitutionTypeIn
     
     /**
      * 
-     * @param $institutions[]
+     * @param InstitutionInterface[] $institutions
      * @return InstitutionTypeAggregateInstitutionInterface
-     */
+     */   
     public function exchangeInstitutionArray(array $institutions=[]): InstitutionTypeAggregateInstitutionInterface;
     
     

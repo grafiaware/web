@@ -5,6 +5,7 @@ namespace Events\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\EventContentTypeInterface;
 
@@ -13,29 +14,31 @@ use Events\Model\Entity\EventContentTypeInterface;
  *
  * @author pes2704
  */
-class EventContentTypeHydrator implements HydratorInterface {
+class EventContentTypeHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
-     * @param EntityInterface $eventContentType
+     * @param EventContentTypeInterface $eventContentType
      * @param type $row
      */
     public function hydrate(EntityInterface $eventContentType, RowDataInterface $rowData) {
         /** @var EventContentTypeInterface $eventContentType */
         $eventContentType
-            ->setType($rowData->offsetGet('type'))
-            ->setName($rowData->offsetGet('name') );
+            ->setType( $this->getPhpValue( $rowData, 'type'))
+            ->setName( $this->getPhpValue( $rowData, 'name'));
+               
     }
 
     /**
      *
-     * @param EntityInterface $eventContentType
+     * @param EventContentTypeInterface $eventContentType
      * @param array $row
      */
     public function extract(EntityInterface $eventContentType, RowDataInterface $rowData) {
         /** @var EventContentTypeInterface $eventContentType */
-        $rowData->offsetSet('type', $eventContentType->getType()); // readonly, hodnota pro where
-        $rowData->offsetSet('name', $eventContentType->getName());
+        $this->setSqlValue( $rowData, 'type', $eventContentType->getType()); // readonly, hodnota pro where
+        $this->setSqlValue( $rowData, 'name', $eventContentType->getName());
+        
     }
 
 }

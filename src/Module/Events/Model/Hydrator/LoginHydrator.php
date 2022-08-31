@@ -11,6 +11,7 @@ namespace Events\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\LoginInterface;
 
@@ -19,26 +20,28 @@ use Events\Model\Entity\LoginInterface;
  *
  * @author pes2704
  */
-class LoginHydrator implements HydratorInterface {
+class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
-     * @param EntityInterface $login
+     * @param LoginInterface $login
      * @param type $rowData
      */
     public function hydrate(EntityInterface $login, RowDataInterface $rowData) {
         /** @var LoginInterface $login */
-        $login->setLoginName($rowData->offsetGet('login_name'));
+        $login->setLoginName( $this->getPhpValue( $rowData, 'login_name'));
+        
     }
 
     /**
      *
-     * @param EntityInterface $login
+     * @param LoginInterface $login
      * @param array $row
      */
     public function extract(EntityInterface $login, RowDataInterface $rowData) {
         /** @var LoginInterface $login */
-        $rowData->offsetSet('login_name', $login->getLoginName());
+         $this->setSqlValue( $rowData, 'login_name', $login->getLoginName());
+                
     }
 
 }

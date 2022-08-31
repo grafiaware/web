@@ -12,7 +12,7 @@ use Events\Model\Entity\InstitutionInterface;
 
 
 /**
- * Description of InstitutionTypeChilsHydrator
+ * Description of InstitutionTypeChildHydrator
  *
  * @author vlse2610
  */
@@ -41,7 +41,7 @@ class InstitutionTypeChildHydrator implements HydratorInterface {
     public function extract( EntityInterface $institutionTypeAggregateInstitution, RowDataInterface $rowData) {
 
         /** @var InstitutionTypeAggregateInstitutionInterface $institutionTypeAggregateInstitution */
-        $rowData->offsetSet( InstitutionInterface::class, $institutionTypeAggregateInstitution->getInstitutionsArray());
+        $rowData->offsetSet(InstitutionInterface::class, $institutionTypeAggregateInstitution->getInstitutionsArray());
     }
     
 }

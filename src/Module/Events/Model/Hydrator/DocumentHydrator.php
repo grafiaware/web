@@ -1,16 +1,10 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\DocumentInterface;
 
@@ -19,7 +13,7 @@ use Events\Model\Entity\DocumentInterface;
  *
  * @author pes2704
  */
-class DocumentHydrator implements HydratorInterface {
+class DocumentHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
@@ -29,10 +23,10 @@ class DocumentHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $document, RowDataInterface $rowData) {
         /** @var DocumentInterface $document */
         $document
-                ->setId($rowData->offsetGet('id'))
-                ->setDocument($rowData->offsetGet('document'))
-                ->setDocumentFilename($rowData->offsetGet('document_filename'))
-                ->setDocumentMimetype($rowData->offsetGet('document_mimetype'));
+                ->setId( $this->getPhpValue  ( $rowData, 'id'))
+                ->setDocument( $this->getPhpValue ( $rowData, 'document'))
+                ->setDocumentFilename( $this->getPhpValue ( $rowData, 'document_filename'))
+                ->setDocumentMimetype( $this->getPhpValue ( $rowData, 'document_mimetype'));       
     }
 
     /**
@@ -43,9 +37,9 @@ class DocumentHydrator implements HydratorInterface {
     public function extract(EntityInterface $document, RowDataInterface $rowData) {
         /** @var DocumentInterface $document */
             // id je autoincrement
-            $rowData->offsetSet('document', $document->getDocument());
-            $rowData->offsetSet('document_filename', $document->getDocumentFilename());
-            $rowData->offsetSet('document_mimetype', $document->getDocumentMimetype());
+            $this->setSqlValue( $rowData, 'document', $document->getDocument());
+            $this->setSqlValue( $rowData, 'document_filename', $document->getDocumentFilename());
+            $this->setSqlValue( $rowData, 'document_mimetype', $document->getDocumentMimetype());            
     }
 
 }

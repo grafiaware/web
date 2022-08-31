@@ -5,6 +5,7 @@ namespace Events\Model\Hydrator;
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\RepresentativeInterface;
 
@@ -13,7 +14,7 @@ use Events\Model\Entity\RepresentativeInterface;
  *
  * @author vlse2610
  */
-class RepresentativeHydrator implements HydratorInterface {
+class RepresentativeHydrator  extends TypeHydratorAbstract implements HydratorInterface {
     
    
     /**
@@ -24,9 +25,10 @@ class RepresentativeHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $representative, RowDataInterface $rowData) {
         /** @var RepresentativeInterface $representative */
         $representative
-            ->setCompanyId($rowData->offsetGet('company_id'))
-            ->setLoginLoginName($rowData->offsetGet('login_login_name'))
+            ->setCompanyId( $this->getPhpValue($rowData, 'company_id'))
+            ->setLoginLoginName( $this->getPhpValue($rowData, 'login_login_name'))
             ;
+        
     }
 
     /**
@@ -36,8 +38,9 @@ class RepresentativeHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $representative, RowDataInterface $rowData) {
         /** @var RepresentativeInterface $representative */
-        $rowData->offsetSet('company_id', $representative->getCompanyId());
-        $rowData->offsetSet('login_login_name', $representative->getLoginLoginName());
+        $this->setSqlValue( $rowData, 'company_id', $representative->getCompanyId());
+        $this->setSqlValue( $rowData, 'login_login_name', $representative->getLoginLoginName());
+        
     }
 
     

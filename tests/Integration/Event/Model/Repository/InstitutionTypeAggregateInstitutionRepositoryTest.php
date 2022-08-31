@@ -5,8 +5,6 @@ namespace Test\Integration\Event\Model\Repository;
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
-//use Container\DbUpgradeContainerConfigurator;
-//use Container\HierarchyContainerConfigurator;
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
@@ -14,11 +12,8 @@ use Events\Model\Repository\InstitutionTypeAggregateInstitutionRepo;
 use Events\Model\Entity\InstitutionTypeAggregateInstitution;
 use Events\Model\Entity\InstitutionTypeAggregateInstitutionInterface;
 
-use Events\Model\Entity\Institution;
 use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Dao\InstitutionDao;
-use Events\Model\Repository\InstitutionRepo;
-use Events\Model\Repository\InstitutionTypeRepo;
 use Events\Model\Dao\InstitutionTypeDao;
 
 use Model\RowData\RowData;
@@ -121,7 +116,6 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         $this->institutionTypeAggregateInstitutionRepo = $this->container->get(InstitutionTypeAggregateInstitutionRepo::class);
-
     }
     
     
@@ -163,7 +157,7 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
         $this->assertTrue(is_array($institutions));
         $this->assertIsArray($institutions);
         $this->assertGreaterThan(0,count($institutions)); //jsou tam minimalne 2
-        $this->assertInstanceOf(Institution::class, $institutions[0]);  
+        $this->assertInstanceOf(InstitutionInterface::class, $institutions[0]);  
 
     }
     

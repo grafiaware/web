@@ -5,6 +5,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Events\Model\Entity\InstitutionInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 
 
@@ -14,31 +15,33 @@ use Events\Model\Entity\InstitutionInterface;
  *
  * @author vlse2610
  */
-class InstitutionHydrator  implements HydratorInterface {
+class InstitutionHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
-     * @param EntityInterface $institution
+     * @param InstitutionInterface $institution
      * @param RowDataInterface $rowData
      */
       public function hydrate( EntityInterface $institution, RowDataInterface $rowData) {
         /** @var InstitutionInterface $institution */
         $institution
-            ->setId($rowData->offsetGet('id'))
-            ->setName($rowData->offsetGet('name')  )
-            ->setInstitutionTypeId($rowData->offsetGet('institution_type_id')  ); //tj.fk
+            ->setId($this->getPhpValue   ( $rowData,'id') )
+            ->setName($this->getPhpValue ( $rowData,'name') )
+            ->setInstitutionTypeId($this->getPhpValue( $rowData,'institution_type_id') ); //tj.fk
+            
     }
 
     /**
      *
-     * @param EntityInterface $institution
+     * @param InstitutionInterface $institution
      * @param RowDataInterface $row
      */
     public function extract(EntityInterface $institution, RowDataInterface $rowData) {
         /** @var InstitutionInterface $institution */
         // id je autoincrement
-        $rowData->offsetSet('name', $institution->getName() );
-        $rowData->offsetSet('institution_type_id', $institution->getInstitutionTypeId()  );
+        $this->setSqlValue($rowData, 'name', $institution->getName() );
+        $this->setSqlValue($rowData, 'institution_type_id', $institution->getInstitutionTypeId() );
+        
     }
 
 }

@@ -5,6 +5,7 @@ namespace Events\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\EventContentInterface;
 
@@ -13,7 +14,7 @@ use Events\Model\Entity\EventContentInterface;
  *
  * @author pes2704
  */
-class EventContentHydrator implements HydratorInterface {
+class EventContentHydrator extends TypeHydratorAbstract implements HydratorInterface {
 //SELECT `event_content`.`id`,
 //    `event_content`.`title`,
 //    `event_content`.`perex`,
@@ -30,12 +31,13 @@ class EventContentHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventContentInterface $eventContent */
         $eventContent
-            ->setId($rowData->offsetGet('id'))
-            ->setTitle($rowData->offsetGet('title') )
-            ->setPerex($rowData->offsetGet('perex') )
-            ->setParty($rowData->offsetGet('party')  )
-            ->setEventContentTypeFk($rowData->offsetGet('event_content_type_fk')  )
-            ->setInstitutionIdFk($rowData->offsetGet('institution_id_fk')  );
+            ->setId($this->getPhpValue( $rowData,'id'))
+            ->setTitle( $this->getPhpValue( $rowData, 'title') )
+            ->setPerex( $this->getPhpValue( $rowData, 'perex') )
+            ->setParty( $this->getPhpValue( $rowData, 'party') )
+            ->setEventContentTypeFk( $this->getPhpValue( $rowData, 'event_content_type_fk') )
+            ->setInstitutionIdFk( $this->getPhpValue( $rowData, 'institution_id_fk') );
+        
     }
 
     /**
@@ -46,11 +48,12 @@ class EventContentHydrator implements HydratorInterface {
     public function extract(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventContentInterface $eventContent */
         // id je autoincrement
-        $rowData->offsetSet('title', $eventContent->getTitle() );
-        $rowData->offsetSet('perex', $eventContent->getPerex()  );
-        $rowData->offsetSet('party', $eventContent->getParty()  );
-        $rowData->offsetSet('event_content_type_fk', $eventContent->getEventContentTypeFk()  );
-        $rowData->offsetSet('institution_id_fk', $eventContent->getInstitutionIdFk() );
+         $this->setSqlValue( $rowData, 'title', $eventContent->getTitle() );
+         $this->setSqlValue( $rowData, 'perex', $eventContent->getPerex() );
+         $this->setSqlValue( $rowData, 'party', $eventContent->getParty() );
+         $this->setSqlValue( $rowData, 'event_content_type_fk', $eventContent->getEventContentTypeFk() );
+         $this->setSqlValue( $rowData, 'institution_id_fk', $eventContent->getInstitutionIdFk() );
+        
     }
 
 }

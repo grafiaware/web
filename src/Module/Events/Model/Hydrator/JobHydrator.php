@@ -32,14 +32,14 @@ class JobHydrator extends TypeHydratorAbstract implements HydratorInterface {
      public function hydrate(EntityInterface $job, RowDataInterface $rowData) {
         /** @var JobInterface $job */
         $job
-            ->setId($this->getPhpValue( $rowData, 'id'))
-            ->setCompanyId($this->getPhpValue( $rowData, 'company_id') )
-            ->setPozadovaneVzdelaniStupen($this->getPhpValue( $rowData, 'pozadovane_vzdelani_stupen') )
-            ->setNazev($this->getPhpValue( $rowData, 'nazev') )
-            ->setMistoVykonu($this->getPhpValue( $rowData, 'misto_vykonu')  )
-            ->setPopisPozice($this->getPhpValue( $rowData, 'popis_pozice'))
-            ->setPozadujeme($this->getPhpValue( $rowData, 'pozadujeme')  )
-            ->setNabizime($this->getPhpValue( $rowData, 'nabizime')  );
+            ->setId( $this->getPhpValue( $rowData, 'id'))
+            ->setCompanyId( $this->getPhpValue   ( $rowData, 'company_id') )
+            ->setPozadovaneVzdelaniStupen( $this->getPhpValue( $rowData, 'pozadovane_vzdelani_stupen') )
+            ->setNazev( $this->getPhpValue       ( $rowData, 'nazev') )
+            ->setMistoVykonu( $this->getPhpValue ( $rowData, 'misto_vykonu') )
+            ->setPopisPozice ($this->getPhpValue ( $rowData, 'popis_pozice') )
+            ->setPozadujeme( $this->getPhpValue  ( $rowData, 'pozadujeme')  )
+            ->setNabizime( $this->getPhpValue    ( $rowData, 'nabizime')  );
         
     }
 
@@ -51,17 +51,14 @@ class JobHydrator extends TypeHydratorAbstract implements HydratorInterface {
     public function extract(EntityInterface $job, RowDataInterface $rowData) {
         /** @var JobInterface $job */
         // id je autoincrement
-        $this->setSqlValue($rowData, 'company_id', $job->getCompanyId());
-        $this->setSqlValue($rowData, 'pozadovane_vzdelani_stupen', $job->getPozadovaneVzdelaniStupen() ) ;
-        $this->setSqlValue($rowData, 'nazev', $job->getNazev() ) ;
-        $this->setSqlValue($rowData, 'misto_vykonu', $job->getMistoVykonu());
-        $this->setSqlValue($rowData, 'popis_pozice', $job->getPopisPozice());
-        $this->setSqlValue($rowData, 'pozadujeme', $job->getPozadujeme());
-        $this->setSqlValue($rowData, 'nabizime', $job->getNabizime());
-        
-        
-              
-
+        $this->setSqlValue( $rowData, 'company_id', $job->getCompanyId() );
+        $this->setSqlValue( $rowData, 'pozadovane_vzdelani_stupen', $job->getPozadovaneVzdelaniStupen() ) ;
+        $this->setSqlValue( $rowData, 'nazev', $job->getNazev() ) ;
+        $this->setSqlValue( $rowData, 'misto_vykonu', $job->getMistoVykonu() );
+        $this->setSqlValue( $rowData, 'popis_pozice', $job->getPopisPozice() );
+        $this->setSqlValue( $rowData, 'pozadujeme', $job->getPozadujeme() );
+        $this->setSqlValue( $rowData, 'nabizime', $job->getNabizime() );
+            
     }
         
 }

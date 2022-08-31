@@ -32,27 +32,27 @@ class CompanyAddressHydrator extends TypeHydratorAbstract implements HydratorInt
     public function hydrate(EntityInterface $companyAddress, RowDataInterface $rowData) {
         /** @var CompanyAddressInterface $companyAddress */
         $companyAddress
-            ->setCompanyId ($this->getPhpValue( $rowData, 'company_id'))
-            ->setName($this->getPhpValue( $rowData, 'name'))
-            ->setLokace($this->getPhpValue( $rowData, 'lokace'))   
-            ->setPsc($this->getPhpValue( $rowData, 'psc'))   
-            ->setObec($this->getPhpValue( $rowData, 'obec') )   
+            ->setCompanyId( $this->getPhpValue( $rowData, 'company_id') )
+            ->setName( $this->getPhpValue    ( $rowData, 'name') )
+            ->setLokace( $this->getPhpValue  ( $rowData, 'lokace') )   
+            ->setPsc( $this->getPhpValue     ( $rowData, 'psc') )   
+            ->setObec( $this->getPhpValue    ( $rowData, 'obec') )   
             ;                
     }
 
     
     /**
      * 
-     * @param EntityInterface $companyAddress
+     * @param CompanyAddressInterface $companyAddress
      * @param RowDataInterface $rowData
      */
     public function extract(EntityInterface $companyAddress, RowDataInterface $rowData) {
         /** @var CompanyAddressInterface $companyAddress */
-        $this->setSqlValue( $rowData,'company_id', $companyAddress->getCompanyId());
-        $this->setSqlValue( $rowData,'name', $companyAddress->getName());
-        $this->setSqlValue( $rowData,'lokace', $companyAddress->getLokace());
-        $this->setSqlValue( $rowData,'psc', $companyAddress->getPsc());
-        $this->setSqlValue( $rowData,'obec', $companyAddress->getObec());
+        $this->setSqlValue( $rowData,'company_id', $companyAddress->getCompanyId() );
+        $this->setSqlValue( $rowData,'name', $companyAddress->getName() );
+        $this->setSqlValue( $rowData,'lokace', $companyAddress->getLokace() );
+        $this->setSqlValue( $rowData,'psc', $companyAddress->getPsc() );
+        $this->setSqlValue( $rowData,'obec', $companyAddress->getObec() );
     }
     
  }

@@ -5,6 +5,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Events\Model\Entity\InstitutionTypeInterface;
+use Model\Hydrator\TypeHydratorAbstract;
 
 
 
@@ -13,29 +14,30 @@ use Events\Model\Entity\InstitutionTypeInterface;
  *
  * @author vlse2610
  */
-class InstitutionTypeHydrator  implements HydratorInterface {
+class InstitutionTypeHydrator  extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
-     * @param EntityInterface $institutionType
+     * @param InstitutionTypeInterface $institutionType
      * @param RowDataInterface $rowData
      */
       public function hydrate( EntityInterface $institutionType, RowDataInterface $rowData) {
         /** @var InstitutionTypeInterface $institutionType */
         $institutionType
-            ->setId($rowData->offsetGet('id'))
-            ->setInstitutionType($rowData->offsetGet('institution_type')  );
+            ->setId( $this->getPhpValue( $rowData, 'id') )
+            ->setInstitutionType( $this->getPhpValue( $rowData, 'institution_type') );        
     }
 
     /**
      *
-     * @param EntityInterface $institutionType
+     * @param InstitutionTypeInterface $institutionType
      * @param RowDataInterface $row
      */
     public function extract(EntityInterface $institutionType, RowDataInterface $rowData) {
         /** @var InstitutionTypeInterface $institutionType */
         // id je autoincrement
-        $rowData->offsetSet('institution_type', $institutionType->getInstitutionType()  );
+         $this->setSqlValue( $rowData, 'institution_type', $institutionType->getInstitutionType()  );
+
     }
 
 }
