@@ -48,4 +48,8 @@ abstract class StatusRepositoryAbstract {
             $this->statusDao->delete(static::FRAGMENT_NAME);
         }
     }
+
+    public function __destruct() {
+        $this->flush();
+    }
 }
