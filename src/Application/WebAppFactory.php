@@ -14,16 +14,10 @@ use Pes\Http\Environment;
 use Pes\Application\AppFactory;
 use Pes\Application\AppInterface;
 
-use Pes\Container\AutowiringContainer;
-use Pes\Container\Container;
 use Pes\Text\Message;
 use Pes\Logger\FileLogger;
 use Pes\Http\Helper\RequestDumper;
 
-use Container\AppContainerConfigurator;
-use Status\Model\Repository\StatusPresentationRepo;
-use Red\Model\Entity\StatusPresentation;
-use Red\Model\Entity\StatusPresentationInterface;
 
 /**
  * Description of WebAppFactory
@@ -55,12 +49,13 @@ class WebAppFactory extends AppFactory {
             ];
         $appCodeset = "UTF8";  // bez pomlčky! (ne UTF-8)
 
-        if (array_key_exists($appCodeset, $localeLangCode)) {
+        if (array_key_exists($requestLangCode, $localeLangCode)) {
             $appLocale = $localeLangCode[$requestLangCode].".".$appCodeset;
         } else {
             $appLocale = $localeLangCode[self::INITIAL_APP_LANGCODE].".".$appCodeset;
         }
-        $acceptedLocale = setlocale(LC_ALL, $appLocale);
+        setlocale(LC_ALL, $appLocale);
+        $acceptedLocale = setlocale(LC_ALL, 0);
 
         $app->setServerRequest($request);
 
@@ -76,7 +71,7 @@ class WebAppFactory extends AppFactory {
             $logger->info("Locale code from http request: '$requestLocale'.");
             $logger->info("Short lang code from http request: '$requestLangCode'.");
             $logger->info("Try to set application locale from http request: '$appLocale'.");
-            $logger->info("Accepted locale by setlocale() function: '$acceptedLocale'.");
+            $logger->info("Accepted locale by setlocale() function: ".print_r($acceptedLocale, true).".");
 
             $pathLogger = FileLogger::getInstance('Logs/App', 'RequestPathLogger.log', FileLogger::APPEND_TO_LOG);
             $method = $request->getMethod();

@@ -28,6 +28,9 @@ use Red\Model\Entity\BlockAggregateMenuItemInterface;
  * @author pes2704
  */
 class PageController extends LayoutControllerAbstract {
+
+    const HEADER = 'X-RED-PageCtrl-Time';
+
     ### action metody ###############
 
     /**
@@ -61,8 +64,15 @@ class PageController extends LayoutControllerAbstract {
     }
 
     public function item(ServerRequestInterface $request, $uid) {
+        $startTime = microtime(true);
+
         $menuItem = $this->getMenuItem($uid);
-        return $this->createResponseWithItem($request, $menuItem);
+        $getTime = (microtime(true) - $startTime) * 1000;
+        $response = $this->createResponseWithItem($request, $menuItem);
+        return $response
+            ->withHeader('X-RED-PageCtrlGetItem-Time', sprintf('%2.3fms', $getTime))
+            ->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
+
     }
 
 //    public function block(ServerRequestInterface $request, $name) {

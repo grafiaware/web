@@ -33,6 +33,7 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
      * @return Response
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+        $startTime = microtime(true);
 
         // middleware kontejner:
         //      používá jen db upgrade (k db old se přistupuje z login middleware)
@@ -82,7 +83,6 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
 
-        $startTime = microtime(true);
         $response =  $router->process($request, $handler) ;
 
         return $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));

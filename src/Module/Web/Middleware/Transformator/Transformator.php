@@ -42,12 +42,12 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
         $response = $handler->handle($request);
-        $this->container = $this->getApp()->getAppContainer();
 
-        $newBody = new Body(fopen('php://temp', 'r+'));
         $startTime = microtime(true);
+        $this->container = $this->getApp()->getAppContainer();
+        $newBody = new Body(fopen('php://temp', 'r+'));
         $newBody->write($this->transform($response->getBody()->getContents()));
-
+//        $newBody->write($response->getBody()->getContents());
         $response = $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
         return $response->withBody($newBody);
     }
