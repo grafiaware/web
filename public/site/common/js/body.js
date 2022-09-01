@@ -25,8 +25,8 @@
     $('.ui.hide.button').click(function(){
        $('.page.modal').modal('hide');
     });
-    
-    
+
+
     //flash message
     $('.flashtoast')
         .toast({
@@ -78,20 +78,16 @@ document.onreadystatechange = function () {
 //    if (event.target.readyState === 'interactive') {   // Alternative to DOMContentLoaded event
     if (document.readyState === 'complete') {  // Alternative to load event
         const init = async () => {
-        console.log("document ready state is complete, waiting for loadSubsequentElements()");
-        let result = await loadSubsequentElements(document, "red_loaded");
+        console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
+        let result = await loadSubsequentElements(document, "cascade");
             console.log(result);
-            console.log("loadSubsequentElements fullfilled, run initLoaded");
+            console.log("body: loadSubsequentElements fullfilled, run initLoaded for TinyMce init");
             initLoaded();
+            console.log("body: initLoaded finished");
         }
         init(); // async - volá initLoaded()
     }
 }
-
-//$(window).on('load',function(){
-//    initLoaded();
-//    console.log("window load");
-//});
 
 
 /**

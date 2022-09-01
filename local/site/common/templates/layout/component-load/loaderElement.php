@@ -1,3 +1,3 @@
-<div id="red_loaded_<?=$loaderWrapperElementId?>" class="red_loaded" data-red-apiuri="<?=$apiUri?>">
+<div id="<?=$loaderElementId?>" class="cascade" data-red-selector="<?=$dataRedSelector?>" data-red-apiuri="<?=$dataRedApiUri?>" data-red-info="<?=$dataRedInfo?>">
 
 </div>

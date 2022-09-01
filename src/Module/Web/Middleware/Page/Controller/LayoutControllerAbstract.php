@@ -93,14 +93,28 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         if ($menuItem) {
+        $startTime = microtime(true);
+
             $this->setPresentationMenuItem($menuItem);
             $view = $this->createView($request, $this->getComponentViews($request, $menuItem));
-            $response = $this->createResponseFromView($request, $view);
+        $createView = (microtime(true) - $startTime) * 1000;
+            $string = $view->getString();
+        $getString = (microtime(true) - $startTime) * 1000;
+//            $response = $this->createResponseFromView($request, $view);
+            $response = $this->createResponseFromString($request, $string);
         } else {
             // neexistující stránka
             $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
         }
-        return $response;
+        $createResponseTime = (microtime(true) - $startTime) * 1000;
+        return $response
+                ->withHeader('X-RED-LayoutCtrlCreateView-Time', sprintf('%2.3fms', $createView))
+                ->withHeader('X-RED-LayoutCtrlGetString-Time', sprintf('%2.3fms', $getString))
+                ->withHeader('X-RED-LayoutCtrlCreateResponse-Time', sprintf('%2.3fms', $createResponseTime))
+
+
+
+                ;
     }
 
 #
@@ -261,7 +275,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         $view = $this->container->get(View::class);
 
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $uid = uniqid();
+        $uniquid = uniqid();
         $menuItemType = $menuItem->getTypeFk();
         if (!isset($menuItemType)) {
             $menuItemType = 'empty';
@@ -272,13 +286,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             $id = $this->getNameForStaticPage($menuItem);
         }
         $view->setData([
-                        'loaderWrapperElementId' => "{$menuItemType}_item_{$id}_$uid",
-                        'apiUri' => "web/v1/$menuItemType/$id"
+                        'loaderElementId' => "red_loaded_$uniquid",
+                        'dataRedApiUri' => "web/v1/$menuItemType/$id",
+                        'dataRedInfo' => "{$menuItemType}_for_item_{$id}",
+                        'dataRedSelector' => $menuItem->getUidFk()
                         ]);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
         return $view;
     }
-
 
     private function getNameForStaticPage(MenuItemInterface $menuItem) {
         $menuItemPrettyUri = $menuItem->getPrettyuri();

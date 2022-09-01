@@ -13,10 +13,6 @@ use Container\LoginContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 use Container\MailContainerConfigurator;
 
-use Status\Model\Repository\StatusSecurityRepo;
-
-use StatusManager\StatusManagerInterface;
-
 use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
 

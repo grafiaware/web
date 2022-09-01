@@ -33,24 +33,24 @@ function htmlToElement(html) {
  * Používá funkci htmlToElement(), proto očekává, že zadaný text je HTML string, který má jeden kořenový element.
  * Element může mít potomky, ale v kořenu nesmí být sada elementů.
  *
- * @param {Element} replacedElement nahrazovaný element
+ * @param {Element} parentElement nahrazovaný element
  * @param {String} responseText
  * @returns {Element} Nový element, kterým byl nahrazen starý element
  */
-function replaceElement(replacedElement, responseText) {
+function replaceChildren(parentElement, responseText) {
     newElement = htmlToElement(responseText);
-    replacedElement.replaceWith(newElement);  // přidá nový a odstraní starý element
-    console.log("cascade: Replaced element "+replacedElement.tagName+" with element "+newElement.tagName+".");
+    parentElement.replaceChildren(newElement);  // přidá nový a odstraní starý element
+    console.log("cascade: Replaced children of element "+parentElement.tagName+" id: "+parentElement.getAttribute('id')+" with element "+newElement.tagName+" id: "+newElement.getAttribute('id')+".");
     return newElement;
 };
 
 /**
  *
- * @param {Element} replacedElement
+ * @param {Element} parentElement
  * @returns {Promise}
  */
-function fetchElementContent(replacedElement){
-    let apiUri = getApiUri(replacedElement);
+function fetchElementContent(parentElement){
+    let apiUri = getApiUri(parentElement);
     /// fetch ///
     // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
     // tento return je klíčový - vrací jako návratovou hodnotu hodotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
@@ -65,10 +65,10 @@ function fetchElementContent(replacedElement){
     })
     .then(textPromise => {
         console.log(`cascade: Loading content from ${apiUri}.`);
-        return replaceElement(replacedElement, textPromise);  // vrací nový Element
+        return replaceChildren(parentElement, textPromise);  // vrací nový Element
     })
     .then(newElement => {
-        loadSubPromise = loadSubsequentElements(newElement, "red_loaded");
+        loadSubPromise = loadSubsequentElements(newElement, "cascade");
         return loadSubPromise;
     })
     .catch(e => {
@@ -108,7 +108,7 @@ function loadSubsequentElements(element, className) {
     // elements is a live HTMLCollection of found elements
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
     var subElements = element.getElementsByClassName(className);
-    console.log(`cascade: ${subElements.length} child elements founded with class="${className}".`);
+    console.log(`cascade: ${subElements.length} elements for cascade founded with class="${className}".`);
     var subElementsArray = Array.from(subElements);
     let loadSubPromises = subElementsArray.map(subElement => fetchElementContent(subElement));
 
