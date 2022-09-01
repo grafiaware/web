@@ -48,7 +48,7 @@ class ConfigurationRed extends ConfigurationDb {
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_vp_session',
             'app.logs.session.file' => 'Session.log',
             #
             ##################################
