@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\{
-    ApiContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, MailContainerConfigurator
+    ApiContainerConfigurator, RedModelContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, MailContainerConfigurator
 };
 
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
@@ -41,21 +41,22 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         //      -> delegát aplikační kontejner
         // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
         // jsou v jednotlivých kontejnerech)
+
         $this->container =
-                (new ApiContainerConfigurator())->configure(
-                    (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(
-                            (new Container(
-                                    (new LoginContainerConfigurator())->configure(
-                                        (new MailContainerConfigurator())->configure(
-                                            new Container($this->getApp()->getAppContainer())
-                                        )
+            (new EventsContainerConfigurator())->configure(
+                (new EventsModelContainerConfigurator())->configure(
+                    (new DbEventsContainerConfigurator())->configure(
+                        (new Container(
+                                (new LoginContainerConfigurator())->configure(
+                                    (new MailContainerConfigurator())->configure(
+                                        new Container($this->getApp()->getAppContainer())
                                     )
                                 )
                             )
                         )
                     )
-                );
+                )
+            );
 
 ####################################
         /** @var RouteSegmentGenerator $routeGenerator */
