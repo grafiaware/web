@@ -6,7 +6,7 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsContainerConfigurator;
+use Test\Integration\Event\Container\EventsModelContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\InstitutionTypeDao;
@@ -37,7 +37,7 @@ class InstitutionTypeDaoTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(InstitutionTypeDao::class);  // vždy nový objekt

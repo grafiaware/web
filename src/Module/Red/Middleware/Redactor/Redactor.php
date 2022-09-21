@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\{
-    ApiContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, MailContainerConfigurator
+    ApiContainerConfigurator, RedModelContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, MailContainerConfigurator
 };
 
 use Red\Middleware\Redactor\Controler\{
@@ -46,12 +46,12 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         // jsou v jednotlivých kontejnerech)
         $this->container =
                 (new ApiContainerConfigurator())->configure(
-                    (new HierarchyContainerConfigurator())->configure(
+                    (new RedModelContainerConfigurator())->configure(
                        (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(
-                                    (new MailContainerConfigurator())->configure(
+//                                    (new MailContainerConfigurator())->configure(
                                         new Container($this->getApp()->getAppContainer())
-                                    )
+//                                    )
                                 )
                             )
                         )

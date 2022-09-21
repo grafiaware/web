@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\{
-    ComponentContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
+    ComponentContainerConfigurator, RedModelContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
 };
 
 use \Status\Middleware\Component\Controller\StatusComponentControler;

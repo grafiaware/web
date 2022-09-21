@@ -4,7 +4,7 @@ namespace Test\Integration\Event\Model\Repository;
 
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
-use Test\Integration\Event\Container\EventsContainerConfigurator;
+use Test\Integration\Event\Container\EventsModelContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\CompanyDao;
@@ -46,7 +46,7 @@ class CompanyContactRepositoryTest extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
          // mazání - zde jen pro případ, že minulý test nebyl dokončen
@@ -95,7 +95,7 @@ class CompanyContactRepositoryTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         $this->companyContactRepo = $this->container->get(CompanyContactRepo::class);
@@ -111,7 +111,7 @@ class CompanyContactRepositoryTest extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         self::deleteRecords($container);

@@ -17,7 +17,7 @@ use Application\WebAppFactory;
 use Pes\Container\Container;
 
 use Container\DbUpgradeContainerConfigurator;
-use Container\HierarchyContainerConfigurator;
+use Container\RedModelContainerConfigurator;
 use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
 
@@ -121,7 +121,7 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
 
         $this->container =
                 (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new HierarchyContainerConfigurator())->configure(
+                    (new RedModelContainerConfigurator())->configure(
                        (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(
 //                                        new Container($this->app->getAppContainer())

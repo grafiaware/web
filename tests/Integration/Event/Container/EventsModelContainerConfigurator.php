@@ -59,7 +59,7 @@ use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
 
-use Events\Model\Hydrator\InstitutionTypeChildHydrator; 
+use Events\Model\Hydrator\InstitutionTypeChildHydrator;
 use Events\Model\Repository\InstitutionTypeAggregateInstitutionRepo;
 
 use Events\Model\Dao\CompanyDao;
@@ -119,7 +119,7 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
+class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return [
@@ -156,8 +156,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions(): iterable {
         return [
-            // LoginContainer musí mít DbOld kontejner jako delegáta
-            //
+            // database
+                ## pro eventsmiddleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
+
             'eventsDbLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('events.logs.database.directory'), $c->get('events.logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
@@ -172,19 +173,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             Account::class => function(ContainerInterface $c) {
                 $account = new Account($c->get('events.db.account.everyone.name'), $c->get('events.db.account.everyone.password'));
                 return $account;
-            },
-
-            // database
-                ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
-                ## pro eventsmiddleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
-            Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                return new Handler(
-                        $c->get(Account::class),
-                        $c->get(ConnectionInfo::class),
-                        $c->get(DsnProviderMysql::class),
-                        $c->get(OptionsProviderMysql::class),
-                        $c->get(AttributesProvider::class),
-                        $c->get('eventsDbLogger'));
             },
 
             // context
@@ -220,8 +208,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginRepo::class => function(ContainerInterface $c) {
                 return new LoginRepo($c->get(LoginDao::class), $c->get(LoginHydrator::class));
             },
-                    
-            // representative    
+
+            // representative
             RepresentativeDao::class => function(ContainerInterface $c) {
                 return new RepresentativeDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -308,11 +296,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             InstitutionTypeRepo::class => function(ContainerInterface $c) {
                 return new InstitutionTypeRepo($c->get(InstitutionTypeDao::class), $c->get(InstitutionTypeHydrator::class));
             },
-                    
+
             //InstitutionTypeAggregateInstitution
             InstitutionTypeChildHydrator::class => function(ContainerInterface $c) {
                 return new InstitutionTypeChildHydrator();
-            },                                        
+            },
             InstitutionTypeAggregateInstitutionRepo::class => function(ContainerInterface $c) {
                 return new InstitutionTypeAggregateInstitutionRepo(
                     $c->get(InstitutionTypeDao::class),
@@ -320,8 +308,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(InstitutionRepo::class),
                     $c->get(InstitutionTypeChildHydrator::class) );
             },
-                 
-            /**/       
+
+            /**/
 
             //Company
             CompanyDao::class => function(ContainerInterface $c) {
@@ -357,11 +345,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             CompanyContactRepo::class => function(ContainerInterface $c) {
                 return new CompanyContactRepo($c->get(CompanyContactDao::class), $c->get(CompanyContactHydrator::class));
             },
-              
-                    
-                    
-                    
-            //Job  
+
+
+
+
+            //Job
              JobDao::class => function(ContainerInterface $c) {
                 return new JobDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -370,8 +358,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobRepo::class => function(ContainerInterface $c) {
                 return new JobRepo($c->get(JobDao::class), $c->get(JobHydrator::class));
-            },        
-                    
+            },
+
             //JobToTag
              JobToTagDao::class => function(ContainerInterface $c) {
                 return new JobToTagDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
@@ -381,8 +369,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobToTagRepo::class => function(ContainerInterface $c) {
                 return new JobToTagRepo($c->get(JobToTagDao::class), $c->get(JobToTagHydrator::class));
-            },                
-                    
+            },
+
             //JobTag
             JobTagDao::class => function(ContainerInterface $c) {
                 return new JobTagDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
@@ -392,9 +380,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobTagRepo::class => function(ContainerInterface $c) {
                 return new JobTagRepo($c->get(JobTagDao::class), $c->get(JobTagHydrator::class));
-            },       
-                    
-                    
+            },
+
+
             //PozadovaneVzdelani
             PozadovaneVzdelaniDao::class => function(ContainerInterface $c) {
                 return new PozadovaneVzdelaniDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
@@ -404,8 +392,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             PozadovaneVzdelaniRepo::class => function(ContainerInterface $c) {
                 return new PozadovaneVzdelaniRepo($c->get(PozadovaneVzdelaniDao::class), $c->get(PozadovaneVzdelaniHydrator::class));
-            },               
-                    
+            },
+
 
             //Visitor
             VisitorJobRequestDao::class => function(ContainerInterface $c) {

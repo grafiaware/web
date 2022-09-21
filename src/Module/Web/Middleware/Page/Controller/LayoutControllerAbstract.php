@@ -93,28 +93,16 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         if ($menuItem) {
-        $startTime = microtime(true);
-
             $this->setPresentationMenuItem($menuItem);
             $view = $this->createView($request, $this->getComponentViews($request, $menuItem));
-        $createView = (microtime(true) - $startTime) * 1000;
             $string = $view->getString();
-        $getString = (microtime(true) - $startTime) * 1000;
 //            $response = $this->createResponseFromView($request, $view);
             $response = $this->createResponseFromString($request, $string);
         } else {
             // neexistující stránka
             $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
         }
-        $createResponseTime = (microtime(true) - $startTime) * 1000;
-        return $response
-                ->withHeader('X-RED-LayoutCtrlCreateView-Time', sprintf('%2.3fms', $createView))
-                ->withHeader('X-RED-LayoutCtrlGetString-Time', sprintf('%2.3fms', $getString))
-                ->withHeader('X-RED-LayoutCtrlCreateResponse-Time', sprintf('%2.3fms', $createResponseTime))
-
-
-
-                ;
+        return $response;
     }
 
 #

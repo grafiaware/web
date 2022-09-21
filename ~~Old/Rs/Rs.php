@@ -12,7 +12,7 @@ use Pes\Http\Factory\ResponseFactory;
 use \Pes\Container\Container;
 use View\Includer;
 
-use Container\HierarchyContainerConfigurator;
+use Container\RedModelContainerConfigurator;
 use Container\WebContainerConfigurator;
 
 

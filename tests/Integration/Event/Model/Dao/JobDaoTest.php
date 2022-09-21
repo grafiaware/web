@@ -6,7 +6,7 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsContainerConfigurator;
+use Test\Integration\Event\Container\EventsModelContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\JobDao;
@@ -41,7 +41,7 @@ class JobDaoTest  extends AppRunner {
     public static function setUpBeforeClass(): void {        
         self::bootstrapBeforeClass();
         $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(   (new Container(  )   )    )
             );
         
@@ -80,7 +80,7 @@ class JobDaoTest  extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(JobDao::class);  // vždy nový objekt
@@ -91,7 +91,7 @@ class JobDaoTest  extends AppRunner {
 
     public static function tearDownAfterClass(): void {
          $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure( (new Container(  ) )   )
             );
    

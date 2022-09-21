@@ -19,7 +19,7 @@ use Site\ConfigurationCache;
 
 use Pes\Container\Container;
 use Container\DbUpgradeContainerConfigurator;
-use Container\HierarchyContainerConfigurator;
+use Container\RedModelContainerConfigurator;
 use Container\PresentationStatusComfigurator;
 
 use Status\Model\Entity\StatusPresentation;
@@ -44,7 +44,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
         $this->container =
                 (new PresentationStatusComfigurator())->configure(
-                    (new HierarchyContainerConfigurator())->configure(
+                    (new RedModelContainerConfigurator())->configure(
                         (new DbUpgradeContainerConfigurator())->configure(
                                 new Container($this->getApp()->getAppContainer())
                         )

@@ -4,7 +4,7 @@ namespace Test\Integration\Event\Model\Repository;
 
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
-use Test\Integration\Event\Container\EventsContainerConfigurator;
+use Test\Integration\Event\Container\EventsModelContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Model\Repository\Exception\OperationWithLockedEntityException;
@@ -45,7 +45,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
@@ -144,7 +144,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         $this->visitorJobRequestRepo = $this->container->get(VisitorJobRequestRepo::class);
@@ -156,7 +156,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
 

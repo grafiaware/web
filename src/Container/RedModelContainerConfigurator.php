@@ -115,7 +115,7 @@ use Red\Model\HierarchyHooks\MenuListStyles;
  *
  * @author pes2704
  */
-class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
+class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return ConfigurationCache::hierarchy();

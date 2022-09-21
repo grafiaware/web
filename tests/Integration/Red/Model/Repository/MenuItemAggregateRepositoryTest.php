@@ -13,7 +13,7 @@ use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
 use Container\DbUpgradeContainerConfigurator;
-use Container\HierarchyContainerConfigurator;
+use Container\RedModelContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
@@ -50,7 +50,7 @@ class MenuItemAggregateRepositoryTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
                 (new TestHierarchyContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new HierarchyContainerConfigurator())->configure(
+                    (new RedModelContainerConfigurator())->configure(
                        (new DbUpgradeContainerConfigurator())->configure(new Container())
                     )
                 );

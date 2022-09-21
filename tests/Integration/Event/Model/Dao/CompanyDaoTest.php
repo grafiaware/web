@@ -6,7 +6,7 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsContainerConfigurator;
+use Test\Integration\Event\Container\EventsModelContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\CompanyDao;
@@ -38,7 +38,7 @@ class CompanyDaoTest  extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         
@@ -60,7 +60,7 @@ class CompanyDaoTest  extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(CompanyDao::class);  // vždy nový objekt     
@@ -71,7 +71,7 @@ class CompanyDaoTest  extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );         
         /** @var LoginDao $loginDao */

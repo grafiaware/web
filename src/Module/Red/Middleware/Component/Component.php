@@ -1,5 +1,5 @@
 <?php
-namespace Web\Middleware\Component;
+namespace Red\Middleware\Component;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -13,12 +13,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\WebContainerConfigurator;
-use Container\HierarchyContainerConfigurator;
+use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 use Container\LoginContainerConfigurator;
 
-use Web\Middleware\Component\Controller\ComponentControler;
-use Web\Middleware\Component\Controller\TemplateControler;
+use Red\Middleware\Component\Controller\ComponentControler;
+use Red\Middleware\Component\Controller\TemplateControler;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -47,7 +47,7 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         // jsou v jednotlivých kontejnerech)
         $this->container =
             (new WebContainerConfigurator())->configure(
-                (new HierarchyContainerConfigurator())->configure(
+                (new RedModelContainerConfigurator())->configure(
                     (new DbUpgradeContainerConfigurator())->configure(
                             new Container($this->getApp()->getAppContainer())
                     )

@@ -8,7 +8,7 @@
 
 namespace Test\Integration\Red\Container;
 
-use Container\HierarchyContainerConfigurator;
+use Container\RedModelContainerConfigurator;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -25,7 +25,7 @@ use Pes\Database\Handler\Account;
  *
  * @author pes2704
  */
-class TestHierarchyContainerConfigurator extends HierarchyContainerConfigurator {
+class TestHierarchyContainerConfigurator extends RedModelContainerConfigurator {
     public function getParams(): iterable {
         return ConfigurationCache::web()
                 +parent::getParams();

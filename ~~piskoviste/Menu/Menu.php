@@ -12,7 +12,7 @@ use Menu\Psr\Http\Message\ServerRequestInterface;
 use Menu\Psr\Http\Server\RequestHandlerInterface;
 use Menu\Psr\Http\Message\ResponseInterface;
 
-use Menu\Container\HierarchyContainerConfigurator;
+use Menu\Container\RedModelContainerConfigurator;
 // experimentální propojení s classmap web
 use Menu\Container\ComponentContainerConfigurator;
 use Menu\Container\WebContainerConfigurator;
@@ -29,7 +29,7 @@ class Menu extends AppMiddlewareAbstract {
         // komponenty používají databázi z menu kontejneru (upgrade), web používá starou databázi
         $container =
             (new ComponentContainerConfigurator())->configure(
-                (new HierarchyContainerConfigurator())->configure(
+                (new RedModelContainerConfigurator())->configure(
                     (new WebContainerConfigurator())->configure(
                         new Container($this->getApp()->getAppContainer())
                     )
