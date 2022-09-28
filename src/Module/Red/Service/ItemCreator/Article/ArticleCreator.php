@@ -6,49 +6,51 @@
  * and open the template in the editor.
  */
 
-namespace Red\Service\ContentGenerator\Paper;
+namespace Red\Service\ItemCreator\Article;
 
-use Red\Service\ContentGenerator\ContentServiceAbstract;
+use Red\Service\ItemCreator\ItemCreatorAbstract;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\PaperRepo;
+use Red\Model\Repository\ArticleRepo;
 
-use Red\Model\Entity\Paper;
+use Red\Model\Entity\Article;
 
 /**
  * Description of PaperService
  *
  * @author pes2704
  */
-class PaperService extends ContentServiceAbstract {
+class ArticleCreator extends ItemCreatorAbstract {
 
     /**
-     * @var PaperRepo
+     * @var ArticleRepo
      */
-    protected $paperRepo;
+    protected $articleRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            PaperRepo $paperRepo
+            ArticleRepo $articleRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
-        $this->paperRepo = $paperRepo;
+        $this->articleRepo = $articleRepo;
     }
 
     /**
-     * Vytvoří nový Paper pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Paper ponechá prázdné. Entitu přidá do Repository.
+     * Vytvoří nový Article pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Article ponechá prázdné. Entitu přidá do Repository.
      *
      * @param type $menuItemIdFk
      * @return void
      */
     public function initialize($menuItemIdFk): void {
-        $paper = new Paper();
-        $paper->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-        $paper->setMenuItemIdFk($menuItemIdFk);
-        $this->paperRepo->add($paper);
+        $article = new Article();
+        $article->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
+        $article->setMenuItemIdFk($menuItemIdFk);
+        $this->articleRepo->add($article);
     }
+
+
 }

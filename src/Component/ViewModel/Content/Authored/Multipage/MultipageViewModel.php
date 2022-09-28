@@ -79,12 +79,12 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      *
      * @return MenuItemAggregateHierarchyInterface[]
      */
-    public function getSubNodes() {
+    public function getSubTree() {
         $multipage = $this->getMultipage();
         if (isset($multipage)) {
             $langCode = $this->getStatus()->getPresentedLanguage()->getLangCode();
             $menuItem = $this->menuItemRepo->getById($multipage->getMenuItemIdFk());
-            $nodes = $this->hierarchyRepo->getSubNodes($langCode, $menuItem->getUidFk());  // neomezená maxDepth
+            $nodes = $this->hierarchyRepo->getSubTree($langCode, $menuItem->getUidFk());  // neomezená maxDepth
             return $nodes;
         }
     }

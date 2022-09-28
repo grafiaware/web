@@ -105,13 +105,8 @@ use Events\Model\Repository\DocumentRepo;
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
-use Pes\Database\Handler\ConnectionInfo;
-use Pes\Database\Handler\DbTypeEnum;
-use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
-use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
-use Pes\Database\Handler\AttributesProvider\AttributesProvider;
+
 use Pes\Database\Handler\Handler;
-use Pes\Database\Handler\HandlerInterface;
 
 
 /**
@@ -133,11 +128,8 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             'events.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'vp_events',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
             'events.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxx' : 'vp_events',
 
-            'events.logs.database.directory' => 'TestLogs/Events',
-            'events.logs.database.file' => 'Database.log',
             #
             ###################################
-
         ];
     }
 
@@ -148,8 +140,6 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases(): iterable {
         return [
             AccountInterface::class => Account::class,
-            HandlerInterface::class => Handler::class,
-
             AuthenticatorInterface::class => DbHashAuthenticator::class,
         ];
     }
@@ -159,32 +149,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             // database
                 ## pro eventsmiddleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
 
-            'eventsDbLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('events.logs.database.directory'), $c->get('events.logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
-            },
-
-            ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
-            #         jako factory. Pokud definuji jako factory, múže vzniknou řada objektů Account a Handler, které vznikly s použití
-            #         údajů jméno a hesli k databázovému účtu. Tyto údaje jsou obvykle odvozovány od uživatele přihlášeného  k aplikaci.
-            #         Při odhlášení uživatele, tedy při změně bezpečnostního kontextu je pak nutné smazat i takové objety, jinak může dojít
-            #         k přístupu k databázi i po odhlášení uživatele. Takové smazání není možné zajistit, pokud objektů Account a Handler vznikne více.
-            ##
-            // database account
-            Account::class => function(ContainerInterface $c) {
-                $account = new Account($c->get('events.db.account.everyone.name'), $c->get('events.db.account.everyone.password'));
-                return $account;
-            },
-
             // context
             ContextFactory::class => function(ContainerInterface $c) {
                 return new ContextFactory(); // TODO:     ($statusSecurityRepo, $statusPresentationRepo)
-            },
-            ContextPublishedFactoryMock::class => function(ContainerInterface $c) {
-                return new ContextPublishedFactoryMock(false);
-            },
-
-            Sql::class => function(ContainerInterface $c) {
-                return new Sql();
             },
 
             // enroll
@@ -430,6 +397,18 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getServicesOverrideDefinitions(): iterable {
-        return [];
+        return [
+            ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
+            #         jako factory. Pokud definuji jako factory, múže vzniknou řada objektů Account a Handler, které vznikly s použití
+            #         údajů jméno a hesli k databázovému účtu. Tyto údaje jsou obvykle odvozovány od uživatele přihlášeného  k aplikaci.
+            #         Při odhlášení uživatele, tedy při změně bezpečnostního kontextu je pak nutné smazat i takové objety, jinak může dojít
+            #         k přístupu k databázi i po odhlášení uživatele. Takové smazání není možné zajistit, pokud objektů Account a Handler vznikne více.
+            ##
+            // database account
+            Account::class => function(ContainerInterface $c) {
+                $account = new Account($c->get('events.db.account.everyone.name'), $c->get('events.db.account.everyone.password'));
+                return $account;
+            },
+        ];
     }
 }

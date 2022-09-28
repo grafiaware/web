@@ -22,5 +22,5 @@ interface MultipageViewModelInterface extends AuthoredViewModelInterface {
     /**
      * @return HierarchyAggregateInterface[]
      */
-    public function getSubNodes();
+    public function getSubTree();
 }

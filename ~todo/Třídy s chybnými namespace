@@ -18,7 +18,7 @@ Class Test\Integration\Repository\LoginAggregateRegistrationRepositoryTest locat
 Class Test\Integration\Repository\MenuitemAggPaperContentManipulationTest located in C:/ApacheRoot/web/tests\Integration\Red\Model\Repository\MenuitemAggPaperContentManipulationTest.php does not comply with psr-4 autoloading standard. Skipping.
 Class Test\Integration\Repository\MenuItemAggregateRepositoryTest located in C:/ApacheRoot/web/tests\Integration\Red\Model\Repository\MenuItemAggregateRepositoryTest.php does not comply with psr-4 autoloading standard. Skipping.
 Class Test\Integration\Repository\RegistrationRepositoryTest located in C:/ApacheRoot/web/tests\Integration\Red\Model\Repository\RegistrationRepositoryTest.php does not comply with psr-4 autoloading standard. Skipping.
-Class Status\Middleware\Component\Controller\StatusComponentControler located in C:/ApacheRoot/web/src/Module/Status\Middleware\Component\Controler\StatusComponentControler.php does not comply with psr-4 autoloading standard. Skipping.
+Class Status\Middleware\Component\Controler\StatusComponentControler located in C:/ApacheRoot/web/src/Module/Status\Middleware\Component\Controler\StatusComponentControler.php does not comply with psr-4 autoloading standard. Skipping.
 Class Status\Middleware\Component\Component located in C:/ApacheRoot/web/src/Module/Status\Middleware\Component.php does not comply with psr-4 autoloading standard. Skipping.
 Class Site\Grafia\ConfigurationStyles located in C:/ApacheRoot/web/app/Site\Grafia\ConfigurationStyles_1.php does not comply with psr-4 autoloading standard. Skipping.
 Class Site\TydenZdravi\ConfigurationStyles located in C:/ApacheRoot/web/app/Site\TydenZdravi\ConfigurationStyles_1.php does not comply with psr-4 autoloading standard. Skipping.
@@ -53,6 +53,6 @@ Class Red\Middleware\Redactor\Controler\TinyUploadImageControler located in C:/A
 Class Red\Model\Dao\Hierarchy\HierarchyEditDao located in C:/ApacheRoot/web/src\Module\Red\Model\Dao\Hierarchy\OLDHierarchyEditDao.php does not comply with psr-4 autoloading standard. Skipping.
 Class Red\Model\Dao\Hierarchy\HierarchyReadonlyDao located in C:/ApacheRoot/web/src\Module\Red\Model\Dao\Hierarchy\OLDHierarchyReadonlyDao.php does not comply with psr-4 autoloading standard. Skipping.
 Class Red\Model\Entity\SecurityContextObjectTrait located in C:/ApacheRoot/web/src\Module\Red\Model\Entity\QQSecurityContextObjectTrait.php does not comply with psr-4 autoloading standard. Skipping.
-Class Status\Middleware\Component\Controller\StatusComponentControler located in C:/ApacheRoot/web/src\Module\Status\Middleware\Component\Controler\StatusComponentControler.php does not comply with psr-4 autoloading standard. Skipping.
+Class Status\Middleware\Component\Controler\StatusComponentControler located in C:/ApacheRoot/web/src\Module\Status\Middleware\Component\Controler\StatusComponentControler.php does not comply with psr-4 autoloading standard. Skipping.
 Class Status\Middleware\Component\Component located in C:/ApacheRoot/web/src\Module\Status\Middleware\Component.php does not comply with psr-4 autoloading standard. Skipping.
 Class Elementy_VynucenyDownload located in C:/ApacheRoot/web/src\Module\Web\Middleware\Page\Elementy\VynucenyDownload.php does not comply with psr-4 autoloading standard. Skipping.

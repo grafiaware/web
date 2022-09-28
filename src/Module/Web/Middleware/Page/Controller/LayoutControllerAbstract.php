@@ -268,14 +268,23 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         if (!isset($menuItemType)) {
             $menuItemType = 'empty';
         }
-        if ($menuItemType!='static') {
-            $id = $menuItem->getId();
-        } else {
-            $id = $this->getNameForStaticPage($menuItem);
+        switch ($menuItemType) {
+            case 'static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $dataRedApiUri = "red/v1/$menuItemType/$id";
+                break;
+            case 'eventcontent':
+                $id = $this->getNameForStaticPage($menuItem);
+                $dataRedApiUri = "events/v1/$menuItemType/$id";
+                break;
+            default:
+                $id = $menuItem->getId();
+                $dataRedApiUri = "red/v1/$menuItemType/$id";
+                break;
         }
         $view->setData([
                         'loaderElementId' => "red_loaded_$uniquid",
-                        'dataRedApiUri' => "web/v1/$menuItemType/$id",
+                        'dataRedApiUri' => $dataRedApiUri,
                         'dataRedInfo' => "{$menuItemType}_for_item_{$id}",
                         'dataRedSelector' => $menuItem->getUidFk()
                         ]);
@@ -286,7 +295,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getNameForStaticPage(MenuItemInterface $menuItem) {
         $menuItemPrettyUri = $menuItem->getPrettyuri();
         if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93
-            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recopročně
+            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recipročně
         } else {
             $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());
         }

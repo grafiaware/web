@@ -42,7 +42,7 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
             ###################################
             # Konfigurace logu databáze
             #
-            'dbEvents.logs.db.directory' => 'TestLogs/Events',
+            'dbEvents.logs.db.directory' => 'Logs/Events',
             'dbEvents.logs.db.file' => 'Database.log',
             #
             #################################
@@ -61,29 +61,33 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getServicesDefinitions(): iterable {
+        return [ ];
+    }
+
+    public function getServicesOverrideDefinitions(): iterable {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
-            'dbRventsLogger' => function(ContainerInterface $c) {
+            'dbEventsLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('dbEvents.logs.db.directory'), $c->get('dbEvents.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('dbRventsLogger'));
+                    $dsnProvider->setLogger($c->get('dbEventsLogger'));
                 }
                 return $dsnProvider;
             },
             OptionsProviderMysql::class =>  function(ContainerInterface $c) {
                 $optionsProvider = new OptionsProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('dbRventsLogger'));
+                    $optionsProvider->setLogger($c->get('dbEventsLogger'));
                 }
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
                 $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('dbRventsLogger'));
+                    $attributesProvider->setLogger($c->get('dbEventsLogger'));
                 }
                 return $attributesProvider;
             },
@@ -98,7 +102,6 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             // database
-                ## pro eventsmiddleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 return new Handler(
                         $c->get(Account::class),
@@ -106,7 +109,7 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('eventsDbLogger'));
+                        $c->get('dbEventsLogger'));
             },
         ];
     }

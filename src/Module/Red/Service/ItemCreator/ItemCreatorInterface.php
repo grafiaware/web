@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Red\Service\ContentGenerator;
+namespace Red\Service\ItemCreator;
 
 
 /**
  *
  * @author pes2704
  */
-interface ContentServiceInterface {
+interface ItemCreatorInterface {
     public function initialize($menuItemIdFk): void;
 }

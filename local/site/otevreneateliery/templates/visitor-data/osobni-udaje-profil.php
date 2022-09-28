@@ -7,7 +7,7 @@ use Pes\Text\Html;
 use Site\ConfigurationCache;
 use Red\Model\Entity\LoginAggregateFullInterface;
 
-use Events\Middleware\Events\Controller\VisitorDataController;
+use Events\Middleware\Events\Controler\VisitorDataControler;
 use Red\Model\Entity\VisitorData;
 
 /** @var PhpTemplateRendererInterface $this */
@@ -16,8 +16,8 @@ use Red\Model\Entity\VisitorData;
 
 $userHash = $loginAggregate->getLoginNameHash();
 $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
-$uploadedCvFilename = VisitorDataController::UPLOADED_KEY_CV.$userHash;
-$uploadedLetterFilename = VisitorDataController::UPLOADED_KEY_LETTER.$userHash;
+$uploadedCvFilename = VisitorDataControler::UPLOADED_KEY_CV.$userHash;
+$uploadedLetterFilename = VisitorDataControler::UPLOADED_KEY_LETTER.$userHash;
 
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly

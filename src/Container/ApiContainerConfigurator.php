@@ -18,33 +18,27 @@ use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
-use Pes\Database\Handler\ConnectionInfo;
-use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
-use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
-use Pes\Database\Handler\AttributesProvider\AttributesProvider;
-use Pes\Database\Handler\Handler;
-use Pes\Database\Handler\HandlerInterface;
 
 // controller
-use \Red\Middleware\Redactor\Controler\UserActionControler;
-use \Red\Middleware\Redactor\Controler\HierarchyControler;
-use \Red\Middleware\Redactor\Controler\EditItemControler;
+use Red\Middleware\Redactor\Controler\UserActionControler;
+use Red\Middleware\Redactor\Controler\HierarchyControler;
+use Red\Middleware\Redactor\Controler\EditItemControler;
 use Red\Middleware\Redactor\Controler\ItemActionControler;
-use \Red\Middleware\Redactor\Controler\PaperControler;
-use \Red\Middleware\Redactor\Controler\ArticleControler;
+use Red\Middleware\Redactor\Controler\PaperControler;
+use Red\Middleware\Redactor\Controler\ArticleControler;
 use Red\Middleware\Redactor\Controler\MultipageControler;
-use \Red\Middleware\Redactor\Controler\SectionsControler;
+use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
-use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
+use Events\Middleware\Events\Controler\{EventControler, VisitorDataControler};
 
 // services
 // generator service
-use Red\Service\ContentGenerator\ContentGeneratorRegistry;
-use Red\Service\ContentGenerator\Paper\PaperService;
-use Red\Service\ContentGenerator\Article\ArticleService;
-use Red\Service\ContentGenerator\StaticTemplate\StaticService;
-use Red\Service\ContentGenerator\Multipage\MultipageService;
+use Red\Service\ItemCreator\ItemCreatorRegistry;
+use Red\Service\ItemCreator\Paper\PaperCreator;
+use Red\Service\ItemCreator\Article\ArticleCreator;
+use Red\Service\ItemCreator\StaticTemplate\StaticTemplateCreator;
+use Red\Service\ItemCreator\Multipage\MultipageCreator;
 // menu itemmanipulator
 use Red\Service\MenuItemxManipulator\MenuItemManipulator;
 
@@ -132,7 +126,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemRepo::class),
                         $c->get(HierarchyAggregateReadonlyDao::class),
                         $c->get(MenuItemManipulator::class),
-                        $c->get(ContentGeneratorRegistry::class)
+                        $c->get(ItemCreatorRegistry::class)
                         );
             },
             PaperControler::class => function(ContainerInterface $c) {
@@ -169,8 +163,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class));
             },
-            EventController::class => function(ContainerInterface $c) {
-                return (new EventController(
+            EventControler::class => function(ContainerInterface $c) {
+                return (new EventControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
@@ -184,8 +178,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new Event($statusSecurityRepo->get());
             },
 
-            VisitorDataController::class => function(ContainerInterface $c) {
-                return (new VisitorDataController(
+            VisitorDataControler::class => function(ContainerInterface $c) {
+                return (new VisitorDataControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
@@ -195,44 +189,45 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // generator service
 
-            // volání nastavených služeb Red\Service\ContentGenerator ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
+            // volání nastavených služeb Red\Service\ItemCreator ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
 
-            ContentGeneratorRegistry::class => function(ContainerInterface $c) {
-                $factory = new ContentGeneratorRegistry(
+            ItemCreatorRegistry::class => function(ContainerInterface $c) {
+                $factory = new ItemCreatorRegistry(
                         $c->get(MenuItemTypeRepo::class)
                     );
                 // lazy volání služby kontejneru
-                $factory->registerService('paper', function() use ($c) {return $c->get(PaperService::class);});
-                $factory->registerService('article', function() use ($c) {return $c->get(ArticleService::class);});
-                $factory->registerService('static', function() use ($c) {return $c->get(StaticService::class);});
-                $factory->registerService('multipage', function() use ($c) {return $c->get(MultipageService::class);});
+                $factory->registerGenerator('paper', function() use ($c) {return $c->get(PaperCreator::class);});
+                $factory->registerGenerator('article', function() use ($c) {return $c->get(ArticleCreator::class);});
+                $factory->registerGenerator('static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator('multipage', function() use ($c) {return $c->get(MultipageCreator::class);});
+                $factory->registerGenerator('events', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
                 return $factory;
             },
-            PaperService::class => function(ContainerInterface $c) {
-                return new PaperService(
+            PaperCreator::class => function(ContainerInterface $c) {
+                return new PaperCreator(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(PaperRepo::class)
                     );
             },
-            ArticleService::class => function(ContainerInterface $c) {
-                return new ArticleService(
+            ArticleCreator::class => function(ContainerInterface $c) {
+                return new ArticleCreator(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(ArticleRepo::class)
                     );
             },
-            StaticService::class => function(ContainerInterface $c) {
-                return new StaticService(
+            StaticTemplateCreator::class => function(ContainerInterface $c) {
+                return new StaticTemplateCreator(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class)
                     );
             },
-            MultipageService::class => function(ContainerInterface $c) {
-                return new MultipageService(
+            MultipageCreator::class => function(ContainerInterface $c) {
+                return new MultipageCreator(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class),

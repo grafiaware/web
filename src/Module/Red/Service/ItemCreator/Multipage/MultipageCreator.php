@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Red\Service\ContentGenerator\Multipage;
+namespace Red\Service\ItemCreator\Multipage;
 
-use Red\Service\ContentGenerator\ContentServiceAbstract;
+use Red\Service\ItemCreator\ItemCreatorAbstract;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -22,7 +22,7 @@ use Red\Model\Entity\Multipage;
  *
  * @author pes2704
  */
-class MultipageService extends ContentServiceAbstract {
+class MultipageCreator extends ItemCreatorAbstract {
 
     /**
      * @var PaperRepo

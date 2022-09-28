@@ -22,7 +22,7 @@ use Status\Model\Enum\FlashSeverityEnum;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Service\MenuItemxManipulator\MenuItemManipulator;
-use Red\Service\ContentGenerator\ContentGeneratorRegistryInterface;
+use Red\Service\ItemCreator\ItemCreatorRegistryInterface;
 use Red\Service\MenuItemxManipulator\MenuItemToggleResultEnum;
 
 use Pes\Type\Exception\ValueNotInEnumException;
@@ -45,7 +45,7 @@ class EditItemControler extends FrontControlerAbstract {
     private $menuItemxManipulator;
 
     /**
-     * @var ContentGeneratorRegistryInterface
+     * @var ItemCreatorRegistryInterface
      */
     private $contentGeneratorRegistry;
 
@@ -62,7 +62,7 @@ class EditItemControler extends FrontControlerAbstract {
             MenuItemRepo $menuItemRepo,
             HierarchyAggregateReadonlyDao $hierarchyDao,
             MenuItemManipulator $menuItemxManipulator,
-            ContentGeneratorRegistryInterface $contentGeneratorFactory
+            ItemCreatorRegistryInterface $contentGeneratorFactory
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
@@ -139,14 +139,14 @@ class EditItemControler extends FrontControlerAbstract {
      * Zkotroluje a nastaví položce menu (menu item) požadovaný typ. Typ menu item před voláním této metody musí být prázdný (typ empty) a pro požadovaný typ musí být zaregistrován generátor
      * obsahu nového prvku v ContentGeneratorRegistry.
      *
-     * Metoda nastaví typ menu item a generuje nový obsah pomocí Red\Service\ContentGenerator zaregistrované pro daný typ v ContentGeneratorRegistry.
+     * Metoda nastaví typ menu item a generuje nový obsah pomocí Red\Service\ItemCreator zaregistrované pro daný typ v ContentGeneratorRegistry.
      *
      * @param ServerRequestInterface $request
      * @param string $uid
      * @return Response
      */
     public function type(ServerRequestInterface $request, $uid) {
-        $type = (new RequestParams())->getParam($request, 'type');
+        $typePostParam = (new RequestParams())->getParam($request, 'type');
         $folded = (new RequestParams())->getParam($request, 'folded', false);   //TODO:  dočasně pro static path!!!!
         $allLangVersionsMenuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
         /** @var MenuItemInterface $langMenuItem */
@@ -158,9 +158,9 @@ class EditItemControler extends FrontControlerAbstract {
             }
         }
         if ($isEmpty) {
-            $contentGenerator = $this->contentGeneratorRegistry->getGenerator($type);
+            $contentGenerator = $this->contentGeneratorRegistry->getGenerator($typePostParam);
             foreach ($allLangVersionsMenuItems as $langMenuItem) {
-                $langMenuItem->setType($type);
+                $langMenuItem->setType($typePostParam);
                 if ($folded) {
                     $langMenuItem->setPrettyuri('folded:'.$folded);   //TODO:  dočasně pro static path!!!!
                 } else {
@@ -168,7 +168,7 @@ class EditItemControler extends FrontControlerAbstract {
                 }
                 $contentGenerator->initialize($langMenuItem->getId());
             }
-            $this->addFlashMessage("menuItem type($type)", FlashSeverityEnum::SUCCESS);
+            $this->addFlashMessage("menuItem type($typePostParam)", FlashSeverityEnum::SUCCESS);
         } else {
 
 

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Service\ContentGenerator\Exception;
+namespace Red\Service\ItemCreator\Exception;
 
 /**
  * Description of UnknownMenuItemTypeException

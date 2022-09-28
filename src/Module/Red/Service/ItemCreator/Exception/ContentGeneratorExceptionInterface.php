@@ -6,13 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace Red\Service\ContentGenerator\Exception;
+namespace Red\Service\ItemCreator\Exception;
 
 /**
- * Description of UnknownMenuItemTypeException
  *
  * @author pes2704
  */
-class UnknownMenuItemTypeException extends \LogicException implements ContentGeneratorExceptionInterface {
-
+interface ContentGeneratorExceptionInterface {
+    //put your code here
 }

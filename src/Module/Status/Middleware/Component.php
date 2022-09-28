@@ -16,7 +16,7 @@ use Container\{
     ComponentContainerConfigurator, RedModelContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
 };
 
-use \Status\Middleware\Component\Controller\StatusComponentControler;
+use \Status\Middleware\Component\Controler\StatusComponentControler;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 

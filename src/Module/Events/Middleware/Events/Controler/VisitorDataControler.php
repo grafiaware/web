@@ -1,6 +1,6 @@
 <?php
 
-namespace Events\Middleware\Events\Controller;
+namespace Events\Middleware\Events\Controler;
 
 use Site\ConfigurationCache;
 
@@ -35,7 +35,7 @@ use Mail\Params\{Content, Attachment, StringAttachment, Party};
  *
  * @author pes2704
  */
-class VisitorDataController extends FrontControlerAbstract {
+class VisitorDataControler extends FrontControlerAbstract {
 
     const UPLOADED_KEY_CV = "visitor-cv";
     const UPLOADED_KEY_LETTER = "visitor-letter";

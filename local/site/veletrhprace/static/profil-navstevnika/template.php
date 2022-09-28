@@ -23,7 +23,7 @@ if (isset($loginAggregate)) {
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
 }
 
-// poue pro default roli 'visitor'
+// pouze pro default roli 'visitor'
 if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
 
     $visitorDataRepo = $container->get(VisitorProfileRepo::class);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Red\Service\ContentGenerator;
+namespace Red\Service\ItemCreator;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,7 +17,7 @@ use Status\Model\Repository\StatusFlashRepo;
  *
  * @author pes2704
  */
-abstract class ContentServiceAbstract implements ContentServiceInterface {
+abstract class ItemCreatorAbstract implements ItemCreatorInterface {
 
 
     /**

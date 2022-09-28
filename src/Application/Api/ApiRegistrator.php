@@ -61,22 +61,22 @@ class ApiRegistrator {
         ### red module ###
         #
         #### ComponentController ####
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/service/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/static/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/empty/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/paper/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/article/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/multipage/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/unknown'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/flash'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/service/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/static/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/empty/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/paper/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/article/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/multipage/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/unknown'));
 
         #### TemplateController ####
 
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/templateslist/:type'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/papertemplate/:folder'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/articletemplate/:folder'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/multipagetemplate/:folder'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/authortemplate/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/templateslist/:type'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/papertemplate/:folder'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/articletemplate/:folder'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/multipagetemplate/:folder'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/authortemplate/:name'));
 
         #### UserActionController ####
 
@@ -140,13 +140,14 @@ class ApiRegistrator {
         ### events module ###
         #
         #### EventController ####
-        $registry->register($this->postPrototype->withUrlPattern('/event/v1/enroll'));
-
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         #### VisitorDataController ####
-        $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitor'));
-        $registry->register($this->postPrototype->withUrlPattern('/event/v1/uploadvisitorfile'));
-        $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitorpost'));
-        $registry->register($this->postPrototype->withUrlPattern('/event/v1/sendvisitorpost'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorpost'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendvisitorpost'));
+        #### VisitorDataController ####
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/eventcontent/:staticName'));
 
         ### mail module ###
         #
@@ -157,7 +158,6 @@ class ApiRegistrator {
         #
         #### BuildController #### '/build/listconfig'
         $registry->register($this->getPrototype->withUrlPattern('/build/listconfig'));
-
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/createusers'));

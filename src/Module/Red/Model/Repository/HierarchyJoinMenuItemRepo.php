@@ -102,17 +102,6 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
         return $this->addEntitiesByRowDataArray($this->dataManager->getSubTree($langCode, $rootUid, $maxDepth));
     }
 
-    /**
-     *
-     * @param string $langCode Identifikátor language
-     * @param string $parentUid
-     * @param int $maxDepth int or NULL
-     * @return HierarchyAggregateInterface array of
-     */
-    public function getSubNodes($langCode, $parentUid, $maxDepth=NULL) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->getSubNodes($langCode, $parentUid, $maxDepth));
-    }
-
     protected function indexFromEntity(HierarchyAggregateInterface $menuNode) {
         return $menuNode->getMenuItem()->getLangCodeFk().$menuNode->getUid();
     }

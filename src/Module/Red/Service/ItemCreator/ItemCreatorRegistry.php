@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Red\Service\ContentGenerator;
+namespace Red\Service\ItemCreator;
 
-use Red\Service\ContentGenerator\Exception;
+use Red\Service\ItemCreator\Exception;
 
 use Red\Model\Repository\MenuItemTypeRepo;
 
@@ -17,7 +17,7 @@ use Red\Model\Repository\MenuItemTypeRepo;
  *
  * @author pes2704
  */
-class ContentGeneratorRegistry implements ContentGeneratorRegistryInterface {
+class ItemCreatorRegistry implements ItemCreatorRegistryInterface {
 
     /**
      * @var MenuItemTypeRepo
@@ -42,21 +42,21 @@ class ContentGeneratorRegistry implements ContentGeneratorRegistryInterface {
      * @param callable $service
      * @return void
      */
-    public function registerService(string $menuItemType, callable $service): void {
+    public function registerGenerator(string $menuItemType, callable $service): void {
         $this->serviceRegister[$menuItemType] = $service;
     }
 
     /**
      *
      * @param type $menuItemType
-     * @return ContentServiceInterface
+     * @return ItemCreatorInterface
      * @throws Exception\UnknownMenuItemTypeException
      * @throws UnregisteredContentGeneretorException
      */
-    public function getGenerator(string $menuItemType): ContentServiceInterface {
+    public function getGenerator(string $menuItemType): ItemCreatorInterface {
         $type = $this->menuItemTypeRepo->get($menuItemType);
         if (!isset($type)) {
-            throw new Exception\UnknownMenuItemTypeException("Neznámý typ menu item $menuItemType. Nelze vytvořit generátor obsahu.");
+            throw new Exception\UnknownMenuItemTypeException("Neznámý typ menu item '$menuItemType'. Nelze vytvořit generátor obsahu.");
         }
         if (array_key_exists($menuItemType, $this->serviceRegister)) {
             $serviceFactoryCallable = $this->serviceRegister[$menuItemType];

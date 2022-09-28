@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Status\Middleware\Component\Controller;
+namespace Status\Middleware\Component\Controler;
 
 use Site\ConfigurationCache;
 

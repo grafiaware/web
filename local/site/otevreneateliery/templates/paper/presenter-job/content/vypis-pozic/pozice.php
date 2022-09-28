@@ -7,7 +7,7 @@ use Site\ConfigurationCache;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Events\Middleware\Events\Controller\VisitorDataController;
+use Events\Middleware\Events\Controler\VisitorDataControler;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorJobRequestRepo;
@@ -73,8 +73,8 @@ if (isset($loginAggregate)) {
         // unikátní jména souborů pro upload
         $userHash = $loginAggregate->getLoginNameHash();
         $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
-        $uploadedCvFilename = VisitorDataController::UPLOADED_KEY_CV.$userHash;
-        $uploadedLetterFilename = VisitorDataController::UPLOADED_KEY_LETTER.$userHash;
+        $uploadedCvFilename = VisitorDataControler::UPLOADED_KEY_CV.$userHash;
+        $uploadedLetterFilename = VisitorDataControler::UPLOADED_KEY_LETTER.$userHash;
 
         // email z registrace
         // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly

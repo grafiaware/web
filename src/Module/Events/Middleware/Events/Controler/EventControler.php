@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Events\Middleware\Events\Controller;
+namespace Events\Middleware\Events\Controler;
 
 use FrontControler\FrontControlerAbstract;
 
@@ -31,7 +31,7 @@ use \Model\Entity\Enroll;
  *
  * @author pes2704
  */
-class EventController extends FrontControlerAbstract {
+class EventControler extends FrontControlerAbstract {
 
     private $enrollRepo;
 

@@ -37,7 +37,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
      *
      */
     public function beforeRenderingHook(): void {
-        $subNodes = $this->contextData->getSubNodes();  //včetně kořene podstromu - tedy včetně multipage položky
+        $subNodes = $this->contextData->getSubTree();  //včetně kořene podstromu - tedy včetně multipage položky
         // odstraní kořenový uzel, tj. uzel odpovídající vlastní multipage, zbydou jen potomci
         if (count($subNodes)>1) {
             array_shift($subNodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]

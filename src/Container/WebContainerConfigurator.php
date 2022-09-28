@@ -10,8 +10,8 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
-use Red\Middleware\Component\Controller\ComponentControler;
-use Red\Middleware\Component\Controller\TemplateControler;
+use Red\Middleware\Redactor\Controler\ComponentControler;
+use Red\Middleware\Redactor\Controler\TemplateControler;
 
 // user - ze session
 use Auth\Model\Entity\Credentials;

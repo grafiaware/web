@@ -5,16 +5,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace Red\Service\ContentGenerator\StaticTemplate;   // Static je keyword a použití Red\Service\ContentGenerator\Static je syntaktická chyba
+namespace Red\Service\ItemCreator\StaticTemplate;   // Static je keyword a použití Red\Service\ItemCreator\Static je syntaktická chyba
 
-use Red\Service\ContentGenerator\ContentServiceAbstract;
+use Red\Service\ItemCreator\ItemCreatorAbstract;
 
 /**
  * Description of StaticService
  *
  * @author pes2704
  */
-class StaticService extends ContentServiceAbstract {
+class StaticTemplateCreator extends ItemCreatorAbstract {
     public function initialize($menuItemIdFk): void {
 
         ;

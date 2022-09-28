@@ -20,7 +20,7 @@ use Red\Middleware\Component\Component;
 
 use Red\Middleware\Redactor\Redactor;
 use Web\Middleware\Transformator\Transformator;
-
+use Events\Middleware\Events\Event;
 use Sendmail\Middleware\Sendmail\Sendmail;
 
 use Build\Middleware\Build\Build;
@@ -92,6 +92,7 @@ class SelectorItems {
                     new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
+                    new Transformator(),
                     new Redactor()
                 ];},
 
@@ -104,7 +105,7 @@ class SelectorItems {
 //                    new PresentationStatus(),
                     new Login()
                 ];},
-            '/event'=>
+            '/events'=>
             function() {
                 return [
                     new ResponseTime(),
@@ -112,7 +113,7 @@ class SelectorItems {
                     new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new \Events\Middleware\Events\Event()
+                    new Event()
                 ];},
             '/sendmail'=>
             function() {

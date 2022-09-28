@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Middleware\Component\Controller;
+namespace Red\Middleware\Redactor\Controler;
 
 use Site\ConfigurationCache;
 use FrontControler\FrontControlerAbstract;

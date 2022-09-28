@@ -12,18 +12,22 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Container\{
-    ApiContainerConfigurator, RedModelContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, MailContainerConfigurator
-};
+use Container\EventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Container\DbEventsContainerConfigurator;
+use Container\LoginContainerConfigurator;
+use Container\MailContainerConfigurator;
 
-use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
+use Events\Middleware\Events\Controler\EventcontentControler;
+use Events\Middleware\Events\Controler\EventControler;
+use Events\Middleware\Events\Controler\VisitorDataControler;
 
 class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
 
-    ## proměnné třídy - pro dostupnost v Closure definovaných v routách ##
-    private $request;
 
     private $container;
+
+    private $routeGenerator;
 
     /**
      *
@@ -33,8 +37,23 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->request = $request;
+        if ($request->getMethod()=="GET") {
+            $this->prepareProcessGet();
+        } elseif ($request->getMethod()=="POST") {
+            $this->prepareProcessPost();
+        } else {
+            throw new UnexpectedRequestMethodException("Neznámá metoda HTTP request '{$request->getMethod()}'.");
+        }
 
+        /** @var $router RouterInterface */
+        $router = $this->container->get(RouterInterface::class);
+        $router->exchangeRoutes($this->routeGenerator);
+        return $router->process($request, $handler) ;
+    }
+
+#### GET ################################
+
+    private function prepareProcessGet() {
         // middleware kontejner:
         //      nový kontejner konfigurovaný MenuContainerConfigurator
         //      -> delegát další nový kontejner konfigurovaný ApiContainerConfigurator a LoginContainerConfigurator
@@ -59,40 +78,73 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             );
 
 ####################################
-        /** @var RouteSegmentGenerator $routeGenerator */
-        $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
+        /** @var RouteSegmentGenerator $this->routeGenerator */
+        $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
-        $routeGenerator->addRouteForAction('POST', "/event/v1/enroll", function(ServerRequestInterface $request) {
-            /** @var EventController $ctrl */
-            $ctrl = $this->container->get(EventController::class);
+        #### ComponentController ####
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/eventcontent/:staticName', function(ServerRequestInterface $request, $staticName) {
+            /** @var EventcontentControler $ctrl */
+            $ctrl = $this->container->get(EventcontentControler::class);
+            return $ctrl->static($request, $staticName);
+            });
+    }
+
+    ### POST #################################
+
+    private function prepareProcessPost() {
+
+        // middleware kontejner:
+        //      nový kontejner konfigurovaný MenuContainerConfigurator
+        //      -> delegát další nový kontejner konfigurovaný ApiContainerConfigurator a LoginContainerConfigurator
+        //      -> delegát aplikační kontejner
+        // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
+        // jsou v jednotlivých kontejnerech)
+
+        $this->container =
+            (new EventsContainerConfigurator())->configure(
+                (new EventsModelContainerConfigurator())->configure(
+                    (new DbEventsContainerConfigurator())->configure(
+                        (new Container(
+//                                (new LoginContainerConfigurator())->configure(
+                                    (new MailContainerConfigurator())->configure(
+                                        new Container($this->getApp()->getAppContainer())
+//                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+
+####################################
+        /** @var RouteSegmentGenerator $this->routeGenerator */
+        $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
+
+        $this->routeGenerator->addRouteForAction('POST', "/events/v1/enroll", function(ServerRequestInterface $request) {
+            /** @var EventControler $ctrl */
+            $ctrl = $this->container->get(EventControler::class);
             return $ctrl->enroll($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/event/v1/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorDataController $ctrl */
-            $ctrl = $this->container->get(VisitorDataController::class);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
+            /** @var VisitorDataControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataControler::class);
             return $ctrl->visitor($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/event/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
-            /** @var VisitorDataController $ctrl */
-            $ctrl = $this->container->get(VisitorDataController::class);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
+            /** @var VisitorDataControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataControler::class);
             return $ctrl->uploadTxtDocuments($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/event/v1/visitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataController $ctrl */
-            $ctrl = $this->container->get(VisitorDataController::class);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorpost', function(ServerRequestInterface $request) {
+            /** @var VisitorDataControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataControler::class);
             return $ctrl->postVisitorData($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/event/v1/sendvisitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataController $ctrl */
-            $ctrl = $this->container->get(VisitorDataController::class);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendvisitorpost', function(ServerRequestInterface $request) {
+            /** @var VisitorDataControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataControler::class);
             return $ctrl->sendVisitorDataPost($request);
         });
-####################################
-        /** @var $router RouterInterface */
-        $router = $this->container->get(RouterInterface::class);
-        $router->exchangeRoutes($routeGenerator);
-
-        return $router->process($request, $handler) ;
     }
 }
 
