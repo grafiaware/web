@@ -47,6 +47,7 @@ class VisitorProfileHydrator extends TypeHydratorAbstract implements HydratorInt
              $this->setSqlValue($rowData, 'login_login_name', $visitorProfile->getLoginLoginName());
              $this->setSqlValue($rowData, 'prefix', $visitorProfile->getPrefix());
              $this->setSqlValue($rowData, 'name', $visitorProfile->getName());
+             $this->setSqlValue($rowData, 'surname', $visitorProfile->getSurname());
              $this->setSqlValue($rowData, 'postfix', $visitorProfile->getPostfix());
              $this->setSqlValue($rowData, 'email', $visitorProfile->getEmail());
              $this->setSqlValue($rowData, 'phone', $visitorProfile->getPhone());

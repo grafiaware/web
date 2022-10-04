@@ -6,14 +6,19 @@ use Site\ConfigurationCache;
 
 use FrontControler\FrontControlerAbstract;
 
-use Status\Model\Repository\{StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo};
-use Red\Model\Repository\{VisitorDataRepo, VisitorDataPostRepo};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
 
+use Events\Model\Repository\VisitorProfileRepo;
+use Events\Model\Repository\VisitorJobRequestRepo;
+
+//TODO: chybný namespace Red
 use Red\Model\Entity\LoginAggregateFullInterface;
 
-use Red\Model\Entity\VisitorData;
-use Red\Model\Entity\VisitorDataPost;
-use Red\Model\Entity\VisitorDataPostInterface;
+use Events\Model\Entity\VisitorProfile;
+use Events\Model\Entity\VisitorJobRequest;
+use Events\Model\Entity\VisitorJobRequestInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -27,7 +32,10 @@ use Pes\Http\Response;
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 use Mail\Params;
-use Mail\Params\{Content, Attachment, StringAttachment, Party};
+use Mail\Params\Content;
+use Mail\Params\Attachment; 
+use Mail\Params\StringAttachment;
+use Mail\Params\Party;
 
 
 /**
@@ -35,7 +43,7 @@ use Mail\Params\{Content, Attachment, StringAttachment, Party};
  *
  * @author pes2704
  */
-class VisitorDataControler extends FrontControlerAbstract {
+class VisitorControler extends FrontControlerAbstract {
 
     const UPLOADED_KEY_CV = "visitor-cv";
     const UPLOADED_KEY_LETTER = "visitor-letter";
@@ -44,20 +52,20 @@ class VisitorDataControler extends FrontControlerAbstract {
 //
 //    private $accept;
 
-    private $visitorDataRepo;
+    private $visitorProfileRepo;
 
-    private $visitorDataPostRepo;
+    private $visitorJobRequestRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            VisitorDataRepo $visitorDataRepo,
-            VisitorDataPostRepo $visitorDataPostRepo
+            VisitorProfileRepo $visitorProfileRepo,
+            VisitorJobRequestRepo $visitorJobRequesRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->visitorDataRepo = $visitorDataRepo;
-        $this->visitorDataPostRepo = $visitorDataPostRepo;
+        $this->visitorProfileRepo = $visitorProfileRepo;
+        $this->visitorJobRequestRepo = $visitorJobRequesRepo;
     }
 
     /**
@@ -76,28 +84,28 @@ class VisitorDataControler extends FrontControlerAbstract {
         } else {
             $loginName = $loginAggregateCredentials->getLoginName();
 
-            $visitorData = $this->visitorDataRepo->get($loginName);
-            if (!isset($visitorData)) {
-                $visitorData = new VisitorData();
-                $visitorData->setLoginName($loginName);
-                $this->visitorDataRepo->add($visitorData);
+            $visitorProfile = $this->visitorProfileRepo->get($loginName);
+            if (!isset($visitorProfile)) {
+                $visitorProfile = new VisitorProfile();
+                $visitorProfile->setLoginLoginName($loginName);
+                $this->visitorProfileRepo->add($visitorProfile);
             }
             // POST data
-            $visitorData->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
-            $visitorData->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
-            $visitorData->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
-            $visitorData->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
-            $visitorData->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
-            $visitorData->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
-            $visitorData->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
-            $visitorData->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
+            $visitorProfile->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
+            $visitorProfile->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
+            $visitorProfile->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
+            $visitorProfile->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
+            $visitorProfile->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
+            $visitorProfile->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
+            $visitorProfile->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
+            $visitorProfile->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
 
 //            $this->addFlashMessage(" Data uložena");
             return $this->redirectSeeLastGet($request);
         }
     }
 
-    public function sendVisitorDataPost(ServerRequestInterface $request) {
+    public function sendJobRequest(ServerRequestInterface $request) {
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
 
@@ -112,7 +120,7 @@ class VisitorDataControler extends FrontControlerAbstract {
                 $positionName = (new RequestParams())->getParsedBodyParam($request, 'position-name');
                 $visitorLoginName = (new RequestParams())->getParsedBodyParam($request, "visitor-login-name");
 
-                $visitorDataPost = $this->visitorDataPostRepo->get($visitorLoginName, $shortName, $positionName);
+                $visitorDataPost = $this->visitorJobRequestRepo->get($visitorLoginName, $shortName, $positionName);
                 if (!isset($visitorDataPost)) {
                     $this->addFlashMessage("Pracovní údaje pro pozici $positionName nenalezeny v databázi.");
                 } else {
@@ -168,7 +176,7 @@ class VisitorDataControler extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      */
-    public function postVisitorData(ServerRequestInterface $request) {
+    public function jobRequest(ServerRequestInterface $request) {
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
 
@@ -182,15 +190,15 @@ class VisitorDataControler extends FrontControlerAbstract {
             $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
             $positionName = (new RequestParams())->getParsedBodyParam($request, 'position-name');
 
-            $visitorData = $this->visitorDataRepo->get($loginName);
-            $visitorDataPost = $this->visitorDataPostRepo->get($loginName, $shortName, $positionName);
+            $visitorData = $this->visitorProfileRepo->get($loginName);
+            $visitorDataPost = $this->visitorJobRequestRepo->get($loginName, $shortName, $positionName);
 
             if (!isset($visitorDataPost)) {
                 $visitorDataPost = new VisitorDataPost();
                 $visitorDataPost->setLoginLoginName($loginName);
                 $visitorDataPost->setJobId($shortName);
                 $visitorDataPost->setPositionName($positionName);
-                $this->visitorDataPostRepo->add($visitorDataPost);
+                $this->visitorJobRequestRepo->add($visitorDataPost);
             }
 
 //            $visitorDataPost->setPrefix($visitorData->getPrefix());
@@ -367,11 +375,11 @@ class VisitorDataControler extends FrontControlerAbstract {
             if (isset($loginAggregateCredentials)) {
                 $loginName = $loginAggregateCredentials->getLoginName();
 
-                $visitorData = $this->visitorDataRepo->get($loginName);
+                $visitorData = $this->visitorProfileRepo->get($loginName);
                 if (!isset($visitorData)) {
                     $visitorData = new VisitorData();
                     $visitorData->setLoginName($loginName);
-                    $this->visitorDataRepo->add($visitorData);
+                    $this->visitorProfileRepo->add($visitorData);
                 }
 
                 switch ($type) {
@@ -463,7 +471,7 @@ class VisitorDataControler extends FrontControlerAbstract {
         $visitorData->setLetterDocumentMimetype($mime);
         $visitorData->setLetterDocumentFilename($letterFilepathName);
 
-        $this->visitorDataRepo->add($visitorData);
+        $this->visitorProfileRepo->add($visitorData);
     }
 
     private function createResponeIfError(UploadedFileInterface $uploadfile) {

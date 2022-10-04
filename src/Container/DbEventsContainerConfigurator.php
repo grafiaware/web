@@ -60,8 +60,8 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions(): iterable {
-        return [ ];
+    public function getServicesDefinitions(): iterable {                 
+        return [  ];
     }
 
     public function getServicesOverrideDefinitions(): iterable {

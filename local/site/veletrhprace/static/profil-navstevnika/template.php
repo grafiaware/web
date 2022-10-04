@@ -8,6 +8,11 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 use Events\Model\Repository\EnrollRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 use Events\Model\Repository\VisitorProfileRepo;
+use Events\Model\Entity\VisitorProfileInterface;
+
+use Events\Model\Repository\DocumentRepo;
+use Events\Model\Entity\DocumentInterface;
+
 
 use Pes\Text\Html;
 use Pes\Text\Text;
@@ -23,14 +28,38 @@ if (isset($loginAggregate)) {
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
 }
 
-// pouze pro default roli 'visitor'
+// pouze pro default roli 'visitor' ????
 if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
+    /** @var VisitorProfileRepo $visitorProfileRepo */
+    $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
+    $visitorData = $visitorProfileRepo->get($loginName);    //$visitorData jsou z !!visitor_profile repository!!
 
-    $visitorDataRepo = $container->get(VisitorProfileRepo::class);
-    $visitorData = $visitorDataRepo->get($loginName);
-
+    /** @var VisitorProfileInterface $visitorData */
+    if (isset($visitorData)) {
+        $documentCvId = $visitorData->getCvDocument();
+        $documentLettterId = $visitorData->getLetterDocument();        
+    }
+    /** @var DocumentRepo $documentRepo */
+    $documentRepo = $container->get(DocumentRepo::class);
+    /** @var Document $visitorDocumentCv */
+    if (isset($documentCvId)) {
+        $visitorDocumentCv = $documentRepo->get($documentCvId);        
+    }
+    /** @var Document $visitorDocumentLetter */
+    if (isset($documentLettterId)) {
+        $visitorDocumentLetter = $documentRepo->get($documentLettterId);         
+    }
+    
+    
+    
+    
+    
+    //--------------------------------------------------
     $enrollRepo = $container->get(EnrollRepo::class);
     $enrolls = $enrollRepo->findByLoginName($loginName);
+    //--------------------------------------------------
+    
+    
 
     $headline = "Můj profil";
     $perex = "Vítejte $loginName ";

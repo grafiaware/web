@@ -30,7 +30,7 @@ use Red\Middleware\Redactor\Controler\MultipageControler;
 use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
-use Events\Middleware\Events\Controler\{EventControler, VisitorDataControler};
+use Events\Middleware\Events\Controler\{EventControler, VisitorControler};
 
 // services
 // generator service
@@ -41,14 +41,6 @@ use Red\Service\ItemCreator\StaticTemplate\StaticTemplateCreator;
 use Red\Service\ItemCreator\Multipage\MultipageCreator;
 // menu itemmanipulator
 use Red\Service\MenuItemxManipulator\MenuItemManipulator;
-
-// array model
-use Events\Model\Arraymodel\Event;
-
-// events
-use Events\Model\Repository\EnrollRepo;
-use Events\Model\Repository\VisitorProfileRepo;
-use Events\Model\Repository\VisitorJobRequestRepo;
 
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -162,30 +154,6 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class));
-            },
-            EventControler::class => function(ContainerInterface $c) {
-                return (new EventControler(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(EnrollRepo::class),
-                        $c->get(Event::class))
-                        )->injectContainer($c);
-            },
-            Event::class => function(ContainerInterface $c) {
-                /** @var StatusSecurityRepo $statusSecurityRepo */
-                $statusSecurityRepo = $c->get(StatusSecurityRepo::class);
-                return new Event($statusSecurityRepo->get());
-            },
-
-            VisitorDataControler::class => function(ContainerInterface $c) {
-                return (new VisitorDataControler(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(VisitorProfileRepo::class),
-                        $c->get(VisitorJobRequestRepo::class))
-                        )->injectContainer($c);
             },
             // generator service
 

@@ -148,7 +148,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             // database
                 ## pro eventsmiddleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
-
+                Sql::class => function(ContainerInterface $c) {
+                    return new Sql();
+                },
             // context
             ContextFactory::class => function(ContainerInterface $c) {
                 return new ContextFactory(); // TODO:     ($statusSecurityRepo, $statusPresentationRepo)

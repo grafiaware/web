@@ -13,11 +13,14 @@ use Pes\Logger\FileLogger;
 
 // controler
 use Events\Middleware\Events\Controler\EventcontentControler;
+use Events\Middleware\Events\Controler\VisitorControler;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
+use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Repository\VisitorProfileRepo;
 
 /**
  *
@@ -50,7 +53,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
-            }
+            }, 
+                    
+            VisitorControler::class => function(ContainerInterface $c) {
+                return (new VisitorControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), 
+                        $c->get(VisitorProfileRepo::class), 
+                        $c->get(VisitorJobRequestRepo::class))
+                        )->injectContainer($c);
+                 }            
         ];
     }
 

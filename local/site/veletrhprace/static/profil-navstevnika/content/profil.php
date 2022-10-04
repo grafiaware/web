@@ -16,7 +16,7 @@ use Pes\Text\Html;
                 <div class="ui styled fluid accordion">
                     <?php if( $role!=='presenter') {include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje-profil.php';} ?>
                     <?= '';//$this->insert(__DIR__.'/profil/igelitka.php', $igelitka); ?>
-                    <?php include 'profil/harmonogram.php' ?>
+                    <?php  /* include 'profil/harmonogram.php' */ ?>
                 </div>
                 <br/>
             </div>

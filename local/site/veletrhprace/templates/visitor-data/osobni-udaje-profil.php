@@ -7,17 +7,21 @@ use Pes\Text\Html;
 use Site\ConfigurationCache;
 use Red\Model\Entity\LoginAggregateFullInterface;
 
-use Events\Middleware\Events\Controler\VisitorDataControler;
-use Red\Model\Entity\VisitorData;
+use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Model\Entity\VisitorProfile;
+use Events\Model\Entity\Document;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var VisitorData $visitorData */
+/** @var VisitorProfile $visitorData */
 /** @var LoginAggregateFullInterface $loginAggregate */
+/** @var Document $visitorDocumentCv */
+/** @var Document $visitorDocumentLetter */
+
 
 $userHash = $loginAggregate->getLoginNameHash();
 $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
-$uploadedCvFilename = VisitorDataControler::UPLOADED_KEY_CV.$userHash;
-$uploadedLetterFilename = VisitorDataControler::UPLOADED_KEY_LETTER.$userHash;
+$uploadedCvFilename = VisitorControler::UPLOADED_KEY_CV.$userHash;
+$uploadedLetterFilename = VisitorControler::UPLOADED_KEY_LETTER.$userHash;
 
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
@@ -29,7 +33,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                 Balíček pracovních údajů
             </div>
             <div class="active content">
-                <form class="ui huge form" action="event/v1/visitor" method="POST">
+                <form class="ui huge form" action="events/v1/visitor" method="POST">
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
@@ -74,8 +78,8 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                     <label><b>Nahrané soubory</b></label>
                     <div class="fields">
                         <div class="field">
-                            <p>Životopis: <?= isset($visitorData) ? $visitorData->getCvDocumentFilename() : ''; ?></p>
-                            <p>Motivační dopis: <?= isset($visitorData) ? $visitorData->getLetterDocumentFilename() : ''; ?></p>
+                            <p>Životopis: <?= isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : ''; ?></p>
+                            <p>Motivační dopis: <?= isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : ''; ?></p>
                         </div>
 <!--                        <div class="field">
                                 <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a></span>
@@ -88,7 +92,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                 <form class="ui huge form" action="event/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">
-                            <label><?= (isset($visitorData) AND $visitorData->getCvDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
+                            <label><?= (isset($visitorDocumentCv) AND $visitorDocumentCv->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
                             <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">
@@ -99,7 +103,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                 <form class="ui huge form" action="event/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">
-                            <label><?= (isset($visitorData) AND $visitorData->getLetterDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
+                            <label><?= (isset($visitorDocumentLetter) AND $visitorDocumentLetter->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
                             <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">

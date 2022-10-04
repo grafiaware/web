@@ -20,7 +20,7 @@ use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\EventcontentControler;
 use Events\Middleware\Events\Controler\EventControler;
-use Events\Middleware\Events\Controler\VisitorDataControler;
+use Events\Middleware\Events\Controler\VisitorControler;
 
 class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -66,11 +66,11 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
                 (new EventsModelContainerConfigurator())->configure(
                     (new DbEventsContainerConfigurator())->configure(
                         (new Container(
-                                (new LoginContainerConfigurator())->configure(
+//                                (new LoginContainerConfigurator())->configure(
                                     (new MailContainerConfigurator())->configure(
                                         new Container($this->getApp()->getAppContainer())
                                     )
-                                )
+//                                )
                             )
                         )
                     )
@@ -108,8 +108,8 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
 //                                (new LoginContainerConfigurator())->configure(
                                     (new MailContainerConfigurator())->configure(
                                         new Container($this->getApp()->getAppContainer())
-//                                    )
-                                )
+                                    )
+//                                )
                             )
                         )
                     )
@@ -126,24 +126,24 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->enroll($request);
         });
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorDataControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataControler::class);
+            /** @var VisitorControler $ctrl */
+            $ctrl = $this->container->get(VisitorControler::class);
             return $ctrl->visitor($request);
         });
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
-            /** @var VisitorDataControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataControler::class);
+            /** @var VisitorControler $ctrl */
+            $ctrl = $this->container->get(VisitorControler::class);
             return $ctrl->uploadTxtDocuments($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataControler::class);
-            return $ctrl->postVisitorData($request);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobrequest', function(ServerRequestInterface $request) {
+            /** @var VisitorControler $ctrl */
+            $ctrl = $this->container->get(VisitorControler::class);
+            return $ctrl->jobRequest($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendvisitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataControler::class);
-            return $ctrl->sendVisitorDataPost($request);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest', function(ServerRequestInterface $request) {
+            /** @var VisitorControler $ctrl */
+            $ctrl = $this->container->get(VisitorControler::class);
+            return $ctrl->sendJobRequest($request);
         });
     }
 }

@@ -144,8 +144,8 @@ class ApiRegistrator {
         #### VisitorDataController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorpost'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendvisitorpost'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobrequest'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest'));
         #### VisitorDataController ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/eventcontent/:staticName'));
 
