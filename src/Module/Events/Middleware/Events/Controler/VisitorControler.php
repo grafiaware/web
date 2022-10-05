@@ -12,6 +12,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Repository\DocumentRepo;
 
 //TODO: chybný namespace Red
 use Red\Model\Entity\LoginAggregateFullInterface;
@@ -19,6 +20,8 @@ use Red\Model\Entity\LoginAggregateFullInterface;
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Entity\VisitorJobRequestInterface;
+
+use Status\Model\Enum\FlashSeverityEnum;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -55,17 +58,24 @@ class VisitorControler extends FrontControlerAbstract {
     private $visitorProfileRepo;
 
     private $visitorJobRequestRepo;
+    
+    private $documentRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             VisitorProfileRepo $visitorProfileRepo,
-            VisitorJobRequestRepo $visitorJobRequesRepo
+            VisitorJobRequestRepo $visitorJobRequesRepo,     //?
+            
+            DocumentRepo $documentRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->visitorProfileRepo = $visitorProfileRepo;
         $this->visitorJobRequestRepo = $visitorJobRequesRepo;
+        
+        $this->documentRepo = $documentRepo;
+
     }
 
     /**
@@ -90,6 +100,7 @@ class VisitorControler extends FrontControlerAbstract {
                 $visitorProfile->setLoginLoginName($loginName);
                 $this->visitorProfileRepo->add($visitorProfile);
             }
+    
             // POST data
             $visitorProfile->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
             $visitorProfile->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
@@ -105,6 +116,7 @@ class VisitorControler extends FrontControlerAbstract {
         }
     }
 
+    
     public function sendJobRequest(ServerRequestInterface $request) {
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
@@ -331,7 +343,7 @@ class VisitorControler extends FrontControlerAbstract {
 
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
-            $response = $response->withStatus(401);  // Unaathorized
+            $response = $response->withStatus(401);  // Unauthorized
         } else {
             $userHash = $loginAggregateCredentials->getLoginNameHash();
 
@@ -348,9 +360,9 @@ class VisitorControler extends FrontControlerAbstract {
                     $fileForSave = $files[self::UPLOADED_KEY_LETTER.$userHash];
                     $type = self::UPLOADED_KEY_LETTER;
                 }
-                $response = $this->createResponeIfError($fileForSave);
+                $response = $this->createResponeIfError($request, $fileForSave);
             } else {
-                $this->addFlashMessage("neodeslán žádný soubor. Soubor neuložen.");
+                $this->addFlashMessage("neodeslán žádný soubor. Soubor neuložen.", FlashSeverityEnum::WARNING);
                 $response = $this->redirectSeeLastGet($request);
             }
         }
@@ -381,19 +393,21 @@ class VisitorControler extends FrontControlerAbstract {
                     $visitorData->setLoginName($loginName);
                     $this->visitorProfileRepo->add($visitorData);
                 }
+                
+                
 
                 switch ($type) {
                     case self::UPLOADED_KEY_CV:
                         $visitorData->setCvDocument(file_get_contents($uploadedFileTemp));
                         $visitorData->setCvDocumentMimetype($clientMime);
                         $visitorData->setCvDocumentFilename($clientFileName);
-                        $this->addFlashMessage("Uložen váš životopis.");
+                        $this->addFlashMessage("Uložen váš životopis.", FlashSeverityEnum::SUCCESS);
                         break;
                     case self::UPLOADED_KEY_LETTER:
                         $visitorData->setLetterDocument(file_get_contents($uploadedFileTemp));
                         $visitorData->setLetterDocumentMimetype($clientMime);
                         $visitorData->setLetterDocumentFilename($clientFileName);
-                        $this->addFlashMessage("Uložen váš motivační dopis.");
+                        $this->addFlashMessage("Uložen váš motivační dopis.", FlashSeverityEnum::SUCCESS);
                         break;
                     default:
                         break;
@@ -405,15 +419,15 @@ class VisitorControler extends FrontControlerAbstract {
 //            $file->moveTo($targetFilename);
                 $response = $this->redirectSeeLastGet($request);
             } else {
-                $this->addFlashMessage("Chyba oprávnění.");
-                $this->addFlashMessage("Soubor neuložen!");
+                $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
+                $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
                 $this->redirectSeeLastGet($request);
             }
         } else {
             if (isset($clientFileName)) {
                 $this->addFlashMessage($clientFileName);
             }
-            $this->addFlashMessage("Soubor neuložen!");
+            $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
             return $response;
         }
 
@@ -448,7 +462,7 @@ class VisitorControler extends FrontControlerAbstract {
                 $response = 'File upload stopped by extension.';
                 break;
             default:
-                $response = 'Unknown upload error';
+                $response = 'Unknown upload error.';
                 break;
         }
         return $response;
@@ -474,7 +488,7 @@ class VisitorControler extends FrontControlerAbstract {
         $this->visitorProfileRepo->add($visitorData);
     }
 
-    private function createResponeIfError(UploadedFileInterface $uploadfile) {
+    private function createResponeIfError($request, UploadedFileInterface $uploadfile) {
         $clientFileName = $uploadfile->getClientFilename();
         $error = $uploadfile->getError();
         $size = $uploadfile->getSize();  // v bytech
@@ -486,28 +500,34 @@ class VisitorControler extends FrontControlerAbstract {
 //        if ($fileNameError) {
 //            $response = (new ResponseFactory())->createResponse();
 //            $response = $response->withStatus(400, "Bad Request. Invalid file name.");
-//            $this->addFlashMessage("Chybné kméno souboru.");
+//            $this->addFlashMessage("Chybné jméno souboru.", FlashSeverityEnum::WARNING);
 ////                header("HTTP/1.1 400 Invalid file name.");
 //        } else
-            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), ConfigurationCache::filesUploadController()['upload.events.acceptedextensions'])) {
+            
+            if ($clientFileName==="") {
+            $response = (new ResponseFactory())->createResponse();
+            $response = $response->withStatus(400, "Bad Request. No file name.");
+            $this->addFlashMessage("Prázdné jméno souboru.", FlashSeverityEnum::WARNING);
+        } elseif (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), ConfigurationCache::filesUploadController()['upload.events.acceptedextensions'])) {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. Invalid file extesion.");
-            $this->addFlashMessage("Chybná přípona souboru.");
+            $this->addFlashMessage("Chybná přípona souboru.", FlashSeverityEnum::WARNING);
         } elseif ($error != UPLOAD_ERR_OK) {
             $errMessage = $this->uploadErrorMessage($error);
             $response = (new ResponseFactory())->createResponse();
-            $response = $response->withStatus(500, "Server or transfer error. $errMessage");
-            $this->addFlashMessage("Nepodařilo se nahrát soubor.");
+            $response = $response->withStatus(400, "Server or transfer error. $errMessage");
+            $this->addFlashMessage("Nepodařilo se nahrát soubor. Chyba: $errMessage", FlashSeverityEnum::WARNING);
         } elseif ($size>10000000) {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. File size is over limit.");
-            $this->addFlashMessage("Soubor je příliš velký. Maximum je 10MB.");
+            $this->addFlashMessage("Soubor je příliš velký. Maximum je 10MB.", FlashSeverityEnum::WARNING);
         } elseif ($size<10) {
             $response = (new ResponseFactory())->createResponse();
-            $response = $response->withStatus(400, "Bad Request. File size is under limit.");
-            $this->addFlashMessage("Soubor je prázdný.");
+            $response = $response->withStatus(400, "Bad Request. File size is under limit.", FlashSeverityEnum::WARNING);
+            $this->addFlashMessage("Soubor je prázdný.", FlashSeverityEnum::WARNING);
         }
-        return $response ?? null;
+        return isset($response) ? $this->redirectSeeLastGet($request) : null;  // SV vžd ypřeklopím chybový esponse na přesměrování
+//        return $response ?? null;
 
     }
 }

@@ -89,7 +89,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                     </div>
                 </form>
                 <!--odesílá k uložení do souboru-->
-                <form class="ui huge form" action="event/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
+                <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorDocumentCv) AND $visitorDocumentCv->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
@@ -100,7 +100,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                         </div>
                      </div>
                 </form>
-                <form class="ui huge form" action="event/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
+                <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorDocumentLetter) AND $visitorDocumentLetter->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
