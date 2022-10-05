@@ -39,9 +39,42 @@ class Sql implements SqlInterface {
         return $condition ? " WHERE ".$condition." " : "";
     }
 
+    /**
+     * Obalí jméno zpětnými apostrofy (backtics)
+     * @param type $name
+     * @return string
+     */
     private function identificator($name) {
-        $id = "`".trim(trim($name), "`")."`";
-        return $id;
+    // https://stackoverflow.com/questions/16476744/exploding-a-string-using-a-regular-expression
+
+    // if you have more than one delimiter like quotes (that are the same for open and close), you can write your pattern like this, using a capture group:
+    // explanation:
+//    (['#@°])   one character in the class is captured in group 1
+//    .*?        any character zero or more time in lazy mode
+//    \1         group 1 content
+        preg_match_all('~([\'"`]).*?\1|\([^)]+\)|[^ ]+~', $name, $match);
+        $keys = [
+            ',',
+            'AS',
+            'JOIN',
+            'LEFT',
+            'RIGHT',
+            'INNER',
+            'OUTER'
+        ];
+
+        $terms = $match[0];
+        $parenthesis = $match[1];   // znaky nalezené jako ohraničení (captured in group 1)
+        $id = [];
+        foreach ($terms as $key=>$term) {
+            if ($parenthesis[$key]=="" AND (!in_array($term, $keys))) {
+                    $trn = trim($term);
+                    $id[] = "`".trim($trn, "`")."`";
+            } else {
+                $id[] = $term;
+            }
+        }
+        return implode(" ", $id);
     }
 
     /**
