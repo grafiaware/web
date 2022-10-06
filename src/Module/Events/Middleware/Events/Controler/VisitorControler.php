@@ -18,6 +18,7 @@ use Events\Model\Repository\DocumentRepo;
 use Red\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Model\Entity\VisitorProfile;
+use Events\Model\Entity\Document;
 use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Entity\VisitorJobRequestInterface;
 
@@ -368,10 +369,7 @@ class VisitorControler extends FrontControlerAbstract {
         }
 
         ###### SAVE
-
         if (!isset($response) AND isset($type)) {
-
-
     //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
     //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
 
@@ -393,20 +391,34 @@ class VisitorControler extends FrontControlerAbstract {
                     $visitorData->setLoginName($loginName);
                     $this->visitorProfileRepo->add($visitorData);
                 }
-                
-                
-
+               
+                //----------             
+                $documentCvId = $visitorData->getCvDocument();
+                $documentLettterId = $visitorData->getLetterDocument();            
                 switch ($type) {
                     case self::UPLOADED_KEY_CV:
-                        $visitorData->setCvDocument(file_get_contents($uploadedFileTemp));
-                        $visitorData->setCvDocumentMimetype($clientMime);
-                        $visitorData->setCvDocumentFilename($clientFileName);
+                        if (!isset($documentCvId)) {
+                            $documentCv = new Document();
+                            $this->documentRepo->add($documentCv);
+                        }                        
+                        $documentCv->setDocument(file_get_contents($uploadedFileTemp));
+                        $documentCv->setDocumentMimetype($clientMime);
+                        $documentCv->setDocumentFilename($clientFileName);
+                        $visitorData->setCvDocument($documentCv->getId());
+                        
                         $this->addFlashMessage("Uložen váš životopis.", FlashSeverityEnum::SUCCESS);
                         break;
+                        
                     case self::UPLOADED_KEY_LETTER:
-                        $visitorData->setLetterDocument(file_get_contents($uploadedFileTemp));
-                        $visitorData->setLetterDocumentMimetype($clientMime);
-                        $visitorData->setLetterDocumentFilename($clientFileName);
+                        if (!isset($documentLettterId)) {
+                            $documentLetter = new Document();
+                            $this->documentRepo->add($documentLetter);
+                        }
+                        $documentLetter->setDocument(file_get_contents($uploadedFileTemp));
+                        $documentLetter->setDocumentMimetype($clientMime);
+                        $documentLetter->setDocumentFilename($clientFileName);
+                        $visitorData->setLetterDocument($documentLetter->getId());
+                        
                         $this->addFlashMessage("Uložen váš motivační dopis.", FlashSeverityEnum::SUCCESS);
                         break;
                     default:
@@ -415,8 +427,6 @@ class VisitorControler extends FrontControlerAbstract {
                 $flashMessage = "Uloženo $size bytů.";
                 $this->addFlashMessage($flashMessage);
 
-//            $targetFilename = Configuration::filesUploadController()['upload.events.visitor'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
-//            $file->moveTo($targetFilename);
                 $response = $this->redirectSeeLastGet($request);
             } else {
                 $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
