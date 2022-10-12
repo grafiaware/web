@@ -400,11 +400,16 @@ class VisitorControler extends FrontControlerAbstract {
                         if (!isset($documentCvId)) {
                             $documentCv = new Document();
                             $this->documentRepo->add($documentCv);
-                        }                        
+                           
+                            $visitorData->setCvDocument($documentCv->getId());
+                        }
+                        else {        
+                             $documentCv = $this->documentRepo->get($documentCvId);  
+                        }                 
                         $documentCv->setDocument(file_get_contents($uploadedFileTemp));
                         $documentCv->setDocumentMimetype($clientMime);
                         $documentCv->setDocumentFilename($clientFileName);
-                        $visitorData->setCvDocument($documentCv->getId());
+                        
                         
                         $this->addFlashMessage("Uložen váš životopis.", FlashSeverityEnum::SUCCESS);
                         break;
@@ -413,11 +418,15 @@ class VisitorControler extends FrontControlerAbstract {
                         if (!isset($documentLettterId)) {
                             $documentLetter = new Document();
                             $this->documentRepo->add($documentLetter);
+                            
+                            $visitorData->setLetterDocument($documentLetter->getId());
                         }
+                         else {   
+                            $documentLetter = $this->documentRepo->get($documentLettterId);     
+                        }     
                         $documentLetter->setDocument(file_get_contents($uploadedFileTemp));
                         $documentLetter->setDocumentMimetype($clientMime);
                         $documentLetter->setDocumentFilename($clientFileName);
-                        $visitorData->setLetterDocument($documentLetter->getId());
                         
                         $this->addFlashMessage("Uložen váš motivační dopis.", FlashSeverityEnum::SUCCESS);
                         break;

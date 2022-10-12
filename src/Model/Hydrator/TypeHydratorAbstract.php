@@ -53,19 +53,13 @@ abstract class TypeHydratorAbstract implements HydratorInterface {
     /**
      * Získá z objektu RowData jednu hodnotu podle zadaného jména.
      * Pokud hodnota neexistuje vrací null.
-     *
+     * 
      * @param RowDataInterface $rowData
      * @param type $name
-     * @return DateTime|null
+     * @return mixed
      */
-    protected function getPhpValue(RowDataInterface $rowData, $name): ?string {
-        if ($rowData->offsetExists($name)) {
-            $value = $rowData->offsetGet($name);
-            if (isset($value)) {
-                $get = $value;
-            }
-        }
-        return $get ?? null;
+    protected function getPhpValue(RowDataInterface $rowData, $name){
+        return $rowData->offsetExists($name) ? $rowData->offsetGet($name) : null;
     }
 
     /**

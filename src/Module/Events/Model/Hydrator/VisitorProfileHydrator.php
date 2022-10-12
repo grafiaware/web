@@ -35,7 +35,7 @@ class VisitorProfileHydrator extends TypeHydratorAbstract implements HydratorInt
                 ->setCvDocument($this->getPhpValue      ($rowData,'cv_document'))
                 ->setLetterDocument($this->getPhpValue  ($rowData,'letter_document'));
         
-    }
+     }
 
     /**
      *
