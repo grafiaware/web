@@ -36,7 +36,7 @@ use Red\Middleware\Redactor\Controler\Exception\UnexpectedRequestMethodException
 class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
     private $container;
-    
+
     private $routeGenerator;
 
     /**
@@ -85,9 +85,6 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
             $this->getApp()->setAppContainer($this->container);
         #
         ###########################################################################################
-
-        /** @var RouteSegmentGenerator $this->routeGenerator */
-        $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
@@ -179,6 +176,9 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                         )
                     )
                 );
+        
+        /** @var RouteSegmentGenerator $this->routeGenerator */
+        $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         #### UserActionController ####
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/presentation/language', function(ServerRequestInterface $request) {
                 /** @var UserActionControler $ctrl */
