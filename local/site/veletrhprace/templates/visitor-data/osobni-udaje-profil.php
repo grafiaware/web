@@ -75,19 +75,35 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                     <div class="field margin">
                         <button class="ui primary button" type="submit">Uložit údaje</button>
                     </div>
+                     
+                </form>
+            </div>
+
                     <label><b>Nahrané soubory</b></label>
                     <div class="fields">
                         <div class="field">
-                            <p>Životopis: <?= isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : ''; ?></p>
+                            <form class="ui huge form" action="events/v1/removevisitorfilecv" method="POST" >
+                                <p>Životopis: <?= isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : ''; ?>
+                                    <input  type="text"  name="cvId"  value= <?= isset($visitorDocumentCv) ? $visitorDocumentCv->getId() : '' ; ?> >
+                                </p>
+                                 <button type="submit" formaction="events/v1/removevisitorfile" >Odstranit životopis</button> 
+                            </form>
+                            
+                            
                             <p>Motivační dopis: <?= isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : ''; ?></p>
                         </div>
+                        
+                        
+                        
+                        
 <!--                        <div class="field">
                                 <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a></span>
                                 <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
                         </div>-->
 
-                    </div>
-                </form>
+                    </div>  
+                    
+                    
                 <!--odesílá k uložení do souboru-->
                 <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
@@ -111,4 +127,4 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                         </div>
                      </div>
                 </form>
-            </div>
+            
