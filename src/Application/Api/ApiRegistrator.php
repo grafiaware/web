@@ -148,6 +148,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest'));
         #### VisitorDataController ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/eventcontent/:staticName'));
+        // doc
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/document/:id/remove'));
 
         ### mail module ###
         #

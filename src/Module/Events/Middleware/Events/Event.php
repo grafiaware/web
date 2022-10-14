@@ -21,9 +21,9 @@ use Container\MailContainerConfigurator;
 use Events\Middleware\Events\Controler\EventcontentControler;
 use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Middleware\Events\Controler\DocumentControler;
 
 class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
-
 
     private $container;
 
@@ -125,16 +125,25 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(EventControler::class);
             return $ctrl->enroll($request);
         });
+        
+        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
             /** @var VisitorControler $ctrl */
             $ctrl = $this->container->get(VisitorControler::class);
             return $ctrl->visitor($request);
+        });
+         $this->routeGenerator->addRouteForAction('POST', '/events/v1/document/:id/remove', function(ServerRequestInterface $request, $id) {
+            /** @var DocumentControler $ctrl */
+            $ctrl = $this->container->get(DocumentControler::class);
+            return $ctrl->remove($request, $id);
         });
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
             /** @var VisitorControler $ctrl */
             $ctrl = $this->container->get(VisitorControler::class);
             return $ctrl->uploadTxtDocuments($request);
         });
+        
+        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobrequest', function(ServerRequestInterface $request) {
             /** @var VisitorControler $ctrl */
             $ctrl = $this->container->get(VisitorControler::class);
