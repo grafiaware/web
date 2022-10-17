@@ -16,10 +16,14 @@ $jobModel = new Job();
 
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
 /** @var BlockRepo $blockRepo */
-$blockRepo = $container->get(BlockRepo::class);
+// SVOBODA - čeká ba Red databázi - slouží pro generování odkazů na stránku firmy
+//
+//$blockRepo = $container->get(BlockRepo::class);
 
 foreach ($jobModel->getShortNamesList() as $shortName) {
-    $block = $blockRepo->get($shortName);
+// SVOBODA - čeká ba Red databázi - slouží pro generování odkazů na stránku firmy
+//    
+//    $block = $blockRepo->get($shortName);
     $presenterJobs = $jobModel->getCompanyJobList($shortName);
     $jobs = [];
     foreach ($presenterJobs as $job) {
@@ -34,8 +38,13 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
             ];
 }
 
-?>
 
+
+
+
+?>
+ dsvsdvsdvsdvsdv
+ 
 <article class="paper">
     <section>
         <headline>
