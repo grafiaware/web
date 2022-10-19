@@ -169,12 +169,12 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
 
     
     public function testGetNonExisted() {
-        $visitorJobRequest = $this->visitorJobRequestRepo->get('dlksdhfweuih');
+        $visitorJobRequest = $this->visitorJobRequestRepo->get('dlksdhfweuih', '10000' );
         $this->assertNull($visitorJobRequest);
     }
 
     public function testGetAfterSetup() {
-        $visitorJobRequest = $this->visitorJobRequestRepo->get(self::$loginNameTest);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $visitorJobRequest = $this->visitorJobRequestRepo->get(self::$loginNameTest, self::$jobId1);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
         $this->assertInstanceOf(VisitorJobRequestInterface::class, $visitorJobRequest);
     }
 
@@ -205,7 +205,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
     
 
     public function testGetAfterAdd() {
-        $visitorJobRequest = $this->visitorJobRequestRepo->get(self::$loginNameAdded);
+        $visitorJobRequest = $this->visitorJobRequestRepo->get(self::$loginNameAdded, self::$jobId1 );
         $this->assertInstanceOf(VisitorJobRequestInterface::class, $visitorJobRequest);
     }
 
@@ -224,7 +224,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
         
         $this->visitorJobRequestRepo->add($visitorJobRequest);
         $this->visitorJobRequestRepo->flush();
-        $visitorJobRequestRereaded = $this->visitorJobRequestRepo->get($loginName);
+        $visitorJobRequestRereaded = $this->visitorJobRequestRepo->get($loginName, self::$jobId1);
         $this->assertInstanceOf(VisitorJobRequest::class, $visitorJobRequestRereaded);
         $this->assertTrue($visitorJobRequestRereaded->isPersisted());
     }
@@ -273,7 +273,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
    
     public function testRemove() {
         /** @var VisitorJobRequest $visitorJobRequest */
-        $visitorJobRequest = $this->visitorJobRequestRepo->get( self::$loginNameAdded );
+        $visitorJobRequest = $this->visitorJobRequestRepo->get( self::$loginNameAdded, self::$jobId1 );
                
         $this->assertInstanceOf(VisitorJobRequest::class, $visitorJobRequest);
         $this->assertTrue($visitorJobRequest->isPersisted());
@@ -288,7 +288,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
         $this->assertFalse($visitorJobRequest->isLocked());
         
         // pokus o čtení, entita VisitorJobRequest.self::$loginNameAdded  uz  neni
-        $visitorJobRequest = $this->visitorJobRequestRepo->get(  self::$loginNameAdded );
+        $visitorJobRequest = $this->visitorJobRequestRepo->get(  self::$loginNameAdded, self::$jobId1 );
         $this->assertNull($visitorJobRequest);
         
     }

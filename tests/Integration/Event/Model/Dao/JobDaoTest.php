@@ -203,7 +203,7 @@ class JobDaoTest  extends AppRunner {
         //visitor_job_request
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao = $this->container->get( VisitorJobRequestDao::class);  
-        $visitorJobRequestData = $visitorJobRequestDao->get( ['login_login_name' => self::$login_login_name ] );        
+        $visitorJobRequestData = $visitorJobRequestDao->get( ['login_login_name' => self::$login_login_name, 'job_id' => self::$idTouple['id']] );        
         $this->assertNull($visitorJobRequestData); 
 
     }

@@ -14,7 +14,7 @@ use Events\Model\Repository\VisitorJobRequestRepoInterface;
 
 
 /**
- * Description of Menu
+ * Description
  *
  * @author
  */
@@ -25,14 +25,15 @@ class VisitorJobRequestRepo extends RepoAbstract implements VisitorJobRequestRep
         $this->registerHydrator($visitorDataPostHydrator);
     }
 
-    
+   
     /**
      * 
      * @param type $loginName
+     * @param type $jobId
      * @return VisitorJobRequestInterface|null
      */
-    public function get($loginName): ?VisitorJobRequestInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name'=>$loginName]);
+    public function get($loginName, $jobId): ?VisitorJobRequestInterface {
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name'=>$loginName, 'job_id'=> $jobId ]);
         return $this->getEntity($key);
     }
 

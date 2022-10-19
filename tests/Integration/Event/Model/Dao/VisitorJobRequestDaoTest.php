@@ -6,7 +6,7 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsContainerConfigurator;
+use Test\Integration\Event\Container\EventsModelContainerConfigurator;   //EventsContainerConfigurator
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\VisitorJobRequestDao;
@@ -37,7 +37,7 @@ class VisitorJobRequestDaoTest  extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();        
         $container =
-            (new EventsContainerConfigurator())->configure(   (new DbEventsContainerConfigurator())->configure( (new Container()   )     )
+            (new EventsModelContainerConfigurator())->configure(   (new DbEventsContainerConfigurator())->configure( (new Container()   )     )
             );
         
         // nový login login_name, company, job
@@ -71,7 +71,7 @@ class VisitorJobRequestDaoTest  extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
                     (new Container(  )  )
                 )
@@ -86,7 +86,7 @@ class VisitorJobRequestDaoTest  extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsContainerConfigurator())->configure(
+            (new EventsModelContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
                     (new Container( ) )
                 )
@@ -119,19 +119,19 @@ class VisitorJobRequestDaoTest  extends AppRunner {
     }
 
     public function testGet() {
-        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName] );
+        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName,  'job_id' =>  self::$jobIdTouple['id'] ] );
         $this->assertInstanceOf(RowDataInterface::class, $visitorJobRequestRow);
     }
 
     public function test13Columns() {
-        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName] );
+        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName,  'job_id' =>  self::$jobIdTouple['id'] ] );
         $this->assertCount(13, $visitorJobRequestRow);
     }
 
     
             
     public function testUpdate() {
-        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName ]);
+        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName, 'job_id' =>  self::$jobIdTouple['id']  ]);
         $loginName = $visitorJobRequestRow['login_login_name'];
         $this->assertIsString($visitorJobRequestRow['login_login_name']);
 
@@ -142,7 +142,7 @@ class VisitorJobRequestDaoTest  extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $visitorJobRequestRowRereaded = $this->dao->get( ['login_login_name' => self::$loginName ]);
+        $visitorJobRequestRowRereaded = $this->dao->get( ['login_login_name' => self::$loginName, 'job_id' =>  self::$jobIdTouple['id'] ]);
         $this->assertInstanceOf(RowDataInterface::class, $visitorJobRequestRowRereaded);
         $this->assertEquals( "jmeno nevim čeho", $visitorJobRequestRowRereaded['name']);
 
@@ -160,7 +160,7 @@ class VisitorJobRequestDaoTest  extends AppRunner {
     
     
     public function testDelete() {
-        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName ]);
+        $visitorJobRequestRow = $this->dao->get( ['login_login_name' => self::$loginName, 'job_id' =>  self::$jobIdTouple['id']]);
         $this->dao->delete($visitorJobRequestRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 

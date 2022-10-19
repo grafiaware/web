@@ -71,6 +71,13 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         $companyDao = $container->get(CompanyDao::class);            
         $companyData = $companyDao->get(self::$companyIdTouple);
         $companyDao->delete($companyData);
+        
+        
+//          /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
+//        $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);            
+//        $pozadovaneVzdelaniData = $pozadovaneVzdelaniDao->get(['stupen' => "101"] );
+//        $pozadovaneVzdelaniDao->delete($pozadovaneVzdelaniData);
+        
 
     }
 
@@ -81,11 +88,11 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
      
     public function testInsert() {  
         $rowData = new RowData();
-        $rowData->offsetSet( 'stupen' , "100"  );
-        $rowData->offsetSet( 'vzdelani' , "AAAAA"  );
+        $rowData->offsetSet( 'stupen' , "101"  );
+        $rowData->offsetSet( 'vzdelani' , "AAAAAB"  );
         $this->dao->insert($rowData);       
         /** @var RowData $rowD */
-        $rowD =  $this->dao->get( ['stupen' => "100"] );
+        $rowD =  $this->dao->get( ['stupen' => "101"] );
        
     
         $rowArray = $rowD->getArrayCopy();
@@ -100,7 +107,7 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         /** @var JobDao $jobDao */
         $jobDao = $this->container->get(JobDao::class);
         $jobData = new RowData();
-        $jobData->import( ['pozadovane_vzdelani_stupen' => 100, 'company_id' =>self::$companyIdTouple['id']] );
+        $jobData->import( ['pozadovane_vzdelani_stupen' => 101, 'company_id' =>self::$companyIdTouple['id']] );
         $jobDao->insert($jobData);    
         self::$jobIdTouple = $jobDao->getLastInsertIdTouple();        
    }

@@ -3,6 +3,9 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 use Events\Model\Dao\VisitorJobRequestDaoInterface;
+use Model\Dao\DaoFkNonuniqueTrait;
+
+
 
 /**
  * Description of VisitorJobRequestDao
@@ -10,12 +13,11 @@ use Events\Model\Dao\VisitorJobRequestDaoInterface;
  * @author pes2704
  */
 class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestDaoInterface {
+    use DaoFkNonuniqueTrait;    
 
-
-    use \Model\Dao\DaoFkNonuniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
-        return ['login_login_name'] ;
+        return ['login_login_name', 'job_id'] ;
     }
 
     public function getAttributes(): array {
