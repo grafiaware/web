@@ -1,20 +1,18 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Arraymodel;
 
-/**
- * Description of JobList
- *
- * @author pes2704
- */
-class Job {
+use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Repository\JobToTagRepoInterface;
+use Events\Model\Repository\JobTagRepoInterface;
 
+
+
+
+
+class Job {
+        
     private     $jobList = [
         'akka' => [
 
@@ -187,9 +185,50 @@ class Job {
     6 => 'VOŠ / Bc.',
     7 => 'VŠ',
 ];
+  
+    /**
+     * 
+     * @var CompanyRepoInterface
+     */
+    private $companyRepo;
+    /**
+     * 
+     * @var JobRepoInterface
+     */        
+    private $jobRepo;
+    /**
+     * 
+     * @var JobToTagRepoInterface
+     */
+    private $jobToTagRepo;
+    /**
+     * 
+     * @var JobTagRepoInterface
+    */
+    private $jobTagRepo;
+  
+  
+  
+    public function __construct( CompanyRepoInterface $companyRepo,
+                                 JobRepoInterface $jobRepo,
+                                 JobToTagRepoInterface $jobToTagRepo,
+                                 JobTagRepoInterface $jobTagRepo    ) {
+            $this->companyRepo = $companyRepo;
+            $this->jobRepo = $jobRepo;
+            $this->jobToTagRepo = $jobToTagRepo;
+            $this->jobTagRepo = $jobTagRepo;
+    }
+            
 
-    public function getCompanyJobList($shortName) {
+    public function getCompanyJobList($shortName) {                
         return array_key_exists($shortName, $this->jobList) ? $this->jobList[$shortName] : [];
+    }
+    
+    public function getCompanyJobListI($idCompany)  {
+        $companyAll = $this->companyRepo->findAll();
+        
+        $companyJobsEntities = $this->jobRepo->get($idCompany);
+        return $companyJobsEntities ? $companyJobEntities : [];        
     }
 
     public function getFullJobList() {

@@ -1,12 +1,13 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Arraymodel;
+
+use Events\Model\Repository\CompanyRepoInterface;
+
+
+use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Repository\VisitorProfileRepoRepo;
+
+
 
 /**
  * Description of Presenter
@@ -67,7 +68,25 @@ class Presenter {
 
             ];
 
+        
+    
+    /**
+     * 
+     * @var CompanyRepoInterface
+     */
+    private $companyRepo;    
+    
+    public function __construct( CompanyRepoInterface $companyRepo ) {
+                $this->companyRepo = $companyRepo;        
+    }
 
+            
+            
+            
+            
+            
+            
+//------------------------------------------------
     public function getPerson($loginName) {
         if (array_key_exists($loginName, $this->person)) {
             // join
@@ -80,7 +99,12 @@ class Presenter {
         return array_key_exists($shortName, $this->company) ? $this->company[$shortName] : [];
     }
 
+    
+    
     public function getCompanyList() {
+        return $this->company;
+    }
+    public function getCompanyListI() {
         return $this->company;
     }
 

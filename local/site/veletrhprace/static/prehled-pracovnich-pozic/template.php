@@ -8,11 +8,19 @@ use Events\Model\Arraymodel\Job;
 use Events\Model\Arraymodel\Presenter;
 use Red\Model\Repository\BlockRepo;
 
+use Events\Model\Entity\Company;
 
 $headline = 'Pracovní pozice';
 $perex = '';
-$presenterModel = new Presenter();
-$jobModel = new Job();
+
+
+
+/** @var Presenter $presenterModel */
+$presenterModel = $container->get( Presenter::class );
+/** @var Job $jobModel */
+$jobModel = $container->get( Job::class );
+
+
 
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
 /** @var BlockRepo $blockRepo */
@@ -38,6 +46,21 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
             ];
 }
 
+
+
+//-------------------------------------------------------------------
+    $companyList = $presenterModel->getCompanyListI(); //array
+    foreach ($companyList as $companyId=>$company ) {
+        /** @var Company $company */
+        $allJobsI[] = [
+                'shortName' => $company->getId(),
+                'presenterName' => $company->getName(),
+                'block' => $block,
+                'presenterJobs' => ['jobs' => $jobModel->getCompanyJobListI($companyId) ],
+                'container' => $container
+                 ];
+    }
+ 
 
 
 

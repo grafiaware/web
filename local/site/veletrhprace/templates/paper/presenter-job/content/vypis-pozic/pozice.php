@@ -67,7 +67,9 @@ if (isset($loginAggregate)) {
         $visitorData = $visitorDataRepo->get($loginName);
 
         /** @var VisitorJobRequestInterface $visitorDataPost */
-        $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName); //$shortName, $positionName ...job_id
+//################################################################
+        $visitorDataPost = $visitorDataPostRepo->get($loginName, $jobId) ; // tady ma byt id jobu                                
+                /*$shortName, $positionName*/ //$shortName, $positionName ...job_id
 
         // formulář
         // unikátní jména souborů pro upload

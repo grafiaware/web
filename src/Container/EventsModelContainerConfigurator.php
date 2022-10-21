@@ -102,6 +102,9 @@ use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepo;
 
+use Events\Model\Arraymodel\Job;
+use Events\Model\Arraymodel\Presenter;
+
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -319,7 +322,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
 
 
             //Job
-             JobDao::class => function(ContainerInterface $c) {
+            JobDao::class => function(ContainerInterface $c) {
                 return new JobDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
             JobHydrator::class => function(ContainerInterface $c) {
@@ -330,7 +333,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             //JobToTag
-             JobToTagDao::class => function(ContainerInterface $c) {
+            JobToTagDao::class => function(ContainerInterface $c) {
                 return new JobToTagDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
             JobToTagHydrator::class => function(ContainerInterface $c) {
@@ -395,6 +398,14 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DocumentRepo($c->get(DocumentDao::class), $c->get(DocumentHydrator::class));
             },
 
+            Job::class => function(ContainerInterface $c) {
+                return new Job($c->get(CompanyRepo::class), $c->get(JobRepo::class), $c->get(JobToTagRepo::class), $c->get(JobTagRepo::class));
+            },
+            
+            Presenter::class => function(ContainerInterface $c) {
+                  return new Presenter($c->get(CompanyRepo::class));
+            }
+            
         ];
     }
 
