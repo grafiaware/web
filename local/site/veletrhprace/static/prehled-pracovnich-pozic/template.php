@@ -9,6 +9,7 @@ use Events\Model\Arraymodel\Presenter;
 use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Entity\Company;
+use Events\Model\Entity\Job as JobEntity;
 
 $headline = 'Pracovní pozice';
 $perex = '';
@@ -48,17 +49,35 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
 
 
 
-//-------------------------------------------------------------------
-    $companyList = $presenterModel->getCompanyListI(); //array
-    foreach ($companyList as $companyId=>$company ) {
+//--------------------------------------------------------------- CIST z DB ----
+    $companyListArray = $presenterModel->getCompanyListI(); //a
+    foreach ($companyListArray as $company ) {
+        $companyJobs  =   $jobModel->getCompanyJobListI($company->getId());
+        $jobsI = [];
+        foreach ($companyJobs as $jobI) {
+             /** @var JobEntity  $jobI */
+            $jb[] = [];      
+            $jb['id'] = $jobI->getId();
+            $jb['nazev'] = $jobI->getNazev();
+            $jb['mistoVykonu'] = $jobI->getMistoVykonu();
+            $jb['nabizime'] = $jobI->getNabizime();
+            $jb['popisPozice'] = $jobI->getPopisPozice();
+            $jb['vzdelani'] = $jobI->getPozadovaneVzdelaniStupen();
+            $jb['pozadujeme'] = $jobI->getPozadujeme();   
+            $jb['kategorie'] = 'necteno=tag';                                        
+            $jobsI[] = array_merge($jb, ['container' => $container, 'shortName' => $shortName, 'block' => $block]); 
+        }
+        
         /** @var Company $company */
         $allJobsI[] = [
-                'shortName' => $company->getId(),
+                'id' => $company->getId(),
+                'shortName' => $company->getName(),
                 'presenterName' => $company->getName(),
                 'block' => $block,
-                'presenterJobs' => ['jobs' => $jobModel->getCompanyJobListI($companyId) ],
+                //'presenterJobs' => ['jobs' => $jobModel->getCompanyJobList($company->getId()) ],
+                'presenterJobs' => ['jobs' => $jobsI],
                 'container' => $container
-                 ];
+                ];
     }
  
 

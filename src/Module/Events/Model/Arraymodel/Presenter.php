@@ -2,6 +2,7 @@
 namespace Events\Model\Arraymodel;
 
 use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Repository\JobRepoInterface;
 
 
 use Events\Model\Repository\VisitorJobRequestRepo;
@@ -75,9 +76,16 @@ class Presenter {
      * @var CompanyRepoInterface
      */
     private $companyRepo;    
+    /**
+     * 
+     * @var JobRepoInterface
+     */
+    private $jobRepo;
     
-    public function __construct( CompanyRepoInterface $companyRepo ) {
-                $this->companyRepo = $companyRepo;        
+    public function __construct( CompanyRepoInterface $companyRepo
+                                 /*JobRepoInterface $jobRepo*/ ) {
+                $this->companyRepo = $companyRepo;     
+                //$this->jobRepo = $jobRepo;     
     }
 
             
@@ -97,15 +105,27 @@ class Presenter {
 
     public function getCompany($shortName) {
         return array_key_exists($shortName, $this->company) ? $this->company[$shortName] : [];
-    }
-
-    
+    }    
     
     public function getCompanyList() {
         return $this->company;
     }
+    
+    
+    
+    
     public function getCompanyListI() {
-        return $this->company;
+        $allCompanyObjects = $this->companyRepo->findAll();
+        
+        foreach  ($allCompanyObjects as $company) {
+            $allCompanyArr [$company->getName()] =  ['id' => $company->getId(), 
+                                                     'name' => $company->getName(), 
+                                                     'eventInstitutionName30' => $company->getEventInstitutionName30() ];
+        }
+
+        
+        //return  $allCompanyArr;
+        return $allCompanyObjects;
     }
 
 }

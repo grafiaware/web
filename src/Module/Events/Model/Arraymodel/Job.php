@@ -225,10 +225,9 @@ class Job {
     }
     
     public function getCompanyJobListI($idCompany)  {
-        $companyAll = $this->companyRepo->findAll();
-        
-        $companyJobsEntities = $this->jobRepo->get($idCompany);
-        return $companyJobsEntities ? $companyJobEntities : [];        
+        $companyJobsEntities = $this->jobRepo->find( " company_id = :idCompany " , [ 'idCompany' => $idCompany ]);
+                                 //['menu_item.uid_fk=:uid_fk']), $uidFk
+        return $companyJobsEntities ? $companyJobsEntities : [];        
     }
 
     public function getFullJobList() {
