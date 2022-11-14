@@ -45,7 +45,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-$presenterModel = new Presenter();
+/** @var Presenter $presenterModel */
+$presenterModel = $container->get( Presenter::class );
 
 
 /** @var VisitorJobRequestRepo $visitorDataPostRepo */

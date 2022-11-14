@@ -8,6 +8,8 @@ use Events\Model\Arraymodel\Job;
 use Events\Model\Arraymodel\Presenter;
 use Red\Model\Repository\BlockRepo;
 
+use Events\Model\Repository\PozadovaneVzdelaniRepo;
+use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Entity\Company;
 use Events\Model\Entity\Job as JobEntity;
 
@@ -50,29 +52,37 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
 
 
 //--------------------------------------------------------------- CIST z DB ----
+    /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
+    $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
+    /** @var JobToTagRepo $jobToTagRepo */
+    $jobToTagRepo = $container->get(JobToTagRepo::class );
+
+
     $companyListArray = $presenterModel->getCompanyListI(); //a
-    foreach ($companyListArray as $company ) {
-        $companyJobs  =   $jobModel->getCompanyJobListI($company->getId());
+    foreach ($companyListArray as $companyEntity ) {
+        $companyJobs  =   $jobModel->getCompanyJobListI($companyEntity->getId());
         $jobsI = [];
         foreach ($companyJobs as $jobI) {
              /** @var JobEntity  $jobI */
             $jb[] = [];      
-            $jb['id'] = $jobI->getId();
+            $jb['jobId'] = $jobI->getId();
             $jb['nazev'] = $jobI->getNazev();
             $jb['mistoVykonu'] = $jobI->getMistoVykonu();
             $jb['nabizime'] = $jobI->getNabizime();
             $jb['popisPozice'] = $jobI->getPopisPozice();
-            $jb['vzdelani'] = $jobI->getPozadovaneVzdelaniStupen();
-            $jb['pozadujeme'] = $jobI->getPozadujeme();   
-            $jb['kategorie'] = 'necteno=tag';                                        
-            $jobsI[] = array_merge($jb, ['container' => $container, 'shortName' => $shortName, 'block' => $block]); 
+            //$jb['vzdelani'] = $jobI->getPozadovaneVzdelaniStupen();
+            $jb['vzdelani']= $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
+            $jb['pozadujeme'] = $jobI->getPozadujeme();               
+            //$jb['kategorie'] = 'necteno=tag';    
+            $jobToTagRepo->findByJobId($jobI->getId());
         }
+        $jobsI[] = array_merge($jb, ['container' => $container, 'shortName' => $shortName , 'block' => $block ] ); 
         
-        /** @var Company $company */
+        /** @var Company $companyEntity */
         $allJobsI[] = [
-                'id' => $company->getId(),
-                'shortName' => $company->getName(),
-                'presenterName' => $company->getName(),
+                'companyId' => $companyEntity->getId(),
+                'shortName' => $companyEntity->getName(),
+                'presenterName' => $companyEntity->getName(),
                 'block' => $block,
                 //'presenterJobs' => ['jobs' => $jobModel->getCompanyJobList($company->getId()) ],
                 'presenterJobs' => ['jobs' => $jobsI],
