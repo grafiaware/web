@@ -1,7 +1,12 @@
 <?php
-use Pes\Text\Text;
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Red\Model\Entity\PaperAggregateInterface;
 use Pes\Text\Html;
 
+use Pes\Text\Text
+
+/** @var PhpTemplateRendererInterface $this */
+/** @var PaperAggregateInterface $paperAggregate */
 ?>
 
 

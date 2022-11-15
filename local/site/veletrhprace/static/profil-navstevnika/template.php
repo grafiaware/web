@@ -62,7 +62,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
     
 
     $headline = "Můj profil";
-    $perex = "Vítejte $loginName ";
+    $perex = "Vítejte $loginName " ."NNNNNNNNNAAAAAAAAAAAAAAAAAAAAAAAAVVVVVViSiTTTT" ;
     $zprava =
         [
             [
@@ -123,6 +123,8 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
             ]
         ];
     ?>
+
+NNNNNNNNNAAAAAAAAAAAAAAAAAAAAAAAAVVVVVVSTTTT
     <article class="paper">
         <section>
             <headline>

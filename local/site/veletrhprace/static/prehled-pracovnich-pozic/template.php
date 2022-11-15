@@ -12,9 +12,11 @@ use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Entity\Company;
 use Events\Model\Entity\Job as JobEntity;
+use Events\Model\Entity\JobToTag;
+use Events\Model\Entity\PozadovaneVzdelani;
 
 $headline = 'Pracovní pozice';
-$perex = '';
+$perex = 'Vítejte prehled-pracovnich-pozic ';
 
 
 
@@ -38,12 +40,12 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     $presenterJobs = $jobModel->getCompanyJobList($shortName);
     $jobs = [];
     foreach ($presenterJobs as $job) {
-        $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName, 'block' => $block]);  // přidání $container a $shortName pro template pozice
+        $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName /*, 'block' => $block*/ ] );  // přidání $container a $shortName pro template pozice
     }
     $allJobs[] = [
                 'shortName' => $shortName,
                 'presenterName' => $presenterModel->getCompany($shortName)['name'],
-                'block' => $block,
+                //'block' => $block,
                 'presenterJobs' => ['jobs' => $jobs],
                 'container' => $container
             ];
@@ -58,45 +60,44 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     $jobToTagRepo = $container->get(JobToTagRepo::class );
 
 
-    $companyListArray = $presenterModel->getCompanyListI(); //a
+    $companyListArray = $presenterModel->getCompanyListI(); 
     foreach ($companyListArray as $companyEntity ) {
         $companyJobs  =   $jobModel->getCompanyJobListI($companyEntity->getId());
         $jobsI = [];
         foreach ($companyJobs as $jobI) {
-             /** @var JobEntity  $jobI */
-            $jb[] = [];      
+         /** @var JobEntity  $jobI */
+            $jb = [];      
             $jb['jobId'] = $jobI->getId();
             $jb['nazev'] = $jobI->getNazev();
             $jb['mistoVykonu'] = $jobI->getMistoVykonu();
-            $jb['nabizime'] = $jobI->getNabizime();
+            $jb['nabizime'][] = $jobI->getNabizime();
             $jb['popisPozice'] = $jobI->getPopisPozice();
-            //$jb['vzdelani'] = $jobI->getPozadovaneVzdelaniStupen();
-            $jb['vzdelani']= $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
-            $jb['pozadujeme'] = $jobI->getPozadujeme();               
-            //$jb['kategorie'] = 'necteno=tag';    
-            $jobToTagRepo->findByJobId($jobI->getId());
+            
+             /** @var PozadovaneVzdelani  $pozadVzdelaniEntita */
+            $pozadVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
+            $jb['vzdelani']= $pozadVzdelaniEntita->getStupen() ;
+            $jb['pozadujeme'][] = $jobI->getPozadujeme();      
+            
+            $jTTs = $jobToTagRepo->findByJobId($jobI->getId());
+            /** @var JobToTag  $jTT */
+            foreach ($jTTs as $jTT)  {
+                $jb['kategorie'][] = $jTT->getJobTagTag();
+            }
         }
-        $jobsI[] = array_merge($jb, ['container' => $container, 'shortName' => $shortName , 'block' => $block ] ); 
+        $jobsI[] = array_merge($jb, ['container' => $container, 'shortName' => $shortName /*, 'block' => $block*/ ] ); 
         
         /** @var Company $companyEntity */
         $allJobsI[] = [
                 'companyId' => $companyEntity->getId(),
                 'shortName' => $companyEntity->getName(),
                 'presenterName' => $companyEntity->getName(),
-                'block' => $block,
+                //'block' => $block,
                 //'presenterJobs' => ['jobs' => $jobModel->getCompanyJobList($company->getId()) ],
                 'presenterJobs' => ['jobs' => $jobsI],
                 'container' => $container
                 ];
     }
- 
-
-
-
-
 ?>
- dsvsdvsdvsdvsdv
- 
 <article class="paper">
     <section>
         <headline>
@@ -108,7 +109,8 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     </section>
     <section>
         <content class='prehled-pozic'>
-            <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobs);  ?>
+            xxxxxxxxxxxxxx
         </content>
     </section>
 </article>
+
