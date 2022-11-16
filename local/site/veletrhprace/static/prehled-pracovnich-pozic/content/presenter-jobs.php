@@ -21,5 +21,9 @@ use Site\ConfigurationCache;
                 }
                 ?>
 
-                <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
+                
+            xxxxxxxxxxxxxxpresenter-jobs
+            <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
+
+                
             </div>

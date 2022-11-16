@@ -83,8 +83,9 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
             foreach ($jTTs as $jTT)  {
                 $jb['kategorie'][] = $jTT->getJobTagTag();
             }
+            $jobsI[] = array_merge($jb, ['container' => $container, 'shortName' => $shortName /*, 'block' => $block*/ ] ); 
+
         }
-        $jobsI[] = array_merge($jb, ['container' => $container, 'shortName' => $shortName /*, 'block' => $block*/ ] ); 
         
         /** @var Company $companyEntity */
         $allJobsI[] = [
@@ -109,7 +110,9 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     </section>
     <section>
         <content class='prehled-pozic'>
-            xxxxxxxxxxxxxx
+            xxxxxxxxxxxxxxtemplate
+            <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobsI);  ?>
+
         </content>
     </section>
 </article>

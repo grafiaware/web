@@ -7,14 +7,9 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-?>
- xxxxxxxxxxxxxxxxxxxxvypis-pozic  
 
-<div class="vypis-prac-pozic">
-    <div class="ui styled fluid accordion">
-        
-        <?= $this->repeat(__DIR__.'/vypis-pozic/pozice_2.php', $jobs)?>
-    </div>
-</div>
+?>
+
+<span class="ui big red tag label"><?= $seznam ?></span>
 
 

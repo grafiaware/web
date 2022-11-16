@@ -30,3 +30,6 @@
         </content>
     </section>
 </article>
+
+
+                <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
