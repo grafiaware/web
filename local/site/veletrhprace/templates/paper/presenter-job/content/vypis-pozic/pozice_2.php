@@ -293,7 +293,7 @@ if (isset($loginAggregate)) {
                                             <div class="profil hidden">
                                                 <?php
                                                     // pokud je $visitorDataPosted je nastaveno readonly
-                                                    include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje.php'; ?>
+                                                    include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php'; ?>
                                             </div>
                                         </div>
                                         <?php
@@ -310,7 +310,7 @@ if (isset($loginAggregate)) {
                                             </div>
                                             <div class="sixteen wide column">
                                                 <div class="profil hidden">
-                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje.php', $allFormVisitorDataPost); ?>
+                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php', $allFormVisitorDataPost); ?>
                                                 </div>
                                             </div>
                                             <?php

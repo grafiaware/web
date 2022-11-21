@@ -10,6 +10,7 @@ use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Repository\JobToTagRepo;
+use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Entity\Company;
 use Events\Model\Entity\Job as JobEntity;
 use Events\Model\Entity\JobToTag;
@@ -58,11 +59,25 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
     /** @var JobToTagRepo $jobToTagRepo */
     $jobToTagRepo = $container->get(JobToTagRepo::class );
+    
+    /** @var CompanyContactRepo $companyContactRepo */
+    $companyContactRepo = $container->get(CompanyContactRepo::class);
+    
 
 
     $companyListArray = $presenterModel->getCompanyListI(); 
-    foreach ($companyListArray as $companyEntity ) {
-        $companyJobs  =   $jobModel->getCompanyJobListI($companyEntity->getId());
+    foreach ($companyListArray as $companyEntity ) {       
+        
+        $companyContactEntities = $companyContactRepo->find( ' company_id = :companyId ',  [  'companyId'  =>$companyEntity->getId() ] ) ;
+        $сompanyEmailsA = '';
+        foreach ($companyContactEntities  as  $companyContactEntity) {
+            $сompanyEmails  = '';
+            $e = $companyContactEntity->getEmails();
+            $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
+        }
+        $сompanyEmailsA =  $сompanyEmails;    
+        
+        $companyJobs = $jobModel->getCompanyJobListI($companyEntity->getId());        
         $jobsI = [];
         foreach ($companyJobs as $jobI) {
          /** @var JobEntity  $jobI */
@@ -73,9 +88,9 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
             $jb['nabizime'][] = $jobI->getNabizime();
             $jb['popisPozice'] = $jobI->getPopisPozice();
             
-             /** @var PozadovaneVzdelani  $pozadVzdelaniEntita */
-            $pozadVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
-            $jb['vzdelani']= $pozadVzdelaniEntita->getStupen() ;
+             /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
+            $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
+            $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;          
             $jb['pozadujeme'][] = $jobI->getPozadujeme();      
             
             $jTTs = $jobToTagRepo->findByJobId($jobI->getId());
@@ -95,7 +110,10 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
                 //'block' => $block,
                 //'presenterJobs' => ['jobs' => $jobModel->getCompanyJobList($company->getId()) ],
                 'presenterJobs' => ['jobs' => $jobsI],
-                'container' => $container
+                'container' => $container,
+               
+                'presenterEmail' => $сompanyEmailsA  // presenterEmail se potrebuje v visitor-data\osobni-udaje_2
+                
                 ];
     }
 ?>
