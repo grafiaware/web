@@ -58,32 +58,45 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
     ### load scripts ###
 
     protected function getContentLoadScript($menuItem) {
-        $view = new View();
+        /** @var View $view */
+        $view = new CompositeView();
+        $view->setRendererContainer($this->rendererContainer);
+//        $view = $this->container->get(View::class);   // v Layout kontroleru mám kontejner
 
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $uid = uniqid();
+        $uniquid = uniqid();
         $menuItemType = $menuItem->getTypeFk();
         if (!isset($menuItemType)) {
             $menuItemType = 'empty';
         }
-        if ($menuItemType!='static') {
-            $id = $menuItem->getId();
-        } else {
-            $id = $this->getNameForStaticPage($menuItem);
+        switch ($menuItemType) {
+            case 'static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $dataRedApiUri = "red/v1/$menuItemType/$id";
+                break;
+            case 'eventcontent':
+                $id = $this->getNameForStaticPage($menuItem);
+                $dataRedApiUri = "events/v1/$menuItemType/$id";
+                break;
+            default:
+                $id = $menuItem->getId();
+                $dataRedApiUri = "red/v1/$menuItemType/$id";
+                break;
         }
         $view->setData([
-                        'loaderWrapperElementId' => "{$menuItemType}_item_{$id}_$uid",
-                        'apiUri' => "web/v1/$menuItemType/$id"
+                        'loaderElementId' => "red_loaded_$uniquid",
+                        'dataRedApiUri' => $dataRedApiUri,
+                        'dataRedInfo' => "{$menuItemType}_for_item_{$id}",
+                        'dataRedSelector' => $menuItem->getUidFk()
                         ]);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
-        $view->setRendererContainer($this->rendererContainer);
         return $view;
     }
 
     private function getNameForStaticPage(MenuItemInterface $menuItem) {
         $menuItemPrettyUri = $menuItem->getPrettyuri();
         if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93
-            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recopročně
+            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recipročně
         } else {
             $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());
         }

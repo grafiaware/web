@@ -21,9 +21,6 @@ abstract class AuthoredComponentAbstract extends ComponentCompositeAbstract impl
     const BUTTON_EDIT_CONTENT = 'buttonEditContent';
     const SELECT_TEMPLATE = 'selectTemplate';
 
-    private $uuid;
-
-
     public function __construct(ComponentConfigurationInterface $configuration) {
         parent::__construct($configuration);
     }
