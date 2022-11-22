@@ -8,8 +8,11 @@
 
 
 @menuHeaderColor: @darkTextColor;
-@menuHeaderFontSize: @relative9px;
+@menuHeaderFontSize:  @relative9px;
 
 /* Menu Input */
-@menuInputVerticalPadding: 0.3em;
-@menuInputHorizontalPadding: 0.3em;
+@menuInputVerticalPadding:  0.3em;
+@menuInputHorizontalPadding:  0.3em;
+
+/* Sub Menu */
+@subMenuDistanceAway: -0.5em; 

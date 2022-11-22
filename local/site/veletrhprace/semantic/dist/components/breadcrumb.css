@@ -14,7 +14,7 @@
 *******************************/
 
 .ui.breadcrumb {
-  line-height: 1.25em;
+  line-height: 1.4em;
   display: inline-block;
   margin: 0 0;
   vertical-align: middle;
@@ -44,10 +44,10 @@
 
 /* Link */
 .ui.breadcrumb a {
-  color: #2aa411;
+  color: #3e9aec;
 }
 .ui.breadcrumb a:hover {
-  color: #1a9a00;
+  color: #0086fd;
 }
 
 /* Icon Divider */
@@ -69,7 +69,7 @@
 /* Loose Coupling */
 .ui.breadcrumb.segment {
   display: inline-block;
-  padding: 0.78571429em 1em;
+  padding: 0.78571429em 1.71428571em;
 }
 
 /* Inverted */
@@ -89,7 +89,7 @@
 *******************************/
 
 .ui.breadcrumb .active.section {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 
@@ -98,7 +98,7 @@
 *******************************/
 
 .ui.breadcrumb {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 .ui.mini.breadcrumb {
   font-size: 0.78571429rem;

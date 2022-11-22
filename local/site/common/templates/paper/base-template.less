@@ -33,18 +33,17 @@
     display: inline-block;
     vertical-align: @teCircleVerticalAlign;
 }
-.tiny_select_template_paper, .tiny_select_template_multipage{
-    .vertikalne-prohodit, .horizontalne-prohodit{
-        box-shadow: @sablonyOhraniceniProFlexDirection ;
-    } 
+.horizontalne-prohodit{
+    flex-direction: row-reverse; 
 }
 .vertikalne-prohodit{
     flex-direction: column-reverse;
 }
-.horizontalne-prohodit{
-    flex-direction: row-reverse; 
+.tiny_select_template_paper, .tiny_select_template_multipage{
+    .vertikalne-prohodit, .horizontalne-prohodit{
+        box-shadow: @sablonyOhraniceniProFlexDirection;
+    } 
 }
-
 .obr-upoutavka{
     margin-top: -30px;
     .nadpis.primarni-barva.presah{
@@ -55,7 +54,7 @@
         font-weight: 500; 
         font-size: @h4;
         headline{
-            .headline-reset(); 
+            //.headline-reset(); 
         }
     }
     .blok.podnadpis{
