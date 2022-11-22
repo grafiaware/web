@@ -17,6 +17,10 @@ use Events\Model\Repository\DocumentRepoInterface;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\DocumentInterface;
 
+use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Entity\CompanyContactInterface;
+
+
 
 
 use Events\Model\Arraymodel\Presenter;
@@ -52,6 +56,8 @@ $visitorJobRequestRepo = $container->get(VisitorJobRequestRepo::class);
 $documentRepo = $container->get(DocumentRepo::class);
 
 
+/** @var CompanyContactRepo $companyContactRepo */
+$companyContactRepo = $container->get(CompanyContactRepo::class );
 
 
 if (isset($loginAggregate)) {
@@ -159,7 +165,6 @@ if (isset($loginAggregate)) {
 
     if ($isPresenter) {
         /** @var VisitorJobRequestInterface $visitorJobRequestEntity */
-       // $visitorDataPosts = $visitorJobRequestRepo->findAllForPosition($shortName, $positionName);
         $visitorJobRequests = $visitorJobRequestRepo->findByLoginNameAndPosition($loginName, $positionName);
         $visitorJobRequestCount = count($visitorJobRequests);
         $allFormVisitorDataPost = [];
@@ -205,6 +210,18 @@ if (isset($loginAggregate)) {
             }
         }
     }
+    //--------------------------------------------------
+    $companyContactEntities = $companyContactRepo->find( ' company_id = :companyId ',  [  'companyId' => $companyId  ] ) ;
+    $сompanyEmailsA = '';
+    /** @var CompanyContactInterface $companyContactEntity */
+    foreach ($companyContactEntities  as  $companyContactEntity) {
+        $сompanyEmails  = '';
+        $e = $companyContactEntity->getEmails();
+        $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
+        $сompanyEmailsA =  $сompanyEmailsA . $сompanyEmails; 
+    }
+    $presenterEmail = $сompanyEmailsA;
+    
 }
 ?>
 

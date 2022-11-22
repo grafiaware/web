@@ -8,11 +8,12 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
 
 ?>
+ xxxxxxxxxxxxxxxxxxx vypis-pozic_2 ****
 
 <div class="vypis-prac-pozic">
     <div class="ui styled fluid accordion">
         
-        <?= $this->repeat(__DIR__.'/vypis-pozic/pozice.php', $jobs)?>
+        <?= $this->repeat(__DIR__.'/vypis-pozic/pozice_2.php', $jobs  )?>
     </div>
 </div>
 

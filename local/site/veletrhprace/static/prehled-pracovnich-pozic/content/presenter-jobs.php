@@ -22,8 +22,7 @@ use Site\ConfigurationCache;
                 ?>
 
                 
-            xxxxxxxxxxxxxxpresenter-jobs
-            <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
-
+            xxxxxxxxxxxxxx presenter-jobs ***
+            <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic_2.php",$presenterJobs  ); ?>
                 
             </div>

@@ -11,6 +11,7 @@ use Red\Model\Repository\BlockRepo;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\Company;
 use Events\Model\Entity\Job as JobEntity;
 use Events\Model\Entity\JobToTag;
@@ -68,14 +69,15 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     $companyListArray = $presenterModel->getCompanyListI(); 
     foreach ($companyListArray as $companyEntity ) {       
         
-        $companyContactEntities = $companyContactRepo->find( ' company_id = :companyId ',  [  'companyId'  =>$companyEntity->getId() ] ) ;
-        $сompanyEmailsA = '';
-        foreach ($companyContactEntities  as  $companyContactEntity) {
-            $сompanyEmails  = '';
-            $e = $companyContactEntity->getEmails();
-            $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
-        }
-        $сompanyEmailsA =  $сompanyEmails;    
+//        $companyContactEntities = $companyContactRepo->find( ' company_id = :companyId ',  [  'companyId'  =>$companyEntity->getId() ] ) ;
+//        $сompanyEmailsA = '';
+//        foreach ($companyContactEntities  as  $companyContactEntity) {
+//            $сompanyEmails  = '';
+//            $e = $companyContactEntity->getEmails();
+//            $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
+//            $сompanyEmailsA =  $сompanyEmailsA . $сompanyEmails; 
+//        }
+           
         
         $companyJobs = $jobModel->getCompanyJobListI($companyEntity->getId());        
         $jobsI = [];
@@ -83,12 +85,13 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
          /** @var JobEntity  $jobI */
             $jb = [];      
             $jb['jobId'] = $jobI->getId();
+            $jb['companyId'] = $jobI->getCompanyId();
             $jb['nazev'] = $jobI->getNazev();
             $jb['mistoVykonu'] = $jobI->getMistoVykonu();
             $jb['nabizime'][] = $jobI->getNabizime();
             $jb['popisPozice'] = $jobI->getPopisPozice();
             
-             /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
+            /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
             $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
             $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;          
             $jb['pozadujeme'][] = $jobI->getPozadujeme();      
@@ -98,7 +101,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
             foreach ($jTTs as $jTT)  {
                 $jb['kategorie'][] = $jTT->getJobTagTag();
             }
-            $jobsI[] = array_merge($jb, ['container' => $container, 'shortName' => $shortName /*, 'block' => $block*/ ] ); 
+            $jobsI[] = array_merge($jb, ['container' => $container, /*, 'block' => $block*/ ] ); 
 
         }
         
@@ -108,12 +111,8 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
                 'shortName' => $companyEntity->getName(),
                 'presenterName' => $companyEntity->getName(),
                 //'block' => $block,
-                //'presenterJobs' => ['jobs' => $jobModel->getCompanyJobList($company->getId()) ],
                 'presenterJobs' => ['jobs' => $jobsI],
-                'container' => $container,
-               
-                'presenterEmail' => $сompanyEmailsA  // presenterEmail se potrebuje v visitor-data\osobni-udaje_2
-                
+                'container' => $container                               
                 ];
     }
 ?>
@@ -128,7 +127,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     </section>
     <section>
         <content class='prehled-pozic'>
-            xxxxxxxxxxxxxxtemplate
+            xxxxxxxxxxxxxx template ***
             <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobsI);  ?>
 
         </content>
