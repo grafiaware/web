@@ -92,7 +92,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * Z pole ItemModelů vygeneruje "strom" komponentů - menu komponentě přidá kompozitní level komponenty, předtím jednotlivým level komponentám přidá komponentní item komponenty,
      * atd.
      * Výsledkem je tato komponenta s kompozitními komponentami (view) připravená na renderování.
-     * 
+     *
      * @return void
      * @throws \LogicException
      */
@@ -189,7 +189,8 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             $item->setData($itemViewModel)->setRendererContainer($this->rendererContainer);
             if($this->editableMode) {
             $item->setRendererName($this->itemEditableRendererName);
-            if ($itemViewModel->isPresented()) {
+            // u kořenového item menu nejsou buttony
+            if ($itemViewModel->isPresented() AND !$itemViewModel->isRoot()) {
                 $itemButtons = $this->createItemButtonsComponent();
                 $item->appendComponentView($itemButtons, ItemComponentInterface::ITEM_BUTTONS);
             }

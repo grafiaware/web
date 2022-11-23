@@ -1,5 +1,14 @@
+MENU
+chyba - kořenové položky menu, které jsou viditelné (trash, blocks) dodstávají kompletní blok tlačítek
+
+KOPÍROVÁNÍ POLOŽEK MENU
+- zkopírovat také složky upload/editor/item_XXX a opravit odkazy v html obsahu položky -ufff
+    NEBO
+    ukládat obrázky s uiq id obrázku + případně tabulky v db s dvojicemi menu item - obrázek (blob storage)
+
+
 ACTION:
-- do actionItem přidat zohlednění stavu, kdy s komponentem pracuje jiný uživatel
+- dodělat zohlednění stavu, kdy s komponentem pracuje jiný uživatel
 
 nová databáze - generovat jen jazykové verze podle konfigurace
 
@@ -25,9 +34,6 @@ REGISTRACE:
 - odmazávat záznamy v registration, které nebyly využity - nebyla dokončena registrace - teď se poznají podle nesmazaného hesla (to není moc bezpečné, lze rozbít, lepší by by sloupec "registrace dokončena" a možná i das dokončení
 
 
-flash
-- přidat typy - notice, warning, error
-
 local vs hosting
 - PROJECT_PATH - například v konfiguraci
 
@@ -46,7 +52,7 @@ define('PES_PRODUCTION_MACHINE_HOST_NAME', 'replikant2871')
 - v SetBootstrap už řádek s include Configuration
 
 pageController
-- nefunguje home page static - neí proměnná $homeMenuItem        $statusPresentation->setMenuItem($homeMenuItem);
+- nefunguje home page static - není proměnná $homeMenuItem        $statusPresentation->setMenuItem($homeMenuItem);
 
 GET request vzniklý jinak, než kliknutím do menu - odkaz na jinou stránku, externí odkaz na stránku - musí nastavit aktivní položku i v menu
 

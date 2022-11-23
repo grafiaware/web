@@ -31,13 +31,14 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     private $isOnPath;
     private $isLeaf;
     private $isPresented;
+    private $isRoot;
     private $pasteMode;
     private $isCutted;
     private $menuEditable;
 
     private $child;
 
-    public function __construct(HierarchyAggregateInterface $hierarchaAggregate, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable) {
+    public function __construct(HierarchyAggregateInterface $hierarchaAggregate, $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot, $isCutted, $pasteMode, $menuEditable) {
 
         $this->uniqid = uniqid();
 
@@ -46,8 +47,9 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         $this->isOnPath = $isOnPath;
         $this->isLeaf = $isLeaf;
         $this->isPresented = $isPresented;
-        $this->pasteMode = $pasteMode;
+        $this->isRoot = $isRoot;
         $this->isCutted = $isCutted;
+        $this->pasteMode = $pasteMode;
         $this->menuEditable = $menuEditable;
         parent::__construct();
     }
@@ -78,6 +80,11 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     public function isPresented() {
         return $this->isPresented;
     }
+
+    public function isRoot() {
+        return $this->isRoot;
+    }
+
     public function isPasteMode() {
         return $this->pasteMode;
     }
