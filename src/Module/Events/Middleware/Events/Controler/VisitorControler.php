@@ -207,7 +207,7 @@ class VisitorControler extends FrontControlerAbstract {
             $visitorDataPost = $this->visitorJobRequestRepo->get($loginName, $shortName, $positionName);
 
             if (!isset($visitorDataPost)) {
-                $visitorDataPost = new VisitorDataPost();
+                $visitorDataPost = new VisitorJobRequest();
                 $visitorDataPost->setLoginLoginName($loginName);
                 $visitorDataPost->setJobId($shortName);
                 $visitorDataPost->setPositionName($positionName);

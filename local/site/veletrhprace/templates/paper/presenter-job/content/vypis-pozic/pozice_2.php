@@ -8,29 +8,22 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Middleware\Events\Controler\VisitorControler;
+
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Entity\VisitorJobRequestInterface;
-
-use Events\Model\Repository\DocumentRepoInterface;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\DocumentInterface;
-
-use Events\Model\Repository\CompanyContactRepo;
-use Events\Model\Entity\CompanyContactInterface;
-
-
-
+use Events\Model\Repository\RepresentativeRepo;
 
 use Events\Model\Arraymodel\Presenter;
+
 /** @var PhpTemplateRendererInterface $this */
 
 ###### kontext #######
 // jobs expand -> $nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané $nazev, $container
 $positionName = $nazev;
-#######################
-
 
 $isPresenter = false;
 $isVisitor = false;
@@ -38,7 +31,7 @@ $isVisitorDataPost = false;
 
 
 
-#####
+####
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurity = $statusSecurityRepo->get();
@@ -49,24 +42,21 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 /** @var Presenter $presenterModel */
 $presenterModel = $container->get( Presenter::class );
 
-
 /** @var VisitorJobRequestRepo $visitorJobRequestRepo */
 $visitorJobRequestRepo = $container->get(VisitorJobRequestRepo::class);
 /** @var DocumentRepo $documentRepo */
 $documentRepo = $container->get(DocumentRepo::class);
-
-
-/** @var CompanyContactRepo $companyContactRepo */
-$companyContactRepo = $container->get(CompanyContactRepo::class );
+/** @var RepresentativeRepo $representativeRepo */
+$representativeRepo = $container->get(RepresentativeRepo::class );
 
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    $presenterPerson = $presenterModel->getPerson($loginName);
-
-    $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];
-    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
+    //*--------------------------------
+    $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
+    //prejmenovat na $isRepresentative
+    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND  $representativeRepo->get($loginName) );
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorProfileRepo */
@@ -75,9 +65,7 @@ if (isset($loginAggregate)) {
         $visitorProfileEntity = $visitorProfileRepo->get($loginName);
 
         /** @var VisitorJobRequestInterface $visitorJobRequestEntity */
-//################################################################
         $visitorJobRequestEntity = $visitorJobRequestRepo->get($loginName, $jobId) ; // tady ma byt id jobu                                
-                /*$shortName, $positionName*/ //$shortName, $positionName ...job_id
 
         // formulář
         // unikátní jména souborů pro upload
@@ -158,8 +146,7 @@ if (isset($loginAggregate)) {
                 $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();
             
             }
-            
-            
+                        
         }
     }
 
@@ -204,23 +191,22 @@ if (isset($loginAggregate)) {
                     /** @var DocumentInterface $documentLetter */
                     $documentLetter = $documentRepo->get($letterId);
                     $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();  
-                }
-                
+                }                
                 $allFormVisitorDataPost[] = $visitorFormData;
             }
         }
     }
-    //--------------------------------------------------
-    $companyContactEntities = $companyContactRepo->find( ' company_id = :companyId ',  [  'companyId' => $companyId  ] ) ;
-    $сompanyEmailsA = '';
-    /** @var CompanyContactInterface $companyContactEntity */
-    foreach ($companyContactEntities  as  $companyContactEntity) {
-        $сompanyEmails  = '';
-        $e = $companyContactEntity->getEmails();
-        $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
-        $сompanyEmailsA =  $сompanyEmailsA . $сompanyEmails; 
-    }
-    $presenterEmail = $сompanyEmailsA;
+//    //*--------------------------------------------------
+//    $companyContactEntities = $companyContactRepo->find( ' company_id = :companyId ',  [  'companyId' => $companyId  ] ) ;
+//    $сompanyEmailsA = '';
+//    /** @var CompanyContactInterface $companyContactEntity */
+//    foreach ($companyContactEntities  as  $companyContactEntity) {
+//        $сompanyEmails  = '';
+//        $e = $companyContactEntity->getEmails();
+//        $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
+//        $сompanyEmailsA =  $сompanyEmailsA . $сompanyEmails; 
+//    }
+//    $presenterEmail = $сompanyEmailsA;
     
 }
 ?>

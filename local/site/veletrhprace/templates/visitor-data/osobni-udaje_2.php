@@ -124,8 +124,7 @@ use Events\Model\Entity\DocumentInterface;
                         <div class="field margin"></div>
                         <!--odesílá k uložení do databáze-->
                         <div class="field">
-                            <button class="ui primary button" type="submit" formaction="event/v1/visitorpost">Odeslat údaje zaměstnavateli</button>
-                                  xxx presenterEmail ***  <?=  $presenterEmail ?>
+                            <button class="ui primary button" type="submit" formaction="events/v1/jobrequest">Odeslat údaje zaměstnavateli</button>                                  
                         </div>
                     </div>
                     <?php
@@ -135,7 +134,7 @@ use Events\Model\Entity\DocumentInterface;
                             <div class="field margin"></div>
 
                             <div class="field">
-                                <button class="ui primary button" type="submit" formaction="event/v1/sendvisitorpost">Odeslat mailem na <?= $presenterEmail ?></button>
+                                <button class="ui primary button" type="submit" formaction="events/v1/sendjobrequest">Odeslat mailem na <?= $presenterEmail ?></button>
                             </div>
                         </div>
                         <?php

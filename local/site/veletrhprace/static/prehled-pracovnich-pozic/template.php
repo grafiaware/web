@@ -10,8 +10,8 @@ use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Repository\JobToTagRepo;
-use Events\Model\Repository\CompanyContactRepo;
-use Events\Model\Entity\CompanyContactInterface;
+//use Events\Model\Repository\CompanyContactRepo;
+//use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\Company;
 use Events\Model\Entity\Job as JobEntity;
 use Events\Model\Entity\JobToTag;
@@ -59,26 +59,10 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
     /** @var JobToTagRepo $jobToTagRepo */
-    $jobToTagRepo = $container->get(JobToTagRepo::class );
-    
-    /** @var CompanyContactRepo $companyContactRepo */
-    $companyContactRepo = $container->get(CompanyContactRepo::class);
-    
-
+    $jobToTagRepo = $container->get(JobToTagRepo::class );       
 
     $companyListArray = $presenterModel->getCompanyListI(); 
-    foreach ($companyListArray as $companyEntity ) {       
-        
-//        $companyContactEntities = $companyContactRepo->find( ' company_id = :companyId ',  [  'companyId'  =>$companyEntity->getId() ] ) ;
-//        $сompanyEmailsA = '';
-//        foreach ($companyContactEntities  as  $companyContactEntity) {
-//            $сompanyEmails  = '';
-//            $e = $companyContactEntity->getEmails();
-//            $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
-//            $сompanyEmailsA =  $сompanyEmailsA . $сompanyEmails; 
-//        }
-           
-        
+    foreach ($companyListArray as $companyEntity ) {                
         $companyJobs = $jobModel->getCompanyJobListI($companyEntity->getId());        
         $jobsI = [];
         foreach ($companyJobs as $jobI) {
@@ -86,11 +70,12 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
             $jb = [];      
             $jb['jobId'] = $jobI->getId();
             $jb['companyId'] = $jobI->getCompanyId();
+            $jb['shortName'] = $companyEntity->getName();
+            
             $jb['nazev'] = $jobI->getNazev();
             $jb['mistoVykonu'] = $jobI->getMistoVykonu();
             $jb['nabizime'][] = $jobI->getNabizime();
-            $jb['popisPozice'] = $jobI->getPopisPozice();
-            
+            $jb['popisPozice'] = $jobI->getPopisPozice();            
             /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
             $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
             $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;          
