@@ -23,7 +23,7 @@ use Events\Model\Arraymodel\Presenter;
 
 ###### kontext #######
 // jobs expand -> $nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané $nazev, $container
-$positionName = $nazev;
+$positionName = $nazev;    // potrebuje se v osobni-udaje_2
 
 $isPresenter = false;
 $isVisitor = false;
@@ -55,7 +55,7 @@ if (isset($loginAggregate)) {
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
     //*--------------------------------
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
-    //prejmenovat na $isRepresentative
+    // isPresenter prejmenovat na $isRepresentative
     $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND  $representativeRepo->get($loginName) );
 
     if ($isVisitor) {
@@ -79,7 +79,7 @@ if (isset($loginAggregate)) {
         // - předvyplňuje se z $visitorData
         $email = isset($visitorProfileEntity) ? $visitorProfileEntity->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
 
-        $visitorLoginName = $loginName;  //zde se nepotrebuje
+        $visitorLoginName = $loginName;  //zde se nepotrebuje , potrebuje se v osobni-udaje_2
 
         // hodnoty do formuláře z visitorDataPost (odeslaná data - zájem o pozici), pokud ještě nevznikl z visitorData (z profilu)
         if (isset($visitorJobRequestEntity)) {
@@ -206,7 +206,7 @@ if (isset($loginAggregate)) {
 //        $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
 //        $сompanyEmailsA =  $сompanyEmailsA . $сompanyEmails; 
 //    }
-//    $presenterEmail = $сompanyEmailsA;
+//    $presenterEmails = $сompanyEmailsA;
     
 }
 ?>

@@ -92,12 +92,12 @@ class VisitorJobRequestRepo extends RepoAbstract implements VisitorJobRequestRep
     }
 
     protected function indexFromEntity( VisitorJobRequestInterface $visitorJobRequest) {
-        return $visitorJobRequest->getLoginLoginName();
+        return  $visitorJobRequest->getLoginLoginName() . $visitorJobRequest->getJobId() ;
     }
     
 
     protected function indexFromRow($row) {
-        return $row['login_login_name'];
+        return  $row['login_login_name']. $row['job_id'] ;
     }
 
 

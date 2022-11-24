@@ -21,6 +21,8 @@ use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\Document;
 use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Entity\VisitorJobRequestInterface;
+use Events\Model\Entity\DocumentInterface;
+
 
 use Status\Model\Enum\FlashSeverityEnum;
 
@@ -202,16 +204,17 @@ class VisitorControler extends FrontControlerAbstract {
             // POST data
             $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
             $positionName = (new RequestParams())->getParsedBodyParam($request, 'position-name');
+            $jobId = (new RequestParams())->getParsedBodyParam($request, 'job-id');
 
-            $visitorData = $this->visitorProfileRepo->get($loginName);
-            $visitorDataPost = $this->visitorJobRequestRepo->get($loginName, $shortName, $positionName);
+            $visitorProfileData = $this->visitorProfileRepo->get($loginName);
+            $visitorDataJobRequest = $this->visitorJobRequestRepo->get($loginName, $jobId /*$shortName, $positionName*/ );
 
-            if (!isset($visitorDataPost)) {
-                $visitorDataPost = new VisitorJobRequest();
-                $visitorDataPost->setLoginLoginName($loginName);
-                $visitorDataPost->setJobId($shortName);
-                $visitorDataPost->setPositionName($positionName);
-                $this->visitorJobRequestRepo->add($visitorDataPost);
+            if (!isset($visitorDataJobRequest)) {
+                $visitorDataJobRequest = new VisitorJobRequest();
+                $visitorDataJobRequest->setLoginLoginName($loginName);
+                $visitorDataJobRequest->setJobId($jobId);
+                $visitorDataJobRequest->setPositionName($positionName);
+                $this->visitorJobRequestRepo->add($visitorDataJobRequest);
             }
 
 //            $visitorDataPost->setPrefix($visitorData->getPrefix());
@@ -224,26 +227,37 @@ class VisitorControler extends FrontControlerAbstract {
 //            $visitorDataPost->setCvSkillsText($visitorData->getCvSkillsText());
 
             // POST data
-            $visitorDataPost->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
-            $visitorDataPost->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
-            $visitorDataPost->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
-            $visitorDataPost->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
-            $visitorDataPost->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
-            $visitorDataPost->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
-            $visitorDataPost->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
-            $visitorDataPost->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
+            $visitorDataJobRequest->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
+            $visitorDataJobRequest->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
+            $visitorDataJobRequest->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
+            $visitorDataJobRequest->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
+            $visitorDataJobRequest->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
+            $visitorDataJobRequest->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
+            $visitorDataJobRequest->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
+            $visitorDataJobRequest->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
 
-            $this->uploadDocs($request, $visitorDataPost);
+            $this->uploadDocs($request, $visitorDataJobRequest);
 
-            if (!$visitorDataPost->getCvDocument()) {
-                $visitorDataPost->setCvDocument($visitorData->getCvDocument());
-                $visitorDataPost->setCvDocumentFilename($visitorData->getCvDocumentFilename());
-                $visitorDataPost->setCvDocumentMimetype($visitorDataPost->getCvDocumentMimetype());
+            if (!$visitorDataJobRequest->getCvDocument()) {
+                                
+                //*---------------
+//                $cvId = $visitorProfileData->getCvDocument();
+//                if (isset($cvId)) {
+//                    /** @var DocumentInterface $documentCv */
+//                    $documentCv = $this->documentRepo->get($cvId);
+//                    $documentCv->getDocumentFilename();
+//                    $documentCv->getDocumentMimetype();
+//                }                                     
+                //*----------   
+                
+                $visitorDataJobRequest->setCvDocument($visitorProfileData->getCvDocument());
+                //$visitorDataRequest->setCvDocumentFilename($visitorProfileData->getCvDocumentFilename());
+                //$visitorDataRequest->setCvDocumentMimetype($visitorProfileData->getCvDocumentMimetype());
             }
-            if (!$visitorDataPost->getLetterDocument()) {
-                $visitorDataPost->setLetterDocument($visitorData->getLetterDocument());
-                $visitorDataPost->setLetterDocumentFilename($visitorData->getLetterDocumentFilename());
-                $visitorDataPost->setLetterDocumentMimetype($visitorDataPost->getLetterDocumentMimetype());
+            if (!$visitorDataJobRequest->getLetterDocument()) {
+                $visitorDataJobRequest->setLetterDocument($visitorProfileData->getLetterDocument());
+                //$visitorDataRequest->setLetterDocumentFilename($visitorProfileData->getLetterDocumentFilename());
+                //$visitorDataRequest->setLetterDocumentMimetype($visitorProfileData->getLetterDocumentMimetype());
             }
 
             $this->addFlashMessage("Pracovní údaje odeslány pro pozici $positionName.");
@@ -251,6 +265,8 @@ class VisitorControler extends FrontControlerAbstract {
         }
     }
 
+    
+    
     /**
      * Nic nehlídá - chyby při uploadu NEHLÁSÍ - pokud nevyvolají výjimku, výjimky nejsou ošetřeny!
      *
@@ -258,7 +274,7 @@ class VisitorControler extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      */
-    private function uploadDocs(ServerRequestInterface $request, VisitorDataPost $visitorDataPost) {
+    private function uploadDocs(ServerRequestInterface $request, VisitorJobRequestInterface $visitorJobRequest) {
 
         //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
         //".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
@@ -279,10 +295,10 @@ class VisitorControler extends FrontControlerAbstract {
                     if ($file->getError()==UPLOAD_ERR_OK) {
                         switch ($uploadedFileName) {
                             case self::UPLOADED_KEY_CV.$userHash:
-                                $this->hydrateVisitorDataByFile($file, self::UPLOADED_KEY_CV, $visitorDataPost);
+                                $this->hydrateVisitorDataByFile($file, self::UPLOADED_KEY_CV, $visitorJobRequest);
                                 break;
                             case self::UPLOADED_KEY_LETTER.$userHash:
-                                $this->hydrateVisitorDataByFile($file, self::UPLOADED_KEY_LETTER, $visitorDataPost);
+                                $this->hydrateVisitorDataByFile($file, self::UPLOADED_KEY_LETTER, $visitorJobRequest);
                                 break;
                             default:
                                 $uploadError = "Neznámé jméno souboru, neodpovídá žádnému očekávanému jménu. Soubor {$file->getClientFilename()} neuložen.";
@@ -297,7 +313,7 @@ class VisitorControler extends FrontControlerAbstract {
         return $uploadError;
     }
 
-    private function hydrateVisitorDataByFile($fileForSave, $type, VisitorDataPost $visitorDataPost) {
+    private function hydrateVisitorDataByFile($fileForSave, $type, VisitorJobRequestInterface $visitorJobRequest) {
 
     //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
     //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
@@ -312,14 +328,14 @@ class VisitorControler extends FrontControlerAbstract {
 
         switch ($type) {
             case self::UPLOADED_KEY_CV:
-                $visitorDataPost->setCvDocument(file_get_contents($uploadedFileTemp));
-                $visitorDataPost->setCvDocumentMimetype($clientMime);
-                $visitorDataPost->setCvDocumentFilename($clientFileName);
+                $visitorJobRequest->setCvDocument(file_get_contents($uploadedFileTemp));
+                $visitorJobRequest->setCvDocumentMimetype($clientMime);
+                $visitorJobRequest->setCvDocumentFilename($clientFileName);
                 break;
             case self::UPLOADED_KEY_LETTER:
-                $visitorDataPost->setLetterDocument(file_get_contents($uploadedFileTemp));
-                $visitorDataPost->setLetterDocumentMimetype($clientMime);
-                $visitorDataPost->setLetterDocumentFilename($clientFileName);
+                $visitorJobRequest->setLetterDocument(file_get_contents($uploadedFileTemp));
+                $visitorJobRequest->setLetterDocumentMimetype($clientMime);
+                $visitorJobRequest->setLetterDocumentFilename($clientFileName);
                 break;
             default:
                 break;
