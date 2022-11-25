@@ -207,14 +207,14 @@ class VisitorControler extends FrontControlerAbstract {
             $jobId = (new RequestParams())->getParsedBodyParam($request, 'job-id');
 
             $visitorProfileData = $this->visitorProfileRepo->get($loginName);
-            $visitorDataJobRequest = $this->visitorJobRequestRepo->get($loginName, $jobId /*$shortName, $positionName*/ );
+            $visitorJobRequestData = $this->visitorJobRequestRepo->get($loginName, $jobId /*$shortName, $positionName*/ );
 
-            if (!isset($visitorDataJobRequest)) {
-                $visitorDataJobRequest = new VisitorJobRequest();
-                $visitorDataJobRequest->setLoginLoginName($loginName);
-                $visitorDataJobRequest->setJobId($jobId);
-                $visitorDataJobRequest->setPositionName($positionName);
-                $this->visitorJobRequestRepo->add($visitorDataJobRequest);
+            if (!isset($visitorJobRequestData)) {
+                $visitorJobRequestData = new VisitorJobRequest();
+                $visitorJobRequestData->setLoginLoginName($loginName);
+                $visitorJobRequestData->setJobId($jobId);
+                $visitorJobRequestData->setPositionName($positionName);
+                $this->visitorJobRequestRepo->add($visitorJobRequestData);
             }
 
 //            $visitorDataPost->setPrefix($visitorData->getPrefix());
@@ -227,18 +227,18 @@ class VisitorControler extends FrontControlerAbstract {
 //            $visitorDataPost->setCvSkillsText($visitorData->getCvSkillsText());
 
             // POST data
-            $visitorDataJobRequest->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
-            $visitorDataJobRequest->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
-            $visitorDataJobRequest->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
-            $visitorDataJobRequest->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
-            $visitorDataJobRequest->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
-            $visitorDataJobRequest->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
-            $visitorDataJobRequest->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
-            $visitorDataJobRequest->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
+            $visitorJobRequestData->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
+            $visitorJobRequestData->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
+            $visitorJobRequestData->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
+            $visitorJobRequestData->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
+            $visitorJobRequestData->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
+            $visitorJobRequestData->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
+            $visitorJobRequestData->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
+            $visitorJobRequestData->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
 
-            $this->uploadDocs($request, $visitorDataJobRequest);
+            $this->uploadDocs($request, $visitorJobRequestData);
 
-            if (!$visitorDataJobRequest->getCvDocument()) {
+            if (!$visitorJobRequestData->getCvDocument()) {
                                 
                 //*---------------
 //                $cvId = $visitorProfileData->getCvDocument();
@@ -250,12 +250,12 @@ class VisitorControler extends FrontControlerAbstract {
 //                }                                     
                 //*----------   
                 
-                $visitorDataJobRequest->setCvDocument($visitorProfileData->getCvDocument());
+                $visitorJobRequestData->setCvDocument($visitorProfileData->getCvDocument());
                 //$visitorDataRequest->setCvDocumentFilename($visitorProfileData->getCvDocumentFilename());
                 //$visitorDataRequest->setCvDocumentMimetype($visitorProfileData->getCvDocumentMimetype());
             }
-            if (!$visitorDataJobRequest->getLetterDocument()) {
-                $visitorDataJobRequest->setLetterDocument($visitorProfileData->getLetterDocument());
+            if (!$visitorJobRequestData->getLetterDocument()) {
+                $visitorJobRequestData->setLetterDocument($visitorProfileData->getLetterDocument());
                 //$visitorDataRequest->setLetterDocumentFilename($visitorProfileData->getLetterDocumentFilename());
                 //$visitorDataRequest->setLetterDocumentMimetype($visitorProfileData->getLetterDocumentMimetype());
             }
@@ -288,17 +288,29 @@ class VisitorControler extends FrontControlerAbstract {
 
             $files = $request->getUploadedFiles();
 
-            // POST - jeden soubor
+            // POSTuje - jeden soubor
             /* @var $file UploadedFileInterface */
             if(isset($files) AND $files) {
                 foreach ($files as $uploadedFileName => $file) {
+                    
+                    //4$$$$$$$$$$$$$$################################
+                    
+//poyn                    
+//        $clientFileName = $fileForSave->getClientFilename();
+//        $clientMime = $fileForSave->getClientMediaType();
+//        $size = $fileForSave->getSize();  // v bytech
+//        $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
+//        $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
+//        $fileForSave->moveTo($uploadedFileTemp);
+                    
+                    
                     if ($file->getError()==UPLOAD_ERR_OK) {
                         switch ($uploadedFileName) {
                             case self::UPLOADED_KEY_CV.$userHash:
-                                $this->hydrateVisitorDataByFile($file, self::UPLOADED_KEY_CV, $visitorJobRequest);
+                                $this->hydrateVisitorJobRequestDataByFile($file, self::UPLOADED_KEY_CV, $visitorJobRequest);
                                 break;
                             case self::UPLOADED_KEY_LETTER.$userHash:
-                                $this->hydrateVisitorDataByFile($file, self::UPLOADED_KEY_LETTER, $visitorJobRequest);
+                                $this->hydrateVisitorJobRequestDataByFile($file, self::UPLOADED_KEY_LETTER, $visitorJobRequest);
                                 break;
                             default:
                                 $uploadError = "Neznámé jméno souboru, neodpovídá žádnému očekávanému jménu. Soubor {$file->getClientFilename()} neuložen.";
@@ -313,7 +325,7 @@ class VisitorControler extends FrontControlerAbstract {
         return $uploadError;
     }
 
-    private function hydrateVisitorDataByFile($fileForSave, $type, VisitorJobRequestInterface $visitorJobRequest) {
+    private function hydrateVisitorJobRequestDataByFile($fileForSave, $type, VisitorJobRequestInterface $visitorJobRequest) {
 
     //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
     //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
@@ -326,16 +338,49 @@ class VisitorControler extends FrontControlerAbstract {
         $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
         $fileForSave->moveTo($uploadedFileTemp);
 
+  /*###################################*/    
+        //zkontrolovat, zda uz existuje v jobRequestu document
+        //kdyz ano - i tak vyrobit document novy+add do documentRepo a v jobrequestu updatovat id
+        //kdyz ne - vyrobit document novy, zapsat do documentRepo, a do jobRequestu (id, tj. letter_document, cv_document) 
+        //$visitorJobRequest->getCvDocument();
+        //$visitorJobRequest->getLetterDocument();                
         switch ($type) {
             case self::UPLOADED_KEY_CV:
-                $visitorJobRequest->setCvDocument(file_get_contents($uploadedFileTemp));
-                $visitorJobRequest->setCvDocumentMimetype($clientMime);
-                $visitorJobRequest->setCvDocumentFilename($clientFileName);
-                break;
-            case self::UPLOADED_KEY_LETTER:
-                $visitorJobRequest->setLetterDocument(file_get_contents($uploadedFileTemp));
-                $visitorJobRequest->setLetterDocumentMimetype($clientMime);
-                $visitorJobRequest->setLetterDocumentFilename($clientFileName);
+                        $documentCvId = $visitorJobRequest->getCvDocument();   //asi nemusim  
+              ##########################
+                cxcvxxcv
+                        $documentCv = $this->container->get(Document::class); //   new Document();
+                        $this->documentRepo->add($documentCv);
+                        $documentCv = $this->documentRepo->get($documentCvId);  
+
+                        
+                        if (!isset($documentCvId)) {                           
+                            $visitorJobRequest->setCvDocument($documentCv->getId());
+                        } else {        
+                        }                 
+                        $documentCv->setDocument(file_get_contents($uploadedFileTemp));
+                        $documentCv->setDocumentMimetype($clientMime);
+                        $documentCv->setDocumentFilename($clientFileName);               
+//                $visitorJobRequest->setCvDocument(file_get_contents($uploadedFileTemp));
+//                $visitorJobRequest->setCvDocumentMimetype($clientMime);
+//                $visitorJobRequest->setCvDocumentFilename($clientFileName);
+                break;                
+            case self::UPLOADED_KEY_LETTER:                       
+                        $documentLetterId = $visitorJobRequest->getLetterDocument();                
+                        if (!isset($documentLetterId)) {
+                            /** @var Document $documentLetter */
+                            $documentLetter = $this->container->get(Document::class); //   new Document();
+                            $this->documentRepo->add($documentLetter);                           
+                            $visitorJobRequest->setLetterDocument($documentLetter->getId());
+                        } else {        
+                             $documentLetter = $this->documentRepo->get($documentCvId);  
+                        }                 
+                        $documentLetter->setDocument(file_get_contents($uploadedFileTemp));
+                        $documentLetter->setDocumentMimetype($clientMime);
+                        $documentLetter->setDocumentFilename($clientFileName);   
+//                $visitorJobRequest->setLetterDocument(file_get_contents($uploadedFileTemp));
+//                $visitorJobRequest->setLetterDocumentMimetype($clientMime);
+//                $visitorJobRequest->setLetterDocumentFilename($clientFileName);
                 break;
             default:
                 break;
@@ -347,9 +392,8 @@ class VisitorControler extends FrontControlerAbstract {
     /**
      *
      * @param ServerRequestInterface $request
-     * @return type
      */
-    public function uploadTxtDocuments(ServerRequestInterface $request) {
+    public function uploadVisitorFile(ServerRequestInterface $request) {
 
         //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
 
@@ -503,6 +547,9 @@ class VisitorControler extends FrontControlerAbstract {
         return $response;
     }
 
+    
+    
+    // nevim kde se pouziva ????? VS
     private function saveUploadedFile($param) {
         $cvFilepathName = __DIR__."/".$cvFilename;
         $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
