@@ -34,6 +34,9 @@ use Events\Model\Entity\DocumentInterface;
                     <input type='hidden' name="short-name" value="<?= $shortName ?>">
                     <input type='hidden' name="position-name" value="<?= $positionName ?>">
                     <input type='hidden' name="visitor-login-name" value="<?= $visitorLoginName ?? '' ?>">
+                    
+                    <input type='hidden' name="job-id" value="<?= $jobId ?>">
+                    
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>

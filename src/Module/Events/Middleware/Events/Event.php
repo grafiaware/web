@@ -140,7 +140,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
             /** @var VisitorControler $ctrl */
             $ctrl = $this->container->get(VisitorControler::class);
-            return $ctrl->uploadTxtDocuments($request);
+            return $ctrl->uploadVisitorFile($request);
         });
         
         
