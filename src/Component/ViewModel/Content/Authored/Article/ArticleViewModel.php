@@ -39,10 +39,9 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
     }
 
     /**
-     * Vrací typ položky. Používá AuthoredEnum.
-     * Obvykle je metoda volána z metody Front kontroleru.
+     * Vrací typ položky. Používá hodnoty z AuthoredTypeEnum.
      *
-     * @param type $menuItemType
+     * @return string
      */
     public function getAuthoredContentType(): string {
         return AuthoredTypeEnum::ARTICLE;

@@ -54,7 +54,7 @@ class ActiveUserRepo {
         $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $row['akce']);
         return $user
                 ->setUser($row['user'])
-                ->setMenuRootName($row['stranka'])
+                ->setItemId($row['stranka'])
                 ->setEditStartTime( ($datetime !== FALSE) ? $datetime : NULL );
     }
 

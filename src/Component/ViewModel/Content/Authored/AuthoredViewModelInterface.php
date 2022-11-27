@@ -18,8 +18,17 @@ use Red\Model\Entity\ItemActionInterface;
  */
 interface AuthoredViewModelInterface extends MenuItemViewModelInterface {
 
+    /**
+     * Vrací typ položky. Používá hodnoty z AuthoredTypeEnum.
+     *
+     * @return string
+     */
     public function getAuthoredContentType(): string;
 
+    /**
+     * Vrací jméno template.
+     * @return string|null
+     */
     public function getAuthoredTemplateName(): ?string;
 
     /**

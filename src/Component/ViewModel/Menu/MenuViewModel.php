@@ -65,7 +65,8 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     }
 
     /**
-     * Nastaví jméno kořene menu
+     * Nastaví jméno kořene menu. Musí jít o jméno uvedené v db tabulce menu_root. Podle tohoto jména
+     * se určí kořenová položka menu.
      *
      * @param string $blockName
      * @return void
@@ -178,18 +179,17 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
 //            $nodes, $presentedNode=null) {
         $nodes = $this->getSubTreeNodes();
         $rootNode = reset($nodes);
-            // remove root
-//        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
-        if (!$this->withRootItem) {
-            $removed = array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
-        }
         $presentedNode = $this->getPresentedMenuNode($rootNode);
         if (isset($presentedNode)) {
             $presentedUid = $presentedNode->getUid();
             $presentedItemLeftNode = $presentedNode->getLeftNode();
             $presentedItemRightNode = $presentedNode->getRightNode();
         }
-
+        // remove root
+//        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
+        if (!$this->withRootItem) {
+            $removed = array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
+        }
         // command
         $pasteUid = $this->status->getFlashPostCommand('cut');
         $pasteMode = $pasteUid ? true : false;
@@ -197,7 +197,8 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         //editable menu
         $menuEditable = $this->status->presentEditableMenu();
 
-        // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek
+        // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné),
+        // u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek
         if (empty($nodes)) {
             $rootDepth = 1;
         } else {
@@ -218,11 +219,13 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
                     );
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
+            $isRoot = ($key==0 AND $this->withRootItem);
             $isCutted = $pasteUid == $nodeUid;
-        if (!$isLeaf) {
-            $title = $node->getMenuItem()->getTitle();
-        }
-            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable);
+            if (!$isLeaf) {
+                $title = $node->getMenuItem()->getTitle();
+            }
+
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot, $isCutted, $pasteMode, $menuEditable);
 
             $models[] = $itemViewModel;
         }

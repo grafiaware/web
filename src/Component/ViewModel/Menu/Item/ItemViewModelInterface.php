@@ -23,12 +23,14 @@ interface ItemViewModelInterface extends ViewModelInterface {
     public function isOnPath();
     public function isLeaf();
     public function isPresented();
-    public function isPasteMode();
+    public function isRoot();
     public function isCutted();
+
+    public function isPasteMode();
+    public function isMenuEditable();
+    
     public function getChild(): ?ComponentInterface;
     public function getRealDepth();
-    public function isMenuEditable();
-
     /**
      * @return HierarchyAggregateInterface
      */
