@@ -93,6 +93,7 @@ use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
 use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Entity\VisitorJobRequest;
 
 use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Hydrator\VisitorProfileHydrator;
@@ -101,6 +102,7 @@ use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepo;
+use Events\Model\Entity\Document;
 
 use Events\Model\Arraymodel\Job;
 use Events\Model\Arraymodel\Presenter;
@@ -377,6 +379,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             VisitorJobRequestRepo::class => function(ContainerInterface $c) {
                 return new VisitorJobRequestRepo($c->get(VisitorJobRequestDao::class), $c->get(VisitorJobRequestHydrator::class));
             },
+            VisitorJobRequest::class => function(ContainerInterface $c) {
+                return new VisitorJobRequest();
+            },
 
             VisitorProfileDao::class => function(ContainerInterface $c) {
                 return new VisitorProfileDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
@@ -396,6 +401,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             DocumentRepo::class => function(ContainerInterface $c) {
                 return new DocumentRepo($c->get(DocumentDao::class), $c->get(DocumentHydrator::class));
+            },
+            Document::class => function(ContainerInterface $c) {
+                return new Document();
             },
 
             Job::class => function(ContainerInterface $c) {
