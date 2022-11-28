@@ -15,26 +15,27 @@ use Pes\Container\Container;
 use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
-use Events\Model\Dao\EnrollDao;
-use Events\Model\Repository\EnrollRepo;
+use Red\Model\Dao\MenuItemAssetDao;
+use Red\Model\Repository\MenuItemAssetRepo;
 
-use Events\Model\Entity\Enroll;
+use Red\Model\Entity\MenuItemAsset;
 use Model\RowData\RowData;
 
 /**
  *
  * @author pes2704
  */
-class EnrollRepositoryTest extends AppRunner {
+class MenuItemAssetDaoRepositoryTest extends AppRunner {
 
+    const TEST_USER = 'Test';
 
     private $container;
 
     /**
      *
-     * @var EnrollRepo
+     * @var MenuItemAssetRepo
      */
-    private $enrollRepo;
+    private $menuItemAssetRepo;
 
     private static $id;
 
@@ -59,21 +60,28 @@ class EnrollRepositoryTest extends AppRunner {
         self::deleteRecords($container);
 
         // toto je příprava testu
-        /** @var EventContentDao $enrollDao */
-        $enrollDao = $container->get(EnrollDao::class);
+        /** @var MenuItemAssetDao $menuItemAssetsDao */
+        $menuItemAssetsDao = $container->get(MenuItemAssetDao::class);
         $testRowData = new RowData();
-        $testRowData->import([
-            'login_name' => "testEnroll login name",
-            'eventid' => "test_eventid_" . (string) (1000+random_int(0, 999)),
-        ]);
-        $enrollDao->insert($testRowData);
-        self::$id = $enrollDao->getLastInsertIdTouple();
+        // POZOR - natvrdo 20
+        $testRowData->import(
+            [
+                'menu_item_id_FK'=>20,
+                'filepath'=>'test/cesta/k/souboru/obraz.jpg',
+                'editor_login_name'=> self::TEST_USER
+            ]
+        );
+        $menuItemAssetsDao->insert($testRowData);
+        self::$id = $menuItemAssetsDao->getLastInsertIdTouple();
     }
 
     private static function deleteRecords(Container $container) {
-        /** @var EventContentDao $enrollDao */
-//        $enrollDao = $container->get(EnrollDao::class);
-//        $enrollDao->delete(['id'=>0]);
+        /** @var MenuItemAssetDao $menuItemAssetsDao */
+        $menuItemAssetsDao = $container->get(MenuItemAssetDao::class);
+        $rows = $menuItemAssetsDao->find('editor_login_name=:editor_login_name', [':editor_login_name'=>self::TEST_USER]);
+        foreach ($rows as $rowData) {
+            $menuItemAssetsDao->delete($rowData);
+        }
     }
 
     protected function setUp(): void {
@@ -81,11 +89,11 @@ class EnrollRepositoryTest extends AppRunner {
             (new TestHierarchyContainerConfigurator())->configure(
                        (new TestDbUpgradeContainerConfigurator())->configure(new Container())
                     );
-        $this->enrollRepo = $this->container->get(EnrollRepo::class);
+        $this->menuItemAssetRepo = $this->container->get(MenuItemAssetRepo::class);
     }
 
     protected function tearDown(): void {
-        $this->enrollRepo->flush();
+        $this->menuItemAssetRepo->flush();
     }
 
     public static function tearDownAfterClass(): void {
@@ -98,43 +106,44 @@ class EnrollRepositoryTest extends AppRunner {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(EnrollRepo::class, $this->enrollRepo);
+        $this->assertInstanceOf(MenuItemAssetRepo::class, $this->menuItemAssetRepo);
     }
 
     public function testGetNonExisted() {
-        $enroll = $this->enrollRepo->get(0);
+        $enroll = $this->menuItemAssetRepo->get(['id'=>0]);
         $this->assertNull($enroll);
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $enroll = $this->enrollRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
-        $this->assertInstanceOf(Enroll::class, $enroll);
+        $menuItemAsset = $this->menuItemAssetRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $this->assertInstanceOf(MenuItemAsset::class, $menuItemAsset);
 
-        $enroll = $this->enrollRepo->remove($enroll);
-        $this->assertNull($enroll);
+        $menuItemAsset = $this->menuItemAssetRepo->remove($menuItemAsset);
+        $this->assertNull($menuItemAsset);
     }
 
     public function testGetAfterRemove() {
-        $enroll = $this->enrollRepo->get(self::$id);
-        $this->assertNull($enroll);
+        $menuItemAsset = $this->menuItemAssetRepo->get(self::$id);
+        $this->assertNull($menuItemAsset);
     }
 
     public function testAdd() {
 
-        $enroll = new Enroll();
-        $enroll->setLoginName("testEnroll login name");
-        $enroll->setEventid("test_eventid_999");
-        $this->enrollRepo->add($enroll);
-        $this->assertTrue($enroll->isLocked());
+        $menuItemAsset = new MenuItemAsset();
+        $menuItemAsset->setMenuItemIdFk('20');
+        $menuItemAsset->setFilepath('test/testAdd/filepath/ff.gif');
+        $menuItemAsset->setEditorLoginName(self::TEST_USER);
+        $this->menuItemAssetRepo->add($menuItemAsset);
+        $this->assertTrue($menuItemAsset->isPersisted());  // autoincrement id
     }
 
     public function testFindAll() {
-        $enroll = $this->enrollRepo->findAll();
-        $this->assertTrue(is_array($enroll));
+        $assets = $this->menuItemAssetRepo->findAll();
+        $this->assertTrue(is_array($assets));
     }
 
-    public function testFindByLoginName() {
-        $enrolls = $this->enrollRepo->findByLoginName("testEnroll login name");
-        $this->assertTrue(is_array($enrolls));
+    public function testGetByFilepath() {
+        $asset = $this->menuItemAssetRepo->getByFilename('test/testAdd/filepath/ff.gif');
+        $this->assertInstanceOf(MenuItemAsset::class, $asset);
     }
 }

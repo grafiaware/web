@@ -9,6 +9,7 @@
 namespace Red\Model\Dao\Hierarchy;
 
 use Model\Dao\DaoInterface;
+use Model\RowData\RowDataInterface;
 
 /**
  *
@@ -25,7 +26,7 @@ interface HierarchyAggregateReadonlyDaoInterface extends DaoInterface {
      * @param string $title
      * @return array
      */
-    public function getByTitleHelper(array $langCodeAndTitle);
+    public function getByTitleHelper(array $langCodeAndTitle): ?RowDataInterface ;
 
     /**
      * Full tree ve formě řazeného seznamu získaného traverzováním okolo stronu. V položkách seznamu vrací name, id, depth, breadcrumb.

@@ -97,7 +97,7 @@ var paste_preprocess_function = function (plugin, args) {
     var editor = tinymce.get(tinymce.activeEditor.id);
     var len = editor.contentDocument.body.innerText.length;
     if (len + args.content.length > editor.settings.max_chars) {
-        alert('Pasting this exceeds the maximum allowed number of ' + editor.settings.max_chars + ' characters for the input.');
+        alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + editor.settings.max_chars + '.');
         args.content = '';
     }
     tinymce_updateCharCounter(editor, len + args.content.length);
@@ -370,8 +370,8 @@ var editHtmlConfig = {
     images_upload_handler: image_upload_handler,
 
     setup: editorFunction,  // callback that will be executed before the TinyMCE editor instance is rendered
-    
-    
+
+
     /**/
     paste_as_text: true,
     text_patterns: [

@@ -16,9 +16,8 @@ use Application\WebAppFactory;
 
 use Pes\Container\Container;
 
-use Container\DbUpgradeContainerConfigurator;
-use Container\RedModelContainerConfigurator;
-use Test\Integration\Model\Container\TestModelContainerConfigurator;
+use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
+use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\ItemActionRepoInterface;
@@ -36,7 +35,6 @@ class ItemActionRepositoryTest extends TestCase {
     private static $inputStream;
 
     private $app;
-    private $container;
 
     /**
      *
@@ -104,20 +102,13 @@ class ItemActionRepositoryTest extends TestCase {
                 );
         $this->app = (new WebAppFactory())->createFromEnvironment($environment);
 
-        $this->container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new RedModelContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(
-                            (new Container(
-//                                        new Container($this->app->getAppContainer())
-                                )
-                            )
-                        )
-                    )
-                );
+        $container =
+                (new TestHierarchyContainerConfigurator())->configure(
+                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                        );
 
 
-        $this->itemActionRepo = $this->container->get(ItemActionRepo::class);
+        $this->itemActionRepo = $container->get(ItemActionRepo::class);
     }
 
     public function testSetUp() {

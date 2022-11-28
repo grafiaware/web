@@ -5,8 +5,6 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Container\DbUpgradeContainerConfigurator;
-use Container\RedModelContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 
@@ -52,7 +50,7 @@ class MenuItemDaoTest extends AppRunner {
 
         /** @var HierarchyAggregateReadonlyDao $hierarchy */
         $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
-        $node = $hierarchy->getByTitleHelper(['langCode'=>'cs', 'title'=>'Tests Integration']);
+        $node = $hierarchy->getByTitleHelper(['lang_code_fk'=>'cs', 'title'=>'Tests Integration']);
         if (!isset($node)) {
             throw new \LogicException("Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce cs' s názvem 'Tests Integration'");
         }

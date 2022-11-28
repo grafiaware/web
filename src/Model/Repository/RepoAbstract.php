@@ -140,7 +140,7 @@ abstract class RepoAbstract {
 
     /**
      *
-     * @param variadic $id
+     * @param array $id
      * @return EntityInterface|null
      */
     protected function getEntity(array $id) {
@@ -153,7 +153,18 @@ abstract class RepoAbstract {
 
     /**
      *
-     * @param variadic $referenceId
+     * @param array $id
+     * @return EntityInterface|null
+     */
+    protected function getEntityUnique(array $unique) {
+        // vždy čte data - neví jestli jsou v $this->data
+        $rowData = $this->dataManager->getUnique($unique);
+        return $this->addEntityByRowData($rowData);
+    }
+
+    /**
+     *
+     * @param array $referenceId
      * @return EntityInterface|null
      */
     protected function getEntityByReference($referenceName, array $referenceId): ?EntityInterface {

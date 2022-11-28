@@ -7,6 +7,7 @@ use Pes\Database\Handler\HandlerInterface;
 use Model\Builder\SqlInterface;
 
 use Model\Context\ContextFactoryInterface;
+use Model\RowData\RowDataInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
@@ -102,9 +103,9 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * Vrací pole dat jednoho node a položky menu podle primárního klíče (kompozitní klíč lang_code_fk a uid_fk)
      *
      * @param array $id Asociativní pole s indexy odpovídajícími poli vrácenému metodou getPrimaryKeyAttributes()
-     * @return array|null Asociativní pole s indexy odpovídajícími poli vrácenému metodou getAttributes()
+     * @return RowDataInterface|null
      */
-    public function get(array $id) {
+    public function get(array $id): ?RowDataInterface {
         $sql =
             "SELECT "
             .$this->selected()
@@ -134,9 +135,9 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * Vrací pole dat jednoho node a položky menu podle dvojice hodnot (lang_code_fk a title)
      * Vrací node podle title v tabulce $this->itemTableName - není nijak zaručena unikátnost title!
      * @param array $langCodeAndTitle Asociativní pole s indexy lang_code_fk a title
-     * @return array|null
+     * @return RowDataInterface|null
      */
-    public function getByTitleHelper(array $langCodeAndTitle) {
+    public function getByTitleHelper(array $langCodeAndTitle): ?RowDataInterface  {
         $sql =
             "SELECT "
             .$this->selected()
@@ -151,11 +152,11 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
                 ) AS nested_set
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code_fk", "menu_item.title = :title"]))
                 ;
         $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':title', $langCodeAndTitle['title'], \PDO::PARAM_STR);
-        $stmt->bindParam(':lang_code', $langCodeAndTitle['lang_code_fk'], \PDO::PARAM_STR);
+        $stmt->bindParam(':lang_code_fk', $langCodeAndTitle['lang_code_fk'], \PDO::PARAM_STR);
         $success = $stmt->execute();
         return $stmt->rowCount() >= 1 ? $stmt->fetch() : NULL;
     }

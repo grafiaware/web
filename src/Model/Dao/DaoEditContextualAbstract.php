@@ -8,6 +8,8 @@ use Model\Builder\SqlInterface;
 
 use Model\Context\ContextFactoryInterface;
 
+use Model\RowData\RowDataInterface;
+
 /**
  * Description of DaoContextualAbstract
  *
@@ -26,7 +28,7 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
         $this->contextFactory = $contextFactory;
     }
 
-    public function get(array $id) {
+    public function get(array $id): ?RowDataInterface  {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and(
@@ -65,7 +67,7 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
         $where = $this->sql->where($this->sql->and(
                         $this->getContextConditions(),
                         $whereClause));
-        return $this->selectMany($select, $from, $where, $touplesToBind);        
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function findOutOfContext($whereClause = "", $touplesToBind = []): iterable {

@@ -134,8 +134,12 @@ class ConfigurationRed extends ConfigurationDb {
             'scriptsEditableMode' => self::RED_TEMPLATES_COMMON.'layout/head/scriptsEditableMode.php',
 
             // linksEditorJs links
-            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+
+            'urlTinyMCE' => self::RED_ASSETS.'tinymce_6_3_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => '',
+
+//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
 //            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
 //            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

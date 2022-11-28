@@ -48,6 +48,10 @@ use Red\Model\Dao\MenuItemDao;
 use Red\Model\Hydrator\MenuItemHydrator;
 use Red\Model\Repository\MenuItemRepo;
 
+use Red\Model\Dao\MenuItemAssetDao;
+use Red\Model\Hydrator\MenuItemAssetHydrator;
+use Red\Model\Repository\MenuItemAssetRepo;
+
 use Red\Model\Dao\MenuRootDao;
 use Red\Model\Hydrator\MenuRootHydrator;
 use Red\Model\Repository\MenuRootRepo;
@@ -217,6 +221,19 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuItemTypeRepo::class => function(ContainerInterface $c) {
                 return new MenuItemTypeRepo($c->get(MenuItemTypeDao::class), $c->get(MenuItemTypeHydrator::class));
             },
+            MenuItemAssetDao::class => function(ContainerInterface $c) {
+                return new MenuItemAssetDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            MenuItemAssetHydrator::class => function(ContainerInterface $c) {
+                return new MenuItemAssetHydrator();
+            },
+            MenuItemAssetRepo::class => function(ContainerInterface $c) {
+                return new MenuItemAssetRepo($c->get(MenuItemAssetDao::class), $c->get(MenuItemAssetHydrator::class));
+            },
+
             PaperDao::class => function(ContainerInterface $c) {
                 return new PaperDao(
                         $c->get(HandlerInterface::class),

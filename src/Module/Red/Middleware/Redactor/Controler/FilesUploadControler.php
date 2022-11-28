@@ -23,7 +23,15 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
     const UPLOADED_KEY = "file";
 
     /**
-     * Zpracuje request typu GET nebo POST a vrací response.
+     * Metoda přijímá soubory typu image odesílané image handlerem editoru TinyMCE.
+     *
+     * Image handler je skript definovyný v v iniciallizaci TinyMCE (image_upload_handler() ).
+     * Image handler odesílá POST request s s daty FormData, ve kterých je položka odpovídající <input> typu 'file' s uploadovaným souborem.
+     *
+     * Metoda zpracuje request s uploadovaným souborem. Uploadovaný soubor se pokusí uložit do složky určené pro soubory prezentovaného menu item a
+     * v případě úspěchu vrací response, který obsahuje jako obsah (body) json informující odesilající skript (image_upload_handler())
+     * o skutečném plném jménu uloženého souboru. Tento json obsahuje položku "Location" s plným jménem uloženého souboru. Toto jméno souboru image_upload_handler()
+     * vloží zpět do html kódu jako url obrázku (hodnotu src atributu tagu <image>).
      *
      * @return Response
      */

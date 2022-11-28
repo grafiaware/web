@@ -16,9 +16,8 @@ use Application\WebAppFactory;
 
 use Pes\Container\Container;
 
-use Container\DbUpgradeContainerConfigurator;
-use Container\RedModelContainerConfigurator;
-use Test\Integration\Model\Container\TestModelContainerConfigurator;
+use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
+use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
@@ -48,7 +47,6 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
     private static $inputStream;
 
     private $app;
-    private $container;
 
     private $langCode;
     private $uid;
@@ -119,26 +117,19 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
                 );
         $this->app = (new WebAppFactory())->createFromEnvironment($environment);
 
-        $this->container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new RedModelContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(
-                            (new Container(
-//                                        new Container($this->app->getAppContainer())
-                                )
-                            )
-                        )
-                    )
-                );
+        $container =
+                (new TestHierarchyContainerConfigurator())->configure(
+                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                        );
 
 
-        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
+        $this->menuItemAggRepo = $container->get(MenuItemAggregatePaperRepo::class);
 
-        /** @var HierarchyAggregateReadonlyDao $hierarchy */
-        $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
+        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
+        $hierarchyDao = $container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'Tests Integration';
-        $node = $hierarchy->getByTitleHelper($this->langCode, $this->title);
+        $node = $hierarchyDao->getByTitleHelper(['lang_code_fk'=>$this->langCode, 'title'=>$this->title]);
         if (!isset($node)) {
             throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }
@@ -148,7 +139,7 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
 
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
-        if (!$this->paper instanceof PaperAggregatePaperContentInterface) {
+        if (!$this->paper instanceof PaperAggregatePaperSectionInterface) {
             throw new \LogicException("Error in setUp: Nelze spustit integrační test - v setup() metodě nevznikl paper.");
         }
 
@@ -175,14 +166,12 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
 
 //        $paperContentRepo->flush();  // unset nevyvolá zavolání destruktoru
 $this->menuItemAggRepo->flush();
-        // reset odstraní repo - voláním container->get() pak vznikne nové repo
-        // nestačí resetovat MenuItemAggregateRepo - to se sice vygeneruje znovu, ale v něm obsažené PaperAggregateRepo se zachová a použije
-        // a obdobně PaperContentRepo obsažené v PaperAggregateRepo
-        $this->container->reset(MenuItemAggregatePaperRepo::class);
-        $this->container->reset(PaperAggregateContentsRepo::class);
-        $this->container->reset(PaperSectionRepo::class);
+        $container =
+                (new TestHierarchyContainerConfigurator())->configure(
+                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                        );
         /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
-        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
+        $this->menuItemAggRepo = $container->get(MenuItemAggregatePaperRepo::class);
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
         $newContentsArray = $this->paper->getPaperContentsArray();

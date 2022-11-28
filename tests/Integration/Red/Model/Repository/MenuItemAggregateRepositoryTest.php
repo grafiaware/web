@@ -12,9 +12,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Container\DbUpgradeContainerConfigurator;
-use Container\RedModelContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
+use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
@@ -27,8 +26,6 @@ use Red\Model\Entity\PaperAggregatePaperSection;
  * @author pes2704
  */
 class MenuItemAggregateRepositoryTest extends AppRunner {
-
-    private $container;
 
     /**
      *
@@ -48,21 +45,19 @@ class MenuItemAggregateRepositoryTest extends AppRunner {
     }
 
     protected function setUp(): void {
-        $this->container =
-                (new TestHierarchyContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new RedModelContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
-                    )
-                );
+        $container =
+                (new TestHierarchyContainerConfigurator())->configure(
+                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                        );
 
 
-        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
+        $this->menuItemAggRepo = $container->get(MenuItemAggregatePaperRepo::class);
 
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
-        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
+        $hierarchyDao = $container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'Tests Integration';
-        $node = $hierarchyDao->getByTitleHelper($this->langCode, $this->title);
+        $node = $hierarchyDao->getByTitleHelper(['lang_code_fk'=>$this->langCode, 'title'=>$this->title]);
         if (!isset($node)) {
             throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }

@@ -13,7 +13,7 @@ use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
 
-use Model\Dao\DaoFkUniqueInterface;
+use Model\RowData\RowDataInterface;
 
 use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
 use UnexpectedValueException;
@@ -50,19 +50,25 @@ abstract class DaoAbstract implements DaoInterface {
         $this->sql = $sql;
     }
 
-## public ##########################################
+#### public ##########################################
 
-    public function getPrimaryKeyTouples(array $row): array {
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $primaryFieldsValue
+     * @return array
+     */
+    public function getPrimaryKeyTouples(array $primaryFieldValues): array{
         $keyAttribute = $this->getPrimaryKeyAttributes();
         $key = [];
         foreach ($keyAttribute as $field) {
-            if( ! array_key_exists($field, $row)) {
+            if( ! array_key_exists($field, $primaryFieldValues)) {
                 throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Atribut klíče obsahuje pole '$field' a pole dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
             }
-            if (is_scalar($row[$field])) {
-                $key[$field] = $row[$field];
+            if (is_scalar($primaryFieldValues[$field])) {
+                $key[$field] = $primaryFieldValues[$field];
             } else {
-                $t = gettype($row[$field]);
+                $t = gettype($primaryFieldValues[$field]);
                 throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Zadaný atribut klíče obsahuje v položce '$field' neskalární hodnotu. Hodnoty v položce '$field' je typu '$t'.");
             }
         }
@@ -73,9 +79,9 @@ abstract class DaoAbstract implements DaoInterface {
      * {@inheritDoc}
      *
      * @param array $id
-     * @return type
+     * @return RowDataInterface|null
      */
-    public function get(array $id) {
+    public function get(array $id): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttributes())));
@@ -87,9 +93,9 @@ abstract class DaoAbstract implements DaoInterface {
      * {@inheritDoc}
      *
      * @param array $unique
-     * @return type
+     * @return RowDataInterface|null
      */
-    public function getUnique(array $unique) {
+    public function getUnique(array $unique): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->sql->touples(array_keys($unique))));
@@ -100,11 +106,11 @@ abstract class DaoAbstract implements DaoInterface {
     /**
      * {@inheritDoc}
      *
-     * @param type $whereClause
-     * @param type $touplesToBind
-     * @return iterable
+     * @param string $whereClause Příkaz where v SQL syntaxi vhodné pro PDO, s placeholdery
+     * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkatu where
+     * @return iterable<RowDataInterface>
      */
-    public function find($whereClause="", $touplesToBind=[]): iterable {
+    public function find($whereClause="", array $touplesToBind=[]): iterable {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($whereClause);
@@ -114,13 +120,15 @@ abstract class DaoAbstract implements DaoInterface {
     /**
      * {@inheritDoc}
      *
-     * @return iterable
+     * @return iterable<RowDataInterface>
      */
-    public function findAll(): iterable {
+    public function findAll(): iterable{
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         return $this->selectMany($select, $from, $where, []);
     }
+
+#### protected a private #######################################################################
 
     /**
      * Očekává SQL string s příkazem SELECT a případnými placeholdery. Provede ho s použitím parametrů a vrací jednu řádku tabulky ve formě dané nastavením parametrů konstruktoru.
