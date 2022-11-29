@@ -1,7 +1,7 @@
 /*******************************
          Site Overrides
 *******************************/
-.column:not(.editMenu) .fix-bar{
+.fix-bar{
     .ui.vertical.icon.menu{
         background-color: transparent;
         width: 100%;
@@ -11,6 +11,11 @@
             opacity: 0.8;
         }
     }
+    .ui.menu .item::before{ 
+        display: none;
+    }
+}
+#mySidenav:not(.editMenu){
     .ui.menu .item::before{ 
         display: none;
     }
@@ -81,7 +86,7 @@
         }
     }
 }
-.column.editMenu .fix-bar{
+#mySidenav.editMenu{
     .ui.menu .item::before{ 
         display: none;
     }
@@ -165,4 +170,7 @@
             padding: 0 1.3em; 
         }
     }
+}
+.ui.vertical.menu .item > .menu{
+    margin-top: 0;  
 }
