@@ -139,7 +139,11 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getFactoriesDefinitions(): iterable {
-        return [];
+        return [
+            Document::class => function(ContainerInterface $c) {
+                return new Document();
+            },
+        ];
     }
 
     public function getAliases(): iterable {
@@ -402,10 +406,6 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             DocumentRepo::class => function(ContainerInterface $c) {
                 return new DocumentRepo($c->get(DocumentDao::class), $c->get(DocumentHydrator::class));
             },
-            Document::class => function(ContainerInterface $c) {
-                return new Document();
-            },
-
             Job::class => function(ContainerInterface $c) {
                 return new Job($c->get(CompanyRepo::class), $c->get(JobRepo::class), $c->get(JobToTagRepo::class), $c->get(JobTagRepo::class));
             },
