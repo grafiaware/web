@@ -143,6 +143,10 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             Document::class => function(ContainerInterface $c) {
                 return new Document();
             },
+            VisitorJobRequest::class => function(ContainerInterface $c) {
+                return new VisitorJobRequest();
+            },
+
         ];
     }
 
@@ -383,10 +387,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             VisitorJobRequestRepo::class => function(ContainerInterface $c) {
                 return new VisitorJobRequestRepo($c->get(VisitorJobRequestDao::class), $c->get(VisitorJobRequestHydrator::class));
             },
-            VisitorJobRequest::class => function(ContainerInterface $c) {
-                return new VisitorJobRequest();
-            },
-
+            
             VisitorProfileDao::class => function(ContainerInterface $c) {
                 return new VisitorProfileDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },

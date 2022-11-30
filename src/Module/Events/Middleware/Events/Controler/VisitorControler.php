@@ -55,7 +55,6 @@ class VisitorControler extends FrontControlerAbstract {
     const UPLOADED_KEY_LETTER = "visitor-letter";
 
 //    private $multiple = false;
-//
 //    private $accept;
 
     private $visitorProfileRepo;
@@ -280,72 +279,71 @@ class VisitorControler extends FrontControlerAbstract {
             $positionName = (new RequestParams())->getParsedBodyParam($request, 'position-name');
             $jobId = (new RequestParams())->getParsedBodyParam($request, 'job-id');
 
-            $visitorProfileData = $this->visitorProfileRepo->get($loginName);
+            $visitorProfileData = $this->visitorProfileRepo->get($loginName); // existuje vzdy
             $visitorJobRequestDataExist = $this->visitorJobRequestRepo->get($loginName, $jobId /*$shortName, $positionName*/ );             
                                                
             // ################################### 
-            // neexistuje jobrequest , a to vzdy
+            // neexistuje jobrequest pro tento job, a to vzdy, protoze
             // Pozn.: existuje-li jobrequest - tak tudy vubec nejdu.... zadost se da poslat jen 1x, pak tam neni uz tlacitko 
             // ######################
             //-- kdyz je document v profileData  - i tak vyrobit document novy+add do documentRepo a v jobrequestu updatovat id a
             //   do noveho documentu presunout data ze stavajiciho dokumentu , ktery je v profilu
             //-- kdyz neni dokument v profileData - vyrobit document novy+add do documentRepo, a do jobRequestu (id, tj. letter_document, cv_document) 
                
-            if (!isset($visitorJobRequestDataExist)) {   //plati vzdy  
-                
+            if (!isset($visitorJobRequestDataExist)) {   //plati vzdy                  
                 $visitorJobRequestData = $this->container->get(VisitorJobRequest::class);  //new VisitorJobRequest();
                 $visitorJobRequestData->setLoginLoginName($loginName);
                 $visitorJobRequestData->setJobId($jobId);
                 $visitorJobRequestData->setPositionName($positionName);
                 $this->visitorJobRequestRepo->add($visitorJobRequestData);
                 
+                // z post dat
                 $files = $request->getUploadedFiles();  
                 /* @var $file UploadedFileInterface */
-                if(isset($files) AND $files) {
-                        $this->processingDocs($files, $visitorJobRequestData);  //pro uploadovane soubory vyrobi documenty a zaradi do JobRequest
+                if(isset($files) AND $files) {  //pro uploadovane soubory vyrobi documenty z post dat a zaradi do visitorJobRequest
+                        $this->processingDocs($files, $visitorJobRequestData);  
                 }
-                // v  $visitorJobRequestData bude  id příslušného documentu, byl-li
-                
-                
-                // documenty z VisitorProfile -  pridat "kopie" do visitorJobRequest
-                $pomcv = $visitorJobRequestData->getCvDocument();                     
-                if (!$visitorJobRequestData->getCvDocument()) {  // neni naplneno z uploadu, naplnit z profilu
-                    /** @var Document $cvDocument */
-                    $cvDocument =  new Document();   // potřebuju  každý document jiný - container se nehodí  //$this->container->get(Document::class);
-                    $this->documentRepo->add($cvDocument);   
-                   
-                    
-                    /**/
-                    $cvDocumentIdFromProfile = $visitorProfileData->getCvDocument();                    
-                    $cvDocumentFromProfile = $this->documentRepo->get($cvDocumentIdFromProfile);                  
+                // v $visitorJobRequestData je id příslušného documentu, byl-li zadan ve formulari
+                                                
+                // pokud neni jiz naplneno z Post dat, documenty z VisitorProfile, pokud existuji -  pridat "kopie" do visitorJobRequest
+                //$pomcv = $visitorJobRequestData->getCvDocument();                     
+                if (!$visitorJobRequestData->getCvDocument()) {    // neni naplneno z uploadu? - naplnit z profilu                                                                            
+                    if  ($visitorProfileData->getCvDocument() ) {  // cv je v profilu? -ano
+                        /** @var Document $cvDocument */
+                        $cvDocument = $this->container->get(Document::class);    // pozn. potřebuju  každý document jiný -getFactoriesDefinitions
+                        $this->documentRepo->add($cvDocument);   
+                        /**/
+                        $cvDocumentIdFromProfile = $visitorProfileData->getCvDocument();
+                        $cvDocumentFromProfile = $this->documentRepo->get($cvDocumentIdFromProfile);                  
 
-                    $cvDocument->setDocument($cvDocumentFromProfile->getDocument());
-                    $cvDocument->setDocumentFilename($cvDocumentFromProfile->getDocumentFilename());
-                    $cvDocument->setDocumentMimetype($cvDocumentFromProfile->getDocumentMimetype());
-                    $this->documentRepo->add($cvDocument);
-                   
-                    $visitorJobRequestData->setCvDocument($cvDocument->getId());
+                        $cvDocument->setDocument($cvDocumentFromProfile->getDocument());
+                        $cvDocument->setDocumentFilename($cvDocumentFromProfile->getDocumentFilename());
+                        $cvDocument->setDocumentMimetype($cvDocumentFromProfile->getDocumentMimetype());
+                        $this->documentRepo->add($cvDocument);
+
+                        $visitorJobRequestData->setCvDocument($cvDocument->getId());
+                    }    
                 } 
                 
-                $pomletter = $visitorJobRequestData->getLetterDocument();
-                if ( !$visitorJobRequestData->getLetterDocument() ) {  // neni naplneno z uploadu, naplnit z profilu
-                    /** @var Document $letterDocument */
-                    $letterDocument =  new Document();      // potřebuju  každý document jiný - container se nehodí //$this->container->get(Document::class);
-                    $this->documentRepo->add($letterDocument);
-                    
-                    /**/
-                    $letterDocumentIdFromProfile = $visitorProfileData->getLetterDocument();                    
-                    $letterDocumentFromProfile = $this->documentRepo->get($letterDocumentIdFromProfile);     
-                    
-                    $letterDocument->setDocument($letterDocumentFromProfile->getDocument());
-                    $letterDocument->setDocumentFilename($letterDocumentFromProfile->getDocumentFilename());
-                    $letterDocument->setDocumentMimetype($letterDocumentFromProfile->getDocumentMimetype());                    
-                    $this->documentRepo->add($letterDocument);
-                    
-                    $visitorJobRequestData->setLetterDocument($letterDocument->getId());
+                //$pomletter = $visitorJobRequestData->getLetterDocument();
+                if ( !$visitorJobRequestData->getLetterDocument() ) {  // neni naplneno z uploadu? - naplnit z profilu
+                    if ($visitorProfileData->getLetterDocument() ) {
+                        /** @var Document $letterDocument */
+                        $letterDocument =  $this->container->get(Document::class);     // pozn. potřebuju  každý document jiný -getFactoriesDefinitions
+                        $this->documentRepo->add($letterDocument);                    
+                        /**/
+                        $letterDocumentIdFromProfile = $visitorProfileData->getLetterDocument();                    
+                        $letterDocumentFromProfile = $this->documentRepo->get($letterDocumentIdFromProfile);     
+
+                        $letterDocument->setDocument($letterDocumentFromProfile->getDocument());
+                        $letterDocument->setDocumentFilename($letterDocumentFromProfile->getDocumentFilename());
+                        $letterDocument->setDocumentMimetype($letterDocumentFromProfile->getDocumentMimetype());                    
+                        $this->documentRepo->add($letterDocument);
+
+                        $visitorJobRequestData->setLetterDocument($letterDocument->getId());
+                    }
                 }             
-                
-                                            
+                           
                 // POST data
                 $visitorJobRequestData->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
                 $visitorJobRequestData->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
@@ -355,19 +353,6 @@ class VisitorControler extends FrontControlerAbstract {
                 $visitorJobRequestData->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
                 $visitorJobRequestData->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
                 $visitorJobRequestData->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
-
-    //            $this->uploadDocs($request, $visitorJobRequestData); //naplni idDocumenty(byly-li uploadovany zde) do  $visitorJobRequestData
-
-    //            if (!$visitorJobRequestData->getCvDocument()) {           
-    //                $visitorJobRequestData->setCvDocument($visitorProfileData->getCvDocument());
-    //                //$visitorDataRequest->setCvDocumentFilename($visitorProfileData->getCvDocumentFilename());
-    //                //$visitorDataRequest->setCvDocumentMimetype($visitorProfileData->getCvDocumentMimetype());
-    //            }
-    //            if (!$visitorJobRequestData->getLetterDocument()) {
-    //                $visitorJobRequestData->setLetterDocument($visitorProfileData->getLetterDocument());
-    //                //$visitorDataRequest->setLetterDocumentFilename($visitorProfileData->getLetterDocumentFilename());
-    //                //$visitorDataRequest->setLetterDocumentMimetype($visitorProfileData->getLetterDocumentMimetype());
-    //            }
 
                 $this->addFlashMessage("Pracovní údaje odeslány pro pozici $positionName.");
             }
@@ -398,14 +383,13 @@ class VisitorControler extends FrontControlerAbstract {
 
             //files z requestu
             $files = $request->getUploadedFiles();  
-
             /* @var $file UploadedFileInterface */
             if(isset($files) AND $files) {
-                // !po jednom souboru! - muzu pouzit container na novy document -EEEEEEEEEEEEEEEEEE
+                // !po jednom souboru!
                 foreach ($files as $uploadedFileName => $file) {
                                        
                     // naplnit novy document daty z uploadu a naplnit VisitorJobRequest                                                                                
-                    if ($file->getError()==UPLOAD_ERR_OK) {                                               
+                    if ($file->getError()=== UPLOAD_ERR_OK) {                                               
                         switch ($uploadedFileName) {
                             case self::UPLOADED_KEY_CV.$userHash:
                                  /* @var $documentCv  Document */
@@ -458,31 +442,25 @@ class VisitorControler extends FrontControlerAbstract {
             $userHash = $loginAggregateCredentials->getLoginNameHash();
             $uploadError = '';
 
-            //files z requestu
-            //$files = $request->getUploadedFiles();  
-
             /* @var $file UploadedFileInterface */
             if(isset($files) AND $files) {
-                                                                                    // !po jednom souboru! - muzu pouzit container na novy document -EEEEEEEEEEEEEEEEEE
-                foreach ($files as $uploadedFileName => $file) {
-                                       
+                                  
+                foreach ($files as $uploadedFileName => $file) {                                       
                     // naplnit novy document daty z uploadu a naplnit VisitorJobRequest                                                                                
-                    if ($file->getError()==UPLOAD_ERR_OK) {                                               
+                    if ($file->getError()===UPLOAD_ERR_OK) {                                               
                         switch ($uploadedFileName) {
                             case self::UPLOADED_KEY_CV.$userHash:
                                  /* @var $documentCv  Document */
-                                $documentCv = new Document();   //$this->container->get(Document::class); //   new Document();
+                                $documentCv = $this->container->get(Document::class);    //   new Document();
                                 $this->documentRepo->add($documentCv);
-                                //$documentCvId = $documentCv->getId();  
-                                                                
+                                                               
                                 $this->hydrateVisitorJobRequestDataByFile($file, self::UPLOADED_KEY_CV, $documentCv, $visitorJobRequest);
                                 break;
                             
                             case self::UPLOADED_KEY_LETTER.$userHash:
                                 /* @var $documentLetter  Document */
-                                $documentLetter = new Document();    // $this->container->get(Document::class); //   new Document();
+                                $documentLetter = $this->container->get(Document::class);      //   new Document();
                                 $this->documentRepo->add($documentLetter);
-                                //$documentLetterId = $documentLetter->getId;  
                                 
                                 $this->hydrateVisitorJobRequestDataByFile($file, self::UPLOADED_KEY_LETTER, $documentLetter, $visitorJobRequest);
                                 break;
@@ -516,23 +494,14 @@ class VisitorControler extends FrontControlerAbstract {
         $document->setDocument(file_get_contents($uploadedFileTemp));
         $document->setDocumentMimetype($clientMime);
         $document->setDocumentFilename($clientFileName);       
-        //$visitorJobRequest->setCvDocument($document->getId());    
         switch ($type) {
             case self::UPLOADED_KEY_CV:
-                        //$documentCvId = $visitorJobRequest->getCvDocument();   //asi nemusim  
                         $documentId = $document->getId();  
                         $visitorJobRequest->setCvDocument($document->getId());                                               
-//                $visitorJobRequest->setCvDocument(file_get_contents($uploadedFileTemp));
-//                $visitorJobRequest->setCvDocumentMimetype($clientMime);
-//                $visitorJobRequest->setCvDocumentFilename($clientFileName);
                 break;                
             case self::UPLOADED_KEY_LETTER:                     
                         $documentId = $document->getId();  
-                        $visitorJobRequest->setLetterDocument($document->getId());
-          
-////                $visitorJobRequest->setLetterDocument(file_get_contents($uploadedFileTemp));
-////                $visitorJobRequest->setLetterDocumentMimetype($clientMime);
-////                $visitorJobRequest->setLetterDocumentFilename($clientFileName);
+                        $visitorJobRequest->setLetterDocument($document->getId());          
                 break;
             default:
                 break;
@@ -745,7 +714,7 @@ class VisitorControler extends FrontControlerAbstract {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. Invalid file extesion.");
             $this->addFlashMessage("Chybná přípona souboru.", FlashSeverityEnum::WARNING);
-        } elseif ($error != UPLOAD_ERR_OK) {
+        } elseif ($error !== UPLOAD_ERR_OK) {
             $errMessage = $this->uploadErrorMessage($error);
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Server or transfer error. $errMessage");

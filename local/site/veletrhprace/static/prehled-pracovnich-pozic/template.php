@@ -10,8 +10,7 @@ use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Repository\JobToTagRepo;
-//use Events\Model\Repository\CompanyContactRepo;
-//use Events\Model\Entity\CompanyContactInterface;
+
 use Events\Model\Entity\Company;
 use Events\Model\Entity\Job as JobEntity;
 use Events\Model\Entity\JobToTag;
