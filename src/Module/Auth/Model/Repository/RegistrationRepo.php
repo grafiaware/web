@@ -28,17 +28,12 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
     }
 
     public function getByReference($loginNameFk): ?EntityInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);  // $loginNameFk je primární i cizí klíč
         return $this->getEntity($key);
     }
 
     public function getByUid($uid): ?RegistrationInterface {
-        $row = $this->dataManager->getByUid($uid);
-        $index = $this->indexFromRow($row);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $row);
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntityUnique(['uid'=>$uid]);
     }
 
     public function add(RegistrationInterface $registration) {

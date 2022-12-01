@@ -14,9 +14,10 @@ use Pes\Http\Factory\EnvironmentFactory;
 
 use Pes\Container\Container;
 
-use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
-use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
+use Container\LoginContainerConfigurator;
+use Container\DbOldContainerConfigurator;
 
+use Model\RowData\RowData;
 use Auth\Model\Entity\Registration;
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Dao\RegistrationDao;
@@ -29,6 +30,8 @@ use Auth\Model\Repository\RegistrationRepo;
  */
 class RegistrationRepositoryTest extends TestCase {
 
+    const TEST_LOGIN_NAME = "testRegistration";
+
     private static $inputStream;
 
     private $app;
@@ -40,7 +43,7 @@ class RegistrationRepositoryTest extends TestCase {
      */
     private $registrationRepo;
 
-    static $uidForEmail;
+    static $uid;
 
     public static function mock(array $userData = []) {
         //Validates if default protocol is HTTPS to set default port 443
@@ -90,9 +93,14 @@ class RegistrationRepositoryTest extends TestCase {
         self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.
 
         $container =
-                (new TestHierarchyContainerConfigurator())->configure(
-                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
-                        );
+            (new LoginContainerConfigurator())->configure(
+                (new DbOldContainerConfigurator())->configure(
+                    (new Container(
+//                            $this->getApp()->getAppContainer()       bez app kontejneru
+                        )
+                    )
+                )
+            );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
@@ -102,8 +110,14 @@ class RegistrationRepositoryTest extends TestCase {
         $loginDao = $container->get(LoginDao::class);
         /** @var RegistrationDao $registrationDao */
         $registrationDao = $container->get(RegistrationDao::class);
-        $loginDao->insertWithKeyVerification(['login_name'=>"testRegistration"]);
-        $registrationDao->insert(['login_name_fk'=>"testRegistration", 'password_hash'=>'testHeslo']);
+
+        $loginRowData = new RowData();
+        $loginRowData->import(['login_name'=> self::TEST_LOGIN_NAME]);
+        $loginDao->insert($loginRowData);
+
+        $registratinRowData = new RowData();
+        $registratinRowData->import(['login_name_fk'=> self::TEST_LOGIN_NAME, 'password_hash'=>'testHeslo']);
+        $registrationDao->insert($registratinRowData);
     }
 
     private static function deleteRecords(Container $container) {
@@ -111,9 +125,14 @@ class RegistrationRepositoryTest extends TestCase {
         $registrationDao = $container->get(RegistrationDao::class);
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-
-        $registrationDao->delete(['login_name_fk'=>"testRegistration"]);
-        $loginDao->delete(['login_name'=>"testRegistration"]);
+        $testRegistrationRow = $registrationDao->get(['login_name_fk'=> self::TEST_LOGIN_NAME]);
+        $testLoginRow = $loginDao->get(['login_name'=>self::TEST_LOGIN_NAME]);
+        if ($testRegistrationRow) {
+            $registrationDao->delete($testRegistrationRow);
+        }
+        if ($testLoginRow) {
+            $loginDao->delete($testLoginRow);
+        }
     }
 
     protected function setUp(): void {
@@ -164,7 +183,7 @@ class RegistrationRepositoryTest extends TestCase {
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $registration = $this->registrationRepo->get("testRegistration");
+        $registration = $this->registrationRepo->get(self::TEST_LOGIN_NAME);
         $this->assertInstanceOf(Registration::class, $registration);
 
         $registration = $this->registrationRepo->remove($registration);
@@ -172,13 +191,13 @@ class RegistrationRepositoryTest extends TestCase {
     }
 
     public function testGetAfterRemove() {
-        $loginAgg = $this->registrationRepo->get("testRegistration");
+        $loginAgg = $this->registrationRepo->get(self::TEST_LOGIN_NAME);
         $this->assertNull($loginAgg);
     }
 
     public function testAdd() {
         $registration = new Registration();
-        $registration->setLoginNameFk("testRegistration");
+        $registration->setLoginNameFk(self::TEST_LOGIN_NAME);
         $registration->setPasswordHash("testHeslo");
         $registration->setEmail("test.email@mejl.cz");
         $registration->setInfo("testInfo jhedhgdjgjwdgdj  io ipfpf ");
@@ -187,28 +206,28 @@ class RegistrationRepositoryTest extends TestCase {
     }
 
     public function testGetAfterAdd() {
-        $registration = $this->registrationRepo->get("testRegistration");
+        $registration = $this->registrationRepo->get(self::TEST_LOGIN_NAME);
         $this->assertInstanceOf(Registration::class, $registration);
         $this->assertTrue(is_string($registration->getUid()));
         $this->assertInstanceOf(\DateTime::class, $registration->getCreated());
-        self::$uidForEmail = $registration->getUid();
-        $this->assertTrue(is_string(self::$uidForEmail));
+        self::$uid = $registration->getUid();
+        $this->assertTrue(is_string($registration->getUid()));
     }
 
     public function testGetByUid() {
-        $registration = $this->registrationRepo->getByUid(self::$uidForEmail);
+        $registration = $this->registrationRepo->getByUid(self::$uid);
         $this->assertInstanceOf(Registration::class, $registration);
     }
 
     public function testGetAndRemoveAfterAdd() {
-        $registration = $this->registrationRepo->get("testRegistration");
+        $registration = $this->registrationRepo->get(self::TEST_LOGIN_NAME);
         $this->registrationRepo->remove($registration);
         $this->assertTrue($registration->isLocked(), 'Registration není zamčena po remove.');
     }
 
     public function testAddAndReread() {
         $registration = new Registration();
-        $registration->setLoginNameFk("testRegistration");
+        $registration->setLoginNameFk(self::TEST_LOGIN_NAME);
         $registration->setPasswordHash("testHeslo");
         $registration->setEmail("test.email@mejl.cz");
         $registration->setInfo("testInfo2 jhedhgdjgjwdgdj  io ipfpf ");

@@ -23,7 +23,7 @@ class MenuItemAssetDao extends DaoEditAbstract implements DaoEditAutoincrementKe
     }
 
     public function getAttributes(): array {
-        return ['id', 'menu_item_id_FK', 'filepath', 'editor_login_name', 'created'];
+        return ['id', 'menu_item_id_FK', 'filepath', 'mime_type', 'editor_login_name', 'created', 'updated'];
     }
 
     public function getForeignKeyAttributes(): array {

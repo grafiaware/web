@@ -35,23 +35,46 @@ class RegistrationDao extends DaoEditAbstract {
         return 'registration';
     }
 
-    public function getByFk($loginNameFK) {
-        $select = $this->sql->select($this->getAttributes());
-        $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples(['login_name_fk'])));
-        $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
-    }
 
-    public function getByUid($uid) {
-        $select = $this->sql->select($this->getAttributes());
-        $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples(['uid'])));
-        $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
-    }
+####################################
 
     public function insert(RowDataInterface $rowData): bool {
-        throw new DaoForbiddenOperationException("Object LoginDao neumožňuje insertovat bez ověření duplicity klíče. Nelze vkládat metodou insert(), je nutné používat insertWithKeyVerification().");
+        $dbhTransact = $this->dbHandler;
+        try {
+            $dbhTransact->beginTransaction();
+            $uid = $this->getNewUidWithinTransaction($dbhTransact);
+            $rowData['uid'] = $uid;
+            parent::execInsert($rowData);
+                /*** commit the transaction ***/
+            $success = $dbhTransact->commit();
+        } catch(Exception $e) {
+            $dbhTransact->rollBack();
+            throw new Exception($e);
+        }
+        return $success ?? false;
+    }
+
+    /**
+     * @param HandlerInterface $dbhTransact
+     * @param string $uidColumnName
+     * @return type
+     * @throws \LogicException Tuto metodu lze volat pouze v průběhu spuštěné databázové transakce.
+     */
+    private function getNewUidWithinTransaction(HandlerInterface $dbhTransact, $uidColumnName='uid') {
+        if ($dbhTransact->inTransaction()) {
+            do {
+                $uid = uniqid();
+                $stmt = $dbhTransact->prepare(
+                        "SELECT $uidColumnName
+                        FROM {$this->getTableName()}
+                        WHERE $uidColumnName = :$uidColumnName LOCK IN SHARE MODE");   //nelze použít LOCK TABLES - to commitne aktuální transakci!
+                $stmt->bindParam(":$uidColumnName", $uid);
+                $stmt->execute();
+            } while ($stmt->rowCount());
+            return $uid;
+        } else {
+            throw new \LogicException('Tuto metodu lze volat pouze v průběhu spuštěné databázové transakce.');
+        }
+
     }
 }

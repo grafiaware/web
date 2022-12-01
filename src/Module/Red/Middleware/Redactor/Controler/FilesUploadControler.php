@@ -13,6 +13,10 @@ use Pes\Utils\Directory;
 
 use Utils\UrlConvertor;
 
+use Red\Model\Repository\MenuItemAssetRepo;
+
+use Exception;
+
 /**
  * Description of NestedFilesUpload
  *
@@ -21,11 +25,11 @@ use Utils\UrlConvertor;
 class FilesUploadControler extends FilesUploadControllerAbstract {
 
     const UPLOADED_KEY = "file";
-
+    const MAX_FILE_SIZE = "1000000";
     /**
      * Metoda přijímá soubory typu image odesílané image handlerem editoru TinyMCE.
      *
-     * Image handler je skript definovyný v v iniciallizaci TinyMCE (image_upload_handler() ).
+     * Image handler je skript definovaný v v inicializaci TinyMCE (image_upload_handler() ).
      * Image handler odesílá POST request s s daty FormData, ve kterých je položka odpovídající <input> typu 'file' s uploadovaným souborem.
      *
      * Metoda zpracuje request s uploadovaným souborem. Uploadovaný soubor se pokusí uložit do složky určené pro soubory prezentovaného menu item a
@@ -38,23 +42,57 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
     public function uploadEditorImages(ServerRequestInterface $request) {
         $this->setAcceptedExtensions([".png", ".jpg", ".gif"]);
         $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
-//        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
         // POST - jeden soubor
-        /* @var $file UploadedFileInterface */
-        $file = $request->getUploadedFiles()[self::UPLOADED_KEY];
-        $size = 0;
-        $item = $this->statusPresentationRepo->get()->getMenuItem();
+        /* @var $uploadedFile UploadedFileInterface */
+        $uploadedFile = $request->getUploadedFiles()[self::UPLOADED_KEY];
+        if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
 
+        }
+
+        $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
+        $clientMime = $fileForSave->getClientMediaType();
+        $clientFileSize = $fileForSave->getSize();  // v bytech
+        $clientFileExt = pathinfo($clientFileName,  PATHINFO_EXTENSION );
+
+        if ($clientFileSize > self::MAX_FILE_SIZE) {
+            $error = "Maximum file size exceeded.";
+        }
+        if (!in_array($clientFileExt, array("gif", "jpg", "png"))) {
+            $error = "Invalid extension.";
+        }
+
+        $presentedMenuitem = $this->statusPresentationRepo->get()->getMenuItem();
         // vytvoří složku se jménem 'item_' a id menuItem
-        $itemFolder = "item_".$item->getId().'/';
-        $fullFilePath = ConfigurationCache::filesUploadController()['upload.red'].Directory::normalizePath($itemFolder);
-        Directory::createDirectory($fullFilePath);
-        $targetFilename = $fullFilePath.urldecode($file->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
-        $file->moveTo($targetFilename);
+//        $itemFolder = "item_".$item->getId().'/';
+        // relativní cesta vzhledem k root (_files/...)
+        $baseFilepath = ConfigurationCache::filesUploadController()['upload.red'];
+//        $itemFilePath = Directory::normalizePath($itemFolder);
+
+
+        try {
+            // vytvoř složku pokud neexistuje
+//            Directory::createDirectory($baseFilepath. $itemFilePath);
+//            $targetFilename = $baseFilepath.$itemFilePath.$clientFileName;
+            Directory::createDirectory($baseFilepath);
+            $targetFilepath = $baseFilepath.$clientFileName;
+            $uploadedFile->moveTo($targetFilepath);
+            /** @var MenuItemAssetRepo $menuItemAssetRepo */
+            $menuItemAssetRepo = $this->container->get(MenuItemAssetRepo::class);
+            //??
+            $oldAsset = $menuItemAssetRepo->getByFilename($clientFileName);
+            if (isset($oldAsset)) {
+                // ? uložit file až zde?
+            } else {
+                
+            }
+            $menuItemAssetRepo->findByMenuItemId($presentedMenuitem->getId());
+        } catch (Exception $e) {
+            throw $e;
+        }
 
         // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-        $json = json_encode(array('location' => $targetFilename));  //
+        $json = json_encode(array('location' => $targetFilepath));  //
         return $this->createResponseFromString($request, $json);
 
     }
@@ -158,6 +196,40 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
 
     }
 
+    // KOPIE metody z VisitorControler
+    protected function uploadErrorMessage($error) {
+
+        switch ($error) {
+            case UPLOAD_ERR_OK:
+                $response = 'There is no error, the file uploaded with success.';
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+                $response = 'The uploaded file exceeds the upload_max_filesize directive in php.ini.';
+                break;
+            case UPLOAD_ERR_FORM_SIZE:
+                $response = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.';
+                break;
+            case UPLOAD_ERR_PARTIAL:
+                $response = 'The uploaded file was only partially uploaded.';
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $response = 'No file was uploaded.';
+                break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                $response = 'Missing a temporary folder.';
+                break;
+            case UPLOAD_ERR_CANT_WRITE:
+                $response = 'Failed to write file to disk.';
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                $response = 'File upload stopped by extension.';
+                break;
+            default:
+                $response = 'Unknown upload error.';
+                break;
+        }
+        return $response;
+    }
 }
 
 //$html = '

@@ -28,8 +28,10 @@ class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInte
             ->setId( $this->getPhpValue( $rowData,'id') )
             ->setMenuItemIdFk( $this->getPhpValue( $rowData,'menu_item_id_FK') )
             ->setFilepath( $this->getPhpValue( $rowData,'filepath') )
+            ->setMimeType($this->getPhpValue( $rowData,'mime_type'))
             ->setEditorLoginName( $this->getPhpValue( $rowData,'editor_login_name') )
             ->setCreated( $this->getPhpValue( $rowData,'created') )
+            ->setUpdated( $this->getPhpValue( $rowData,'updated') )
             ;
     }
 
@@ -43,8 +45,10 @@ class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInte
         // id je autoincrement
         $this->setSqlValue( $rowData, 'menu_item_id_FK', $menuItemAsset->getMenuItemIdFk() );
         $this->setSqlValue( $rowData, 'filepath', $menuItemAsset->getFilepath() );
+        $this->setSqlValue( $rowData, 'mime_type', $menuItemAsset->getMimeType() );
         $this->setSqlValue( $rowData, 'editor_login_name', $menuItemAsset->getEditorLoginName() );
-        // created je DEFAULT ON INSERT TIMESTAMP
+        // created je DEFAULT CURRENT_TIMESTAMP
+        // updated je ON UPDATE CURRENT_TIMESTAMP
 
     }
 

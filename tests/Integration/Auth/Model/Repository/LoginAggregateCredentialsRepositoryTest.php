@@ -61,7 +61,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
         try {
             /** @var LoginDao $loginDao */
             $loginDao = $container->get(LoginDao::class);
-            $loginDao->insert(new RowData(['login_name'=>"testLoginAggregate1"]));
+            $loginDao->insert(new RowData()['login_name'=>"testLoginAggregate1"]));
         } catch (DaoKeyVerificationFailedException $keyExistsExc) {
 
         }

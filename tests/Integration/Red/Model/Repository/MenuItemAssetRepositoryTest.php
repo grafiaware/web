@@ -25,7 +25,7 @@ use Model\RowData\RowData;
  *
  * @author pes2704
  */
-class MenuItemAssetDaoRepositoryTest extends AppRunner {
+class MenuItemAssetRepositoryTest extends AppRunner {
 
     const TEST_USER = 'Test';
 
@@ -68,6 +68,7 @@ class MenuItemAssetDaoRepositoryTest extends AppRunner {
             [
                 'menu_item_id_FK'=>20,
                 'filepath'=>'test/cesta/k/souboru/obraz.jpg',
+                'mime_type'=>'test/mime-type',
                 'editor_login_name'=> self::TEST_USER
             ]
         );
@@ -132,6 +133,7 @@ class MenuItemAssetDaoRepositoryTest extends AppRunner {
         $menuItemAsset = new MenuItemAsset();
         $menuItemAsset->setMenuItemIdFk('20');
         $menuItemAsset->setFilepath('test/testAdd/filepath/ff.gif');
+        $menuItemAsset->setMimeType('test/mime-type');
         $menuItemAsset->setEditorLoginName(self::TEST_USER);
         $this->menuItemAssetRepo->add($menuItemAsset);
         $this->assertTrue($menuItemAsset->isPersisted());  // autoincrement id
