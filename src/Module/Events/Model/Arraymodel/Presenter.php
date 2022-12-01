@@ -3,7 +3,7 @@ namespace Events\Model\Arraymodel;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
-
+use Events\Model\Repository\RepresentativeRepoInterface;
 
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Repository\VisitorProfileRepoRepo;
@@ -78,13 +78,18 @@ class Presenter {
     private $companyRepo;    
     /**
      * 
-     * @var JobRepoInterface
+     * @var RepresentativeRepoInterface
      */
-    private $jobRepo;
+    private $representativeRepo;
     
-    public function __construct( CompanyRepoInterface $companyRepo
+    
+    
+    public function __construct( CompanyRepoInterface $companyRepo,
+                                 RepresentativeRepoInterface $representativeRepo
+            
                                  /*JobRepoInterface $jobRepo*/ ) {
-                $this->companyRepo = $companyRepo;     
+                $this->companyRepo = $companyRepo;    
+                $this->representativeRepo = $representativeRepo;
                 //$this->jobRepo = $jobRepo;     
     }
 
@@ -102,6 +107,21 @@ class Presenter {
             return array_merge($person, $this->company[$person['shortName']]);
         }
     }
+     public function getPersonI($loginName) {
+        $representativeEntity = $this->representativeRepo->get($loginName); //companyId, loginLoginName
+        //$representativeEntity->getCompanyId();
+        $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
+         
+        if (array_key_exists($loginName, $this->person)) {
+            
+            $person = $this->person[$loginName];
+            return array_merge($person, $this->company[$person['shortName']]);
+        }
+    }
+    
+    
+    
+    
 
     public function getCompany($shortName) {
         return array_key_exists($shortName, $this->company) ? $this->company[$shortName] : [];

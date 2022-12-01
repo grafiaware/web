@@ -34,6 +34,7 @@ $jobModel = $container->get( Job::class );
 //
 //$blockRepo = $container->get(BlockRepo::class);
 
+//--------------------------------------------------------------- PUVODNI ----
 foreach ($jobModel->getShortNamesList() as $shortName) {
 // SVOBODA - čeká ba Red databázi - slouží pro generování odkazů na stránku firmy
 //    
@@ -54,7 +55,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
 
 
 
-//--------------------------------------------------------------- CIST z DB ----
+//--------------------------------------------------------------- nově - CIST z DB ----
     /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
     /** @var JobToTagRepo $jobToTagRepo */

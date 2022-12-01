@@ -412,7 +412,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             
             Presenter::class => function(ContainerInterface $c) {
-                  return new Presenter($c->get(CompanyRepo::class));
+                return new Presenter($c->get(CompanyRepo::class), $c->get(RepresentativeRepo::class)  );
             }
             
         ];
