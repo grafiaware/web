@@ -6,14 +6,19 @@ use Site\ConfigurationCache;
 
 use Status\Model\Repository\StatusSecurityRepo;
 
+use Events\Model\Repository\PozadovaneVzdelaniRepo;
+use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\EnrollRepo;
 use Events\Model\Arraymodel\Job;
 use Events\Model\Arraymodel\Presenter;
+use Events\Model\Entity\JobToTag;
+use Events\Model\Entity\Job as JobEntity;
 
 use Pes\Text\Html;
 use Pes\Text\Text;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
+
 //use Events\Model\Repository\VisitorProfileRepo;
 //use Events\Model\Entity\VisitorProfileInterface;
 //use Events\Model\Repository\DocumentRepo;
@@ -44,86 +49,76 @@ $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 
-
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
 }
-
     $readonly = 'readonly="1"';
     $disabled = 'disabled="1"';
 //        $readonly = '';
 //        $disabled = '';
-   
-        
-$isPresenter = false;
-
-
-//$jobModel = new Job;                         
-/** @var Job $jobModel */
-$jobModel = $container->get( Job::class );
-
-
+           
+    $isPresenter = false;                 
+    /** @var Job $jobModel */
+    $jobModel = $container->get( Job::class );
     /** @var Presenter $presenterModel */
-    $presenterModel = $container->get(Presenter::class );    //new
-    
-    $presenterPerson = $presenterModel->getPerson($loginName);
-    //Z DB PRECIST REPRESENTATIVE - ale vlastnosti nema zadne krome id_company
-    
-    
-    
-
+    $presenterModel = $container->get(Presenter::class );       
+        
     if(isset($role) AND $role==ConfigurationCache::loginLogoutController()['rolePresenter']) {
         $isPresenter = true;
-
+        
+    // Z ARRAY MODELU
+        $presenterPerson = $presenterModel->getPerson($loginName);
+        //  vznikne   array 'regname', 'regmail', 'regcompany', 'shortName'  ||  "name", "eventInstitutionName", "shortName"    
+        
         $presenterJobs = array();
         $shortName = $presenterPerson['shortName'];  // každý s rolí presenter musí existovat v modelu jako presenterPerson
         foreach ($jobModel->getCompanyJobList($shortName) as $job) {
             $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
         }
-    }
-    
-    
-    
-    
+   
+        
+        
+    //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company    
+        $presenterPersonI = $presenterModel->getPersonI($loginName);
+        if ($presenterPersonI) {
+            $presenterPersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); 
+            //  array  'regname'. 'regmail', 'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName'
+        
+            /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
+            $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
+            /** @var JobToTagRepo $jobToTagRepo */
+            $jobToTagRepo = $container->get(JobToTagRepo::class );  
+            $companyJobs = $jobModel->getCompanyJobListI(  $presenterPersonI ['idCompany'] /*$companyEntity->getId()*/ );        
+            $jobsI = [];
+            foreach ($companyJobs as $jobI) {
+             /** @var JobEntity  $jobI */
+                $jb = [];      
+                $jb['jobId'] = $jobI->getId();
+                $jb['companyId'] = $jobI->getCompanyId();
+                $jb['shortName'] = $companyEntity->getName();
 
-    // z prehled-pracovnich-pozic
-    /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
-    $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
-    /** @var JobToTagRepo $jobToTagRepo */
-    $jobToTagRepo = $container->get(JobToTagRepo::class );       
+                $jb['nazev'] = $jobI->getNazev();
+                $jb['mistoVykonu'] = $jobI->getMistoVykonu();
+                $jb['nabizime'][] = $jobI->getNabizime();
+                $jb['popisPozice'] = $jobI->getPopisPozice();            
+                /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
+                $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
+                $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;          
+                $jb['pozadujeme'][] = $jobI->getPozadujeme();      
 
-    $companyListArray = $presenterModel->getCompanyListI(); 
-    foreach ($companyListArray as $companyEntity ) {                
-        $companyJobs = $jobModel->getCompanyJobListI($companyEntity->getId());        
-        $jobsI = [];
-        foreach ($companyJobs as $jobI) {
-         /** @var JobEntity  $jobI */
-            $jb = [];      
-            $jb['jobId'] = $jobI->getId();
-            $jb['companyId'] = $jobI->getCompanyId();
-            $jb['shortName'] = $companyEntity->getName();
-            
-            $jb['nazev'] = $jobI->getNazev();
-            $jb['mistoVykonu'] = $jobI->getMistoVykonu();
-            $jb['nabizime'][] = $jobI->getNabizime();
-            $jb['popisPozice'] = $jobI->getPopisPozice();            
-            /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
-            $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
-            $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;          
-            $jb['pozadujeme'][] = $jobI->getPozadujeme();      
-            
-            $jTTs = $jobToTagRepo->findByJobId($jobI->getId());
-            /** @var JobToTag  $jTT */
-            foreach ($jTTs as $jTT)  {
-                $jb['kategorie'][] = $jTT->getJobTagTag();
-            }
-            $jobsI[] = array_merge($jb, ['container' => $container, /*, 'block' => $block*/ ] ); 
+                $jTTs = $jobToTagRepo->findByJobId($jobI->getId());
+                /** @var JobToTag  $jTT */
+                foreach ($jTTs as $jTT)  {
+                    $jb['kategorie'][] = $jTT->getJobTagTag();
+                }
+                $jobsI[] = array_merge($jb, ['container' => $container ] ); 
+            } //foreach
         }
-    
+                        
     }
-    
-    
+        
+ 
     
     
     
@@ -165,7 +160,7 @@ if($isPresenter) {
                     <?php
                     foreach ($presenterModel->getCompanyList() as $shortN => $comp) {
                     ?>
-                    <option value="<?= $comp['name']?>" <?= $shortN==$presenterPerson['shortName'] ? "selected" : "" ?> > <?= $comp['name']?></option>
+                        <option value="<?= $comp['name']?>" <?= $shortN==$presenterPerson['shortName'] ? "selected" : "" ?> > <?= $comp['name']?></option>
                     <?php
                     }
                     ?>

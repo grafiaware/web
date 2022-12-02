@@ -40,5 +40,5 @@ $event = $eventList->getEventList(null, $institutionName, [], false);   // enrol
     Harmonogram
 </div>
 <div class="content">
-    <?php include ConfigurationCache::componentController()['templates']."timeline-leafs/content/timeline.php"; ?>
+    <?php include ConfigurationCache::componentController()['templates']."paper/timeline-leafs/content/timeline.php"; ?>
 </div>

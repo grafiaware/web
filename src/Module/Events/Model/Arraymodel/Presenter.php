@@ -107,16 +107,28 @@ class Presenter {
             return array_merge($person, $this->company[$person['shortName']]);
         }
     }
+    
+    //array 'regname', 'regmail' , 'regcompany', 'shortName' --z reprezentative a spol.
+    //      "name" , "eventInstitutionName", "shortName"  --z company
      public function getPersonI($loginName) {
         $representativeEntity = $this->representativeRepo->get($loginName); //companyId, loginLoginName
-        //$representativeEntity->getCompanyId();
-        $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
-         
-        if (array_key_exists($loginName, $this->person)) {
-            
-            $person = $this->person[$loginName];
-            return array_merge($person, $this->company[$person['shortName']]);
+        if ($representativeEntity) {
+            //$representativeEntity->getCompanyId();
+            $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
+
+            $retArray =  [  //reprezentative
+                          'regname' =>  $representativeEntity->getLoginLoginName() . tj.LoginName, 
+                          'regmail' => '', 
+                          'regcompany' => $companyEntity->getName(),
+                            //'shortName' => ,  
+                          // z company
+                          'idCompany' =>  $companyEntity->getId(),
+                          'name' =>  $companyEntity->getName(), 
+                          'eventInstitutionName' =>  $companyEntity->getEventInstitutionName30(), 
+                          'shortName' =>  $companyEntity->getName(), 
+                         ];
         }
+        return  $retArray ?? [] ;            
     }
     
     
