@@ -274,7 +274,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'ribbon.svg' => 'ribbon-svg',
                         'ribbon.priority' => 'content-priority',
                         'div.nameMenuItem'=> 'nadpis-polozky-menu',
-                        'content'=>'borderDance edit-html',
+                        'content.edit-html'=>'borderDance edit-html',
                         'div.trash_content'=>'trash_content',
                         'div.grid' => 'ui grid',
                         'div.wholeRow' => 'sixteen wide column',

@@ -176,49 +176,62 @@ var file_picker_callback_function = function (callback, value, meta) {
   };
 /////////////////////////////////////////
 
+// https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
 
 function image_upload_handler (blobInfo, success, failure, progress) {
-  var xhr, formData;
+    var xhr, formData;
 
-  xhr = new XMLHttpRequest();
-  xhr.withCredentials = false;
-  xhr.open('POST', 'red/v1/upload/editorimages');
+    xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    xhr.open('POST', 'red/v1/upload/editorimages');
 
-  xhr.upload.onprogress = function (e) {
+    xhr.upload.onprogress = function (e) {
     progress(e.loaded / e.total * 100);
-  };
+    };
 
-  xhr.onload = function() {
-    var json;
+    xhr.onload = function() {
+        var json;
 
-    if (xhr.status === 403) {
-      failure('HTTP Error: ' + xhr.status, { remove: true });
-      return;
+        if (xhr.status === 403) {
+            failure('HTTP Error: ' + xhr.status, { remove: true });  // remove:true - smaže img element z html
+            console.error('image_upload_handler: failed upload - ' + xhr.status);
+            return;
+        }
+
+        if (xhr.status < 200 || xhr.status >= 300) {
+            failure('HTTP Error: ' + xhr.status);
+            console.error('image_upload_handler: failed upload - ' + xhr.status);
+            return;
+        }
+
+        json = JSON.parse(xhr.responseText);
+
+        if (!json || typeof json.location != 'string') {
+            failure('Invalid JSON: ' + xhr.responseText);
+            console.error('image_upload_handler: failed upload - ' + xhr.responseText);
+            return;
+        }
+
+        success(json.location);
+    };
+
+    xhr.onerror = function () {
+        failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+        console.error('image_upload_handler: failed upload - ' + xhr.status);
+    };
+
+    formData = new FormData();
+    formData.append('file', blobInfo.blob(), blobInfo.filename());
+    var editedElementId =  tinymce.activeEditor.id;
+    var editedElement =  tinymce.activeEditor.getElement();
+    var editedMenuItemId =  editedElement.getAttribute('data-red-menuitemid');
+    if(null === editedMenuItemId) {
+        var msg = 'error image_upload_handler - element id ' + editedElementId + 'has no attribute data-red-menuitemid.';
+        editedMenuItemId = 'no_attribute_data-red-menuitemid';
+        console.warn('image_upload_handler: ' + msg);
     }
-
-    if (xhr.status < 200 || xhr.status >= 300) {
-      failure('HTTP Error: ' + xhr.status);
-      return;
-    }
-
-    json = JSON.parse(xhr.responseText);
-
-    if (!json || typeof json.location != 'string') {
-      failure('Invalid JSON: ' + xhr.responseText);
-      return;
-    }
-
-    success(json.location);
-  };
-
-  xhr.onerror = function () {
-    failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
-  };
-
-  formData = new FormData();
-  formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-  xhr.send(formData);
+    formData.append('edited_item_id', editedMenuItemId);
+    xhr.send(formData);
 };
 
 

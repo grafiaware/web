@@ -13,9 +13,16 @@ use Pes\Utils\Directory;
 
 use Utils\UrlConvertor;
 
+use Red\Model\Entity\MenuItemAsset;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
 use Red\Model\Repository\MenuItemAssetRepo;
 
+use Pes\Http\Factory\ResponseFactory;
+
 use Exception;
+use Pes\Utils\Exception\CreateDirectoryFailedException;
 
 /**
  * Description of NestedFilesUpload
@@ -26,6 +33,21 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
 
     const UPLOADED_KEY = "file";
     const MAX_FILE_SIZE = "1000000";
+
+    /**
+     * @var MenuItemAssetRepo
+     */
+    private $menuItemAssetRepo;
+
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            MenuItemAssetRepo $menuItemAssetRepoRepo) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        $this->menuItemAssetRepo = $menuItemAssetRepoRepo;
+    }
+
     /**
      * Metoda přijímá soubory typu image odesílané image handlerem editoru TinyMCE.
      *
@@ -46,55 +68,67 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         /* @var $uploadedFile UploadedFileInterface */
         $uploadedFile = $request->getUploadedFiles()[self::UPLOADED_KEY];
         if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
-
+            $httpStatus = 400; // 400 Bad Request
+            $httpError = $this->uploadErrorMessage($uploadedFile->getError());
         }
 
         $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
-        $clientMime = $fileForSave->getClientMediaType();
-        $clientFileSize = $fileForSave->getSize();  // v bytech
+        $clientMime = $uploadedFile->getClientMediaType();
+        $clientFileSize = $uploadedFile->getSize();  // v bytech
         $clientFileExt = pathinfo($clientFileName,  PATHINFO_EXTENSION );
 
         if ($clientFileSize > self::MAX_FILE_SIZE) {
-            $error = "Maximum file size exceeded.";
+            $httpStatus = 413; // 413 Payload Too Large
+            $httpError = "Maximum file size exceeded.";
         }
         if (!in_array($clientFileExt, array("gif", "jpg", "png"))) {
-            $error = "Invalid extension.";
+            $httpStatus = 406; // 406 Not Acceptable
+            $httpError = "Invalid file extension.";
         }
 
         $presentedMenuitem = $this->statusPresentationRepo->get()->getMenuItem();
-        // vytvoří složku se jménem 'item_' a id menuItem
-//        $itemFolder = "item_".$item->getId().'/';
         // relativní cesta vzhledem k root (_files/...)
         $baseFilepath = ConfigurationCache::filesUploadController()['upload.red'];
-//        $itemFilePath = Directory::normalizePath($itemFolder);
-
 
         try {
             // vytvoř složku pokud neexistuje
-//            Directory::createDirectory($baseFilepath. $itemFilePath);
-//            $targetFilename = $baseFilepath.$itemFilePath.$clientFileName;
             Directory::createDirectory($baseFilepath);
             $targetFilepath = $baseFilepath.$clientFileName;
             $uploadedFile->moveTo($targetFilepath);
-            /** @var MenuItemAssetRepo $menuItemAssetRepo */
-            $menuItemAssetRepo = $this->container->get(MenuItemAssetRepo::class);
-            //??
-            $oldAsset = $menuItemAssetRepo->getByFilename($clientFileName);
-            if (isset($oldAsset)) {
-                // ? uložit file až zde?
-            } else {
-                
-            }
-            $menuItemAssetRepo->findByMenuItemId($presentedMenuitem->getId());
+        } catch (CreateDirectoryFailedException $e) {
+            $httpStatus = 500; // 500 Internal Server Error
+            $httpError =  $e->getMessage();
         } catch (Exception $e) {
-            throw $e;
+            $httpStatus = 500; // 500 Internal Server Error
+            $httpError =  $e->getMessage();
         }
 
-        // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
-        // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-        $json = json_encode(array('location' => $targetFilepath));  //
-        return $this->createResponseFromString($request, $json);
-
+        if (is_null($this->menuItemAssetRepo->getByFilename($clientFileName))) {
+            try {
+                $newAsset = new MenuItemAsset();
+                $newAsset->setMenuItemIdFk($presentedMenuitem->getId());
+                $newAsset->setFilepath($clientFileName);
+                $newAsset->setMimeType($clientMime);
+                $this->menuItemAssetRepo->add($newAsset);
+            } catch (Exception $e) {
+                $httpStatus = 500; // 500 Internal Server Error
+                $httpError =  $e->getMessage();
+                unlink($targetFilepath);
+            }
+        }
+//                $httpStatus = 500; // 500 Internal Server Error
+//                $httpError =  'Ajajajajajajajajajaj!';
+        if ($httpError) {
+            $httpStatus = $httpStatus ?? 404;
+            $response = (new ResponseFactory())->createResponse()->withStatus($httpStatus, $httpError);
+            $response = $this->addHeaders($request, $response);
+        } else {
+            // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
+            // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
+            $json = json_encode(array('location' => $targetFilepath));  //
+            $response = $this->createResponseFromString($request, $json);
+        }
+        return $response;
     }
 
     /**

@@ -106,8 +106,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('content',
                     [
                     'id' => SectionsControler::SECTION_CONTENT."{$paperSection->getId()}_{$viewModel->getComponentUid()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                    'class'=>$this->classMap->get('Content', 'content'),
-                    'data-owner'=>$paperSection->getEditor()
+                    'class'=>$this->classMap->get('Content', 'content.edit-html')
                     ],
                     $paperSection->getContent() ?? ""
                 )
@@ -130,8 +129,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             .Html::tag('div',
                 [
                     'id' => "content_{$paperContent->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
-                    'class'=>$this->classMap->get('Content', 'div.trash_content'),
-                    'data-owner'=>$paperContent->getEditor()
+                    'class'=>$this->classMap->get('Content', 'div.trash_content')
                 ],
                 $paperContent->getContent() ?? ""
             )
