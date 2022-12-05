@@ -56,7 +56,7 @@ if (isset($loginAggregate)) {
     //*--------------------------------
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
     // isPresenter prejmenovat na $isRepresentative
-    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND  $representativeRepo->get($loginName) );
+    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) );
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorProfileRepo */
@@ -210,6 +210,7 @@ if (isset($loginAggregate)) {
     
 }
 ?>
+xxxxxxxxxxxxxxxxxxx pozice_2 ****
 
         <div class="title">
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>

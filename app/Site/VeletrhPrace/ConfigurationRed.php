@@ -226,7 +226,7 @@ class ConfigurationRed extends ConfigurationDb {
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo,
                 'roleVisitor' => 'visitor',
-                'rolePresenter' => 'presenter',
+                'roleRepresentative' => 'representative',
         ];
     }
 

@@ -64,7 +64,7 @@ if (isset($loginAggregate)) {
     /** @var Presenter $presenterModel */
     $presenterModel = $container->get(Presenter::class );       
         
-    if(isset($role) AND $role==ConfigurationCache::loginLogoutController()['rolePresenter']) {
+    if(isset($role) AND $role==ConfigurationCache::loginLogoutController()['roleRepresentative']) {
         $isPresenter = true;
         
     // Z ARRAY MODELU
