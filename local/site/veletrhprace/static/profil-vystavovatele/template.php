@@ -9,10 +9,14 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\EnrollRepo;
+use Events\Model\Repository\RepresentativeRepo;
+
 use Events\Model\Arraymodel\Job;
 use Events\Model\Arraymodel\Presenter;
+
 use Events\Model\Entity\JobToTag;
 use Events\Model\Entity\Job as JobEntity;
+use Events\Model\Entity\RepresentativeInterface;
 
 use Pes\Text\Html;
 use Pes\Text\Text;
@@ -56,16 +60,19 @@ if (isset($loginAggregate)) {
     $readonly = 'readonly="1"';
     $disabled = 'disabled="1"';
 //        $readonly = '';
-//        $disabled = '';
-           
-    $isPresenter = false;                 
+//        $disabled = '';          
+    $isRepresentative = false;                 
+    
     /** @var Job $jobModel */
-    $jobModel = $container->get( Job::class );
+    $jobModel = $container->get( Job::class );   //ARRAY model
     /** @var Presenter $presenterModel */
-    $presenterModel = $container->get(Presenter::class );       
+    $presenterModel = $container->get(Presenter::class );       //ARRAY model 
+    
+    /** @var RepresentativeRepo $representativeRepo */
+    $representativeRepo = $container->get(RepresentativeRepo::class );
         
-    if(isset($role) AND $role==ConfigurationCache::loginLogoutController()['roleRepresentative']) {
-        $isPresenter = true;
+    if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) )  {
+        $isRepresentative = true;        
         
     // Z ARRAY MODELU
         $presenterPerson = $presenterModel->getPerson($loginName);
@@ -80,10 +87,12 @@ if (isset($loginAggregate)) {
         
         
     //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company    
-        $presenterPersonI = $presenterModel->getPersonI($loginName);
+         
+        $presenterPersonI = $presenterModel->getPersonI($loginName);       //z  tabulek representative a company
         if ($presenterPersonI) {
-            $presenterPersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); 
+            $presenterPersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE
             //  array  'regname'. 'regmail', 'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName'
+           
         
             /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
             $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
@@ -96,7 +105,7 @@ if (isset($loginAggregate)) {
                 $jb = [];      
                 $jb['jobId'] = $jobI->getId();
                 $jb['companyId'] = $jobI->getCompanyId();
-                $jb['shortName'] = $companyEntity->getName();
+                $jb['shortName'] = $presenterPersonI['name'];
 
                 $jb['nazev'] = $jobI->getNazev();
                 $jb['mistoVykonu'] = $jobI->getMistoVykonu();
@@ -114,6 +123,8 @@ if (isset($loginAggregate)) {
                 }
                 $jobsI[] = array_merge($jb, ['container' => $container ] ); 
             } //foreach
+            
+            $jobs = $jobsI;
         }
                         
     }
@@ -140,9 +151,9 @@ foreach ($enrolls as $enroll) {
 
 
 
-if($isPresenter) {
+if($isRepresentative) {
     $headline = "Profil vystavovatele";
-    $perex = $loginAggregate->getLoginName();
+    $perex = '* ' . $loginAggregate->getLoginName();
     ?>
     <article class="paper">
         <section>
@@ -160,7 +171,7 @@ if($isPresenter) {
                     <?php
                     foreach ($presenterModel->getCompanyList() as $shortN => $comp) {
                     ?>
-                        <option value="<?= $comp['name']?>" <?= $shortN==$presenterPerson['shortName'] ? "selected" : "" ?> > <?= $comp['name']?></option>
+                        <option value="<?= $comp['name']?>" <?= $shortN==$presenterPersonI['shortName'] ? "selected" : "" ?> > <?= $comp['name']?></option>
                     <?php
                     }
                     ?>

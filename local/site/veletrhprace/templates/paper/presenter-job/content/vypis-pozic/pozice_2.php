@@ -25,7 +25,7 @@ use Events\Model\Arraymodel\Presenter;
 // jobs expand -> $nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané $nazev, $container
 $positionName = $nazev;    // potrebuje se v osobni-udaje_2
 
-$isPresenter = false;
+$isRepresentative = false;
 $isVisitor = false;
 $isVisitorDataPost = false;
 
@@ -55,8 +55,8 @@ if (isset($loginAggregate)) {
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
     //*--------------------------------
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
-    // isPresenter prejmenovat na $isRepresentative
-    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) );
+    
+    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) );
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorProfileRepo */
@@ -150,9 +150,10 @@ if (isset($loginAggregate)) {
         }
     }
 
-    if ($isPresenter) {
-        /** @var VisitorJobRequestInterface $visitorJobRequestEntity */
-        $visitorJobRequests = $visitorJobRequestRepo->findByLoginNameAndPosition($loginName, $positionName);
+    if ($isRepresentative) {
+        
+        //$visitorJobRequests = $visitorJobRequestRepo->findByLoginNameAndPosition($loginName, $positionName);
+        $visitorJobRequests = $visitorJobRequestRepo->find(  ' job_Id = :jobId ',  [  'jobId' => $jobId  ] );
         $visitorJobRequestCount = count($visitorJobRequests);
         $allFormVisitorDataPost = [];
 
@@ -162,9 +163,10 @@ if (isset($loginAggregate)) {
             $visitorFormData['disabled'] = 'disabled="1"';
             $visitorFormData['shortName'] = $shortName;
             $visitorFormData['positionName'] = $positionName;
-            $visitorFormData['isPresenter'] = $isPresenter;
+            $visitorFormData['isPresenter'] = $isRepresentative;
             $visitorFormData['isVisitor'] = $isVisitor;
             $visitorFormData['presenterEmail'] = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : 'Nezadána mail adresa!';
+            /** @var VisitorJobRequestInterface $visitorJobRequestEntity */
             foreach ($visitorJobRequests as $visitorJobRequestEntity) {
                 $visitorFormData['visitorLoginName'] = $visitorJobRequestEntity->getLoginLoginName();  // pro hidden pole
                 $visitorFormData['prefix'] = $visitorJobRequestEntity->getPrefix();
@@ -221,7 +223,7 @@ xxxxxxxxxxxxxxxxxxx pozice_2 ****
                     <span class="ui big green label">Pracovní údaje odeslány</span>
                     <?php
                 }
-                if($isPresenter) {
+                if($isRepresentative) {
                     if ($visitorJobRequestCount>0) {
                     ?>
                     <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorJobRequestCount ?></span>
@@ -301,7 +303,7 @@ xxxxxxxxxxxxxxxxxxx pozice_2 ****
                                             </div>
                                         </div>
                                         <?php
-                                    } elseif ($isPresenter) {
+                                    } elseif ($isRepresentative) {
                                         if($isVisitorDataPost) {
                                             ?>
                                             <div class="sixteen wide column center aligned">

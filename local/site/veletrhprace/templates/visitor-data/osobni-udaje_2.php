@@ -131,7 +131,7 @@ use Events\Model\Entity\DocumentInterface;
                         </div>
                     </div>
                     <?php
-                    } elseif($isPresenter) {
+                    } elseif($isRepresentative) {
                         ?>
                         <div class="two fields">
                             <div class="field margin"></div>
