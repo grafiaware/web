@@ -16,7 +16,7 @@ use Events\Model\Arraymodel\Presenter;
 
 use Events\Model\Entity\JobToTag;
 use Events\Model\Entity\Job as JobEntity;
-use Events\Model\Entity\RepresentativeInterface;
+use Events\Model\Entity\Company;
 
 use Pes\Text\Html;
 use Pes\Text\Text;
@@ -153,7 +153,7 @@ foreach ($enrolls as $enroll) {
 
 if($isRepresentative) {
     $headline = "Profil vystavovatele";
-    $perex = '* ' . $loginAggregate->getLoginName();
+    $perex = ' **I** ' . $loginAggregate->getLoginName();
     ?>
     <article class="paper">
         <section>
@@ -172,6 +172,17 @@ if($isRepresentative) {
                     foreach ($presenterModel->getCompanyList() as $shortN => $comp) {
                     ?>
                         <option value="<?= $comp['name']?>" <?= $shortN==$presenterPersonI['shortName'] ? "selected" : "" ?> > <?= $comp['name']?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+                **I**
+                <select <?= $disabled ?>>
+                    <?php
+                    /** @var Company $compI */
+                    foreach ($presenterModel->getCompanyListI() as $shortN => $compI) {
+                    ?>
+                    <option value="<?= $compI->getName() ?>" <?= $shortN==$presenterPersonI['shortName'] ? "selected" : "" ?> > <?= $compI->getName() ?></option>
                     <?php
                     }
                     ?>

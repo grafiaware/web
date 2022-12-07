@@ -1,5 +1,8 @@
 <?php
 
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+/** @var PhpTemplateRendererInterface $this */
+
 use Events\Model\Entity\DocumentInterface;
 
 /** @var DocumentInterface $documentCv */
@@ -62,7 +65,7 @@ use Events\Model\Entity\DocumentInterface;
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input <?= $readonly ?> type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= $phone ?>">
+                            <input <?= $readonly ?> type="tel" name="phone" placeholder="+420 777 888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= $phone ?>">
                         </div>
                     </div>
                     <div class="two fields">

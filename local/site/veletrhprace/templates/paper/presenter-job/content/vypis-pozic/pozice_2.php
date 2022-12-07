@@ -163,7 +163,9 @@ if (isset($loginAggregate)) {
             $visitorFormData['disabled'] = 'disabled="1"';
             $visitorFormData['shortName'] = $shortName;
             $visitorFormData['positionName'] = $positionName;
-            $visitorFormData['isPresenter'] = $isRepresentative;
+            $visitorFormData['jobId'] = $jobId;
+            
+            $visitorFormData['isRepresentative'] = $isRepresentative;
             $visitorFormData['isVisitor'] = $isVisitor;
             $visitorFormData['presenterEmail'] = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : 'Nezadána mail adresa!';
             /** @var VisitorJobRequestInterface $visitorJobRequestEntity */
@@ -183,7 +185,7 @@ if (isset($loginAggregate)) {
                 //$visitorFormData['cvDocumentFilename'] = $visitorDataPost->getCvDocumentFilename();
                 //$visitorFormData['letterDocumentFilename'] = $visitorDataPost->getLetterDocumentFilename();
                 $cvId = $visitorJobRequestEntity->getCvDocument();
-                if (isset($letterId)) {
+                if (isset($cvId)) {
                     /** @var DocumentInterface $documentCv */
                     $documentCv = $documentRepo->get($cvId);
                     $visitorFormData['cvDocumentFilename'] = $documentCv->getDocumentFilename();
@@ -212,7 +214,7 @@ if (isset($loginAggregate)) {
     
 }
 ?>
-xxxxxxxxxxxxxxxxxxx pozice_2 ****
+ **I** xxxxxxx pozice_2 ****
 
         <div class="title">
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
@@ -230,7 +232,7 @@ xxxxxxxxxxxxxxxxxxx pozice_2 ****
                     <?php
                     } else {
                     ?>
-                    <span class="ui big grey label">Na pozici se dosud nikdo nehlásil</span>
+                    <span class="ui big grey label">Na pozici se dosud nikdo nehlásil.</span>
                     <?php
                     }
                 }

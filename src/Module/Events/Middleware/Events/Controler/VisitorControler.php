@@ -3,8 +3,11 @@
 namespace Events\Middleware\Events\Controler;
 
 use Site\ConfigurationCache;
-
 use FrontControler\FrontControlerAbstract;
+
+//use Red\Model\Entity\LoginAggregateFullInterface;
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+/** @var PhpTemplateRendererInterface $this */
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -14,15 +17,11 @@ use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Repository\DocumentRepo;
 
-//TODO: chybný namespace Red
-use Red\Model\Entity\LoginAggregateFullInterface;
-
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\Document;
+use Events\Model\Entity\DocumentInterface;
 use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Entity\VisitorJobRequestInterface;
-use Events\Model\Entity\DocumentInterface;
-
 
 use Status\Model\Enum\FlashSeverityEnum;
 
@@ -116,7 +115,41 @@ class VisitorControler extends FrontControlerAbstract {
     }
 
     
+    /**
+     * Odesílá representative mailem sobě.
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
     public function sendJobRequest(ServerRequestInterface $request) {
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            $response = $response->withStatus(401);  // Unaathorized
+//        } else {
+//            $loginName = $loginAggregateCredentials->getLoginName();
+//-----------------------------    
+        
+      
+//if (isset($loginAggregate)) {
+//    $loginName = $loginAggregate->getLoginName();
+//    $role = $loginAggregate->getCredentials()->getRole() ?? '';        
+//    
+        
+/** @var RepresentativeRepo $representativeRepo */  
+$representativeRepo = $container->get(RepresentativeRepo::class );
+
+//if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) )  {
+//$isRepresentative = true;   
+        
+
+// vyse vse tu nebylo
+
+
+
+
+
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
 
@@ -124,7 +157,7 @@ class VisitorControler extends FrontControlerAbstract {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
         } else {
-            $isPresenter = $loginAggregateCredentials->getCredentials()->getRole()=== ConfigurationCache::loginLogoutController()['rolePresenter'];
+            $isPresenter = $loginAggregateCredentials->getCredentials()->getRole()=== ConfigurationCache::loginLogoutController()['roleRepresentative'];
             if ($isPresenter) {
                 // POST data
                 $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
@@ -264,7 +297,12 @@ class VisitorControler extends FrontControlerAbstract {
     
     
     
-    
+    /**
+     * Visitor 'odesílá' data pro zaměstnavatele - vytváří se visitorJobRequest
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
     public function jobRequest(ServerRequestInterface $request) {
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();

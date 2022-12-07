@@ -5,7 +5,9 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Site\ConfigurationCache;
-use Red\Model\Entity\LoginAggregateFullInterface;
+//use Red\Model\Entity\LoginAggregateFullInterface;
+use Auth\Model\Entity\LoginAggregateFullInterface;
+
 
 use Events\Middleware\Events\Controler\VisitorControler;
 use Events\Model\Entity\VisitorProfile;
