@@ -51,9 +51,7 @@ class DocumentControler extends FrontControlerAbstract {
     const UPLOADED_KEY_CV = "visitor-cv";
     const UPLOADED_KEY_LETTER = "visitor-letter";
 
-
   //  private $visitorProfileRepo;
-
   //  private $visitorJobRequestRepo;
     
     private $documentRepo;
@@ -63,7 +61,7 @@ class DocumentControler extends FrontControlerAbstract {
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
            // VisitorProfileRepo $visitorProfileRepo,
-           // VisitorJobRequestRepo $visitorJobRequesRepo,     //?
+           // VisitorJobRequestRepo $visitorJobRequesRepo,    
             
             DocumentRepo $documentRepo
             ) {

@@ -4,6 +4,7 @@ namespace Events\Middleware\Events\Controler;
 
 use Site\ConfigurationCache;
 use FrontControler\FrontControlerAbstract;
+use Auth\Model\Entity\LoginAggregateFullInterface;
 
 //use Red\Model\Entity\LoginAggregateFullInterface;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -14,10 +15,19 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
 use Events\Model\Repository\VisitorProfileRepo;
+use Events\Model\Repository\VisitorProfileRepoInterface;
+
 use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Repository\VisitorJobRequestRepoInterface;
+
 use Events\Model\Repository\DocumentRepo;
+use Events\Model\Repository\DocumentRepoInterface;
+
+use Events\Model\Repository\RepresentativeRepoInterface;
+use Events\Model\Repository\RepresentativeRepo;
 
 use Events\Model\Entity\VisitorProfile;
+use Events\Model\Entity\VisitorProfileIntertface;
 use Events\Model\Entity\Document;
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Entity\VisitorJobRequest;
@@ -27,10 +37,8 @@ use Status\Model\Enum\FlashSeverityEnum;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
-
 use Pes\Http\Helper\RequestStatus;
 use Pes\Http\Request\RequestParams;
-
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
 
@@ -56,24 +64,53 @@ class VisitorControler extends FrontControlerAbstract {
 //    private $multiple = false;
 //    private $accept;
 
+    /**
+     * 
+     * @var VisitorProfileRepoInterface
+     */
     private $visitorProfileRepo;
-
+    /**
+     * 
+     * @var VisitorJobRequestRepoInterface
+     */
     private $visitorJobRequestRepo;
-    
+    /**
+     * 
+     * @var DocumentRepoInterface
+     */
     private $documentRepo;
-
+    /**
+     * 
+     * @var RepresentativeRepo
+     */
+    private $representativeRepo;
+    
+    
+    /**
+     * 
+     * @param StatusSecurityRepo $statusSecurityRepo
+     * @param StatusFlashRepo $statusFlashRepo
+     * @param StatusPresentationRepo $statusPresentationRepo
+     * @param VisitorProfileRepoInterface $visitorProfileRepo
+     * @param VisitorJobRequestRepoInterface $visitorJobRequesRepo
+     * @param DocumentRepoInterface $documentRepo
+     * @param RepresentativeRepoInterface $representativeRepo
+     */
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            VisitorProfileRepo $visitorProfileRepo,
-            VisitorJobRequestRepo $visitorJobRequesRepo,     //?            
-            DocumentRepo $documentRepo
+            
+            VisitorProfileRepoInterface $visitorProfileRepo,
+            VisitorJobRequestRepoInterface $visitorJobRequesRepo,          
+            DocumentRepoInterface $documentRepo,
+            RepresentativeRepoInterface $representativeRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->visitorProfileRepo = $visitorProfileRepo;
         $this->visitorJobRequestRepo = $visitorJobRequesRepo;        
         $this->documentRepo = $documentRepo;
+        $this->representativeRepo = $representativeRepo;
     }
 
     /**
@@ -116,60 +153,56 @@ class VisitorControler extends FrontControlerAbstract {
 
     
     /**
-     * Odesílá representative mailem sobě.
+     * Representative odesílá mailem sobě.
      * 
      * @param ServerRequestInterface $request
      * @return type
      */
     public function sendJobRequest(ServerRequestInterface $request) {
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+        $isRepresentative = false;
+        
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();
+        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+        
 //        if (!isset($loginAggregateCredentials)) {
 //            $response = (new ResponseFactory())->createResponse();
 //            $response = $response->withStatus(401);  // Unaathorized
 //        } else {
 //            $loginName = $loginAggregateCredentials->getLoginName();
 //-----------------------------    
+//$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+///** @var StatusSecurity $statusSecurity *///
+//$statusSecurity = $statusSecurityRepo->get();
+//$loginAggregate = $statusSecurity->getLoginAggregate();                
+//        /** @var RepresentativeRepoInterface $representativeRepo */  
+//        $representativeRepo = $container->get(RepresentativeRepo::class );                 
+
         
-      
-//if (isset($loginAggregate)) {
-//    $loginName = $loginAggregate->getLoginName();
-//    $role = $loginAggregate->getCredentials()->getRole() ?? '';        
-//    
-        
-/** @var RepresentativeRepo $representativeRepo */  
-$representativeRepo = $container->get(RepresentativeRepo::class );
-
-//if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) )  {
-//$isRepresentative = true;   
-        
-
-// vyse vse tu nebylo
-
-
-
-
-
-        $statusSecurity = $this->statusSecurityRepo->get();
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
-
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
         } else {
-            $isPresenter = $loginAggregateCredentials->getCredentials()->getRole()=== ConfigurationCache::loginLogoutController()['roleRepresentative'];
-            if ($isPresenter) {
+           
+            $loginName = $loginAggregateCredentials->getLoginName();            
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $this->representativeRepo->get($loginName) )  {
+                $isRepresentative = true; 
+            }                
+            if ($isRepresentative) {
                 // POST data
                 $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
                 $positionName = (new RequestParams())->getParsedBodyParam($request, 'position-name');
                 $visitorLoginName = (new RequestParams())->getParsedBodyParam($request, "visitor-login-name");
+                $jobId = (new RequestParams())->getParsedBodyParam($request, "job-id");
 
-                $visitorDataPost = $this->visitorJobRequestRepo->get($visitorLoginName, $shortName, $positionName);
-                if (!isset($visitorDataPost)) {
+                $visitorDataJRqPost = $this->visitorJobRequestRepo->get($visitorLoginName, $jobId);
+                if (!isset($visitorDataJRqPost)) {
                     $this->addFlashMessage("Pracovní údaje pro pozici $positionName nenalezeny v databázi.");
                 } else {
-                    $this->sendMail($positionName, $visitorDataPost, $loginAggregateCredentials);
-                    $this->addFlashMessage("Pracovní údaje pro pozici $positionName odeslány.");
+              /**/  $this->sendMail($positionName, $visitorDataJRqPost, $loginAggregateCredentials);
+                    $this->addFlashMessage("Pracovní údaje pro pozici $positionName neodeslány.**Momentálně se maily neposílají.**");
                 }
             } else {
                 $this->addFlashMessage("Pracovní údaje smí mailem odesílat pouze vystavovatel.");
@@ -178,8 +211,9 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
         return $this->redirectSeeLastGet($request);
     }
 
-    private function sendMail($positionName, VisitorJobRequestInterface $visitorDataPost, LoginAggregateFullInterface $loginAggregateCredentials) {
-
+    private function sendMail($positionName, 
+                              VisitorJobRequestInterface $visitorDataPost,
+                              LoginAggregateFullInterface /*LoginAggregateFullInterface*/ $loginAggregateCredentials) {
         /** @var Mail $mail */
         $mail = $this->container->get(Mail::class);
         /** @var HtmlMessage $mailMessageFactory */
@@ -189,16 +223,34 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
                                             [
                                                 'positionName' => $positionName,
                                                 'visitorDataPost' => $visitorDataPost]);
+        
+        $attachments=[];        
+        // getCvDocument() dava id  tabulky document, a v ni je teprve ulozen document
         if ($visitorDataPost->getCvDocument()) {
-             $attachments[] = (new StringAttachment())
-                        ->setStringAttachment($visitorDataPost->getCvDocument())
-                        ->setAltText($visitorDataPost->getCvDocumentFilename());
+            $cvDocumentId = $this->documentRepo->get($visitorDataPost->getCvDocument());
+            if ($cvDocumentId) {
+                $cvDocument = $this->documentRepo->get($cvDocumentId);
+
+                $attachments[] = (new StringAttachment())
+                            //->setStringAttachment($visitorDataPost->getCvDocument())
+                            ->setStringAttachment($cvDocument->getDocument())                                       
+                           // ->setAltText($visitorDataPost->getCvDocumentFilename());
+                            ->setAltText($cvDocument->getDocumentFilename());
+            }
         }
         if ($visitorDataPost->getLetterDocument()) {
-             $attachments[] = (new StringAttachment())
-                        ->setStringAttachment($visitorDataPost->getLetterDocument())
-                        ->setAltText($visitorDataPost->getLetterDocumentFilename());
+            $letterDocumentId = $this->documentRepo->get($visitorDataPost->getLetterDocument());
+            if ($letterDocumentId) {
+                $letterDocument = $this->documentRepo->get($letterDocumentId);
+
+                $attachments[] = (new StringAttachment())
+                            //->setStringAttachment($visitorDataPost->getLetterDocument())
+                            ->setStringAttachment($letterDocument->getDocument())     
+                            //->setAltText($visitorDataPost->getLetterDocumentFilename());
+                            ->setAltText($letterDocument->getDocumentFilename());
+            } 
         }
+        
         $presenterLogiName = $loginAggregateCredentials->getCredentials()->getLoginNameFk();
         $params = (new Params())
                     ->setContent(  (new Content())
@@ -209,9 +261,11 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
                     ->setParty  (  (new Party())
                                      ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
                                      ->addTo($loginAggregateCredentials->getRegistration()->getEmail(), $presenterLogiName.' veletrhprace.online')
-                                    ->addTo('svoboda@grafia.cz', $presenterLogiName.' veletrhprace.online')
+                                     ->addTo('svoboda@grafia.cz', $presenterLogiName.' veletrhprace.online')
                                 );
-        $mail->mail($params); // posle mail
+        
+        //$mail->mail($params); // posle mail
+        $this->addFlashMessage("!!! Momentálně se maily neposílají !!!");
     }
 
     /**
@@ -265,7 +319,7 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
             $visitorJobRequestData->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
             $visitorJobRequestData->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
 
-            $this->uploadDocs($request, $visitorJobRequestData);
+            $this->uploadDocs_stare($request, $visitorJobRequestData);
 
             if (!$visitorJobRequestData->getCvDocument()) {
                                 
@@ -341,9 +395,9 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
                 if(isset($files) AND $files) {  //pro uploadovane soubory vyrobi documenty z post dat a zaradi do visitorJobRequest
                         $this->processingDocs($files, $visitorJobRequestData);  
                 }
-                // v $visitorJobRequestData je id příslušného documentu, byl-li zadan ve formulari
+                // ve $visitorJobRequestData je id příslušného documentu, byl-li zadan ve formulari
                                                 
-                // pokud neni jiz naplneno z Post dat, documenty z VisitorProfile, pokud existuji -  pridat "kopie" do visitorJobRequest
+                // pokud neni jiz naplneno z Post dat, documenty z VisitorProfile, pokud existuji, -  pridat "kopie" do visitorJobRequest
                 //$pomcv = $visitorJobRequestData->getCvDocument();                     
                 if (!$visitorJobRequestData->getCvDocument()) {    // neni naplneno z uploadu? - naplnit z profilu                                                                            
                     if  ($visitorProfileData->getCvDocument() ) {  // cv je v profilu? -ano
@@ -408,7 +462,7 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
      * @param ServerRequestInterface $request
      * @return type
      */
-    private function uploadDocs(ServerRequestInterface $request, VisitorJobRequestInterface $visitorJobRequest) {
+    private function uploadDocs_stare(ServerRequestInterface $request, VisitorJobRequestInterface $visitorJobRequest) {
 
         //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
         //".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
@@ -463,8 +517,9 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
     
     
     /**
+     * Naplnit novy document daty z uploadu souborů($files) a naplnit VisitorJobRequest                                                                                
+     * 
      * Nic nehlídá - chyby při uploadu NEHLÁSÍ - pokud nevyvolají výjimku, výjimky nejsou ošetřeny!
-     *
      *
      * @param ServerRequestInterface $request
      * @return type

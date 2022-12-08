@@ -23,6 +23,7 @@ use Status\Model\Repository\StatusFlashRepo;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\DocumentRepo;
+use Events\Model\Repository\RepresentativeRepo;
 
 /**
  *
@@ -64,7 +65,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class), 
                         $c->get(VisitorProfileRepo::class), 
                         $c->get(VisitorJobRequestRepo::class),
-                        $c->get(DocumentRepo::class)
+                        $c->get(DocumentRepo::class),
+                        $c->get(RepresentativeRepo::class)
                         )
                        )->injectContainer($c);
             },            
