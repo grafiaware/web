@@ -14,36 +14,16 @@ use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Arraymodel\Job;
 use Events\Model\Arraymodel\Presenter;
 
-use Events\Model\Entity\JobToTag;
-use Events\Model\Entity\Job as JobEntity;
-use Events\Model\Entity\Company;
+use Events\Model\Entity\JobToTagInterface;
+use Events\Model\Entity\JobInterface as JobEntityInterface;
+use Events\Model\Entity\CompanyInterface;
+use Events\Model\Entity\PozadovaneVzdelaniInterface;
+
 
 use Pes\Text\Html;
 use Pes\Text\Text;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
-
-//use Events\Model\Repository\VisitorProfileRepo;
-//use Events\Model\Entity\VisitorProfileInterface;
-//use Events\Model\Repository\DocumentRepo;
-//use Events\Model\Entity\DocumentInterface;
-
-//------------------------------------------
-//$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-///** @var StatusSecurityRepo $statusSecurityRepo */
-//$statusSecurity = $statusSecurityRepo->get();
-///** @var LoginAggregateCredentialsInterface $loginAggregate */
-//$loginAggregate = $statusSecurity->getLoginAggregate();
-//if (isset($loginAggregate)) {
-//    $credentials = $loginAggregate->getCredentials();
-//    $role = $credentials->getRole(); 
-//if (isset($loginAggregate)) {
-//    $credentials = $loginAggregate->getCredentials();
-//    $role = $creden tials->getRole();    
-//    $loginName = $loginAggregate->getLoginName();
-//------------------------------------------
-
-
 
 
 /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -66,8 +46,7 @@ if (isset($loginAggregate)) {
     /** @var Job $jobModel */
     $jobModel = $container->get( Job::class );   //ARRAY model
     /** @var Presenter $presenterModel */
-    $presenterModel = $container->get(Presenter::class );       //ARRAY model 
-    
+    $presenterModel = $container->get(Presenter::class );       //ARRAY model     
     /** @var RepresentativeRepo $representativeRepo */
     $representativeRepo = $container->get(RepresentativeRepo::class );
         
@@ -83,11 +62,8 @@ if (isset($loginAggregate)) {
         foreach ($jobModel->getCompanyJobList($shortName) as $job) {
             $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
         }
-   
-        
-        
-    //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company    
-         
+                   
+    //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company             
         $presenterPersonI = $presenterModel->getPersonI($loginName);       //z  tabulek representative a company
         if ($presenterPersonI) {
             $presenterPersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE
@@ -101,7 +77,7 @@ if (isset($loginAggregate)) {
             $companyJobs = $jobModel->getCompanyJobListI(  $presenterPersonI ['idCompany'] /*$companyEntity->getId()*/ );        
             $jobsI = [];
             foreach ($companyJobs as $jobI) {
-             /** @var JobEntity  $jobI */
+             /** @var JobEntityInterface  $jobI */
                 $jb = [];      
                 $jb['jobId'] = $jobI->getId();
                 $jb['companyId'] = $jobI->getCompanyId();
@@ -111,13 +87,13 @@ if (isset($loginAggregate)) {
                 $jb['mistoVykonu'] = $jobI->getMistoVykonu();
                 $jb['nabizime'][] = $jobI->getNabizime();
                 $jb['popisPozice'] = $jobI->getPopisPozice();            
-                /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
+                /** @var PozadovaneVzdelaniInterface  $pozadovaneVzdelaniEntita */
                 $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
                 $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;          
                 $jb['pozadujeme'][] = $jobI->getPozadujeme();      
 
                 $jTTs = $jobToTagRepo->findByJobId($jobI->getId());
-                /** @var JobToTag  $jTT */
+                /** @var JobToTagInterface $jTT */
                 foreach ($jTTs as $jTT)  {
                     $jb['kategorie'][] = $jTT->getJobTagTag();
                 }
@@ -179,7 +155,7 @@ if($isRepresentative) {
                 **I**
                 <select <?= $disabled ?>>
                     <?php
-                    /** @var Company $compI */
+                    /** @var CompanyInterface $compI */
                     foreach ($presenterModel->getCompanyListI() as $shortN => $compI) {
                     ?>
                     <option value="<?= $compI->getName() ?>" <?= $shortN==$presenterPersonI['shortName'] ? "selected" : "" ?> > <?= $compI->getName() ?></option>
@@ -192,7 +168,7 @@ if($isRepresentative) {
         </section>
     </article>
     <?php
-} else {    ?>
+} else {    
     $headline = "Profil vystavovatele";
     $perex = "Profil vystavovatele je dostupný pouze přihlášenému vystavovateli.";
     ?>
@@ -205,7 +181,7 @@ if($isRepresentative) {
                 <?php include "perex.php" ?>
             </perex>
         </section>
-    </article>
+    </article>       
     <?php
 }
 ?>

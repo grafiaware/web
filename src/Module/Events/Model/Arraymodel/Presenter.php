@@ -90,14 +90,9 @@ class Presenter {
                                  /*JobRepoInterface $jobRepo*/ ) {
                 $this->companyRepo = $companyRepo;    
                 $this->representativeRepo = $representativeRepo;
-                //$this->jobRepo = $jobRepo;     
     }
 
-            
-            
-            
-            
-            
+   
             
 //------------------------------------------------
     public function getPerson($loginName) {
@@ -108,12 +103,16 @@ class Presenter {
         }
     }
     
-    //array 'regname', 'regmail' , 'regcompany', 'shortName' --z reprezentative a spol.
-    //      "name" , "eventInstitutionName", "shortName"  --z company
+    // array 'regname', 'regmail' , 'regcompany', 'shortName' --z reprezentative a spol.
+    //       "name" , "eventInstitutionName", "shortName"  --z company
+    /**
+     * Z DB
+     * @param type $loginName
+     * @return type
+     */
      public function getPersonI($loginName) {
         $representativeEntity = $this->representativeRepo->get($loginName); //companyId, loginLoginName
-        if ($representativeEntity) {
-            //$representativeEntity->getCompanyId();
+        if ($representativeEntity) {            
             $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
 
             $retArray =  [  //representative a company
@@ -132,19 +131,19 @@ class Presenter {
     
     
     
-    
-
+   
     public function getCompany($shortName) {
         return array_key_exists($shortName, $this->company) ? $this->company[$shortName] : [];
     }    
     
+    
     public function getCompanyList() {
         return $this->company;
-    }
-    
-    
-    
-    
+    }            
+    /**
+     * Z DB
+     * @return array
+     */
     public function getCompanyListI() {
         $allCompanyObjects = $this->companyRepo->findAll();
         
@@ -152,9 +151,7 @@ class Presenter {
             $allCompanyArr [$company->getName()] =  ['id' => $company->getId(), 
                                                      'name' => $company->getName(), 
                                                      'eventInstitutionName30' => $company->getEventInstitutionName30() ];
-        }
-
-        
+        }        
         //return  $allCompanyArr;
         return $allCompanyObjects;
     }

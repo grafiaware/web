@@ -17,7 +17,7 @@ use Events\Model\Entity\JobToTag;
 use Events\Model\Entity\PozadovaneVzdelani;
 
 $headline = 'Pracovní pozice';
-$perex = 'Vítejte prehled-pracovnich-pozic ';
+$perex = 'Vítejte v prehledu pracovnich pozic! ';
 
 
 
@@ -25,7 +25,6 @@ $perex = 'Vítejte prehled-pracovnich-pozic ';
 $presenterModel = $container->get( Presenter::class );
 /** @var Job $jobModel */
 $jobModel = $container->get( Job::class );
-
 
 
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
@@ -111,8 +110,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
         </perex>
     </section>
     <section>
-        <content class='prehled-pozic'>
-            xxxxxxxxxxxxxx template ***
+        <content class='prehled-pozic'>            
             <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobsI);  ?>
 
         </content>

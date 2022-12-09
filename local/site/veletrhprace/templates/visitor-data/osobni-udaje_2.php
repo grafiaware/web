@@ -7,15 +7,12 @@ use Events\Model\Entity\DocumentInterface;
 
 /** @var DocumentInterface $documentCv */
 /** @var DocumentInterface $documentLetter */
-
     if (isset($documentCv)) {
         $cvDocumentFilename = $documentCv->getDocumentFilename();
     }
     if (isset($documentLetter)) {
         $letterDocumentFilename = $documentLetter->getDocumentFilename();
     }
-
-
 
 ?>
             <div class="active title">
@@ -87,13 +84,13 @@ use Events\Model\Entity\DocumentInterface;
                             if(isset($cvDocumentFilename)){
                             ?>
                                 <!--<span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a>-->
-                                    <?php
-                                    if($readonly === '') {
-                                    ?>
-                                    <!--<span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>-->
-                                    <?php
-                                    }
-                                    ?>
+                                <?php
+                                if($readonly === '') {
+                                ?>
+                                <!--<span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>-->
+                                <?php
+                                }
+                                ?>
                              <?php
                             }
                             ?>

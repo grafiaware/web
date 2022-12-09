@@ -164,21 +164,7 @@ class VisitorControler extends FrontControlerAbstract {
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurity = $this->statusSecurityRepo->get();
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
-        
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            $response = $response->withStatus(401);  // Unaathorized
-//        } else {
-//            $loginName = $loginAggregateCredentials->getLoginName();
-//-----------------------------    
-//$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-///** @var StatusSecurity $statusSecurity *///
-//$statusSecurity = $statusSecurityRepo->get();
-//$loginAggregate = $statusSecurity->getLoginAggregate();                
-//        /** @var RepresentativeRepoInterface $representativeRepo */  
-//        $representativeRepo = $container->get(RepresentativeRepo::class );                 
-
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                   
         
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
@@ -227,26 +213,18 @@ class VisitorControler extends FrontControlerAbstract {
         $attachments=[];        
         // getCvDocument() dava id  tabulky document, a v ni je teprve ulozen document
         if ($visitorDataPost->getCvDocument()) {
-            $cvDocumentId = $this->documentRepo->get($visitorDataPost->getCvDocument());
-            if ($cvDocumentId) {
-                $cvDocument = $this->documentRepo->get($cvDocumentId);
-
+            $cvDocument = $this->documentRepo->get($visitorDataPost->getCvDocument());
+            if ($cvDocument) {
                 $attachments[] = (new StringAttachment())
-                            //->setStringAttachment($visitorDataPost->getCvDocument())
                             ->setStringAttachment($cvDocument->getDocument())                                       
-                           // ->setAltText($visitorDataPost->getCvDocumentFilename());
                             ->setAltText($cvDocument->getDocumentFilename());
             }
         }
         if ($visitorDataPost->getLetterDocument()) {
-            $letterDocumentId = $this->documentRepo->get($visitorDataPost->getLetterDocument());
-            if ($letterDocumentId) {
-                $letterDocument = $this->documentRepo->get($letterDocumentId);
-
+            $letterDocument = $this->documentRepo->get($visitorDataPost->getLetterDocument());
+            if ($letterDocument) {
                 $attachments[] = (new StringAttachment())
-                            //->setStringAttachment($visitorDataPost->getLetterDocument())
                             ->setStringAttachment($letterDocument->getDocument())     
-                            //->setAltText($visitorDataPost->getLetterDocumentFilename());
                             ->setAltText($letterDocument->getDocumentFilename());
             } 
         }
@@ -300,16 +278,7 @@ class VisitorControler extends FrontControlerAbstract {
                 $this->visitorJobRequestRepo->add($visitorJobRequestData);
             }
 
-//            $visitorDataPost->setPrefix($visitorData->getPrefix());
-//            $visitorDataPost->setName($visitorData->getName());
-//            $visitorDataPost->setSurname($visitorData->getSurname());
-//            $visitorDataPost->setPostfix($visitorData->getPostfix());
-//            $visitorDataPost->setEmail($visitorData->getEmail());
-//            $visitorDataPost->setPhone($visitorData->getPhone());
-//            $visitorDataPost->setCvEducationText($visitorData->getCvEducationText());
-//            $visitorDataPost->setCvSkillsText($visitorData->getCvSkillsText());
-
-            // POST data
+            // POST data 
             $visitorJobRequestData->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
             $visitorJobRequestData->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
             $visitorJobRequestData->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
@@ -321,26 +290,11 @@ class VisitorControler extends FrontControlerAbstract {
 
             $this->uploadDocs_stare($request, $visitorJobRequestData);
 
-            if (!$visitorJobRequestData->getCvDocument()) {
-                                
-                //*---------------
-//                $cvId = $visitorProfileData->getCvDocument();
-//                if (isset($cvId)) {
-//                    /** @var DocumentInterface $documentCv */
-//                    $documentCv = $this->documentRepo->get($cvId);
-//                    $documentCv->getDocumentFilename();
-//                    $documentCv->getDocumentMimetype();
-//                }                                     
-                //*----------   
-                
-                $visitorJobRequestData->setCvDocument($visitorProfileData->getCvDocument());
-                //$visitorDataRequest->setCvDocumentFilename($visitorProfileData->getCvDocumentFilename());
-                //$visitorDataRequest->setCvDocumentMimetype($visitorProfileData->getCvDocumentMimetype());
+            if (!$visitorJobRequestData->getCvDocument()) {                                                 
+                $visitorJobRequestData->setCvDocument($visitorProfileData->getCvDocument());               
             }
             if (!$visitorJobRequestData->getLetterDocument()) {
                 $visitorJobRequestData->setLetterDocument($visitorProfileData->getLetterDocument());
-                //$visitorDataRequest->setLetterDocumentFilename($visitorProfileData->getLetterDocumentFilename());
-                //$visitorDataRequest->setLetterDocumentMimetype($visitorProfileData->getLetterDocumentMimetype());
             }
 
             $this->addFlashMessage("Pracovní údaje odeslány pro pozici $positionName.");
@@ -401,10 +355,10 @@ class VisitorControler extends FrontControlerAbstract {
                 //$pomcv = $visitorJobRequestData->getCvDocument();                     
                 if (!$visitorJobRequestData->getCvDocument()) {    // neni naplneno z uploadu? - naplnit z profilu                                                                            
                     if  ($visitorProfileData->getCvDocument() ) {  // cv je v profilu? -ano
-                        /** @var Document $cvDocument */
+                        /** @var DocumentInterface $cvDocument */
                         $cvDocument = $this->container->get(Document::class);    // pozn. potřebuju  každý document jiný -getFactoriesDefinitions
                         $this->documentRepo->add($cvDocument);   
-                        /**/
+                        
                         $cvDocumentIdFromProfile = $visitorProfileData->getCvDocument();
                         $cvDocumentFromProfile = $this->documentRepo->get($cvDocumentIdFromProfile);                  
 
@@ -420,10 +374,10 @@ class VisitorControler extends FrontControlerAbstract {
                 //$pomletter = $visitorJobRequestData->getLetterDocument();
                 if ( !$visitorJobRequestData->getLetterDocument() ) {  // neni naplneno z uploadu? - naplnit z profilu
                     if ($visitorProfileData->getLetterDocument() ) {
-                        /** @var Document $letterDocument */
+                        /** @var DocumentInterface $letterDocument */
                         $letterDocument =  $this->container->get(Document::class);     // pozn. potřebuju  každý document jiný -getFactoriesDefinitions
                         $this->documentRepo->add($letterDocument);                    
-                        /**/
+                        
                         $letterDocumentIdFromProfile = $visitorProfileData->getLetterDocument();                    
                         $letterDocumentFromProfile = $this->documentRepo->get($letterDocumentIdFromProfile);     
 
@@ -484,7 +438,7 @@ class VisitorControler extends FrontControlerAbstract {
                     if ($file->getError()=== UPLOAD_ERR_OK) {                                               
                         switch ($uploadedFileName) {
                             case self::UPLOADED_KEY_CV.$userHash:
-                                 /* @var $documentCv  Document */
+                                 /* @var DocumentInterface $documentCv */
                                 $documentCv = $this->container->get(Document::class); //   new Document();
                                 $this->documentRepo->add($documentCv);
                                 //$documentCvId = $documentCv->getId();  
@@ -493,7 +447,7 @@ class VisitorControler extends FrontControlerAbstract {
                                 break;
                             
                             case self::UPLOADED_KEY_LETTER.$userHash:
-                                /* @var $documentLetter  Document */
+                                /* @var  DocumentInterface  $documentLetter */
                                 $documentLetter = $this->container->get(Document::class); //   new Document();
                                 $this->documentRepo->add($documentLetter);
                                 $documentLetterId = $documentLetter->getId;  
