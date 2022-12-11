@@ -3,10 +3,10 @@
 *******************************/
 .prihlaseni .dropdown{
     label{
-        font-size: @relative4px;
-        padding-left: 1.3em;
+        font-size: @relative3px;
+        padding-left: 1.3em; 
     }
     .input{
-        font-size: unit(@tinySize, em); 
+        font-size: unit(@tinySize-1, em); 
     }
 }

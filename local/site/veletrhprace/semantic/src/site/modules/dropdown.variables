@@ -8,7 +8,7 @@
 
 
 @menuHeaderColor: @darkTextColor;
-@menuHeaderFontSize:  @relative9px;
+@menuHeaderFontSize:  @relative8px;
 
 /* Menu Input */
 @menuInputVerticalPadding:  0.3em;

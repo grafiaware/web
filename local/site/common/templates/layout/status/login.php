@@ -45,7 +45,7 @@ use Site\ConfigurationCache;
     <div class="ui mini page modal transition hidden login">
         <i class="white close icon"></i>
         <div class="content">
-            <h2>Přihlásit se</h2>
+            <p class="text velky">Přihlásit se</p>
             <form class="ui form centered" method="POST" action="auth/v1/login">
                 <div class="field">
                     <label>Přihlašovací jméno</label>

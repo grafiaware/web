@@ -68,6 +68,37 @@ $('.accordion.border')
     .accordion()
 ;
 
+//Vyuziti lokalniho uloziste pro menu
+//Menu v editacnim rezimu obsahuje moznost Nezavirat menu. Pri kliknuti na tuto volbu se prepina ikona u textu Nezavirat menu, aby bylo poznat, jestli je volba aktivni
+//Kdyz je volba aktivni, uklada se do uloziste trida .open k divu, ve kterem je menu, trida .check k volbe Nezavirat menu a trida .none k ikone pres kterou se zavira menu "rucne"
+//Trida .open u divu#mySidenav a .none u ikony slim-icon je nastavena ve stylech rules-layout.less. Trida .check, ktera meni ikonu je vyuzita ze sady ikon semantic-ui
+$('.hamburger_dontclose').click(function(){
+    $(this).children('i').toggleClass("check");
+    $(this).siblings('a').children('.close.slim-icon').toggleClass("none");
+    $(this).parent('.close-item').parent('#mySidenav').toggleClass("open").css('display', 'block');
+    var iconCheck = $(this).children('i');
+    if(iconCheck.hasClass("check")){
+        var hamburgerClose = "open";
+        var hamburgerCloseIcon = "check";
+        var hamburgerSlimIcon = "none";
+    }
+    else{
+        var hamburgerClose = "";
+        var hamburgerCloseIcon = "";
+        var hamburgerSlimIcon = "";
+    }
+    localStorage.setItem('hamburgerClose', hamburgerClose);
+    localStorage.setItem('hamburgerCloseIcon', hamburgerCloseIcon);
+    localStorage.setItem('hamburgerSlimIcon', hamburgerSlimIcon);
+});
+$(document).ready(function(){
+    //po nacteni stranky se pridaji k menu tridy, ktere byly ulozeny
+    $('#mySidenav').addClass(localStorage.getItem('hamburgerClose'));
+    $('.hamburger_dontclose').children('i').addClass(localStorage.getItem('hamburgerCloseIcon'));
+    $('.close.slim-icon').addClass(localStorage.getItem('hamburgerSlimIcon'));
+});
+//konec Vyuziti lokalniho uloziste pro menu
+
 // EDIT MENU
 
 function sendOnEnter(event) {
