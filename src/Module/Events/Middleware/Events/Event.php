@@ -22,6 +22,7 @@ use Events\Middleware\Events\Controler\EventcontentControler;
 use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\VisitorControler;
 use Events\Middleware\Events\Controler\DocumentControler;
+use Events\Middleware\Events\Controler\CompanyControler;
 
 class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -131,6 +132,11 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var VisitorControler $ctrl */
             $ctrl = $this->container->get(VisitorControler::class);
             return $ctrl->visitor($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/companycontact', function(ServerRequestInterface $request) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->insertCompanyContact($request);
         });
          $this->routeGenerator->addRouteForAction('POST', '/events/v1/document/:id/remove', function(ServerRequestInterface $request, $id) {
             /** @var DocumentControler $ctrl */

@@ -33,3 +33,15 @@
 
 
                 <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
+
+
+                <select <?= $disabled ?>>
+                    <?php
+                    /** @var CompanyInterface $compI */
+                    foreach ($presenterModel->getCompanyListI() as $shortN => $compI) {
+                    ?>
+                    <option value="<?= $compI->getName() ?>" <?= $shortN==$representativePersonI['shortName'] ? "selected" : "" ?> > <?= $compI->getName() ?></option>
+                    <?php
+                    }
+                    ?>                   
+                </select>

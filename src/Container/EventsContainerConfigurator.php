@@ -15,6 +15,7 @@ use Pes\Logger\FileLogger;
 use Events\Middleware\Events\Controler\EventcontentControler;
 use Events\Middleware\Events\Controler\VisitorControler;
 use Events\Middleware\Events\Controler\DocumentControler;
+use Events\Middleware\Events\Controler\CompanyControler;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -22,6 +23,9 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Repository\VisitorProfileRepo;
+use Events\Model\Repository\CompanyRepo;
+use Events\Model\Repository\CompanyContactRepo;
+
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
 
@@ -70,8 +74,19 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },            
-            
-           DocumentControler::class => function(ContainerInterface $c) {
+                    
+            CompanyControler::class => function(ContainerInterface $c) {
+                return (new CompanyControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), 
+                        $c->get(CompanyRepo::class),
+                        $c->get(CompanyContactRepo::class)
+                        )
+                       )->injectContainer($c);
+            },
+
+            DocumentControler::class => function(ContainerInterface $c) {
                 return (new DocumentControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),

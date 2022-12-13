@@ -14,9 +14,6 @@ use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 
-
-
-
 use Events\Model\Arraymodel\Job;
 use Events\Model\Arraymodel\Presenter;
 
@@ -64,12 +61,9 @@ if (isset($loginAggregate)) {
     $companyContactRepo = $container->get(CompanyContactRepo::class );
     /** @var CompanyAddressRepo $companyAddressRepo */ 
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
+    //------------------------------------------------------------------
     
-    
-    
-    
-    
-        
+   
     if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) )  {
         $isRepresentative = true;        
         
@@ -83,45 +77,37 @@ if (isset($loginAggregate)) {
         } // toto $jobs nepouzite, nize jsou data prirazena z db
           //$presenterPerson dale nepouzite     
     //-------------------------------------------    
-        
-        
+                
         
         
     //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company             
         $representativePersonI = $presenterModel->getPersonI($loginName);    // Z DB tabulky representative a tabulky company   //z  tabulek representative a company
-        if ($representativePersonI) {
-            //doplnit mail
-            $representativePersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE
+        if ($representativePersonI) {            
+            $representativePersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail 
             //  array  'regname'. 'regmail', 'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName'
             
-           //pro tutez company vypsat vsechny companyContact
-           
-//           /** @var RepresentativeInterface $representative */ 
-//           $representative = $representativeRepo->findAll($representativePersonI['idCompany'] );          
-//           /** @var CompanyInterface $company */ 
-//           $companyId = $companyRepo->get($representative->getCompanyId());
-//           /** @var CompanyContactInterface $companyContact */ 
-            
-           $companyContacts = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=>$representativePersonI['idCompany'] ] );
-           //  ( " company_id = :idCompany " , [ 'idCompany' => $idCompany ])
-           
-        ?> 
-        <!--   <div class="vypis-prac-pozic">
-                <div class="ui styled fluid accordion">        
-                    <  ?= $this->repeat(__DIR__.'/vypis-pozic/pozice_2.php', $jobs  )  ?>
-                </div>
-            </div>  -->  
-            
-            
-         <?php
-            
+           //pro tuto company vypsat vsechny companyContact                      
+           $idCompanyFromRepresentative = $representativePersonI['idCompany'];
+           $representativeCompany = $companyRepo->get($representativePersonI['idCompany']);
+           $companyContactObjects = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $representativePersonI['idCompany'] ] );
+           $companyContacts=[];
+           foreach ($companyContactObjects as $cntct) {
+               /** @var CompanyContactInterface $cntct */
+               $companyContacts[] = [
+                   'name' =>  $cntct->getName(),
+                   'phones' =>  $cntct->getPhones(),
+                   'mobiles' =>  $cntct->getMobiles(),
+                   'emails' =>  $cntct->getEmails()
+                    ];
+           }
+           //-------------------------------
             
             // jobsy pro company tohoto representative
             /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
             $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
             /** @var JobToTagRepo $jobToTagRepo */
             $jobToTagRepo = $container->get(JobToTagRepo::class );  
-            $companyJobs = $jobModel->getCompanyJobListI(  $representativePersonI ['idCompany'] /*$companyEntity->getId()*/ );        
+            $companyJobs = $jobModel->getCompanyJobListI(  $representativePersonI ['idCompany']  );        
             $jobsI = [];
             foreach ($companyJobs as $jobI) {
              /** @var JobEntityInterface  $jobI */
@@ -150,17 +136,11 @@ if (isset($loginAggregate)) {
             $jobs = $jobsI;            
             // jobsy pro company tohoto representative        
             //------------------------------------------------------------------
+                    
             
-            
-            
-            
-            
-            
-            
-            
-        }
+        }// $representativePersonI
                         
-    }
+    } //representative AND role
         
  
     
@@ -185,8 +165,8 @@ foreach ($enrolls as $enroll) {
 
 
 if($isRepresentative) {
-    $headline = "Profil vystavovatele";
-    $perex = ' **I** ' . $loginAggregate->getLoginName();
+    $headline = "Profil vystavovatele  --*headline";
+    $perex = ' **I** ' . $loginAggregate->getLoginName() . '  --*perex';
     ?>
     <article class="paper">
         <section>
@@ -197,37 +177,34 @@ if($isRepresentative) {
                 <?php include "perex.php" ?>
             </perex>
         </section>
+        
         <section>
             <div class="field margin">
                 <label>Společnost</label>
-                <select <?= $disabled ?>>
-                    <?php
-                    foreach ($presenterModel->getCompanyList() as $shortN => $comp) {
-                    ?>
-                        <option value="<?= $comp['name']?>" <?= $shortN==$representativePersonI['shortName'] ? "selected" : "" ?> > <?= $comp['name']?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
+                             
+                <?= $representativeCompany->getName() ?>
                 
-                **I**
-                <select <?= $disabled ?>>
-                    <?php
-                    /** @var CompanyInterface $compI */
-                    foreach ($presenterModel->getCompanyListI() as $shortN => $compI) {
-                    ?>
-                    <option value="<?= $compI->getName() ?>" <?= $shortN==$representativePersonI['shortName'] ? "selected" : "" ?> > <?= $compI->getName() ?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
+                
+                <div class="">
+                    <div class="ui styled fluid accordion">   
+                                                        
+                        <div class="active title">
+                             <i class="dropdown icon"></i>
+                            Kontakty vystavovatele
+                        </div>                        
+                        <div class="active content">                                                
+                            <?= $this->repeat(__DIR__.'/content/company/company-contact.php', $companyContacts  )  ?>
+                        </div>   
+                        
+                    </div>
+                </div>
+
             </div>
-            
-            
-                <?php include "content/profil.php" ?> <!-- Tiny pro .working-data -->
+                        
+            <?php include "content/profil.php" ?> <!-- Tiny pro .working-data -->
         </section>
     </article>
-    <?php
+<?php
 } else {    
     $headline = "Profil vystavovatele";
     $perex = "Profil vystavovatele je dostupný pouze přihlášenému vystavovateli.";
@@ -241,7 +218,7 @@ if($isRepresentative) {
                 <?php include "perex.php" ?>
             </perex>
         </section>
-    </article>       
-    <?php
+    </article>      
+<?php
 }
 ?>

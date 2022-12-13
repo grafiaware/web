@@ -143,6 +143,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         #### VisitorDataController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/companycontact'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobrequest'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest'));

@@ -74,7 +74,7 @@ class DocumentControler extends FrontControlerAbstract {
     }
 
     /**
-     * POST visitor data
+     * POST visitor data  NIKDO NEPOUZIVA
      *
      * @param ServerRequestInterface $request
      * @return type

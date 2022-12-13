@@ -106,7 +106,7 @@ class Presenter {
     // array 'regname', 'regmail' , 'regcompany', 'shortName' --z reprezentative a spol.
     //       "name" , "eventInstitutionName", "shortName"  --z company
     /**
-     * Z DB
+     * Z DB tabulky representative a tabulky company
      * @param type $loginName
      * @return type
      */
@@ -116,7 +116,7 @@ class Presenter {
             $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
 
             $retArray =  [  //representative a company
-                          'regname' =>  $representativeEntity->getLoginLoginName() . ' tj.LoginName', 
+                          'regname' =>  $representativeEntity->getLoginLoginName() . ' --tj.LoginName', 
                           'regmail' => '', 
                           'regcompany' => $companyEntity->getName(),
                          
