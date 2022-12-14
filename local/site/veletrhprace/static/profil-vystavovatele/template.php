@@ -87,19 +87,20 @@ if (isset($loginAggregate)) {
             //  array  'regname'. 'regmail', 'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName'
             
            //pro tuto company vypsat vsechny companyContact                      
-           $idCompanyFromRepresentative = $representativePersonI['idCompany'];
-           $representativeCompany = $companyRepo->get($representativePersonI['idCompany']);
-           $companyContactObjects = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $representativePersonI['idCompany'] ] );
-           $companyContacts=[];
-           foreach ($companyContactObjects as $cntct) {
-               /** @var CompanyContactInterface $cntct */
-               $companyContacts[] = [
-                   'name' =>  $cntct->getName(),
-                   'phones' =>  $cntct->getPhones(),
-                   'mobiles' =>  $cntct->getMobiles(),
-                   'emails' =>  $cntct->getEmails()
+            $idCompanyFromRepresentative = $representativePersonI['idCompany'];
+            $representativeCompany = $companyRepo->get($representativePersonI['idCompany']);
+            $companyContactObjects = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $representativePersonI['idCompany'] ] );
+            $companyContacts=[];
+            foreach ($companyContactObjects as $cntct) {
+                /** @var CompanyContactInterface $cntct */
+                $companyContacts[] = [
+                    'companyId' => $cntct->getCompanyId(),
+                    'name' =>  $cntct->getName(),
+                    'phones' =>  $cntct->getPhones(),
+                    'mobiles' =>  $cntct->getMobiles(),
+                    'emails' =>  $cntct->getEmails()
                     ];
-           }
+            }
            //-------------------------------
             
             // jobsy pro company tohoto representative

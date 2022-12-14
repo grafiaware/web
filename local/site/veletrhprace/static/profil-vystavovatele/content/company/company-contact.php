@@ -12,9 +12,11 @@ use Pes\Text\Html;
         $readonly = '';
         $disabled = '';
 ?>
-         
+                 
                 <form class="ui huge form" action="events/v1/companycontact" method="POST" >
-                    <div class="two fields">
+                    <input type='hidden' name="company-id" value="<?= $companyId ?>" >
+                    
+                    <div class="two fields">                        
                         <div class="field">
                         <label>Jméno kontaktu</label>
                             <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="90" value="<?= $name ?>">
@@ -34,12 +36,16 @@ use Pes\Text\Html;
                             <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="90" value="<?= $mobiles ?>">
                         </div>
                     </div>                 
-                    <div class="two fields">
+                    <div>
                         <?php
                         if($readonly === '') {
                         ?>
-                        <div class="field margin">
-                            <button class="ui primary button" type="submit">Uložit</button>
+                        <div>
+                            <?=
+                             isset($companyId) ?
+                            '<button class="ui primary button" type="submit" formaction="events/v1/companycontact/". $companyId > Uložit </button>' :
+                            '<button class="ui primary button" type="submit" formaction="events/v1/companycontact"> Uložit </button>' 
+                            ?>
                         </div>
                         <?php
                         }

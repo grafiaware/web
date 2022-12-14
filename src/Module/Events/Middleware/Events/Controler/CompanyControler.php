@@ -14,11 +14,11 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
-use Events\Model\Repository\VisitorProfileRepo;
-use Events\Model\Repository\VisitorProfileRepoInterface;
-
-use Events\Model\Repository\VisitorJobRequestRepo;
-use Events\Model\Repository\VisitorJobRequestRepoInterface;
+//use Events\Model\Repository\VisitorProfileRepo;
+//use Events\Model\Repository\VisitorProfileRepoInterface;
+//
+//use Events\Model\Repository\VisitorJobRequestRepo;
+//use Events\Model\Repository\VisitorJobRequestRepoInterface;
 
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\DocumentRepoInterface;
@@ -28,6 +28,8 @@ use Events\Model\Repository\RepresentativeRepo;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
+use Events\Model\Entity\CompanyContactInterface;
+use Events\Model\Entity\CompanyContact;
 
 use Status\Model\Enum\FlashSeverityEnum;
 
@@ -89,69 +91,138 @@ class CompanyControler extends FrontControlerAbstract {
     }
     
     
-     /**
-     * POST visitor data
+    /**
+     * POST company contact
      *
      * @param ServerRequestInterface $request
      * @return type
      */
-    public function insertCompanyContact (ServerRequestInterface $request) {
-        
-        $this->addFlashMessage("Insert neinseruje.");
-        return $this->redirectSeeLastGet($request);
-        
-        
-        
+    public function insertCompanyContact (ServerRequestInterface $request) {        
+//        $this->addFlashMessage("Insert neinseruje.");
+//        return $this->redirectSeeLastGet($request);      
         
         $isRepresentative = false;
         
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurity = $this->statusSecurityRepo->get();
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                   
-        
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
-        } else {
-           
+        } else {           
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $this->representativeRepo->get($loginName) )  {
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+                            AND  $this->representativeRepo->get($loginName) )  {
                 $isRepresentative = true; 
             }
-            
-            
+                        
             if ($isRepresentative) {
                 // POST data
                 
+                $name = (new RequestParams())->getParsedBodyParam($request, 'name');               
+                $phones = (new RequestParams())->getParsedBodyParam($request, 'phones');
+                $mobiles = (new RequestParams())->getParsedBodyParam($request, "mobiles");
+                $emails = (new RequestParams())->getParsedBodyParam($request, "emails");
+                /** @var CompanyContact $companyContact */
+                $companyContact = $this->container->get(CompanyContact::class); //new $companyContact
+                $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+                $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
+                $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
+                $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));
                 
+                $this->companyContactRepo->add($companyContact);
                 
-                
-                
-                
-                $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
-                $positionName = (new RequestParams())->getParsedBodyParam($request, 'position-name');
-                $visitorLoginName = (new RequestParams())->getParsedBodyParam($request, "visitor-login-name");
-                $jobId = (new RequestParams())->getParsedBodyParam($request, "job-id");
-
-                $visitorDataJRqPost = $this->visitorJobRequestRepo->get($visitorLoginName, $jobId);
-                if (!isset($visitorDataJRqPost)) {
-                    $this->addFlashMessage("Pracovní údaje pro pozici $positionName nenalezeny v databázi.");
-                } else {
-              /**/  $this->sendMail($positionName, $visitorDataJRqPost, $loginAggregateCredentials);
-                    $this->addFlashMessage("Pracovní údaje pro pozici $positionName neodeslány.**Momentálně se maily neposílají.**");
-                
-                    
-                }
             } else {
-                $this->addFlashMessage("Údaje o vyvstavovateli smí editovat pouze representatnt vystavovatele.");
+                $this->addFlashMessage("Údaje o kontaktech vyvstavovatele smí editovat pouze representant vystavovatele.");
             }
             
         }
         return $this->redirectSeeLastGet($request);
     }
     
+    /**
+     * POST company contact
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function updateCompanyContact (ServerRequestInterface $request) {                   
+        $isRepresentative = false;
+        
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();
+        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse();
+            return $response->withStatus(401);  // Unaathorized
+        } else {           
+            $loginName = $loginAggregateCredentials->getLoginName();            
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+                            AND  $this->representativeRepo->get($loginName) )  {
+                $isRepresentative = true; 
+            }
+                        
+            if ($isRepresentative) {
+                // POST data
+                $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');
+                /** @var CompanyContact $companyContact */
+                $CompanyContact = $this->companyRepo->get( (new RequestParams())->getParsedBodyParam($request, 'company-id') );                              
+
+                $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+                $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
+                $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
+                $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));
+                
+                $this->companyContactRepo->add($companyContact);
+                
+            } else {
+                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
+            }
+            
+        }
+        return $this->redirectSeeLastGet($request);
+    }
+    
+    
+     /**
+     * POST company contact
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function removeCompanyContact (ServerRequestInterface $request) {                   
+        $isRepresentative = false;
+        
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();
+        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse();
+            return $response->withStatus(401);  // Unaathorized
+        } else {           
+            $loginName = $loginAggregateCredentials->getLoginName();            
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+                            AND  $this->representativeRepo->get($loginName) )  {
+                $isRepresentative = true; 
+            }
+                        
+            if ($isRepresentative) {
+                
+                
+            } else {
+                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+            }
+            
+        }
+        return $this->redirectSeeLastGet($request);
+    }
+            
     
   //------33333333333333333333333333333333333$$$$$$$$$$#####################################
   //#############################################################################
