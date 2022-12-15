@@ -24,7 +24,7 @@ use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\DocumentRepoInterface;
 
 use Events\Model\Repository\RepresentativeRepoInterface;
-use Events\Model\Repository\RepresentativeRepo;
+//use Events\Model\Repository\RepresentativeRepo;
 
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\VisitorProfileIntertface;
@@ -81,7 +81,7 @@ class VisitorControler extends FrontControlerAbstract {
     private $documentRepo;
     /**
      * 
-     * @var RepresentativeRepo
+     * @var RepresentativeRepoInterface
      */
     private $representativeRepo;
     

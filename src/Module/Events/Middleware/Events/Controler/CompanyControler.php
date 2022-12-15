@@ -15,8 +15,7 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
 //use Events\Model\Repository\VisitorProfileRepo;
-//use Events\Model\Repository\VisitorProfileRepoInterface;
-//
+//use Events\Model\Repository\VisitorProfileRepoInterface;//
 //use Events\Model\Repository\VisitorJobRequestRepo;
 //use Events\Model\Repository\VisitorJobRequestRepoInterface;
 
@@ -66,15 +65,21 @@ class CompanyControler extends FrontControlerAbstract {
      * @var CompanyRepoInterface
      */
     private $companyRepo;
+    /**
+     * 
+     * @var RepresentativeRepoInterface
+     */
+    private $representativeRepo;    
     
-    
+        
     /**
      * 
      * @param StatusSecurityRepo $statusSecurityRepo
      * @param StatusFlashRepo $statusFlashRepo
      * @param StatusPresentationRepo $statusPresentationRepo
      * @param CompanyRepoInterface $companyRepo
-     * @param CompanyContactRepoInterface $companyContactRepo     
+     * @param CompanyContactRepoInterface $companyContactRepo
+     * @param RepresentativeRepoInterface $representativeRepo
      */
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -82,12 +87,14 @@ class CompanyControler extends FrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo,
             
             CompanyRepoInterface $companyRepo,
-            CompanyContactRepoInterface $companyContactRepo
+            CompanyContactRepoInterface $companyContactRepo,
+            RepresentativeRepoInterface $representativeRepo
             
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->companyRepo = $companyRepo;
         $this->companyContactRepo = $companyContactRepo;
+        $this->representativeRepo = $representativeRepo;
     }
     
     
@@ -97,10 +104,7 @@ class CompanyControler extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      */
-    public function insertCompanyContact (ServerRequestInterface $request) {        
-//        $this->addFlashMessage("Insert neinseruje.");
-//        return $this->redirectSeeLastGet($request);      
-        
+    public function insertCompanyContact (ServerRequestInterface $request) {                 
         $isRepresentative = false;
         
         /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -110,7 +114,7 @@ class CompanyControler extends FrontControlerAbstract {
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
-        } else {           
+        } else {  
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
@@ -120,13 +124,15 @@ class CompanyControler extends FrontControlerAbstract {
                         
             if ($isRepresentative) {
                 // POST data
-                
-                $name = (new RequestParams())->getParsedBodyParam($request, 'name');               
-                $phones = (new RequestParams())->getParsedBodyParam($request, 'phones');
-                $mobiles = (new RequestParams())->getParsedBodyParam($request, "mobiles");
-                $emails = (new RequestParams())->getParsedBodyParam($request, "emails");
-                /** @var CompanyContact $companyContact */
+                //$сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');                                       
+//                $name = (new RequestParams())->getParsedBodyParam($request, 'name');               
+//                $phones = (new RequestParams())->getParsedBodyParam($request, 'phones');
+//                $mobiles = (new RequestParams())->getParsedBodyParam($request, "mobiles");
+//                $emails = (new RequestParams())->getParsedBodyParam($request, "emails");
+                /** @var CompanyContactInterface $companyContact */
                 $companyContact = $this->container->get(CompanyContact::class); //new $companyContact
+                
+                $companyContact->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ;
                 $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
                 $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
@@ -159,6 +165,8 @@ class CompanyControler extends FrontControlerAbstract {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
         } else {           
+            
+            
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
@@ -168,10 +176,11 @@ class CompanyControler extends FrontControlerAbstract {
                         
             if ($isRepresentative) {
                 // POST data
-                $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');
-                /** @var CompanyContact $companyContact */
-                $CompanyContact = $this->companyRepo->get( (new RequestParams())->getParsedBodyParam($request, 'company-id') );                              
-
+                //$сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');        
+                $сompanyContactId = (new RequestParams())->getParsedBodyParam($request, 'company-contact-id');
+                /** @var CompanyContactInterface $companyContact */
+                $companyContact = $this->companyContactRepo->get( $сompanyContactId );  
+                
                 $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
                 $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
@@ -213,8 +222,11 @@ class CompanyControler extends FrontControlerAbstract {
             }
                         
             if ($isRepresentative) {
-                
-                
+                 $сompanyContactId = (new RequestParams())->getParsedBodyParam($request, 'company-contact-id');        
+                /** @var CompanyContactIntarface $companyContact */
+                $сompanyContact = $this->companyContactRepo->get( $сompanyContactId ); 
+                $this->companyContactRepo->remove( $сompanyContact ); 
+                                
             } else {
                 $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
             }

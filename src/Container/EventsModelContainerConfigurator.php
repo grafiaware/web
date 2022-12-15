@@ -73,6 +73,7 @@ use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Hydrator\CompanyContactHydrator;
 use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Entity\CompanyContact;
 
 use Events\Model\Dao\JobDao;
 use Events\Model\Hydrator\JobHydrator;
@@ -146,6 +147,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             VisitorJobRequest::class => function(ContainerInterface $c) {
                 return new VisitorJobRequest();
             },
+            CompanyContact::class => function(ContainerInterface $c) {
+            return new CompanyContact();
+            }
 
         ];
     }

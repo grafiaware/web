@@ -42,7 +42,7 @@ interface CompanyContactInterface extends EntityInterface {
     public function setId(  $id) :CompanyContactInterface;   
     /**
      * 
-     * @param int $company_id
+     * @param type $company_id
      * @return CompanyContactInterface
      */
     public function setCompanyId(  $companyId) :CompanyContactInterface ;      

@@ -116,7 +116,7 @@ class Presenter {
             $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
 
             $retArray =  [  //representative a company
-                          'regname' =>  $representativeEntity->getLoginLoginName() . ' --tj.LoginName', 
+                          'regname' =>  $representativeEntity->getLoginLoginName(), 
                           'regmail' => '', 
                           'regcompany' => $companyEntity->getName(),
                          

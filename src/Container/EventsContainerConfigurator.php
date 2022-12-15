@@ -81,7 +81,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class), 
                         $c->get(CompanyRepo::class),
-                        $c->get(CompanyContactRepo::class)
+                        $c->get(CompanyContactRepo::class),
+                        $c->get(RepresentativeRepo::class),
                         )
                        )->injectContainer($c);
             },

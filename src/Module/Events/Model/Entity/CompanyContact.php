@@ -67,7 +67,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
     }
     /**
      *
-     * @param string $company_id
+     * @param type $company_id
      * @return CompanyContactInterface
      */
     public function setCompanyId( $companyId ) :CompanyContactInterface {

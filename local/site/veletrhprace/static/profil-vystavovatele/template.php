@@ -89,11 +89,12 @@ if (isset($loginAggregate)) {
            //pro tuto company vypsat vsechny companyContact                      
             $idCompanyFromRepresentative = $representativePersonI['idCompany'];
             $representativeCompany = $companyRepo->get($representativePersonI['idCompany']);
-            $companyContactObjects = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $representativePersonI['idCompany'] ] );
+            $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $representativePersonI['idCompany'] ] );
             $companyContacts=[];
-            foreach ($companyContactObjects as $cntct) {
+            foreach ($companyContactEntities as $cntct) {
                 /** @var CompanyContactInterface $cntct */
                 $companyContacts[] = [
+                    'companyContactId' => $cntct->getId(),
                     'companyId' => $cntct->getCompanyId(),
                     'name' =>  $cntct->getName(),
                     'phones' =>  $cntct->getPhones(),
@@ -181,21 +182,26 @@ if($isRepresentative) {
         
         <section>
             <div class="field margin">
-                <label>Společnost</label>
-                             
-                <?= $representativeCompany->getName() ?>
-                
-                
+                <label>Společnost</label>                             
+                <?= $representativeCompany->getName() ?>                                
                 <div class="">
                     <div class="ui styled fluid accordion">   
                                                         
                         <div class="active title">
-                             <i class="dropdown icon"></i>
+                            <i class="dropdown icon"></i>
                             Kontakty vystavovatele
                         </div>                        
                         <div class="active content">                                                
                             <?= $this->repeat(__DIR__.'/content/company/company-contact.php', $companyContacts  )  ?>
-                        </div>   
+                            
+                            <div class="active title">
+                                <i class="dropdown icon"></i>
+                                Přidej další kontakt vystavovatele
+                            </div>  
+                            <div class="active content">     
+                                <?= $this->insert( __DIR__.'/content/company/company-contact.php', [ 'companyId' => $idCompanyFromRepresentative ] ) ?>                            
+                            </div>  
+                        </div>                           
                         
                     </div>
                 </div>
