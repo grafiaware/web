@@ -7,58 +7,62 @@ use Pes\Text\Html;
 
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
-use Events\Model\Repository\CompanyAddressRepo;
-use Events\Model\Repository\RepresentativeRepo;
 
 use Events\Model\Entity\CompanyInterface;
-use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyContactInterface;
-use Events\Model\Entity\RepresentativaInterface;
-
 
 /** @var PhpTemplateRendererInterface $this */
 
-
-
-
-    /** @var RepresentativeRepo $representativeRepo */
-    $representativeRepo = $container->get(RepresentativeRepo::class );
     /** @var CompanyRepo $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
     /** @var CompanyContactRepo $companyContactRepo */
     $companyContactRepo = $container->get(CompanyContactRepo::class );
-    /** @var CompanyAddressRepo $companyAddressRepo */ 
-    $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
-                    
-        $companiesContacts=[];       
-         /**  @var CompanyInterface $company */             
-        $companyEntities = $companyRepo->findAll();
-        
-        foreach ($companyEntities as  $company ){            
-            $companyContactEntities = $companyContactRepo->find( " company_id = :id ",  ['id'=> $company->getId()] );           
+
+    $idCompany = 10;
+    /** @var CompanyInterface $companyEntity */ 
+    $companyEntity = $companyRepo->get($idCompany);
+    if ($companyEntity) {       
             
-            $companyContacts=[];
-            /**  @var CompanyContactInterface $cntct */
-            foreach ($companyContactEntities as $cntct) {
-                /** @var CompanyContactInterface $cntct */
-                $companyContacts[] = [
-                    'companyContactId' => $cntct->getId(),
-                    'companyId' => $cntct->getCompanyId(),
-                    'name' =>  $cntct->getName(),
-                    'phones' =>  $cntct->getPhones(),
-                    'mobiles' =>  $cntct->getMobiles(),
-                    'emails' =>  $cntct->getEmails()
-                    ];
-            }
-            $companiesContacts[] = $companyContacts;
-
-        }  
-
-
+        $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
+        $companyContacts=[];
+        foreach ($companyContactEntities as $cCEntity) {
+            /** @var CompanyContactInterface $cCEntity */
+            $companyContacts[] = [
+                'companyContactId' => $cCEntity->getId(),
+                'companyId' => $cCEntity->getCompanyId(),
+                'name' =>  $cCEntity->getName(),
+                'phones' =>  $cCEntity->getPhones(),
+                'mobiles' =>  $cCEntity->getMobiles(),
+                'emails' =>  $cCEntity->getEmails()
+                ];
+        }   
+            
+        
   ?>
 
-        <?= $this->repeat(__DIR__.'/company-contacts/company-contacts.php', $companiesContacts  )  ?>
 
+    <div>
+    <div class="ui styled fluid accordion">   
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX           
+            <div class="active title">
+                <i class="dropdown icon"></i>
+                Kontakty vystavovatele
+            </div>                        
+            <div class="active content">      
+                <?= $this->repeat(__DIR__.'/company-contact.php',  $companyContacts)  ?>
+
+                <div class="active title">
+                    <i class="dropdown icon"></i>
+                    Přidej další kontakt vystavovatele
+                </div>  
+                <div class="active content">     
+                    <?= $this->insert( __DIR__.'/company-contact.php', ['companyId' => $idCompany] ) ?>                                                                                 
+                </div>                  
+            </div>            
+    </div>
+    </div>
+
+  <?php     
+    }
+  ?>
