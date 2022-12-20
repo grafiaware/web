@@ -2,8 +2,10 @@
 namespace Auth\Model\Repository;
 
 use Model\Repository\RepoAbstract;
+use \Model\Repository\RepoAssotiatedOneTrait;
+
 use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 
 use Auth\Model\Entity\RegistrationInterface;
 use Auth\Model\Entity\Registration;
@@ -17,17 +19,14 @@ use Auth\Model\Dao\RegistrationDao;
  */
 class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface {
 
-    public function __construct(RegistrationDao $registrationDao, HydratorInterface $registrationHydrator) {
+    public function __construct(RegistrationDao $registrationDao, RowHydratorInterface $registrationHydrator) {
         $this->dataManager = $registrationDao;
         $this->registerHydrator($registrationHydrator);
     }
 
+    use RepoAssotiatedOneTrait;
+    
     public function get($loginNameFk): ?RegistrationInterface {    // $loginNameFk je primární i cizí klíč
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
-        return $this->getEntity($key);
-    }
-
-    public function getByReference($loginNameFk): ?EntityInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
         return $this->getEntity($key);
     }

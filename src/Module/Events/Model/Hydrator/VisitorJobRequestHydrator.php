@@ -3,7 +3,7 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 use Model\RowData\RowDataInterface;
 
@@ -14,7 +14,7 @@ use Events\Model\Entity\VisitorJobRequestInterface;
  *
  * @author pes2704
  */
-class VisitorJobRequestHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class VisitorJobRequestHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 
     /**
      *

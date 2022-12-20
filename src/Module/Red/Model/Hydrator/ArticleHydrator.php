@@ -8,7 +8,7 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
@@ -21,7 +21,7 @@ use Red\Model\Entity\ArticleInterface;
  *
  * @author pes2704
  */
-class ArticleHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class ArticleHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 
     /**
      *

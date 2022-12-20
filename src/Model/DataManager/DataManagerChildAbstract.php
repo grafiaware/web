@@ -14,7 +14,7 @@ use Model\RowData\RowDataInterface;
 class DataManagerChildAbstract {
 
     public function getByReference(array $referenceId): ?RowDataInterface {
-        $rowData = $this->dao->getByFk($referenceId);
+        $rowData = $this->dao->getByReference($referenceId);
         if (!$rowData) {
             return null;
         }

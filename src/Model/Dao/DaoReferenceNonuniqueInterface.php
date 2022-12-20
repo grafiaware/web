@@ -6,12 +6,14 @@
  * and open the template in the editor.
  */
 
-namespace Model\Repository;
+namespace Model\Dao;
 
 /**
  *
  * @author pes2704
  */
-interface RepoAggregateInterface extends RepoInterface {
-    //put your code here
+interface DaoReferenceNonuniqueInterface extends DaoReferenceCommonInterface {
+
+    public function findByFk($fkAttributesName, array $fkNameValueTouples);
+
 }

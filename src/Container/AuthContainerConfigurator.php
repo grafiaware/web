@@ -19,7 +19,12 @@ use Model\RowData\PdoRowData;
 //builder
 use Model\Builder\Sql;
 
+// assotiation
+use Model\Repository\Association\AssociationOneToOne;
+use Model\Repository\Association\AssociationOneToMany;
+
 //login & credentials - db
+
 use Auth\Model\Dao\CredentialsDao;
 use Auth\Model\Hydrator\CredentialsHydrator;
 use Auth\Model\Repository\CredentialsRepo;
@@ -72,7 +77,7 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
  *
  * @author pes2704
  */
-class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
+class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return ConfigurationCache::login();
@@ -107,8 +112,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             ##
             // database account
             Account::class => function(ContainerInterface $c) {
-                $account = new Account($c->get('login.db.account.everyone.name'), $c->get('login.db.account.everyone.password'));
-                return $account;
+                return new Account($c->get('login.db.account.everyone.name'), $c->get('login.db.account.everyone.password'));
             },
 
             // database
@@ -133,69 +137,103 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             // db login & credentials repo
-            LoginAggregateReadonlyDao::class => function(ContainerInterface $c) {
-                return new LoginAggregateReadonlyDao(
-                        $c->get(Handler::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            LoginAggregateReadonlyRepo::class => function(ContainerInterface $c) {
-                return new LoginAggregateReadonlyRepo(
-                        $c->get(LoginAggregateReadonlyDao::class),
-                        new LoginAggregateHydrator(),
-                        new CredentialsHydrator()
-                        );
-            },
+
             LoginDao::class => function(ContainerInterface $c) {
                 return new LoginDao(
                         $c->get(Handler::class),
                         $c->get(Sql::class),
                         PdoRowData::class);
             },
+            LoginHydrator::class => function(ContainerInterface $c) {
+                return new LoginHydrator();
+            },
+
             CredentialsDao::class => function(ContainerInterface $c) {
                 return new CredentialsDao(
                         $c->get(Handler::class),
                         $c->get(Sql::class),
                         PdoRowData::class);
             },
-            CredentialsRepo::class => function(ContainerInterface $c) {
-                return new CredentialsRepo($c->get(CredentialsDao::class), new CredentialsHydrator());
+            CredentialsHydrator::class => function(ContainerInterface $c) {
+                return new CredentialsHydrator();
             },
-            LoginAggregateCredentialsRepo::class => function(ContainerInterface $c) {
-                return new LoginAggregateCredentialsRepo(
-                        $c->get(LoginDao::class),
-                        new LoginHydrator(),
-                        $c->get(CredentialsRepo::class),
-                        new LoginChildCredentialsHydrator()
+            CredentialsRepo::class => function(ContainerInterface $c) {
+                return new CredentialsRepo($c->get(CredentialsDao::class), $c->get(CredentialsHydrator::class));
+            },
+
+            LoginAggregateReadonlyDao::class => function(ContainerInterface $c) {
+                return new LoginAggregateReadonlyDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            LoginAggregateHydrator::class => function(ContainerInterface $c) {
+                return new LoginAggregateHydrator();
+            },
+            LoginAggregateReadonlyRepo::class => function(ContainerInterface $c) {
+                return new LoginAggregateReadonlyRepo(
+                        $c->get(LoginAggregateReadonlyDao::class),
+                        $c->get(LoginAggregateHydrator::class),
+                        $c->get(CredentialsHydrator::class)
                         );
             },
+
+            LoginChildCredentialsHydrator::class => function(ContainerInterface $c) {
+                return new LoginChildCredentialsHydrator();
+            },
+            LoginAggregateCredentialsRepo::class => function(ContainerInterface $c) {
+                $repo = new LoginAggregateCredentialsRepo(
+                        $c->get(LoginDao::class),
+                        $c->get(LoginHydrator::class)
+//                        ,
+//                        $c->get(CredentialsRepo::class),
+//                        $c->get(LoginChildCredentialsHydrator::class)
+                        );
+                $assotiation = new AssociationOneToOne($parentDao->getPrimaryKeyAttributes(), $c->get(RegistrationRepo::class), $c->get(LoginChildRegistrationHydrator::class));
+                $repo->registerOneToOneAssociation($assotiation);
+                return $repo;
+            },
+
             RegistrationDao::class => function(ContainerInterface $c) {
                 return new RegistrationDao(
                         $c->get(Handler::class),
                         $c->get(Sql::class),
                         PdoRowData::class);
             },
+            RegistrationHydrator::class => function(ContainerInterface $c) {
+                return new RegistrationHydrator();
+            },
             RegistrationRepo::class => function(ContainerInterface $c) {
-                return new RegistrationRepo($c->get(RegistrationDao::class), new RegistrationHydrator());
+                return new RegistrationRepo($c->get(RegistrationDao::class), $c->get(RegistrationHydrator::class));
+            },
+
+            LoginChildRegistrationHydrator::class => function(ContainerInterface $c) {
+                return new LoginChildRegistrationHydrator();
             },
             LoginAggregateRegistrationRepo::class => function(ContainerInterface $c) {
-                return new LoginAggregateRegistrationRepo(
-                        $c->get(LoginDao::class),
-                        new LoginHydrator(),
-                        $c->get(RegistrationRepo::class),
-                        new LoginChildRegistrationHydrator()
+                /** @var RegistrationDao $childDao */
+                $childDao = $c->get(RegistrationDao::class);
+                /** @var LoginDao $parentDao */
+                $parentDao = $c->get(LoginDao::class);
+                $repo = new LoginAggregateRegistrationRepo(
+                        $parentDao,
+                        $c->get(LoginHydrator::class)
                         );
+                $assotiation = new AssociationOneToOne($parentDao->getTableName(), $c->get(RegistrationRepo::class), $c->get(LoginChildRegistrationHydrator::class));
+                $repo->registerOneToOneAssociation(RegistrationRepo::class, $assotiation);
+                return $repo;
             },
-            LoginAggregateFullRepo::class => function(ContainerInterface $c) {
-                return new LoginAggregateFullRepo(
-                        $c->get(LoginDao::class),
-                        new LoginHydrator(),
-                        $c->get(CredentialsRepo::class),
-                        new LoginChildCredentialsHydrator(),
-                        $c->get(RegistrationRepo::class),
-                        new LoginChildRegistrationHydrator()
-                        );
-            },
+
+//            LoginAggregateFullRepo::class => function(ContainerInterface $c) {
+//                return new LoginAggregateFullRepo(
+//                        $c->get(LoginDao::class),
+//                        $c->get(LoginHydrator::class),
+//                        $c->get(CredentialsRepo::class),
+//                        $c->get(LoginChildCredentialsHydrator::class),
+//                        $c->get(RegistrationRepo::class),
+//                        $c->get(LoginChildRegistrationHydrator::class)
+//                        );
+//            },
 
 
             DbAuthenticator::class => function(ContainerInterface $c) {
@@ -204,6 +242,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             DbHashAuthenticator::class => function(ContainerInterface $c) {
                 return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
+
             LoginLogoutController::class => function(ContainerInterface $c) {
                 return (new LoginLogoutController(
                     $c->get(StatusSecurityRepo::class),

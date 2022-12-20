@@ -8,7 +8,7 @@
 
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
@@ -20,7 +20,7 @@ use Events\Model\Entity\LoginInterface;
  *
  * @author pes2704
  */
-class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
+class LoginHydrator  extends TypeHydratorAbstract implements RowHydratorInterface {
 
     /**
      *

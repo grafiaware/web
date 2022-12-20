@@ -12,8 +12,8 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-interface DaoFkUniqueInterface extends DaoFkCommonInterface {
+interface DaoReferenceUniqueInterface extends DaoReferenceCommonInterface {
 
-    public function getByFk($fkAttributesName, array $fkNameValueTouples);
+    public function getByReference($fkAttributesName, array $fkNameValueTouples);
 
 }

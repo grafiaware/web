@@ -15,7 +15,7 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface DataManagerInterface {
-    public function getPrimaryKeyAttribute(): array;
+    public function getPrimaryKeyAttributes(): array;
     public function getAttributes(): array;
     public function getTableName(): string;
 

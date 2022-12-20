@@ -2,7 +2,7 @@
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 
 use Events\Model\Entity\Login;
 use Events\Model\Entity\LoginInterface;
@@ -19,7 +19,7 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
 
     protected $dao;
 
-    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator) {
+    public function __construct(LoginDao $loginDao, RowHydratorInterface $loginHydrator) {
         $this->dataManager = $loginDao;
         $this->registerHydrator($loginHydrator);
     }

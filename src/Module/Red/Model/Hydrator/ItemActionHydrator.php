@@ -8,7 +8,7 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
@@ -20,7 +20,7 @@ use Red\Model\Entity\ItemActionInterface;
  *
  * @author pes2704
  */
-class ItemActionHydrator implements HydratorInterface {
+class ItemActionHydrator implements RowHydratorInterface {
 
     /**
      *

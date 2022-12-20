@@ -9,7 +9,7 @@
 namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\RowData\RowDataInterface;
 
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;
@@ -19,7 +19,7 @@ use Auth\Model\Entity\LoginAggregateCredentialsInterface;
  *
  * @author pes2704
  */
-class LoginAggregateHydrator implements HydratorInterface {
+class LoginAggregateHydrator implements RowHydratorInterface {
 
     /**
      *

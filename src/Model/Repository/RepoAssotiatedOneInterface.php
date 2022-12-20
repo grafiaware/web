@@ -15,5 +15,5 @@ use Model\Entity\EntityInterface;
  * @author pes2704
  */
 interface RepoAssotiatedOneInterface extends RepoInterface {
-    public function getByReference($id): ?EntityInterface;
+    public function getByReference(string $parentTableName, array $parentRowData): ?EntityInterface;
 }

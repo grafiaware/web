@@ -15,7 +15,7 @@ use Red\Model\Entity\MenuItemInterface;
 
 use Red\Model\Dao\MenuItemDao;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -32,7 +32,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     protected $dataManager;
 
-    public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator) {
+    public function __construct(MenuItemDao $menuItemDao, RowHydratorInterface $menuItemHydrator) {
         $this->dataManager = $menuItemDao;
         $this->registerHydrator($menuItemHydrator);
     }

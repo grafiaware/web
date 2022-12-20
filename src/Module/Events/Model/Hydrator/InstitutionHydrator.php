@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Events\Model\Entity\InstitutionInterface;
@@ -15,7 +15,7 @@ use Model\Hydrator\TypeHydratorAbstract;
  *
  * @author vlse2610
  */
-class InstitutionHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class InstitutionHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 
     /**
      *

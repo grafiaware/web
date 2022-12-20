@@ -16,7 +16,7 @@ use Application\WebAppFactory;
 
 use Pes\Container\Container;
 
-use Container\LoginContainerConfigurator;
+use Container\AuthContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
@@ -49,7 +49,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
         self::bootstrapBeforeClass();
 
         $container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
@@ -71,7 +71,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
     protected function setUp(): void {
 
         $this->container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
@@ -93,7 +93,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
 
     private static function deleteRecords(Container $container) {
         $container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container())
                 )

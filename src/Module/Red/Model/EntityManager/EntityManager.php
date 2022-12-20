@@ -24,7 +24,7 @@ class EntityManager implements EntityManagerInterface {
     private $hydrators = [];
 
 
-    protected function registerHydrator($entityClass, HydratorInterface $hydrator) {
+    protected function registerHydrator($entityClass, RowHydratorInterface $hydrator) {
         $this->hydrators[$entityClass][] = $hydrator;
     }
 

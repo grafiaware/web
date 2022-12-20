@@ -13,5 +13,5 @@ namespace Model\Repository;
  * @author pes2704
  */
 interface RepoAssotiatedManyInterface extends RepoInterface {
-    public function findByReference($id): iterable;
+    public function findByReference(string $parentTableName, ...$referenceParams): iterable;
 }

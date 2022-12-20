@@ -5,8 +5,8 @@ use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
-use Model\Dao\DaoFkNonuniqueInterface;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueInterface;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 
 
 /**
@@ -14,10 +14,10 @@ use Model\Dao\DaoFkNonuniqueTrait;
  *
  * @author vlse2610
  */
-class InstitutionDao  extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
+class InstitutionDao  extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoReferenceNonuniqueInterface {
 
     use DaoAutoincrementTrait;
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
 
 
     public function getPrimaryKeyAttributes(): array {

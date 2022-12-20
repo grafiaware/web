@@ -2,7 +2,7 @@
 
 namespace Model\Dao;
 
-use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoReferenceNonuniqueInterface;
 use Model\Dao\Exception\DaoUnknownForeignAttributeNameException;
 
 use UnexpectedValueException;
@@ -12,28 +12,26 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-trait DaoFkUniqueTrait {
+trait DaoReferenceNonuniqueTrait {
 
-    public function getByFk($fkAttributesName, array $fkNameValueTouples) {
-        /** @var DaoFkUniqueInterface $this */
+    public function findByFk($fkAttributesName, array $fkNameValueTouples) {
+        /** @var DaoReferenceUniqueInterface $this */
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttributes())));
 
-        $fkAttribute = $this->getFkAttribute($fkAttributesName);
-
+        $fkAttributes = $this->getFkAttribute($fkAttributesName);
         if ($this instanceof DaoContextualInterface) {
-            $where = $this->sql->where($this->sql->and($this->getContextConditions(), $this->sql->touples($fkAttribute)));
+            $where = $this->sql->where($this->sql->and($this->getContextConditions(), $this->sql->touples($fkAttributes)));
         } else {
-            $where = $this->sql->where($this->sql->and($this->sql->touples($fkAttribute)));
+            $where = $this->sql->where($this->sql->and($this->sql->touples($fkAttributes)));
         }
 
         $touplesToBind = $this->getTouplesToBind($fkNameValueTouples);
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function getForeignKeyTouples($fkAttributesName, array $row): array {
-        /** @var DaoFkNonuniqueInterface $this */
+        /** @var DaoReferenceNonuniqueInterface $this */
         $fkAttribute = $this->getFkAttribute($fkAttributesName);
 
         $key = [];
@@ -58,7 +56,7 @@ trait DaoFkUniqueTrait {
      * @throws DaoUnknownForeignAttributeNameException
      */
     private function getFkAttribute($fkAttributesName) {
-        $fkAttributes = $this->getForeignKeyAttributes();
+        $fkAttributes = $this->getReference();
         if(!array_key_exists($fkAttributesName, $fkAttributes)) {
             throw new DaoUnknownForeignAttributeNameException("V DAO není definován atribut cizího klíče (foreign key attribute) se jménem $fkAttributesName.");
         }

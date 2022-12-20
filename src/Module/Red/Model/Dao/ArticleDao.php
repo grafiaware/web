@@ -9,20 +9,19 @@
 namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditAutoincrementKeyInterface;
-use Model\Dao\DaoFkUniqueInterface;
+
 use Model\Dao\DaoAutoincrementTrait;
-use Model\Dao\DaoFkUniqueTrait;
+use Model\Dao\DaoReferenceUniqueTrait;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class ArticleDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkUniqueInterface {
+class ArticleDao extends DaoEditAbstract implements ArticleDaoInterface {
 
     use DaoAutoincrementTrait;
-    use DaoFkUniqueTrait;
+    use DaoReferenceUniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];

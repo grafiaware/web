@@ -10,6 +10,7 @@ namespace Model\Repository\Association;
 
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\AssotiationHydratorInterface;
 
 use Model\Repository\RepoAssotiatedOneInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
@@ -26,31 +27,30 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
      */
     protected $childRepo;
 
+
     /**
      *
-     * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
-     * @param RepoAssotiatedOneInterface $childRepo Repo pro získání, ukládání a mazání asociovaných entit
+     * @param array $childKeyAttribute Atribut cizího klíče, klíče který je referencí na data rodiče v úložišti dat. V databázi jde o jméno sloupce (sloupců) s cizím klíčem v potomkovské tabulce.
+     * @param array $parentKeyAttribute Atribut vlastního klíče, klíče na který vede reference na data rodiče v úložišti dat. V databázi jde o jméno sloupce (sloupců) s vlastním (obvykle primárním)  klíčem v potomkovské tabulce.
+     * @param RepoAssotiatedOneInterface $childRepo Repo pro získání, ukládání a mazání asociované entity.
      */
-    public function __construct($referenceKeyAttribute, RepoAssotiatedOneInterface $childRepo) {
-        parent::__construct($referenceKeyAttribute);
+    /**
+     *
+     * @param string $parentTable
+     * @param RepoAssotiatedOneInterface $childRepo
+     */
+    public function __construct(string $parentTable, RepoAssotiatedOneInterface $childRepo, AssotiationHydratorInterface $childHydrator) {
+        parent::__construct($parentTable, $childHydrator);
         $this->childRepo = $childRepo;
     }
 
-    public function getAssociatedEntity(RowDataInterface $rowData): ?EntityInterface {
-        $childKey = $this->getChildKey($rowData);
-        $child = $this->childRepo->getByReference($childKey);
+    public function hydrateByAssociatedEntity(EntityInterface $entity, RowDataInterface $parentRowData): void {
+        $child = $this->childRepo->getByReference($this->parentTable, $parentRowData->getArrayCopy());
+
 //        if (is_null($child)) {
 //            $repoCls = get_class($this->childRepo);
 //            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu. Nebyla načtena entita z repository asociovaných entit $repoCls.");
 //        }
-        return $child;
-    }
-
-    public function addAssociatedEntity(EntityInterface $entity = null) {
-        $this->childRepo->add($entity);
-    }
-
-    public function removeAssociatedEntity(EntityInterface $entity = null) {
-        $this->childRepo->remove($entity);
+        $this->childHydrator->hydrate($entity, $child);
     }
 }

@@ -14,7 +14,7 @@ use Pes\Http\Factory\EnvironmentFactory;
 
 use Pes\Container\Container;
 
-use Container\LoginContainerConfigurator;
+use Container\AuthContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 
 use Auth\Model\Entity\Registration;
@@ -90,7 +90,7 @@ class RegistrationRepositoryTest extends TestCase {
         self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.
 
         $container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
@@ -129,7 +129,7 @@ class RegistrationRepositoryTest extends TestCase {
 //        $this->app = (new WebAppFactory())->createFromEnvironment($environment);
 
         $this->container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
@@ -147,7 +147,7 @@ class RegistrationRepositoryTest extends TestCase {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru

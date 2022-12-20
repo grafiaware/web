@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
@@ -14,7 +14,7 @@ use Events\Model\Entity\EventLinkPhaseInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhaseHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class EventLinkPhaseHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 
 //    `event_link_phase`.`id` ,
 //    `event_link_phase`.`text`

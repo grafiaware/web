@@ -13,7 +13,7 @@ use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
 
-use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoReferenceUniqueInterface;
 
 use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
 use UnexpectedValueException;

@@ -2,7 +2,7 @@
 
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
@@ -14,7 +14,7 @@ use Events\Model\Entity\EventContentInterface;
  *
  * @author pes2704
  */
-class EventContentHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class EventContentHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 //SELECT `event_content`.`id`,
 //    `event_content`.`title`,
 //    `event_content`.`perex`,

@@ -8,7 +8,7 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
@@ -21,7 +21,7 @@ use Red\Model\Entity\MultipageInterface;
  *
  * @author pes2704
  */
-class MultipageHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class MultipageHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 
     /**
      *

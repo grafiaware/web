@@ -1,47 +1,85 @@
 <?php
 namespace Auth\Model\Repository;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Repository\RepoAbstract;
+use Auth\Model\Repository\LoginAggregateRegistrationRepoInterface;
 
-use Auth\Model\Repository\LoginRepo;
+use Auth\Model\Hydrator\LoginHydrator;
 use Auth\Model\Dao\LoginDao;
-use Auth\Model\Repository\RegistrationRepo;
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
+
+use Model\Repository\RepoAssotiatingOneTrait;
 
 use Auth\Model\Entity\LoginAggregateRegistration;
 use Auth\Model\Entity\LoginAggregateRegistrationInterface;
-use Auth\Model\Entity\LoginInterface;
-use Auth\Model\Entity\RegistrationInterface;
+
 
 /**
  * Description of LoginAggregateRegistrationRepo
  *
  * @author vlse2610
  */
-class LoginAggregateRegistrationRepo extends LoginRepo implements LoginRepoInterface {
+class LoginAggregateRegistrationRepo  extends RepoAbstract implements LoginAggregateRegistrationRepoInterface {
 
+    /**
+     *
+     * @param LoginDao $loginDao
+     * @param LoginHydrator $loginHydrator
+     * @param LoginChildRegistrationHydrator $loginRegistrationHydrator Hydrátor pro nastavení potomkovské entity do rodičovské entity a získání z rodičovské entity.
 
-
+     */
     public function __construct(
             LoginDao $loginDao,
-            HydratorInterface $loginHydrator,
-            RegistrationRepo $registrationRepo,
-            LoginChildRegistrationHydrator $loginRegistrationHydrator)
+            LoginHydrator $loginHydrator
+
+//            RegistrationRepo $registrationRepo,
+
+            )
     {
-        parent::__construct($loginDao, $loginHydrator);
-        $this->registerOneToOneAssociation(RegistrationInterface::class, 'login_name', $registrationRepo);
-        $this->registerHydrator($loginRegistrationHydrator);
+        $this->dataManager = $loginDao;
+        $this->registerHydrator($loginHydrator);
+//        $this->registerOneToOneAssociation(RegistrationInterface::class, 'login_name', $registrationRepo);
+//        $this->registerHydrator($loginRegistrationHydrator);
+    }
+
+    use RepoAssotiatingOneTrait;
+
+    public function get($loginName): ?LoginAggregateRegistrationInterface {
+        return $this->getEntity($loginName);
     }
 
     protected function createEntity() {
         return new LoginAggregateRegistration();
     }
 
-    public function add(LoginInterface $loginAggregate) {
-        $this->addEntity($loginAggregate);
+    /**
+     *
+     * @param LoginAggregateRegistrationInterface $loginAgg
+     */
+    public function add(LoginAggregateRegistrationInterface $loginAgg) {
+        $this->addEntity($loginAgg);
     }
-    public function remove(LoginInterface $loginAggregate) {
-        $this->removeEntity($loginAggregate);
+
+    /**
+     *
+     * @param LoginAggregateRegistrationInterface $loginAgg
+     */
+    public function remove(LoginAggregateRegistrationInterface $loginAgg) {
+        $this->removeEntity($loginAgg);
+    }
+
+    #### protected ###########
+
+    protected function indexFromKeyParams(array $id) {  // číselné pole - vzniklo z variadic $params
+        return $id[0];
+    }
+
+    protected function indexFromEntity(LoginAggregateRegistrationInterface $loginAggReg) {
+        return $loginAggReg->getLoginName();
+    }
+
+    protected function indexFromRow($row) {
+        return $row['login_name'];
     }
 
 }

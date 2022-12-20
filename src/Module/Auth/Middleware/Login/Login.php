@@ -9,7 +9,7 @@ use Auth\Middleware\Login\Controller\PasswordController;
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
-use Container\LoginContainerConfigurator;
+use Container\AuthContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 use Container\MailContainerConfigurator;
 
@@ -35,7 +35,7 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
         $this->container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new MailContainerConfigurator())->configure(
                         (new Container($this->getApp()->getAppContainer()))

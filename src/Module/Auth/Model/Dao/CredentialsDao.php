@@ -5,16 +5,16 @@ namespace Auth\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 
-use Model\Dao\DaoFkUniqueInterface;
-use Model\Dao\DaoFkUniqueTrait;
+use Model\Dao\DaoReferenceUniqueInterface;
+use Model\Dao\DaoReferenceUniqueTrait;
 /**
  * Description of UserDao
  *
  * @author pes2704
  */
-class CredentialsDao extends DaoEditAbstract implements DaoFkUniqueInterface {
+class CredentialsDao extends DaoEditAbstract implements DaoReferenceUniqueInterface {
 
-    use DaoFkUniqueTrait;
+    use DaoReferenceUniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
         return [

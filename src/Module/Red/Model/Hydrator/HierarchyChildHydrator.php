@@ -8,7 +8,7 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
@@ -20,7 +20,7 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class HierarchyChildHydrator implements HydratorInterface {
+class HierarchyChildHydrator implements RowHydratorInterface {
 
     /**
      * Nastaví do agregátu contents, pokud existuje. Contents jsou závislé na kontextu a tedy mohou být null (neaktivní nebo neaktuální content) a pole může být prázdné

@@ -5,7 +5,7 @@ use Model\Entity\EntityInterface;
 
 use Events\Model\Entity\PozadovaneVzdelani;
 use Model\RowData\RowDataInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 
@@ -15,7 +15,7 @@ use Model\Hydrator\TypeHydratorAbstract;
  *
  * @author vlse2610
  */
-class PozadovaneVzdelaniHydrator  extends TypeHydratorAbstract implements HydratorInterface {
+class PozadovaneVzdelaniHydrator  extends TypeHydratorAbstract implements RowHydratorInterface {
     
     
    /**

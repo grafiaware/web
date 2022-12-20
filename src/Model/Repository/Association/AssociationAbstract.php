@@ -8,57 +8,41 @@
 
 namespace Model\Repository\Association;
 
+use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
+use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\AssotiationHydratorInterface;
 
-use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 
 /**
  * Description of AssotiationAbstract
  *
  * @author pes2704
  */
-class AssociationAbstract {
+class AssociationAbstract implements AssociationInterface {
 
-    protected $parentReferenceKeyAttribute;
-    protected $childRepo;
+    protected $parentTable;
+
+    protected $childHydrator;
 
     /**
      *
-     * @param array $referenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
+     * @param array $childKeyAttribute Atribut cizího klíče, klíče který je referencí na data rodiče v úložišti dat . V databázi jde o cizí klíč v potomkovské tabulce.
      */
-    public function __construct($referenceKeyAttribute) {
-        $this->parentReferenceKeyAttribute = $referenceKeyAttribute;
+    protected function __construct(string $parentTable, AssotiationHydratorInterface $childHydrator) {
+        $this->parentTable = $parentTable;
+        $this->childHydrator = $childHydrator;
+    }
+
+    public function addAssociatedEntity(EntityInterface $entity = null): void {
+        $this->childRepo->add($entity);
+    }
+
+    public function removeAssociatedEntity(EntityInterface $entity = null): void {
+        $this->childRepo->remove($entity);
     }
 
     public function flushChildRepo(): void {
         $this->childRepo->flush();
-    }
-
-    protected function getChildKey(RowDataInterface $rowData) {
-        $parentKeyAttribute = $this->parentReferenceKeyAttribute;
-        if (is_array($parentKeyAttribute)) {
-            foreach ($parentKeyAttribute as $field) {
-                if( ! $rowData->offsetExists($field)) {
-                    throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu.. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje prvek s takovým jménem.");
-                }
-                $childKey[$field] = $rowData->offsetGet($field);
-            }
-        } else {
-            $childKey = $rowData->offsetGet($this->parentReferenceKeyAttribute);
-        }
-        return $childKey;
-    }
-
-    /**
-     *
-     * @param string|array $key
-     * @return type
-     */
-    protected function indexFromKey($key) {
-        if (is_array($key)) {
-            return implode(array_values($key));
-        } else{
-            return $key;
-        }
     }
 }

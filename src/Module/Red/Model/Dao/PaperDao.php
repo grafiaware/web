@@ -10,20 +10,18 @@ namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 
-use Model\Dao\DaoEditAutoincrementKeyInterface;
-use Model\Dao\DaoFkUniqueInterface;
 use Model\Dao\DaoAutoincrementTrait;
-use Model\Dao\DaoFkUniqueTrait;
+use Model\Dao\DaoReferenceUniqueTrait;
 
 /**
  * Description of PaperDao
  *
  * @author pes2704
  */
-class PaperDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkUniqueInterface {
+class PaperDao extends DaoEditAbstract implements PaperDaoInterface {
 
     use DaoAutoincrementTrait;
-    use DaoFkUniqueTrait;
+    use DaoReferenceUniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];

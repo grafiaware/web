@@ -8,7 +8,7 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
@@ -21,7 +21,7 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class BlockChildHydrator implements HydratorInterface {
+class BlockChildHydrator implements RowHydratorInterface {
 
     /**
      * Nastaví do agregátu MenuItem, pokud existuje. MenuItem je závislý na kontextu a tedy může být null (neaktivní nebo neaktuální menu item)

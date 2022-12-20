@@ -6,7 +6,7 @@ use Events\Model\Entity\JobInterface;
 
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 
 
 /**
@@ -14,7 +14,7 @@ use Model\Hydrator\HydratorInterface;
  *
  * @author vlse2610
  */
-class JobHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class JobHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 //    `job`.`id`,//NOT NULL
 //    `job`.`company_id`,  //NOT NULL
 //    `job`.`pozadovane_vzdelani_stupen`,  

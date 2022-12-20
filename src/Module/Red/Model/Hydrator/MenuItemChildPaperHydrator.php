@@ -9,7 +9,7 @@
 namespace Red\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\RowData\RowDataInterface;
 
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
@@ -20,7 +20,7 @@ use Red\Model\Entity\PaperInterface;
  *
  * @author pes2704
  */
-class MenuItemChildPaperHydrator implements HydratorInterface {
+class MenuItemChildPaperHydrator implements RowHydratorInterface {
 
     /**
      *

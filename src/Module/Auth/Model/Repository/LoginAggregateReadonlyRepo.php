@@ -15,7 +15,7 @@ use Auth\Model\Entity\LoginAggregate;
 use Auth\Model\Entity\Credentials;
 use Auth\Model\Dao\LoginAggregateReadonlyDao;
 use Auth\Model\Hydrator\HydratorReadonlyInterface;
-use Auth\Model\Hydrator\HydratorInterface;
+use Auth\Model\Hydrator\RowHydratorInterface;
 
 use Auth\Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -28,14 +28,14 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements LoginAggregateR
 
     /**
      *
-     * @var HydratorInterface
+     * @var RowHydratorInterface
      */
     private $childHydrator;
 
     public function __construct(
             LoginAggregateReadonlyDao $loginAggregateDao,
-            HydratorInterface $loginAggregateHydrator,
-            HydratorInterface $credentialsHydrator
+            RowHydratorInterface $loginAggregateHydrator,
+            RowHydratorInterface $credentialsHydrator
             ) {
         $this->dataManager = $loginAggregateDao;
         $this->registerHydrator($loginAggregateHydrator);

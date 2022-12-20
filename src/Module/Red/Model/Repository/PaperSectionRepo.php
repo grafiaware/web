@@ -13,7 +13,7 @@ use Model\Repository\RepoAbstract;
 use Red\Model\Entity\PaperSectionInterface;
 use Red\Model\Entity\PaperSection;
 use Red\Model\Dao\PaperSectionDao;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -26,7 +26,7 @@ class PaperSectionRepo extends RepoAbstract implements PaperSectionRepoInterface
 
     protected $dao;
 
-    public function __construct(PaperSectionDao $paperContentDao, HydratorInterface $contentHydrator) {
+    public function __construct(PaperSectionDao $paperContentDao, RowHydratorInterface $contentHydrator) {
         $this->dataManager = $paperContentDao;
         $this->registerHydrator($contentHydrator);
     }

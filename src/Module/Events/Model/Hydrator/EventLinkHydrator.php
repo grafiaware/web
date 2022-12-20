@@ -2,7 +2,7 @@
 
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Events\Model\Entity\EventLinkInterface;
@@ -14,7 +14,7 @@ use Model\Hydrator\TypeHydratorAbstract;
  *
  * @author vlse2610
  */
-class EventLinkHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class EventLinkHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 //   `event_link`.`id` ,
 //   `event_link`.`show` ,
 //   `event_link`.`href`,

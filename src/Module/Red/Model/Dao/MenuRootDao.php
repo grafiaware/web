@@ -9,16 +9,13 @@
 namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
-
-use Pes\Database\Handler\HandlerInterface;
 
 /**
  * Description of MenuRootDao
  *
  * @author pes2704
  */
-class MenuRootDao extends DaoEditAbstract {
+class MenuRootDao extends DaoEditAbstract implements MenuRootDaoInterface {
 
     private $keyAttribute = 'name';
 

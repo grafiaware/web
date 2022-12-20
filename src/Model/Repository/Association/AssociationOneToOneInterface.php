@@ -16,7 +16,5 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface AssociationOneToOneInterface extends AssociationInterface {
-    public function getAssociatedEntity(RowDataInterface $rowData): ?EntityInterface;
-    public function addAssociatedEntity(EntityInterface $entity = null);
-    public function removeAssociatedEntity(EntityInterface $entity = null);
+    public function hydrateByAssociatedEntity(EntityInterface $entity, RowDataInterface $parentRowData): void;
 }

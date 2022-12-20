@@ -2,7 +2,7 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
@@ -13,7 +13,7 @@ use Events\Model\Entity\VisitorProfileInterface;
  * Description of PaperHydrator
  *
  */
-class VisitorProfileHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class VisitorProfileHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 
     /**
      *

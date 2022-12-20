@@ -76,7 +76,9 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
         $tableName = $this->getTableName();
         $keyNames = $this->getPrimaryKeyAttributes();
         try {
-            $this->dbHandler->beginTransaction();
+            if (!$this->dbHandler->inTransaction()) {
+                $this->dbHandler->beginTransaction();
+            }
             $changed = $rowData->yieldChanged();
             $found = $this->getWithinTransaction($tableName, $keyNames, $changed);
             if  (! $found)   {
@@ -97,7 +99,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
         return $success ?? false;
     }
 
-    private function getWithinTransaction($tableName, array $keyNames, iterable $rowData) {
+    protected function getWithinTransaction($tableName, array $keyNames, iterable $rowData) {
         if ($this->dbHandler->inTransaction()) {
             $select = $this->sql->select($this->getAttributes());
             $whereTouples = $this->sql->touples($keyNames);

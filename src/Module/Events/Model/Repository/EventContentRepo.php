@@ -2,7 +2,7 @@
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 
 use Events\Model\Entity\EventContent;
 use Events\Model\Entity\EventContentInterface;
@@ -19,7 +19,7 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
 
     protected $dao;
 
-    public function __construct(EventContentDao $eventContentDao, HydratorInterface $eventContentHydrator) {
+    public function __construct(EventContentDao $eventContentDao, RowHydratorInterface $eventContentHydrator) {
         $this->dataManager = $eventContentDao;
         $this->registerHydrator($eventContentHydrator);
     }

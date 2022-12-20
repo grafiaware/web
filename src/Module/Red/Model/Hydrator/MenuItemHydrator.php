@@ -8,7 +8,7 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
@@ -21,7 +21,7 @@ use Pes\Type\Date;
  *
  * @author pes2704
  */
-class MenuItemHydrator implements HydratorInterface {
+class MenuItemHydrator implements RowHydratorInterface {
 
     /**
      *

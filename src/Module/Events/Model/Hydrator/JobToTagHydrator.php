@@ -7,7 +7,7 @@ use Events\Model\Entity\JobToTag;
 
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
-use Model\Hydrator\HydratorInterface; 
+use Model\Hydrator\RowHydratorInterface; 
 
 
 /**
@@ -15,7 +15,7 @@ use Model\Hydrator\HydratorInterface;
  *
  * @author vlse2610
  */
-class JobToTagHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class JobToTagHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
     
     /**
      * 

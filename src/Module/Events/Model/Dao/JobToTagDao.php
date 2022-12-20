@@ -3,7 +3,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 use Events\Model\Dao\JobToTagDaoInterface;
 
 
@@ -15,7 +15,7 @@ use Events\Model\Dao\JobToTagDaoInterface;
  */
 class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
 
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
 
 
     public function getPrimaryKeyAttributes(): array {

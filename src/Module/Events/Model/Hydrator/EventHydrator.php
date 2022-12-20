@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
@@ -10,7 +10,7 @@ use Model\RowData\RowDataInterface;
 use Events\Model\Entity\EventInterface;
 
 
-class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {    
+class EventHydrator extends TypeHydratorAbstract implements RowHydratorInterface {    
 
     //  `event`.`id`
     //  `event`.`published`

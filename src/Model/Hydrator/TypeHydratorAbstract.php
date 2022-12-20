@@ -10,7 +10,7 @@ use DateTime;
  *
  * @author pes2704
  */
-abstract class TypeHydratorAbstract implements HydratorInterface {
+abstract class TypeHydratorAbstract implements RowHydratorInterface {
 
     /**
      * Získá z objektu RowData jednu hodnotu podle zadaného jména.

@@ -8,16 +8,12 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-
-use Model\RowData\RowDataInterface;
-
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class ActiveUserDao extends DaoEditAbstract {
+class ActiveUserDao extends ActiveUserDaoInterface {
 
     public function getPrimaryKeyAttributes(): array {
         return ['user'];

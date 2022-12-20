@@ -1,19 +1,13 @@
 <?php
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPInterface.php to edit this template
- */
-
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoFkNonuniqueInterface;
+use Model\Dao\DaoReferenceNonuniqueInterface;
 
 /**
  *
  * @author pes2704
  */
-interface MenuItemDaoInterface extends DaoFkNonuniqueInterface {
+interface MenuItemDaoInterface extends DaoReferenceNonuniqueInterface {
     public function getById(array $id);
     public function getByPrettyUri(array $prettyUri);
     public function getByList(array $langCodeFkAndList);

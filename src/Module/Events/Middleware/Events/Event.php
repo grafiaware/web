@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Container\EventsContainerConfigurator;
 use Container\EventsModelContainerConfigurator;
 use Container\DbEventsContainerConfigurator;
-use Container\LoginContainerConfigurator;
+use Container\AuthContainerConfigurator;
 use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\EventcontentControler;

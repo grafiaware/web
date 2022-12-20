@@ -2,7 +2,7 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
@@ -16,7 +16,7 @@ use Events\Model\Entity\CompanyAddressInterface;
  *
  * @author vlse2610
  */
-class CompanyAddressHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class CompanyAddressHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 //    `company_address`.`company_id`,
 //    `company_address`.`name`,
 //    `company_address`.`lokace`,

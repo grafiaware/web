@@ -9,13 +9,13 @@
 namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\RowData\RowDataInterface;
 
 use Auth\Model\Entity\CredentialsInterface;
 
 
-class CredentialsHydrator implements HydratorInterface {
+class CredentialsHydrator implements RowHydratorInterface {
 
 
     /**

@@ -14,7 +14,7 @@ use Model\Entity\EntityInterface;
 use Red\Model\Entity\PaperInterface;
 use Red\Model\Entity\Paper;
 use Red\Model\Dao\PaperDao;
-use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\PaperHydrator;
 
 /**
@@ -25,7 +25,7 @@ use Red\Model\Hydrator\PaperHydrator;
 class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     /**
-     * @var DaoFkUniqueInterface
+     * @var DaoReferenceUniqueInterface
      */
     protected $dataManager;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
@@ -50,7 +50,7 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
      * @return PaperInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        $key = $this->dataManager->getForeignKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
+        $key = $this->dataManager->getReferenceKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
         return $this->getEntityByReference('menu_item_id_fk', $key);
     }
 

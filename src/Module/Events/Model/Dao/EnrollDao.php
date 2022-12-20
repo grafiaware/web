@@ -2,7 +2,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 use Events\Model\Dao\EnrollDaoInterface;
 
 /**
@@ -12,7 +12,7 @@ use Events\Model\Dao\EnrollDaoInterface;
  */
 class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
 
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
         return ['login_login_name_fk', 'event_id_fk'];

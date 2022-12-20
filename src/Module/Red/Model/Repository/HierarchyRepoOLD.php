@@ -9,7 +9,7 @@
 namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Repository\RepoReadonlyInterface;
 
 use Red\Model\Entity\MenuItem;
@@ -29,7 +29,7 @@ use Red\Model\Repository\MenuItemRepo;
 class HierarchyRepoOLD extends RepoAbstract implements RepoReadonlyInterface {
 
     public function __construct(HierarchyAggregateReadonlyDaoInterface $readHirerarchy,
-            HydratorInterface $menuNodeHydrator
+            RowHydratorInterface $menuNodeHydrator
             ) {
         $this->dataManager = $readHirerarchy;
         $this->registerHydrator($menuNodeHydrator);

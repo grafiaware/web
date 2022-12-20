@@ -3,7 +3,7 @@
 namespace Events\Model\Hydrator;
 
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
@@ -16,7 +16,7 @@ use Events\Model\Entity\InstitutionInterface;
  *
  * @author vlse2610
  */
-class InstitutionTypeChildHydrator implements HydratorInterface {
+class InstitutionTypeChildHydrator implements RowHydratorInterface {
    
     
     /**

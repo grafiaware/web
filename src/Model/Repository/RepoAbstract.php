@@ -12,8 +12,9 @@ use Model\Dao\DaoEditKeyDbVerifiedInterface;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+use UnexpectedValueException;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\RowData\PdoRowData;
@@ -49,8 +50,6 @@ abstract class RepoAbstract {
     private $new = [];
     private $removed = [];
     private $data = [];
-    private $refIndexToIndex = [];
-
 
     private $flushed = false;
 
@@ -58,11 +57,11 @@ abstract class RepoAbstract {
      *
      * @var []
      */
-    private $associations = [];
+    protected $associations = [];
 
     /**
      *
-     * @var HydratorInterface[]
+     * @var RowHydratorInterface[]
      */
     private $hydrators = [];
 
@@ -71,27 +70,7 @@ abstract class RepoAbstract {
      */
     protected $dataManager;
 
-    /**
-     *
-     * @param string $entityInterfaceName Jméno interface asociované entity
-     * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
-     * @param \Model\Repository\RepoAssotiatedOneInterface $repo
-     */
-    protected function registerOneToOneAssociation($entityInterfaceName, $parentReferenceKeyAttribute, RepoAssotiatedOneInterface $repo) {
-        $this->associations[$entityInterfaceName] = new AssociationOneToOne($parentReferenceKeyAttribute, $repo);
-    }
-
-    /**
-     *
-     * @param string $entityInterfaceName Jméno interface asociované entity
-     * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
-     * @param \Model\Repository\RepoAssotiatedOneInterface $repo
-     */
-    protected function registerOneToManyAssociation($entityInterfaceName, $parentReferenceKeyAttribute, RepoAssotiatedManyInterface $repo) {
-        $this->associations[$entityInterfaceName] = new AssociationOneToMany($parentReferenceKeyAttribute, $repo);
-    }
-
-    protected function registerHydrator(HydratorInterface $hydrator) {
+    protected function registerHydrator(RowHydratorInterface $hydrator) {
         $this->hydrators[] = $hydrator;
     }
 
@@ -102,7 +81,7 @@ abstract class RepoAbstract {
     }
 
     protected function extract(EntityInterface $entity, RowDataInterface $rowData) {
-        /** @var HydratorInterface $hydrator */
+        /** @var RowHydratorInterface $hydrator */
         foreach ($this->hydrators as $hydrator) {
             $hydrator->extract($entity, $rowData);
         }
@@ -122,10 +101,18 @@ abstract class RepoAbstract {
         return $entity;
     }
 
+    private function callIndexFromKeyParams(array $params) {  // číselné pole - vzniklo z variadic $params
+        $index = $this->indexFromKeyParams($params);
+        if (!is_int($index) AND !is_string($index)) {
+            throw new BadReturnedTypeException("Protected method ".get_called_class()."->indexFromRow() must return integer or string, ". gettype($index)." returned.");
+        }
+        return $index;
+    }
+
     private function callIndexFromRow($row) {
         $index = $this->indexFromRow($row);
         if (!is_int($index) AND !is_string($index)) {
-            throw new BadReturnedTypeException("Protected moethod ".get_called_class()."->indexFromRow() must return integer or string, ". gettype($index)." returned.");
+            throw new BadReturnedTypeException("Protected method ".get_called_class()."->indexFromRow() must return integer or string, ". gettype($index)." returned.");
         }
         return $index;
     }
@@ -133,7 +120,7 @@ abstract class RepoAbstract {
     private function callIndexFromEntity($entity) {
         $index = $this->indexFromEntity($entity);
         if (!is_int($index) AND !is_string($index)) {
-            throw new BadReturnedTypeException("Protected moethod ".get_called_class()."->indexFromEntity() must return integer or string, ". gettype($index)." returned.");
+            throw new BadReturnedTypeException("Protected method ".get_called_class()."->indexFromEntity() must return integer or string, ". gettype($index)." returned.");
         }
         return $index;
     }
@@ -143,31 +130,21 @@ abstract class RepoAbstract {
      * @param variadic $id
      * @return EntityInterface|null
      */
-    protected function getEntity(array $id) {
-        $index = $this->callIndexFromRow($id);
+    protected function getEntity(...$id) {
+        $index = $this->callIndexFromKeyParams($id);
         if (!isset($this->collection[$index]) AND !isset($this->removed[$index])) {
-            $this->recreateEntity($index, $this->recreateData($index, $id));
+        $key = $this->createKeyFromIdParams($id);
+
+            $this->recreateEntity(
+                    $index,
+                    $this->recreateData($index, $key)
+                );
         }
         return $this->collection[$index] ?? NULL;
     }
 
-    /**
-     *
-     * @param variadic $referenceId
-     * @return EntityInterface|null
-     */
-    protected function getEntityByReference($referenceName, array $referenceId): ?EntityInterface {
-        // vždy čte data - neví jestli jsou v $this->data
-        $rowData = $this->dataManager->getByFk($referenceName, $referenceId);
-        return $this->addEntityByRowData($rowData);
-    }
-
     protected function findEntities($whereClause="", $touplesToBind=[]) {
         return $this->addEntitiesByRowDataArray($this->dataManager->find($whereClause, $touplesToBind));
-    }
-
-    protected function findEntitiesByReference($referenceName, array $referenceId) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->findByFk($referenceName, $referenceId));
     }
 
     /**
@@ -211,7 +188,13 @@ abstract class RepoAbstract {
         return $this->collection[$index] ?? null;
     }
 
-
+    private function createKeyFromIdParams(array $idParams) {
+        if (count($this->dataManager->getPrimaryKeyAttributes()) != count($idParams)) {
+            $daoCls = get_called_class($this->dataManager);
+            throw new UnexpectedValueException("Nelze vytvořit primární klíč pro volání Dao. Počet parametrů předaných metodě typu get() neodpovídá počtu polí primárního klíče $daoCls.");
+        }
+        return array_combine($this->dataManager->getPrimaryKeyAttributes(), $idParams);
+    }
 
     private function recreateData($index, array $id) {
         $rowData = $this->dataManager->get($id);
@@ -235,9 +218,10 @@ abstract class RepoAbstract {
         if(isset($rowData)) {
             $entity = $this->callCreateEntity();  // definována v konkrétní třídě - adept na entity managera
             try {
-                $this->recreateAssociations($rowData);
+                $this->recreateAssociations($entity, $rowData);
             } catch (UnableToCreateAssotiatedChildEntity $unex) {
-                throw new UnableRecreateEntityException("Nelze obnovit agregovanou (vnořenou) entitu v repository ". get_called_class()." s indexem $index.", 0, $unex);
+                $eCls = get_class($entity);
+                throw new UnableRecreateEntityException("Chyba recrete entity v repository ". get_called_class()." Entitě $eCls s indexem $index nelze obnovit agregovanou (vnořenou) entitu.", 0, $unex);
             }
             $this->hydrate($entity, $rowData);
             $entity->setPersisted();
@@ -246,14 +230,20 @@ abstract class RepoAbstract {
         }
     }
 
-    private function recreateAssociations(RowDataInterface $rowData): void {
-        foreach ($this->associations as $interfaceName => $association) {
+    /**
+     * Pomocí Asotiation objektů a potomkovských repository získá asociované entity.
+     * @param RowDataInterface $rowData
+     * @return void
+     * @throws \LogicException
+     */
+    private function recreateAssociations(EntityInterface $entity, RowDataInterface $rowData): void {
+        foreach ($this->associations as $index => $association) {
             if ($association instanceof AssociationOneToManyInterface) {
-                $rowData->forcedSet($interfaceName, $association->getAllAssociatedEntities($rowData));
+                $rowData->forcedSet($index, $association->getAllAssociatedEntities($rowData));
             } elseif($association instanceof AssociationOneToOneInterface) {
-                $rowData->forcedSet($interfaceName, $association->getAssociatedEntity($rowData));
+                $association->hydrateByAssociatedEntity($entity, $rowData);
             } else {
-                throw new \LogicException("Neznámý typ asociace pro $interfaceName");
+                throw new \LogicException("Neznámý typ asociace zaregistrované s indexem '$index'.");
             }
         }
     }
@@ -291,6 +281,7 @@ abstract class RepoAbstract {
                 $this->extract($entity, $rowData);
                 try {
                     $this->dataManager->insert($rowData);
+//                    $this->addNonpersistedAssociatedEntities($rowData);
                     $entity->setPersisted();
                     $index = $this->callIndexFromEntity($entity);
                     $this->collection[$index] = $entity;
@@ -310,7 +301,7 @@ abstract class RepoAbstract {
      *
      * @param type $entity Agregátní entita.
      */
-    private function addAssociated($row) {
+    private function addNonpersistedAssociatedEntities($row) {
 //    private function addAssociated($row, EntityInterface $entity) {
         foreach ($this->associations as $interfaceName => $association) {
             if (isset($row[$interfaceName])) { // asociovaná entita nemusí existovat - agregát je i tak validní
@@ -363,12 +354,26 @@ abstract class RepoAbstract {
      * @param string $entityInterfaceName
      * @param type $entity Entita nebo null. Asociovaná entita (vrácená pomocí cizího klíče) nemusí existovat.
      */
-    protected function removeAssociated($row) {
+    protected function removePersistedAssociatedEntities($row) {
 //    protected function removeAssociated($row, EntityInterface $entity) {
-        foreach ($this->associations as $interfaceName => $association) {
-            if (isset($row[$interfaceName]) AND $row[$interfaceName]->isPersisted()) {  // asociovaná entita nemusí existovat - agregát je i tak validní
-                $association->removeAssociatedEntity($row[$interfaceName]);
+        foreach ($this->associations as $index => $association) {
+            if (isset($row[$index])) { // asociovaná entita nemusí existovat - agregát je i tak validní
+                if ($association instanceof AssociationOneToManyInterface) {
+                    foreach ($row[$index] as $assocEntity) {
+                        if ($assocEntity->isPersisted()) {
+                            $association->removeAssociatedEntity($assocEntity);  // child repo add
+                        }
+                    }
+                } elseif($association instanceof AssociationOneToOneInterface) {
+                        $assocEntity = $row[$index];
+                        if ($assocEntity->isPersisted()) {
+                            $association->removeAssociatedEntity($assocEntity);  // child repo add
+                        }
+                } else {
+                    throw new \LogicException("Neznámý typ asociace pro $index");
+                }
             }
+
         }
     }
 
@@ -378,18 +383,19 @@ abstract class RepoAbstract {
         }
         if ( !($this instanceof RepoReadonlyInterface)) {
             /** @var \Model\Entity\EntityAbstract $entity */
-            if ( ! ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
+            // pro DaoEditKeyDbVerifiedInterface a DaoEditAutoincrementKeyInterface dává entitu do collection (ne do new)
+//            if ( ! ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
                 foreach ($this->new as $entity) {
                     $rowData = $this->createRowData();
                     $this->extract($entity, $rowData);
                     $this->dataManager->insert($rowData);
-                    $this->addAssociated($rowData);
+                    $this->addNonpersistedAssociatedEntities($rowData);
                     $entity->setPersisted();
                     $entity->unlock();
-                    $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
                 }
-                $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
-            }
+                $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
+//                $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
+//            }
 
             foreach ($this->collection as $index => $entity) {
                 if (!$entity->isPersisted()) {
@@ -398,9 +404,17 @@ abstract class RepoAbstract {
                 $rowData = $this->data[$index];
                 $this->extract($entity, $rowData);
 //                $this->addAssociated($rowData, $entity);
-                $this->addAssociated($rowData);
+                $this->addNonpersistedAssociatedEntities($rowData);
             }
-            $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
+//            $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
+
+            foreach ($this->removed as $index => $entity) {
+                $rowData = $this->createRowData();
+                $this->extract($entity, $rowData);
+//                $this->removeAssociated($rowData, $entity);
+                $this->removePersistedAssociatedEntities($rowData);
+            }
+
             foreach ($this->collection as $index => $entity) {
                 $rowData = $this->data[$index];
                 if ($rowData->isChanged()) {
@@ -409,13 +423,8 @@ abstract class RepoAbstract {
             }
             $this->collection = [];
 
-            foreach ($this->removed as $index => $entity) {
-                $rowData = $this->createRowData();
-                $this->extract($entity, $rowData);
-//                $this->removeAssociated($rowData, $entity);
-                $this->removeAssociated($rowData);
-            }
             $this->flushChildRepos();
+
             foreach ($this->removed as $index => $entity) {
                 $this->dataManager->delete($this->data[$index]);
                 $entity->setUnpersisted();

@@ -3,7 +3,7 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 use Events\Model\Dao\VisitorJobRequestDaoInterface;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 
 
 
@@ -13,7 +13,7 @@ use Model\Dao\DaoFkNonuniqueTrait;
  * @author pes2704
  */
 class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestDaoInterface {
-    use DaoFkNonuniqueTrait;    
+    use DaoReferenceNonuniqueTrait;    
 
 
     public function getPrimaryKeyAttributes(): array {

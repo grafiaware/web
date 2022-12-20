@@ -8,15 +8,14 @@ namespace Test\Integration\Repository;
  * and open the template in the editor.
  */
 
-use PHPUnit\Framework\TestCase;
-
-use Pes\Http\Factory\EnvironmentFactory;
+use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Container\LoginContainerConfigurator;
+use Container\AuthContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 
+use Model\RowData\RowData;
 
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Dao\RegistrationDao;
@@ -29,11 +28,11 @@ use Auth\Model\Entity\Registration;
  *
  * @author pes2704
  */
-class LoginAggregateRegistrationRepositoryTest extends TestCase {
+class LoginAggregateRegistrationRepositoryTest extends AppRunner {
 
-    private static $inputStream;
+    const LOGIN_NAME1 = "testLoginAggregateRegistration1";
+    const LOGIN_NAME2 = "testLoginAggregateRegistration2";
 
-    private $app;
     private $container;
 
     /**
@@ -44,65 +43,36 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
 
     private $emailedUid;
 
-    public static function mock(array $userData = []) {
-        //Validates if default protocol is HTTPS to set default port 443
-        if ((isset($userData['HTTPS']) && $userData['HTTPS'] !== 'off') ||
-            ((isset($userData['REQUEST_SCHEME']) && $userData['REQUEST_SCHEME'] === 'https'))) {
-            $defscheme = 'https';
-            $defport = 443;
-        } else {
-            $defscheme = 'http';
-            $defport = 80;
-        }
 
-        $data = array_merge([
-            'SERVER_PROTOCOL'      => 'HTTP/1.1',
-            'REQUEST_METHOD'       => 'GET',
-            'REQUEST_SCHEME'       => $defscheme,
-            'SCRIPT_NAME'          => '',
-            'REQUEST_URI'          => '',
-            'QUERY_STRING'         => '',
-            'SERVER_NAME'          => 'localhost',
-            'SERVER_PORT'          => $defport,
-            'HTTP_HOST'            => 'localhost',
-            'HTTP_ACCEPT'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8',
-            'HTTP_ACCEPT_CHARSET'  => 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-            'HTTP_USER_AGENT'      => 'PES',
-            'REMOTE_ADDR'          => '127.0.0.1',
-            'REQUEST_TIME'         => time(),
-            'REQUEST_TIME_FLOAT'   => microtime(true),
-        ], $userData);
-
-         return (new EnvironmentFactory())->create($data, self::$inputStream);
-    }
     private static function deleteRecords(Container $container) {
         /** @var RegistrationDao $registrationDao */
         $registrationDao = $container->get(RegistrationDao::class);
+        $rows = $registrationDao->find('login_name_fk=:login_name_fk', ['login_name_fk'=> self::LOGIN_NAME1]);
+        foreach ($rows as $row) {
+            $registrationDao->delete($row);
+        }
+        $rows = $registrationDao->find('login_name_fk=:login_name_fk', ['login_name_fk'=> self::LOGIN_NAME2]);
+        foreach ($rows as $row) {
+            $registrationDao->delete($row);
+        }
+
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $registrationDao->delete(['login_name_fk'=>"testLoginAggregateRegistration1"]);
-        $loginDao->delete(['login_name'=>"testLoginAggregateRegistration1"]);
-        $registrationDao->delete(['login_name_fk'=>"testLoginAggregateRegistration2"]);
-        $loginDao->delete(['login_name'=>"testLoginAggregateRegistration2"]);
+        $rows = $loginDao->find('login_name=:login_name', ['login_name'=> self::LOGIN_NAME1]);
+        foreach ($rows as $row) {
+            $loginDao->delete($row);
+        }
+        $rows = $loginDao->find('login_name=:login_name', ['login_name'=> self::LOGIN_NAME2]);
+        foreach ($rows as $row) {
+            $loginDao->delete($row);
+        }
     }
 
     public static function setUpBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
-
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
-
-        // input stream je možné otevřít jen jednou
-        self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.
+        self::bootstrapBeforeClass();
 
         $container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
@@ -113,22 +83,22 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
 
-        /** @var RegistrationDao $registrationDao */
-        $registrationDao = $container->get(RegistrationDao::class);
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $loginDao->insertWithKeyVerification(['login_name'=>"testLoginAggregateRegistration1"]);
+        $rowData = new RowData();
+        $rowData->import(['login_name'=> self::LOGIN_NAME1]);
+        $loginDao->insert($rowData);
+
+        /** @var RegistrationDao $registrationDao */
+        $registrationDao = $container->get(RegistrationDao::class);
+        $rowData = new RowData();
+        $rowData->import(['login_name_fk'=> self::LOGIN_NAME1, 'password_hash'=>"testHeslosetUpBeforeClass"]);
+        $registrationDao->insert($rowData);
     }
 
     protected function setUp(): void {
-        $environment = $this->mock(
-                ['HTTP_USER_AGENT'=>'AppRunner']
-
-                );
-//        $this->app = (new WebAppFactory())->createFromEnvironment($environment);
-
         $this->container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
@@ -143,9 +113,10 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
     protected function tearDown(): void {
         $this->loginAggRegRepo->flush();
     }
+
     public static function tearDownAfterClass(): void {
         $container =
-            (new LoginContainerConfigurator())->configure(
+            (new AuthContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
@@ -166,24 +137,26 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration1");
+        $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
+        /** @var LoginAggregateRegistration $loginAgg */
+        $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration(), "Přečtený LoginAggregateRegistration nemá Registration entity");
         $this->loginAggRegRepo->remove($loginAgg);
     }
 
-    public function testGetAfterRemove() {
-        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration1");
+    public function QtestGetAfterRemove() {
+        $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME1);
         $this->assertNull($loginAgg);
     }
 
     ###### complete aggregate ################
 
-    public function testAddCompleteAndReread() {
+    public function QtestAddCompleteAndReread() {
         /** @var LoginAggregateRegistration $loginAgg */
         $loginAgg = new LoginAggregateRegistration();
-        $loginAgg->setLoginName("testLoginAggregateRegistration1");
+        $loginAgg->setLoginName(self::LOGIN_NAME1);
         $registration = new Registration();
-        $registration->setLoginNameFk("testLoginAggregateRegistration1");
+        $registration->setLoginNameFk(self::LOGIN_NAME1);
         $registration->setPasswordHash("testHeslo");
         $registration->setEmail("test.email@mejl.cz");
         $loginAgg->setRegistration($registration);
@@ -202,16 +175,16 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $this->assertInstanceOf(\DateTime::class, $loginAgg->getRegistration()->getCreated());
     }
 
-    public function testGetAfterAddComplete() {
-        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration1");
+    public function QtestGetAfterAddComplete() {
+        $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
     }
 
     ###### uncomplete aggregate ################
 
-    public function testAddUncomplete() {
+    public function QtestAddUncomplete() {
         $loginAgg = new LoginAggregateRegistration();
-        $loginAgg->setLoginName("testLoginAggregateRegistration2");
+        $loginAgg->setLoginName(self::LOGIN_NAME2);
         $this->loginAggRegRepo->add($loginAgg);
         $this->assertTrue($loginAgg->isPersisted());
     }
@@ -224,14 +197,14 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
 //        $this->loginAggCredRepo->flush();
 //    }
 
-    public function testGetAfterAddUncomplete() {
-        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration2");
+    public function QtestGetAfterAddUncomplete() {
+        $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME2);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
     }
 
-    public function testSetNewRegistrationUncomplete() {
+    public function QtestSetNewRegistrationUncomplete() {
         /** @var LoginAggregateRegistration $loginAgg */
-        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration2");
+        $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME2);
         $registration = new Registration();
         $registration->setLoginNameFk($loginAgg->getLoginName());
         $registration->setPasswordHash("testHeslo");
@@ -241,9 +214,9 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
     }
 
-    public function testGetAfterSetNewRegistrationUncomplete() {
+    public function QtestGetAfterSetNewRegistrationUncomplete() {
         /** @var LoginAggregateRegistration $loginAgg */
-        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration2");
+        $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME2);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
         $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
         $this->emailedUid = $loginAgg->getRegistration()->getUid();

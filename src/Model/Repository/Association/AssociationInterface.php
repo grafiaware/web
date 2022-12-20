@@ -8,11 +8,17 @@
 
 namespace Model\Repository\Association;
 
+use Model\Entity\EntityInterface;
+
 /**
  *
  * @author pes2704
  */
 interface AssociationInterface {
+
+    public function addAssociatedEntity(EntityInterface $entity = null): void;
+
+    public function removeAssociatedEntity(EntityInterface $entity = null): void;
 
     public function flushChildRepo(): void;
 

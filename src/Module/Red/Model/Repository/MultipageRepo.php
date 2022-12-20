@@ -14,7 +14,7 @@ use Model\Entity\EntityInterface;
 use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\Multipage;
 use Red\Model\Dao\MultipageDao;
-use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\MultipageHydrator;
 
 /**
@@ -25,7 +25,7 @@ use Red\Model\Hydrator\MultipageHydrator;
 class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
 
     /**
-     * @var DaoFkUniqueInterface
+     * @var DaoReferenceUniqueInterface
      */
     protected $dataManager;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
@@ -50,7 +50,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
      * @return PaperInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        $key = $this->dataManager->getForeignKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
+        $key = $this->dataManager->getReferenceKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
         return $this->getEntityByReference('menu_item_id_fk', $key);
     }
 

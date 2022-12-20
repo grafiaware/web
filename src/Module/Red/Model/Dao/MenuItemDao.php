@@ -11,19 +11,22 @@ namespace Red\Model\Dao;
 use Model\Dao\DaoEditContextualAbstract;
 use Model\RowData\RowDataInterface;
 
-use Model\Dao\DaoFkNonuniqueInterface;
-use \Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueInterface;
+use \Model\Dao\DaoReferenceNonuniqueTrait;
 
 use Model\Dao\Exception\DaoForbiddenOperationException;
+
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
+use Red\Model\Dao\LanguageDao;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class MenuItemDao extends DaoEditContextualAbstract implements DaoFkNonuniqueInterface {
+class MenuItemDao extends DaoEditContextualAbstract implements MenuItemDaoInterface {
 
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
         return ['lang_code_fk', 'uid_fk'];
@@ -36,9 +39,12 @@ class MenuItemDao extends DaoEditContextualAbstract implements DaoFkNonuniqueInt
     }
 
     public function getForeignKeyAttributes(): array {
+//    FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`)
+//    FOREIGN KEY (`lang_code_fk`) REFERENCES `language` (`lang_code`)
+//    FOREIGN KEY (`type_fk`) REFERENCES `menu_item_type` (`type`)
         return [
-            'lang_code_fk'=>['lang_code_fk'],
             'uid_fk'=>['uid_fk'],
+            'lang_code_fk'=>['lang_code_fk'],
             'type_fk'=>['type_fk']
         ];
     }

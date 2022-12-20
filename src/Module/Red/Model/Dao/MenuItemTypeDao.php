@@ -20,7 +20,7 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class MenuItemTypeDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
+class MenuItemTypeDao extends DaoEditAbstract implements MenuItemTypeDaoInterface {
 
     public function getPrimaryKeyAttributes(): array {
         return ['type'];

@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\RowHydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
@@ -13,7 +13,7 @@ use Events\Model\Entity\CompanyContactInterface;
  *
  * @author vlse2610
  */
-class CompanyContactHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class CompanyContactHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
 
 //  `company_contact``id`  // NOT NULL AUTO_INCREMENT,
 //  `company_id`   NOT NULL,
