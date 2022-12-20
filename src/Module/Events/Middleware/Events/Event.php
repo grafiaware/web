@@ -152,6 +152,25 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
         
         
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/companyaddress', function(ServerRequestInterface $request) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->insertCompanyAddress($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/companyaddress/:id', function(ServerRequestInterface $request) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->updateCompanyAddress($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/companyaddress/:id/remove', function(ServerRequestInterface $request) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->removeCompanyAddress($request);
+        });
+        
+        
+        
+        
         
          $this->routeGenerator->addRouteForAction('POST', '/events/v1/document/:id/remove', function(ServerRequestInterface $request, $id) {
             /** @var DocumentControler $ctrl */

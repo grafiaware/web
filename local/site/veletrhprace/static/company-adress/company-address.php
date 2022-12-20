@@ -15,26 +15,25 @@ use Pes\Text\Html;
 
         <form class="ui huge form" action="" method="POST" >
             <input type='hidden' name="company-id" value="<?= isset($companyId)? $companyId : '' ?>" >
-            <input type='hidden' name="company-address-id" value="<?= isset($companyAddressId)? $companyAddressId : '' ?>" >
 
             <div class="two fields">                        
                 <div class="field">
-                <label>Jméno kontaktu</label>
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="90" value="<?= isset($name)?  $name : '' ?>">
+                <label>Jméno adresy</label>
+                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="100" value="<?= isset($name)?  $name : '' ?>">
                  </div>  
                 <div class="field">
-                    <label>E-maily</label>
-                    <input <?= $readonly ?> type="email" name="emails" placeholder="" maxlength="90" value="<?= isset($emails)?  $emails : ''  ?>">
+                    <label>Lokace</label>
+                    <input <?= $readonly ?> type="text" name="lokace" placeholder="" maxlength="100" value="<?= isset($lokace)?  $lokace : ''  ?>">
                 </div>
             </div>
             <div class="two fields">
                 <div class="field">
-                    <label>Telefony</label>
-                    <input <?= $readonly ?> type="text" name="phones" placeholder="" maxlength="90" value="<?= isset($phones)?  $phones : '' ?>">
+                    <label>PSČ</label>
+                    <input <?= $readonly ?> type="text" name="psc" placeholder="" maxlength="5" value="<?= isset($psc)?  $psc : '' ?>">
                 </div>
                 <div class="field">
-                    <label>Mobily</label>
-                    <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="90" value="<?= isset($mobiles)?  $mobiles : '' ?>">
+                    <label>Obec</label>
+                    <input <?= $readonly ?> type="text" name="obec" placeholder="" maxlength="60" value="<?= isset($obec)?  $obec : '' ?>">
                 </div>
             </div>                 
 
@@ -43,13 +42,13 @@ use Pes\Text\Html;
                 ?>
                 <div>
                     <?=
-                     isset($companyContactId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/companyaddress/". $companyAddressId ."' > Uložit </button>" :
+                     isset($name) ?
+                    "<button class='ui primary button' type='submit' formaction='events/v1/companyaddress/".  $companyId ."' > Uložit </button>" :
                     "<button class='ui primary button' type='submit' formaction='events/v1/companyaddress' > Uložit </button>" ;
                     ?>                                                                                                                             
                     <?=
-                     isset($companyContactId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/companyaddress/". $companyAddressId ."/remove' > Odstranit adresu </button>" :
+                     isset($name) ?
+                    "<button class='ui primary button' type='submit' formaction='events/v1/companyaddress/". $companyId ."/remove' > Odstranit adresu </button>" :
                     "" ;
                     ?>                                                                                                         
                 </div>

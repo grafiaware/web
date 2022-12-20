@@ -20,6 +20,7 @@ use Events\Model\Entity\CompanyContactInterface;
     //------------------------------------------------------------------
 
     $idCompany = 10;
+    
     /** @var CompanyInterface $companyEntity */ 
     $companyEntity = $companyRepo->get($idCompany);
     if ($companyEntity) {       

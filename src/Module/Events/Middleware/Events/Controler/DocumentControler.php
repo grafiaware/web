@@ -59,15 +59,11 @@ class DocumentControler extends FrontControlerAbstract {
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-           // VisitorProfileRepo $visitorProfileRepo,
-           // VisitorJobRequestRepo $visitorJobRequesRepo,    
+            StatusPresentationRepo $statusPresentationRepo,           
             
             DocumentRepo $documentRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        //$this->visitorProfileRepo = $visitorProfileRepo;
-       // $this->visitorJobRequestRepo = $visitorJobRequesRepo;
         
         $this->documentRepo = $documentRepo;
 

@@ -20,21 +20,21 @@ use Pes\Text\Html;
             <div class="two fields">                        
                 <div class="field">
                 <label>Jméno kontaktu</label>
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="90" value="<?= isset($name)?  $name : '' ?>">
+                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="100" value="<?= isset($name)?  $name : '' ?>">
                  </div>  
                 <div class="field">
                     <label>E-maily</label>
-                    <input <?= $readonly ?> type="email" name="emails" placeholder="" maxlength="90" value="<?= isset($emails)?  $emails : ''  ?>">
+                    <input <?= $readonly ?> type="email" name="emails" placeholder="" maxlength="100" value="<?= isset($emails)?  $emails : ''  ?>">
                 </div>
             </div>
             <div class="two fields">
                 <div class="field">
                     <label>Telefony</label>
-                    <input <?= $readonly ?> type="text" name="phones" placeholder="" maxlength="90" value="<?= isset($phones)?  $phones : '' ?>">
+                    <input <?= $readonly ?> type="text" name="phones" placeholder="" maxlength="60" value="<?= isset($phones)?  $phones : '' ?>">
                 </div>
                 <div class="field">
                     <label>Mobily</label>
-                    <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="90" value="<?= isset($mobiles)?  $mobiles : '' ?>">
+                    <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="60" value="<?= isset($mobiles)?  $mobiles : '' ?>">
                 </div>
             </div>                 
 

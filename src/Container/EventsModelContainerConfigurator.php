@@ -65,10 +65,14 @@ use Events\Model\Repository\InstitutionTypeAggregateInstitutionRepo;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Hydrator\CompanyHydrator;
 use Events\Model\Repository\CompanyRepo;
+use Events\Model\Entity\Company;
+
 
 use Events\Model\Dao\CompanyAddressDao;
 use Events\Model\Hydrator\CompanyAddressHydrator;
 use Events\Model\Repository\CompanyAddressRepo;
+use Events\Model\Entity\CompanyAddress;
+
 
 use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Hydrator\CompanyContactHydrator;
@@ -149,6 +153,12 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             CompanyContact::class => function(ContainerInterface $c) {
             return new CompanyContact();
+            },
+            CompanyAddress::class => function(ContainerInterface $c) {
+            return new CompanyAddress();
+            },
+            Company::class => function(ContainerInterface $c) {
+            return new Company();
             }
 
         ];

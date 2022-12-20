@@ -25,6 +25,7 @@ use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Repository\CompanyAddressRepo;
 
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
@@ -82,6 +83,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class), 
                         $c->get(CompanyRepo::class),
                         $c->get(CompanyContactRepo::class),
+                        $c->get(CompanyAddressRepo::class),
                         $c->get(RepresentativeRepo::class),
                         )
                        )->injectContainer($c);
@@ -92,8 +94,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class), 
-           // VisitorProfileRepo $visitorProfileRepo,
-           // VisitorJobRequestRepo $visitorJobRequesRepo,     //?
+           
                         $c->get(DocumentRepo::class)                                                                      
                         )
                        )->injectContainer($c);

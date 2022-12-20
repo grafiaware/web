@@ -97,8 +97,6 @@ if (isset($loginAggregate)) {
             $cvEducationText = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getCvEducationText() : '';
             $cvSkillsText = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getCvSkillsText() : '';
                         
-//            $cvDocumentFilename = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getCvDocumentFilename() : '';
-//            $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
             $cvId = $visitorJobRequestEntity->getCvDocument();
             if (isset($cvId)) {
                 /** @var DocumentInterface $documentCv */
@@ -131,17 +129,15 @@ if (isset($loginAggregate)) {
             $cvEducationText = isset($visitorProfileEntity) ? $visitorProfileEntity->getCvEducationText() : '';
             $cvSkillsText = isset($visitorProfileEntity) ? $visitorProfileEntity->getCvSkillsText(): '';
                         
-//            $cvDocumentFilename = isset($visitorData) ? $visitorData->getCvDocumentFilename() : '';
-//            $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
             $cvId = $visitorProfileEntity->getCvDocument();
             if (isset($cvId)) {
-                    /** @var DocumentInterface $documentCv */
+                /** @var DocumentInterface $documentCv */
                 $documentCv = $documentRepo->get($cvId);
                 $visitorFormData['cvDocumentFilename'] = $documentCv->getDocumentFilename();
             }                        
             $letterId = $visitorProfileEntity->getLetterDocument();
             if (isset($letterId)) {
-            /** @var DocumentInterface $documentLetter */
+                 /** @var DocumentInterface $documentLetter */
                 $documentLetter = $documentRepo->get($letterId);
                 $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();
             
@@ -182,8 +178,6 @@ if (isset($loginAggregate)) {
                 $visitorFormData['cvEducationText'] = $visitorJobRequestEntity->getCvEducationText();
                 $visitorFormData['cvSkillsText'] = $visitorJobRequestEntity->getCvSkillsText();
                                 
-                //$visitorFormData['cvDocumentFilename'] = $visitorDataPost->getCvDocumentFilename();
-                //$visitorFormData['letterDocumentFilename'] = $visitorDataPost->getLetterDocumentFilename();
                 $cvId = $visitorJobRequestEntity->getCvDocument();
                 if (isset($cvId)) {
                     /** @var DocumentInterface $documentCv */
