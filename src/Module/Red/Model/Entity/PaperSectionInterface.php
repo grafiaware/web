@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  * Description of PaperInterface
  *
  * @author pes2704
  */
-interface PaperSectionInterface extends EntityInterface {
+interface PaperSectionInterface extends PersistableEntityInterface {
 
     public function getPaperIdFk();
 

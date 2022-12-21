@@ -10,7 +10,7 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Entity\Article;
 use Red\Model\Dao\ArticleDao;
@@ -51,7 +51,7 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
      * @param type $menuItemIdFk
      * @return PaperInterface|null
      */
-    public function getByReference($menuItemIdFk): ?EntityInterface {
+    public function getByReference($menuItemIdFk): ?PersistableEntityInterface {
         $key = $this->dataManager->getForeignKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
         return $this->getEntityByReference('menu_item_id_fk', $key);
     }

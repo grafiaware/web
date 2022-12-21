@@ -1,14 +1,14 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 
 /**
  *
  * @author vlse2610
  */
-interface JobToTagInterface extends EntityInterface {
+interface JobToTagInterface extends PersistableEntityInterface {
     
     
    /**

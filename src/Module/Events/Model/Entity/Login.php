@@ -3,14 +3,14 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Login
  *
  * @author pes2704
  */
-class Login extends EntityAbstract implements LoginInterface {
+class Login extends PersistableEntityAbstract implements LoginInterface {
 
     /**
      * @var string

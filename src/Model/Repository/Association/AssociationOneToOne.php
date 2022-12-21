@@ -8,7 +8,7 @@
 
 namespace Model\Repository\Association;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 
 use Model\Repository\RepoAssotiatedOneInterface;
@@ -36,7 +36,7 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
         $this->childRepo = $childRepo;
     }
 
-    public function getAssociatedEntity(RowDataInterface $rowData): ?EntityInterface {
+    public function getAssociatedEntity(RowDataInterface $rowData): ?PersistableEntityInterface {
         $childKey = $this->getChildKey($rowData);
         $child = $this->childRepo->getByReference($childKey);
 //        if (is_null($child)) {
@@ -46,11 +46,11 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
         return $child;
     }
 
-    public function addAssociatedEntity(EntityInterface $entity = null) {
+    public function addAssociatedEntity(PersistableEntityInterface $entity = null) {
         $this->childRepo->add($entity);
     }
 
-    public function removeAssociatedEntity(EntityInterface $entity = null) {
+    public function removeAssociatedEntity(PersistableEntityInterface $entity = null) {
         $this->childRepo->remove($entity);
     }
 }

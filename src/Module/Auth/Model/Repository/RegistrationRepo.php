@@ -2,7 +2,7 @@
 namespace Auth\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\Hydrator\HydratorInterface;
 
 use Auth\Model\Entity\RegistrationInterface;
@@ -27,7 +27,7 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
         return $this->getEntity($key);
     }
 
-    public function getByReference($loginNameFk): ?EntityInterface {
+    public function getByReference($loginNameFk): ?PersistableEntityInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
         return $this->getEntity($key);
     }

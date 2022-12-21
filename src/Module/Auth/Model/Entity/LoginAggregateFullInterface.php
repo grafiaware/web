@@ -8,7 +8,7 @@
 
 namespace Auth\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *

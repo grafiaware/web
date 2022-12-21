@@ -2,14 +2,14 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\InstitutionInterface;
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Institution
  *
  * @author vlse2610
  */
-class Institution extends EntityAbstract implements InstitutionInterface {
+class Institution extends PersistableEntityAbstract implements InstitutionInterface {
 
     private $id;
     private $name;

@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Events\Model\Entity\EventLinkPhaseInterface;
 
 /**
@@ -9,7 +9,7 @@ use Events\Model\Entity\EventLinkPhaseInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhase extends EntityAbstract implements EventLinkPhaseInterface {
+class EventLinkPhase extends PersistableEntityAbstract implements EventLinkPhaseInterface {
 
     private $id;
     private $text;

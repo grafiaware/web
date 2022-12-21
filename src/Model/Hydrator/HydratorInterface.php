@@ -19,14 +19,14 @@ interface HydratorInterface {
 
     /**
      *
-     * @param EntityInterface $entity
+     * @param PersistableEntityInterface $entity
      * @param RowDataInterface $rowData
      */
     public function hydrate(EntityInterface $entity, RowDataInterface $rowData);
 
     /**
      *
-     * @param EntityInterface $entity
+     * @param PersistableEntityInterface $entity
      * @param RowDataInterface $rowData
      */
     public function extract(EntityInterface $entity, RowDataInterface $rowData);

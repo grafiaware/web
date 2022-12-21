@@ -8,7 +8,7 @@
 
 namespace Red\Model\EntityManager;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  * Description of EntityManager
@@ -33,7 +33,7 @@ class EntityManager implements EntityManagerInterface {
      * @param array $row
      * @return string index
      */
-    public function recreateEntity($entityClass, $index, $row): ?EntityInterface {
+    public function recreateEntity($entityClass, $index, $row): ?PersistableEntityInterface {
         if (!isset($this->collection[$index])) {
             if ($row) {
                 $this->addCreatedAssociations($row);
@@ -46,14 +46,14 @@ class EntityManager implements EntityManagerInterface {
         return $this->collection[$index] ?? NULL;
     }
 
-    public function hydrate($entityClass, EntityInterface $entity, &$row) {
+    public function hydrate($entityClass, PersistableEntityInterface $entity, &$row) {
         /** @var HydratorInterface $hydrator */
         foreach ($this->hydrators[$entityClass] as $hydrator) {
             $hydrator->hydrate($entity, $row);
         }
     }
 
-    public function extract($entityClass, EntityInterface $entity, &$row) {
+    public function extract($entityClass, PersistableEntityInterface $entity, &$row) {
         /** @var HydratorInterface $hydrator */
         foreach ($this->hydrators[$entityClass] as $hydrator) {
             $hydrator->extract($entity, $row);
@@ -62,7 +62,7 @@ class EntityManager implements EntityManagerInterface {
 
     public function flush() {
         if ( !($this instanceof RepoReadonlyInterface)) {
-            /** @var \Model\Entity\EntityAbstract $entity */
+            /** @var \Model\Entity\PersistableEntityAbstract $entity */
             foreach ($this->collection as $entityClass => $entities) {
                 foreach ($entities as $entity) {
                     $row = [];

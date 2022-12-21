@@ -2,14 +2,14 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Events\Model\Entity\RepresentativeInterface;
 
 /**
  *
  * @author vlse2610
  */
-interface RepresentativeInterface extends EntityInterface {
+interface RepresentativeInterface extends PersistableEntityInterface {
 
     /**
      * 

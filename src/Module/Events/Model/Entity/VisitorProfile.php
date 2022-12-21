@@ -8,14 +8,14 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of VisitorData
  *
  * @author pes2704
  */
-class VisitorProfile extends EntityAbstract implements VisitorProfileInterface {
+class VisitorProfile extends PersistableEntityAbstract implements VisitorProfileInterface {
 
     private $loginLoginName;
     private $prefix;

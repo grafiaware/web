@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Status\Model\Enum\FlashSeverityEnum;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author pes2704
  */
-interface StatusFlashInterface extends EntityInterface {
+interface StatusFlashInterface extends PersistableEntityInterface {
 
     /**
      * Vrací pole messages

@@ -8,7 +8,7 @@
 
 namespace Model\Repository\Association;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -17,7 +17,7 @@ use Model\RowData\RowDataInterface;
  */
 interface AssociationOneToManyInterface extends AssociationInterface {
     public function getAllAssociatedEntities(&$row): iterable;
-    public function addAssociatedEntity(EntityInterface $entity = null);
-    public function removeAssociatedEntity(EntityInterface $entity = null);
+    public function addAssociatedEntity(PersistableEntityInterface $entity = null);
+    public function removeAssociatedEntity(PersistableEntityInterface $entity = null);
 
 }

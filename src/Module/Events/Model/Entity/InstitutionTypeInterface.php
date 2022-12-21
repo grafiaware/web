@@ -1,13 +1,13 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author vlse2610
  */
-interface InstitutionTypeInterface  extends EntityInterface {
+interface InstitutionTypeInterface  extends PersistableEntityInterface {
     
     public function getId() ;
 

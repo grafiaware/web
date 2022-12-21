@@ -9,7 +9,7 @@
 namespace Model\Repository\Association;
 
 use Model\Repository\RepoAssotiatedManyInterface;
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -43,11 +43,11 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationOne
         return $children;
     }
 
-    public function addAssociatedEntity(EntityInterface $entity = null) {
+    public function addAssociatedEntity(PersistableEntityInterface $entity = null) {
         $this->childRepo->add($entity);
     }
 
-    public function removeAssociatedEntity(EntityInterface $entity = null) {
+    public function removeAssociatedEntity(PersistableEntityInterface $entity = null) {
         $this->childRepo->remove($entity);
     }
 

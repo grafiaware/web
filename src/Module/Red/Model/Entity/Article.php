@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use DateTime;
 
 /**
@@ -16,7 +16,7 @@ use DateTime;
  *
  * @author pes2704
  */
-class Article extends EntityAbstract implements ArticleInterface {
+class Article extends PersistableEntityAbstract implements ArticleInterface {
 
     private $id;
     private $menuItemIdFk;

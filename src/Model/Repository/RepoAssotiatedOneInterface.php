@@ -8,12 +8,12 @@
 
 namespace Model\Repository;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
 interface RepoAssotiatedOneInterface extends RepoInterface {
-    public function getByReference($id): ?EntityInterface;
+    public function getByReference($id): ?PersistableEntityInterface;
 }

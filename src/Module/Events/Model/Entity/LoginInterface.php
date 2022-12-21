@@ -8,13 +8,13 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface LoginInterface extends EntityInterface {
+interface LoginInterface extends PersistableEntityInterface {
     public function getLoginName();
     public function setLoginName(string $loginName): LoginInterface;
 }

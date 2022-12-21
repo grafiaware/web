@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Events\Model\Entity\CompanyInterface;
 
 /**
@@ -9,7 +9,7 @@ use Events\Model\Entity\CompanyInterface;
  *
  * @author vlse2610
  */
-class Company  extends EntityAbstract implements CompanyInterface {
+class Company  extends PersistableEntityAbstract implements CompanyInterface {
 
     private $id;
     private $name;

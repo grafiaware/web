@@ -8,13 +8,13 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface HierarchyInterface extends EntityInterface {
+interface HierarchyInterface extends PersistableEntityInterface {
     public function getUid();
     public function getDepth();
     public function getLeftNode();

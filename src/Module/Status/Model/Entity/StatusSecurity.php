@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\UserActionsInterface;
@@ -18,7 +18,7 @@ use Red\Model\Entity\UserActionsInterface;
  *
  * @author pes2704
  */
-class StatusSecurity extends EntityAbstract implements StatusSecurityInterface {
+class StatusSecurity extends PersistableEntityAbstract implements StatusSecurityInterface {
 
     /**
      * @var LoginAggregateFullInterface

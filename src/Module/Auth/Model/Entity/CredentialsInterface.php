@@ -8,13 +8,13 @@
 
 namespace Auth\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface CredentialsInterface extends EntityInterface {
+interface CredentialsInterface extends PersistableEntityInterface {
     public function getLoginNameFk(): ?string;
     public function getPasswordHash(): ?string;
     public function getRole(): ?string;

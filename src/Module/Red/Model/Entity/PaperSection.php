@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Article
  *
  * @author pes2704
  */
-class PaperSection extends EntityAbstract implements PaperSectionInterface {
+class PaperSection extends PersistableEntityAbstract implements PaperSectionInterface {
 
     private $id;
     private $paperIdFk;

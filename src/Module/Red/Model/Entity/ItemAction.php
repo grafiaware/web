@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of ItemAction
  *
  * @author pes2704
  */
-class ItemAction extends EntityAbstract implements ItemActionInterface {
+class ItemAction extends PersistableEntityAbstract implements ItemActionInterface {
 
     private $typeFk;
     private $itemId;

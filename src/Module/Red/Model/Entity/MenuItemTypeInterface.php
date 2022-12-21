@@ -8,13 +8,13 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface MenuItemTypeInterface extends EntityInterface {
+interface MenuItemTypeInterface extends PersistableEntityInterface {
     public function getType();
     public function setType($type);
 }

@@ -10,7 +10,7 @@ namespace Status\Model\Entity;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Status\Model\Enum\FlashSeverityEnum;
 use Pes\Type\Exception\ValueNotInEnumException;
 use Status\Model\Exception\UndefinedFlashMessageSeverityException;
@@ -20,7 +20,7 @@ use Status\Model\Exception\UndefinedFlashMessageSeverityException;
  *
  * @author pes2704
  */
-class StatusFlash extends EntityAbstract implements StatusFlashInterface {
+class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterface {
 
     private $preparedFlashMessage=[];
     private $storedFlashMessage=[];

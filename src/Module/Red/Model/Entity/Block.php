@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Component
  *
  * @author pes2704
  */
-class Block extends EntityAbstract implements BlockInterface {
+class Block extends PersistableEntityAbstract implements BlockInterface {
 
     private $name;
     private $uidFk;

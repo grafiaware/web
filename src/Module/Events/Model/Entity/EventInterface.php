@@ -2,13 +2,13 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author 
  */
-interface EventInterface extends EntityInterface {
+interface EventInterface extends PersistableEntityInterface {
 
     public function getId();
 

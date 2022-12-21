@@ -10,7 +10,7 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\ItemAction;
 use Red\Model\Dao\ItemActionDao;

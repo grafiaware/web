@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Events\Model\Entity\EventInterface;
 //use Red\Model\Entity\EntityGeneratedKeyInterface;
 
@@ -11,7 +11,7 @@ use Events\Model\Entity\EventInterface;
  *
  * @author
  */
-class Event extends EntityAbstract implements EventInterface {
+class Event extends PersistableEntityAbstract implements EventInterface {
 
     private $id;
     private $published;
