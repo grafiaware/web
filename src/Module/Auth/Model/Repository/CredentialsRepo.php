@@ -9,8 +9,9 @@
 namespace Auth\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-use Model\Entity\EntityInterface;
+
 use Model\Hydrator\RowHydratorInterface;
+use Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Entity\CredentialsInterface;
 use Auth\Model\Entity\Credentials;
@@ -27,7 +28,6 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         $this->registerHydrator($credentialsHydrator);
     }
 
-
     /**
      *
      * @param type $loginNameFk
@@ -38,7 +38,7 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         return $this->getEntity($key);
     }
 
-    public function getByReference($loginNameFk): ?EntityInterface {
+    public function getByReference($loginNameFk): ?PersistableEntityInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
         return $this->getEntity($key);
     }

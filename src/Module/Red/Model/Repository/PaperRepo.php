@@ -1,16 +1,9 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\PaperInterface;
 use Red\Model\Entity\Paper;
 use Red\Model\Dao\PaperDao;
@@ -49,7 +42,7 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
      * @param type $menuItemIdFk
      * @return PaperInterface|null
      */
-    public function getByReference($menuItemIdFk): ?EntityInterface {
+    public function getByReference($menuItemIdFk): ?PersistableEntityInterface {
         $key = $this->dataManager->getReferenceKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
         return $this->getEntityByReference('menu_item_id_fk', $key);
     }

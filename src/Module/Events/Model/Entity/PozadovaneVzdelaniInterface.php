@@ -1,14 +1,14 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Events\Model\Entity\PozadovaneVzdelani;
 
 /**
  *
  * @author vlse2610
  */
-interface PozadovaneVzdelaniInterface extends EntityInterface {
+interface PozadovaneVzdelaniInterface extends PersistableEntityInterface {
 
     /**
      * 

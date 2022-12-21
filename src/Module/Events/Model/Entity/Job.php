@@ -3,7 +3,7 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\JobInterface;
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 
 /**
@@ -11,7 +11,7 @@ use Model\Entity\EntityAbstract;
  *
  * @author vlse2610
  */
-class Job extends EntityAbstract implements JobInterface {
+class Job extends PersistableEntityAbstract implements JobInterface {
 
     private $id;
     private $companyId;

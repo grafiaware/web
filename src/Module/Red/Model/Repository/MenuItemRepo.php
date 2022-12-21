@@ -16,7 +16,7 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Dao\MenuItemDao;
 
 use Model\Hydrator\RowHydratorInterface;
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
@@ -94,9 +94,9 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     /**
      *
      * @param array $id Asociativní pole atributů klíče
-     * @return EntityInterface|null
+     * @return PersistableEntityInterface|null
      */
-    public function getByReference($id): ?EntityInterface {
+    public function getByReference($id): ?PersistableEntityInterface {
         // asociativní pole atributů primárního klíče - je to definováno metodou registerOneToOneAssociation() v rodičovském repo - t.j. HierarchyJoinMenuItemRepo
         $rowData = $this->dataManager->get($id);
         return $this->addEntityByRowData($rowData);

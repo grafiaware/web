@@ -33,3 +33,35 @@
 
 
                 <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
+
+
+                <select <?= $disabled ?>>
+                    <?php
+                    /** @var CompanyInterface $compI */
+                    foreach ($presenterModel->getCompanyListI() as $shortN => $compI) {
+                    ?>
+                    <option value="<?= $compI->getName() ?>" <?= $shortN==$representativePersonI['shortName'] ? "selected" : "" ?> > <?= $compI->getName() ?></option>
+                    <?php
+                    }
+                    ?>                   
+                </select>
+
+19.10.22
+  <?=  $this->repeat(__DIR__.'/company-contacts/company-contacts.php', $companyContactsI  )  ?>
+
+
+            <div class="active title">
+                <i class="dropdown icon"></i>
+                Kontakty vystavovatele
+            </div>                        
+            <div class="active content">      
+                <?= $this->repeat(__DIR__.'/company-contact.php',  $contacts  )  ?>
+
+                <div class="active title">
+                    <i class="dropdown icon"></i>
+                    Přidej další kontakt vystavovatele
+                </div>  
+                <div class="active content">     
+                    <?= $this->insert( __DIR__.'/company-contact.php', [ 'companyId' => $idCompany ] ) ?>                                                                                 
+                </div>                  
+            </div>            

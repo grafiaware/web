@@ -16,7 +16,7 @@ use Pes\Text\Html;
 
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Zástupce vystavovatele
+                Přihlášený zástupce vystavovatele
             </div>
             <div class="active content">
                 <form class="ui huge form" action="" method="">

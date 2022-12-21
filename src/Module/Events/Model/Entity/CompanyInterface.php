@@ -2,14 +2,14 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\CompanyInterface;
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 
 /**
  *
  * @author vlse2610
  */
-interface CompanyInterface   extends EntityInterface {
+interface CompanyInterface   extends PersistableEntityInterface {
     
     
     public function getId() ;    

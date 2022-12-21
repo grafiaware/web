@@ -8,7 +8,7 @@
 
 namespace Model\Repository\Association;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\AssotiationHydratorInterface;
 
@@ -44,13 +44,22 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
         $this->childRepo = $childRepo;
     }
 
-    public function hydrateByAssociatedEntity(EntityInterface $entity, RowDataInterface $parentRowData): void {
+    public function hydrateByAssociatedEntity(PersistableEntityInterface $entity, RowDataInterface $parentRowData): void {
         $child = $this->childRepo->getByReference($this->parentTable, $parentRowData->getArrayCopy());
+
 
 //        if (is_null($child)) {
 //            $repoCls = get_class($this->childRepo);
 //            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu. Nebyla načtena entita z repository asociovaných entit $repoCls.");
 //        }
         $this->childHydrator->hydrate($entity, $child);
+    }
+
+    public function addAssociatedEntity(PersistableEntityInterface $entity = null) {
+        $this->childRepo->add($entity);
+    }
+
+    public function removeAssociatedEntity(PersistableEntityInterface $entity = null) {
+        $this->childRepo->remove($entity);
     }
 }

@@ -8,7 +8,7 @@
 
 namespace Model\Repository\Association;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,5 +16,6 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface AssociationOneToOneInterface extends AssociationInterface {
-    public function hydrateByAssociatedEntity(EntityInterface $entity, RowDataInterface $parentRowData): void;
+    public function hydrateByAssociatedEntity(PersistableEntityInterface $entity, RowDataInterface $parentRowData): void;
+
 }

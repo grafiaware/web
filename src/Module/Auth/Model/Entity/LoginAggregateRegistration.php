@@ -2,7 +2,7 @@
 
 namespace Auth\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of LoginAggregateRegistratration

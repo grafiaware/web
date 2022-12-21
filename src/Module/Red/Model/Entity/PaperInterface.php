@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use DateTime;
 
 /**
@@ -16,7 +16,7 @@ use DateTime;
  *
  * @author pes2704
  */
-interface PaperInterface extends EntityInterface {
+interface PaperInterface extends PersistableEntityInterface {
 
     public function getId();
 

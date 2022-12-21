@@ -3,7 +3,7 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\InstitutionTypeInterface;
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 
 
@@ -12,7 +12,7 @@ use Model\Entity\EntityAbstract;
  *
  * @author vlse2610
  */
-class InstitutionType  extends EntityAbstract implements InstitutionTypeInterface {
+class InstitutionType  extends PersistableEntityAbstract implements InstitutionTypeInterface {
 
     private $id;
     private $institutionType;

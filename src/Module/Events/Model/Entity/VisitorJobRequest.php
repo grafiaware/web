@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Events\Model\Entity\VisitorJobRequestInterface;
 
 /**
@@ -9,7 +9,7 @@ use Events\Model\Entity\VisitorJobRequestInterface;
  *
  * @author pes2704
  */
-class VisitorJobRequest extends EntityAbstract implements VisitorJobRequestInterface {
+class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobRequestInterface {
 
     private $loginLoginName;
     private $jobId;

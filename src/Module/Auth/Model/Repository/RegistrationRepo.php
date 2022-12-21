@@ -4,8 +4,8 @@ namespace Auth\Model\Repository;
 use Model\Repository\RepoAbstract;
 use \Model\Repository\RepoAssotiatedOneTrait;
 
-use Model\Entity\EntityInterface;
 use Model\Hydrator\RowHydratorInterface;
+use Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Entity\RegistrationInterface;
 use Auth\Model\Entity\Registration;
@@ -25,7 +25,7 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
     }
 
     use RepoAssotiatedOneTrait;
-    
+
     public function get($loginNameFk): ?RegistrationInterface {    // $loginNameFk je primární i cizí klíč
         $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
         return $this->getEntity($key);

@@ -7,13 +7,13 @@
  */
 
 namespace Red\Model\Entity;
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface MenuRootInterface extends EntityInterface {
+interface MenuRootInterface extends PersistableEntityInterface {
     public function getName();
 
     public function getUidFk();

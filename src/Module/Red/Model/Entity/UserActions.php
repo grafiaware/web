@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Red\Model\Entity\ItemActionInterface;
 
 /**
@@ -19,7 +19,7 @@ use Red\Model\Entity\ItemActionInterface;
  *
  * @author pes2704
  */
-class UserActions extends EntityAbstract implements UserActionsInterface {
+class UserActions extends PersistableEntityAbstract implements UserActionsInterface {
 
     private $editArticle = false;
     private $editMenu = false;

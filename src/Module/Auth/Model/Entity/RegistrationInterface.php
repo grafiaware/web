@@ -2,13 +2,13 @@
 
 namespace Auth\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface RegistrationInterface extends EntityInterface {
+interface RegistrationInterface extends PersistableEntityInterface {
 
     public function getLoginNameFk(): string;
 

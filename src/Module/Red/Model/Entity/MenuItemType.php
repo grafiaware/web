@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of MenuItemType
  *
  * @author pes2704
  */
-class MenuItemType extends EntityAbstract implements MenuItemTypeInterface {
+class MenuItemType extends PersistableEntityAbstract implements MenuItemTypeInterface {
 
     private $type;
 

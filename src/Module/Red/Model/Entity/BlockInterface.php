@@ -8,13 +8,13 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface BlockInterface extends EntityInterface {
+interface BlockInterface extends PersistableEntityInterface {
     public function getName();
 
     public function getUidFk();

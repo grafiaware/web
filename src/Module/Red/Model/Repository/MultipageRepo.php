@@ -10,7 +10,7 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\Multipage;
 use Red\Model\Dao\MultipageDao;
@@ -49,7 +49,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
      * @param type $menuItemIdFk
      * @return PaperInterface|null
      */
-    public function getByReference($menuItemIdFk): ?EntityInterface {
+    public function getByReference($menuItemIdFk): ?PersistableEntityInterface {
         $key = $this->dataManager->getReferenceKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
         return $this->getEntityByReference('menu_item_id_fk', $key);
     }

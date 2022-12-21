@@ -14,8 +14,9 @@ use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use UnexpectedValueException;
 
-use Model\Hydrator\RowHydratorInterface;
-use Model\Entity\EntityInterface;
+
+use Model\Hydrator\HydratorInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\RowData\PdoRowData;
 use Model\DataManager\DataManagerInterface;
@@ -74,14 +75,14 @@ abstract class RepoAbstract {
         $this->hydrators[] = $hydrator;
     }
 
-    protected function hydrate(EntityInterface $entity, RowDataInterface $rowData) {
+    protected function hydrate(PersistableEntityInterface $entity, RowDataInterface $rowData) {
         foreach ($this->hydrators as $hydrator) {
             $hydrator->hydrate($entity, $rowData);
         }
     }
 
-    protected function extract(EntityInterface $entity, RowDataInterface $rowData) {
-        /** @var RowHydratorInterface $hydrator */
+    protected function extract(PersistableEntityInterface $entity, RowDataInterface $rowData) {
+        /** @var HydratorInterface $hydrator */
         foreach ($this->hydrators as $hydrator) {
             $hydrator->extract($entity, $rowData);
         }
@@ -96,7 +97,7 @@ abstract class RepoAbstract {
     private function callCreateEntity() {
         $entity = $this->createEntity();
         if (! $entity instanceof EntityInterface) {
-            throw new BadReturnedTypeException("Protected moethod ".get_called_class()."->createEntity() must return instance of ".EntityInterface::class.", ". get_class($entity)." returned.");
+            throw new BadReturnedTypeException("Protected moethod ".get_called_class()."->createEntity() must return instance of ".PersistableEntityInterface::class.", ". get_class($entity)." returned.");
         }
         return $entity;
     }
@@ -128,7 +129,7 @@ abstract class RepoAbstract {
     /**
      *
      * @param variadic $id
-     * @return EntityInterface|null
+     * @return PersistableEntityInterface|null
      */
     protected function getEntity(...$id) {
         $index = $this->callIndexFromKeyParams($id);
@@ -254,12 +255,12 @@ abstract class RepoAbstract {
 
     /**
      *
-     * @param EntityInterface $entity
+     * @param PersistableEntityInterface $entity
      * @return void
      * @throws OperationWithLockedEntityException
      * @throws UnableAddEntityException
      */
-    protected function addEntity(EntityInterface $entity): void {
+    protected function addEntity(PersistableEntityInterface $entity): void {
         if ($entity->isLocked()) {
             throw new OperationWithLockedEntityException("Nelze přidávat přidanou nebo smazanou entitu.");
         }
@@ -326,11 +327,11 @@ abstract class RepoAbstract {
 
     /**
      *
-     * @param EntityInterface $entity
+     * @param PersistableEntityInterface $entity
      * @return void
      * @throws OperationWithLockedEntityException
      */
-    protected function removeEntity(EntityInterface $entity): void {
+    protected function removeEntity(PersistableEntityInterface $entity): void {
         if ($entity->isLocked()) {
             throw new OperationWithLockedEntityException("Nelze mazat přidanou nebo smazanou entitu.");
         }
@@ -381,10 +382,9 @@ abstract class RepoAbstract {
         if ($this->flushed) {
             return;
         }
-        if ( !($this instanceof RepoReadonlyInterface)) {
-            /** @var \Model\Entity\EntityAbstract $entity */
-            // pro DaoEditKeyDbVerifiedInterface a DaoEditAutoincrementKeyInterface dává entitu do collection (ne do new)
-//            if ( ! ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
+//        if ( !($this instanceof RepoReadonlyInterface)) {
+            /** @var \Model\Entity\PersistableEntityAbstract $entity */
+            if ( ! ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
                 foreach ($this->new as $entity) {
                     $rowData = $this->createRowData();
                     $this->extract($entity, $rowData);

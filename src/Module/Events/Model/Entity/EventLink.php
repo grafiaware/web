@@ -3,14 +3,14 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\EventLinkInterface;
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Link
  *
  * @author vlse2610
  */
-class EventLink extends EntityAbstract implements EventLinkInterface {
+class EventLink extends PersistableEntityAbstract implements EventLinkInterface {
     private $id;
     private $show;
     private $href;

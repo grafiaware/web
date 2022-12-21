@@ -8,14 +8,14 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Document
  *
  * @author pes2704
  */
-class Document extends EntityAbstract implements DocumentInterface {
+class Document extends PersistableEntityAbstract implements DocumentInterface {
 
     private $id;
     private $document;

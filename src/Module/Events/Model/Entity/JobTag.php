@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Events\Model\Entity\JobTagInterface;
 
 
@@ -10,7 +10,7 @@ use Events\Model\Entity\JobTagInterface;
  *
  * @author vlse2610
  */
-class JobTag  extends EntityAbstract implements JobTagInterface {
+class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
     
     private $tag;
 

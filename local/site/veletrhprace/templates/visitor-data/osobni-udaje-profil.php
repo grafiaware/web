@@ -93,8 +93,8 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                         <div class="field">
                             <p>Motivační dopis:<b> <?= isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : ''; ?></b></p>                            
                             <?= isset($visitorDocumentLetter) ?
-                                '<button type="submit" formaction="events/v1/document/' .$visitorDocumentLetter->getId(). '/remove" >Odstranit životopis</button>'
-                                : '' ;   ?>
+                                "<button type='submit' formaction='events/v1/document/" .$visitorDocumentLetter->getId(). "/remove' >Odstranit životopis</button>"
+                                : "" ;   ?>
                         </div>
                     </div>
                 </form>                  

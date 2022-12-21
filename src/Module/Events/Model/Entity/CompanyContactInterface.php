@@ -1,13 +1,13 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author vlse2610
  */
-interface CompanyContactInterface extends EntityInterface {
+interface CompanyContactInterface extends PersistableEntityInterface {
 
     
     
@@ -42,7 +42,7 @@ interface CompanyContactInterface extends EntityInterface {
     public function setId(  $id) :CompanyContactInterface;   
     /**
      * 
-     * @param int $company_id
+     * @param type $company_id
      * @return CompanyContactInterface
      */
     public function setCompanyId(  $companyId) :CompanyContactInterface ;      

@@ -8,13 +8,13 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ActiveUserInterface extends EntityInterface {
+interface ActiveUserInterface extends PersistableEntityInterface {
     public function getUser();
     public function getItemId();
     public function getEditStartTime();

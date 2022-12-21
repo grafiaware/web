@@ -3,7 +3,7 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Model\Entity\EntityGeneratedKeyInterface;
 
 /**
@@ -11,7 +11,7 @@ use Model\Entity\EntityGeneratedKeyInterface;
  *
  * @author pes2704
  */
-class EventContentType extends EntityAbstract implements EventContentTypeInterface {
+class EventContentType extends PersistableEntityAbstract implements EventContentTypeInterface {
 
     private $type;
 

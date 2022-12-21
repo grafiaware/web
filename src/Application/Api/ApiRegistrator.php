@@ -143,6 +143,15 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         #### VisitorDataController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));
+        #### CompanyDataController ?? ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/companycontact'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/companycontact/:id'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/companycontact/:id/remove'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/companyaddress'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/companyaddress/:id'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/companyaddress/:id/remove'));
+        
+        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobrequest'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest'));

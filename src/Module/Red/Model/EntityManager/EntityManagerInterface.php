@@ -8,7 +8,7 @@
 
 namespace Red\Model\EntityManager;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
@@ -16,10 +16,9 @@ use Model\Entity\EntityInterface;
  */
 interface EntityManagerInterface {
     public function registerHydrator($entityClass, RowHydratorInterface $hydrator);
-    public function hydrate($entityClass, EntityInterface $entity, &$row);
-    public function extract($entityClass, EntityInterface $entity, &$row);
-    public function recreateEntity($entityClass, $index, $row): ?EntityInterface;
+    public function hydrate($entityClass, PersistableEntityInterface $entity, &$row);
+    public function extract($entityClass, PersistableEntityInterface $entity, &$row);
+    public function recreateEntity($entityClass, $index, $row): ?PersistableEntityInterface;
     public function flush();
     public function __destruct();
-
 }

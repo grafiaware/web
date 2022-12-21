@@ -14,11 +14,13 @@ use Pes\Text\Html;
         <div class="ui stackable centered grid">
             <div class="column">
                 <div class="ui styled fluid accordion">
-                    <?= $this->insert(__DIR__.'/profil/presenter.php', $presenterPersonI /*$presenterPerson*/ )  ?>
+                    <?= $this->insert(__DIR__.'/profil/presenter.php', $representativePersonI /*$presenterPerson*/ )  ?>
                 </div>
                 <br/>
             </div>
         </div>
+        
+        
         <?php include ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic_2.php"; ?>
 
         <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Náš program</p>

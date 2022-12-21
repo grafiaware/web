@@ -13,25 +13,25 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-abstract class EntityAbstract implements EntityInterface {
+abstract class PersistableEntityAbstract implements PersistableEntityInterface {
 
     private $persisted = false;
 
     private $locked = false;
     /**
      *
-     * @return \Model\Entity\EntityInterface
+     * @return \Model\Entity\PersistableEntityInterface
      */
-    public function setPersisted(): EntityInterface {
+    public function setPersisted(): PersistableEntityInterface {
         $this->persisted = TRUE;
         return $this;
     }
 
     /**
      *
-     * @return \Model\Entity\EntityInterface
+     * @return \Model\Entity\PersistableEntityInterface
      */
-    public function setUnpersisted(): EntityInterface {
+    public function setUnpersisted(): PersistableEntityInterface {
         $this->persisted = FALSE;
         return $this;
     }
@@ -44,12 +44,12 @@ abstract class EntityAbstract implements EntityInterface {
         return $this->persisted;
     }
 
-    public function lock(): EntityInterface {
+    public function lock(): PersistableEntityInterface {
         $this->locked = true;
         return $this;
     }
 
-    public function unlock(): EntityInterface {
+    public function unlock(): PersistableEntityInterface {
         $this->locked = false;
         return $this;
     }

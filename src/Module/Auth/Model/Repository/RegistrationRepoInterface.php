@@ -6,7 +6,7 @@ use Model\Repository\RepoAssotiatedOneInterface;
 
 use Model\Repository\RepoInterface;
 use Auth\Model\Entity\RegistrationInterface;
-use Auth\Model\Entity\EntityInterface;
+use Auth\Model\Entity\PersistableEntityInterface;
 
 /**
  *
