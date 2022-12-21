@@ -116,7 +116,7 @@ abstract class RepoAbstract {
 
     private function callCreateEntity() {
         $entity = $this->createEntity();
-        if (! $entity instanceof EntityInterface) {
+        if (! $entity instanceof PersistableEntityInterface) {
             throw new BadReturnedTypeException("Protected moethod ".get_called_class()."->createEntity() must return instance of ".PersistableEntityInterface::class.", ". get_class($entity)." returned.");
         }
         return $entity;
