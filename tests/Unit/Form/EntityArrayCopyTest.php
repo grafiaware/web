@@ -36,27 +36,13 @@ class Entka implements EntityInterface {
  *
  * @author pes2704
  */
-class EntityIteratorTest extends TestCase {
+class EntityArrayCopyTest extends TestCase {
 
     ############################
     #
     # test není unit, používí Hydrator
     #
     ############################
-
-    public function testIterator() {
-        $testArray = ['prvni'=>'raz', 'druhy'=>'dva'];
-        $entity = new Entka();
-        $entity->setPrvni('raz');
-        $entity->setDruhy('dva');
-        $hydrator = new Hydrator();
-        $entityIterator = new EntityIterator($entity, $hydrator);
-        foreach ($entityIterator as $key => $value) {
-            $this->assertEquals($value, $testArray[$key]);
-        }
-        $array = iterator_to_array($entityIterator);
-        $this->assertEquals($testArray, $array);
-    }
 
     public function testGetArrayCopy() {
         $entity = new Entka();

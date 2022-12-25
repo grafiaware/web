@@ -5,14 +5,14 @@ use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\RowData\RowData;
 
-use Traversable;
+use IteratorAggregate;
 
 /**
  * Description of EntityIterator
  *
  * @author pes2704
  */
-class EntityIterator implements EntityIteratorInterface {
+class EntityArrayCopy implements EntityArrayCopyInterface {
 
     private $entity;
     private $hydrator;
@@ -22,9 +22,9 @@ class EntityIterator implements EntityIteratorInterface {
         $this->hydrator = $hydrator;
     }
 
-    public function getIterator(): Traversable {
+    public function getArrayCopy(): array {
         $row = new RowData();
         $this->hydrator->extract($this->entity, $row);
-        return $row->yieldChanged()->getIterator();
+        return $row->yieldChanged()->getArrayCopy();
     }
 }

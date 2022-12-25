@@ -17,5 +17,4 @@ use Model\RowData\RowDataInterface;
  */
 interface AssociationOneToOneInterface extends AssociationInterface {
     public function hydrateByAssociatedEntity(PersistableEntityInterface $entity, RowDataInterface $parentRowData): void;
-
 }

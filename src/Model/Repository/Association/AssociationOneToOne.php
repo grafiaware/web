@@ -46,8 +46,6 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
 
     public function hydrateByAssociatedEntity(PersistableEntityInterface $entity, RowDataInterface $parentRowData): void {
         $child = $this->childRepo->getByReference($this->parentTable, $parentRowData->getArrayCopy());
-
-
 //        if (is_null($child)) {
 //            $repoCls = get_class($this->childRepo);
 //            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu. Nebyla načtena entita z repository asociovaných entit $repoCls.");
