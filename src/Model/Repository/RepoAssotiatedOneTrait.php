@@ -1,13 +1,7 @@
 <?php
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
-
 namespace Model\Repository;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  * Description of RepoAggregateAbstract
@@ -16,15 +10,17 @@ use Model\Entity\EntityInterface;
  */
 trait RepoAssotiatedOneTrait {
 
+    /** @var RepoAbstract $this */
+
     /**
      *
      * @param string $parentTableName
      * @param array $parentRowData parent data
-     * @return EntityInterface|null
+     * @return PersistableEntityInterface|null
      */
-    public function getByReference(string $parentTableName, array $parentRowData): ?EntityInterface {
+    public function getByReference(string $parentTableName, array $parentRowData): ?PersistableEntityInterface {
         // vždy čte data - neví jestli jsou v $this->data
         $childRowData = $this->dataManager->getByReference($parentTableName, $parentRowData);
-        return $this->addEntityByRowData($childRowData);
+        return $this->recreateEntityByRowData($childRowData);
     }
 }

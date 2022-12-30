@@ -18,11 +18,11 @@ trait RepoAssotiatedManyTrait {
 
     /**
      *
-     * @param string $parentTableName
+     * @param string $referenceName Jméno reference definované v DAO (obvykle jméno rodičovské tabulky)
      * @param ...$referenceParams
      * @return iterable
      */
-    public function findByReference(string $parentTableName, ...$referenceParams): iterable {
-        return $this->addEntitiesByRowDataArray($this->dataManager->findByFk($parentTableName, $referenceParams));
+    public function findByReference(string $referenceName, ...$referenceParams): iterable {
+        return $this->recreateEntitiesByRowDataArray($this->dataManager->findByReference($referenceName, $referenceParams));
     }
 }

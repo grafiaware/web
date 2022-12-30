@@ -14,6 +14,6 @@ namespace Model\Dao;
  */
 interface DaoReferenceNonuniqueInterface extends DaoReferenceCommonInterface {
 
-    public function findByFk($fkAttributesName, array $fkNameValueTouples);
+    public function findByReference($referenceName, array $referenceTouples);
 
 }

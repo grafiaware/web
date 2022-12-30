@@ -19,10 +19,6 @@ use Model\RowData\PdoRowData;
 //builder
 use Model\Builder\Sql;
 
-// assotiation
-use Model\Repository\Association\AssociationOneToOne;
-use Model\Repository\Association\AssociationOneToMany;
-
 //login & credentials - db
 
 use Auth\Model\Dao\CredentialsDao;
@@ -40,6 +36,7 @@ use Auth\Model\Hydrator\RegistrationHydrator;
 use Auth\Model\Repository\RegistrationRepo;
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
 use Auth\Model\Repository\LoginAggregateRegistrationRepo;
+use Auth\Model\Repository\Association\RegistrationAssociation;
 
 use Auth\Model\Repository\LoginAggregateFullRepo;
 
@@ -189,7 +186,7 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
 //                        $c->get(CredentialsRepo::class),
 //                        $c->get(LoginChildCredentialsHydrator::class)
                         );
-                $assotiation = new AssociationOneToOne($parentDao->getPrimaryKeyAttributes(), $c->get(RegistrationRepo::class), $c->get(LoginChildRegistrationHydrator::class));
+                $assotiation = new xxx($parentDao->getPrimaryKeyAttributes(), $c->get(RegistrationRepo::class));
                 $repo->registerOneToOneAssociation($assotiation);
                 return $repo;
             },
@@ -219,7 +216,7 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $parentDao,
                         $c->get(LoginHydrator::class)
                         );
-                $assotiation = new AssociationOneToOne($parentDao->getTableName(), $c->get(RegistrationRepo::class), $c->get(LoginChildRegistrationHydrator::class));
+                $assotiation = new RegistrationAssociation($parentDao->getTableName(), $c->get(RegistrationRepo::class));
                 $repo->registerOneToOneAssociation(RegistrationRepo::class, $assotiation);
                 return $repo;
             },

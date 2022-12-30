@@ -5,12 +5,14 @@ use Model\Repository\RepoAssotiatedManyInterface;
 use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 
+use Model\Repository\Association\Exception\BadTypeOfIterableParameterMember;
+
 /**
  * Description of AssociationOneToManyFactory
  *
  * @author pes2704
  */
-class AssociationOneToMany extends AssociationAbstract implements AssociationOneToManyInterface {
+abstract class AssociationOneToMany extends AssociationAbstract implements AssociationOneToManyInterface {
 
     /**
      * @var RepoAssotiatedManyInterface
@@ -30,17 +32,49 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationOne
      * @param RepoAssotiatedManyInterface $childRepo Repo pro získání, ukládání a mazání asociovaných entit.
      * @param HydratorInterface $childHydrator Hydrátor pro nastavení potomkovských entity do rodičovské entity a získání z rodičovské entity.
      */
-    public function __construct(string $parentTable, RepoAssotiatedManyInterface $childRepo, RowHydratorInterface $childHydrator) {
+    public function __construct(string $parentTable, RepoAssotiatedManyInterface $childRepo, HydratorInterface $childHydrator) {
         parent::__construct($parentTable, $childHydrator);
         $this->childRepo = $childRepo;
     }
 
-    public function getAllAssociatedEntities(&$row): iterable {
-        $childKey = $this->getReferenceKey($row);
-        $children = $this->childRepo->findByReference($childKey);
-//        if (!$children) {
-//            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociované entity pro vlastnost rodiče '$this->parentPropertyName'. Nebyla načtena entita.");
-//        }
-        return $children;
+    /**
+     *
+     * @param RowDataInterface $parentRowData
+     * @return PersistableEntityInterface|null
+     */
+    protected function findChildren(RowDataInterface $parentRowData): iterable {
+        return $this->childRepo->findByReference($this->referenceName, $parentRowData->getArrayCopy());
+    }
+
+    /**
+     *
+     * @param iterable $parentEntities PersistableEntityInterface
+     * @return void
+     */
+    protected function addChildren(iterable $parentEntities): void {
+        foreach ($parentEntities as $persistableEntity) {
+            /** @var PersistableEntityInterface $persistableEntity */
+            if (!$persistableEntity instanceof PersistableEntityInterface) {
+                $cls = PersistableEntityInterface::class;
+                throw new BadTypeOfIterableParameterMember("Prvky předaného iterable parametru metody musí být typu $cls");
+            }
+            if ($parentEntities->isPersisted()) {
+                $this->childRepo->add($parentEntities);
+            }
+        }
+    }
+
+    protected function removeChildren(iterable $parentEntities): void {
+        foreach ($parentEntities as $persistableEntity) {
+            /** @var PersistableEntityInterface $persistableEntity */
+            if (!$persistableEntity instanceof PersistableEntityInterface) {
+                $cls = PersistableEntityInterface::class;
+                throw new BadTypeOfIterableParameterMember("Prvky předaného iterable parametru metody musí být typu $cls");
+            }
+            if ($persistableEntity->isPersisted()) {
+                $this->childRepo->remove($persistableEntity);
+            }
+        }
+
     }
 }

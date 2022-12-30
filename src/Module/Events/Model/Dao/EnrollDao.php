@@ -37,10 +37,10 @@ class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
     }
 
     public function findByLoginNameFk(array $loginNameFk ): array {
-        return $this->findByFk('login_login_name_fk', $loginNameFk);
+        return $this->findByReference('login_login_name_fk', $loginNameFk);
     }
 
     public function findByEventIdFk(array $eventContentIdFk ): array {
-        return $this->findByFk('event_id_fk', $eventContentIdFk);
+        return $this->findByReference('event_id_fk', $eventContentIdFk);
     }
 }

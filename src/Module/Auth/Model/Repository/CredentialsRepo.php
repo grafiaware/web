@@ -10,7 +10,7 @@ namespace Auth\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Entity\CredentialsInterface;
@@ -23,7 +23,7 @@ use Auth\Model\Repository\Exception\UnableRecreateEntityException;
 
 class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
 
-    public function __construct(CredentialsDao $credentialsDao, RowHydratorInterface $credentialsHydrator) {
+    public function __construct(CredentialsDao $credentialsDao, HydratorInterface $credentialsHydrator) {
         $this->dataManager = $credentialsDao;
         $this->registerHydrator($credentialsHydrator);
     }

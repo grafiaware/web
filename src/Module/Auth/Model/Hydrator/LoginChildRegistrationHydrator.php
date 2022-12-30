@@ -9,8 +9,8 @@
 namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\AssotiationHydratorInterface;
-use Model\RowData\RowDataInterface;
+use Model\Hydrator\HydratorInterface;
+use ArrayAccess;
 
 use Auth\Model\Entity\LoginAggregateRegistrationInterface;
 use Auth\Model\Entity\RegistrationInterface;
@@ -20,19 +20,19 @@ use Auth\Model\Entity\RegistrationInterface;
  *
  * @author pes2704
  */
-class LoginChildRegistrationHydrator implements AssotiationHydratorInterface {
+class LoginChildRegistrationHydrator implements HydratorInterface {
 
-    const ASSOTIATION_NAME = 'registration';
+    const ASSOCIATION_NAME = 'registration';
 
     /**
      *
      * @param LoginAggregateRegistrationInterface $loginAggregateRegistration
      * @param RegistrationInterface $registration
      */
-    public function hydrate(EntityInterface $loginAggregateRegistration, EntityInterface $registration) {
+    public function hydrate(EntityInterface $loginAggregateRegistration, ArrayAccess $registration) {
         /** @var LoginAggregateRegistrationInterface $loginAggregateRegistration */
         $loginAggregateRegistration
-            ->setRegistration($registration);
+            ->setRegistration($registration->offsetGet(self::ASSOCIATION_NAME));
     }
 
     /**
@@ -40,9 +40,9 @@ class LoginChildRegistrationHydrator implements AssotiationHydratorInterface {
      * @param LoginAggregateRegistrationInterface $loginAggregateRegistration
      * @param RegistrationInterface $registration
      */
-    public function extract(EntityInterface $loginAggregateRegistration, EntityInterface $registration) {
+    public function extract(EntityInterface $loginAggregateRegistration, ArrayAccess $registration) {
         /** @var LoginAggregateRegistrationInterface $loginAggregateRegistration */
-        $registration = $loginAggregateRegistration->getRegistration();
+        $registration->offsetSet(self::ASSOCIATION_NAME, $loginAggregateRegistration->getRegistration());
     }
 
 }

@@ -3,9 +3,9 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Events\Model\Entity\VisitorJobRequestInterface;
 
@@ -14,14 +14,14 @@ use Events\Model\Entity\VisitorJobRequestInterface;
  *
  * @author pes2704
  */
-class VisitorJobRequestHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
+class VisitorJobRequestHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
      * @param VisitorJobRequestInterface $visitorJobRequest
      * @param type $rowData
      */
-    public function hydrate( EntityInterface $visitorJobRequest, RowDataInterface $rowData) {
+    public function hydrate( EntityInterface $visitorJobRequest, ArrayAccess $rowData) {
         /** @var VisitorJobRequestInterface $visitorJobRequest */
         $visitorJobRequest
                  // primary key
@@ -46,9 +46,9 @@ class VisitorJobRequestHydrator extends TypeHydratorAbstract implements RowHydra
     /**
      *
      * @param VisitorJobRequestInterface $visitorDataPost
-     * @param RowDataInterface $row
+     * @param ArrayAccess $row
      */
-    public function extract(EntityInterface $visitorDataPost, RowDataInterface $rowData) {
+    public function extract(EntityInterface $visitorDataPost, ArrayAccess $rowData) {
         /** @var VisitorJobRequestInterface $visitorDataPost */
             // primary key
             $this->setSqlValue($rowData, 'login_login_name', $visitorDataPost->getLoginLoginName());

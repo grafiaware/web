@@ -15,7 +15,7 @@ use Red\Model\Entity\MenuItemInterface;
 
 use Red\Model\Dao\MenuItemDao;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Entity\PersistableEntityInterface;
 use Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -32,7 +32,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     protected $dataManager;
 
-    public function __construct(MenuItemDao $menuItemDao, RowHydratorInterface $menuItemHydrator) {
+    public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator) {
         $this->dataManager = $menuItemDao;
         $this->registerHydrator($menuItemHydrator);
     }
@@ -63,7 +63,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         if (!isset($this->collection[$index])) {   // collection je private
             $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
             $rowData = $this->dataManager->getOutOfContext($key);
-            $entity = $this->addEntityByRowData($rowData);
+            $entity = $this->recreateEntityByRowData($rowData);
         }
         return $entity ?? null;
     }
@@ -77,7 +77,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function getById($id): ?MenuItemInterface {
         $rowData = $this->dataManager->getById(['id'=>$id]);  // zatím je tu MenuItemDao!
-        return $this->addEntityByRowData($rowData);    }
+        return $this->recreateEntityByRowData($rowData);    }
 
     /**
      * Vrací MenuItem podle hodnoty prettyUri.
@@ -88,7 +88,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function getByPrettyUri($prettyUri): ?MenuItemInterface {
         $rowData = $this->dataManager->getByPrettyUri(['prettyuri'=>$prettyUri]);
-        return $this->addEntityByRowData($rowData);
+        return $this->recreateEntityByRowData($rowData);
     }
 
     /**
@@ -99,7 +99,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     public function getByReference($id): ?PersistableEntityInterface {
         // asociativní pole atributů primárního klíče - je to definováno metodou registerOneToOneAssociation() v rodičovském repo - t.j. HierarchyJoinMenuItemRepo
         $rowData = $this->dataManager->get($id);
-        return $this->addEntityByRowData($rowData);
+        return $this->recreateEntityByRowData($rowData);
     }
 
     /**
@@ -109,7 +109,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function findAllLanguageVersions($uidFk): iterable {
         $rowDataArray = $this->dataManager->findAllLanguageVersions(['uid_fk'=>$uidFk]);
-        return $this->addEntitiesByRowDataArray($rowDataArray);
+        return $this->recreateEntitiesByRowDataArray($rowDataArray);
     }
 
     /**
@@ -121,7 +121,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function findByPaperFulltextSearch($langCodeFk, $text) {
         $rowDataArray = $this->dataManager->findByContentFulltextSearch($langCodeFk, $text);
-        return $this->addEntitiesByRowDataArray($rowDataArray);
+        return $this->recreateEntitiesByRowDataArray($rowDataArray);
     }
 
     public function add(MenuItemInterface $menuItem) {

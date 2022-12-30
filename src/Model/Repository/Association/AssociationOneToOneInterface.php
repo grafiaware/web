@@ -16,5 +16,19 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface AssociationOneToOneInterface extends AssociationInterface {
-    public function hydrateByAssociatedEntity(PersistableEntityInterface $entity, RowDataInterface $parentRowData): void;
+
+    /**
+     * Vyzvedne entitu z potomkovského repository getByReference() a pomocí child hydratoru hydratuje rodičovskou entitu vyzvednutou potomkonskou entitou.
+     * Poznámka: Pokud potomkovská entita neexistuje hydratuje hodnotou null.
+     *
+     * @param PersistableEntityInterface $parentEntity
+     * @param RowDataInterface $parentRowData
+     * @return void
+     */
+    public function recreateEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void;
+
+    public function addEntity(PersistableEntityInterface $parentEntity = null): void;
+
+    public function removeEntity(PersistableEntityInterface $parentEntity = null): void;
+
 }

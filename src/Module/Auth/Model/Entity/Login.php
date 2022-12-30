@@ -5,8 +5,6 @@ namespace Auth\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
 
-use Auth\Model\Entity\EntityGeneratedKeyInterface;
-
 /**
  * Description of Login
  *

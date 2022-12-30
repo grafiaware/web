@@ -10,7 +10,7 @@ namespace Model\Repository\Association;
 
 use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
-use Model\Hydrator\AssotiationHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\RepoAssotiatedOneInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
@@ -20,13 +20,12 @@ use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
  *
  * @author pes2704
  */
-class AssociationOneToOne extends AssociationAbstract implements AssociationOneToOneInterface {
+abstract class AssociationOneToOne extends AssociationAbstract implements AssociationOneToOneInterface {
 
     /**
      * @var RepoAssotiatedOneInterface
      */
     protected $childRepo;
-
 
     /**
      *
@@ -36,28 +35,43 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
      */
     /**
      *
-     * @param string $parentTable
+     * @param string $referenceName
      * @param RepoAssotiatedOneInterface $childRepo
      */
-    public function __construct(string $parentTable, RepoAssotiatedOneInterface $childRepo, AssotiationHydratorInterface $childHydrator) {
-        parent::__construct($parentTable, $childHydrator);
+    public function __construct(string $referenceName, RepoAssotiatedOneInterface $childRepo) {
+        parent::__construct($referenceName);
         $this->childRepo = $childRepo;
     }
 
-    public function hydrateByAssociatedEntity(PersistableEntityInterface $entity, RowDataInterface $parentRowData): void {
-        $child = $this->childRepo->getByReference($this->parentTable, $parentRowData->getArrayCopy());
-//        if (is_null($child)) {
-//            $repoCls = get_class($this->childRepo);
-//            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu. Nebyla načtena entita z repository asociovaných entit $repoCls.");
-//        }
-        $this->childHydrator->hydrate($entity, $child);
+    /**
+     *
+     * @param RowDataInterface $parentRowData
+     * @return PersistableEntityInterface|null
+     */
+    protected function getChild(RowDataInterface $parentRowData): ?PersistableEntityInterface {
+        return $this->childRepo->getByReference($this->referenceName, $parentRowData->getArrayCopy());
     }
 
-    public function addAssociatedEntity(PersistableEntityInterface $entity = null) {
-        $this->childRepo->add($entity);
+    /**
+     * Pokud entita není již persistována, přidá ji do repository.
+     *
+     * @param PersistableEntityInterface $entity
+     * @return void
+     */
+    protected function addChild(PersistableEntityInterface $entity): void {
+        if (!$entity->isLocked() AND !$entity->isPersisted()) {
+            $this->childRepo->add($entity);
+        }
     }
-
-    public function removeAssociatedEntity(PersistableEntityInterface $entity = null) {
-        $this->childRepo->remove($entity);
+    /**
+     * Pokud entita je persistována, odstraní ji z repository.
+     *
+     * @param PersistableEntityInterface $entity
+     * @return void
+     */
+    protected function removeChild(PersistableEntityInterface $entity): void {
+        if (!$entity->isLocked() AND $entity->isPersisted()) {
+            $this->childRepo->remove($entity);
+        }
     }
 }

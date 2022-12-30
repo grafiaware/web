@@ -9,7 +9,7 @@
 namespace Red\Model\Repository;
 
 use Model\Repository\RepoReadonlyInterface;
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 use Red\Model\Dao\BlockDao;
 use Red\Model\Repository\MenuItemRepo;
@@ -24,7 +24,7 @@ use Red\Model\Entity\MenuItemInterface;
  */
 class BlockAggregateRepo extends BlockRepo implements RepoReadonlyInterface {
 
-    public function __construct(BlockDao $blockDao, RowHydratorInterface $blockHydrator,
+    public function __construct(BlockDao $blockDao, HydratorInterface $blockHydrator,
             MenuItemRepo $menuItemRepo, BlockChildHydrator $componentMenuItemHydrator) {
         parent::__construct($blockDao, $blockHydrator);
         $this->registerOneToOneAssociation(MenuItemInterface::class, ['lang_code_fk', 'uid_fk'], $menuItemRepo);

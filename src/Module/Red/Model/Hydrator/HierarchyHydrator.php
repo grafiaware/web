@@ -8,10 +8,10 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 
@@ -20,14 +20,14 @@ use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
  *
  * @author pes2704
  */
-class HierarchyHydrator implements RowHydratorInterface {
+class HierarchyHydrator implements HydratorInterface {
 
     /**
      *
      * @param MenuItemAggregateHierarchyInterface $menuNode
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $menuNode, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $menuNode, ArrayAccess $rowData) {
         /** @var MenuItemAggregateHierarchyInterface $menuNode */
         $menuNode
             ->setUid($rowData->offsetGet('uid'))
@@ -43,7 +43,7 @@ class HierarchyHydrator implements RowHydratorInterface {
      * @param MenuItemAggregateHierarchyInterface $menuNode
      * @param type $rowData
      */
-    public function extract(EntityInterface $menuNode, RowDataInterface $rowData) {
+    public function extract(EntityInterface $menuNode, ArrayAccess $rowData) {
         /** @var MenuItemAggregateHierarchyInterface $menuNode */
         $rowData->offsetSet('uid', $menuNode->getUid());
         $rowData->offsetSet('left_node', $menuNode->getLeftNode());

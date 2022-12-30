@@ -8,9 +8,9 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\LanguageInterface;
 
@@ -19,14 +19,14 @@ use Red\Model\Entity\LanguageInterface;
  *
  * @author pes2704
  */
-class LanguageHydrator implements RowHydratorInterface {
+class LanguageHydrator implements HydratorInterface {
 
     /**
      *
      * @param LanguageInterface $language
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $language, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $language, ArrayAccess $rowData) {
         /** @var LanguageInterface $language */
         $language
             ->setLangCode($rowData->offsetGet('lang_code'))
@@ -41,7 +41,7 @@ class LanguageHydrator implements RowHydratorInterface {
      * @param LanguageInterface $language
      * @param type $rowData
      */
-    public function extract(EntityInterface $language, RowDataInterface $rowData) {
+    public function extract(EntityInterface $language, ArrayAccess $rowData) {
         /** @var LanguageInterface $language */
         $rowData->offsetSet('lang_code',  $language->getLangCode());
         $rowData->offsetSet('locale',  $language->getLocale());

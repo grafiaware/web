@@ -8,7 +8,7 @@
 
 namespace Auth\Model\Repository;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Repository\RepoAbstract;
 
 use Auth\Model\Entity\Login;
@@ -27,7 +27,7 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
 
     protected $dao;
 
-    public function __construct(LoginDao $loginDao, RowHydratorInterface $loginHydrator) {
+    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator) {
         $this->dataManager = $loginDao;
         $this->registerHydrator($loginHydrator);
     }

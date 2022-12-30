@@ -34,12 +34,12 @@ class RegistrationDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInt
             'created'
         ];
     }
-    
-    public function getReference($parentTableName): array {
+
+    public function getReference($referenceName): array {
         // 'jméno referencované tabulky'=>['cizí klíč potomka (jméno sloupce v potomkovi)'=>'vlastní klíč rodiče (jméno sloupve v rodiči)']
         return [
             'login'=>['login_name_fk'=>'login_name']
-        ][$parentTableName];
+        ][$referenceName];
     }
 
     public function getTableName(): string {

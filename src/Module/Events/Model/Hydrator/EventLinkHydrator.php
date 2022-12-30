@@ -2,9 +2,9 @@
 
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 use Events\Model\Entity\EventLinkInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
@@ -14,7 +14,7 @@ use Model\Hydrator\TypeHydratorAbstract;
  *
  * @author vlse2610
  */
-class EventLinkHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
+class EventLinkHydrator extends TypeHydratorAbstract implements HydratorInterface {
 //   `event_link`.`id` ,
 //   `event_link`.`show` ,
 //   `event_link`.`href`,
@@ -23,9 +23,9 @@ class EventLinkHydrator extends TypeHydratorAbstract implements RowHydratorInter
     /**
      *
      * @param EventLinkInterface $eventLink
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-      public function hydrate( EntityInterface $eventLink, RowDataInterface $rowData) {
+      public function hydrate( EntityInterface $eventLink, ArrayAccess $rowData) {
         /** @var EventLinkInterface $eventLink */
         $eventLink
             ->setId($this->getPhpValue( $rowData, 'id'))
@@ -38,9 +38,9 @@ class EventLinkHydrator extends TypeHydratorAbstract implements RowHydratorInter
     /**
      *
      * @param EventLinkInterface $eventLink
-     * @param RowDataInterface $row
+     * @param ArrayAccess $row
      */
-    public function extract(EntityInterface $eventLink, RowDataInterface $rowData) {
+    public function extract(EntityInterface $eventLink, ArrayAccess $rowData) {
         /** @var EventLinkInterface $eventLink */
         // id je autoincrement
         $this->setSqlValue($rowData, 'show', $eventLink->getShow() );

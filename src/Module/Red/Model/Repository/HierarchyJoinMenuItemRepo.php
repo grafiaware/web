@@ -9,7 +9,7 @@
 namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 use Red\Model\Repository\MenuItemRepo;
 
@@ -66,7 +66,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      */
     public function getNodeByTitle($key): ?HierarchyAggregateInterface {
         $rowData = $this->dataManager->getByTitleHelper($key);
-        return $this->addEntityByRowData($rowData);
+        return $this->recreateEntityByRowData($rowData);
     }
 
     /**
@@ -79,7 +79,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @return HierarchyAggregateInterface array of
      */
     public function findChildren($langCode, $parentUid) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->getImmediateSubNodes($langCode, $parentUid));
+        return $this->recreateEntitiesByRowDataArray($this->dataManager->getImmediateSubNodes($langCode, $parentUid));
     }
 
     /**
@@ -88,7 +88,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @return HierarchyAggregateInterface array of
      */
     public function getFullTree($langCode) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->getFullTree($langCode));
+        return $this->recreateEntitiesByRowDataArray($this->dataManager->getFullTree($langCode));
     }
 
     /**
@@ -99,7 +99,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @return HierarchyAggregateInterface array of
      */
     public function getSubTree($langCode, $rootUid, $maxDepth=NULL) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->getSubTree($langCode, $rootUid, $maxDepth));
+        return $this->recreateEntitiesByRowDataArray($this->dataManager->getSubTree($langCode, $rootUid, $maxDepth));
     }
 
     protected function indexFromEntity(HierarchyAggregateInterface $menuNode) {

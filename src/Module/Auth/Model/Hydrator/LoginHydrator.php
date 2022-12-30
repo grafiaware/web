@@ -9,8 +9,8 @@
 namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\RowHydratorInterface;
-use Model\RowData\RowDataInterface;
+use Model\Hydrator\HydratorInterface;
+use ArrayAccess;
 
 use Auth\Model\Entity\LoginInterface;
 
@@ -19,14 +19,14 @@ use Auth\Model\Entity\LoginInterface;
  *
  * @author pes2704
  */
-class LoginHydrator implements RowHydratorInterface {
+class LoginHydrator implements HydratorInterface {
 
     /**
      *
      * @param EntityInterface $login
-     * @param type $rowData
+     * @param ArrayAccess $rowData
      */
-    public function hydrate(EntityInterface $login, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $login, ArrayAccess $rowData) {
         /** @var LoginInterface $login */
         $login->setLoginName($rowData->offsetGet('login_name'));
     }
@@ -34,9 +34,9 @@ class LoginHydrator implements RowHydratorInterface {
     /**
      *
      * @param EntityInterface $login
-     * @param array $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract(EntityInterface $login, RowDataInterface $rowData) {
+    public function extract(EntityInterface $login, ArrayAccess $rowData) {
         /** @var LoginInterface $login */
         $rowData->offsetSet('login_name', $login->getLoginName());
     }

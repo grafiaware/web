@@ -41,10 +41,10 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
     }
 
     public function findByJobIdFk( array $jobIdFk ): array {
-        return $this->findByFk('job_id', $jobIdFk);
+        return $this->findByReference('job_id', $jobIdFk);
     }
 
     public function findByJobTagFk( array $jobTagTagFk ) : array{
-        return $this->findByFk('job_tag_tag', $jobTagTagFk);
+        return $this->findByReference('job_tag_tag', $jobTagTagFk);
     }
 }

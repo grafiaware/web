@@ -8,8 +8,8 @@
 
 namespace Model\Hydrator;
 
-use Model\Entity\PersistableEntityInterface;
-use Model\RowData\RowDataInterface;
+use Model\Entity\EntityInterface;
+use ArrayAccess;
 
 /**
  *
@@ -20,14 +20,14 @@ interface HydratorInterface {
     /**
      *
      * @param PersistableEntityInterface $entity
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function hydrate(PersistableEntityInterface $entity, RowDataInterface $rowData);
+    public function hydrate(EntityInterface $entity, ArrayAccess $rowData);
 
     /**
      *
      * @param PersistableEntityInterface $entity
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract(PersistableEntityInterface $entity, RowDataInterface $rowData);
+    public function extract(EntityInterface $entity, ArrayAccess $rowData);
 }

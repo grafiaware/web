@@ -100,7 +100,7 @@ use Events\Model\Repository\VisitorJobRequestRepo;
 //aggregate
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
 use Red\Model\Hydrator\MenuItemChildPaperHydrator;
-use Red\Model\Repository\PaperAggregateContentsRepo;
+use Red\Model\Repository\PaperAggregateSectionsRepo;
 use Red\Model\Hydrator\PaperChildHydrator;
 use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Hydrator\BlockChildHydrator;
@@ -251,15 +251,15 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperChildHydrator::class => function(ContainerInterface $c) {
                 return new PaperChildHydrator();
             },
-            PaperAggregateContentsRepo::class => function(ContainerInterface $c) {
-                return new PaperAggregateContentsRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class),
+            PaperAggregateSectionsRepo::class => function(ContainerInterface $c) {
+                return new PaperAggregateSectionsRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class),
                         $c->get(PaperSectionRepo::class), $c->get(PaperChildHydrator::class));
             },
             MenuItemAggregatePaperRepo::class => function(ContainerInterface $c) {
                 return new MenuItemAggregatePaperRepo(
                         $c->get(MenuItemDao::class),
                         $c->get(MenuItemHydrator::class),
-                        $c->get(PaperAggregateContentsRepo::class),
+                        $c->get(PaperAggregateSectionsRepo::class),
                         $c->get(MenuItemChildPaperHydrator::class)
                         );
             },

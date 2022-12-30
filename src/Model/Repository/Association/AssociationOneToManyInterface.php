@@ -8,16 +8,22 @@
 
 namespace Model\Repository\Association;
 
-use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
 interface AssociationOneToManyInterface extends AssociationInterface {
-    public function getAllAssociatedEntities(&$row): iterable;
-    public function addAssociatedEntity(PersistableEntityInterface $entity = null);
-    public function removeAssociatedEntity(PersistableEntityInterface $entity = null);
 
+   /**
+    *
+    * @param RowDataInterface $row
+    */
+    public function recreateEntities(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void;
+
+    public function addEntities(PersistableEntityInterface $parentEntity);
+
+    public function removeEntities(PersistableEntityInterface $parentEntity);
 }

@@ -3,7 +3,7 @@ namespace Form;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 /**
  * Bezstavový hydrátor
@@ -19,7 +19,7 @@ class Hydrator implements HydratorInterface {
      * @param EntityInterface $entity
      * @param RowDataInterface $data
      */
-    public function hydrate(EntityInterface $entity, RowDataInterface $data){
+    public function hydrate(EntityInterface $entity, ArrayAccess $data){
         $classMethods = get_class_methods(get_class($entity));
         foreach ($data as $key => $value) {
             $methodName = 'set'.$this->underscoreToPascalCase($key);

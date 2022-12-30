@@ -8,10 +8,10 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\MenuRootInterface;
 
@@ -20,13 +20,13 @@ use Red\Model\Entity\MenuRootInterface;
  *
  * @author pes2704
  */
-class MenuRootHydrator implements RowHydratorInterface {
+class MenuRootHydrator implements HydratorInterface {
     /**
      *
      * @param MenuRootInterface $menuRoot
      * @param type $row
      */
-    public function hydrate(EntityInterface $menuRoot, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $menuRoot, ArrayAccess $rowData) {
         /** @var MenuRootInterface $menuRoot */
         $menuRoot->setName($rowData->offsetGet('name'));
         $menuRoot->setUidFk($rowData->offsetGet('uid_fk'));
@@ -37,7 +37,7 @@ class MenuRootHydrator implements RowHydratorInterface {
      * @param MenuRootInterface $menuRoot
      * @param array $rowData
      */
-    public function extract(EntityInterface $menuRoot, RowDataInterface $rowData) {
+    public function extract(EntityInterface $menuRoot, ArrayAccess $rowData) {
         /** @var MenuRootInterface $menuRoot */
         $rowData->offsetSet('name',  $menuRoot->getName());
         $rowData->offsetSet('uid_fk',  $menuRoot->getUidFk());

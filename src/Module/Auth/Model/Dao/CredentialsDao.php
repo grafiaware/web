@@ -31,11 +31,11 @@ class CredentialsDao extends DaoEditAbstract implements DaoReferenceUniqueInterf
             'updated'
         ];
     }
-
-    public function getForeignKeyAttributes(): array {
+    public function getReference($referenceName): array {
+        // 'jméno referencované tabulky'=>['cizí klíč potomka (jméno sloupce v potomkovi)'=>'vlastní klíč rodiče (jméno sloupve v rodiči)']
         return [
-            'login_name_fk' => ['login_name_fk',]
-        ];
+            'login'=>['login_name_fk'=>'login_name_fk']
+        ][$referenceName];
     }
 
     public function getTableName(): string {

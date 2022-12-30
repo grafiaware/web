@@ -1,10 +1,10 @@
 <?php
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Events\Model\Entity\CompanyInterface;
 
@@ -13,14 +13,14 @@ use Events\Model\Entity\CompanyInterface;
  *
  * @author
  */
-class CompanyHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
+class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
      * @param CompanyInterface $company
-     * @param RowDataInterface $row
+     * @param ArrayAccess $row
      */
-    public function hydrate( EntityInterface $company, RowDataInterface $rowData) {
+    public function hydrate( EntityInterface $company, ArrayAccess $rowData) {
         /** @var CompanyInterface $company */
         $company
                 //`company`.`id`,
@@ -35,9 +35,9 @@ class CompanyHydrator extends TypeHydratorAbstract implements RowHydratorInterfa
     /**
      *
      * @param CompanyInterface $company
-     * @param RowDataInterface $row
+     * @param ArrayAccess $row
      */
-    public function extract(EntityInterface $company, RowDataInterface $rowData) {
+    public function extract(EntityInterface $company, ArrayAccess $rowData) {
         /** @var CompanyInterface $company */
         // id je autoincrement       
         $this->setSqlValue( $rowData, 'name', $company->getName() );

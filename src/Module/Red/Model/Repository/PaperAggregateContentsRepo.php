@@ -24,12 +24,12 @@ use Red\Model\Entity\PaperSectionInterface;
  *
  * @author pes2704
  */
-class PaperAggregateContentsRepo extends PaperRepo implements RepoInterface, PaperRepoInterface {
+class PaperAggregateSectionsRepo extends PaperRepo implements RepoInterface, PaperRepoInterface {
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator,
-            PaperSectionRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {
+            PaperSectionRepo $paperSectionRepo, PaperChildHydrator $paperChildHydrator) {
         parent::__construct($paperDao, $paperHydrator);
-        $this->registerOneToManyAssociation(PaperSectionInterface::class, 'id', $paperContentRepo);
+        $this->registerOneToManyAssociation(PaperSectionInterface::class, 'id', $paperSectionRepo);
         $this->registerHydrator($paperChildHydrator);
     }
 

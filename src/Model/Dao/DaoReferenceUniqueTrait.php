@@ -14,8 +14,8 @@ use UnexpectedValueException;
  */
 trait DaoReferenceUniqueTrait {
 
-    public function getByReference($parentTableName, array $referenceParams) {
-        $key = $this->getReferenceKeyTouples($parentTableName, $referenceParams);
+    public function getByReference($referenceName, array $referenceTouples) {
+        $key = $this->getReferenceKeyTouples($referenceName, $referenceTouples);
         return $this->getUnique($key);
 ###
         /** @var DaoReferenceUniqueInterface $this */

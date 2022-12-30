@@ -9,7 +9,7 @@
 namespace Auth\Model\Repository;
 
 use Model\Repository\RepoAggregateInterface;
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 use Auth\Model\Repository\LoginRepo;
 use Auth\Model\Dao\LoginDao;
@@ -32,7 +32,7 @@ use Auth\Model\Entity\RegistrationInterface;
  */
 class LoginAggregateFullRepo extends LoginRepo implements RepoAggregateInterface {
 
-    public function __construct(LoginDao $loginDao, RowHydratorInterface $loginHydrator,
+    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
             CredentialsRepo $credentialsRepo, LoginChildCredentialsHydrator $loginCredentialsHydrator,
             RegistrationRepo $registrationRepo, LoginChildRegistrationHydrator $loginRegistrationHydrator
             ) {

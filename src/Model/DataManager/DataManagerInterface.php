@@ -22,7 +22,6 @@ interface DataManagerInterface {
     public function getPrimaryKeyTouples(array $primaryFieldsValue): array;
 
     public function get(array $id): ?RowDataInterface;
-    public function getByReference(array $referenceId): ?RowDataInterface;
     public function find($whereClause="", $touplesToBind=[]): iterable;
     public function set($index, RowDataInterface $data): void;
     public function unset($index): void;

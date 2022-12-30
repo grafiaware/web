@@ -8,10 +8,10 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\BlockInterface;
 
@@ -20,14 +20,14 @@ use Red\Model\Entity\BlockInterface;
  *
  * @author pes2704
  */
-class BlockHydrator implements RowHydratorInterface {
+class BlockHydrator implements HydratorInterface {
 
     /**
      *
      * @param BlockInterface $block
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $block, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $block, ArrayAccess $rowData) {
         /** @var BlockInterface $block */
         $block
                 ->setName($rowData->offsetGet('name'))
@@ -40,7 +40,7 @@ class BlockHydrator implements RowHydratorInterface {
      * @param BlockInterface $block
      * @param type $rowData
      */
-    public function extract(EntityInterface $block, RowDataInterface $rowData) {
+    public function extract(EntityInterface $block, ArrayAccess $rowData) {
         /** @var BlockInterface $block */
         $rowData->offsetSet('name', $block->getName());
     }

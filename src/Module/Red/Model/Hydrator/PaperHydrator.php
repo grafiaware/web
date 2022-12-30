@@ -8,11 +8,11 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\PaperInterface;
 
@@ -21,14 +21,14 @@ use Red\Model\Entity\PaperInterface;
  *
  * @author pes2704
  */
-class PaperHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
+class PaperHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
      * @param PaperInterface $paper
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $paper, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $paper, ArrayAccess $rowData) {
         /** @var PaperInterface $paper */
         $paper
             ->setId($this->getPhpValue($rowData,'id'))
@@ -46,7 +46,7 @@ class PaperHydrator extends TypeHydratorAbstract implements RowHydratorInterface
      * @param PaperInterface $paper
      * @param type $rowData
      */
-    public function extract(EntityInterface $paper, RowDataInterface $rowData) {
+    public function extract(EntityInterface $paper, ArrayAccess $rowData) {
         /** @var PaperInterface $paper */
         $this->setSqlValue($rowData, 'id',  $paper->getId()); // id je autoincrement - readonly, hodnota pro where
         $this->setSqlValue($rowData, 'menu_item_id_fk',  $paper->getMenuItemIdFk());

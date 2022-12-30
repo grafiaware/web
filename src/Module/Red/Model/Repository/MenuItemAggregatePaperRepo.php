@@ -11,10 +11,10 @@ namespace Red\Model\Repository;
 use Red\Model\Repository\MenuItemRepo;
 
 use Red\Model\Dao\MenuItemDao;
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Repository\RepoReadonlyInterface;
 
-use Red\Model\Repository\PaperAggregateContentsRepo;
+use Red\Model\Repository\PaperAggregateSectionsRepo;
 use Red\Model\Entity\MenuItemAggregatePaper;
 use Red\Model\Hydrator\MenuItemChildPaperHydrator;
 use Red\Model\Entity\PaperInterface;
@@ -26,8 +26,8 @@ use Red\Model\Entity\PaperInterface;
  */
 class MenuItemAggregatePaperRepo extends MenuItemRepo implements MenuItemRepoInterface, RepoReadonlyInterface {
 
-    public function __construct(MenuItemDao $menuItemDao, RowHydratorInterface $menuItemHydrator,
-            PaperAggregateContentsRepo $paperAggregateRepo, MenuItemChildPaperHydrator $menuItemPaperHydrator) {
+    public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator,
+            PaperAggregateSectionsRepo $paperAggregateRepo, MenuItemChildPaperHydrator $menuItemPaperHydrator) {
         parent::__construct($menuItemDao, $menuItemHydrator);
         $this->registerOneToOneAssociation(PaperInterface::class, 'id', $paperAggregateRepo);
         $this->registerHydrator($menuItemPaperHydrator);

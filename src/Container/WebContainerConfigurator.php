@@ -70,7 +70,7 @@ use Component\View\Element\ElementComponent;
 use Component\View\Element\ElementInheritDataComponent;
 
 use Component\View\Generated\LanguageSelectComponent;
-use Component\View\Generated\ SearchPhraseComponent;
+use Component\View\Generated\SearchPhraseComponent;
 use Component\View\Generated\SearchResultComponent;
 
 use Component\View\Flash\FlashComponent;
@@ -161,7 +161,7 @@ use Red\Model\Repository\MenuItemTypeRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\PaperRepo;
-use Red\Model\Repository\PaperAggregateContentsRepo;
+use Red\Model\Repository\PaperAggregateSectionsRepo;
 use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\BlockAggregateRepo;
@@ -973,7 +973,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PaperViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
-                            $c->get(PaperAggregateContentsRepo::class)
+                            $c->get(PaperAggregateSectionsRepo::class)
                     );
             },
             ArticleViewModel::class => function(ContainerInterface $c) {
@@ -995,7 +995,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PaperTemplatePreviewViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
-                            $c->get(PaperAggregateContentsRepo::class)
+                            $c->get(PaperAggregateSectionsRepo::class)
                     );
             },
             MultipageTemplatePreviewViewModel::class => function(ContainerInterface $c) {

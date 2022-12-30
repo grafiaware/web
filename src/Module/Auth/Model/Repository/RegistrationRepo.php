@@ -4,7 +4,7 @@ namespace Auth\Model\Repository;
 use Model\Repository\RepoAbstract;
 use \Model\Repository\RepoAssotiatedOneTrait;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Entity\RegistrationInterface;
@@ -19,7 +19,7 @@ use Auth\Model\Dao\RegistrationDao;
  */
 class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface {
 
-    public function __construct(RegistrationDao $registrationDao, RowHydratorInterface $registrationHydrator) {
+    public function __construct(RegistrationDao $registrationDao, HydratorInterface $registrationHydrator) {
         $this->dataManager = $registrationDao;
         $this->registerHydrator($registrationHydrator);
     }

@@ -8,6 +8,8 @@
 
 namespace Model\Entity;
 
+use Model\Entity\PersistableEntityInterface;
+
 /**
  * Description of EntityAbstract
  *

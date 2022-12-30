@@ -13,9 +13,9 @@ use Model\Repository\RepoAbstract;
 use Red\Model\Entity\PaperSectionInterface;
 use Red\Model\Entity\PaperSection;
 use Red\Model\Dao\PaperSectionDao;
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
-use Model\Repository\Exception\UnableRecreateEntityException;
+use Model\Repository\RepoAssotiatedManyTrait;
 
 /**
  * Description of Menu
@@ -26,10 +26,12 @@ class PaperSectionRepo extends RepoAbstract implements PaperSectionRepoInterface
 
     protected $dao;
 
-    public function __construct(PaperSectionDao $paperContentDao, RowHydratorInterface $contentHydrator) {
+    public function __construct(PaperSectionDao $paperContentDao, HydratorInterface $contentHydrator) {
         $this->dataManager = $paperContentDao;
         $this->registerHydrator($contentHydrator);
     }
+    
+    use RepoAssotiatedManyTrait;
 
     /**
      *
@@ -46,9 +48,13 @@ class PaperSectionRepo extends RepoAbstract implements PaperSectionRepoInterface
      * @param type $paperIdFk
      * @return iterable
      */
-    public function findByReference($paperIdFk): iterable {
+    public function findByPaperIdFk($paperIdFk): iterable {
         $key = $this->dataManager->getForeignKeyTouples('paper_id_fk', ['paper_id_fk'=>$paperIdFk]);
         return $this->findEntitiesByReference('paper_id_fk', $key);
+
+//            public function findByJobTagTag($jobTagTag) : array  {
+//        return $this->findEntities("job_tag_tag = :job_tag_tag", [":job_tag_tag"=>$jobTagTag]);
+//    }
     }
 
     public function add(PaperSectionInterface $paperContent) {

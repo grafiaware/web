@@ -9,8 +9,8 @@
 namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\RowHydratorInterface;
-use Model\RowData\RowDataInterface;
+use Model\Hydrator\HydratorInterface;
+use ArrayAccess;
 
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 use Auth\Model\Entity\CredentialsInterface;
@@ -20,14 +20,14 @@ use Auth\Model\Entity\CredentialsInterface;
  *
  * @author pes2704
  */
-class LoginChildCredentialsHydrator implements RowHydratorInterface {
+class LoginChildCredentialsHydrator implements HydratorInterface {
 
     /**
      *
      * @param LoginAggregateCredentialsInterface $loginAggregate
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $loginAggregate, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $loginAggregate, ArrayAccess $rowData) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
         $loginAggregate
             ->setCredentials($rowData->offsetGet(CredentialsInterface::class));
@@ -38,7 +38,7 @@ class LoginChildCredentialsHydrator implements RowHydratorInterface {
      * @param LoginAggregateCredentialsInterface $loginAgregate
      * @param type $rowData
      */
-    public function extract(EntityInterface $loginAgregate, RowDataInterface $rowData) {
+    public function extract(EntityInterface $loginAgregate, ArrayAccess $rowData) {
         /** @var LoginAggregateCredentialsInterface $loginAgregate */
         $rowData->offsetSet(CredentialsInterface::class, $loginAgregate->getCredentials());
     }

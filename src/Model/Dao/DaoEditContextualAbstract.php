@@ -34,7 +34,7 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
                         $this->sql->touples($this->getPrimaryKeyAttributes())
                     )
                 );
-        $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
+        $touplesToBind = $this->getPrimaryKeyPlaceholdersValues($id);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
@@ -55,7 +55,7 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
                                         $this->getContextConditions(),
                                         $this->sql->touples(array_keys($unique)))
                                   );
-        $touplesToBind = $this->getPrimaryKeyTouplesToBind($unique);
+        $touplesToBind = $this->getPrimaryKeyPlaceholdersValues($unique);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 

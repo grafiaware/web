@@ -2,8 +2,8 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\RowHydratorInterface;
-use Model\RowData\RowDataInterface;
+use Model\Hydrator\HydratorInterface;
+use ArrayAccess;
 use Model\Hydrator\TypeHydratorAbstract;
 
 
@@ -13,14 +13,14 @@ use Events\Model\Entity\VisitorProfileInterface;
  * Description of PaperHydrator
  *
  */
-class VisitorProfileHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
+class VisitorProfileHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
      * @param VisitorProfileInterface $visitorProfile
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $visitorProfile, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $visitorProfile, ArrayAccess $rowData) {
         /** @var VisitorProfileInterface $visitorProfile */
         $visitorProfile
                 ->setLoginLoginName($this->getPhpValue($rowData,'login_login_name'))
@@ -40,9 +40,9 @@ class VisitorProfileHydrator extends TypeHydratorAbstract implements RowHydrator
     /**
      *
      * @param VisitorProfileInterface $visitorProfile
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract(EntityInterface $visitorProfile, RowDataInterface $rowData) {
+    public function extract(EntityInterface $visitorProfile, ArrayAccess $rowData) {
         /** @var VisitorProfileInterface $visitorProfile */
              $this->setSqlValue($rowData, 'login_login_name', $visitorProfile->getLoginLoginName());
              $this->setSqlValue($rowData, 'prefix', $visitorProfile->getPrefix());

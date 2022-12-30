@@ -11,7 +11,7 @@ namespace Red\Model\Repository;
 use Model\Repository\RepoAbstract;
 
 use Red\Model\Dao\MenuItemTypeDao;
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Red\Model\Entity\MenuItemTypeInterface;
 use Red\Model\Entity\MenuItemType;
 
@@ -24,7 +24,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  */
 class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface { // implements Chybí interface pro repa {
 
-    public function __construct(MenuItemTypeDao $menuItemTypeDao, RowHydratorInterface $menuItemTypeHydrator) {
+    public function __construct(MenuItemTypeDao $menuItemTypeDao, HydratorInterface $menuItemTypeHydrator) {
         $this->dataManager = $menuItemTypeDao;
         $this->registerHydrator($menuItemTypeHydrator);
     }

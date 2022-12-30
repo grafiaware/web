@@ -12,9 +12,10 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 class DataManagerChildAbstract {
+//    public function getByReference($referenceName, array $referenceTouples);
 
-    public function getByReference(array $referenceId): ?RowDataInterface {
-        $rowData = $this->dao->getByReference($referenceId);
+    public function getByReference($referenceName, array $referenceTouples): ?RowDataInterface {
+        $rowData = $this->dao->getByReference($referenceName, $referenceTouples);
         if (!$rowData) {
             return null;
         }

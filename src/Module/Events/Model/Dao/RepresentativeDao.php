@@ -39,6 +39,6 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
     }
 
     public function findByCompanyIdFk(array $companyIdFk): array {
-        return $this->findByFk('company_id', $companyIdFk);
+        return $this->findByReference('company_id', $companyIdFk);
     }
 }

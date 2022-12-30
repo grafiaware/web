@@ -2,8 +2,8 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\RowHydratorInterface;
-use Model\RowData\RowDataInterface;
+use Model\Hydrator\HydratorInterface;
+use ArrayAccess;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\CompanyAddressInterface;
@@ -16,7 +16,7 @@ use Events\Model\Entity\CompanyAddressInterface;
  *
  * @author vlse2610
  */
-class CompanyAddressHydrator extends TypeHydratorAbstract implements RowHydratorInterface {
+class CompanyAddressHydrator extends TypeHydratorAbstract implements HydratorInterface {
 //    `company_address`.`company_id`,
 //    `company_address`.`name`,
 //    `company_address`.`lokace`,
@@ -27,9 +27,9 @@ class CompanyAddressHydrator extends TypeHydratorAbstract implements RowHydrator
     /**
      * 
      * @param CompanyAddressInterface $companyAddress
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function hydrate(EntityInterface $companyAddress, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $companyAddress, ArrayAccess $rowData) {
         /** @var CompanyAddressInterface $companyAddress */
         $companyAddress
             ->setCompanyId( $this->getPhpValue( $rowData, 'company_id') )
@@ -44,9 +44,9 @@ class CompanyAddressHydrator extends TypeHydratorAbstract implements RowHydrator
     /**
      * 
      * @param CompanyAddressInterface $companyAddress
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract(EntityInterface $companyAddress, RowDataInterface $rowData) {
+    public function extract(EntityInterface $companyAddress, ArrayAccess $rowData) {
         /** @var CompanyAddressInterface $companyAddress */
         $this->setSqlValue( $rowData,'company_id', $companyAddress->getCompanyId() );
         $this->setSqlValue( $rowData,'name', $companyAddress->getName() );

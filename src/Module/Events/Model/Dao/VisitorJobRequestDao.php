@@ -54,11 +54,11 @@ class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestD
     }
 
     public function findJobRequestsByJob(array $jobId): array {
-        return $this->findByFk( 'job_id', $jobId);
+        return $this->findByReference( 'job_id', $jobId);
     }
 
     public function findJobRequestsByLogin(array $loginName): array {
-        return $this->findByFk( 'login_login_name', $loginName);
+        return $this->findByReference( 'login_login_name', $loginName);
     }
 
 }

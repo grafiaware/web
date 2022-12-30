@@ -3,19 +3,19 @@
 namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Hydrator\RowHydratorInterface;
-use Model\RowData\RowDataInterface;
+use Model\Hydrator\HydratorInterface;
+use ArrayAccess;
 
 use Auth\Model\Entity\RegistrationInterface;
 
-class RegistrationHydrator implements RowHydratorInterface {
+class RegistrationHydrator implements HydratorInterface {
 
     /**
      *
      * @param EntityInterface $registration
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $registration, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $registration, ArrayAccess $rowData) {
         /** @var RegistrationInterface $registration */
         $registration
             ->setLoginNameFk($rowData->offsetGet('login_name_fk'))
@@ -32,7 +32,7 @@ class RegistrationHydrator implements RowHydratorInterface {
      * @param EntityInterface $registration
      * @param type $rowData
      */
-    public function extract(EntityInterface $registration, RowDataInterface $rowData) {
+    public function extract(EntityInterface $registration, ArrayAccess $rowData) {
         /** @var RegistrationInterface $registration */
         $rowData->offsetSet('login_name_fk', $registration->getLoginNameFk()); // hodnota pro where
         $rowData->offsetSet('password_hash', $registration->getPasswordHash());

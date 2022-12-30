@@ -3,9 +3,9 @@
 namespace Events\Model\Hydrator;
 
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Events\Model\Entity\InstitutionTypeAggregateInstitutionInterface;
 use Events\Model\Entity\InstitutionInterface;
@@ -16,15 +16,15 @@ use Events\Model\Entity\InstitutionInterface;
  *
  * @author vlse2610
  */
-class InstitutionTypeChildHydrator implements RowHydratorInterface {
+class InstitutionTypeChildHydrator implements HydratorInterface {
    
     
     /**
      * 
      * @param InstitutionTypeAggregateInstitutionInterface $institutionTypeAggregateInstitution
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function hydrate( EntityInterface $institutionTypeAggregateInstitution, RowDataInterface $rowData) {
+    public function hydrate( EntityInterface $institutionTypeAggregateInstitution, ArrayAccess $rowData) {
         /** @var InstitutionTypeAggregateInstitutionInterface $institutionTypeAggregateInstitution */
         $institutionTypeAggregateInstitution
             ->exchangeInstitutionArray($rowData->offsetGet(InstitutionInterface::class));
@@ -36,9 +36,9 @@ class InstitutionTypeChildHydrator implements RowHydratorInterface {
      /**
      * 
      * @param InstitutionTypeAggregateInstitutionInterface $institutionTypeAggregateInstitution
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract( EntityInterface $institutionTypeAggregateInstitution, RowDataInterface $rowData) {
+    public function extract( EntityInterface $institutionTypeAggregateInstitution, ArrayAccess $rowData) {
 
         /** @var InstitutionTypeAggregateInstitutionInterface $institutionTypeAggregateInstitution */
         $rowData->offsetSet(InstitutionInterface::class, $institutionTypeAggregateInstitution->getInstitutionsArray());

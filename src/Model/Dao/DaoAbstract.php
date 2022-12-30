@@ -79,7 +79,7 @@ abstract class DaoAbstract implements DaoInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttributes())));
-        $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
+        $touplesToBind = $this->getPrimaryKeyPlaceholdersValues($id);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
@@ -93,7 +93,7 @@ abstract class DaoAbstract implements DaoInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->sql->touples(array_keys($unique))));
-        $touplesToBind = $this->getTouplesToBind($unique);
+        $touplesToBind = $this->getPlaceholdersValues($unique);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
@@ -197,7 +197,7 @@ abstract class DaoAbstract implements DaoInterface {
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function getPrimaryKeyTouplesToBind(array $values) {
+    protected function getPrimaryKeyPlaceholdersValues(array $values) {
         $touples = [];
         foreach ($this->getPrimaryKeyAttributes() as $field) {
             if (!array_key_exists($field, $values)) {
@@ -208,10 +208,10 @@ abstract class DaoAbstract implements DaoInterface {
         return $touples;
     }
 
-    protected function getTouplesToBind(array $attributeValues) {
+    protected function getPlaceholdersValues(array $attributePairs) {
         $touples = [];
         $attributes = $this->getAttributes();
-        foreach ($attributeValues as $field=>$value) {
+        foreach ($attributePairs as $field=>$value) {
             if (!in_array($field, $attributes)) {
                 throw new DaoParamsBindNamesMismatchException("v předaném poli dvojic je prvek '$field', který nemá odpovídající atribut (sloupec tabulky).");
             }
@@ -221,23 +221,31 @@ abstract class DaoAbstract implements DaoInterface {
     }
 
     /**
-     * Předpokládá, ale nekontroluje, že s parametrem $touplesToBind lze pracovat jako s polem.
+     *
+     * Filtr obsahuje výčet jmen, která se mají skutečně použít z dvojic jméno-hodnota ($touplesToBind). Pokud filtr není zadán použijí se všechny hodnoty. Použití filtru je nutné,
+     * pokud SQL příkaz neobsahuje všechny jména vyskytující se v dvojicí jméno-hodnota toupleToBind. Typicky situace kdy data jsou získána extrakcí entity a príkaz je DELETE,
+     * který obsahje pouze položky polí klíče.
+     *
+     * Použití prefixu pro placeholdery umožňuje volat tuto metodu opakovaně s různým prefixem (resp. jednou s prefixema podruhé bez prefixu) a tak provést bind
+     * parametru s tímtéž jménem dvakrát. Využito je typicky při volání SQK update, kde sloupec, který je součástí klíče (a tedy hodnota nahrazuje placeholder v klausuli WHERE)
+     * je také updatován (a nová hodnota nahrazuje placeholder v klasuli SET).
      *
      * @param \PDOStatement $statement
-     * @param iterable $touplesToBind
-     * @param iterable $filterNames
+     * @param iterable $touplesToBind Pole nebo ArrayAccess obsahující dvojice jméno-hodnota
+     * @param iterable $filterNames Filtr - výčet jmen.
+     * @param type $placeholderPrefix Pokud je hodnota zadána, použije jako prefix před jménem parametru
      * @return \PDOStatement
      */
     protected function bindParams(\PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[], $placeholderPrefix='') {
         if($filterNames) {
             foreach ($filterNames as $name) {
                 $value = $this->getValue($touplesToBind, $name);
-                if (isset($value)) {
+            if (isset($value)) {
                     $statement->bindValue($placeholderPrefix.$name, $value);
-                } else {
+            } else {
                     $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
-                }
             }
+        }
         } else {
             foreach ($touplesToBind as $name => $value) {
                 if (isset($value)) {
@@ -258,7 +266,7 @@ abstract class DaoAbstract implements DaoInterface {
                 $val = $touplesToBind[$name];
             } else {
                 throw new DaoParamsBindNamesMismatchException("Pole obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu neobsahuje položku se jménem '$name'.");
-            }
+}
         } elseif($touplesToBind instanceof \ArrayAccess) {
             if ($touplesToBind->offsetExists($name)) {
                 $val = $touplesToBind->offsetGet($name);

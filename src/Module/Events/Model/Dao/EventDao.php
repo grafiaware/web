@@ -58,7 +58,7 @@ class EventDao extends DaoEditContextualAbstract implements EventDaoInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->getContextConditions(), $this->sql->touples(['event_content_id_fk'])));
-        $touplesToBind = $this->getTouplesToBind($eventContentIdFk);
+        $touplesToBind = $this->getPlaceholdersValues($eventContentIdFk);
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 

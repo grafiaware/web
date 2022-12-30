@@ -16,7 +16,7 @@ use Component\ViewModel\Content\Authored\AuthoredViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
 
-use Red\Model\Repository\PaperAggregateContentsRepo;
+use Red\Model\Repository\PaperAggregateSectionsRepo;
 
 use Red\Model\Enum\AuthoredTypeEnum;
 
@@ -28,14 +28,14 @@ use Red\Model\Enum\AuthoredTypeEnum;
 class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModelInterface {
 
     /**
-     * @var PaperAggregateContentsRepo
+     * @var PaperAggregateSectionsRepo
      */
     protected $paperAggregateRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
-            PaperAggregateContentsRepo $paperAggregateRepo
+            PaperAggregateSectionsRepo $paperAggregateRepo
             ) {
         parent::__construct($status, $menuItemRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;

@@ -8,10 +8,10 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\RowHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 use Red\Model\Entity\MenuItemInterface;
 
 use Pes\Type\Date;
@@ -21,14 +21,14 @@ use Pes\Type\Date;
  *
  * @author pes2704
  */
-class MenuItemHydrator implements RowHydratorInterface {
+class MenuItemHydrator implements HydratorInterface {
 
     /**
      *
      * @param MenuItemInterface $menuItem
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $menuItem, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $menuItem, ArrayAccess $rowData) {
         /** @var MenuItemInterface $menuItem */
         $menuItem
             ->setLangCodeFk($rowData->offsetGet('lang_code_fk'))
@@ -46,7 +46,7 @@ class MenuItemHydrator implements RowHydratorInterface {
      * @param MenuItemInterface $menuItem
      * @param type $rowData
      */
-    public function extract(EntityInterface $menuItem, RowDataInterface $rowData) {
+    public function extract(EntityInterface $menuItem, ArrayAccess $rowData) {
         /** @var MenuItemInterface $menuItem */
         $rowData->offsetSet('lang_code_fk', $menuItem->getLangCodeFk());
         $rowData->offsetSet('uid_fk', $menuItem->getUidFk());

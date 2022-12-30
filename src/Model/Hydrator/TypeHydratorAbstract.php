@@ -1,7 +1,7 @@
 <?php
 namespace Model\Hydrator;
 
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use DateTime;
 
@@ -10,7 +10,7 @@ use DateTime;
  *
  * @author pes2704
  */
-abstract class TypeHydratorAbstract implements RowHydratorInterface {
+abstract class TypeHydratorAbstract implements HydratorInterface {
 
     /**
      * Získá z objektu RowData jednu hodnotu podle zadaného jména.
@@ -19,11 +19,11 @@ abstract class TypeHydratorAbstract implements RowHydratorInterface {
      * Poradí si jen se vtupními hodnotami bez desetinné části udáje o sekundách, tedy např. 1970-01-01 00:00:01 nebo 1970-01-01, neumí 1970-01-01 00:00:01.123456
      * Pro nesprávný vstupní formát, kdy se nepodaří vytvořit objekt DateTime vrací null.
      *
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      * @param type $name
      * @return DateTime|null
      */
-    protected function getPhpDatetime(RowDataInterface $rowData, $name): ?DateTime {
+    protected function getPhpDatetime(ArrayAccess $rowData, $name): ?DateTime {
         if ($rowData->offsetExists($name)) {
             $value = $rowData->offsetGet($name);
             if (isset($value)) {
@@ -41,12 +41,12 @@ abstract class TypeHydratorAbstract implements RowHydratorInterface {
      * Z hodnoty PHP typu DateTime vytvoří string hoodnoty typu sql datetime ne timestamp, vždy ve formátu 'Y-m-d H:i:s', např. 1970-01-01 00:00:01
      * Pokud hodnota parametru je null, hodnotu zadanémo jména v RowData objektu smaže (unset) .
      *
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      * @param type $name
      * @param DateTime $value
      * @return type
      */
-    protected function setSqlDatetime(RowDataInterface $rowData, $name, DateTime $value=null) {
+    protected function setSqlDatetime(ArrayAccess $rowData, $name, DateTime $value=null) {
         return isset($value) ? $rowData->offsetSet($name, $value->format('Y-m-d H:i:s')) : $rowData->offsetUnset($name);
     }
 
@@ -54,11 +54,11 @@ abstract class TypeHydratorAbstract implements RowHydratorInterface {
      * Získá z objektu RowData jednu hodnotu podle zadaného jména.
      * Pokud hodnota neexistuje vrací null.
      * 
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      * @param type $name
      * @return mixed
      */
-    protected function getPhpValue(RowDataInterface $rowData, $name){
+    protected function getPhpValue(ArrayAccess $rowData, $name){
         return $rowData->offsetExists($name) ? $rowData->offsetGet($name) : null;
     }
 
@@ -66,12 +66,12 @@ abstract class TypeHydratorAbstract implements RowHydratorInterface {
      * Nastaví objektu RowData jednu hodnotu podle zadaného jména.
      * Pokud hodnota parametru je null, hodnotu zadanémo jména v RowData objektu smaže (unset) .
      *
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      * @param type $name
      * @param type $value
      * @return type
      */
-    protected function setSqlValue(RowDataInterface $rowData, $name, $value=null) {
+    protected function setSqlValue(ArrayAccess $rowData, $name, $value=null) {
         return isset($value) ? $rowData->offsetSet($name, $value) : $rowData->offsetUnset($name);
     }
 }

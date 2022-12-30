@@ -15,7 +15,7 @@ use Model\Entity\PersistableEntityInterface;
  * @author pes2704
  */
 interface EntityManagerInterface {
-    public function registerHydrator($entityClass, RowHydratorInterface $hydrator);
+    public function registerHydrator($entityClass, HydratorInterface $hydrator);
     public function hydrate($entityClass, PersistableEntityInterface $entity, &$row);
     public function extract($entityClass, PersistableEntityInterface $entity, &$row);
     public function recreateEntity($entityClass, $index, $row): ?PersistableEntityInterface;

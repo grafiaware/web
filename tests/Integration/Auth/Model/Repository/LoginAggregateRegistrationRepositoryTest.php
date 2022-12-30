@@ -139,19 +139,20 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
     public function testGetAndRemoveAfterSetup() {
         $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
+        $this->assertTrue($loginAgg->isPersisted(), "Entita má být persistována ihned je typu DaoEditKeyDbVerifiedInterface");
         /** @var LoginAggregateRegistration $loginAgg */
         $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration(), "Přečtený LoginAggregateRegistration nemá Registration entity");
-        $this->loginAggRegRepo->remove($loginAgg);
+        $this->loginAggRegRepo->remove($loginAgg);  // poznámka: entity přestane být persisted a lock až ve flush()
     }
 
-    public function QtestGetAfterRemove() {
+    public function testGetAfterRemove() {
         $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME1);
         $this->assertNull($loginAgg);
     }
 
-    ###### complete aggregate ################
+    ###### aggregate ################
 
-    public function QtestAddCompleteAndReread() {
+    public function testAddCompleteAndReread() {
         /** @var LoginAggregateRegistration $loginAgg */
         $loginAgg = new LoginAggregateRegistration();
         $loginAgg->setLoginName(self::LOGIN_NAME1);
@@ -175,14 +176,17 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
         $this->assertInstanceOf(\DateTime::class, $loginAgg->getRegistration()->getCreated());
     }
 
-    public function QtestGetAfterAddComplete() {
+    public function testGetAfterAddComplete() {
         $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
     }
 
-    ###### uncomplete aggregate ################
+    ###### entita bez (potomkonské) entity ################
 
-    public function QtestAddUncomplete() {
+    /**
+     * LoginAggregateRegistration bez Registration
+     */
+    public function testAddUncomplete() {
         $loginAgg = new LoginAggregateRegistration();
         $loginAgg->setLoginName(self::LOGIN_NAME2);
         $this->loginAggRegRepo->add($loginAgg);
@@ -197,12 +201,15 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
 //        $this->loginAggCredRepo->flush();
 //    }
 
-    public function QtestGetAfterAddUncomplete() {
+    public function testGetAfterAddUncomplete() {
         $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME2);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
     }
 
-    public function QtestSetNewRegistrationUncomplete() {
+    /**
+     * Přidá novou Registration do přečtené nekompletní LoginAggregateRegistration
+     */
+    public function testSetNewRegistrationToUncomplete() {
         /** @var LoginAggregateRegistration $loginAgg */
         $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME2);
         $registration = new Registration();
@@ -214,7 +221,7 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
         $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
     }
 
-    public function QtestGetAfterSetNewRegistrationUncomplete() {
+    public function testGetAfterSetNewRegistrationToUncomplete() {
         /** @var LoginAggregateRegistration $loginAgg */
         $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME2);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);

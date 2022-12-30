@@ -15,5 +15,5 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface DataManagerChildInterface {
-    public function getByReference(array $referenceId): ?RowDataInterface;
+    public function getByReference($referenceName, array $referenceTouples);
 }

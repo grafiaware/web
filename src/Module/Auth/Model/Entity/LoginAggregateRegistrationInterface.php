@@ -2,13 +2,11 @@
 
 namespace Auth\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
-
 /**
  *
  * @author vlse2610
  */
-interface LoginAggregateRegistrationInterface  extends LoginInterface{
+interface LoginAggregateRegistrationInterface  extends LoginInterface {
      /**
       *
       * @return \Auth\Model\Entity\RegistrationInterface|null

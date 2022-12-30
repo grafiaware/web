@@ -8,10 +8,7 @@
 
 namespace Model\Repository\Association;
 
-use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
-use Model\Hydrator\RowHydratorInterface;
-use Model\Hydrator\AssotiationHydratorInterface;
+use Model\Hydrator\HydratorInterface;
 
 
 /**
@@ -21,25 +18,14 @@ use Model\Hydrator\AssotiationHydratorInterface;
  */
 class AssociationAbstract implements AssociationInterface {
 
-    protected $parentTable;
-
-    protected $childHydrator;
+    protected $referenceName;
 
     /**
      *
      * @param array $childKeyAttribute Atribut cizího klíče, klíče který je referencí na data rodiče v úložišti dat . V databázi jde o cizí klíč v potomkovské tabulce.
      */
-    protected function __construct(string $parentTable, AssotiationHydratorInterface $childHydrator) {
-        $this->parentTable = $parentTable;
-        $this->childHydrator = $childHydrator;
-    }
-
-    public function addAssociatedEntity(EntityInterface $entity = null): void {
-        $this->childRepo->add($entity);
-    }
-
-    public function removeAssociatedEntity(EntityInterface $entity = null): void {
-        $this->childRepo->remove($entity);
+    protected function __construct(string $referenceName) {
+        $this->referenceName = $referenceName;
     }
 
     public function flushChildRepo(): void {
