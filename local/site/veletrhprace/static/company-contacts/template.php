@@ -19,11 +19,12 @@ use Events\Model\Entity\CompanyContactInterface;
     $companyContactRepo = $container->get(CompanyContactRepo::class );
     //------------------------------------------------------------------
 
-    $idCompany = 10;
+    $idCompany = 25;
+    //------------------------------------------------------------------
     
     /** @var CompanyInterface $companyEntity */ 
     $companyEntity = $companyRepo->get($idCompany);
-    if ($companyEntity) {       
+    if (isset ($companyEntity)) {       
             
         $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
         $companyContacts=[];
@@ -46,9 +47,10 @@ use Events\Model\Entity\CompanyContactInterface;
     <div>
     <div class="ui styled fluid accordion">   
 
+            Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Kontakty vystavovatele
+                Kontakty vystavovatele 
             </div>                        
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/company-contact.php',  $companyContacts)  ?>
@@ -65,5 +67,9 @@ use Events\Model\Entity\CompanyContactInterface;
     </div>
 
   <?php     
-    }
+    } else { ?>
+          <div>
+          </div>   
+  <?php 
+   }
   ?>
