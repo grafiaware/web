@@ -96,7 +96,7 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
     }
 
     protected function indexFromRow( $row ) {
-        return $row['login_login_name'];
+        return $row['login_login_name'] . $row['company_id'];
     }
 }
 

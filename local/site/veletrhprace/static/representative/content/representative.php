@@ -14,47 +14,55 @@ use Pes\Text\Html;
 ?>
 
         <form class="ui huge form" action="" method="POST" >
-            <input type='hidden' name="company-id" value="<?= isset($companyId)? $companyId : '' ?>" >
-            <input type='hidden' name="company-contact-id" value="<?= isset($companyContactId)? $companyContactId : '' ?>" >
+            <input type='hidden' name="company-idH" value="<?= isset($companyId)? $companyId : '' ?>" >
+            <input type='hidden' name="login-login-nameH" value="<?= isset($loginLoginName)? $loginLoginName : '' ?>" >
 
-            <div class="two fields">                        
+            <div class="three fields">                        
                 <div class="field">
-                <label>Jméno kontaktu</label>
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="100" value="<?= isset($name)?  $name : '' ?>">
-                 </div>  
+                <label>CompanyId</label>
+                    <input <?= $readonly ?> type="text" name="company-id" placeholder="" maxlength="10" value="<?= isset($companyId)?  $companyId : '' ?>">
+                </div> 
+                
                 <div class="field">
-                    <label>E-maily</label>
-                    <input <?= $readonly ?> type="email" name="emails" placeholder="" maxlength="100" value="<?= isset($emails)?  $emails : ''  ?>">
+                    <?php if (isset($companyName) ){ ?>
+                            <label>CompanyName</label>
+                            <input <?= $readonly ?> type="text" name="company-name" placeholder="" maxlength="250" value="<?= isset($companyName)?  $companyName : '' ?>">
+                    <?php } else { ?>
+                            <?= Html::select("selectCompany", "Company name:", $selectCompanies, [], []) ?>                      
+                    <?php } ?>    
+                </div>
+                
+                <div class="field"> 
+                    <?php  if (isset($loginLoginName) ) { ?>
+                            <label>loginLoginName</label>
+                            <input <?= $readonly ?> type="text" name="login-login-name" placeholder="" maxlength="50" value="<?= isset($loginLoginName)?  $loginLoginName : ''  ?>">
+                    <?php } else { ?>
+                            <?= Html::select("selectLogin", "Login name:",  $selectLogins, [], []) ?>   
+                    <?php } ?> 
                 </div>
             </div>
-            <div class="two fields">
-                <div class="field">
-                    <label>Telefony</label>
-                    <input <?= $readonly ?> type="text" name="phones" placeholder="" maxlength="60" value="<?= isset($phones)?  $phones : '' ?>">
-                </div>
-                <div class="field">
-                    <label>Mobily</label>
-                    <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="60" value="<?= isset($mobiles)?  $mobiles : '' ?>">
-                </div>
-            </div>                 
+                    
 
-                <?php
-                if($readonly === '') {
-                ?>
-                <div>
-                    <?=
-                     isset($companyContactId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/companycontact/". $companyContactId ."' > Uložit </button>" :
-                    "<button class='ui primary button' type='submit' formaction='events/v1/companycontact' > Uložit </button>" ;
-                    ?>                                                                                                                             
-                    <?=
-                     isset($companyContactId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/companycontact/". $companyContactId ."/remove' > Odstranit kontakt </button>" :
-                    "" ;
-                    ?>                                                                                                         
-                </div>
-                <?php
-                }
-                ?>
+            <?php
+            if($readonly === '') {
+            ?>
+            <div>
+                <?=
+                 isset($companyId) ? "" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/representative' > Uložit </button>" ;
+                
+//                 isset($companyId) ?
+//                "<button class='ui primary button' type='submit' formaction='events/v1/representative/". $companyId. "/" . $loginLoginName ."' > Uložit </button>" :
+//                "<button class='ui primary button' type='submit' formaction='events/v1/representative' > Uložit </button>" ;
+                ?>                                                                                                                             
+                <?=
+                 isset($companyId) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/representative/". $companyId. "/" . $loginLoginName  ."/remove' > Odstranit representative </button>" :
+                "" ;
+                ?>                                                                                                         
+            </div>
+            <?php
+            }
+            ?>
 
         </form>           

@@ -24,6 +24,9 @@ use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\CompanyContact;
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyAddress;
+use Events\Model\Entity\RepresentativeInterface;
+use Events\Model\Entity\Representative;
+
 
 
 use Status\Model\Enum\FlashSeverityEnum;
@@ -383,5 +386,108 @@ class CompanyControler extends FrontControlerAbstract {
         }
         return $this->redirectSeeLastGet($request);
     }
+    
+    
+    //---------------------------------------------------------------------------------
+    
+    
+     public function insertRepresentative (ServerRequestInterface $request) {                 
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName) )  {
+//                $isRepresentative = true; 
+//            }
+//                        
+//            if ($isRepresentative) {
+              
+         
+                // POST data
+                $company_idH = (new RequestParams())->getParsedBodyParam($request, 'company-idH');                                       
+                $login_logi_nameH = (new RequestParams())->getParsedBodyParam($request, 'login-login-nameH');  
+                
+                $сompany_Id = (new RequestParams())->getParsedBodyParam($request, 'company-id');  
+                $company_name = (new RequestParams())->getParsedBodyParam($request, 'company-name');
+                $login_logi_name = (new RequestParams())->getParsedBodyParam($request, "login-login-name");
+                
+                $selectCompany = (new RequestParams())->getParsedBodyParam($request, "selectCompany");
+                $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
+                
+                /** @var RepresentativeInterface $representative */
+                $representative = $this->container->get(Representative::class); //new 
+             
+                $representative->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'selectCompany-id') ) ;
+                $representative->setLoginLoginName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+                
+//                $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
+//                $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
+//                $companyAddress->setObec((new RequestParams())->getParsedBodyParam($request, "obec"));
+                
+                $this->representativeRepo->add($representative);
+                
+//            } else {
+//                $this->addFlashMessage("Údaje o adrese vyvstavovatele smí editovat pouze representant vystavovatele.");
+//            }
+//            
+//        }
+        return $this->redirectSeeLastGet($request);
+    }
+    
+    
+    public function removeRepresentative (ServerRequestInterface $request) {                   
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {
+//            
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName) )  {
+//                $isRepresentative = true; 
+//            }
+//                        
+//            if ($isRepresentative) {
+        
+        
+        
+        
+//        
+//                 $сompanyAddressId = (new RequestParams())->getParsedBodyParam($request, 'company-id'); 
+//                 $сompanyAddressName = (new RequestParams())->getParsedBodyParam($request, 'name'); 
+//                 
+//                /** @var CompanyContactIntarface $companyAddress */
+//                $companyAddress = $this->companyAddressRepo->get( $сompanyAddressId ); 
+//                $this->companyAddressRepo->remove( $companyAddress ); 
+                
+
+
+
+                
+//            } else {
+//                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+//            }
+//            
+//        }
+        return $this->redirectSeeLastGet($request);
+    }
+    
+    
    
 }

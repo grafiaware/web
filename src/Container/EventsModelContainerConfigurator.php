@@ -26,6 +26,7 @@ use Events\Model\Repository\LoginRepo;
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Hydrator\RepresentativeHydrator;
 use Events\Model\Repository\RepresentativeRepo;
+use Events\Model\Entity\Representative;
 
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
@@ -159,6 +160,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             Company::class => function(ContainerInterface $c) {
             return new Company();
+            },
+            Representative::class => function(ContainerInterface $c) {
+            return new Representative();
             }
 
         ];

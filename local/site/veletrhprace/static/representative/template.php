@@ -11,10 +11,12 @@ use Pes\Text\Html;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\RepresentativeRepo;
+use Events\Model\Repository\LoginRepo;
 
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\RepresentativeInterface;
+use Events\Model\Entity\LoginInterface;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -40,108 +42,74 @@ use Events\Model\Entity\RepresentativeInterface;
     $companyRepo = $container->get(CompanyRepo::class );
     /** @var RepresentativeRepo $representativeRepo */ 
     $representativeRepo = $container->get(RepresentativeRepo::class );
+    /** @var LoginRepo $loginRepo */ 
+    $loginRepo = $container->get(LoginRepo::class );
     
     $representativeEntities = $representativeRepo->findAll();
     $representatives=[];
+    
             foreach ($representativeEntities as $rprs) {
                 /** @var RepresentativeInterface $rprs */
+                $reprCompany = $companyRepo->get($rprs->getCompanyId());
+                
                 $representatives[] = [
                     'companyId' => $rprs->getCompanyId(),
+                    'companyName' => $reprCompany->getName(),
                     'loginLoginName' => $rprs->getLoginLoginName(),
                     ];
+                //$selectCompany ['$rprs->getCompanyId()'] =  $companyRepo->get($rprs->getCompanyId()) ;
             }
     //------------------------------------------------------------------
-
-
-//    $idCompany = 10 ;
-//    
-//    /** @var CompanyInterface $companyEntity */ 
-//    $companyEntity = $companyRepo->get($idCompany);
-//    if ($companyEntity) {       
-//            
-//        $companyAddress=[];
-//        /** @var CompanyAddressInterface $companyAddressEntity */
-//        $companyAddressEntity = $companyAddressRepo->get($idCompany);
-//        if ($companyAddressEntity) {           
-//            $companyAddress = [
-//                'companyId' => $idCompany,
-//                'name'   => $companyAddressEntity->getName(),
-//                'lokace' => $companyAddressEntity->getLokace(),
-//                'psc'    => $companyAddressEntity->getPsc(),
-//                'obec'   => $companyAddressEntity->getObec()
-//                ];
-//        }    
-//        else {
-//            $companyAddress = [
-//                'companyId' => $idCompany
-//                ];
-//        }   
-            
-            
-            
-            
-        $headline="záhlaví";
+    $selectCompany =[];
+    $selectLogin =[];    
+    
+    $companyEntities = $companyRepo->findAll();
+        /** @var CompanyInterface $comp */ 
+    foreach ( $companyEntities as $comp) {
+        $selectCompany [$comp->getId()] =  $comp->getName() ;
+    }
+    $loginEntities = $loginRepo->findAll();
+        /** @var LoginInterface  $logi */ 
+    foreach ( $loginEntities as $logi) {
+        $selectLogin [] =  $logi->getLoginName() ;
+    }
+     
+    $selecty['selectCompanies'] = $selectCompany;
+    $selecty['selectLogins']   = $selectLogin;   
+        
   ?>
 
     <div>
-        <p class="nadpis"><?= Text::mono($headline) ?></p>
         
-        <p>
-            <?= Html::select("jmeno-mesta", "To je label Město:",
+        <p> <?= Html::select("jmeno-mesta", "To je label Město:",
             [1=>"", 2=>"Plzeň-město", 3=>"Plzeň-jih", 4=>"Plzeň-sever", 5=>"Klatovy", 6=>"Cheb", 7=>"jiné"],
             ["jmeno-mesta"=>"Plzeň-sever"], []) ?></p>
         
-        <p> <?=  Html::select("jmeno-mesta1", "To je label:",
-                ["", "Plzeň-město", "Plzeň-jih", "Plzeň-sever", "Klatovy", "Cheb", "jiné"],
-                ["jmeno-mesta1"=>"Plzeň-sever"], []) ?> </p>
+        <p> <?= Html::select("selectCompany", "Company name:",
+            $selectCompany,
+            ["selectCompany"=>"dzk"], []) ?></p>     
         
+        <p> <?= Html::select("selectLogin", "Login name:",
+            $selectLogin,
+            ["selectLogin"=>"user22"], []) ?></p>      
         
 
 
         
-        <div>
-        <div class="ui styled fluid accordion">   
-
-            
-            <div>                
-                Representative vystavovatele 
-            </div>                        
-            <div>      
+        <div >
+            Representative vystavovatelů             
+            <div class="ui styled fluid accordion">      
                 <?= $this->repeat(__DIR__.'/content/representative.php', $representatives  )  ?>
+            </div>
+            <p></p>
 
-                <div>
-                    Přidej další 
-                </div>  
-                <div class="active content">     
-                    <?= $this->insert( __DIR__.'/representative.php' ) ?>                                                                                 
-                </div>                  
+            Přidej dalšího representative
+            <div class="ui styled fluid accordion">            
+                    <?= $this->insert( __DIR__.'/content/representative.php',$selecty ) ?>                     
             </div>            
-        </div>
-        </div>
-
-  
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <div class="ui styled fluid accordion">   
-                    
-            <div class="active title">
-                <i class="dropdown icon"></i>
-              Zadej Representative vystavovatele 
-              <?= $loginName ?>
-            </div>                        
-            <div class="active content">      
-               <!-- < ?= $this->insert(__DIR__.'/company-address.php',  $companyAddress)  ? >     -->     
-            </div>                
         
         </div>
+        
 
     </div>
 
