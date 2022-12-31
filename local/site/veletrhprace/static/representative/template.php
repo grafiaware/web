@@ -2,116 +2,89 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 
-use Auth\Model\Entity\LoginAggregateFullInterface;
-use Status\Model\Repository\StatusSecurityRepo;
-
 use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Events\Model\Repository\CompanyRepo;
-use Events\Model\Repository\CompanyAddressRepo;
-use Events\Model\Repository\RepresentativeRepo;
-use Events\Model\Repository\LoginRepo;
+//use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\PozadovaneVzdelaniRepo;
 
 use Events\Model\Entity\CompanyInterface;
-use Events\Model\Entity\CompanyAddressInterface;
-use Events\Model\Entity\RepresentativeInterface;
-use Events\Model\Entity\LoginInterface;
+//use Events\Model\Entity\CompanyContactInterface;
+use Events\Model\Entity\Job;
+use Events\Model\Entity\PozadovaneVzdelani;
 
 /** @var PhpTemplateRendererInterface $this */
 
 
-   $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-    /** @var StatusSecurityRepo $statusSecurityRepo */
-    $statusSecurity = $statusSecurityRepo->get();
-    /** @var LoginAggregateFullInterface $loginAggregate */
-    $loginAggregate = $statusSecurity->getLoginAggregate();
 
-    if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginName();
-        $cred = $loginAggregate->getCredentials();
-        
-        $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    }
-//    ------------------------------------------------
-    
-   
-    
-    
     /** @var CompanyRepo $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
-    /** @var RepresentativeRepo $representativeRepo */ 
-    $representativeRepo = $container->get(RepresentativeRepo::class );
-    /** @var LoginRepo $loginRepo */ 
-    $loginRepo = $container->get(LoginRepo::class );
+    /** @var JobRepo $jobRepo */
+    $jobRepo = $container->get(JobRepo::class );
+    /** @var PozadovaneVzdelani $pozadovaneVzdelaniRepo */
+    $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelani::class );
     
-    $representativeEntities = $representativeRepo->findAll();
-    $representatives=[];
     
-            foreach ($representativeEntities as $rprs) {
-                /** @var RepresentativeInterface $rprs */
-                $reprCompany = $companyRepo->get($rprs->getCompanyId());
-                
-                $representatives[] = [
-                    'companyId' => $rprs->getCompanyId(),
-                    'companyName' => $reprCompany->getName(),
-                    'loginLoginName' => $rprs->getLoginLoginName(),
-                    ];
-                //$selectCompany ['$rprs->getCompanyId()'] =  $companyRepo->get($rprs->getCompanyId()) ;
-            }
+    
     //------------------------------------------------------------------
-    $selectCompany =[];
-    $selectLogin =[];    
+
+    $idCompany = 25;
+    //------------------------------------------------------------------
     
-    $companyEntities = $companyRepo->findAll();
-        /** @var CompanyInterface $comp */ 
-    foreach ( $companyEntities as $comp) {
-        $selectCompany [$comp->getId()] =  $comp->getName() ;
-    }
-    $loginEntities = $loginRepo->findAll();
-        /** @var LoginInterface  $logi */ 
-    foreach ( $loginEntities as $logi) {
-        $selectLogin [] =  $logi->getLoginName() ;
-    }
-     
-    $selecty['selectCompanies'] = $selectCompany;
-    $selecty['selectLogins']   = $selectLogin;   
+    /** @var CompanyInterface $companyEntity */ 
+    $companyEntity = $companyRepo->get($idCompany);
+    if (isset ($companyEntity)) {       
+            
+        $companyJobEntities = $jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
+        $companyJobs=[];
+        foreach ($companyJobEntities as $jEntity) {
+            /** @var JobInterface $jEntity */
+            
+            $companyJobs[] = [
+                'companyJobId' => $jEntity->getId(),
+                'companyId' => $jEntity->getCompanyId(),
+                'nazev' =>  $jEntity->getNazev(),
+                'pozadovaneVzdelaniStupen' =>  $jEntity->getPozadovaneVzdelaniStupen(),
+                
+                'mistoVykonu' =>  $jEntity->getMistoVykonu(),
+                'popisPozice' =>  $jEntity->getPopisPozice(),
+                'pozadujeme' =>  $jEntity->getPozadujeme(),
+                'nabizime' =>  $jEntity->getNabizime()
+                ];
+        }   
+            
         
   ?>
 
+
     <div>
-        
-        <p> <?= Html::select("jmeno-mesta", "To je label Město:",
-            [1=>"", 2=>"Plzeň-město", 3=>"Plzeň-jih", 4=>"Plzeň-sever", 5=>"Klatovy", 6=>"Cheb", 7=>"jiné"],
-            ["jmeno-mesta"=>"Plzeň-sever"], []) ?></p>
-        
-        <p> <?= Html::select("selectCompany", "Company name:",
-            $selectCompany,
-            ["selectCompany"=>"dzk"], []) ?></p>     
-        
-        <p> <?= Html::select("selectLogin", "Login name:",
-            $selectLogin,
-            ["selectLogin"=>"user22"], []) ?></p>      
-        
+    <div class="ui styled fluid accordion">   
 
+            Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|
+            <div class="active title">
+                <i class="dropdown icon"></i>
+                Nabízené joby vystavovatele 
+            </div>                        
+            <div class="active content">      
+                <?= $this->repeat(__DIR__.'/company-job.php',  $companyJobs)  ?>
 
-        
-        <div >
-            Representative vystavovatelů             
-            <div class="ui styled fluid accordion">      
-                <?= $this->repeat(__DIR__.'/content/representative.php', $representatives  )  ?>
-            </div>
-            <p></p>
-
-            Přidej dalšího representative
-            <div class="ui styled fluid accordion">            
-                    <?= $this->insert( __DIR__.'/content/representative.php',$selecty ) ?>                     
+                <div class="active title">
+                    <i class="dropdown icon"></i>
+                    Přidej další kontakt vystavovatele
+                </div>  
+                <div class="active content">     
+                    <?= $this->insert( __DIR__.'/company-job.php', ['companyId' => $idCompany] ) ?>                                                                                 
+                </div>                  
             </div>            
-        
-        </div>
-        
-
+    </div>
     </div>
 
- 
-
+  <?php     
+    } else { ?>
+          <div>
+          </div>   
+  <?php 
+   }
+  ?>

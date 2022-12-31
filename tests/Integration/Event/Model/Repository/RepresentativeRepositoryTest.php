@@ -148,7 +148,7 @@ class RepresentativeRepositoryTest extends AppRunner {
     
 
     public function testGetNonExisted() {
-        $representative = $this->representativeRepo->get(0);
+        $representative = $this->representativeRepo->get(0,0);
         $this->assertNull($representative);
     }
     

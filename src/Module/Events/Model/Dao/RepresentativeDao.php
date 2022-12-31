@@ -16,7 +16,7 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
     use DaoFkNonuniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
-        return [ 'login_login_name'];
+        return [ 'login_login_name', 'company_id'];
     }
 
     public function getForeignKeyAttributes(): array {

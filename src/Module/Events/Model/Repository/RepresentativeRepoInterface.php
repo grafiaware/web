@@ -11,13 +11,19 @@ use Events\Model\Entity\RepresentativeInterface;
  * @author vlse2610
  */
 interface RepresentativeRepoInterface  extends RepoInterface  {
+//    /**
+//     *
+//     * @param type $loginLoginName
+//     * @return RepresentativeInterface|null
+//     */
+//    public function get( $loginLoginName ): ?RepresentativeInterface ;
     /**
-     *
+     * 
      * @param type $loginLoginName
+     * @param type $companyId
      * @return RepresentativeInterface|null
      */
-    public function get( $loginLoginName ): ?RepresentativeInterface ;
-
+    public function get($loginLoginName, $companyId): ?RepresentativeInterface ;
     
     
     /**

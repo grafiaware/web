@@ -95,6 +95,7 @@ use Events\Model\Repository\JobTagRepo;
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Hydrator\PozadovaneVzdelaniHydrator;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
+use Events\Model\Entity\PozadovaneVzdelani;
 
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
@@ -163,6 +164,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             Representative::class => function(ContainerInterface $c) {
             return new Representative();
+            },
+            PozadovaneVzdelani::class => function(ContainerInterface $c) {
+            return new PozadovaneVzdelani();
             }
 
         ];
