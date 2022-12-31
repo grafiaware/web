@@ -1,16 +1,12 @@
 <?php
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
-
 namespace Model\Repository;
 
 use Model\Repository\Association\AssociationOneToManyInterface;
 
+use Model\Repository\RepoAssotiatedManyInterface;  // použito jen v komentáři
+
 /**
- * Description of RepoAggregateAbstract
+ * Trait s implementací RepoAssotiatedManyInterface interface pro POTOMKOVSKÉ repository s asociací 1:N
  *
  * @author pes2704
  */

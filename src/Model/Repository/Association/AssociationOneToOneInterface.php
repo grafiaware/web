@@ -27,8 +27,8 @@ interface AssociationOneToOneInterface extends AssociationInterface {
      */
     public function recreateEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void;
 
-    public function addEntity(PersistableEntityInterface $parentEntity = null): void;
+    public function addEntity(PersistableEntityInterface $parentEntity): void;
 
-    public function removeEntity(PersistableEntityInterface $parentEntity = null): void;
+    public function removeEntity(PersistableEntityInterface $parentEntity): void;
 
 }

@@ -291,7 +291,7 @@ abstract class RepoAbstract {
      * @param type $parentEntity Agregátní entita.
      * @throws \LogicException
      */
-    private function addNonpersistedAssociatedEntities($parentEntity) {
+    private function addNonpersistedAssociatedEntities(PersistableEntityInterface $parentEntity) {
         foreach ($this->associations as $association) {
             if ($association instanceof AssociationOneToManyInterface) {
                 $association->addEntities($parentEntity);
@@ -387,7 +387,7 @@ abstract class RepoAbstract {
                 if (!$entity->isPersisted()) {
                     throw new \LogicException("V collection je nepersistovaná entita.");
                 }
-                $this->addNonpersistedAssociatedEntities($rowData);
+                $this->addNonpersistedAssociatedEntities($entity);
             }
             foreach ($this->removed as $index => $entity) {
                 $this->removePersistedAssociatedEntities($entity);

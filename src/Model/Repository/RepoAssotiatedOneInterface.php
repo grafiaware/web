@@ -11,6 +11,7 @@ namespace Model\Repository;
 use Model\Entity\PersistableEntityInterface;
 
 /**
+ * Interface pro POTOMKOVSKÉ repository s asociací 1:1
  *
  * @author pes2704
  */

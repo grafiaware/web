@@ -3,8 +3,10 @@ namespace Model\Repository;
 
 use Model\Entity\PersistableEntityInterface;
 
+use Model\Repository\RepoAssotiatedOneInterface;  // použito jen v komentáři
+
 /**
- * Description of RepoAggregateAbstract
+ * Trait s implementací RepoAssotiatedOneInterface interface pro POTOMKOVSKÉ repository s asociací 1:1
  *
  * @author pes2704
  */

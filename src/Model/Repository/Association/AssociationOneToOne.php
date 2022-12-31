@@ -58,19 +58,22 @@ abstract class AssociationOneToOne extends AssociationAbstract implements Associ
      * @param PersistableEntityInterface $entity
      * @return void
      */
-    protected function addChild(PersistableEntityInterface $entity): void {
-        if (!$entity->isLocked() AND !$entity->isPersisted()) {
+    protected function addChild(PersistableEntityInterface $entity=null): void {
+        // parametr entity může být null - metoda je volána např. repo->addChild($parentEntity->getCosi())
+        if (isset($entity) AND !$entity->isLocked() AND !$entity->isPersisted()) {
             $this->childRepo->add($entity);
         }
     }
+
     /**
      * Pokud entita je persistována, odstraní ji z repository.
      *
      * @param PersistableEntityInterface $entity
      * @return void
      */
-    protected function removeChild(PersistableEntityInterface $entity): void {
-        if (!$entity->isLocked() AND $entity->isPersisted()) {
+    protected function removeChild(PersistableEntityInterface $entity=null): void {
+        // parametr entity může být null - metoda je volána např. repo->addChild($parentEntity->getCosi())
+        if (isset($entity) AND !$entity->isLocked() AND $entity->isPersisted()) {
             $this->childRepo->remove($entity);
         }
     }

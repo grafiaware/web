@@ -27,12 +27,12 @@ class RegistrationAssociation extends AssociationOneToOne implements Association
         $parentEntity->setRegistration($this->getChild($parentRowData));
     }
 
-    public function addEntity(PersistableEntityInterface $parentEntity = null): void {
+    public function addEntity(PersistableEntityInterface $parentEntity): void {
         /** @var LoginAggregateRegistrationInterface $parentEntity */
         $this->addChild($parentEntity->getRegistration());
     }
 
-    public function removeEntity(PersistableEntityInterface $parentEntity = null): void {
+    public function removeEntity(PersistableEntityInterface $parentEntity): void {
         /** @var LoginAggregateRegistrationInterface $parentEntity */
         $this->removeChild($parentEntity->getRegistration());
     }

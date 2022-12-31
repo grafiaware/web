@@ -9,6 +9,7 @@
 namespace Model\Repository;
 
 /**
+ * Interface pro POTOMKOVSKÉ repository s asociací 1:N
  *
  * @author pes2704
  */

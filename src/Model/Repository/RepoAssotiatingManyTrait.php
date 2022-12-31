@@ -9,8 +9,10 @@ namespace Model\Repository;
 
 use Model\Repository\Association\AssociationOneToManyInterface;
 
+use Model\Repository\RepoAssotiatingManyInterface;  // použito je v komentáři
+
 /**
- * Description of RepoAssotiatingAbstract
+ * Trait s implementací RepoAssotiatingManyInterface interface pro POTOMKOVSKÉ repository s asociací 1:1
  *
  * @author pes2704
  */
