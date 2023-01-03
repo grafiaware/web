@@ -16,70 +16,69 @@ use Events\Model\Entity\EventLinkPhaseInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhaseRepo extends RepoAbstract implements EventLinkPhaseRepoInterface {    
+class EventLinkPhaseRepo extends RepoAbstract implements EventLinkPhaseRepoInterface {
 
     public function __construct( EventLinkPhaseDao $eventLinkPhaseDao, EventLinkPhaseHydrator $eventLinkPhaseHydrator) {
         $this->dataManager = $eventLinkPhaseDao;
         $this->registerHydrator($eventLinkPhaseHydrator);
     }
-                
+
 //
     //
     //
-    
+
     /**
-    * 
+    *
     * @param type $id
     * @return EventLinkPhaseInterface|null
-    */  
+    */
     public function get($id): ?EventLinkPhaseInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
-    
-    
-    
+
+
+
     /**
-     * 
+     *
      * @param type $whereClause
      * @param type $touplesToBind
      * @return EventLinkPhaseInterface[]
-     */    
+     */
     public function find($whereClause=null, $touplesToBind=[]) : array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
-    
-    
+
+
      /**
-     * 
+     *
      * @return EventLinkPhaseInterface[]
      */
     public function findAll() : array  {
        return $this->findEntities();
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @param EventLinkPhaseInterface $eventLinkPhase
      * @return void
      */
     public function add(EventLinkPhaseInterface $eventLinkPhase) :void {
         $this->addEntity($eventLinkPhase);
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @param EventLinkPhaseInterface $eventLinkPhase
      * @return void
      */
     public function remove( EventLinkPhaseInterface $eventLinkPhase) : void {
         $this->removeEntity($eventLinkPhase);
     }
- 
-        
-    
+
+
+
 
     protected function createEntity() {
         return new EventLinkPhase();

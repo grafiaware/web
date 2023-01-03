@@ -14,6 +14,11 @@ namespace Model\Repository\Association;
  */
 interface AssociationInterface {
 
+    /**
+     * Jméno reference pro volání metody data manager (DAO) getByReference(), findByReference()
+     * @param type $referenceName
+     */
+    public function setReferenceName($referenceName);
     public function flushChildRepo(): void;
 
 }

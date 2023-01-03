@@ -1,12 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace Test\Integration\Auth\Model\Repository;
 
 use Test\AppRunner\AppRunner;
 
@@ -30,8 +24,9 @@ use Auth\Model\Entity\Registration;
  */
 class LoginAggregateRegistrationRepositoryTest extends AppRunner {
 
-    const LOGIN_NAME1 = "testLoginAggregateRegistration1";
-    const LOGIN_NAME2 = "testLoginAggregateRegistration2";
+    const PREFIX = "testLoginAggregateRegistration";
+    const LOGIN_NAME1 = self::PREFIX."1";
+    const LOGIN_NAME2 = self::PREFIX."2";
 
     private $container;
 
@@ -47,22 +42,14 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
     private static function deleteRecords(Container $container) {
         /** @var RegistrationDao $registrationDao */
         $registrationDao = $container->get(RegistrationDao::class);
-        $rows = $registrationDao->find('login_name_fk=:login_name_fk', ['login_name_fk'=> self::LOGIN_NAME1]);
-        foreach ($rows as $row) {
-            $registrationDao->delete($row);
-        }
-        $rows = $registrationDao->find('login_name_fk=:login_name_fk', ['login_name_fk'=> self::LOGIN_NAME2]);
+        $rows = $registrationDao->find("login_name_fk LIKE :login_name_like", ['login_name_like'=> self::PREFIX."%"]);
         foreach ($rows as $row) {
             $registrationDao->delete($row);
         }
 
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $rows = $loginDao->find('login_name=:login_name', ['login_name'=> self::LOGIN_NAME1]);
-        foreach ($rows as $row) {
-            $loginDao->delete($row);
-        }
-        $rows = $loginDao->find('login_name=:login_name', ['login_name'=> self::LOGIN_NAME2]);
+        $rows = $loginDao->find("login_name LIKE :login_name_like", ['login_name_like'=> self::PREFIX."%"]);
         foreach ($rows as $row) {
             $loginDao->delete($row);
         }
@@ -139,7 +126,6 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
     public function testGetAndRemoveAfterSetup() {
         $loginAgg = $this->loginAggRegRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
-        $this->assertTrue($loginAgg->isPersisted(), "Entita má být persistována ihned je typu DaoEditKeyDbVerifiedInterface");
         /** @var LoginAggregateRegistration $loginAgg */
         $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration(), "Přečtený LoginAggregateRegistration nemá Registration entity");
         $this->loginAggRegRepo->remove($loginAgg);  // poznámka: entity přestane být persisted a lock až ve flush()

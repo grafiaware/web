@@ -30,7 +30,7 @@ class PaperSectionRepo extends RepoAbstract implements PaperSectionRepoInterface
         $this->dataManager = $paperContentDao;
         $this->registerHydrator($contentHydrator);
     }
-    
+
     use RepoAssotiatedManyTrait;
 
     /**
@@ -39,8 +39,7 @@ class PaperSectionRepo extends RepoAbstract implements PaperSectionRepoInterface
      * @return PaperSectionInterface|null
      */
     public function get($id): ?PaperSectionInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
 
     /**

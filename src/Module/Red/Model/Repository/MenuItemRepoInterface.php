@@ -20,7 +20,7 @@ use Red\Model\Entity\MenuItemInterface;
 interface MenuItemRepoInterface extends RepoInterface, RepoAssotiatedOneInterface  {
 
     /**
-     * Hledá podle promárního klíče a podle kontextu.
+     * Hledá podle primárního klíče a podle kontextu.
      *
      * @param type $langCodeFk
      * @param type $uidFk

@@ -15,7 +15,7 @@ use Events\Model\Repository\EventLinkRepoInterface;
  *
  * @author vlse2610
  */
-class EventLinkRepo  extends RepoAbstract implements EventLinkRepoInterface {    
+class EventLinkRepo  extends RepoAbstract implements EventLinkRepoInterface {
 
     public function __construct(EventLinkDao $eventLinkDao, EventLinkHydrator $eventLinkHydrator) {
         $this->dataManager = $eventLinkDao;
@@ -28,12 +28,11 @@ class EventLinkRepo  extends RepoAbstract implements EventLinkRepoInterface {
      * @return EventLinkInterface|null
      */
     public function get($id): ?EventLinkInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
 
     /**
-     * 
+     *
      * @param type $whereClause
      * @param type $touplesToBind
      * @return EventLinkInterface[]
@@ -43,7 +42,7 @@ class EventLinkRepo  extends RepoAbstract implements EventLinkRepoInterface {
     }
 
     /**
-     * 
+     *
      * @return EventLinkInterface[]
      */
     public function findAll(): array {
@@ -51,24 +50,24 @@ class EventLinkRepo  extends RepoAbstract implements EventLinkRepoInterface {
     }
 
     /**
-     * 
-     * @param EventLinkInterface $eventLink 
+     *
+     * @param EventLinkInterface $eventLink
      * @return void
      */
     public function add(EventLinkInterface $eventLink) : void {
         $this->addEntity($eventLink);
     }
     /**
-     * 
+     *
      * @param EventLinkInterface $eventLink
      * @return void
      */
     public function remove(EventLinkInterface $eventLink)  :void {
         $this->removeEntity($eventLink);
     }
-    
-    
-    
+
+
+
 
     protected function createEntity() : EventLinkInterface {
         return new EventLink();

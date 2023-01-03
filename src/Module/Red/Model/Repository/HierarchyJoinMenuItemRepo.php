@@ -10,6 +10,7 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 use Model\Hydrator\HydratorInterface;
+use Model\Repository\RepoAssotiatingOneTrait;
 
 use Red\Model\Repository\MenuItemRepo;
 
@@ -27,18 +28,21 @@ use Red\Model\Hydrator\HierarchyChildHydrator;
  *
  * @author pes2704
  */
-class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMenuItemRepo nemá skutečné rodičovské repo
+class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMenuItemRepoInterface {  // HierarchyAggregateMenuItemRepo nemá skutečné rodičovské repo
 
-    public function __construct(HierarchyAggregateReadonlyDaoInterface $editHirerarchy, HierarchyHydrator $hierarchyNodeHydrator,
-            MenuItemRepo $menuItemRepo, HierarchyChildHydrator $hierarchyChildHydrator
+    public function __construct(HierarchyAggregateReadonlyDaoInterface $editHirerarchy, HierarchyHydrator $hierarchyNodeHydrator
+//            ,
+//            MenuItemRepo $menuItemRepo, HierarchyChildHydrator $hierarchyChildHydrator
             ) {
 
 
         $this->dataManager = $editHirerarchy;
-        $this->registerOneToOneAssociation(MenuItemInterface::class, ['uid_fk', 'lang_code_fk'], $menuItemRepo);
+//        $this->registerOneToOneAssociation(MenuItemInterface::class, ['uid_fk', 'lang_code_fk'], $menuItemRepo);
         $this->registerHydrator($hierarchyNodeHydrator);
-        $this->registerHydrator($hierarchyChildHydrator);
+//        $this->registerHydrator($hierarchyChildHydrator);
     }
+
+    use RepoAssotiatingOneTrait;
 
     protected function createEntity() {
         return new HierarchyAggregate();
@@ -51,8 +55,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @return HierarchyAggregateInterface|null
      */
     public function get($langCodeFk, $uidFk): ?HierarchyAggregateInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
-        return $this->getEntity($key);
+        return $this->getEntity($langCodeFk, $uidFk);
     }
 
     /**

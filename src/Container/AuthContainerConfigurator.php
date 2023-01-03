@@ -30,6 +30,7 @@ use Auth\Model\Hydrator\LoginHydrator;
 use Auth\Model\Repository\LoginRepo;
 use Auth\Model\Hydrator\LoginChildCredentialsHydrator;
 use Auth\Model\Repository\LoginAggregateCredentialsRepo;
+use Auth\Model\Repository\Association\CredentialsAssociation;
 
 use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Hydrator\RegistrationHydrator;
@@ -179,14 +180,13 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LoginChildCredentialsHydrator();
             },
             LoginAggregateCredentialsRepo::class => function(ContainerInterface $c) {
-                $repo = new LoginAggregateCredentialsRepo(
-                        $c->get(LoginDao::class),
+                /** @var RegistrationDao $childDao */
+                $childDao = $c->get(LoginDao::class);
+                        $repo = new LoginAggregateCredentialsRepo(
+                        $childDao,
                         $c->get(LoginHydrator::class)
-//                        ,
-//                        $c->get(CredentialsRepo::class),
-//                        $c->get(LoginChildCredentialsHydrator::class)
                         );
-                $assotiation = new xxx($parentDao->getPrimaryKeyAttributes(), $c->get(RegistrationRepo::class));
+                $assotiation = new CredentialsAssociation($c->get(CredentialsRepo::class));
                 $repo->registerOneToOneAssociation($assotiation);
                 return $repo;
             },
@@ -208,16 +208,14 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LoginChildRegistrationHydrator();
             },
             LoginAggregateRegistrationRepo::class => function(ContainerInterface $c) {
-                /** @var RegistrationDao $childDao */
-                $childDao = $c->get(RegistrationDao::class);
                 /** @var LoginDao $parentDao */
                 $parentDao = $c->get(LoginDao::class);
                 $repo = new LoginAggregateRegistrationRepo(
                         $parentDao,
                         $c->get(LoginHydrator::class)
                         );
-                $assotiation = new RegistrationAssociation($parentDao->getTableName(), $c->get(RegistrationRepo::class));
-                $repo->registerOneToOneAssociation(RegistrationRepo::class, $assotiation);
+                $assotiation = new RegistrationAssociation($c->get(RegistrationRepo::class));
+                $repo->registerOneToOneAssociation($assotiation);
                 return $repo;
             },
 

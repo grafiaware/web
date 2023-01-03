@@ -39,8 +39,7 @@ class MenuRootRepo extends RepoAbstract {
      * @return MenuRootInterface|null
      */
     public function get($name): ?MenuRootInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['name'=>$name]);
-        return $this->getEntity($key);
+        return $this->getEntity($name);
     }
 
     /**
@@ -62,7 +61,7 @@ class MenuRootRepo extends RepoAbstract {
     protected function createEntity() {
         return new MenuRoot();
     }
-    
+
     protected function indexFromEntity(MenuRootInterface $menuRoot) {
         return $menuRoot->getName();
     }

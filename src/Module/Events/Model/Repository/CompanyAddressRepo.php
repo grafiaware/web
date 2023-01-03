@@ -21,22 +21,19 @@ class CompanyAddressRepo  extends RepoAbstract implements CompanyAddressRepoInte
         $this->dataManager = $companyAddressDao;
         $this->registerHydrator($companyAddressHydrator);
     }
-    
-    
+
+
     /**
      *
      * @param type $company_id
      * @return CompanyAddressInterface|null
      */
-    public function get($company_id): ?CompanyAddressInterface {   
-        $key = $this->dataManager->getPrimaryKeyTouples(['company_id'=>$company_id]);
-        return $this->getEntity($key);
+    public function get($company_id): ?CompanyAddressInterface {
+        return $this->getEntity($company_id);
     }
-    
-    
 
     /**
-     * 
+     *
      * @param type $whereClause
      * @param type $touplesToBind
      * @return CompanyAddressInterface[]
@@ -46,7 +43,7 @@ class CompanyAddressRepo  extends RepoAbstract implements CompanyAddressRepoInte
     }
 
     /**
-     * 
+     *
      * @return CompanyAddressInterface[]
      */
     public function findAll(): array {
@@ -54,26 +51,23 @@ class CompanyAddressRepo  extends RepoAbstract implements CompanyAddressRepoInte
     }
 
    /**
-     * 
-     * @param CompanyAddressInterface $companyAddress 
+     *
+     * @param CompanyAddressInterface $companyAddress
      * @return void
      */
     public function add( CompanyAddressInterface $companyAddress ) : void {
         $this->addEntity($companyAddress);
     }
-    
-    
+
+
     /**
-     * 
-     * @param CompanyAddressInterface $companyAddress 
+     *
+     * @param CompanyAddressInterface $companyAddress
      * @return void
      */
     public function remove(CompanyAddressInterface $companyAddress)  :void {
         $this->removeEntity($companyAddress);
     }
-    
-    
-    
 
     protected function createEntity() : CompanyAddressInterface {
         return new CompanyAddress();

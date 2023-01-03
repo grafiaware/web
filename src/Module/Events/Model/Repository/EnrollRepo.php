@@ -22,71 +22,70 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
         $this->registerHydrator($enrollHydrator);
     }
 
-    
+
     /**
-     * 
+     *
      * @param type $loginName
      * @param type $eventId
      * @return EnrollInterface|null
      */
     public function get($loginName, $eventId): ?EnrollInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name_fk' => $loginName, 'event_id_fk' => $eventId]);
-        return $this->getEntity($key);
+        return $this->getEntity($loginName, $eventId);
     }
 
-     
-           
-    
+
+
+
     /**
-     * 
-     * @param type $loginName     
+     *
+     * @param type $loginName
      * @return EnrollInterface[]
      */
     public function findByLoginName($loginName) : array{
         return $this->findEntities("login_login_name_fk = :login_login_name_fk", [":login_login_name_fk"=>$loginName]);
     }
-    
+
     /**
-     * 
-     * @param type $eventId     
+     *
+     * @param type $eventId
      * @return EnrollInterface[]
      */
     public function findByEvent($eventId) : array{
         return $this->findEntities("event_id_fk = :event_id_fk", [":event_id_fk"=>$eventId]);
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @return EnrollInterface[]
      */
     public function findAll() : array {
         return $this->findEntities();
     }
 
-   
-   
+
+
     /**
-     * 
+     *
      * @param EnrollInterface $enroll
      * @return void
      */
     public function add(EnrollInterface $enroll) :void {
         $this->addEntity($enroll);
     }
-    
-    
+
+
 
     /**
-     * 
+     *
      * @param EnrollInterface $enroll
      * @return void
      */
     public function remove(EnrollInterface $enroll) :void {
         $this->removeEntity($enroll);
     }
-    
-    
+
+
 
     protected function createEntity() {
         return new Enroll();
@@ -98,6 +97,6 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
 
     protected function indexFromRow($row) {
         return $row['login_login_name_fk']. $row['event_id_fk'] ;
-    }       
-    
+    }
+
 }

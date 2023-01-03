@@ -50,27 +50,6 @@ class RegistrationDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInt
         return $this->getByReference('login_name_fk', $loginNameFk);
     }
 
-//    public function getByFk($loginNameFK) {
-//        $select = $this->sql->select($this->getAttributes());
-//        $from = $this->sql->from($this->getTableName());
-//        $where = $this->sql->where($this->sql->and($this->sql->touples(['login_name_fk'])));
-//        $touplesToBind = $this->getPrimaryKeyTouplesToBind($loginNameFK);
-//        return $this->selectOne($select, $from, $where, $touplesToBind, true);
-//    }
-
-    public function getByUid($uid) {
-        $this->getUnique(['uid'=>$uid]);
-    }
-
-//    public function getByUid($uid) {
-//        $select = $this->sql->select($this->getAttributes());
-//        $from = $this->sql->from($this->getTableName());
-//        $where = $this->sql->where($this->sql->and($this->sql->touples(['uid'])));
-//        $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
-//        return $this->selectOne($select, $from, $where, $touplesToBind, true);
-//    }
-
-
     /**
      * Insert s generování hodnoty uid.
      *

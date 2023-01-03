@@ -5,8 +5,8 @@ namespace Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 
 use Model\Builder\SqlInterface;
-
 use Model\Context\ContextFactoryInterface;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of DaoContextualAbstract
@@ -26,7 +26,13 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
         $this->contextFactory = $contextFactory;
     }
 
-    public function get(array $id) {
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $id
+     * @return RowDataInterface|null
+     */
+    public function get(array $id): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and(
@@ -38,7 +44,7 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function getOutOfContext(array $id) {
+    public function getOutOfContext(array $id): ?RowDataInterface {
         return parent::get($id);
     }
 
@@ -46,9 +52,9 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
      * {@inheritDoc}
      *
      * @param array $unique
-     * @return type
+     * @return RowDataInterface|null
      */
-    public function getUniqueOutOfContext(array $unique) {
+    public function getUniqueOutOfContext(array $unique): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and(
@@ -58,20 +64,39 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
         $touplesToBind = $this->getPrimaryKeyPlaceholdersValues($unique);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
-
+    /**
+     * {@inheritDoc}
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return iterable
+     */
     public function find($whereClause = "", $touplesToBind = []): iterable {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and(
                         $this->getContextConditions(),
                         $whereClause));
-        return $this->selectMany($select, $from, $where, $touplesToBind);        
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return iterable
+     */
     public function findOutOfContext($whereClause = "", $touplesToBind = []): iterable {
         return parent::find($whereClause, $touplesToBind);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return iterable
+     */
     public function findAll(): iterable {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
@@ -79,6 +104,11 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
         return $this->selectMany($select, $from, $where, []);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return iterable
+     */
     public function findAllOutOfContext(): iterable {
         return parent::findAll();
     }

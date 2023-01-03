@@ -15,6 +15,9 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface DataManagerInterface {
+
+    public function getUnique(array $uniqueParams): ?RowDataInterface;
+
     public function getPrimaryKeyAttributes(): array;
     public function getAttributes(): array;
     public function getTableName(): string;

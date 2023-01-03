@@ -38,8 +38,7 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
      * @return ItemActionInterface|null
      */
     public function get($typeFk, $itemId): ?ItemActionInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['type_fk'=>$typeFk, 'item_id'=>$itemId]);
-        return $this->getEntity($key);
+        return $this->getEntity($typeFk, $itemId);
     }
 
     /**

@@ -47,6 +47,7 @@ use Red\Model\Hydrator\HierarchyChildHydrator;
 use Red\Model\Dao\MenuItemDao;
 use Red\Model\Hydrator\MenuItemHydrator;
 use Red\Model\Repository\MenuItemRepo;
+use Red\Model\Repository\Association\MenuItemAssociation;
 
 use Red\Model\Dao\MenuRootDao;
 use Red\Model\Hydrator\MenuRootHydrator;
@@ -199,11 +200,12 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 );
             },
             HierarchyJoinMenuItemRepo::class => function(ContainerInterface $c) {
-                return new HierarchyJoinMenuItemRepo(
+                $repo = new HierarchyJoinMenuItemRepo(
                         $c->get(HierarchyAggregateReadonlyDao::class),
-                        $c->get(HierarchyHydrator::class),
-                        $c->get(MenuItemRepo::class),
-                        $c->get(HierarchyChildHydrator::class));
+                        $c->get(HierarchyHydrator::class));
+                $assotiation = new MenuItemAssociation($c->get(MenuItemRepo::class));
+                $repo->registerOneToOneAssociation($assotiation);
+                return $repo;
             },
             MenuItemTypeDao::class => function(ContainerInterface $c) {
                 return new MenuItemTypeDao(

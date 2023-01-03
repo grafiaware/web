@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
+namespace Test\Integration\Auth\Model\Repository;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,6 +37,10 @@ use Model\RowData\RowData;
  */
 class LoginAggregateCredentialsRepositoryTest extends AppRunner {
 
+    const PREFIX = "testLoginAggregateCredentials";
+    const LOGIN_NAME1 = self::PREFIX."1";
+    const LOGIN_NAME2 = self::PREFIX."2";
+
     private $container;
 
     /**
@@ -58,16 +62,20 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
                 )
             );
 
-        try {
-            /** @var LoginDao $loginDao */
-            $loginDao = $container->get(LoginDao::class);
-                $rowData = new RowData();
-                $rowData->import(['login_name'=>"testLoginAggregate1"]);
-            $loginDao->insert($rowData);
-        } catch (DaoKeyVerificationFailedException $keyExistsExc) {
+        // mazání - zde jen pro případ, že minulý test nebyl dokončen
+        self::deleteRecords($container);
 
-        }
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+            $rowData = new RowData();
+            $rowData->import(['login_name'=>self::LOGIN_NAME1]);
+        $loginDao->insert($rowData);
 
+        /** @var RegistrationDao $credentialsDao */
+        $credentialsDao = $container->get(CredentialsDao::class);
+        $rowData = new RowData();
+        $rowData->import(['login_name_fk'=> self::LOGIN_NAME1, 'password_hash'=>"testHeslosetUpBeforeClass", "role"=>"panákZTestu"]);
+        $credentialsDao->insert($rowData);
     }
 
     protected function setUp(): void {
@@ -94,28 +102,19 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
     }
 
     private static function deleteRecords(Container $container) {
-        $container =
-            (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
-                    (new Container())
-                )
-            );
+
         /** @var CredentialsDao $credentialsDao */
         $credentialsDao = $container->get(CredentialsDao::class);
+        $rows = $credentialsDao->find("login_name_fk LIKE :login_name_like", ['login_name_like'=> self::PREFIX."%"]);
+        foreach ($rows as $row) {
+            $credentialsDao->delete($row);
+        }
+
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $credRowData = $credentialsDao->get("testLoginAggregate1");
-        $credentialsDao->delete($credRowData);
-        $loginDao->delete($rowData);
-        $loginDao->delete(['login_name'=>"testLoginAggregate2"]);
-
-
-        /** @var VisitorProfileDao $visitorDataDao */
-        $visitorDataDao = $container->get(VisitorProfileDao::class);
-        $prefix = self::$loginNamePrefix;
-        $rows = $visitorDataDao->find("login_login_name LIKE '$prefix%'", []);
-        foreach($rows as $row) {
-            $visitorDataDao->delete($row);
+        $rows = $loginDao->find("login_name LIKE :login_name_like", ['login_name_like'=> self::PREFIX."%"]);
+        foreach ($rows as $row) {
+            $loginDao->delete($row);
         }
     }
 
@@ -123,20 +122,31 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
         $this->assertInstanceOf(LoginAggregateCredentialsRepo::class, $this->loginAggCredRepo);
     }
 
-    public function testGet() {
-        $loginAgg = $this->loginAggCredRepo->get(['login_name'=>"QWER45T6U7I89OPOLKJHGFD"]);
+    public function testGetNonExisted() {
+        $loginAgg = $this->loginAggCredRepo->get("QWER45T6U7I89OPOLKJHGFD");
         $this->assertNull($loginAgg);
-        $loginAgg = $this->loginAggCredRepo->get(['login_name'=>"pes2704"]);
+    }
+
+    public function testGetAndRemoveAfterSetup() {
+        $loginAgg = $this->loginAggCredRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
+        /** @var LoginAggregateCredentials $loginAgg */
+        $this->assertInstanceOf(Credentials::class, $loginAgg->getCredentials(), "Přečtený LoginAggregateRegistration nemá Credentials entity");
+        $this->loginAggCredRepo->remove($loginAgg);  // poznámka: entity přestane být persisted a lock až ve flush()
+    }
+
+    public function testGetAfterRemove() {
+        $loginAgg = $this->loginAggCredRepo->get(self::LOGIN_NAME1);
+        $this->assertNull($loginAgg);
     }
 
     ###### complete aggregate ################
 
     public function testAddComplete() {
         $loginAgg = new LoginAggregateCredentials();
-        $loginAgg->setLoginName("testLoginAggregate1");
+        $loginAgg->setLoginName(self::LOGIN_NAME1);
         $credentials = new Credentials();
-        $credentials->setLoginNameFk("testLoginAggregate1");
+        $credentials->setLoginNameFk(self::LOGIN_NAME1);
         $credentials->setPasswordHash("testHeslo");
         $loginAgg->setCredentials($credentials);
         $this->loginAggCredRepo->add($loginAgg);
@@ -146,7 +156,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
     }
 
     public function testGetAfterAddComplete() {
-        $loginAgg = $this->loginAggCredRepo->get("testLoginAggregate1");
+        $loginAgg = $this->loginAggCredRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
     }
 
@@ -154,7 +164,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
 
     public function testAddUncomplete() {
         $loginAgg = new LoginAggregateCredentials();
-        $loginAgg->setLoginName("testLoginAggregate2");
+        $loginAgg->setLoginName(self::LOGIN_NAME2);
         $this->loginAggCredRepo->add($loginAgg);
         $this->assertTrue($loginAgg->isPersisted());
     }
@@ -168,13 +178,13 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
 //    }
 
     public function testGetAfterAddUncomplete() {
-        $loginAgg = $this->loginAggCredRepo->get("testLoginAggregate2");
+        $loginAgg = $this->loginAggCredRepo->get(self::LOGIN_NAME2);
         $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
     }
 
     public function testSetNewCredentialsUncomplete() {
         /** @var LoginAggregateCredentials $loginAgg */
-        $loginAgg = $this->loginAggCredRepo->get("testLoginAggregate2");
+        $loginAgg = $this->loginAggCredRepo->get(self::LOGIN_NAME2);
         $credentials = new Credentials();
         $credentials->setLoginNameFk($loginAgg->getLoginName());
         $credentials->setPasswordHash("testHeslo");
@@ -185,7 +195,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
 
     public function testGetAfterSetNewCredentialsUncomplete() {
         /** @var LoginAggregateCredentials $loginAgg */
-        $loginAgg = $this->loginAggCredRepo->get("testLoginAggregate2");
+        $loginAgg = $this->loginAggCredRepo->get(self::LOGIN_NAME2);
         $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
         $this->assertInstanceOf(Credentials::class, $loginAgg->getCredentials());
 

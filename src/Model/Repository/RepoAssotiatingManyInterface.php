@@ -10,6 +10,6 @@ use Model\Repository\Association\AssociationOneToManyInterface;
  */
 interface RepoAssotiatingManyInterface {
 
-    public function registerOneToManyAssotiation($index, AssociationOneToManyInterface $assotiation);
+    public function registerOneToManyAssotiation(AssociationOneToManyInterface $assotiation);
 
 }

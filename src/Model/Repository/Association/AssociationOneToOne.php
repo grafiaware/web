@@ -29,17 +29,10 @@ abstract class AssociationOneToOne extends AssociationAbstract implements Associ
 
     /**
      *
-     * @param array $childKeyAttribute Atribut cizího klíče, klíče který je referencí na data rodiče v úložišti dat. V databázi jde o jméno sloupce (sloupců) s cizím klíčem v potomkovské tabulce.
-     * @param array $parentKeyAttribute Atribut vlastního klíče, klíče na který vede reference na data rodiče v úložišti dat. V databázi jde o jméno sloupce (sloupců) s vlastním (obvykle primárním)  klíčem v potomkovské tabulce.
-     * @param RepoAssotiatedOneInterface $childRepo Repo pro získání, ukládání a mazání asociované entity.
-     */
-    /**
-     *
      * @param string $referenceName
      * @param RepoAssotiatedOneInterface $childRepo
      */
-    public function __construct(string $referenceName, RepoAssotiatedOneInterface $childRepo) {
-        parent::__construct($referenceName);
+    public function __construct(RepoAssotiatedOneInterface $childRepo) {
         $this->childRepo = $childRepo;
     }
 

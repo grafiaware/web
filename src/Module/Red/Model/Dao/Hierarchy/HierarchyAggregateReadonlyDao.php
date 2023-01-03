@@ -4,9 +4,10 @@ namespace Red\Model\Dao\Hierarchy;
 
 use Model\Dao\DaoAbstract;
 use Pes\Database\Handler\HandlerInterface;
-use Model\Builder\SqlInterface;
 
+use Model\Builder\SqlInterface;
 use Model\Context\ContextFactoryInterface;
+use Model\RowData\RowDataInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
@@ -104,7 +105,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * @param array $id Asociativní pole s indexy odpovídajícími poli vrácenému metodou getPrimaryKeyAttributes()
      * @return array|null Asociativní pole s indexy odpovídajícími poli vrácenému metodou getAttributes()
      */
-    public function get(array $id) {
+    public function get(array $id): ?RowDataInterface {
         $sql =
             "SELECT "
             .$this->selected()
@@ -136,7 +137,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * @param array $langCodeAndTitle Asociativní pole s indexy lang_code_fk a title
      * @return array|null
      */
-    public function getByTitleHelper(array $langCodeAndTitle) {
+    public function getByTitleHelper(array $langCodeAndTitle): ?RowDataInterface {
         $sql =
             "SELECT "
             .$this->selected()
@@ -343,7 +344,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * @param type $uid
      * @return type
      */
-    public function getParent($langCode, $uid){
+    public function getParent($langCode, $uid): ?RowDataInterface {
 
 
         $sql =

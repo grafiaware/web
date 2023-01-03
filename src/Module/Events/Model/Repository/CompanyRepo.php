@@ -22,22 +22,18 @@ class CompanyRepo extends RepoAbstract implements CompanyRepoInterface {
         $this->registerHydrator($companyHydrator);
 
     }
-    
-    
+
     /**
      *
      * @param type $id
      * @return CompanyInterface|null
      */
-    public function get($id): ?CompanyInterface {   
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+    public function get($id): ?CompanyInterface {
+        return $this->getEntity($id);
     }
-    
-    
 
     /**
-     * 
+     *
      * @param type $whereClause
      * @param type $touplesToBind
      * @return CompanyInterface[]
@@ -47,7 +43,7 @@ class CompanyRepo extends RepoAbstract implements CompanyRepoInterface {
     }
 
     /**
-     * 
+     *
      * @return CompanyInterface[]
      */
     public function findAll(): array {
@@ -55,26 +51,26 @@ class CompanyRepo extends RepoAbstract implements CompanyRepoInterface {
     }
 
    /**
-     * 
-     * @param CompanyInterface $company 
+     *
+     * @param CompanyInterface $company
      * @return void
      */
     public function add( CompanyInterface $company ) : void {
         $this->addEntity($company);
     }
-    
-    
+
+
     /**
-     * 
-     * @param CompanyInterface $company 
+     *
+     * @param CompanyInterface $company
      * @return void
      */
     public function remove(CompanyInterface $company)  :void {
         $this->removeEntity($company);
     }
-    
-    
-    
+
+
+
 
     protected function createEntity() : CompanyInterface {
         return new Company();

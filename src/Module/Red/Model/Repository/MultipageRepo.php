@@ -40,8 +40,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
      * @return MultipageInterface|null
      */
     public function get($id): ?MultipageInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
 
     /**

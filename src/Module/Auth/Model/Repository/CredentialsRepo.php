@@ -1,24 +1,14 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Auth\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
 use Model\Hydrator\HydratorInterface;
-use Model\Entity\PersistableEntityInterface;
+use Model\Repository\RepoAssotiatedOneTrait;
 
 use Auth\Model\Entity\CredentialsInterface;
 use Auth\Model\Entity\Credentials;
 use Auth\Model\Dao\CredentialsDao;
-
-use Auth\Model\Repository\Exception\UnableRecreateEntityException;
-
 
 
 class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
@@ -28,19 +18,15 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         $this->registerHydrator($credentialsHydrator);
     }
 
+    use RepoAssotiatedOneTrait;
+
     /**
      *
      * @param type $loginNameFk
      * @return CredentialsInterface|null
      */
     public function get($loginNameFk): ?CredentialsInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
-        return $this->getEntity($key);
-    }
-
-    public function getByReference($loginNameFk): ?PersistableEntityInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
-        return $this->getEntity($key);
+        return $this->getEntity($loginNameFk);
     }
 
     public function add(CredentialsInterface $credentials) {
@@ -55,8 +41,8 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         return new Credentials();
     }
 
-    protected function indexFromKeyParams($loginNameFk) {
-        return $loginNameFk;
+    protected function indexFromKeyParams(array $loginNameFk) { // číselné pole - vzniklo z variadic $params
+        return $loginNameFk[0];
     }
 
     protected function indexFromEntity(CredentialsInterface $credentials) {
@@ -66,5 +52,5 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
     protected function indexFromRow($row) {
         return $row['login_name_fk'];
     }
-    }
+}
 

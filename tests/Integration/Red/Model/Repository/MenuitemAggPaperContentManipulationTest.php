@@ -18,8 +18,8 @@ use Pes\Container\Container;
 
 use Container\DbUpgradeContainerConfigurator;
 use Container\RedModelContainerConfigurator;
-use Test\Integration\Model\Container\TestModelContainerConfigurator;
-
+use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
+use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;

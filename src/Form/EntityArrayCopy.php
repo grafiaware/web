@@ -25,6 +25,6 @@ class EntityArrayCopy implements EntityArrayCopyInterface {
     public function getArrayCopy(): array {
         $row = new RowData();
         $this->hydrator->extract($this->entity, $row);
-        return $row->yieldChanged()->getArrayCopy();
+        return $row->yieldChangedRowData()->getArrayCopy();
     }
 }

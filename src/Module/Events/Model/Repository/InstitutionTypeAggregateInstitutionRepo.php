@@ -21,19 +21,19 @@ use Events\Model\Entity\InstitutionInterface;
  * @author vlse2610
  */
 class InstitutionTypeAggregateInstitutionRepo extends InstitutionTypeRepo implements RepoInterface, InstitutionTypeRepoInterface {
-    
-     public function __construct( InstitutionTypeDao $institutionTypeDao, InstitutionTypeHydrator $institutionTypeHydrator,
+
+    public function __construct( InstitutionTypeDao $institutionTypeDao, InstitutionTypeHydrator $institutionTypeHydrator,
                                       InstitutionRepo $institutionRepo, InstitutionTypeChildHydrator $institutionTypeChildHydrator) {
-         
+    assert(false, "Straá implementace agregátního repo!");
         parent::__construct($institutionTypeDao, $institutionTypeHydrator);
         $this->registerOneToManyAssociation(InstitutionInterface::class, 'id', $institutionRepo);
         $this->registerHydrator($institutionTypeChildHydrator);
     }
 
-    
+
     protected function createEntity() {
         return new InstitutionTypeAggregateInstitution();
     }
-    
-    
+
+
 }

@@ -42,8 +42,7 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
      * @return PaperInterface|null
      */
     public function get($id): ?ArticleInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
 
     /**

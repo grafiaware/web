@@ -8,13 +8,32 @@
 
 namespace Auth\Model\Repository;
 
+use Model\Repository\RepoInterface;
+
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 
 /**
  *
  * @author pes2704
  */
-interface LoginAggregateCredentialsRepoInterface  extends LoginRepoInterface {
+interface LoginAggregateCredentialsRepoInterface  extends RepoInterface {
+
+    /**
+     *
+     * @param type $loginName
+     * @return LoginAggregateCredentialsInterface|null
+     */
     public function get($loginName): ?LoginAggregateCredentialsInterface;
-    public function findByRole($role);
+
+    /**
+     *
+     * @param LoginAggregateCredentialsInterface $login
+     */
+    public function add(LoginAggregateCredentialsInterface $login);
+
+    /**
+     *
+     * @param LoginAggregateCredentialsInterface $login
+     */
+    public function remove(LoginAggregateCredentialsInterface $login);
 }

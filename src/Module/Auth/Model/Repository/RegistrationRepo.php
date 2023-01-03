@@ -27,17 +27,12 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
     use RepoAssotiatedOneTrait;
 
     public function get($loginNameFk): ?RegistrationInterface {    // $loginNameFk je primární i cizí klíč
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
-        return $this->getEntity($key);
+        return $this->getEntity($loginNameFk);
     }
 
     public function getByUid($uid): ?RegistrationInterface {
-        $row = $this->dataManager->getByUid($uid);
-        $index = $this->indexFromRow($row);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $row);
-        }
-        return $this->collection[$index] ?? NULL;
+        $row = $this->dataManager->getUnique(['uid'=>$uid]);
+        return $this->recreateEntityByRowData($row);
     }
 
     public function add(RegistrationInterface $registration) {
@@ -52,8 +47,8 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
         return new Registration();
     }
 
-    protected function indexFromKeyParams($loginNameFk) {
-        return $loginNameFk;
+    protected function indexFromKeyParams(array $loginNameFk) { // číselné pole - vzniklo z variadic $params
+        return $loginNameFk[0];
     }
 
     protected function indexFromEntity(RegistrationInterface $registration) {

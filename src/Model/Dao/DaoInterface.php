@@ -8,6 +8,8 @@
 
 namespace Model\Dao;
 
+use Model\RowData\RowDataInterface;
+
 /**
  *
  * @author pes2704
@@ -34,20 +36,23 @@ interface DaoInterface {
 
     /**
      * Vrací řádek dat podle hodnot primárního klíče nebo null.
-     * Zadané pole musí být asociativní pole dvojic jméno-hodnota a musí obsahovat jména a hodnoty atributů primárního klíče.
-     * Metoda kontroluje jestli zadané pole obsahuje všechna jména atributů primárního klíče.
+     * Parametr musí být asociativní pole dvojic jméno-hodnota a musí obsahovat jména a hodnoty atributů primárního klíče.
+     * Metoda kontroluje jestli parametr obsahuje všechna jména atributů primárního klíče.
      *
      * @param array $id
+     * @return RowDataInterface|null
      */
-    public function get(array $id);
+    public function get(array $id): ?RowDataInterface;
 
     /**
-     * Vrací řádek dat podle hodnot položek zadané pole nebo null.
-     * Zadané pole musí být asociativní pole dvojic jméno-hodnota a musí obsahovat unikátní kombinaci jmen a hodnot atributů tabulky.
+     * Vrací řádek dat podle hodnot položek parametru nebo null.
+     * Předpokládá, že parametr určuje unikátní řádek dat a vrací jeden řádek i v případě, že zadanému parametru odpovídá více řádků.
+     * Parametr musí být asociativní pole dvojic jméno-hodnota a musí obsahovat unikátní kombinaci jmen a hodnot atributů tabulky.
      *
      * @param array $unique
+     * @return RowDataInterface|null
      */
-    public function getUnique(array $unique);
+    public function getUnique(array $unique): ?RowDataInterface;
 
     /**
      * Vrací pole řádkových dat nebo prázdné pole. Pole dat načte podle zadaného příkazu where v SQL syntaxi vhodné pro PDO, tedy s placeholdery a podle hodnot

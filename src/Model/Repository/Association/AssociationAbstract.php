@@ -20,14 +20,9 @@ class AssociationAbstract implements AssociationInterface {
 
     protected $referenceName;
 
-    /**
-     *
-     * @param array $childKeyAttribute Atribut cizího klíče, klíče který je referencí na data rodiče v úložišti dat . V databázi jde o cizí klíč v potomkovské tabulce.
-     */
-    protected function __construct(string $referenceName) {
+    public function setReferenceName($referenceName) {
         $this->referenceName = $referenceName;
     }
-
     public function flushChildRepo(): void {
         $this->childRepo->flush();
     }

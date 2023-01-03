@@ -17,7 +17,8 @@ use Red\Model\Dao\MenuItemDao;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\PersistableEntityInterface;
-use Model\Repository\Exception\UnableRecreateEntityException;
+
+use Model\Repository\RepoAssotiatedOneTrait;
 
 /**
  * Description of MenuItemRepo
@@ -37,6 +38,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         $this->registerHydrator($menuItemHydrator);
     }
 
+    use RepoAssotiatedOneTrait;
+
     /**
      * Vrací MenuItem podle hodnoty primárního klíče - kompozit z langCode a uid.
      * Vrací jen položky, které jsou aktivní a aktuální.
@@ -46,8 +49,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
-        return $this->getEntity($key);
+        return $this->getEntity($langCodeFk, $uidFk);
     }
 
     /**
@@ -76,7 +78,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getById($id): ?MenuItemInterface {
-        $rowData = $this->dataManager->getById(['id'=>$id]);  // zatím je tu MenuItemDao!
+        $rowData = $this->dataManager->getUnique(['id'=>$id]);
         return $this->recreateEntityByRowData($rowData);    }
 
     /**
@@ -88,17 +90,6 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function getByPrettyUri($prettyUri): ?MenuItemInterface {
         $rowData = $this->dataManager->getByPrettyUri(['prettyuri'=>$prettyUri]);
-        return $this->recreateEntityByRowData($rowData);
-    }
-
-    /**
-     *
-     * @param array $id Asociativní pole atributů klíče
-     * @return PersistableEntityInterface|null
-     */
-    public function getByReference($id): ?PersistableEntityInterface {
-        // asociativní pole atributů primárního klíče - je to definováno metodou registerOneToOneAssociation() v rodičovském repo - t.j. HierarchyJoinMenuItemRepo
-        $rowData = $this->dataManager->get($id);
         return $this->recreateEntityByRowData($rowData);
     }
 

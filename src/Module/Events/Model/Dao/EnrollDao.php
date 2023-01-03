@@ -18,11 +18,11 @@ class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
         return ['login_login_name_fk', 'event_id_fk'];
     }
 
-    public function getForeignKeyAttributes(): array {
+    public function getReference($referenceName): array {
         return [
             'login_login_name_fk'=>['login_login_name_fk'],
             'event_id_fk'=>['event_id_fk']
-        ];
+        ][$referenceName];
     }
 
     public function getAttributes(): array {

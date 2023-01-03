@@ -37,10 +37,10 @@ class MultipageDao extends DaoEditAbstract implements MultipageDaoInterface {
         ];
     }
 
-    public function getForeignKeyAttributes(): array {
+    public function getReference($referenceName): array {
         return [
             'menu_item_id_fk'=>['menu_item_id_fk']
-        ];
+        ][$referenceName];
     }
 
     public function getTableName(): string {

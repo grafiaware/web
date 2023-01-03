@@ -26,30 +26,29 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
      * @return VisitorProfileInterface|null
      */
     public function get($loginName): ?VisitorProfileInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name'=>$loginName]);
-        return $this->getEntity($key);
+        return $this->getEntity($loginName);
     }
-    
+
     /**
-     * 
+     *
      * @return VisitorProfileInterface[]
      */
     public function find($whereClause=null, $touplesToBind=[]): array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
 
-    
+
     /**
-     * 
+     *
      * @return VisitorProfileInterface[]
      */
     public function findAll()  : array {
         return $this->findEntities();
     }
-    
-    
+
+
      /**
-     * 
+     *
      * @param VisitorProfileInterface $visitorJobRequest
      * @return void
      */
@@ -58,7 +57,7 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
     }
 
     /**
-     * 
+     *
      * @param VisitorProfileInterface $visitorJobRequest
      * @return void
      */
@@ -66,8 +65,8 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
         $this->removeEntity($visitorProfile);
     }
 
-    
-    
+
+
     protected function createEntity() {
         return new VisitorProfile();
     }

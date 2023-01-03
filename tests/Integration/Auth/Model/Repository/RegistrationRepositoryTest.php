@@ -1,16 +1,8 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
+namespace Test\Integration\Auth\Model\Repository;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-use PHPUnit\Framework\TestCase;
-
-use Pes\Http\Factory\EnvironmentFactory;
+use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
@@ -21,17 +13,17 @@ use Auth\Model\Entity\Registration;
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Repository\RegistrationRepo;
-
+use Model\RowData\RowData;
 
 /**
  *
  * @author pes2704
  */
-class RegistrationRepositoryTest extends TestCase {
+class RegistrationRepositoryTest extends AppRunner {
 
-    private static $inputStream;
+    const PREFIX = "testRegistration";
+    const LOGIN_NAME1 = self::PREFIX."1";
 
-    private $app;
     private $container;
 
     /**
@@ -42,52 +34,47 @@ class RegistrationRepositoryTest extends TestCase {
 
     static $uidForEmail;
 
-    public static function mock(array $userData = []) {
-        //Validates if default protocol is HTTPS to set default port 443
-        if ((isset($userData['HTTPS']) && $userData['HTTPS'] !== 'off') ||
-            ((isset($userData['REQUEST_SCHEME']) && $userData['REQUEST_SCHEME'] === 'https'))) {
-            $defscheme = 'https';
-            $defport = 443;
-        } else {
-            $defscheme = 'http';
-            $defport = 80;
-        }
+    public static function setUpBeforeClass(): void {
+        self::bootstrapBeforeClass();
 
-        $data = array_merge([
-            'SERVER_PROTOCOL'      => 'HTTP/1.1',
-            'REQUEST_METHOD'       => 'GET',
-            'REQUEST_SCHEME'       => $defscheme,
-            'SCRIPT_NAME'          => '',
-            'REQUEST_URI'          => '',
-            'QUERY_STRING'         => '',
-            'SERVER_NAME'          => 'localhost',
-            'SERVER_PORT'          => $defport,
-            'HTTP_HOST'            => 'localhost',
-            'HTTP_ACCEPT'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8',
-            'HTTP_ACCEPT_CHARSET'  => 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-            'HTTP_USER_AGENT'      => 'PES',
-            'REMOTE_ADDR'          => '127.0.0.1',
-            'REQUEST_TIME'         => time(),
-            'REQUEST_TIME_FLOAT'   => microtime(true),
-        ], $userData);
+        $container =
+            (new AuthContainerConfigurator())->configure(
+                (new DbOldContainerConfigurator())->configure(
+                    (new Container(
+//                            $this->getApp()->getAppContainer()       bez app kontejneru
+                        )
+                    )
+                )
+            );
+        // mazání - zde jen pro případ, že minulý test nebyl dokončen
+        self::deleteRecords($container);
 
-         return (new EnvironmentFactory())->create($data, self::$inputStream);
+        // toto je příprava testu
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        /** @var RegistrationDao $registrationDao */
+        $registrationDao = $container->get(RegistrationDao::class);
+        $rowData = new RowData();
+        $rowData->import(['login_name'=>self::LOGIN_NAME1]);  //import -> hodnoty jsou changed
+        $loginDao->insert($rowData);
+        $rowData = new RowData();
+        $rowData->import(['login_name_fk'=>self::LOGIN_NAME1, 'password_hash'=>'testHeslo']);  //import -> hodnoty jsou changed
+        $registrationDao->insert($rowData);
     }
 
-    public static function setUpBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
+    private static function deleteRecords(Container $container) {
+        /** @var RegistrationDao $registrationDao */
+        $registrationDao = $container->get(RegistrationDao::class);
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
 
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
+        $rowData = new RowData(['login_name_fk'=>self::LOGIN_NAME1]);  // do konstruktoru -> hodnoty jsou "staré"
+        $registrationDao->delete($rowData);
+        $rowData = new RowData(['login_name'=>self::LOGIN_NAME1]);
+        $loginDao->delete($rowData);
+    }
 
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
-
-        // input stream je možné otevřít jen jednou
-        self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.
+    protected function setUp(): void {
 
         $container =
             (new AuthContainerConfigurator())->configure(
@@ -99,46 +86,7 @@ class RegistrationRepositoryTest extends TestCase {
                 )
             );
 
-        // mazání - zde jen pro případ, že minulý test nebyl dokončen
-        self::deleteRecords($container);
-
-        // toto je příprava testu
-        /** @var LoginDao $loginDao */
-        $loginDao = $container->get(LoginDao::class);
-        /** @var RegistrationDao $registrationDao */
-        $registrationDao = $container->get(RegistrationDao::class);
-        $loginDao->insertWithKeyVerification(['login_name'=>"testRegistration"]);
-        $registrationDao->insert(['login_name_fk'=>"testRegistration", 'password_hash'=>'testHeslo']);
-    }
-
-    private static function deleteRecords(Container $container) {
-        /** @var RegistrationDao $registrationDao */
-        $registrationDao = $container->get(RegistrationDao::class);
-        /** @var LoginDao $loginDao */
-        $loginDao = $container->get(LoginDao::class);
-
-        $registrationDao->delete(['login_name_fk'=>"testRegistration"]);
-        $loginDao->delete(['login_name'=>"testRegistration"]);
-    }
-
-    protected function setUp(): void {
-        $environment = $this->mock(
-                ['HTTP_USER_AGENT'=>'AppRunner']
-
-                );
-//        $this->app = (new WebAppFactory())->createFromEnvironment($environment);
-
-        $this->container =
-            (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
-                    (new Container(
-//                            $this->getApp()->getAppContainer()       bez app kontejneru
-                        )
-                    )
-                )
-            );
-
-        $this->registrationRepo = $this->container->get(RegistrationRepo::class);
+        $this->registrationRepo = $container->get(RegistrationRepo::class);
     }
 
     protected function tearDown(): void {
@@ -169,7 +117,7 @@ class RegistrationRepositoryTest extends TestCase {
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $registration = $this->registrationRepo->get("testRegistration");
+        $registration = $this->registrationRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(Registration::class, $registration);
 
         $registration = $this->registrationRepo->remove($registration);
@@ -177,22 +125,22 @@ class RegistrationRepositoryTest extends TestCase {
     }
 
     public function testGetAfterRemove() {
-        $loginAgg = $this->registrationRepo->get("testRegistration");
+        $loginAgg = $this->registrationRepo->get(self::LOGIN_NAME1);
         $this->assertNull($loginAgg);
     }
 
     public function testAdd() {
         $registration = new Registration();
-        $registration->setLoginNameFk("testRegistration");
+        $registration->setLoginNameFk(self::LOGIN_NAME1);
         $registration->setPasswordHash("testHeslo");
         $registration->setEmail("test.email@mejl.cz");
         $registration->setInfo("testInfo jhedhgdjgjwdgdj  io ipfpf ");
         $this->registrationRepo->add($registration);
-        $this->assertTrue($registration->isLocked(), 'Registration není zamčena po add.');
+        $this->assertTrue($registration->isPersisted(), 'Registration není persisted po add. Pravděpodobně RegistrationDao není');
     }
 
     public function testGetAfterAdd() {
-        $registration = $this->registrationRepo->get("testRegistration");
+        $registration = $this->registrationRepo->get(self::LOGIN_NAME1);
         $this->assertInstanceOf(Registration::class, $registration);
         $this->assertTrue(is_string($registration->getUid()));
         $this->assertInstanceOf(\DateTime::class, $registration->getCreated());
@@ -206,14 +154,14 @@ class RegistrationRepositoryTest extends TestCase {
     }
 
     public function testGetAndRemoveAfterAdd() {
-        $registration = $this->registrationRepo->get("testRegistration");
+        $registration = $this->registrationRepo->get(self::LOGIN_NAME1);
         $this->registrationRepo->remove($registration);
         $this->assertTrue($registration->isLocked(), 'Registration není zamčena po remove.');
     }
 
     public function testAddAndReread() {
         $registration = new Registration();
-        $registration->setLoginNameFk("testRegistration");
+        $registration->setLoginNameFk(self::LOGIN_NAME1);
         $registration->setPasswordHash("testHeslo");
         $registration->setEmail("test.email@mejl.cz");
         $registration->setInfo("testInfo2 jhedhgdjgjwdgdj  io ipfpf ");

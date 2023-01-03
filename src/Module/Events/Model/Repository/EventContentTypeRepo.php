@@ -22,26 +22,25 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
         $this->dataManager = $eventContentTypeDao;
         $this->registerHydrator($eventContentTypeHydrator);
     }
-   
-   
+
+
     /**
-     * 
+     *
      * @param string $type
      * @return EventContentTypeInterface|null
      */
     public function get(string $type): ?EventContentTypeInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['type'=>$type]);
-        return $this->getEntity($key);    }
+        return $this->getEntity($type);    }
 
     /**
-     * 
+     *
      * @return EventContentTypeInterface[]
-     */    
+     */
     public function findAll() :array  {
         return $this->findEntities();
     }
     /**
-     * 
+     *
      * @param EventContentTypeInterface $eventContentType
      * @return void
      */
@@ -49,7 +48,7 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
         $this->addEntity($eventContentType);
     }
     /**
-     * 
+     *
      * @param EventContentTypeInterface $eventContentType
      * @return void
      */

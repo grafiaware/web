@@ -25,6 +25,6 @@ class EntityIterator implements EntityIteratorInterface {
     public function getIterator(): Traversable {
         $row = new RowData();
         $this->hydrator->extract($this->entity, $row);
-        return $row->yieldChanged()->getIterator();
+        return $row->yieldChangedRowData()->getIterator();
     }
 }

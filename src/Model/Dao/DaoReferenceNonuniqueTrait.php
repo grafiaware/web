@@ -13,7 +13,7 @@ use UnexpectedValueException;
  * @author pes2704
  */
 trait DaoReferenceNonuniqueTrait {
-//$referenceName, array $referenceTouples
+
     public function findByReference($referenceName, array $referenceTouples) {
         /** @var DaoReferenceUniqueInterface $this */
         $select = $this->sql->select($this->getAttributes());

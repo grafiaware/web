@@ -124,6 +124,19 @@ abstract class RepoAbstract {
         return $index;
     }
 
+    /**
+     * Defaultní implementace indexFromKeyParams().
+     *
+     * Defaultní implementace je možná, protože příjímá jen typ array a spoléhá na to, že pořadí parametrů metody repo->get() je stejné jako
+     * pořadí skládání indexu v metodách indexFromRow($row) a indexFromEntity($entity)
+     * 
+     * @param array $params
+     * @return type
+     */
+    protected function indexFromKeyParams(array $params) {  // číselné pole - vzniklo z variadic $params
+        return implode($params);
+    }
+
     #### get
 
     /**

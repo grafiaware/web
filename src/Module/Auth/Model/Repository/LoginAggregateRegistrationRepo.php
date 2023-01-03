@@ -28,18 +28,9 @@ class LoginAggregateRegistrationRepo  extends RepoAbstract implements LoginAggre
      * @param LoginChildRegistrationHydrator $loginRegistrationHydrator Hydrátor pro nastavení potomkovské entity do rodičovské entity a získání z rodičovské entity.
 
      */
-    public function __construct(
-            LoginDao $loginDao,
-            LoginHydrator $loginHydrator
-
-//            RegistrationRepo $registrationRepo,
-
-            )
-    {
+    public function __construct(LoginDao $loginDao, LoginHydrator $loginHydrator) {
         $this->dataManager = $loginDao;
         $this->registerHydrator($loginHydrator);
-//        $this->registerOneToOneAssociation(RegistrationInterface::class, 'login_name', $registrationRepo);
-//        $this->registerHydrator($loginRegistrationHydrator);
     }
 
     use RepoAssotiatingOneTrait;
@@ -69,10 +60,6 @@ class LoginAggregateRegistrationRepo  extends RepoAbstract implements LoginAggre
     }
 
     #### protected ###########
-
-    protected function indexFromKeyParams(array $id) {  // číselné pole - vzniklo z variadic $params
-        return $id[0];
-    }
 
     protected function indexFromEntity(LoginAggregateRegistrationInterface $loginAggReg) {
         return $loginAggReg->getLoginName();

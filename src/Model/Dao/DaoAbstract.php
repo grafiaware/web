@@ -12,7 +12,7 @@ use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
-
+use Model\RowData\RowDataInterface;
 use Model\Dao\DaoReferenceUniqueInterface;
 
 use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
@@ -73,9 +73,9 @@ abstract class DaoAbstract implements DaoInterface {
      * {@inheritDoc}
      *
      * @param array $id
-     * @return type
+     * @return RowDataInterface|null
      */
-    public function get(array $id) {
+    public function get(array $id): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttributes())));
@@ -87,9 +87,9 @@ abstract class DaoAbstract implements DaoInterface {
      * {@inheritDoc}
      *
      * @param array $unique
-     * @return type
+     * @return RowDataInterface|null
      */
-    public function getUnique(array $unique) {
+    public function getUnique(array $unique): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->sql->touples(array_keys($unique))));
@@ -136,9 +136,9 @@ abstract class DaoAbstract implements DaoInterface {
      * @param string $sql SQL příkaz s případnými placeholdery.
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @param bool $checkDuplicities Nepovinný parametr, default FALSE.
-     * @return object|array|null
+     * @return RowDataInterface|null
      */
-    protected function selectOne($select, $from, $where, $touplesToBind=[], $checkDuplicities=FALSE) {
+    protected function selectOne($select, $from, $where, $touplesToBind=[], $checkDuplicities=FALSE): ?RowDataInterface {
         $statement = $this->getPreparedStatement($select.$from.$where);
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
@@ -240,14 +240,15 @@ abstract class DaoAbstract implements DaoInterface {
         if($filterNames) {
             foreach ($filterNames as $name) {
                 $value = $this->getValue($touplesToBind, $name);
-            if (isset($value)) {
-                    $statement->bindValue($placeholderPrefix.$name, $value);
-            } else {
-                    $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
+                if (isset($value)) {
+                        $statement->bindValue($placeholderPrefix.$name, $value);
+                } else {
+                        $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
+                }
             }
-        }
         } else {
             foreach ($touplesToBind as $name => $value) {
+                $value = $this->getValue($touplesToBind, $name);
                 if (isset($value)) {
                     $statement->bindValue($placeholderPrefix.$name, $value);
                 } else {

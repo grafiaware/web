@@ -13,7 +13,7 @@ use Model\Dao\DaoReferenceNonuniqueTrait;
  * @author pes2704
  */
 class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestDaoInterface {
-    use DaoReferenceNonuniqueTrait;    
+    use DaoReferenceNonuniqueTrait;
 
 
     public function getPrimaryKeyAttributes(): array {
@@ -37,16 +37,12 @@ class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestD
             'letter_document'
         ];
     }
-//      CONSTRAINT `document_id_fk_cvpost` FOREIGN KEY (`cv_document`) REFERENCES `document` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-//  CONSTRAINT `document_id_fk_letterpost` FOREIGN KEY (`letter_document`) REFERENCES `document` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-//  CONSTRAINT `fk_visitor_data_post_job1` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-//  CONSTRAINT `fk_visitor_data_post_login1` FOREIGN KEY (`login_login_name`) REFERENCES `login` (`login_name`) ON DELETE NO ACTION ON UPDATE NO ACTION
 
-    public function getForeignKeyAttributes(): array {
+    public function getReference($referenceName): array {
         return [
             'job_id'=>['job_id'],
             'login_login_name'=>['login_login_name'],
-        ];
+        ][$referenceName];
     }
 
     public function getTableName(): string {

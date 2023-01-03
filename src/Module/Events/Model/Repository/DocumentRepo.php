@@ -29,11 +29,10 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
      * @return DocumentInterface|null
      */
     public function get($id): ?DocumentInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
     /**
-     * 
+     *
      * @param type $whereClause
      * @param type $touplesToBind
      * @return DocumentInterface[]
@@ -43,32 +42,30 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
     }
 
     /**
-     * 
+     *
      * @return DocumentInterface[]
      */
     public function findAll() : array  {
         return $this->findEntities();
     }
-    
+
     /**
-     * 
+     *
      * @param DocumentInterface $document
      * @return void
      */
     public function add(DocumentInterface $document) : void {
         $this->addEntity($document);
     }
-    
+
     /**
-     * 
+     *
      * @param DocumentInterface $document
      * @return void
      */
     public function remove(DocumentInterface $document) : void {
         $this->removeEntity($document);
     }
-
-
 
     protected function createEntity() {
         return new Document();
