@@ -85,7 +85,9 @@ class RowData extends \ArrayObject implements RowDataInterface {
     }
 
     public function offsetUnset($index) {
-        $this->changed[$index] = null;
+        if ($this->offsetGet($index)!==null) {
+            $this->changed[$index] = null;
+        }
     }
 
     public function import(iterable $iterablaData) {

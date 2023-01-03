@@ -15,7 +15,7 @@ use Pes\Text\Html;
 
         <form class="ui huge form" action="" method="POST" >
             <input type='hidden' name="company-id" value="<?= isset($companyId)? $companyId : '' ?>" >
-            <input type='hidden' name="company-contact-id" value="<?= isset($companyContactId)? $companyContactId : '' ?>" >
+            <!-- <input type='hidden' name="company-contact-id" value="< ?= isset($companyContactId)? $companyContactId : '' ? >" > --> 
 
             <div class="two fields">                        
                 <div class="field">

@@ -96,7 +96,8 @@ class RepresentativeDaoTest extends AppRunner {
                     )
                 )
             );
-                     
+        $prefix = "RepresentativeDaoTest";             
+        
         //maze po sobe  vyrobene věty v tabulkach 
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);   
@@ -122,6 +123,12 @@ class RepresentativeDaoTest extends AppRunner {
         $rows = $representativeDao->find( " login_login_name  LIKE 'RepresentativeDao%' "  ) ;
         foreach  ($rows as $row ) {
             $representativeDao->delete($row);
+        }
+        
+        // totez login        
+        $rows =  $loginDao->find( " login_name  LIKE 'RepresentativeDao%' "  ) ;
+        foreach  ($rows as $row ) {
+            $loginDao->delete($row);
         }
     
     }
