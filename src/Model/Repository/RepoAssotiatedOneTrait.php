@@ -16,13 +16,13 @@ trait RepoAssotiatedOneTrait {
 
     /**
      *
-     * @param string $parentTableName
+     * @param string $referenceName
      * @param array $parentRowData parent data
      * @return PersistableEntityInterface|null
      */
-    public function getByReference(string $parentTableName, array $parentRowData): ?PersistableEntityInterface {
+    public function getByReference(string $referenceName, array $parentRowData): ?PersistableEntityInterface {
         // vždy čte data - neví jestli jsou v $this->data
-        $childRowData = $this->dataManager->getByReference($parentTableName, $parentRowData);
+        $childRowData = $this->dataManager->getByReference($referenceName, $parentRowData);
         return $this->recreateEntityByRowData($childRowData);
     }
 }

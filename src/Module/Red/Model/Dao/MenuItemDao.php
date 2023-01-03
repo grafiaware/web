@@ -12,7 +12,9 @@ use Model\Dao\DaoEditContextualAbstract;
 use Model\RowData\RowDataInterface;
 
 use Model\Dao\DaoReferenceNonuniqueInterface;
-use \Model\Dao\DaoReferenceNonuniqueTrait;
+
+use Model\Dao\DaoReferenceNonuniqueTrait;
+use Model\Dao\DaoReferenceUniqueTrait;
 
 use Model\Dao\Exception\DaoForbiddenOperationException;
 
@@ -26,7 +28,8 @@ use Red\Model\Dao\LanguageDao;
  */
 class MenuItemDao extends DaoEditContextualAbstract implements MenuItemDaoInterface {
 
-    use DaoReferenceNonuniqueTrait;
+//    use DaoReferenceNonuniqueTrait;
+    use DaoReferenceUniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
         return ['lang_code_fk', 'uid_fk'];
@@ -50,7 +53,7 @@ class MenuItemDao extends DaoEditContextualAbstract implements MenuItemDaoInterf
             'menu_item_type' => ['type_fk'=>'type_fk']
         ][$referenceName];
     }
-    
+
     public function getTableName(): string {
         return 'menu_item';
     }

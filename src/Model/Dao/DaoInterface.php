@@ -46,7 +46,7 @@ interface DaoInterface {
 
     /**
      * Vrací řádek dat podle hodnot položek parametru nebo null.
-     * Předpokládá, že parametr určuje unikátní řádek dat a vrací jeden řádek i v případě, že zadanému parametru odpovídá více řádků.
+     * Předpokládá, že parametr určuje unikátní řádek dat. V případě, že zadanému parametru odpovídá více řádků hlásí chybu nebo vyhazuje výjimku.
      * Parametr musí být asociativní pole dvojic jméno-hodnota a musí obsahovat unikátní kombinaci jmen a hodnot atributů tabulky.
      *
      * @param array $unique
