@@ -168,7 +168,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 $factory->registerGenerator('article', function() use ($c) {return $c->get(ArticleCreator::class);});
                 $factory->registerGenerator('static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
                 $factory->registerGenerator('multipage', function() use ($c) {return $c->get(MultipageCreator::class);});
-                $factory->registerGenerator('events', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator('eventcontent', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
                 return $factory;
             },
             PaperCreator::class => function(ContainerInterface $c) {
