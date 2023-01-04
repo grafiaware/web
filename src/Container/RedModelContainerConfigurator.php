@@ -204,7 +204,7 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(HierarchyAggregateReadonlyDao::class),
                         $c->get(HierarchyHydrator::class));
                 $assotiation = new MenuItemAssociation($c->get(MenuItemRepo::class));
-                $repo->registerOneToOneAssociation($assotiation);
+                $repo->registerOneToOneAssociation($assotiation, 'PRIMARY');  // reference se jménem, které neodpovídá jménu rodičovské tabulky 
                 return $repo;
             },
             MenuItemTypeDao::class => function(ContainerInterface $c) {
@@ -355,53 +355,53 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             ### Enroll ###
-            EnrollDao::class => function(ContainerInterface $c) {
-                return new EnrollDao(
-                        $c->get(HandlerInterface::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            EnrollHydrator::class => function(ContainerInterface $c) {
-                return new EnrollHydrator();
-            },
-            EnrollRepo::class => function(ContainerInterface $c) {
-                return new EnrollRepo(
-                        $c->get(EnrollDao::class),
-                        $c->get(EnrollHydrator::class)
-                    );
-            },
-
-            VisitorProfileDao::class => function(ContainerInterface $c) {
-                return new VisitorProfileDao(
-                        $c->get(HandlerInterface::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            VisitorProfileHydrator::class => function(ContainerInterface $c) {
-                return new VisitorProfileHydrator();
-            },
-            VisitorProfileRepo::class => function(ContainerInterface $c) {
-                return new VisitorProfileRepo(
-                        $c->get(VisitorProfileDao::class),
-                        $c->get(VisitorProfileHydrator::class)
-                    );
-            },
-
-            VisitorJobRequestDao::class => function(ContainerInterface $c) {
-                return new VisitorJobRequestDao(
-                        $c->get(HandlerInterface::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            VisitorJobRequestHydrator::class => function(ContainerInterface $c) {
-                return new VisitorJobRequestHydrator();
-            },
-            VisitorJobRequestRepo::class => function(ContainerInterface $c) {
-                return new VisitorJobRequestRepo(
-                        $c->get(VisitorJobRequestDao::class),
-                        $c->get(VisitorJobRequestHydrator::class)
-                    );
-            },
+//            EnrollDao::class => function(ContainerInterface $c) {
+//                return new EnrollDao(
+//                        $c->get(HandlerInterface::class),
+//                        $c->get(Sql::class),
+//                        PdoRowData::class);
+//            },
+//            EnrollHydrator::class => function(ContainerInterface $c) {
+//                return new EnrollHydrator();
+//            },
+//            EnrollRepo::class => function(ContainerInterface $c) {
+//                return new EnrollRepo(
+//                        $c->get(EnrollDao::class),
+//                        $c->get(EnrollHydrator::class)
+//                    );
+//            },
+//
+//            VisitorProfileDao::class => function(ContainerInterface $c) {
+//                return new VisitorProfileDao(
+//                        $c->get(HandlerInterface::class),
+//                        $c->get(Sql::class),
+//                        PdoRowData::class);
+//            },
+//            VisitorProfileHydrator::class => function(ContainerInterface $c) {
+//                return new VisitorProfileHydrator();
+//            },
+//            VisitorProfileRepo::class => function(ContainerInterface $c) {
+//                return new VisitorProfileRepo(
+//                        $c->get(VisitorProfileDao::class),
+//                        $c->get(VisitorProfileHydrator::class)
+//                    );
+//            },
+//
+//            VisitorJobRequestDao::class => function(ContainerInterface $c) {
+//                return new VisitorJobRequestDao(
+//                        $c->get(HandlerInterface::class),
+//                        $c->get(Sql::class),
+//                        PdoRowData::class);
+//            },
+//            VisitorJobRequestHydrator::class => function(ContainerInterface $c) {
+//                return new VisitorJobRequestHydrator();
+//            },
+//            VisitorJobRequestRepo::class => function(ContainerInterface $c) {
+//                return new VisitorJobRequestRepo(
+//                        $c->get(VisitorJobRequestDao::class),
+//                        $c->get(VisitorJobRequestHydrator::class)
+//                    );
+//            },
         ];
     }
 }

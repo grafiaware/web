@@ -13,3 +13,7 @@ DROP PRIMARY KEY;
 
 ALTER TABLE `veletrhprace`.`menu_item`
 ADD PRIMARY KEY (`lang_code_fk`, `uid_fk`);
+
+ALTER TABLE `veletrhprace`.`menu_item`
+DROP INDEX `id` ,
+ADD UNIQUE INDEX `id` (`id` ASC);

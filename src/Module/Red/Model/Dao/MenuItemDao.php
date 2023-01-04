@@ -44,10 +44,17 @@ class MenuItemDao extends DaoEditContextualAbstract implements MenuItemDaoInterf
     public function getReference($referenceName): array {
         // 'jméno referencované tabulky'=>['cizí klíč potomka (jméno sloupce v potomkovi)'=>'vlastní klíč rodiče (jméno sloupve v rodiči)']
 
-//    FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`)
-//    FOREIGN KEY (`lang_code_fk`) REFERENCES `language` (`lang_code`)
-//    FOREIGN KEY (`type_fk`) REFERENCES `menu_item_type` (`type`)
+//  PRIMARY KEY (`lang_code_fk`,`uid_fk`),
+//  UNIQUE KEY `id` (`id`),
+//  UNIQUE KEY `prettyuri` (`prettyuri`),
+//  KEY `type_menu_item_type_fk1` (`type_fk`),
+//  KEY `hierarchy_uid_fk` (`uid_fk`),
+//  CONSTRAINT `hierarchy_uid_fk` FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`),
+//  CONSTRAINT `language_lang_code_fk` FOREIGN KEY (`lang_code_fk`) REFERENCES `language` (`lang_code`),
+//  CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY (`type_fk`) REFERENCES `menu_item_type` (`type`) ON DELETE CASCADE ON UPDATE CASCADE
+
         return [
+            'PRIMARY' => ['uid_fk'=>'uid_fk', 'lang_code_fk'=>'lang_code_fk'],   // primární klíč je současně reference (1:1)
             'hierarchy' => ['uid_fk'=>'uid_fk'],
             'language' => ['lang_code_fk'=>'lang_code_fk'],
             'menu_item_type' => ['type_fk'=>'type_fk']

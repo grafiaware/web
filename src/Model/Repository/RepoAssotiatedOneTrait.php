@@ -22,6 +22,7 @@ trait RepoAssotiatedOneTrait {
      */
     public function getByReference(string $referenceName, array $parentRowData): ?PersistableEntityInterface {
         // vždy čte data - neví jestli jsou v $this->data
+        // TODO: ??  $index = $this->recreateEntityByRowData($parentRowData);
         $childRowData = $this->dataManager->getByReference($referenceName, $parentRowData);
         return $this->recreateEntityByRowData($childRowData);
     }

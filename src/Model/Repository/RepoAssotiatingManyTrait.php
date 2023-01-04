@@ -18,8 +18,8 @@ use Model\Repository\RepoAssotiatingManyInterface;  // použito jen v komentář
  */
 class RepoAssotiatingManyTrait {
 
-    public function registerOneToManyAssotiation(AssociationOneToManyInterface $assotiation) {
-        $assotiation->setReferenceName($this->dataManager->getTableName());
+    public function registerOneToManyAssotiation(AssociationOneToManyInterface $assotiation, $referenceName = null) {
+        $assotiation->setReferenceName($referenceName ?? $this->dataManager->getTableName());
         $this->associations[] = $assotiation;
     }
 

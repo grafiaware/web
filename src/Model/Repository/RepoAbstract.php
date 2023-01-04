@@ -100,7 +100,7 @@ abstract class RepoAbstract {
         return $entity;
     }
 
-    private function callIndexFromKeyParams(array $params) {  // číselné pole - vzniklo z variadic $params
+    protected function callIndexFromKeyParams(array $params) {  // číselné pole - vzniklo z variadic $params
         $index = $this->indexFromKeyParams($params);
         if (!is_int($index) AND !is_string($index)) {
             throw new BadReturnedTypeException("Protected method ".get_called_class()."->indexFromRow() must return integer or string, ". gettype($index)." returned.");
@@ -108,7 +108,14 @@ abstract class RepoAbstract {
         return $index;
     }
 
-    private function callIndexFromRow($row) {
+    /**
+     * Protected pro volání z RepoAssocitedXXXTrait
+     *
+     * @param type $row
+     * @return type
+     * @throws BadReturnedTypeException
+     */
+    protected function callIndexFromRow($row) {
         $index = $this->indexFromRow($row);
         if (!is_int($index) AND !is_string($index)) {
             throw new BadReturnedTypeException("Protected method ".get_called_class()."->indexFromRow() must return integer or string, ". gettype($index)." returned.");
@@ -116,7 +123,7 @@ abstract class RepoAbstract {
         return $index;
     }
 
-    private function callIndexFromEntity($entity) {
+    protected function callIndexFromEntity($entity) {
         $index = $this->indexFromEntity($entity);
         if (!is_int($index) AND !is_string($index)) {
             throw new BadReturnedTypeException("Protected method ".get_called_class()."->indexFromEntity() must return integer or string, ". gettype($index)." returned.");
@@ -129,7 +136,7 @@ abstract class RepoAbstract {
      *
      * Defaultní implementace je možná, protože příjímá jen typ array a spoléhá na to, že pořadí parametrů metody repo->get() je stejné jako
      * pořadí skládání indexu v metodách indexFromRow($row) a indexFromEntity($entity)
-     * 
+     *
      * @param array $params
      * @return type
      */
@@ -147,12 +154,9 @@ abstract class RepoAbstract {
     protected function getEntity(...$id) {
         $index = $this->callIndexFromKeyParams($id);
         if (!isset($this->collection[$index]) AND !isset($this->removed[$index])) {
-        $key = $this->createKeyFromPrimaryKeyAttributes($id);
-
-            $this->recreateEntity(
-                    $index,
-                    $this->recreateData($index, $key)
-                );
+            $key = $this->createKeyFromPrimaryKeyAttributes($id);
+            $this->recreateData($index, $key);
+            $this->recreateEntity($index);
         }
         return $this->collection[$index] ?? NULL;
     }
@@ -216,16 +220,16 @@ abstract class RepoAbstract {
      * @return string|null
      * @throws UnableRecreateEntityException
      */
-    private function recreateEntity($index, RowDataInterface $rowData = null) {
-        if(isset($rowData)) {
+    private function recreateEntity($index) {
+        if($this->hasData($index)) {
             $entity = $this->callCreateEntity();  // definována v konkrétní třídě - adept na entity managera
             try {
-                $this->recreateAssociations($entity, $rowData);
+                $this->recreateAssociations($entity, $this->data[$index]);
             } catch (UnableToCreateAssotiatedChildEntity $unex) {
                 $eCls = get_class($entity);
                 throw new UnableRecreateEntityException("Chyba recreate entity v repository ". get_called_class()." Entitě $eCls s indexem $index nelze obnovit agregovanou (vnořenou) entitu.", 0, $unex);
             }
-            $this->hydrate($entity, $rowData);
+            $this->hydrate($entity, $this->data[$index]);
             $entity->setPersisted();
             $this->collection[$index] = $entity;
             $this->flushed = false;
@@ -375,11 +379,17 @@ abstract class RepoAbstract {
     }
 
     private function recreateData($index, array $id) {
-        $rowData = $this->dataManager->get($id);
-        if(isset($rowData)) {
-            $this->addData($index, $rowData);
+        if (!$this->hasData($index)) {
+            $rowData = $this->dataManager->get($id);
+            if(isset($rowData)) {
+                $this->addData($index, $rowData);
+            }
         }
-        return $rowData ?? null;
+        return $this->data[$index] ?? null;
+    }
+
+    private function hasData($index) {
+        return array_key_exists($index, $this->data);
     }
 
     private function addData($index, RowDataInterface $rowData = null) {
@@ -441,6 +451,8 @@ abstract class RepoAbstract {
                 throw new \LogicException("Repostory $cls je read only a byly do něj přidány nebo z něj smazány entity.");
             }
         }
+        // po provedení flush jsou data prázdná -> pokud ve stejném běhu skriptu volám repo->get() to zajistí, že dojde ke čtení databáze
+        $this->data = [];
         $this->flushed = true;
     }
 
