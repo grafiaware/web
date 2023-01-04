@@ -14,6 +14,7 @@ use Pes\Logger\FileLogger;
 // controler
 use Events\Middleware\Events\Controler\EventcontentControler;
 use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 
@@ -29,6 +30,7 @@ use Events\Model\Repository\CompanyAddressRepo;
 
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
+use Events\Model\Repository\JobRepo;
 
 /**
  *
@@ -85,6 +87,20 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyContactRepo::class),
                         $c->get(CompanyAddressRepo::class),
                         $c->get(RepresentativeRepo::class),
+                        )
+                       )->injectContainer($c);
+            },
+                    
+            JobControler::class => function(ContainerInterface $c) {
+                return (new JobControler(          
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), 
+                        
+                        $c->get(CompanyRepo::class),                       
+                        $c->get(RepresentativeRepo::class),
+                        $c->get(VisitorJobRequestRepo::class),
+                        $c->get(JobRepo::class)
                         )
                        )->injectContainer($c);
             },

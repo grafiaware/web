@@ -56,7 +56,8 @@ if (isset($loginAggregate)) {
     //*--------------------------------
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
     
-    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) );
+    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+                                       AND  $representativeRepo->get($loginName, $companyId) );
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorProfileRepo */
@@ -211,6 +212,16 @@ if (isset($loginAggregate)) {
  **I** xxxxxxx pozice_2 ****
 
         <div class="title">
+            
+        <?php
+            if ($isRepresentative) {  ?>
+                <?= "**I** Přihlášený " . $loginName. " JE Representative " . $isRepresentative . " vystavovatele " . $shortName ?>
+        <?php } else { ?>
+                <?= "**I** Přihlášený " .$loginName. " NENÍ Representative " . $isRepresentative . " vystavovatele " . $shortName ?>
+        <?php }  ?>
+            <?= $loginName. " jeRepresentative " . $isRepresentative . " vystavovatele " . $shortName ?>
+         ?>    
+            
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag_2.php', isset($kategorie) ? $kategorie : [] , 'seznam') ?>
                 <?php

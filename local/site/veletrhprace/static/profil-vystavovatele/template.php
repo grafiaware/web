@@ -63,8 +63,11 @@ if (isset($loginAggregate)) {
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
     
-   
-    if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) )  {
+    $idCompanyVystavovatele = 10;
+    
+    //---------------------------------------------------------------------
+    if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+                    AND  $representativeRepo->get($loginName, $idCompanyVystavovatele) )  {
         $isRepresentative = true;        
         
     //--- Z ARRAY MODELU------------------------
@@ -75,22 +78,21 @@ if (isset($loginAggregate)) {
         foreach ($jobModel->getCompanyJobList($shortName) as $job) {
             $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
         } // toto $jobs nepouzite, nize jsou data prirazena z db
-          //$presenterPerson dale nepouzite     
+        //$presenterPerson dale nepouzite     
     //-------------------------------------------    
                 
         
         
     //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company    
         // $loginName je přihlášený,  zjištěno z $loginAggregate
-        $representativePersonI = $presenterModel->getPersonI($loginName);    // Z DB tabulky representative a tabulky company   //z  tabulek representative a company
+        $representativePersonI = $presenterModel->getPersonI($loginName, $idCompanyVystavovatele);    // Z DB z  tabulek representative a company
         if ($representativePersonI) {            
             $representativePersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail 
             //  array  'regname'. 'regmail', 'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName'
             
           
             //------------------- pro tuto company vypsat vsechny companyContact                      
-            $idCompanyFromRepresentative = $representativePersonI['idCompany'];
-          
+            $idCompanyFromRepresentative = $representativePersonI['idCompany'];          
             //-------------------
             $representativeCompany = $companyRepo->get($idCompanyFromRepresentative);
             $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $representativePersonI['idCompany'] ] );
@@ -106,7 +108,6 @@ if (isset($loginAggregate)) {
                     'emails' =>  $cntct->getEmails()
                     ];
             }
-            //-----------------------
             //----------------------- pro tuto company vypsat companyAddress 
  /** @var CompanyInterface $companyEntity */ 
 //    $companyEntity = $companyRepo->get($idCompany);
@@ -130,9 +131,6 @@ if (isset($loginAggregate)) {
                     ];
             }   
            //-------------------------
-        
-        
-        
         
             
             

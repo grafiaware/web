@@ -31,11 +31,13 @@ use Events\Model\Entity\DocumentInterface;
             </div>
             <div class="active content">
                 <form class="ui huge form" action="" method="POST" enctype="multipart/form-data">
-                    <input type='hidden' name="short-name" value="<?= $shortName ?>">
-                    <input type='hidden' name="position-name" value="<?= $positionName ?>">
-                    <input type='hidden' name="visitor-login-name" value="<?= $visitorLoginName ?? '' ?>">
+                   <!-- <input type='hidden' name="short-name" value="< ?= $shortName ?>">
+                    <input type='hidden' name="position-name" value=" < ?= $positionName ?>"> 
                     
-                    <input type='hidden' name="job-id" value="<?= $jobId ?>">
+                    <input type='hidden' name="visitor-login-name" value="< ?= $visitorLoginName ?? '' ?>">
+                   <!-- <input type='hidden' name="company-id" value="<? = $companyId ?? '' ?>">  
+                    
+                    <input type='hidden' name="job-id" value="< ?= $jobId ?>"> -->
                     
                     <div class="four fields">
                         <div class="three wide field">
@@ -135,9 +137,13 @@ use Events\Model\Entity\DocumentInterface;
                         ?>
                         <div class="two fields">
                             <div class="field margin"></div>
+                                                                                    
 
                             <div class="field">
-                                <button class="ui primary button" type="submit" formaction="events/v1/sendjobrequest">Odeslat mailem na <?= $presenterEmail ?></button>
+                                <button class='ui primary button' type='submit' 
+                                        formaction='events/v1/sendjobrequest/<?= $visitorLoginName ?>/<?= $jobId ?>' >
+                                        Odeslat mailem na <?= $presenterEmail ?></button>
+                                
                             </div>
                         </div>
                         <?php
