@@ -124,7 +124,7 @@ class CompanyControler extends FrontControlerAbstract {
         } else {  
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-            $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');    // !!!  z POSTu
+            $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');    // !!!  z formulare POSTu
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
                             AND  $this->representativeRepo->get($loginName, $сompanyId) )  {
@@ -132,7 +132,7 @@ class CompanyControler extends FrontControlerAbstract {
             }
                         
             if ($isRepresentative) {
-                // POST data
+                // POST formularovadata
                 //$сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');                                       
 //                $name = (new RequestParams())->getParsedBodyParam($request, 'name');               
 //                $phones = (new RequestParams())->getParsedBodyParam($request, 'phones');
@@ -141,7 +141,7 @@ class CompanyControler extends FrontControlerAbstract {
                 /** @var CompanyContactInterface $companyContact */
                 $companyContact = $this->container->get(CompanyContact::class); //new $companyContact
                 
-                $companyContact->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ; // !!!  z POSTu
+                $companyContact->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ; // !!! z POSTu
                 $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
                 $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
@@ -161,7 +161,7 @@ class CompanyControler extends FrontControlerAbstract {
      * POST company contact    
      * 
      * @param ServerRequestInterface $request
-     * @param type $id
+     * @param type $id id z CompanyContact
      * @return type
      */
     public function updateCompanyContact (ServerRequestInterface $request, $id) {                   
@@ -174,24 +174,20 @@ class CompanyControler extends FrontControlerAbstract {
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
-        } else {           
-            
-            
+        } else {                                   
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-            $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');    // !!!  z POSTu
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
             
-            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName, $сompanyId ) )  {
-                $isRepresentative = true; 
-            }
-                        
-            if ($isRepresentative) {
-                // POST data                
-                $сompanyContactId = $id;
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {
                 /** @var CompanyContactInterface $companyContact */
-                $companyContact = $this->companyContactRepo->get( $сompanyContactId );  
-                
+                $companyContact = $this->companyContactRepo->get( $id );
+                $сompanyId = $companyContact->getCompanyId();
+                if ( $this->representativeRepo->get($loginName, $сompanyId ) )   {
+                            $isRepresentative = true; 
+                }
+            }            
+            if ($isRepresentative) {
+                // POST formularova data                                              
                 $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
                 $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
@@ -212,12 +208,12 @@ class CompanyControler extends FrontControlerAbstract {
      * POST company contact    
      * 
      * @param ServerRequestInterface $request
-     * @param type $id
+     * @param type $id id z CompanyContact
      * @return type
      */
     public function removeCompanyContact (ServerRequestInterface $request, $id) {                   
         $isRepresentative = false;
-        
+                
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurity = $this->statusSecurityRepo->get();
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
@@ -225,21 +221,21 @@ class CompanyControler extends FrontControlerAbstract {
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
-        } else {           
+        } else {                                   
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-            $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');    // !!!  z POSTu            
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
             
-            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName, $сompanyId ) )  {
-                $isRepresentative = true; 
-            }
-                        
-            if ($isRepresentative) {                
-                $сompanyContactId = $id;      
-                /** @var CompanyContactIntarface $companyContact */
-                $сompanyContact = $this->companyContactRepo->get( $сompanyContactId ); 
-                $this->companyContactRepo->remove( $сompanyContact ); 
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {
+                /** @var CompanyContactInterface $companyContact */
+                $companyContact = $this->companyContactRepo->get( $id );
+                $сompanyId = $companyContact->getCompanyId();
+                if ( $this->representativeRepo->get($loginName, $сompanyId ) )   {
+                            $isRepresentative = true; 
+                }
+            }          
+                
+            if ($isRepresentative) {                                
+                $this->companyContactRepo->remove( $companyContact ); 
                                 
             } else {
                 $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
@@ -260,7 +256,7 @@ class CompanyControler extends FrontControlerAbstract {
      */
     public function insertCompanyAddress (ServerRequestInterface $request) {                 
         $isRepresentative = false;
-        
+           
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurity = $this->statusSecurityRepo->get();
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
@@ -271,10 +267,27 @@ class CompanyControler extends FrontControlerAbstract {
         } else {  
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');    // !!!  z formulare POSTu
+            
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName) )  {
+                            AND  $this->representativeRepo->get($loginName, $сompanyId) )  {
                 $isRepresentative = true; 
             }
+
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName) )  {
+//                $isRepresentative = true; 
+//            }
                         
             if ($isRepresentative) {
                 // POST data
@@ -287,7 +300,7 @@ class CompanyControler extends FrontControlerAbstract {
                 /** @var CompanyAddressInterface $companyAddress */
                 $companyAddress = $this->container->get(CompanyAddress::class); //new 
                 
-                $companyAddress->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ;
+                $companyAddress->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ; // !!! z POSTu
                 $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
                 $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
@@ -305,37 +318,55 @@ class CompanyControler extends FrontControlerAbstract {
     
     
     
-     /**
-     * POST company address
-     *
+     
+    /**
+     *  POST company address
      * @param ServerRequestInterface $request
+     * @param type $id Toto je companyId!
      * @return type
      */
-    public function updateCompanyAddress (ServerRequestInterface $request) {                   
+    public function updateCompanyAddress (ServerRequestInterface $request, $id) {                   
         $isRepresentative = false;
-        
-        /** @var StatusSecurityRepo $statusSecurityRepo */
+                
+         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurity = $this->statusSecurityRepo->get();
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-        if (!isset($loginAggregateCredentials)) {         
+        if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
         } else {                                   
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName) )  {
-                $isRepresentative = true; 
-            }
-                        
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
+            
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {              
+                if ( $this->representativeRepo->get($loginName, $id ) )   {
+                            $isRepresentative = true; 
+                }
+            }            
+        
+    
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {         
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {                                   
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName) )  {
+//                $isRepresentative = true; 
+//            }
+  
             if ($isRepresentative) {
                 // POST data
-                $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');        
+                $сompanyId = $id;   // z URL
                 /** @var CompanyAddressInterface $companyAddress */
                 $companyAddress = $this->companyAddressRepo->get( $сompanyId );  
                 
-                $companyAddress->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ;
                 $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
                 $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
@@ -355,32 +386,53 @@ class CompanyControler extends FrontControlerAbstract {
     
     /**
      * POST company address
-     *
+     *      
      * @param ServerRequestInterface $request
+     * @param type $id   Toto je companyId!
      * @return type
      */
-    public function removeCompanyAddress (ServerRequestInterface $request) {                   
+    public function removeCompanyAddress (ServerRequestInterface $request, $id)  {                   
         $isRepresentative = false;
         
-        /** @var StatusSecurityRepo $statusSecurityRepo */
+        
+         
+         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurity = $this->statusSecurityRepo->get();
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
-        } else {
-            
+        } else {                                   
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName) )  {
-                $isRepresentative = true; 
-            }
-                        
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
+            
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {              
+                if ( $this->representativeRepo->get($loginName, $id ) )   {
+                            $isRepresentative = true; 
+                }
+            }            
+                
+      
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {
+//            
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName) )  {
+//                $isRepresentative = true; 
+//            }
+            
+       
             if ($isRepresentative) {
-                 $сompanyAddressId = (new RequestParams())->getParsedBodyParam($request, 'company-id'); 
-                 $сompanyAddressName = (new RequestParams())->getParsedBodyParam($request, 'name'); 
+                 $сompanyAddressId = $id;   // z URL
                  
                 /** @var CompanyContactIntarface $companyAddress */
                 $companyAddress = $this->companyAddressRepo->get( $сompanyAddressId ); 

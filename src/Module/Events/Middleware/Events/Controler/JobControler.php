@@ -45,9 +45,7 @@ use Mail\Params\Party;
 
 
 /**
- * Description of NestedFilesUpload
- *
- * @author pes2704
+ * 
  */
 class JobControler extends FrontControlerAbstract {        
     /**
