@@ -110,6 +110,19 @@ class RepresentativeDaoTest extends AppRunner {
         $companyDao = $container->get(CompanyDao::class);  
         $companyRow = $companyDao->get( [ "id" => self::$company_id  ] ) ;  
         $companyDao->delete($companyRow);
+                
+       
+        $companiesRows = $companyDao->find( " name  LIKE 'CompanyProRepre%' "  ) ;
+        foreach  ($companiesRows as $companyRow ) {
+            $companyDao->delete($companyRow);
+        }       
+        
+        /** @var RepresentativeDao $representativeDao */
+        $representativeDao = $container->get(RepresentativeDao::class);  
+        $rows = $representativeDao->find( " login_login_name  LIKE 'RepresentativeDao%' "  ) ;
+        foreach  ($rows as $row ) {
+            $representativeDao->delete($row);
+        }
     
     }
 
@@ -131,7 +144,7 @@ class RepresentativeDaoTest extends AppRunner {
     }
 
     public function testGet() {
-        $representativeRow = $this->dao->get(['login_login_name' => self::$login_login_name ]);
+        $representativeRow = $this->dao->get(['login_login_name' => self::$login_login_name , 'company_id' => self::$company_id ] );
         $this->assertInstanceOf(RowDataInterface::class, $representativeRow);
     }
 
@@ -149,7 +162,7 @@ class RepresentativeDaoTest extends AppRunner {
     }
 
     public function testUpdate() {
-        $representativeRow = $this->dao->get(['login_login_name' => self::$login_login_name ]);
+        $representativeRow = $this->dao->get(['login_login_name' => self::$login_login_name,   'company_id' => self::$company_id  ]);
         $loginNameId = $representativeRow['login_login_name'];
         $this->assertIsString($representativeRow['login_login_name']);
         $this->assertIsInt($representativeRow['company_id']);
@@ -160,7 +173,7 @@ class RepresentativeDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $representativeRowRereaded = $this->dao->get(['login_login_name' => self::$login_login_name2 ]);
+        $representativeRowRereaded = $this->dao->get(['login_login_name' => self::$login_login_name2 ,  'company_id' => self::$company_id ]);
         $this->assertInstanceOf(RowDataInterface::class, $representativeRowRereaded);
         $this->assertEquals( self::$login_login_name2, $representativeRowRereaded['login_login_name']);
 
@@ -182,7 +195,7 @@ class RepresentativeDaoTest extends AppRunner {
     }
 
     public function testDelete() {
-        $representativeRow = $this->dao->get(['login_login_name' => self::$login_login_name2 ]);
+        $representativeRow = $this->dao->get(['login_login_name' => self::$login_login_name2 ,  'company_id' => self::$company_id ]);
 
         $this->dao->delete($representativeRow);
         $this->assertEquals(1, $this->dao->getRowCount());

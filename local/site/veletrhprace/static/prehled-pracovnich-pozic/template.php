@@ -17,7 +17,7 @@ use Events\Model\Entity\JobToTag;
 use Events\Model\Entity\PozadovaneVzdelani;
 
 $headline = 'Pracovní pozice';
-$perex = 'Vítejte v prehledu pracovnich pozic! ';
+$perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
 
 
 

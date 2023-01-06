@@ -24,6 +24,9 @@ use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\CompanyContact;
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyAddress;
+use Events\Model\Entity\RepresentativeInterface;
+use Events\Model\Entity\Representative;
+
 
 
 use Status\Model\Enum\FlashSeverityEnum;
@@ -121,8 +124,10 @@ class CompanyControler extends FrontControlerAbstract {
         } else {  
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');    // !!!  z POSTu
+            
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName) )  {
+                            AND  $this->representativeRepo->get($loginName, $сompanyId) )  {
                 $isRepresentative = true; 
             }
                         
@@ -136,7 +141,7 @@ class CompanyControler extends FrontControlerAbstract {
                 /** @var CompanyContactInterface $companyContact */
                 $companyContact = $this->container->get(CompanyContact::class); //new $companyContact
                 
-                $companyContact->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ;
+                $companyContact->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ; // !!!  z POSTu
                 $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
                 $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
@@ -153,12 +158,13 @@ class CompanyControler extends FrontControlerAbstract {
     }
     
     /**
-     * POST company contact
-     *
+     * POST company contact    
+     * 
      * @param ServerRequestInterface $request
+     * @param type $id
      * @return type
      */
-    public function updateCompanyContact (ServerRequestInterface $request) {                   
+    public function updateCompanyContact (ServerRequestInterface $request, $id) {                   
         $isRepresentative = false;
         
         /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -173,15 +179,16 @@ class CompanyControler extends FrontControlerAbstract {
             
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');    // !!!  z POSTu
+            
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName) )  {
+                            AND  $this->representativeRepo->get($loginName, $сompanyId ) )  {
                 $isRepresentative = true; 
             }
                         
             if ($isRepresentative) {
-                // POST data
-                //$сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');        
-                $сompanyContactId = (new RequestParams())->getParsedBodyParam($request, 'company-contact-id');
+                // POST data                
+                $сompanyContactId = $id;
                 /** @var CompanyContactInterface $companyContact */
                 $companyContact = $this->companyContactRepo->get( $сompanyContactId );  
                 
@@ -202,12 +209,13 @@ class CompanyControler extends FrontControlerAbstract {
     
     
      /**
-     * POST company contact
-     *
+     * POST company contact    
+     * 
      * @param ServerRequestInterface $request
+     * @param type $id
      * @return type
      */
-    public function removeCompanyContact (ServerRequestInterface $request) {                   
+    public function removeCompanyContact (ServerRequestInterface $request, $id) {                   
         $isRepresentative = false;
         
         /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -220,13 +228,15 @@ class CompanyControler extends FrontControlerAbstract {
         } else {           
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            $сompanyId = (new RequestParams())->getParsedBodyParam($request, 'company-id');    // !!!  z POSTu            
+            
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName) )  {
+                            AND  $this->representativeRepo->get($loginName, $сompanyId ) )  {
                 $isRepresentative = true; 
             }
                         
-            if ($isRepresentative) {
-                 $сompanyContactId = (new RequestParams())->getParsedBodyParam($request, 'company-contact-id');        
+            if ($isRepresentative) {                
+                $сompanyContactId = $id;      
                 /** @var CompanyContactIntarface $companyContact */
                 $сompanyContact = $this->companyContactRepo->get( $сompanyContactId ); 
                 $this->companyContactRepo->remove( $сompanyContact ); 
@@ -383,5 +393,108 @@ class CompanyControler extends FrontControlerAbstract {
         }
         return $this->redirectSeeLastGet($request);
     }
+    
+    
+    //---------------------------------------------------------------------------------
+    
+    
+     public function insertRepresentative (ServerRequestInterface $request) {                 
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName) )  {
+//                $isRepresentative = true; 
+//            }
+//                        
+//            if ($isRepresentative) {
+              
+         
+                // POST data
+                $company_idH = (new RequestParams())->getParsedBodyParam($request, 'company-idH');                                       
+                $login_logi_nameH = (new RequestParams())->getParsedBodyParam($request, 'login-login-nameH');  
+                
+                $сompany_Id = (new RequestParams())->getParsedBodyParam($request, 'company-id');  
+                $company_name = (new RequestParams())->getParsedBodyParam($request, 'company-name');
+                $login_login_name = (new RequestParams())->getParsedBodyParam($request, "login-login-name");
+                
+                $selectCompany = (new RequestParams())->getParsedBodyParam($request, "selectCompany");
+                $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
+                
+                /** @var RepresentativeInterface $representative */
+                $representative = $this->container->get(Representative::class); //new 
+             
+                $representative->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'selectCompany') ) ;
+                $representative->setLoginLoginName( (new RequestParams())->getParsedBodyParam($request, 'selectLogin') );
+                
+                
+                $this->representativeRepo->add($representative);
+                
+//            } else {
+//                $this->addFlashMessage("Údaje o adrese vyvstavovatele smí editovat pouze representant vystavovatele.");
+//            }
+//            
+//        }
+        return $this->redirectSeeLastGet($request);
+    }
+    
+    
+    public function removeRepresentative (ServerRequestInterface $request) {                   
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {
+//            
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName) )  {
+//                $isRepresentative = true; 
+//            }
+//                        
+//            if ($isRepresentative) {
+        
+        
+                // POST data
+                $company_idH = (new RequestParams())->getParsedBodyParam($request, 'company-idH');                                       
+                $login_logi_nameH = (new RequestParams())->getParsedBodyParam($request, 'login-login-nameH');  
+                
+                $сompany_Id = (new RequestParams())->getParsedBodyParam($request, 'company-id');  
+                $company_name = (new RequestParams())->getParsedBodyParam($request, 'company-name');
+                $login_login_name = (new RequestParams())->getParsedBodyParam($request, "login-login-name");
+                
+                $selectCompany = (new RequestParams())->getParsedBodyParam($request, "selectCompany");
+                $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
+        
+                
+                /** @var RepresentativeIntarface $representative */
+                $representative = $this->representativeRepo->get( $login_login_name, $сompany_Id ); 
+                $this->representativeRepo->remove( $representative ); 
+
+                
+//            } else {
+//                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+//            }
+//            
+//        }
+        return $this->redirectSeeLastGet($request);
+    }
+    
+    
    
 }

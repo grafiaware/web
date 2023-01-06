@@ -140,15 +140,15 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(CompanyControler::class);
             return $ctrl->insertCompanyContact($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/companycontact/:id', function(ServerRequestInterface $request) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/companycontact/:id', function(ServerRequestInterface $request, $id) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
-            return $ctrl->updateCompanyContact($request);
+            return $ctrl->updateCompanyContact($request, $id);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/companycontact/:id/remove', function(ServerRequestInterface $request) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/companycontact/:id/remove', function(ServerRequestInterface $request, $id) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
-            return $ctrl->removeCompanyContact($request);
+            return $ctrl->removeCompanyContact($request, $id);
         });
         
         
@@ -171,8 +171,22 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         
         
         
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/representative', function(ServerRequestInterface $request) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->insertRepresentative($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/representative/:companyId/:loginName/remove', function(ServerRequestInterface $request) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->removeRepresentative($request);
+        });
         
-         $this->routeGenerator->addRouteForAction('POST', '/events/v1/document/:id/remove', function(ServerRequestInterface $request, $id) {
+        
+        
+        
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/document/:id/remove', function(ServerRequestInterface $request, $id) {
             /** @var DocumentControler $ctrl */
             $ctrl = $this->container->get(DocumentControler::class);
             return $ctrl->remove($request, $id);

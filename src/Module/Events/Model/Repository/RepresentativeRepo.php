@@ -25,15 +25,26 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
 
 
     /**
-     *
+     * 
      * @param type $loginLoginName
+     * @param type $companyId
      * @return RepresentativeInterface|null
      */
+<<<<<<< HEAD
     public function get($loginLoginName): ?RepresentativeInterface {
         return $this->getEntity($loginLoginName);
     }
 
 
+=======
+    public function get($loginLoginName, $companyId): ?RepresentativeInterface {   
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name'=>$loginLoginName,
+                                                         'company_id'=>$companyId]);
+        return $this->getEntity($key);
+    } 
+    
+    
+>>>>>>> events_data
 
     /**
      *
@@ -91,11 +102,11 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
     }
 
     protected function indexFromEntity(RepresentativeInterface $representative) {
-        return $representative->getLoginLoginName();
+        return $representative->getLoginLoginName() . $representative->getCompanyId() ;
     }
 
     protected function indexFromRow( $row ) {
-        return $row['login_login_name'];
+        return $row['login_login_name'] . $row['company_id'];
     }
 }
 

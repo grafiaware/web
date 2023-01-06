@@ -25,12 +25,12 @@ interface LoginRepoInterface extends RepoInterface  {
     public function add(LoginInterface $login);
 
     
-//    /**
-//     * 
-//     * @return LoginInterface[]
-//     */
-//    public function findAll(): array;
-//       
+    /**
+     * 
+     * @return LoginInterface[]
+     */
+    public function findAll(): array;
+       
     
     
     /**

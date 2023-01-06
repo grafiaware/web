@@ -80,15 +80,19 @@ if (isset($loginAggregate)) {
                 
         
         
-    //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company             
+    //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company    
+        // $loginName je přihlášený,  zjištěno z $loginAggregate
         $representativePersonI = $presenterModel->getPersonI($loginName);    // Z DB tabulky representative a tabulky company   //z  tabulek representative a company
         if ($representativePersonI) {            
             $representativePersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail 
             //  array  'regname'. 'regmail', 'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName'
             
-           //pro tuto company vypsat vsechny companyContact                      
+          
+            //------------------- pro tuto company vypsat vsechny companyContact                      
             $idCompanyFromRepresentative = $representativePersonI['idCompany'];
-            $representativeCompany = $companyRepo->get($representativePersonI['idCompany']);
+          
+            //-------------------
+            $representativeCompany = $companyRepo->get($idCompanyFromRepresentative);
             $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $representativePersonI['idCompany'] ] );
             $companyContacts=[];
             foreach ($companyContactEntities as $cntct) {
@@ -102,7 +106,37 @@ if (isset($loginAggregate)) {
                     'emails' =>  $cntct->getEmails()
                     ];
             }
-           //-------------------------------
+            //-----------------------
+            //----------------------- pro tuto company vypsat companyAddress 
+ /** @var CompanyInterface $companyEntity */ 
+//    $companyEntity = $companyRepo->get($idCompany);
+//    if ( isset($companyEntity) ) {       
+            
+            $companyAddress=[];
+            /** @var CompanyAddressInterface $companyAddressEntity */
+            $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
+            if ($companyAddressEntity) {           
+                $companyAddress = [
+                    'companyId' => $companyAddressEntity->getCompanyId(),  //$idCompany,
+                    'name'   => $companyAddressEntity->getName(),
+                    'lokace' => $companyAddressEntity->getLokace(),
+                    'psc'    => $companyAddressEntity->getPsc(),
+                    'obec'   => $companyAddressEntity->getObec()
+                    ];
+            }    
+            else {
+                $companyAddress = [
+                    'companyId' => $idCompanyFromRepresentative
+                    ];
+            }   
+           //-------------------------
+        
+        
+        
+        
+            
+            
+            
             
             // jobsy pro company tohoto representative
             /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
@@ -168,7 +202,7 @@ foreach ($enrolls as $enroll) {
 
 if($isRepresentative) {
     $headline = "Profil vystavovatele  --*headline";
-    $perex = ' **I** ' . $loginAggregate->getLoginName() . '  --*perex';
+    $perex = ' **I**   --*perex';
     ?>
     <article class="paper">
         <section>
@@ -185,23 +219,33 @@ if($isRepresentative) {
                 <label>Společnost</label>                             
                 <?= $representativeCompany->getName() ?>                                
                 <div class="">
-                    <div class="ui styled fluid accordion">   
+                   <div class="ui styled fluid accordion">   
+                        
+                        
+                       <div class="active title">
+                            <i class="dropdown icon"></i>
+                            Adresa vystavovatele
+                       </div>  
+                       <div class="active content">                          
+                           <?= $this->insert( __DIR__. '/../company-address/company-address.php', $companyAddress ) ?>
+                       </div> 
+                   
                                                         
-                        <div class="active title">
+                       <div class="active title">
                             <i class="dropdown icon"></i>
                             Kontakty vystavovatele
-                        </div>                        
-                        <div class="active content">                                                
-                            <?= $this->repeat(__DIR__.'/content/company/company-contact.php', $companyContacts  )  ?>
+                       </div>                        
+                       <div class="active content">                                                
+                            <?= $this->repeat(__DIR__.'/../company-contacts/company-contact.php', $companyContacts  )  ?>
                             
                             <div class="active title">
                                 <i class="dropdown icon"></i>
-                                Přidej další kontakt vystavovatele
+                                Přidejte další kontakt vystavovatele
                             </div>  
                             <div class="active content">     
-                                <?= $this->insert( __DIR__.'/content/company/company-contact.php', [ 'companyId' => $idCompanyFromRepresentative ] ) ?>                            
+                                <?= $this->insert( __DIR__.'/../company-contacts/company-contact.php', [ 'companyId' => $idCompanyFromRepresentative ] ) ?>                            
                             </div>  
-                        </div>                           
+                       </div>                           
                         
                     </div>
                 </div>

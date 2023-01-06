@@ -148,19 +148,21 @@ class RepresentativeRepositoryTest extends AppRunner {
     
 
     public function testGetNonExisted() {
-        $representative = $this->representativeRepo->get(0);
+        $representative = $this->representativeRepo->get(0,0);
         $this->assertNull($representative);
     }
     
     
     public function testGetAfterSetup() {
-        $representative = $this->representativeRepo->get(self::$representativeLoginNameTouples['login_login_name'] );    
+        $representative = $this->representativeRepo->get(self::$representativeLoginNameTouples['login_login_name'], 
+                                                         self::$representativeLoginNameTouples['company_id'] );    
         $this->assertInstanceOf(RepresentativeInterface::class, $representative);
     }
 
 
     public function testGetAndRemoveAfterSetup() {
-        $representative = $this->representativeRepo->get(self::$representativeLoginNameTouples['login_login_name']);    
+        $representative = $this->representativeRepo->get(self::$representativeLoginNameTouples['login_login_name'],
+                                                         self::$representativeLoginNameTouples['company_id']);    
         $this->assertInstanceOf(RepresentativeInterface::class, $representative);
         
         $this->representativeRepo->remove($representative);        
@@ -170,7 +172,8 @@ class RepresentativeRepositoryTest extends AppRunner {
 
     
     public function testGetAfterRemove() {
-        $representative = $this->representativeRepo->get(self::$representativeLoginNameTouples['login_login_name']);
+        $representative = $this->representativeRepo->get(self::$representativeLoginNameTouples['login_login_name'],  
+                                                         self::$representativeLoginNameTouples['company_id']);
         $this->assertNull($representative);
     }
 
@@ -188,7 +191,8 @@ class RepresentativeRepositoryTest extends AppRunner {
     
     
     public function testReread() {        
-        $representativeRereaded = $this->representativeRepo->get( self::$representativeLoginNameTouples['login_login_name'] );
+        $representativeRereaded = $this->representativeRepo->get( self::$representativeLoginNameTouples['login_login_name'], 
+                                                                  self::$representativeLoginNameTouples['company_id']);
      
         $this->assertInstanceOf(RepresentativeInterface::class, $representativeRereaded);
         $this->assertTrue($representativeRereaded->isPersisted());
@@ -236,7 +240,8 @@ class RepresentativeRepositoryTest extends AppRunner {
 
 
     public function testRemove_OperationWithLockedEntity() {
-        $representative = $this->representativeRepo->get( self::$representativeLoginNameTouples['login_login_name'] );    
+        $representative = $this->representativeRepo->get( self::$representativeLoginNameTouples['login_login_name'],
+                                                          self::$representativeLoginNameTouples['company_id']);    
         $this->assertInstanceOf(RepresentativeInterface::class,  $representative);
         $this->assertTrue( $representative->isPersisted());
         $this->assertFalse( $representative->isLocked());
@@ -248,7 +253,8 @@ class RepresentativeRepositoryTest extends AppRunner {
 
     
     public function testRemove() {
-        $representative = $this->representativeRepo->get( self::$representativeLoginNameTouples['login_login_name'] );    
+        $representative = $this->representativeRepo->get( self::$representativeLoginNameTouples['login_login_name'], 
+                                                          self::$representativeLoginNameTouples['company_id']);    
         $this->assertInstanceOf( RepresentativeInterface::class,  $representative);
         $this->assertTrue( $representative->isPersisted());
         $this->assertFalse( $representative->isLocked());
@@ -263,7 +269,8 @@ class RepresentativeRepositoryTest extends AppRunner {
         $this->assertFalse($representative->isLocked());
        
         // pokus o čtení, institution uz  neni
-        $representative2 = $this->representativeRepo->get( self::$representativeLoginNameTouples['login_login_name'] );
+        $representative2 = $this->representativeRepo->get( self::$representativeLoginNameTouples['login_login_name'],
+                                                           self::$representativeLoginNameTouples['company_id'] );
         $this->assertNull($representative2);
     }
 

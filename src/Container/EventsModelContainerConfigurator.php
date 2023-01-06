@@ -26,6 +26,7 @@ use Events\Model\Repository\LoginRepo;
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Hydrator\RepresentativeHydrator;
 use Events\Model\Repository\RepresentativeRepo;
+use Events\Model\Entity\Representative;
 
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
@@ -94,6 +95,7 @@ use Events\Model\Repository\JobTagRepo;
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Hydrator\PozadovaneVzdelaniHydrator;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
+use Events\Model\Entity\PozadovaneVzdelani;
 
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
@@ -159,6 +161,12 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             Company::class => function(ContainerInterface $c) {
             return new Company();
+            },
+            Representative::class => function(ContainerInterface $c) {
+            return new Representative();
+            },
+            PozadovaneVzdelani::class => function(ContainerInterface $c) {
+            return new PozadovaneVzdelani();
             }
 
         ];
