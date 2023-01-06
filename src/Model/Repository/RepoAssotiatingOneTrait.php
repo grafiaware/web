@@ -12,8 +12,7 @@ use Model\Repository\RepoAssotiatingOneInterface;  // použito jen v komentáři
  */
 trait RepoAssotiatingOneTrait {
 
-    public function registerOneToOneAssociation(AssociationOneToOneInterface $assotiation, $referenceName = null) {
-        $assotiation->setReferenceName($referenceName ?? $this->dataManager->getTableName());
+    public function registerOneToOneAssociation(AssociationOneToOneInterface $assotiation) {
         $this->associations[] = $assotiation;
     }
 }

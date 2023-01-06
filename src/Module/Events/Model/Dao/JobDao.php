@@ -33,7 +33,7 @@ class JobDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface
         ];
     }
 
-    public function getReference($referenceName): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
             `pozadovane_vzdelani_stupen` => ['pozadovane_vzdelani_stupen']
 

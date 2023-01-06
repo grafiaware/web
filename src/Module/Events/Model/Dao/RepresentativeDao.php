@@ -19,7 +19,7 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
         return [ 'login_login_name'];
     }
 
-    public function getReference($referenceName): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
             'company_id'=>['company_id'],
             'login_login_name'=>['login_login_name']

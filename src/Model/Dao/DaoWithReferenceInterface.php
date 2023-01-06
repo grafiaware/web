@@ -5,7 +5,7 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-interface DaoReferenceCommonInterface extends DaoInterface {
+interface DaoWithReferenceInterface extends DaoInterface {
 
     /**
      * Musí vracet pole jehož položky odpovídají polím cizího klíče potomkovské tabulky. Každá položka tohoto pole musí obsahovat
@@ -21,8 +21,8 @@ interface DaoReferenceCommonInterface extends DaoInterface {
      * @param type $referenceName
      * @return array
      */
-    public function getReference($referenceName): array;
+    public function getReferenceAttributes($referenceName): array;
 
-    public function getReferenceKeyTouples($referenceName, array $referenceParams): array;
+//    public function getReferenceKeyTouples($referenceName, array $referenceParams): array;
 
 }

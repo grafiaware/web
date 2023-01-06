@@ -31,7 +31,7 @@ class CredentialsDao extends DaoEditAbstract implements DaoReferenceUniqueInterf
             'updated'
         ];
     }
-    public function getReference($referenceName): array {
+    public function getReferenceAttributes($referenceName): array {
         // 'jméno referencované tabulky'=>['cizí klíč potomka (jméno sloupce v potomkovi)'=>'vlastní klíč rodiče (jméno sloupce v rodiči)']
         return [
             'login'=>['login_name_fk'=>'login_name']

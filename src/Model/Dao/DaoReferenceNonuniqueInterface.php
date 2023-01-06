@@ -12,7 +12,7 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-interface DaoReferenceNonuniqueInterface extends DaoReferenceCommonInterface {
+interface DaoReferenceNonuniqueInterface extends DaoWithReferenceInterface {
 
     public function findByReference($referenceName, array $referenceTouples);
 

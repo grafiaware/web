@@ -16,5 +16,5 @@ use Model\Entity\PersistableEntityInterface;
  * @author pes2704
  */
 interface RepoAssotiatedOneInterface extends RepoInterface {
-    public function getByReference(string $parentTableName, array $parentRowData): ?PersistableEntityInterface;
+    public function getByReference(string $referenceName, ...$referenceParams): ?PersistableEntityInterface;
 }

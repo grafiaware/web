@@ -39,9 +39,9 @@ class ArticleDao extends DaoEditAbstract implements ArticleDaoInterface {
         ];
     }
 
-    public function getReference($referenceName): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
-            'menu_item_id_fk'=>['menu_item_id_fk']
+            'menu_item'=>['menu_item_id_fk'=>'id']
         ][$referenceName];
     }
 

@@ -10,6 +10,6 @@ use Model\Repository\Association\AssociationOneToOneInterface;
  */
 interface RepoAssotiatingOneInterface {
 
-    public function registerOneToOneAssociation(AssociationOneToOneInterface $assotiation, $referenceName = null);
+    public function registerOneToOneAssociation(AssociationOneToOneInterface $assotiation);
 
 }

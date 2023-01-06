@@ -18,6 +18,7 @@ use Red\Model\Entity\ArticleInterface;
  */
 interface ArticleRepoInterface extends RepoAssotiatedOneInterface {
     public function get($id): ?ArticleInterface;
+    public function getByMenuItemId($menuItemId): ?ArticleInterface;
     public function add(ArticleInterface $article);
     public function remove(ArticleInterface $article);
 }

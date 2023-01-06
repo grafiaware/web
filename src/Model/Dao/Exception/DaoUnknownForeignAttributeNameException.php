@@ -13,6 +13,6 @@ namespace Model\Dao\Exception;
  *
  * @author pes2704
  */
-class DaoUnknownForeignAttributeNameException extends \LogicException implements DaoExceptionInterface {
+class DaoUnknownReferenceNameException extends \LogicException implements DaoExceptionInterface {
 
 }

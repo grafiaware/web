@@ -18,11 +18,6 @@ use Model\Hydrator\HydratorInterface;
  */
 class AssociationAbstract implements AssociationInterface {
 
-    protected $referenceName;
-
-    public function setReferenceName($referenceName) {
-        $this->referenceName = $referenceName;
-    }
     public function flushChildRepo(): void {
         $this->childRepo->flush();
     }

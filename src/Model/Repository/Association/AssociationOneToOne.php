@@ -39,10 +39,19 @@ abstract class AssociationOneToOne extends AssociationAbstract implements Associ
     /**
      *
      * @param RowDataInterface $parentRowData
+     * @return PersistableEntityInterface
+     */
+    protected function recreateChild(RowDataInterface $parentRowData): PersistableEntityInterface {
+        return $this->recreateEntityByRowData($parentRowData);
+    }
+
+    /**
+     *
+     * @param RowDataInterface $parentRowData
      * @return PersistableEntityInterface|null
      */
     protected function getChild(RowDataInterface $parentRowData): ?PersistableEntityInterface {
-        return $this->childRepo->getByReference($this->referenceName, $parentRowData->getArrayCopy());
+        return $this->childRepo->getByParentData($parentRowData);
     }
 
     /**

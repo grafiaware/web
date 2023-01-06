@@ -65,7 +65,7 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
      */
     public function getArticle(): ?ArticleInterface {
         if (isset($this->menuItemId)) {
-            $article = $this->articleRepo->getByReference($this->menuItemId);
+            $article = $this->articleRepo->getByReference('menu_item', $this->menuItemId);
         }
         return $article ?? null;
     }

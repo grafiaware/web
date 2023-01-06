@@ -17,7 +17,7 @@ use Red\Model\Dao\ArticleDao;
 use Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\ArticleHydrator;
 
-use Model\Repository\Exception\UnableRecreateEntityException;
+use \Model\Repository\RepoAssotiatedOneTrait;
 
 /**
  * Description of Menu
@@ -36,6 +36,8 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
         $this->registerHydrator($articleHydrator);
     }
 
+    use RepoAssotiatedOneTrait;
+
     /**
      *
      * @param type $id
@@ -45,14 +47,8 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
         return $this->getEntity($id);
     }
 
-    /**
-     *
-     * @param type $menuItemIdFk
-     * @return PaperInterface|null
-     */
-    public function getByReference($menuItemIdFk): ?PersistableEntityInterface {
-        $key = $this->dataManager->getReferenceKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
-        return $this->getEntityByReference('menu_item_id_fk', $key);
+    public function getByMenuItemId($menuItemId): ?ArticleInterface {
+        return $this->getByReference('menu_item', $menuItemId);
     }
 
     public function add(ArticleInterface $article) {

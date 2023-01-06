@@ -29,7 +29,7 @@ class InstitutionDao  extends DaoEditAbstract implements DaoEditAutoincrementKey
             'id', 'name', 'institution_type_id'
         ][$referenceName];
     }
-    public function getReference($referenceName): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
             'institution_type_id'=>['institution_type_id']
         ];

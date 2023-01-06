@@ -26,7 +26,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 
 use Status\Model\Enum\FlashSeverityEnum;
 
-use Red\Model\Repository\PaperAggregateSectionsRepo;
+use Red\Model\Repository\PaperAggregateContentsRepo;
 
 use UnexpectedValueException;
 
@@ -48,7 +48,7 @@ class PaperControler extends AuthoredControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            PaperAggregateSectionsRepo $paperAggregateRepo) {
+            PaperAggregateContentsRepo $paperAggregateRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }

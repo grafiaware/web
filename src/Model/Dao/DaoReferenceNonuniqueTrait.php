@@ -3,7 +3,7 @@
 namespace Model\Dao;
 
 use Model\Dao\DaoReferenceNonuniqueInterface;
-use Model\Dao\Exception\DaoUnknownForeignAttributeNameException;
+use Model\Dao\Exception\DaoUnknownReferenceNameException;
 
 use UnexpectedValueException;
 
@@ -32,7 +32,7 @@ trait DaoReferenceNonuniqueTrait {
 
     public function getReferenceKeyTouples($referenceName, array $referenceTouples): array {
         /** @var DaoReferenceNonuniqueInterface $this */
-        $fkAttribute = $this->getFkAttribute($referenceName);
+        $fkAttribute = $this->getReferenceAttributes($referenceName);
 
         $key = [];
         foreach ($fkAttribute as $field) {
@@ -53,12 +53,12 @@ trait DaoReferenceNonuniqueTrait {
     /**
      *
      * @param type $fkAttributesName
-     * @throws DaoUnknownForeignAttributeNameException
+     * @throws DaoUnknownReferenceNameException
      */
     private function getFkAttribute($fkAttributesName) {
-        $fkAttributes = $this->getReference();
+        $fkAttributes = $this->getReferenceAttributes();
         if(!array_key_exists($fkAttributesName, $fkAttributes)) {
-            throw new DaoUnknownForeignAttributeNameException("V DAO není definován atribut cizího klíče (foreign key attribute) se jménem $fkAttributesName.");
+            throw new DaoUnknownReferenceNameException("V DAO není definován atribut cizího klíče (foreign key attribute) se jménem $fkAttributesName.");
         }
         return $fkAttributes[$fkAttributesName];
     }

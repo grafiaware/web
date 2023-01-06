@@ -38,7 +38,7 @@ class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestD
         ];
     }
 
-    public function getReference($referenceName): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
             'job_id'=>['job_id'],
             'login_login_name'=>['login_login_name'],

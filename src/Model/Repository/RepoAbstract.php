@@ -36,10 +36,13 @@ use Model\Repository\Exception\UnableAddEntityException;
 use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\Repository\Exception\UnableAddAssotiationsException;
 use Model\Repository\Exception\UnableToDeleteAssotiatedChildEntity;
+
+use Model\Dao\DaoWithReferenceInterface;
+
 /**
  * Description of RepoAbstract
  *
- * @author pes2704
+ * @author
  */
 abstract class RepoAbstract {
 
@@ -144,7 +147,7 @@ abstract class RepoAbstract {
         return implode($params);
     }
 
-    #### get
+    #### get & find
 
     /**
      *
@@ -171,18 +174,18 @@ abstract class RepoAbstract {
      * Metoda je vhodná pro případy, kdy jsou načtena z úložiště současně data pro rodičovskou i potomkovskou entitu
      * - například pomocí SELECT FROM table1 JOIN table2
      *
-     * @param type $rowDataArray
-     * @return array
+     * @param array[RowDataInterface] $rowDataArray
+     * @return array[PersistableEntityInterface]
      */
     protected function recreateEntitiesByRowDataArray($rowDataArray): array {
-        $selected = [];
+        $recteated = [];
         foreach ($rowDataArray as $rowData) {
-            $added = $this->recreateEntityByRowData($rowData);  // může vracet null
-            if (isset($added)) {
-                $selected[] = $added;
+            $nextEntity = $this->recreateEntityByRowData($rowData);  // může vracet null
+            if (isset($nextEntity)) {
+                $recteated[] = $nextEntity;
             }
         }
-        return $selected;
+        return $recteated;
     }
 
     /**
@@ -191,10 +194,10 @@ abstract class RepoAbstract {
      * Metoda je vhodná pro případy, kdy jsou načtena z úložiště současně data pro rodičovskou i potomkovskou entitu
      * - například pomocí SELECT FROM table1 JOIN table2
      *
-     * @param type $rowData
-     * @return type
+     * @param RowDataInterface $rowData
+     * @return PersistableEntityInterface
      */
-    protected function recreateEntityByRowData($rowData=null) {
+    protected function recreateEntityByRowData(RowDataInterface $rowData=null) {
         if (!isset($rowData)) {
             return null;
         }
@@ -206,13 +209,17 @@ abstract class RepoAbstract {
         return $this->collection[$index] ?? null;
     }
 
-    private function createKeyFromPrimaryKeyAttributes(array $idParams) {
-        if (count($this->dataManager->getPrimaryKeyAttributes()) != count($idParams)) {
+    private function createKeyFromPrimaryKeyAttributes(array $idParams): array {
+        $key = array_combine($this->dataManager->getPrimaryKeyAttributes(), $idParams);
+        if ($key===false) {
             $daoCls = get_called_class($this->dataManager);
             throw new UnexpectedValueException("Nelze vytvořit primární klíč pro volání Dao. Počet parametrů předaných metodě typu get() neodpovídá počtu polí primárního klíče $daoCls.");
         }
-        return array_combine($this->dataManager->getPrimaryKeyAttributes(), $idParams);
+        return $key;
     }
+
+
+#### entity - recreate, add, remove
 
     /**
      *
@@ -272,6 +279,7 @@ abstract class RepoAbstract {
             $this->collection[$this->callIndexFromEntity($entity)] = $entity;
         } else {
             if ($this->dataManager instanceof DaoEditAutoincrementKeyInterface) {
+                // okamžité uložaní a zpetné načtení z databáze
                 $rowData = $this->createRowData();
                 $this->extract($entity, $rowData);
                 $this->dataManager->insert($rowData);
@@ -282,6 +290,7 @@ abstract class RepoAbstract {
                 $this->collection[$index] = $entity;
                 $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
             } elseif ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface ) {
+                // okamžité uložení skontrolou duplicity primárního klíče (výjimka)
                 $rowData = $this->createRowData();
                 $this->extract($entity, $rowData);
                 try {
@@ -378,6 +387,13 @@ abstract class RepoAbstract {
         return new PdoRowData();
     }
 
+    /**
+     * Vrací data se tadaným indexem. Pokud data se zadaným indexem nejsou nastavena, načte je pomocí data manahera (DAO).
+     *
+     * @param type $index
+     * @param array $id
+     * @return type
+     */
     private function recreateData($index, array $id) {
         if (!$this->hasData($index)) {
             $rowData = $this->dataManager->get($id);
@@ -416,7 +432,7 @@ abstract class RepoAbstract {
                 $this->removePersistedAssociatedEntities($entity);
             }
             $this->flushChildRepos();
-            if ( ! ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
+//            if ( ! ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
                 foreach ($this->new as $entity) {
                     $rowData = $this->createRowData();
                     $this->extract($entity, $rowData);
@@ -427,7 +443,7 @@ abstract class RepoAbstract {
                 }
                 $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
 //                $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
-            }
+//            }
 
             foreach ($this->collection as $index => $entity) {
                 $rowData = $this->data[$index];

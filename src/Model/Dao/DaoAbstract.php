@@ -13,7 +13,6 @@ use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
 use Model\RowData\RowDataInterface;
-use Model\Dao\DaoReferenceUniqueInterface;
 
 use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
 use UnexpectedValueException;
@@ -52,6 +51,8 @@ abstract class DaoAbstract implements DaoInterface {
 
 ## public ##########################################
 
+
+    //TODO: ? protected - zdá se, že getPrimaryKeyTouples je použito jen v MenuItemRepo a jeho metoda getOutOfContext není použita - repo kontextové a repo out of context je i v container config -> dohledat a doladit
     public function getPrimaryKeyTouples(array $row): array {
         $keyAttribute = $this->getPrimaryKeyAttributes();
         $key = [];

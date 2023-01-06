@@ -23,7 +23,7 @@ use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
-use Red\Model\Repository\PaperAggregateSectionsRepo;
+use Red\Model\Repository\PaperAggregateContentsRepo;
 
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 
@@ -179,7 +179,7 @@ $this->menuItemAggRepo->flush();
         // nestačí resetovat MenuItemAggregateRepo - to se sice vygeneruje znovu, ale v něm obsažené PaperAggregateRepo se zachová a použije
         // a obdobně PaperContentRepo obsažené v PaperAggregateRepo
         $this->container->reset(MenuItemAggregatePaperRepo::class);
-        $this->container->reset(PaperAggregateSectionsRepo::class);
+        $this->container->reset(PaperAggregateContentsRepo::class);
         $this->container->reset(PaperSectionRepo::class);
         /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
         $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);

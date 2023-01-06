@@ -22,7 +22,7 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
         return ['job_id', 'job_tag_tag'];
     }
 
-    public function getReference($referenceName): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
             'job_id'=>['job_id'], //atributy ciziho klice job_id(klic asoc.pole pojmenovan takto)- je jednoslozkovy - (v tabulce sloupec 1 slozky job_id)
             'job_tag_tag'=>['job_tag_tag']

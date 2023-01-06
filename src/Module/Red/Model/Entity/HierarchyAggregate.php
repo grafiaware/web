@@ -25,7 +25,11 @@ class HierarchyAggregate extends Hierarchy implements HierarchyAggregateInterfac
      */
     private $menuItem;
 
-    public function getMenuItem(): MenuItemInterface {
+    /**
+     *
+     * @return MenuItemInterface|null
+     */
+    public function getMenuItem(): ?MenuItemInterface {
         return $this->menuItem;
     }
 

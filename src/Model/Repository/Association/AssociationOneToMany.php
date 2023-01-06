@@ -29,11 +29,20 @@ abstract class AssociationOneToMany extends AssociationAbstract implements Assoc
 
     /**
      *
-     * @param RowDataInterface $parentRowData
-     * @return PersistableEntityInterface|null
+     * @param iterable $parentRowData iterable of RowDataInterface
+     * @return array[PersistableEntityInterface]
      */
-    protected function findChildren(RowDataInterface $parentRowData): iterable {
-        return $this->childRepo->findByReference($this->referenceName, $parentRowData->getArrayCopy());
+    protected function recreateChildren(iterable $parentRowData): array {
+        return $this->recreateEntitiesByRowDataArray($parentRowData);
+    }
+
+    /**
+     *
+     * @param RowDataInterface[] $parentRowDataArray array of RowDataInterface
+     * @return iterable
+     */
+    protected function findChildren(array $parentRowDataArray): iterable {
+        return $this->childRepo->findByParentData($parentTouplesArray);
     }
 
     /**

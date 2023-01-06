@@ -1,19 +1,14 @@
 <?php
-
 namespace Model\Dao;
 
-use Model\Dao\DaoReferenceUniqueInterface;
-use Model\Dao\Exception\DaoUnknownReferenceNameException;
-
-use UnexpectedValueException;
+use Model\Dao\DaoWithReferenceInterface;
 
 /**
- * Description of DaoAbstract
+ * Description of DaoWithReferenceAbstract
  *
  * @author pes2704
  */
-trait DaoReferenceUniqueTrait {
-
+abstract class DaoWithReferenceAbstract extends DaoAbstract implements DaoWithReferenceInterface {
     /**
      *
      * @param string $referenceName jméno reference.
@@ -67,4 +62,5 @@ trait DaoReferenceUniqueTrait {
         }
         return $fkAttributes;
     }
+
 }

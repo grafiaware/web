@@ -44,11 +44,13 @@ class PaperSectionDao extends DaoEditContextualAbstract implements PaperSectionD
             'updated',
         ];
     }
-    public function getReference($referenceName): array {
+    
+    public function getReferenceAttributes($referenceName): array {
         return [
-            'paper_id_fk'=>['paper_id_fk']
+            'paper'=>['paper_id_fk'=>'id']
         ][$referenceName];
     }
+
     public function getTableName(): string {
         return 'paper_section';
     }
