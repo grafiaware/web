@@ -117,21 +117,21 @@ use Events\Model\Entity\DocumentInterface;
                     <?php
                     if($readonly === '') {
                     ?>
-                    <div class="field">
-                        <label><?= isset($cvDocumentFilename) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
-                        <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
-                    </div>
-                    <div class="field margin">
-                        <label><?= isset($letterDocumentFilename) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
-                        <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
-                    </div>
-                    <div class="two fields">
-                        <div class="field margin"></div>
-                        <!--odesílá k uložení do databáze-->
                         <div class="field">
-                            <button class="ui primary button" type="submit" formaction="events/v1/jobrequest">Odeslat údaje zaměstnavateli</button>                                  
+                            <label><?= isset($cvDocumentFilename) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
+                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
-                    </div>
+                        <div class="field margin">
+                            <label><?= isset($letterDocumentFilename) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
+                            <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                        </div>
+                        <div class="two fields">
+                            <div class="field margin"></div>
+                            <!--odesílá k uložení do databáze-->
+                            <div class="field">
+                                <button class="ui primary button" type="submit" formaction="events/v1/jobrequest">Odeslat údaje zaměstnavateli</button>                                  
+                            </div>
+                        </div>
                     <?php
                     } elseif($isRepresentative) {
                         ?>

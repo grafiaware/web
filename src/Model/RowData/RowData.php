@@ -85,8 +85,8 @@ class RowData extends \ArrayObject implements RowDataInterface {
     }
 
     public function offsetUnset($index) {
-        if ($this->offsetGet($index)!==null) {
-            $this->changed[$index] = null;
+        if (!$this->offsetExists($index) OR $this->offsetGet($index)!==null) {
+            $this->setNewValue($index, null);
         }
     }
 

@@ -57,7 +57,7 @@ use Pes\Text\Html;
                 ?>                                                                                                                             
                 <?=
                  isset($companyId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/representative/". $companyId. "/" . $loginLoginName  ."/remove' > Odstranit representative </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/representative/". $companyId. "/" . $loginLoginName  ."/remove' > Odstranit representanta </button>" :
                 "" ;
                 ?>                                                                                                         
             </div>

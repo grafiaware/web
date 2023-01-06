@@ -97,13 +97,13 @@ use Events\Model\Entity\LoginInterface;
 
         
         <div >
-            Representative vystavovatelů             
+            Representi vystavovatelů             
             <div class="ui styled fluid accordion">      
                 <?= $this->repeat(__DIR__.'/content/representative.php', $representatives  )  ?>
             </div>
             <p></p>
 
-            Přidej dalšího representative
+            Přidej dalšího representanta
             <div class="ui styled fluid accordion">            
                     <?= $this->insert( __DIR__.'/content/representative.php',$selecty ) ?>                     
             </div>            

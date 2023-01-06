@@ -100,7 +100,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),                       
                         $c->get(RepresentativeRepo::class),
                         $c->get(VisitorJobRequestRepo::class),
-                        $c->get(JobRepo::class)
+                        $c->get(JobRepo::class),
+                        $c->get(DocumentRepo::class)
                         )
                        )->injectContainer($c);
             },

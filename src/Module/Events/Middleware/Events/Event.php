@@ -23,6 +23,7 @@ use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\VisitorControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
+use Events\Middleware\Events\Controler\JobControler;
 
 class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -203,7 +204,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(VisitorControler::class);
             return $ctrl->jobRequest($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest/:visitorLoginName/:jobId', function(ServerRequestInterface $request, $visitorLoginName, $jobId) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest/:visitorLoginName/:jobId', function(ServerRequestInterface $request,  $visitorLoginName, $jobId) {
             /** @var JobControler $ctrl */
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->sendJobRequest($request, $visitorLoginName, $jobId);

@@ -18,12 +18,14 @@ use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Repository\DocumentRepoInterface;
 
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Entity\Representative;
 use Events\Model\Entity\Company;
 use Events\Model\Entity\Job;
 use Events\Model\Entity\VisitorJobRequest;
+use Events\Model\Entity\VisitorJobRequestInterface;
 
 
 use Status\Model\Enum\FlashSeverityEnum;
@@ -65,12 +67,16 @@ class JobControler extends FrontControlerAbstract {
     private $jobRepo;
      /**
      * 
-     * @var VisitorJobRequestRepo
+     * @var VisitorJobRequestRepoInterface
      */
     private $visitorJobRequestRepo;
-        
+
+    /**
+     * @var DocumentRepoInterface
+     */
+    private $documentRepo;
     
-    
+       
     /**
      * 
      * @param StatusSecurityRepo $statusSecurityRepo
@@ -78,7 +84,9 @@ class JobControler extends FrontControlerAbstract {
      * @param StatusPresentationRepo $statusPresentationRepo
      * @param CompanyRepoInterface $companyRepo
      * @param RepresentativeRepoInterface $representativeRepo
+     * @param VisitorJobRequestRepo $visitorJobRequestRepo
      * @param JobRepoInterface $jobRepo
+     * @param DocumentRepoInterface $documentRepo
      */
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -87,8 +95,9 @@ class JobControler extends FrontControlerAbstract {
             
             CompanyRepoInterface $companyRepo,           
             RepresentativeRepoInterface $representativeRepo,
-            VisitorJobRequestRepo $visitorJobRequestRepo,
-            JobRepoInterface $jobRepo
+            VisitorJobRequestRepo $visitorJobRequestRepo,            
+            JobRepoInterface $jobRepo,
+            DocumentRepoInterface $documentRepo
             
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
@@ -96,6 +105,7 @@ class JobControler extends FrontControlerAbstract {
         $this->representativeRepo = $representativeRepo;
         $this->visitorJobRequestRepo = $visitorJobRequestRepo;
         $this->jobRepo = $jobRepo;
+        $this->documentRepo = $documentRepo;
     }
     
    
@@ -118,34 +128,26 @@ class JobControler extends FrontControlerAbstract {
             return $response->withStatus(401);  // Unaathorized
         } else {
            
-            $loginName = $loginAggregateCredentials->getLoginName();            
+            $loginName = $loginAggregateCredentials->getLoginName();  //prihlaseny          
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
             //$companyId = (new RequestParams())->getParsedBodyParam($request, "company-id");   //z POST  ---zjistit z jpbId
             
-            if (isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                             AND   $loginName==$visitorLoginName ) {                
+            if (isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative'])   ) {                
                 /**  @var  Job $job  */
                 $job = $this->jobRepo->get($jobId);
-                if ( $this->representativeRepo->get($loginName, $job->getCompanyId()) )  {
-                }                          
+                if ( $this->representativeRepo->get($loginName, $job->getCompanyId()) )  {                                          
                     $isRepresentative = true; 
+                }    
             }                
             
-            if ($isRepresentative) {
-                // POST data
-                //$shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
-                // $positionName = (new RequestParams())->getParsedBodyParam($request, 'position-name');
-                
-              //  $visitorLoginName = (new RequestParams())->getParsedBodyParam($request, "visitor-login-name"); // maji byt z url
-              //  $jobId = (new RequestParams())->getParsedBodyParam($request, "job-id");
-
+            if ($isRepresentative) {        
+                /** @var VisitorJobRequestInterface  $visitorDataJRqPost */
                 $visitorDataJRqPost = $this->visitorJobRequestRepo->get($visitorLoginName, $jobId);
-                /** @var VisitorJobRequest  $visitorDataJRqPost */
               
                 if (!isset($visitorDataJRqPost)) {
                     $this->addFlashMessage("Pracovní údaje pro pozici  nenalezeny v databázi.");
                 } else {
-                    $visitorDataJRqPost->getPositionName();
+                    $positionName = $visitorDataJRqPost->getPositionName();
               /**/  $this->sendMail($positionName, $visitorDataJRqPost, $loginAggregateCredentials);
                     $this->addFlashMessage("Pracovní údaje pro pozici " .  $visitorDataJRqPost->getPositionName() . " neodeslány.**Momentálně se maily neposílají.**");
                 }
@@ -160,7 +162,7 @@ class JobControler extends FrontControlerAbstract {
     
     private function sendMail($positionName, 
                               VisitorJobRequestInterface $visitorDataPost,
-                              LoginAggregateFullInterface /*LoginAggregateFullInterface*/ $loginAggregateCredentials) {
+                              LoginAggregateFullInterface $loginAggregateCredentials) {
         /** @var Mail $mail */
         $mail = $this->container->get(Mail::class);
         /** @var HtmlMessage $mailMessageFactory */

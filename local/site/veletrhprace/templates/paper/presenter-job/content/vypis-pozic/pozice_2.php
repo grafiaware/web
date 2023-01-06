@@ -80,8 +80,6 @@ if (isset($loginAggregate)) {
         // - předvyplňuje se z $visitorData
         $email = isset($visitorProfileEntity) ? $visitorProfileEntity->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
 
-        $visitorLoginName = $loginName;  //zde se nepotrebuje , potrebuje se v osobni-udaje_2
-
         // hodnoty do formuláře z visitorDataPost (odeslaná data - zájem o pozici), pokud ještě nevznikl z visitorData (z profilu)
         if (isset($visitorJobRequestEntity)) {
             $isVisitorDataPost = true;
@@ -147,11 +145,9 @@ if (isset($loginAggregate)) {
         }
     }
 
-    if ($isRepresentative) {
-        
-        //$visitorJobRequests = $visitorJobRequestRepo->findByLoginNameAndPosition($loginName, $positionName);
+    if ($isRepresentative) {        
         $visitorJobRequests = $visitorJobRequestRepo->find(  ' job_Id = :jobId ',  [  'jobId' => $jobId  ] );
-        $visitorJobRequestCount = count($visitorJobRequests);
+        $visitorJobRequestCount = count($visitorJobRequests);        
         $allFormVisitorDataPost = [];
 
         if ($visitorJobRequests) {
@@ -192,7 +188,10 @@ if (isset($loginAggregate)) {
                     $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();  
                 }                
                 $allFormVisitorDataPost[] = $visitorFormData;
+            //    $allFormVisitorDataPost[] = array_merge ($visitorFormData);
+                
             }
+            //$allFormVisitorDataPostMerge = array_merge ($allFormVisitorDataPost, ['loginName' => $loginName  ]);
         }
     }
 //    //*--------------------------------------------------
@@ -215,11 +214,11 @@ if (isset($loginAggregate)) {
             
         <?php
             if ($isRepresentative) {  ?>
-                <?= "**I** Přihlášený " . $loginName. " JE Representative " . $isRepresentative . " vystavovatele " . $shortName ?>
+                <?= "**I** Přihlášený " . $loginName. " JE Representative " . " vystavovatele " . $shortName ?>
         <?php } else { ?>
-                <?= "**I** Přihlášený " .$loginName. " NENÍ Representative " . $isRepresentative . " vystavovatele " . $shortName ?>
+                <?= "**I** Přihlášený " .$loginName. " NENÍ Representative "  . " vystavovatele " . $shortName ?>
         <?php }  ?>
-            <?= $loginName. " jeRepresentative " . $isRepresentative . " vystavovatele " . $shortName ?>
+           
          ?>    
             
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
@@ -323,7 +322,8 @@ if (isset($loginAggregate)) {
                                             </div>
                                             <div class="sixteen wide column">
                                                 <div class="profil hidden">
-                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php', $allFormVisitorDataPost); ?>
+                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php',
+                                                                      $allFormVisitorDataPost) ?>
                                                 </div>
                                             </div>
                                             <?php
