@@ -17,6 +17,7 @@ use Events\Middleware\Events\Controler\VisitorControler;
 use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
+use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -73,10 +74,26 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(VisitorProfileRepo::class), 
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(DocumentRepo::class),
-                        $c->get(RepresentativeRepo::class)
+                        $c->get(RepresentativeRepo::class),
+                        $c->get(JobRepo::class)
                         )
                        )->injectContainer($c);
             },            
+                    
+                    
+            VisitorJobRequestControler::class => function(ContainerInterface $c) {
+                return (new VisitorJobRequestControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), 
+                        $c->get(VisitorProfileRepo::class), 
+                        $c->get(VisitorJobRequestRepo::class),
+                        $c->get(DocumentRepo::class),
+                        $c->get(RepresentativeRepo::class),
+                        $c->get(JobRepo::class)
+                        )
+                       )->injectContainer($c);
+            },                    
                     
             CompanyControler::class => function(ContainerInterface $c) {
                 return (new CompanyControler(

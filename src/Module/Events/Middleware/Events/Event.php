@@ -24,6 +24,8 @@ use Events\Middleware\Events\Controler\VisitorControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\JobControler;
+use Events\Middleware\Events\Controler\VisitorJobRequestControler;
+
 
 class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -169,9 +171,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeCompanyAddress($request);
         });
         
-        
-        
-        
+                        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/representative', function(ServerRequestInterface $request) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
@@ -199,14 +199,14 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
         
         
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobrequest', function(ServerRequestInterface $request) {
-            /** @var VisitorControler $ctrl */
-            $ctrl = $this->container->get(VisitorControler::class);
-            return $ctrl->jobRequest($request);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/:jobId/jobrequest', function(ServerRequestInterface $request, $jobId) {
+            /** @var VisitorJobRequestControler $ctrl */
+            $ctrl = $this->container->get(VisitorJobRequestControler::class);
+            return $ctrl->jobRequest($request, $jobId);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest/:visitorLoginName/:jobId', function(ServerRequestInterface $request,  $visitorLoginName, $jobId) {
-            /** @var JobControler $ctrl */
-            $ctrl = $this->container->get(JobControler::class);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest/:visitorLoginName/:jobId', function(ServerRequestInterface $request, $visitorLoginName, $jobId) {
+            /** @var VisitorJobRequestControler $ctrl */
+            $ctrl = $this->container->get(VisitorJobRequestControler::class);
             return $ctrl->sendJobRequest($request, $visitorLoginName, $jobId);
         });
     }

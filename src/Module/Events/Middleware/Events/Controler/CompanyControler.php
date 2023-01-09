@@ -345,21 +345,6 @@ class CompanyControler extends FrontControlerAbstract {
                 }
             }            
         
-    
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {         
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {                                   
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName) )  {
-//                $isRepresentative = true; 
-//            }
   
             if ($isRepresentative) {
                 // POST data
@@ -411,24 +396,7 @@ class CompanyControler extends FrontControlerAbstract {
                 if ( $this->representativeRepo->get($loginName, $id ) )   {
                             $isRepresentative = true; 
                 }
-            }            
-                
-      
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {
-//            
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName) )  {
-//                $isRepresentative = true; 
-//            }
+            }                             
             
        
             if ($isRepresentative) {

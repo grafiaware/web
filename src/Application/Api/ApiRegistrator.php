@@ -141,9 +141,10 @@ class ApiRegistrator {
         #
         #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
-        #### VisitorDataController ####
+        
+        #### VisitorController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));
-        #### CompanyDataController ?? ####
+        #### CompanyController ?? ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/companycontact'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/companycontact/:id'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/companycontact/:id/remove'));
@@ -155,11 +156,12 @@ class ApiRegistrator {
         
         
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobrequest'));
+        #### JobRequestControler
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/:jobId/jobrequest'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
         #### VisitorDataController ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/eventcontent/:staticName'));
-        // doc
+        #### DocumentControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/document/:id/remove'));
 
         ### mail module ###

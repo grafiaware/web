@@ -129,7 +129,7 @@ use Events\Model\Entity\DocumentInterface;
                             <div class="field margin"></div>
                             <!--odesílá k uložení do databáze-->
                             <div class="field">
-                                <button class="ui primary button" type="submit" formaction="events/v1/jobrequest">Odeslat údaje zaměstnavateli</button>                                  
+                                <button class="ui primary button" type="submit" formaction="events/v1/<?= $jobId ?>/jobrequest">Odeslat údaje zaměstnavateli</button>                                  
                             </div>
                         </div>
                     <?php
