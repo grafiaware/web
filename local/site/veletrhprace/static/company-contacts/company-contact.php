@@ -45,7 +45,11 @@ use Pes\Text\Html;
                      isset($companyContactId) ?
                     "<button class='ui primary button' type='submit' formaction='events/v1/companycontact/". $companyContactId ."' > Uložit </button>" :
                     "<button class='ui primary button' type='submit' formaction='events/v1/companycontact' > Uložit </button>" ;
-                    ?>                                                                                                                             
+              
+                     
+                     
+                     
+                     ?>                                                                                                                             
                     <?=
                      isset($companyContactId) ?
                     "<button class='ui primary button' type='submit' formaction='events/v1/companycontact/". $companyContactId ."/remove' > Odstranit kontakt </button>" :

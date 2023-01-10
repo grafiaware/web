@@ -378,9 +378,7 @@ class CompanyControler extends FrontControlerAbstract {
      */
     public function removeCompanyAddress (ServerRequestInterface $request, $id)  {                   
         $isRepresentative = false;
-        
-        
-         
+                        
          /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurity = $this->statusSecurityRepo->get();
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
@@ -402,7 +400,7 @@ class CompanyControler extends FrontControlerAbstract {
             if ($isRepresentative) {
                  $сompanyAddressId = $id;   // z URL
                  
-                /** @var CompanyContactIntarface $companyAddress */
+                /** @var CompanyAddressIntarface $companyAddress */
                 $companyAddress = $this->companyAddressRepo->get( $сompanyAddressId ); 
                 $this->companyAddressRepo->remove( $companyAddress ); 
                                 
@@ -439,24 +437,15 @@ class CompanyControler extends FrontControlerAbstract {
 //            if ($isRepresentative) {
               
          
-                // POST data
-                $company_idH = (new RequestParams())->getParsedBodyParam($request, 'company-idH');                                       
-                $login_logi_nameH = (new RequestParams())->getParsedBodyParam($request, 'login-login-nameH');  
-                
-                $сompany_Id = (new RequestParams())->getParsedBodyParam($request, 'company-id');  
-                $company_name = (new RequestParams())->getParsedBodyParam($request, 'company-name');
-                $login_login_name = (new RequestParams())->getParsedBodyParam($request, "login-login-name");
-                
+                // POST data                
                 $selectCompany = (new RequestParams())->getParsedBodyParam($request, "selectCompany");
                 $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
                 
                 /** @var RepresentativeInterface $representative */
-                $representative = $this->container->get(Representative::class); //new 
-             
+                $representative = $this->container->get(Representative::class); //new              
                 $representative->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'selectCompany') ) ;
                 $representative->setLoginLoginName( (new RequestParams())->getParsedBodyParam($request, 'selectLogin') );
-                
-                
+                                
                 $this->representativeRepo->add($representative);
                 
 //            } else {
@@ -468,7 +457,8 @@ class CompanyControler extends FrontControlerAbstract {
     }
     
     
-    public function removeRepresentative (ServerRequestInterface $request) {                   
+    
+    public function removeRepresentative (ServerRequestInterface $request, $loginLoginName, $companyId ) {                   
 //        $isRepresentative = false;
 //        
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -490,20 +480,9 @@ class CompanyControler extends FrontControlerAbstract {
 //            if ($isRepresentative) {
         
         
-                // POST data
-                $company_idH = (new RequestParams())->getParsedBodyParam($request, 'company-idH');                                       
-                $login_logi_nameH = (new RequestParams())->getParsedBodyParam($request, 'login-login-nameH');  
-                
-                $сompany_Id = (new RequestParams())->getParsedBodyParam($request, 'company-id');  
-                $company_name = (new RequestParams())->getParsedBodyParam($request, 'company-name');
-                $login_login_name = (new RequestParams())->getParsedBodyParam($request, "login-login-name");
-                
-                $selectCompany = (new RequestParams())->getParsedBodyParam($request, "selectCompany");
-                $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
-        
-                
+                // POST data                
                 /** @var RepresentativeIntarface $representative */
-                $representative = $this->representativeRepo->get( $login_login_name, $сompany_Id ); 
+                $representative = $this->representativeRepo->get( $loginLoginName, $companyId ); 
                 $this->representativeRepo->remove( $representative ); 
 
                 

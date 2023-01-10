@@ -19,7 +19,7 @@ use Events\Model\Entity\CompanyContactInterface;
     $companyContactRepo = $container->get(CompanyContactRepo::class );
     //------------------------------------------------------------------
 
-    $idCompany = 25;
+    $idCompany = 10;
     //------------------------------------------------------------------
     
     /** @var CompanyInterface $companyEntity */ 

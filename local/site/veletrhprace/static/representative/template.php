@@ -57,7 +57,6 @@ use Events\Model\Entity\LoginInterface;
                     'companyName' => $reprCompany->getName(),
                     'loginLoginName' => $rprs->getLoginLoginName(),
                     ];
-                //$selectCompany ['$rprs->getCompanyId()'] =  $companyRepo->get($rprs->getCompanyId()) ;
             }
     //------------------------------------------------------------------
     $selectCompany =[];
@@ -97,7 +96,7 @@ use Events\Model\Entity\LoginInterface;
 
         
         <div >
-            Representi vystavovatelů             
+            Representanti vystavovatelů             
             <div class="ui styled fluid accordion">      
                 <?= $this->repeat(__DIR__.'/content/representative.php', $representatives  )  ?>
             </div>

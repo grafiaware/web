@@ -495,42 +495,42 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
     
     
     
-//    protected function uploadErrorMessage($error) {
-//
-//        switch ($error) {
-//            case UPLOAD_ERR_OK:
-//                $response = 'There is no error, the file uploaded with success.';
-//                break;
-//            case UPLOAD_ERR_INI_SIZE:
-//                $response = 'The uploaded file exceeds the upload_max_filesize directive in php.ini.';
-//                break;
-//            case UPLOAD_ERR_FORM_SIZE:
-//                $response = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.';
-//                break;
-//            case UPLOAD_ERR_PARTIAL:
-//                $response = 'The uploaded file was only partially uploaded.';
-//                break;
-//            case UPLOAD_ERR_NO_FILE:
-//                $response = 'No file was uploaded.';
-//                break;
-//            case UPLOAD_ERR_NO_TMP_DIR:
-//                $response = 'Missing a temporary folder.';
-//                break;
-//            case UPLOAD_ERR_CANT_WRITE:
-//                $response = 'Failed to write file to disk.';
-//                break;
-//            case UPLOAD_ERR_EXTENSION:
-//                $response = 'File upload stopped by extension.';
-//                break;
-//            default:
-//                $response = 'Unknown upload error.';
-//                break;
-//        }
-//        return $response;
-//    }
-//
-//    
-//    
+    protected function uploadErrorMessage($error) {
+
+        switch ($error) {
+            case UPLOAD_ERR_OK:
+                $response = 'There is no error, the file uploaded with success.';
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+                $response = 'The uploaded file exceeds the upload_max_filesize directive in php.ini.';
+                break;
+            case UPLOAD_ERR_FORM_SIZE:
+                $response = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.';
+                break;
+            case UPLOAD_ERR_PARTIAL:
+                $response = 'The uploaded file was only partially uploaded.';
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $response = 'No file was uploaded.';
+                break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                $response = 'Missing a temporary folder.';
+                break;
+            case UPLOAD_ERR_CANT_WRITE:
+                $response = 'Failed to write file to disk.';
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                $response = 'File upload stopped by extension.';
+                break;
+            default:
+                $response = 'Unknown upload error.';
+                break;
+        }
+        return $response;
+    }
+
+    
+    
 
 }
 

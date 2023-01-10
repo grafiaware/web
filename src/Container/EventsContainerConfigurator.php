@@ -13,7 +13,7 @@ use Pes\Logger\FileLogger;
 
 // controler
 use Events\Middleware\Events\Controler\EventcontentControler;
-use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
@@ -66,8 +66,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     )->injectContainer($c);  // inject component kontejner
             }, 
                     
-            VisitorControler::class => function(ContainerInterface $c) {
-                return (new VisitorControler(
+            VisitorProfileControler::class => function(ContainerInterface $c) {
+                return (new VisitorProfileControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class), 

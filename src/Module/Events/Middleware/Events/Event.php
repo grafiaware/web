@@ -20,7 +20,7 @@ use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\EventcontentControler;
 use Events\Middleware\Events\Controler\EventControler;
-use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\JobControler;
@@ -132,8 +132,8 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         
         
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorControler $ctrl */
-            $ctrl = $this->container->get(VisitorControler::class);
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->visitor($request);
         });
         
@@ -177,10 +177,11 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(CompanyControler::class);
             return $ctrl->insertRepresentative($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/representative/:companyId/:loginName/remove', function(ServerRequestInterface $request) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/representative/:loginLoginName/:companyId/remove', 
+                                                 function(ServerRequestInterface $request, $loginLoginName, $companyId ) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
-            return $ctrl->removeRepresentative($request);
+            return $ctrl->removeRepresentative($request, $loginLoginName, $companyId);
         });
         
         
@@ -193,8 +194,8 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->remove($request, $id);
         });
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
-            /** @var VisitorControler $ctrl */
-            $ctrl = $this->container->get(VisitorControler::class);
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->uploadVisitorFile($request);
         });
         

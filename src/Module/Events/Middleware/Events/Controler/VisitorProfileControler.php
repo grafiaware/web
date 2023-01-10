@@ -60,7 +60,7 @@ use Mail\Params\Party;
  *
  * @author pes2704
  */
-class VisitorControler extends FrontControlerAbstract {
+class VisitorProfileControler extends FrontControlerAbstract {
 
     const UPLOADED_KEY_CV = "visitor-cv";
     const UPLOADED_KEY_LETTER = "visitor-letter";

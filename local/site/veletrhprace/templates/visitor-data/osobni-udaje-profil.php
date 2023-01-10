@@ -9,7 +9,7 @@ use Site\ConfigurationCache;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 
-use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\Document;
 
@@ -22,8 +22,8 @@ use Events\Model\Entity\Document;
 
 $userHash = $loginAggregate->getLoginNameHash();
 $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
-$uploadedCvFilename = VisitorControler::UPLOADED_KEY_CV.$userHash;
-$uploadedLetterFilename = VisitorControler::UPLOADED_KEY_LETTER.$userHash;
+$uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+$uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
 
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
@@ -99,10 +99,10 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                     </div>
                 </form>                  
                 <br/>
-<!--                        <div class="field">
+<!--    <div class="field">
                                 <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a></span>
                                 <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
-                        </div>-->                   
+        </div>-->                   
                                   
                 <!--odesílá k uložení do souboru-->
                 <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
