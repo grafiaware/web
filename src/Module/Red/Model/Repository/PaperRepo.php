@@ -3,12 +3,13 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\PaperInterface;
 use Red\Model\Entity\Paper;
 use Red\Model\Dao\PaperDao;
 use Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\PaperHydrator;
+
+use \Model\Repository\RepoAssotiatedOneTrait;
 
 /**
  * Description of Menu
@@ -27,6 +28,8 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
         $this->registerHydrator($paperHydrator);
     }
 
+    use RepoAssotiatedOneTrait;
+
     /**
      *
      * @param type $id
@@ -38,12 +41,11 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     /**
      *
-     * @param type $menuItemIdFk
+     * @param type $menuItemId
      * @return PaperInterface|null
      */
-    public function getByReference($menuItemIdFk): ?PersistableEntityInterface {
-        $key = $this->dataManager->getReferenceKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
-        return $this->getEntityByReference('menu_item_id_fk', $key);
+    public function getByMenuItemId($menuItemId): ?PaperInterface {
+        return $this->getByReference('menu_item', $menuItemId);
     }
 
     public function add(PaperInterface $paper) {

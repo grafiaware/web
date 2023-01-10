@@ -14,5 +14,14 @@ namespace Model\Repository;
  * @author pes2704
  */
 interface RepoAssotiatedManyInterface extends RepoInterface {
-    public function findByReference(string $parentTableName, ...$referenceParams): iterable;
+    /**
+     * Metoda získá potomkovskou entoty z potomkovského repository pomocí reference. Hodnoty polí reference naplní z rodičovských dat.
+     *
+     * @param string $referenceName Jméno refernce z DAO
+     * @param RowDataInterface $parentRowData Rodičovská data pro získání hodnot polí reference.
+     * @return iterable
+     */
+    public function findByParentData(string $referenceName, RowDataInterface $parentRowData): iterable;
+
+//    public function findByReference(string $parentTableName, ...$referenceParams): iterable;
 }

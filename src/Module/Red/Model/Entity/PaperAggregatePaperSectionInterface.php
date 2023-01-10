@@ -25,15 +25,15 @@ interface PaperAggregatePaperSectionInterface extends PaperInterface {
 
     /**
      *
-     * @return PaperSectionInterface array of
+     * @return PaperSectionInterface[] array of
      */
     public function getPaperContentsArray(): array;
 
     /**
      *
-     * @return PaperSectionInterface array of
+     * @return PaperSectionInterface[] array of
      */
-    public function getPaperContentsArraySorted($sortType): array;
+    public function getPaperSectionsArraySorted($sortType): array;
 
-    public function exchangePaperContentsArray(array $contents=[]): PaperAggregatePaperSectionInterface;
+    public function exchangePaperSectionsArray(array $contents=[]): PaperAggregatePaperSectionInterface;
 }

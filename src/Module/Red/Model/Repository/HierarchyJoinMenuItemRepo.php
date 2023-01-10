@@ -81,7 +81,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMen
      * @param string $parentUid Identifikátor rodiče z menu_nested_set
      * @return HierarchyAggregateInterface array of
      */
-    public function findChildren($langCode, $parentUid) {
+    public function findChildrenNodes($langCode, $parentUid) {
         return $this->recreateEntitiesByRowDataArray($this->dataManager->getImmediateSubNodes($langCode, $parentUid));
     }
 

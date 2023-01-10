@@ -6,6 +6,7 @@ use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 
 use Model\Repository\Association\Exception\BadTypeOfIterableParameterMember;
+use UnexpectedValueException;
 
 /**
  * Description of AssociationOneToManyFactory
@@ -23,26 +24,29 @@ abstract class AssociationOneToMany extends AssociationAbstract implements Assoc
      *
      * @param RepoAssotiatedManyInterface $childRepo Repo pro získání, ukládání a mazání asociovaných entit.
      */
-    public function __construct(RepoAssotiatedManyInterface $childRepo) {
+    public function __construct( RepoAssotiatedManyInterface $childRepo) {
         $this->childRepo = $childRepo;
     }
 
     /**
+     * Metoda získá pole potomkovských entit z potomkovského repository pomocí metody findByReference(). Hodnoty polí reference naplní z rodičovských dat.
      *
-     * @param iterable $parentRowData iterable of RowDataInterface
-     * @return array[PersistableEntityInterface]
+     *
+     * @param PersistableEntityInterface[] $parentEntities
+     * @param RowDataInterface[] $parentRowdataArray
+     * @return void
      */
-    protected function recreateChildren(iterable $parentRowData): array {
-        return $this->recreateEntitiesByRowDataArray($parentRowData);
-    }
+    public function recreateChildEntities(array $parentEntities, array $parentRowdataArray): void {
+        if (count($parentEntities)!=count($parentRowdataArray)) {
+            throw new UnexpectedValueException("Pole rodičovských entit má jiný počet prvků než pole rodičovských dat.");
+        }
+        foreach ($parentEntities as $key => $parentEntity) {
+            $parentRowData = $parentRowdataArray[$key];
+            $childEntities = $this->childRepo->findByParentData($referenceName, $parentRowData);
+            $this->hydrateChild($parentEntity, $childEntities);
+        }
 
-    /**
-     *
-     * @param RowDataInterface[] $parentRowDataArray array of RowDataInterface
-     * @return iterable
-     */
-    protected function findChildren(array $parentRowDataArray): iterable {
-        return $this->childRepo->findByParentData($parentTouplesArray);
+
     }
 
     /**
@@ -50,29 +54,25 @@ abstract class AssociationOneToMany extends AssociationAbstract implements Assoc
      * @param iterable $parentEntities PersistableEntityInterface
      * @return void
      */
-    protected function addChildren(iterable $parentEntities): void {
-        foreach ($parentEntities as $persistableEntity) {
-            /** @var PersistableEntityInterface $persistableEntity */
-            if (!$persistableEntity instanceof PersistableEntityInterface) {
+    public function addEntities(iterable $parentEntities): void {
+        foreach ($parentEntities as $parentEntity) {
+            /** @var PersistableEntityInterface $parentEntity */
+            if (!$parentEntity instanceof PersistableEntityInterface) {
                 $cls = PersistableEntityInterface::class;
                 throw new BadTypeOfIterableParameterMember("Prvky předaného iterable parametru metody musí být typu $cls");
             }
-            if ($parentEntities->isPersisted()) {
-                $this->childRepo->add($persistableEntity);
-            }
+            $this->addChild($parentEntity);
         }
     }
 
-    protected function removeChildren(iterable $parentEntities): void {
-        foreach ($parentEntities as $persistableEntity) {
-            /** @var PersistableEntityInterface $persistableEntity */
-            if (!$persistableEntity instanceof PersistableEntityInterface) {
+    public function removeEntities(iterable $parentEntities): void {
+        foreach ($parentEntities as $parentEntity) {
+            /** @var PersistableEntityInterface $parentEntity */
+            if (!$parentEntity instanceof PersistableEntityInterface) {
                 $cls = PersistableEntityInterface::class;
                 throw new BadTypeOfIterableParameterMember("Prvky předaného iterable parametru metody musí být typu $cls");
             }
-            if ($persistableEntity->isPersisted()) {
-                $this->childRepo->remove($persistableEntity);
-            }
+            $this->removeChild($parentEntity);
         }
 
     }

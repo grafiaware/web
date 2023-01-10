@@ -17,6 +17,8 @@ use Red\Model\Dao\MultipageDao;
 use Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\MultipageHydrator;
 
+use \Model\Repository\RepoAssotiatedOneTrait;
+
 /**
  * Description of Menu
  *
@@ -33,6 +35,8 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
         $this->dataManager = $multipageDao;
         $this->registerHydrator($multipageHydrator);
     }
+    
+    use RepoAssotiatedOneTrait;
 
     /**
      *
@@ -45,12 +49,11 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
 
     /**
      *
-     * @param type $menuItemIdFk
-     * @return PaperInterface|null
+     * @param type $menuItemId
+     * @return MultipageInterface|null
      */
-    public function getByReference($menuItemIdFk): ?PersistableEntityInterface {
-        $key = $this->dataManager->getReferenceKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
-        return $this->getEntityByReference('menu_item_id_fk', $key);
+    public function getByMenuItemId($menuItemId): ?MultipageInterface {
+        return $this->getByReference('menu_item', $menuItemId);
     }
 
     public function add(MultipageInterface $multipage) {

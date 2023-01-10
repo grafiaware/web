@@ -15,15 +15,14 @@ use Model\Entity\PersistableEntityInterface;
  *
  * @author pes2704
  */
-interface AssociationOneToManyInterface extends AssociationInterface {
+interface AssociationOneToManyInterface extends ManyInterface {
 
    /**
     *
-    * @param RowDataInterface $row
+    * @param PersistableEntityInterface[] $parentEntities
+    * @param RowDataInterface[] $parentRowdaraArray
+    * @return void
     */
-    public function recreateEntities(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void;
+    public function recreateChildEntities(array $parentEntities, array $parentRowdaraArray): void;
 
-    public function addEntities(PersistableEntityInterface $parentEntity);
-
-    public function removeEntities(PersistableEntityInterface $parentEntity);
 }

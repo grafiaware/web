@@ -9,6 +9,7 @@
 namespace Model\Repository;
 
 use Model\Entity\PersistableEntityInterface;
+use Model\RowData\RowDataInterface;
 
 /**
  * Interface pro POTOMKOVSKÉ repository s asociací 1:1
@@ -16,5 +17,12 @@ use Model\Entity\PersistableEntityInterface;
  * @author pes2704
  */
 interface RepoAssotiatedOneInterface extends RepoInterface {
-    public function getByReference(string $referenceName, ...$referenceParams): ?PersistableEntityInterface;
+    /**
+     * Metoda získá potomkovskou entoty z potomkovského repository pomocí reference. Hodnoty polí reference naplní z rodičovských dat.
+     *
+     * @param string $referenceName Jméno refernce z DAO
+     * @param RowDataInterface $parentRowData Rodičovská data pro získání hodnot polí reference.
+     * @return PersistableEntityInterface|null
+     */
+    public function getByParentData(string $referenceName, RowDataInterface $parentRowData): ?PersistableEntityInterface;
 }

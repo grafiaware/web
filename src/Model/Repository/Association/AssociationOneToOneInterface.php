@@ -16,19 +16,26 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface AssociationOneToOneInterface extends AssociationInterface {
+    /**
+     *
+     * @param string $referenceName Jméno reference z DAO
+     * @param RowDataInterface $parentRowData Data pro získání hodnot do reference
+     * @return PersistableEntityInterface|null
+     */
+    public function recreateChildEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void;
 
     /**
-     * Vyzvedne entitu z potomkovského repository getByReference() a pomocí child hydratoru hydratuje rodičovskou entitu vyzvednutou potomkonskou entitou.
-     * Poznámka: Pokud potomkovská entita neexistuje hydratuje hodnotou null.
      *
      * @param PersistableEntityInterface $parentEntity
-     * @param RowDataInterface $parentRowData
      * @return void
      */
-    public function recreateEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void;
-
     public function addEntity(PersistableEntityInterface $parentEntity): void;
 
+    /**
+     *
+     * @param PersistableEntityInterface $parentEntity
+     * @return void
+     */
     public function removeEntity(PersistableEntityInterface $parentEntity): void;
 
 }

@@ -72,6 +72,7 @@ use Red\Model\Repository\PaperRepo;
 use Red\Model\Dao\PaperSectionDao;
 use Red\Model\Hydrator\PaperSectionHydrator;
 use Red\Model\Repository\PaperSectionRepo;
+use Red\Model\Repository\Association\SectionsAssociation;
 
 use Red\Model\Dao\ArticleDao;
 use Red\Model\Hydrator\ArticleHydrator;
@@ -101,8 +102,8 @@ use Events\Model\Repository\VisitorJobRequestRepo;
 //aggregate
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
 use Red\Model\Hydrator\MenuItemChildPaperHydrator;
-use Red\Model\Repository\PaperAggregateContentsRepo;
-use Red\Model\Hydrator\PaperChildHydrator;
+use Red\Model\Repository\PaperAggregateSectionsRepo;
+use Red\Model\Hydrator\PaperChildSectionsHydrator;
 use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Hydrator\BlockChildHydrator;
 
@@ -250,18 +251,20 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuItemChildPaperHydrator::class => function(ContainerInterface $c) {
                 return new MenuItemChildPaperHydrator();
             },
-            PaperChildHydrator::class => function(ContainerInterface $c) {
-                return new PaperChildHydrator();
+            PaperChildSectionsHydrator::class => function(ContainerInterface $c) {
+                return new PaperChildSectionsHydrator();
             },
-            PaperAggregateContentsRepo::class => function(ContainerInterface $c) {
-                return new PaperAggregateContentsRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class),
-                        $c->get(PaperSectionRepo::class), $c->get(PaperChildHydrator::class));
+            PaperAggregateSectionsRepo::class => function(ContainerInterface $c) {
+                $repo = new PaperAggregateSectionsRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class));
+                $assotiation = new SectionsAssociation($c->get(PaperSectionRepo::class));
+                $repo->registerOneToManyAssotiation($assotiation);
+                return $repo;
             },
             MenuItemAggregatePaperRepo::class => function(ContainerInterface $c) {
                 return new MenuItemAggregatePaperRepo(
                         $c->get(MenuItemDao::class),
                         $c->get(MenuItemHydrator::class),
-                        $c->get(PaperAggregateContentsRepo::class),
+                        $c->get(PaperAggregateSectionsRepo::class),
                         $c->get(MenuItemChildPaperHydrator::class)
                         );
             },

@@ -14,6 +14,8 @@ use Model\Dao\DaoReferenceUniqueTrait;
  */
 class CredentialsDao extends DaoEditAbstract implements DaoReferenceUniqueInterface {
 
+    const REFERENCE_LOGIN = 'login';
+
     use DaoReferenceUniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
@@ -34,7 +36,7 @@ class CredentialsDao extends DaoEditAbstract implements DaoReferenceUniqueInterf
     public function getReferenceAttributes($referenceName): array {
         // 'jméno referencované tabulky'=>['cizí klíč potomka (jméno sloupce v potomkovi)'=>'vlastní klíč rodiče (jméno sloupce v rodiči)']
         return [
-            'login'=>['login_name_fk'=>'login_name']
+            self::REFERENCE_LOGIN=>['login_name_fk'=>'login_name']
         ][$referenceName];
     }
 

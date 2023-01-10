@@ -18,6 +18,7 @@ use Red\Model\Entity\PaperInterface;
  */
 interface PaperRepoInterface extends RepoAssotiatedOneInterface {
     public function get($id): ?PaperInterface;
+    public function getByMenuItemId($menuItemId): ?PaperInterface;
     public function add(PaperInterface $paper);
     public function remove(PaperInterface $paper);
 }

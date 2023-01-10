@@ -20,7 +20,7 @@ use Red\Model\Entity\PaperSectionInterface;
  *
  * @author pes2704
  */
-class PaperChildHydrator implements HydratorInterface {
+class PaperChildSectionsHydrator implements HydratorInterface {
 
     /**
      * Nastaví do agregátu contents, pokud existuje. Contents jsou závislé na kontextu a tedy mohou být null (neaktivní nebo neaktuální content) a pole může být prázdné
@@ -31,7 +31,7 @@ class PaperChildHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $paperPaperContentsAggregate, ArrayAccess $rowData) {
         /** @var PaperAggregatePaperSectionInterface $menuItemPaperAggregate */
         $paperPaperContentsAggregate
-            ->exchangePaperContentsArray($rowData->offsetGet(PaperSectionInterface::class));
+            ->exchangePaperContentsArray($rowData[0]);
     }
 
     /**
@@ -41,5 +41,5 @@ class PaperChildHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $paperAggregate, ArrayAccess $rowData) {
         /** @var PaperAggregatePaperSectionInterface $paperAggregate */
-        $rowData->offsetSet(PaperSectionInterface::class, $paperAggregate->getPaperContentsArray());
+        $rowData[0] = $paperAggregate->getPaperContentsArray();
     }}

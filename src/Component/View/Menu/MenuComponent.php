@@ -154,7 +154,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             if (!isset($itemViewModelStack[$i-1])) {
                 $stop = true;
             } else {
-                end($itemViewModelStack[$i-1])->setChild($levelComponent);
+                end($itemViewModelStack[$i-1])->hydrateChild($levelComponent);
             }
         }
     }

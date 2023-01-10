@@ -3,6 +3,8 @@
 namespace Model\Dao;
 
 use Model\Dao\DaoReferenceUniqueInterface;
+
+use Model\RowData\RowDataInterface;
 use Model\Dao\Exception\DaoUnknownReferenceNameException;
 
 use UnexpectedValueException;
@@ -20,7 +22,7 @@ trait DaoReferenceUniqueTrait {
      * @param array $parentTouples Pole dvojic rodičovských dat
      * @return type
      */
-    public function getByReference($referenceName, array $parentTouples) {
+    public function getByReference($referenceName, array $parentTouples): ?RowDataInterface {
         $key = $this->getReferenceKeyTouples($referenceName, $parentTouples);
         return $this->getUnique($key);
     }

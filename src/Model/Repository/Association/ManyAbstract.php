@@ -16,13 +16,7 @@ use Model\Repository\RepoInterface;
  *
  * @author pes2704
  */
-abstract class AssociationAbstract implements AssociationInterface {
-
-    /**
-     *
-     * @var HydratorInterface
-     */
-    protected $childHydrator;
+abstract class ManyAbstract extends AssociationAbstract implements AssociationInterface {
 
     /**
      * @var RepoInterface
@@ -31,15 +25,11 @@ abstract class AssociationAbstract implements AssociationInterface {
 
     /**
      *
-     * @param HydratorInterface $childHydrator
      * @param RepoAssotiatedOneInterface $childRepo
      */
-    public function __construct(HydratorInterface $childHydrator, RepoInterface $childRepo) {
-        $this->childHydrator = $childHydrator;
+    public function __construct(RepoAssotiatedOneInterface $childRepo) {
         $this->childRepo = $childRepo;
     }
 
-    public function flushChildRepo(): void {
-        $this->childRepo->flush();
-    }
+
 }

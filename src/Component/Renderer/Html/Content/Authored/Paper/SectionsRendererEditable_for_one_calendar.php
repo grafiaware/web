@@ -34,7 +34,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         $paperAggregate = $viewModel->getPaper();
         if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
 
-            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperSectionInterface::BY_PRIORITY);
+            $contents = $paperAggregate->getPaperSectionsArraySorted(PaperAggregatePaperSectionInterface::BY_PRIORITY);
             $sections = [];
             foreach ($contents as $paperContent) {
                 /** @var PaperSectionInterface $paperContent */

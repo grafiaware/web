@@ -22,12 +22,12 @@ class MenuItemAssociation extends AssociationOneToOne implements AssociationOneT
      * @param RowDataInterface $parentRowData
      * @return void
      */
-    public function recreateEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void {
+    public function recreateChildEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void {
         /** @var HierarchyAggregateInterface $parentEntity */
         if ($parentEntity->getMenuItem()) {
             $this->recreateChild($parentRowData);
         } else {
-            $parentEntity->setMenuItem($this->getChild($parentRowData));
+            $parentEntity->setMenuItem($this->extractChild($parentRowData));
         }
     }
 

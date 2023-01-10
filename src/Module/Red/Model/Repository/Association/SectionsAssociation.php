@@ -23,17 +23,17 @@ class SectionsAssociation extends AssociationOneToMany implements AssociationOne
     */
     public function recreateEntities(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void {
         /** @var PaperAggregatePaperSectionInterface $parentEntity */
-        $parentEntity->exchangePaperContentsArray($this->findChildren($parentRowData));
+        $parentEntity->exchangePaperSectionsArray($this->recreateChildren($parentRowData));
     }
 
    /**
     * Přidá Section entity k rodičovské entitě Paper. Entity Section přidá seřatené podle priority.
-    * 
+    *
     * @param PersistableEntityInterface $parentEntity
     */
     public function addEntities(PersistableEntityInterface $parentEntity) {
         /** @var PaperAggregatePaperSectionInterface $parentEntity */
-        $this->addChildren($parentEntity->getPaperContentsArraySorted());
+        $this->addChildren($parentEntity->getPaperSectionsArraySorted());
     }
 
    /**

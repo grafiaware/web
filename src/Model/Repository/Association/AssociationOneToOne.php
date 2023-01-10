@@ -10,7 +10,7 @@ namespace Model\Repository\Association;
 
 use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
-use Model\Hydrator\HydratorInterface;
+use Model\Repository\Association\Hydrator\AssociationHydratorInterface;
 
 use Model\Repository\RepoAssotiatedOneInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
@@ -29,7 +29,6 @@ abstract class AssociationOneToOne extends AssociationAbstract implements Associ
 
     /**
      *
-     * @param string $referenceName
      * @param RepoAssotiatedOneInterface $childRepo
      */
     public function __construct(RepoAssotiatedOneInterface $childRepo) {
@@ -37,46 +36,44 @@ abstract class AssociationOneToOne extends AssociationAbstract implements Associ
     }
 
     /**
+     * Vyzvedne entitu z potomkovského repository getByReference() a pomocí child hydratoru hydratuje rodičovskou entitu vyzvednutou potomkonskou entitou.
+     * Hodnoty referenčního klíče pro potomkovské repository->getByReference() bere z rodičovských dat.
      *
-     * @param RowDataInterface $parentRowData
-     * @return PersistableEntityInterface
-     */
-    protected function recreateChild(RowDataInterface $parentRowData): PersistableEntityInterface {
-        return $this->recreateEntityByRowData($parentRowData);
-    }
-
-    /**
-     *
+     * Poznámka: Pokud potomkovská entita neexistuje hydratuje hodnotou null.
+     * @param string $referenceName
      * @param RowDataInterface $parentRowData
      * @return PersistableEntityInterface|null
      */
-    protected function getChild(RowDataInterface $parentRowData): ?PersistableEntityInterface {
-        return $this->childRepo->getByParentData($parentRowData);
+    public function recreateChildEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void {
+        $childEntity = $this->childRepo->getByParentData($this->getReferenceName(), $parentRowData);
+        $this->hydrateChild($parentEntity, $childEntity);
     }
 
     /**
-     * Pokud entita není již persistována, přidá ji do repository.
+     * Pokud asociovaná (child) entita není persistována, přidá ji do repository.
      *
-     * @param PersistableEntityInterface $entity
+     * @param PersistableEntityInterface $childEntity
      * @return void
      */
-    protected function addChild(PersistableEntityInterface $entity=null): void {
+    public function addEntity(PersistableEntityInterface $parentEntity=null): void {
+        $this->extractChild($parentEntity, $childEntity);
         // parametr entity může být null - metoda je volána např. repo->addChild($parentEntity->getCosi())
-        if (isset($entity) AND !$entity->isLocked() AND !$entity->isPersisted()) {
-            $this->childRepo->add($entity);
+        if (isset($childEntity) AND !$childEntity->isLocked() AND !$childEntity->isPersisted()) {
+            $this->childRepo->add($childEntity);
         }
     }
 
     /**
-     * Pokud entita je persistována, odstraní ji z repository.
+     * Pokud asociovaná (child) entita je persistována, odstraní ji z repository.
      *
-     * @param PersistableEntityInterface $entity
+     * @param PersistableEntityInterface $childEntity
      * @return void
      */
-    protected function removeChild(PersistableEntityInterface $entity=null): void {
+    public function removeEntity(PersistableEntityInterface $parentEntity=null): void {
+        $this->extractChild($parentEntity, $childEntity);
         // parametr entity může být null - metoda je volána např. repo->addChild($parentEntity->getCosi())
-        if (isset($entity) AND !$entity->isLocked() AND $entity->isPersisted()) {
-            $this->childRepo->remove($entity);
+        if (isset($childEntity) AND !$childEntity->isLocked() AND $childEntity->isPersisted()) {
+            $this->childRepo->remove($childEntity);
         }
     }
 }

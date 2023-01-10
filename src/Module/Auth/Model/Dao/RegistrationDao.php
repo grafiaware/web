@@ -17,6 +17,8 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class RegistrationDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface, DaoReferenceUniqueInterface {
 
+    const REFERENCE_LOGIN = 'login';
+
     use DaoReferenceUniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {

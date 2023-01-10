@@ -21,12 +21,11 @@ use Model\RowData\RowDataInterface;
 use Model\RowData\PdoRowData;
 use Model\DataManager\DataManagerInterface;
 
-use Model\Repository\Association\AssociationOneToOne;
-use Model\Repository\Association\AssociationOneToMany;
+use Model\Repository\Association\JoinOneToOneInterface;
+use Model\Repository\Association\JoinOneToManyInterface;
 use Model\Repository\Association\AssociationOneToOneInterface;
 use Model\Repository\Association\AssociationOneToManyInterface;
-use Model\Repository\RepoAssotiatedOneInterface;
-use Model\Repository\RepoAssotiatedManyInterface;
+
 
 use Model\Repository\Exception\BadReturnedTypeException;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
@@ -154,7 +153,7 @@ abstract class RepoAbstract {
      * @param variadic $id
      * @return PersistableEntityInterface|null
      */
-    protected function getEntity(...$id) {
+    protected function getEntity(...$id): ?PersistableEntityInterface {
         $index = $this->callIndexFromKeyParams($id);
         if (!isset($this->collection[$index]) AND !isset($this->removed[$index])) {
             $key = $this->createKeyFromPrimaryKeyAttributes($id);
@@ -164,8 +163,48 @@ abstract class RepoAbstract {
         return $this->collection[$index] ?? NULL;
     }
 
+    /**
+     * Pro konkrétní metodu konkrétního repository
+     *
+     * @param string $referenceName
+     * @param type $referenceParams
+     * @return PersistableEntityInterface|null
+     */
+    protected function getEntityByReference(string $referenceName, ...$referenceParams): ?PersistableEntityInterface {
+        // vždy čte data - neví jestli jsou v $this->data
+        $referenceKey = $this->createReferenceKey($referenceName, $referenceParams);
+        $rowData = $this->dataManager->getByReference($referenceName, $referenceKey);
+        return $this->recreateEntityByRowData($rowData);
+    }
+
+
     protected function findEntities($whereClause="", $touplesToBind=[]) {
         return $this->recreateEntitiesByRowDataArray($this->dataManager->find($whereClause, $touplesToBind));
+   }
+
+    /**
+     * Pro konkrétní metodu konkrétního repository
+     *
+     * @param string $referenceName Jméno reference definované v DAO (obvykle jméno rodičovské tabulky)
+     * @param ...$referenceParams
+     * @return iterable
+     */
+    protected function findEntityByReference(string $referenceName, ...$referenceParams): iterable {
+        $referenceKey = $this->createReferenceKey($referenceName, $referenceParams);
+        $rowDataArray = $this->dataManager->findByReference($referenceName, $referenceKey);
+        return $this->recreateEntitiesByRowDataArray($rowDataArray);
+    }
+
+    private function createReferenceKey($referenceName, array $referenceParams): array {
+        /** @var DaoWithReferenceInterface $this->dataManager */
+        $refAttribute = $this->dataManager->getReferenceAttributes($referenceName);
+//        $key = array_combine(array_keys($refAttribute), $referenceParams);
+        $key = array_combine(array_values($refAttribute), $referenceParams);
+        if ($key===false) {
+            $daoCls = $daoCls($this->dataManager);
+            throw new UnexpectedValueException("Nelze vytvořit referenci pro volání Dao. Počet parametrů předaných metodě typu getByReference() neodpovídá počtu polí reference se jménem $referenceName v DAO $daoCls.");
+        }
+        return $key;
     }
 
     /**
@@ -247,16 +286,21 @@ abstract class RepoAbstract {
      * Pomocí Asotiation objektů a potomkovských repository získá asociované entity.
      *
      * @param PersistableEntityInterface $parentEntity
-     * @param RowDataInterface $parentowData
+     * @param RowDataInterface $parentRowData
      * @return void
      * @throws BadImplemntastionOfChildRepository
      */
-    private function recreateAssociations(PersistableEntityInterface $parentEntity, RowDataInterface $parentowData): void {
+    private function recreateAssociations(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void {
         foreach ($this->associations as $index => $association) {
             if ($association instanceof AssociationOneToManyInterface) {
-                $association->recreateEntities($parentEntity, $parentowData);
+                /** @var AssociationOneToManyInterface $association */
+                $association->recreateChildEntities($parentEntity, $parentRowData);
             } elseif($association instanceof AssociationOneToOneInterface) {
-                $association->recreateEntity($parentEntity, $parentowData);
+                /** @var AssociationOneToOneInterface $association */
+                $association->recreateChildEntity($parentEntity, $parentRowData);
+            } elseif($association instanceof JoinOneToOneInterface) {
+                /** @var JoinOneToOneInterface $association */
+                $association->recreateChildEntity($parentEntity, $parentRowData);
             } else {
                 $cls = get_class($association);
                 throw new BadImplemntastionOfChildRepository("Neznámý typ zaregistrované asociace '$cls'.");

@@ -18,7 +18,6 @@ use Red\Model\Entity\PaperSectionInterface;
  */
 interface PaperSectionRepoInterface extends RepoAssotiatedManyInterface {
     public function get($id): ?PaperSectionInterface;
-    public function findByReference($paperIdFk): iterable;
     public function add(PaperSectionInterface $paper);
     public function remove(PaperSectionInterface $paper);
 }

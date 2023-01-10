@@ -176,14 +176,9 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
 
-            LoginChildCredentialsHydrator::class => function(ContainerInterface $c) {
-                return new LoginChildCredentialsHydrator();
-            },
             LoginAggregateCredentialsRepo::class => function(ContainerInterface $c) {
-                /** @var RegistrationDao $childDao */
-                $childDao = $c->get(LoginDao::class);
                         $repo = new LoginAggregateCredentialsRepo(
-                        $childDao,
+                        $c->get(LoginDao::class),
                         $c->get(LoginHydrator::class)
                         );
                 $assotiation = new CredentialsAssociation($c->get(CredentialsRepo::class));
@@ -204,14 +199,9 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new RegistrationRepo($c->get(RegistrationDao::class), $c->get(RegistrationHydrator::class));
             },
 
-            LoginChildRegistrationHydrator::class => function(ContainerInterface $c) {
-                return new LoginChildRegistrationHydrator();
-            },
             LoginAggregateRegistrationRepo::class => function(ContainerInterface $c) {
-                /** @var LoginDao $parentDao */
-                $parentDao = $c->get(LoginDao::class);
                 $repo = new LoginAggregateRegistrationRepo(
-                        $parentDao,
+                        $c->get(LoginDao::class),
                         $c->get(LoginHydrator::class)
                         );
                 $assotiation = new RegistrationAssociation($c->get(RegistrationRepo::class));

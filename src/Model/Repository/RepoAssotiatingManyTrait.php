@@ -10,7 +10,7 @@ use Model\Repository\RepoAssotiatingManyInterface;  // použito jen v komentář
  *
  * @author pes2704
  */
-class RepoAssotiatingManyTrait {
+trait RepoAssotiatingManyTrait {
 
     public function registerOneToManyAssotiation(AssociationOneToManyInterface $assotiation) {
         $this->associations[] = $assotiation;

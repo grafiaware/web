@@ -17,48 +17,32 @@ use UnexpectedValueException;
 trait RepoAssotiatedOneTrait {
 
     /** @var RepoAbstract $this */
-    public function getByReference(string $referenceName, ...$referenceParams): ?PersistableEntityInterface {
-        // vždy čte data - neví jestli jsou v $this->data
-        $referenceKey = $this->createReferenceKey($referenceName, $referenceParams);
-        $rowData = $this->dataManager->getByReference($referenceName, $referenceKey);
-        return $this->addEntityByRowData($rowData);
-    }
-
-    private function createReferenceKey($referenceName, array $referenceParams): array {
-        /** @var DaoWithReferenceInterface $this->dataManager */
-        $refAttribute = $this->dataManager->getReferenceAttributes($referenceName);
-        $key = array_combine(array_keys($refAttribute), $referenceParams);
-        if ($key===false) {
-            $daoCls = $daoCls($this->dataManager);
-            throw new UnexpectedValueException("Nelze vytvořit referenci pro volání Dao. Počet parametrů předaných metodě typu getByReference() neodpovídá počtu polí reference se jménem $referenceName v DAO $daoCls.");
-        }
-        return $key;
-    }
 
     /**
+     * Metoda získá potomkovskou entoty z potomkovského repository pomocí reference. Hodnoty polí reference naplní z rodičovských dat.
      *
-     * @param RowDataInterface $parentRowData
+     * @param string $referenceName Jméno refernce z DAO
+     * @param RowDataInterface $parentRowData Rodičovská data pro získání hodnot polí reference.
      * @return PersistableEntityInterface|null
      */
-    public function getByParentData(RowDataInterface $parentRowData): ?PersistableEntityInterface {
-        $rowData = $this->createChildDataFromParentData($parentRowData->getArrayCopy());
+    public function getByParentData(string $referenceName, RowDataInterface $parentRowData): ?PersistableEntityInterface {
+        $referenceKey = $this->createReferenceKeyFromParentData($referenceName, $parentRowData);
+        $rowData = $this->dataManager->getByReference($referenceName, $referenceKey);
         return $this->recreateEntityByRowData($rowData);
     }
 
-    private function createChildDataFromParentData(array $parentTouples) {
+    private function createReferenceKeyFromParentData(string $referenceName, RowDataInterface $parentRowData) {
+        //TODO: aplikuj NominateFilter nastavený podle atributů
+        /** @var DaoWithReferenceInterface $this->dataManager */
+        $refAttribute = $this->dataManager->getReferenceAttributes($referenceName);
         $childTouples = [];
-        foreach ($this->dataManager->getAttributes() as $field) {
-            if( ! array_key_exists($field, $parentTouples)) {
+        foreach ($refAttribute as $field) {
+            if( ! $parentRowData->offsetExists($field)) {
                 $daoCls = get_class($this->dataManager);
                 throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota z rodičovských dat. Atributy potomka $daoCls obsahují pole '$field' a pole rodičovských dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
             }
-            if (is_scalar($parentTouples[$field]) OR $parentTouples[$field]===null) {
-                $childTouples[$field] = $parentTouples[$field];
-            } else {
-                $t = gettype($parentTouples[$field]);
-                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota z rodičovských dat. Rodičovská data obsahují v položce '$field' neskalární hodnotu. Hodnota v položce '$field' je typu '$t'.");
-            }
+            $childTouples[$field] = $parentRowData->offsetGet($field);
         }
-        return new RowData($childTouples);
+        return $childTouples;
     }
 }

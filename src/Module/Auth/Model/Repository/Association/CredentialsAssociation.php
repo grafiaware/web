@@ -3,10 +3,9 @@ namespace Auth\Model\Repository\Association;
 
 use Model\Repository\Association\AssociationOneToOne;
 use Model\Repository\Association\AssociationOneToOneInterface;
-
-use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 use Model\Entity\PersistableEntityInterface;
-use Model\RowData\RowDataInterface;
+
+use Auth\Model\Dao\CredentialsDao;
 
 /**
  * Description of RegistrationAssociation
@@ -14,27 +13,17 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 class CredentialsAssociation extends AssociationOneToOne implements AssociationOneToOneInterface {
-    /**
-     * Vyzvedne entitu z potomkovského repository getByReference() a pomocí child hydratoru hydratuje rodičovskou entitu vyzvednutou potomkonskou entitou.
-     * Poznámka: Pokud potomkovská entita neexistuje hydratuje hodnotou null.
-     *
-     * @param LoginAggregateCredentialsInterface $parentEntity
-     * @param RowDataInterface $parentRowData
-     * @return void
-     */
-    public function recreateEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void {
-        /** @var LoginAggregateCredentialsInterface $parentEntity */
-        $parentEntity->setCredentials($this->getChild($parentRowData));
+    public function getReferenceName() {
+        return CredentialsDao::REFERENCE_LOGIN;
     }
 
-    public function addEntity(PersistableEntityInterface $parentEntity): void {
+    public function extractChild(PersistableEntityInterface $parentEntity, &$childValue=null): void {
         /** @var LoginAggregateCredentialsInterface $parentEntity */
-        $this->addChild($parentEntity->getCredentials());
+        $childValue = $parentEntity->getCredentials();
     }
 
-    public function removeEntity(PersistableEntityInterface $parentEntity): void {
+    public function hydrateChild(PersistableEntityInterface $parentEntity, &$childValue): void {
         /** @var LoginAggregateCredentialsInterface $parentEntity */
-        $this->removeChild($parentEntity->getCredentials());
+        $parentEntity->setCredentials($childValue);
     }
-
 }
