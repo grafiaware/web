@@ -145,13 +145,13 @@ class ApiRegistrator {
         #### VisitorController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));
         #### CompanyController ?? ####
-        $registry->register($this->postPrototype->withUrlPattern('events/v1/company/:companyId/companycontact'));
-        $registry->register($this->postPrototype->withUrlPattern('events/v1/company/:companyId/companycontact/:companyContactId'));
-        $registry->register($this->postPrototype->withUrlPattern('events/v1/company/:companyId/companycontact/:companyContactId/remove'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact/:companyContactId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact/:companyContactId/remove'));
         
-        $registry->register($this->postPrototype->withUrlPattern('events/v1/company/:companyId/companyaddress'));
-        $registry->register($this->postPrototype->withUrlPattern('events/v1/company/:companyId/companyaddress/:companyAddressId'));
-        $registry->register($this->postPrototype->withUrlPattern('events/v1/company/:companyId/companyaddress/:companyAddressId/remove'));             
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyaddress'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyaddress/:companyIdA'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyaddress/:companyIdA/remove'));             
         
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));

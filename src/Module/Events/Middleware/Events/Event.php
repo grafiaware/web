@@ -151,24 +151,24 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companycontact/:companyContactId/remove', function(ServerRequestInterface $request, $idCompany, $idCompanyContact) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
-            return $ctrl->removeCompanyContact($request, $idCompanyContact);
+            return $ctrl->removeCompanyContact($request, $idCompany, $idCompanyContact);
         });
         
         
-        $this->routeGenerator->addRouteForAction('POST', 'events/v1/company/:companyId/companyaddress', function(ServerRequestInterface $request, $idCompany) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress', function(ServerRequestInterface $request, $idCompany) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
             return $ctrl->insertCompanyAddress($request, $idCompany);
         });
-        $this->routeGenerator->addRouteForAction('POST', 'events/v1/company/:companyId/companyaddress/:companyAddressId', function(ServerRequestInterface $request, $idCompany, $idCompanyAddress) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress/:companyIdA', function(ServerRequestInterface $request, $idCompany, $idCompanyA) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
-            return $ctrl->updateCompanyAddress($request, $idCompany, $idCompanyAddress);
+            return $ctrl->updateCompanyAddress($request, $idCompany, $idCompanyA);
         });
-        $this->routeGenerator->addRouteForAction('POST', 'events/v1/company/:companyId/companyaddress/:companyAddressId/remove', function(ServerRequestInterface $request, $idCompany, $idCompanyAddress) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress/:companyIdA/remove', function(ServerRequestInterface $request, $idCompany,  $idCompanyA) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
-            return $ctrl->removeCompanyAddress($request, $idCompanyAddress);
+            return $ctrl->removeCompanyAddress($request,  $idCompany,  $idCompanyA);
         });
         
                         

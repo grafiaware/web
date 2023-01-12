@@ -113,24 +113,45 @@ if (isset($loginAggregate)) {
 //    $companyEntity = $companyRepo->get($idCompany);
 //    if ( isset($companyEntity) ) {       
             
-            $companyAddress=[];
-            /** @var CompanyAddressInterface $companyAddressEntity */
-            $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
-            if ($companyAddressEntity) {           
-                $companyAddress = [
-                    'companyId' => $companyAddressEntity->getCompanyId(),  //$idCompany,
-                    'name'   => $companyAddressEntity->getName(),
-                    'lokace' => $companyAddressEntity->getLokace(),
-                    'psc'    => $companyAddressEntity->getPsc(),
-                    'obec'   => $companyAddressEntity->getObec()
-                    ];
-            }    
-            else {
-                $companyAddress = [
-                    'companyId' => $idCompanyFromRepresentative
-                    ];
-            }   
-           //-------------------------
+//            $companyAddress=[];
+//            /** @var CompanyAddressInterface $companyAddressEntity */
+//            $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
+//            if ($companyAddressEntity) {           
+//                $companyAddress = [
+//                    'companyId' => $companyAddressEntity->getCompanyId(),  //$idCompany,
+//                    'name'   => $companyAddressEntity->getName(),
+//                    'lokace' => $companyAddressEntity->getLokace(),
+//                    'psc'    => $companyAddressEntity->getPsc(),
+//                    'obec'   => $companyAddressEntity->getObec()
+//                    ];
+//            }    
+//            else {
+//                $companyAddress = [
+//                    'companyId' => $idCompanyFromRepresentative
+//                    ];
+//            }   
+            
+        $companyAddress=[];
+        /** @var CompanyAddressInterface $companyAddressEntity */
+        $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
+        if ($companyAddressEntity) {           
+            $companyAddress = [
+                'companyId'=> $idCompanyFromRepresentative,
+                'companyIdA' => $idCompanyFromRepresentative,               
+                'name'   => $companyAddressEntity->getName(),
+                'lokace' => $companyAddressEntity->getLokace(),
+                'psc'    => $companyAddressEntity->getPsc(),
+                'obec'   => $companyAddressEntity->getObec()
+                ];
+        }    
+        else {
+            $companyAddress = [
+                'companyId' => $idCompanyFromRepresentative
+                ];
+        }   
+            
+       
+            //-------------------------
         
             
             

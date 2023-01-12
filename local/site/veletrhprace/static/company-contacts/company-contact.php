@@ -14,7 +14,6 @@ use Pes\Text\Html;
 ?>
 
         <form class="ui huge form" action="" method="POST" >
-           <!-- <input type='hidden' name="company-id" value="<? = isset($companyId)? $companyId : '' ?>" > -->
 
             <div class="two fields">                        
                 <div class="field">
@@ -44,10 +43,7 @@ use Pes\Text\Html;
                     <?=
                      isset($companyContactId) ?
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact/". $companyContactId ."' > Uložit </button>" :
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact' > Uložit </button>" ;
-              
-                     
-                     
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact' > Uložit </button>" ;              
                      
                      ?>                                                                                                                             
                     <?=

@@ -104,12 +104,7 @@ class CompanyControler extends FrontControlerAbstract {
     }
     
     
-    /**
-     * POST company contact
-     *
-     * @param ServerRequestInterface $request
-     * @return type
-     */
+    
     /**
      * 
      * @param ServerRequestInterface $request
@@ -161,13 +156,7 @@ class CompanyControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
     
-    /**
-     * POST company contact    
-     * 
-     * @param ServerRequestInterface $request
-     * @param type $id id z CompanyContact
-     * @return type
-     */
+  
     /**
      * 
      * @param ServerRequestInterface $request
@@ -215,16 +204,12 @@ class CompanyControler extends FrontControlerAbstract {
     }
     
     
-     /**
-     * POST company contact    
-     * 
-     * @param ServerRequestInterface $request
-     * @param type $id id z CompanyContact
-     * @return type
-     */
+   
+    
     /**
      * 
      * @param ServerRequestInterface $request
+     * @param type $idCompany
      * @param type $idCompanyContact
      * @return type
      */
@@ -265,10 +250,11 @@ class CompanyControler extends FrontControlerAbstract {
     
 //------------------------------------------------------------------------------------------------
      
-      /**
-     * POST company address
-     *
+    
+    /**
+     * 
      * @param ServerRequestInterface $request
+     * @param type $idCompany
      * @return type
      */
     public function insertCompanyAddress (ServerRequestInterface $request, $idCompany) {                 
@@ -286,7 +272,7 @@ class CompanyControler extends FrontControlerAbstract {
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName, $сompanyId) )  {
+                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
                 $isRepresentative = true; 
             }
      
@@ -301,7 +287,6 @@ class CompanyControler extends FrontControlerAbstract {
                 /** @var CompanyAddressInterface $companyAddress */
                 $companyAddress = $this->container->get(CompanyAddress::class); //new 
                 
-                //$companyAddress->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'company-id') ) ; // !!! z POSTu
                 $companyAddress->setCompanyId($idCompany);
                 $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
@@ -320,14 +305,15 @@ class CompanyControler extends FrontControlerAbstract {
     
     
     
-     
+    
     /**
-     *  POST company address
+     * 
      * @param ServerRequestInterface $request
-     * @param type $id Toto je companyId!
+     * @param type $idCompany
+     * @param type $idCompanyA
      * @return type
      */
-    public function updateCompanyAddress (ServerRequestInterface $request, $idCompany, $idCompanyAddress) {                   
+    public function updateCompanyAddress (ServerRequestInterface $request, $idCompany, $idCompanyA) {                   
         $isRepresentative = false;
                 
          /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -342,17 +328,14 @@ class CompanyControler extends FrontControlerAbstract {
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {              
-                if ( $this->representativeRepo->get($loginName, $id ) )   {
+                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
                             $isRepresentative = true; 
                 }
-            }            
-        
+            }                   
   
-            if ($isRepresentative) {
-                // POST data
-                $сompanyId = $id;   // z URL
+            if ($isRepresentative) {                
                 /** @var CompanyAddressInterface $companyAddress */
-                $companyAddress = $this->companyAddressRepo->get( $сompanyId );  
+                $companyAddress = $this->companyAddressRepo->get( $idCompany );  
                 
                 $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
@@ -371,14 +354,16 @@ class CompanyControler extends FrontControlerAbstract {
     
     
     
+   
     /**
      * POST company address
-     *      
+     * 
      * @param ServerRequestInterface $request
-     * @param type $id   Toto je companyId!
+     * @param type $idCompany
+     * @param type $idCompanyA
      * @return type
      */
-    public function removeCompanyAddress (ServerRequestInterface $request, $idCompany, $idCompanyAddress)  {                   
+    public function removeCompanyAddress (ServerRequestInterface $request, $idCompany, $idCompanyA)  {                   
         $isRepresentative = false;
                         
          /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -393,17 +378,14 @@ class CompanyControler extends FrontControlerAbstract {
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {              
-                if ( $this->representativeRepo->get($loginName, $id ) )   {
+                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
                             $isRepresentative = true; 
                 }
             }                             
-            
-       
-            if ($isRepresentative) {
-                 $сompanyAddressId = $id;   // z URL
-                 
+                  
+            if ($isRepresentative) {                                 
                 /** @var CompanyAddressIntarface $companyAddress */
-                $companyAddress = $this->companyAddressRepo->get( $сompanyAddressId ); 
+                $companyAddress = $this->companyAddressRepo->get( $idCompany ); 
                 $this->companyAddressRepo->remove( $companyAddress ); 
                                 
             } else {
