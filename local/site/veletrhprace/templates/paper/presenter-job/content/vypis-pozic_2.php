@@ -7,8 +7,9 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
+//**I** vypis-pozic_2 ****
 ?>
- **I** vypis-pozic_2 ****
+ 
 
 <div class="vypis-prac-pozic">
     <div class="ui styled fluid accordion">

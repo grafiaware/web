@@ -13,20 +13,18 @@ use Pes\Text\Html;
         $disabled = ''; 
 ?>
 
-        <form class="ui huge form" action="" method="POST" >
-            <input type='hidden' name="company-id" value="<?= isset($companyId)? $companyId : '' ?>" >
-            <input type='hidden' name="company-job-id" value="<?= isset($companyJobId)? $companyJobId : '' ?>" >
+        <form class="ui huge form" action="" method="POST" >           
 
             <div class="two fields">                        
                 <div class="field">
-                <label>Název jobu</label>
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="45" value="<?= isset($name)?  $name : '' ?>">
+                <label>Název pozice</label>
+                    <input <?= $readonly ?> type="text" name="nazev" placeholder="" maxlength="45" value="<?= isset($nazev)?  $nazev : '' ?>">
                  </div>                 
                 
                 <div class="field">
                     <label>Požadované vzdělání</label>
-                    <input <?= $readonly ?> type="text" name="pozadovane-vzdelani-stupen" placeholder="" maxlength="100" 
-                                            value="<?= isset($pozadovaneVzdelaniStupen)?  $pozadovaneVzdelaniStupen : ''  ?>">
+                    <input <?= $readonly ?> type="text" name="pozadovane-vzdelani" placeholder="" maxlength="100" 
+                                            value="<?= isset($pozadovaneVzdelani)?  $pozadovaneVzdelani : ''  ?>">
                 </div>
             </div>
             <div class="two fields">
@@ -40,7 +38,19 @@ use Pes\Text\Html;
                     <input <?= $readonly ?> type="text" name="popis-pozice" placeholder="" maxlength="1000" 
                                             value="<?= isset($popisPozice)?  $popisPozice : '' ?>">
                 </div>
-            </div>                 
+            </div>   
+            <div class="two fields">
+                <div class="field">
+                    <label>Požadujeme</label>
+                    <input <?= $readonly ?> type="text" name="pozadujeme" placeholder="" maxlength="1000" 
+                                            value="<?= isset($pozadujeme)?  $pozadujeme : '' ?>">
+                </div>
+                <div class="field">
+                    <label>Nabízíme</label>
+                    <input <?= $readonly ?> type="text" name="nabizime" placeholder="" maxlength="1000" 
+                                            value="<?= isset($nabizime)?  $nabizime : '' ?>">
+                </div>
+            </div>      
 
                 <?php
                 if($readonly === '') {
@@ -48,12 +58,12 @@ use Pes\Text\Html;
                 <div>
                     <?=
                      isset($companyContactId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/companycontact/". $companyContactId ."' > Uložit </button>" :
-                    "<button class='ui primary button' type='submit' formaction='events/v1/companycontact' > Uložit </button>" ;
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."' > Uložit </button>" :
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job' > Uložit </button>" ;
                     ?>                                                                                                                             
                     <?=
                      isset($companyContactId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/companycontact/". $companyContactId ."/remove' > Odstranit kontakt </button>" :
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."/remove' > Odstranit job </button>" :
                     "" ;
                     ?>                                                                                                         
                 </div>

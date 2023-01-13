@@ -206,20 +206,21 @@ if (isset($loginAggregate)) {
 //    }
 //    $presenterEmails = $сompanyEmailsA;
     
+     //**I** xxxxxxx pozice_2 ****
 }
 ?>
- **I** xxxxxxx pozice_2 ****
+
 
         <div class="title">
-            
+        <!--   $isRepresentative   je reprezentantem  firmy   -->   
         <?php
             if ($isRepresentative) {  ?>
-                <?= "**I** Přihlášený " . $loginName. " JE Representative " . " vystavovatele " . $shortName ?>
+                <?= "**I** Přihlášený " . $loginName. " JE representantem " . " vystavovatele " . $shortName ?>
         <?php } else { ?>
-                <?= "**I** Přihlášený " .$loginName. " NENÍ Representative "  . " vystavovatele " . $shortName ?>
+                <?= !($isVisitor) ? "**I** Přihlášený " .$loginName. " NENÍ representantem "  . " vystavovatele " . $shortName : "" ?>
         <?php }  ?>
            
-         ?>    
+             
             
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag_2.php', isset($kategorie) ? $kategorie : [] , 'seznam') ?>
