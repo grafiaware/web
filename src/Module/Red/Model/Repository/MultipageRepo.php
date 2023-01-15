@@ -35,7 +35,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
         $this->dataManager = $multipageDao;
         $this->registerHydrator($multipageHydrator);
     }
-    
+
     use RepoAssotiatedOneTrait;
 
     /**
@@ -53,7 +53,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
      * @return MultipageInterface|null
      */
     public function getByMenuItemId($menuItemId): ?MultipageInterface {
-        return $this->getByReference('menu_item', $menuItemId);
+        return $this->getEntityByReference(MultipageDao::REFERENCE_MENU_ITEM, $menuItemId);
     }
 
     public function add(MultipageInterface $multipage) {

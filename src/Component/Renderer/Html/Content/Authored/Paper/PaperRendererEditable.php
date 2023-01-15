@@ -70,7 +70,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 
         $buttons2 = [];
 
-        if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
+        if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperSectionsArray()) {
             $buttons2[] = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=> 'Seřadit podle data',

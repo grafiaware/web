@@ -27,7 +27,7 @@ class InstitutionTypeChildHydrator implements HydratorInterface {
     public function hydrate( EntityInterface $institutionTypeAggregateInstitution, ArrayAccess $rowData) {
         /** @var InstitutionTypeAggregateInstitutionInterface $institutionTypeAggregateInstitution */
         $institutionTypeAggregateInstitution
-            ->exchangeInstitutionArray($rowData->offsetGet(InstitutionInterface::class));
+            ->setInstitutions($rowData->offsetGet(InstitutionInterface::class));
     }
 
     
@@ -41,7 +41,7 @@ class InstitutionTypeChildHydrator implements HydratorInterface {
     public function extract( EntityInterface $institutionTypeAggregateInstitution, ArrayAccess $rowData) {
 
         /** @var InstitutionTypeAggregateInstitutionInterface $institutionTypeAggregateInstitution */
-        $rowData->offsetSet(InstitutionInterface::class, $institutionTypeAggregateInstitution->getInstitutionsArray());
+        $rowData->offsetSet(InstitutionInterface::class, $institutionTypeAggregateInstitution->getInstitutions());
     }
     
 }

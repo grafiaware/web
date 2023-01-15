@@ -1,9 +1,10 @@
 <?php
 namespace Model\Repository;
 
-use Model\Repository\Association\AssociationOneToManyInterface;
-use Model\RowData\RowData;
+use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
+
+use UnexpectedValueException;
 
 use Model\Repository\RepoAssotiatedManyInterface;  // použito jen v komentáři
 
@@ -23,27 +24,41 @@ trait RepoAssotiatedManyTrait {
      */
     public function findByParentData(string $referenceName, RowDataInterface $parentRowData): iterable {
         $referenceKey = $this->createReferenceKeyFromParentData($referenceName, $parentRowData);
-        $rowData = $this->dataManager->findByReference($referenceName, $referenceKey);
-        return $this->recreateEntityByRowData($rowData);
+        $rowDataArray = $this->dataManager->findByReference($referenceName, $referenceKey);
+        foreach ($rowDataArray as $rowData) {
+            $recreated[] = $this->recreateEntityByRowData($rowData);
+        }
+        return $recreated;
     }
 
+    /**
+     * Vytvoří asocitaivní pole dvojic klíče z jmen polí potomka a hodnot rodičovských dat.
+     * 
+     * @param string $referenceName
+     * @param RowDataInterface $parentRowData
+     * @return type
+     * @throws UnexpectedValueException
+     */
     private function createReferenceKeyFromParentData(string $referenceName, RowDataInterface $parentRowData) {
         //TODO: aplikuj NominateFilter nastavený podle atributů
         /** @var DaoWithReferenceInterface $this->dataManager */
         $refAttribute = $this->dataManager->getReferenceAttributes($referenceName);
         $childTouples = [];
-        foreach ($refAttribute as $field) {
-            if( ! $parentRowData->offsetExists($field)) {
+        foreach ($refAttribute as $childField => $parentField) {
+            if( ! $parentRowData->offsetExists($parentField)) {
                 $daoCls = get_class($this->dataManager);
-                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota z rodičovských dat. Atributy potomka $daoCls obsahují pole '$field' a pole rodičovských dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
+                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota z rodičovských dat. Atributy potomka $daoCls obsahují pole '$parentField' a pole rodičovských dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
             }
-            if (is_scalar($parentTouples[$field]) OR $parentTouples[$field]===null) {
-                $childTouples[$field] = $parentTouples[$field];
-            } else {
-                $t = gettype($parentTouples[$field]);
-                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota z rodičovských dat. Rodičovská data obsahují v položce '$field' neskalární hodnotu. Hodnota v položce '$field' je typu '$t'.");
-            }
+            $childTouples[$childField] = $parentRowData->offsetGet($parentField);
         }
-        return new RowData($childTouples);
+        return $childTouples;
+    }
+
+    public function addChild(PersistableEntityInterface $childEntity): void {
+        $this->addEntity($childEntity);
+    }
+
+    public function removeChild(PersistableEntityInterface $childEntity): void {
+        $this->removeEntity($childEntity);
     }
 }

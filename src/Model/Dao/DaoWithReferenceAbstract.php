@@ -2,6 +2,7 @@
 namespace Model\Dao;
 
 use Model\Dao\DaoWithReferenceInterface;
+use Model\Dao\Exception\DaoUnknownReferenceNameException;
 
 /**
  * Description of DaoWithReferenceAbstract
@@ -31,7 +32,9 @@ abstract class DaoWithReferenceAbstract extends DaoAbstract implements DaoWithRe
     protected function getReferenceKeyTouples($parentTableName, array $parentTouples): array {
         /** @var DaoReferenceNonuniqueInterface $this */
         $fkAttribute = $this->getReferenceAttributes($parentTableName);
-
+        if(!isset($fkAttributes)) {
+            throw new DaoUnknownReferenceNameException("V DAO není definována reference se jménem $referenceName.");
+        }
         $key = [];
         foreach ($fkAttribute as $childField=>$parentField) {
             if( ! array_key_exists($parentField, $parentTouples)) {
@@ -47,20 +50,4 @@ abstract class DaoWithReferenceAbstract extends DaoAbstract implements DaoWithRe
 
         return $key;
     }
-
-    /**
-     * NEPOUŽITO
-     *
-     * Vrací atributy reference podle jména reference. pokud reference se zadaným jménem neexistuje, vyhodí výjimku.
-     * @param string $referenceName
-     * @throws DaoUnknownReferenceNameException
-     */
-    private function getFkAttribute($referenceName) {
-        $fkAttributes = $this->getReferenceAttributes($referenceName);
-        if(!isset($fkAttributes)) {
-            throw new DaoUnknownReferenceNameException("V DAO není definována reference se jménem $referenceName.");
-        }
-        return $fkAttributes;
-    }
-
 }

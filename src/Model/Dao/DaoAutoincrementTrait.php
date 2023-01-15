@@ -23,25 +23,33 @@ use UnexpectedValueException;
  */
 trait DaoAutoincrementTrait {
 
-    protected $lastInsertRowCount;
-
     /**
-     * Vrací pole primárního klíče, pokud je dao typu autoincrement.
+     * Metoda nastaví objektu RowData hodnotu pole primárního klíče, kterou databáze vygenerovala
+     * při posledním provedeném příkazu insert.
      * Metoda vrací platnou hodnotu jen po vložení právě jednoho řádku, jinak vyhazuje výjimku.
      * Poznámka: v transakci je třeba volat metodu před příkazem commit.
      * Poznámka: Metoda je funkční pro MySQL a MariaDB, pro jiné databáze záleží na driveru.
      *
-     * @return array
+     * @param RowDataInterface $rowdata
      * @throws DaoLastInsertIdFailedAfterMultipleRowInsertException
      */
-    public function getLastInsertIdTouple(): array {
+    protected function setAutoincrementedValue(RowDataInterface $rowdata) {
         try {
             $value = $this->lastInsertIdValue();
         } catch (DaoLastInsertIdFailedAfterMultipleRowInsertException $daoExc) {
             throw $daoExc;
         }
-        $name = $this->getPrimaryKeyFieldName();
-        return [$name => $value];
+        /** @var DaoEditAutoincrementKeyInterface $this */
+        $name = $this->getAIKeyFieldName();
+        $rowdata->forcedSet($name, $value);
+    }
+
+    private function getAIKeyFieldName() {
+        $pk = $this->getAutoincrementFieldName();
+        if (!in_array($pk, $this->getAttributes())) {  // AI sloupec nemusí být členem primárního klíče
+            throw new UnexpectedValueException("Metoda getAutoincrementFieldName() vrací hodnotu '$pk', která není v poli atributů.");
+        }
+        return $pk;
     }
 
     /**
@@ -53,42 +61,12 @@ trait DaoAutoincrementTrait {
      * @return type
      * @throws DaoLastInsertIdFailedAfterMultipleRowInsertException
      */
-    public function lastInsertIdValue() {
+    private function lastInsertIdValue() {
         /** @var DaoEditAutoincrementKeyInterface $this */
         if ($this->rowCount == 1) {
             return  $this->dbHandler->lastInsertId();
         } else {
             throw new DaoLastInsertIdFailedAfterMultipleRowInsertException("Metoda lastInsertIdValue() vrací platnou hodnotu jen při vložení právě jednoho řádku. Poslední insert vložil řádky: $this->rowCount.");
         }
-    }
-
-    /**
-     * Metoda nastaví objektu RowData hodnotu pole primárního klíče, kterou databáze vygenerovala
-     * při posledním provedeném příkazu insert.
-     * Metoda vrací platnou hodnotu jen po vložení právě jednoho řádku, jinak vyhazuje výjimku.
-     * Poznámka: v transakci je třeba volat metodu před příkazem commit.
-     * Poznámka: Metoda je funkční pro MySQL a MariaDB, pro jiné databáze záleží na driveru.
-     *
-     * @param RowDataInterface $rowdata
-     * @throws DaoLastInsertIdFailedAfterMultipleRowInsertException
-     */
-    public function setAutoincrementedValue(RowDataInterface $rowdata) {
-        try {
-            $value = $this->lastInsertIdValue();
-        } catch (DaoLastInsertIdFailedAfterMultipleRowInsertException $daoExc) {
-            throw $daoExc;
-        }
-        /** @var DaoEditAutoincrementKeyInterface $this */
-        $name = $this->getPrimaryKeyFieldName();
-        $rowdata->forcedSet($name, $value);
-    }
-
-    private function getPrimaryKeyFieldName() {
-        $pk = $this->getPrimaryKeyAttributes();
-        if (count($pk) != 1) {
-            throw new UnexpectedValueException("Primární klíč pro Dao typu DaoAutoincrementKeyInterface nesmí být kompozitní (musí mít jen jedno pole).");
-        }
-        end($pk);
-        return current($pk);
     }
 }

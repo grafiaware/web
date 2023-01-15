@@ -184,7 +184,7 @@ class TemplateControler extends FrontControlerAbstract {
         } else {
             // není item - asi chyba
             $paperAggregate = new PaperAggregatePaperSection();
-            $paperAggregate->exchangePaperSectionsArray([])   //  ['content'=> Message::t('Contents')]
+            $paperAggregate->setPaperSectionsArray([])   //  ['content'=> Message::t('Contents')]
                     ->setTemplate($templateName)
                     ->setHeadline(Message::t('Headline'))
                     ->setPerex(Message::t('Perex'))

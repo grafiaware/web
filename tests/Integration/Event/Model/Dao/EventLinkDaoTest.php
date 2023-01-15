@@ -6,8 +6,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventLinkDao;
 use Events\Model\Dao\EventLinkPhaseDao;
@@ -29,78 +29,77 @@ class EventLinkDaoTest extends AppRunner {
      */
     private $dao;
 
-    private static $id1Touple;    
+    private static $id1Touple;
     private static $id2Touple;
-    
+
     private static $eventIdTouple;
     private static $eventLinkPhaseTouple;
 
-    
+
     public static function setUpBeforeClass(): void {
-        self::bootstrapBeforeClass();   
+        self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
-                 
+
         /** @var EventLinkPhaseDao $eventLinkPhaseDao */
-        $eventLinkPhaseDao = $container->get(EventLinkPhaseDao::class);  
-        $eventLinkPhaseData = new RowData();
-        $eventLinkPhaseData->import( ['text' => 'Konečná fáze'   ] );
-        $eventLinkPhaseDao->insert($eventLinkPhaseData);    
-        self::$eventLinkPhaseTouple = $eventLinkPhaseDao->getLastInsertIdTouple();
-        
+        $eventLinkPhaseDao = $container->get(EventLinkPhaseDao::class);
+        $rowData = new RowData();
+        $rowData->import( ['text' => 'Konečná fáze'   ] );
+        $eventLinkPhaseDao->insert($rowData);
+        self::$eventLinkPhaseTouple = $eventLinkPhaseDao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
     }
 
-    
+
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(EventLinkDao::class);  // vždy nový objekt
     }
-    
+
 
     protected function tearDown(): void {
     }
-    
-    
+
+
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
-        
-        
+
+
         //smazat -- id2 ----
         /** @var EventLinkDao $eventLinkDao */
         $eventLinkDao = $container->get(EventLinkDao::class);
         $eventRow = $eventLinkDao->get(self::$id2Touple);
         $eventLinkDao->delete($eventRow);
-        
+
         //smazat -- event ----
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
         $eventRow = $eventDao->get(self::$eventIdTouple);
         $eventDao->delete($eventRow);
-        
+
         //smazat -- event_link_phase ----
          /** @var EventLinkPhaseDao $eventLinkPhaseDao */
-        $eventLinkPhaseDao = $container->get(EventLinkPhaseDao::class);  
+        $eventLinkPhaseDao = $container->get(EventLinkPhaseDao::class);
         $eventLinkPhaseRow = $eventLinkPhaseDao->get(self::$eventLinkPhaseTouple);
         $eventLinkPhaseDao->delete($eventLinkPhaseRow);
-                       
+
     }
 
-    
+
     public function testSetUp() {
         $this->assertInstanceOf(EventLinkDao::class, $this->dao);
     }
 
 
      public function testInsert() {
-        //-----------------id1-------         
+        //-----------------id1-------
         $rowData = new RowData();
         $rowData->offsetSet('show', 1);
         $rowData->offsetSet('href', "EventLinkDaoTesthttpassdrooosaasdas_1");
@@ -110,7 +109,7 @@ class EventLinkDaoTest extends AppRunner {
         $this->assertIsArray(self::$id1Touple);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
-        
+
         //-----------------id2-------
         $rowData = new RowData();
         $rowData->offsetSet('show', 2);
@@ -121,8 +120,8 @@ class EventLinkDaoTest extends AppRunner {
         $this->assertIsArray(self::$id2Touple);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
-        
-        
+
+
         //-- pripravi vetu do tabulky event
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get( EventDao::class );
@@ -134,7 +133,7 @@ class EventLinkDaoTest extends AppRunner {
         $rowData->offsetSet('enter_link_id_fk', self::$id1Touple['id'] );
         $rowData->offsetSet('event_content_id_fk', null);
         $eventDao->insert($rowData);
-        self::$eventIdTouple =  $this->dao->getLastInsertIdTouple();        
+        self::$eventIdTouple =  $this->dao->getLastInsertIdTouple();
     }
 
 
@@ -182,8 +181,8 @@ class EventLinkDaoTest extends AppRunner {
         $this->setUp();
         $eventRow = $this->dao->get(self::$id1Touple);
         $this->assertNull($eventRow);
-        
-        
+
+
         // kontrola SET
         // kontrola, že  se deletem v event_link tabulce se  nastavilo v tabulce event  event.x_link_id_fk = null
         /** @var EventDao $eventDao */
@@ -191,8 +190,8 @@ class EventLinkDaoTest extends AppRunner {
         $eventData =  $eventDao->get (self::$eventIdTouple);
         $this->assertNull( $eventData['enroll_link_id_fk'] );
         $this->assertNull( $eventData['enter_link_id_fk'] );
-        
-        
+
+
         //---------------------------------------
         //smazat v event  id2 vetu - provede tearDownAfterClass
     }

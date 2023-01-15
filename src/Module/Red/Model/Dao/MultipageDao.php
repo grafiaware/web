@@ -20,8 +20,14 @@ use Model\Dao\DaoReferenceUniqueTrait;
  */
 class MultipageDao extends DaoEditAbstract implements MultipageDaoInterface {
 
+    const REFERENCE_MENU_ITEM = 'menu_item';
+
     use DaoAutoincrementTrait;
     use DaoReferenceUniqueTrait;
+
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
@@ -39,7 +45,7 @@ class MultipageDao extends DaoEditAbstract implements MultipageDaoInterface {
 
     public function getReferenceAttributes($referenceName): array {
         return [
-            'menu_item'=>['menu_item_id_fk'=>'id']
+            self::REFERENCE_MENU_ITEM=>['menu_item_id_fk'=>'id']
         ][$referenceName];
     }
 

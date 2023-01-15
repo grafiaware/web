@@ -31,18 +31,34 @@ trait RepoAssotiatedOneTrait {
         return $this->recreateEntityByRowData($rowData);
     }
 
+    /**
+     * Vytvoří asocitaivní pole dvojic klíče z jmen polí potomka a hodnot rodičovských dat.
+     * 
+     * @param string $referenceName
+     * @param RowDataInterface $parentRowData
+     * @return type
+     * @throws UnexpectedValueException
+     */
     private function createReferenceKeyFromParentData(string $referenceName, RowDataInterface $parentRowData) {
         //TODO: aplikuj NominateFilter nastavený podle atributů
         /** @var DaoWithReferenceInterface $this->dataManager */
         $refAttribute = $this->dataManager->getReferenceAttributes($referenceName);
         $childTouples = [];
-        foreach ($refAttribute as $field) {
-            if( ! $parentRowData->offsetExists($field)) {
+        foreach ($refAttribute as $childField => $parentField) {
+            if( ! $parentRowData->offsetExists($parentField)) {
                 $daoCls = get_class($this->dataManager);
-                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota z rodičovských dat. Atributy potomka $daoCls obsahují pole '$field' a pole rodičovských dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
+                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota z rodičovských dat. Atributy potomka $daoCls obsahují pole '$parentField' a pole rodičovských dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
             }
-            $childTouples[$field] = $parentRowData->offsetGet($field);
+            $childTouples[$childField] = $parentRowData->offsetGet($parentField);
         }
         return $childTouples;
+    }
+
+    public function addChild(PersistableEntityInterface $childEntity): void {
+        $this->addEntity($childEntity);
+    }
+
+    public function removeChild(PersistableEntityInterface $childEntity): void {
+        $this->removeEntity($childEntity);
     }
 }

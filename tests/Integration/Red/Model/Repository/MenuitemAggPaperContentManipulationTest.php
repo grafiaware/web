@@ -155,20 +155,20 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
     }
 
     public function testPaperHasContents() {
-        $this->assertIsArray($this->paper->getPaperContentsArray());
+        $this->assertIsArray($this->paper->getPaperSectionsArray());
     }
 
     public function testPaperContentType() {
-        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperContentsArray()[0]);
+        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperSectionsArray()[0]);
     }
 
     public function testAdd() {
-        $oldContentsArray = $this->paper->getPaperContentsArray();
+        $oldContentsArray = $this->paper->getPaperSectionsArray();
         $oldContent = $oldContentsArray[0];
         $oldContentCount = count($oldContentsArray);
 
         $paperIdFk = $this->paper->getId();
-        $this->paper->exchangePaperSectionsArray($this->addContent($this->createContent($paperIdFk), $oldContentsArray));
+        $this->paper->setPaperSectionsArray($this->addContent($this->createContent($paperIdFk), $oldContentsArray));
         /** @var PaperSectionRepo $paperContentRepo */
 //        $paperContentRepo = $this->container->get(PaperContentRepo::class);
 //        $paperContentRepo->add($newContent);
@@ -185,7 +185,7 @@ $this->menuItemAggRepo->flush();
         $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
-        $newContentsArray = $this->paper->getPaperContentsArray();
+        $newContentsArray = $this->paper->getPaperSectionsArray();
 
         $this->assertTrue(count($newContentsArray) == $oldContentCount+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
 

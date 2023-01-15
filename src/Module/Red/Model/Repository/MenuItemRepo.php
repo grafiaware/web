@@ -18,7 +18,7 @@ use Red\Model\Dao\MenuItemDao;
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\PersistableEntityInterface;
 
-use Model\Repository\RepoAssotiatedOneTrait;
+use Model\Repository\RepoAssociatedWithJoinOneTrait;
 
 /**
  * Description of MenuItemRepo
@@ -38,7 +38,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         $this->registerHydrator($menuItemHydrator);
     }
 
-    use RepoAssotiatedOneTrait;
+    use RepoAssociatedWithJoinOneTrait;
 
     /**
      * Vrací MenuItem podle hodnoty primárního klíče - kompozit z langCode a uid.
@@ -50,24 +50,6 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface {
         return $this->getEntity($langCodeFk, $uidFk);
-    }
-
-    /**
-     * Vrací MenuItem podle hodnoty primárního klíče - kompozit z langCode a uid.
-     * Vrací i neaktivní a nektuální položky.
-     *
-     * @param type $langCodeFk
-     * @param type $uidFk
-     * @return MenuItemInterface|null
-     */
-    public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface {
-        $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
-        if (!isset($this->collection[$index])) {   // collection je private
-            $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
-            $rowData = $this->dataManager->getOutOfContext($key);
-            $entity = $this->recreateEntityByRowData($rowData);
-        }
-        return $entity ?? null;
     }
 
     /**
@@ -89,7 +71,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getByPrettyUri($prettyUri): ?MenuItemInterface {
-        $rowData = $this->dataManager->getByPrettyUri(['prettyuri'=>$prettyUri]);
+        $rowData = $this->dataManager->getUnique(['prettyuri'=>$prettyUri]);
         return $this->recreateEntityByRowData($rowData);
     }
 
@@ -116,13 +98,11 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     }
 
     public function add(MenuItemInterface $menuItem) {
-        $index = $this->indexFromEntity($menuItem);
-        $this->collection[$index] = $menuItem;
+        $this->addEntity($menuItem);
     }
 
     public function remove(MenuItemInterface $menuItem) {
-        $this->removed[] = $menuItem;
-        unset($this->collection[$this->indexFromEntity($menuItem)]);
+        $this->removeEntity($menuItem);
     }
 
     protected function createEntity() {

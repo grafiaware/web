@@ -6,8 +6,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\JobDao;
 use Events\Model\Dao\JobTagDao;
@@ -42,7 +42,7 @@ class JobToTagDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure( (new Container(   )  ) )
+                (new TestDbEventsContainerConfigurator())->configure( (new Container(   )  ) )
             );
                      
         // nový  Company, PozadovaneVzdelani, Job, JobTtag,
@@ -88,7 +88,7 @@ class JobToTagDaoTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(  (new Container() )  )
+                (new TestDbEventsContainerConfigurator())->configure(  (new Container() )  )
             );
         $this->dao = $this->container->get( JobToTagDao::class);  // vždy nový objekt
     }
@@ -101,7 +101,7 @@ class JobToTagDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure( (new Container( ) )  )
+                (new TestDbEventsContainerConfigurator())->configure( (new Container( ) )  )
             );
         
         

@@ -9,20 +9,20 @@ use Events\Model\Entity\Institution;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Hydrator\InstitutionHydrator;
 use Model\Repository\RepoAssotiatedManyInterface;
-
+use \Model\Repository\RepoAssotiatedManyTrait;
 /**
  * Description of InstitutionRepo
  *
  * @author vlse2610
  */
-class InstitutionRepo extends RepoAbstract implements RepoAssotiatedManyInterface, InstitutionRepoInterface {
+class InstitutionRepo extends RepoAbstract implements InstitutionRepoInterface {
 
     public function __construct( InstitutionDao $institutionDao, InstitutionHydrator $institutionHydrator) {
         $this->dataManager = $institutionDao;
         $this->registerHydrator($institutionHydrator);
     }
 
-
+    use RepoAssotiatedManyTrait;
 
    /**
     *
@@ -69,7 +69,7 @@ class InstitutionRepo extends RepoAbstract implements RepoAssotiatedManyInterfac
      * @param InstitutionInterface $institution
      * @return void
      */
-    public function add(InstitutionInterface $institution) :void {
+    public function add(InstitutionInterface $institution): void {
         $this->addEntity($institution);
     }
 
@@ -79,7 +79,7 @@ class InstitutionRepo extends RepoAbstract implements RepoAssotiatedManyInterfac
      * @param InstitutionInterface $institution
      * @return void
      */
-    public function remove(InstitutionInterface $institution) : void {
+    public function remove(InstitutionInterface $institution): void {
         $this->removeEntity($institution);
     }
 

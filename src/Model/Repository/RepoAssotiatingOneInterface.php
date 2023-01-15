@@ -8,7 +8,7 @@ use Model\Repository\Association\AssociationOneToOneInterface;
  *
  * @author pes2704
  */
-interface RepoAssotiatingOneInterface {
+interface RepoAssotiatingOneInterface extends RepoInterface {
 
     public function registerOneToOneAssociation(AssociationOneToOneInterface $assotiation);
 

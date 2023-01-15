@@ -153,11 +153,11 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
                 ) AS nested_set
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code_fk", "menu_item.title = :title"]))
                 ;
         $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':title', $langCodeAndTitle['title'], \PDO::PARAM_STR);
-        $stmt->bindParam(':lang_code', $langCodeAndTitle['lang_code_fk'], \PDO::PARAM_STR);
+        $stmt->bindParam(':lang_code_fk', $langCodeAndTitle['lang_code_fk'], \PDO::PARAM_STR);
         $success = $stmt->execute();
         return $stmt->rowCount() >= 1 ? $stmt->fetch() : NULL;
     }

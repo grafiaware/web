@@ -6,8 +6,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentDao;
 use Model\RowData\RowData;
@@ -34,27 +34,27 @@ class EventContentDaoTest extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
-        
+
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
-        
+
         //tabulka institution
-        /** @var InstitutionDao $institutionDao */         
+        /** @var InstitutionDao $institutionDao */
         $institutionDao = $container->get(InstitutionDao::class);
-        $rowData = new RowData();               
+        $rowData = new RowData();
         $rowData->import( [ 'name' => "testEventContentDao-name" , 'institution_type_id' => null ]);
         $institutionDao->insert($rowData);
-        self::$idInstitutionTouple =  $institutionDao->getLastInsertIdTouple();
-        
-        
+        self::$idInstitutionTouple =  $institutionDao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
+
+
     }
 
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(EventContentDao::class);  // vždy nový objekt
     }
@@ -65,18 +65,18 @@ class EventContentDaoTest extends AppRunner {
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
-        
+
         //v event  zbývá záznam uklidit
-        /** @var EventDao $eventDao */         
+        /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
-        $eventRow = $eventDao->get( [ 'id' => self::$event_id ] );        
-        $eventDao->delete($eventRow);        
+        $eventRow = $eventDao->get( [ 'id' => self::$event_id ] );
+        $eventDao->delete($eventRow);
         //uklidit institution
-        /** @var InstitutionDao $institutionDao */         
+        /** @var InstitutionDao $institutionDao */
         $institutionDao = $container->get(InstitutionDao::class);
-        $institutionRow = $institutionDao->get(self::$idInstitutionTouple);     
+        $institutionRow = $institutionDao->get(self::$idInstitutionTouple);
         $institutionDao->delete($institutionRow);
     }
 
@@ -96,7 +96,7 @@ class EventContentDaoTest extends AppRunner {
         $this->assertGreaterThan(0, (int) self::$idEventContentTouple);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
-        
+
         //tabulka event
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get( EventDao::class );
@@ -104,7 +104,7 @@ class EventContentDaoTest extends AppRunner {
         $eventData->import( [ "published" => 1, 'event_content_id_fk' =>  self::$idEventContentTouple ['id'] ]);
         $eventDao->insert($eventData);  // id je autoincrement
         self::$event_id = $eventDao->lastInsertIdValue();
-        
+
     }
 
     public function testGetExistingRow() {
@@ -149,13 +149,13 @@ class EventContentDaoTest extends AppRunner {
         $this->setUp();
         $eventContentRow = $this->dao->get(self::$idEventContentTouple);
         $this->assertNull($eventContentRow);
-        
+
         // kontrola SET
         // zda se nastavil v event   event_content_id_fk na NULL
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get(EventDao::class);
         $eventData = $eventDao->get( ['id' => self::$event_id  ] );
         $this->assertNull($eventData [ 'event_content_id_fk' ]);
-            
+
     }
 }

@@ -16,9 +16,14 @@ use Model\Dao\DaoReferenceNonuniqueTrait;
  */
 class InstitutionDao  extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoReferenceNonuniqueInterface {
 
+    const REFERENCE_INSTITUTION_TYPE = 'institution_type';
+
     use DaoAutoincrementTrait;
     use DaoReferenceNonuniqueTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
@@ -27,12 +32,12 @@ class InstitutionDao  extends DaoEditAbstract implements DaoEditAutoincrementKey
     public function getAttributes(): array {
         return [
             'id', 'name', 'institution_type_id'
-        ][$referenceName];
+        ];
     }
     public function getReferenceAttributes($referenceName): array {
         return [
-            'institution_type_id'=>['institution_type_id']
-        ];
+            self::REFERENCE_INSTITUTION_TYPE => ['institution_type_id'=>'id']
+        ][$referenceName];
     }
 
     public function getTableName(): string {

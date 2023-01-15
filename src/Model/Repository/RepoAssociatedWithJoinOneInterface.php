@@ -9,6 +9,7 @@
 namespace Model\Repository;
 
 use Model\Entity\PersistableEntityInterface;
+use Model\RowData\RowDataInterface;
 
 /**
  * Interface pro POTOMKOVSKÉ repository s asociací 1:1
@@ -16,6 +17,10 @@ use Model\Entity\PersistableEntityInterface;
  *
  * @author pes2704
  */
-interface RepoJoinedOneInterface extends RepoInterface {
+interface RepoAssociatedWithJoinOneInterface extends RepoInterface {
     public function recreateEntityByParentData(RowDataInterface $parentRowData): ?PersistableEntityInterface;
+
+    public function addChild(PersistableEntityInterface $childEntity): void;
+
+    public function removeChild(PersistableEntityInterface $childEntity): void;
 }

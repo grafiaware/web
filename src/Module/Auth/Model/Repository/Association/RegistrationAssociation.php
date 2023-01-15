@@ -1,7 +1,7 @@
 <?php
 namespace Auth\Model\Repository\Association;
 
-use Model\Repository\Association\AssociationOneToOne;
+use Model\Repository\Association\AssociationOneToOneAbstract;
 use Model\Repository\Association\AssociationOneToOneInterface;
 use Model\Entity\PersistableEntityInterface;
 
@@ -14,7 +14,7 @@ use Auth\Model\Entity\LoginAggregateRegistrationInterface;
  *
  * @author pes2704
  */
-class RegistrationAssociation extends AssociationOneToOne implements AssociationOneToOneInterface {
+class RegistrationAssociation extends AssociationOneToOneAbstract implements AssociationOneToOneInterface {
 
     public function getReferenceName() {
         return RegistrationDao::REFERENCE_LOGIN;

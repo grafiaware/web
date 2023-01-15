@@ -19,7 +19,6 @@ use Red\Model\Hydrator\PaperHydrator;
 use Model\Repository\RepoAssotiatedOneTrait;
 use Model\Repository\RepoAssotiatingManyTrait;
 
-
 /**
  * Description of Menu
  *
@@ -46,7 +45,7 @@ class PaperAggregateSectionsRepo extends RepoAbstract implements PaperAggregateS
     }
 
     public function getByMenuItemId($menuItemId): ?PaperAggregatePaperSectionInterface {
-        return $this->getByReference('menu_item', $menuItemId);
+        return $this->getEntityByReference(PaperDao::REFERENCE_MENU_ITEM, $menuItemId);
     }
 
     /**

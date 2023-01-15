@@ -6,8 +6,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Dao\LoginDao;
@@ -40,7 +40,7 @@ class RepresentativeDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
+                (new TestDbEventsContainerConfigurator())->configure(
                     (new Container(
                         )
                     )
@@ -80,7 +80,7 @@ class RepresentativeDaoTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure( (new Container() ) ) );
+                (new TestDbEventsContainerConfigurator())->configure( (new Container() ) ) );
         $this->dao = $this->container->get(RepresentativeDao::class);  // vždy nový objekt        
     }
 
@@ -90,7 +90,7 @@ class RepresentativeDaoTest extends AppRunner {
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
+                (new TestDbEventsContainerConfigurator())->configure(
                     (new Container(
                         )
                     )

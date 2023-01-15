@@ -6,8 +6,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Dao\CompanyDao;
@@ -24,7 +24,7 @@ class CompanyContactDaoTest extends AppRunner {
      * @var CompanyContactDao
      */
     private $dao;
-    
+
     private static $company_company_id_fk;
     private static $id;     //treba tvorit touple dvojice
 
@@ -33,7 +33,7 @@ class CompanyContactDaoTest extends AppRunner {
 
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure( (new Container(  )  ) )
+                (new TestDbEventsContainerConfigurator())->configure( (new Container(  )  ) )
             );
 
         // nova company
@@ -52,7 +52,7 @@ class CompanyContactDaoTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(CompanyContactDao::class);  // vždy nový objekt
     }
@@ -60,17 +60,17 @@ class CompanyContactDaoTest extends AppRunner {
 
     protected function tearDown(): void {
     }
-    
+
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsModelContainerConfigurator())->configure(  
-                 (new DbEventsContainerConfigurator())->configure(new Container())
+            (new EventsModelContainerConfigurator())->configure(
+                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         /** @var CompanyDao $companyDao */
-        $companyDao = $container->get(CompanyDao::class);        
+        $companyDao = $container->get(CompanyDao::class);
         $companyRow = $companyDao->get( ['id'  => self::$company_company_id_fk ] );
         $companyDao->delete($companyRow);
-        
+
     }
 
     //-------------------------------------------------------------------------
@@ -78,28 +78,27 @@ class CompanyContactDaoTest extends AppRunner {
         $this->assertInstanceOf(CompanyContactDao::class, $this->dao);
     }
 
-    
+
     public function testInsert() {
-        $rowData = new RowData();        
+        $rowData = new RowData();
         $rowData->import(
                ['company_id' => self::$company_company_id_fk,
                 'name' => null,
                 'phones' => null,
                 'mobiles' => null,
-                'emails' => null] );                
-
+                'emails' => null] );
 
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertIdTouple(); //pro autoincrement
+        self::$id =  $this->dao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
         $this->assertIsArray(self::$id);
-        
+
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
     }
 
     public function testGetExistingRow() {
         $companyContactRow = $this->dao->get(self::$id);
-        $this->assertInstanceOf(RowDataInterface::class, $companyContactRow);        
+        $this->assertInstanceOf(RowDataInterface::class, $companyContactRow);
     }
 
     public function test6Columns() {
@@ -134,10 +133,10 @@ class CompanyContactDaoTest extends AppRunner {
         $companyContactRow = $this->dao->get(self::$id);
         $this->dao->delete($companyContactRow);
         $this->assertEquals(1, $this->dao->getRowCount());
-        
+
         $this->setUp();
         $this->dao->delete($companyContactRow);
-        $this->assertEquals(0, $this->dao->getRowCount());        
+        $this->assertEquals(0, $this->dao->getRowCount());
 
         $this->setUp();
         $companyContactRow = $this->dao->get(self::$id);

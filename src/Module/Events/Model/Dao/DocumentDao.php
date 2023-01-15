@@ -17,6 +17,10 @@ class DocumentDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInte
 
     use DaoAutoincrementTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
+
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }

@@ -6,8 +6,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Dao\LoginDao;
@@ -27,7 +27,7 @@ class EnrollDaoTest extends AppRunner {
      * @var EnrollDao
      */
     private $dao;
-    
+
     private static $login_login_name_fk;
     private static $event_id_fk;
     private static $event_id_fk_2;
@@ -36,7 +36,7 @@ class EnrollDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure((new Container( ) )   )
+                (new TestDbEventsContainerConfigurator())->configure((new Container( ) )   )
             );
         // nový login login_name a event id pro TestCase
         $prefix = "testVisitorForEnrollDaoTest";
@@ -52,51 +52,53 @@ class EnrollDaoTest extends AppRunner {
         $loginData->import(['login_name' => $loginName]);
         $loginDao->insert($loginData);
         self::$login_login_name_fk = $loginDao->get(['login_name' => $loginName])['login_name'];
-        
+
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
         $eventData = new RowData();
         $eventData->import(["published" => 1]);
         $eventDao->insert($eventData);  // id je autoincrement
-        self::$event_id_fk = $eventDao->lastInsertIdValue();
+        self::$event_id_fk = $eventData[$eventDao->getAutoincrementFieldName()];
+
+
         $eventData = new RowData();
         $eventData->import(["published" => 1]);
         $eventDao->insert($eventData);  // id je autoincrement
-        self::$event_id_fk_2 = $eventDao->lastInsertIdValue();
+        self::$event_id_fk_2 = $eventData[$eventDao->getAutoincrementFieldName()];
     }
 
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(  (new Container()) )
+                (new TestDbEventsContainerConfigurator())->configure(  (new Container()) )
             );
         $this->dao = $this->container->get(EnrollDao::class);  // vždy nový objekt
     }
 
-    
+
     protected function tearDown(): void {
     }
 
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(  (new Container( )) )
+                (new TestDbEventsContainerConfigurator())->configure(  (new Container( )) )
             );
-        
+
         $eventDao = $container->get(EventDao::class);
         $eventRow = $eventDao->get( [ 'id' => self::$event_id_fk ] );
-        $eventDao->delete($eventRow);      
+        $eventDao->delete($eventRow);
         $eventRow = $eventDao->get( [ 'id' => self::$event_id_fk_2 ] );
-        $eventDao->delete($eventRow);      
-                
+        $eventDao->delete($eventRow);
+
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
         $loginRow  = $loginDao->get( ['login_name' => self::$login_login_name_fk  ] );
-        $loginDao->delete($loginRow); 
+        $loginDao->delete($loginRow);
 
     }
 
-    
+
     public function testSetUp() {
         $this->assertIsString(self::$login_login_name_fk);
         $this->assertIsString(self::$event_id_fk);
@@ -107,8 +109,8 @@ class EnrollDaoTest extends AppRunner {
         $rowData = new RowData();
         $rowData->import(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
         $this->dao->insert($rowData);
-        $this->assertEquals(1, $this->dao->getRowCount());       
-                
+        $this->assertEquals(1, $this->dao->getRowCount());
+
     }
 
     public function testGet() {
@@ -183,17 +185,17 @@ class EnrollDaoTest extends AppRunner {
         $this->setUp();
         $this->dao->delete($enrollRow);
         $this->assertEquals(0, $this->dao->getRowCount());
-        
-      
-        
+
+
+
         //kontrola RESTRICT
         //smazal enroll,  nesmazal login  = OK
         /** @var LoginDao $loginDao */
         $loginDao = $this->container->get(LoginDao::class);
-        $loginRow  = $loginDao->get( ['login_name' => self::$login_login_name_fk  ] );       
+        $loginRow  = $loginDao->get( ['login_name' => self::$login_login_name_fk  ] );
         $this->assertCount(1, $loginRow);
 
-         
+
         //smazat v event vetu s  id=self::$event_id_fk - provede v tearDownAfterClass
     }
 }

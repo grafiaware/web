@@ -19,54 +19,38 @@ trait DaoReferenceUniqueTrait {
     /**
      *
      * @param string $referenceName jméno reference.
-     * @param array $parentTouples Pole dvojic rodičovských dat
+     * @param array $parentBinds Pole dvojic rodičovských dat
      * @return type
      */
-    public function getByReference($referenceName, array $parentTouples): ?RowDataInterface {
-        $key = $this->getReferenceKeyTouples($referenceName, $parentTouples);
-        return $this->getUnique($key);
+    public function getByReference($referenceName, array $key): ?RowDataInterface {
+        return $this->getUnique($this->checkReferenceKey($referenceName, $key));
+
     }
 
     /**
-     * Vytvoří asocitaivní pole dvojic klíče z jmen polí potomka a hodnot rodičovských dat.
+     * Validuje referenční klíč.
      *
-     * @param type $parentTableName
-     * @param array $parentTouples
+     * @param type $referenceName
+     * @param array $key
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function getReferenceKeyTouples($parentTableName, array $parentTouples): array {
+    private function checkReferenceKey($referenceName, array $key): array {
         /** @var DaoReferenceNonuniqueInterface $this */
-        $fkAttribute = $this->getReferenceAttributes($parentTableName);
-
-        $key = [];
-        foreach ($fkAttribute as $childField=>$parentField) {
-            if( ! array_key_exists($parentField, $parentTouples)) {
-                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Reference obsahuje na pozici rodiče pole '$parentField' a pole rodičovských dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
+        $fkAttribute = $this->getReferenceAttributes($referenceName);
+        if(!$fkAttribute) {
+            throw new DaoUnknownReferenceNameException("V DAO není definován atribut reference se jménem $referenceName.");
+        }
+        foreach (array_keys($fkAttribute) as $field) {
+            if( ! array_key_exists($field, $key)) {
+                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Reference obsahuje na pozici rodiče pole '$field' a pole rodičovských dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
             }
-            if (is_scalar($parentTouples[$parentField])) {
-                $key[$childField] = $parentTouples[$parentField];
-            } else {
-                $t = gettype($parentTouples[$parentField]);
-                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Zadaný atribut klíče obsahuje v položce '$parentField' neskalární hodnotu. Hodnoty v položce '$parentField' je typu '$t'.");
+            if (!is_scalar($key[$field])) {
+                $t = gettype($key[$field]);
+                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Zadaný atribut klíče obsahuje v položce '$field' neskalární hodnotu. Hodnoty v položce '$field' je typu '$t'.");
             }
         }
 
         return $key;
-    }
-
-    /**
-     * NEPOUŽITO
-     *
-     * Vrací atributy reference podle jména reference. pokud reference se zadaným jménem neexistuje, vyhodí výjimku.
-     * @param string $referenceName
-     * @throws DaoUnknownReferenceNameException
-     */
-    private function getFkAttribute($referenceName) {
-        $fkAttributes = $this->getReferenceAttributes($referenceName);
-        if(!isset($fkAttributes)) {
-            throw new DaoUnknownReferenceNameException("V DAO není definována reference se jménem $referenceName.");
-        }
-        return $fkAttributes;
     }
 }

@@ -11,8 +11,6 @@ use Model\Dao\DaoReferenceUniqueInterface;
 interface MenuItemDaoInterface extends
 //        DaoReferenceNonuniqueInterface,
         DaoReferenceUniqueInterface {
-    public function getById(array $id);
-    public function getByPrettyUri(array $prettyUri);
     public function getByList(array $langCodeFkAndList);
 
     public function findAllLanguageVersions(array $uidFk);

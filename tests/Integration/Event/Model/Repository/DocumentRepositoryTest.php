@@ -5,8 +5,8 @@ namespace Test\Integration\Event\Model\Repository;
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Entity\Document;
 use Events\Model\Entity\DocumentInterface;
@@ -38,12 +38,12 @@ class DocumentRepositoryTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
-        
+
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
-        
+
         self::insertRecords($container);
     }
 
@@ -72,7 +72,7 @@ class DocumentRepositoryTest extends AppRunner {
         ]);
         $documentDao->insert($rowData);
         self::$idCv = $documentDao->lastInsertIdValue();
-        
+
         $rowData = new RowData();
         $rowData->import([
             'document' => $letterContent,
@@ -89,9 +89,9 @@ class DocumentRepositoryTest extends AppRunner {
         $dir = __DIR__;
         //$rows = $documentDao->find( 'document_filename LIKE "' . $dir . '%"', []);
         //$rows = $documentDao->find( "document_filename LIKE 'C:%.doc'", []);
-        // oescapovat 
+        // oescapovat
         $dir = str_replace('\\', '\\\\\\\\', $dir);  //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
-        $rows = $documentDao->find( "document_filename LIKE '$dir%'", []);                
+        $rows = $documentDao->find( "document_filename LIKE '$dir%'", []);
         foreach($rows as $row) {
             $ok = $documentDao->delete($row);
         }
@@ -100,7 +100,7 @@ class DocumentRepositoryTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->documentRepo = $this->container->get(DocumentRepo::class);
     }
@@ -113,7 +113,7 @@ class DocumentRepositoryTest extends AppRunner {
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
 
         self::deleteRecords($container);
@@ -129,7 +129,7 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     public function testGetAfterSetup() {
-        $document = $this->documentRepo->get(self::$idCv);    
+        $document = $this->documentRepo->get(self::$idCv);
         $this->assertInstanceOf(DocumentInterface::class, $document);
     }
 
@@ -143,14 +143,14 @@ class DocumentRepositoryTest extends AppRunner {
         $mime = finfo_file($finfo, $filepathName);
         $content = file_get_contents($filepathName);
         finfo_close($finfo);
-        
+
         $document->setDocument($content);
         $document->setDocumentMimetype($mime);
         $document->setDocumentFilename($filepathName);
 
         $this->documentRepo->add($document);
         $this->assertTrue($document->isPersisted());  // !!!!!! DocumentDao ma DaoEditAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
-        // pro automaticky|generovany klic (tento pripad zde ) a  pro  overovany klic  - !!! zapise se hned !!!             
+        // pro automaticky|generovany klic (tento pripad zde ) a  pro  overovany klic  - !!! zapise se hned !!!
 
     }
 
@@ -161,7 +161,7 @@ class DocumentRepositoryTest extends AppRunner {
 
         $filepathName = __DIR__."/".$cvFilename;
         $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-        $mime = finfo_file($finfo, $filepathName);        
+        $mime = finfo_file($finfo, $filepathName);
         $content = file_get_contents($filepathName);
         finfo_close($finfo);
 
@@ -184,42 +184,42 @@ class DocumentRepositoryTest extends AppRunner {
 
     public function testFind() {
         $dir = __DIR__;
-        //$documents = $this->documentRepo->find( 'document_filename LIKE "' . $dir . '%"', []); 
+        //$documents = $this->documentRepo->find( 'document_filename LIKE "' . $dir . '%"', []);
         //$documents = $this->documentRepo->find( "document_filename LIKE 'C:%.doc'", []);
-        //$documents = $this->documentRepo->find( "document_filename LIKE '" . $dir . "%'", []); 
-        
+        //$documents = $this->documentRepo->find( "document_filename LIKE '" . $dir . "%'", []);
+
         $dir = str_replace('\\', '\\\\\\\\', $dir);     //OESCAPOVANO, hledam 1 zpet.lomitko a nahrazuji ho ctyrma
-        $documents = $this->documentRepo->find( "document_filename LIKE '$dir%'", []); 
+        $documents = $this->documentRepo->find( "document_filename LIKE '$dir%'", []);
         $this->assertTrue(is_array($documents));
         $this->assertGreaterThan(0,count($documents)); //jsou tam minimalne 2
-                       
+
     }
 
     public function testRemove_OperationWithLockedEntity() {
-        $document = $this->documentRepo->get(self::$idCv);    
+        $document = $this->documentRepo->get(self::$idCv);
         $this->assertInstanceOf(DocumentInterface::class, $document);
         $this->assertTrue($document->isPersisted());
         $this->assertFalse($document->isLocked());
-        
+
         $document->lock();
         $this->expectException( OperationWithLockedEntityException::class);
         $this->documentRepo->remove($document);
     }
-        
+
     public function testRemove() {
-        $document = $this->documentRepo->get(self::$idCv);    
+        $document = $this->documentRepo->get(self::$idCv);
         $this->assertInstanceOf(DocumentInterface::class, $document);
         $this->assertTrue($document->isPersisted());
         $this->assertFalse($document->isLocked());
 
         $this->documentRepo->remove($document);
-        
+
         $this->assertTrue($document->isPersisted());
         $this->assertTrue($document->isLocked());   // maže až při flush
         $this->documentRepo->flush();
         // document uz neni locked
         $this->assertFalse($document->isLocked());
-       
+
         // pokus o čtení, document uz  neni
         $document = $this->documentRepo->get(self::$idCv);
         $this->assertNull($document);

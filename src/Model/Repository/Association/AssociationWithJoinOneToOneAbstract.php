@@ -12,7 +12,7 @@ use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\Hydrator\HydratorInterface;
 
-use Model\Repository\RepoJoinedOneInterface;
+use Model\Repository\RepoAssociatedWithJoinOneInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 
 /**
@@ -20,18 +20,18 @@ use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
  *
  * @author pes2704
  */
-abstract class JoinOneToOne extends AssociationOneToOne implements AssociationOneToOneInterface {
+abstract class AssociationWithJoinOneToOneAbstract extends AssociationOneToOneAbstract implements AssociationInterface {
 
     /**
-     * @var RepoJoinedOneInterface
+     * @var RepoAssociatedWithJoinOneInterface
      */
     protected $childRepo;
 
     /**
      *
-     * @param RepoJoinedOneInterface $childRepo
+     * @param RepoAssociatedWithJoinOneInterface $childRepo
      */
-    public function __construct(RepoJoinedOneInterface $childRepo) {
+    public function __construct(RepoAssociatedWithJoinOneInterface $childRepo) {
         $this->childRepo = $childRepo;
     }
 

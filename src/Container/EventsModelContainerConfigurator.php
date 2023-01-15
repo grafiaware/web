@@ -61,6 +61,7 @@ use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
 
 use Events\Model\Hydrator\InstitutionTypeChildHydrator;
+use Events\Model\Repository\Association\InstitutionsAssociation;
 use Events\Model\Repository\InstitutionTypeAggregateInstitutionRepo;
 
 use Events\Model\Dao\CompanyDao;
@@ -306,13 +307,23 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new InstitutionTypeChildHydrator();
             },
             InstitutionTypeAggregateInstitutionRepo::class => function(ContainerInterface $c) {
-                return new InstitutionTypeAggregateInstitutionRepo(
+                $repo = new InstitutionTypeAggregateInstitutionRepo(
                     $c->get(InstitutionTypeDao::class),
-                    $c->get(InstitutionTypeHydrator::class),
-                    $c->get(InstitutionRepo::class),
-                    $c->get(InstitutionTypeChildHydrator::class) );
-            },
+                    $c->get(InstitutionTypeHydrator::class));
+                $assotiation = new InstitutionsAssociation($c->get(InstitutionRepo::class));
+                $repo->registerOneToManyAssotiation($assotiation);
 
+                return $repo;
+            },
+            LoginAggregateCredentialsRepo::class => function(ContainerInterface $c) {
+                        $repo = new LoginAggregateCredentialsRepo(
+                        $c->get(LoginDao::class),
+                        $c->get(LoginHydrator::class)
+                        );
+                $assotiation = new CredentialsAssociation($c->get(CredentialsRepo::class));
+                $repo->registerOneToOneAssociation($assotiation);
+                return $repo;
+            },
             /**/
 
             //Company
@@ -409,7 +420,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             VisitorJobRequestRepo::class => function(ContainerInterface $c) {
                 return new VisitorJobRequestRepo($c->get(VisitorJobRequestDao::class), $c->get(VisitorJobRequestHydrator::class));
             },
-            
+
             VisitorProfileDao::class => function(ContainerInterface $c) {
                 return new VisitorProfileDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -432,11 +443,11 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             Job::class => function(ContainerInterface $c) {
                 return new Job($c->get(CompanyRepo::class), $c->get(JobRepo::class), $c->get(JobToTagRepo::class), $c->get(JobTagRepo::class));
             },
-            
+
             Presenter::class => function(ContainerInterface $c) {
                 return new Presenter($c->get(CompanyRepo::class), $c->get(RepresentativeRepo::class)  );
             }
-            
+
         ];
     }
 

@@ -25,4 +25,9 @@ interface RepoAssotiatedOneInterface extends RepoInterface {
      * @return PersistableEntityInterface|null
      */
     public function getByParentData(string $referenceName, RowDataInterface $parentRowData): ?PersistableEntityInterface;
+
+    public function addChild(PersistableEntityInterface $childEntity): void;
+
+    public function removeChild(PersistableEntityInterface $childEntity): void;
+
 }

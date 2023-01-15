@@ -20,9 +20,15 @@ use Model\Dao\DaoReferenceUniqueTrait;
  */
 class ArticleDao extends DaoEditAbstract implements ArticleDaoInterface {
 
+    const REFERENCE_MENU_ITEM = 'menu_item';
+
     use DaoAutoincrementTrait;
     use DaoReferenceUniqueTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
+    
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
@@ -41,7 +47,7 @@ class ArticleDao extends DaoEditAbstract implements ArticleDaoInterface {
 
     public function getReferenceAttributes($referenceName): array {
         return [
-            'menu_item'=>['menu_item_id_fk'=>'id']
+        self::REFERENCE_MENU_ITEM=>['menu_item_id_fk'=>'id']
         ][$referenceName];
     }
 

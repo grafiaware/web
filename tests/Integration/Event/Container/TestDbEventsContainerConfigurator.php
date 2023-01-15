@@ -30,7 +30,7 @@ use Pes\Logger\FileLogger;
  *
  * @author pes2704
  */
-class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
+class TestDbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return [
@@ -70,27 +70,27 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesDefinitions(): iterable {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
-            'dbRventsLogger' => function(ContainerInterface $c) {
+            'eventsDbLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('dbEvents.logs.db.directory'), $c->get('dbEvents.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('dbRventsLogger'));
+                    $dsnProvider->setLogger($c->get('eventsDbLogger'));
                 }
                 return $dsnProvider;
             },
             OptionsProviderMysql::class =>  function(ContainerInterface $c) {
                 $optionsProvider = new OptionsProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('dbRventsLogger'));
+                    $optionsProvider->setLogger($c->get('eventsDbLogger'));
                 }
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
                 $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('dbRventsLogger'));
+                    $attributesProvider->setLogger($c->get('eventsDbLogger'));
                 }
                 return $attributesProvider;
             },

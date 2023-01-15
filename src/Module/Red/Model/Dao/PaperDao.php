@@ -20,9 +20,15 @@ use Model\Dao\DaoReferenceUniqueTrait;
  */
 class PaperDao extends DaoEditAbstract implements PaperDaoInterface {
 
+    const REFERENCE_MENU_ITEM = 'menu_item';
+
     use DaoAutoincrementTrait;
     use DaoReferenceUniqueTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
+    
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
@@ -42,7 +48,7 @@ class PaperDao extends DaoEditAbstract implements PaperDaoInterface {
 
     public function getReferenceAttributes($referenceName): array {
         return [
-            'menu_item'=>['menu_item_id_fk'=>'id']
+        self::REFERENCE_MENU_ITEM=>['menu_item_id_fk'=>'id']
         ][$referenceName];
     }
 

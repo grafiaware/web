@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditContextualAbstract;
+use Model\Dao\DaoEditAbstract;
 
 use Model\Dao\DaoAutoincrementTrait;
 use Model\Dao\DaoReferenceNonuniqueTrait;
@@ -18,10 +18,16 @@ use Model\Dao\DaoReferenceNonuniqueTrait;
  *
  * @author pes2704
  */
-class PaperSectionDao extends DaoEditContextualAbstract implements PaperSectionDaoInterface {
+class PaperSectionDao extends DaoEditAbstract implements PaperSectionDaoInterface {
+
+    const REFERENCE_PAPER = 'paper';
 
     use DaoAutoincrementTrait;
     use DaoReferenceNonuniqueTrait;
+
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
@@ -44,10 +50,10 @@ class PaperSectionDao extends DaoEditContextualAbstract implements PaperSectionD
             'updated',
         ];
     }
-    
+
     public function getReferenceAttributes($referenceName): array {
         return [
-            'paper'=>['paper_id_fk'=>'id']
+        self::REFERENCE_PAPER=>['paper_id_fk'=>'id']
         ][$referenceName];
     }
 

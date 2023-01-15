@@ -14,6 +14,5 @@ namespace Model\Dao;
  */
 interface DaoReferenceNonuniqueInterface extends DaoWithReferenceInterface {
 
-    public function findByReference($referenceName, array $referenceTouples): array;
-
+    public function findByReference($referenceName, array $key): array;
 }

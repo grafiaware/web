@@ -21,8 +21,8 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
 
     public function getReferenceAttributes($referenceName): array {
         return [
-            'company_id'=>['company_id'],
-            'login_login_name'=>['login_login_name']
+            'company'=>['company_id'=>'id'],
+            'login'=>['login_login_name'=>'login_name']
 
         ][$referenceName];
     }
@@ -39,6 +39,6 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
     }
 
     public function findByCompanyIdFk(array $companyIdFk): array {
-        return $this->findByReference('company_id', $companyIdFk);
+        return $this->findByReference('company', $companyIdFk);
     }
 }

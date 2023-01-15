@@ -17,6 +17,10 @@ class CompanyContactDao extends DaoEditAbstract implements DaoEditAutoincrementK
 
     use DaoAutoincrementTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
+    
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }

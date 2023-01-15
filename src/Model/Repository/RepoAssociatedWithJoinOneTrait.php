@@ -5,7 +5,7 @@ use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
-use Model\Repository\RepoJoinedOneInterface;  // použito jen v komentáři
+use Model\Repository\RepoAssociatedWithJoinOneInterface;  // použito jen v komentáři
 
 use UnexpectedValueException;
 
@@ -14,7 +14,7 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-trait RepoJoinedOneTrait {
+trait RepoAssociatedWithJoinOneTrait {
 
     /**
      * Metoda vytvoří entitu v potomkovské repository be čtšní dat z úložiště. Potomkovskou entitu vytvoří z rodičovských dat.
@@ -43,5 +43,13 @@ trait RepoJoinedOneTrait {
             }
         }
         return new RowData($childTouples);
+    }
+    
+    public function addChild(PersistableEntityInterface $childEntity): void {
+        $this->addEntity($childEntity);
+    }
+
+    public function removeChild(PersistableEntityInterface $childEntity): void {
+        $this->removeEntity($childEntity);
     }
 }

@@ -5,8 +5,8 @@ namespace Test\Integration\Dao;
 use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\JobDao;
 use Events\Model\Dao\CompanyDao;
@@ -31,7 +31,7 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
 
     private static $pozadovaneVzdelaniTouple;
     private static $pozadovaneVzdelaniTouple_poUpdate;
-    private static $jobIdTouple;   
+    private static $jobIdTouple;
     private static $companyIdTouple;
 
 
@@ -39,22 +39,22 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
-            );        
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
+            );
         /** @var CompanyDao $companyDao */
-        $companyDao = $container->get(CompanyDao::class);    
+        $companyDao = $container->get(CompanyDao::class);
         $companyData = new RowData();
         $companyData->offsetSet( 'name' , "pomocna pro PozadovaneVzdelaniTest"  );
         $companyDao->insert($companyData);
-        self::$companyIdTouple = $companyDao->getLastInsertIdTouple();                                
+        self::$companyIdTouple = $companyDao->getPrimaryKey($companyData->getArrayCopy());
     }
 
-    
+
     protected function setUp(): void {
-        
+
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(PozadovaneVzdelaniDao::class);  // vždy nový objekt
     }
@@ -65,80 +65,80 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
          /** @var CompanyDao $companyDao */
-        $companyDao = $container->get(CompanyDao::class);            
+        $companyDao = $container->get(CompanyDao::class);
         $companyData = $companyDao->get(self::$companyIdTouple);
         $companyDao->delete($companyData);
-        
-        
+
+
 //          /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
-//        $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);            
+//        $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);
 //        $pozadovaneVzdelaniData = $pozadovaneVzdelaniDao->get(['stupen' => "101"] );
 //        $pozadovaneVzdelaniDao->delete($pozadovaneVzdelaniData);
-        
+
 
     }
 
     public function testSetUp() {
         $this->assertInstanceOf(PozadovaneVzdelaniDao::class, $this->dao);
     }
-    
-     
-    public function testInsert() {  
+
+
+    public function testInsert() {
         $rowData = new RowData();
         $rowData->offsetSet( 'stupen' , "101"  );
         $rowData->offsetSet( 'vzdelani' , "AAAAAB"  );
-        $this->dao->insert($rowData);       
+        $this->dao->insert($rowData);
         /** @var RowData $rowD */
         $rowD =  $this->dao->get( ['stupen' => "101"] );
-       
-    
+
+
         $rowArray = $rowD->getArrayCopy();
-        self::$pozadovaneVzdelaniTouple =  $this->dao->getPrimaryKeyTouples($rowArray);        
+        self::$pozadovaneVzdelaniTouple =  $this->dao->getPrimaryKey($rowArray);
         $this->assertIsArray(self::$pozadovaneVzdelaniTouple);
-                
+
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
-                
-        
+
+
         //vyrobit job vetu
         /** @var JobDao $jobDao */
         $jobDao = $this->container->get(JobDao::class);
         $jobData = new RowData();
         $jobData->import( ['pozadovane_vzdelani_stupen' => 101, 'company_id' =>self::$companyIdTouple['id']] );
-        $jobDao->insert($jobData);    
-        self::$jobIdTouple = $jobDao->getLastInsertIdTouple();        
+        $jobDao->insert($jobData);
+        self::$jobIdTouple = $jobDao->getPrimaryKey($jobData->getArrayCopy());
    }
 
-   
+
     public function testGetExistingRow() {
         $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple);
         $this->assertInstanceOf(RowDataInterface::class, $pozadovaneVzdelaniRow);
     }
 
-    
+
     public function test2Columns() {
         $pozadovaneVzdelaniRow = $this->dao->get( self::$pozadovaneVzdelaniTouple );
         $this->assertCount(2, $pozadovaneVzdelaniRow);
     }
 
-    
-    
+
+
    public function testUpdate() {
-        /** @var RowData $pozadovaneVzdelaniRow */   
+        /** @var RowData $pozadovaneVzdelaniRow */
         $pozadovaneVzdelaniRow = $this->dao->get( self::$pozadovaneVzdelaniTouple );
         $this->assertIsInt( $pozadovaneVzdelaniRow['stupen'] );
         $this->assertIsString( $pozadovaneVzdelaniRow['vzdelani'] );
-                 
-        $this->setUp();                      
+
+        $this->setUp();
         $pozadovaneVzdelaniRow->offsetSet( 'vzdelani' , "BBBBB"  );
         $pozadovaneVzdelaniRow->offsetSet( 'stupen' , "200"  );
 
         $ok = $this->dao->update($pozadovaneVzdelaniRow);
         $this->assertEquals(1, $this->dao->getRowCount());
-        
+
         //--------------------------------------------------------
         //kontrola stupen v job - je CASCADE
          /** @var JobDao $jobDao */
@@ -147,12 +147,12 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         $this->assertEquals( $pozadovaneVzdelaniRow['stupen'], $jobData['pozadovane_vzdelani_stupen'] );
 
         /** @var RowData $rowD */
-        $rowD =  $this->dao->get( ['stupen' => "200"] );           
+        $rowD =  $this->dao->get( ['stupen' => "200"] );
         $rowArray = $rowD->getArrayCopy();
-        self::$pozadovaneVzdelaniTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);         
+        self::$pozadovaneVzdelaniTouple_poUpdate =  $this->dao->getPrimaryKey($rowArray);
     }
 
-    
+
     public function testFind() {
         $pozadovaneVzdelaniRow = $this->dao->find();
         $this->assertIsArray($pozadovaneVzdelaniRow);
@@ -160,26 +160,26 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         $this->assertInstanceOf(RowDataInterface::class, $pozadovaneVzdelaniRow[0]);
     }
 
-   
-    public function testDeleteException() {   
+
+    public function testDeleteException() {
         // kontrola RESTRICT = že nevymaže pozadovane vzdelani, kdyz je pouzit v job
         $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple_poUpdate);
         $this->expectException(ExecuteException::class);
-        $this->dao->delete($pozadovaneVzdelaniRow);                
+        $this->dao->delete($pozadovaneVzdelaniRow);
     }
-    
-    
+
+
     public function testDelete() {
-      
-        //smazat job, kde pouzito pozadovane_vzdelani_stupen       
+
+        //smazat job, kde pouzito pozadovane_vzdelani_stupen
         /** @varJobDao $jobDao */
-        $jobDao = $this->container->get(JobDao::class);            
+        $jobDao = $this->container->get(JobDao::class);
         /** @var RowData $jobRow */
         $jobRow = $jobDao->get(self::$jobIdTouple);
         $ok = $jobDao->delete( $jobRow );
         $this->assertEquals(1, $jobDao->getRowCount());
-                
-        //pak smazat pozadovane vzdelani 
+
+        //pak smazat pozadovane vzdelani
         $this->setUp();
         $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple_poUpdate);
         $this->dao->delete($pozadovaneVzdelaniRow);
@@ -189,7 +189,7 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         $this->setUp();
         $pozadovaneVzdelaniRow = $this->dao->get(self::$pozadovaneVzdelaniTouple_poUpdate);
         $this->assertNull($pozadovaneVzdelaniRow);
-        
+
    }
 }
 

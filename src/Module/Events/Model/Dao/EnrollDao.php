@@ -20,8 +20,8 @@ class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
 
     public function getReferenceAttributes($referenceName): array {
         return [
-            'login_login_name_fk'=>['login_login_name_fk'],
-            'event_id_fk'=>['event_id_fk']
+            'login'=>['login_login_name_fk'=>'login_name'],
+            'event'=>['event_id_fk'=>'id']
         ][$referenceName];
     }
 
@@ -37,10 +37,10 @@ class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
     }
 
     public function findByLoginNameFk(array $loginNameFk ): array {
-        return $this->findByReference('login_login_name_fk', $loginNameFk);
+        return $this->findByReference('login', $loginNameFk);
     }
 
     public function findByEventIdFk(array $eventContentIdFk ): array {
-        return $this->findByReference('event_id_fk', $eventContentIdFk);
+        return $this->findByReference('event', $eventContentIdFk);
     }
 }

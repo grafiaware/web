@@ -13,8 +13,11 @@ use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
 use Model\RowData\RowDataInterface;
+use Model\Dao\DaoContextualInterface;
+use Model\Context\ContextFactoryInterface;
 
 use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
+use Model\Dao\Exception\DaoContextualHasNoContextFactoryException;
 use UnexpectedValueException;
 
 /**
@@ -43,17 +46,30 @@ abstract class DaoAbstract implements DaoInterface {
      */
     private $preparedStatements = [];
 
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName) {
+    /**
+     * @var ContextFactoryInterface
+     */
+    protected $contextFactory;
+
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextFactoryInterface $contextFactory=null) {
         $this->dbHandler = $handler;
         $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
         $this->sql = $sql;
+        $this->contextFactory = $contextFactory;
     }
 
 ## public ##########################################
 
 
-    //TODO: ? protected - zdá se, že getPrimaryKeyTouples je použito jen v MenuItemRepo a jeho metoda getOutOfContext není použita - repo kontextové a repo out of context je i v container config -> dohledat a doladit
-    public function getPrimaryKeyTouples(array $row): array {
+    //TODO: ? protected - zdá se, že getPrimaryKeyTouples je použito jen v testech - a v MenuItemRepo a jeho metoda getOutOfContext není použita - repo kontextové a repo out of context je i v container config -> dohledat a doladit
+
+    /**
+     * {@inheritDoc}
+     * @param array $row Řádek dat -asociativní pole, které musí obsahovat alespoň položky odpovídající polím primárního klíče
+     * @return array
+     * @throws UnexpectedValueException
+     */
+    public function getPrimaryKey(array $row): array {
         $keyAttribute = $this->getPrimaryKeyAttributes();
         $key = [];
         foreach ($keyAttribute as $field) {
@@ -73,29 +89,45 @@ abstract class DaoAbstract implements DaoInterface {
     /**
      * {@inheritDoc}
      *
-     * @param array $id
+     * @param array $primaryKey
      * @return RowDataInterface|null
      */
-    public function get(array $id): ?RowDataInterface {
+    public function get(array $primaryKey): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttributes())));
-        $touplesToBind = $this->getPrimaryKeyPlaceholdersValues($id);
+        $where = $this->sql->where($this->sql->and(
+                $this->getContextTouples(),
+                $this->sql->touples($this->getPrimaryKeyAttributes())
+            )
+        );
+        $touplesToBind = $this->getPrimaryKeyPlaceholdersValues($primaryKey);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param array $unique
+     * @param array $uniqueKey
      * @return RowDataInterface|null
      */
-    public function getUnique(array $unique): ?RowDataInterface {
+    public function getUnique(array $uniqueKey): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples(array_keys($unique))));
-        $touplesToBind = $this->getPlaceholdersValues($unique);
+        $where = $this->sql->where($this->sql->and(
+                $this->getContextTouples(),
+                $this->sql->touples(array_keys($uniqueKey))
+            )
+        );
+        $touplesToBind = $this->getPlaceholdersValues($uniqueKey);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    }
+
+    public function findNonUnique(array $nonUniqueKey): iterable {
+        $whereClause = $this->sql->and(
+                $this->getContextTouples(),
+                $this->sql->touples(array_keys($nonUniqueKey))
+            );
+        return $this->find($whereClause, $nonUniqueKey);
     }
 
     /**
@@ -120,8 +152,25 @@ abstract class DaoAbstract implements DaoInterface {
     public function findAll(): iterable {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
+        $where = $this->sql->where($this->sql->and($this->getContextTouples()));
         return $this->selectMany($select, $from, $where, []);
     }
+
+    private function getContextTouples() {
+        if ($this instanceof DaoContextualInterface) {
+            if (isset($this->contextFactory)) {
+                $ret = $this->getContextConditions();
+            } else {
+                throw new DaoContextualHasNoContextFactoryException("DAO typu DaoContextualInterface musí mít v konstruktoru předán objekt ContextFactoryInterface.");
+            }
+        } else {
+            $ret = [];
+        }
+        return $ret;
+    }
+
+
+#################################################################################
 
     /**
      * Očekává SQL string s příkazem SELECT a případnými placeholdery. Provede ho s použitím parametrů a vrací jednu řádku tabulky ve formě dané nastavením parametrů konstruktoru.
@@ -167,7 +216,7 @@ abstract class DaoAbstract implements DaoInterface {
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @return array
      */
-    protected function selectMany($select, $from, $where, $touplesToBind=[]) {
+    protected function selectMany($select, $from, $where='', $touplesToBind=[]) {
         $statement = $this->getPreparedStatement($select.$from.$where);
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);

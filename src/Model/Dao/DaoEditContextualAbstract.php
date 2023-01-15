@@ -18,7 +18,7 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
     /**
      * @var ContextFactoryInterface
      */
-    private $contextFactory;
+    protected $contextFactory;
 
 
     public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextFactoryInterface $contextFactory=null) {
@@ -64,6 +64,20 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
         $touplesToBind = $this->getPrimaryKeyPlaceholdersValues($unique);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
+    // TODO: dodělat contextual - ?? je potřeba současně kontextové metody i out of context metody
+    public function findNonUnique(array $nonUniqueKey): iterable {
+        if ($this instanceof DaoContextualInterface) {
+            $where = $this->sql->where($this->sql->and($this->getContextConditions(), $whereBinds));
+        } else {
+            $where = $this->sql->where($this->sql->and($this->sql->touples($whereBinds)));
+        }
+        $this->findNonUnique($nonUniqueKey);
+    }
+
+    public function findNonUniqueOutOfContext(array $nonUniqueKey): iterable  {
+
+    }
+
     /**
      * {@inheritDoc}
      *

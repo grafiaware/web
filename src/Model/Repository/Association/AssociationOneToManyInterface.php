@@ -15,7 +15,7 @@ use Model\Entity\PersistableEntityInterface;
  *
  * @author pes2704
  */
-interface AssociationOneToManyInterface extends ManyInterface {
+interface AssociationOneToManyInterface extends AssociationInterface {
 
    /**
     *
@@ -23,6 +23,9 @@ interface AssociationOneToManyInterface extends ManyInterface {
     * @param RowDataInterface[] $parentRowdaraArray
     * @return void
     */
-    public function recreateChildEntities(array $parentEntities, array $parentRowdaraArray): void;
+    public function recreateChildEntities(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void;
 
+    public function addEntities(PersistableEntityInterface $parentEntity): void;
+
+    public function removeEntities(PersistableEntityInterface $parentEntity): void;
 }

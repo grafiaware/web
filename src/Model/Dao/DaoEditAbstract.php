@@ -11,6 +11,7 @@ namespace Model\Dao;
 use Model\RowData\RowDataInterface;
 
 use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
@@ -32,10 +33,14 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
      * @return bool
      */
     public function insert(RowDataInterface $rowData): bool {
-        if ($this instanceof DaoEditKeyDbVerifiedInterface) {
-            return $this->execInsertWithKeyVerification($rowData);
-        } else {
-            return $this->execInsert($rowData);
+        $ret = ($this instanceof DaoEditKeyDbVerifiedInterface) ? $this->execInsertWithKeyVerification($rowData) : $this->execInsert($rowData);
+        $this->setLastInsertedIdForAutoincrementedValue($rowData);
+        return $ret;
+    }
+
+    private function setLastInsertedIdForAutoincrementedValue(RowDataInterface $rowData) {
+        if($this instanceof DaoEditAutoincrementKeyInterface) {
+            $this->setAutoincrementedValue($rowData);  // metoda je v DaoAutoincrementTrait
         }
     }
 

@@ -5,8 +5,8 @@ namespace Test\Integration\Dao;
 use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\JobDao;
 use Events\Model\Dao\JobTagDao;
@@ -42,7 +42,7 @@ class  JobTagDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         
         /** @var CompanyDao $companyDao */
@@ -57,7 +57,7 @@ class  JobTagDaoTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(JobTagDao::class);  // vždy nový objekt
     }
@@ -82,7 +82,7 @@ class  JobTagDaoTest extends AppRunner {
        
         /** @var RowData $rowD */
         $rowArray = $rowD->getArrayCopy();
-        self::$jobTagTouple =  $this->dao->getPrimaryKeyTouples($rowArray);        
+        self::$jobTagTouple =  $this->dao->getPrimaryKey($rowArray);        
         $this->assertIsArray(self::$jobTagTouple);
                 
         $numRows = $this->dao->getRowCount();
@@ -105,7 +105,7 @@ class  JobTagDaoTest extends AppRunner {
         $jobToTagDao->insert($jobToTagData);   
         /**  @var RowData  $row */
         $row = $jobToTagDao->get( [ 'job_tag_tag' => self::$jobTagTouple ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ] );
-        self::$jobToTagTouples  = $jobToTagDao->getPrimaryKeyTouples($row->getArrayCopy());      
+        self::$jobToTagTouples  = $jobToTagDao->getPrimaryKey($row->getArrayCopy());      
         
    }
 
@@ -131,7 +131,7 @@ class  JobTagDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
         
         $rowArray = $jobTagRow->getArrayCopy();
-        self::$jobTagTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);  
+        self::$jobTagTouple_poUpdate =  $this->dao->getPrimaryKey($rowArray);  
 
         $this->setUp();
         $a = [ 'job_tag_tag' => self::$jobTagTouple_poUpdate ['tag'] , 'job_id'=>self::$jobIdTouple['id'] ] ;

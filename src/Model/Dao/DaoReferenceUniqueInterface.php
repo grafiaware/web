@@ -9,6 +9,6 @@ use Model\RowData\RowDataInterface;
  */
 interface DaoReferenceUniqueInterface extends DaoWithReferenceInterface {
 
-    public function getByReference($referenceName, array $referenceTouples): ?RowDataInterface;
+    public function getByReference($referenceName, array $key): ?RowDataInterface;
 
 }

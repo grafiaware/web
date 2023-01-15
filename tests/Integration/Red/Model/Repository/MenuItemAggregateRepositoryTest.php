@@ -86,7 +86,7 @@ class MenuItemAggregateRepositoryTest extends AppRunner {
         /** @var PaperAggregatePaperSection $paper */      // není interface
         $paper = $entity->getPaper();
         $this->assertInstanceOf(PaperAggregatePaperSection::class, $paper);
-        $contents = $paper->getPaperContentsArray();
+        $contents = $paper->getPaperSectionsArray();
         $this->assertIsArray($contents);
         $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
 
@@ -99,7 +99,7 @@ class MenuItemAggregateRepositoryTest extends AppRunner {
         /** @var PaperAggregatePaperSection $paper */      // není interface
         $paper = $entity->getPaper();
         $this->assertInstanceOf(PaperAggregatePaperSection::class, $paper);
-        $contents = $paper->getPaperContentsArray();
+        $contents = $paper->getPaperSectionsArray();
         $this->assertIsArray($contents);
         $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
 

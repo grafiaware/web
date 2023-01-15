@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditContextualAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 use Model\Dao\DaoReferenceNonuniqueInterface;
@@ -26,7 +26,12 @@ use Red\Model\Dao\LanguageDao;
  *
  * @author pes2704
  */
-class MenuItemDao extends DaoEditContextualAbstract implements MenuItemDaoInterface {
+class MenuItemDao extends DaoEditAbstract implements MenuItemDaoInterface {
+
+    const REFERENCE_PRIMARY = 'PRIMARY';
+    const REFERENCE_HIERARCHY = 'hierarchy';
+    const REFERENCE_LANGUAGE = 'language';
+    const REFERENCE_MENU_ITEM_TYPE = 'menu_item_type';
 
 //    use DaoReferenceNonuniqueTrait;
     use DaoReferenceUniqueTrait;
@@ -54,10 +59,10 @@ class MenuItemDao extends DaoEditContextualAbstract implements MenuItemDaoInterf
 //  CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY (`type_fk`) REFERENCES `menu_item_type` (`type`) ON DELETE CASCADE ON UPDATE CASCADE
 
         return [
-            'PRIMARY' => ['lang_code_fk'=>'lang_code_fk', 'uid_fk'=>'uid_fk'],   // primární klíč je současně reference (1:1)
-            'hierarchy' => ['uid_fk'=>'uid_fk'],
-            'language' => ['lang_code_fk'=>'lang_code_fk'],
-            'menu_item_type' => ['type_fk'=>'type_fk']
+            self::REFERENCE_PRIMARY => ['lang_code_fk'=>'lang_code', 'uid_fk'=>'uid'],   // primární klíč je současně reference (1:1)
+            self::REFERENCE_HIERARCHY => ['uid_fk'=>'uid'],
+            self::REFERENCE_LANGUAGE => ['lang_code_fk'=>'lang_code'],
+            self::REFERENCE_MENU_ITEM_TYPE => ['type_fk'=>'type']
         ][$referenceName];
     }
 
@@ -65,7 +70,7 @@ class MenuItemDao extends DaoEditContextualAbstract implements MenuItemDaoInterf
         return 'menu_item';
     }
 
-    protected function getContextConditions() {
+    public function getContextConditions(): array {
         $contextConditions = [];
         if (isset($this->contextFactory)) {
             $publishedContext = $this->contextFactory->createPublishedContext();
@@ -76,20 +81,6 @@ class MenuItemDao extends DaoEditContextualAbstract implements MenuItemDaoInterf
             }
         }
         return $contextConditions;
-    }
-
-    public function getById(array $id) {
-        return $this->getUnique($id);
-    }
-
-    /**
-     * Vrací řádek menu_item vyhledaný podle prettyuri - pro statické stránky
-     *
-     * @param string $prettyUri
-     * @return type
-     */
-    public function getByPrettyUri(array $prettyUri) {
-        return $this->getUnique($prettyUri);
     }
 
     /**

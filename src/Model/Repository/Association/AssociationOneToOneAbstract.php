@@ -20,7 +20,7 @@ use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
  *
  * @author pes2704
  */
-abstract class AssociationOneToOne extends AssociationAbstract implements AssociationOneToOneInterface {
+abstract class AssociationOneToOneAbstract extends AssociationAbstract implements AssociationOneToOneInterface {
 
     /**
      * @var RepoAssotiatedOneInterface
@@ -59,7 +59,7 @@ abstract class AssociationOneToOne extends AssociationAbstract implements Associ
         $this->extractChild($parentEntity, $childEntity);
         // parametr entity může být null - metoda je volána např. repo->addChild($parentEntity->getCosi())
         if (isset($childEntity) AND !$childEntity->isLocked() AND !$childEntity->isPersisted()) {
-            $this->childRepo->add($childEntity);
+            $this->childRepo->addChild($childEntity);
         }
     }
 
@@ -73,7 +73,7 @@ abstract class AssociationOneToOne extends AssociationAbstract implements Associ
         $this->extractChild($parentEntity, $childEntity);
         // parametr entity může být null - metoda je volána např. repo->addChild($parentEntity->getCosi())
         if (isset($childEntity) AND !$childEntity->isLocked() AND $childEntity->isPersisted()) {
-            $this->childRepo->remove($childEntity);
+            $this->childRepo->removeChild($childEntity);
         }
     }
 }

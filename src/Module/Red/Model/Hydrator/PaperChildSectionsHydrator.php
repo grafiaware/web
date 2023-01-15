@@ -41,5 +41,5 @@ class PaperChildSectionsHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $paperAggregate, ArrayAccess $rowData) {
         /** @var PaperAggregatePaperSectionInterface $paperAggregate */
-        $rowData[0] = $paperAggregate->getPaperContentsArray();
+        $rowData[0] = $paperAggregate->getPaperSectionsArray();
     }}

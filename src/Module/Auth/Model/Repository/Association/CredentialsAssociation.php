@@ -1,7 +1,7 @@
 <?php
 namespace Auth\Model\Repository\Association;
 
-use Model\Repository\Association\AssociationOneToOne;
+use Model\Repository\Association\AssociationOneToOneAbstract;
 use Model\Repository\Association\AssociationOneToOneInterface;
 use Model\Entity\PersistableEntityInterface;
 
@@ -12,7 +12,7 @@ use Auth\Model\Dao\CredentialsDao;
  *
  * @author pes2704
  */
-class CredentialsAssociation extends AssociationOneToOne implements AssociationOneToOneInterface {
+class CredentialsAssociation extends AssociationOneToOneAbstract implements AssociationOneToOneInterface {
     public function getReferenceName() {
         return CredentialsDao::REFERENCE_LOGIN;
     }

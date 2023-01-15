@@ -14,6 +14,9 @@ class EventLinkDao  extends DaoEditAbstract implements EventLinkDaoInterface {
 
     use DaoAutoincrementTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
@@ -21,7 +24,7 @@ class EventLinkDao  extends DaoEditAbstract implements EventLinkDaoInterface {
 
     public function getAttributes(): array {
         return [
-            'id', 
+            'id',
             'show',
             'href',
             'link_phase_id_fk'

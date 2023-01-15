@@ -199,7 +199,7 @@ abstract class RepoAbstract {
         /** @var DaoWithReferenceInterface $this->dataManager */
         $refAttribute = $this->dataManager->getReferenceAttributes($referenceName);
 //        $key = array_combine(array_keys($refAttribute), $referenceParams);
-        $key = array_combine(array_values($refAttribute), $referenceParams);
+        $key = array_combine(array_keys($refAttribute), $referenceParams);
         if ($key===false) {
             $daoCls = $daoCls($this->dataManager);
             throw new UnexpectedValueException("Nelze vytvořit referenci pro volání Dao. Počet parametrů předaných metodě typu getByReference() neodpovídá počtu polí reference se jménem $referenceName v DAO $daoCls.");

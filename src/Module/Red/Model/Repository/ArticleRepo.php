@@ -48,7 +48,7 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
     }
 
     public function getByMenuItemId($menuItemId): ?ArticleInterface {
-        return $this->getByReference('menu_item', $menuItemId);
+        return $this->getEntityByReference(ArticleDao::REFERENCE_MENU_ITEM, $menuItemId);
     }
 
     public function add(ArticleInterface $article) {

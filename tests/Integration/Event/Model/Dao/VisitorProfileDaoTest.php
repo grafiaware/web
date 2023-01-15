@@ -6,8 +6,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\LoginDao;
 use Events\Model\Dao\VisitorProfileDao;
@@ -37,7 +37,7 @@ class VisitorProfileDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         $container =
             (new EventsModelContainerConfigurator())->configure( 
-                    (new DbEventsContainerConfigurator())->configure(  (new Container( ) ) )
+                    (new TestDbEventsContainerConfigurator())->configure(  (new Container( ) ) )
             );
         // nový login_name  pro TestCase
         $prefix = "testVisitorProfileDao";
@@ -66,7 +66,7 @@ class VisitorProfileDaoTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
+                (new TestDbEventsContainerConfigurator())->configure(
                     (new Container( ) ) )
             );
         $this->dao = $this->container->get(VisitorProfileDao::class);  // vždy nový objekt
@@ -78,7 +78,7 @@ class VisitorProfileDaoTest extends AppRunner {
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
+                (new TestDbEventsContainerConfigurator())->configure(
                     (new Container( ) )  )
             );
         

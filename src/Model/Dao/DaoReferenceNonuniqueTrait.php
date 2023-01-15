@@ -3,8 +3,8 @@
 namespace Model\Dao;
 
 use Model\Dao\DaoReferenceNonuniqueInterface;
-use Model\Dao\Exception\DaoUnknownReferenceNameException;
 
+use Model\Dao\Exception\DaoUnknownReferenceNameException;
 use UnexpectedValueException;
 
 /**
@@ -14,52 +14,49 @@ use UnexpectedValueException;
  */
 trait DaoReferenceNonuniqueTrait {
 
-    public function findByReference($referenceName, array $referenceTouples): array {
+    public function findByReference($referenceName, array $key): array {
         /** @var DaoReferenceUniqueInterface $this */
-        $select = $this->sql->select($this->getAttributes());
-        $from = $this->sql->from($this->getTableName());
+        return $this->findNonUnique($this->checkReferenceKey($referenceName, $key));
 
-        $fkAttributes = $this->getFkAttribute($referenceName);
-        if ($this instanceof DaoContextualInterface) {
-            $where = $this->sql->where($this->sql->and($this->getContextConditions(), $this->sql->touples($fkAttributes)));
-        } else {
-            $where = $this->sql->where($this->sql->and($this->sql->touples($fkAttributes)));
-        }
-
-        $touplesToBind = $this->getTouplesToBind($referenceTouples);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
+//        $select = $this->sql->select($this->getAttributes());
+//        $from = $this->sql->from($this->getTableName());
+//
+//        $fkAttributes = $this->getFkAttribute($referenceName);
+//        $whereTouples = $this->getReferenceKeyBinds($referenceName, $referenceTouples);
+//        if ($this instanceof DaoContextualInterface) {
+//            $where = $this->sql->where($this->sql->and($this->getContextConditions(), $whereTouples));
+//        } else {
+//            $where = $this->sql->where($this->sql->and($whereTouples));
+//        }
+//
+//        $touplesToBind = $this->getTouplesToBind($referenceTouples);
+//        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function getReferenceKeyTouples($referenceName, array $referenceTouples): array {
+    /**
+     * Validuje referenční klíč.
+     *
+     * @param type $referenceName
+     * @param array $key
+     * @return array
+     * @throws UnexpectedValueException
+     */
+    private function checkReferenceKey($referenceName, array $key): array {
         /** @var DaoReferenceNonuniqueInterface $this */
         $fkAttribute = $this->getReferenceAttributes($referenceName);
-
-        $key = [];
-        foreach ($fkAttribute as $field) {
-            if( ! array_key_exists($field, $referenceTouples)) {
-                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Atribut klíče obsahuje pole '$field' a pole dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
+        if(!$fkAttribute) {
+            throw new DaoUnknownReferenceNameException("V DAO není definován atribut reference se jménem $referenceName.");
+        }
+        foreach (array_keys($fkAttribute) as $field) {
+            if( ! array_key_exists($field, $key)) {
+                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Reference obsahuje na pozici rodiče pole '$field' a pole rodičovských dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
             }
-            if (is_scalar($referenceTouples[$field])) {
-                $key[$field] = $referenceTouples[$field];
-            } else {
-                $t = gettype($referenceTouples[$field]);
+            if (!is_scalar($key[$field])) {
+                $t = gettype($key[$field]);
                 throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Zadaný atribut klíče obsahuje v položce '$field' neskalární hodnotu. Hodnoty v položce '$field' je typu '$t'.");
             }
         }
 
         return $key;
-    }
-
-    /**
-     *
-     * @param type $fkAttributesName
-     * @throws DaoUnknownReferenceNameException
-     */
-    private function getFkAttribute($fkAttributesName) {
-        $fkAttributes = $this->getReferenceAttributes();
-        if(!array_key_exists($fkAttributesName, $fkAttributes)) {
-            throw new DaoUnknownReferenceNameException("V DAO není definován atribut cizího klíče (foreign key attribute) se jménem $fkAttributesName.");
-        }
-        return $fkAttributes[$fkAttributesName];
     }
 }
