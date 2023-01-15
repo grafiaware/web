@@ -110,8 +110,8 @@ class Presenter {
      * @param type $loginName
      * @return type
      */
-     public function getPersonI($loginName) {
-        $representativeEntity = $this->representativeRepo->get($loginName); //companyId, loginLoginName
+     public function getPersonI($loginName, $idCompany) {
+        $representativeEntity = $this->representativeRepo->get($loginName, $idCompany); //companyId, loginLoginName
         if ($representativeEntity) {            
             $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
 

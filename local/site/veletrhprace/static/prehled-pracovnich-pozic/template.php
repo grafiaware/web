@@ -33,7 +33,7 @@ $jobModel = $container->get( Job::class );
 //
 //$blockRepo = $container->get(BlockRepo::class);
 
-//--------------------------------------------------------------- PUVODNI ----
+//--------------------------------------------------------------- PUVODNI array model----
 foreach ($jobModel->getShortNamesList() as $shortName) {
 // SVOBODA - čeká ba Red databázi - slouží pro generování odkazů na stránku firmy
 //    
@@ -50,6 +50,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
                 'presenterJobs' => ['jobs' => $jobs],
                 'container' => $container
             ];
+    //$allJobs nepouzito
 }
 
 

@@ -11,35 +11,45 @@ use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\CompanyContactInterface;
 
+use Events\Model\Repository\RepresentativeRepo;
+
 /** @var PhpTemplateRendererInterface $this */
 
     /** @var CompanyRepo $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
     /** @var CompanyContactRepo $companyContactRepo */
     $companyContactRepo = $container->get(CompanyContactRepo::class );
+    /** @var RepresentativeRepo $representativeRepo */
+    $representativeRepo = $container->get(RepresentativeRepo::class );
     //------------------------------------------------------------------
 
-    $idCompany = 25;
+    $idCompany = 10;         
+                                           
+    //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem
+    //        if ( $representativeRepo->findByLogin($loginName) )   --neni metoda 
+                               
+    
     //------------------------------------------------------------------
     
     /** @var CompanyInterface $companyEntity */ 
     $companyEntity = $companyRepo->get($idCompany);
     if (isset ($companyEntity)) {       
             
-        $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
         $companyContacts=[];
-        foreach ($companyContactEntities as $cCEntity) {
-            /** @var CompanyContactInterface $cCEntity */
-            $companyContacts[] = [
-                'companyContactId' => $cCEntity->getId(),
-                'companyId' => $cCEntity->getCompanyId(),
-                'name' =>  $cCEntity->getName(),
-                'phones' =>  $cCEntity->getPhones(),
-                'mobiles' =>  $cCEntity->getMobiles(),
-                'emails' =>  $cCEntity->getEmails()
-                ];
-        }   
-            
+        $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
+        if ($companyContactEntities) {         
+            foreach ($companyContactEntities as $cCEntity) {
+                /** @var CompanyContactInterface $cCEntity */
+                $companyContacts[] = [
+                    'companyContactId' => $cCEntity->getId(),
+                    'companyId' => $cCEntity->getCompanyId(),
+                    'name' =>  $cCEntity->getName(),
+                    'phones' =>  $cCEntity->getPhones(),
+                    'mobiles' =>  $cCEntity->getMobiles(),
+                    'emails' =>  $cCEntity->getEmails()
+                    ];
+            }   
+        }             
         
   ?>
 

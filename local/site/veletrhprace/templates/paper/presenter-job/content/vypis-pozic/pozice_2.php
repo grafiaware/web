@@ -7,7 +7,7 @@ use Site\ConfigurationCache;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Middleware\Events\Controler\VisitorProfileControler;
 
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Entity\VisitorProfileInterface;
@@ -56,7 +56,8 @@ if (isset($loginAggregate)) {
     //*--------------------------------
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
     
-    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND  $representativeRepo->get($loginName) );
+    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+                                       AND  $representativeRepo->get($loginName, $companyId) );
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorProfileRepo */
@@ -71,15 +72,13 @@ if (isset($loginAggregate)) {
         // unikátní jména souborů pro upload
         $userHash = $loginAggregate->getLoginNameHash();
         $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
-        $uploadedCvFilename = VisitorControler::UPLOADED_KEY_CV.$userHash;
-        $uploadedLetterFilename = VisitorControler::UPLOADED_KEY_LETTER.$userHash;
+        $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+        $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
 
         // email z registrace
         // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
         // - předvyplňuje se z $visitorData
         $email = isset($visitorProfileEntity) ? $visitorProfileEntity->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
-
-        $visitorLoginName = $loginName;  //zde se nepotrebuje , potrebuje se v osobni-udaje_2
 
         // hodnoty do formuláře z visitorDataPost (odeslaná data - zájem o pozici), pokud ještě nevznikl z visitorData (z profilu)
         if (isset($visitorJobRequestEntity)) {
@@ -146,11 +145,9 @@ if (isset($loginAggregate)) {
         }
     }
 
-    if ($isRepresentative) {
-        
-        //$visitorJobRequests = $visitorJobRequestRepo->findByLoginNameAndPosition($loginName, $positionName);
+    if ($isRepresentative) {        
         $visitorJobRequests = $visitorJobRequestRepo->find(  ' job_Id = :jobId ',  [  'jobId' => $jobId  ] );
-        $visitorJobRequestCount = count($visitorJobRequests);
+        $visitorJobRequestCount = count($visitorJobRequests);        
         $allFormVisitorDataPost = [];
 
         if ($visitorJobRequests) {
@@ -191,7 +188,10 @@ if (isset($loginAggregate)) {
                     $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();  
                 }                
                 $allFormVisitorDataPost[] = $visitorFormData;
+            //    $allFormVisitorDataPost[] = array_merge ($visitorFormData);
+                
             }
+            //$allFormVisitorDataPostMerge = array_merge ($allFormVisitorDataPost, ['loginName' => $loginName  ]);
         }
     }
 //    //*--------------------------------------------------
@@ -206,11 +206,22 @@ if (isset($loginAggregate)) {
 //    }
 //    $presenterEmails = $сompanyEmailsA;
     
+     //**I** xxxxxxx pozice_2 ****
 }
 ?>
- **I** xxxxxxx pozice_2 ****
+
 
         <div class="title">
+        <!--   $isRepresentative   je reprezentantem  firmy   -->   
+        <?php
+            if ($isRepresentative) {  ?>
+                <?= "**I** Přihlášený " . $loginName. " JE representantem " . " vystavovatele " . $shortName ?>
+        <?php } else { ?>
+                <?= !($isVisitor) ? "**I** Přihlášený " .$loginName. " NENÍ representantem "  . " vystavovatele " . $shortName : "" ?>
+        <?php }  ?>
+           
+             
+            
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag_2.php', isset($kategorie) ? $kategorie : [] , 'seznam') ?>
                 <?php
@@ -312,7 +323,8 @@ if (isset($loginAggregate)) {
                                             </div>
                                             <div class="sixteen wide column">
                                                 <div class="profil hidden">
-                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php', $allFormVisitorDataPost); ?>
+                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php',
+                                                                      $allFormVisitorDataPost) ?>
                                                 </div>
                                             </div>
                                             <?php

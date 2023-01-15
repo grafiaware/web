@@ -20,7 +20,11 @@ use Events\Model\Entity\CompanyAddressInterface;
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
 
-    $idCompany = 25 ;
+    $idCompany = 10 ;
+    
+    //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem
+    //        if ( $representativeRepo->findByLogin($loginName) )  --neni metoda 
+            
     //------------------------------------------------------------------
     
     /** @var CompanyInterface $companyEntity */ 
@@ -32,7 +36,8 @@ use Events\Model\Entity\CompanyAddressInterface;
         $companyAddressEntity = $companyAddressRepo->get($idCompany);
         if ($companyAddressEntity) {           
             $companyAddress = [
-                'companyId' => $idCompany,
+                'companyId'=> $idCompany,
+                'companyIdA' => $idCompany,               
                 'name'   => $companyAddressEntity->getName(),
                 'lokace' => $companyAddressEntity->getLokace(),
                 'psc'    => $companyAddressEntity->getPsc(),

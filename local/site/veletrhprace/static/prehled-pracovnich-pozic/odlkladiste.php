@@ -64,4 +64,10 @@
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company-contact.php', [ 'companyId' => $idCompany ] ) ?>                                                                                 
                 </div>                  
-            </div>            
+            </div>        
+
+
+
+<?= "<button class='ui primary button' type='submit' 
+                                        formaction='events/v1/sendjobrequest/" . $visitorLoginName. "/" . $jobId . " >
+                                        Odeslat mailem na " . $presenterEmail . "></button>"  ?>

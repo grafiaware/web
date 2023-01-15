@@ -30,12 +30,7 @@ use Events\Model\Entity\DocumentInterface;
                 ?>
             </div>
             <div class="active content">
-                <form class="ui huge form" action="" method="POST" enctype="multipart/form-data">
-                    <input type='hidden' name="short-name" value="<?= $shortName ?>">
-                    <input type='hidden' name="position-name" value="<?= $positionName ?>">
-                    <input type='hidden' name="visitor-login-name" value="<?= $visitorLoginName ?? '' ?>">
-                    
-                    <input type='hidden' name="job-id" value="<?= $jobId ?>">
+                <form class="ui huge form" action="" method="POST" enctype="multipart/form-data">                  
                     
                     <div class="four fields">
                         <div class="three wide field">
@@ -115,29 +110,33 @@ use Events\Model\Entity\DocumentInterface;
                     <?php
                     if($readonly === '') {
                     ?>
-                    <div class="field">
-                        <label><?= isset($cvDocumentFilename) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
-                        <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
-                    </div>
-                    <div class="field margin">
-                        <label><?= isset($letterDocumentFilename) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
-                        <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
-                    </div>
-                    <div class="two fields">
-                        <div class="field margin"></div>
-                        <!--odesílá k uložení do databáze-->
                         <div class="field">
-                            <button class="ui primary button" type="submit" formaction="events/v1/jobrequest">Odeslat údaje zaměstnavateli</button>                                  
+                            <label><?= isset($cvDocumentFilename) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
+                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
-                    </div>
+                        <div class="field margin">
+                            <label><?= isset($letterDocumentFilename) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
+                            <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                        </div>
+                        <div class="two fields">
+                            <div class="field margin"></div>
+                            <!--odesílá k uložení do databáze-->
+                            <div class="field">
+                                <button class="ui primary button" type="submit" formaction="events/v1/<?= $jobId ?>/jobrequest">Odeslat údaje zaměstnavateli</button>                                  
+                            </div>
+                        </div>
                     <?php
                     } elseif($isRepresentative) {
                         ?>
                         <div class="two fields">
                             <div class="field margin"></div>
+                                                                                    
 
                             <div class="field">
-                                <button class="ui primary button" type="submit" formaction="events/v1/sendjobrequest">Odeslat mailem na <?= $presenterEmail ?></button>
+                                <button class='ui primary button' type='submit' 
+                                        formaction='events/v1/sendjobrequest/<?= $visitorLoginName ?>/<?= $jobId ?>' >
+                                        Odeslat mailem na <?= $presenterEmail ?></button>
+                                
                             </div>
                         </div>
                         <?php

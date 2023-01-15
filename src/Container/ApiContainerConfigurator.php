@@ -30,7 +30,7 @@ use Red\Middleware\Redactor\Controler\MultipageControler;
 use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
-use Events\Middleware\Events\Controler\{EventControler, VisitorControler};
+use Events\Middleware\Events\Controler\{EventControler, VisitorProfileControler};
 
 // services
 // generator service
