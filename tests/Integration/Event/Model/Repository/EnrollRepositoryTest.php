@@ -35,10 +35,10 @@ class EnrollRepositoryTest extends AppRunner {
     private $enrollRepo;
 
     private static $enrollLoginString = "testEnroll";
-    private static $pripravaLoginKlicTouples1;
-    private static $pripravaLoginKlicTouples2;
-    private static $pripravaLoginKlicTouples3;
-    private static $pripravaLoginKlicTouples4;
+    private static $pripravaLoginKlic1;
+    private static $pripravaLoginKlic2;
+    private static $pripravaLoginKlic3;
+    private static $pripravaLoginKlic4;
 
     private static $pripravaEventId;
     private static $startTimestamp = '2000-01-01 01:01:01' ;
@@ -66,25 +66,25 @@ class EnrollRepositoryTest extends AppRunner {
          // toto je příprava testu, vlozi 1. login
         $loginDao = $container->get(LoginDao::class);
         $rowData = new RowData();
-        $loginNam = self::$enrollLoginString . (string) (random_int(0, 9999));
-        $rowData->offsetSet('login_name', $loginNam );
+        $loginName = self::$enrollLoginString . (string) (random_int(0, 9999));
+        $rowData->offsetSet('login_name', $loginName );
         $loginDao->insert($rowData);
-        self::$pripravaLoginKlicTouples1 = $loginDao->getPrimaryKey($rowData->getArrayCopy());
+        self::$pripravaLoginKlic1 = $loginName;
          // toto je příprava testu, vlozi 2. login
-        $loginNam = self::$enrollLoginString . (string) (random_int(0, 9999));
-        $rowData->offsetSet('login_name', $loginNam );
+        $loginName = self::$enrollLoginString . (string) (random_int(0, 9999));
+        $rowData->offsetSet('login_name', $loginName );
         $loginDao->insert($rowData);
-        self::$pripravaLoginKlicTouples2 = $loginDao->getPrimaryKey($rowData->getArrayCopy());
+        self::$pripravaLoginKlic2 = $loginName;
           // toto je příprava testu, vlozi 3. login
-        $loginNam = self::$enrollLoginString . (string) (random_int(0, 9999));
-        $rowData->offsetSet('login_name', $loginNam );
+        $loginName = self::$enrollLoginString . (string) (random_int(0, 9999));
+        $rowData->offsetSet('login_name', $loginName );
         $loginDao->insert($rowData);
-        self::$pripravaLoginKlicTouples3 = $loginDao->getPrimaryKey($rowData->getArrayCopy());
+        self::$pripravaLoginKlic3 = $loginName;
           // toto je příprava testu, vlozi 4. login
-        $loginNam = self::$enrollLoginString . (string) (random_int(0, 9999));
-        $rowData->offsetSet('login_name', $loginNam );
+        $loginName = self::$enrollLoginString . (string) (random_int(0, 9999));
+        $rowData->offsetSet('login_name', $loginName );
         $loginDao->insert($rowData);
-        self::$pripravaLoginKlicTouples4 = $loginDao->getPrimaryKey($rowData->getArrayCopy());
+        self::$pripravaLoginKlic4 = $loginName;
 
         //vlozi event
         /** @var EventDao $eventDao */
@@ -93,14 +93,14 @@ class EnrollRepositoryTest extends AppRunner {
         $rowData->offsetSet('published',1 );
         $rowData->offsetSet('start', self::$startTimestamp  );
         $eventDao->insert($rowData);
-        self::$pripravaEventId = $eventDao->lastInsertIdValue();
+        self::$pripravaEventId = $eventDao->getLastInsertedPrimaryKey()[$eventDao->getAutoincrementFieldName()];
 
         //-----------------
         // vlozi enroll
          /** @var EnrollDao $enrollDao */
         $enrollDao = $container->get(EnrollDao::class);
         $rowData = new RowData();
-        $rowData->offsetSet('login_login_name_fk', self::$pripravaLoginKlicTouples1['login_name'] );
+        $rowData->offsetSet('login_login_name_fk', self::$pripravaLoginKlic1 );
         $rowData->offsetSet('event_id_fk', self::$pripravaEventId ) ;
         $enrollDao->insert($rowData);
 
@@ -167,13 +167,13 @@ class EnrollRepositoryTest extends AppRunner {
 
 
     public function testGetAfterSetUp() {
-        $enroll = $this->enrollRepo->get( self::$pripravaLoginKlicTouples1[ 'login_name' ], self::$pripravaEventId);
+        $enroll = $this->enrollRepo->get( self::$pripravaLoginKlic1, self::$pripravaEventId);
         $this->assertInstanceOf(EnrollInterface::class, $enroll);
     }
 
     public function testAdd() {
         $enroll = new Enroll();
-        $enroll->setLoginLoginNameFk(self::$pripravaLoginKlicTouples2[ 'login_name' ] );
+        $enroll->setLoginLoginNameFk(self::$pripravaLoginKlic2 );
         $enroll->setEventIdFk(self::$pripravaEventId);
         $this->enrollRepo->add($enroll);
 
@@ -187,7 +187,7 @@ class EnrollRepositoryTest extends AppRunner {
 
     public function testGetAfterAdd() {
         /** @var EnrollInterface $enroll */
-        $enroll = $this->enrollRepo->get( self::$pripravaLoginKlicTouples2[ 'login_name' ], self::$pripravaEventId);
+        $enroll = $this->enrollRepo->get( self::$pripravaLoginKlic2, self::$pripravaEventId);
         $this->assertInstanceOf(EnrollInterface::class, $enroll);
         $this->assertTrue(is_string($enroll->getLoginLoginNameFk()));
     }
@@ -195,7 +195,7 @@ class EnrollRepositoryTest extends AppRunner {
     public function testAddAndReread() {
         /** @var Enroll $enroll */
         $enroll = new Enroll();
-        $enroll->setLoginLoginNameFk( self::$pripravaLoginKlicTouples3[ 'login_name' ] );
+        $enroll->setLoginLoginNameFk( self::$pripravaLoginKlic3 );
         $enroll->setEventIdFk( self::$pripravaEventId );
         $this->enrollRepo->add($enroll);
 
@@ -206,7 +206,7 @@ class EnrollRepositoryTest extends AppRunner {
         $this->assertFalse($enroll1->isLocked());
 
         $this->assertTrue(is_string( $enroll1->getLoginLoginNameFk()));
-        $this->assertEquals( self::$pripravaLoginKlicTouples3[ 'login_name' ], $enroll1->getLoginLoginNameFk() );
+        $this->assertEquals( self::$pripravaLoginKlic3, $enroll1->getLoginLoginNameFk() );
     }
 
     public function testFindByEvent(){
@@ -215,7 +215,7 @@ class EnrollRepositoryTest extends AppRunner {
     }
 
     public function testFindByLoginName(){
-        $enrolls = $this->enrollRepo->findByLoginName(self::$pripravaLoginKlicTouples1['login_name'] );
+        $enrolls = $this->enrollRepo->findByLoginName(self::$pripravaLoginKlic1 );
         $this->assertTrue(is_array($enrolls));
     }
 
@@ -230,7 +230,7 @@ class EnrollRepositoryTest extends AppRunner {
     public function testRemove_OperationWithLockedEntity() {
         /** @var Enroll $enroll */
         $enroll = new Enroll();
-        $enroll->setLoginLoginNameFk( self::$pripravaLoginKlicTouples4[ 'login_name' ] );
+        $enroll->setLoginLoginNameFk( self::$pripravaLoginKlic4 );
         $enroll->setEventIdFk( self::$pripravaEventId );
         $this->enrollRepo->add($enroll);
 
@@ -245,7 +245,7 @@ class EnrollRepositoryTest extends AppRunner {
 
     public function testRemove() {
         /** @var Enroll $enroll */
-        $enroll = $this->enrollRepo->get( self::$pripravaLoginKlicTouples2[ 'login_name' ], self::$pripravaEventId);
+        $enroll = $this->enrollRepo->get( self::$pripravaLoginKlic2, self::$pripravaEventId);
 
         $this->assertInstanceOf(EnrollInterface::class, $enroll);
         $this->assertTrue($enroll->isPersisted());
@@ -260,7 +260,7 @@ class EnrollRepositoryTest extends AppRunner {
         $this->assertFalse($enroll->isLocked());
 
         // pokus o čtení, entita Login.self::$loginKlic  uz  neni
-        $enroll = $this->enrollRepo->get( self::$pripravaLoginKlicTouples2[ 'login_name' ], self::$pripravaEventId);
+        $enroll = $this->enrollRepo->get( self::$pripravaLoginKlic2, self::$pripravaEventId);
         $this->assertNull($enroll);
 
     }

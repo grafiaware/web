@@ -71,7 +71,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idCv = $documentDao->lastInsertIdValue();
+        self::$idCv = $documentDao->getLastInsertedPrimaryKey()[$documentDao->getLastInsertedPrimaryKey()];
 
     }
 

@@ -59,7 +59,7 @@ class EventLinkRepositoryTest extends AppRunner {
         $rowData->import([
             'text' => self::$eventLinkPhaseText ]);
         $eventLinkPhaseDao->insert($rowData);
-        self::$eventLinkPhaseId = $eventLinkPhaseDao->lastInsertIdValue();
+        self::$eventLinkPhaseId = $eventLinkPhaseDao->getLastInsertedPrimaryKey()[$eventLinkPhaseDao->getAutoincrementFieldName()];
 
         /** @var EventLinkDao $eventLinkDao */
         $eventLinkDao = $container->get(EventLinkDao::class);
@@ -70,7 +70,7 @@ class EventLinkRepositoryTest extends AppRunner {
             'href' =>  "https://pro" . self::$eventLinkPhaseText . "estEventLinkeeeeeeeeeeee"
         ]);
         $eventLinkDao->insert($rowData);
-        self::$eventLinkId = $eventLinkDao->lastInsertIdValue();
+        self::$eventLinkId = $eventLinkDao->getLastInsertedPrimaryKey()[$eventLinkDao->getAutoincrementFieldName()];
 
     }
 

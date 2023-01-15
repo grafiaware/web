@@ -64,7 +64,7 @@ class InstitutionRepositoryTest extends AppRunner {
             'name' => self::$institutionName
         ]);
         $institutionDao->insert($rowData);
-        self::$institutionId = $institutionDao->lastInsertIdValue();
+        self::$institutionId = $institutionDao->getLastInsertedPrimaryKey()[$institutionDao->getAutoincrementFieldName()];
 
         //------------------------------
         /** @var InstitutionTypeDao $institutionTypeDao */
@@ -74,7 +74,7 @@ class InstitutionRepositoryTest extends AppRunner {
             'institution_type' => self::$institutionType
         ]);
         $institutionTypeDao->insert($rowData);
-        self::$institutionTypeId = $institutionTypeDao->lastInsertIdValue();
+        self::$institutionTypeId = $institutionTypeDao->getLastInsertedPrimaryKey()[$institutionTypeDao->getAutoincrementFieldName()];
     }
 
     private static function deleteRecords(Container $container) {

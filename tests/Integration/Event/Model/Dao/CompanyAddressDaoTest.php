@@ -45,7 +45,7 @@ class CompanyAddressDaoTest  extends AppRunner {
         $rowData->offsetSet('name', self::$prefix."Company1");
         $rowData->offsetSet('eventInstitutionName30', 'ShortyCo.');
         $companyDao->insert($rowData);
-        self::$companyPrimaryKey =  $companyDao->getPrimaryKey($rowData->getArrayCopy());
+        self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
     }
 
     //-------------------------------------------------------------------------
@@ -85,7 +85,7 @@ class CompanyAddressDaoTest  extends AppRunner {
                 'psc' => '02020' ] );
         $this->dao->insert($rowData);
         $this->assertEquals(1, $this->dao->getRowCount());
-        self::$companyAddressKey = $this->dao->getPrimaryKey($rowData->getArrayCopy());
+        self::$companyAddressKey = $this->dao->getLastInsertedPrimaryKey();
     }
 
     public function testGetExistingRow() {

@@ -58,7 +58,7 @@ class CompanyRepositoryTest extends AppRunner {
         $rowData->import([
             'name' => self::$companyName    ]);
         $companyDao->insert($rowData);
-        self::$companyId = $companyDao->lastInsertIdValue();
+        self::$companyId = $companyDao->getLastInsertedPrimaryKey()[$companyDao->getAutoincrementFieldName()];
     }
 
 

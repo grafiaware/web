@@ -84,7 +84,7 @@ class EventContentTypeDaoTest extends AppRunner {
         $rowData->offsetSet('event_content_type_fk', $type);
         $rowData->offsetSet('institution_id_fk',null ) ;
         $eventContentDao->insert($rowData);
-        self::$eventContentIdTouple =  $eventContentDao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
+        self::$eventContentIdTouple =  $eventContentDao->getLastInsertedPrimaryKey(); //pro autoincrement
     }
 
     public function testInsertDaoKeyVerificationFailedException() {

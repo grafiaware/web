@@ -61,7 +61,7 @@ class InstitutionTypeRepositoryTest extends AppRunner {
         ]);
         $institutionTypeDao->insert($rowData);
 
-        self::$institutionTypeId = $institutionTypeDao->lastInsertIdValue();
+        self::$institutionTypeId = $institutionTypeDao->getLastInsertedPrimaryKey()[$institutionTypeDao->getAutoincrementFieldName()];
     }
 
     private static function deleteRecords(Container $container) {

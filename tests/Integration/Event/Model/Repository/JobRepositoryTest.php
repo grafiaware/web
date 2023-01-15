@@ -62,7 +62,7 @@ class JobRepositoryTest extends AppRunner {
         $rowData->import([
             'name' => self::$jobName  ]);
         $companyDao->insert($rowData);
-        self::$companyId = $companyDao->lastInsertIdValue();
+        self::$companyId = $companyDao->getLastInsertedPrimaryKey()[$companyDao->getAutoincrementFieldName()];
 
         /** @var JobDao $jobDao */
         $jobDao = $container->get(JobDao::class);
@@ -72,7 +72,7 @@ class JobRepositoryTest extends AppRunner {
             'company_id'  =>   self::$companyId,
             'nazev'   =>  self::$jobName  ]);
         $jobDao->insert($rowData);
-        self::$jobId = $jobDao->lastInsertIdValue();
+        self::$jobId = $jobDao->getLastInsertedPrimaryKey()[$jobDao->getAutoincrementFieldName()];
     }
 
 

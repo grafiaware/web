@@ -71,7 +71,7 @@ class DocumentRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idCv = $documentDao->lastInsertIdValue();
+        self::$idCv = $documentDao->getLastInsertedPrimaryKey()[$documentDao->getAutoincrementFieldName()];
 
         $rowData = new RowData();
         $rowData->import([
@@ -80,7 +80,7 @@ class DocumentRepositoryTest extends AppRunner {
             'document_mimetype' => $letterMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idLetter = $documentDao->lastInsertIdValue();
+        self::$idLetter = $documentDao->getLastInsertedPrimaryKey()[$documentDao->getAutoincrementFieldName()];
     }
 
     private static function deleteRecords(Container $container) {

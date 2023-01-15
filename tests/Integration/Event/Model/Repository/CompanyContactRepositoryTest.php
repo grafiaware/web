@@ -62,7 +62,7 @@ class CompanyContactRepositoryTest extends AppRunner {
         $rowData->import([
             'name' => self::$companyContactName    ]);
         $companyDao->insert($rowData);
-        self::$companyId = $companyDao->lastInsertIdValue();
+        self::$companyId = $companyDao->getLastInsertedPrimaryKey()[$companyDao->getAutoincrementFieldName()];
 
         /** @var CompanyContactDao $companyContactDao */
         $companyContactDao = $container->get(CompanyContactDao::class);
@@ -71,7 +71,7 @@ class CompanyContactRepositoryTest extends AppRunner {
             'name' => self::$companyContactName,
             'company_id'  =>   self::$companyId   ]);
         $companyContactDao->insert($rowData);
-        self::$companyContactId = $companyContactDao->lastInsertIdValue();
+        self::$companyContactId = $companyContactDao->getLastInsertedPrimaryKey()[$companyContactDao->getAutoincrementFieldName()];
     }
 
 

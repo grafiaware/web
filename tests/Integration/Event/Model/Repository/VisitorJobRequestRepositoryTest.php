@@ -67,7 +67,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
         $rowData->import([
             'name' => self::$loginNameTest ]);
         $companyDao->insert($rowData);
-        self::$companyId = $companyDao->lastInsertIdValue();
+        self::$companyId = $companyDao->getLastInsertedPrimaryKey()[$companyDao->getAutoincrementFieldName()];
 
             //job
         /** @var JobDao $jobDao */
@@ -78,7 +78,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
             'company_id'  =>   self::$companyId,
             'nazev'   => self::$loginNameTest . "1" ]);
         $jobDao->insert($rowData);
-              self::$jobId1 = $jobDao->lastInsertIdValue();
+              self::$jobId1 = $jobDao->getLastInsertedPrimaryKey()[$jobDao->getAutoincrementFieldName()];
 
         //visitorJobRequest
         /** @var VisitorJobRequestDao $visitorJobRequestDao */

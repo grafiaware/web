@@ -65,7 +65,7 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
             'institution_type' => self::$institutionType /*. "1" */
         ]);
         $institutionTypeDao->insert($rowData);
-        self::$institutionTypeId = $institutionTypeDao->lastInsertIdValue();
+        self::$institutionTypeId = $institutionTypeDao->getLastInsertedPrimaryKey()[$institutionTypeDao->getAutoincrementFieldName()];
 
           /** @var InstitutionDao $institutionDao */ //1
         $institutionDao = $container->get(InstitutionDao::class);
@@ -75,7 +75,7 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
             'institution_type_id' => self::$institutionTypeId
         ]);
         $institutionDao->insert($rowData);
-        self::$institutionId1 = $institutionDao->lastInsertIdValue();
+        self::$institutionId1 = $institutionDao->getLastInsertedPrimaryKey()[$institutionDao->getAutoincrementFieldName()];
 
         /** @var InstitutionDao $institutionDao */ //2
         $institutionDao = $container->get(InstitutionDao::class);
@@ -85,7 +85,7 @@ class InstitutionTypeAggregateInstitutionRepositoryTest extends AppRunner {
             'institution_type_id' => self::$institutionTypeId
         ]);
         $institutionDao->insert($rowData);
-        self::$institutionId2 = $institutionDao->lastInsertIdValue();
+        self::$institutionId2 = $institutionDao->getLastInsertedPrimaryKey()[$institutionDao->getAutoincrementFieldName()];
 
     }
 

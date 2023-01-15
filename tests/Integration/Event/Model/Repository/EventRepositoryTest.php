@@ -53,7 +53,7 @@ class EventRepositoryTest extends AppRunner {
         //     $d=(new \DateTime())->format('Y-m-d H:i:s');
         $rowData->offsetSet('end',   (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'));
         $eventDao->insert($rowData);
-        self::$idEvent = $eventDao->lastInsertIdValue();
+        self::$idEvent = $eventDao->getLastInsertedPrimaryKey()[$eventDao->getAutoincrementFieldName()];
     }
 
     private static function deleteRecords(Container $container) {

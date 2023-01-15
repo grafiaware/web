@@ -35,6 +35,12 @@ class RowDataTest extends TestCase {
         $this->assertInstanceOf(RowDataInterface::class, $rowData);
     }
 
+    public function testClone() {
+        $rowData = new RowData(['a', null, 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()]);
+        $clone = clone $rowData;
+        $this->assertInstanceOf(RowDataInterface::class, $clone);
+    }
+
     public function testOffsetSetGet() {
         $originArray = ['a', null, 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()];
         $rowData = new RowData(['a', null, 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()]);

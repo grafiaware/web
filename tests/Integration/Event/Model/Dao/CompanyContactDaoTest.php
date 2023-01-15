@@ -25,7 +25,7 @@ class CompanyContactDaoTest extends AppRunner {
      */
     private $dao;
 
-    private static $company_company_id_fk;
+    private static $companyPrimaryKey;
     private static $id;     //treba tvorit touple dvojice
 
     public static function setUpBeforeClass(): void {
@@ -44,7 +44,7 @@ class CompanyContactDaoTest extends AppRunner {
         $rowData->offsetSet('name', "CompanyName");
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
-        self::$company_company_id_fk =  $companyDao->lastInsertIdValue();
+        self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
     }
 
 
@@ -68,7 +68,7 @@ class CompanyContactDaoTest extends AppRunner {
             );
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
-        $companyRow = $companyDao->get( ['id'  => self::$company_company_id_fk ] );
+        $companyRow = $companyDao->get(self::$companyPrimaryKey);
         $companyDao->delete($companyRow);
 
     }
@@ -82,14 +82,14 @@ class CompanyContactDaoTest extends AppRunner {
     public function testInsert() {
         $rowData = new RowData();
         $rowData->import(
-               ['company_id' => self::$company_company_id_fk,
+               ['company_id' => self::$companyPrimaryKey['id'],  // cizí klíč
                 'name' => null,
                 'phones' => null,
                 'mobiles' => null,
                 'emails' => null] );
 
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
+        self::$id =  $this->dao->getLastInsertedPrimaryKey(); //pro autoincrement
         $this->assertIsArray(self::$id);
 
         $numRows = $this->dao->getRowCount();

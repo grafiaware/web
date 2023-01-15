@@ -34,8 +34,8 @@ class LoginDaoTest extends AppRunner {
     private $dao;
 
     private static $loginNameTouple ;
-    private static $companyIdTouple;
-    private static $jobIdTouple;
+    private static $companyPrimaryKey;
+    private static $jobPrimaryKey;
     private static $visitorJobTouples;
     private static $visitorProfileTouples;
     private static $representativeIdTouple;
@@ -55,17 +55,17 @@ class LoginDaoTest extends AppRunner {
         $rowData->offsetSet('name', "Company1");
         $rowData->offsetSet('eventInstitutionName30', 'ShortyCo.');
         $companyDao->insert($rowData);
-        self::$companyIdTouple =  $rowData[$companyDao->getAutoincrementFieldName()];
+        self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
 
         // nova job - priprava potrebne propojene tabulky
          /** @var JobDao $jobDao */
         $jobDao = $container->get(JobDao::class);
         $jobData = new RowData();
-        $jobData->import([ 'company_id' => self::$companyIdTouple['id'],
+        $jobData->import([ 'company_id' => self::$companyPrimaryKey['id'],
                            'pozadovane_vzdelani_stupen' => 1
                          ]);
         $ok = $jobDao->insert($jobData);
-        self::$jobIdTouple = $jobData[$jobDao->getAutoincrementFieldName()];
+        self::$jobPrimaryKey = $jobDao->getLastInsertedPrimaryKey();
     }
 
     protected function setUp(): void {
@@ -107,10 +107,10 @@ class LoginDaoTest extends AppRunner {
         /** @var RepresentativeDao $representativeDao */
         $representativeDao = $this->container->get(RepresentativeDao::class);
         $representativeData = new RowData();
-        $representativeData->import( ['login_login_name' => $rowArray['login_name'], 'company_id' =>self::$companyIdTouple['id']] );
+        $representativeData->import( ['login_login_name' => $rowArray['login_name'], 'company_id' =>self::$companyPrimaryKey['id']] );
         $representativeDao->insert($representativeData);
         /**  @var RowData  $row */
-        $row = $representativeDao->get( ['login_login_name' => $rowArray['login_name'], 'company_id' =>self::$companyIdTouple['id']]  );
+        $row = $representativeDao->get( ['login_login_name' => $rowArray['login_name'], 'company_id' =>self::$companyPrimaryKey['id']]  );
         self::$representativeIdTouple  = $representativeDao->getPrimaryKey($row->getArrayCopy());
 
 
@@ -118,11 +118,11 @@ class LoginDaoTest extends AppRunner {
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao = $this->container->get(VisitorJobRequestDao::class);
         $visitorJobRequesData = new RowData();
-        $visitorJobRequesData->import( ['login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobIdTouple['id'],
+        $visitorJobRequesData->import( ['login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobPrimaryKey['id'],
                                         'position_name' => 'sedící spící'] );
         $visitorJobRequestDao->insert($visitorJobRequesData);
         /**  @var RowData  $row */
-        $row = $visitorJobRequestDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobIdTouple['id'] ] );
+        $row = $visitorJobRequestDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobPrimaryKey['id'] ] );
         self::$visitorJobTouples  = $visitorJobRequestDao->getPrimaryKey($row->getArrayCopy());
 
         // nova visitor_profile
@@ -207,7 +207,7 @@ class LoginDaoTest extends AppRunner {
 
         /** @var CompanyDao $companyDao */
         $companyDao = $this->container->get(CompanyDao::class);
-        $companyRow = $companyDao->get( ['id' => self::$companyIdTouple ['id']  ]);
+        $companyRow = $companyDao->get( ['id' => self::$companyPrimaryKey ['id']  ]);
         $ok2 = $companyDao->delete($companyRow);
         //smazani company smazalo job, company_contact, company_address, representative
         //smazani job smazalo visitor_job_request, job_to_tag

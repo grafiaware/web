@@ -28,9 +28,9 @@ class EventContentDaoTest extends AppRunner {
      */
     private $dao;
 
-    private static $idEventContentTouple;
-    private static $idInstitutionTouple;
-    private static $event_id;
+    private static $eventContentPrimaryKey;
+    private static $institutionPrimaryKey;
+    private static $eventPrimaryKey;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -46,7 +46,7 @@ class EventContentDaoTest extends AppRunner {
         $rowData = new RowData();
         $rowData->import( [ 'name' => "testEventContentDao-name" , 'institution_type_id' => null ]);
         $institutionDao->insert($rowData);
-        self::$idInstitutionTouple =  $institutionDao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
+        self::$institutionPrimaryKey =  $institutionDao->getLastInsertedPrimaryKey(); //pro autoincrement
 
 
     }
@@ -71,13 +71,17 @@ class EventContentDaoTest extends AppRunner {
         //v event  zbývá záznam uklidit
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
-        $eventRow = $eventDao->get( [ 'id' => self::$event_id ] );
-        $eventDao->delete($eventRow);
+        $eventRow = $eventDao->get( [ 'id' => self::$eventPrimaryKey ] );
+        if (isset($eventRow)) {
+            $eventDao->delete($eventRow);
+        }
         //uklidit institution
         /** @var InstitutionDao $institutionDao */
         $institutionDao = $container->get(InstitutionDao::class);
-        $institutionRow = $institutionDao->get(self::$idInstitutionTouple);
-        $institutionDao->delete($institutionRow);
+        $institutionRow = $institutionDao->get(self::$institutionPrimaryKey);
+        if (isset($institutionRow)) {
+            $institutionDao->delete($institutionRow);
+        }
     }
 
     public function testSetUp() {
@@ -90,10 +94,10 @@ class EventContentDaoTest extends AppRunner {
         $rowData->offsetSet('perex', "testEventContentDao-perex");
         $rowData->offsetSet('party', "testEventContentDao-party");
         $rowData->offsetSet('event_content_type_fk', null);
-        $rowData->offsetSet('institution_id_fk', self::$idInstitutionTouple ['id'] ) ;
+        $rowData->offsetSet('institution_id_fk', self::$institutionPrimaryKey ['id'] ) ;
         $this->dao->insert($rowData);
-        self::$idEventContentTouple =  $this->dao->getLastInsertIdTouple();
-        $this->assertGreaterThan(0, (int) self::$idEventContentTouple);
+        self::$eventContentPrimaryKey =  $this->dao->getLastInsertedPrimaryKey();
+        $this->assertGreaterThan(0, (int) self::$eventContentPrimaryKey);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
 
@@ -101,24 +105,23 @@ class EventContentDaoTest extends AppRunner {
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get( EventDao::class );
         $eventData = new RowData();
-        $eventData->import( [ "published" => 1, 'event_content_id_fk' =>  self::$idEventContentTouple ['id'] ]);
+        $eventData->import( [ "published" => 1, 'event_content_id_fk' =>  self::$eventContentPrimaryKey ['id'] ]);
         $eventDao->insert($eventData);  // id je autoincrement
-        self::$event_id = $eventDao->lastInsertIdValue();
-
+        self::$eventPrimaryKey = $eventDao->getPrimaryKey($eventData->getArrayCopy());
     }
 
     public function testGetExistingRow() {
-        $eventContentRow = $this->dao->get(self::$idEventContentTouple);
+        $eventContentRow = $this->dao->get(self::$eventContentPrimaryKey);
         $this->assertInstanceOf(RowDataInterface::class, $eventContentRow);
     }
 
     public function test6Columns() {
-        $eventContentRow = $this->dao->get(self::$idEventContentTouple);
+        $eventContentRow = $this->dao->get(self::$eventContentPrimaryKey);
         $this->assertCount(6, $eventContentRow);
     }
 
     public function testUpdate() {
-        $eventContentRow = $this->dao->get(self::$idEventContentTouple);
+        $eventContentRow = $this->dao->get(self::$eventContentPrimaryKey);
         $name = $eventContentRow['title'];
         $this->assertIsString($eventContentRow['title']);
         //
@@ -129,7 +132,7 @@ class EventContentDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentRowRereaded = $this->dao->get(self::$idEventContentTouple);
+        $eventContentRowRereaded = $this->dao->get(self::$eventContentPrimaryKey);
         $this->assertEquals($eventContentRow, $eventContentRowRereaded);
         $this->assertStringContainsString('-title_updated', $eventContentRowRereaded['title']) ;
     }
@@ -142,19 +145,19 @@ class EventContentDaoTest extends AppRunner {
     }
 
     public function testDelete() {
-        $eventContentRow = $this->dao->get(self::$idEventContentTouple);
+        $eventContentRow = $this->dao->get(self::$eventContentPrimaryKey);
         $this->dao->delete($eventContentRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentRow = $this->dao->get(self::$idEventContentTouple);
+        $eventContentRow = $this->dao->get(self::$eventContentPrimaryKey);
         $this->assertNull($eventContentRow);
 
         // kontrola SET
         // zda se nastavil v event   event_content_id_fk na NULL
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get(EventDao::class);
-        $eventData = $eventDao->get( ['id' => self::$event_id  ] );
+        $eventData = $eventDao->get( ['id' => self::$eventPrimaryKey  ] );
         $this->assertNull($eventData [ 'event_content_id_fk' ]);
 
     }

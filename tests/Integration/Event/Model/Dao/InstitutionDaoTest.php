@@ -28,12 +28,12 @@ class InstitutionDaoTest extends AppRunner {
      */
     private $dao;
 
-    private static $idTouple;
-    private static $eventContentTouple;    
+    private static $institutionPrimaryKey;
+    private static $eventContentPrimaryKey;
 
-    public static function setUpBeforeClass(): void {        
-        self::bootstrapBeforeClass();                        
-        
+    public static function setUpBeforeClass(): void {
+        self::bootstrapBeforeClass();
+
     }
 
     protected function setUp(): void {
@@ -47,7 +47,7 @@ class InstitutionDaoTest extends AppRunner {
     protected function tearDown(): void {
     }
 
-    
+
     public static function tearDownAfterClass(): void {
 
     }
@@ -55,41 +55,41 @@ class InstitutionDaoTest extends AppRunner {
     public function testSetUp() {
         $this->assertInstanceOf(InstitutionDao::class, $this->dao);
     }
-    
-    
+
+
     public function testInsert() {
         $rowData = new RowData();
         $rowData->offsetSet('name', "testInstitutionDao-NNN");
         $rowData->offsetSet('institution_type_id', null );
         $this->dao->insert($rowData);
-        self::$idTouple =  $this->dao->getLastInsertIdTouple();
-        $this->assertIsArray(self::$idTouple);
+        self::$institutionPrimaryKey =  $this->dao->getLastInsertedPrimaryKey();
+        $this->assertIsArray(self::$institutionPrimaryKey);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
-        
+
         //vyrobit EventContent vetu
        /** @var  EventContentDao $eventContentDao */
         $eventContentDao = $this->container->get(EventContentDao::class);
         $evenContentData = new RowData();
         $evenContentData->import( ['title' => 'pro InstitutionDao test',
-                                   'institution_id_fk' => self::$idTouple['id']
+                                   'institution_id_fk' => self::$institutionPrimaryKey['id']
                                   ] );
-        $eventContentDao->insert($evenContentData);    
-        self::$eventContentTouple = $eventContentDao->getLastInsertIdTouple();            
+        $eventContentDao->insert($evenContentData);
+        self::$eventContentPrimaryKey = $eventContentDao->getLastInsertedPrimaryKey();
     }
 
     public function testGetExistingRow() {
-        $institutionRow = $this->dao->get(self::$idTouple);
+        $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
         $this->assertInstanceOf(RowDataInterface::class, $institutionRow);
     }
 
     public function test3Columns() {
-        $institutionRow = $this->dao->get(self::$idTouple);
+        $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
         $this->assertCount(3, $institutionRow);
     }
 
     public function testUpdate() {
-        $institutionRow = $this->dao->get(self::$idTouple);
+        $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
         $name = $institutionRow['name'];
         $this->assertIsString($institutionRow['name']);
         //
@@ -100,7 +100,7 @@ class InstitutionDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $institutionRowRereaded = $this->dao->get(self::$idTouple);
+        $institutionRowRereaded = $this->dao->get(self::$institutionPrimaryKey);
         $this->assertEquals($institutionRow, $institutionRowRereaded);
         $this->assertStringContainsString('NNN-updated', $institutionRowRereaded['name']);
     }
@@ -112,29 +112,29 @@ class InstitutionDaoTest extends AppRunner {
         $this->assertInstanceOf(RowDataInterface::class, $institutionRow[0]);
     }
 
-    
-     public function testDeleteException() {        
+
+     public function testDeleteException() {
         //naplneno event_content.institution_event_fk
-        $institutionRow = $this->dao->get(self::$idTouple);
+        $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
         $this->expectException(ExecuteException::class);
-        $this->dao->delete($institutionRow);        
+        $this->dao->delete($institutionRow);
     }
-    
-    
+
+
     public function testDelete() {
         //smazat event_content
         /** @var  EventContentDao $eventContentDao */
         $eventContentDao = $this->container->get(EventContentDao::class);
-        $evenContentData = $eventContentDao->get(self::$eventContentTouple);
-        $eventContentDao->delete($evenContentData);                
-        
+        $evenContentData = $eventContentDao->get(self::$eventContentPrimaryKey);
+        $eventContentDao->delete($evenContentData);
+
         //pak jde mazat institution
-        $institutionRow = $this->dao->get(self::$idTouple);
+        $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
         $this->dao->delete($institutionRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $institutionRow = $this->dao->get(self::$idTouple);
+        $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
         $this->assertNull($institutionRow);
     }
 }

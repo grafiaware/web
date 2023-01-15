@@ -93,11 +93,11 @@ class RowData extends \ArrayObject implements RowDataInterface {
     /**
      * Přidá všechny položky iterable parametru. Všechna importovaná data přídá jako nové hodnoty.
      *
-     * @param iterable $iterablaData
+     * @param iterable $iterableData
      */
-    public function import(iterable $iterablaData) {
-        if (is_iterable($iterablaData)) {
-            foreach ($iterablaData as $index => $value) {
+    public function import(iterable $iterableData) {
+        if (is_iterable($iterableData)) {
+            foreach ($iterableData as $index => $value) {
                 $this->setNewValue($index, $value);
             }
         }

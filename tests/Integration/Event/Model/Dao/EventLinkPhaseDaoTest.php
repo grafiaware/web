@@ -61,7 +61,7 @@ class EventLinkPhaseDaoTest extends AppRunner {
         $rowData = new RowData();
         $rowData->offsetSet('text', "testEventLinkPhaseDao texxt");
         $this->dao->insert($rowData);
-        self::$eventLinkPhaseIdTouple =  $this->dao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
+        self::$eventLinkPhaseIdTouple =  $this->dao->getLastInsertedPrimaryKey(); //pro autoincrement
         $this->assertIsArray(self::$eventLinkPhaseIdTouple);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);

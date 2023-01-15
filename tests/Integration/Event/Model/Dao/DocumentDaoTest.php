@@ -36,9 +36,9 @@ class DocumentDaoTest  extends AppRunner {
     private $dao;
 
     private static $loginName;
-    private static $companyIdTouple;
-    private static $jobIdTouple;
-    private static $documentIdTouple;
+    private static $companyPrimaryKey;
+    private static $jobPrimaryKey;
+    private static $documentPrimaryKey;
 
     private static $visitorProfileTouple;
     private static $visitorJobRequestTouple;
@@ -70,14 +70,14 @@ class DocumentDaoTest  extends AppRunner {
         $rowData = new RowData();
         $rowData->offsetSet( 'name' , "pomocna pro proDocumentDaoTest"  );
         $companyDao->insert($rowData);
-        self::$companyIdTouple = $companyDao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
+        self::$companyPrimaryKey = $companyDao->getLastInsertedPrimaryKey(); //pro autoincrement
 
         /** @var JobDao $jobDao */
         $jobDao = $container->get(JobDao::class);
         $jobData = new RowData();
-        $jobData->import( ['pozadovane_vzdelani_stupen' => 1, 'company_id' =>self::$companyIdTouple['id']] );
+        $jobData->import( ['pozadovane_vzdelani_stupen' => 1, 'company_id' =>self::$companyPrimaryKey['id']] );
         $jobDao->insert($jobData);
-        self::$jobIdTouple = $jobDao->getLastInsertIdTouple();
+        self::$jobPrimaryKey = $jobDao->getPrimaryKey($jobData->getArrayCopy());
     }
 
     protected function setUp(): void {
@@ -88,11 +88,6 @@ class DocumentDaoTest  extends AppRunner {
                 )
             );
         $this->dao = $this->container->get(DocumentDao::class);  // vždy nový objekt
-    }
-
-
-
-    protected function tearDown(): void {
     }
 
     public static function tearDownAfterClass(): void {
@@ -106,7 +101,7 @@ class DocumentDaoTest  extends AppRunner {
         //smaze company a job a visitor_job_request
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
-        $companyRow = $companyDao->get( self::$companyIdTouple );
+        $companyRow = $companyDao->get( self::$companyPrimaryKey );
         $companyDao->delete($companyRow);
 
         //smazat  visitor_profile
@@ -134,27 +129,27 @@ class DocumentDaoTest  extends AppRunner {
         $rowData->import( [  'document_filename' => 'jmenoFilename'
                           ] );
         $this->dao->insert($rowData);
-        self::$documentIdTouple = $this->dao->getLastInsertIdTouple();
-        $this->assertIsArray(self::$documentIdTouple);
+        self::$documentPrimaryKey = $this->dao->getLastInsertedPrimaryKey();
+        $this->assertIsArray(self::$documentPrimaryKey);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
 
     }
 
     public function testGet() {
-        $documentRow = $this->dao->get( self::$documentIdTouple );
+        $documentRow = $this->dao->get( self::$documentPrimaryKey );
         $this->assertInstanceOf(RowDataInterface::class, $documentRow);
     }
 
     public function test4Columns() {
-        $documentRow = $this->dao->get( self::$documentIdTouple );
+        $documentRow = $this->dao->get( self::$documentPrimaryKey );
         $this->assertCount(4, $documentRow);
     }
 
 
 
     public function testUpdate() {
-        $documentRow = $this->dao->get( self::$documentIdTouple );
+        $documentRow = $this->dao->get( self::$documentPrimaryKey );
             $documentName = $documentRow['document_filename'];
         $this->assertIsString( $documentRow['document_filename'] );
 
@@ -165,7 +160,7 @@ class DocumentDaoTest  extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $documentRowRereaded = $this->dao->get(  self::$documentIdTouple );
+        $documentRowRereaded = $this->dao->get(  self::$documentPrimaryKey );
         $this->assertInstanceOf( RowDataInterface::class, $documentRowRereaded );
         $this->assertEquals(  "application/msword", $documentRowRereaded['document_mimetype']);
 
@@ -187,24 +182,24 @@ class DocumentDaoTest  extends AppRunner {
         $documentRow->import( [ 'document_filename' => 'jmenoFilename_testDeleteVJR'
                           ] );
         $this->dao->insert($documentRow);
-        $documentIdTouple = $this->dao->getLastInsertIdTouple();
+        $documentPrimaryKey = $this->dao->getPrimaryKey($documentRow->getArrayCopy());
 
 
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao = $this->container->get(VisitorJobRequestDao::class);
         /** @var RowData $visitorJobRequestRow */
         $visitorJobRequestRow = new RowData();
-        $visitorJobRequestRow->import( ['job_id'  => self::$jobIdTouple['id'],
+        $visitorJobRequestRow->import( ['job_id'  => self::$jobPrimaryKey['id'],
                                         'login_login_name'  => self::$loginName,
-                                        'letter_document'  => $documentIdTouple['id'],
-                                        'cv_document'  => $documentIdTouple['id'],
+                                        'letter_document'  => $documentPrimaryKey['id'],
+                                        'cv_document'  => $documentPrimaryKey['id'],
                                         'position_name'  => 'jméno pozice'
                                        ] );
         $visitorJobRequestDao->insert( $visitorJobRequestRow );
         self::$visitorJobRequestTouple = $visitorJobRequestDao->getPrimaryKey( $visitorJobRequestRow->getArrayCopy() );
 
         // kontrola SET NULL = že nastavi null ve visitor_job_request
-        $documentRowReaded = $this->dao->get(  $documentIdTouple );
+        $documentRowReaded = $this->dao->get(  $documentPrimaryKey );
         $this->dao->delete($documentRowReaded);
         //kontrola null
         /** @var RowData $visitorJobRequestRow2 */
@@ -218,25 +213,23 @@ class DocumentDaoTest  extends AppRunner {
 
      public function testDelete_proVisitorProfile() {
         $documentRow = new RowData();
-        $documentRow->import( [ 'document_filename' => 'jmenoFilename_testDeleteVP'
-                          ] );
+        $documentRow->import( [ 'document_filename' => 'jmenoFilename_testDeleteVP'] );
         $this->dao->insert($documentRow);
-        $documentIdTouple = $this->dao->getLastInsertIdTouple();
-
+        $documentPrimaryKey = $this->dao->getPrimaryKey($documentRow->getArrayCopy());
 
         /** @var VisitorProfileDao $visitorProfileDao */
         $visitorProfileDao = $this->container->get(VisitorProfileDao::class);
         /** @var RowData $visitorProfileRow */
         $visitorProfileRow = new RowData();
         $visitorProfileRow->import( [   'login_login_name'  => self::$loginName,
-                                        'letter_document'  => $documentIdTouple['id'],
-                                        'cv_document'  => $documentIdTouple['id'],
+                                        'letter_document'  => $documentPrimaryKey['id'],
+                                        'cv_document'  => $documentPrimaryKey['id'],
                                        ] );
         $visitorProfileDao->insert( $visitorProfileRow );
         self::$visitorProfileTouple = $visitorProfileDao->getPrimaryKey( $visitorProfileRow->getArrayCopy() );
 
         // kontrola SET NULL = že nastavi null ve visitor_job_request
-        $documentRowReaded = $this->dao->get(  $documentIdTouple );
+        $documentRowReaded = $this->dao->get(  $documentPrimaryKey );
         $this->dao->delete($documentRowReaded);
         //kontrola null
         /** @var RowData $visitorProfileRow2 */
@@ -250,7 +243,7 @@ class DocumentDaoTest  extends AppRunner {
 
 
     public function testDelete() {
-        $documentRow = $this->dao->get( self::$documentIdTouple );
+        $documentRow = $this->dao->get( self::$documentPrimaryKey );
         $this->dao->delete($documentRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 

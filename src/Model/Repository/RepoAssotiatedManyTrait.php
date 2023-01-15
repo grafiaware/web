@@ -25,6 +25,7 @@ trait RepoAssotiatedManyTrait {
     public function findByParentData(string $referenceName, RowDataInterface $parentRowData): iterable {
         $referenceKey = $this->createReferenceKeyFromParentData($referenceName, $parentRowData);
         $rowDataArray = $this->dataManager->findByReference($referenceName, $referenceKey);
+        $recreated = [];
         foreach ($rowDataArray as $rowData) {
             $recreated[] = $this->recreateEntityByRowData($rowData);
         }
@@ -33,7 +34,7 @@ trait RepoAssotiatedManyTrait {
 
     /**
      * Vytvoří asocitaivní pole dvojic klíče z jmen polí potomka a hodnot rodičovských dat.
-     * 
+     *
      * @param string $referenceName
      * @param RowDataInterface $parentRowData
      * @return type

@@ -328,7 +328,6 @@ abstract class RepoAbstract {
                 $this->extract($entity, $rowData);
                 $this->dataManager->insert($rowData);
                 $entity->setPersisted();
-                $this->dataManager->setAutoincrementedValue($rowData);
                 $this->hydrate($entity, $rowData);  //získá hodnotu klíče
                 $index = $this->callIndexFromEntity($entity);  // z hodnoty klíče
                 $this->collection[$index] = $entity;

@@ -16,6 +16,7 @@ use Model\RowData\RowDataInterface;
  */
 interface DaoEditInterface extends DaoInterface {
     public function insert(RowDataInterface $rowData): bool;
+    public function getLastInsertedPrimaryKey(): array;
     public function update(RowDataInterface $rowData): bool;
     public function delete(RowDataInterface $rowData): bool;
     public function getRowCount(): int;

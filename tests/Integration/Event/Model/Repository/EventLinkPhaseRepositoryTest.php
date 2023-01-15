@@ -60,7 +60,7 @@ class EventLinkPhaseRepositoryTest extends AppRunner {
             'text' => self::$eventLinkPhaseText
         ]);
         $eventLinkPhaseDao->insert($rowData);
-        self::$eventLinkPhaseId = $eventLinkPhaseDao->lastInsertIdValue();
+        self::$eventLinkPhaseId = $eventLinkPhaseDao->getLastInsertedPrimaryKey()[$eventLinkPhaseDao->getAutoincrementFieldName()];
     }
 
     private static function deleteRecords(Container $container) {

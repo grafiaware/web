@@ -92,7 +92,7 @@ class CompanyDaoTest  extends AppRunner {
         $rowData->offsetSet('eventInstitutionName30', null);
 
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getPrimaryKey($rowData->getArrayCopy()); //pro autoincrement
+        self::$id =  $this->dao->getLastInsertedPrimaryKey(); //pro autoincrement
         $this->assertIsArray(self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);

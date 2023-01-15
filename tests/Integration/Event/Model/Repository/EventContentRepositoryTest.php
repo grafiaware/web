@@ -68,7 +68,7 @@ class EventContentRepositoryTest extends AppRunner {
         $rowData->offsetSet('perex', "sůheůrjheů");
         $rowData->offsetSet('title', self::$eventContentTitle . "titlePrednasky");
         $eventContentDao->insert($rowData);
-        self::$eventContentId = $eventContentDao->lastInsertIdValue();
+        self::$eventContentId = $eventContentDao->getLastInsertedPrimaryKey()[$eventContentDao->getAutoincrementFieldName()];
 
         //----------------priprava------------------------------------------------------
         /** @var InstitutionDao $institutionDao */
@@ -78,7 +78,7 @@ class EventContentRepositoryTest extends AppRunner {
             'name' => self::$institutionName
         ]);
         $institutionDao->insert($rowData);
-        self::$pripravaInstitutionId = $institutionDao->lastInsertIdValue();
+        self::$pripravaInstitutionId = $institutionDao->getLastInsertedPrimaryKey()[$institutionDao->getAutoincrementFieldName()];
         /** @var InstitutionTypeDao $institutionTypeDao */
         $institutionTypeDao = $container->get(InstitutionTypeDao::class);
         $rowData = new RowData();
@@ -86,7 +86,7 @@ class EventContentRepositoryTest extends AppRunner {
             'institution_type' => self::$institutionType
         ]);
         $institutionTypeDao->insert($rowData);
-        self::$pripravaInstitutionTypeId = $institutionTypeDao->lastInsertIdValue();
+        self::$pripravaInstitutionTypeId = $institutionTypeDao->getLastInsertedPrimaryKey()[$institutionTypeDao->getAutoincrementFieldName()];
     }
 
 

@@ -60,7 +60,7 @@ class CompanyAddressRepositoryTest extends AppRunner {
             'name' => self::$companyAddressName
         ]);
         $companyDao->insert($rowData);
-        self::$companyId = $companyDao->lastInsertIdValue();
+        self::$companyId = $companyDao->getLastInsertedPrimaryKey()[$companyDao->getAutoincrementFieldName()];
 
         /** @var CompanyAddressDao $companyAddressDao */
         $companyAddressDao = $container->get(CompanyAddressDao::class);

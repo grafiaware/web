@@ -71,7 +71,7 @@ class JobToTagRepositoryTest  extends AppRunner {
         $rowData->import([
             'name' => self::$jobToTagName  ]);
         $companyDao->insert($rowData);
-        self::$companyId = $companyDao->lastInsertIdValue();
+        self::$companyId = $companyDao->getLastInsertedPrimaryKey()[$companyDao->getAutoincrementFieldName()];
 
 
         /** @var JobDao $jobDao */
@@ -82,28 +82,28 @@ class JobToTagRepositoryTest  extends AppRunner {
             'company_id'  =>   self::$companyId,
             'nazev'   =>  self::$jobToTagName . "1" ]);
         $jobDao->insert($rowData);
-              self::$jobId1 = $jobDao->lastInsertIdValue();
+              self::$jobId1 = $jobDao->getLastInsertedPrimaryKey()[$jobDao->getAutoincrementFieldName()];
         $rowData = new RowData();
         $rowData->import([
             'pozadovane_vzdelani_stupen' => 1,
             'company_id'  =>   self::$companyId,
             'nazev'   =>  self::$jobToTagName . "2" ]);
         $jobDao->insert($rowData);
-              self::$jobId2 = $jobDao->lastInsertIdValue();
+              self::$jobId2 = $jobDao->getLastInsertedPrimaryKey()[$jobDao->getAutoincrementFieldName()];
         $rowData = new RowData();
         $rowData->import([
             'pozadovane_vzdelani_stupen' => 1,
             'company_id'  =>   self::$companyId,
             'nazev'   =>  self::$jobToTagName . "3" ]);
         $jobDao->insert($rowData);
-                self::$jobId3 = $jobDao->lastInsertIdValue();
+                self::$jobId3 = $jobDao->getLastInsertedPrimaryKey()[$jobDao->getAutoincrementFieldName()];
         $rowData = new RowData();
         $rowData->import([
             'pozadovane_vzdelani_stupen' => 1,
             'company_id'  =>   self::$companyId,
             'nazev'   =>  self::$jobToTagName . "4" ]);
         $jobDao->insert($rowData);
-                self::$jobId4 = $jobDao->lastInsertIdValue();
+                self::$jobId4 = $jobDao->getLastInsertedPrimaryKey()[$jobDao->getAutoincrementFieldName()];
 
 
         /** @var JobTagDao $jobTagDao */

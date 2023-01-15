@@ -9,13 +9,14 @@
 namespace Model\Dao;
 
 use Model\RowData\RowDataInterface;
+use Model\RowData\RowData;
 
 use Model\Dao\DaoEditKeyDbVerifiedInterface;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
-
+use LogicException;
 /**
  * Description of DaoEditAbstract
  *
@@ -24,6 +25,12 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
 abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
 
     protected $rowCount;
+
+    /**
+     *
+     * @var RowDataInterface
+     */
+    private $lastInsertedRowData;
 
     /**
      * Přídá změněná data do databáze.
@@ -35,6 +42,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
     public function insert(RowDataInterface $rowData): bool {
         $ret = ($this instanceof DaoEditKeyDbVerifiedInterface) ? $this->execInsertWithKeyVerification($rowData) : $this->execInsert($rowData);
         $this->setLastInsertedIdForAutoincrementedValue($rowData);
+        $this->lastInsertedRowData = clone $rowData;
         return $ret;
     }
 
@@ -42,6 +50,18 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
         if($this instanceof DaoEditAutoincrementKeyInterface) {
             $this->setAutoincrementedValue($rowData);  // metoda je v DaoAutoincrementTrait
         }
+    }
+
+    public function getLastInsertedPrimaryKey(): array {
+        if( ! isset($this->lastInsertedRowData)) {
+            throw new LogicException("Nelze získat hodnotu klíče, nebyl proveden žádný insert.");
+        }
+        $keyAttribute = $this->getPrimaryKeyAttributes();
+        $key = [];
+        foreach ($keyAttribute as $field) {
+            $key[$field] = $this->lastInsertedRowData->offsetGet($field);
+        }
+        return $key;
     }
 
     /**
