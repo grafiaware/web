@@ -25,8 +25,8 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     $companyRepo = $container->get(CompanyRepo::class );
     /** @var JobRepo $jobRepo */
     $jobRepo = $container->get(JobRepo::class );
-    /** @var PozadovaneVzdelani $pozadovaneVzdelaniRepo */
-    $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelani::class );
+    /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
+    $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
     
     
     
@@ -39,14 +39,10 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     $vzdelaniEntities = $pozadovaneVzdelaniRepo->findAll();
     /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */ 
     foreach ( $vzdelaniEntities as $vzdelaniEntity ) {
-        $selectVzdelani [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
+        $selectVzdelanich [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
     }
 
-   
-    
-    tady jsem
-    
-    
+       
     
     
     /** @var CompanyInterface $companyEntity */ 
@@ -57,23 +53,28 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
         $companyJobs=[];
         foreach ($companyJobEntities as $jEntity) {
             /** @var JobInterface $jEntity */     
-            $vzdelani = $pozadovaneVzdelaniRepo->getVzdelani( $jEntity->getPozadovaneVzdelaniStupen() );
-                                                            
-            
+            /** @var PozadovaneVzdelani $vzdelaniEntity */
+            $vzdelaniEntity = $pozadovaneVzdelaniRepo->get( $jEntity->getPozadovaneVzdelaniStupen() );
+            $vzdelani = $vzdelaniEntity->getVzdelani();
+                                                                        
             $companyJobs[] = [
                 'jobId' => $jEntity->getId(),
-                'companyId' => $jEntity->getCompanyId(),
-                //'pozadovaneVzdelaniStupen' => $pozadovaneVzdelaniRepo->getVzdelani( $jEntity->getPozadovaneVzdelaniStupen()  ,
-                'pozadovaneVzdelani' => $pozadovaneVzdelaniRepo->getVzdelani( $jEntity->getPozadovaneVzdelaniStupen() ) ,
-                'nazev' =>  $jEntity->getNazev(),
-                
+                'companyId' => $jEntity->getCompanyId(),                
+                'pozadovaneVzdelaniStupen' =>  $jEntity->getPozadovaneVzdelaniStupen(),
+                'pozadovaneVzdelani' => $jEntity->getPozadovaneVzdelaniStupen(),
+                'nazev' =>  $jEntity->getNazev(),                
                 'mistoVykonu' =>  $jEntity->getMistoVykonu(),
                 'popisPozice' =>  $jEntity->getPopisPozice(),
                 'pozadujeme' =>  $jEntity->getPozadujeme(),
-                'nabizime' =>  $jEntity->getNabizime()
+                'nabizime' =>  $jEntity->getNabizime(),                    
+                'selectVzdelanich' =>  $selectVzdelanich 
                 ];
         }   
             
+        
+       
+        
+        
         
   ?>
 

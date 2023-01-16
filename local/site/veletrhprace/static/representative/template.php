@@ -82,11 +82,11 @@ use Events\Model\Entity\LoginInterface;
         
         <p> <?= Html::select("jmeno-mesta", "To je label Město:",
             [1=>"", 2=>"Plzeň-město", 3=>"Plzeň-jih", 4=>"Plzeň-sever", 5=>"Klatovy", 6=>"Cheb", 7=>"jiné"],
-            ["jmeno-mesta"=>"Plzeň-sever"], []) ?></p>
+            ["jmeno-mesta"=>4], []) ?></p>
         
         <p> <?= Html::select("selectCompany", "Company name:",
             $selectCompany,
-            ["selectCompany"=>"dzk"], []) ?></p>     
+            ["selectCompany"=>35], []) ?></p>     
         
         <p> <?= Html::select("selectLogin", "Login name:",
             $selectLogin,
