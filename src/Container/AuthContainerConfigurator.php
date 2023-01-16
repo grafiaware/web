@@ -209,16 +209,20 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $repo;
             },
 
-//            LoginAggregateFullRepo::class => function(ContainerInterface $c) {
-//                return new LoginAggregateFullRepo(
-//                        $c->get(LoginDao::class),
-//                        $c->get(LoginHydrator::class),
+            LoginAggregateFullRepo::class => function(ContainerInterface $c) {
+                $repo = new LoginAggregateFullRepo(
+                        $c->get(LoginDao::class),
+                        $c->get(LoginHydrator::class));
+
 //                        $c->get(CredentialsRepo::class),
 //                        $c->get(LoginChildCredentialsHydrator::class),
 //                        $c->get(RegistrationRepo::class),
-//                        $c->get(LoginChildRegistrationHydrator::class)
-//                        );
-//            },
+                $assotiation = new RegistrationAssociation($c->get(RegistrationRepo::class));
+                $repo->registerOneToOneAssociation($assotiation);
+                $assotiation = new CredentialsAssociation($c->get(CredentialsRepo::class));
+                $repo->registerOneToOneAssociation($assotiation);
+                return $repo;
+            },
 
 
             DbAuthenticator::class => function(ContainerInterface $c) {

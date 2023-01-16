@@ -35,12 +35,12 @@ class LoginAggregateRegistrationRepo  extends RepoAbstract implements LoginAggre
 
     use RepoAssotiatingOneTrait;
 
-    public function get($loginName): ?LoginAggregateRegistrationInterface {
-        return $this->getEntity($loginName);
-    }
-
     protected function createEntity() {
         return new LoginAggregateRegistration();
+    }
+    
+    public function get($loginName): ?LoginAggregateRegistrationInterface {
+        return $this->getEntity($loginName);
     }
 
     /**
