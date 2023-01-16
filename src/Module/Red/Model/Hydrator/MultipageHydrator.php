@@ -12,7 +12,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\MultipageInterface;
 
@@ -28,7 +28,7 @@ class MultipageHydrator extends TypeHydratorAbstract implements HydratorInterfac
      * @param MultipageInterface $multipage
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $multipage, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $multipage, ArrayAccess $rowData) {
         /** @var MultipageInterface $multipage */
         $multipage
             ->setId($this->getPhpValue($rowData,'id'))
@@ -43,7 +43,7 @@ class MultipageHydrator extends TypeHydratorAbstract implements HydratorInterfac
      * @param MultipageInterface $multipage
      * @param type $rowData
      */
-    public function extract(EntityInterface $multipage, RowDataInterface $rowData) {
+    public function extract(EntityInterface $multipage, ArrayAccess $rowData) {
         /** @var MultipageInterface $multipage */
         $this->setSqlValue($rowData, 'id', $multipage->getId()); // id je autoincrement - readonly, hodnota pro where
         $this->setSqlValue($rowData, 'menu_item_id_fk', $multipage->getMenuItemIdFk());

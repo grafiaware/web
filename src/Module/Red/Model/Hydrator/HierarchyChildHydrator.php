@@ -10,7 +10,7 @@ namespace Red\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuItemInterface;
@@ -28,7 +28,7 @@ class HierarchyChildHydrator implements HydratorInterface {
      * @param HierarchyAggregateInterface $hierarchyAggregate
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $hierarchyAggregate, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $hierarchyAggregate, ArrayAccess $rowData) {
         /** @var HierarchyAggregateInterface $hierarchyAggregate */
         $hierarchyAggregate->setMenuItem($rowData->offsetGet(MenuItemInterface::class));
     }
@@ -38,7 +38,7 @@ class HierarchyChildHydrator implements HydratorInterface {
      * @param HierarchyAggregateInterface $hierarchyAggregate
      * @param type $rowData
      */
-    public function extract(EntityInterface $hierarchyAggregate, RowDataInterface $rowData) {
+    public function extract(EntityInterface $hierarchyAggregate, ArrayAccess $rowData) {
         /** @var HierarchyAggregateInterface $hierarchyAggregate */
         $rowData->offsetSet(MenuItemInterface::class, $hierarchyAggregate->getMenuItem());
     }

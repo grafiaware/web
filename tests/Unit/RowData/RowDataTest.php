@@ -35,6 +35,12 @@ class RowDataTest extends TestCase {
         $this->assertInstanceOf(RowDataInterface::class, $rowData);
     }
 
+    public function testClone() {
+        $rowData = new RowData(['a', null, 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()]);
+        $clone = clone $rowData;
+        $this->assertInstanceOf(RowDataInterface::class, $clone);
+    }
+
     public function testOffsetSetGet() {
         $originArray = ['a', null, 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()];
         $rowData = new RowData(['a', null, 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()]);
@@ -55,11 +61,11 @@ class RowDataTest extends TestCase {
         $this->assertCount(4, $oldDataArray);
         $this->assertEquals(['a', 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()], $oldDataArray);
 
-        $changedDataArrayObject = $rowData->yieldChanged();
+        $changedDataArrayObject = $rowData->yieldChangedRowData();
         $this->assertInstanceOf(\ArrayObject::class, $changedDataArrayObject);
         $this->assertCount(2, $changedDataArrayObject);
 
-        $changedData = $rowData->fetchChanged();
+        $changedData = $rowData->fetchChangedNames();
         $this->assertIsArray($changedData);
         $this->assertCount(2, $changedData);
         $this->assertEquals(['abcd'=>null, 'efgh'=>new \stdClass()], $changedData);
@@ -73,11 +79,11 @@ class RowDataTest extends TestCase {
         $oldDataArray2 = $rowData->getArrayCopy();
         $this->assertEquals(['a', null, 'null'=>null, 1=>'TRTRTS', 'efgh'=>new \stdClass()], $oldDataArray2);
 
-        $changedDataArrayObject2 = $rowData->yieldChanged();
+        $changedDataArrayObject2 = $rowData->yieldChangedRowData();
         $this->assertInstanceOf(\ArrayObject::class, $changedDataArrayObject2);
         $this->assertCount(0, $changedDataArrayObject2);
 
-        $changedData2 = $rowData->fetchChanged();
+        $changedData2 = $rowData->fetchChangedNames();
         $this->assertIsArray($changedData2);
         $this->assertCount(0, $changedData2);
     }
@@ -85,14 +91,14 @@ class RowDataTest extends TestCase {
     public function testNoChangeAfterSetSameValues() {
         $rowData = new RowData(['a', null, 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()]);
         $this->assertFalse($rowData->isChanged());
-        $rowData->fetchChanged();
+        $rowData->fetchChangedNames();
         $rowData->offsetSet(1, 'TRTRTS');
         $this->assertFalse($rowData->isChanged());
         $rowData->offsetSet('null', null);
         $this->assertFalse($rowData->isChanged());
         $rowData->offsetSet('abcd', $rowData->offsetGet('abcd'));
         $this->assertFalse($rowData->isChanged());
-        $changed = $rowData->fetchChanged();
+        $changed = $rowData->fetchChangedNames();
         $this->assertCount(0, $changed);
     }
 
@@ -105,7 +111,7 @@ class RowDataTest extends TestCase {
         $rowData->offsetSet(2, 'TRTRTS');
         $rowData->offsetSet('newnull', null);
         $this->assertTrue($rowData->isChanged());
-        $ch = $rowData->fetchChanged();
+        $ch = $rowData->fetchChangedNames();
         $this->assertEquals([2=>'TRTRTS', 'newnull'=>null], $ch);
     }
 
@@ -114,13 +120,13 @@ class RowDataTest extends TestCase {
         $this->assertFalse($rowData->isChanged());
         $rowData->offsetSet(1, 'TRTRTS1');
         $this->assertTrue($rowData->isChanged());
-        $this->assertEquals([1=>'TRTRTS1'], $rowData->fetchChanged());
+        $this->assertEquals([1=>'TRTRTS1'], $rowData->fetchChangedNames());
         //opakovaná změna dat
         $rowData->offsetSet(1, 'TRTRTS2');
         $this->assertTrue($rowData->isChanged());
         $rowData->offsetSet(1, 'TRTRTS3');
         $this->assertTrue($rowData->isChanged());
-        $this->assertEquals([1=>'TRTRTS3'], $rowData->fetchChanged());
+        $this->assertEquals([1=>'TRTRTS3'], $rowData->fetchChangedNames());
     }
 
     public function testObjectExchange() {
@@ -129,7 +135,7 @@ class RowDataTest extends TestCase {
         $object = new \stdClass();
         $rowData->offsetSet('abcd', $object);
         $this->assertTrue($rowData->isChanged());
-        $changed = $rowData->fetchChanged();
+        $changed = $rowData->fetchChangedNames();
         $this->assertCount(1, $changed);
         $this->assertEquals(['abcd'=>new \stdClass()], $changed);
         $this->assertTrue($rowData->offsetExists('abcd'));
@@ -143,7 +149,7 @@ class RowDataTest extends TestCase {
         $object->new = 'UZUZUUZ';
         $rowData->offsetSet('abcd', $object);
         $this->assertFalse($rowData->isChanged());
-        $this->assertCount(0, $rowData->fetchChanged());
+        $this->assertCount(0, $rowData->fetchChangedNames());
     }
 
     public function testNullToNotnullChange() {
@@ -151,7 +157,7 @@ class RowDataTest extends TestCase {
         $this->assertFalse($rowData->isChanged());
         $rowData->offsetSet('null', 'not null');
         $this->assertTrue($rowData->isChanged());
-        $this->assertEquals(['null'=>'not null'], $rowData->fetchChanged());
+        $this->assertEquals(['null'=>'not null'], $rowData->fetchChangedNames());
     }
 
     public function testNotnullToNullChange() {
@@ -159,7 +165,7 @@ class RowDataTest extends TestCase {
         $this->assertFalse($rowData->isChanged());
         $rowData->offsetSet('null', null);
         $this->assertTrue($rowData->isChanged());
-        $this->assertEquals(['null'=>null], $rowData->fetchChanged());
+        $this->assertEquals(['null'=>null], $rowData->fetchChangedNames());
     }
 
     public function testFetchChanged() {
@@ -167,15 +173,15 @@ class RowDataTest extends TestCase {
         $this->assertFalse($rowData->isChanged());
         $rowData->offsetSet(1, 'TRTRTS');
         $this->assertFalse($rowData->isChanged());
-        $this->assertCount(0, $rowData->fetchChanged());
+        $this->assertCount(0, $rowData->fetchChangedNames());
         $rowData->offsetSet(2, 'TRTRTS');
         $this->assertTrue($rowData->isChanged());
-        $this->assertEquals([2=>'TRTRTS'], $rowData->yieldChanged()->getArrayCopy());
+        $this->assertEquals([2=>'TRTRTS'], $rowData->yieldChangedRowData()->getArrayCopy());
         $object = new \stdClass();
         $rowData->offsetSet('abcd', $object);
         $this->assertTrue($rowData->isChanged());
-        $this->assertEquals([2=>'TRTRTS', 'abcd'=>$object], $rowData->yieldChanged()->getArrayCopy());
-        $this->assertCount(2, $rowData->fetchChanged());
+        $this->assertEquals([2=>'TRTRTS', 'abcd'=>$object], $rowData->yieldChangedRowData()->getArrayCopy());
+        $this->assertCount(2, $rowData->fetchChangedNames());
 
     }
 }

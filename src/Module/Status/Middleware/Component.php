@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\{
-    ComponentContainerConfigurator, RedModelContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
+    ComponentContainerConfigurator, RedModelContainerConfigurator, DbUpgradeContainerConfigurator, AuthContainerConfigurator
 };
 
 use \Status\Middleware\Component\Controler\StatusComponentControler;
@@ -44,7 +44,7 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->container =
                 (new ComponentContainerConfigurator())->configure(
                             (new Container(
-                                    (new LoginContainerConfigurator())->configure(
+                                    (new AuthContainerConfigurator())->configure(
                                         new Container($this->getApp()->getAppContainer())
                                     )
                                 )

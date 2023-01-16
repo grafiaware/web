@@ -4,7 +4,7 @@ namespace Events\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Events\Model\Entity\EventLinkPhaseInterface;
 
@@ -23,9 +23,9 @@ class EventLinkPhaseHydrator extends TypeHydratorAbstract implements HydratorInt
     /**
      * 
      * @param EventLinkPhaseInterface $eventLinkPhase
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function hydrate(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $eventLinkPhase, ArrayAccess $rowData) {
         /** @var EventLinkPhaseInterface $eventLinkPhase */
         $eventLinkPhase
             ->setId($this->getPhpValue( $rowData,'id' ) )
@@ -36,9 +36,9 @@ class EventLinkPhaseHydrator extends TypeHydratorAbstract implements HydratorInt
     /**
      *
      * @param EventLinkPhaseInterface $event
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
+    public function extract(EntityInterface $eventLinkPhase, ArrayAccess $rowData) {
         $this->setSqlValue($rowData, 'text',  $eventLinkPhase->getText() );
     }
 

@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
@@ -20,7 +20,7 @@ use Status\Model\Entity\StatusPresentationInterface;
  *
  * @author pes2704
  */
-interface StatusPresentationInterface extends EntityInterface {
+interface StatusPresentationInterface extends PersistableEntityInterface {
 
     /**
      *

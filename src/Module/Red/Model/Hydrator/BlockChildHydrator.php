@@ -11,7 +11,7 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\BlockAggregateMenuItemInterface;
 use Red\Model\Entity\MenuItemInterface;
@@ -29,7 +29,7 @@ class BlockChildHydrator implements HydratorInterface {
      * @param BlockAggregateMenuItemInterface $componentAggregate
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $componentAggregate, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $componentAggregate, ArrayAccess $rowData) {
         /** @var BlockAggregateMenuItemInterface $componentAggregate */
         $componentAggregate->setMenuItem($rowData->offsetGet(MenuItemInterface::class));
     }
@@ -39,7 +39,7 @@ class BlockChildHydrator implements HydratorInterface {
      * @param BlockAggregateMenuItemInterface $componentAggregate
      * @param array $rowData
      */
-    public function extract(EntityInterface $componentAggregate, RowDataInterface $rowData) {
+    public function extract(EntityInterface $componentAggregate, ArrayAccess $rowData) {
         /** @var BlockAggregateMenuItemInterface $componentAggregate */
         $rowData->offsetSet(MenuItemInterface::class, $componentAggregate->getMenuItem());
     }

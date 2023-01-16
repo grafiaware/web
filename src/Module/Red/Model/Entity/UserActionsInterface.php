@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\ItemActionInterface;
 
 /**
  *
  * @author pes2704
  */
-interface UserActionsInterface extends EntityInterface {
+interface UserActionsInterface extends PersistableEntityInterface {
 
     /**
      * Informuje, zda je některá část prezentace přepnuta do editačního módu.

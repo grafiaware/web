@@ -6,8 +6,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Test\Integration\Event\Container\EventsModelContainerConfigurator;
-use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Dao\EventLinkDao;
@@ -34,14 +34,14 @@ class EventLinkPhaseDaoTest extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
-        
-        
+
+
     }
 
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(EventLinkPhaseDao::class);  // vždy nový objekt
     }
@@ -61,19 +61,19 @@ class EventLinkPhaseDaoTest extends AppRunner {
         $rowData = new RowData();
         $rowData->offsetSet('text', "testEventLinkPhaseDao texxt");
         $this->dao->insert($rowData);
-        self::$eventLinkPhaseIdTouple =  $this->dao->getLastInsertIdTouple();
+        self::$eventLinkPhaseIdTouple =  $this->dao->getLastInsertedPrimaryKey(); //pro autoincrement
         $this->assertIsArray(self::$eventLinkPhaseIdTouple);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
-        
+
         //vyrobit EventLink vetu
         /** @var EventLinkDao $eventLinkDao */
         $eventLinkDao = $this->container->get( EventLinkDao::class);
         $eventLinkData = new RowData();
         $eventLinkData->import( ['show' => 1 ] );
         $eventLinkData->import( ['link_phase_id_fk' => self::$eventLinkPhaseIdTouple['id']  ] );
-        $eventLinkDao->insert($eventLinkData);    
-        self::$eventLinkIdTouple = $eventLinkDao->getLastInsertIdTouple();
+        $eventLinkDao->insert($eventLinkData);
+        self::$eventLinkIdTouple = $eventLinkDao->getPrimaryKey($eventLinkData->getArrayCopy());
     }
 
     public function testGetExistingRow() {
@@ -109,25 +109,25 @@ class EventLinkPhaseDaoTest extends AppRunner {
         $this->assertInstanceOf(RowDataInterface::class, $eventLinkPhaseRow[0]);
     }
 
-    public function testDeleteException() {   
+    public function testDeleteException() {
         // kontrola RESTRICT = ze nevymaže event_link, zustane
         $eventLinkPhaseRow = $this->dao->get(self::$eventLinkPhaseIdTouple);
         $this->expectException(ExecuteException::class);
-        $this->dao->delete($eventLinkPhaseRow);                
+        $this->dao->delete($eventLinkPhaseRow);
     }
-    
+
     public function testDelete() {
         /**  @var EventLinkDao  $eventLinkDao */
         $eventLinkDao = $this->container->get( EventLinkDao::class);
-        $eventLinkRow = $eventLinkDao->get(self::$eventLinkIdTouple);        
+        $eventLinkRow = $eventLinkDao->get(self::$eventLinkIdTouple);
         $this->assertEquals(  self::$eventLinkPhaseIdTouple['id'], $eventLinkRow['link_phase_id_fk'] );
-        
-         //smazat napred Institution  
+
+         //smazat napred Institution
         $eventLinkRow = $eventLinkDao->get(self::$eventLinkIdTouple);
         $eventLinkDao->delete($eventLinkRow);
         $this->assertEquals(1, $eventLinkDao->getRowCount());
-                        
-        
+
+
         //pak smazat event_link_phase
         //$this->setUp();
         $eventLinkPhaseTypeRow = $this->dao->get(self::$eventLinkPhaseIdTouple);

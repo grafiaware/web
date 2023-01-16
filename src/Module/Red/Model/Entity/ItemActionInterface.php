@@ -2,13 +2,13 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ItemActionInterface extends EntityInterface {
+interface ItemActionInterface extends PersistableEntityInterface {
 
     public function getTypeFk(): string;
 

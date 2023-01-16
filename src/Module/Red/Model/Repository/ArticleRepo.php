@@ -10,14 +10,14 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Entity\Article;
 use Red\Model\Dao\ArticleDao;
-use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\ArticleHydrator;
 
-use Model\Repository\Exception\UnableRecreateEntityException;
+use \Model\Repository\RepoAssotiatedOneTrait;
 
 /**
  * Description of Menu
@@ -27,7 +27,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
 class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
 
     /**
-     * @var DaoFkUniqueInterface
+     * @var DaoReferenceUniqueInterface
      */
     protected $dataManager;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
@@ -36,24 +36,19 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
         $this->registerHydrator($articleHydrator);
     }
 
+    use RepoAssotiatedOneTrait;
+
     /**
      *
      * @param type $id
      * @return PaperInterface|null
      */
     public function get($id): ?ArticleInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
 
-    /**
-     *
-     * @param type $menuItemIdFk
-     * @return PaperInterface|null
-     */
-    public function getByReference($menuItemIdFk): ?EntityInterface {
-        $key = $this->dataManager->getForeignKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
-        return $this->getEntityByReference('menu_item_id_fk', $key);
+    public function getByMenuItemId($menuItemId): ?ArticleInterface {
+        return $this->getEntityByReference(ArticleDao::REFERENCE_MENU_ITEM, $menuItemId);
     }
 
     public function add(ArticleInterface $article) {

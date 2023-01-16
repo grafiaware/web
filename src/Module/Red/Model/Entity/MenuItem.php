@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Menutem
  *
  * @author pes2704
  */
-class MenuItem extends EntityAbstract implements MenuItemInterface {
+class MenuItem extends PersistableEntityAbstract implements MenuItemInterface {
 
     private $uidFk;
     private $langCodeFk;

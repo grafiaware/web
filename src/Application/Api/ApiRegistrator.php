@@ -141,13 +141,30 @@ class ApiRegistrator {
         #
         #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
-        #### VisitorDataController ####
+        
+        #### VisitorController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));
+        #### CompanyController ?? ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact/:companyContactId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact/:companyContactId/remove'));
+        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyaddress'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyaddress/:companyIdA'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyaddress/:companyIdA/remove'));             
+        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
+        
+        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobrequest'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest'));
+        #### JobRequestControler
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/:jobId/jobrequest'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
         #### VisitorDataController ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/eventcontent/:staticName'));
+        #### DocumentControler
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/document/:id/remove'));
 
         ### mail module ###
         #

@@ -18,12 +18,12 @@ use Pes\Container\Container;
 
 use Container\DbUpgradeContainerConfigurator;
 use Container\RedModelContainerConfigurator;
-use Test\Integration\Model\Container\TestModelContainerConfigurator;
-
+use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
+use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
-use Red\Model\Repository\PaperAggregateContentsRepo;
+use Red\Model\Repository\PaperAggregateSectionsRepo;
 
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 
@@ -155,20 +155,20 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
     }
 
     public function testPaperHasContents() {
-        $this->assertIsArray($this->paper->getPaperContentsArray());
+        $this->assertIsArray($this->paper->getPaperSectionsArray());
     }
 
     public function testPaperContentType() {
-        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperContentsArray()[0]);
+        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperSectionsArray()[0]);
     }
 
     public function testAdd() {
-        $oldContentsArray = $this->paper->getPaperContentsArray();
+        $oldContentsArray = $this->paper->getPaperSectionsArray();
         $oldContent = $oldContentsArray[0];
         $oldContentCount = count($oldContentsArray);
 
         $paperIdFk = $this->paper->getId();
-        $this->paper->exchangePaperContentsArray($this->addContent($this->createContent($paperIdFk), $oldContentsArray));
+        $this->paper->setPaperSectionsArray($this->addContent($this->createContent($paperIdFk), $oldContentsArray));
         /** @var PaperSectionRepo $paperContentRepo */
 //        $paperContentRepo = $this->container->get(PaperContentRepo::class);
 //        $paperContentRepo->add($newContent);
@@ -179,13 +179,13 @@ $this->menuItemAggRepo->flush();
         // nestačí resetovat MenuItemAggregateRepo - to se sice vygeneruje znovu, ale v něm obsažené PaperAggregateRepo se zachová a použije
         // a obdobně PaperContentRepo obsažené v PaperAggregateRepo
         $this->container->reset(MenuItemAggregatePaperRepo::class);
-        $this->container->reset(PaperAggregateContentsRepo::class);
+        $this->container->reset(PaperAggregateSectionsRepo::class);
         $this->container->reset(PaperSectionRepo::class);
         /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
         $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
-        $newContentsArray = $this->paper->getPaperContentsArray();
+        $newContentsArray = $this->paper->getPaperSectionsArray();
 
         $this->assertTrue(count($newContentsArray) == $oldContentCount+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
 

@@ -10,7 +10,7 @@ namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 
@@ -26,13 +26,13 @@ class LoginAggregateHydrator implements HydratorInterface {
      * @param EntityInterface $login
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $loginAggregate, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $loginAggregate, ArrayAccess $rowData) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
         $loginAggregate->setLoginName($rowData->offsetGet('login_name'));
         $loginAggregate->setCredentials($rowData->offsetGet('credentials'));
     }
 
-    public function extract(EntityInterface $entity, RowDataInterface $rowData) {
+    public function extract(EntityInterface $entity, ArrayAccess $rowData) {
         ;
     }
 }

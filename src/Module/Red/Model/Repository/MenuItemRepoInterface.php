@@ -8,8 +8,7 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoInterface;
-use Model\Repository\RepoAssotiatedOneInterface;
+use Model\Repository\RepoAssociatedWithJoinOneInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 
@@ -17,25 +16,16 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-interface MenuItemRepoInterface extends RepoInterface, RepoAssotiatedOneInterface  {
+interface MenuItemRepoInterface extends RepoAssociatedWithJoinOneInterface  {
 
     /**
-     * Hledá podle promárního klíče a podle kontextu.
+     * Hledá podle primárního klíče a podle kontextu.
      *
      * @param type $langCodeFk
      * @param type $uidFk
      * @return MenuItemInterface|null
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface;
-
-    /**
-     * Hledá pouze podle primárního klíče bez použití kontextu.
-     *
-     * @param type $langCodeFk
-     * @param type $uidFk
-     * @return MenuItemInterface|null
-     */
-    public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface;
 
     /**
      *

@@ -8,7 +8,7 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 use Events\Model\Entity\EnrollInterface;
 
@@ -17,7 +17,7 @@ use Events\Model\Entity\EnrollInterface;
  *
  * @author pes2704
  */
-class Enroll extends EntityAbstract implements EnrollInterface {
+class Enroll extends PersistableEntityAbstract implements EnrollInterface {
 
     private $loginLoginNameFk;
     private $eventIdFk;

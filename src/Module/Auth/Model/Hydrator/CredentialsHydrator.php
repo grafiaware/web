@@ -10,7 +10,7 @@ namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Auth\Model\Entity\CredentialsInterface;
 
@@ -23,7 +23,7 @@ class CredentialsHydrator implements HydratorInterface {
      * @param EntityInterface $credentials
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $credentials, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $credentials, ArrayAccess $rowData) {
         /** @var CredentialsInterface $credentials */
         $credentials
             ->setLoginNameFk($rowData->offsetGet('login_name_fk'))
@@ -39,7 +39,7 @@ class CredentialsHydrator implements HydratorInterface {
      * @param EntityInterface $credentials
      * @param type $rowData
      */
-    public function extract(EntityInterface $credentials, RowDataInterface $rowData) {
+    public function extract(EntityInterface $credentials, ArrayAccess $rowData) {
         /** @var CredentialsInterface $credentials */
         $rowData->offsetSet('login_name_fk', $credentials->getLoginNameFk()); // hodnota pro where
         $rowData->offsetSet('password_hash', $credentials->getPasswordHash());

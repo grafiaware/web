@@ -7,7 +7,7 @@ use Site\ConfigurationCache;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorJobRequestRepo;
@@ -45,7 +45,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-$presenterModel = new Presenter();
+/** @var Presenter $presenterModel */
+$presenterModel = $container->get( Presenter::class );
 
 
 /** @var VisitorJobRequestRepo $visitorDataPostRepo */
@@ -67,14 +68,16 @@ if (isset($loginAggregate)) {
         $visitorData = $visitorDataRepo->get($loginName);
 
         /** @var VisitorJobRequestInterface $visitorDataPost */
-        $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName);
+//################################################################
+        $visitorDataPost = $visitorDataPostRepo->get($loginName, $jobId) ; // tady ma byt id jobu                                
+                /*$shortName, $positionName*/ //$shortName, $positionName ...job_id
 
         // formulář
         // unikátní jména souborů pro upload
         $userHash = $loginAggregate->getLoginNameHash();
         $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
-        $uploadedCvFilename = VisitorControler::UPLOADED_KEY_CV.$userHash;
-        $uploadedLetterFilename = VisitorControler::UPLOADED_KEY_LETTER.$userHash;
+        $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+        $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
 
         // email z registrace
         // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly

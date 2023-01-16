@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  *
@@ -16,7 +16,7 @@ use Model\Entity\EntityAbstract;
  *
  * @author pes2704
  */
-class Hierarchy extends EntityAbstract implements HierarchyInterface {
+class Hierarchy extends PersistableEntityAbstract implements HierarchyInterface {
 
     private $leftNode;
     private $rightNode;

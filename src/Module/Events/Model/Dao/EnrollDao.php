@@ -2,7 +2,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 use Events\Model\Dao\EnrollDaoInterface;
 
 /**
@@ -12,17 +12,17 @@ use Events\Model\Dao\EnrollDaoInterface;
  */
 class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
 
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
         return ['login_login_name_fk', 'event_id_fk'];
     }
 
-    public function getForeignKeyAttributes(): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
-            'login_login_name_fk'=>['login_login_name_fk'],
-            'event_id_fk'=>['event_id_fk']
-        ];
+            'login'=>['login_login_name_fk'=>'login_name'],
+            'event'=>['event_id_fk'=>'id']
+        ][$referenceName];
     }
 
     public function getAttributes(): array {
@@ -37,10 +37,10 @@ class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
     }
 
     public function findByLoginNameFk(array $loginNameFk ): array {
-        return $this->findByFk('login_login_name_fk', $loginNameFk);
+        return $this->findByReference('login', $loginNameFk);
     }
 
     public function findByEventIdFk(array $eventContentIdFk ): array {
-        return $this->findByFk('event_id_fk', $eventContentIdFk);
+        return $this->findByReference('event', $eventContentIdFk);
     }
 }

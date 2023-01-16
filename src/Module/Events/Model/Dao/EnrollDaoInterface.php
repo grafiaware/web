@@ -1,12 +1,12 @@
 <?php
 namespace Events\Model\Dao;
-use Model\Dao\DaoFkNonuniqueInterface;
+use Model\Dao\DaoReferenceNonuniqueInterface;
 
 /**
  *
  * @author vlse2610
  */
-interface EnrollDaoInterface extends DaoFkNonuniqueInterface {
+interface EnrollDaoInterface extends DaoReferenceNonuniqueInterface {
 
     public function findByLoginNameFk(array $loginNameFk): array ;
 

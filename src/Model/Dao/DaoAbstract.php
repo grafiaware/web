@@ -12,10 +12,12 @@ use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
-
-use Model\Dao\DaoFkUniqueInterface;
+use Model\RowData\RowDataInterface;
+use Model\Dao\DaoContextualInterface;
+use Model\Context\ContextFactoryInterface;
 
 use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
+use Model\Dao\Exception\DaoContextualHasNoContextFactoryException;
 use UnexpectedValueException;
 
 /**
@@ -44,15 +46,30 @@ abstract class DaoAbstract implements DaoInterface {
      */
     private $preparedStatements = [];
 
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName) {
+    /**
+     * @var ContextFactoryInterface
+     */
+    protected $contextFactory;
+
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextFactoryInterface $contextFactory=null) {
         $this->dbHandler = $handler;
         $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
         $this->sql = $sql;
+        $this->contextFactory = $contextFactory;
     }
 
 ## public ##########################################
 
-    public function getPrimaryKeyTouples(array $row): array {
+
+    //TODO: ? protected - zdá se, že getPrimaryKeyTouples je použito jen v testech - a v MenuItemRepo a jeho metoda getOutOfContext není použita - repo kontextové a repo out of context je i v container config -> dohledat a doladit
+
+    /**
+     * {@inheritDoc}
+     * @param array $row Řádek dat -asociativní pole, které musí obsahovat alespoň položky odpovídající polím primárního klíče
+     * @return array
+     * @throws UnexpectedValueException
+     */
+    public function getPrimaryKey(array $row): array {
         $keyAttribute = $this->getPrimaryKeyAttributes();
         $key = [];
         foreach ($keyAttribute as $field) {
@@ -72,29 +89,45 @@ abstract class DaoAbstract implements DaoInterface {
     /**
      * {@inheritDoc}
      *
-     * @param array $id
-     * @return type
+     * @param array $primaryKey
+     * @return RowDataInterface|null
      */
-    public function get(array $id) {
+    public function get(array $primaryKey): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttributes())));
-        $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
+        $where = $this->sql->where($this->sql->and(
+                $this->getContextTouples(),
+                $this->sql->touples($this->getPrimaryKeyAttributes())
+            )
+        );
+        $touplesToBind = $this->getPrimaryKeyPlaceholdersValues($primaryKey);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param array $unique
-     * @return type
+     * @param array $uniqueKey
+     * @return RowDataInterface|null
      */
-    public function getUnique(array $unique) {
+    public function getUnique(array $uniqueKey): ?RowDataInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples(array_keys($unique))));
-        $touplesToBind = $this->getTouplesToBind($unique);
+        $where = $this->sql->where($this->sql->and(
+                $this->getContextTouples(),
+                $this->sql->touples(array_keys($uniqueKey))
+            )
+        );
+        $touplesToBind = $this->getPlaceholdersValues($uniqueKey);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    }
+
+    public function findNonUnique(array $nonUniqueKey): iterable {
+        $whereClause = $this->sql->and(
+                $this->getContextTouples(),
+                $this->sql->touples(array_keys($nonUniqueKey))
+            );
+        return $this->find($whereClause, $nonUniqueKey);
     }
 
     /**
@@ -119,8 +152,25 @@ abstract class DaoAbstract implements DaoInterface {
     public function findAll(): iterable {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
+        $where = $this->sql->where($this->sql->and($this->getContextTouples()));
         return $this->selectMany($select, $from, $where, []);
     }
+
+    private function getContextTouples() {
+        if ($this instanceof DaoContextualInterface) {
+            if (isset($this->contextFactory)) {
+                $ret = $this->getContextConditions();
+            } else {
+                throw new DaoContextualHasNoContextFactoryException("DAO typu DaoContextualInterface musí mít v konstruktoru předán objekt ContextFactoryInterface.");
+            }
+        } else {
+            $ret = [];
+        }
+        return $ret;
+    }
+
+
+#################################################################################
 
     /**
      * Očekává SQL string s příkazem SELECT a případnými placeholdery. Provede ho s použitím parametrů a vrací jednu řádku tabulky ve formě dané nastavením parametrů konstruktoru.
@@ -136,9 +186,9 @@ abstract class DaoAbstract implements DaoInterface {
      * @param string $sql SQL příkaz s případnými placeholdery.
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @param bool $checkDuplicities Nepovinný parametr, default FALSE.
-     * @return object|array|null
+     * @return RowDataInterface|null
      */
-    protected function selectOne($select, $from, $where, $touplesToBind=[], $checkDuplicities=FALSE) {
+    protected function selectOne($select, $from, $where, $touplesToBind=[], $checkDuplicities=FALSE): ?RowDataInterface {
         $statement = $this->getPreparedStatement($select.$from.$where);
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
@@ -166,7 +216,7 @@ abstract class DaoAbstract implements DaoInterface {
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @return array
      */
-    protected function selectMany($select, $from, $where, $touplesToBind=[]) {
+    protected function selectMany($select, $from, $where='', $touplesToBind=[]) {
         $statement = $this->getPreparedStatement($select.$from.$where);
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
@@ -197,7 +247,7 @@ abstract class DaoAbstract implements DaoInterface {
      * @return array
      * @throws UnexpectedValueException
      */
-    protected function getPrimaryKeyTouplesToBind(array $values) {
+    protected function getPrimaryKeyPlaceholdersValues(array $values) {
         $touples = [];
         foreach ($this->getPrimaryKeyAttributes() as $field) {
             if (!array_key_exists($field, $values)) {
@@ -208,10 +258,10 @@ abstract class DaoAbstract implements DaoInterface {
         return $touples;
     }
 
-    protected function getTouplesToBind(array $attributeValues) {
+    protected function getPlaceholdersValues(array $attributePairs) {
         $touples = [];
         $attributes = $this->getAttributes();
-        foreach ($attributeValues as $field=>$value) {
+        foreach ($attributePairs as $field=>$value) {
             if (!in_array($field, $attributes)) {
                 throw new DaoParamsBindNamesMismatchException("v předaném poli dvojic je prvek '$field', který nemá odpovídající atribut (sloupec tabulky).");
             }
@@ -221,11 +271,19 @@ abstract class DaoAbstract implements DaoInterface {
     }
 
     /**
-     * Předpokládá, ale nekontroluje, že s parametrem $touplesToBind lze pracovat jako s polem.
+     *
+     * Filtr obsahuje výčet jmen, která se mají skutečně použít z dvojic jméno-hodnota ($touplesToBind). Pokud filtr není zadán použijí se všechny hodnoty. Použití filtru je nutné,
+     * pokud SQL příkaz neobsahuje všechny jména vyskytující se v dvojicí jméno-hodnota toupleToBind. Typicky situace kdy data jsou získána extrakcí entity a príkaz je DELETE,
+     * který obsahje pouze položky polí klíče.
+     *
+     * Použití prefixu pro placeholdery umožňuje volat tuto metodu opakovaně s různým prefixem (resp. jednou s prefixema podruhé bez prefixu) a tak provést bind
+     * parametru s tímtéž jménem dvakrát. Využito je typicky při volání SQK update, kde sloupec, který je součástí klíče (a tedy hodnota nahrazuje placeholder v klausuli WHERE)
+     * je také updatován (a nová hodnota nahrazuje placeholder v klasuli SET).
      *
      * @param \PDOStatement $statement
-     * @param iterable $touplesToBind
-     * @param iterable $filterNames
+     * @param iterable $touplesToBind Pole nebo ArrayAccess obsahující dvojice jméno-hodnota
+     * @param iterable $filterNames Filtr - výčet jmen.
+     * @param type $placeholderPrefix Pokud je hodnota zadána, použije jako prefix před jménem parametru
      * @return \PDOStatement
      */
     protected function bindParams(\PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[], $placeholderPrefix='') {
@@ -233,13 +291,14 @@ abstract class DaoAbstract implements DaoInterface {
             foreach ($filterNames as $name) {
                 $value = $this->getValue($touplesToBind, $name);
                 if (isset($value)) {
-                    $statement->bindValue($placeholderPrefix.$name, $value);
+                        $statement->bindValue($placeholderPrefix.$name, $value);
                 } else {
-                    $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
+                        $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
                 }
             }
         } else {
             foreach ($touplesToBind as $name => $value) {
+                $value = $this->getValue($touplesToBind, $name);
                 if (isset($value)) {
                     $statement->bindValue($placeholderPrefix.$name, $value);
                 } else {
@@ -258,7 +317,7 @@ abstract class DaoAbstract implements DaoInterface {
                 $val = $touplesToBind[$name];
             } else {
                 throw new DaoParamsBindNamesMismatchException("Pole obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu neobsahuje položku se jménem '$name'.");
-            }
+}
         } elseif($touplesToBind instanceof \ArrayAccess) {
             if ($touplesToBind->offsetExists($name)) {
                 $val = $touplesToBind->offsetGet($name);

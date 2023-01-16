@@ -10,7 +10,7 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\ItemAction;
 use Red\Model\Dao\ItemActionDao;
@@ -38,8 +38,7 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
      * @return ItemActionInterface|null
      */
     public function get($typeFk, $itemId): ?ItemActionInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['type_fk'=>$typeFk, 'item_id'=>$itemId]);
-        return $this->getEntity($key);
+        return $this->getEntity($typeFk, $itemId);
     }
 
     /**

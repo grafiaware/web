@@ -10,21 +10,25 @@ namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 
-use Model\Dao\DaoEditAutoincrementKeyInterface;
-use Model\Dao\DaoFkUniqueInterface;
 use Model\Dao\DaoAutoincrementTrait;
-use Model\Dao\DaoFkUniqueTrait;
+use Model\Dao\DaoReferenceUniqueTrait;
 
 /**
  * Description of PaperDao
  *
  * @author pes2704
  */
-class PaperDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkUniqueInterface {
+class PaperDao extends DaoEditAbstract implements PaperDaoInterface {
+
+    const REFERENCE_MENU_ITEM = 'menu_item';
 
     use DaoAutoincrementTrait;
-    use DaoFkUniqueTrait;
+    use DaoReferenceUniqueTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
+    
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
@@ -42,10 +46,10 @@ class PaperDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterfa
         ];
     }
 
-    public function getForeignKeyAttributes(): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
-            'menu_item_id_fk'=>['menu_item_id_fk']
-        ];
+        self::REFERENCE_MENU_ITEM=>['menu_item_id_fk'=>'id']
+        ][$referenceName];
     }
 
     public function getTableName(): string {

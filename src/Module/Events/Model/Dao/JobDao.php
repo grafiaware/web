@@ -16,6 +16,10 @@ class JobDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface
 
     use DaoAutoincrementTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
+    
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
@@ -33,13 +37,13 @@ class JobDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface
         ];
     }
 
-     public function getForeignKeyAttributes(): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
-            `pozadovane_vzdelani_stupen` => ['pozadovane_vzdelani_stupen'] 
-           
-        ];
+            `pozadovane_vzdelani_stupen` => ['pozadovane_vzdelani_stupen']
+
+        ][$referenceName];
     }
-    
+
     public function getTableName(): string {
         return 'job';
     }

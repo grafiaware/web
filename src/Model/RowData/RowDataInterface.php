@@ -26,24 +26,29 @@ interface RowDataInterface extends \IteratorAggregate, \ArrayAccess, \Serializab
     public function isChanged(): bool;
 
     /**
-     * Vrací pole jmen změněných hodnot od instancování RowData objektu nebo od posledního volání této metody.
+     * Vrací pole jmen hodnot změněných od instancování RowData objektu nebo od posledního volání této metody.
      *
      * Změnou hodnoty položky je i změna typu nebo záměna instance objektu za jinou.
      *
-     * Metoda vrací evidovaná jména změněných hodnoty a evidenci jmen hodnot smaže. Další změny jsou pak dále evidovány a příští volání
+     * Metoda vrací evidovaná jména změněných hodnot a evidenci jmen hodnot smaže. Další změny jsou pak dále evidovány a příští volání
      * této metody vrací jen tyto další změny.
      *
      * @return array
      */
-    public function fetchChanged(): array;
+    public function fetchChangedNames(): array;
 
     /**
      * Vrací nový ArrayObject obsahující změněné hodnoty. Původní RowData objekt zůstane nezměněn, ani evidované změny (changedNames()) se nemění.
      *
      * @return \ArrayObject
      */
-    public function yieldChanged(): \ArrayObject;
+    public function yieldChangedRowData(): \ArrayObject;
     
+    /**
+     * Přidá všechny položky iterable parametru. Všechna importovaná data přídá jako nové hodnoty.
+     *
+     * @param iterable $iterablaData
+     */
     public function import(iterable $iterablaData);
 
     /**

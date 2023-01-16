@@ -12,7 +12,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\ArticleInterface;
 
@@ -28,7 +28,7 @@ class ArticleHydrator extends TypeHydratorAbstract implements HydratorInterface 
      * @param ArticleInterface $article
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $article, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $article, ArrayAccess $rowData) {
         /** @var ArticleInterface $article */
         $article
             ->setId($this->getPhpValue($rowData,'id'))
@@ -44,7 +44,7 @@ class ArticleHydrator extends TypeHydratorAbstract implements HydratorInterface 
      * @param ArticleInterface $article
      * @param type $rowData
      */
-    public function extract(EntityInterface $article, RowDataInterface $rowData) {
+    public function extract(EntityInterface $article, ArrayAccess $rowData) {
         /** @var ArticleInterface $article */
         $this->setSqlValue($rowData, 'id', $article->getId()); // id je autoincrement - readonly, hodnota pro where
         $this->setSqlValue($rowData, 'menu_item_id_fk', $article->getMenuItemIdFk());

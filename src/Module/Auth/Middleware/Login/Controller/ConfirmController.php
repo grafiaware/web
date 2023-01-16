@@ -119,7 +119,7 @@ class ConfirmController extends LoginControllerAbstract
                  }
                  else {
                      // stav, kdy -  Takový registrační požadavek nebyl požadovan/zaznamenán.
-                     // zapsat do logu, tj. nějak dát vědět autorům systému
+                     // zapsat do logu
                      $this->addFlashMessage( "Takový registrační požadavek nebyl požadován/zaznamenán.");
                  }
             }

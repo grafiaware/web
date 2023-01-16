@@ -11,7 +11,7 @@ namespace Auth\Model\Repository;
 use Model\Repository\RepoAggregateInterface;
 use Model\Hydrator\HydratorInterface;
 
-use Auth\Model\Repository\LoginRepo;
+use Model\Repository\RepoAbstract;
 use Auth\Model\Dao\LoginDao;
 
 use Auth\Model\Repository\CredentialsRepo;
@@ -20,8 +20,11 @@ use Auth\Model\Repository\RegistrationRepo;
 use Auth\Model\Hydrator\LoginChildCredentialsHydrator;
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
 
+use Model\Repository\RepoAssotiatingOneTrait;
+
 use Auth\Model\Entity\LoginAggregateFull;
 use Auth\Model\Entity\LoginAggregateFullInterface;
+
 use Auth\Model\Entity\CredentialsInterface;
 use Auth\Model\Entity\RegistrationInterface;
 
@@ -30,33 +33,39 @@ use Auth\Model\Entity\RegistrationInterface;
  *
  * @author pes2704
  */
-class LoginAggregateFullRepo extends LoginRepo implements RepoAggregateInterface {
+class LoginAggregateFullRepo extends RepoAbstract implements LoginAggregateFullRepoInterface {
 
-    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
-            CredentialsRepo $credentialsRepo, LoginChildCredentialsHydrator $loginCredentialsHydrator,
-            RegistrationRepo $registrationRepo, LoginChildRegistrationHydrator $loginRegistrationHydrator
+    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator
             ) {
-        parent::__construct($loginDao, $loginHydrator);
-        $this->registerOneToOneAssociation(CredentialsInterface::class, 'login_name', $credentialsRepo);
-        $this->registerOneToOneAssociation(RegistrationInterface::class, 'login_name', $registrationRepo);
-        $this->registerHydrator($loginCredentialsHydrator);
-        $this->registerHydrator($loginRegistrationHydrator);
+        $this->dataManager = $loginDao;
+        $this->registerHydrator($loginHydrator);
     }
+
+    use RepoAssotiatingOneTrait;
 
     protected function createEntity() {
         return new LoginAggregateFull();
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
-        $selected = [];
-        foreach ($this->dataManager->find($whereClause, $touplesToBind) as $loginRow) {
-            $index = $this->indexFromRow($loginRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $loginRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+    public function get($loginName): ?LoginAggregateFullInterface {
+        return $this->getEntity($loginName);
     }
 
+    public function add(LoginAggregateFullInterface $loginAgg) {
+        $this->addEntity($loginAgg);
+    }
+
+    public function remove(LoginAggregateFullInterface $loginAgg) {
+        $this->removeEntity($loginAgg);
+    }
+
+    #### protected ###########
+
+    protected function indexFromEntity(LoginAggregateFullInterface $loginAggReg) {
+        return $loginAggReg->getLoginName();
+    }
+
+    protected function indexFromRow($row) {
+        return $row['login_name'];
+    }
 }

@@ -8,39 +8,62 @@
 
 namespace Auth\Model\Repository;
 
+use Model\Repository\RepoAbstract;
 use Model\Hydrator\HydratorInterface;
-use Model\Repository\RepoAggregateInterface;
 
-use Auth\Model\Repository\LoginRepo;
+use \Model\Repository\RepoAssotiatingOneTrait;
+
 use Auth\Model\Dao\LoginDao;
-use Auth\Model\Repository\CredentialsRepo;
-use Auth\Model\Hydrator\LoginChildCredentialsHydrator;
 
 use Auth\Model\Entity\LoginAggregateCredentials;
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;
-use Auth\Model\Entity\LoginInterface;
-use Auth\Model\Entity\CredentialsInterface;
 
 /**
  * Description of Menu
  *
  * @author pes2704
  */
-class LoginAggregateCredentialsRepo extends LoginRepo implements RepoAggregateInterface {
+class LoginAggregateCredentialsRepo  extends RepoAbstract implements LoginAggregateCredentialsRepoInterface {
 
-    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
-            CredentialsRepo $credentialsRepo, LoginChildCredentialsHydrator $loginCredentialsHydrator) {
-        parent::__construct($loginDao, $loginHydrator);
-        $this->registerOneToOneAssociation(CredentialsInterface::class, 'login_name', $credentialsRepo);
-        $this->registerHydrator($loginCredentialsHydrator);
+    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator) {
+        $this->dataManager = $loginDao;
+        $this->registerHydrator($loginHydrator);
     }
+
+    use RepoAssotiatingOneTrait;
 
     protected function createEntity() {
         return new LoginAggregateCredentials();
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
-        return $this->findEntities($whereClause, $touplesToBind);
+    public function get($loginName): ?LoginAggregateCredentialsInterface {
+        return $this->getEntity($loginName);
+    }
+
+    /**
+     *
+     * @param LoginAggregateCredentialsInterface $loginAgg
+     */
+    public function add(LoginAggregateCredentialsInterface $loginAgg) {
+        $this->addEntity($loginAgg);
+    }
+
+    /**
+     *
+     * @param LoginAggregateCredentialsInterface $loginAgg
+     */
+    public function remove(LoginAggregateCredentialsInterface $loginAgg) {
+        $this->removeEntity($loginAgg);
+    }
+
+    #### protected ###########
+
+    protected function indexFromEntity(LoginAggregateCredentialsInterface $loginAggCred) {
+        return $loginAggCred->getLoginName();
+    }
+
+    protected function indexFromRow($row) {
+        return $row['login_name'];
     }
 
 }

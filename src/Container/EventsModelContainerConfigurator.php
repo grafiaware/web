@@ -26,6 +26,7 @@ use Events\Model\Repository\LoginRepo;
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Hydrator\RepresentativeHydrator;
 use Events\Model\Repository\RepresentativeRepo;
+use Events\Model\Entity\Representative;
 
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
@@ -60,19 +61,25 @@ use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
 
 use Events\Model\Hydrator\InstitutionTypeChildHydrator;
+use Events\Model\Repository\Association\InstitutionsAssociation;
 use Events\Model\Repository\InstitutionTypeAggregateInstitutionRepo;
 
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Hydrator\CompanyHydrator;
 use Events\Model\Repository\CompanyRepo;
+use Events\Model\Entity\Company;
+
 
 use Events\Model\Dao\CompanyAddressDao;
 use Events\Model\Hydrator\CompanyAddressHydrator;
 use Events\Model\Repository\CompanyAddressRepo;
+use Events\Model\Entity\CompanyAddress;
+
 
 use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Hydrator\CompanyContactHydrator;
 use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Entity\CompanyContact;
 
 use Events\Model\Dao\JobDao;
 use Events\Model\Hydrator\JobHydrator;
@@ -89,10 +96,12 @@ use Events\Model\Repository\JobTagRepo;
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Hydrator\PozadovaneVzdelaniHydrator;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
+use Events\Model\Entity\PozadovaneVzdelani;
 
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
 use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Entity\VisitorJobRequest;
 
 use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Hydrator\VisitorProfileHydrator;
@@ -101,6 +110,10 @@ use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepo;
+use Events\Model\Entity\Document;
+
+use Events\Model\Arraymodel\Job;
+use Events\Model\Arraymodel\Presenter;
 
 // database
 use Pes\Database\Handler\Account;
@@ -134,7 +147,30 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getFactoriesDefinitions(): iterable {
-        return [];
+        return [
+            Document::class => function(ContainerInterface $c) {
+                return new Document();
+            },
+            VisitorJobRequest::class => function(ContainerInterface $c) {
+                return new VisitorJobRequest();
+            },
+            CompanyContact::class => function(ContainerInterface $c) {
+            return new CompanyContact();
+            },
+            CompanyAddress::class => function(ContainerInterface $c) {
+            return new CompanyAddress();
+            },
+            Company::class => function(ContainerInterface $c) {
+            return new Company();
+            },
+            Representative::class => function(ContainerInterface $c) {
+            return new Representative();
+            },
+            PozadovaneVzdelani::class => function(ContainerInterface $c) {
+            return new PozadovaneVzdelani();
+            }
+
+        ];
     }
 
     public function getAliases(): iterable {
@@ -271,13 +307,23 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new InstitutionTypeChildHydrator();
             },
             InstitutionTypeAggregateInstitutionRepo::class => function(ContainerInterface $c) {
-                return new InstitutionTypeAggregateInstitutionRepo(
+                $repo = new InstitutionTypeAggregateInstitutionRepo(
                     $c->get(InstitutionTypeDao::class),
-                    $c->get(InstitutionTypeHydrator::class),
-                    $c->get(InstitutionRepo::class),
-                    $c->get(InstitutionTypeChildHydrator::class) );
-            },
+                    $c->get(InstitutionTypeHydrator::class));
+                $assotiation = new InstitutionsAssociation($c->get(InstitutionRepo::class));
+                $repo->registerOneToManyAssotiation($assotiation);
 
+                return $repo;
+            },
+            LoginAggregateCredentialsRepo::class => function(ContainerInterface $c) {
+                        $repo = new LoginAggregateCredentialsRepo(
+                        $c->get(LoginDao::class),
+                        $c->get(LoginHydrator::class)
+                        );
+                $assotiation = new CredentialsAssociation($c->get(CredentialsRepo::class));
+                $repo->registerOneToOneAssociation($assotiation);
+                return $repo;
+            },
             /**/
 
             //Company
@@ -319,7 +365,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
 
 
             //Job
-             JobDao::class => function(ContainerInterface $c) {
+            JobDao::class => function(ContainerInterface $c) {
                 return new JobDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
             JobHydrator::class => function(ContainerInterface $c) {
@@ -330,7 +376,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             //JobToTag
-             JobToTagDao::class => function(ContainerInterface $c) {
+            JobToTagDao::class => function(ContainerInterface $c) {
                 return new JobToTagDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
             JobToTagHydrator::class => function(ContainerInterface $c) {
@@ -394,6 +440,13 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             DocumentRepo::class => function(ContainerInterface $c) {
                 return new DocumentRepo($c->get(DocumentDao::class), $c->get(DocumentHydrator::class));
             },
+            Job::class => function(ContainerInterface $c) {
+                return new Job($c->get(CompanyRepo::class), $c->get(JobRepo::class), $c->get(JobToTagRepo::class), $c->get(JobTagRepo::class));
+            },
+
+            Presenter::class => function(ContainerInterface $c) {
+                return new Presenter($c->get(CompanyRepo::class), $c->get(RepresentativeRepo::class)  );
+            }
 
         ];
     }

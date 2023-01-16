@@ -4,7 +4,7 @@ namespace Events\Model\Hydrator;
 use Model\Entity\EntityInterface;
 use Events\Model\Entity\JobInterface;
 
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 use Model\Hydrator\TypeHydratorAbstract;
 use Model\Hydrator\HydratorInterface;
 
@@ -27,9 +27,9 @@ class JobHydrator extends TypeHydratorAbstract implements HydratorInterface {
      /**
       * 
       * @param JobInterface $job
-      * @param RowDataInterface $rowData
+      * @param ArrayAccess $rowData
       */    
-     public function hydrate(EntityInterface $job, RowDataInterface $rowData) {
+     public function hydrate(EntityInterface $job, ArrayAccess $rowData) {
         /** @var JobInterface $job */
         $job
             ->setId( $this->getPhpValue( $rowData, 'id'))
@@ -46,9 +46,9 @@ class JobHydrator extends TypeHydratorAbstract implements HydratorInterface {
     /**
      * 
      * @param JobInterface $job
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract(EntityInterface $job, RowDataInterface $rowData) {
+    public function extract(EntityInterface $job, ArrayAccess $rowData) {
         /** @var JobInterface $job */
         // id je autoincrement
         $this->setSqlValue( $rowData, 'company_id', $job->getCompanyId() );

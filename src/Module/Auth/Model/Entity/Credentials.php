@@ -4,14 +4,14 @@ namespace Auth\Model\Entity;
 
 use Auth\Model\Entity\CredentialsInterface;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of User
  *
  * @author pes2704
  */
-class Credentials extends EntityAbstract implements CredentialsInterface {
+class Credentials extends PersistableEntityAbstract implements CredentialsInterface {
 
     /**
      * @var string

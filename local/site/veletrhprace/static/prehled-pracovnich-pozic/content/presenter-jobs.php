@@ -13,7 +13,7 @@ use Site\ConfigurationCache;
                 if (isset($block)) {
                     ?>
                     <div class="text okraje-vertical">
-                        <a class="ui large button grey" href="<?= "web/v1/page/block/".$block->getName()."#chci-navazat-kontakt" ?>">
+                        <a class="ui large button grey" href="<?=  /*"web/v1/page/block/".$block->getName().*/  "#chci-navazat-kontakt" ?>">
                                 Chci jít na stánek pro kontaktní údaje
                         </a>
                     </div>
@@ -21,6 +21,8 @@ use Site\ConfigurationCache;
                 }
                 ?>
 
-
-                <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
+                
+            <!-- **I** presenter-jobs ***  -->
+            <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic_2.php",$presenterJobs  ); ?>
+                
             </div>

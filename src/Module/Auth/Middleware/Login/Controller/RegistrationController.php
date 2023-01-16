@@ -80,7 +80,7 @@ class RegistrationController extends LoginControllerAbstract
                      // pak jeste jeden mail v Confirm()  "Registrace dokoncena."
                     $registration = new Registration();
                     $registration->setLoginNameFk($registerJmeno);
-                    $registration->setPasswordHash( $registerHeslo );  // nezahashované
+                    $registration->setPasswordHash( $registerHeslo );  // nezahashované, hashuje se po konfirmaci
                     $registration->setEmail($registerEmail);
                     $registration->setInfo($registerInfo);
 

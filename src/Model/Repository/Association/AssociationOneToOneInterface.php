@@ -8,7 +8,7 @@
 
 namespace Model\Repository\Association;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,7 +16,26 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface AssociationOneToOneInterface extends AssociationInterface {
-    public function getAssociatedEntity(RowDataInterface $rowData): ?EntityInterface;
-    public function addAssociatedEntity(EntityInterface $entity = null);
-    public function removeAssociatedEntity(EntityInterface $entity = null);
+    /**
+     *
+     * @param string $referenceName Jméno reference z DAO
+     * @param RowDataInterface $parentRowData Data pro získání hodnot do reference
+     * @return PersistableEntityInterface|null
+     */
+    public function recreateChildEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void;
+
+    /**
+     *
+     * @param PersistableEntityInterface $parentEntity
+     * @return void
+     */
+    public function addEntity(PersistableEntityInterface $parentEntity): void;
+
+    /**
+     *
+     * @param PersistableEntityInterface $parentEntity
+     * @return void
+     */
+    public function removeEntity(PersistableEntityInterface $parentEntity): void;
+
 }

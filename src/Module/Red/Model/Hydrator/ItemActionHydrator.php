@@ -11,7 +11,7 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\ItemActionInterface;
 
@@ -27,7 +27,7 @@ class ItemActionHydrator implements HydratorInterface {
      * @param ItemActionInterface $itemAction
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $itemAction, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $itemAction, ArrayAccess $rowData) {
         /** @var ItemActionInterface $itemAction */
         $itemAction
             ->setTypeFk($rowData->offsetGet('type_fk'))
@@ -41,7 +41,7 @@ class ItemActionHydrator implements HydratorInterface {
      * @param ItemActionInterface $itemAction
      * @param type $rowData
      */
-    public function extract(EntityInterface $itemAction, RowDataInterface $rowData) {
+    public function extract(EntityInterface $itemAction, ArrayAccess $rowData) {
         /** @var ItemActionInterface $itemAction */
         $rowData->offsetSet('type_fk', $itemAction->getTypeFk());
         $rowData->offsetSet('item_id', $itemAction->getItemId());

@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\MailContainerConfigurator;
-use Container\LoginContainerConfigurator;
+use Container\AuthContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 
 use Sendmail\Middleware\Sendmail\Controller\MailController;
@@ -43,7 +43,7 @@ class Sendmail extends AppMiddlewareAbstract implements MiddlewareInterface {
         // jsou v jednotlivých kontejnerech)
         $this->container =
             (new MailContainerConfigurator())->configure(
-                (new LoginContainerConfigurator())->configure(
+                (new AuthContainerConfigurator())->configure(
                     (new DbOldContainerConfigurator())->configure(
                         new Container($this->getApp()->getAppContainer())
                     )

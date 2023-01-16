@@ -16,7 +16,7 @@ use Auth\Model\Entity\LoginInterface;
  *
  * @author pes2704
  */
-interface LoginRepoInterface extends RepoInterface  {
+interface LoginRepoInterface extends RepoInterface {
 
     /**
      *

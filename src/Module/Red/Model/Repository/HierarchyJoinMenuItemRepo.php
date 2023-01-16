@@ -10,6 +10,7 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 use Model\Hydrator\HydratorInterface;
+use Model\Repository\RepoAssotiatingOneTrait;
 
 use Red\Model\Repository\MenuItemRepo;
 
@@ -27,18 +28,21 @@ use Red\Model\Hydrator\HierarchyChildHydrator;
  *
  * @author pes2704
  */
-class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMenuItemRepo nemá skutečné rodičovské repo
+class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMenuItemRepoInterface {  // HierarchyAggregateMenuItemRepo nemá skutečné rodičovské repo
 
-    public function __construct(HierarchyAggregateReadonlyDaoInterface $editHirerarchy, HierarchyHydrator $hierarchyNodeHydrator,
-            MenuItemRepo $menuItemRepo, HierarchyChildHydrator $hierarchyChildHydrator
+    public function __construct(HierarchyAggregateReadonlyDaoInterface $editHirerarchy, HierarchyHydrator $hierarchyNodeHydrator
+//            ,
+//            MenuItemRepo $menuItemRepo, HierarchyChildHydrator $hierarchyChildHydrator
             ) {
 
 
         $this->dataManager = $editHirerarchy;
-        $this->registerOneToOneAssociation(MenuItemInterface::class, ['uid_fk', 'lang_code_fk'], $menuItemRepo);
+//        $this->registerOneToOneAssociation(MenuItemInterface::class, ['uid_fk', 'lang_code_fk'], $menuItemRepo);
         $this->registerHydrator($hierarchyNodeHydrator);
-        $this->registerHydrator($hierarchyChildHydrator);
+//        $this->registerHydrator($hierarchyChildHydrator);
     }
+
+    use RepoAssotiatingOneTrait;
 
     protected function createEntity() {
         return new HierarchyAggregate();
@@ -51,8 +55,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @return HierarchyAggregateInterface|null
      */
     public function get($langCodeFk, $uidFk): ?HierarchyAggregateInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
-        return $this->getEntity($key);
+        return $this->getEntity($langCodeFk, $uidFk);
     }
 
     /**
@@ -66,7 +69,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      */
     public function getNodeByTitle($key): ?HierarchyAggregateInterface {
         $rowData = $this->dataManager->getByTitleHelper($key);
-        return $this->addEntityByRowData($rowData);
+        return $this->recreateEntityByRowData($rowData);
     }
 
     /**
@@ -78,8 +81,8 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @param string $parentUid Identifikátor rodiče z menu_nested_set
      * @return HierarchyAggregateInterface array of
      */
-    public function findChildren($langCode, $parentUid) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->getImmediateSubNodes($langCode, $parentUid));
+    public function findChildrenNodes($langCode, $parentUid) {
+        return $this->recreateEntitiesByRowDataArray($this->dataManager->getImmediateSubNodes($langCode, $parentUid));
     }
 
     /**
@@ -88,7 +91,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @return HierarchyAggregateInterface array of
      */
     public function getFullTree($langCode) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->getFullTree($langCode));
+        return $this->recreateEntitiesByRowDataArray($this->dataManager->getFullTree($langCode));
     }
 
     /**
@@ -99,7 +102,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @return HierarchyAggregateInterface array of
      */
     public function getSubTree($langCode, $rootUid, $maxDepth=NULL) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->getSubTree($langCode, $rootUid, $maxDepth));
+        return $this->recreateEntitiesByRowDataArray($this->dataManager->getSubTree($langCode, $rootUid, $maxDepth));
     }
 
     protected function indexFromEntity(HierarchyAggregateInterface $menuNode) {

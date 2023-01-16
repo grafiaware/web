@@ -1,21 +1,15 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Model\Entity\EntityInterface;
 use Red\Model\Entity\PaperInterface;
 use Red\Model\Entity\Paper;
 use Red\Model\Dao\PaperDao;
-use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\PaperHydrator;
+
+use \Model\Repository\RepoAssotiatedOneTrait;
 
 /**
  * Description of Menu
@@ -25,7 +19,7 @@ use Red\Model\Hydrator\PaperHydrator;
 class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     /**
-     * @var DaoFkUniqueInterface
+     * @var DaoReferenceUniqueInterface
      */
     protected $dataManager;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
@@ -34,24 +28,24 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
         $this->registerHydrator($paperHydrator);
     }
 
+    use RepoAssotiatedOneTrait;
+
     /**
      *
      * @param type $id
      * @return PaperInterface|null
      */
     public function get($id): ?PaperInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
 
     /**
      *
-     * @param type $menuItemIdFk
+     * @param type $menuItemId
      * @return PaperInterface|null
      */
-    public function getByReference($menuItemIdFk): ?EntityInterface {
-        $key = $this->dataManager->getForeignKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
-        return $this->getEntityByReference('menu_item_id_fk', $key);
+    public function getByMenuItemId($menuItemId): ?PaperInterface {
+        return $this->getByReference('menu_item', $menuItemId);
     }
 
     public function add(PaperInterface $paper) {

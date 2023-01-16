@@ -12,7 +12,7 @@ use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
 
 use Container\{
-    BuildContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, DbOldContainerConfigurator
+    BuildContainerConfigurator, DbUpgradeContainerConfigurator, AuthContainerConfigurator, DbOldContainerConfigurator
 };
 
 use Build\Middleware\Build\Controller\DatabaseController;
@@ -37,7 +37,7 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
                 new Container(      // pro Build musí bý nový kontejner - jeho konfigurace přepisuje objekty v DbUpgrade
                     (new DbUpgradeContainerConfigurator())->configure(
                         new Container(      // pro DbUpgrade musí bý nový kontejner - jeho konfigurace přepisuje objekty v DbOld
-                            (new LoginContainerConfigurator())->configure(
+                            (new AuthContainerConfigurator())->configure(
                                 (new DbOldContainerConfigurator())->configure(
                                     new Container($this->getApp()->getAppContainer())
                                 )

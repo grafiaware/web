@@ -30,12 +30,11 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
      * @return EventContentInterface|null
      */
     public function get($id): ?EventContentInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+        return $this->getEntity($id);
     }
 
     /**
-     * 
+     *
      * @return EventContentInterface[]
      */
     public function find($whereClause="", $touplesToBind=[]): array {
@@ -43,7 +42,7 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
     }
 
     /**
-     * 
+     *
      * @return EventContentInterface[]
      */
     public function findAll(): array {
@@ -51,17 +50,17 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
     }
 
     /**
-     * 
+     *
      * @param EventContentInterface $eventContent
      * @return void
      */
     public function add(EventContentInterface $eventContent) :void  {
         $this->addEntity($eventContent);
     }
-    
-     
+
+
     /**
-     * 
+     *
      * @param EventContentInterface $eventContent
      * @return void
      */
@@ -69,10 +68,10 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
         $this->removeEntity($eventContent);
     }
 
-    
-    
+
+
     /**
-     * 
+     *
      * @param EventContentInterface $eventContent
      * @return void
      */
@@ -80,12 +79,12 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
         return new EventContent();
     }
 
-    
+
     protected function indexFromEntity(EventContentInterface $eventLink) {
         return $eventLink->getId();
     }
 
-    
+
     protected function indexFromRow($row) {
         return $row['id'];
     }

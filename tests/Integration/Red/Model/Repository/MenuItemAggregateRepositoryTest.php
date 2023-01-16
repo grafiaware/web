@@ -14,6 +14,7 @@ use Pes\Container\Container;
 
 use Container\DbUpgradeContainerConfigurator;
 use Container\RedModelContainerConfigurator;
+use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
@@ -85,7 +86,7 @@ class MenuItemAggregateRepositoryTest extends AppRunner {
         /** @var PaperAggregatePaperSection $paper */      // není interface
         $paper = $entity->getPaper();
         $this->assertInstanceOf(PaperAggregatePaperSection::class, $paper);
-        $contents = $paper->getPaperContentsArray();
+        $contents = $paper->getPaperSectionsArray();
         $this->assertIsArray($contents);
         $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
 
@@ -98,7 +99,7 @@ class MenuItemAggregateRepositoryTest extends AppRunner {
         /** @var PaperAggregatePaperSection $paper */      // není interface
         $paper = $entity->getPaper();
         $this->assertInstanceOf(PaperAggregatePaperSection::class, $paper);
-        $contents = $paper->getPaperContentsArray();
+        $contents = $paper->getPaperSectionsArray();
         $this->assertIsArray($contents);
         $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
 

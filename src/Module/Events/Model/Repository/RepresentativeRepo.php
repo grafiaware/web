@@ -22,22 +22,20 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
         $this->dataManager = $representativeDao;
         $this->registerHydrator($representativeHydrator);
     }
-    
-    
+
+
     /**
      *
      * @param type $loginLoginName
+     * @param type $companyId
      * @return RepresentativeInterface|null
      */
-    public function get($loginLoginName): ?RepresentativeInterface {   
-        $key = $this->dataManager->getPrimaryKeyTouples(['login_login_name'=>$loginLoginName]);
-        return $this->getEntity($key);
+    public function get($loginLoginName, $companyId): ?RepresentativeInterface {
+        return $this->getEntity($loginLoginName, $companyId);
     }
-    
-    
 
     /**
-     * 
+     *
      * @param type $whereClause
      * @param type $touplesToBind
      * @return RepresentativeInterface[]
@@ -47,56 +45,56 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
     }
 
     /**
-     * 
+     *
      * @return RepresentativeInterface[]
      */
     public function findAll(): array {
         return $this->findEntities();
     }
 
-    
+
     /**
-     * 
-     * @param type $companyId     
+     *
+     * @param type $companyId
      * @return Company[]
      */
     public function findByCompany($companyId) : array{
         return $this->findEntities("company_id = :company_id", [":company_id"=>$companyId] );
     }
-    
-    
+
+
    /**
-     * 
-     * @param RepresentativeInterface $representative 
+     *
+     * @param RepresentativeInterface $representative
      * @return void
      */
     public function add( RepresentativeInterface $representative ) : void {
         $this->addEntity($representative);
     }
-    
-    
+
+
     /**
-     * 
-     * @param RepresentativeInterface $representative 
+     *
+     * @param RepresentativeInterface $representative
      * @return void
      */
     public function remove(RepresentativeInterface $representative)  :void {
         $this->removeEntity($representative);
     }
-    
-    
-    
+
+
+
 
     protected function createEntity() : RepresentativeInterface {
         return new Representative();
     }
 
     protected function indexFromEntity(RepresentativeInterface $representative) {
-        return $representative->getLoginLoginName();
+        return $representative->getLoginLoginName() . $representative->getCompanyId() ;
     }
 
     protected function indexFromRow( $row ) {
-        return $row['login_login_name'];
+        return $row['login_login_name'] . $row['company_id'];
     }
 }
 

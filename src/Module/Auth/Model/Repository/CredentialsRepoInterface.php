@@ -5,7 +5,6 @@ namespace Auth\Model\Repository;
 use Model\Repository\RepoAssotiatedOneInterface;
 
 use Auth\Model\Entity\CredentialsInterface;
-use Auth\Model\Entity\EntityInterface;
 
 /**
  *

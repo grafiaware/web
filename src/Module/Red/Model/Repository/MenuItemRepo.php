@@ -16,8 +16,9 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Dao\MenuItemDao;
 
 use Model\Hydrator\HydratorInterface;
-use Model\Entity\EntityInterface;
-use Model\Repository\Exception\UnableRecreateEntityException;
+use Model\Entity\PersistableEntityInterface;
+
+use Model\Repository\RepoAssociatedWithJoinOneTrait;
 
 /**
  * Description of MenuItemRepo
@@ -37,6 +38,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         $this->registerHydrator($menuItemHydrator);
     }
 
+    use RepoAssociatedWithJoinOneTrait;
+
     /**
      * Vrací MenuItem podle hodnoty primárního klíče - kompozit z langCode a uid.
      * Vrací jen položky, které jsou aktivní a aktuální.
@@ -46,26 +49,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
-        return $this->getEntity($key);
-    }
-
-    /**
-     * Vrací MenuItem podle hodnoty primárního klíče - kompozit z langCode a uid.
-     * Vrací i neaktivní a nektuální položky.
-     *
-     * @param type $langCodeFk
-     * @param type $uidFk
-     * @return MenuItemInterface|null
-     */
-    public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface {
-        $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
-        if (!isset($this->collection[$index])) {   // collection je private
-            $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
-            $rowData = $this->dataManager->getOutOfContext($key);
-            $entity = $this->addEntityByRowData($rowData);
-        }
-        return $entity ?? null;
+        return $this->getEntity($langCodeFk, $uidFk);
     }
 
     /**
@@ -76,8 +60,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getById($id): ?MenuItemInterface {
-        $rowData = $this->dataManager->getById(['id'=>$id]);  // zatím je tu MenuItemDao!
-        return $this->addEntityByRowData($rowData);    }
+        $rowData = $this->dataManager->getUnique(['id'=>$id]);
+        return $this->recreateEntityByRowData($rowData);    }
 
     /**
      * Vrací MenuItem podle hodnoty prettyUri.
@@ -87,19 +71,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getByPrettyUri($prettyUri): ?MenuItemInterface {
-        $rowData = $this->dataManager->getByPrettyUri(['prettyuri'=>$prettyUri]);
-        return $this->addEntityByRowData($rowData);
-    }
-
-    /**
-     *
-     * @param array $id Asociativní pole atributů klíče
-     * @return EntityInterface|null
-     */
-    public function getByReference($id): ?EntityInterface {
-        // asociativní pole atributů primárního klíče - je to definováno metodou registerOneToOneAssociation() v rodičovském repo - t.j. HierarchyJoinMenuItemRepo
-        $rowData = $this->dataManager->get($id);
-        return $this->addEntityByRowData($rowData);
+        $rowData = $this->dataManager->getUnique(['prettyuri'=>$prettyUri]);
+        return $this->recreateEntityByRowData($rowData);
     }
 
     /**
@@ -109,7 +82,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function findAllLanguageVersions($uidFk): iterable {
         $rowDataArray = $this->dataManager->findAllLanguageVersions(['uid_fk'=>$uidFk]);
-        return $this->addEntitiesByRowDataArray($rowDataArray);
+        return $this->recreateEntitiesByRowDataArray($rowDataArray);
     }
 
     /**
@@ -121,17 +94,15 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function findByPaperFulltextSearch($langCodeFk, $text) {
         $rowDataArray = $this->dataManager->findByContentFulltextSearch($langCodeFk, $text);
-        return $this->addEntitiesByRowDataArray($rowDataArray);
+        return $this->recreateEntitiesByRowDataArray($rowDataArray);
     }
 
     public function add(MenuItemInterface $menuItem) {
-        $index = $this->indexFromEntity($menuItem);
-        $this->collection[$index] = $menuItem;
+        $this->addEntity($menuItem);
     }
 
     public function remove(MenuItemInterface $menuItem) {
-        $this->removed[] = $menuItem;
-        unset($this->collection[$this->indexFromEntity($menuItem)]);
+        $this->removeEntity($menuItem);
     }
 
     protected function createEntity() {

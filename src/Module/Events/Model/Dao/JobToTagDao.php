@@ -3,7 +3,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 use Events\Model\Dao\JobToTagDaoInterface;
 
 
@@ -15,18 +15,18 @@ use Events\Model\Dao\JobToTagDaoInterface;
  */
 class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
 
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
 
 
     public function getPrimaryKeyAttributes(): array {
         return ['job_id', 'job_tag_tag'];
     }
 
-    public function getForeignKeyAttributes(): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
-            'job_id'=>['job_id'], //atributy ciziho klice job_id(klic asoc.pole pojmenovan takto)- je jednoslozkovy - (v tabulce sloupec 1 slozky job_id)
-            'job_tag_tag'=>['job_tag_tag']
-        ];
+            'job'=>['job_id'=>'id'],
+            'job_tag'=>['job_tag_tag'=>'tag']
+        ][$referenceName];
     }
 
     public function getAttributes(): array {
@@ -41,10 +41,10 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
     }
 
     public function findByJobIdFk( array $jobIdFk ): array {
-        return $this->findByFk('job_id', $jobIdFk);
+        return $this->findByReference('job', $jobIdFk);
     }
 
     public function findByJobTagFk( array $jobTagTagFk ) : array{
-        return $this->findByFk('job_tag_tag', $jobTagTagFk);
+        return $this->findByReference('job_tag', $jobTagTagFk);
     }
 }

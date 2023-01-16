@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use DateTime;
 
 /**
@@ -16,7 +16,7 @@ use DateTime;
  *
  * @author pes2704
  */
-class Multipage extends EntityAbstract implements MultipageInterface {
+class Multipage extends PersistableEntityAbstract implements MultipageInterface {
 
     private $id;
     private $menuItemIdFk;

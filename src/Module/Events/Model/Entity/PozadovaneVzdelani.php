@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 use Events\Model\Entity\PozadovaneVzdelaniInterface;
 
 /**
@@ -9,7 +9,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
  *
  * @author vlse2610
  */
-class PozadovaneVzdelani extends EntityAbstract implements PozadovaneVzdelaniInterface {
+class PozadovaneVzdelani extends PersistableEntityAbstract implements PozadovaneVzdelaniInterface {
 
     private $stupen;  //int NOT NULL
     private $vzdelani;   //NOT NULL

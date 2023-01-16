@@ -30,7 +30,7 @@ use Red\Middleware\Redactor\Controler\MultipageControler;
 use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
-use Events\Middleware\Events\Controler\{EventControler, VisitorControler};
+use Events\Middleware\Events\Controler\{EventControler, VisitorProfileControler};
 
 // services
 // generator service
@@ -55,7 +55,7 @@ use Red\Model\Repository\MenuItemTypeRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
-use Red\Model\Repository\PaperAggregateContentsRepo;
+use Red\Model\Repository\PaperAggregateSectionsRepo;
 use Red\Model\Repository\PaperRepo;
 use Red\Model\Repository\PaperSectionRepo;
 use Red\Model\Repository\ArticleRepo;
@@ -126,7 +126,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(PaperAggregateContentsRepo::class));
+                        $c->get(PaperAggregateSectionsRepo::class));
             },
             ArticleControler::class => function(ContainerInterface $c) {
                 return new ArticleControler(
@@ -168,7 +168,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 $factory->registerGenerator('article', function() use ($c) {return $c->get(ArticleCreator::class);});
                 $factory->registerGenerator('static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
                 $factory->registerGenerator('multipage', function() use ($c) {return $c->get(MultipageCreator::class);});
-                $factory->registerGenerator('events', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator('eventcontent', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
                 return $factory;
             },
             PaperCreator::class => function(ContainerInterface $c) {

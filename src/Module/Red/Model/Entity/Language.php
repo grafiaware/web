@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Language
  *
  * @author pes2704
  */
-class Language extends EntityAbstract implements LanguageInterface {
+class Language extends PersistableEntityAbstract implements LanguageInterface {
 
     private $langCode;
     private $locale;

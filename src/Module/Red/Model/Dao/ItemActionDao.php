@@ -16,7 +16,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class ItemActionDao extends DaoEditAbstract {
+class ItemActionDao extends DaoEditAbstract implements ItemActionDaoInterface {
 
     public function getPrimaryKeyAttributes(): array {
         return ['type_fk', 'item_id'];

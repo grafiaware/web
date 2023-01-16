@@ -4,7 +4,7 @@ namespace Events\Model\Dao;
 
 use Events\Model\Dao\RepresentativeDaoInterface;
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 
 /**
  * Description of RepresentativeDao
@@ -13,22 +13,22 @@ use Model\Dao\DaoFkNonuniqueTrait;
  */
 class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInterface {
 
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
-        return [ 'login_login_name'];
+        return [ 'login_login_name', 'company_id'];
     }
 
-    public function getForeignKeyAttributes(): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
-            'company_id'=>['company_id'],
-            'login_login_name'=>['login_login_name']
-            
-        ];
+            'company'=>['company_id'=>'id'],
+            'login'=>['login_login_name'=>'login_name']
+
+        ][$referenceName];
     }
 
     public function getAttributes(): array {
-        return [            
+        return [
             'company_id',
             'login_login_name'
         ];
@@ -38,11 +38,7 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
         return 'representative';
     }
 
-    
-    
     public function findByCompanyIdFk(array $companyIdFk): array {
-        return $this->findByFk('company_id', $companyIdFk);
+        return $this->findByReference('company', $companyIdFk);
     }
-    
-   
 }

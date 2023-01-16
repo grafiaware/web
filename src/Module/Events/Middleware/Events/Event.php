@@ -15,15 +15,19 @@ use Psr\Http\Message\ServerRequestInterface;
 use Container\EventsContainerConfigurator;
 use Container\EventsModelContainerConfigurator;
 use Container\DbEventsContainerConfigurator;
-use Container\LoginContainerConfigurator;
+use Container\AuthContainerConfigurator;
 use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\EventcontentControler;
 use Events\Middleware\Events\Controler\EventControler;
-use Events\Middleware\Events\Controler\VisitorControler;
+use Events\Middleware\Events\Controler\VisitorProfileControler;
+use Events\Middleware\Events\Controler\DocumentControler;
+use Events\Middleware\Events\Controler\CompanyControler;
+use Events\Middleware\Events\Controler\JobControler;
+use Events\Middleware\Events\Controler\VisitorJobRequestControler;
+
 
 class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
-
 
     private $container;
 
@@ -125,25 +129,86 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(EventControler::class);
             return $ctrl->enroll($request);
         });
+        
+        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorControler $ctrl */
-            $ctrl = $this->container->get(VisitorControler::class);
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->visitor($request);
         });
+        
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companycontact', function(ServerRequestInterface $request, $idCompany) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->insertCompanyContact($request, $idCompany);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companycontact/:companyContactId', function(ServerRequestInterface $request, $idCompany, $idCompanyContact) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->updateCompanyContact($request, $idCompany, $idCompanyContact);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companycontact/:companyContactId/remove', function(ServerRequestInterface $request, $idCompany, $idCompanyContact) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->removeCompanyContact($request, $idCompany, $idCompanyContact);
+        });
+        
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress', function(ServerRequestInterface $request, $idCompany) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->insertCompanyAddress($request, $idCompany);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress/:companyIdA', function(ServerRequestInterface $request, $idCompany, $idCompanyA) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->updateCompanyAddress($request, $idCompany, $idCompanyA);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress/:companyIdA/remove', function(ServerRequestInterface $request, $idCompany,  $idCompanyA) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->removeCompanyAddress($request,  $idCompany,  $idCompanyA);
+        });
+        
+                        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/representative', function(ServerRequestInterface $request) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->insertRepresentative($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/representative/:loginLoginName/:companyId/remove', 
+                                                 function(ServerRequestInterface $request, $loginLoginName, $companyId ) {
+            /** @var CompanyControler $ctrl */
+            $ctrl = $this->container->get(CompanyControler::class);
+            return $ctrl->removeRepresentative($request, $loginLoginName, $companyId);
+        });
+        
+        
+        
+        
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/document/:id/remove', function(ServerRequestInterface $request, $id) {
+            /** @var DocumentControler $ctrl */
+            $ctrl = $this->container->get(DocumentControler::class);
+            return $ctrl->remove($request, $id);
+        });
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
-            /** @var VisitorControler $ctrl */
-            $ctrl = $this->container->get(VisitorControler::class);
-            return $ctrl->uploadTxtDocuments($request);
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->uploadVisitorFile($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobrequest', function(ServerRequestInterface $request) {
-            /** @var VisitorControler $ctrl */
-            $ctrl = $this->container->get(VisitorControler::class);
-            return $ctrl->jobRequest($request);
+        
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/:jobId/jobrequest', function(ServerRequestInterface $request, $jobId) {
+            /** @var VisitorJobRequestControler $ctrl */
+            $ctrl = $this->container->get(VisitorJobRequestControler::class);
+            return $ctrl->jobRequest($request, $jobId);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest', function(ServerRequestInterface $request) {
-            /** @var VisitorControler $ctrl */
-            $ctrl = $this->container->get(VisitorControler::class);
-            return $ctrl->sendJobRequest($request);
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest/:visitorLoginName/:jobId', function(ServerRequestInterface $request, $visitorLoginName, $jobId) {
+            /** @var VisitorJobRequestControler $ctrl */
+            $ctrl = $this->container->get(VisitorJobRequestControler::class);
+            return $ctrl->sendJobRequest($request, $visitorLoginName, $jobId);
         });
     }
 }

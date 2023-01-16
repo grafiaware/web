@@ -6,7 +6,7 @@ use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
-
+use Model\RowData\RowDataInterface;
 /**
  * Description of DocumentDao
  *
@@ -16,6 +16,10 @@ class DocumentDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInte
 //TODO: název tabulky -> do sql, getKeyAttribute do insert, update, delete; getKeyAttribute do where v get: get(...$id) a skutečné proměnné přiřadit do pole podle jmen polí atributu, s polem volat where
 
     use DaoAutoincrementTrait;
+
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];

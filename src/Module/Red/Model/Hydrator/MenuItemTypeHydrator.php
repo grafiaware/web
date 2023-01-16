@@ -11,7 +11,7 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Red\Model\Entity\MenuItemTypeInterface;
 
@@ -26,7 +26,7 @@ class MenuItemTypeHydrator implements HydratorInterface {
      * @param MenuItemTypeInterface $menuItemType
      * @param type $row
      */
-    public function hydrate(EntityInterface $menuItemType, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $menuItemType, ArrayAccess $rowData) {
         /** @var MenuItemTypeInterface $menuItemType */
         $menuItemType->setType($rowData->offsetGet('type'));
     }
@@ -36,7 +36,7 @@ class MenuItemTypeHydrator implements HydratorInterface {
      * @param MenuItemTypeInterface $menuItemType
      * @param array $rowData
      */
-    public function extract(EntityInterface $menuItemType, RowDataInterface $rowData) {
+    public function extract(EntityInterface $menuItemType, ArrayAccess $rowData) {
         /** @var MenuItemTypeInterface $menuItemType */
         $rowData->offsetSet('type',  $menuItemType->getType()); // type je primární klíč - "readonly", hodnota pro where
     }

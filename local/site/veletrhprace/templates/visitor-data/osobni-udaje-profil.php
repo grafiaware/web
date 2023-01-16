@@ -5,9 +5,11 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Site\ConfigurationCache;
-use Red\Model\Entity\LoginAggregateFullInterface;
+//use Red\Model\Entity\LoginAggregateFullInterface;
+use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Events\Middleware\Events\Controler\VisitorControler;
+
+use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\Document;
 
@@ -20,8 +22,8 @@ use Events\Model\Entity\Document;
 
 $userHash = $loginAggregate->getLoginNameHash();
 $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
-$uploadedCvFilename = VisitorControler::UPLOADED_KEY_CV.$userHash;
-$uploadedLetterFilename = VisitorControler::UPLOADED_KEY_LETTER.$userHash;
+$uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+$uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
 
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
@@ -75,19 +77,33 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                     <div class="field margin">
                         <button class="ui primary button" type="submit">Uložit údaje</button>
                     </div>
-                    <label><b>Nahrané soubory</b></label>
-                    <div class="fields">
+                     
+                </form>
+         
+
+                <label><b>Nahrané soubory</b></label>                    
+                <form class="ui huge form"  method="POST" >
+                    <div class="two fields">
                         <div class="field">
-                            <p>Životopis: <?= isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : ''; ?></p>
-                            <p>Motivační dopis: <?= isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : ''; ?></p>
+                            <p>Životopis:<b> <?= isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : ''; ?></b></p>                                                        
+                             <?= isset($visitorDocumentCv) ?
+                                '<button type="submit" formaction="events/v1/document/' .$visitorDocumentCv->getId(). '/remove" >Odstranit životopis</button>'
+                                : '' ;   ?>
+                        </div>      
+                        <div class="field">
+                            <p>Motivační dopis:<b> <?= isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : ''; ?></b></p>                            
+                            <?= isset($visitorDocumentLetter) ?
+                                "<button type='submit' formaction='events/v1/document/" .$visitorDocumentLetter->getId(). "/remove' >Odstranit motivační dopis</button>"
+                                : "" ;   ?>
                         </div>
-<!--                        <div class="field">
+                    </div>
+                </form>                  
+                <br/>
+<!--    <div class="field">
                                 <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a></span>
                                 <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
-                        </div>-->
-
-                    </div>
-                </form>
+        </div>-->                   
+                                  
                 <!--odesílá k uložení do souboru-->
                 <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
@@ -111,4 +127,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                         </div>
                      </div>
                 </form>
+             
             </div>
+                
+            

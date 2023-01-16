@@ -12,7 +12,8 @@
     "version": "0.6",
     "require": {
         "pes/pes": "@dev",
-        "phpmailer/phpmailer": "^6.2"
+        "phpmailer/phpmailer": "^6.2",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {

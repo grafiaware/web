@@ -18,6 +18,7 @@ use Red\Model\Entity\MultipageInterface;
  */
 interface MultipageRepoInterface extends RepoAssotiatedOneInterface {
     public function get($id): ?MultipageInterface;
+    public function getByMenuItemId($menuItemId): ?MultipageInterface;
     public function add(MultipageInterface $article);
     public function remove(MultipageInterface $article);
 }

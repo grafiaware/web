@@ -22,22 +22,19 @@ class CompanyContactRepo extends RepoAbstract implements CompanyContactRepoInter
         $this->dataManager = $companyContactDao;
         $this->registerHydrator($companyContactHydrator);
     }
-    
-    
+
+
     /**
      *
      * @param type $id
      * @return CompanyContactInterface|null
      */
-    public function get($id): ?CompanyContactInterface {   
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+    public function get($id): ?CompanyContactInterface {
+        return $this->getEntity($id);
     }
-    
-    
 
     /**
-     * 
+     *
      * @param type $whereClause
      * @param type $touplesToBind
      * @return CompanyContactInterface[]
@@ -47,7 +44,7 @@ class CompanyContactRepo extends RepoAbstract implements CompanyContactRepoInter
     }
 
     /**
-     * 
+     *
      * @return CompanyContactInterface[]
      */
     public function findAll(): array {
@@ -55,26 +52,26 @@ class CompanyContactRepo extends RepoAbstract implements CompanyContactRepoInter
     }
 
    /**
-     * 
-     * @param CompanyContactInterface $companyContact 
+     *
+     * @param CompanyContactInterface $companyContact
      * @return void
      */
     public function add( CompanyContactInterface $companyContact ) : void {
         $this->addEntity($companyContact);
     }
-    
-    
+
+
     /**
-     * 
-     * @param CompanyContactInterface $companyContact 
+     *
+     * @param CompanyContactInterface $companyContact
      * @return void
      */
     public function remove(CompanyContactInterface $companyContact)  :void {
         $this->removeEntity($companyContact);
     }
-    
-    
-    
+
+
+
 
     protected function createEntity() : CompanyContactInterface {
         return new CompanyContact();

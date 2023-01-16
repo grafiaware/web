@@ -3,7 +3,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\CompanyContactInterface;
@@ -25,9 +25,9 @@ class CompanyContactHydrator extends TypeHydratorAbstract implements HydratorInt
  /**
      *
      * @param CompanyContactInterface $companyContact
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function hydrate(EntityInterface $companyContact, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $companyContact, ArrayAccess $rowData) {
         /** @var CompanyContactInterface $companyContact */
         $companyContact
             ->setId( $this->getPhpValue ( $rowData, 'id' ) )
@@ -42,9 +42,9 @@ class CompanyContactHydrator extends TypeHydratorAbstract implements HydratorInt
     /**
      *
      * @param CompanyContactInterface $companyContact
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract(EntityInterface $companyContact, RowDataInterface $rowData) {
+    public function extract(EntityInterface $companyContact, ArrayAccess $rowData) {
         /** @var CompanyContactInterface $companyContact */
         // id je autoincrement
          $this->setSqlValue( $rowData, 'company_id', $companyContact->getCompanyId() );       

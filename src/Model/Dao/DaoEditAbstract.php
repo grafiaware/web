@@ -9,12 +9,14 @@
 namespace Model\Dao;
 
 use Model\RowData\RowDataInterface;
+use Model\RowData\RowData;
 
 use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
-
+use LogicException;
 /**
  * Description of DaoEditAbstract
  *
@@ -25,6 +27,12 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
     protected $rowCount;
 
     /**
+     *
+     * @var RowDataInterface
+     */
+    private $lastInsertedRowData;
+
+    /**
      * Přídá změněná data do databáze.
      *
      * Ukládá pouze data
@@ -32,11 +40,28 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
      * @return bool
      */
     public function insert(RowDataInterface $rowData): bool {
-        if ($this instanceof DaoEditKeyDbVerifiedInterface) {
-            return $this->execInsertWithKeyVerification($rowData);
-        } else {
-            return $this->execInsert($rowData);
+        $ret = ($this instanceof DaoEditKeyDbVerifiedInterface) ? $this->execInsertWithKeyVerification($rowData) : $this->execInsert($rowData);
+        $this->setLastInsertedIdForAutoincrementedValue($rowData);
+        $this->lastInsertedRowData = clone $rowData;
+        return $ret;
+    }
+
+    private function setLastInsertedIdForAutoincrementedValue(RowDataInterface $rowData) {
+        if($this instanceof DaoEditAutoincrementKeyInterface) {
+            $this->setAutoincrementedValue($rowData);  // metoda je v DaoAutoincrementTrait
         }
+    }
+
+    public function getLastInsertedPrimaryKey(): array {
+        if( ! isset($this->lastInsertedRowData)) {
+            throw new LogicException("Nelze získat hodnotu klíče, nebyl proveden žádný insert.");
+        }
+        $keyAttribute = $this->getPrimaryKeyAttributes();
+        $key = [];
+        foreach ($keyAttribute as $field) {
+            $key[$field] = $this->lastInsertedRowData->offsetGet($field);
+        }
+        return $key;
     }
 
     /**
@@ -76,8 +101,10 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
         $tableName = $this->getTableName();
         $keyNames = $this->getPrimaryKeyAttributes();
         try {
-            $this->dbHandler->beginTransaction();
-            $changed = $rowData->yieldChanged();
+            if (!$this->dbHandler->inTransaction()) {
+                $this->dbHandler->beginTransaction();
+            }
+            $changed = $rowData->yieldChangedRowData();
             $found = $this->getWithinTransaction($tableName, $keyNames, $changed);
             if  (! $found)   {
                 $this->execInsert($rowData);   // předpokládám, že changed je i sloupec s klíčem
@@ -97,7 +124,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
         return $success ?? false;
     }
 
-    private function getWithinTransaction($tableName, array $keyNames, iterable $rowData) {
+    protected function getWithinTransaction($tableName, array $keyNames, iterable $rowData) {
         if ($this->dbHandler->inTransaction()) {
             $select = $this->sql->select($this->getAttributes());
             $whereTouples = $this->sql->touples($keyNames);
@@ -129,7 +156,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
     protected function execInsert(RowDataInterface $rowData): bool {
         if ($rowData->isChanged()) {
             $tableName = $this->getTableName();
-            $changed = $rowData->fetchChanged();
+            $changed = $rowData->fetchChangedNames();
             $changedNames = array_keys($changed);
             $cols = $this->sql->columns($changedNames);
             $values = $this->sql->values($changedNames);
@@ -158,7 +185,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
             $tableName = $this->getTableName();
             $whereTouples = $this->sql->touples($this->getPrimaryKeyAttributes(), 'key_');
             $oldData = $rowData->getArrayCopy();
-            $changed = $rowData->fetchChanged();
+            $changed = $rowData->fetchChangedNames();
             $changedNames = array_keys($changed);
             $setTouples = $this->sql->touples($changedNames);
             $sql = "UPDATE $tableName SET ".$this->sql->set($setTouples).$this->sql->where($this->sql->and($whereTouples));

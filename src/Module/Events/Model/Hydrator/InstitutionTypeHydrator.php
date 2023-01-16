@@ -3,7 +3,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 use Events\Model\Entity\InstitutionTypeInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
@@ -19,9 +19,9 @@ class InstitutionTypeHydrator  extends TypeHydratorAbstract implements HydratorI
     /**
      *
      * @param InstitutionTypeInterface $institutionType
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-      public function hydrate( EntityInterface $institutionType, RowDataInterface $rowData) {
+      public function hydrate( EntityInterface $institutionType, ArrayAccess $rowData) {
         /** @var InstitutionTypeInterface $institutionType */
         $institutionType
             ->setId( $this->getPhpValue( $rowData, 'id') )
@@ -31,9 +31,9 @@ class InstitutionTypeHydrator  extends TypeHydratorAbstract implements HydratorI
     /**
      *
      * @param InstitutionTypeInterface $institutionType
-     * @param RowDataInterface $row
+     * @param ArrayAccess $row
      */
-    public function extract(EntityInterface $institutionType, RowDataInterface $rowData) {
+    public function extract(EntityInterface $institutionType, ArrayAccess $rowData) {
         /** @var InstitutionTypeInterface $institutionType */
         // id je autoincrement
          $this->setSqlValue( $rowData, 'institution_type', $institutionType->getInstitutionType()  );

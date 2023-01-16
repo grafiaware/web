@@ -3,14 +3,14 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\RepresentativeInterface;
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Representative
  *
  * @author vlse2610
  */
-class Representative  extends EntityAbstract implements RepresentativeInterface {
+class Representative  extends PersistableEntityAbstract implements RepresentativeInterface {
 
     private $companyId;
     private $loginLoginName;

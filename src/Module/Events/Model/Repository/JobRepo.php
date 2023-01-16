@@ -22,22 +22,21 @@ class JobRepo extends RepoAbstract implements JobRepoInterface {
         $this->dataManager = $jobContactDao;
         $this->registerHydrator($jobContactHydrator);
     }
-    
-    
+
+
     /**
      *
      * @param type $id
      * @return JobInterface|null
      */
-    public function get($id): ?JobInterface {   
-        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);
+    public function get($id): ?JobInterface {
+        return $this->getEntity($id);
     }
-    
-    
+
+
 
     /**
-     * 
+     *
      * @param type $whereClause
      * @param type $touplesToBind
      * @return JobInterface[]
@@ -47,7 +46,7 @@ class JobRepo extends RepoAbstract implements JobRepoInterface {
     }
 
     /**
-     * 
+     *
      * @return JobInterface[]
      */
     public function findAll(): array {
@@ -55,26 +54,26 @@ class JobRepo extends RepoAbstract implements JobRepoInterface {
     }
 
    /**
-     * 
-     * @param JobInterface $jobContact 
+     *
+     * @param JobInterface $jobContact
      * @return void
      */
     public function add( JobInterface $jobContact ) : void {
         $this->addEntity($jobContact);
     }
-    
-    
+
+
     /**
-     * 
-     * @param JobInterface $jobContact 
+     *
+     * @param JobInterface $jobContact
      * @return void
      */
     public function remove(JobInterface $jobContact)  :void {
         $this->removeEntity($jobContact);
     }
-    
-    
-    
+
+
+
 
     protected function createEntity() : JobInterface {
         return new Job();

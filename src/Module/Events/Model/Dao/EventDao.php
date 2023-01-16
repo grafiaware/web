@@ -2,7 +2,7 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoEditContextualAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoAutoincrementTrait;
 use Events\Model\Dao\EventDaoInterface;
 
@@ -11,9 +11,13 @@ use Events\Model\Dao\EventDaoInterface;
  *
  * @author pes2704
  */
-class EventDao extends DaoEditContextualAbstract implements EventDaoInterface {
+class EventDao extends DaoEditAbstract implements EventDaoInterface {
 
     use DaoAutoincrementTrait;
+
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
@@ -35,7 +39,7 @@ class EventDao extends DaoEditContextualAbstract implements EventDaoInterface {
         return 'event';
     }
 
-    protected function getContextConditions() {
+    public function getContextConditions(): array {
         $contextConditions = [];
         if (isset($this->contextFactory)) {
             $publishedContext = $this->contextFactory->createPublishedContext();
@@ -58,7 +62,7 @@ class EventDao extends DaoEditContextualAbstract implements EventDaoInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->getContextConditions(), $this->sql->touples(['event_content_id_fk'])));
-        $touplesToBind = $this->getTouplesToBind($eventContentIdFk);
+        $touplesToBind = $this->getPlaceholdersValues($eventContentIdFk);
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 

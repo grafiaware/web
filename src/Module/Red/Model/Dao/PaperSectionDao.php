@@ -8,21 +8,26 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditContextualAbstract;
-use Model\Dao\DaoEditAutoincrementKeyInterface;
-use Model\Dao\DaoFkNonuniqueInterface;
+use Model\Dao\DaoEditAbstract;
+
 use Model\Dao\DaoAutoincrementTrait;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class PaperSectionDao extends DaoEditContextualAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
+class PaperSectionDao extends DaoEditAbstract implements PaperSectionDaoInterface {
+
+    const REFERENCE_PAPER = 'paper';
 
     use DaoAutoincrementTrait;
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
+
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
@@ -45,11 +50,13 @@ class PaperSectionDao extends DaoEditContextualAbstract implements DaoEditAutoin
             'updated',
         ];
     }
-    public function getForeignKeyAttributes(): array {
+
+    public function getReferenceAttributes($referenceName): array {
         return [
-            'paper_id_fk'=>['paper_id_fk']
-        ];
+        self::REFERENCE_PAPER=>['paper_id_fk'=>'id']
+        ][$referenceName];
     }
+
     public function getTableName(): string {
         return 'paper_section';
     }

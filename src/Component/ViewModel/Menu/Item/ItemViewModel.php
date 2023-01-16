@@ -54,7 +54,7 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         parent::__construct();
     }
 
-    public function setChild(ComponentInterface $child): void {
+    public function hydrateChild(ComponentInterface $child): void {
         $this->child = $child;
     }
 

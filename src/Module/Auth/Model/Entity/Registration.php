@@ -1,11 +1,11 @@
 <?php
 namespace Auth\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 use Auth\Model\Entity\RegistrationInterface;
 
-class Registration extends EntityAbstract implements RegistrationInterface {
+class Registration extends PersistableEntityAbstract implements RegistrationInterface {
 
     /**
      * @var string

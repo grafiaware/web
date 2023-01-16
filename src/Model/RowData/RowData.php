@@ -43,7 +43,7 @@ class RowData extends \ArrayObject implements RowDataInterface {
      *
      * @return array
      */
-    public function fetchChanged(): array {
+    public function fetchChangedNames(): array {
         $changed = $this->changed;
         $this->flipData();
         return $changed;
@@ -85,12 +85,19 @@ class RowData extends \ArrayObject implements RowDataInterface {
     }
 
     public function offsetUnset($index) {
-        $this->changed[$index] = null;
+        if (!$this->offsetExists($index) OR $this->offsetGet($index)!==null) {
+            $this->setNewValue($index, null);
+        }
     }
 
-    public function import(iterable $iterablaData) {
-        if (is_iterable($iterablaData)) {
-            foreach ($iterablaData as $index => $value) {
+    /**
+     * Přidá všechny položky iterable parametru. Všechna importovaná data přídá jako nové hodnoty.
+     *
+     * @param iterable $iterableData
+     */
+    public function import(iterable $iterableData) {
+        if (is_iterable($iterableData)) {
+            foreach ($iterableData as $index => $value) {
                 $this->setNewValue($index, $value);
             }
         }
@@ -118,7 +125,7 @@ class RowData extends \ArrayObject implements RowDataInterface {
      *
      * @return \ArrayObject
      */
-    public function yieldChanged(): \ArrayObject {
+    public function yieldChangedRowData(): \ArrayObject {
 //        return new \ArrayObject(array_intersect_key($this->getArrayCopy(), array_flip($this->changed)));
         return new \ArrayObject($this->changed);
     }

@@ -22,74 +22,73 @@ class JobToTagRepo extends RepoAbstract implements JobToTagRepoInterface {
         $this->registerHydrator($jobToTagHydrator);
     }
 
-    
+
  /**
-     * 
+     *
      * @param type $jobId
      * @param type $jobTagTag
      * @return JobToTagInterface|null
      */
     public function get($jobId, $jobTagTag): ?JobToTagInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['job_id' => $jobId, 'job_tag_tag' => $jobTagTag]);
-        return $this->getEntity($key);
+        return $this->getEntity($jobId, $jobTagTag);
     }
 
-     
-           
+
+
      /**
-     * 
-     * @param type $jobTagTag     
+     *
+     * @param type $jobTagTag
      * @return JobToTagInterface[]
      */
     public function findByJobTagTag($jobTagTag) : array  {
         return $this->findEntities("job_tag_tag = :job_tag_tag", [":job_tag_tag"=>$jobTagTag]);
     }
-    
+
        /**
-     * 
-     * @param type $jobId     
+     *
+     * @param type $jobId
      * @return JobToTagInterface[]
      */
     public function findByJobId($jobId) : array {
         return $this->findEntities("job_id = :job_id", [":job_id"=>$jobId] );
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @return JobToTagInterface[]
      */
     public function findAll(): array  {
         return $this->findEntities();
     }
 
-   
-   
+
+
     /**
-     * 
+     *
      * @param JobToTagInterface $jobToTag
      * @return void
      */
     public function add(JobToTagInterface $jobToTag) :void {
         $this->addEntity($jobToTag);
     }
-    
-    
+
+
 
     /**
-     * 
+     *
      * @param JobToTagInterface $jobToTag
      * @return void
      */
     public function remove(JobToTagInterface $jobToTag)  :void {
         $this->removeEntity($jobToTag);
     }
-    
-    
+
+
 
     protected function createEntity() {
         return new JobToTag();
-    }       
+    }
 
     protected function indexFromEntity(JobToTagInterface $jobToTag) {
        return $jobToTag->getJobId() . $jobToTag->getJobTagTag() ;
@@ -97,6 +96,6 @@ class JobToTagRepo extends RepoAbstract implements JobToTagRepoInterface {
 
     protected function indexFromRow($row) {
         return $row['job_id']. $row['job_tag_tag'] ;
-    }       
-    
+    }
+
 }

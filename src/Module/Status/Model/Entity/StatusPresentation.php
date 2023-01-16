@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 use Status\Model\Entity\StatusPresentationInterface;
 
@@ -21,7 +21,7 @@ use Red\Model\Entity\ItemActionInterface;
  *
  * @author pes2704
  */
-class StatusPresentation extends EntityAbstract implements StatusPresentationInterface {
+class StatusPresentation extends PersistableEntityAbstract implements StatusPresentationInterface {
 
     /**
      * @var LanguageInterface

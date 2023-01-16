@@ -15,6 +15,10 @@ class CompanyDao  extends DaoEditAbstract implements  DaoEditAutoincrementKeyInt
 
     use DaoAutoincrementTrait;
 
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
+    
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }

@@ -4,7 +4,7 @@ namespace Events\Model\Hydrator;
 use Model\Entity\EntityInterface;
 
 use Events\Model\Entity\PozadovaneVzdelani;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 use Model\Hydrator\HydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
@@ -21,9 +21,9 @@ class PozadovaneVzdelaniHydrator  extends TypeHydratorAbstract implements Hydrat
    /**
     * 
     * @param PozadovaneVzdelani $pozadovaneVzdelani
-    * @param RowDataInterface $rowData
+    * @param ArrayAccess $rowData
     */
-    public function hydrate( EntityInterface $pozadovaneVzdelani, RowDataInterface $rowData) {
+    public function hydrate( EntityInterface $pozadovaneVzdelani, ArrayAccess $rowData) {
         /** @var  PozadovaneVzdelani $pozadovaneVzdelani */
         $pozadovaneVzdelani
                 
@@ -37,9 +37,9 @@ class PozadovaneVzdelaniHydrator  extends TypeHydratorAbstract implements Hydrat
     /**
      * 
      * @param EntityInterface $pozadovaneVzdelani
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract( EntityInterface $pozadovaneVzdelani, RowDataInterface $rowData) {
+    public function extract( EntityInterface $pozadovaneVzdelani, ArrayAccess $rowData) {
         /** @var  PozadovaneVzdelani $pozadovaneVzdelani */
         // neni  autoincrement   
         

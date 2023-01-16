@@ -1,12 +1,7 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Auth\Model\Repository;
+
+use Model\Repository\RepoAssotiatingOneInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
@@ -14,7 +9,25 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
  *
  * @author pes2704
  */
-interface LoginAggregateFullRepoInterface  extends LoginRepoInterface {
-    public function get($loginName): ?LoginInterface;
-    public function findByRole($role);
+interface LoginAggregateFullRepoInterface  extends RepoAssotiatingOneInterface {
+
+    /**
+     *
+     * @param type $loginName
+     * @return LoginAggregateFullInterface|null
+     */
+    public function get($loginName): ?LoginAggregateFullInterface;
+
+    /**
+     *
+     * @param LoginAggregateFullInterface $loginAgg
+     */
+    public function add(LoginAggregateFullInterface $loginAgg);
+
+    /**
+     *
+     * @param LoginAggregateFullInterface $loginAgg
+     */
+    public function remove(LoginAggregateFullInterface $loginAgg);
+
 }

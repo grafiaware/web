@@ -15,7 +15,7 @@ use Red\Model\Entity\MenuItemInterface;
  * @author pes2704
  */
 interface HierarchyAggregateInterface extends HierarchyInterface {
-    public function getMenuItem(): MenuItemInterface;
+    public function getMenuItem(): ?MenuItemInterface;
 
     public function setMenuItem(MenuItemInterface $menuItem): HierarchyAggregateInterface;
 }

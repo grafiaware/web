@@ -5,7 +5,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Model\Entity\EntityInterface;
-use Model\RowData\RowDataInterface;
+use ArrayAccess;
 
 use Events\Model\Entity\EventInterface;
 
@@ -23,9 +23,9 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
     /**
      *
      * @param EventInterface $event
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function hydrate(EntityInterface $event, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $event, ArrayAccess $rowData) {
         $s = \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('start'));               
         /** @var EventInterface $event */
         $event
@@ -42,9 +42,9 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
     /**
      * 
      * @param EventInterface $event
-     * @param RowDataInterface $rowData
+     * @param ArrayAccess $rowData
      */
-    public function extract(EntityInterface $event, RowDataInterface $rowData) {               
+    public function extract(EntityInterface $event, ArrayAccess $rowData) {               
         /** @var EventInterface $event */
         // id je autoincrement readonly
         $this->setSqlValue( $rowData, 'published', $event->getPublished()) ;

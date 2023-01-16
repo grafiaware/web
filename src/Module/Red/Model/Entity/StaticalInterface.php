@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  * Description of StaticalInterface
  *
  * @author pes2704
  */
-interface StaticalInterface extends EntityInterface {
+interface StaticalInterface extends PersistableEntityInterface {
 
     public function getId();
 

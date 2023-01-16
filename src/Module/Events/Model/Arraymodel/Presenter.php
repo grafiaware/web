@@ -1,12 +1,14 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Arraymodel;
+
+use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Repository\RepresentativeRepoInterface;
+
+use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Repository\VisitorProfileRepoRepo;
+
+
 
 /**
  * Description of Presenter
@@ -67,7 +69,32 @@ class Presenter {
 
             ];
 
+        
+    
+    /**
+     * 
+     * @var CompanyRepoInterface
+     */
+    private $companyRepo;    
+    /**
+     * 
+     * @var RepresentativeRepoInterface
+     */
+    private $representativeRepo;
+    
+    
+    
+    public function __construct( CompanyRepoInterface $companyRepo,
+                                 RepresentativeRepoInterface $representativeRepo
+            
+                                 /*JobRepoInterface $jobRepo*/ ) {
+                $this->companyRepo = $companyRepo;    
+                $this->representativeRepo = $representativeRepo;
+    }
 
+   
+            
+//------------------------------------------------
     public function getPerson($loginName) {
         if (array_key_exists($loginName, $this->person)) {
             // join
@@ -75,13 +102,58 @@ class Presenter {
             return array_merge($person, $this->company[$person['shortName']]);
         }
     }
+    
+    // array 'regname', 'regmail' , 'regcompany', 'shortName' --z reprezentative a spol.
+    //       "name" , "eventInstitutionName", "shortName"  --z company
+    /**
+     * Z DB tabulky representative a tabulky company
+     * @param type $loginName
+     * @return type
+     */
+     public function getPersonI($loginName, $idCompany) {
+        $representativeEntity = $this->representativeRepo->get($loginName, $idCompany); //companyId, loginLoginName
+        if ($representativeEntity) {            
+            $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
 
+            $retArray =  [  //representative a company
+                          'regname' =>  $representativeEntity->getLoginLoginName(), 
+                          'regmail' => '', 
+                          'regcompany' => $companyEntity->getName(),
+                         
+                          'idCompany' =>  $companyEntity->getId(),
+                          'name' =>  $companyEntity->getName(), 
+                          'eventInstitutionName' =>  $companyEntity->getEventInstitutionName30(), 
+                          'shortName' =>  $companyEntity->getName(), 
+                         ];
+        }
+        return  $retArray ?? [] ;            
+    }
+    
+    
+    
+   
     public function getCompany($shortName) {
         return array_key_exists($shortName, $this->company) ? $this->company[$shortName] : [];
-    }
-
+    }    
+    
+    
     public function getCompanyList() {
         return $this->company;
+    }            
+    /**
+     * Z DB
+     * @return array
+     */
+    public function getCompanyListI() {
+        $allCompanyObjects = $this->companyRepo->findAll();
+        
+        foreach  ($allCompanyObjects as $company) {
+            $allCompanyArr [$company->getName()] =  ['id' => $company->getId(), 
+                                                     'name' => $company->getName(), 
+                                                     'eventInstitutionName30' => $company->getEventInstitutionName30() ];
+        }        
+        //return  $allCompanyArr;
+        return $allCompanyObjects;
     }
 
 }

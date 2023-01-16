@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 use Red\Model\Entity\MenuItemInterface;
 
@@ -25,7 +25,11 @@ class HierarchyAggregate extends Hierarchy implements HierarchyAggregateInterfac
      */
     private $menuItem;
 
-    public function getMenuItem(): MenuItemInterface {
+    /**
+     *
+     * @return MenuItemInterface|null
+     */
+    public function getMenuItem(): ?MenuItemInterface {
         return $this->menuItem;
     }
 

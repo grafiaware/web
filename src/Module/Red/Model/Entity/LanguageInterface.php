@@ -8,13 +8,13 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface LanguageInterface extends EntityInterface {
+interface LanguageInterface extends PersistableEntityInterface {
     public function getLangCode();
     public function getLocale();
     public function getName();

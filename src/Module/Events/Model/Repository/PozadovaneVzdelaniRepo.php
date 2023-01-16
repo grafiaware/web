@@ -19,47 +19,46 @@ use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 class PozadovaneVzdelaniRepo extends RepoAbstract implements PozadovaneVzdelaniRepoInterface {
 
    
-
     public function __construct( PozadovaneVzdelaniDao $pozadovaneVzdelaniDao, PozadovaneVzdelaniHydrator $pozadovaneVzdelaniHydrator) {
         $this->dataManager = $pozadovaneVzdelaniDao;
         $this->registerHydrator($pozadovaneVzdelaniHydrator);
     }
-   
+
      /**
-     * 
+     *
      * @param  $stupen
      * @return PozadovaneVzdelaniInterface|null
      */
-    public function get( $stupen): ?PozadovaneVzdelaniInterface {
-        $key = $this->dataManager->getPrimaryKeyTouples(['stupen'=>$stupen ]);
-        return $this->getEntity($key);    }
+    public function get($stupen): ?PozadovaneVzdelaniInterface {
+        return $this->getEntity($stupen);
+    }
 
     /**
-     * 
+     *
      * @return PozadovaneVzdelaniInterface[]
-     */  
+     */
     public function findAll() :array  {
         return $this->findEntities();
     }
     /**
-     * 
+     *
      * @param PozadovaneVzdelaniInterface $pozadovaneVzdelani
      * @return void
      */
     public function add(PozadovaneVzdelaniInterface $pozadovaneVzdelani) :void {
         $this->addEntity($pozadovaneVzdelani);
     }
-    
+
      /**
-     * 
+     *
      * @param PozadovaneVzdelaniInterface $pozadovaneVzdelani
      * @return void
      */
     public function remove(PozadovaneVzdelaniInterface $pozadovaneVzdelani) :void {
         $this->removeEntity($pozadovaneVzdelani);
     }
-    
-    
+
+
 
     protected function createEntity() {
         return new PozadovaneVzdelani();

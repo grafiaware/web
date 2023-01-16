@@ -8,14 +8,14 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of MenuRoot
  *
  * @author pes2704
  */
-class MenuRoot extends EntityAbstract implements MenuRootInterface {
+class MenuRoot extends PersistableEntityAbstract implements MenuRootInterface {
 
     private $name;
     private $uidFk;

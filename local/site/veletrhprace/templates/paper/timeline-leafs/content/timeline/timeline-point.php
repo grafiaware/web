@@ -15,4 +15,4 @@ use Pes\Text\Html;
                                 </div>
                             </div>
 
-                                    <?= $this->repeat(__DIR__.'/timeline-point/box.php', $box) ?>
+                            <?= $this->repeat(__DIR__.'/timeline-point/box.php', $box) ?>

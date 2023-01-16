@@ -32,7 +32,7 @@ if (isset($loginAggregate)) {
 if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
     /** @var VisitorProfileRepo $visitorProfileRepo */
     $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
-    $visitorData = $visitorProfileRepo->get($loginName);    //$visitorData jsou z !!visitor_profile repository!!
+    $visitorData = $visitorProfileRepo->get($loginName);    //$visitorData jsou z visitor_profile repository
 
     /** @var VisitorProfileInterface $visitorData */
     if (isset($visitorData)) {
@@ -53,16 +53,15 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
     
     
     
-    
-    //--------------------------------------------------
+    //--------------------------------------------------?????????
     $enrollRepo = $container->get(EnrollRepo::class);
     $enrolls = $enrollRepo->findByLoginName($loginName);
-    //--------------------------------------------------
+    //--------------------------------------------------?????????
     
     
 
     $headline = "Můj profil";
-    $perex = "Vítejte $loginName ";
+    $perex = "Vítejte návštěvníku $loginName ! " ;
     $zprava =
         [
             [
@@ -85,6 +84,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
             ]
         ];
     ?>
+
     <article class="paper">
         <section>
             <headline>
@@ -123,6 +123,8 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
             ]
         ];
     ?>
+
+
     <article class="paper">
         <section>
             <headline>
@@ -131,7 +133,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
             <perex>
                 <?php include "perex.php" ?>
             </perex>
-            <content>
+            <content>             
                 <?= $this->insert(ConfigurationCache::componentController()['templates']."zprava"."/template.php", $zprava) ?>
             </content>
         </section>

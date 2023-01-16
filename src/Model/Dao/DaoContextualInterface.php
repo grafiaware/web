@@ -1,13 +1,14 @@
 <?php
 namespace Model\Dao;
 
+use Model\RowData\RowDataInterface;
+
 /**
  *
  * @author pes2704
  */
 interface DaoContextualInterface {
-    public function getOutOfContext(array $id);
-    public function getUniqueOutOfContext(array $unique);
-    public function findOutOfContext($whereClause = "", $touplesToBind = []): iterable;
-    public function findAllOutOfContext(): iterable;
+
+    public function getContextConditions(): array ;
+
 }
