@@ -30,6 +30,13 @@ MENU ITEM: ??
     počtu úrovní jednotlivých menu
 - asi db tabulka item_layout - stejný layout pro všechny potomky až do potomka, který má definován nový layout nebo layout ke každému item - a při změně přegenerovat menu_item
 
+MODEL:
+- opravit (dodělat) Dao s transakcí. Mám tři metody stransakcí:
+    - DaoEditAbstract->execInsertWithKeyVerification
+    - RegistrationDao->insert
+    . HierarchyAggregateEditDao->insertNode
+    spojit v Dao execInsertWithKeyVerification a nový insertWithUid do metody insert, obě budou používat transakci + pro nový insertWithUid je třeba předat jméno sloupce, do kterého se uid vkládá
+
 REGISTRACE:
 - odmazávat záznamy v registration, které nebyly využity - nebyla dokončena registrace - teď se poznají podle nesmazaného hesla (to není moc bezpečné, lze rozbít, lepší by by sloupec "registrace dokončena" a možná i das dokončení
 

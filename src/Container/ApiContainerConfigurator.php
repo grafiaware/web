@@ -52,6 +52,7 @@ use Red\Model\Repository\LanguageRepo;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemTypeRepo;
+use Red\Model\Repository\MenuItemAssetRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
@@ -153,7 +154,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new FilesUploadControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class));
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(MenuItemAssetRepo::class));
             },
             // generator service
 

@@ -91,7 +91,5 @@ class EventLinkPhaseRepo extends RepoAbstract implements EventLinkPhaseRepoInter
     protected function indexFromRow($row) {
         return $row['id'];
     }
-
-
 }
 

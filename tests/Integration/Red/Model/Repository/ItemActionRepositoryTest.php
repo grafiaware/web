@@ -37,7 +37,6 @@ class ItemActionRepositoryTest extends TestCase {
     private static $inputStream;
 
     private $app;
-    private $container;
 
     /**
      *
@@ -105,20 +104,13 @@ class ItemActionRepositoryTest extends TestCase {
                 );
         $this->app = (new WebAppFactory())->createFromEnvironment($environment);
 
-        $this->container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new RedModelContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(
-                            (new Container(
-//                                        new Container($this->app->getAppContainer())
-                                )
-                            )
-                        )
-                    )
-                );
+        $container =
+                (new TestHierarchyContainerConfigurator())->configure(
+                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                        );
 
 
-        $this->itemActionRepo = $this->container->get(ItemActionRepo::class);
+        $this->itemActionRepo = $container->get(ItemActionRepo::class);
     }
 
     public function testSetUp() {

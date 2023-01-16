@@ -5,8 +5,6 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Container\DbUpgradeContainerConfigurator;
-use Container\RedModelContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 

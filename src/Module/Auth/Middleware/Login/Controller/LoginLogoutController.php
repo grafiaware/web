@@ -7,13 +7,14 @@
  */
 
 namespace Auth\Middleware\Login\Controller;
-
-use Site\ConfigurationCache;
-
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
 use Pes\Security\Password\Password;
+
+use FrontControler\FrontControlerAbstract;
+
+use Site\ConfigurationCache;
 
 use Auth\Authenticator\AuthenticatorInterface;
 
@@ -35,7 +36,7 @@ use Status\Model\Entity\StatusSecurityInterface;
  *
  * @author pes2704
  */
-class LoginLogoutController extends LoginControllerAbstract {
+class LoginLogoutController extends FrontControlerAbstract {
 
     private $authenticator;
 

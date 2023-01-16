@@ -22,7 +22,7 @@ interface DaoEditAutoincrementKeyInterface extends DaoEditInterface {
     public function getAutoincrementFieldName();
 
     /**
-     * Metoda musí vracet hodnotu databází generované hodnoty pole orimárního klíče,
+     * Metoda musí vracet hodnotu databází generované hodnoty pole primárního klíče,
      * kterou databáze vygenerovala při posledním provedeném příkazu insert.
      */
 //    public function lastInsertIdValue();

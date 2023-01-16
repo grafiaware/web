@@ -17,18 +17,26 @@ use Model\RowData\RowDataInterface;
 interface DaoInterface {
 
     // metody musí implemtovat jednotlivá Dao
+
     /**
-     * Metoda musí vracet pole (array) jmen polí atributu primárního klíče tabulky.
+     * Vrací pole jmen polí atributu primárního klíče tabulky.
      *
      * @return array
      */
     public function getPrimaryKeyAttributes(): array;
 
     /**
+     * Vrací pole jmen všech atributů tabulky (včetně primárního klíče).
      *
      * @return array
      */
     public function getAttributes(): array;
+
+    /**
+     * Vrací jméno databázové tabulky (nebo view).
+     *
+     * @return string
+     */
     public function getTableName(): string;
 
     // metody implementované v DaoAbstract
@@ -92,7 +100,7 @@ interface DaoInterface {
      *
      * @param string $whereClause Příkaz where v SQL syntaxi vhodné pro PDO, s placeholdery
      * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkatu where
-     * @return iterable
+     * @return iterable<RowDataInterface>
      */
     public function find($whereClause="", array $touplesToBind=[]): iterable;
 
@@ -103,7 +111,7 @@ interface DaoInterface {
      * Pokud je zadán parametr konstruktoru ContextFactoryInterface, metoda vždy použije tento kontext a pokud
      * v databázi řádky se zadaným klíčem sice existují, ale nesplňují podmínky kontextu, metoda tyto řádky nevrací.
      *
-     * @return iterable
+     * @return iterable<RowDataInterface>
      */
     public function findAll(): iterable;
 }

@@ -13,6 +13,17 @@ use Pes\Utils\Directory;
 
 use Utils\UrlConvertor;
 
+use Red\Model\Entity\MenuItemAsset;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Red\Model\Repository\MenuItemAssetRepo;
+
+use Pes\Http\Factory\ResponseFactory;
+
+use Exception;
+use Pes\Utils\Exception\CreateDirectoryFailedException;
+
 /**
  * Description of NestedFilesUpload
  *
@@ -21,34 +32,103 @@ use Utils\UrlConvertor;
 class FilesUploadControler extends FilesUploadControllerAbstract {
 
     const UPLOADED_KEY = "file";
+    const MAX_FILE_SIZE = "1000000";
 
     /**
-     * Zpracuje request typu GET nebo POST a vrací response.
+     * @var MenuItemAssetRepo
+     */
+    private $menuItemAssetRepo;
+
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            MenuItemAssetRepo $menuItemAssetRepoRepo) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        $this->menuItemAssetRepo = $menuItemAssetRepoRepo;
+    }
+
+    /**
+     * Metoda přijímá soubory typu image odesílané image handlerem editoru TinyMCE.
+     *
+     * Image handler je skript definovaný v v inicializaci TinyMCE (image_upload_handler() ).
+     * Image handler odesílá POST request s s daty FormData, ve kterých je položka odpovídající <input> typu 'file' s uploadovaným souborem.
+     *
+     * Metoda zpracuje request s uploadovaným souborem. Uploadovaný soubor se pokusí uložit do složky určené pro soubory prezentovaného menu item a
+     * v případě úspěchu vrací response, který obsahuje jako obsah (body) json informující odesilající skript (image_upload_handler())
+     * o skutečném plném jménu uloženého souboru. Tento json obsahuje položku "Location" s plným jménem uloženého souboru. Toto jméno souboru image_upload_handler()
+     * vloží zpět do html kódu jako url obrázku (hodnotu src atributu tagu <image>).
      *
      * @return Response
      */
     public function uploadEditorImages(ServerRequestInterface $request) {
         $this->setAcceptedExtensions([".png", ".jpg", ".gif"]);
         $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
-//        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
         // POST - jeden soubor
-        /* @var $file UploadedFileInterface */
-        $file = $request->getUploadedFiles()[self::UPLOADED_KEY];
-        $size = 0;
-        $item = $this->statusPresentationRepo->get()->getMenuItem();
+        /* @var $uploadedFile UploadedFileInterface */
+        $uploadedFile = $request->getUploadedFiles()[self::UPLOADED_KEY];
+        if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
+            $httpStatus = 400; // 400 Bad Request
+            $httpError = $this->uploadErrorMessage($uploadedFile->getError());
+        }
 
-        // vytvoří složku se jménem 'item_' a id menuItem
-        $itemFolder = "item_".$item->getId().'/';
-        $fullFilePath = ConfigurationCache::filesUploadController()['upload.red'].Directory::normalizePath($itemFolder);
-        Directory::createDirectory($fullFilePath);
-        $targetFilename = $fullFilePath.urldecode($file->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
-        $file->moveTo($targetFilename);
+        $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
+        $clientMime = $uploadedFile->getClientMediaType();
+        $clientFileSize = $uploadedFile->getSize();  // v bytech
+        $clientFileExt = pathinfo($clientFileName,  PATHINFO_EXTENSION );
 
-        // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
-        // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-        $json = json_encode(array('location' => $targetFilename));  //
-        return $this->createResponseFromString($request, $json);
+        if ($clientFileSize > self::MAX_FILE_SIZE) {
+            $httpStatus = 413; // 413 Payload Too Large
+            $httpError = "Maximum file size exceeded.";
+        }
+        if (!in_array($clientFileExt, array("gif", "jpg", "png"))) {
+            $httpStatus = 406; // 406 Not Acceptable
+            $httpError = "Invalid file extension.";
+        }
 
+        $presentedMenuitem = $this->statusPresentationRepo->get()->getMenuItem();
+        // relativní cesta vzhledem k root (_files/...)
+        $baseFilepath = ConfigurationCache::filesUploadController()['upload.red'];
+
+        try {
+            // vytvoř složku pokud neexistuje
+            Directory::createDirectory($baseFilepath);
+            $targetFilepath = $baseFilepath.$clientFileName;
+            $uploadedFile->moveTo($targetFilepath);
+        } catch (CreateDirectoryFailedException $e) {
+            $httpStatus = 500; // 500 Internal Server Error
+            $httpError =  $e->getMessage();
+        } catch (Exception $e) {
+            $httpStatus = 500; // 500 Internal Server Error
+            $httpError =  $e->getMessage();
+        }
+
+        if (is_null($this->menuItemAssetRepo->getByFilename($clientFileName))) {
+            try {
+                $newAsset = new MenuItemAsset();
+                $newAsset->setMenuItemIdFk($presentedMenuitem->getId());
+                $newAsset->setFilepath($clientFileName);
+                $newAsset->setMimeType($clientMime);
+                $this->menuItemAssetRepo->add($newAsset);
+            } catch (Exception $e) {
+                $httpStatus = 500; // 500 Internal Server Error
+                $httpError =  $e->getMessage();
+                unlink($targetFilepath);
+            }
+        }
+//                $httpStatus = 500; // 500 Internal Server Error
+//                $httpError =  'Ajajajajajajajajajaj!';
+        if ($httpError) {
+            $httpStatus = $httpStatus ?? 404;
+            $response = (new ResponseFactory())->createResponse()->withStatus($httpStatus, $httpError);
+            $response = $this->addHeaders($request, $response);
+        } else {
+            // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
+            // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
+            $json = json_encode(array('location' => $targetFilepath));  //
+            $response = $this->createResponseFromString($request, $json);
+        }
+        return $response;
     }
 
     /**
@@ -150,6 +230,40 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
 
     }
 
+    // KOPIE metody z VisitorControler
+    protected function uploadErrorMessage($error) {
+
+        switch ($error) {
+            case UPLOAD_ERR_OK:
+                $response = 'There is no error, the file uploaded with success.';
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+                $response = 'The uploaded file exceeds the upload_max_filesize directive in php.ini.';
+                break;
+            case UPLOAD_ERR_FORM_SIZE:
+                $response = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.';
+                break;
+            case UPLOAD_ERR_PARTIAL:
+                $response = 'The uploaded file was only partially uploaded.';
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $response = 'No file was uploaded.';
+                break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                $response = 'Missing a temporary folder.';
+                break;
+            case UPLOAD_ERR_CANT_WRITE:
+                $response = 'Failed to write file to disk.';
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                $response = 'File upload stopped by extension.';
+                break;
+            default:
+                $response = 'Unknown upload error.';
+                break;
+        }
+        return $response;
+    }
 }
 
 //$html = '

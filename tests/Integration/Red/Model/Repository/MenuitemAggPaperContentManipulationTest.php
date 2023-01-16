@@ -48,7 +48,6 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
     private static $inputStream;
 
     private $app;
-    private $container;
 
     private $langCode;
     private $uid;
@@ -119,26 +118,19 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
                 );
         $this->app = (new WebAppFactory())->createFromEnvironment($environment);
 
-        $this->container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new RedModelContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(
-                            (new Container(
-//                                        new Container($this->app->getAppContainer())
-                                )
-                            )
-                        )
-                    )
-                );
+        $container =
+                (new TestHierarchyContainerConfigurator())->configure(
+                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                        );
 
 
-        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
+        $this->menuItemAggRepo = $container->get(MenuItemAggregatePaperRepo::class);
 
-        /** @var HierarchyAggregateReadonlyDao $hierarchy */
-        $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
+        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
+        $hierarchyDao = $container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'Tests Integration';
-        $node = $hierarchy->getByTitleHelper($this->langCode, $this->title);
+        $node = $hierarchyDao->getByTitleHelper(['lang_code_fk'=>$this->langCode, 'title'=>$this->title]);
         if (!isset($node)) {
             throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }
@@ -148,7 +140,7 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
 
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
-        if (!$this->paper instanceof PaperAggregatePaperContentInterface) {
+        if (!$this->paper instanceof PaperAggregatePaperSectionInterface) {
             throw new \LogicException("Error in setUp: Nelze spustit integrační test - v setup() metodě nevznikl paper.");
         }
 
@@ -182,7 +174,7 @@ $this->menuItemAggRepo->flush();
         $this->container->reset(PaperAggregateSectionsRepo::class);
         $this->container->reset(PaperSectionRepo::class);
         /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
-        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
+        $this->menuItemAggRepo = $container->get(MenuItemAggregatePaperRepo::class);
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
         $newContentsArray = $this->paper->getPaperSectionsArray();

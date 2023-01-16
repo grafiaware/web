@@ -104,7 +104,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * Vrací pole dat jednoho node a položky menu podle primárního klíče (kompozitní klíč lang_code_fk a uid_fk)
      *
      * @param array $id Asociativní pole s indexy odpovídajícími poli vrácenému metodou getPrimaryKeyAttributes()
-     * @return array|null Asociativní pole s indexy odpovídajícími poli vrácenému metodou getAttributes()
+     * @return RowDataInterface|null
      */
     public function get(array $id): ?RowDataInterface {
         $sql =
@@ -136,7 +136,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * Vrací pole dat jednoho node a položky menu podle dvojice hodnot (lang_code_fk a title)
      * Vrací node podle title v tabulce $this->itemTableName - není nijak zaručena unikátnost title!
      * @param array $langCodeAndTitle Asociativní pole s indexy lang_code_fk a title
-     * @return array|null
+     * @return RowDataInterface|null
      */
     public function getByTitleHelper(array $langCodeAndTitle): ?RowDataInterface {
         $sql =
