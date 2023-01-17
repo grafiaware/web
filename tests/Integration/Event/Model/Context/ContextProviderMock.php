@@ -25,7 +25,7 @@ class ContextProviderMock implements ContextProviderInterface {
         $this->published = (bool) $published;
     }
 
-    public function showPublishedContext(): bool {
+    public function showOnlyPublished(): bool {
         return new PublishedContext($this->published);
     }
 }

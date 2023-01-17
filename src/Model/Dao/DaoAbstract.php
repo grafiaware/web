@@ -96,7 +96,7 @@ abstract class DaoAbstract implements DaoInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and(
-                $this->getContextTouples(),
+                $this->getConditionsFromContext(),
                 $this->sql->touples($this->getPrimaryKeyAttributes())
             )
         );
@@ -114,7 +114,7 @@ abstract class DaoAbstract implements DaoInterface {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and(
-                $this->getContextTouples(),
+                $this->getConditionsFromContext(),
                 $this->sql->touples(array_keys($uniqueKey))
             )
         );
@@ -124,7 +124,7 @@ abstract class DaoAbstract implements DaoInterface {
 
     public function findNonUnique(array $nonUniqueKey): iterable {
         $whereClause = $this->sql->and(
-                $this->getContextTouples(),
+                $this->getConditionsFromContext(),
                 $this->sql->touples(array_keys($nonUniqueKey))
             );
         return $this->find($whereClause, $nonUniqueKey);
@@ -152,14 +152,14 @@ abstract class DaoAbstract implements DaoInterface {
     public function findAll(): iterable{
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->getContextTouples()));
+        $where = $this->sql->where($this->sql->and($this->getConditionsFromContext()));
         return $this->selectMany($select, $from, $where, []);
     }
 
-    private function getContextTouples() {
+    private function getConditionsFromContext() {
         if ($this instanceof DaoContextualInterface) {
             if (isset($this->contextFactory)) {
-                $ret = $this->getContextConditions();
+                $ret = $this->getContextConditions();   // metoda DaoContextualInterface - musí ji implementovat konkrétní DAO
             } else {
                 throw new DaoContextualHasNoContextFactoryException("DAO typu DaoContextualInterface musí mít v konstruktoru předán objekt ContextFactoryInterface.");
             }

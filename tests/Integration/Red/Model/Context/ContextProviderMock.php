@@ -9,8 +9,6 @@
 namespace Test\Integration\Red\Model\Context;
 
 use Model\Context\ContextProviderInterface;
-use Model\Context\PublishedContextInterface;
-use Model\Context\PublishedContext;
 
 /**
  * Description of ContextFactory
@@ -19,19 +17,29 @@ use Model\Context\PublishedContext;
  */
 class ContextProviderMock implements ContextProviderInterface {
 
-    private $active;
+    private $editableMode;
     private $actual;
 
-    public function __construct($active=false, $actual=false) {
-        $this->active = (bool) $active;
-        $this->actual = (bool) $actual;
+    public function __construct($editableMode=false) {
+        $this->editableMode = (bool) $editableMode;
+    }
+
+    /**
+     * Metoda slouží pro změnu nastavení, které se v produkčních objektech contect provider provádí výhradne pomocí parametrů konstruktoru.
+     *
+     * Tento mock lze nastavovat, je jen třeba dbát na to, aby nastavení proběhlo před prvním čtením.
+     *
+     * @param type $editableMode
+     */
+    public function changeContext($editableMode=false) {
+        $this->editableMode = (bool) $editableMode;
     }
 
     /**
      * Produkční PublishedContext odvozuje kontext z presentation statusu
-     * @return PublishedContextInterface
+     * @return bool
      */
-    public function showPublishedContext(): bool {
-        return new PublishedContext($this->active, $this->actual);
+    public function showOnlyPublished(): bool {
+        return ! $this->editableMode;
     }
 }

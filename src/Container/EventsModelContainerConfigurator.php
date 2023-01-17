@@ -17,7 +17,6 @@ use Model\Builder\Sql;
 
 // repo
 use Events\Model\Context\ContextProvider;
-use Test\Integration\Event\Model\Context\ContextPublishedFactoryMock;
 
 use Events\Model\Dao\LoginDao;
 use Events\Model\Hydrator\LoginHydrator;

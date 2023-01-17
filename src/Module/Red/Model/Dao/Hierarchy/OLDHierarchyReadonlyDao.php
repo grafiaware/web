@@ -51,13 +51,8 @@ class HierarchyReadonlyDao extends HierarchyEditDao implements HierarchyAggregat
 #
     public function getContextConditions(): array {
         $contextConditions = [];
-        if (isset($this->contextFactory)) {
-            $publishedContext = $this->contextFactory->showPublishedContext();
-            if ($publishedContext) {
-                if ($publishedContext->selectPublished()) {
-                    $contextConditions['active'] = "menu_item.active = 1";
-                }
-            }
+        if (isset($this->contextFactory) AND $this->contextFactory->showOnlyPublished()) {
+            $contextConditions[] = "menu_item.active = 1";
         }
         return $contextConditions;
     }

@@ -13,5 +13,5 @@ namespace Model\Context;
  * @author pes2704
  */
 interface ContextProviderInterface {
-    public function showPublishedContext(): bool;
+    public function showOnlyPublished(): bool;
 }

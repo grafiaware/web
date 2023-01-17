@@ -41,15 +41,9 @@ class EventDao extends DaoEditAbstract implements EventDaoInterface {
 
     public function getContextConditions(): array {
         $contextConditions = [];
-        if (isset($this->contextFactory)) {
-            $publishedContext = $this->contextFactory->showPublishedContext();
-            if ($publishedContext) {
-                if ($publishedContext->selectPublished()) {
-                    $contextConditions['published'] = "event.published = 1";
-                }
-            }
+        if (isset($this->contextFactory) AND $this->contextFactory->showOnlyPublished()) {
+            $contextConditions[] = "event.published = 1";
         }
-
         return $contextConditions;
     }
 

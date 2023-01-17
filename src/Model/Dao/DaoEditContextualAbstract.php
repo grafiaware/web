@@ -8,8 +8,6 @@ use Model\Builder\SqlInterface;
 use Model\Context\ContextProviderInterface;
 use Model\RowData\RowDataInterface;
 
-use Model\RowData\RowDataInterface;
-
 /**
  * Description of DaoContextualAbstract
  *

@@ -35,8 +35,8 @@ class ContextProvider implements ContextProviderInterface {
             ) {
     }
 
-    //TODO: Events ContextProvider->publishedContext() vrací vždy true - jen pro development
-    public function showPublishedContext(): bool {
+    //TODO: Context factory pro events vrací showOnlyPublished() vždy true - vývojová verze - dodělat
+    public function showOnlyPublished(): bool {
         return true;
     }
 }
