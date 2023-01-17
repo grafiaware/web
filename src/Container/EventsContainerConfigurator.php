@@ -32,6 +32,7 @@ use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\PozadovaneVzdelaniRepo;
 
 /**
  *
@@ -116,12 +117,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         
                         $c->get(CompanyRepo::class),                       
                         $c->get(RepresentativeRepo::class),
-                        $c->get(VisitorJobRequestRepo::class),
-                        $c->get(JobRepo::class),
-                        $c->get(DocumentRepo::class)
+                        $c->get(PozadovaneVzdelaniRepo::class),
+                        $c->get(JobRepo::class)
                         )
                        )->injectContainer($c);
             },
+                                       
+                    
 
             DocumentControler::class => function(ContainerInterface $c) {
                 return (new DocumentControler(

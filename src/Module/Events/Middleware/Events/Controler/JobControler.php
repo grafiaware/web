@@ -14,19 +14,14 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
 use Events\Model\Repository\RepresentativeRepoInterface;
-use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
-use Events\Model\Repository\DocumentRepoInterface;
 
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Entity\Representative;
-use Events\Model\Entity\Company;
+use Events\Model\Entity\JobInterface;
 use Events\Model\Entity\Job;
-use Events\Model\Entity\VisitorJobRequest;
-use Events\Model\Entity\VisitorJobRequestInterface;
-
 
 use Status\Model\Enum\FlashSeverityEnum;
 
@@ -67,16 +62,11 @@ class JobControler extends FrontControlerAbstract {
     private $jobRepo;
      /**
      * 
-     * @var VisitorJobRequestRepoInterface
+     * @var PozadovaneVzdelaniRepoInterface
      */
-    private $visitorJobRequestRepo;
+    private $pozadovaneVzdelaniRepo;
 
-    /**
-     * @var DocumentRepoInterface
-     */
-    private $documentRepo;
-    
-       
+                  
     /**
      * 
      * @param StatusSecurityRepo $statusSecurityRepo
@@ -84,9 +74,8 @@ class JobControler extends FrontControlerAbstract {
      * @param StatusPresentationRepo $statusPresentationRepo
      * @param CompanyRepoInterface $companyRepo
      * @param RepresentativeRepoInterface $representativeRepo
-     * @param VisitorJobRequestRepo $visitorJobRequestRepo
+     * @param PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
      * @param JobRepoInterface $jobRepo
-     * @param DocumentRepoInterface $documentRepo
      */
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -95,20 +84,170 @@ class JobControler extends FrontControlerAbstract {
             
             CompanyRepoInterface $companyRepo,           
             RepresentativeRepoInterface $representativeRepo,
-            VisitorJobRequestRepo $visitorJobRequestRepo,            
-            JobRepoInterface $jobRepo,
-            DocumentRepoInterface $documentRepo
+            PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo,            
+            JobRepoInterface $jobRepo
             
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->companyRepo = $companyRepo;     
         $this->representativeRepo = $representativeRepo;
-        $this->visitorJobRequestRepo = $visitorJobRequestRepo;
+        $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;
         $this->jobRepo = $jobRepo;
-        $this->documentRepo = $documentRepo;
     }
     
    
+    
+     
+    
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $idCompany
+     * @return type
+     */
+    public function insertJob (ServerRequestInterface $request, $idCompany) {                 
+        $isRepresentative = false;
+        
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();
+        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse();
+            return $response->withStatus(401);  // Unaathorized
+        } else {  
+            $loginName = $loginAggregateCredentials->getLoginName();            
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+                $isRepresentative = true; 
+            }
+                        
+            if ($isRepresentative) {
+                // POST formularovadata
+//                $name = (new RequestParams())->getParsedBodyParam($request, 'name');               
+//                $phones = (new RequestParams())->getParsedBodyParam($request, 'phones');
+//                $mobiles = (new RequestParams())->getParsedBodyParam($request, "mobiles");
+//                $emails = (new RequestParams())->getParsedBodyParam($request, "emails");
+                
+                /** @var JobInterface $job */
+                $job = $this->container->get(Job::class); //new $companyContact
+                
+                $job->setCompanyId($idCompany);
+                
+//                $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+//                $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
+//                $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
+//                $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));
+                
+                $this->jobRepo->add($job);
+                
+            } else {
+                $this->addFlashMessage("Údaje o kontaktech vyvstavovatele smí editovat pouze representant vystavovatele.");
+            }
+            
+        }
+        return $this->redirectSeeLastGet($request);
+    }
+    
+  
+//    /**
+//     * 
+//     * @param ServerRequestInterface $request
+//     * @param type $idCompany
+//     * @param type $idCompanyContact
+//     * @return type
+//     */
+//    public function updateJob (ServerRequestInterface $request, $idCompany, $idCompanyContact) {                   
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unauthorized
+//        } else {                                   
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
+//                            $isRepresentative = true; 
+//                }
+//            }            
+//            if ($isRepresentative) {
+//                /** @var CompanyContactInterface $companyContact */
+//                $companyContact = $this->companyContactRepo->get( $idCompanyContact );
+//                
+//                // POST formularova data                                              
+//                $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+//                $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
+//                $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
+//                $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));
+//                
+//                $this->companyContactRepo->add($companyContact);
+//                
+//            } else {
+//                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
+//            }
+//            
+//        }
+//        return $this->redirectSeeLastGet($request);
+//    }
+//    
+//    
+//   
+//    
+//    /**
+//     * 
+//     * @param ServerRequestInterface $request
+//     * @param type $idCompany
+//     * @param type $idCompanyContact
+//     * @return type
+//     */
+//    public function removeJob (ServerRequestInterface $request,  $idCompany, $idCompanyContact) {                   
+//        $isRepresentative = false;
+//                
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {                                   
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {
+//               
+//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
+//                            $isRepresentative = true; 
+//                }
+//            }          
+//                
+//            if ($isRepresentative) {                                
+//                 /** @var CompanyContactInterface $companyContact */
+//                $companyContact = $this->companyContactRepo->get( $idCompanyContact );
+//                $this->companyContactRepo->remove( $companyContact ); 
+//                                
+//            } else {
+//                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+//            }
+//            
+//        }
+//        return $this->redirectSeeLastGet($request);
+//    }
+//            
+//    
+//    
+//    
+    
+    
+    
     
     
  }   

@@ -72,10 +72,6 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
         }   
             
         
-       
-        
-        
-        
   ?>
 
 
@@ -95,7 +91,8 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
                     Přidej další pracovní pozici
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/company-job.php', ['companyId' => $idCompany] ) ?>                                                                                 
+                    <?= $this->insert( __DIR__.'/company-job.php', ['companyId' => $idCompany, 
+                                                                    'selectVzdelanich' =>  $selectVzdelanich ] ) ?>                                                                                 
                 </div>                  
             </div>            
     </div>

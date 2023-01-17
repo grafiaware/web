@@ -142,9 +142,11 @@ class ApiRegistrator {
         #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         
-        #### VisitorController ####
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));
-        #### CompanyController ?? ####
+        #### VisitorProfileController ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
+        
+        #### CompanyController  ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact/:companyContactId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact/:companyContactId/remove'));
@@ -156,9 +158,13 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
         
+        #### JobControler
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId/remove'));           
+               
         
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
-        #### JobRequestControler
+        #### VisitorJobRequestControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/:jobId/jobrequest'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
         #### VisitorDataController ####

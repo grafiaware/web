@@ -7,7 +7,7 @@ use Site\ConfigurationCache;
 use Status\Model\Repository\StatusSecurityRepo;
 
 use Events\Model\Repository\EnrollRepo;
-use Events\Model\Arraymodel\Job;
+use Events\Model\Arraymodel\JobArrayModel;
 use Events\Model\Arraymodel\Presenter;
 
         $readonly = 'readonly="1"';
@@ -23,7 +23,7 @@ $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateCredentialsInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 
-$jobModel = new Job();
+$jobModel = new JobArrayModel();
 
 if (isset($loginAggregate)) {
     $credentials = $loginAggregate->getCredentials();

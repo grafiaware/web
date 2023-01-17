@@ -22,13 +22,11 @@ use Pes\Text\Html;
                  </div>                 
                 
                 <div class="field">
-                    <label>Požadované vzdělání</label>
-                    <input <?= $readonly ?> type="text" name="pozadovane-vzdelani-stupen" placeholder="" maxlength="100" 
-                                            value="<?= isset($pozadovaneVzdelaniStupen)?  $pozadovaneVzdelaniStupen : ''  ?>">
-                    
-                     <?= Html::select("pozadovaneVzdelani", "Požadované vzdělání:", $selectVzdelanich, ["pozadovaneVzdelani"=>2 ], []) ?> 
-                    
-                    <?= Html::select("pozadovane-vzdelani", "Požadované vzdělání:", $selectVzdelanich, ["pozadovane-vzdelani"=> $pozadovaneVzdelani ], []) ?>  
+                    <!--  <label>Požadované vzdělání</label>
+                    <input < ?= $readonly ?> type="text" name="pozadovane-vzdelani-stupen" placeholder="" maxlength="100" 
+                                            value="< ?= isset($pozadovaneVzdelaniStupen)?  $pozadovaneVzdelaniStupen : ''  ?>">   -->                                     
+                    <?= Html::select("pozadovane-vzdelani", "Požadované vzdělání:", isset($selectVzdelanich) ? $selectVzdelanich : [], 
+                                                                                    ["pozadovane-vzdelani"=>  isset($pozadovaneVzdelani) ? $pozadovaneVzdelani: '' ], []) ?>  
                 </div>
             </div>
             <div class="two fields">
@@ -61,12 +59,12 @@ use Pes\Text\Html;
                 ?>
                 <div>
                     <?=
-                     isset($companyContactId) ?
+                     isset($jobId) ?
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."' > Uložit </button>" :
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job' > Uložit </button>" ;
                     ?>                                                                                                                             
                     <?=
-                     isset($companyContactId) ?
+                     isset($jobId) ?
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."/remove' > Odstranit job </button>" :
                     "" ;
                     ?>                                                                                                         

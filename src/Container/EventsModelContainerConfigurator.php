@@ -84,6 +84,7 @@ use Events\Model\Entity\CompanyContact;
 use Events\Model\Dao\JobDao;
 use Events\Model\Hydrator\JobHydrator;
 use Events\Model\Repository\JobRepo;
+use Events\Model\Entity\Job;
 
 use Events\Model\Dao\JobToTagDao;
 use Events\Model\Hydrator\JobToTagHydrator;
@@ -112,7 +113,7 @@ use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\Document;
 
-use Events\Model\Arraymodel\Job;
+use Events\Model\Arraymodel\JobArrayModel;
 use Events\Model\Arraymodel\Presenter;
 
 // database
@@ -168,6 +169,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             PozadovaneVzdelani::class => function(ContainerInterface $c) {
             return new PozadovaneVzdelani();
+            },
+            Job::class => function(ContainerInterface $c) {
+            return new Job();
             }
 
         ];
@@ -440,8 +444,8 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             DocumentRepo::class => function(ContainerInterface $c) {
                 return new DocumentRepo($c->get(DocumentDao::class), $c->get(DocumentHydrator::class));
             },
-            Job::class => function(ContainerInterface $c) {
-                return new Job($c->get(CompanyRepo::class), $c->get(JobRepo::class), $c->get(JobToTagRepo::class), $c->get(JobTagRepo::class));
+            JobArrayModel::class => function(ContainerInterface $c) {
+                return new JobArrayModel($c->get(CompanyRepo::class), $c->get(JobRepo::class), $c->get(JobToTagRepo::class), $c->get(JobTagRepo::class));
             },
 
             Presenter::class => function(ContainerInterface $c) {

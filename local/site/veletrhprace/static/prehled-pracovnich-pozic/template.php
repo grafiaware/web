@@ -4,7 +4,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\ConfigurationCache;
 
-use Events\Model\Arraymodel\Job;
+use Events\Model\Arraymodel\JobArrayModel;
 use Events\Model\Arraymodel\Presenter;
 use Red\Model\Repository\BlockRepo;
 
@@ -23,8 +23,8 @@ $perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
 
 /** @var Presenter $presenterModel */
 $presenterModel = $container->get( Presenter::class );
-/** @var Job $jobModel */
-$jobModel = $container->get( Job::class );
+/** @var JobArrayModel $jobModel */
+$jobModel = $container->get( JobArrayModel::class );
 
 
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName

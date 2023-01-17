@@ -210,6 +210,30 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(VisitorJobRequestControler::class);
             return $ctrl->sendJobRequest($request, $visitorLoginName, $jobId);
         });
+        
+        
+  //-----------------      
+              
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/job' , function(ServerRequestInterface $request, $idCompany) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->insertJob($request, $idCompany);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/job/:jobId' , function(ServerRequestInterface $request, $idCompany, $jobId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->updateJob($request, $idCompany, $jobId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/job/:jobId/remove' , function(ServerRequestInterface $request, $idCompany, $jobId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->removeJob($request, $idCompany,  $jobId);
+        });
+        
+        
+        
+        
+        
     }
 }
 

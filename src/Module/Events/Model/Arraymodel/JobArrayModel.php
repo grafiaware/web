@@ -11,7 +11,7 @@ use Events\Model\Repository\JobTagRepoInterface;
 
 
 
-class Job {
+class JobArrayModel {
         
     private     $jobList = [
         'akka' => [
