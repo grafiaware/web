@@ -490,6 +490,7 @@ abstract class RepoAbstract {
 
             foreach ($this->collection as $index => $entity) {
                 $rowData = $this->data[$index];
+                $this->extract($entity, $rowData);
                 if ($rowData->isChanged()) {
                     $this->dataManager->update($rowData);
                 }
@@ -497,6 +498,7 @@ abstract class RepoAbstract {
             $this->collection = [];
 
             foreach ($this->removed as $index => $entity) {
+                $this->extract($entity, $this->data[$index]);
                 $this->dataManager->delete($this->data[$index]);
                 $entity->setUnpersisted();
                 $entity->unlock();

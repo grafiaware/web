@@ -61,15 +61,12 @@ class PaperSectionDao extends DaoEditAbstract implements PaperSectionDaoInterfac
         return 'paper_section';
     }
 
-    protected function getContextConditions() {
+    public function getContextConditions(): array {
         $contextConditions = [];
         if (isset($this->contextFactory)) {
-            $publishedContext = $this->contextFactory->createPublishedContext();
-            if ($publishedContext) {
-                if ($publishedContext->selectPublished()) {
-                    $contextConditions['active'] = "paper_section.active = 1";
-                    $contextConditions['actual'] = "(ISNULL(paper_section.show_time) OR paper_section.show_time<=CURDATE()) AND (ISNULL(paper_section.hide_time) OR CURDATE()<=paper_section.hide_time)";
-                }
+            if ($this->contextFactory->showPublishedContext()) {
+                $contextConditions['active'] = "paper_section.active = 1";
+                $contextConditions['actual'] = "(ISNULL(paper_section.show_time) OR paper_section.show_time<=CURDATE()) AND (ISNULL(paper_section.hide_time) OR CURDATE()<=paper_section.hide_time)";
             }
         }
         return $contextConditions;

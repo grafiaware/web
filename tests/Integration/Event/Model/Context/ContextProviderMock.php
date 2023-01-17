@@ -8,7 +8,7 @@
 
 namespace Test\Integration\Event\Model\Context;
 
-use Model\Context\ContextFactoryInterface;
+use Model\Context\ContextProviderInterface;
 use Model\Context\PublishedContextInterface;
 use Model\Context\PublishedContext;
 
@@ -17,7 +17,7 @@ use Model\Context\PublishedContext;
  *
  * @author pes2704
  */
-class ContextPublishedFactoryMock implements ContextFactoryInterface {
+class ContextProviderMock implements ContextProviderInterface {
 
     private $published;
 
@@ -25,7 +25,7 @@ class ContextPublishedFactoryMock implements ContextFactoryInterface {
         $this->published = (bool) $published;
     }
 
-    public function createPublishedContext(): PublishedContextInterface {
+    public function showPublishedContext(): bool {
         return new PublishedContext($this->published);
     }
 }

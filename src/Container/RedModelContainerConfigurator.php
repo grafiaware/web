@@ -21,8 +21,8 @@ use Pes\Database\Handler\HandlerInterface;
 // models
 
 // context
-use Red\Model\Context\ContextFactory;
-use Model\Context\ContextFactoryInterface;
+use Red\Model\Context\ContextProvider;
+use Model\Context\ContextProviderInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
@@ -146,7 +146,7 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases(): iterable {
         return [
-            ContextFactoryInterface::class => ContextFactory::class,
+            ContextProviderInterface::class => ContextProvider::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
             HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
         ];
@@ -154,8 +154,8 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions(): iterable {
         return [
-            ContextFactory::class => function(ContainerInterface $c) {
-                return new ContextFactory($c->get(StatusSecurityRepo::class),
+            ContextProvider::class => function(ContainerInterface $c) {
+                return new ContextProvider($c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class));
             },
             Sql::class => function(ContainerInterface $c) {
@@ -166,7 +166,7 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(Handler::class),
                         $c->get(Sql::class),
                         PdoRowData::class,
-                        $c->get(ContextFactoryInterface::class));
+                        $c->get(ContextProviderInterface::class));
             },
             HierarchyAggregateEditDao::class => function(ContainerInterface $c) : HierarchyAggregateEditDao {
                 /** @var HierarchyAggregateEditDao $editHierarchy */
@@ -174,7 +174,7 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(Handler::class),
                         $c->get(Sql::class),
                         PdoRowData::class,
-                        $c->get(ContextFactoryInterface::class))
+                        $c->get(ContextProviderInterface::class))
                         );
                 $editHierarchy->registerHookedActor($c->get(HookedMenuItemActor::class));
                 return $editHierarchy;
@@ -190,7 +190,7 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(HandlerInterface::class),
                         $c->get(Sql::class),
                         PdoRowData::class,
-                        $c->get(ContextFactoryInterface::class));
+                        $c->get(ContextProviderInterface::class));
             },
             HookedMenuItemActor::class => function(ContainerInterface $c) {
                 return new HookedMenuItemActor($c->get('hierarchy.menu_item_table'), $c->get('hierarchy.new_title'));
@@ -267,7 +267,7 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(HandlerInterface::class),
                         $c->get(Sql::class),
                         PdoRowData::class,
-                        $c->get(ContextFactoryInterface::class));
+                        $c->get(ContextProviderInterface::class));
             },
             PaperSectionHydrator::class => function(ContainerInterface $c) {
                 return new PaperSectionHydrator();

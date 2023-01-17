@@ -12,6 +12,6 @@ namespace Model\Context;
  *
  * @author pes2704
  */
-interface ContextFactoryInterface {
-    public function createPublishedContext(): PublishedContextInterface;
+interface ContextProviderInterface {
+    public function showPublishedContext(): bool;
 }

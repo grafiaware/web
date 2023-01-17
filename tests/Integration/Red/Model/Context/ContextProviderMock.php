@@ -8,7 +8,7 @@
 
 namespace Test\Integration\Red\Model\Context;
 
-use Model\Context\ContextFactoryInterface;
+use Model\Context\ContextProviderInterface;
 use Model\Context\PublishedContextInterface;
 use Model\Context\PublishedContext;
 
@@ -17,7 +17,7 @@ use Model\Context\PublishedContext;
  *
  * @author pes2704
  */
-class ContextFactoryMock implements ContextFactoryInterface {
+class ContextProviderMock implements ContextProviderInterface {
 
     private $active;
     private $actual;
@@ -31,7 +31,7 @@ class ContextFactoryMock implements ContextFactoryInterface {
      * Produkční PublishedContext odvozuje kontext z presentation statusu
      * @return PublishedContextInterface
      */
-    public function createPublishedContext(): PublishedContextInterface {
+    public function showPublishedContext(): bool {
         return new PublishedContext($this->active, $this->actual);
     }
 }

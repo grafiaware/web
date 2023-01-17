@@ -8,9 +8,7 @@
 
 namespace Red\Model\Context;
 
-use Model\Context\ContextFactoryInterface;
-use Model\Context\PublishedContextInterface;
-use Model\Context\PublishedContext;
+use Model\Context\ContextProviderInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -20,7 +18,7 @@ use Status\Model\Repository\StatusPresentationRepo;
  *
  * @author pes2704
  */
-class ContextFactory implements ContextFactoryInterface {
+class ContextProvider implements ContextProviderInterface {
 
     /**
      * @var StatusSecurityRepo
@@ -40,9 +38,9 @@ class ContextFactory implements ContextFactoryInterface {
         $this->statusPresentationRepo = $statusPresentationRepo;
     }
 
-    public function createPublishedContext(): PublishedContextInterface {
+    public function showPublishedContext(): bool {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         $onlyPublished = $userActions ? ! $userActions->presentAnyInEditableMode() : true;
-        return new PublishedContext($onlyPublished);
+        return $onlyPublished;
     }
 }

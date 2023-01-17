@@ -13,8 +13,8 @@ use Container\DbUpgradeContainerConfigurator;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // context
-use Model\Context\ContextFactoryInterface;
-use Test\Integration\Red\Model\Context\ContextFactoryMock;
+use Model\Context\ContextProviderInterface;
+use Test\Integration\Red\Model\Context\ContextProviderMock;
 
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\Handler;

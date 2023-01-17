@@ -5,7 +5,7 @@ namespace Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 
 use Model\Builder\SqlInterface;
-use Model\Context\ContextFactoryInterface;
+use Model\Context\ContextProviderInterface;
 use Model\RowData\RowDataInterface;
 
 use Model\RowData\RowDataInterface;
@@ -18,12 +18,12 @@ use Model\RowData\RowDataInterface;
 abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoContextualInterface {
 
     /**
-     * @var ContextFactoryInterface
+     * @var ContextProviderInterface
      */
     protected $contextFactory;
 
 
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextFactoryInterface $contextFactory=null) {
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextProviderInterface $contextFactory=null) {
         parent::__construct($handler, $sql, $fetchClassName);
         $this->contextFactory = $contextFactory;
     }

@@ -1,0 +1,304 @@
+Při pokusu o přejmenování třídy
+- NetBeans korektně zobrazí dialog Rename, mám zašktnuto Rename Also File Name With Declaration, volím Preview
+- NetBeans korektně zobrazí okno Refactoring, volím Do Refactoring
+- NetBeans provedou přejmenování všech výskytů jména třídy v ostatních souborech projektu, přejmenují vlastní soubor, ve kterém je definována přejmenovávaná třída
+a selžou při pokusu přejmenovat jméno třídy v kódu souboru, ve kterém je definována přejmenovávaná třída.
+Hlášení: The file C:/ApacheRoot/web/src/Module/Events/Model/Context/ContextProvider.php seems no longer valid!
+
+V panelu Projects je soubor zobrazen jako přejmenovaný, v souborovém systému je reálně přejmenovaný, okno editoru s kódem přejmenovávané třídy se samo zavře.
+Po opětovném otevření souboru je název třídy nepřejmenovaný a validátor kódu (??) zobrazuje cerveně podtržený název třídy a obvykle hlášení:
+
+..... is not abstract and doesn't override abstract method ..... in .....Interface
+PSR-4 Violation:
+Type declaration doesn't correspond with current file name.
+PSR-0 Violation:
+Type declaration doesn't correspond with current file name.
+
+But method which "doesn't override abstract method" declared and implemented interface before renaming of course stay untouched and may implements inteface, but validator
+dont't understand. May be problem is file name realy doesn't correspond with current file name.
+
+May be that there are some race conditions between renaming class definiton and code validation.
+
+od té doby již selhávají pravidělně všechny pokusy o přejmenování třídy
+
+
+part:
+
+
+INFO [org.netbeans.modules.parsing.impl.TaskProcessor]: Task: org.netbeans.modules.csl.editor.overridden.ComputeAnnotations@7a00abee : class org.netbeans.modules.csl.editor.overridden.ComputeAnnotations ignored cancel for 81 ms.
+WARNING [org.netbeans.modules.versioning.util.Utils]: associateEncoding() no file object available for C:\Users\pes2704\AppData\Local\Temp\vcs-1673986574863\vcs-1673986984928\SetErrorHandling.php
+INFO [org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation]
+org.netbeans.modules.php.dbgp.UnsufficientValueException
+	at org.netbeans.modules.php.dbgp.packets.Property.getValue(Property.java:209)
+	at org.netbeans.modules.php.dbgp.packets.Property.getValue(Property.java:146)
+	at org.netbeans.modules.php.dbgp.packets.Property.getStringValue(Property.java:160)
+[catch] at org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation$CommonTooltip.build(ToolTipAnnotation.java:310)
+	at org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation$CommonTooltip.buildChildren(ToolTipAnnotation.java:363)
+	at org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation$CommonTooltip.build(ToolTipAnnotation.java:335)
+	at org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation$CommonTooltip.build(ToolTipAnnotation.java:320)
+	at org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation$CommonTooltip.build(ToolTipAnnotation.java:302)
+	at org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation.getFormattedValue(ToolTipAnnotation.java:103)
+	at org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation.getFormattedValue(ToolTipAnnotation.java:95)
+	at org.netbeans.modules.php.dbgp.annotations.ToolTipAnnotation.propertyChange(ToolTipAnnotation.java:89)
+	at java.desktop/java.beans.PropertyChangeSupport.fire(PropertyChangeSupport.java:342)
+	at java.desktop/java.beans.PropertyChangeSupport.firePropertyChange(PropertyChangeSupport.java:334)
+	at java.desktop/java.beans.PropertyChangeSupport.firePropertyChange(PropertyChangeSupport.java:267)
+	at org.netbeans.modules.php.dbgp.packets.PropertyGetCommand.firePropertyChangeEvent(PropertyGetCommand.java:72)
+	at org.netbeans.modules.php.dbgp.packets.PropertyGetResponse.process(PropertyGetResponse.java:56)
+	at org.netbeans.modules.php.dbgp.DebugSession.handleMessage(DebugSession.java:297)
+	at org.netbeans.modules.php.dbgp.DebugSession.receiveData(DebugSession.java:262)
+	at org.netbeans.modules.php.dbgp.DebugSession.sendCommands(DebugSession.java:198)
+	at org.netbeans.modules.php.dbgp.DebugSession.run(DebugSession.java:116)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630)
+	at java.base/java.lang.Thread.run(Thread.java:831)
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 28 534 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 189 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 228 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 103 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 65 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 120 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 614 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 414 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 22 199 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 151 ms.
+INFO [org.netbeans.ui.metrics.bugtracking]: USG_ISSUE_TRACKING_REPOSITORY
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 29 386 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 388 ms.
+INFO [org.netbeans.ui.vcs]: Versioning command INTERNAL-rename called, took 621ms.
+WARNING [org.netbeans.modules.versioning.util.Utils]: associateEncoding() no file object available for C:\Users\pes2704\AppData\Local\Temp\vcs-1673986574863\vcs-1673987085503\ContextProviderInterface.php
+WARNING [org.netbeans.modules.versioning.util.Utils]: associateEncoding() no file object available for C:\Users\pes2704\AppData\Local\Temp\vcs-1673986574863\vcs-1673987087302\ContextProviderInterface.php
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 28 457 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 2 096 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 0 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 2 111 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 510 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 0 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 0 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 35 103 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 841 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 546 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 054 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 163 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 281 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 111 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 872 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 0 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 0 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 504 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 117 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 541 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 003 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 66 697 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 173 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 78 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 189 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 78 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 159 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 363 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 683 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 7 315 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 120 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 119 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 166 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 234 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 168 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 366 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 288 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 10 039 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 55 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 268 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 29 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 39 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 31 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 167 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 36 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 2 025 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 554 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 7 186 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 46 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 174 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 35 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 106 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 52 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 97 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 40 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 3 738 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 632 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 291 385 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 198 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 2 036 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 105 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 2 301 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 104 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 955 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 105 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 674 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 102 ms.
+INFO [org.netbeans.modules.parsing.impl.TaskProcessor]: Task: org.netbeans.modules.csl.editor.overridden.ComputeAnnotations@125276e3 : class org.netbeans.modules.csl.editor.overridden.ComputeAnnotations ignored cancel for 51 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 018 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 103 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 459 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 100 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 12 739 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 102 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 168 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 149 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 0 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 108 ms.
+INFO [org.netbeans.modules.parsing.impl.TaskProcessor]: Task: org.netbeans.modules.csl.hints.GsfHintsProvider@1f23ab5a : class org.netbeans.modules.csl.hints.GsfHintsProvider ignored cancel for 240 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 102 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 100 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 637 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 115 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 4 062 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 122 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 11 351 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 101 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 2 548 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 124 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 3 418 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 105 ms.
+INFO [org.netbeans.modules.parsing.impl.TaskProcessor]: Task: org.netbeans.modules.csl.editor.overridden.ComputeAnnotations@125276e3 : class org.netbeans.modules.csl.editor.overridden.ComputeAnnotations ignored cancel for 78 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 263 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 124 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 597 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 127 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 4 223 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 103 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 2 832 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 102 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 2 227 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 100 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 3 220 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 139 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 636 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 100 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 6 451 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 320 ms.
+File: C:/ApacheRoot/web/src/Module/Events/Model/Context/ContextFactory.php
+StartOffset: 515
+INFO [org.netbeans.ui.vcs]: Versioning command INTERNAL-rename called, took 470ms.
+SEVERE [org.openide.util.RequestProcessor]: Error in RequestProcessor org.netbeans.modules.refactoring.spi.impl.RefactoringPanel$2
+msg
+Caused: org.openide.filesystems.FileStateInvalidException: C:\ApacheRoot\web\src\Module\Events\Model\Context\ContextProvider.php@f5c486c1:1a6128b6[invalid]
+	at org.openide.loaders.DataObject.find(DataObject.java:587)
+Caused: org.openide.loaders.DataObjectNotFoundException: C:\ApacheRoot\web\src\Module\Events\Model\Context\ContextProvider.php@f5c486c1:1a6128b6[invalid]
+	at org.openide.loaders.DataObject.find(DataObject.java:610)
+	at org.netbeans.modules.csl.spi.support.ModificationResult.commit(ModificationResult.java:113)
+	at org.netbeans.modules.csl.spi.support.ModificationResult.commit(ModificationResult.java:105)
+	at org.netbeans.modules.refactoring.spi.RefactoringCommit.commit(RefactoringCommit.java:128)
+Caused: java.lang.RuntimeException
+	at org.netbeans.modules.refactoring.spi.RefactoringCommit.commit(RefactoringCommit.java:140)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.reallyDoRefactoring(RefactoringSession.java:141)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.access$100(RefactoringSession.java:54)
+	at org.netbeans.modules.refactoring.api.RefactoringSession$1.run(RefactoringSession.java:97)
+	at org.netbeans.modules.refactoring.api.RefactoringSession$1.run(RefactoringSession.java:95)
+	at org.netbeans.modules.editor.lib.BeforeSaveTasks.runWithOnSaveTasksDisabled(BeforeSaveTasks.java:68)
+	at org.netbeans.editor.Utilities.runWithOnSaveTasksDisabled(Utilities.java:1635)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.doRefactoring(RefactoringSession.java:95)
+	at org.netbeans.modules.refactoring.spi.impl.RefactoringPanel$2.run(RefactoringPanel.java:550)
+	at org.openide.util.RequestProcessor$Task.run(RequestProcessor.java:1418)
+	at org.netbeans.modules.openide.util.GlobalLookup.execute(GlobalLookup.java:45)
+	at org.openide.util.lookup.Lookups.executeWith(Lookups.java:278)
+[catch] at org.openide.util.RequestProcessor$Processor.run(RequestProcessor.java:2033)
+ALL [null]: The file C:/ApacheRoot/web/src/Module/Events/Model/Context/ContextProvider.php seems no longer valid!
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 30 986 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 2 114 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 0 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 0 ms.
+WARNING [org.netbeans.modules.openide.loaders.DataObjectEncodingQueryImplementation]: Invalid DataObject: C:\ApacheRoot\web\src\Module\Events\Model\Context\ContextProvider.php
+INFO [org.netbeans.core.windows.view.ui.TabbedHandler]: TopComponent has no icon: MVCTC[name=, peer=[model=current=org.netbeans.core.spi.multiview.MultiViewFactory$MapMVD@1811775d]]
+WARNING [org.netbeans.modules.versioning.util.Utils]: associateEncoding() no file object available for C:\Users\pes2704\AppData\Local\Temp\vcs-1673986574863\vcs-1673988699930\ContextProvider.php
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 74 770 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 166 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 3 037 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 949 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 16 250 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 506 ms.
+File: C:/ApacheRoot/web/src/Module/Red/Model/Context/ContextFactory.php
+StartOffset: 513
+INFO [org.netbeans.ui.vcs]: Versioning command INTERNAL-rename called, took 330ms.
+SEVERE [org.openide.util.RequestProcessor]: Error in RequestProcessor org.netbeans.modules.refactoring.spi.impl.RefactoringPanel$2
+msg
+Caused: org.openide.filesystems.FileStateInvalidException: C:\ApacheRoot\web\src\Module\Red\Model\Context\ContextProvider.php@cd6bc8c7:4c3c5cc3[invalid]
+	at org.openide.loaders.DataObject.find(DataObject.java:587)
+Caused: org.openide.loaders.DataObjectNotFoundException: C:\ApacheRoot\web\src\Module\Red\Model\Context\ContextProvider.php@cd6bc8c7:4c3c5cc3[invalid]
+	at org.openide.loaders.DataObject.find(DataObject.java:610)
+	at org.netbeans.modules.csl.spi.support.ModificationResult.commit(ModificationResult.java:113)
+	at org.netbeans.modules.csl.spi.support.ModificationResult.commit(ModificationResult.java:105)
+	at org.netbeans.modules.refactoring.spi.RefactoringCommit.commit(RefactoringCommit.java:128)
+Caused: java.lang.RuntimeException
+	at org.netbeans.modules.refactoring.spi.RefactoringCommit.commit(RefactoringCommit.java:140)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.reallyDoRefactoring(RefactoringSession.java:141)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.access$100(RefactoringSession.java:54)
+	at org.netbeans.modules.refactoring.api.RefactoringSession$1.run(RefactoringSession.java:97)
+	at org.netbeans.modules.refactoring.api.RefactoringSession$1.run(RefactoringSession.java:95)
+	at org.netbeans.modules.editor.lib.BeforeSaveTasks.runWithOnSaveTasksDisabled(BeforeSaveTasks.java:68)
+	at org.netbeans.editor.Utilities.runWithOnSaveTasksDisabled(Utilities.java:1635)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.doRefactoring(RefactoringSession.java:95)
+	at org.netbeans.modules.refactoring.spi.impl.RefactoringPanel$2.run(RefactoringPanel.java:550)
+	at org.openide.util.RequestProcessor$Task.run(RequestProcessor.java:1418)
+	at org.netbeans.modules.openide.util.GlobalLookup.execute(GlobalLookup.java:45)
+	at org.openide.util.lookup.Lookups.executeWith(Lookups.java:278)
+[catch] at org.openide.util.RequestProcessor$Processor.run(RequestProcessor.java:2033)
+ALL [null]: The file C:/ApacheRoot/web/src/Module/Red/Model/Context/ContextProvider.php seems no longer valid!
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 21 515 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 696 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 0 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 0 ms.
+INFO [org.netbeans.modules.parsing.impl.TaskProcessor]: Task: org.netbeans.modules.csl.navigation.ClassMemberNavigatorSourceFactory$ProxyElementScanningTask@68b5e4e1 : class org.netbeans.modules.csl.navigation.ClassMemberNavigatorSourceFactory$ProxyElementScanningTask ignored cancel for 275 ms.
+WARNING [org.netbeans.modules.versioning.util.Utils]: associateEncoding() no file object available for C:\Users\pes2704\AppData\Local\Temp\vcs-1673986574863\vcs-1673988771183\ContextProvider.php
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 23 344 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 187 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 3 456 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 973 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 11 499 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 103 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 663 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 102 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 4 451 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 071 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 32 018 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 117 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 1 539 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 102 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 85 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 215 ms.
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 24 403 ms.
+INFO [org.netbeans.ui.indexing]: Indexing finished, indexing took 1 272 ms.
+File: C:/ApacheRoot/web/tests/Integration/Event/Model/Context/ContextPublishedFactoryMock.php
+StartOffset: 431
+INFO [org.netbeans.ui.vcs]: Versioning command INTERNAL-rename called, took 331ms.
+SEVERE [org.openide.util.RequestProcessor]: Error in RequestProcessor org.netbeans.modules.refactoring.spi.impl.RefactoringPanel$2
+msg
+Caused: org.openide.filesystems.FileStateInvalidException: C:\ApacheRoot\web\tests\Integration\Event\Model\Context\ContextProviderMock.php@24e60131:55323ab6[invalid]
+	at org.openide.loaders.DataObject.find(DataObject.java:587)
+Caused: org.openide.loaders.DataObjectNotFoundException: C:\ApacheRoot\web\tests\Integration\Event\Model\Context\ContextProviderMock.php@24e60131:55323ab6[invalid]
+	at org.openide.loaders.DataObject.find(DataObject.java:610)
+	at org.netbeans.modules.csl.spi.support.ModificationResult.commit(ModificationResult.java:113)
+	at org.netbeans.modules.csl.spi.support.ModificationResult.commit(ModificationResult.java:105)
+	at org.netbeans.modules.refactoring.spi.RefactoringCommit.commit(RefactoringCommit.java:128)
+Caused: java.lang.RuntimeException
+	at org.netbeans.modules.refactoring.spi.RefactoringCommit.commit(RefactoringCommit.java:140)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.reallyDoRefactoring(RefactoringSession.java:141)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.access$100(RefactoringSession.java:54)
+	at org.netbeans.modules.refactoring.api.RefactoringSession$1.run(RefactoringSession.java:97)
+	at org.netbeans.modules.refactoring.api.RefactoringSession$1.run(RefactoringSession.java:95)
+	at org.netbeans.modules.editor.lib.BeforeSaveTasks.runWithOnSaveTasksDisabled(BeforeSaveTasks.java:68)
+	at org.netbeans.editor.Utilities.runWithOnSaveTasksDisabled(Utilities.java:1635)
+	at org.netbeans.modules.refactoring.api.RefactoringSession.doRefactoring(RefactoringSession.java:95)
+	at org.netbeans.modules.refactoring.spi.impl.RefactoringPanel$2.run(RefactoringPanel.java:550)
+	at org.openide.util.RequestProcessor$Task.run(RequestProcessor.java:1418)
+	at org.netbeans.modules.openide.util.GlobalLookup.execute(GlobalLookup.java:45)
+	at org.openide.util.lookup.Lookups.executeWith(Lookups.java:278)
+[catch] at org.openide.util.RequestProcessor$Processor.run(RequestProcessor.java:2033)
+ALL [null]: The file C:/ApacheRoot/web/tests/Integration/Event/Model/Context/ContextProviderMock.php seems no longer valid!
+INFO [org.netbeans.ui.indexing]: Indexing started, time from last indexing 20 735 ms.
+
+etc.

@@ -15,8 +15,8 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Site\ConfigurationCache;
 
 // context
-use Model\Context\ContextFactoryInterface;
-use Test\Integration\Red\Model\Context\ContextFactoryMock;
+use Model\Context\ContextProviderInterface;
+use Test\Integration\Red\Model\Context\ContextProviderMock;
 
 use Pes\Database\Handler\Account;
 
@@ -33,15 +33,15 @@ class TestHierarchyContainerConfigurator extends RedModelContainerConfigurator {
 
     public function getAliases(): iterable {
         return [
-            ContextFactoryInterface::class => ContextFactoryMock::class,
+            ContextProviderInterface::class => ContextProviderMock::class,
         ]
         +parent::getAliases();
     }
 
     public function getServicesDefinitions(): iterable {
         return [
-                ContextFactoryMock::class => function(ContainerInterface $c) {
-                    return new ContextFactoryMock(false, false);
+                ContextProviderMock::class => function(ContainerInterface $c) {
+                    return new ContextProviderMock(false, false);
                 },
             ##
             // database account

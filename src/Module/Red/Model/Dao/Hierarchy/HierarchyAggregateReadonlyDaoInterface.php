@@ -9,13 +9,14 @@
 namespace Red\Model\Dao\Hierarchy;
 
 use Model\Dao\DaoInterface;
+use Model\Dao\DaoContextualInterface;
 use Model\RowData\RowDataInterface;
 
 /**
  *
  * @author pes2704
  */
-interface HierarchyAggregateReadonlyDaoInterface extends DaoInterface {
+interface HierarchyAggregateReadonlyDaoInterface extends DaoContextualInterface, DaoInterface {
 
     /**
      * JEN POMOCNÁ FUNKCE PRO LADĚNÍ

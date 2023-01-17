@@ -14,7 +14,7 @@ use Pes\Database\Statement\StatementInterface;
 use Model\Builder\SqlInterface;
 use Model\RowData\RowDataInterface;
 use Model\Dao\DaoContextualInterface;
-use Model\Context\ContextFactoryInterface;
+use Model\Context\ContextProviderInterface;
 
 use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
 use Model\Dao\Exception\DaoContextualHasNoContextFactoryException;
@@ -47,11 +47,11 @@ abstract class DaoAbstract implements DaoInterface {
     private $preparedStatements = [];
 
     /**
-     * @var ContextFactoryInterface
+     * @var ContextProviderInterface
      */
     protected $contextFactory;
 
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextFactoryInterface $contextFactory=null) {
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextProviderInterface $contextFactory=null) {
         $this->dbHandler = $handler;
         $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
         $this->sql = $sql;

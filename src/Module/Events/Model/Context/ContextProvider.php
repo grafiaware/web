@@ -10,16 +10,14 @@ namespace Events\Model\Context;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
-use Model\Context\ContextFactoryInterface;
-use Model\Context\PublishedContextInterface;
-use Model\Context\PublishedContext;
+use Model\Context\ContextProviderInterface;
 
 /**
  * Description of ContextFactory
  *
  * @author pes2704
  */
-class ContextFactory implements ContextFactoryInterface {
+class ContextProvider implements ContextProviderInterface {
 
     /**
      * @var StatusSecurityRepo
@@ -37,7 +35,8 @@ class ContextFactory implements ContextFactoryInterface {
             ) {
     }
 
-    public function createPublishedContext(): PublishedContextInterface {
-        return new PublishedContext(true);
+    //TODO: Events ContextProvider->publishedContext() vrací vždy true - jen pro development
+    public function showPublishedContext(): bool {
+        return true;
     }
 }

@@ -5,7 +5,7 @@ use Model\Dao\DaoAbstract;
 use Pes\Database\Handler\HandlerInterface;
 
 use Model\Builder\SqlInterface;
-use Model\Context\ContextFactoryInterface;
+use Model\Context\ContextProviderInterface;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -40,7 +40,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
 
     /**
      *
-     * @var ContextFactoryInterface
+     * @var ContextProviderInterface
      */
     protected $contextFactory;
 
@@ -69,7 +69,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
      * @param string $itemTableName Jméno databázové tabulky menu item
      */
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ContextProviderInterface $contextFactory=null) {
         parent::__construct($handler, $sql, $fetchClassName);
         $this->nestedSetTableName = $this->getTableName();
         $this->itemTableName = $this->getItemTableName();
@@ -78,10 +78,10 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
 
 ################
 #
-    protected function getContextConditions() {
+    public function getContextConditions(): array {
         $contextConditions = [];
         if (isset($this->contextFactory)) {
-            $publishedContext = $this->contextFactory->createPublishedContext();
+            $publishedContext = $this->contextFactory->showPublishedContext();
             if ($publishedContext) {
                 if ($publishedContext->selectPublished()) {
                     $contextConditions['active'] = "menu_item.active = 1";

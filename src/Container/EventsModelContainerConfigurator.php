@@ -16,7 +16,7 @@ use Model\RowData\PdoRowData;
 use Model\Builder\Sql;
 
 // repo
-use Events\Model\Context\ContextFactory;
+use Events\Model\Context\ContextProvider;
 use Test\Integration\Event\Model\Context\ContextPublishedFactoryMock;
 
 use Events\Model\Dao\LoginDao;
@@ -188,8 +188,8 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                     return new Sql();
                 },
             // context
-            ContextFactory::class => function(ContainerInterface $c) {
-                return new ContextFactory(); // TODO:     ($statusSecurityRepo, $statusPresentationRepo)
+            ContextProvider::class => function(ContainerInterface $c) {
+                return new ContextProvider(); // TODO:     ($statusSecurityRepo, $statusPresentationRepo)
             },
 
             // enroll
@@ -227,7 +227,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // event
             EventDao::class => function(ContainerInterface $c) {
-                return new EventDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class, $c->get(ContextFactory::class));
+                return new EventDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class, $c->get(ContextProvider::class));
             },
             EventHydrator::class => function(ContainerInterface $c) {
                 return new EventHydrator();

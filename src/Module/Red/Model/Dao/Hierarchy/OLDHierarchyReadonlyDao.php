@@ -6,7 +6,7 @@ namespace Red\Model\Dao\Hierarchy;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
-use Model\Context\ContextFactoryInterface;
+use Model\Context\ContextProviderInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
@@ -42,17 +42,17 @@ class HierarchyReadonlyDao extends HierarchyEditDao implements HierarchyAggregat
      * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
      * @param string $itemTableName Jméno databázové tabulky menu item
      */
-    public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+    public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName, $fetchClassName="", ContextProviderInterface $contextFactory=null) {
         parent::__construct($handler, $nestedSetTableName, $fetchClassName, $contextFactory);
         $this->itemTableName = $itemTableName;
     }
 
 ################
 #
-    protected function getContextConditions() {
+    public function getContextConditions(): array {
         $contextConditions = [];
         if (isset($this->contextFactory)) {
-            $publishedContext = $this->contextFactory->createPublishedContext();
+            $publishedContext = $this->contextFactory->showPublishedContext();
             if ($publishedContext) {
                 if ($publishedContext->selectPublished()) {
                     $contextConditions['active'] = "menu_item.active = 1";

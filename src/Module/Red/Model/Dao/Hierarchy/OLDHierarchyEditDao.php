@@ -5,7 +5,7 @@ namespace Red\Model\Dao\Hierarchy;
 use Model\Dao\DaoEditContextualAbstract;
 
 use Pes\Database\Handler\HandlerInterface;
-use Model\Context\ContextFactoryInterface;
+use Model\Context\ContextProviderInterface;
 use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
 /**
@@ -24,9 +24,9 @@ class HierarchyEditDao extends DaoEditContextualAbstract implements HierarchyAgg
      *
      * @param HandlerInterface $handler
      * @param strimg $nestedSetTableName Jméno tabulky obsahující nested set hierarchii položek. Používá se pro editaci hierarchie.
-     * @param ContextFactoryInterface $contextFactory
+     * @param ContextProviderInterface $contextFactory
      */
-    public function __construct(HandlerInterface $handler, $nestedSetTableName, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+    public function __construct(HandlerInterface $handler, $nestedSetTableName, $fetchClassName="", ContextProviderInterface $contextFactory=null) {
         parent::__construct($handler, $fetchClassName, $contextFactory);
         $this->nestedSetTableName = $nestedSetTableName;
     }
