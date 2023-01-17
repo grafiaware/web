@@ -4,7 +4,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\ConfigurationCache;
 
-use Events\Model\Arraymodel\Job;
+use Events\Model\Arraymodel\JobArrayModel;
 use Events\Model\Arraymodel\Presenter;
 use Red\Model\Repository\BlockRepo;
 
@@ -12,7 +12,7 @@ use Red\Model\Repository\BlockRepo;
 $headline = 'Pracovní pozice';
 $perex = '';
 $presenterModel = new Presenter();
-$jobModel = new Job();
+$jobModel = new JobArrayModel();
 
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
 /** @var BlockRepo $blockRepo */

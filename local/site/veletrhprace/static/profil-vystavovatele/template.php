@@ -14,7 +14,7 @@ use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 
-use Events\Model\Arraymodel\Job;
+use Events\Model\Arraymodel\JobArrayModel;
 use Events\Model\Arraymodel\Presenter;
 
 use Events\Model\Entity\JobToTagInterface;
@@ -49,8 +49,8 @@ if (isset($loginAggregate)) {
 //        $disabled = '';          
     $isRepresentative = false;                 
     
-    /** @var Job $jobModel */
-    $jobModel = $container->get( Job::class );   //ARRAY model
+    /** @var JobArrayModel $jobModel */
+    $jobModel = $container->get( JobArrayModel::class );   //ARRAY model
     /** @var Presenter $presenterModel */
     $presenterModel = $container->get(Presenter::class );       //ARRAY model     
     /** @var RepresentativeRepo $representativeRepo */

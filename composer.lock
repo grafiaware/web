@@ -197,12 +197,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
+<<<<<<< HEAD
                 "reference": "af03e4bd8052a70edb1238b5d78fd7344e85ea1a"
+=======
+                "reference": "e16812c2e787b6fce844b755b6c3899dd6a9a7f6"
+>>>>>>> origin/events_data
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/box4pes/pes/zipball/af03e4bd8052a70edb1238b5d78fd7344e85ea1a",
                 "reference": "af03e4bd8052a70edb1238b5d78fd7344e85ea1a",
+=======
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/e16812c2e787b6fce844b755b6c3899dd6a9a7f6",
+                "reference": "e16812c2e787b6fce844b755b6c3899dd6a9a7f6",
+>>>>>>> origin/events_data
                 "shasum": ""
             },
             "require": {
@@ -247,7 +256,11 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master"
             },
+<<<<<<< HEAD
             "time": "2023-01-17T11:32:22+00:00"
+=======
+            "time": "2023-01-17T10:57:48+00:00"
+>>>>>>> origin/events_data
         },
         {
             "name": "phar-io/manifest",
@@ -2205,5 +2218,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }

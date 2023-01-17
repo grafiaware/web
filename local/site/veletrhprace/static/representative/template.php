@@ -77,24 +77,8 @@ use Events\Model\Entity\LoginInterface;
     $selecty['selectLogins']   = $selectLogin;   
         
   ?>
-
-    <div>
-        
-        <p> <?= Html::select("jmeno-mesta", "To je label Město:",
-            [1=>"", 2=>"Plzeň-město", 3=>"Plzeň-jih", 4=>"Plzeň-sever", 5=>"Klatovy", 6=>"Cheb", 7=>"jiné"],
-            ["jmeno-mesta"=>"Plzeň-sever"], []) ?></p>
-        
-        <p> <?= Html::select("selectCompany", "Company name:",
-            $selectCompany,
-            ["selectCompany"=>"dzk"], []) ?></p>     
-        
-        <p> <?= Html::select("selectLogin", "Login name:",
-            $selectLogin,
-            ["selectLogin"=>"user22"], []) ?></p>      
-        
-
-
-        
+ 
+ 
         <div >
             Representanti vystavovatelů             
             <div class="ui styled fluid accordion">      
@@ -109,8 +93,5 @@ use Events\Model\Entity\LoginInterface;
         
         </div>
         
-
-    </div>
-
  
 
