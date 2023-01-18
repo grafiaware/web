@@ -59,10 +59,6 @@ class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface
         return $menuItemType->getType();
     }
 
-    protected function indexFromKeyParams($type) {
-        return $type;
-    }
-
     protected function indexFromRow($row) {
         return $row['type'];
     }
