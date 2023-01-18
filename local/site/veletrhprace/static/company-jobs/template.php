@@ -61,7 +61,6 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
                 'jobId' => $jEntity->getId(),
                 'companyId' => $jEntity->getCompanyId(),                
                 'pozadovaneVzdelaniStupen' =>  $jEntity->getPozadovaneVzdelaniStupen(),
-                'pozadovaneVzdelani' => $jEntity->getPozadovaneVzdelaniStupen(),
                 'nazev' =>  $jEntity->getNazev(),                
                 'mistoVykonu' =>  $jEntity->getMistoVykonu(),
                 'popisPozice' =>  $jEntity->getPopisPozice(),

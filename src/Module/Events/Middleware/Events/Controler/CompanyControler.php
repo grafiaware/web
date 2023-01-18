@@ -111,7 +111,7 @@ class CompanyControler extends FrontControlerAbstract {
      * @param type $idCompany
      * @return type
      */
-    public function insertCompanyContact (ServerRequestInterface $request, $idCompany) {                 
+    public function addCompanyContact (ServerRequestInterface $request, $idCompany) {                 
         $isRepresentative = false;
         
         /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -257,7 +257,7 @@ class CompanyControler extends FrontControlerAbstract {
      * @param type $idCompany
      * @return type
      */
-    public function insertCompanyAddress (ServerRequestInterface $request, $idCompany) {                 
+    public function addCompanyAddress (ServerRequestInterface $request, $idCompany) {                 
         $isRepresentative = false;
            
         /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -400,7 +400,7 @@ class CompanyControler extends FrontControlerAbstract {
     //---------------------------------------------------------------------------------
     
     
-     public function insertRepresentative (ServerRequestInterface $request) {                 
+     public function addRepresentative (ServerRequestInterface $request) {                 
 //        $isRepresentative = false;
 //        
 //        /** @var StatusSecurityRepo $statusSecurityRepo */

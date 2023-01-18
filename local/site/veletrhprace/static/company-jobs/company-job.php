@@ -25,8 +25,8 @@ use Pes\Text\Html;
                     <!--  <label>Požadované vzdělání</label>
                     <input < ?= $readonly ?> type="text" name="pozadovane-vzdelani-stupen" placeholder="" maxlength="100" 
                                             value="< ?= isset($pozadovaneVzdelaniStupen)?  $pozadovaneVzdelaniStupen : ''  ?>">   -->                                     
-                    <?= Html::select("pozadovane-vzdelani", "Požadované vzdělání:", isset($selectVzdelanich) ? $selectVzdelanich : [], 
-                                                                                    ["pozadovane-vzdelani"=>  isset($pozadovaneVzdelani) ? $pozadovaneVzdelani: '' ], []) ?>  
+                    <?= Html::select("pozadovane-vzdelani-stupen", "Požadované vzdělání:", isset($selectVzdelanich) ? $selectVzdelanich : [], 
+                                                                  ["pozadovane-vzdelani-stupen"=>  isset($pozadovaneVzdelaniStupen) ? $pozadovaneVzdelaniStupen: '' ], []) ?>  
                 </div>
             </div>
             <div class="two fields">

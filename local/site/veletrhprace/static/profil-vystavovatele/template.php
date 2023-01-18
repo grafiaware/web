@@ -63,6 +63,7 @@ if (isset($loginAggregate)) {
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
     
+    //###################### natvrdo zvoleny vystavovatel
     $idCompanyVystavovatele = 10;
     
     //---------------------------------------------------------------------
@@ -108,29 +109,7 @@ if (isset($loginAggregate)) {
                     'emails' =>  $cntct->getEmails()
                     ];
             }
-            //----------------------- pro tuto company vypsat companyAddress 
- /** @var CompanyInterface $companyEntity */ 
-//    $companyEntity = $companyRepo->get($idCompany);
-//    if ( isset($companyEntity) ) {       
-            
-//            $companyAddress=[];
-//            /** @var CompanyAddressInterface $companyAddressEntity */
-//            $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
-//            if ($companyAddressEntity) {           
-//                $companyAddress = [
-//                    'companyId' => $companyAddressEntity->getCompanyId(),  //$idCompany,
-//                    'name'   => $companyAddressEntity->getName(),
-//                    'lokace' => $companyAddressEntity->getLokace(),
-//                    'psc'    => $companyAddressEntity->getPsc(),
-//                    'obec'   => $companyAddressEntity->getObec()
-//                    ];
-//            }    
-//            else {
-//                $companyAddress = [
-//                    'companyId' => $idCompanyFromRepresentative
-//                    ];
-//            }   
-            
+            //----------------------- pro tuto company vypsat companyAddress              
         $companyAddress=[];
         /** @var CompanyAddressInterface $companyAddressEntity */
         $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
@@ -148,14 +127,11 @@ if (isset($loginAggregate)) {
             $companyAddress = [
                 'companyId' => $idCompanyFromRepresentative
                 ];
-        }   
-            
+        }               
        
-            //-------------------------
+        //-------------------------
         
-            
-            
-            
+     
             
             // jobsy pro company tohoto representative
             /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
@@ -220,8 +196,8 @@ foreach ($enrolls as $enroll) {
 
 
 if($isRepresentative) {
-    $headline = "Profil vystavovatele  --*headline";
-    $perex = ' **I**   --*perex';
+    $headline = "Profil vystavovatele";
+    $perex = '';
     ?>
     <article class="paper">
         <section>
