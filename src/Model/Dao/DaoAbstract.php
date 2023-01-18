@@ -65,21 +65,21 @@ abstract class DaoAbstract implements DaoInterface {
 
     /**
      * {@inheritDoc}
-     * @param array $row Řádek dat -asociativní pole, které musí obsahovat alespoň položky odpovídající polím primárního klíče
+     * @param array $row Řádek dat - sociativní pole, které musí obsahovat alespoň položky odpovídající polím primárního klíče
      * @return array
      * @throws UnexpectedValueException
      */
-    public function getPrimaryKey(array $row): array {
+    public function getPrimaryKey(array $row): array{
         $keyAttribute = $this->getPrimaryKeyAttributes();
         $key = [];
         foreach ($keyAttribute as $field) {
-            if( ! array_key_exists($field, $primaryFieldValues)) {
+            if( ! array_key_exists($field, $row)) {
                 throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Atribut klíče obsahuje pole '$field' a pole dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
             }
-            if (is_scalar($primaryFieldValues[$field])) {
-                $key[$field] = $primaryFieldValues[$field];
+            if (is_scalar($row[$field])) {
+                $key[$field] = $row[$field];
             } else {
-                $t = gettype($primaryFieldValues[$field]);
+                $t = gettype($row[$field]);
                 throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Zadaný atribut klíče obsahuje v položce '$field' neskalární hodnotu. Hodnoty v položce '$field' je typu '$t'.");
             }
         }
