@@ -26,6 +26,10 @@ use Pes\Database\Statement\Exception\ExecuteException;
  * @author vlse2610
  */
 class LoginDaoTest extends AppRunner {
+
+    const LOGIN_NAME_PREFIX = "LoginDaoTest_";
+    const COMPANY_NAME_PREFIX = "LoginDaoTest_";
+
     private $container;
     /**
      *
@@ -43,6 +47,7 @@ class LoginDaoTest extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
+        self::removeRcords();
         $container =
             (new EventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
@@ -52,7 +57,7 @@ class LoginDaoTest extends AppRunner {
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
         $rowData = new RowData();
-        $rowData->offsetSet('name', "Company1");
+        $rowData->offsetSet('name', self::COMPANY_NAME_PREFIX."Company1");
         $rowData->offsetSet('eventInstitutionName30', 'ShortyCo.');
         $companyDao->insert($rowData);
         self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
@@ -66,6 +71,33 @@ class LoginDaoTest extends AppRunner {
                          ]);
         $ok = $jobDao->insert($jobData);
         self::$jobPrimaryKey = $jobDao->getLastInsertedPrimaryKey();
+    }
+
+    private static function removeRcords() {
+        $container =
+            (new EventsModelContainerConfigurator())->configure(
+                (new TestDbEventsContainerConfigurator())->configure(new Container())
+            );
+        //napred smazat vsechny zavisle, pak smazat login
+        /** @var VisitorProfileDao $visitorProfileDao */
+        $visitorProfileDao = $container->get(VisitorProfileDao::class);
+        /**  @var RowData  $visitorData */
+        $visitorData = $visitorProfileDao->getUnique( [ 'login_login_name' => self::LOGIN_NAME_PREFIX."Barbucha" ] );
+        if(isset($visitorData)) {
+            $visitorProfileDao->delete($visitorData);
+        }
+        /** @var CompanyDao $companyDao */
+        $companyDao = $container->get(CompanyDao::class);
+        $companyRows = $companyDao->find("name LIKE :name_like", ['name_like'=> self::COMPANY_NAME_PREFIX."%"]);
+        foreach ($companyRows as $companyRow) {
+            $companyDao->delete($companyRow);
+            //pak smazat login
+            $loginDao = $container->get(LoginDao::class);
+            $LoginRows = $loginDao->find("login_name LIKE :login_name_like", ['login_name_like'=> self::LOGIN_NAME_PREFIX."%"]);
+            foreach ($LoginRows as $loginRow) {
+                $loginDao->delete($loginRow);
+            }
+        }
     }
 
     protected function setUp(): void {
@@ -90,13 +122,10 @@ class LoginDaoTest extends AppRunner {
 
     public function testInsert() {
         $rowData = new RowData();
-        $rowData->offsetSet( 'login_name' , "Barbucha"  );
+        $rowData->offsetSet( 'login_name' , self::LOGIN_NAME_PREFIX."Barbucha" );
         $this->dao->insert($rowData);
-        $rowD =  $this->dao->get( ['login_name' => "Barbucha"] );
 
-        /** @var RowData $rowD */
-        $rowArray = $rowD->getArrayCopy();
-        self::$loginNameTouple =  $this->dao->getPrimaryKey($rowArray);
+        self::$loginNameTouple =  $this->dao->getLastInsertedPrimaryKey();
         $this->assertIsArray( self::$loginNameTouple );
 
         $numRows = $this->dao->getRowCount();
@@ -107,10 +136,10 @@ class LoginDaoTest extends AppRunner {
         /** @var RepresentativeDao $representativeDao */
         $representativeDao = $this->container->get(RepresentativeDao::class);
         $representativeData = new RowData();
-        $representativeData->import( ['login_login_name' => $rowArray['login_name'], 'company_id' =>self::$companyPrimaryKey['id']] );
+        $representativeData->import( ['login_login_name' => $rowData['login_name'], 'company_id' =>self::$companyPrimaryKey['id']] );
         $representativeDao->insert($representativeData);
         /**  @var RowData  $row */
-        $row = $representativeDao->get( ['login_login_name' => $rowArray['login_name'], 'company_id' =>self::$companyPrimaryKey['id']]  );
+        $row = $representativeDao->get( ['login_login_name' => $rowData['login_name'], 'company_id' =>self::$companyPrimaryKey['id']]  );
         self::$representativeIdTouple  = $representativeDao->getPrimaryKey($row->getArrayCopy());
 
 
@@ -154,7 +183,7 @@ class LoginDaoTest extends AppRunner {
     public function testUpdate_and_Exception() {
         // neupdatuje, protoze nastaven RESTRICT na tabulkach propojenych pres login_name
         // vznikne Exception
-        $loginRow = $this->dao->get( ['login_name' => "Barbucha"] );
+        $loginRow = $this->dao->get( ['login_name' => self::LOGIN_NAME_PREFIX."Barbucha"] );
         $this->assertIsString( $loginRow['login_name'] );
 
         $this->setUp();
@@ -198,6 +227,7 @@ class LoginDaoTest extends AppRunner {
        }
 
     public function testDelete() {
+//        throw new \Exception("A dost!");
         //napred smazat vsechny zavisle, pak smazat login
         /** @var VisitorProfileDao $visitorProfileDao */
         $visitorProfileDao = $this->container->get(VisitorProfileDao::class);
