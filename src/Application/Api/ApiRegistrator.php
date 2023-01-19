@@ -147,6 +147,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
         
         #### CompanyController  ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/remove'));        
+        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact/:companyContactId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companycontact/:companyContactId/remove'));
@@ -158,7 +162,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
         
-        #### JobControler
+        #### JobControler  ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId/remove'));           
