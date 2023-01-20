@@ -11,9 +11,11 @@ use Pes\Text\Html;
 use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\JobTagRepo;
 use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\JobToTagRepoInterface;
 use Events\Model\Repository\JobTagRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Repository\CompanyRepoInterface;
 
 use Events\Model\Entity\JobToTag;
 use Events\Model\Entity\JobToTagInterface;
@@ -39,9 +41,10 @@ use Events\Model\Entity\LoginInterface;
         
         $role = $loginAggregate->getCredentials()->getRole() ?? '';
     }
-//    ------------------------------------------------
     
    
+    /** @var CompanyRepoInterface $companyRepo */ 
+    $companyRepo = $container->get(CompanyRepo::class );
     /** @var JobRepoInterface $jobRepo */ 
     $jobRepo = $container->get(JobRepo::class );
     /** @var JobTagRepoInterface $jobTagRepo */ 
@@ -52,60 +55,87 @@ use Events\Model\Entity\LoginInterface;
 //    
 //    /** @var LoginRepo $loginRepo */ 
 //    $loginRepo = $container->get(LoginRepo::class );
-    
-    
-    
-    
-    $jobToTagEntities = $jobToTagRepo->findAll();
-    $jobToTagies=[];    
-            foreach ($jobToTagEntities as $jobToTagEntity) {
-                /** @var JobToTagInterface $jobToTagEntity */
-                $i = $jobToTagEntity->getJobId();
+        
+//    ------------------------------------------------
+        $idCompany = 10 ;
+//    ------------------------------------------------
+        
+        /** @var CompanyInterface $companyEntity */ 
+        $companyEntity = $companyRepo->get($idCompany);
+        if (isset ($companyEntity)) {   
+          // pro company - $idCompany najit vsechny jeji joby                                  
+                        
+            $jobCompanyEntities = $jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
+            if ($jobCompanyEntities) { 
                 
-                $job = $jobRepo->get( $i);
-                
-                $jobToTagies[] = [
-                    'jobId' => $jobToTagEntity->getJobId(),
-                    'jobNazev' => $job->getNazev(),                    
-                    'jobTagTag' => $jobToTagEntity->getJobTagTag()                   
-                    ];
-            }
+                $jobToTagies=[];
+                foreach ($jobCompanyEntities as $jobEntity) {      
+                    /** @var JobInterface $jobEntity */
+                    //$jobToTagEntities_proJob = $jobToTagRepo->find(  " job_id = :idJob ",  ['idJob'=> $jobEntity->getId() ]    );
+                    $jobToTagEntities_proJob = $jobToTagRepo->findByJobId( $jobEntity->getId() );
+                                            
+                    $jobTagies_proJob=[];    //nalepky pro job//pro zobrazeni
+                    foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
+                        /** @var JobToTagInterface $jobToTagEntity */
+                        $jobTagies_proJob[] = $jobToTagEntity->getJobTagTag();
+                    }    
+                      
+                    /** @var JobToTagInterface $jobToTagEntity */
+                   // $i = $jobToTagEntity->getJobId();
+                    //$job = $jobRepo->get($i);
+                    $jobToTagies[] = [
+                            'jobId' => $jobEntity->getId(),
+                            'jobNazev' => $jobEntity->getNazev(),                    
+                            'jobTagTags' => $jobTagies_proJob                  
+                    ];                                       
+                }//$jobEntity
+            }     
     //------------------------------------------------------------------
-    $selectJobs =[];
+    $selectCompanyJobs =[];
     $selectJobTags =[];    
-    
-    $jobEntities = $jobRepo->findAll();
+       
         /** @var JobInterface $job */ 
-    foreach ( $jobEntities as $job) {
-        $selectJobs [$job->getId()] =  $job->getNazev() ;
+    foreach ( $jobCompanyEntities as $job) {
+        $selectCompanyJobs [$job->getId()] =  $job->getNazev() ;
     }
-    
-    
+        
     $jobTagEntities = $jobTagRepo->findAll();
         /** @var LoginInterface  $logi */ 
     foreach ( $jobTagEntities as $jobTagEntity) {
         $selectJobTags [] =  $jobTagEntity->getTag() ;
     }
      
-    $selecty['selectJobs'] = $selectJobs;
+    $selecty['selectCompanyJobs'] = $selectCompanyJobs;
     $selecty['selectJobTags']  = $selectJobTags;   
         
   ?>
+  <div>
+    <div class="ui styled fluid accordion">
  
- 
-        <div>
+        <section>
+          
             Přiřazení typu k nabízeným pozicím
-            <div class="ui styled fluid accordion">      
-                <?= $this->repeat(__DIR__.'/content/job-to-tag.php', $jobToTagies  )  ?>
+            <div class="content">      
+                <?= $this->repeat(__DIR__.'/content/job-to-tag.php',$jobToTagies  )  ?>
             </div>
             <p></p>
 
-            Přidej další
+        </section>
+
+        <section>
+        Přidej další
             <div class="ui styled fluid accordion">            
                     <?= $this->insert( __DIR__.'/content/job-to-tag.php',$selecty ) ?>                     
-            </div>            
+            </div>         
+        </section>
+        
         
         </div>
-        
- 
+    </div>
+   
+  
+
+  <?php 
+        }
+  ?>
 

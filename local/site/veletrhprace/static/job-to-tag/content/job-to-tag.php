@@ -15,7 +15,7 @@ use Pes\Text\Html;
 
         <form class="ui huge form" action="" method="POST" >      
 
-            <div class="three fields">                        
+            <div class="fields">                        
                 <!-- <div class="field">
                 <label>Job Id</label>
                     <input < ?= $readonly ?> type="text" name="job-id" placeholder="" maxlength="10" value="< ?= isset($jobId)?  $jobId : '' ?>">
@@ -25,34 +25,55 @@ use Pes\Text\Html;
                     <?php if (isset($jobNazev) ){ ?>
                             <label>jobNazev</label>
                             <input <?= $readonly ?> type="text" name="job-nazev" placeholder="" maxlength="45" value="<?= isset($jobNazev)?  $jobNazev : '' ?>">
-                    <?php } else { ?>
-                            <?= Html::select("selectJob", "Job nazev:", $selectJobs, [], []) ?>                      
-                    <?php } ?>    
-                </div>
-                
-                <div class="field"> 
-                    <?php  if (isset($jobTagTag) ) { ?>
-                            <label>jobTagTag</label>
-                            <input <?= $readonly ?> type="text" name="job-to-tag" placeholder="" maxlength="50" value="<?= isset($jobTagTag)? $jobTagTag : '' ?>">
-                    <?php } else { ?>
-                            <?= Html::select("selectJobTag", "Tag:",  $selectjobTags, [], []) ?>   
-                    <?php } ?> 
-                </div>
-            </div>
+                            
+                           <!--< ?= $this->repeat(__DIR__.'/job-tag.php', $jobTagTags )  ?>  -->
+                           <?= $this->repeat(__DIR__.'/job-tag.php', isset($jobTagTags) ? $jobTagTags : [] , 'seznam') ?>
                     
+                               
+                    <?php } 
+ Html::checkbox($checkboxsetLabelsNameValuePairs, $context);
+                    ?>   
+                           
+                    <label>nalepka</label>
+                    <input <?= $readonly ?> type="text" name="job-nazev" placeholder="" maxlength="45" value="<?= isset($jobNazev)?  $jobNazev : '' ?>">
+        
+                           
+                           
 
-            <?php
+                </div>
+                     
+
+
+
+
+               <!--  <div class="field"> 
+                    <? php  if (isset($jobTagTag) ) { ?>
+                            <label>jobTagTag</label>
+                            <input < ?= $readonly ?> type="text" name="job-to-tag" placeholder="" maxlength="50" value="< ?= isset($jobTagTag)? $jobTagTag : '' ?>">
+                    <? php } else { ?>
+                            < ?= Html::select("selectJobTag", "Tag:",  $selectJobTags, [], []) ?>   
+                    < ?php } ?> 
+                </div>   -->
+                
+            </div>
+                  
+        </form>     
+            
+            
+            
+
+         <!--    < ?php
             if($readonly === '') {
             ?>
             <div>
-                <?=
+                < ?=
                  isset($jobId) ?                 
                 "<button class='ui primary button' type='submit' formaction='events/v1/jobtotag/". $jobTagTag . "/" . $jobId  ."/remove' > Odstranit </button>" :    
                 "<button class='ui primary button' type='submit' formaction='events/v1/jobtotag' > Uložit </button>" ;                
                 ?>                                                                                                                                                                                                                                                 
             </div>
-            <?php
+            < ?php
             }
             ?>
-
-        </form>           
+            -->
+      
