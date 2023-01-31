@@ -78,11 +78,7 @@ class  JobTagDaoTest extends AppRunner {
         $rowData = new RowData();
         $rowData->offsetSet( 'tag' , "vesmír a okolí"  );
         $this->dao->insert($rowData);
-        $rowD =  $this->dao->get( ['tag' => "vesmír a okolí"] );
-
-        /** @var RowData $rowD */
-        $rowArray = $rowD->getArrayCopy();
-        self::$jobTagTouple =  $this->dao->getPrimaryKey($rowArray);
+        self::$jobTagTouple =  $this->dao->getLastInsertedPrimaryKey();
         $this->assertIsArray(self::$jobTagTouple);
 
         $numRows = $this->dao->getRowCount();

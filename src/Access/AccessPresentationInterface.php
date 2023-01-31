@@ -1,8 +1,8 @@
 <?php
 namespace Access;
 
-use Component\ViewModel\StatusViewModelInterface;
-use Component\View\ComponentInterface;
+use Web\Component\ViewModel\StatusViewModelInterface;
+use Web\Component\View\ComponentInterface;
 
 /**
  *

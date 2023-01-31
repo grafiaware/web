@@ -1,0 +1,15 @@
+<?php
+namespace  Web\Component\Renderer\Html\Menu;
+
+use Pes\Text\Html;
+use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuItemInterface;
+
+/**
+ * Description of ItemTrashEditableRenderer
+ *
+ * @author pes2704
+ */
+class ItemTrashRenderer extends ItemRenderer {
+
+}

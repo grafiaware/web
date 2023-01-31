@@ -11,11 +11,23 @@ class NominateFilter extends \FilterIterator implements NominateFilterInterface 
 
     private $names = [];
 
-    public function nominate(array $names=[]): void {
-        $this->names = array_flip($names);
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $keys
+     * @return void
+     */
+    public function nominate(array $keys=[]): void {
+        $this->names = $keys;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return bool
+     */
     public function accept(): bool {
-        return array_key_exists($this->key(), $this->names);  // nelze použít isset() - akceptuje položky, které existují a nejsou null
+        $k = $this->key();
+        return in_array($this->key(), $this->names);  // nelze použít isset() - akceptuje položky, které existují a nejsou null
     }
 }

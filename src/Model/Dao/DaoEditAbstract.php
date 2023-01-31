@@ -104,7 +104,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
             if (!$this->dbHandler->inTransaction()) {
                 $this->dbHandler->beginTransaction();
             }
-            $changed = $rowData->yieldChangedRowData();
+            $changed = $rowData->yieldChangedAsArrayObject();
             $found = $this->getWithinTransaction($tableName, $keyNames, $changed);
             if  (! $found)   {
                 $this->execInsert($rowData);   // předpokládám, že changed je i sloupec s klíčem
@@ -156,7 +156,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
     protected function execInsert(RowDataInterface $rowData): bool {
         if ($rowData->isChanged()) {
             $tableName = $this->getTableName();
-            $changed = $rowData->fetchChangedNames();
+            $changed = $rowData->fetchChanged();
             $changedNames = array_keys($changed);
             $cols = $this->sql->columns($changedNames);
             $values = $this->sql->values($changedNames);
@@ -185,7 +185,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
             $tableName = $this->getTableName();
             $whereTouples = $this->sql->touples($this->getPrimaryKeyAttributes(), 'key_');
             $oldData = $rowData->getArrayCopy();
-            $changed = $rowData->fetchChangedNames();
+            $changed = $rowData->fetchChanged();
             $changedNames = array_keys($changed);
             $setTouples = $this->sql->touples($changedNames);
             $sql = "UPDATE $tableName SET ".$this->sql->set($setTouples).$this->sql->where($this->sql->and($whereTouples));

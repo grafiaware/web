@@ -3,7 +3,7 @@ namespace Form;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
-use Model\RowData\RowData;
+use ArrayObject;
 
 use IteratorAggregate;
 
@@ -23,8 +23,8 @@ class EntityArrayCopy implements EntityArrayCopyInterface {
     }
 
     public function getArrayCopy(): array {
-        $row = new RowData();
+        $row = new ArrayObject();
         $this->hydrator->extract($this->entity, $row);
-        return $row->yieldChangedRowData()->getArrayCopy();
+        return $row->getArrayCopy();
     }
 }

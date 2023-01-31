@@ -28,12 +28,13 @@ class FilteredRowDataTest extends TestCase {
         $rowData->offsetSet(2, 'TRTRTS');
         $rowData->offsetSet('newnull', null);
         $this->assertTrue($rowData->isChanged());
-        $changed = $rowData->fetchChangedNames();
-        $this->assertEquals([2, 'newnull'], $changed);
+        $changed = $rowData->fetchChanged();
+        $this->assertEquals([2=>'TRTRTS', 'newnull'=>null], $changed);
         $filter = new NominateFilter($rowData->getIterator());
-        $filter->nominate($changed);
+        $filter->nominate(array_keys($changed));
         $this->assertCount(2, $filter);
-        $this->assertEquals([2=>'TRTRTS', 'newnull'=>null], iterator_to_array($filter));
+        $actual = iterator_to_array($filter);
+        $this->assertEquals([2=>'TRTRTS', 'newnull'=>null], $actual);
     }
 
 }

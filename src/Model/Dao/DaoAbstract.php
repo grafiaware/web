@@ -61,8 +61,7 @@ abstract class DaoAbstract implements DaoInterface {
 #### public ##########################################
 
 
-    //TODO: ? protected - zdá se, že getPrimaryKeyTouples je použito jen v testech - a v MenuItemRepo a jeho metoda getOutOfContext není použita - repo kontextové a repo out of context je i v container config -> dohledat a doladit
-
+    //TODO: ? protected - getPrimaryKey je použito jen v testech - mění se hodnota primárního klíče a zpětně se získává ?? je to use case?
     /**
      * {@inheritDoc}
      * @param array $row Řádek dat - sociativní pole, které musí obsahovat alespoň položky odpovídající polím primárního klíče

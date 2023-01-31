@@ -6,11 +6,11 @@
  * and open the template in the editor.
  */
 
-namespace Component\Renderer\Html\Paper;
+namespace Web\Component\Renderer\Html\Paper;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
-use Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
+use Web\Component\Renderer\Html\HtmlRendererAbstract;
+use Web\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
+use Web\Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
 
 use Model\Entity\MenuItemAggregateHierarchyInterface;
 use Model\Entity\MenuItemAggregatePaperInterface;

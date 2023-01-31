@@ -9,9 +9,9 @@
 namespace Site\VeletrhPrace;
 
 use Application\WebAppFactory;
-use Component\View\Generated\LanguageSelectComponent;
-use Component\View\Generated\SearchPhraseComponent;
-use Component\View\Flash\FlashComponent;
+use Web\Component\View\Generated\LanguageSelectComponent;
+use Web\Component\View\Generated\SearchPhraseComponent;
+use Web\Component\View\Flash\FlashComponent;
 
 /**
  * Description of Configuration

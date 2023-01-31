@@ -8,6 +8,6 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
     <link rel="stylesheet" type="text/css" href="<?= $linksCommon.'css/old/styles.css'?>" />
     <link rel="stylesheet" type="text/css" href="<?= $linksCommon.'css/media.css'?>" />
 
-    <?= $this->insertConditionally( !$isEditableMode, __DIR__.'/cssNoneditableMode.php', ['linksCommon'=>$linksCommon] ); ?>
-    <?= $this->insertConditionally( $isEditableMode, __DIR__.'/cssEditableMode.php', ['linksCommon'=>$linksCommon] ); ?>
+    <?= $this->insertIf( !$isEditableMode, __DIR__.'/cssNoneditableMode.php', ['linksCommon'=>$linksCommon] ); ?>
+    <?= $this->insertIf( $isEditableMode, __DIR__.'/cssEditableMode.php', ['linksCommon'=>$linksCommon] ); ?>
 

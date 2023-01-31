@@ -91,7 +91,7 @@ function createContent(Psr\Container\ContainerInterface $mwContainer, $context) 
         "VOLNE_POZICE" => "contents/v0.php",
         "v0" => "contents/v0.php",
         "hledani2"=> function(Psr\Container\ContainerInterface $mwContainer, $list, $lang, $edit, $klic){
-                        /* @var $contentSearch Component\Html\Content\SearchComponent */
+                        /* @var $contentSearch Web\Component\Html\Content\SearchComponent */
                         $contentSearch = $mwContainer->get('generated.search');
                         return $contentSearch->setLangCodeFk($lang)->setSearch($klic)->getView();
                     },

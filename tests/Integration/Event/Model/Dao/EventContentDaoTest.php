@@ -107,7 +107,7 @@ class EventContentDaoTest extends AppRunner {
         $eventData = new RowData();
         $eventData->import( [ "published" => 1, 'event_content_id_fk' =>  self::$eventContentPrimaryKey ['id'] ]);
         $eventDao->insert($eventData);  // id je autoincrement
-        self::$eventPrimaryKey = $eventDao->getPrimaryKey($eventData->getArrayCopy());
+        self::$eventPrimaryKey = $eventDao->getLastInsertedPrimaryKey();
     }
 
     public function testGetExistingRow() {

@@ -9,7 +9,7 @@
 namespace Site\VeletrhPrace;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
-use  Component\Renderer\Html\Menu\{
+use  Web\Component\Renderer\Html\Menu\{
     LevelRenderer, MenuWrapEditableRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
 };
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}

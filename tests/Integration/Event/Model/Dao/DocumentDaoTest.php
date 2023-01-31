@@ -77,7 +77,7 @@ class DocumentDaoTest  extends AppRunner {
         $jobData = new RowData();
         $jobData->import( ['pozadovane_vzdelani_stupen' => 1, 'company_id' =>self::$companyPrimaryKey['id']] );
         $jobDao->insert($jobData);
-        self::$jobPrimaryKey = $jobDao->getPrimaryKey($jobData->getArrayCopy());
+        self::$jobPrimaryKey = $jobDao->getLastInsertedPrimaryKey();
     }
 
     protected function setUp(): void {
@@ -182,7 +182,7 @@ class DocumentDaoTest  extends AppRunner {
         $documentRow->import( [ 'document_filename' => 'jmenoFilename_testDeleteVJR'
                           ] );
         $this->dao->insert($documentRow);
-        $documentPrimaryKey = $this->dao->getPrimaryKey($documentRow->getArrayCopy());
+        $documentPrimaryKey = $this->dao->getLastInsertedPrimaryKey();
 
 
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
@@ -196,7 +196,7 @@ class DocumentDaoTest  extends AppRunner {
                                         'position_name'  => 'jméno pozice'
                                        ] );
         $visitorJobRequestDao->insert( $visitorJobRequestRow );
-        self::$visitorJobRequestTouple = $visitorJobRequestDao->getPrimaryKey( $visitorJobRequestRow->getArrayCopy() );
+        self::$visitorJobRequestTouple = $visitorJobRequestDao->getLastInsertedPrimaryKey();
 
         // kontrola SET NULL = že nastavi null ve visitor_job_request
         $documentRowReaded = $this->dao->get(  $documentPrimaryKey );
@@ -215,7 +215,7 @@ class DocumentDaoTest  extends AppRunner {
         $documentRow = new RowData();
         $documentRow->import( [ 'document_filename' => 'jmenoFilename_testDeleteVP'] );
         $this->dao->insert($documentRow);
-        $documentPrimaryKey = $this->dao->getPrimaryKey($documentRow->getArrayCopy());
+        $documentPrimaryKey = $this->dao->getLastInsertedPrimaryKey();
 
         /** @var VisitorProfileDao $visitorProfileDao */
         $visitorProfileDao = $this->container->get(VisitorProfileDao::class);
@@ -226,7 +226,7 @@ class DocumentDaoTest  extends AppRunner {
                                         'cv_document'  => $documentPrimaryKey['id'],
                                        ] );
         $visitorProfileDao->insert( $visitorProfileRow );
-        self::$visitorProfileTouple = $visitorProfileDao->getPrimaryKey( $visitorProfileRow->getArrayCopy() );
+        self::$visitorProfileTouple = $visitorProfileDao->getLastInsertedPrimaryKey();
 
         // kontrola SET NULL = že nastavi null ve visitor_job_request
         $documentRowReaded = $this->dao->get(  $documentPrimaryKey );

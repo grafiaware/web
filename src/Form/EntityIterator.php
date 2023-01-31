@@ -3,7 +3,7 @@ namespace Form;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
-use Model\RowData\RowData;
+use ArrayObject;
 
 use Traversable;
 
@@ -23,8 +23,8 @@ class EntityIterator implements EntityIteratorInterface {
     }
 
     public function getIterator(): Traversable {
-        $row = new RowData();
+        $row = new ArrayObject();
         $this->hydrator->extract($this->entity, $row);
-        return $row->yieldChangedRowData()->getIterator();
+        return $row->getIterator();
     }
 }

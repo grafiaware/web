@@ -55,7 +55,7 @@ class EventDaoTest extends AppRunner {
         $loginData = new RowData();
         $loginData->import(['login_name' => $loginName]);
         $loginDao->insert($loginData);
-        self::$loginPrimaryKey = $loginDao->getPrimaryKey($loginData->getArrayCopy());
+        self::$loginPrimaryKey = $loginDao->getLastInsertedPrimaryKey();
 
         // nový event_content
         /** @var EventContentDao $eventContentDao */

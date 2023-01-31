@@ -43,20 +43,21 @@ class MenuItemDaoTest extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
-        self::$container =
+        $container =
                 (new TestHierarchyContainerConfigurator())->configure(
                            (new TestDbUpgradeContainerConfigurator())->configure(new Container())
                         );
-        self::$dao = self::$container->get(MenuItemDao::class);  // vždy nový objekt
+        self::$dao = $container->get(MenuItemDao::class);  // vždy nový objekt
 
         /** @var HierarchyAggregateReadonlyDao $hierarchy */
-        $hierarchy = self::$container->get(HierarchyAggregateReadonlyDao::class);
+        $hierarchy = $container->get(HierarchyAggregateReadonlyDao::class);
         /** @var ContextProviderMock $contextProvider */
-        self::$contextProvider = self::$container->get(ContextProviderInterface::class);  // získá ContextProviderMock - viz TestHierarchyContainerConfigurator aliasy
+        self::$contextProvider = $container->get(ContextProviderInterface::class);  // získá ContextProviderMock - viz TestHierarchyContainerConfigurator aliasy
 
         // kontext pro čtení pomocí hierarchy - čte v editovatelném modu - načte i neaktivní node
         self::$contextProvider->changeContext(true);
-        $node = $hierarchy->getByTitleHelper(['lang_code_fk'=>'cs', 'title'=>'Tests Integration']);
+        $title='Tests Integration';
+        $node = $hierarchy->getByTitleHelper(['lang_code_fk'=>'cs', 'title'=>$title]);
         if (!isset($node)) {
             throw new \LogicException("Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce cs' s názvem 'Tests Integration'");
         }
@@ -67,8 +68,16 @@ class MenuItemDaoTest extends AppRunner {
         self::$primaryKey = ['lang_code_fk'=>'cs', 'uid_fk'=>$node['uid']];
 
         /** @var Manipulator $manipulator */
-        $manipulator = $this->container->get(Manipulator::class);
-        $manipulator->
+        $manipulator = $container->get(Manipulator::class);
+        $sql = "
+            SELECT
+            lang_code_fk, uid_fk, type_fk, id, list, title, prettyuri, active
+            FROM menu_item
+            WHERE title='$title'";
+
+        $statement = $manipulator->query($sql);
+        $menuItemRow = $statement->fetch();
+        $active = $menuItemRow['active'];
     }
 
     protected function setUp(): void {
