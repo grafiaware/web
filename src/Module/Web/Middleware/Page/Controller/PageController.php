@@ -14,7 +14,7 @@ use Site\ConfigurationCache;
 use Red\Model\Entity\MenuItemInterface;
 
 // komponenty
-use Web\Component\View\Generated\SearchResultComponent;
+use Red\Component\View\Generated\SearchResultComponent;
 
 ####################
 

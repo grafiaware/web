@@ -11,8 +11,8 @@ namespace Site;
 use Pes\Database\Handler\DbTypeEnum;
 
 use Application\WebAppFactory;
-use Web\Component\View\Flash\FlashComponent;
-use Web\Component\View\Manage\{
+use Red\Component\View\Flash\FlashComponent;
+use Red\Component\View\Manage\{
     LoginComponent,
     LogoutComponent,
     UserActionComponent

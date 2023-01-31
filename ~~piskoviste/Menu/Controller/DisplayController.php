@@ -46,7 +46,7 @@ class DisplayController extends FrontControlerAbstract {
 
 ## html
 //        $styles = $this->container->get(MenuListStyles::class);
-        /* @var $classMap Web\Component\Renderer\Html\ClassMap\ClassMap */
+        /* @var $classMap Red\Component\Renderer\Html\ClassMap\ClassMap */
         $classMap = $this->container->get('menu.svisle.classmap');
         /* @var $menuViewModel MenuViewModel */
         $menuViewModel = $this->container->get(MenuViewModel::class);

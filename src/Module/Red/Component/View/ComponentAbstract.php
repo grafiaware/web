@@ -1,0 +1,42 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+namespace Red\Component\View;
+
+use Pes\View\View;
+
+use Red\Component\View\ComponentInterface;
+
+use Configuration\ComponentConfigurationInterface;
+
+/**
+ * Description of CompositeComponentAbstract
+ *
+ * @author pes2704
+ */
+abstract class ComponentAbstract extends View implements ComponentInterface {
+
+    /**
+     *
+     * @var ComponentConfigurationInterface
+     */
+    protected $configuration;
+
+    public function __construct(ComponentConfigurationInterface $configuration) {
+        $this->configuration = $configuration;
+    }
+
+    public function getComponentPermissions(): array {
+        return [
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
+        ];
+    }
+}

@@ -9,14 +9,14 @@
 namespace Site\VeletrhPrace;
 
 use Pes\View\Renderer\ClassMap\ClassMap;
-use Web\Component\Renderer\Html\Menu\LevelRenderer;
-use Web\Component\Renderer\Html\Menu\MenuWrapEditableRenderer;
-use Web\Component\Renderer\Html\Menu\ItemRenderer;
-use Web\Component\Renderer\Html\Menu\ItemRendererEditable;
-use Web\Component\Renderer\Html\Menu\ItemBlockRenderer;
-use Web\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
-use Web\Component\Renderer\Html\Menu\ItemTrashRenderer;
-use Web\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
+use Red\Component\Renderer\Html\Menu\LevelRenderer;
+use Red\Component\Renderer\Html\Menu\MenuWrapEditableRenderer;
+use Red\Component\Renderer\Html\Menu\ItemRenderer;
+use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemBlockRenderer;
+use Red\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemTrashRenderer;
+use Red\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 

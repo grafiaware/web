@@ -6,12 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace Web\Component\Renderer\Html\Paper;
+namespace Red\Component\Renderer\Html\Paper;
 
-use Web\Component\Renderer\Html\HtmlRendererAbstract;
+use Red\Component\Renderer\Html\HtmlRendererAbstract;
 
-use Web\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
-use Web\Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
+use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
+use Red\Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
 use Pes\Text\Html;
 
 use Model\Entity\MenuItemAggregateHierarchyInterface;

@@ -9,9 +9,9 @@
 namespace Site\TydenZdravi;
 
 use Application\WebAppFactory;
-use Web\Component\View\Generated\LanguageSelectComponent;
-use Web\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
+use Red\Component\View\Generated\LanguageSelectComponent;
+use Red\Component\View\Generated\SearchPhraseComponent;
+use Red\Component\View\Flash\FlashComponent;
 
 /**
  * Description of Configuration
