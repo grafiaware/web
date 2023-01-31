@@ -12,10 +12,11 @@ use Pes\Text\Html;
         $readonly = '';
         $disabled = ''; 
 ?>
-
-        <div>         
-            <span class="ui big red tag label"><?= $seznam ?></span>               
-        <div>        
-               
-
-       
+<?php
+    if (isset($seznam)) {
+?>           
+        <span class=""><?= $seznam . "&nbsp;". "&nbsp;". "&nbsp;" ?></span>                              
+<?php
+    }
+    else { }
+?>   
