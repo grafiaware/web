@@ -20,17 +20,17 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\PaperAggregatePaperSection;
 
 // view modely
-use Component\ViewModel\Content\Authored\Paper\PaperViewModel;
-use Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
-use Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModel;
-use Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModelInterface;
-use Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
-use Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModelInterface;
+use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModel;
+use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
+use Red\Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModel;
+use Red\Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModelInterface;
+use Red\Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
+use Red\Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModelInterface;
 
 // komponenty
-use Component\View\Content\Authored\AuthoredComponentInterface;
-use Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
-use Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
+use Red\Component\View\Content\Authored\AuthoredComponentInterface;
+use Red\Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
+use Red\Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
 
 use Red\Service\TemplateService\Exception\TemplateServiceExceptionInterface;
 

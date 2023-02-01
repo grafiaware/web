@@ -9,14 +9,14 @@
 namespace Site\TydenZdravi;
 
 use Pes\View\Renderer\ClassMap\ClassMap;
-use Component\Renderer\Html\Menu\LevelRenderer;
-use Component\Renderer\Html\Menu\MenuWrapEditableRenderer;
-use Component\Renderer\Html\Menu\ItemRenderer;
-use Component\Renderer\Html\Menu\ItemRendererEditable;
-use Component\Renderer\Html\Menu\ItemBlockRenderer;
-use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
-use Component\Renderer\Html\Menu\ItemTrashRenderer;
-use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
+use Red\Component\Renderer\Html\Menu\LevelRenderer;
+use Red\Component\Renderer\Html\Menu\MenuWrapEditableRenderer;
+use Red\Component\Renderer\Html\Menu\ItemRenderer;
+use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemBlockRenderer;
+use Red\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemTrashRenderer;
+use Red\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 

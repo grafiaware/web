@@ -47,107 +47,107 @@ use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
 //component
-use Component\View\ComponentInterface;
+use Red\Component\View\ComponentInterface;
 
-use Component\View\Menu\MenuComponent;
-use Component\View\Menu\MenuComponentInterface;
-use Component\View\Menu\LevelComponent;
+use Red\Component\View\Menu\MenuComponent;
+use Red\Component\View\Menu\MenuComponentInterface;
+use Red\Component\View\Menu\LevelComponent;
 
-use Component\View\Content\TypeSelect\ItemTypeSelectComponent;
-use Component\View\Content\Authored\Paper\PaperComponent;
-use Component\View\Content\Authored\Article\ArticleComponent;
-use Component\View\Content\Authored\Multipage\MultipageComponent;
-use Component\View\Content\Authored\TemplatedComponent;
+use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
+use Red\Component\View\Content\Authored\Paper\PaperComponent;
+use Red\Component\View\Content\Authored\Article\ArticleComponent;
+use Red\Component\View\Content\Authored\Multipage\MultipageComponent;
+use Red\Component\View\Content\Authored\TemplatedComponent;
 
-use Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
-use Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
+use Red\Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
+use Red\Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
 
-use Component\View\Content\Authored\PaperTemplate\PaperTemplateComponent;
+use Red\Component\View\Content\Authored\PaperTemplate\PaperTemplateComponent;
 
-use Component\View\Manage\SelectTemplateComponent;
+use Red\Component\View\Manage\SelectTemplateComponent;
 
-use Component\View\Element\ElementComponent;
-use Component\View\Element\ElementInheritDataComponent;
+use Red\Component\View\Element\ElementComponent;
+use Red\Component\View\Element\ElementInheritDataComponent;
 
-use Component\View\Generated\LanguageSelectComponent;
-use Component\View\Generated\SearchPhraseComponent;
-use Component\View\Generated\SearchResultComponent;
+use Red\Component\View\Generated\LanguageSelectComponent;
+use Red\Component\View\Generated\SearchPhraseComponent;
+use Red\Component\View\Generated\SearchResultComponent;
 
-use Component\View\Flash\FlashComponent;
+use Red\Component\View\Flash\FlashComponent;
 
-use Component\View\Manage\LoginLogoutComponent;
-use Component\View\Manage\RegisterComponent;
-use Component\View\Manage\UserActionComponent;
-use Component\View\Manage\StatusBoardComponent;
-use Component\View\Manage\EditMenuSwitchComponent;
-use Component\View\Manage\EditContentSwitchComponent;
+use Red\Component\View\Manage\LoginLogoutComponent;
+use Red\Component\View\Manage\RegisterComponent;
+use Red\Component\View\Manage\UserActionComponent;
+use Red\Component\View\Manage\StatusBoardComponent;
+use Red\Component\View\Manage\EditMenuSwitchComponent;
+use Red\Component\View\Manage\EditContentSwitchComponent;
 
 // enum pro typ položek menu
-use Component\ViewModel\Menu\Enum\ItemTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
 // viewModel
-use Component\ViewModel\StatusViewModel;
+use Red\Component\ViewModel\StatusViewModel;
 
-use Component\ViewModel\Menu\MenuViewModel;
-use Component\ViewModel\Menu\LevelViewModel;
+use Red\Component\ViewModel\Menu\MenuViewModel;
+use Red\Component\ViewModel\Menu\LevelViewModel;
 
-use Component\ViewModel\Content\Authored\Paper\PaperViewModel;
-use Component\ViewModel\Content\Authored\Article\ArticleViewModel;
-use Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
+use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModel;
+use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModel;
+use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
 
-use Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModel;
-use Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
+use Red\Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModel;
+use Red\Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
-use Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
+use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
-use Component\ViewModel\Manage\LoginLogoutViewModel;
-use Component\ViewModel\Manage\StatusBoardViewModel;
-use Component\ViewModel\Manage\UserActionViewModel;
-use Component\ViewModel\Manage\EditMenuSwitchViewModel;
+use Red\Component\ViewModel\Manage\LoginLogoutViewModel;
+use Red\Component\ViewModel\Manage\StatusBoardViewModel;
+use Red\Component\ViewModel\Manage\UserActionViewModel;
+use Red\Component\ViewModel\Manage\EditMenuSwitchViewModel;
 
-use Component\ViewModel\Generated\LanguageSelectViewModel;
-use Component\ViewModel\Generated\SearchResultViewModel;
+use Red\Component\ViewModel\Generated\LanguageSelectViewModel;
+use Red\Component\ViewModel\Generated\SearchResultViewModel;
 
-use Component\ViewModel\Flash\FlashViewModel;
+use Red\Component\ViewModel\Flash\FlashViewModel;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
-use Component\Renderer\Html\Menu\MenuRenderer;
+use Red\Component\Renderer\Html\Menu\MenuRenderer;
 
-use Component\Renderer\Html\Menu\ItemRenderer;
-use Component\Renderer\Html\Menu\ItemRendererEditable;
-use Component\Renderer\Html\Menu\ItemBlockRenderer;
-use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
-use Component\Renderer\Html\Menu\ItemTrashRenderer;
-use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemRenderer;
+use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemBlockRenderer;
+use Red\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemTrashRenderer;
+use Red\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
-use Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\SectionsRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
-use Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
-use Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PerexRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
 
-use Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
-use Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
 
-use Component\Renderer\Html\Content\Authored\Multipage\MultipageRenderer;
-use Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Multipage\MultipageRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEditable;
 
-use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
-use Component\Renderer\Html\Manage\SelectTemplateRenderer;
+use Red\Component\Renderer\Html\Manage\EditContentSwitchRenderer;
+use Red\Component\Renderer\Html\Manage\SelectTemplateRenderer;
 
-use Component\Renderer\Html\Generated\LanguageSelectRenderer;
-use Component\Renderer\Html\Generated\SearchPhraseRenderer;
-use Component\Renderer\Html\Generated\SearchResultRenderer;
+use Red\Component\Renderer\Html\Generated\LanguageSelectRenderer;
+use Red\Component\Renderer\Html\Generated\SearchPhraseRenderer;
+use Red\Component\Renderer\Html\Generated\SearchResultRenderer;
 
-use Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
+use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
 
-use Component\Renderer\Html\Flash\FlashRenderer;
+use Red\Component\Renderer\Html\Flash\FlashRenderer;
 
-use Component\Renderer\Html\NoContentForStatusRenderer;
-use Component\Renderer\Html\NoPermittedContentRenderer;
+use Red\Component\Renderer\Html\NoContentForStatusRenderer;
+use Red\Component\Renderer\Html\NoPermittedContentRenderer;
 
 
 // repo

@@ -138,9 +138,7 @@ class LoginDaoTest extends AppRunner {
         $representativeData = new RowData();
         $representativeData->import( ['login_login_name' => $rowData['login_name'], 'company_id' =>self::$companyPrimaryKey['id']] );
         $representativeDao->insert($representativeData);
-        /**  @var RowData  $row */
-        $row = $representativeDao->get( ['login_login_name' => $rowData['login_name'], 'company_id' =>self::$companyPrimaryKey['id']]  );
-        self::$representativeIdTouple  = $representativeDao->getPrimaryKey($row->getArrayCopy());
+        self::$representativeIdTouple  = $representativeDao->getLastInsertedPrimaryKey();
 
 
         // nova visitor_job_request
@@ -150,9 +148,7 @@ class LoginDaoTest extends AppRunner {
         $visitorJobRequesData->import( ['login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobPrimaryKey['id'],
                                         'position_name' => 'sedící spící'] );
         $visitorJobRequestDao->insert($visitorJobRequesData);
-        /**  @var RowData  $row */
-        $row = $visitorJobRequestDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobPrimaryKey['id'] ] );
-        self::$visitorJobTouples  = $visitorJobRequestDao->getPrimaryKey($row->getArrayCopy());
+        self::$visitorJobTouples  = $visitorJobRequestDao->getLastInsertedPrimaryKey();
 
         // nova visitor_profile
         /** @var VisitorProfileDao $visitorProfileDao */
@@ -160,9 +156,7 @@ class LoginDaoTest extends AppRunner {
         $visitorProfileData = new RowData();
         $visitorProfileData->import( [ 'login_login_name' => self::$loginNameTouple ['login_name']   ] );
         $visitorProfileDao->insert($visitorProfileData);
-        /**  @var RowData  $row */
-        $row = $visitorProfileDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  ] );
-        self::$visitorProfileTouples  = $visitorProfileDao->getPrimaryKey($row->getArrayCopy());
+        self::$visitorProfileTouples  = $visitorProfileDao->getLastInsertedPrimaryKey();
 
         // nova enroll - priprava potrebne propojene tabulky ...melo by byt take ...a neni udelano
     }

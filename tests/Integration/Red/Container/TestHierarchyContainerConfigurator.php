@@ -51,9 +51,6 @@ class TestHierarchyContainerConfigurator extends RedModelContainerConfigurator {
                 return $account;
             },
 
-            Manipulator::class => function(ContainerInterface $c) : Manipulator {
-                return new Manipulator($c->get(Handler::class), $c->get('dbUpgradeLogger'));
-            },
             ]
             +parent::getServicesDefinitions();
     }

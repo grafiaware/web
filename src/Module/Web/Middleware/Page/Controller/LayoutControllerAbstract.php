@@ -18,13 +18,13 @@ use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\BlockRepo;
 
 // komponenty
-use Component\View\Generated\LanguageSelectComponent;
-use Component\View\Generated\SearchPhraseComponent;
-use Component\View\Manage\LoginLogoutComponent;
-use Component\View\Manage\RegisterComponent;
-use Component\View\Manage\UserActionComponent;
-use Component\View\Manage\StatusBoardComponent;
-use Component\View\Flash\FlashComponent;
+use Red\Component\View\Generated\LanguageSelectComponent;
+use Red\Component\View\Generated\SearchPhraseComponent;
+use Red\Component\View\Manage\LoginLogoutComponent;
+use Red\Component\View\Manage\RegisterComponent;
+use Red\Component\View\Manage\UserActionComponent;
+use Red\Component\View\Manage\StatusBoardComponent;
+use Red\Component\View\Flash\FlashComponent;
 
 use Red\Model\Entity\MenuItemInterface;
 

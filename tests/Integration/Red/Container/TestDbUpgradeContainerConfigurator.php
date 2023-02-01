@@ -12,6 +12,8 @@ use Container\DbUpgradeContainerConfigurator;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
+use Pes\Database\Manipulator\Manipulator;
+
 // context
 use Model\Context\ContextProviderInterface;
 use Test\Integration\Red\Model\Context\ContextProviderMock;
@@ -47,5 +49,16 @@ class TestDbUpgradeContainerConfigurator extends DbUpgradeContainerConfigurator 
 
             ]+
             parent::getParams();
+    }
+
+    public function getServicesDefinitions(): iterable {
+        return
+        [
+            Manipulator::class => function(ContainerInterface $c) : Manipulator {
+                return new Manipulator($c->get(Handler::class), $c->get('dbUpgradeLogger'));
+            },
+        ]
+        +
+        parent::getServicesDefinitions();
     }
 }

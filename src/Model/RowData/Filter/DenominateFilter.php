@@ -11,11 +11,22 @@ class DenominateFilter extends \FilterIterator implements DenominateFilterInterf
 
     private $names = [];
 
-    public function denominate(array $names=[]): void {
-        $this->names = array_flip($names);
+    /**
+     * {@inheritdoc}
+     *
+     * @param array $keys
+     * @return void
+     */
+    public function denominate(array $keys=[]): void {
+        $this->names = $keys;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return bool
+     */
     public function accept(): bool {
-        return !array_key_exists($this->key(), $this->names);
+        return !in_array($this->key(), $this->names);
     }
 }

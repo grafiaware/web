@@ -46,7 +46,7 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         $companyData = new RowData();
         $companyData->offsetSet( 'name' , "pomocna pro PozadovaneVzdelaniTest"  );
         $companyDao->insert($companyData);
-        self::$companyIdTouple = $companyDao->getPrimaryKey($companyData->getArrayCopy());
+        self::$companyIdTouple = $companyDao->getLastInsertedPrimaryKey();
     }
 
 
@@ -91,12 +91,7 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         $rowData->offsetSet( 'stupen' , "101"  );
         $rowData->offsetSet( 'vzdelani' , "AAAAAB"  );
         $this->dao->insert($rowData);
-        /** @var RowData $rowD */
-        $rowD =  $this->dao->get( ['stupen' => "101"] );
-
-
-        $rowArray = $rowD->getArrayCopy();
-        self::$pozadovaneVzdelaniTouple =  $this->dao->getPrimaryKey($rowArray);
+        self::$pozadovaneVzdelaniTouple =  $this->dao->getLastInsertedPrimaryKey();
         $this->assertIsArray(self::$pozadovaneVzdelaniTouple);
 
         $numRows = $this->dao->getRowCount();
@@ -109,7 +104,7 @@ class  PozadovaneVzdelaniDaoTest extends AppRunner {
         $jobData = new RowData();
         $jobData->import( ['pozadovane_vzdelani_stupen' => 101, 'company_id' =>self::$companyIdTouple['id']] );
         $jobDao->insert($jobData);
-        self::$jobIdTouple = $jobDao->getPrimaryKey($jobData->getArrayCopy());
+        self::$jobIdTouple = $jobDao->getLastInsertedPrimaryKey();
    }
 
 

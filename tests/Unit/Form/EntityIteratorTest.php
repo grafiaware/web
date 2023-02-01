@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Tests\Unit\Form\EntityIteratorTest;
 
 use PHPUnit\Framework\TestCase;
 
@@ -40,7 +41,7 @@ class EntityIteratorTest extends TestCase {
 
     ############################
     #
-    # test není unit, používí Hydrator
+    # test není unit, používá Hydrator
     #
     ############################
 
@@ -56,15 +57,5 @@ class EntityIteratorTest extends TestCase {
         }
         $array = iterator_to_array($entityIterator);
         $this->assertEquals($testArray, $array);
-    }
-
-    public function testGetArrayCopy() {
-        $entity = new Entka();
-        $entity->setPrvni('raz');
-        $entity->setDruhy('dva');
-        $hydrator = new Hydrator();
-        $entityIterator = new EntityIterator($entity, $hydrator);
-        $array = $entityIterator->getArrayCopy();
-        $this->assertEquals(['prvni'=>'raz', 'druhy'=>'dva'], $array);
     }
 }

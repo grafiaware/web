@@ -1,7 +1,7 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Component\Renderer\Html\Content\Authored\Paper\ElementWrapper;
-use Component\Renderer\Html\Content\Authored\Paper\PaperButtonsRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\ElementWrapper;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PaperButtonsRenderer;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var ElementWrapper $elementWrapper */

@@ -9,55 +9,55 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 use Pes\View\Renderer\PhpTemplateRenderer;
 
-use Component\Renderer\Html\Menu\MenuRenderer;
-use Component\Renderer\Html\Menu\LevelRenderer;
+use Red\Component\Renderer\Html\Menu\MenuRenderer;
+use Red\Component\Renderer\Html\Menu\LevelRenderer;
 
-use Component\Renderer\Html\Menu\ItemRenderer;
-use Component\Renderer\Html\Menu\ItemRendererEditable;
-use Component\Renderer\Html\Menu\ItemBlockRenderer;
-use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
-use Component\Renderer\Html\Menu\ItemTrashRenderer;
-use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemRenderer;
+use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemBlockRenderer;
+use Red\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
+use Red\Component\Renderer\Html\Menu\ItemTrashRenderer;
+use Red\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
-use Component\Renderer\Html\Content\Authored\Paper\ButtonsRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
-use Component\Renderer\Html\Manage\SelectTemplateRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\ButtonsRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
+use Red\Component\Renderer\Html\Manage\SelectTemplateRenderer;
 
-use Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\SectionsRenderer;
-use Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
-use Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PerexRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
 
-use Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
-use Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
 
-use Component\Renderer\Html\Content\Authored\Multipage\MultipageRenderer;
-use Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Multipage\MultipageRenderer;
+use Red\Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEditable;
 
-use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
-use Component\Renderer\Html\Manage\EditContentSwitchOffRenderer;
-use Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
+use Red\Component\Renderer\Html\Manage\EditContentSwitchRenderer;
+use Red\Component\Renderer\Html\Manage\EditContentSwitchOffRenderer;
+use Red\Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
 
-use Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
-use Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
-use Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
-use Component\Renderer\Html\Manage\ButtonsMenuPasteMultilevelRenderer;
-use Component\Renderer\Html\Manage\ButtonsMenuPasteOnelevelRenderer;
-use Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
-use Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
-use Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuPasteMultilevelRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuPasteOnelevelRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 
-use Component\Renderer\Html\Generated\LanguageSelectRenderer;
-use Component\Renderer\Html\Generated\SearchPhraseRenderer;
-use Component\Renderer\Html\Generated\SearchResultRenderer;
-use Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
+use Red\Component\Renderer\Html\Generated\LanguageSelectRenderer;
+use Red\Component\Renderer\Html\Generated\SearchPhraseRenderer;
+use Red\Component\Renderer\Html\Generated\SearchResultRenderer;
+use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
 
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\View\Renderer\InterpolateRenderer;
-use Component\Renderer\Html\NoPermittedContentRenderer;
+use Red\Component\Renderer\Html\NoPermittedContentRenderer;
 
 /**
  *

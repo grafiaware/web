@@ -6,11 +6,11 @@
  * and open the template in the editor.
  */
 
-namespace Component\Renderer\Html\Paper;
+namespace Red\Component\Renderer\Html\Paper;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
-use Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
+use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
+use Red\Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
 
 use Pes\Text\Html;
 

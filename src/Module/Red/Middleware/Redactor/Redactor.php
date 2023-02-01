@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Container\WebContainerConfigurator;
 
-use Container\ApiContainerConfigurator;
+use Container\RedApiContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 use Container\MailContainerConfigurator;
@@ -164,7 +164,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
     private function prepareProcessPost() {
         $this->container =
-                (new ApiContainerConfigurator())->configure(
+                (new RedApiContainerConfigurator())->configure(
                     (new RedModelContainerConfigurator())->configure(
                        (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(

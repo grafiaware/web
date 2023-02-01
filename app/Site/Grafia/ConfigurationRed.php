@@ -9,9 +9,9 @@
 namespace Site\Grafia;
 
 use Application\WebAppFactory;
-use Component\View\Generated\LanguageSelectComponent;
-use Component\View\Generated\SearchPhraseComponent;
-use Component\View\Flash\FlashComponent;
+use Red\Component\View\Generated\LanguageSelectComponent;
+use Red\Component\View\Generated\SearchPhraseComponent;
+use Red\Component\View\Flash\FlashComponent;
 
 /**
  * Description of Configuration

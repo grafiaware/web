@@ -35,14 +35,14 @@ interface RowDataInterface extends \IteratorAggregate, \ArrayAccess, \Serializab
      *
      * @return array
      */
-    public function fetchChangedNames(): array;
+    public function fetchChanged(): array;
 
     /**
      * Vrací nový ArrayObject obsahující změněné hodnoty. Původní RowData objekt zůstane nezměněn, ani evidované změny (changedNames()) se nemění.
      *
      * @return \ArrayObject
      */
-    public function yieldChangedRowData(): \ArrayObject;
+    public function yieldChangedAsArrayObject(): \ArrayObject;
     
     /**
      * Přidá všechny položky iterable parametru. Všechna importovaná data přídá jako nové hodnoty.

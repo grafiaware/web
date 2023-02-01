@@ -43,7 +43,7 @@ class RowData extends \ArrayObject implements RowDataInterface {
      *
      * @return array
      */
-    public function fetchChangedNames(): array {
+    public function fetchChanged(): array {
         $changed = $this->changed;
         $this->flipData();
         return $changed;
@@ -125,7 +125,7 @@ class RowData extends \ArrayObject implements RowDataInterface {
      *
      * @return \ArrayObject
      */
-    public function yieldChangedRowData(): \ArrayObject {
+    public function yieldChangedAsArrayObject(): \ArrayObject {
 //        return new \ArrayObject(array_intersect_key($this->getArrayCopy(), array_flip($this->changed)));
         return new \ArrayObject($this->changed);
     }

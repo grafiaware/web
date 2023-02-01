@@ -36,9 +36,9 @@ class Hydrator implements HydratorInterface {
      * Existující data přepíše, neexistující data přidá. Data navíc v argumentu $data nevadí.
      *
      * @param EntityInterface $entity
-     * @param RowDataInterface $data
+     * @param ArrayAccess $data
      */
-    public function extract(EntityInterface $entity, RowDataInterface $data) {
+    public function extract(EntityInterface $entity, ArrayAccess $data) {
         foreach (get_class_methods(get_class($entity)) as $methodName) {
             if (strpos($methodName, 'get') === 0) {
                 $camelCaseName = substr($methodName, 3);                   // setRazDva -> RazDva
