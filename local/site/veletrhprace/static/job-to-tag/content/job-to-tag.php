@@ -53,37 +53,29 @@ use Moje\MojeHTML;
                         </div>
                         
                         <button class='ui primary button' type='submit' formaction='events/v1/jobtotag/<?= $jobId ?>' > Přidat typ </button> 
-                        <button class='ui primary button' type='submit' formaction='events/v1/jobtotag/<?= $jobId ?>/remove' > Odstranit typ </button>                                                                    
-                        <hr/><br/><br/>                                  
+                        <button class='ui primary button' type='submit' formaction='events/v1/jobtotag/<?= $jobId ?>/remove' > Odstranit typ </button>                                                                                                                            
                 </div>          
-            </div>                  
+            </div> 
+            <?php 
+             $allTags = [];
+             foreach ($selectJobTags as $val) {
+                $allTags[$val] = [$val => $val] ;
+             }
+             //$jobTagTags
+             $checkTags= [];
+             foreach ($jobTagTags as $val) {
+                $checkTags[] = [$val => $val] ;
+             }
+             
+            ?>
+            <?= Html::checkbox( $allTags ,
+                                [ 'manažerská/vedoucí'=>'manažerská/vedoucí', 'technická'=>'technická']); ?> 
+            <br/>
+            <?= Html::checkbox( [ str_pad("Tag_1 ",36,"&nbsp;") =>['technická'=>'technická'], 
+                                  str_pad("Tag_2 ",36,"&nbsp;") =>['manažerská/vedoucí'=>'manažerská/vedoucí'] ] ,
+                                [ 'manažerská/vedoucí'=>'manažerská/vedoucí'] ); ?>
+            
         </form>     
-<?php }  ?>   
-
- 
-    
-<?php         
-  //  Html::checkbox($checkboxsetLabelsNameValuePairs, $context);
-   $pp = ['technická'=>'technická', 'manažerská/vedoucí'=>'manažerská/vedoucí'];
-   // Html::checkbox($pp , ['technická', 'manažerská/vedoucí'] );
-    MojeHtml::checkbox($pp , ['technická', 'manažerská/vedoucí'] );        
- ?>  
-
-
-    <!--    < ?php
-            if($readonly === '') { ?>
-            <div>
-                < ?=
-                 isset($jobId) ?                 
-                "<button class='ui primary button' type='submit' formaction='events/v1/jobtotag/". $jobTagTag . "/" . $jobId  ."/remove' > Odstranit </button>" :    
-                "<button class='ui primary button' type='submit' formaction='events/v1/jobtotag' > Uložit </button>" ;                    
-    
-                 isset($companyId) ?                 
-                "<button class='ui primary button' type='submit' formaction='events/v1/representative/". $loginLoginName . "/" . $companyId  ."/remove' > Odstranit representanta </button>" :    
-                "<button class='ui primary button' type='submit' formaction='events/v1/representative' > Uložit </button>" ;                
-               
-                ?>                                                                                                                                                                                                                                                 
-            </div>
-            < ?php }  ?>
-    -->
-      
+        <br/> <br/>
+<?php } 
+?>   
