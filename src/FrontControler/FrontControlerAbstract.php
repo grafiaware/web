@@ -267,18 +267,23 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     }
 
     /**
-     * Pokud uživatel má nastavenu roli a tato role je definována v permissions - vrací roli uživatele.
-     * Pokud uživatek nemá nastavenu roli nebo jeho role není uvedena v permissions, zjistí jestli je v permission nastavena oprávnění pro roli 'everyone!, pokud ano, vrací roli 'everyone'.
+     * Pro přihlášeného uživatele:
+     *  - pokud uživatel má nastavenu roli a tato role je definována v permissions - vrací roli uživatele
+     *  - pokud uživatel nemá nastavenu roli nebo jeho role není uvedena v permissions - vrací roli AUTHENTICATED
+     *
+     * Pokud uživatel není přihlášen, vrací roli ANONYMOUS
      *
      * @param type $role
      * @param type $permissions
      * @return type
      */
     private function getActiveRole($logged, $role, $permissions) {
-        if (isset($role) AND array_key_exists($role, $permissions)){
-            $ret = $role;
-        } elseif($logged){
-            $ret = RoleEnum::AUTHENTICATED;
+        if($logged){
+            if (isset($role) AND array_key_exists($role, $permissions)){
+                $ret = $role;
+            } else {
+                $ret = RoleEnum::AUTHENTICATED;
+            }
         } else {
             $ret = RoleEnum::ANONYMOUS;
         }
