@@ -1,6 +1,5 @@
 <?php
-//namespace Pes\Text;
-//use Pes\Text\Html;
+namespace Moje;
 
 /**
  * Description of mojeHTML

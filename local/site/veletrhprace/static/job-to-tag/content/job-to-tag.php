@@ -8,6 +8,8 @@ use Pes\Text\Html;
 use Events\Model\Entity\JobTagInterface;
 use Events\Model\Repository\JobTagRepo;
 
+use Moje\MojeHTML;
+
 
 
 /** @var PhpTemplateRendererInterface $this */
@@ -64,7 +66,7 @@ use Events\Model\Repository\JobTagRepo;
   //  Html::checkbox($checkboxsetLabelsNameValuePairs, $context);
    $pp = ['technická'=>'technická', 'manažerská/vedoucí'=>'manažerská/vedoucí'];
    // Html::checkbox($pp , ['technická', 'manažerská/vedoucí'] );
-   // MojeHtml::checkbox($pp , ['technická', 'manažerská/vedoucí'] );        
+    MojeHtml::checkbox($pp , ['technická', 'manažerská/vedoucí'] );        
  ?>  
 
 
