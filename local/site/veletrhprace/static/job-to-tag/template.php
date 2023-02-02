@@ -54,18 +54,18 @@ use Events\Model\Entity\LoginInterface;
 //    ------------------------------------------------
         $idCompany = 10 ;
 //    ------------------------------------------------
-        $selectJobTags =[];   
+
+        $allTags=[]; 
         $jobTagEntities = $jobTagRepo->findAll();
         /** @var JobTagInterface  $jobTagEntity */ 
         foreach ( $jobTagEntities as $jobTagEntity) {
-            $selectJobTags [] =  $jobTagEntity->getTag() ;
+            $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getTag()] ;
         }
         
         /** @var CompanyInterface $companyEntity */ 
         $companyEntity = $companyRepo->get($idCompany);
         if (isset ($companyEntity)) {   
-          // pro company - $idCompany najit vsechny jeji joby                                  
-                        
+            // pro company - $idCompany najit vsechny jeji joby                                                          
             $jobCompanyEntities = $jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
             if ($jobCompanyEntities) { 
                 
@@ -73,38 +73,28 @@ use Events\Model\Entity\LoginInterface;
                 foreach ($jobCompanyEntities as $jobEntity) {      
                     /** @var JobInterface $jobEntity */
                     $jobToTagEntities_proJob = $jobToTagRepo->findByJobId( $jobEntity->getId() );
-                                            
-                    $jobTagies_proJob=[];    //nalepky pro job//pro zobrazeni
+                                    
+                    $checkTags=[];   //nalepky pro 1 job
                     foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
                         /** @var JobToTagInterface $jobToTagEntity */
-                    // $i = $jobToTagEntity->getJobId();
-                    // $job = $jobRepo->get($i);
-                        $jobTagies_proJob[ /*$jobToTagEntity->getJobId()*/ ] = $jobToTagEntity->getJobTagTag();
+                    // $i = $jobToTagEntity->getJobId(); // $job = $jobRepo->get($i);
+                        $checkTags[$jobToTagEntity->getJobTagTag()] = $jobToTagEntity->getJobTagTag() ;
                     }                      
                     $jobToTagies[] = [
                             'jobId' => $jobEntity->getId(),
-                            'jobNazev' => $jobEntity->getNazev(),                    
-                            'jobTagTags' => $jobTagies_proJob,
-                            'selectJobTags'  => $selectJobTags
+                            'jobNazev' => $jobEntity->getNazev(),                              
+                            'allTags'=>$allTags,
+                            'checkTags'=>$checkTags,
                     ];                                       
                 }//$jobEntity
-            }     
-    //------------------------------------------------------------------
-//    $selectCompanyJobs =[];   
-//        /** @var JobInterface $job */ 
-//    foreach ( $jobCompanyEntities as $job) {
-//        $selectCompanyJobs [$job->getId()] =  $job->getNazev() ;
-//    }           
-//    $selecty['selectCompanyJobs'] = $selectCompanyJobs;
-//    $selecty['selectJobTags']  = $selectJobTags;         
-    //------------------------------------------------------------------       
+            }                   
        
   ?>
     <div>
     <div class="ui styled fluid accordion">
  
         <section>          
-            Přiřazení typu k nabízeným pozicím
+            Přiřaďte typy k nabízeným pozicím
             <div class="content">      
                 <?= $this->repeat(__DIR__.'/content/job-to-tag.php',  $jobToTagies  )  ?>
             </div>
@@ -137,7 +127,7 @@ use Events\Model\Entity\LoginInterface;
                             "Label2"=>['manažerská/vedoucí'=>'manažerská/vedoucí']] ,
                            ['manažerská/vedoucí'=>'manažerská/vedoucí']  ) ?>  
         <br/>
-        <?= MojeHtml::checkbox( ["Label1"=>['technická'=>'technická'], 
+        <?= MojeHTML::checkbox( ["Label1"=>['technická'=>'technická'], 
                                  "Label2"=>['manažerská/vedoucí'=>'manažerská/vedoucí']] ,
                                 ['technická'=>'technická'] ) ?>         
   

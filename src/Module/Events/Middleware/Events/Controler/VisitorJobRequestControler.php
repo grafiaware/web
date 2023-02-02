@@ -190,7 +190,6 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
                         $cvDocument->setDocument($cvDocumentFromProfile->getDocument());
                         $cvDocument->setDocumentFilename($cvDocumentFromProfile->getDocumentFilename());
                         $cvDocument->setDocumentMimetype($cvDocumentFromProfile->getDocumentMimetype());
-                        $this->documentRepo->add($cvDocument);
 
                         $visitorJobRequestData->setCvDocument($cvDocument->getId());
                     }    
@@ -209,7 +208,6 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
                         $letterDocument->setDocument($letterDocumentFromProfile->getDocument());
                         $letterDocument->setDocumentFilename($letterDocumentFromProfile->getDocumentFilename());
                         $letterDocument->setDocumentMimetype($letterDocumentFromProfile->getDocumentMimetype());                    
-                        $this->documentRepo->add($letterDocument);
 
                         $visitorJobRequestData->setLetterDocument($letterDocument->getId());
                     }
@@ -355,7 +353,6 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
                                  /** @var DocumentInterface $documentCv */
                                 $documentCv = $this->container->get(Document::class); //   new Document();
                                 $this->documentRepo->add($documentCv);
-                                //$documentCvId = $documentCv->getId();  
                                                                 
                                 $this->hydrateVisitorJobRequestDataByFile($file, self::UPLOADED_KEY_CV, $documentCv, $visitorJobRequest);
                                 break;
@@ -364,7 +361,6 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
                                 /** @var  DocumentInterface  $documentLetter */
                                 $documentLetter = $this->container->get(Document::class); //   new Document();
                                 $this->documentRepo->add($documentLetter);
-                                $documentLetterId = $documentLetter->getId;  
                                 
                                 $this->hydrateVisitorJobRequestDataByFile($file, self::UPLOADED_KEY_LETTER, $documentLetter, $visitorJobRequest);
                                 break;
