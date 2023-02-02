@@ -71,8 +71,15 @@ class JobControler extends FrontControlerAbstract {
      * @var PozadovaneVzdelaniRepoInterface
      */
     private $pozadovaneVzdelaniRepo;
-    
+    /**
+     * 
+     * @var JobToTagRepoInterface
+     */
     private $jobToTagRepo;
+    /**
+     * 
+     * @var JobTagRepoInterface
+     */
     private $jobTagRepo;
 
                   
@@ -94,7 +101,9 @@ class JobControler extends FrontControlerAbstract {
             CompanyRepoInterface $companyRepo,           
             RepresentativeRepoInterface $representativeRepo,
             PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo,            
-            JobRepoInterface $jobRepo
+            JobRepoInterface $jobRepo,
+            JobToTagInterface $jobToTagRepo,
+            JobTagInterface $jobTagRepo
             
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
@@ -102,6 +111,8 @@ class JobControler extends FrontControlerAbstract {
         $this->representativeRepo = $representativeRepo;
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;
         $this->jobRepo = $jobRepo;
+        $this->jobToTagRepo = $jobToTagRepo;
+        $this->jobTagRepo = $jobTagRepo;
     }
     
    
@@ -279,6 +290,23 @@ class JobControler extends FrontControlerAbstract {
                 }
             }            
             if ($isRepresentative) {
+                                
+                $allTags = $this->jobTagRepo->findAll();
+                /** @var JobTagInterface $tag */
+                foreach ($allTags as $tag) {
+                    
+                    
+                    
+                }
+                
+                $allJobToTags = $this->jobToTagRepo->findByJobId($idJob);
+                /** @var JobToTagInterface $jobToTag */
+                foreach ($allJobToTags as $jobToTag) {
+                    
+                    
+                    
+                }
+                
                 
                 
                 
