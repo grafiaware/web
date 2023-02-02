@@ -77,7 +77,7 @@ if (isset($loginAggregate)) {
         $presenterJobs = array();
         $shortName = $presenterPerson['shortName'];  // každý s rolí presenter musí existovat v modelu jako presenterPerson
         foreach ($jobModel->getCompanyJobList($shortName) as $job) {
-            $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
+            $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
         } // toto $jobs nepouzite, nize jsou data prirazena z db
         //$presenterPerson dale nepouzite     
     //-------------------------------------------    
@@ -161,7 +161,7 @@ if (isset($loginAggregate)) {
                 foreach ($jTTs as $jTT)  {
                     $jb['kategorie'][] = $jTT->getJobTagTag();
                 }
-                $jobsI[] = array_merge($jb, ['container' => $container ] ); 
+                $jobsI[] = array_merge($jb, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER} ] ); 
             } //foreach
             
             $jobs = $jobsI;            

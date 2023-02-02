@@ -32,14 +32,14 @@ use Red\Component\View\Content\Authored\AuthoredComponentInterface;
 use Red\Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
 
-use Red\Service\TemplateService\Exception\TemplateServiceExceptionInterface;
+use Template\Seeker\Exception\TemplateServiceExceptionInterface;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
-use Red\Service\TemplateService\TemplateSeekerInterface;
+use Template\Seeker\TemplateSeekerInterface;
 use Red\Model\Enum\AuthoredTemplateTypeEnum;
 
 use Pes\Text\Message;
@@ -247,6 +247,6 @@ class TemplateControler extends FrontControlerAbstract {
                 user_error("Neexistuje soubor šablony '$templatePath'", E_USER_WARNING);
                 $this->setTemplate(null);
             }
-        return new PhpTemplate(ConfigurationCache::templateController()['templates.paperFolder']."$name/".ConfigurationCache::templateController()['templates.defaultExtension']);
+        return new PhpTemplate(ConfigurationCache::templates()['templates.paperFolder']."$name/".ConfigurationCache::templates()['templates.defaultExtension']);
     }
 }

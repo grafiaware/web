@@ -41,14 +41,14 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     $presenterJobs = $jobModel->getCompanyJobList($shortName);
     $jobs = [];
     foreach ($presenterJobs as $job) {
-        $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName /*, 'block' => $block*/ ] );  // přidání $container a $shortName pro template pozice
+        $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName /*, 'block' => $block*/ ] );  // přidání $container a $shortName pro template pozice
     }
     $allJobs[] = [
                 'shortName' => $shortName,
                 'presenterName' => $presenterModel->getCompany($shortName)['name'],
                 //'block' => $block,
                 'presenterJobs' => ['jobs' => $jobs],
-                'container' => $container
+                'container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}
             ];
     //$allJobs nepouzito
 }
@@ -86,7 +86,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
             foreach ($jTTs as $jTT)  {
                 $jb['kategorie'][] = $jTT->getJobTagTag();
             }
-            $jobsI[] = array_merge($jb, ['container' => $container, /*, 'block' => $block*/ ] ); 
+            $jobsI[] = array_merge($jb, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, /*, 'block' => $block*/ ] ); 
 
         }
         
@@ -97,7 +97,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
                 'presenterName' => $companyEntity->getName(),
                 //'block' => $block,
                 'presenterJobs' => ['jobs' => $jobsI],
-                'container' => $container                               
+                'container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}                               
                 ];
     }
 ?>

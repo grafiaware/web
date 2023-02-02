@@ -270,7 +270,7 @@ class ConfigurationRed extends ConfigurationDb {
      * Konfigurace - parametry pro templateController
      * @return array
      */
-    public static function templateController() {
+    public static function templates() {
 
         return [
                 'templates.defaultExtension' => '.php',
