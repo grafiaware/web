@@ -14,7 +14,7 @@ $jobModel = new JobArrayModel();
 foreach ($jobModel->getCompanyJobList($shortName) as $job) {
     $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
 }
-'container' => $container
+
 ?>
 
 <article class="paper">

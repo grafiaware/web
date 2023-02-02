@@ -8,7 +8,7 @@ include 'data.php';
 
 $jobModel = new JobArrayModel();
 foreach ($jobModel->getCompanyJobList($shortName) as $job) {
-    $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
+    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
 }
 
 ?>
