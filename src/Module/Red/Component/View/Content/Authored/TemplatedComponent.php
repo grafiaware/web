@@ -12,10 +12,10 @@ use Configuration\ComponentConfigurationInterface;
 use Red\Component\ViewModel\StatusViewModelInterface;
 
 use Access\AccessPresentationInterface;
-use Red\Service\TemplateService\TemplateSeekerInterface;
+use Template\Seeker\TemplateSeekerInterface;
 
-use Red\Service\TemplateService\Exception\Red\Service\TemplateServiceExceptionInterface;
-use Red\Service\TemplateService\Exception\TemplateNotFoundException;
+use Template\Seeker\Exception\Red\Service\TemplateServiceExceptionInterface;
+use Template\Seeker\Exception\TemplateNotFoundException;
 
 use Pes\View\Template\PhpTemplate;
 

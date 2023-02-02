@@ -34,6 +34,9 @@ use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\JobRepo;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 
+// service
+use Template\Compiler\TemplateCompiler;
+
 /**
  *
  *
@@ -63,44 +66,46 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new EventcontentControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class))
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(TemplateCompiler::class)
+                        )
                     )->injectContainer($c);  // inject component kontejner
-            }, 
-                    
+            },
+
             VisitorProfileControler::class => function(ContainerInterface $c) {
                 return (new VisitorProfileControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class), 
-                        $c->get(VisitorProfileRepo::class), 
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(VisitorProfileRepo::class),
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(DocumentRepo::class),
                         $c->get(RepresentativeRepo::class),
                         $c->get(JobRepo::class)
                         )
                        )->injectContainer($c);
-            },            
-                    
-                    
+            },
+
+
             VisitorJobRequestControler::class => function(ContainerInterface $c) {
                 return (new VisitorJobRequestControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class), 
-                        $c->get(VisitorProfileRepo::class), 
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(VisitorProfileRepo::class),
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(DocumentRepo::class),
                         $c->get(RepresentativeRepo::class),
                         $c->get(JobRepo::class)
                         )
                        )->injectContainer($c);
-            },                    
-                    
+            },
+
             CompanyControler::class => function(ContainerInterface $c) {
                 return (new CompanyControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class), 
+                        $c->get(StatusPresentationRepo::class),
                         $c->get(CompanyRepo::class),
                         $c->get(CompanyContactRepo::class),
                         $c->get(CompanyAddressRepo::class),
@@ -108,33 +113,36 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },
-                    
+
             JobControler::class => function(ContainerInterface $c) {
-                return (new JobControler(          
+                return (new JobControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class), 
-                        
-                        $c->get(CompanyRepo::class),                       
+                        $c->get(StatusPresentationRepo::class),
+
+                        $c->get(CompanyRepo::class),
                         $c->get(RepresentativeRepo::class),
                         $c->get(PozadovaneVzdelaniRepo::class),
                         $c->get(JobRepo::class)
                         )
                        )->injectContainer($c);
             },
-                                       
-                    
+
+
 
             DocumentControler::class => function(ContainerInterface $c) {
                 return (new DocumentControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class), 
-           
-                        $c->get(DocumentRepo::class)                                                                      
+                        $c->get(StatusPresentationRepo::class),
+
+                        $c->get(DocumentRepo::class)
                         )
                        )->injectContainer($c);
-            }            
+            },
+            TemplateCompiler::class => function(ContainerInterface $c) {
+                return new TemplateCompiler();
+            },
         ];
     }
 

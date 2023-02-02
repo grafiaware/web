@@ -1,6 +1,7 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregateInterface;
+use Template\Compiler\TemplateCompilerInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
@@ -11,9 +12,9 @@ include 'data.php';
 
 $jobModel = new JobArrayModel();
 foreach ($jobModel->getCompanyJobList($shortName) as $job) {
-    $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
+    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
 }
-
+'container' => $container
 ?>
 
 <article class="paper">

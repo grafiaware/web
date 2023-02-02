@@ -68,8 +68,8 @@ class ConfigurationCache {
                 case 'componentController':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::componentController();
                     break;
-                case 'templateController':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::templateController();
+                case 'templates':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::templates();
                     break;
                 case 'filesUploadController':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::filesUploadController();
@@ -206,8 +206,8 @@ class ConfigurationCache {
         return self::getConfigModule('componentController');
     }
 
-    public static function templateController() {
-        return self::getConfigModule('templateController');
+    public static function templates() {
+        return self::getConfigModule('templates');
     }
 
     public static function filesUploadController() {

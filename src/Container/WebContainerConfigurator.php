@@ -168,7 +168,8 @@ use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Repository\MultipageRepo;
 
 // template service
-use Red\Service\TemplateService\TemplateSeeker;
+use Template\Seeker\TemplateSeeker;
+use Template\Compiler\TemplateCompiler;
 
 // view
 use Pes\View\View;
@@ -197,7 +198,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 ConfigurationCache::component(),
                 ConfigurationCache::menu(),
 //                Configuration::renderer(),
-                ConfigurationCache::templateController()
+                ConfigurationCache::templates()
                 );
     }
 
@@ -884,8 +885,10 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new ComponentControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class))
-                        )->injectContainer($c);  // inject component kontejner
+                            $c->get(StatusPresentationRepo::class),
+                            $c->get(TemplateCompiler::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
             },
             // pro template controler
              TemplateControlerConfiguration::class => function(ContainerInterface $c) {
@@ -894,9 +897,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('templates.folders')
                         );
             },
-            TemplateSeeker::class => function(ContainerInterface $c) {
-                return new TemplateSeeker($c->get(TemplateControlerConfiguration::class));
-            },
+
             TemplateControler::class => function(ContainerInterface $c) {
                 return (new TemplateControler(
                             $c->get(StatusSecurityRepo::class),
@@ -905,7 +906,12 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(TemplateSeeker::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-
+            TemplateSeeker::class => function(ContainerInterface $c) {
+                return new TemplateSeeker($c->get(TemplateControlerConfiguration::class));
+            },
+            TemplateCompiler::class => function(ContainerInterface $c) {
+                return new TemplateCompiler();
+            },
         ####
         # view factory
         #
