@@ -1,4 +1,6 @@
 <?php
+use Template\Compiler\TemplateCompilerInterface;
+
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */

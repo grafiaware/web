@@ -1,4 +1,5 @@
 <?php
+use Template\Compiler\TemplateCompilerInterface;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregateInterface;

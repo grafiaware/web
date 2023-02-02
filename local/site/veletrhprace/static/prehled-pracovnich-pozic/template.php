@@ -3,6 +3,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 use Site\ConfigurationCache;
+use Template\Compiler\TemplateCompilerInterface;
 
 use Events\Model\Arraymodel\JobArrayModel;
 use Events\Model\Arraymodel\Presenter;
@@ -36,7 +37,7 @@ $jobModel = $container->get( JobArrayModel::class );
 //--------------------------------------------------------------- PUVODNI array model----
 foreach ($jobModel->getShortNamesList() as $shortName) {
 // SVOBODA - čeká ba Red databázi - slouží pro generování odkazů na stránku firmy
-//    
+//
 //    $block = $blockRepo->get($shortName);
     $presenterJobs = $jobModel->getCompanyJobList($shortName);
     $jobs = [];
@@ -59,37 +60,37 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
     /** @var JobToTagRepo $jobToTagRepo */
-    $jobToTagRepo = $container->get(JobToTagRepo::class );       
+    $jobToTagRepo = $container->get(JobToTagRepo::class );
 
-    $companyListArray = $presenterModel->getCompanyListI(); 
-    foreach ($companyListArray as $companyEntity ) {                
-        $companyJobs = $jobModel->getCompanyJobListI($companyEntity->getId());        
+    $companyListArray = $presenterModel->getCompanyListI();
+    foreach ($companyListArray as $companyEntity ) {
+        $companyJobs = $jobModel->getCompanyJobListI($companyEntity->getId());
         $jobsI = [];
         foreach ($companyJobs as $jobI) {
          /** @var JobEntity  $jobI */
-            $jb = [];      
+            $jb = [];
             $jb['jobId'] = $jobI->getId();
             $jb['companyId'] = $jobI->getCompanyId();
             $jb['shortName'] = $companyEntity->getName();
-            
+
             $jb['nazev'] = $jobI->getNazev();
             $jb['mistoVykonu'] = $jobI->getMistoVykonu();
             $jb['nabizime'][] = $jobI->getNabizime();
-            $jb['popisPozice'] = $jobI->getPopisPozice();            
+            $jb['popisPozice'] = $jobI->getPopisPozice();
             /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
             $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
-            $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;          
-            $jb['pozadujeme'][] = $jobI->getPozadujeme();      
-            
+            $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;
+            $jb['pozadujeme'][] = $jobI->getPozadujeme();
+
             $jTTs = $jobToTagRepo->findByJobId($jobI->getId());
             /** @var JobToTag  $jTT */
             foreach ($jTTs as $jTT)  {
                 $jb['kategorie'][] = $jTT->getJobTagTag();
             }
-            $jobsI[] = array_merge($jb, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, /*, 'block' => $block*/ ] ); 
+            $jobsI[] = array_merge($jb, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, /*, 'block' => $block*/ ] );
 
         }
-        
+
         /** @var Company $companyEntity */
         $allJobsI[] = [
                 'companyId' => $companyEntity->getId(),
@@ -97,7 +98,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
                 'presenterName' => $companyEntity->getName(),
                 //'block' => $block,
                 'presenterJobs' => ['jobs' => $jobsI],
-                'container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}                               
+                'container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}
                 ];
     }
 ?>
@@ -111,7 +112,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
         </perex>
     </section>
     <section>
-        <content class='prehled-pozic'>            
+        <content class='prehled-pozic'>
             <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobsI);  ?>
 
         </content>
