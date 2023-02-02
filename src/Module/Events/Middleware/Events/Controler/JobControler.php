@@ -17,11 +17,17 @@ use Events\Model\Repository\RepresentativeRepoInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Repository\JobToTagRepoInterface;
+use Events\Model\Repository\JobTagRepoInterface;
 
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Entity\Representative;
 use Events\Model\Entity\JobInterface;
 use Events\Model\Entity\Job;
+use Events\Model\Entity\JobToTag;
+use Events\Model\Entity\JobToTagInterface;
+use Events\Model\Entity\JobTag;
+use Events\Model\Entity\JobTagInterface;
 
 use Status\Model\Enum\FlashSeverityEnum;
 
@@ -65,6 +71,9 @@ class JobControler extends FrontControlerAbstract {
      * @var PozadovaneVzdelaniRepoInterface
      */
     private $pozadovaneVzdelaniRepo;
+    
+    private $jobToTagRepo;
+    private $jobTagRepo;
 
                   
     /**
@@ -187,7 +196,7 @@ class JobControler extends FrontControlerAbstract {
                 $job->setPozadujeme((new RequestParams())->getParsedBodyParam($request, 'pozadujeme'));
                 $job->setNabizime((new RequestParams())->getParsedBodyParam($request, 'nabizime'));   
                 
-                $this->jobRepo->add($job);
+                //$this->jobRepo->add($job);
                 
             } else {
                 $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
@@ -243,8 +252,56 @@ class JobControler extends FrontControlerAbstract {
     
     
     
-    
-    
+        
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $idJob
+     * @return type
+     */
+    public function processingJobToTag (ServerRequestInterface $request, $idJob) {                   
+        $isRepresentative = false;
+        
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();
+        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse();
+            return $response->withStatus(401);  // Unauthorized
+        } else {                                   
+            $loginName = $loginAggregateCredentials->getLoginName();            
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
+            
+            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
+                            $isRepresentative = true; 
+                }
+            }            
+            if ($isRepresentative) {
+                
+                
+                
+//                /** @var JobInterface $job */
+//                $job = $this->jobRepo->get( $idJob );
+//                
+//                // POST formularova data                                                            
+//                $job->setPozadovaneVzdelaniStupen((new RequestParams())->getParsedBodyParam($request, 'pozadovane-vzdelani-stupen'));
+//                $job->setNazev((new RequestParams())->getParsedBodyParam($request, 'nazev'));
+//                $job->setMistoVykonu((new RequestParams())->getParsedBodyParam($request, 'misto-vykonu'));
+//                $job->setPopisPozice((new RequestParams())->getParsedBodyParam($request, 'popis-pozice'));
+//                $job->setPozadujeme((new RequestParams())->getParsedBodyParam($request, 'pozadujeme'));
+//                $job->setNabizime((new RequestParams())->getParsedBodyParam($request, 'nabizime'));   
+//                
+//                //$this->jobRepo->add($job);
+                
+            } else {
+                $this->addFlashMessage("Údaje o typech nabízených pozic smí editovat pouze representant vystavovatele.");
+            }
+            
+        }
+        return $this->redirectSeeLastGet($request);
+    }
     
     
     

@@ -212,15 +212,7 @@ if (isset($loginAggregate)) {
 
 
         <div class="title">
-        <!--   $isRepresentative   je reprezentantem  firmy   -->   
-        <?php
-            if ($isRepresentative) {  ?>
-                <?= "**I** Přihlášený " . $loginName. " JE representantem " . " vystavovatele " . $shortName ?>
-        <?php } else { ?>
-                <?= !($isVisitor) ? "**I** Přihlášený " .$loginName. " NENÍ representantem "  . " vystavovatele " . $shortName : "" ?>
-        <?php }  ?>
-           
-             
+       
             
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag_2.php', isset($kategorie) ? $kategorie : [] , 'seznam') ?>

@@ -168,7 +168,6 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId/remove'));   
         
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtotag/:jobId'));   
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtotag/:jobId/remove'));   
         
                
         

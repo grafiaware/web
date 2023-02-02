@@ -180,9 +180,7 @@ class CompanyControler extends FrontControlerAbstract {
                 $company = $this->companyRepo->get( $idCompany );                
                 // POST formularovadata
                 $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $company->setEventInstitutionName30( (new RequestParams())->getParsedBodyParam($request, 'eventInstitutionName30') );
-                                     
-                $this->companyContactRepo->add($companyContact);
+                $company->setEventInstitutionName30( (new RequestParams())->getParsedBodyParam($request, 'eventInstitutionName30') );                                                     
                 
 //            } else {
 //                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
@@ -321,7 +319,6 @@ class CompanyControler extends FrontControlerAbstract {
                 $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
                 $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));
                 
-                $this->companyContactRepo->add($companyContact);
                 
             } else {
                 $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
@@ -470,7 +467,6 @@ class CompanyControler extends FrontControlerAbstract {
                 $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
                 $companyAddress->setObec((new RequestParams())->getParsedBodyParam($request, "obec"));
                 
-                $this->companyAddressRepo->add($companyAddress);
                 
             } else {
                 $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
