@@ -448,7 +448,13 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DocumentRepo($c->get(DocumentDao::class), $c->get(DocumentHydrator::class));
             },
             JobArrayModel::class => function(ContainerInterface $c) {
-                return new JobArrayModel($c->get(CompanyRepo::class), $c->get(JobRepo::class), $c->get(JobToTagRepo::class), $c->get(JobTagRepo::class));
+                return new JobArrayModel(
+//                        $c->get(CompanyRepo::class),
+                        $c->get(JobRepo::class), 
+                        $c->get(JobToTagRepo::class),
+//                        $c->get(JobTagRepo::class),
+                        $c->get(PozadovaneVzdelaniRepo::class)
+                        );
             },
 
             Presenter::class => function(ContainerInterface $c) {

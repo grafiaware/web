@@ -9,13 +9,10 @@ use Events\Model\Arraymodel\JobArrayModel;
 use Events\Model\Arraymodel\Presenter;
 use Red\Model\Repository\BlockRepo;
 
-use Events\Model\Repository\PozadovaneVzdelaniRepo;
-use Events\Model\Repository\JobToTagRepo;
-
-use Events\Model\Entity\Company;
-use Events\Model\Entity\Job as JobEntity;
-use Events\Model\Entity\JobToTag;
-use Events\Model\Entity\PozadovaneVzdelani;
+use Events\Model\Entity\CompanyInterface;
+use Events\Model\Entity\JobInterface;
+use Events\Model\Entity\JobToTagInterface;
+use Events\Model\Entity\PozadovaneVzdelaniInterface;
 
 $headline = 'Pracovní pozice';
 $perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
@@ -30,75 +27,21 @@ $jobModel = $container->get( JobArrayModel::class );
 
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
 /** @var BlockRepo $blockRepo */
-// SVOBODA - čeká ba Red databázi - slouží pro generování odkazů na stránku firmy
-//
-//$blockRepo = $container->get(BlockRepo::class);
-
-//--------------------------------------------------------------- PUVODNI array model----
-foreach ($jobModel->getShortNamesList() as $shortName) {
-// SVOBODA - čeká ba Red databázi - slouží pro generování odkazů na stránku firmy
-//
-//    $block = $blockRepo->get($shortName);
-    $presenterJobs = $jobModel->getCompanyJobList($shortName);
-    $jobs = [];
-    foreach ($presenterJobs as $job) {
-        $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName /*, 'block' => $block*/ ] );  // přidání $container a $shortName pro template pozice
-    }
-    $allJobs[] = [
-                'shortName' => $shortName,
-                'presenterName' => $presenterModel->getCompany($shortName)['name'],
-                //'block' => $block,
-                'presenterJobs' => ['jobs' => $jobs],
-                'container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}
-            ];
-    //$allJobs nepouzito
-}
+// SVOBODA - čeká na Red databázi - slouží pro generování odkazů na stránku firmy
 
 
+    foreach ($presenterModel->getCompanyList() as $company ) {
 
-//--------------------------------------------------------------- nově - CIST z DB ----
-    /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
-    $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
-    /** @var JobToTagRepo $jobToTagRepo */
-    $jobToTagRepo = $container->get(JobToTagRepo::class );
-
-    $companyListArray = $presenterModel->getCompanyListI();
-    foreach ($companyListArray as $companyEntity ) {
-        $companyJobs = $jobModel->getCompanyJobListI($companyEntity->getId());
-        $jobsI = [];
-        foreach ($companyJobs as $jobI) {
-         /** @var JobEntity  $jobI */
-            $jb = [];
-            $jb['jobId'] = $jobI->getId();
-            $jb['companyId'] = $jobI->getCompanyId();
-            $jb['shortName'] = $companyEntity->getName();
-
-            $jb['nazev'] = $jobI->getNazev();
-            $jb['mistoVykonu'] = $jobI->getMistoVykonu();
-            $jb['nabizime'][] = $jobI->getNabizime();
-            $jb['popisPozice'] = $jobI->getPopisPozice();
-            /** @var PozadovaneVzdelani  $pozadovaneVzdelaniEntita */
-            $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
-            $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;
-            $jb['pozadujeme'][] = $jobI->getPozadujeme();
-
-            $jTTs = $jobToTagRepo->findByJobId($jobI->getId());
-            /** @var JobToTag  $jTT */
-            foreach ($jTTs as $jTT)  {
-                $jb['kategorie'][] = $jTT->getJobTagTag();
-            }
-            $jobsI[] = array_merge($jb, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, /*, 'block' => $block*/ ] );
-
+        //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
+        foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
+            $jobsArray[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
         }
 
-        /** @var Company $companyEntity */
+        /** @var CompanyInterface $company */
         $allJobsI[] = [
-                'companyId' => $companyEntity->getId(),
-                'shortName' => $companyEntity->getName(),
-                'presenterName' => $companyEntity->getName(),
                 //'block' => $block,
-                'presenterJobs' => ['jobs' => $jobsI],
-                'container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}
+                'presenterName' => $company->getName(),
+                'presenterJobs' => ['jobs' => $jobsArray],
                 ];
     }
 ?>

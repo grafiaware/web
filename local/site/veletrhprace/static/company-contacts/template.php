@@ -31,9 +31,9 @@ use Events\Model\Repository\RepresentativeRepo;
     
     //------------------------------------------------------------------
     
-    /** @var CompanyInterface $companyEntity */ 
-    $companyEntity = $companyRepo->get($idCompany);
-    if (isset ($companyEntity)) {       
+    /** @var CompanyInterface $company */ 
+    $company = $companyRepo->get($idCompany);
+    if (isset ($company)) {       
             
         $companyContacts=[];
         $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
@@ -57,7 +57,7 @@ use Events\Model\Repository\RepresentativeRepo;
     <div>
     <div class="ui styled fluid accordion">   
 
-            Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|
+            Vystavovatel (company): |* <?= $company->getName(); ?> *|
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Kontakty vystavovatele 
