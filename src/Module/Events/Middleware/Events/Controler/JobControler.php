@@ -83,6 +83,7 @@ class JobControler extends FrontControlerAbstract {
     private $jobTagRepo;
 
                   
+   
     /**
      * 
      * @param StatusSecurityRepo $statusSecurityRepo
@@ -92,6 +93,8 @@ class JobControler extends FrontControlerAbstract {
      * @param RepresentativeRepoInterface $representativeRepo
      * @param PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
      * @param JobRepoInterface $jobRepo
+     * @param JobToTagInterface $jobToTagRepo
+     * @param JobTagInterface $jobTagRepo
      */
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -102,8 +105,8 @@ class JobControler extends FrontControlerAbstract {
             RepresentativeRepoInterface $representativeRepo,
             PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo,            
             JobRepoInterface $jobRepo,
-            JobToTagInterface $jobToTagRepo,
-            JobTagInterface $jobTagRepo
+            JobToTagRepoInterface $jobToTagRepo,
+            JobTagRepoInterface $jobTagRepo
             
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
@@ -282,30 +285,55 @@ class JobControler extends FrontControlerAbstract {
             return $response->withStatus(401);  // Unauthorized
         } else {                                   
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
+            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';   
+            
+            $job = $this->jobRepo->get($idJob);            
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
-                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
+                if ( $this->representativeRepo->get($loginName, $job->getCompanyId( ) ))   {
                             $isRepresentative = true; 
                 }
             }            
             if ($isRepresentative) {
-                                
-                $allTags = $this->jobTagRepo->findAll();
-                /** @var JobTagInterface $tag */
-                foreach ($allTags as $tag) {
-                    
-                    
-                    
+                               
+                $arrayForJob = [];
+                $allJobToTagForJob = $this->jobToTagRepo->findByJobId($idJob);
+                /** @var JobToTagInterface $jobToTag */
+                foreach ($allJobToTagForJob as $jobToTag) {   
+                    $arrayForJob[]= $jobToTag->getJobTagTag();
                 }
                 
-                $allJobToTags = $this->jobToTagRepo->findByJobId($idJob);
-                /** @var JobToTagInterface $jobToTag */
-                foreach ($allJobToTags as $jobToTag) {
+                
+                $allTags = $this->jobTagRepo->findAll();
+                /** @var JobTagInterface $tag */
+                foreach ($allTags as $tagEntity) { //postupne vš.
+                    //tento tag je zaskrtnut ve form
+                    $postTag = (new RequestParams())->getParsedBodyParam($request, $tagEntity->getTag() );
                     
-                    
-                    
+                    if (isset ($postTag) ) { // je zaskrtnut ve form
+                        //je-li v jobToTag - ok, nic
+                        //neni-li v jobToTag - zapsat
+                        if (in_array($postTag,  $arrayForJob)) {                            
+                        }
+                        else {
+                            //zapsat do joToTag 
+                            $newJobToTag = $this->container->get(JobToTag::class); //new 
+                            $this->jobToTagRepo->add($newJobToTag);
+                        }
+                        
+                    }
+                    else {// neni zaskrtnut ve form                                      
+                        //je-li v jobToTag  - vymazat z jobToTag
+                        //neni-li v jobToTag   - ok, nic
+                        if (in_array($postTag, $arrayForJob)) {   
+                           $jTTEntity = $this->jobToTagRepo->get($idJob, $newJobToTag);
+                           $this->jobToTagRepo->remove($jTTEntity);
+                        }
+                    }
+                 
                 }
+                
+               
                 
                 
                 

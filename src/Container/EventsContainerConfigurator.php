@@ -32,6 +32,8 @@ use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\JobToTagRepo;
+use Events\Model\Repository\JobTagRepo;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 
 // service
@@ -109,7 +111,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),
                         $c->get(CompanyContactRepo::class),
                         $c->get(CompanyAddressRepo::class),
-                        $c->get(RepresentativeRepo::class),
+                        $c->get(RepresentativeRepo::class)
                         )
                        )->injectContainer($c);
             },
@@ -119,11 +121,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-
                         $c->get(CompanyRepo::class),
                         $c->get(RepresentativeRepo::class),
                         $c->get(PozadovaneVzdelaniRepo::class),
-                        $c->get(JobRepo::class)
+                        $c->get(JobRepo::class),
+                        $c->get(JobToTagRepo::class),
+                        $c->get(JobTagRepo::class )
                         )
                        )->injectContainer($c);
             },
@@ -135,7 +138,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-
                         $c->get(DocumentRepo::class)
                         )
                        )->injectContainer($c);
