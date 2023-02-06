@@ -8,7 +8,7 @@ use Pes\Text\Text;
 use Site\ConfigurationCache;
 
 // visitor
-use Red\Model\Entity\LoginAggregateFullInterface;
+use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Red\Model\Repository\VisitorDataRepo;
 
@@ -35,7 +35,7 @@ use Red\Model\Repository\VisitorDataRepo;
     $loginAggregate = $statusSecurity->getLoginAggregate();
 
     if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginLoginName();
+        $loginName = $loginAggregate->getLoginName();
         $role = $loginAggregate->getCredentials()->getRole() ?? '';
     }
 

@@ -68,7 +68,7 @@ use Red\Model\Repository\ItemActionRepo;
  *
  * @author pes2704
  */
-class RedApiContainerConfigurator extends ContainerConfiguratorAbstract {
+class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return ConfigurationCache::api();

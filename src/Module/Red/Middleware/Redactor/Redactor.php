@@ -12,9 +12,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Container\WebContainerConfigurator;
+use Container\RedGetContainerConfigurator;
 
-use Container\RedApiContainerConfigurator;
+use Container\RedPostContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 use Container\MailContainerConfigurator;
@@ -71,7 +71,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
         // jsou v jednotlivých kontejnerech)
         $this->container =
-            (new WebContainerConfigurator())->configure(
+            (new RedGetContainerConfigurator())->configure(
                 (new RedModelContainerConfigurator())->configure(
                     (new DbUpgradeContainerConfigurator())->configure(
                             new Container($this->getApp()->getAppContainer())
@@ -164,7 +164,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
     private function prepareProcessPost() {
         $this->container =
-                (new RedApiContainerConfigurator())->configure(
+                (new RedPostContainerConfigurator())->configure(
                     (new RedModelContainerConfigurator())->configure(
                        (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(
