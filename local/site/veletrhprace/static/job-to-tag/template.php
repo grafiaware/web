@@ -91,8 +91,10 @@ use Events\Model\Entity\LoginInterface;
        
   ?>
     <div>
+        Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|
+        <br/><br/>
     <div class="ui styled fluid accordion">
- 
+        
         <section>          
             Přiřaďte typy k nabízeným pozicím
             <div class="content">      

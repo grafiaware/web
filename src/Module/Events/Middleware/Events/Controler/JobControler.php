@@ -302,54 +302,34 @@ class JobControler extends FrontControlerAbstract {
                 foreach ($allJobToTagForJob as $jobToTag) {   
                     $arrayForJob[]= $jobToTag->getJobTagTag();
                 }
-                
-                
-                $allTags = $this->jobTagRepo->findAll();
+                                
+                $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
                 /** @var JobTagInterface $tag */
-                foreach ($allTags as $tagEntity) { //postupne vš.
-                    //tento tag je zaskrtnut ve form
+                foreach ($allTags as $tagEntity) {
+                    // $postTag - tento tag je zaskrtnut ve form
                     $postTag = (new RequestParams())->getParsedBodyParam($request, $tagEntity->getTag() );
                     
                     if (isset ($postTag) ) { // je zaskrtnut ve form
                         //je-li v jobToTag - ok, nic
-                        //neni-li v jobToTag - zapsat
-                        if (in_array($postTag,  $arrayForJob)) {                            
-                        }
-                        else {
-                            //zapsat do joToTag 
+                        //neni-li v jobToTag - zapsat do jobToTag 
+                        if (!(in_array($postTag,  $arrayForJob))) {                                                                            
+                            /** @var JobToTag $newJobToTag */
                             $newJobToTag = $this->container->get(JobToTag::class); //new 
+                            $newJobToTag->setJobId($idJob); 
+                            $newJobToTag->setJobTagTag($postTag);
                             $this->jobToTagRepo->add($newJobToTag);
-                        }
-                        
+                        }                        
                     }
-                    else {// neni zaskrtnut ve form                                      
+                    else { // neni zaskrtnut ve form                                      
                         //je-li v jobToTag  - vymazat z jobToTag
                         //neni-li v jobToTag   - ok, nic
-                        if (in_array($postTag, $arrayForJob)) {   
-                           $jTTEntity = $this->jobToTagRepo->get($idJob, $newJobToTag);
-                           $this->jobToTagRepo->remove($jTTEntity);
+                        if (in_array($tagEntity->getTag(), $arrayForJob)) {   
+                           $jobToTagEntity = $this->jobToTagRepo->get($idJob, $tagEntity->getTag());
+                           $this->jobToTagRepo->remove($jobToTagEntity);
                         }
                     }
                  
-                }
-                
-               
-                
-                
-                
-                
-//                /** @var JobInterface $job */
-//                $job = $this->jobRepo->get( $idJob );
-//                
-//                // POST formularova data                                                            
-//                $job->setPozadovaneVzdelaniStupen((new RequestParams())->getParsedBodyParam($request, 'pozadovane-vzdelani-stupen'));
-//                $job->setNazev((new RequestParams())->getParsedBodyParam($request, 'nazev'));
-//                $job->setMistoVykonu((new RequestParams())->getParsedBodyParam($request, 'misto-vykonu'));
-//                $job->setPopisPozice((new RequestParams())->getParsedBodyParam($request, 'popis-pozice'));
-//                $job->setPozadujeme((new RequestParams())->getParsedBodyParam($request, 'pozadujeme'));
-//                $job->setNabizime((new RequestParams())->getParsedBodyParam($request, 'nabizime'));   
-//                
-//                //$this->jobRepo->add($job);
+                }                                                                
                 
             } else {
                 $this->addFlashMessage("Údaje o typech nabízených pozic smí editovat pouze representant vystavovatele.");

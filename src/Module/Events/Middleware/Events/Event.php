@@ -255,6 +255,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->processingJobToTag($request,  $jobId);
         });
+        //events/v1/tag/:tag/remove
         
              
         
