@@ -10,9 +10,6 @@ use Events\Model\Arraymodel\Presenter;
 use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Entity\CompanyInterface;
-use Events\Model\Entity\JobInterface;
-use Events\Model\Entity\JobToTagInterface;
-use Events\Model\Entity\PozadovaneVzdelaniInterface;
 
 $headline = 'Pracovní pozice';
 $perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
@@ -24,9 +21,13 @@ $presenterModel = $container->get( Presenter::class );
 /** @var JobArrayModel $jobModel */
 $jobModel = $container->get( JobArrayModel::class );
 
-
+//TODO: prezentace - link na prezentaci (místo block)
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
-/** @var BlockRepo $blockRepo */
+// príklad:
+    /** @var BlockRepo $blockRepo */
+//    $blockRepo = $container->get(BlockRepo::class);
+//    $shortName = $company->getEventInstitutionName30();
+//    $block = isset($shortName) ? $blockRepo->get($shortName) : null;
 // SVOBODA - čeká na Red databázi - slouží pro generování odkazů na stránku firmy
 
 
@@ -38,8 +39,8 @@ $jobModel = $container->get( JobArrayModel::class );
         }
 
         /** @var CompanyInterface $company */
-        $allJobsI[] = [
-                //'block' => $block,
+        $allJobs[] = [
+                'block' => null,
                 'presenterName' => $company->getName(),
                 'presenterJobs' => ['jobs' => $jobsArray],
                 ];
@@ -56,7 +57,7 @@ $jobModel = $container->get( JobArrayModel::class );
     </section>
     <section>
         <content class='prehled-pozic'>
-            <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobsI);  ?>
+            <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobs);  ?>
 
         </content>
     </section>

@@ -4,7 +4,7 @@
 /* global templates_multipage */
 /* global templates_article */
 /* global templates_paper */
-/* global 'web/v1/templateslist/author' */
+/* global 'red/v1/templateslist/author' */
 
 /*
  * Přidání/změna selectoru pro Tiny
@@ -360,7 +360,7 @@ var editHtmlConfig = {
     inline: true,
 
     plugins: plugins,
-    templates: 'web/v1/templateslist/author',
+    templates: 'red/v1/templateslist/author',
     toolbar1: toolbar1,
     toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
@@ -410,7 +410,7 @@ var editMceEditableConfig = {
     inline: true,
 
     plugins: plugins,
-    templates: 'web/v1/templateslist/author',
+    templates: 'red/v1/templateslist/author',
     toolbar1: toolbar1,
     toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
@@ -455,7 +455,7 @@ var selectTemplateArticleConfig = {
     'template', 'save', 'noneditable',
     ],
     toolbar: 'template | save',
-    templates: 'web/v1/templateslist/article'
+    templates: 'red/v1/templateslist/article'
 
 };
 var selectTemplatePaperConfig = {
@@ -484,7 +484,7 @@ var selectTemplatePaperConfig = {
     'template', 'save', 'noneditable',
     ],
     toolbar: 'template | save cancel | styleselect',
-    templates: 'web/v1/templateslist/paper'
+    templates: 'red/v1/templateslist/paper'
 
 };
 
@@ -510,7 +510,7 @@ var selectTemplateMultipageConfig = {
     'template', 'save', 'noneditable',
     ],
     toolbar: 'template | save',
-    templates: 'web/v1/templateslist/multipage'
+    templates: 'red/v1/templateslist/multipage'
 
 };
 

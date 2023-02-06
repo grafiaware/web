@@ -2,13 +2,7 @@
 namespace Events\Model\Arraymodel;
 
 use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\RepresentativeRepoInterface;
-
-use Events\Model\Repository\VisitorJobRequestRepo;
-use Events\Model\Repository\VisitorProfileRepoRepo;
-
-
 
 /**
  * Description of Presenter

@@ -11,6 +11,7 @@ use Pes\Text\FriendlyUrl;
 
 use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModelInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 use Access\Enum\AccessPresentationEnum;
 
@@ -57,7 +58,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
 
     ### load scripts ###
 
-    protected function getContentLoadScript($menuItem) {
+    protected function getContentLoadScript(MenuItemInterface $menuItem) {
         /** @var View $view */
         $view = new CompositeView();
         $view->setRendererContainer($this->rendererContainer);
