@@ -1,28 +1,12 @@
 <?php
-
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 use Site\ConfigurationCache;
 
 ?>
-            <div id="<?= $shortName ?>">
+            <div>
                 <p class="velky text primarni-barva tucne"><?= $presenterName ?></p>
-
-                <?php
-                if (isset($block)) {
-                    ?>
-                    <div class="text okraje-vertical">
-                        <a class="ui large button grey" href="<?=  /*"web/v1/page/block/".$block->getName().*/  "#chci-navazat-kontakt" ?>">
-                                Chci jít na stánek pro kontaktní údaje
-                        </a>
-                    </div>
-                    <?php
-                }
-                ?>
-
-                
-            <!-- **I** presenter-jobs ***  -->
-            <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic_2.php",$presenterJobs  ); ?>
-                
+                <?=  $this->insertIf(isset($block), __DIR__.'/content/presenter-link.php', ['block'=>$block]);  ?>
+                <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic_2.php", $presenterJobs  ); ?>
             </div>

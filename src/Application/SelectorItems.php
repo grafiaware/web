@@ -73,17 +73,7 @@ class SelectorItems {
         //
         $this->items = [
             '/web/v1/page' => $default,
-            '/web/v1'=>
-            function() {
-                return [
-                    new ResponseTime(),
-                    new SecurityStatus(),
-                    new Login(),
-                    new FlashStatus(),
-                    new PresentationStatus(),
-                    new Transformator(),
-                    new Component()
-                ];},
+
             '/red'=>
             function() {
                 return [

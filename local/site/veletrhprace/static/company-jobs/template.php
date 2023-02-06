@@ -45,9 +45,9 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
        
     
     
-    /** @var CompanyInterface $companyEntity */ 
-    $companyEntity = $companyRepo->get($idCompany);
-    if (isset ($companyEntity)) {       
+    /** @var CompanyInterface $company */ 
+    $company = $companyRepo->get($idCompany);
+    if (isset ($company)) {       
             
         $companyJobEntities = $jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
         $companyJobs=[];
@@ -77,7 +77,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     <div>
     <div class="ui styled fluid accordion">   
 
-            Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|
+            Vystavovatel (company): |* <?= $company->getName(); ?> *|
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Nabízené pracovní pozice 

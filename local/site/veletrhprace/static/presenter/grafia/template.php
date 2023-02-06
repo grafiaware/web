@@ -3,7 +3,6 @@ use Template\Compiler\TemplateCompilerInterface;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregateInterface;
-use Template\Compiler\TemplateCompilerInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
@@ -12,10 +11,13 @@ use Events\Model\Arraymodel\JobArrayModel;
 
 include 'data.php';
 
-$jobModel = new JobArrayModel();
-foreach ($jobModel->getCompanyJobList($shortName) as $job) {
-    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
-}
+/** @var JobArrayModel $jobModel */
+$jobModel = $container->get( JobArrayModel::class );
+
+        //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
+        foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
+            $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
+        }
 
 ?>
 

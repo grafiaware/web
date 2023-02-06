@@ -62,9 +62,9 @@ use Events\Model\Entity\LoginInterface;
             $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getTag()] ;
         }
         
-        /** @var CompanyInterface $companyEntity */ 
-        $companyEntity = $companyRepo->get($idCompany);
-        if (isset ($companyEntity)) {   
+        /** @var CompanyInterface $company */ 
+        $company = $companyRepo->get($idCompany);
+        if (isset ($company)) {   
             // pro company - $idCompany najit vsechny jeji joby                                                          
             $jobCompanyEntities = $jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
             if ($jobCompanyEntities) { 

@@ -73,22 +73,20 @@ if (isset($loginAggregate)) {
                     AND  $representativeRepo->get($loginName, $idCompanyVystavovatele) )  {
         $isRepresentative = true;
 
-    //--- Z ARRAY MODELU------------------------
+        //--- Z ARRAY MODELU------------------------
         $presenterPerson = $presenterModel->getPerson($loginName);
         //  vznikne   array 'regname', 'regmail', 'regcompany', 'shortName'  ||  "name", "eventInstitutionName", "shortName"
         $presenterJobs = array();
         $shortName = $presenterPerson['shortName'];  // každý s rolí presenter musí existovat v modelu jako presenterPerson
+
+        //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
         foreach ($jobModel->getCompanyJobList($shortName) as $job) {
             $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
-        } // toto $jobs nepouzite, nize jsou data prirazena z db
-        //$presenterPerson dale nepouzite
-    //-------------------------------------------
+        }
 
-
-
-    //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company
+        //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company
         // $loginName je přihlášený,  zjištěno z $loginAggregate
-        $representativePersonI = $presenterModel->getPersonI($loginName, $idCompanyVystavovatele);    // Z DB z  tabulek representative a company
+        $representativePersonI = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);    // Z DB z  tabulek representative a company
         if ($representativePersonI) {
             $representativePersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail
             //  array  'regname'. 'regmail', 'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName'
@@ -112,64 +110,25 @@ if (isset($loginAggregate)) {
                     ];
             }
             //----------------------- pro tuto company vypsat companyAddress
-        $companyAddress=[];
-        /** @var CompanyAddressInterface $companyAddressEntity */
-        $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
-        if ($companyAddressEntity) {
-            $companyAddress = [
-                'companyId'=> $idCompanyFromRepresentative,
-                'companyIdA' => $idCompanyFromRepresentative,
-                'name'   => $companyAddressEntity->getName(),
-                'lokace' => $companyAddressEntity->getLokace(),
-                'psc'    => $companyAddressEntity->getPsc(),
-                'obec'   => $companyAddressEntity->getObec()
-                ];
-        }
-        else {
-            $companyAddress = [
-                'companyId' => $idCompanyFromRepresentative
-                ];
-        }
-
-        //-------------------------
-
-
+            $companyAddress=[];
+            /** @var CompanyAddressInterface $companyAddressEntity */
+            $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
+            if ($companyAddressEntity) {
+                $companyAddress = [
+                    'companyId'=> $idCompanyFromRepresentative,
+                    'companyIdA' => $idCompanyFromRepresentative,
+                    'name'   => $companyAddressEntity->getName(),
+                    'lokace' => $companyAddressEntity->getLokace(),
+                    'psc'    => $companyAddressEntity->getPsc(),
+                    'obec'   => $companyAddressEntity->getObec()
+                    ];
+            }
+            else {
+                $companyAddress = ['companyId' => $idCompanyFromRepresentative];
+            }
 
             // jobsy pro company tohoto representative
-            /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
-            $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
-            /** @var JobToTagRepo $jobToTagRepo */
-            $jobToTagRepo = $container->get(JobToTagRepo::class );
-            $companyJobs = $jobModel->getCompanyJobListI(  $representativePersonI ['idCompany']  );
-            $jobsI = [];
-            foreach ($companyJobs as $jobI) {
-             /** @var JobEntityInterface  $jobI */
-                $jb = [];
-                $jb['jobId'] = $jobI->getId();
-                $jb['companyId'] = $jobI->getCompanyId();
-                $jb['shortName'] = $representativePersonI['name'];
-
-                $jb['nazev'] = $jobI->getNazev();
-                $jb['mistoVykonu'] = $jobI->getMistoVykonu();
-                $jb['nabizime'][] = $jobI->getNabizime();
-                $jb['popisPozice'] = $jobI->getPopisPozice();
-                /** @var PozadovaneVzdelaniInterface  $pozadovaneVzdelaniEntita */
-                $pozadovaneVzdelaniEntita = $pozadovaneVzdelaniRepo->get($jobI->getPozadovaneVzdelaniStupen() );
-                $jb['vzdelani']= $pozadovaneVzdelaniEntita->getVzdelani() ;
-                $jb['pozadujeme'][] = $jobI->getPozadujeme();
-
-                $jTTs = $jobToTagRepo->findByJobId($jobI->getId());
-                /** @var JobToTagInterface $jTT */
-                foreach ($jTTs as $jTT)  {
-                    $jb['kategorie'][] = $jTT->getJobTagTag();
-                }
-                $jobsI[] = array_merge($jb, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER} ] );
-            } //foreach
-
-            $jobs = $jobsI;
-            // jobsy pro company tohoto representative
-            //------------------------------------------------------------------
-
+            $jobs = $jobModel->getCompanyJobList(  $representativePersonI ['idCompany']  );
 
         }// $representativePersonI
 

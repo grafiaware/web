@@ -27,9 +27,9 @@ use Events\Model\Entity\CompanyAddressInterface;
             
     //------------------------------------------------------------------
     
-    /** @var CompanyInterface $companyEntity */ 
-    $companyEntity = $companyRepo->get($idCompany);
-    if ( isset($companyEntity) ) {       
+    /** @var CompanyInterface $company */ 
+    $company = $companyRepo->get($idCompany);
+    if ( isset($company) ) {       
             
         $companyAddress=[];
         /** @var CompanyAddressInterface $companyAddressEntity */
@@ -56,7 +56,7 @@ use Events\Model\Entity\CompanyAddressInterface;
     <div>
     <div class="ui styled fluid accordion">
             
-            Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|                   
+            Vystavovatel (company): |* <?= $company->getName(); ?> *|                   
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Adresa vystavovatele
