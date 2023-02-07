@@ -176,7 +176,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                         )
                     )
                 );
-        
+
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         #### UserActionController ####
