@@ -13,7 +13,7 @@ use \Pes\Container\Container;
 use View\Includer;
 
 use Container\RedModelContainerConfigurator;
-use Container\WebContainerConfigurator;
+use Container\RedGetContainerConfigurator;
 
 
 class Rs extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -29,9 +29,9 @@ class Rs extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         assert(false, 'Tohle určitě není dobře.');
         $rsContainer =
-            (new WebContainerConfigurator())->configure(
+            (new RedGetContainerConfigurator())->configure(
                         new Container(
-                            (new WebContainerConfigurator())->configure(
+                            (new RedGetContainerConfigurator())->configure(
                                     new Container($this->getApp()->getAppContainer())
                             )
                         )
