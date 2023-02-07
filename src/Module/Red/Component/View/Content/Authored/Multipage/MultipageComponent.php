@@ -42,13 +42,13 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         // odstraní kořenový uzel, tj. uzel odpovídající vlastní multipage, zbydou jen potomci
         if (count($subNodes)>1) {
             array_shift($subNodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
-            foreach ($subNodes as $subNode) {
                 $contentView = $this->getComponentView(self::CONTENT);
+            foreach ($subNodes as $subNode) {
                 $item = $subNode->getMenuItem();
                 $contentView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
-                $pages[] = $this->getContentLoadScript($item);
+//                $pages[] = $this->getContentLoadScript($item);
             }
-            $this->contextData->offsetSet('pages', $pages);
+//            $this->contextData->offsetSet('pages', $pages);
         }
     }
 

@@ -13,7 +13,7 @@ use Pes\Container\AutowiringContainer;
 
 use Site\ConfigurationCache;
 
-use Container\WebContainerConfigurator;
+use Container\RedGetContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 
@@ -40,7 +40,7 @@ $r = new InterpolateRenderer();
 $environment = (new EnvironmentFactory())->createFromGlobals();
 //$app = (new WebAppFactory())->createFromEnvironment($environment);
         $appContainer =
-            (new WebContainerConfigurator())->configure(
+            (new RedGetContainerConfigurator())->configure(
                 (new RedModelContainerConfigurator())->configure(
                     (new DbUpgradeContainerConfigurator())->configure(
                                 new Container((new AppContainerConfigurator())->configure(new Container()))
