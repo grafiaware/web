@@ -28,7 +28,7 @@ use Pes\Text\Html;
         <div>                                                                                                                                
             <?=
             isset($tag) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/jotag/:tag/remove'> Odstranit  </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag/remove'> Odstranit  </button>" :
                 "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag' > Uložit </button>" ;                
             ?>                                                                                                         
         </div>
