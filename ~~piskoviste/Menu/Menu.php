@@ -15,7 +15,7 @@ use Menu\Psr\Http\Message\ResponseInterface;
 use Menu\Container\RedModelContainerConfigurator;
 // experimentální propojení s classmap web
 use Menu\Container\ComponentContainerConfigurator;
-use Menu\Container\WebContainerConfigurator;
+use Menu\Container\RedGetContainerConfigurator;
 
 /**
  * Description of MenuApplication
@@ -30,7 +30,7 @@ class Menu extends AppMiddlewareAbstract {
         $container =
             (new ComponentContainerConfigurator())->configure(
                 (new RedModelContainerConfigurator())->configure(
-                    (new WebContainerConfigurator())->configure(
+                    (new RedGetContainerConfigurator())->configure(
                         new Container($this->getApp()->getAppContainer())
                     )
                 )
