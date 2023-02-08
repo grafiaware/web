@@ -31,7 +31,8 @@ use Events\Model\Entity\LoginInterface;
         $cred = $loginAggregate->getCredentials();
         
         $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    }
+    
+    
 // ------------------------------------------------
    
     /** @var CompanyRepo $companyRepo */ 
@@ -81,4 +82,9 @@ use Events\Model\Entity\LoginInterface;
     </div>
     </div>
 
-  
+  <?php
+    }
+    else {  echo  "Údaje o kontaktech vystavovatele smí vidět jen přihlášený." ;
+        
+    }
+  ?>

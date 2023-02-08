@@ -93,6 +93,7 @@ use Events\Model\Entity\JobToTag;
 use Events\Model\Dao\JobTagDao;
 use Events\Model\Hydrator\JobTagHydrator;
 use Events\Model\Repository\JobTagRepo;
+use Events\Model\Entity\JobTag;
 
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Hydrator\PozadovaneVzdelaniHydrator;
@@ -175,6 +176,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobToTag::class => function(ContainerInterface $c) {
             return new JobToTag();
+            },
+            JobTag::class => function(ContainerInterface $c) {
+            return new JobTag();
             }
 
         ];

@@ -342,10 +342,11 @@ class JobControler extends FrontControlerAbstract {
     
     
     
-     /**
+    
+    /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $idCompany
+     * @param type $tag
      * @return type
      */
     public function addJobTag (ServerRequestInterface $request, $tag) {                 
@@ -392,11 +393,11 @@ class JobControler extends FrontControlerAbstract {
     
     
       
+
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $idCompany
-     * @param type $idJob
+     * @param type $tag
      * @return type
      */
     public function removeJobTag (ServerRequestInterface $request, $tag) {                   

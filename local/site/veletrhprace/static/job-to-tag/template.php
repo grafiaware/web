@@ -91,7 +91,7 @@ use Events\Model\Entity\LoginInterface;
        
   ?>
     <div>
-        Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|
+        Vystavovatel (company): |* <?= $company/*Entity*/->getName(); ?> *|
         <br/><br/>
     <div class="ui styled fluid accordion">
         

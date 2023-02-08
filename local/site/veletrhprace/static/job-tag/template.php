@@ -15,6 +15,13 @@ use Events\Model\Repository\JobTagRepoInterface;
 use Events\Model\Repository\JobTagRepo;
 use Events\Model\Entity\JobTag;
 
+
+
+       $readonly = 'readonly="1"';
+       $disabled = 'disabled="1"';
+//        $readonly = '';
+//        $disabled = ''; 
+
 /** @var PhpTemplateRendererInterface $this */
 
     /** @var JobTagRepoInterface $jobTagRepo */ 
@@ -33,32 +40,9 @@ use Events\Model\Entity\JobTag;
     foreach ($allTags as $tag) {
         $allTagsString[] = $tag->getTag();
         
-        $allTagsStringRepeat[] = ['tag' => $tag->getTag()];
+        $allTagsStringRepeat[] = ['tag' => $tag->getTag(),  'readonly' =>  $readonly ];
     }
-    
-    
-    
-    
-    
-    
-//    if (isset ($companyEntity)) {       
-//            
-//        $companyContacts=[];
-//        $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
-//        if ($companyContactEntities) {         
-//            foreach ($companyContactEntities as $cCEntity) {
-//                /** @var CompanyContactInterface $cCEntity */
-//                $companyContacts[] = [
-//                    'companyContactId' => $cCEntity->getId(),
-//                    'companyId' => $cCEntity->getCompanyId(),
-//                    'name' =>  $cCEntity->getName(),
-//                    'phones' =>  $cCEntity->getPhones(),
-//                    'mobiles' =>  $cCEntity->getMobiles(),
-//                    'emails' =>  $cCEntity->getEmails()
-//                    ];
-//            }   
-//        }             
-//        
+ 
   ?>
 
 
@@ -81,7 +65,7 @@ use Events\Model\Entity\JobTag;
                     Přidej další typ
                 </div>  
                 <div>     
-                    <?= $this->insert( __DIR__.'/job-tag.php', [] ) ?>                                                                                 
+                    <?= $this->insert( __DIR__.'/job-tag.php', [ 'readonly' => '' ] ) ?>                                                                                 
                 </div>                  
         </div>           
         

@@ -8,10 +8,10 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
  
 
-    //    $readonly = 'readonly="1"';
-    //    $disabled = 'disabled="1"';
-        $readonly = '';
-        $disabled = ''; 
+//        $readonly = 'readonly="1"';
+//       $disabled = 'disabled="1"';
+//        $readonly = '';
+//        $disabled = ''; 
 
 ?>
 
@@ -19,11 +19,11 @@ use Pes\Text\Html;
 
     <div class="field">
             <label>Typ pracovní pozice: </label>
-            <input readonly type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
+            <input  <?=  $readonly ?>  type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
     </div>
 
         <?php
-        if($readonly === '') {
+        if($readonly === '1') {
         ?>
         <div>                                                                                                                                
             <?=
