@@ -19,21 +19,21 @@ use Pes\Text\Html;
 
     <div class="field">
             <label>Typ pracovní pozice: </label>
-            <input  <?=  $readonly ?>  type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
+            <input  <?=  $readonly ?>  type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>" >
     </div>
 
-        <?php
-        if($readonly === '1') {
-        ?>
+        
         <div>                                                                                                                                
-            <?=
-            isset($tag) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag/remove'> Odstranit  </button>" :
-                "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag' > Uložit </button>" ;                
+            <?php 
+            if($readonly === 'readonly="1"' ) {
+           // isset($tag) ?
+                echo "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag/remove' > Odstranit  </button>" ;
+            }
+            else {
+                echo "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag' > Uložit </button>" ;  
+            }
             ?>                                                                                                         
         </div>
-        <?php
-        }
-        ?>
+        
 
     </form >

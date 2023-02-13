@@ -36,11 +36,13 @@ use Events\Model\Entity\LoginInterface;
     $statusSecurity = $statusSecurityRepo->get();
     $loginAggregate = $statusSecurity->getLoginAggregate();
     if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginName();
-        $cred = $loginAggregate->getCredentials();
-        
-        $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    }
+                //        $loginName = $loginAggregate->getLoginName();
+                //        $cred = $loginAggregate->getCredentials();
+                //        
+                //        $role = $loginAggregate->getCredentials()->getRole() ?? '';
+                //    }
+    
+    
        
     /** @var CompanyRepoInterface $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
@@ -60,6 +62,8 @@ use Events\Model\Entity\LoginInterface;
         /** @var JobTagInterface  $jobTagEntity */ 
         foreach ( $jobTagEntities as $jobTagEntity) {
             $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getTag()] ;
+            
+            $allTagsString[] = $jobTagEntity->getTag();
         }
         
         /** @var CompanyInterface $company */ 
@@ -133,6 +137,10 @@ use Events\Model\Entity\LoginInterface;
                                  "Label2"=>['manažerská/vedoucí'=>'manažerská/vedoucí']] ,
                                 ['technická'=>'technická'] ) ?>         
   
+         <div>
+            <?= $this->repeat(__DIR__.'/job-tagSeznam.php', $allTagsString, 'seznam') ?>
+        </div>
+        
     </div>
     </div>
    
@@ -140,5 +148,11 @@ use Events\Model\Entity\LoginInterface;
 
   <?php 
         }
+        
+        
+} 
+else{
+     echo  "Údaje o přiřazení typů  nabízených pozic vystavovatele smí vidět jen přihlášený." ; 
+}        
   ?>
 

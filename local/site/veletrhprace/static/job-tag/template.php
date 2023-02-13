@@ -23,23 +23,23 @@ use Events\Model\Entity\JobTag;
 //        $disabled = ''; 
 
 /** @var PhpTemplateRendererInterface $this */
-
-    /** @var JobTagRepoInterface $jobTagRepo */ 
-    $jobTagRepo = $container->get(JobTagRepo::class );
+   
     
 //    /** @var CompanyContactRepo $companyContactRepo */
 //    $companyContactRepo = $container->get(CompanyContactRepo::class );
 //    /** @var RepresentativeRepo $representativeRepo */
 //    $representativeRepo = $container->get(RepresentativeRepo::class );
     //------------------------------------------------------------------
+       
+       
 
- 
+  /** @var JobTagRepoInterface $jobTagRepo */ 
+    $jobTagRepo = $container->get(JobTagRepo::class );
+    
     $allTags = $jobTagRepo->findAll();
-    $allTagsString=[];
+    $allTagsStringRepeat=[];
     /** @var  JobTag $tag */
-    foreach ($allTags as $tag) {
-        $allTagsString[] = $tag->getTag();
-        
+    foreach ($allTags as $tag) {       
         $allTagsStringRepeat[] = ['tag' => $tag->getTag(),  'readonly' =>  $readonly ];
     }
  
@@ -47,19 +47,12 @@ use Events\Model\Entity\JobTag;
 
 
     <div>
-    <div class="ui styled fluid accordion">   
-        
+    <div class="ui styled fluid accordion">           
         <div>                
-           <b>Typy nabízených pozic </b>
-        </div>   
-                
-        <div>
-            <?= $this->repeat(__DIR__.'/job-tagSeznam.php', $allTagsString, 'seznam') ?>
-        </div>
-        
-        
-        
-         <div>      
+           <b>Možné typy nabízených pozic </b>
+        </div>                   
+           
+        <div>      
                 <?= $this->repeat(__DIR__.'/job-tag.php',  $allTagsStringRepeat)  ?>
                 <div>                   
                     Přidej další typ
@@ -68,13 +61,7 @@ use Events\Model\Entity\JobTag;
                     <?= $this->insert( __DIR__.'/job-tag.php', [ 'readonly' => '' ] ) ?>                                                                                 
                 </div>                  
         </div>           
-        
-        
-        
-        
-        
-        
-                 
+                              
     </div>
     </div>
 

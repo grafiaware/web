@@ -4,6 +4,8 @@ use Site\ConfigurationCache;
 
 use Pes\Text\Text;
 use Pes\Text\Html;
+use Status\Model\Repository\StatusSecurityRepo;
+use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
@@ -14,6 +16,16 @@ use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Repository\RepresentativeRepo;
 
 /** @var PhpTemplateRendererInterface $this */
+
+
+$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+/** @var StatusSecurityRepo $statusSecurityRepo */
+$statusSecurity = $statusSecurityRepo->get();
+/** @var LoginAggregateFullInterface $loginAggregate */
+$loginAggregate = $statusSecurity->getLoginAggregate();
+
+if (isset($loginAggregate)) {
+
 
     /** @var CompanyRepo $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
@@ -81,5 +93,11 @@ use Events\Model\Repository\RepresentativeRepo;
           <div>
           </div>   
   <?php 
-   }
-  ?>
+    }
+   
+} 
+else{
+     echo  "Údaje o kontaktech vystavovatele smí vidět jen přihlášený." ; 
+}
+    
+   ?>

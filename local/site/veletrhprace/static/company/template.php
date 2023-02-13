@@ -20,7 +20,7 @@ use Events\Model\Entity\LoginInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 
-   $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+    $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
     $statusSecurity = $statusSecurityRepo->get();
     /** @var LoginAggregateFullInterface $loginAggregate */
@@ -31,7 +31,7 @@ use Events\Model\Entity\LoginInterface;
         $cred = $loginAggregate->getCredentials();
         
         $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    
+        if ($role = 'sup') {
     
 // ------------------------------------------------
    
@@ -83,8 +83,11 @@ use Events\Model\Entity\LoginInterface;
     </div>
 
   <?php
+        }
+        else {  echo  "Údaje o vystavovatelích smí vidět jen přihlášený, a to s rolí 'sup'." ; }
+        
     }
-    else {  echo  "Údaje o kontaktech vystavovatele smí vidět jen přihlášený." ;
+    else {  echo  "Údaje o vystavovatelích smí vidět jen přihlášený, a to s rolí 'sup'." ;
         
     }
   ?>
