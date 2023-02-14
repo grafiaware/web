@@ -51,16 +51,19 @@ use Events\Model\Entity\JobTag;
         <div>                
            <b>Možné typy nabízených pozic </b>
         </div>                   
-           
+        <hr/>
+         
         <div>      
                 <?= $this->repeat(__DIR__.'/job-tag.php',  $allTagsStringRepeat)  ?>
-                <div>                   
-                    Přidej další typ
-                </div>  
-                <div>     
-                    <?= $this->insert( __DIR__.'/job-tag.php', [ 'readonly' => '' ] ) ?>                                                                                 
-                </div>                  
-        </div>           
+        </div>        
+   
+        <div>  
+            <br/>
+            Přidej další typ
+            <div>     
+                <?= $this->insert( __DIR__.'/job-tag.php', [ 'readonly' => '' ] ) ?>                                                                                 
+            </div>                  
+        </div>          
                               
     </div>
     </div>

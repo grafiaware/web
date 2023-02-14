@@ -17,20 +17,20 @@ use Pes\Text\Html;
 
     <form class="ui huge form" action="" method="POST" >
 
-    <div class="field">
-            <label>Typ pracovní pozice: </label>
-            <input  <?=  $readonly ?>  type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>" >
-    </div>
+        <div class="field">
+                <br/>
+                <label>Typ pracovní pozice: </label>
+                <input  <?=  $readonly ?>  type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>" >
+        </div>
 
-        
+
         <div>                                                                                                                                
             <?php 
-            if($readonly === 'readonly="1"' ) {
-           // isset($tag) ?
+            if($readonly === 'readonly="1"' ) {      
                 echo "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag/remove' > Odstranit  </button>" ;
             }
             else {
-                echo "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag' > Uložit </button>" ;  
+                echo "<button class='ui primary button' type='submit' formaction='events/v1/jobtag' > Uložit </button>" ;  
             }
             ?>                                                                                                         
         </div>
