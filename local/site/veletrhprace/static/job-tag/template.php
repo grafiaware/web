@@ -17,10 +17,10 @@ use Events\Model\Entity\JobTag;
 
 
 
-       $readonly = 'readonly="1"';
-       $disabled = 'disabled="1"';
-//        $readonly = '';
-//        $disabled = ''; 
+//       $readonly = 'readonly="1"';
+//       $disabled = 'disabled="1"';
+        $readonly = '';
+        $disabled = ''; 
 
 /** @var PhpTemplateRendererInterface $this */
    
@@ -40,9 +40,8 @@ use Events\Model\Entity\JobTag;
     $allTagsStringRepeat=[];
     /** @var  JobTag $tag */
     foreach ($allTags as $tag) {       
-        $allTagsStringRepeat[] = ['tag' => $tag->getTag(),  'readonly' =>  $readonly ];
-    }
- 
+        $allTagsStringRepeat[] = ['tag' => $tag->getTag() ];
+    } 
   ?>
 
 
@@ -61,7 +60,7 @@ use Events\Model\Entity\JobTag;
             <br/>
             Přidej další typ
             <div>     
-                <?= $this->insert( __DIR__.'/job-tag.php', [ 'readonly' => '' ] ) ?>                                                                                 
+                <?= $this->insert( __DIR__.'/job-tag.php', [ ] ) ?>                                                                                 
             </div>                  
         </div>          
                               

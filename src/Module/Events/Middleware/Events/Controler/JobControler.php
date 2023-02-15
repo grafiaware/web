@@ -372,10 +372,10 @@ class JobControler extends FrontControlerAbstract {
 
                 
                 /** @var JobTagInterface $tag */
-                $tag = $this->container->get(JobTag::class); //new                 
-                $tag->setTag($tag);
-                
-                $this->jobTagRepo->add($tag);
+//                $tag = $this->container->get(JobTag::class); //new                 
+//                $tag->setTag($tag);
+//                
+//                $this->jobTagRepo->add($tag);
                 
                 
                
@@ -387,7 +387,14 @@ class JobControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
     
-    
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $tag
+     */
+    public function updateJobTag (ServerRequestInterface $request, $tag) {                   
+        $isRepresentative = false;
+    }    
       
 
     /**
@@ -419,9 +426,9 @@ class JobControler extends FrontControlerAbstract {
 //            if ($isRepresentative) {       
                     
            
-                /** @var JobTagInterface $job */
-                $tag = $this->jobTagRepo->get( $tag );                                
-                $this->jobTagRepo->remove( $tag );         
+//                /** @var JobTagInterface $job */
+//                $tag = $this->jobTagRepo->get( $tag );                                
+//                $this->jobTagRepo->remove( $tag );         
                 
                                 
 //            } else {
