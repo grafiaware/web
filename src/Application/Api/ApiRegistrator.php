@@ -172,6 +172,11 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:tag'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:tag/remove'));
+                
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/pozadovanevzdelani'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/pozadovanevzdelani/:stupen'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/pozadovanevzdelani/:stupen/remove'));
+  
                
         
         #### VisitorJobRequestControler
