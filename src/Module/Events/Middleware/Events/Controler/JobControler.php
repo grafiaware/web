@@ -28,6 +28,9 @@ use Events\Model\Entity\JobToTag;
 use Events\Model\Entity\JobToTagInterface;
 use Events\Model\Entity\JobTag;
 use Events\Model\Entity\JobTagInterface;
+use Events\Model\Entity\PozadovaneVzdelaniInterface;
+use Events\Model\Entity\PozadovaneVzdelani;
+
 
 use Status\Model\Enum\FlashSeverityEnum;
 
@@ -495,11 +498,13 @@ class JobControler extends FrontControlerAbstract {
 //            if ($isRepresentative) {
 
                 
-                /** @var JobTagInterface $tag */
-                $tag = $this->container->get(JobTag::class); //new       
+                /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
+                $pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
 
-                $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );              
-                $this->jobTagRepo->add($tag);             
+                $pozadovaneVzdelani->setStupen((new RequestParams())->getParsedBodyParam($request, 'stupen') );
+                $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
+
+                $this->pozadovaneVzdelaniRepo->add($pozadovaneVzdelani);             
                
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
@@ -537,11 +542,11 @@ class JobControler extends FrontControlerAbstract {
 //            }                        
 //            if ($isRepresentative) {
         
-        
-            /** @var JobTagInterface $tag */
-            $tag = $this->jobTagRepo->get($tag);       
-            $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );                        
-        
+                   
+            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
+            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
+            $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
+           
         
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
@@ -581,9 +586,10 @@ class JobControler extends FrontControlerAbstract {
 //            if ($isRepresentative) {       
                     
            
-                /** @var JobTagInterface $job */
-                $tag = $this->jobTagRepo->get( $tag );                                
-                $this->jobTagRepo->remove( $tag );         
+            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
+            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
+            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
+
                                                 
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
@@ -594,10 +600,5 @@ class JobControler extends FrontControlerAbstract {
     }
             
     
-    
-    
-    
-    
-    
-    
+  
  }   

@@ -84,4 +84,142 @@ class EventControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    //----------------------------------------------------------------------------------------------
+    
+    
+    
+    
+           
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function addInstitutionType (ServerRequestInterface $request) {                 
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+//                $isRepresentative = true; 
+//            }                        
+//            if ($isRepresentative) {
+
+                
+                /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
+                $pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
+
+                $pozadovaneVzdelani->setStupen((new RequestParams())->getParsedBodyParam($request, 'stupen') );
+                $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
+
+                $this->pozadovaneVzdelaniRepo->add($pozadovaneVzdelani);             
+               
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
+//            }
+//        }   
+        
+        return $this->redirectSeeLastGet($request);
+    }
+    
+    
+  
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $stupen
+     * @return type
+     */
+    public function updateInstitutionType (ServerRequestInterface $request, $institutionTypeId) {                    
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+//                $isRepresentative = true; 
+//            }                        
+//            if ($isRepresentative) {
+        
+                   
+            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
+            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
+            $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
+           
+        
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
+//            }
+//        }           
+        
+        return $this->redirectSeeLastGet($request);
+
+    }    
+      
+
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $stupen
+     * @return type
+     */
+    public function removeInstitutionType (ServerRequestInterface $request, $institutionTypeId ) {                   
+//        $isRepresentative = false;
+//                
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {                                   
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
+//                            $isRepresentative = true; 
+//                }
+//            }                          
+//            if ($isRepresentative) {       
+                    
+           
+            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
+            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
+            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
+
+                                                
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
+//            }           
+//        }
+                
+        return $this->redirectSeeLastGet($request);
+    }
+            
+    
+    
+    
+    
+    
 }

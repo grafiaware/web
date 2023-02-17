@@ -131,6 +131,34 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
         
         
+        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institutiontype", function(ServerRequestInterface $request) {
+            /** @var EventControler $ctrl */
+            $ctrl = $this->container->get(EventControler::class);
+            return $ctrl->addInstitutionType($request);
+        });
+        
+        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institutiontype/:institutionTypeId", function(ServerRequestInterface $request, $institutionTypeId) {
+            /** @var EventControler $ctrl */
+            $ctrl = $this->container->get(EventControler::class);
+            return $ctrl->updateInstitutionType($request, $institutionTypeId);
+        });
+        
+        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institutiontype/:institutionTypeId/remove", function(ServerRequestInterface $request, $institutionTypeId) {
+            /** @var EventControler $ctrl */
+            $ctrl = $this->container->get(EventControler::class);
+            return $ctrl->removeInstitutionType($request, $institutionTypeId);
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);

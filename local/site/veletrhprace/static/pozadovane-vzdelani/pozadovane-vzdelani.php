@@ -17,14 +17,16 @@ use Pes\Text\Html;
 
     <form class="ui huge form" action="" method="POST" >
 
-        <div class="field">
-                <br/>
+        <div class="two fields">              
+                <div class="field">
                 <label>Stupeň: </label>
-                <input  type="text" name="stupen" placeholder="" maxlength="11" value="<?= isset($stupen) ? $stupen : '' ?>" >
+                <input  type="number" name="stupen" placeholder="" min="1" max="20" value="<?= $stupen ?? '' ?>" >
+                </div>
                 
-                <br/>
+                <div class="field">               
                 <label>Vzdělání: </label>
-                <input  type="text" name="vzdelani" placeholder="" maxlength="100" value="<?= isset($vzdelani) ? $vzdelani : '' ?>" >
+                <input  type="text" name="vzdelani" placeholder="" maxlength="100" value="<?= $vzdelani ?? '' ?>" >
+                </div>
 
         </div>
 
@@ -36,8 +38,8 @@ use Pes\Text\Html;
                 "<button class='ui primary button' type='submit' formaction='events/v1/pozadovanevzdelani' > Uložit </button>" 
                 ?>                                                                                                                             
                 <?=
-                 isset($tag) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/" .$stupen. "/remove' > Odstranit </button>" :
+                 isset($stupen) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/pozadovanevzdelani/" .$stupen. "/remove' > Odstranit </button>" :
                 "" ;
                 ?>                                                                                                                                 
         </div>    

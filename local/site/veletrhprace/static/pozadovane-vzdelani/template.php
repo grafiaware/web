@@ -28,7 +28,7 @@ use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
     $allPozadovaneVzdelaniA=[];
     /** @var  JobTag $tag */
     foreach ($allPozadovaneVzdelani as $pozVzdel) {       
-        $allPozadovaneVzdelaniA[] = [ 'stupen'  => $pozVzdel->getVzdelani(),
+        $allPozadovaneVzdelaniA[] = [ 'stupen'  => $pozVzdel->getStupen(),
                                       'vzdelani'  => $pozVzdel->getVzdelani()
                                     ];
     } 

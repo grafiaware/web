@@ -95,7 +95,7 @@ use Events\Model\Entity\LoginInterface;
        
   ?>
     <div>
-        Vystavovatel (company): |* <?= $company/*Entity*/->getName(); ?> *|
+        Vystavovatel (company): |* <?= $company->getName(); ?> *|
         <br/>
         Přiřaďte typy k nabízeným pozicím <br/><br/>
     <div>
