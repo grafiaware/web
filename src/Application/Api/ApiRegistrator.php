@@ -139,7 +139,7 @@ class ApiRegistrator {
 
         ### events module ###
         #
-        #### EventController ####
+        #### EventController_2 ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype'));

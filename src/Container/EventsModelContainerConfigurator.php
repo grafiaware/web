@@ -54,10 +54,12 @@ use Events\Model\Repository\EventLinkRepo;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Hydrator\InstitutionHydrator;
 use Events\Model\Repository\InstitutionRepo;
+use Events\Model\Entity\Institution;
 
 use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
+use Events\Model\Entity\InstitutionType;
 
 use Events\Model\Hydrator\InstitutionTypeChildHydrator;
 use Events\Model\Repository\Association\InstitutionsAssociation;
