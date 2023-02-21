@@ -3,9 +3,7 @@
 namespace Events\Middleware\Events\Controler;
 
 use FrontControler\FrontControlerAbstract;
-
 use Psr\Http\Message\ServerRequestInterface;
-
 use Pes\Application\AppFactory;
 use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
@@ -22,6 +20,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Middleware\Api\Controller\Exception\UnexpectedLanguageException;
 
 use Events\Model\Entity\InstitutionTypeInterface;
+use Events\Model\Entity\InstitutionType;
 use Events\Model\Repository\InstitutionTypeRepoInterface;
 
 use Events\Model\Entity\InstitutionInterface;
@@ -36,10 +35,9 @@ use Events\Model\Repository\InstitutionRepoInterface;
 //use Events\Model\Arraymodel\Event;
 //use Model\Entity\Enroll;
 
+
 /**
- * Description of PostController
- *
- * @author pes2704
+ * 
  */
 class EventControler_2 extends FrontControlerAbstract {
 
@@ -66,6 +64,7 @@ class EventControler_2 extends FrontControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            
             InstitutionTypeRepoInterface  $institutionTypeRepo,
             InstitutionRepoInterface  $institutionRepo
             
@@ -116,7 +115,8 @@ class EventControler_2 extends FrontControlerAbstract {
 
                 
                     /** @var InstitutionTypeInterface $institutionType */
-                    $institutionType = $this->container->get(InstitutionType::class); //new           
+                    //$institutionType = $this->container->get(InstitutionType::class); //new    
+                    $institutionType = new InstitutionType(); //new           
                     $institutionType->setInstitutionType((new RequestParams())->getParsedBodyParam($request, 'institutionType') );
     
                     $this->institutionTypeRepo->add($institutionType);             
@@ -130,11 +130,11 @@ class EventControler_2 extends FrontControlerAbstract {
     }
     
     
-  
+      
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $stupen
+     * @param type $institutionTypeId
      * @return type
      */
     public function updateInstitutionType (ServerRequestInterface $request, $institutionTypeId) {                    
@@ -176,7 +176,7 @@ class EventControler_2 extends FrontControlerAbstract {
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $stupen
+     * @param type $institutionTypeId
      * @return type
      */
     public function removeInstitutionType (ServerRequestInterface $request, $institutionTypeId ) {                   
@@ -216,11 +216,9 @@ class EventControler_2 extends FrontControlerAbstract {
             
     
     
-    
-    
-    
-    
+       
                
+    
     /**
      * 
      * @param ServerRequestInterface $request
@@ -262,11 +260,11 @@ class EventControler_2 extends FrontControlerAbstract {
     }
     
     
-  
+      
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $stupen
+     * @param type $institutionTypeId
      * @return type
      */
     public function updateInstitution (ServerRequestInterface $request, $institutionTypeId) {                    
@@ -304,11 +302,11 @@ class EventControler_2 extends FrontControlerAbstract {
 
     }    
       
-
+   
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $stupen
+     * @param type $institutionTypeId
      * @return type
      */
     public function removeInstitution (ServerRequestInterface $request, $institutionTypeId ) {                   
