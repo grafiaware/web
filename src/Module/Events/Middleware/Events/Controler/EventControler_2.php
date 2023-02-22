@@ -156,12 +156,10 @@ class EventControler_2 extends FrontControlerAbstract {
 //                $isRepresentative = true; 
 //            }                        
 //            if ($isRepresentative) {
-        
-                   
-    //            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
-    //            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
-    //            $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
-           
+                           
+                /** @var InstitutionTypeInterface $institutionType */
+                $institutionType = $this->institutionTypeRepo->get($institutionTypeId);            
+                $institutionType->setInstitutionType((new RequestParams())->getParsedBodyParam($request, 'institutionType') );                         
         
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
@@ -198,13 +196,11 @@ class EventControler_2 extends FrontControlerAbstract {
 //                            $isRepresentative = true; 
 //                }
 //            }                          
-//            if ($isRepresentative) {       
-                    
-           
-    //            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
-    //            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
-    //            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
-
+//            if ($isRepresentative) {                                                    
+                
+                /** @var InstitutionTypeInterface $institutionType */
+                $institutionType = $this->institutionTypeRepo->get($institutionTypeId);    
+                $this->institutionTypeRepo->remove($institutionType);                
                                                 
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");

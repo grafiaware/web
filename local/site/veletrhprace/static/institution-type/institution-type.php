@@ -15,7 +15,7 @@ use Pes\Text\Html;
 
         <form class="ui huge form" action="" method="POST" >
 
-            <div class="two fields">                        
+            <div>                        
                 <div class="field">
                 <label>Institution Type</label>
                     <input <?= $readonly ?> type="text" name="institutionType" placeholder="" maxlength="45"  minlength="1"

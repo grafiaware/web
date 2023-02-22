@@ -21,12 +21,20 @@ use Pes\Text\Html;
                     <input < ?= $readonly ?> type="text" name="company-id" placeholder="" maxlength="10" value="< ?= isset($companyId)?  $companyId : '' ?>">
                 </div>  -->
                 
-                <div class="field">
-                   
+                <div class="field">                   
                             <label>Jméno instituce</label>
                             <input <?= $readonly ?> type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($name)?  $name : '' ?>">
                    
                 </div>
+                
+                <div class="field">   <b>
+                                                    
+                    <?= Html::select("pozadovane-vzdelani-stupen", "Požadované vzdělání:", isset($selectVzdelanich) ? $selectVzdelanich : [], 
+                                                                  ["pozadovane-vzdelani-stupen"=>  isset($pozadovaneVzdelaniStupen) ? $pozadovaneVzdelaniStupen: '' ], []) ?>  
+                     </b>    
+                </div>
+                
+                
                 
                 <div class="field"> 
                     

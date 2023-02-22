@@ -60,14 +60,14 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             }   
         } 
                         
-    $selectInstitutionType =[];    
-    $institutionTypeEntities = $institutionTypeRepo->findAll();
-        /** @var InstitutionTypeInterface $entity */ 
-    foreach ( $institutionTypeEntities as $entity) {
-        $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
-    }    
-     
-    $selecty['selectInstitutionType'] = $selectInstitutionType;       
+        $selectInstitutionType =[];    
+        $institutionTypeEntities = $institutionTypeRepo->findAll();
+            /** @var InstitutionTypeInterface $entity */ 
+        foreach ( $institutionTypeEntities as $entity) {
+            $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
+        }    
+
+        $selecty['selectInstitutionType'] = $selectInstitutionType;       
         
         
   ?>

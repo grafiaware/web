@@ -56,7 +56,7 @@ use Events\Model\Entity\InstitutionTypeInterface;
     <div class="ui styled fluid accordion">   
 
             <div>
-                Institution Type <hr/>
+                Typ instituce <hr/>
             </div>     
         
             <div>      
