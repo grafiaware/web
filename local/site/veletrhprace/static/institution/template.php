@@ -45,30 +45,33 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     $institutionTypeRepo = $container->get(InstitutionTypeRepo::class );
             
     //------------------------------------------------------------------    
-               
-        $institutions=[];
-        $institutionsEntities = $institutionRepo->findAll();
-        if ($institutionsEntities) {         
-            foreach ($institutionsEntities as $entity) {
-                /** @var InstitutionInterface $entity */
-                $institutions[] = [
-                    'institutionId' => $entity->getId(),
-                    'name' =>  $entity->getName(),
-                    'institutionTypeId' => $entity->getInstitutionTypeId(),
-                    'institutionType' => ($institutionTypeRepo->get( $entity->getInstitutionTypeId() ) )->getInstitutionType()
-                    ];
-            }   
-        } 
-                        
         $selectInstitutionType =[];    
         $institutionTypeEntities = $institutionTypeRepo->findAll();
             /** @var InstitutionTypeInterface $entity */ 
         foreach ( $institutionTypeEntities as $entity) {
             $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
-        }    
-
-        $selecty['selectInstitutionType'] = $selectInstitutionType;       
-        
+        }                 
+    
+        $institutions=[];
+        $institutionsEntities = $institutionRepo->findAll();
+        if ($institutionsEntities) {         
+            foreach ($institutionsEntities as $entity) {
+                
+                $institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() );
+                $type = $institutionTypE->getInstitutionType();
+                
+                /** @var InstitutionInterface $entity */
+                $institutions[] = [
+                    'institutionId' => $entity->getId(),
+                    'name' =>  $entity->getName(),
+                    'institutionTypeId' => $entity->getInstitutionTypeId(),
+                    'institutionType' => ($institutionTypeRepo->get( $entity->getInstitutionTypeId() ) )->getInstitutionType(),
+                    'selectInstitutionTypeId' =>  $selectInstitutionType
+                    ];
+            }   
+        } 
+                              
+        $selecty['selectInstitutionTypeId'] = $selectInstitutionType;       
         
   ?>
 
@@ -76,7 +79,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     <div>
     <div class="ui styled fluid accordion">   
 
-                                  
+            Instituce <hr/>                      
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/institution.php',  $institutions)  ?>
 
@@ -100,7 +103,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 //   
 //} 
 //else{
-//     echo  "Údaje o institution smí vidět jen přihlášený." ; 
+//     echo  "Údaje o instituticích smí vidět jen přihlášený." ; 
 //}
     
    ?>

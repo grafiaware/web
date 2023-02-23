@@ -24,6 +24,7 @@ use Events\Model\Entity\InstitutionType;
 use Events\Model\Repository\InstitutionTypeRepoInterface;
 
 use Events\Model\Entity\InstitutionInterface;
+use Events\Model\Entity\Institution;
 use Events\Model\Repository\InstitutionRepoInterface;
 
 
@@ -241,11 +242,12 @@ class EventControler_2 extends FrontControlerAbstract {
 //            if ($isRepresentative) {
 
                 
-    //                    /** @var InstitutionTypeInterface $institutionType */
-    //                    $institutionType = $this->container->get(InstitutionType::class); //new           
-    //                    $institutionType->setInstitutionType((new RequestParams())->getParsedBodyParam($request, 'institutionType') );
-    //    
-    //                    $this->institutionTypeRepo->add($institutionType);             
+                /** @var InstitutionInterface $institution */
+                $institution = new Institution(); //new           
+                $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
+                $institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'institutionTypeId') );
+
+                $this->institutionRepo->add($institution);             
                
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
@@ -263,7 +265,7 @@ class EventControler_2 extends FrontControlerAbstract {
      * @param type $institutionTypeId
      * @return type
      */
-    public function updateInstitution (ServerRequestInterface $request, $institutionTypeId) {                    
+    public function updateInstitution (ServerRequestInterface $request, $institutionId) {                    
 //        $isRepresentative = false;
 //        
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -282,12 +284,12 @@ class EventControler_2 extends FrontControlerAbstract {
 //                $isRepresentative = true; 
 //            }                        
 //            if ($isRepresentative) {
-        
-                   
-    //            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
-    //            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
-    //            $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
-           
+            
+                /** @var InstitutionInterface $institution */
+                $institution = $this->institutionRepo->get($institutionId);             
+
+                $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
+                $institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'institutionTypeId') );           
         
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
@@ -305,7 +307,7 @@ class EventControler_2 extends FrontControlerAbstract {
      * @param type $institutionTypeId
      * @return type
      */
-    public function removeInstitution (ServerRequestInterface $request, $institutionTypeId ) {                   
+    public function removeInstitution (ServerRequestInterface $request, $institutionId ) {                   
 //        $isRepresentative = false;
 //                
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -330,8 +332,10 @@ class EventControler_2 extends FrontControlerAbstract {
     //            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
     //            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
     //            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
-
-                                                
+                /** @var InstitutionInterface $institution */
+                $institution = $this->institutionRepo->get($institutionId);  
+                $this->institutionRepo->remove($institution);  
+                                                     
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
 //            }           
