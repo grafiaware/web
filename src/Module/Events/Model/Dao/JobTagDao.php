@@ -2,7 +2,9 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Model\Dao\DaoAutoincrementTrait;
+
+//use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 use Events\Model\Dao\JobTagDaoInterface;
 
