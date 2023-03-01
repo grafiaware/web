@@ -164,9 +164,9 @@ class JobToTagDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
     }
 
-    public function test2Columns() {
+    public function test3Columns() {
         $jobToTagRow = $this->dao->get(['job_id' =>  self::$job_id_fk, 'job_tag_id' =>  self::$jobTagIdTouple['id'] ] );
-        $this->assertCount(2, $jobToTagRow);
+        $this->assertCount(3, $jobToTagRow);
     }
 
 
@@ -203,7 +203,7 @@ class JobToTagDaoTest extends AppRunner {
     public function testUpdate() {
         $jobToTagRows = $this->dao->get( ['job_id' =>  self::$job_id_fk ,   'job_tag_id' =>  self::$jobTagIdTouple['id']  ] );
         $this->assertIsInt($jobToTagRows['job_id']);
-        $this->assertIsString($jobToTagRows['job_tag_id']);
+        $this->assertIsInt($jobToTagRows['job_tag_id']);
 
         $this->setUp(); //nove dao
         $jobToTagRows['job_tag_id'] =  self::$jobTagIdTouple2['id'] ;
@@ -226,7 +226,7 @@ class JobToTagDaoTest extends AppRunner {
     }
 
     public function testFindByJobTagTagFk() {
-        $jobToTagRowsRereaded = $this->dao->findByJobTagFk(['job_tag_tag' => self::$job_tag_tag_fk2]);
+        $jobToTagRowsRereaded = $this->dao->findByJobTagIdFk(['job_tag_id' => self::$jobTagIdTouple2['id']   ]);
         $this->assertIsArray($jobToTagRowsRereaded);
         $this->assertGreaterThanOrEqual(1, count($jobToTagRowsRereaded));
         $this->assertInstanceOf(RowDataInterface::class, $jobToTagRowsRereaded[0]);
@@ -241,7 +241,7 @@ class JobToTagDaoTest extends AppRunner {
 
 
     public function testDelete() {
-        $jobToTagRow = $this->dao->get( ['job_id' =>  self::$job_id_fk ,  'job_tag_tag' =>  self::$job_tag_tag_fk2 ] );
+        $jobToTagRow = $this->dao->get( ['job_id' =>  self::$job_id_fk ,  'job_tag_id' => self::$jobTagIdTouple2['id'] ] );
 
         $this->dao->delete($jobToTagRow);
         $this->assertEquals(1, $this->dao->getRowCount());
