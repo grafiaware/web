@@ -33,6 +33,7 @@ class JobTagRepositoryTest extends AppRunner {
 
     private static $tagKlic = "proJobTagRepoTest";
     private static $jobTagIdDaoTouple;
+    private static $idTag3;
 
 
     public static function setUpBeforeClass(): void {
@@ -148,7 +149,7 @@ class JobTagRepositoryTest extends AppRunner {
 
 
 
-//    public function testAddTheSame() {
+//    public function testAddTheSame() {  
 //        /** @var JobTag $jobTag */
 //        $jobTag = new JobTag();
 //        $jobTag->setTag(self::$tagKlic .'2');
@@ -169,8 +170,9 @@ class JobTagRepositoryTest extends AppRunner {
         $this->assertTrue($jobTag->isPersisted());
         $this->assertFalse($jobTag->isLocked());
 
+        self::$idTag3 = $jobTag->getId();
         /** @var JobTag $jobTagRereaded */
-        $jobTagRereaded = $this->jobTagRepo->get($jobTag->getTag());
+        $jobTagRereaded = $this->jobTagRepo->get( $jobTag->getId() );
         $this->assertInstanceOf(JobTagInterface::class, $jobTagRereaded);
         $this->assertTrue($jobTagRereaded->isPersisted());
         $this->assertFalse($jobTagRereaded->isLocked());
@@ -185,18 +187,18 @@ class JobTagRepositoryTest extends AppRunner {
     }
 
 
-//////ZATIM NEMA FIND metodu
-////    public function testFind() {
-////        $rows =  $this->pozadovaneVzdelaniRepo->find( " vzdelani LIKE '" . self::$stupenKlic . "%'", []);
-////
-////        $this->assertTrue(is_array($rows));
-////        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2
-////    }
+//ZATIM NEMA FIND metodu
+    public function testFind() {
+        $rows =  $this->jobTagRepo->find( " vzdelani LIKE '" . self::$stupenKlic . "%'", []);
+
+        $this->assertTrue(is_array($rows));
+        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2
+    }
 
 
     public function testRemove_OperationWithLockedEntity() {
         /** @var JobTag $jobTag */
-        $jobTag = $this->jobTagRepo->get(self::$tagKlic . "3");
+        $jobTag = $this->jobTagRepo->get(self::$idTag3);
         $this->assertInstanceOf(JobTag::class, $jobTag);
         $this->assertTrue($jobTag->isPersisted());
         $this->assertFalse($jobTag->isLocked());
@@ -210,7 +212,7 @@ class JobTagRepositoryTest extends AppRunner {
 
     public function testRemove() {
         /** @var JobTag $jobTag */
-        $jobTag = $this->jobTagRepo->get(self::$tagKlic . "3" );
+        $jobTag = $this->jobTagRepo->get( self::$idTag3 );
 
         $this->assertInstanceOf(JobTagInterface::class, $jobTag);
         $this->assertTrue($jobTag->isPersisted());
