@@ -34,6 +34,7 @@ class JobTagRepositoryTest extends AppRunner {
     private static $tagKlic = "proJobTagRepoTest";
     private static $jobTagIdDaoTouple;
     private static $idTag3;
+    private static $tag3;
 
 
     public static function setUpBeforeClass(): void {
@@ -171,6 +172,7 @@ class JobTagRepositoryTest extends AppRunner {
         $this->assertFalse($jobTag->isLocked());
 
         self::$idTag3 = $jobTag->getId();
+        self::$tag3 = $jobTag->getTag();
         /** @var JobTag $jobTagRereaded */
         $jobTagRereaded = $this->jobTagRepo->get( $jobTag->getId() );
         $this->assertInstanceOf(JobTagInterface::class, $jobTagRereaded);
@@ -187,12 +189,11 @@ class JobTagRepositoryTest extends AppRunner {
     }
 
 
-//ZATIM NEMA FIND metodu
     public function testFind() {
-        $rows =  $this->jobTagRepo->find( " vzdelani LIKE '" . self::$stupenKlic . "%'", []);
-
+        $rows =  $this->jobTagRepo->find( " tag LIKE '" .  "%" . self::$tag3 . "%'" , []);
+        
         $this->assertTrue(is_array($rows));
-        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2
+        $this->assertGreaterThan(0,count($rows)); //je tam 1
     }
 
 
