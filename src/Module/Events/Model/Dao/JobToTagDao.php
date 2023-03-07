@@ -25,7 +25,6 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
     public function getReferenceAttributes($referenceName): array {
         return [
             'job'=>['job_id'=>'id'],
-                    //'job_tag'=>['job_tag_tag'=>'tag']
             'job_tag'=>['job_tag_id'=>'id']
         ][$referenceName];
     }
@@ -33,7 +32,6 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
     public function getAttributes(): array {
         return [
             'job_id',
-            'job_tag_tag',
             'job_tag_id'
         ];
     }

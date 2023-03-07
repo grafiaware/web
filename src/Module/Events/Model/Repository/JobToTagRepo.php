@@ -35,14 +35,6 @@ class JobToTagRepo extends RepoAbstract implements JobToTagRepoInterface {
 
 
 
-//     /**
-//     *
-//     * @param type $jobTagTag
-//     * @return JobToTagInterface[]
-//     */
-//    public function findByJobTagTag($jobTagTag) : array  {
-//        return $this->findEntities("job_tag_tag = :job_tag_tag", [":job_tag_tag"=>$jobTagTag]);
-//    }
 
     /**
      *
@@ -101,7 +93,7 @@ class JobToTagRepo extends RepoAbstract implements JobToTagRepoInterface {
     }
 
     protected function indexFromEntity(JobToTagInterface $jobToTag) {
-       return $jobToTag->getJobId() . $jobToTag->getJobTagTag() ;
+       return $jobToTag->getJobId() . $jobToTag->getJobTagId() ;
     }
 
     protected function indexFromRow($row) {

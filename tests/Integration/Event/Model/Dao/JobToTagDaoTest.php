@@ -164,9 +164,9 @@ class JobToTagDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
     }
 
-    public function test3Columns() {
+    public function testColumns() {
         $jobToTagRow = $this->dao->get(['job_id' =>  self::$job_id_fk, 'job_tag_id' =>  self::$jobTagIdTouple['id'] ] );
-        $this->assertCount(3, $jobToTagRow);
+        $this->assertCount(2, $jobToTagRow);
     }
 
 

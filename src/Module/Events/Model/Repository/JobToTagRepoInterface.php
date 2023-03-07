@@ -21,14 +21,7 @@ interface JobToTagRepoInterface  extends RepoInterface {
     public function get($jobId, $jobTagId): ?JobToTagInterface ;
     
     
-          
-//    /**
-//     * 
-//     * @param type $jobTagTag     
-//     * @return JobToTagInterface[]
-//     */
-//    public function findByJobTagTag($jobTagTag) : array;
-    
+
     
     /**
      *
