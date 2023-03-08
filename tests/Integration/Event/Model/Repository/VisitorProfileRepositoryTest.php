@@ -71,7 +71,10 @@ class VisitorProfileRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idCv = $documentDao->getLastInsertedPrimaryKey()[$documentDao->getLastInsertedPrimaryKey()];
+        $key = $documentDao->getLastInsertedPrimaryKey();
+        csss
+        self::$idCv = $documentDao->getLastInsertedPrimaryKey() /*[ $documentDao->getLastInsertedPrimaryKey() ['id'] ] */;
+        self::$idCv = $documentDao->getLastInsertedPrimaryKey() /*[ $documentDao->getLastInsertedPrimaryKey() ['id'] ] */;
 
     }
 
@@ -161,7 +164,9 @@ class VisitorProfileRepositoryTest extends AppRunner {
 
     public function testAdd() {
         self::$loginNameAdded = self::insertLoginRecord($this->container);
+        /** @var VisitorProfile $visitorProfile */
         $visitorProfile = new VisitorProfile();
+        /** */
         $visitorProfile->setLoginLoginName( self::$loginNameAdded );
 
         $visitorProfile->setPrefix("Bleble.");
@@ -252,7 +257,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
         $this->assertTrue($visitorProfile->isPersisted());
         $this->assertFalse($visitorProfile->isLocked());
 
-        $this-$this->visitorProfileRepo->remove($visitorProfile);
+        $this->visitorProfileRepo->remove($visitorProfile);
 
         $this->assertTrue($visitorProfile->isPersisted());
         $this->assertTrue($visitorProfile->isLocked());   // zatim zamcena entita, maže až při flush
