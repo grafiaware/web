@@ -71,11 +71,8 @@ class VisitorProfileRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        $key = $documentDao->getLastInsertedPrimaryKey();
-        csss
+        $key = $documentDao->getLastInsertedPrimaryKey();        
         self::$idCv = $documentDao->getLastInsertedPrimaryKey() /*[ $documentDao->getLastInsertedPrimaryKey() ['id'] ] */;
-        self::$idCv = $documentDao->getLastInsertedPrimaryKey() /*[ $documentDao->getLastInsertedPrimaryKey() ['id'] ] */;
-
     }
 
 
@@ -178,8 +175,8 @@ class VisitorProfileRepositoryTest extends AppRunner {
         $visitorProfile->setCvEducationText("Školy mám.");
         $visitorProfile->setCvSkillsText("Umím fčecko nejlýp.");
         //dokument
-        $visitorProfile->setCvDocument(self::$idCv);
-        $visitorProfile->setLetterDocument(self::$idCv);
+        $visitorProfile->setCvDocument(self::$idCv['id']);
+        $visitorProfile->setLetterDocument(self::$idCv['id']);
 
         $this->visitorProfileRepo->add($visitorProfile);
         $this->assertTrue($visitorProfile->isLocked());
