@@ -31,7 +31,7 @@ use Events\Model\Entity\LoginInterface;
         $cred = $loginAggregate->getCredentials();
         
         $role = $loginAggregate->getCredentials()->getRole() ?? '';
-        if ($role = 'sup') {
+        if ($role == 'sup') {
     
 // ------------------------------------------------
    

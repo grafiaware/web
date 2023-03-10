@@ -390,9 +390,9 @@ class JobControler extends FrontControlerAbstract {
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $tag
+     * @param type $id
      */
-    public function updateJobTag (ServerRequestInterface $request, $tag) {                    
+    public function updateJobTag (ServerRequestInterface $request, $id) {                    
 //        $isRepresentative = false;
 //        
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -414,7 +414,7 @@ class JobControler extends FrontControlerAbstract {
         
         
             /** @var JobTagInterface $tag */
-            $tag = $this->jobTagRepo->get($tag);       
+            $tag = $this->jobTagRepo->get($id);       
             $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );                        
         
         
@@ -434,7 +434,7 @@ class JobControler extends FrontControlerAbstract {
      * @param type $tag
      * @return type
      */
-    public function removeJobTag (ServerRequestInterface $request, $tag) {                   
+    public function removeJobTag (ServerRequestInterface $request, $id) {                   
 //        $isRepresentative = false;
 //                
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -456,8 +456,8 @@ class JobControler extends FrontControlerAbstract {
 //            if ($isRepresentative) {       
                     
            
-                /** @var JobTagInterface $job */
-                $tag = $this->jobTagRepo->get( $tag );                                
+                /** @var JobTagInterface $tag */
+                $tag = $this->jobTagRepo->get( $id );                                
                 $this->jobTagRepo->remove( $tag );         
                                                 
 //            } else {

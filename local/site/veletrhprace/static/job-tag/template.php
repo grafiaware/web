@@ -40,7 +40,9 @@ use Events\Model\Entity\JobTag;
     $allTagsStringRepeat=[];
     /** @var  JobTag $tag */
     foreach ($allTags as $tag) {       
-        $allTagsStringRepeat[] = ['tag' => $tag->getTag() ];
+        $allTagsStringRepeat[] = [
+            'id'  => $tag->getId(),
+            'tag' => $tag->getTag() ];
     } 
   ?>
 

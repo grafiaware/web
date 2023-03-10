@@ -83,6 +83,9 @@ use Events\Model\Entity\LoginInterface;
                         /** @var JobToTagInterface $jobToTagEntity */
                     // $i = $jobToTagEntity->getJobId(); // $job = $jobRepo->get($i);
                         $checkTags[$jobToTagEntity->getJobTagTag()] = $jobToTagEntity->getJobTagTag() ;
+                        
+sa                      $checkTags[$jobToTagEntity->getJobTagId()] = $jobToTagEntity->getJobTagId() ;
+
                     }                      
                     $jobToTagies[] = [
                             'jobId' => $jobEntity->getId(),

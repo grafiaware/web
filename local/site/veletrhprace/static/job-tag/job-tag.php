@@ -27,12 +27,12 @@ use Pes\Text\Html;
         <div>                                                                                                                                                       
                     <?=
                      isset($tag) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/".$tag. "' > Uložit </button>" :
+                    "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/".$id . "' > Uložit </button>" :
                     "<button class='ui primary button' type='submit' formaction='events/v1/jobtag' > Uložit </button>" 
                     ?>                                                                                                                             
                     <?=
                      isset($tag) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/" .$tag. "/remove' > Odstranit </button>" :
+                    "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/" .$id. "/remove' > Odstranit </button>" :
                     "" ;
                     ?>                                                                                                                                 
         </div>    
