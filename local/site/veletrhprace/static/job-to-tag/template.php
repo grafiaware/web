@@ -7,7 +7,7 @@ use Status\Model\Repository\StatusSecurityRepo;
 
 use Pes\Text\Text;
 use Pes\Text\Html;
-use Moje\MojeHTML;
+//use Moje\MojeHTML;
 
 use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\JobTagRepo;
@@ -58,12 +58,14 @@ use Events\Model\Entity\LoginInterface;
 //    ------------------------------------------------
 
         $allTags=[]; 
-        $jobTagEntities = $jobTagRepo->findAll();
+        $allTagsStrings=[];
+        $jobTagEntitiesAll = $jobTagRepo->findAll();
         /** @var JobTagInterface  $jobTagEntity */ 
-        foreach ( $jobTagEntities as $jobTagEntity) {
+        foreach ( $jobTagEntitiesAll as $jobTagEntity) {
             $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getTag()] ;
             
-            $allTagsString[] = $jobTagEntity->getTag();
+          
+            $allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
         }
         
         /** @var CompanyInterface $company */ 
@@ -82,16 +84,25 @@ use Events\Model\Entity\LoginInterface;
                     foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
                         /** @var JobToTagInterface $jobToTagEntity */
                     // $i = $jobToTagEntity->getJobId(); // $job = $jobRepo->get($i);
-                        $checkTags[$jobToTagEntity->getJobTagTag()] = $jobToTagEntity->getJobTagTag() ;
+                     //   $checkTags[$jobToTagEntity->getJobTagTag()] = $jobToTagEntity->getJobTagTag() ;
                         
-sa                      $checkTags[$jobToTagEntity->getJobTagId()] = $jobToTagEntity->getJobTagId() ;
+                      $idDoTag = $jobToTagEntity->getJobTagId();  
+                       /** @var JobTagInterface $tagE */
+                      $tagE = $jobTagRepo->get($idDoTag);
+                      
+                      $checkTags[$jobToTagEntity->getJobTagId()] = $jobToTagEntity->getJobTagId() ;                        
+                      $checkTagsStrings[$jobToTagEntity->getJobTagId()] = $tagE->getTag() ;
 
                     }                      
                     $jobToTagies[] = [
                             'jobId' => $jobEntity->getId(),
                             'jobNazev' => $jobEntity->getNazev(),                              
+                        
                             'allTags'=>$allTags,
+                            'allTagsStrings'=>$allTagsStrings,
+                        
                             'checkTags'=>$checkTags,
+                            'checkTagsStrings'=>$checkTagsStrings
                     ];                                       
                 }//$jobEntity
             }                   
