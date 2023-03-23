@@ -23,7 +23,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: 1.71428571rem 0;
+  margin: 1.42857143rem 0;
   font-family: 'Rubik';
   background: transparent;
   font-weight: 300;
@@ -31,7 +31,7 @@
   -webkit-box-shadow: none;
           box-shadow: none;
   border-radius: 0.42857143rem;
-  min-height: 1.7em;
+  min-height: 1.6em;
 }
 .ui.menu:after {
   content: '';
@@ -86,7 +86,7 @@
       -ms-user-select: none;
           user-select: none;
   background: none;
-  padding: 0.35em 0;
+  padding: 0.3em 0;
   text-transform: none;
   color: #fff;
   font-weight: 300;
@@ -150,7 +150,7 @@
   margin: -0.5em 0;
   padding-bottom: 0.78571429em;
   padding-top: 0.78571429em;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 /*----------------
@@ -184,7 +184,7 @@
   margin: -0.5em 0;
 }
 .ui.menu .item > .input input {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   padding-top: 0.57142857em;
   padding-bottom: 0.57142857em;
 }
@@ -202,7 +202,7 @@
 }
 .ui.vertical.menu .item > .header:not(.ui) {
   margin: 0 0 0.5em;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   font-weight: 500;
 }
 
@@ -236,7 +236,7 @@
 .ui.menu .ui.dropdown .menu > .item {
   margin: 0;
   text-align: left;
-  font-size: 1.71428571em !important;
+  font-size: 1.42857143em !important;
   padding: 0.78571429em 1.14285714em !important;
   background: transparent !important;
   color: #000 !important;
@@ -266,7 +266,7 @@
 .ui.menu .ui.dropdown .menu > .item > .icons,
 .ui.menu .ui.dropdown .menu > .item > i.icon:not(.dropdown) {
   display: inline-block;
-  font-size: 1.71428571em !important;
+  font-size: 1.42857143em !important;
   float: none;
   margin: 0 0.75em 0 0 !important;
 }
@@ -614,7 +614,7 @@ Floated Menu / Item
 }
 .ui.vertical.menu .menu .item {
   background: none;
-  padding: 0.3em 0;
+  padding: 0.25em 0;
   font-size: 0.85714286em;
   color: #fff;
 }
@@ -672,7 +672,7 @@ Floated Menu / Item
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   border-top: 2px solid transparent;
-  padding: 0.35em 1.42857143em;
+  padding: 0.3em 1.42857143em;
   color: #fff;
 }
 .ui.tabular.menu .item:before {
@@ -826,7 +826,7 @@ Floated Menu / Item
 /* Active */
 .ui.pagination.menu .active.item {
   border-top: none;
-  padding-top: 0.35em;
+  padding-top: 0.3em;
   background-color: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.95);
   -webkit-box-shadow: none;
@@ -1102,7 +1102,7 @@ Floated Menu / Item
   -webkit-box-shadow: none;
           box-shadow: none;
   border: none;
-  margin: 1.71428571em -0.5em;
+  margin: 1.42857143em -0.5em;
 }
 .ui.text.menu .item {
   border-radius: 0;
@@ -1148,7 +1148,7 @@ Floated Menu / Item
 /*--- vertical text ---*/
 
 .ui.vertical.text.menu {
-  margin: 1.71428571em 0;
+  margin: 1.42857143em 0;
 }
 .ui.vertical.text.menu:first-child {
   margin-top: 0;
@@ -1752,8 +1752,8 @@ Floated Menu / Item
 .ui.horizontally.fitted.menu .item,
 .ui.horizontally.fitted.menu .item .menu .item,
 .ui.menu .horizontally.fitted.item {
-  padding-top: 0.35em;
-  padding-bottom: 0.35em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
 }
 .ui.vertically.fitted.menu .item,
 .ui.vertically.fitted.menu .item .menu .item,
@@ -2076,7 +2076,7 @@ Floated Menu / Item
   bottom: 0;
   margin-bottom: 0;
   top: 0;
-  margin-top: 1.71428571rem;
+  margin-top: 1.42857143rem;
   border-radius: 0.42857143rem 0.42857143rem 0 0;
 }
 .ui.menu[class*="top attached"]:first-child {
@@ -2088,7 +2088,7 @@ Floated Menu / Item
   bottom: 0;
   margin-top: 0;
   top: 0;
-  margin-bottom: 1.71428571rem;
+  margin-bottom: 1.42857143rem;
   -webkit-box-shadow: none, none;
           box-shadow: none, none;
   border-radius: 0 0 0.42857143rem 0.42857143rem;
@@ -2123,7 +2123,7 @@ Floated Menu / Item
 ---------------*/
 
 .ui.menu {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 .ui.vertical.menu {
   width: 15rem;
@@ -2171,7 +2171,7 @@ Floated Menu / Item
 .ui.huge.menu,
 .ui.huge.menu .dropdown,
 .ui.huge.menu .dropdown .menu > .item {
-  font-size: 1.07142857rem;
+  font-size: 1rem;
 }
 .ui.huge.vertical.menu:not(.icon) {
   width: 22rem;
@@ -2251,7 +2251,7 @@ Floated Menu / Item
   display: block;
   width: 98%;
   font-weight: 500;
-  font-size: 2rem;
+  font-size: 1.9rem;
   text-transform: uppercase;
   line-height: 1.2;
   position: relative;
@@ -2309,7 +2309,7 @@ Floated Menu / Item
 }
 #mySidenav:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a,
 #mySidenav:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p {
-  font-size: 2rem !important;
+  font-size: 1.9rem !important;
   padding: 0.2em 1.3em;
 }
 #mySidenav:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a.presented,
@@ -2368,7 +2368,7 @@ Floated Menu / Item
   display: block;
   width: 98%;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   text-transform: uppercase;
   line-height: 1.4;
   position: relative;
@@ -2386,12 +2386,12 @@ Floated Menu / Item
 #mySidenav.editMenu .ui.vertical.menu.edit a {
   display: block;
   width: 98%;
-  font-size: 1.8rem !important;
+  font-size: 1.7rem !important;
   position: relative;
 }
 #mySidenav.editMenu .ui.vertical.menu.edit p {
   padding: 0.6em 1.1em;
-  font-size: 1.5rem !important;
+  font-size: 1.4rem !important;
   font-weight: 500;
   position: relative;
 }
@@ -2400,7 +2400,7 @@ Floated Menu / Item
 }
 #mySidenav.editMenu .kos .ui.vertical.menu a,
 #mySidenav.editMenu .kos .ui.vertical.menu p {
-  font-size: 1.5rem !important;
+  font-size: 1.4rem !important;
   padding: 0 1.3em;
 }
 .ui.vertical.menu .item > .menu {

@@ -465,7 +465,7 @@ body {
   min-width: 320px;
   background: #FFFFFF;
   font-family: 'Rubik';
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.4em;
   color: #000;
 }
@@ -1159,7 +1159,7 @@ footer a:hover::after {
   -ms-flex-align: center;
   align-items: center;
   margin: 0 0 0 -1px !important;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   padding: '';
   border-color: rgba(34, 36, 38, 0.15);
 }
@@ -1496,7 +1496,7 @@ footer a:hover::after {
 .ui.buttons .button,
 .ui.buttons .or,
 .ui.button {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.mini.buttons .dropdown,
@@ -5709,7 +5709,7 @@ footer a:hover::after {
 *******************************/
 
 .prihlaseni .dropdown .tertiary.button {
-  font-size: 0.42857143em;
+  font-size: 0.35714286em;
 }
 
 .editSize.buttons .button,
@@ -6257,7 +6257,7 @@ footer a:hover::after {
   font-weight: 300;
   padding: 0;
   margin: 0;
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
   line-height: 1.2em;
   color: rgba(0, 0, 0, 0.6);
 }
@@ -6370,7 +6370,7 @@ h3.ui.header {
 }
 
 h3.ui.header .sub.header {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 h4.ui.header {
@@ -6378,7 +6378,7 @@ h4.ui.header {
 }
 
 h4.ui.header .sub.header {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 h5.ui.header {
@@ -6433,7 +6433,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.small.header .sub.header {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.small.sub.header {
@@ -6462,7 +6462,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.big.sub.header {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.huge.header {
@@ -6475,7 +6475,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.huge.sub.header {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.massive.header {
@@ -7048,7 +7048,7 @@ a.ui.inverted.black.header.header.header:hover {
 
 .ui.block.header {
   background: #F3F4F5;
-  padding: 0.78571429rem 1.71428571rem;
+  padding: 0.78571429rem 1.42857143rem;
   -webkit-box-shadow: none;
   box-shadow: none;
   border: 1px solid #D4D4D5;
@@ -7056,7 +7056,7 @@ a.ui.inverted.black.header.header.header:hover {
 }
 
 .ui.block.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.mini.block.header {
@@ -7093,7 +7093,7 @@ a.ui.inverted.black.header.header.header:hover {
 
 .ui.attached.header {
   background: #FFFFFF;
-  padding: 0.78571429rem 1.71428571rem;
+  padding: 0.78571429rem 1.42857143rem;
   margin: 0 -1px 0 -1px;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -7120,7 +7120,7 @@ a.ui.inverted.black.header.header.header:hover {
 /* Attached Sizes */
 
 .ui.attached.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.mini.attached.header {
@@ -16354,7 +16354,7 @@ img.ui.bordered.image {
 .ui.medium.image {
   width: 300px;
   height: auto;
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.mini.images .image,
@@ -16898,7 +16898,7 @@ img.ui.bordered.image {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin: 0;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.labeled.input > .label:not(.corner) {
@@ -17210,7 +17210,7 @@ img.ui.bordered.image {
 ---------------------*/
 
 .ui.input {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.mini.input {
@@ -17748,11 +17748,11 @@ a.ui.label {
 /* Inside Table */
 
 .ui.table td > .ui.ribbon.label {
-  left: calc(-1.7142857142857142em - 1.2em);
+  left: calc(-1.4285714285714286em - 1.2em);
 }
 
 .ui.table td > .ui[class*="right ribbon"].label {
-  left: calc(100% + 1.7142857142857142em + 1.2em);
+  left: calc(100% + 1.4285714285714286em + 1.2em);
   padding-left: 0.833em;
 }
 
@@ -19623,7 +19623,7 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 
 .ui.large.labels .label,
 .ui.large.label {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.big.labels .label,
@@ -20681,7 +20681,7 @@ ol.ui.suffixed.list li:before,
 --------------------*/
 
 .ui.list {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.mini.list {
@@ -21666,7 +21666,7 @@ ol.ui.suffixed.list li:before,
 
 .ui.segments .segment,
 .ui.segment {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .ui.mini.segments .segment,
@@ -23565,7 +23565,7 @@ ol.ui.suffixed.list li:before,
   margin-top: 0;
   margin-bottom: 0;
   vertical-align: middle;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.form .inline.fields .field .calendar:not(.popup),
@@ -23613,7 +23613,7 @@ ol.ui.suffixed.list li:before,
 .ui.form,
 .ui.form .field .dropdown,
 .ui.form .field .dropdown .menu > .item {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.mini.form,
@@ -26050,7 +26050,7 @@ ol.ui.suffixed.list li:before,
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: 1.71428571rem 0;
+  margin: 1.42857143rem 0;
   font-family: 'Rubik';
   background: transparent;
   font-weight: 300;
@@ -26058,7 +26058,7 @@ ol.ui.suffixed.list li:before,
   -webkit-box-shadow: none;
   box-shadow: none;
   border-radius: 0.42857143rem;
-  min-height: 1.7em;
+  min-height: 1.6em;
 }
 
 .ui.menu:after {
@@ -26118,7 +26118,7 @@ ol.ui.suffixed.list li:before,
   -ms-user-select: none;
   user-select: none;
   background: none;
-  padding: 0.35em 0;
+  padding: 0.3em 0;
   text-transform: none;
   color: #fff;
   font-weight: 300;
@@ -26186,7 +26186,7 @@ ol.ui.suffixed.list li:before,
   margin: -0.5em 0;
   padding-bottom: 0.78571429em;
   padding-top: 0.78571429em;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 /*----------------
@@ -26222,7 +26222,7 @@ ol.ui.suffixed.list li:before,
 }
 
 .ui.menu .item > .input input {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   padding-top: 0.57142857em;
   padding-bottom: 0.57142857em;
 }
@@ -26241,7 +26241,7 @@ ol.ui.suffixed.list li:before,
 
 .ui.vertical.menu .item > .header:not(.ui) {
   margin: 0 0 0.5em;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   font-weight: 500;
 }
 
@@ -26277,7 +26277,7 @@ ol.ui.suffixed.list li:before,
 .ui.menu .ui.dropdown .menu > .item {
   margin: 0;
   text-align: left;
-  font-size: 1.71428571em !important;
+  font-size: 1.42857143em !important;
   padding: 0.78571429em 1.14285714em !important;
   background: transparent !important;
   color: #000 !important;
@@ -26312,7 +26312,7 @@ ol.ui.suffixed.list li:before,
 .ui.menu .ui.dropdown .menu > .item > .icons,
 .ui.menu .ui.dropdown .menu > .item > i.icon:not(.dropdown) {
   display: inline-block;
-  font-size: 1.71428571em !important;
+  font-size: 1.42857143em !important;
   float: none;
   margin: 0 0.75em 0 0 !important;
 }
@@ -26682,7 +26682,7 @@ Floated Menu / Item
 
 .ui.vertical.menu .menu .item {
   background: none;
-  padding: 0.3em 0;
+  padding: 0.25em 0;
   font-size: 0.85714286em;
   color: #fff;
 }
@@ -26750,7 +26750,7 @@ Floated Menu / Item
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   border-top: 2px solid transparent;
-  padding: 0.35em 1.42857143em;
+  padding: 0.3em 1.42857143em;
   color: #fff;
 }
 
@@ -26925,7 +26925,7 @@ Floated Menu / Item
 
 .ui.pagination.menu .active.item {
   border-top: none;
-  padding-top: 0.35em;
+  padding-top: 0.3em;
   background-color: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.95);
   -webkit-box-shadow: none;
@@ -27239,7 +27239,7 @@ Floated Menu / Item
   -webkit-box-shadow: none;
   box-shadow: none;
   border: none;
-  margin: 1.71428571em -0.5em;
+  margin: 1.42857143em -0.5em;
 }
 
 .ui.text.menu .item {
@@ -27289,7 +27289,7 @@ Floated Menu / Item
 /*--- vertical text ---*/
 
 .ui.vertical.text.menu {
-  margin: 1.71428571em 0;
+  margin: 1.42857143em 0;
 }
 
 .ui.vertical.text.menu:first-child {
@@ -27999,8 +27999,8 @@ Floated Menu / Item
 .ui.horizontally.fitted.menu .item,
 .ui.horizontally.fitted.menu .item .menu .item,
 .ui.menu .horizontally.fitted.item {
-  padding-top: 0.35em;
-  padding-bottom: 0.35em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
 }
 
 .ui.vertically.fitted.menu .item,
@@ -28376,7 +28376,7 @@ Floated Menu / Item
   bottom: 0;
   margin-bottom: 0;
   top: 0;
-  margin-top: 1.71428571rem;
+  margin-top: 1.42857143rem;
   border-radius: 0.42857143rem 0.42857143rem 0 0;
 }
 
@@ -28390,7 +28390,7 @@ Floated Menu / Item
   bottom: 0;
   margin-top: 0;
   top: 0;
-  margin-bottom: 1.71428571rem;
+  margin-bottom: 1.42857143rem;
   -webkit-box-shadow: none, none;
   box-shadow: none, none;
   border-radius: 0 0 0.42857143rem 0.42857143rem;
@@ -28431,7 +28431,7 @@ Floated Menu / Item
 ---------------*/
 
 .ui.menu {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.vertical.menu {
@@ -28491,7 +28491,7 @@ Floated Menu / Item
 .ui.huge.menu,
 .ui.huge.menu .dropdown,
 .ui.huge.menu .dropdown .menu > .item {
-  font-size: 1.07142857rem;
+  font-size: 1rem;
 }
 
 .ui.huge.vertical.menu:not(.icon) {
@@ -28581,7 +28581,7 @@ Floated Menu / Item
   display: block;
   width: 98%;
   font-weight: 500;
-  font-size: 2rem;
+  font-size: 1.9rem;
   text-transform: uppercase;
   line-height: 1.2;
   position: relative;
@@ -28649,7 +28649,7 @@ Floated Menu / Item
 
 #mySidenav:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a,
 #mySidenav:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p {
-  font-size: 2rem !important;
+  font-size: 1.9rem !important;
   padding: 0.2em 1.3em;
 }
 
@@ -28718,7 +28718,7 @@ Floated Menu / Item
   display: block;
   width: 98%;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   text-transform: uppercase;
   line-height: 1.4;
   position: relative;
@@ -28740,13 +28740,13 @@ Floated Menu / Item
 #mySidenav.editMenu .ui.vertical.menu.edit a {
   display: block;
   width: 98%;
-  font-size: 1.8rem !important;
+  font-size: 1.7rem !important;
   position: relative;
 }
 
 #mySidenav.editMenu .ui.vertical.menu.edit p {
   padding: 0.6em 1.1em;
-  font-size: 1.5rem !important;
+  font-size: 1.4rem !important;
   font-weight: 500;
   position: relative;
 }
@@ -28757,7 +28757,7 @@ Floated Menu / Item
 
 #mySidenav.editMenu .kos .ui.vertical.menu a,
 #mySidenav.editMenu .kos .ui.vertical.menu p {
-  font-size: 1.5rem !important;
+  font-size: 1.4rem !important;
   padding: 0 1.3em;
 }
 
@@ -29421,7 +29421,7 @@ Floated Menu / Item
   -webkit-box-shadow: '';
   box-shadow: '';
   text-align: '';
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   padding-left: '';
   padding-right: '';
 }
@@ -31637,7 +31637,7 @@ Floated Menu / Item
 
 .ui.cards > .card .meta,
 .ui.card .meta {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   color: rgba(0, 0, 0, 0.4);
 }
 
@@ -33335,7 +33335,7 @@ a.inverted.ui.card:hover,
 ---------------*/
 
 .ui.items > .item {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.mini.items > .item {
@@ -33688,7 +33688,7 @@ a.inverted.ui.card:hover,
   vertical-align: baseline;
   font-style: normal;
   min-height: 17px;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   line-height: 17px;
   min-width: 17px;
 }
@@ -33714,7 +33714,7 @@ a.inverted.ui.card:hover,
   display: block;
   padding-left: 1.85714em;
   outline: none;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.checkbox label:before {
@@ -35068,7 +35068,7 @@ body.dimmable > .dimmer {
   margin: 0;
   padding: 0 0;
   background: #FFFFFF;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   text-shadow: none;
   text-align: left;
   -webkit-box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -35201,7 +35201,7 @@ body.dimmable > .dimmer {
 
 .ui.dropdown .menu > .header:not(.ui) {
   color: rgba(0, 0, 0, 0.85);
-  font-size: 0.64285714em;
+  font-size: 0.57142857em;
 }
 
 .ui.dropdown .menu > .divider {
@@ -35913,7 +35913,7 @@ select.ui.dropdown {
 .ui.multiple.dropdown > .label {
   display: inline-block;
   white-space: normal;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   padding: 0.35714286em 0.78571429em;
   margin: 0.14285714rem 0.28571429rem 0.14285714rem 0;
   -webkit-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
@@ -36959,7 +36959,7 @@ select.ui.dropdown {
 
 .ui.dropdown,
 .ui.dropdown .menu > .item {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.mini.dropdown,
@@ -37257,12 +37257,20 @@ select.ui.dropdown {
 *******************************/
 
 .prihlaseni .dropdown label {
-  font-size: 0.28571429em;
+  font-size: 0.35714286em;
   padding-left: 1.3em;
 }
 
 .prihlaseni .dropdown .input {
-  font-size: 0.85714286em;
+  font-size: 0.57142857em;
+}
+
+.dropdown .button {
+  font-size: 1.15rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 5px auto;
 }
 /*!
  * # Fomantic-UI - Accordion

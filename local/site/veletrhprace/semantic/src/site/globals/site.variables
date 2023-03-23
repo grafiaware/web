@@ -16,9 +16,9 @@
 
 
 /* The size of page text */
-@fontSize :    24px;
-@smallFontSize :   17px;
-@bigFontSize:   34px;    
+@fontSize :     20px;
+@smallFontSize :   15px;
+@bigFontSize:   30px;       
 
 /*-------------------
     Border Radius
@@ -67,7 +67,7 @@
 @miniSize        : (11 / 14);
 @tinySize        : (12 / 14);
 @smallSize       : (13 / 14); 
-@mediumSize      : (24 / 14);
+@mediumSize      : (20 / 14);
 @largeSize       : (16 / 14);
 @bigSize         : (18 / 14);  
 @hugeSize        : (20 / 14);
