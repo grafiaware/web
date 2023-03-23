@@ -19,20 +19,20 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
 
 
     public function getPrimaryKeyAttributes(): array {
-        return ['job_id', 'job_tag_tag'];
+        return ['job_id', 'job_tag_id'];
     }
 
     public function getReferenceAttributes($referenceName): array {
         return [
             'job'=>['job_id'=>'id'],
-            'job_tag'=>['job_tag_tag'=>'tag']
+            'job_tag'=>['job_tag_id'=>'id']
         ][$referenceName];
     }
 
     public function getAttributes(): array {
         return [
             'job_id',
-            'job_tag_tag'
+            'job_tag_id'
         ];
     }
 
@@ -44,7 +44,7 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
         return $this->findByReference('job', $jobIdFk);
     }
 
-    public function findByJobTagFk( array $jobTagTagFk ) : array{
-        return $this->findByReference('job_tag', $jobTagTagFk);
+    public function findByJobTagIdFk( array $jobTagIdFk ) : array{
+        return $this->findByReference('job_tag', $jobTagIdFk);
     }
 }

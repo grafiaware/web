@@ -10,15 +10,24 @@ use Events\Model\Entity\JobTagInterface;
  * @author vlse2610
  */
 interface JobTagRepoInterface extends RepoInterface  {
-   
-   
+             
     /**
      * 
-     * @param type $tag
+     * @param type $id
      * @return JobTagInterface|null
      */
-    public function get( $tag ): ?JobTagInterface ;
+    public function get($id): ?JobTagInterface ;
 
+    
+     /**
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return JobTagInterface[]
+     */
+    public function find($whereClause=null, $touplesToBind=[]) : array ;
+        
+    
     /**
      * 
      * @return JobTagInterface[]
@@ -32,7 +41,6 @@ interface JobTagRepoInterface extends RepoInterface  {
      * @return void
      */
     public function add(JobTagInterface $jobtag ) :void ; 
-    
     
     
     /**

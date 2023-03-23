@@ -25,6 +25,8 @@ use Events\Model\Repository\DocumentRepoInterface;
 
 use Events\Model\Repository\RepresentativeRepoInterface;
 //use Events\Model\Repository\RepresentativeRepo;
+use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\JobRepoInterface;
 
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\VisitorProfileIntertface;
@@ -32,8 +34,7 @@ use Events\Model\Entity\Document;
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Entity\VisitorJobRequestInterface;
-use Events\Model\Repository\JobRepo;
-use Events\Model\Repository\JobRepoInterface;
+
 use Events\Model\Entity\Job;
 use Events\Model\Entity\JobInterface;
 
@@ -114,7 +115,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
             VisitorJobRequestRepoInterface $visitorJobRequesRepo,          
             DocumentRepoInterface $documentRepo,
             RepresentativeRepoInterface $representativeRepo,
-            JobRepo $job
+            JobRepoInterface $job
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->visitorProfileRepo = $visitorProfileRepo;

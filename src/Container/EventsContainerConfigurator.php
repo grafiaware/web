@@ -18,6 +18,8 @@ use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
+use Events\Middleware\Events\Controler\EventControler;
+use Events\Middleware\Events\Controler\EventControler_2;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -28,6 +30,7 @@ use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
+use Events\Model\Repository\EnrollRepo;
 
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
@@ -35,6 +38,12 @@ use Events\Model\Repository\JobRepo;
 use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\JobTagRepo;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
+use Events\Model\Repository\InstitutionTypeRepo;
+use Events\Model\Repository\InstitutionRepo;
+
+
+
+use Events\Model\Arraymodel\Event;
 
 // service
 use Template\Compiler\TemplateCompiler;
@@ -73,6 +82,37 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
+                    
+                       
+            EventControler::class => function(ContainerInterface $c) {
+                return (new EventControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        
+                        $c->get(EnrollRepo::class),
+                        $c->get(Event::class)
+                        )
+                       )->injectContainer($c);
+            },       
+                    
+                    
+            EventControler_2::class => function(ContainerInterface $c) {
+                return (new EventControler_2(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(InstitutionTypeRepo::class),
+                        $c->get(InstitutionRepo::class)
+                        
+//                        $c->get(EnrollRepo::class),
+//                        $c->get(Event::class)
+                        )
+                       )->injectContainer($c);
+            },               
+               
+                    
+                    
 
             VisitorProfileControler::class => function(ContainerInterface $c) {
                 return (new VisitorProfileControler(

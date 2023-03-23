@@ -71,8 +71,8 @@ class VisitorProfileRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idCv = $documentDao->getLastInsertedPrimaryKey()[$documentDao->getLastInsertedPrimaryKey()];
-
+        $key = $documentDao->getLastInsertedPrimaryKey();        
+        self::$idCv = $documentDao->getLastInsertedPrimaryKey() /*[ $documentDao->getLastInsertedPrimaryKey() ['id'] ] */;
     }
 
 
@@ -161,7 +161,9 @@ class VisitorProfileRepositoryTest extends AppRunner {
 
     public function testAdd() {
         self::$loginNameAdded = self::insertLoginRecord($this->container);
+        /** @var VisitorProfile $visitorProfile */
         $visitorProfile = new VisitorProfile();
+        /** */
         $visitorProfile->setLoginLoginName( self::$loginNameAdded );
 
         $visitorProfile->setPrefix("Bleble.");
@@ -173,8 +175,8 @@ class VisitorProfileRepositoryTest extends AppRunner {
         $visitorProfile->setCvEducationText("Školy mám.");
         $visitorProfile->setCvSkillsText("Umím fčecko nejlýp.");
         //dokument
-        $visitorProfile->setCvDocument(self::$idCv);
-        $visitorProfile->setLetterDocument(self::$idCv);
+        $visitorProfile->setCvDocument(self::$idCv['id']);
+        $visitorProfile->setLetterDocument(self::$idCv['id']);
 
         $this->visitorProfileRepo->add($visitorProfile);
         $this->assertTrue($visitorProfile->isLocked());
@@ -252,7 +254,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
         $this->assertTrue($visitorProfile->isPersisted());
         $this->assertFalse($visitorProfile->isLocked());
 
-        $this-$this->visitorProfileRepo->remove($visitorProfile);
+        $this->visitorProfileRepo->remove($visitorProfile);
 
         $this->assertTrue($visitorProfile->isPersisted());
         $this->assertTrue($visitorProfile->isLocked());   // zatim zamcena entita, maže až při flush

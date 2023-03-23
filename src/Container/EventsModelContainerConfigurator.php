@@ -54,10 +54,12 @@ use Events\Model\Repository\EventLinkRepo;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Hydrator\InstitutionHydrator;
 use Events\Model\Repository\InstitutionRepo;
+use Events\Model\Entity\Institution;
 
 use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
+use Events\Model\Entity\InstitutionType;
 
 use Events\Model\Hydrator\InstitutionTypeChildHydrator;
 use Events\Model\Repository\Association\InstitutionsAssociation;
@@ -93,6 +95,7 @@ use Events\Model\Entity\JobToTag;
 use Events\Model\Dao\JobTagDao;
 use Events\Model\Hydrator\JobTagHydrator;
 use Events\Model\Repository\JobTagRepo;
+use Events\Model\Entity\JobTag;
 
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Hydrator\PozadovaneVzdelaniHydrator;
@@ -175,6 +178,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobToTag::class => function(ContainerInterface $c) {
             return new JobToTag();
+            },
+            JobTag::class => function(ContainerInterface $c) {
+            return new JobTag();
             }
 
         ];

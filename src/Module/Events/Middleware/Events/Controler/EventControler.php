@@ -23,8 +23,8 @@ use Red\Model\Repository\{
 
 use Middleware\Api\Controller\Exception\UnexpectedLanguageException;
 
-use \Events\Model\Arraymodel\Event;
-use \Model\Entity\Enroll;
+use Events\Model\Arraymodel\Event;
+use Model\Entity\Enroll;
 
 /**
  * Description of PostController
@@ -84,4 +84,14 @@ class EventControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    //----------------------------------------------------------------------------------------------
+    
+    
+    
+  
+    
+    
+    
+    
+    
 }
