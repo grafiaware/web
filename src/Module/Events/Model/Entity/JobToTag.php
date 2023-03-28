@@ -13,7 +13,7 @@ use Events\Model\Entity\JobToTagInterface;
 class JobToTag extends PersistableEntityAbstract implements JobToTagInterface {
 
     private $jobId;  //NOT NULL
-    private $jobTagId;   //NOT NULL
+    private $jobTagTag;   //NOT NULL
 
    /**
     *
@@ -22,38 +22,33 @@ class JobToTag extends PersistableEntityAbstract implements JobToTagInterface {
     public function getJobId() {
         return $this->jobId;
     }
-
     /**
-     * 
-     * @return int
+     *
+     * @return string
      */
-    public function getJobTagId() :int {
-        return $this->jobTagId;
+    public function getJobTagTag() : string{
+        return $this->jobTagTag;
     }
 
-    
-
-    
     /**
      *
      * @param int $jobId
      * @return JobToTagInterface
      */
-    public function setJobId($jobId) : JobToTagInterface {
+    public function setJobId(  $jobId) : JobToTagInterface {
         $this->jobId = $jobId;
         return $this;
     }
 
-
-    
     /**
-     * 
-     * @param int $jobTagId
+     *
+     * @param string $jobTagTag
      * @return JobToTagInterface
      */
-    public function setJobTagId($jobTagId) : JobToTagInterface {
-        $this->jobTagId = $jobTagId;
+    public function setJobTagTag(  $jobTagTag) : JobToTagInterface {
+        $this->jobTagTag = $jobTagTag;
         return $this;
     }
+
 
 }

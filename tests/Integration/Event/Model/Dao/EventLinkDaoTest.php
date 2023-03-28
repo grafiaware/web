@@ -72,15 +72,12 @@ class EventLinkDaoTest extends AppRunner {
             );
 
 
-//        //smazat -- id2 ----
-//        /** @var EventLinkDao $eventLinkDao */
-//        $eventLinkDao = $container->get(EventLinkDao::class);
-//        $eventRow = $eventLinkDao->get(self::$eventLink2PrimaryKey);  //PS nově mažu oba linky v testDelete
-//        $eventLinkDao->delete($eventRow);
-//        //PS nově mažu oba linky v testDelete
-        
-        
-        
+        //smazat -- id2 ----
+        /** @var EventLinkDao $eventLinkDao */
+        $eventLinkDao = $container->get(EventLinkDao::class);
+        $eventRow = $eventLinkDao->get(self::$eventLink2PrimaryKey);  //PS nově mažu oba linky v testDelete
+        $eventLinkDao->delete($eventRow);
+
         //smazat -- event ----
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);

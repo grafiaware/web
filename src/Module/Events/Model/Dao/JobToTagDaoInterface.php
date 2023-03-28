@@ -12,7 +12,7 @@ use Model\Dao\DaoReferenceNonuniqueInterface;
 interface JobToTagDaoInterface extends DaoReferenceNonuniqueInterface {    
     
     public function findByJobIdFk( array $jobIdFk ): array ;   
-    
-    public function findByJobTagIdFk( array $jobTagIdFk ) : array ;
+
+    public function findByJobTagFk( array $jobTagTagFk ) : array ;
    
 }

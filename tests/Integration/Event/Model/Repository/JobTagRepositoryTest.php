@@ -32,9 +32,6 @@ class JobTagRepositoryTest extends AppRunner {
     private $jobTagRepo;
 
     private static $tagKlic = "proJobTagRepoTest";
-    private static $jobTagIdDaoTouple;
-    private static $idTag3;
-    private static $tag3;
 
 
     public static function setUpBeforeClass(): void {
@@ -55,12 +52,10 @@ class JobTagRepositoryTest extends AppRunner {
     private static function insertRecords(Container $container) {
         // toto je příprava testu, vlozi 1 tag
         /** @var JobTagDao $jobTagDao */
-        $jobTagDao = $container->get( JobTagDao::class );  
+        $jobTagDao = $container->get( JobTagDao::class );
         $rowData = new RowData();
-        $rowData->offsetSet('tag', self::$tagKlic . "1" );  
+        $rowData->offsetSet('tag', self::$tagKlic . "1" );
         $jobTagDao->insert($rowData);
-        self::$jobTagIdDaoTouple = $jobTagDao->getLastInsertedPrimaryKey();
-        
     }
 
 
@@ -111,22 +106,13 @@ class JobTagRepositoryTest extends AppRunner {
     }
 
 
-      public function testGetAfterSetup() {  
-        /** @var JobTag $jobTag */
-        $jobTag = $this->jobTagRepo->get( self::$jobTagIdDaoTouple['id'] );           
-        $this->assertInstanceOf( JobTagInterface::class, $jobTag );
-    }
-    
-    
 
-    public function testFindAndRemoveAfterSetup() {        
-       // $jobTag = $this->jobTagRepo->get(  'tag' , self::$tagKlic  . "1" );
-        $jobTags = $this->jobTagRepo->find(  " tag LIKE '". self::$tagKlic . "%'", [] );
-        /** @var JobTag $tag */
-        foreach ($jobTags as $tag) {            
-            $this->assertInstanceOf( JobTagInterface::class, $tag );
-            $this->jobTagRepo->remove($tag);            
-        }
+    public function testGetAndRemoveAfterSetup() {
+        /** @var JobTag $jobTag */
+        $jobTag = $this->jobTagRepo->get( self::$tagKlic  . "1" );
+        $this->assertInstanceOf( JobTagInterface::class, $jobTag );
+
+        $this->jobTagRepo->remove($jobTag);
     }
 
     public function testGetAfterRemove() {
@@ -142,7 +128,7 @@ class JobTagRepositoryTest extends AppRunner {
         $jobTag = new JobTag();
         $jobTag->setTag(self::$tagKlic .'2');
         $this->jobTagRepo->add($jobTag);
-        // pro automaticky|generovany klic (tento pripad zde )  a pro  overovany klic  - !!! zapise se hned !!!    DaoEditKeyDbVerifiedInterface
+        // pro automaticky|generovany klic a pro  overovany klic (tento pripad zde ) - !!! zapise se hned !!!    DaoEditKeyDbVerifiedInterface
         $this->assertTrue($jobTag->isPersisted());
         $this->assertFalse($jobTag->isLocked());
 
@@ -150,31 +136,28 @@ class JobTagRepositoryTest extends AppRunner {
 
 
 
-//    public function testAddTheSame() {  
-//        /** @var JobTag $jobTag */
-//        $jobTag = new JobTag();
-//        $jobTag->setTag(self::$tagKlic .'2');
-//
-//        $this->expectException( UnableAddEntityException::class );
-//        $this->jobTagRepo->add($jobTag);
-//    }
+    public function testAddTheSame() {
+        /** @var JobTag $jobTag */
+        $jobTag = new JobTag();
+        $jobTag->setTag(self::$tagKlic .'2');
+
+        $this->expectException( UnableAddEntityException::class );
+        $this->jobTagRepo->add($jobTag);
+    }
 
 
-    
     public function testAddAndReread() {
         /** @var JobTag $jobTag */
         $jobTag = new JobTag();
         $jobTag->setTag(self::$tagKlic .'3');
-        $this->jobTagRepo->add($jobTag); // overovany nebo autoinkrement  klic zapise hned
+        $this->jobTagRepo->add($jobTag); // overovany klic zapise hned
 
         // $this->->flush();
         $this->assertTrue($jobTag->isPersisted());
         $this->assertFalse($jobTag->isLocked());
 
-        self::$idTag3 = $jobTag->getId();
-        self::$tag3 = $jobTag->getTag();
         /** @var JobTag $jobTagRereaded */
-        $jobTagRereaded = $this->jobTagRepo->get( $jobTag->getId() );
+        $jobTagRereaded = $this->jobTagRepo->get($jobTag->getTag());
         $this->assertInstanceOf(JobTagInterface::class, $jobTagRereaded);
         $this->assertTrue($jobTagRereaded->isPersisted());
         $this->assertFalse($jobTagRereaded->isLocked());
@@ -189,17 +172,18 @@ class JobTagRepositoryTest extends AppRunner {
     }
 
 
-    public function testFind() {
-        $rows =  $this->jobTagRepo->find( " tag LIKE '" .  "%" . self::$tag3 . "%'" , []);
-        
-        $this->assertTrue(is_array($rows));
-        $this->assertGreaterThan(0,count($rows)); //je tam 1
-    }
+//////ZATIM NEMA FIND metodu
+////    public function testFind() {
+////        $rows =  $this->pozadovaneVzdelaniRepo->find( " vzdelani LIKE '" . self::$stupenKlic . "%'", []);
+////
+////        $this->assertTrue(is_array($rows));
+////        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2
+////    }
 
 
     public function testRemove_OperationWithLockedEntity() {
         /** @var JobTag $jobTag */
-        $jobTag = $this->jobTagRepo->get(self::$idTag3);
+        $jobTag = $this->jobTagRepo->get(self::$tagKlic . "3");
         $this->assertInstanceOf(JobTag::class, $jobTag);
         $this->assertTrue($jobTag->isPersisted());
         $this->assertFalse($jobTag->isLocked());
@@ -213,7 +197,7 @@ class JobTagRepositoryTest extends AppRunner {
 
     public function testRemove() {
         /** @var JobTag $jobTag */
-        $jobTag = $this->jobTagRepo->get( self::$idTag3 );
+        $jobTag = $this->jobTagRepo->get(self::$tagKlic . "3" );
 
         $this->assertInstanceOf(JobTagInterface::class, $jobTag);
         $this->assertTrue($jobTag->isPersisted());

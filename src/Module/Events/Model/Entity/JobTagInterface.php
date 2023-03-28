@@ -9,11 +9,6 @@ use Model\Entity\PersistableEntityInterface;
  * @author vlse2610
  */
 interface JobTagInterface extends PersistableEntityInterface {
-    
-    
-    public function getId()  ;
-    
-
   
     /**
      * 
@@ -30,12 +25,5 @@ interface JobTagInterface extends PersistableEntityInterface {
      */
     public function setTag( $tag) : JobTagInterface ;
        
-     /**
-     *
-     * @param type $id
-     * @return JobTagInterface
-     */
-    public function setId($id) : JobTagInterface;
-    
     
 }

@@ -22,37 +22,35 @@ class JobToTagRepo extends RepoAbstract implements JobToTagRepoInterface {
         $this->registerHydrator($jobToTagHydrator);
     }
 
- 
-    /**
-     * 
+
+ /**
+     *
      * @param type $jobId
-     * @param type $jobTagId
+     * @param type $jobTagTag
      * @return JobToTagInterface|null
      */
-    public function get($jobId, $jobTagId): ?JobToTagInterface {
-        return $this->getEntity($jobId, $jobTagId);
+    public function get($jobId, $jobTagTag): ?JobToTagInterface {
+        return $this->getEntity($jobId, $jobTagTag);
     }
 
 
 
+     /**
+     *
+     * @param type $jobTagTag
+     * @return JobToTagInterface[]
+     */
+    public function findByJobTagTag($jobTagTag) : array  {
+        return $this->findEntities("job_tag_tag = :job_tag_tag", [":job_tag_tag"=>$jobTagTag]);
+    }
 
-    /**
+       /**
      *
      * @param type $jobId
      * @return JobToTagInterface[]
      */
     public function findByJobId($jobId) : array {
         return $this->findEntities("job_id = :job_id", [":job_id"=>$jobId] );
-    }
-    
-    
-    /**
-     * 
-     * @param type $jobTagId
-     * @return array
-     */
-    public function findByJobTagId($jobTagId) : array {
-        return $this->findEntities("job_tag_id = :job_tag_id", [":job_tag_id"=>$jobTagId] );
     }
 
 
@@ -93,11 +91,11 @@ class JobToTagRepo extends RepoAbstract implements JobToTagRepoInterface {
     }
 
     protected function indexFromEntity(JobToTagInterface $jobToTag) {
-       return $jobToTag->getJobId() . $jobToTag->getJobTagId() ;
+       return $jobToTag->getJobId() . $jobToTag->getJobTagTag() ;
     }
 
     protected function indexFromRow($row) {
-        return $row['job_id']. $row['job_tag_id'] ;
+        return $row['job_id']. $row['job_tag_tag'] ;
     }
 
 }

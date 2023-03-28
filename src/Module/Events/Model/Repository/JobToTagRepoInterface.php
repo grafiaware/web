@@ -10,34 +10,28 @@ use Events\Model\Entity\JobToTagInterface;
  * 
  */
 interface JobToTagRepoInterface  extends RepoInterface { 
-   
-    
-     /**
+    /**
      * 
      * @param type $jobId
-     * @param type $jobTagId
+     * @param type $jobTagTag
      * @return JobToTagInterface|null
      */
-    public function get($jobId, $jobTagId): ?JobToTagInterface ;
-    
-    
-
-    
+    public function get($jobId, $jobTagTag): ?JobToTagInterface ;
+          
     /**
-     *
-     * @param type $jobId
+     * 
+     * @param type $jobTagTag     
      * @return JobToTagInterface[]
      */
-    public function findByJobId($jobId) : array ;
-    
+    public function findByJobTagTag($jobTagTag) : array;
     
         
     /**
      * 
-     * @param type $jobTagId
-     * @return array
+     * @param type $jobId     
+     * @return JobToTagInterface[]
      */
-    public function findByJobTagId($jobTagId) : array ;
+    public function findByJobId($jobId) : array;
     
         
     /**

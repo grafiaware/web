@@ -20,7 +20,6 @@ use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\EventcontentControler;
 use Events\Middleware\Events\Controler\EventControler;
-use Events\Middleware\Events\Controler\EventControler_2;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
@@ -130,50 +129,6 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(EventControler::class);
             return $ctrl->enroll($request);
         });
-        
-        
-        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institutiontype", function(ServerRequestInterface $request) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->addInstitutionType($request);
-        });        
-        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institutiontype/:institutionTypeId", function(ServerRequestInterface $request, $institutionTypeId) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateInstitutionType($request, $institutionTypeId);
-        });        
-        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institutiontype/:institutionTypeId/remove", function(ServerRequestInterface $request, $institutionTypeId) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeInstitutionType($request, $institutionTypeId);
-        });
-        
-        
-        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institution", function(ServerRequestInterface $request) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->addInstitution($request);
-        });        
-        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institution/:institutionId", function(ServerRequestInterface $request, $institutionId) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateInstitution($request, $institutionId);
-        });        
-        $this->routeGenerator->addRouteForAction('POST', "/events/v1/institution/:institutionId/remove", function(ServerRequestInterface $request, $institutionId) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeInstitution($request, $institutionId);
-        });
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
@@ -300,40 +255,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->processingJobToTag($request,  $jobId);
         });
-        
-        
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag' , function(ServerRequestInterface $request) {
-            /** @var JobControler $ctrl */
-            $ctrl = $this->container->get(JobControler::class);
-            return $ctrl->addJobTag($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:id' , function(ServerRequestInterface $request, $id) {
-            /** @var JobControler $ctrl */
-            $ctrl = $this->container->get(JobControler::class);
-            return $ctrl->updateJobTag($request, $id);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:id/remove' , function(ServerRequestInterface $request, $id) {
-            /** @var JobControler $ctrl */
-            $ctrl = $this->container->get(JobControler::class);
-            return $ctrl->removeJobTag($request, $id);
-        });
-        
-        
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/pozadovanevzdelani' , function(ServerRequestInterface $request) {
-            /** @var JobControler $ctrl */
-            $ctrl = $this->container->get(JobControler::class);
-            return $ctrl->addPozadovaneVzdelani($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/pozadovanevzdelani/:stupen' , function(ServerRequestInterface $request, $stupen) {
-            /** @var JobControler $ctrl */
-            $ctrl = $this->container->get(JobControler::class);
-            return $ctrl->updatePozadovaneVzdelani($request, $stupen);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/pozadovanevzdelani/:stupen/remove' , function(ServerRequestInterface $request, $stupen) {
-            /** @var JobControler $ctrl */
-            $ctrl = $this->container->get(JobControler::class);
-            return $ctrl->removePozadovaneVzdelani($request, $stupen);
-        });
+        //events/v1/tag/:tag/remove
         
              
         

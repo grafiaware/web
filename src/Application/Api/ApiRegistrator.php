@@ -139,20 +139,8 @@ class ApiRegistrator {
 
         ### events module ###
         #
-        #### EventController_2 ####
+        #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
-        
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutionTypeId'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutionTypeId/remove'));
-        
-        
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId/remove'));
-                
-        
-        
         
         #### VisitorProfileController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));        
@@ -181,14 +169,6 @@ class ApiRegistrator {
         
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtotag/:jobId'));   
         
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:id'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:id/remove'));
-                
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/pozadovanevzdelani'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/pozadovanevzdelani/:stupen'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/pozadovanevzdelani/:stupen/remove'));
-  
                
         
         #### VisitorJobRequestControler

@@ -38,8 +38,7 @@ class JobDaoTest  extends AppRunner {
     private static $stupen_fk;
     private static $companyPrimaryKey;
     private static $login_login_name;
-
-    private static $jobTagIdTouple;
+    private static $jobTagTouple;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -80,9 +79,7 @@ class JobDaoTest  extends AppRunner {
         $loginDao->insert($loginData);
         self::$login_login_name = $loginDao->get(['login_name' => $loginName])['login_name'];
 
-        //*
-        //self::$jobTagTouple = [ 'job_tag_tag' => 'technická'];
-        self::$jobTagIdTouple = [ 'id' => '3'];    //'technická'
+        self::$jobTagTouple = [ 'job_tag_tag' => 'technická'];
     }
 
     protected function setUp(): void {
@@ -141,7 +138,7 @@ class JobDaoTest  extends AppRunner {
         /** @var JobToTagDao $jobToTagDao */
         $jobToTagDao = $this->container->get(JobToTagDao::class);
         $jobToTagData = new RowData();
-        $jobToTagData->import( [ 'job_tag_id' => self::$jobTagIdTouple ['id']  , 'job_id'=>self::$jobPrimaryKey['id'] ] );
+        $jobToTagData->import( [ 'job_tag_tag' => self::$jobTagTouple ['job_tag_tag']  , 'job_id'=>self::$jobPrimaryKey['id'] ] );
         $jobToTagDao->insert($jobToTagData);
 
         //vyrobit visitor_job_request
@@ -204,7 +201,7 @@ class JobDaoTest  extends AppRunner {
         //job_to_tag
         /** @var JobToTagDao $jobToTagDao */
         $jobToTagDao = $this->container->get(JobToTagDao::class);
-        $jobToTagData = $jobToTagDao->get( ['job_id' => self::$jobPrimaryKey['id'], 'job_tag_id' => self::$jobTagIdTouple['id'] ] );
+        $jobToTagData = $jobToTagDao->get( ['job_id' => self::$jobPrimaryKey['id'], 'job_tag_tag' => self::$jobTagTouple['job_tag_tag'] ] );
         $this->assertNull($jobToTagData);
 
         //visitor_job_request

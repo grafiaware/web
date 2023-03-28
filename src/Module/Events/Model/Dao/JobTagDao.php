@@ -2,11 +2,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoAutoincrementTrait;
-
-//use Model\Dao\DaoEditKeyDbVerifiedInterface;
-
-use Events\Model\Dao\JobTagDaoInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 
 /**
@@ -14,23 +10,14 @@ use Events\Model\Dao\JobTagDaoInterface;
  *
  * @author vlse2610
  */
-class JobTagDao    extends DaoEditAbstract  implements JobTagDaoInterface /*DaoEditKeyDbVerifiedInterface */{   
-    
-    use DaoAutoincrementTrait;
-
-    public function getAutoincrementFieldName() {
-        return 'id';
-    }
-    
-    
+class JobTagDao    extends DaoEditAbstract  implements DaoEditKeyDbVerifiedInterface {   
 
     public function getPrimaryKeyAttributes(): array {
-       //return ['tag'];
-        return ['id'];
+        return ['tag'];
     }
 
     public function getAttributes(): array {
-        return [ 'id', 'tag'  ];
+        return [ 'tag'  ];
     }
 
     public function getTableName(): string {

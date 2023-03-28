@@ -71,7 +71,7 @@ class EventContentDaoTest extends AppRunner {
         //v event  zbývá záznam uklidit
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
-        $eventRow = $eventDao->get(  self::$eventPrimaryKey  );
+        $eventRow = $eventDao->get( [ 'id' => self::$eventPrimaryKey ] );
         if (isset($eventRow)) {
             $eventDao->delete($eventRow);
         }
@@ -157,7 +157,7 @@ class EventContentDaoTest extends AppRunner {
         // zda se nastavil v event   event_content_id_fk na NULL
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get(EventDao::class);
-        $eventData = $eventDao->get( self::$eventPrimaryKey  );
+        $eventData = $eventDao->get( ['id' => self::$eventPrimaryKey  ] );
         $this->assertNull($eventData [ 'event_content_id_fk' ]);
 
     }

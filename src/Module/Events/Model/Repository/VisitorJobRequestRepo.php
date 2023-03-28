@@ -60,7 +60,7 @@ class VisitorJobRequestRepo extends RepoAbstract implements VisitorJobRequestRep
      */
     public function findByLoginNameAndPosition($loginName, $positionName): array {
           return $this->findEntities( "login_login_name = :login_login_name AND position_name = :position_name",
-                                      [':login_login_name' => $loginName, ':position_name' => $positionName]);
+                                      [':login_login_name' => $shortName, ':position_name' => $positionName]);
     }
 
 
