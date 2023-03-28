@@ -2,7 +2,7 @@
     background-color: inherit; 
     color: inherit;
     text-align: inherit; 
-    font-size: inherit;
+    font-size: inherit; 
     font-weight: inherit;
     padding: 0;  
     margin: 0;
@@ -14,14 +14,14 @@
     border-radius: @borderRadius; 
     box-shadow: @boxShadow  
 } */  
-/*******************************
+/******************************* 
          layout.less: @import "../../site-definitions.less"              
 *******************************/                  
 @import "../../site-definitions.less";                                                  
            
 /*******************************
          layout.less: @import "../../@{sitename}/semantic/src/themes/default/globals/site.variables" 
-*******************************/
+*******************************/    
 @import "../../@{sitename}/semantic/src/themes/default/globals/site.variables";
 
 /******************************* 
@@ -47,7 +47,7 @@
 &{         
 @templateType: "multipage";                                                                                   
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";     
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less"; 
 } 
 
 /*******************************
