@@ -6923,3 +6923,6 @@ i.icon.youtube.play:before {
          Site Overrides
 *******************************/
 
+.fix-bar .prihlaseni i.icon {
+  font-size: 1.4em;
+}

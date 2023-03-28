@@ -854,7 +854,7 @@ Floated Menu / Item
   -webkit-box-shadow: none;
           box-shadow: none;
   border: none;
-  padding: 0.78571429em 0.92857143em;
+  padding: 0.78571429em 1.14285714em;
   margin: 0 0.35714286em;
   background: none;
   -webkit-transition: color 0.1s ease;
@@ -940,7 +940,7 @@ Floated Menu / Item
 
 /* Sub Menu */
 .ui.vertical.secondary.menu .item:not(.dropdown) > .menu {
-  margin: 0 -0.92857143em;
+  margin: 0 -1.14285714em;
 }
 .ui.vertical.secondary.menu .item:not(.dropdown) > .menu > .item {
   margin: 0;
@@ -1129,7 +1129,7 @@ Floated Menu / Item
   background-color: transparent;
   opacity: 1;
   color: rgba(0, 0, 0, 0.85);
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   text-transform: uppercase;
   font-weight: 500;
 }

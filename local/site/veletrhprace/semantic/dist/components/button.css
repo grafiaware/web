@@ -720,7 +720,7 @@
 .ui.small.buttons .button,
 .ui.small.buttons .or,
 .ui.ui.ui.ui.small.button {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.large.buttons .dropdown,
 .ui.large.buttons .dropdown .menu > .item,
@@ -4381,7 +4381,7 @@
 }
 .editSize.buttons .button,
 .editingButtons_size.buttons .button {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .editSize.buttons .button .icon,
 .editingButtons_size.buttons .button .icon {
@@ -4389,7 +4389,7 @@
 }
 .editSize.button,
 .editingButtons_size.button {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .editSize.button .icon,
 .editingButtons_size.button .icon {

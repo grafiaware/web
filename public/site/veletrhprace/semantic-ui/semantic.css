@@ -488,23 +488,23 @@ h5 {
 
 h1 {
   min-height: 1rem;
-  font-size: 4.14285714rem;
+  font-size: 3.57142857rem;
 }
 
 h2 {
-  font-size: 4.14285714rem;
+  font-size: 3.57142857rem;
 }
 
 h3 {
-  font-size: 3.92857143rem;
+  font-size: 3.35714286rem;
 }
 
 h4 {
-  font-size: 3.42857143rem;
+  font-size: 2.85714286rem;
 }
 
 h5 {
-  font-size: 3.21428571rem;
+  font-size: 2.64285714rem;
 }
 
 h1:first-child,
@@ -1520,7 +1520,7 @@ footer a:hover::after {
 .ui.small.buttons .button,
 .ui.small.buttons .or,
 .ui.ui.ui.ui.small.button {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.buttons .dropdown,
@@ -5714,7 +5714,7 @@ footer a:hover::after {
 
 .editSize.buttons .button,
 .editingButtons_size.buttons .button {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .editSize.buttons .button .icon,
@@ -5724,7 +5724,7 @@ footer a:hover::after {
 
 .editSize.button,
 .editingButtons_size.button {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .editSize.button .icon,
@@ -6173,7 +6173,7 @@ footer a:hover::after {
 }
 
 .ui.small.divider {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.divider {
@@ -6350,7 +6350,7 @@ footer a:hover::after {
 ---------------*/
 
 h1.ui.header {
-  font-size: 4.14285714rem;
+  font-size: 3.57142857rem;
 }
 
 h1.ui.header .sub.header {
@@ -6358,7 +6358,7 @@ h1.ui.header .sub.header {
 }
 
 h2.ui.header {
-  font-size: 4.14285714rem;
+  font-size: 3.57142857rem;
 }
 
 h2.ui.header .sub.header {
@@ -6366,7 +6366,7 @@ h2.ui.header .sub.header {
 }
 
 h3.ui.header {
-  font-size: 3.92857143rem;
+  font-size: 3.35714286rem;
 }
 
 h3.ui.header .sub.header {
@@ -6374,7 +6374,7 @@ h3.ui.header .sub.header {
 }
 
 h4.ui.header {
-  font-size: 3.42857143rem;
+  font-size: 2.85714286rem;
 }
 
 h4.ui.header .sub.header {
@@ -6382,19 +6382,19 @@ h4.ui.header .sub.header {
 }
 
 h5.ui.header {
-  font-size: 3.21428571rem;
+  font-size: 2.64285714rem;
 }
 
 h5.ui.header .sub.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 h6.ui.header {
-  font-size: 2.71428571rem;
+  font-size: 2.21428571rem;
 }
 
 h6.ui.header .sub.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 /*--------------
@@ -6402,12 +6402,12 @@ h6.ui.header .sub.header {
 ---------------*/
 
 .ui.mini.header {
-  font-size: 2.71428571em;
+  font-size: 2.21428571em;
   min-height: 1em;
 }
 
 .ui.mini.header .sub.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.mini.sub.header {
@@ -6415,12 +6415,12 @@ h6.ui.header .sub.header {
 }
 
 .ui.tiny.header {
-  font-size: 3.21428571em;
+  font-size: 2.64285714em;
   min-height: 1em;
 }
 
 .ui.tiny.header .sub.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.tiny.sub.header {
@@ -6428,7 +6428,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.small.header {
-  font-size: 3.42857143em;
+  font-size: 2.85714286em;
   min-height: 1em;
 }
 
@@ -6441,7 +6441,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.large.header {
-  font-size: 4.14285714em;
+  font-size: 3.57142857em;
   min-height: 1em;
 }
 
@@ -6450,7 +6450,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.large.sub.header {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 
 .ui.big.header {
@@ -6466,7 +6466,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.huge.header {
-  font-size: 4.14285714em;
+  font-size: 3.57142857em;
   min-height: 1em;
 }
 
@@ -7068,7 +7068,7 @@ a.ui.inverted.black.header.header.header:hover {
 }
 
 .ui.small.block.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.block.header {
@@ -7132,7 +7132,7 @@ a.ui.inverted.black.header.header.header:hover {
 }
 
 .ui.small.attached.header {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 
 .ui.large.attached.header {
@@ -7156,7 +7156,7 @@ a.ui.inverted.black.header.header.header:hover {
 --------------------*/
 
 .ui.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 3.92857143em;
+  font-size: 3.35714286em;
 }
 
 /*******************************
@@ -16088,6 +16088,10 @@ i.icon.youtube.play:before {
 /*******************************
          Site Overrides
 *******************************/
+
+.fix-bar .prihlaseni i.icon {
+  font-size: 1.4em;
+}
 /*!
  * # Fomantic-UI - Image
  * http://github.com/fomantic/Fomantic-UI/
@@ -16381,7 +16385,7 @@ img.ui.bordered.image {
 .ui.small.image {
   width: 150px;
   height: auto;
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.images .image,
@@ -17222,7 +17226,7 @@ img.ui.bordered.image {
 }
 
 .ui.small.input {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 
 .ui.large.input {
@@ -17342,7 +17346,7 @@ a.ui.label {
 .ui.label > .close.icon,
 .ui.label > .delete.icon {
   cursor: pointer;
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   opacity: 0.5;
   -webkit-transition: background 0.1s ease;
   transition: background 0.1s ease;
@@ -20703,12 +20707,12 @@ ol.ui.suffixed.list li:before,
 }
 
 .ui.small.list {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 
 .ui.small.horizontal.list .list > .item,
 .ui.small.horizontal.list > .item {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.list {
@@ -21681,7 +21685,7 @@ ol.ui.suffixed.list li:before,
 
 .ui.small.segments .segment,
 .ui.small.segment {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.segments .segment,
@@ -21770,7 +21774,7 @@ ol.ui.suffixed.list li:before,
   display: block;
   margin: 0 0 0.28571429rem 0;
   color: #000;
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   font-weight: 500;
   text-transform: none;
 }
@@ -23320,7 +23324,7 @@ ol.ui.suffixed.list li:before,
 .ui.form .grouped.fields > label {
   margin: 0 0 0.28571429rem 0;
   color: #000;
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   font-weight: 500;
   text-transform: none;
 }
@@ -23542,7 +23546,7 @@ ol.ui.suffixed.list li:before,
   margin-top: 0;
   margin-bottom: 0;
   vertical-align: baseline;
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   font-weight: 500;
   color: #000;
   text-transform: none;
@@ -23631,7 +23635,7 @@ ol.ui.suffixed.list li:before,
 .ui.small.form,
 .ui.small.form .field .dropdown,
 .ui.small.form .field .dropdown .menu > .item {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.form,
@@ -26954,7 +26958,7 @@ Floated Menu / Item
   -webkit-box-shadow: none;
   box-shadow: none;
   border: none;
-  padding: 0.78571429em 0.92857143em;
+  padding: 0.78571429em 1.14285714em;
   margin: 0 0.35714286em;
   background: none;
   -webkit-transition: color 0.1s ease;
@@ -27052,7 +27056,7 @@ Floated Menu / Item
 /* Sub Menu */
 
 .ui.vertical.secondary.menu .item:not(.dropdown) > .menu {
-  margin: 0 -0.92857143em;
+  margin: 0 -1.14285714em;
 }
 
 .ui.vertical.secondary.menu .item:not(.dropdown) > .menu > .item {
@@ -27269,7 +27273,7 @@ Floated Menu / Item
   background-color: transparent;
   opacity: 1;
   color: rgba(0, 0, 0, 0.85);
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   text-transform: uppercase;
   font-weight: 500;
 }
@@ -28840,7 +28844,7 @@ Floated Menu / Item
   background: #F9FAFB;
   text-align: inherit;
   color: #000;
-  padding: 0.92857143em 0.78571429em;
+  padding: 1.14285714em 0.78571429em;
   vertical-align: inherit;
   font-style: none;
   font-weight: 500;
@@ -32732,7 +32736,7 @@ a.ui.card:hover,
 }
 
 .ui.small.cards .card {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.cards .card {
@@ -33347,7 +33351,7 @@ a.inverted.ui.card:hover,
 }
 
 .ui.small.items > .item {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 
 .ui.large.items > .item {
@@ -34342,7 +34346,34 @@ a.inverted.ui.card:hover,
 }
 
 .ui.small.checkbox {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
+}
+
+.ui.small.form .checkbox:not(.slider):not(.toggle):not(.radio) label:after,
+.ui.small.checkbox:not(.slider):not(.toggle):not(.radio) label:after,
+.ui.small.form .checkbox:not(.slider):not(.toggle):not(.radio) label:before,
+.ui.small.checkbox:not(.slider):not(.toggle):not(.radio) label:before {
+  -webkit-transform: scale(1.14285714);
+  transform: scale(1.14285714);
+  -webkit-transform-origin: left;
+  transform-origin: left;
+}
+
+.ui.small.form .checkbox.radio label:before,
+.ui.small.checkbox.radio label:before {
+  -webkit-transform: scale(1.14285714);
+  transform: scale(1.14285714);
+  -webkit-transform-origin: left;
+  transform-origin: left;
+}
+
+.ui.small.form .checkbox.radio label:after,
+.ui.small.checkbox.radio label:after {
+  -webkit-transform: scale(0.57142857);
+  transform: scale(0.57142857);
+  -webkit-transform-origin: left;
+  transform-origin: left;
+  left: 0.33571429em;
 }
 
 .ui.large.checkbox {
@@ -35139,7 +35170,7 @@ body.dimmable > .dimmer {
   text-align: left;
   border-top: none;
   line-height: 1em;
-  font-size: 0.92857143;
+  font-size: 1.14285714;
   color: #000;
   padding: 0.78571429rem 1.14285714rem !important;
   text-transform: none;
@@ -36974,7 +37005,7 @@ select.ui.dropdown {
 
 .ui.small.dropdown,
 .ui.small.dropdown .menu > .item {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.dropdown,
@@ -38071,7 +38102,7 @@ select.ui.dropdown {
 ---------------*/
 
 .ui.modal {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.mini.modal > .header:not(.ui) {
@@ -38758,7 +38789,7 @@ select.ui.dropdown {
   pointer-events: none;
   position: absolute;
   content: '';
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
   width: 0.71428571em;
   height: 0.71428571em;
   background: #FFFFFF;
@@ -39513,7 +39544,7 @@ select.ui.dropdown {
 ---------------*/
 
 .ui.popup {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 
 .ui.mini.popup {
@@ -39535,12 +39566,12 @@ select.ui.dropdown {
 }
 
 .ui.small.popup {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 [data-tooltip][data-variation~="small"]:before,
 [data-tooltip][data-variation~="small"]:after {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 .ui.large.popup {
@@ -39618,7 +39649,7 @@ select.ui.dropdown {
   font-weight: 300;
   line-height: 1.21428571em;
   padding: 0.67857143em 1em;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   background: #FFFFFF;
   border: 1px solid rgba(34, 36, 38, 0.15);
   color: #000;
@@ -39722,13 +39753,13 @@ select.ui.dropdown {
   margin: -0.14285714em 0 0;
   font-family: 'Rubik';
   font-weight: 500;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   color: rgba(0, 0, 0, 0.85);
 }
 
 .ui.search > .results .result .description {
   margin-top: 0;
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   color: rgba(0, 0, 0, 0.4);
 }
 
@@ -39747,7 +39778,7 @@ select.ui.dropdown {
 
 .ui.search > .results > .message .header {
   font-family: 'Rubik';
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
   font-weight: 500;
   color: #000;
 }
@@ -39764,7 +39795,7 @@ select.ui.dropdown {
   display: block;
   border-top: none;
   background: #F3F4F5;
-  padding: 0.92857143em 1.71428571em;
+  padding: 1.14285714em 1.42857143em;
   color: #000;
   font-weight: 500;
   text-align: center;
@@ -40124,7 +40155,7 @@ select.ui.dropdown {
 ---------------*/
 
 .ui.search {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 
 .ui.mini.search {
@@ -40136,7 +40167,7 @@ select.ui.dropdown {
 }
 
 .ui.small.search {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 
 .ui.large.search {

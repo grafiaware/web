@@ -928,11 +928,11 @@ ol.ui.suffixed.list li:before,
   font-size: 0.85714286rem;
 }
 .ui.small.list {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 .ui.small.horizontal.list .list > .item,
 .ui.small.horizontal.list > .item {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.large.list {
   font-size: 1.14285714em;

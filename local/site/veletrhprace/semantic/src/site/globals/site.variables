@@ -16,7 +16,7 @@
 
 
 /* The size of page text */
-@fontSize :     20px;
+@fontSize :     20px; 
 @smallFontSize :   15px;
 @bigFontSize:   30px;       
 
@@ -46,15 +46,15 @@
 @linkColor           : #3e9aec; 
 
 /*--------------
-  Page Heading
+  Page Heading 
 ---------------*/
 
-@h1 : unit((58 / 14), rem);
-@h2 : unit((58 / 14), rem);
-@h3 : unit((55 / 14), rem);
-@h4 : unit((48 / 14), rem);
-@h5 : unit((45 / 14), rem); 
-@h6 : unit((38 / 14), rem);
+@h1 : unit((50 / 14), rem);
+@h2 : unit((50 / 14), rem);
+@h3 : unit((47 / 14), rem); 
+@h4 : unit((40 / 14), rem);
+@h5 : unit((37 / 14), rem); 
+@h6 : unit((31 / 14), rem); 
 
 /*-------------------
         Sizes
@@ -66,7 +66,7 @@
 
 @miniSize        : (11 / 14);
 @tinySize        : (12 / 14);
-@smallSize       : (13 / 14); 
+@smallSize       : (16 / 14); 
 @mediumSize      : (20 / 14);
 @largeSize       : (16 / 14);
 @bigSize         : (18 / 14);  

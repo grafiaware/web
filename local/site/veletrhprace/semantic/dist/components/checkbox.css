@@ -617,7 +617,31 @@
   font-size: 0.85714286em;
 }
 .ui.small.checkbox {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
+}
+.ui.small.form .checkbox:not(.slider):not(.toggle):not(.radio) label:after,
+.ui.small.checkbox:not(.slider):not(.toggle):not(.radio) label:after,
+.ui.small.form .checkbox:not(.slider):not(.toggle):not(.radio) label:before,
+.ui.small.checkbox:not(.slider):not(.toggle):not(.radio) label:before {
+  -webkit-transform: scale(1.14285714);
+          transform: scale(1.14285714);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+}
+.ui.small.form .checkbox.radio label:before,
+.ui.small.checkbox.radio label:before {
+  -webkit-transform: scale(1.14285714);
+          transform: scale(1.14285714);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+}
+.ui.small.form .checkbox.radio label:after,
+.ui.small.checkbox.radio label:after {
+  -webkit-transform: scale(0.57142857);
+          transform: scale(0.57142857);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  left: 0.33571429em;
 }
 .ui.large.checkbox {
   font-size: 1.14285714em;
