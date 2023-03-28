@@ -7,7 +7,7 @@ use Status\Model\Repository\StatusSecurityRepo;
 
 use Pes\Text\Text;
 use Pes\Text\Html;
-//use Moje\MojeHTML;
+use Moje\MojeHTML;
 
 use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\JobTagRepo;
@@ -36,13 +36,11 @@ use Events\Model\Entity\LoginInterface;
     $statusSecurity = $statusSecurityRepo->get();
     $loginAggregate = $statusSecurity->getLoginAggregate();
     if (isset($loginAggregate)) {
-                //        $loginName = $loginAggregate->getLoginName();
-                //        $cred = $loginAggregate->getCredentials();
-                //        
-                //        $role = $loginAggregate->getCredentials()->getRole() ?? '';
-                //    }
-    
-    
+        $loginName = $loginAggregate->getLoginName();
+        $cred = $loginAggregate->getCredentials();
+        
+        $role = $loginAggregate->getCredentials()->getRole() ?? '';
+    }
        
     /** @var CompanyRepoInterface $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
@@ -58,14 +56,10 @@ use Events\Model\Entity\LoginInterface;
 //    ------------------------------------------------
 
         $allTags=[]; 
-        $allTagsStrings=[];
-        $jobTagEntitiesAll = $jobTagRepo->findAll();
+        $jobTagEntities = $jobTagRepo->findAll();
         /** @var JobTagInterface  $jobTagEntity */ 
-        foreach ( $jobTagEntitiesAll as $jobTagEntity) {
+        foreach ( $jobTagEntities as $jobTagEntity) {
             $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getTag()] ;
-            
-          
-            $allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
         }
         
         /** @var CompanyInterface $company */ 
@@ -84,42 +78,61 @@ use Events\Model\Entity\LoginInterface;
                     foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
                         /** @var JobToTagInterface $jobToTagEntity */
                     // $i = $jobToTagEntity->getJobId(); // $job = $jobRepo->get($i);
-                     //   $checkTags[$jobToTagEntity->getJobTagTag()] = $jobToTagEntity->getJobTagTag() ;
-                        
-                      $idDoTag = $jobToTagEntity->getJobTagId();  
-                       /** @var JobTagInterface $tagE */
-                      $tagE = $jobTagRepo->get($idDoTag);
-                      
-                      $checkTags[$jobToTagEntity->getJobTagId()] = $jobToTagEntity->getJobTagId() ;                        
-                      $checkTagsStrings[$jobToTagEntity->getJobTagId()] = $tagE->getTag() ;
-
+                        $checkTags[$jobToTagEntity->getJobTagTag()] = $jobToTagEntity->getJobTagTag() ;
                     }                      
                     $jobToTagies[] = [
                             'jobId' => $jobEntity->getId(),
                             'jobNazev' => $jobEntity->getNazev(),                              
-                        
                             'allTags'=>$allTags,
-                            'allTagsStrings'=>$allTagsStrings,
-                        
                             'checkTags'=>$checkTags,
-                            'checkTagsStrings'=>$checkTagsStrings
                     ];                                       
                 }//$jobEntity
             }                   
        
   ?>
     <div>
-        Vystavovatel (company): |* <?= $company->getName(); ?> *|
-        <br/>
-        Přiřaďte typy k nabízeným pozicím <br/><br/>
-    <div>
-       
-    <div class="content">      
-        <?= $this->repeat(__DIR__.'/content/job-to-tag.php',  $jobToTagies  )  ?>
-    </div>
-    <p></p>
+        Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|
+        <br/><br/>
+    <div class="ui styled fluid accordion">
         
+        <section>          
+            Přiřaďte typy k nabízeným pozicím
+            <div class="content">      
+                <?= $this->repeat(__DIR__.'/content/job-to-tag.php',  $jobToTagies  )  ?>
+            </div>
+            <p></p>
+        </section>
 
+       
+        
+        
+        <p> <?= Html::select("jmeno-mesta", "To je label Město:",
+            [1=>"", 2=>"Plzeň-město", 3=>"Plzeň-jih", 4=>"Plzeň-sever", 5=>"Klatovy", 6=>"Cheb", 7=>"jiné"],
+            ["jmeno-mesta"=>4], []) ?></p>
+        
+        <p> <?= Html::select("selectCompany", "Company name:",
+            [10=>"Firma10", 25=>"Firma1-město25", 35=>"Firma35", 70=>"jiná"],
+            ["selectCompany"=>35], []) ?></p>     
+        
+        <p> <?= Html::select("selectLogin", "Login name:",
+            ["Uzivatel 0", "Uzivatel 1", "Uzivatel 2"],  //index od nuly
+            ["selectLogin"=>"Uzivatel 2"], []) ?></p>      
+        
+        <p> <?= Html::checkbox( [ 'žádné město' => [1=>"" ],
+                                  'Plzeň-město' => [2=>"Plzeň-město"],
+                                  'Plzeň-jih' => [3=>"Plzeň-jih"], 
+                                  'Klatovy' => [4=>"Klatovy"] ],
+                                [2=>"Plzeň-město"] ) ?></p>
+        
+                
+        <?= Html::checkbox(["Label1"=>['technická'=>'technická'], 
+                            "Label2"=>['manažerská/vedoucí'=>'manažerská/vedoucí']] ,
+                           ['manažerská/vedoucí'=>'manažerská/vedoucí']  ) ?>  
+        <br/>
+        <?= MojeHTML::checkbox( ["Label1"=>['technická'=>'technická'], 
+                                 "Label2"=>['manažerská/vedoucí'=>'manažerská/vedoucí']] ,
+                                ['technická'=>'technická'] ) ?>         
+  
     </div>
     </div>
    
@@ -127,11 +140,5 @@ use Events\Model\Entity\LoginInterface;
 
   <?php 
         }
-        
-        
-} 
-else{
-     echo  "Údaje o přiřazení typů  nabízených pozic vystavovatele smí vidět jen přihlášený." ; 
-}        
   ?>
 

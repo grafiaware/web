@@ -4,8 +4,6 @@ use Site\ConfigurationCache;
 
 use Pes\Text\Text;
 use Pes\Text\Html;
-use Auth\Model\Entity\LoginAggregateFullInterface;
-use Status\Model\Repository\StatusSecurityRepo;
 
 use Events\Model\Repository\CompanyRepo;
 //use Events\Model\Repository\CompanyContactRepo;
@@ -20,14 +18,6 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
 
 
 /** @var PhpTemplateRendererInterface $this */
-
-
-$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-/** @var StatusSecurityRepo $statusSecurityRepo */
-$statusSecurity = $statusSecurityRepo->get();
-$loginAggregate = $statusSecurity->getLoginAggregate();
-if (isset($loginAggregate)) {
-
 
 
 
@@ -113,13 +103,4 @@ if (isset($loginAggregate)) {
           </div>   
   <?php 
    }
-   
-   
-} 
-else{
-     echo  "Údaje o nabízených pozicích vystavovatele smí vidět jen přihlášený." ; 
-}    
-   
-   
-   
   ?>

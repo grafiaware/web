@@ -406,7 +406,7 @@
       -ms-flex: 0 0 auto;
           flex: 0 0 auto;
   margin: 0;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 .ui.labeled.input > .label:not(.corner) {
   padding-top: 0.78571429em;
@@ -673,7 +673,7 @@
 ---------------------*/
 
 .ui.input {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
 }
 .ui.mini.input {
   font-size: 0.78571429em;
@@ -682,7 +682,7 @@
   font-size: 0.85714286em;
 }
 .ui.small.input {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 .ui.large.input {
   font-size: 1.14285714em;

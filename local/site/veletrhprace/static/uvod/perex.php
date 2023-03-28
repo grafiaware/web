@@ -27,7 +27,7 @@ use Pes\Text\Text;
                     <img src="@siteimages/mama.jpg" width="790" height="394" alt="Home office"/>
                     <img src="@siteimages/delnik_jupi.jpg" width="790" height="402" alt="Dělník na stavbě"/>
                     <div class="pruhledna-barva podklad blok podnadpis photo-scroll show-on-scroll">
-                        <p><?= Text::mono('Najděte si lepší práci <span class="primarni-barva text velky tucne">odkudkoli!</span>') ?></p>
+                        <p><?= Text::mono('Najděte si lepší práci <span class="primarni-barva">odkudkoli!</span>') ?></p>
                     </div>
                 </div>
             </div>

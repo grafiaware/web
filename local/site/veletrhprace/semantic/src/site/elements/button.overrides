@@ -4,7 +4,7 @@
 
 .prihlaseni .dropdown{
     .tertiary.button{
-        font-size: @relative6px; 
+        font-size: @relative5px; 
     }
 } 
 .editSize.buttons, .editingButtons_size.buttons{

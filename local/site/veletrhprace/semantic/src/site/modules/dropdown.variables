@@ -1,10 +1,10 @@
 /*******************************
     User Variable Overrides
 *******************************/
-@menuHeaderTextTransform: none; 
+@menuHeaderTextTransform: none;  
 
 /* Menu Item */
-@itemFontSize: @smallSize;
+@itemFontSize: @smallSize; 
 
 
 @menuHeaderColor: @darkTextColor;

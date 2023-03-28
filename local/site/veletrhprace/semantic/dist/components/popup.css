@@ -80,7 +80,7 @@
   pointer-events: none;
   position: absolute;
   content: '';
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
   width: 0.71428571em;
   height: 0.71428571em;
   background: #FFFFFF;
@@ -752,7 +752,7 @@
 ---------------*/
 
 .ui.popup {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 .ui.mini.popup {
   font-size: 0.78571429rem;
@@ -769,11 +769,11 @@
   font-size: 0.85714286rem;
 }
 .ui.small.popup {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 [data-tooltip][data-variation~="small"]:before,
 [data-tooltip][data-variation~="small"]:after {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.large.popup {
   font-size: 1.14285714rem;

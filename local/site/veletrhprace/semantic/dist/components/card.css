@@ -267,7 +267,7 @@
 
 .ui.cards > .card .meta,
 .ui.card .meta {
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   color: rgba(0, 0, 0, 0.4);
 }
 .ui.cards > .card .meta *,
@@ -1224,7 +1224,7 @@ a.ui.card:hover,
   font-size: 0.85714286rem;
 }
 .ui.small.cards .card {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.large.cards .card {
   font-size: 1.14285714rem;

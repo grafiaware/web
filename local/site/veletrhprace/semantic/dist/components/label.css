@@ -83,7 +83,7 @@ a.ui.label {
 .ui.label > .close.icon,
 .ui.label > .delete.icon {
   cursor: pointer;
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   opacity: 0.5;
   -webkit-transition: background 0.1s ease;
   transition: background 0.1s ease;
@@ -442,10 +442,10 @@ a.ui.label {
 
 /* Inside Table */
 .ui.table td > .ui.ribbon.label {
-  left: calc(-1.7142857142857142em - 1.2em);
+  left: calc(-1.4285714285714286em - 1.2em);
 }
 .ui.table td > .ui[class*="right ribbon"].label {
-  left: calc(100% + 1.7142857142857142em + 1.2em);
+  left: calc(100% + 1.4285714285714286em + 1.2em);
   padding-left: 0.833em;
 }
 
@@ -2109,7 +2109,7 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 }
 .ui.large.labels .label,
 .ui.large.label {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 .ui.big.labels .label,
 .ui.big.label {

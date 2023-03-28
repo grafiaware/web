@@ -52,7 +52,7 @@
   margin: 0;
   padding: 0 0;
   background: #FFFFFF;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   text-shadow: none;
   text-align: left;
   -webkit-box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -120,7 +120,7 @@
   text-align: left;
   border-top: none;
   line-height: 1em;
-  font-size: 0.92857143;
+  font-size: 1.14285714;
   color: #000;
   padding: 0.78571429rem 1.14285714rem !important;
   text-transform: none;
@@ -177,7 +177,7 @@
 }
 .ui.dropdown .menu > .header:not(.ui) {
   color: rgba(0, 0, 0, 0.85);
-  font-size: 0.64285714em;
+  font-size: 0.57142857em;
 }
 .ui.dropdown .menu > .divider {
   border-top: 1px solid rgba(34, 36, 38, 0.1);
@@ -813,7 +813,7 @@ select.ui.dropdown {
 .ui.multiple.dropdown > .label {
   display: inline-block;
   white-space: normal;
-  font-size: 1.71428571em;
+  font-size: 1.42857143em;
   padding: 0.35714286em 0.78571429em;
   margin: 0.14285714rem 0.28571429rem 0.14285714rem 0;
   -webkit-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
@@ -1740,7 +1740,7 @@ select.ui.dropdown {
 
 .ui.dropdown,
 .ui.dropdown .menu > .item {
-  font-size: 1.71428571rem;
+  font-size: 1.42857143rem;
 }
 .ui.mini.dropdown,
 .ui.mini.dropdown .menu > .item {
@@ -1752,7 +1752,7 @@ select.ui.dropdown {
 }
 .ui.small.dropdown,
 .ui.small.dropdown .menu > .item {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.large.dropdown,
 .ui.large.dropdown .menu > .item {
@@ -1992,9 +1992,16 @@ select.ui.dropdown {
 *******************************/
 
 .prihlaseni .dropdown label {
-  font-size: 0.28571429em;
+  font-size: 0.35714286em;
   padding-left: 1.3em;
 }
 .prihlaseni .dropdown .input {
-  font-size: 0.85714286em;
+  font-size: 0.57142857em;
+}
+.dropdown .button {
+  font-size: 1.15rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 5px auto;
 }
