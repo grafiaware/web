@@ -299,39 +299,36 @@ class JobControler extends FrontControlerAbstract {
             }            
             if ($isRepresentative) {
                                
-                $arrayForJob = [];
-                $allJobToTagForJob = $this->jobToTagRepo->findByJobId($idJob);
+                $arrayJobTagIds_ForJob = [];
+                $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($idJob);
                 /** @var JobToTagInterface $jobToTag */
-                foreach ($allJobToTagForJob as $jobToTag) {   
-                    $arrayForJob[]= $jobToTag->getJobTagTag();
-                }
-                                
+                foreach ($allJobToTags_ForJob as $jobToTag) {   
+                    //$arrayForJob[]= $jobToTag->getJobTagTag();
+                    $arrayJobTagIds_ForJob /*[ $idJob ]*/  [] = $jobToTag->getJobTagId() ; 
+                }                                
                 $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
+                
                 /** @var JobTagInterface $tag */
                 foreach ($allTags as $tagEntity) {
                     // $postTag - tento tag je zaskrtnut ve form
-                    $postTag = (new RequestParams())->getParsedBodyParam($request, $tagEntity->getTag() );
-                    
-                    if (isset ($postTag) ) { // je zaskrtnut ve form
-                        //je-li v jobToTag - ok, nic
-                        //neni-li v jobToTag - zapsat do jobToTag 
-                        if (!(in_array($postTag,  $arrayForJob))) {                                                                            
+                    $postTagId = (new RequestParams())->getParsedBodyParam($request, $tagEntity->getTag() );                                        
+                    if (isset ($postTagId) ) { // je zaskrtnut ve form
+                        //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
+                        if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            
                             /** @var JobToTag $newJobToTag */
                             $newJobToTag = $this->container->get(JobToTag::class); //new 
                             $newJobToTag->setJobId($idJob); 
-                            $newJobToTag->setJobTagTag($postTag);
+                            $newJobToTag->setJobTagId($postTagId);
                             $this->jobToTagRepo->add($newJobToTag);
                         }                        
                     }
                     else { // neni zaskrtnut ve form                                      
-                        //je-li v jobToTag  - vymazat z jobToTag
-                        //neni-li v jobToTag   - ok, nic
-                        if (in_array($tagEntity->getTag(), $arrayForJob)) {   
-                           $jobToTagEntity = $this->jobToTagRepo->get($idJob, $tagEntity->getTag());
+                        //je-li v jobToTag  - vymazat z jobToTag  //neni-li v jobToTag - ok, nic
+                        if (in_array($tagEntity->getId(), $arrayJobTagIds_ForJob)) {
+                           $jobToTagEntity = $this->jobToTagRepo->get($idJob, $tagEntity->getId());
                            $this->jobToTagRepo->remove($jobToTagEntity);
                         }
-                    }
-                 
+                    }                 
                 }                                                                
                 
             } else {
