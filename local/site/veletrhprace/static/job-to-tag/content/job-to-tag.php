@@ -14,29 +14,31 @@ use Events\Model\Repository\JobTagRepo;
     //    $readonly = 'readonly="1"';
     //    $disabled = 'disabled="1"';
         $readonly = '';
-        $disabled = '';                              
+        $disabled = '';
 ?>
 
 <?php if ( (isset($jobNazev)) ) { ?>
-        <form class="ui huge form" action="" method="POST" >      
-            <div class="fields">                        
-                
+        <form class="ui huge form" action="" method="POST" >
+            <div class="fields">
+
                 <!-- <div class="field">
                 <label>Job Id</label>
                     <input < ?= $readonly ?> type="text" name="job-id" placeholder="" maxlength="10" value="< ?= isset($jobId)?  $jobId : '' ?>">
-                </div>  -->               
-                
-                <div class="field">                                                   
+                </div>  -->
+
+                <div class="field">
                         <label>Název pozice:</label>
-                        <input <?= $readonly ?> type="text" name="job-nazev" placeholder="" maxlength="45" value="<?= isset($jobNazev)?  $jobNazev : '' ?>">                       
-                         <?= Html::checkbox( $allTags , $checkTags ); ?>     
-                        
-                        <button class='ui primary button' type='submit' formaction='events/v1/jobtotag/<?= $jobId ?>' > Uložit </button> 
-                </div>          
-            </div> 
-        
-        
-        </form>     
+                        <input <?= $readonly ?> type="text" name="job-nazev" placeholder="" maxlength="45"
+                                                value="<?= isset($jobNazev)?  $jobNazev : '' ?>" >
+                        <!--  <? = Html::checkbox( $allTagsStrings , $checkTagsStrings );  ?>   -->
+                         <?= Html::checkbox( $allTags , $checkTags ); ?>
+
+                        <button class='ui primary button' type='submit' formaction='events/v1/jobtotag/<?= $jobId ?>' > Uložit </button>
+                </div>
+            </div>
+
+
+        </form>
         <br/> <br/>
-<?php } 
-?>   
+<?php }
+?>

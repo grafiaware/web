@@ -658,45 +658,45 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 //                return $component;
 //                },
 //
-//            // generated komponenty
-//            LanguageSelectComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//
-//                $component = new LanguageSelectComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setData($c->get(LanguageSelectViewModel::class));
-//                    $component->setRendererName(LanguageSelectRenderer::class);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            SearchResultComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var ComponentConfigurationInterface $configuration */
-//                $configuration = $c->get(ComponentConfiguration::class);
-//
-//                $component = new SearchResultComponent($c->get(ComponentConfiguration::class));
-//                $component->setData($c->get(SearchResultViewModel::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                $component->setRendererName(SearchResultRenderer::class);
-//                return $component;
-//            },
-//            SearchPhraseComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var ComponentConfigurationInterface $configuration */
-//                $configuration = $c->get(ComponentConfiguration::class);
-//
-//                $component = new SearchPhraseComponent($c->get(ComponentConfiguration::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                $component->setRendererName(SearchPhraseRenderer::class);
-//                return $component;
-//            },
+            // generated komponenty
+            LanguageSelectComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+
+                $component = new LanguageSelectComponent($c->get(ComponentConfiguration::class));
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                    $component->setData($c->get(LanguageSelectViewModel::class));
+                    $component->setRendererName(LanguageSelectRenderer::class);
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            SearchResultComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+
+                $component = new SearchResultComponent($c->get(ComponentConfiguration::class));
+                $component->setData($c->get(SearchResultViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                $component->setRendererName(SearchResultRenderer::class);
+                return $component;
+            },
+            SearchPhraseComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+
+                $component = new SearchPhraseComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                $component->setRendererName(SearchPhraseRenderer::class);
+                return $component;
+            },
 //            ItemTypeSelectComponent::class => function(ContainerInterface $c) {
 //                /** @var AccessPresentationInterface $accessPresentation */
 //                $accessPresentation = $c->get(AccessPresentation::class);
