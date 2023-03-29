@@ -96,8 +96,12 @@ use Events\Model\Entity\LoginInterface;
                     $jobToTagies[] = [
                             'jobId' => $jobEntity->getId(),
                             'jobNazev' => $jobEntity->getNazev(),
+
                             'allTags'=>$allTags,
+                            'allTagsStrings'=>$allTagsStrings,
+
                             'checkTags'=>$checkTags,
+                            'checkTagsStrings'=>$checkTagsStrings
                     ];
                 }//$jobEntity
             }

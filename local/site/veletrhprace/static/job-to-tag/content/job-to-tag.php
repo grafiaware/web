@@ -38,7 +38,7 @@ use Events\Model\Repository\JobTagRepo;
             </div>
 
 
-        </form>
+        </form>  
         <br/> <br/>
 <?php }
 ?>
