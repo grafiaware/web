@@ -25,7 +25,7 @@ class JobArrayModel {
      *
      * @var JobToTagRepoInterface
      */
-    private $jobToTagRepo;
+ //cdsf -********   private $jobToTagRepo;
 
     /**
      * @var JobTagRepoInterface
@@ -41,13 +41,13 @@ class JobArrayModel {
 //            CompanyRepoInterface $companyRepo,
             JobRepoInterface $jobRepo,
             JobToTagRepoInterface $jobToTagRepo,
-//            JobTagRepoInterface $jobTagRepo,
+            JobTagRepoInterface $jobTagRepo,
             PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
         ) {
 //        $this->companyRepo = $companyRepo;
         $this->jobRepo = $jobRepo;
         $this->jobToTagRepo = $jobToTagRepo;
-//        $this->jobTagRepo = $jobTagRepo;
+        $this->jobTagRepo = $jobTagRepo;
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;
     }
 
@@ -72,7 +72,10 @@ class JobArrayModel {
             $jobToTags = $this->jobToTagRepo->findByJobId($job->getId());
             /** @var JobToTagInterface $jobToTag */
             foreach ($jobToTags as $jobToTag)  {
-                $jobArray['kategorie'][] = $jobToTag->getJobTagTag();
+                //$jobArray['kategorie'][] = $jobToTag->getJobTagTag();
+                 $id = $jobToTag->getJobTagId();
+                 $tag = $this->jobTagRepo->get($id);
+                 $jobArray['kategorie'][] = $tag->getTag();
             }
 //            $jobsArray[] = array_merge($jobArray, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}] );
             $jobsArray[] = array_merge($jobArray);
