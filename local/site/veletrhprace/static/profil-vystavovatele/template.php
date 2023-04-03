@@ -74,7 +74,7 @@ if (isset($loginAggregate)) {
         $isRepresentative = true;
 
         //--- Z ARRAY MODELU------------------------
-        $presenterPerson = $presenterModel->getPerson($loginName);
+        $presenterPerson = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);
         //  vznikne   array 'regname', 'regmail', 'regcompany', 'shortName'  ||  "name", "eventInstitutionName", "shortName"
         $presenterJobs = array();
         $shortName = $presenterPerson['shortName'];  // každý s rolí presenter musí existovat v modelu jako presenterPerson
