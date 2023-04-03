@@ -66,8 +66,8 @@ class EventControler_2 extends FrontControlerAbstract {
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             
-            InstitutionTypeRepoInterface  $institutionTypeRepo,
-            InstitutionRepoInterface  $institutionRepo
+            InstitutionRepoInterface  $institutionRepo,
+            InstitutionTypeRepoInterface  $institutionTypeRepo
             
             
            // EnrollRepo $enrollRepo,
@@ -159,7 +159,7 @@ class EventControler_2 extends FrontControlerAbstract {
 //            if ($isRepresentative) {
                            
                 /** @var InstitutionTypeInterface $institutionType */
-                $institutionType = $this->institutionTypeRepo->get($institutionTypeId);            
+                $institutionType = $this->institutionTypeRepo->get( $institutionTypeId );                      
                 $institutionType->setInstitutionType((new RequestParams())->getParsedBodyParam($request, 'institutionType') );                         
         
 //            } else {
@@ -240,7 +240,6 @@ class EventControler_2 extends FrontControlerAbstract {
 //                $isRepresentative = true; 
 //            }                        
 //            if ($isRepresentative) {
-
                 
                 /** @var InstitutionInterface $institution */
                 $institution = new Institution(); //new           
@@ -262,7 +261,7 @@ class EventControler_2 extends FrontControlerAbstract {
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $institutionTypeId
+     * @param type $institutionId
      * @return type
      */
     public function updateInstitution (ServerRequestInterface $request, $institutionId) {                    
@@ -287,7 +286,6 @@ class EventControler_2 extends FrontControlerAbstract {
             
                 /** @var InstitutionInterface $institution */
                 $institution = $this->institutionRepo->get($institutionId);             
-
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
                 $institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'institutionTypeId') );           
         
@@ -304,7 +302,7 @@ class EventControler_2 extends FrontControlerAbstract {
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $institutionTypeId
+     * @param type $institutionId
      * @return type
      */
     public function removeInstitution (ServerRequestInterface $request, $institutionId ) {                   
@@ -327,11 +325,7 @@ class EventControler_2 extends FrontControlerAbstract {
 //                }
 //            }                          
 //            if ($isRepresentative) {       
-                    
-           
-    //            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
-    //            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
-    //            $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
+                                 
                 /** @var InstitutionInterface $institution */
                 $institution = $this->institutionRepo->get($institutionId);  
                 $this->institutionRepo->remove($institution);  

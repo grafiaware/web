@@ -55,7 +55,7 @@ use Events\Model\Entity\LoginInterface;
 //    ------------------------------------------------
 
         $allTags=[];
-        $jobTagEntities = $jobTagRepo->findAll();
+        $jobTagEntitiesAll = $jobTagRepo->findAll();
         /** @var JobTagInterface  $jobTagEntity */
         foreach ( $jobTagEntitiesAll as $jobTagEntity) {
             $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getId()] ;

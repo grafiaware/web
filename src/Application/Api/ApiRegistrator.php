@@ -161,6 +161,20 @@ class ApiRegistrator {
         
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
+       
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId/remove'));
+        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId/remove'));
+
+
+        
+        
+        
+        
         
         #### JobControler  ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId'));

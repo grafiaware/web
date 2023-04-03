@@ -309,6 +309,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new InstitutionTypeRepo($c->get(InstitutionTypeDao::class), $c->get(InstitutionTypeHydrator::class));
             },
 
+                    
             //InstitutionTypeAggregateInstitution
             InstitutionTypeChildHydrator::class => function(ContainerInterface $c) {
                 return new InstitutionTypeChildHydrator();
@@ -321,7 +322,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 $repo->registerOneToManyAssotiation($assotiation);
 
                 return $repo;
-            },
+            },                    
             LoginAggregateCredentialsRepo::class => function(ContainerInterface $c) {
                         $repo = new LoginAggregateCredentialsRepo(
                         $c->get(LoginDao::class),
@@ -333,6 +334,9 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             /**/
 
+                    
+                    
+                    
             //Company
             CompanyDao::class => function(ContainerInterface $c) {
                 return new CompanyDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
