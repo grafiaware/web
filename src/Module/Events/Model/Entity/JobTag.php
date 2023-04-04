@@ -12,7 +12,14 @@ use Events\Model\Entity\JobTagInterface;
  */
 class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
     
+    private $id;    
     private $tag;
+    
+    
+    
+    public function getId()  {
+        return $this->id;
+    }
 
     /**
      *
@@ -22,7 +29,18 @@ class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
         return $this->tag;
     }
 
-
+    
+    /**
+     *
+     * @param type $id
+     * @return JobInterface
+     */
+    public function setId($id) : JobTagInterface{
+        $this->id = $id;
+        return $this;
+    }
+    
+    
     /**
      *
      * @param string $tag

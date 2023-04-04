@@ -67,8 +67,7 @@ class EventControler_2 extends FrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo,
             
             InstitutionRepoInterface  $institutionRepo,
-            InstitutionTypeRepoInterface  $institutionTypeRepo
-            
+            InstitutionTypeRepoInterface  $institutionTypeRepo            
             
            // EnrollRepo $enrollRepo,
            // Event $eventListModel

@@ -456,7 +456,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
 //                        $c->get(CompanyRepo::class),
                         $c->get(JobRepo::class), 
                         $c->get(JobToTagRepo::class),
-//                        $c->get(JobTagRepo::class),
+                        $c->get(JobTagRepo::class),
                         $c->get(PozadovaneVzdelaniRepo::class)
                         );
             },

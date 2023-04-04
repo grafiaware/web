@@ -26,7 +26,7 @@ class JobToTagHydrator extends TypeHydratorAbstract implements HydratorInterface
         /** @var JobToTag $jobToTag */
         $jobToTag                
             ->setJobId($this->getPhpValue( $rowData, 'job_id' ) )
-            ->setJobTagTag($this->getPhpValue( $rowData,'job_tag_tag') );
+            ->setJobTagId($this->getPhpValue( $rowData,'job_tag_id') );
         
     } 
 
@@ -40,7 +40,7 @@ class JobToTagHydrator extends TypeHydratorAbstract implements HydratorInterface
         
         // neni autoincrement       
         $this->setSqlValue( $rowData, 'job_id', $jobToTag->getJobId() );
-        $this->setSqlValue( $rowData, 'job_tag_tag', $jobToTag->getJobTagTag() ); 
+        $this->setSqlValue( $rowData, 'job_tag_id', $jobToTag->getJobTagId() ); 
         
     }
     

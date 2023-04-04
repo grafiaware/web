@@ -55,6 +55,7 @@ if (isset($loginAggregate)) {
     $jobModel = $container->get( JobArrayModel::class );   //ARRAY model
     /** @var Presenter $presenterModel */
     $presenterModel = $container->get(Presenter::class );       //ARRAY model
+    
     /** @var RepresentativeRepo $representativeRepo */
     $representativeRepo = $container->get(RepresentativeRepo::class );
     /** @var CompanyRepo $companyRepo */
