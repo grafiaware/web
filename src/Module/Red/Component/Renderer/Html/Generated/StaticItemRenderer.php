@@ -8,7 +8,7 @@
 
 namespace Red\Component\Renderer\Html\Generated;
 
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Authored\TypeSelect\ItemTypeSelectViewModel;
 
 use Pes\View\Renderer\RendererModelAwareInterface;

@@ -1,8 +1,8 @@
 <?php
 namespace Red\Component\View\Manage;
 
-use Red\Component\View\ComponentCompositeAbstract;
-use Red\Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\View\ComponentCompositeAbstract;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 use Red\Component\Renderer\Html\Manage\SelectTemplateRenderer;
 
 use Access\Enum\AccessPresentationEnum;

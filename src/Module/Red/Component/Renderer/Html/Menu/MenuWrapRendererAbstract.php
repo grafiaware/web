@@ -9,7 +9,7 @@
 namespace  Red\Component\Renderer\Html\Menu;
 
 use Pes\View\Renderer\RendererInterface;
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
 use Red\Component\Renderer\Html\Menu\ItemRenderer;
 use Red\Component\ViewModel\Menu\Item\ItemViewModelInterface;

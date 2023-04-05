@@ -5,7 +5,7 @@ use ArrayObject;
 use Red\Component\ViewModel\Content\Authored\AuthoredViewModelAbstract;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModelInterface;
 
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 
 use Red\Model\Repository\MenuItemRepoInterface;
 

@@ -8,7 +8,7 @@
 
 namespace Red\Component\View\Content\Authored;
 
-use Red\Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Configuration\ComponentConfigurationInterface;
 /**
  * Description of AuthoredComponentAbstract

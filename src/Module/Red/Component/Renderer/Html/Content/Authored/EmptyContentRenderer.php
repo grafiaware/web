@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\Renderer\Html\Content\Authored;
 
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Authored\AuthoredViewModelInterface;
 use Pes\Text\Html;
 /**

@@ -7,7 +7,7 @@
 
 namespace Red\Component\View\Menu;
 
-use Red\Component\View\ComponentCollectionInterface;
+use Component\View\ComponentCollectionInterface;
 
 /**
  *

@@ -8,7 +8,7 @@
 
 namespace Red\Component\View\Content\TypeSelect;
 
-use Red\Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Red\Component\ViewModel\Authored\TypeSelect\ItemTypeSelectViewModel;
 use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
 use Red\Component\Renderer\Html\Generated\EmptyItemRenderer;

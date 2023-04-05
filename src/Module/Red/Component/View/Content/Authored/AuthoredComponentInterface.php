@@ -9,7 +9,7 @@
 namespace Red\Component\View\Content\Authored;
 
 use Pes\View\CompositeViewInterface;
-use Red\Component\View\ComponentInterface;
+use Component\View\ComponentInterface;
 
 /**
  *

@@ -8,7 +8,7 @@
 
 namespace Red\Component\Renderer\Html\Generated;
 
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 
 /**
  * Description of EmptyItemRenderer

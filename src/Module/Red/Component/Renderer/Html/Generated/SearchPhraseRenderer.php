@@ -8,7 +8,7 @@
 
 namespace Red\Component\Renderer\Html\Generated;
 
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Generated\SearchPhraseViewModel;
 
 use Pes\Text\Message;

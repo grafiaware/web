@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\View\Generated;
 
-use Red\Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeAbstract;
 
 use Red\Component\ViewModel\Generated\LanguageSelectViewModel;
 

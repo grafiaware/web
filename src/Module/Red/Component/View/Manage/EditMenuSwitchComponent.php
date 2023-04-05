@@ -8,7 +8,7 @@
 
 namespace Red\Component\View\Manage;
 
-use Red\Component\View\ComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -18,7 +18,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class EditMenuSwitchComponent extends ComponentAbstract {
+class EditMenuSwitchComponent extends ComponentCompositeAbstract {
 
     public function getComponentPermissions(): array {
         return [

@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\View\Menu;
 
-use Red\Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeAbstract;
 
 /**
  * Description of ItemComponent

@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\View\Element;
 
-use Red\Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeAbstract;
 
 /**
  * Description of ElementComponent

@@ -5,7 +5,7 @@ namespace Red\Component\View\Menu;
 use Pes\View\CollectionViewInterface;
 use Psr\Container\ContainerInterface;
 
-use Red\Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeAbstract;
 
 use Configuration\ComponentConfigurationInterface;
 
@@ -39,7 +39,7 @@ use Access\Enum\AccessPresentationEnum;
 // pro metodu -> do contejneru
 use Access\AccessPresentation;
 use Pes\View\ViewInterface;
-use Red\Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 

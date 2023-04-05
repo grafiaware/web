@@ -5,7 +5,7 @@ use Red\Model\Entity\ArticleInterface;
 
 use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModelInterface;
 use Pes\Text\Html;
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
 

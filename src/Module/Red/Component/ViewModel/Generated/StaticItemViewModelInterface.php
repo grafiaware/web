@@ -8,7 +8,7 @@
 
 namespace Red\Component\ViewModel\Generated;
 
-use Red\Component\ViewModel\ViewModelInterface;
+use Component\ViewModel\ViewModelInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 

@@ -8,8 +8,8 @@
 
 namespace Red\Component\ViewModel\Generated;
 
-use Red\Component\ViewModel\ViewModelAbstract;
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\StatusViewModelInterface;
 
 use Red\Model\Repository\LanguageRepo;
 

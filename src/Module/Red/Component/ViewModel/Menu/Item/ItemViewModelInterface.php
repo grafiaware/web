@@ -9,8 +9,8 @@
 namespace Red\Component\ViewModel\Menu\Item;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
-use Red\Component\ViewModel\ViewModelInterface;
-use Red\Component\View\ComponentInterface;
+use Component\ViewModel\ViewModelInterface;
+use Component\View\ComponentInterface;
 
 /**
  *

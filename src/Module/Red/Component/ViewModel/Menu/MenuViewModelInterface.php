@@ -8,7 +8,7 @@
 
 namespace Red\Component\ViewModel\Menu;
 
-use Red\Component\ViewModel\ViewModelInterface;
+use Component\ViewModel\ViewModelInterface;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;

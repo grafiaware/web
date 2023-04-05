@@ -20,11 +20,12 @@ use Red\Model\Repository\BlockRepo;
 // komponenty
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
-use Red\Component\View\Manage\LoginLogoutComponent;
-use Red\Component\View\Manage\RegisterComponent;
+use Auth\Component\View\LoginComponent;
+use Auth\Component\View\LogoutComponent;
+use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\StatusBoardComponent;
-use Red\Component\View\Flash\FlashComponent;
+use Web\Component\View\Flash\FlashComponent;
 
 use Red\Model\Entity\MenuItemInterface;
 
@@ -206,14 +207,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getLoggedOnOffViews() {
         if($this->isUserLoggedIn()) {
             $views = [
-                'modalLoginLogout' => $this->container->get(LoginLogoutComponent::class),
+                'modalLoginLogout' => $this->container->get(LogoutComponent::class),
                 'modalUserAction' => $this->container->get(UserActionComponent::class),
                 'poznamky' => $this->container->get(StatusBoardComponent::class),
             ];
         } else {
             $views =  [
                 'modalRegister' => $this->container->get(RegisterComponent::class),
-                'modalLoginLogout' => $this->container->get(LoginLogoutComponent::class),
+                'modalLoginLogout' => $this->container->get(LoginComponent::class),
             ];
         }
         return $views;

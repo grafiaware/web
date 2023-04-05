@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\View\Manage;
 
-use Red\Component\View\ComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 
 use Access\Enum\AccessPresentationEnum;
 use Access\Enum\RoleEnum;
@@ -14,7 +14,7 @@ use Pes\View\InheritDataViewInterface;
  *
  * @author pes2704
  */
-class EditContentSwitchComponent extends ComponentAbstract implements InheritDataViewInterface {
+class EditContentSwitchComponent extends ComponentCompositeAbstract implements InheritDataViewInterface {
 
     /**
      *

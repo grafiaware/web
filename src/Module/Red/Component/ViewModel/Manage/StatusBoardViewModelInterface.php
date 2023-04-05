@@ -8,7 +8,7 @@
 
 namespace Red\Component\ViewModel\Manage;
 
-use Red\Component\ViewModel\ViewModelInterface;
+use Component\ViewModel\ViewModelInterface;
 
 /**
  *

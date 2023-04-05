@@ -15,7 +15,7 @@ use FrontControler\FrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 
 // komponenty
-use Red\Component\View\Flash\FlashComponent;
+use Web\Component\View\Flash\FlashComponent;
 
 /**
  * Description of ComponentController

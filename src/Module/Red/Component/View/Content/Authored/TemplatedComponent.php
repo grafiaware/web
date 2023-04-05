@@ -9,7 +9,7 @@
 namespace Red\Component\View\Content\Authored;
 
 use Configuration\ComponentConfigurationInterface;
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 
 use Access\AccessPresentationInterface;
 use Template\Seeker\TemplateSeekerInterface;

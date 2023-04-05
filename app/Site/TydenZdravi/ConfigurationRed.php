@@ -11,7 +11,7 @@ namespace Site\TydenZdravi;
 use Application\WebAppFactory;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
-use Red\Component\View\Flash\FlashComponent;
+use Web\Component\View\Flash\FlashComponent;
 
 /**
  * Description of Configuration
@@ -89,6 +89,20 @@ class ConfigurationRed extends ConfigurationDb {
             'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
             // site layout templates
             'component.template.register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+        ];
+    }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
+     *
+     * Konfiguruje logování a šablony pro komponenty, které renderují šablony
+     *
+     * @return array
+     */
+    public static function redComponent() {
+        return [
+            'redcomponent.logs.directory' => 'Logs/App/Red',
+            'redcomponent.logs.render' => 'Render.log',
         ];
     }
 

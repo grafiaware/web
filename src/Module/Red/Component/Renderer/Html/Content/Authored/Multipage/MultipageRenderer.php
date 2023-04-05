@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\Renderer\Html\Content\Authored\Multipage;
 
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
 
 use Red\Component\View\Content\Authored\Multipage\MultipageComponent;

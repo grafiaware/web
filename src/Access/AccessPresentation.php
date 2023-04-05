@@ -7,8 +7,8 @@
 
 namespace Access;
 
-use Red\Component\View\ComponentInterface;
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\View\ComponentInterface;
+use Component\ViewModel\StatusViewModelInterface;
 use Access\Enum\RoleEnum;
 
 /**

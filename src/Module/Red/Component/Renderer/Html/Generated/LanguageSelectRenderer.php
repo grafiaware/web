@@ -10,7 +10,7 @@ namespace Red\Component\Renderer\Html\Generated;
 
 use Site\ConfigurationCache;
 
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Generated\LanguageSelectViewModel;
 
 use Red\Model\Entity\LanguageInterface;

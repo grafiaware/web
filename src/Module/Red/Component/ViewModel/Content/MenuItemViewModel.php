@@ -1,10 +1,10 @@
 <?php
 namespace Red\Component\ViewModel\Content;
 
-use Red\Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Entity\MenuItemInterface;
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 
 use LogicException;
 

@@ -7,7 +7,7 @@
 
 namespace Red\Component\Renderer\Html\Menu;
 
-use Red\Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Menu\MenuViewModelInterface;
 use Red\Component\View\Menu\MenuComponentInterface;
 

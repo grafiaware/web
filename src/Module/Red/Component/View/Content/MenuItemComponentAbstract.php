@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\View\Content;
 
-use Red\Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Red\Component\View\Content\MenuItemComponentInterface;
 
 /**

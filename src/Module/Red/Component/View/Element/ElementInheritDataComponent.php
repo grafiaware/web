@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\View\Element;
 
-use Red\Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Pes\View\InheritDataViewInterface;
 use Pes\View\ViewInterface;
 

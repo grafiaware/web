@@ -7,7 +7,7 @@
 
 namespace Red\Component\ViewModel\Menu;
 
-use Red\Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelAbstract;
 use Red\Component\ViewModel\Menu\LevelViewModelInterface;
 
 use LogicException;

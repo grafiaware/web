@@ -9,7 +9,7 @@ use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
 use Red\Component\Renderer\Html\Content\Authored\EmptyContentRenderer;
 
-use Red\Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 
 use Access\Enum\AccessPresentationEnum;
 

@@ -57,7 +57,7 @@ use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
 
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\View\Renderer\InterpolateRenderer;
-use Red\Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 
 /**
  *

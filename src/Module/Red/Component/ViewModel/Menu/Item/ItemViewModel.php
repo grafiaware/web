@@ -8,9 +8,9 @@
 
 namespace Red\Component\ViewModel\Menu\Item;
 
-use Red\Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
-use Red\Component\View\ComponentInterface;
+use Component\View\ComponentInterface;
 
 /**
  * Description of ItemViwModel

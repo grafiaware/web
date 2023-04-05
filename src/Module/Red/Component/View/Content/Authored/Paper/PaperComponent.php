@@ -18,7 +18,7 @@ use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
 
 use Red\Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 
-use Red\Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 
 /**
  * Description of PaperComponent

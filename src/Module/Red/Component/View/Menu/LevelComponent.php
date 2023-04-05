@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\View\Menu;
 
-use Red\Component\View\ComponentCollectionAbstract;
+use Component\View\ComponentCollectionAbstract;
 
 /**
  * Description of LevelComponent

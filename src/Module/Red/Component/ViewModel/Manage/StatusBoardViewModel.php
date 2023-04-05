@@ -8,9 +8,9 @@
 
 namespace Red\Component\ViewModel\Manage;
 
-use Red\Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelAbstract;
 
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 
 /**
  * Description of StatusBoardViewModel

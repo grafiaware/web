@@ -16,7 +16,7 @@ use Status\Model\Enum\FlashSeverityEnum;
 use Access\Enum\RoleEnum;
 use Access\Enum\AllowedActionEnum;
 
-use Red\Component\View\ComponentInterface;
+use Component\View\ComponentInterface;
 
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\ItemActionRepoInterface;

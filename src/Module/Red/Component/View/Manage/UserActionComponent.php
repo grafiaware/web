@@ -8,9 +8,9 @@
 
 namespace Red\Component\View\Manage;
 
-use Red\Component\View\ComponentCompositeAbstract;
-use Red\Component\Renderer\Html\NoPermittedContentRenderer;
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\View\ComponentCompositeAbstract;
+use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
 use Access\Enum\RoleEnum;

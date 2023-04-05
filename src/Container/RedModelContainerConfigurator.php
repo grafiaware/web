@@ -18,7 +18,16 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 
+// database
+use Pes\Database\Handler\Account;
+use Pes\Database\Handler\AccountInterface;
+
 // models
+
+// user - ze session
+use Auth\Model\Entity\Credentials;
+use Auth\Model\Entity\CredentialsInterface;
+use Auth\Model\Entity\LoginAggregateFullInterface;
 
 // context
 use Red\Model\Context\ContextProvider;
@@ -136,6 +145,8 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             ContextProviderInterface::class => ContextProvider::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
             HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
+            CredentialsInterface::class => Credentials::class,
+            AccountInterface::class => Account::class,
         ];
     }
 
@@ -374,6 +385,39 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LanguageRepo($c->get(LanguageDao::class), $c->get(LanguageHydrator::class));
             },
 
+            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
+            LoginAggregateFullInterface::class => function(ContainerInterface $c) {
+                /** @var StatusSecurityRepo $securityStatusRepo */
+                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
+                return $securityStatusRepo->get()->getLoginAggregate();
+            },
+
+            // database account
+            Account::class => function(ContainerInterface $c) {
+                /* @var $user LoginAggregateFullInterface */
+                $user = $c->get(LoginAggregateFullInterface::class);
+                if (isset($user)) {
+                    $role = $user ? $user->getCredentials()->getRole() : "";
+                    switch ($role) {
+                        case 'administrator':
+                            $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
+                            break;
+                        case 'supervisor':
+                            $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
+                            break;
+                        default:
+                            if ($role) {
+                                $account = new Account($c->get('web.db.account.authenticated.name'), $c->get('web.db.account.authenticated.password'));
+                            } else {
+                                $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
+                            }
+                            break;
+                    }
+                } else {
+                    $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
+                }
+                return $account;
+            },
         ];
     }
 }

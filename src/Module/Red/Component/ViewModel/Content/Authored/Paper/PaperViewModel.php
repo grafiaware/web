@@ -13,7 +13,7 @@ use Red\Model\Entity\PaperInterface;
 
 use Red\Component\ViewModel\Content\Authored\AuthoredViewModelAbstract;
 
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
 
 use Red\Model\Repository\PaperAggregateSectionsRepo;

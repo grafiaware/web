@@ -9,7 +9,7 @@
 namespace Red\Component\ViewModel\Content\Authored\Article;
 
 use Red\Component\ViewModel\Content\Authored\AuthoredViewModelAbstract;
-use Red\Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Repository\ArticleRepo;
