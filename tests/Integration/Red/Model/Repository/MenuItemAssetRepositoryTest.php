@@ -73,7 +73,7 @@ class MenuItemAssetRepositoryTest extends AppRunner {
             ]
         );
         $menuItemAssetsDao->insert($testRowData);
-        self::$id = $menuItemAssetsDao->getLastInsertIdTouple();
+        self::$id = $menuItemAssetsDao->getLastInsertedPrimaryKey()[$menuItemAssetsDao->getAutoincrementFieldName()];
     }
 
     private static function deleteRecords(Container $container) {

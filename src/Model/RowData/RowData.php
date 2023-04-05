@@ -58,7 +58,7 @@ class RowData extends \ArrayObject implements RowDataInterface {
     }
 
     /**
-     * Ukládá jen data, jejichž hodnoty byly změněny.
+     * Nastaví jen data, jejichž hodnoty byly změněny.
      *
      * Změna je:
      * - přidání nové položky dat (volání metody s novým indexem)

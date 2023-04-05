@@ -8,13 +8,13 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
+use Model\Entity\PersistableEntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface MenuItemAssetInterface extends EntityInterface {
+interface MenuItemAssetInterface extends PersistableEntityInterface {
 
     public function getId() ;
 
