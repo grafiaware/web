@@ -58,17 +58,15 @@ class RowData extends \ArrayObject implements RowDataInterface {
     }
 
     /**
-     * Nastaví jen data, jejichž hodnoty byly změněny.
+     * Přidá nebo změní data. Data přidá nebo změní pouze v těchto případech:
      *
-     * Změna je:
      * - přidání nové položky dat (volání metody s novým indexem)
      * - změna hodnoty skalárních dat
      * - změna hodnoty na null
      * - změna hodnoty z null na not null
-     * - záměna hodnoty objektových dat (položky dat typu objekt), tedy záměna objektu za jiný objekt nebo jinou instanci objektu stejného typu
+     * - záměna hodnoty dat typu objekt dat za jiný objekt nebo jinou instanci objektu stejného typu.
      *
-     * Změna není:
-     * - změna vlastnosti objektu, který je hodnotou objektových dat (položky dat typu objekt)
+     * Metoda nic nemění pokud se změní jen vlastnosti objektu, který je hodnotou položky dat typu objekt.
      *
      * @param type $index
      * @param type $value
@@ -91,7 +89,7 @@ class RowData extends \ArrayObject implements RowDataInterface {
     }
 
     /**
-     * Přidá všechny položky iterable parametru. Všechna importovaná data přídá jako nové hodnoty.
+     * Přidá všechny položky uvedené v parametru. Všechna tato data přídá jako nové hodnoty.
      *
      * @param iterable $iterableData
      */
