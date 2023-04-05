@@ -136,11 +136,11 @@ class  JobTagDaoTest extends AppRunner {
         $this->assertEquals($jobTagRow, $jobTagRowRereaded);
         $this->assertStringContainsString('kiki', $jobTagRowRereaded['tag']);
 
-//        //kontrola CASCADE u update        
-//        /**  @var JobToTagDao  $jobToTagDao */
-//        $jobToTagDao = $this->container->get(JobToTagDao::class);
-//        $jobToTagRow = $jobToTagDao->get( [ 'job_tag_id' => self::$jobTagIdTouple_poUpdate ['id']  , 'job_id'=>self::$jobPrimaryKey['id'] ] );
-//        $this->assertInstanceOf(RowDataInterface::class, $jobToTagRow);  
+        //kontrola CASCADE u update
+        /**  @var JobToTagDao  $jobToTagDao */
+        $jobToTagDao = $this->container->get(JobToTagDao::class);
+        $jobToTagRow = $jobToTagDao->get( [ 'job_tag_id' => self::$jobTagIdTouple_poUpdate ['id']  , 'job_id'=>self::$jobPrimaryKey['id'] ] );
+        $this->assertInstanceOf(RowDataInterface::class, $jobToTagRow);  
 }
 
 

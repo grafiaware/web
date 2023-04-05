@@ -13,6 +13,9 @@ use \Model\Dao\DaoAutoincrementTrait;
  * @author vlse2610
  */
 class JobTagDao    extends DaoEditAbstract  implements DaoEditKeyDbVerifiedInterface {   
+    DaoEditAutoincrementKeyInterface {
+
+    use DaoAutoincrementTrait;
     
     use DaoAutoincrementTrait;
 
