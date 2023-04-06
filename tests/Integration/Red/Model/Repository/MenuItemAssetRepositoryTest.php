@@ -40,15 +40,6 @@ class MenuItemAssetRepositoryTest extends AppRunner {
     private static $id;
 
     public static function setUpBeforeClass(): void {
-//        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-//            define('PES_FORCE_DEVELOPMENT', 'force_development');
-//            //// nebo
-//            //define('PES_FORCE_PRODUCTION', 'force_production');
-//
-//            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-//
-//            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-//        }
 
         self::bootstrapBeforeClass();
 

@@ -79,6 +79,7 @@ use Red\Model\Entity\Paper;
 use Red\Model\Dao\PaperDao;
 use Red\Model\Hydrator\PaperHydrator;
 use Red\Model\Repository\PaperRepo;
+use Red\Model\Repository\Association\PaperAssociation;
 
 use Red\Model\Entity\PaperSection;
 use Red\Model\Dao\PaperSectionDao;
@@ -278,12 +279,14 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $repo;
             },
             MenuItemAggregatePaperRepo::class => function(ContainerInterface $c) {
-                return new MenuItemAggregatePaperRepo(
+                $repo = new MenuItemAggregatePaperRepo(
                         $c->get(MenuItemDao::class),
-                        $c->get(MenuItemHydrator::class),
-                        $c->get(PaperAggregateSectionsRepo::class),
-                        $c->get(MenuItemChildPaperHydrator::class)
+                        $c->get(MenuItemHydrator::class)
                         );
+                $assotiation = new PaperAssociation($c->get(PaperRepo::class));
+                $repo->registerOneToOneAssociation($assotiation);
+                return $repo;
+
             },
             ArticleDao::class => function(ContainerInterface $c) {
                 return new ArticleDao(

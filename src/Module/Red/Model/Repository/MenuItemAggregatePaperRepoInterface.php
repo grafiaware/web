@@ -8,13 +8,34 @@
 
 namespace Red\Model\Repository;
 
+use Model\Repository\RepoReadonlyInterface;
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 
 /**
  *
  * @author pes2704
  */
-interface MenuItemAggregatePaperRepoInterface  extends MenuItemRepoInterface {
+interface MenuItemAggregatePaperRepoInterface  extends RepoReadonlyInterface {
+
+    /**
+     *
+     * @param type $langCodeFk
+     * @param type $uidFk
+     * @return MenuItemAggregatePaperInterface|null
+     */
     public function get($langCodeFk, $uidFk): ?MenuItemAggregatePaperInterface;
 
+    /**
+     *
+     * @param type $id
+     * @return MenuItemAggregatePaperInterface|null
+     */
+    public function getById($id): ?MenuItemAggregatePaperInterface;
+
+    /**
+     *
+     * @param type $prettyUri
+     * @return MenuItemAggregatePaperInterface|null
+     */
+    public function getByPrettyUri($prettyUri): ?MenuItemAggregatePaperInterface;
 }
