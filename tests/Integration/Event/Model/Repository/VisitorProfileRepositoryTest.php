@@ -71,7 +71,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idCv = $documentDao->getLastInsertedPrimaryKey()[$documentDao->getLastInsertedPrimaryKey()];
+        self::$idCv = $documentDao->getLastInsertedPrimaryKey();    /*[$documentDao->getLastInsertedPrimaryKey()]*/
 
     }
 
@@ -252,7 +252,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
         $this->assertTrue($visitorProfile->isPersisted());
         $this->assertFalse($visitorProfile->isLocked());
 
-        $this-$this->visitorProfileRepo->remove($visitorProfile);
+        $this->visitorProfileRepo->remove($visitorProfile);
 
         $this->assertTrue($visitorProfile->isPersisted());
         $this->assertTrue($visitorProfile->isLocked());   // zatim zamcena entita, maže až při flush
