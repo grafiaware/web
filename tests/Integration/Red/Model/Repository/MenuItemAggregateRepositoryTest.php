@@ -16,7 +16,6 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
-use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;

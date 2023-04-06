@@ -4,10 +4,10 @@ namespace Red\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
-use Model\RowData\RowDataInterface;
 use Model\Hydrator\TypeHydratorAbstract;
 
 use Red\Model\Entity\MenuItemAssetInterface;
+use ArrayAccess;
 
 /**
  * Description of PaperHydrator
@@ -22,7 +22,7 @@ class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInte
      * @param MenuItemAssetInterface $menuItemAsset
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $menuItemAsset, RowDataInterface $rowData) {
+    public function hydrate(EntityInterface $menuItemAsset, ArrayAccess $rowData) {
         /** @var MenuItemAssetInterface $menuItemAsset */
         $menuItemAsset
             ->setId( $this->getPhpValue( $rowData,'id') )
@@ -40,7 +40,7 @@ class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInte
      * @param MenuItemAssetInterface $menuItemAsset
      * @param type $rowData
      */
-    public function extract(EntityInterface $menuItemAsset, RowDataInterface $rowData) {
+    public function extract(EntityInterface $menuItemAsset, ArrayAccess $rowData) {
         /** @var MenuItemAssetInterface $menuItemAsset */
         // id je autoincrement
         $this->setSqlValue( $rowData, 'menu_item_id_FK', $menuItemAsset->getMenuItemIdFk() );

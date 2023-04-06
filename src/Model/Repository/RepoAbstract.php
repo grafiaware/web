@@ -170,13 +170,25 @@ abstract class RepoAbstract {
      * @param type $referenceParams
      * @return PersistableEntityInterface|null
      */
+    protected function getEntityByUnique($touplesToBind=[]): ?PersistableEntityInterface {
+        // vždy čte data - neví jestli jsou v $this->data
+        $rowData = $this->dataManager->getUnique($touplesToBind);
+        return $this->recreateEntityByRowData($rowData);
+    }
+
+    /**
+     * Pro konkrétní metodu konkrétního repository
+     *
+     * @param string $referenceName
+     * @param type $referenceParams
+     * @return PersistableEntityInterface|null
+     */
     protected function getEntityByReference(string $referenceName, ...$referenceParams): ?PersistableEntityInterface {
         // vždy čte data - neví jestli jsou v $this->data
         $referenceKey = $this->createReferenceKey($referenceName, $referenceParams);
         $rowData = $this->dataManager->getByReference($referenceName, $referenceKey);
         return $this->recreateEntityByRowData($rowData);
     }
-
 
     protected function findEntities($whereClause="", $touplesToBind=[]) {
         return $this->recreateEntitiesByRowDataArray($this->dataManager->find($whereClause, $touplesToBind));

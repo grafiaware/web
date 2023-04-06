@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityAbstract;
+use Model\Entity\PersistableEntityAbstract;
 
 use Red\Model\Entity\MenuItemAssetInterface;
 
@@ -17,7 +17,7 @@ use Red\Model\Entity\MenuItemAssetInterface;
  *
  * @author pes2704
  */
-class MenuItemAsset extends EntityAbstract implements MenuItemAssetInterface {
+class MenuItemAsset extends PersistableEntityAbstract implements MenuItemAssetInterface {
 
     private $id;
     private $menuItemIdFk;

@@ -47,7 +47,7 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
      * @return MenuItemAssetInterface
      */
     public function getByFilename($filepath): ?MenuItemAssetInterface {
-        return $this->getEntityUnique(["filepath"=>$filepath]);
+        return $this->getEntityByUnique(["filepath"=>$filepath]);
     }
 
     /**

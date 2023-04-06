@@ -4,19 +4,25 @@ namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
-use Model\Dao\DaoFkNonuniqueInterface;
+use Model\Dao\DaoReferenceNonuniqueInterface;
 use Model\Dao\DaoAutoincrementTrait;
-use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoReferenceNonuniqueTrait;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class MenuItemAssetDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
+class MenuItemAssetDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoReferenceNonuniqueInterface {
+
+    const REFERENCE_MENU_ITEM = 'menu_item';
 
     use DaoAutoincrementTrait;
-    use DaoFkNonuniqueTrait;
+    use DaoReferenceNonuniqueTrait;
+    
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
 
     public function getPrimaryKeyAttributes(): array {
         return ['id'];
@@ -26,11 +32,12 @@ class MenuItemAssetDao extends DaoEditAbstract implements DaoEditAutoincrementKe
         return ['id', 'menu_item_id_FK', 'filepath', 'mime_type', 'editor_login_name', 'created', 'updated'];
     }
 
-    public function getForeignKeyAttributes(): array {
+    public function getReferenceAttributes($referenceName): array {
         return [
-            'menu_item_id_FK'=>['menu_item_id_FK']
-        ];
+        self::REFERENCE_MENU_ITEM=>['menu_item_id_FK'=>'id']
+        ][$referenceName];
     }
+
     public function getTableName(): string {
         return 'menu_item_asset';
     }

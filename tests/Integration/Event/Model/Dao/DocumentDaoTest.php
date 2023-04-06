@@ -36,9 +36,9 @@ class DocumentDaoTest  extends AppRunner {
     private $dao;
 
     private static $loginName;
-    private static $companyPrimaryKey;
-    private static $jobPrimaryKey;
-    private static $documentPrimaryKey;
+    private static $companyPrimaryKeyTouple;
+    private static $jobPrimaryKeyTouple;
+    private static $documentPrimaryKeyTouple;
 
     private static $visitorProfileTouple;
     private static $visitorJobRequestTouple;
@@ -70,14 +70,14 @@ class DocumentDaoTest  extends AppRunner {
         $rowData = new RowData();
         $rowData->offsetSet( 'name' , "pomocna pro proDocumentDaoTest"  );
         $companyDao->insert($rowData);
-        self::$companyPrimaryKey = $companyDao->getLastInsertedPrimaryKey(); //pro autoincrement
+        self::$companyPrimaryKeyTouple = $companyDao->getLastInsertedPrimaryKey(); //pro autoincrement
 
         /** @var JobDao $jobDao */
         $jobDao = $container->get(JobDao::class);
         $jobData = new RowData();
-        $jobData->import( ['pozadovane_vzdelani_stupen' => 1, 'company_id' =>self::$companyPrimaryKey['id']] );
+        $jobData->import( ['pozadovane_vzdelani_stupen' => 1, 'company_id' =>self::$companyPrimaryKeyTouple['id']] );
         $jobDao->insert($jobData);
-        self::$jobPrimaryKey = $jobDao->getLastInsertedPrimaryKey();
+        self::$jobPrimaryKeyTouple = $jobDao->getLastInsertedPrimaryKey();
     }
 
     protected function setUp(): void {
@@ -101,7 +101,7 @@ class DocumentDaoTest  extends AppRunner {
         //smaze company a job a visitor_job_request
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
-        $companyRow = $companyDao->get( self::$companyPrimaryKey );
+        $companyRow = $companyDao->get( self::$companyPrimaryKeyTouple );
         $companyDao->delete($companyRow);
 
         //smazat  visitor_profile
@@ -129,27 +129,27 @@ class DocumentDaoTest  extends AppRunner {
         $rowData->import( [  'document_filename' => 'jmenoFilename'
                           ] );
         $this->dao->insert($rowData);
-        self::$documentPrimaryKey = $this->dao->getLastInsertedPrimaryKey();
-        $this->assertIsArray(self::$documentPrimaryKey);
+        self::$documentPrimaryKeyTouple = $this->dao->getLastInsertedPrimaryKey();
+        $this->assertIsArray(self::$documentPrimaryKeyTouple);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
 
     }
 
     public function testGet() {
-        $documentRow = $this->dao->get( self::$documentPrimaryKey );
+        $documentRow = $this->dao->get( self::$documentPrimaryKeyTouple );
         $this->assertInstanceOf(RowDataInterface::class, $documentRow);
     }
 
     public function test4Columns() {
-        $documentRow = $this->dao->get( self::$documentPrimaryKey );
+        $documentRow = $this->dao->get( self::$documentPrimaryKeyTouple );
         $this->assertCount(4, $documentRow);
     }
 
 
 
     public function testUpdate() {
-        $documentRow = $this->dao->get( self::$documentPrimaryKey );
+        $documentRow = $this->dao->get( self::$documentPrimaryKeyTouple );
             $documentName = $documentRow['document_filename'];
         $this->assertIsString( $documentRow['document_filename'] );
 
@@ -160,7 +160,7 @@ class DocumentDaoTest  extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $documentRowRereaded = $this->dao->get(  self::$documentPrimaryKey );
+        $documentRowRereaded = $this->dao->get(  self::$documentPrimaryKeyTouple );
         $this->assertInstanceOf( RowDataInterface::class, $documentRowRereaded );
         $this->assertEquals(  "application/msword", $documentRowRereaded['document_mimetype']);
 
@@ -189,7 +189,7 @@ class DocumentDaoTest  extends AppRunner {
         $visitorJobRequestDao = $this->container->get(VisitorJobRequestDao::class);
         /** @var RowData $visitorJobRequestRow */
         $visitorJobRequestRow = new RowData();
-        $visitorJobRequestRow->import( ['job_id'  => self::$jobPrimaryKey['id'],
+        $visitorJobRequestRow->import( ['job_id'  => self::$jobPrimaryKeyTouple['id'],
                                         'login_login_name'  => self::$loginName,
                                         'letter_document'  => $documentPrimaryKey['id'],
                                         'cv_document'  => $documentPrimaryKey['id'],
@@ -243,7 +243,7 @@ class DocumentDaoTest  extends AppRunner {
 
 
     public function testDelete() {
-        $documentRow = $this->dao->get( self::$documentPrimaryKey );
+        $documentRow = $this->dao->get( self::$documentPrimaryKeyTouple );
         $this->dao->delete($documentRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 

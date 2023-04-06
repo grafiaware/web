@@ -60,8 +60,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getById($id): ?MenuItemInterface {
-        $rowData = $this->dataManager->getUnique(['id'=>$id]);
-        return $this->recreateEntityByRowData($rowData);    }
+        return $this->getEntityByUnique(['id'=>$id]);
+    }
 
     /**
      * Vrací MenuItem podle hodnoty prettyUri.
@@ -71,8 +71,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getByPrettyUri($prettyUri): ?MenuItemInterface {
-        $rowData = $this->dataManager->getUnique(['prettyuri'=>$prettyUri]);
-        return $this->recreateEntityByRowData($rowData);
+        return $this->getEntityByUnique(['prettyuri'=>$prettyUri]);
     }
 
     /**
