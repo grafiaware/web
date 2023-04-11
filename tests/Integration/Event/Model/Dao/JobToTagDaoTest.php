@@ -36,8 +36,7 @@ class JobToTagDaoTest extends AppRunner {
     private static $company_id;
     private static $stupen_fk;
     private static $job_id_fk;
-    //private static $job_tag_tag_fk;
-    //private static $job_tag_tag_fk2;
+  
     private static $jobTagIdTouple;
     private static $jobTagIdTouple2;
 
@@ -185,12 +184,7 @@ class JobToTagDaoTest extends AppRunner {
         $this->assertInstanceOf(RowDataInterface::class, $jobToTagRows[0]);
     }
 
-//    public function testFindExistingRowsByJobTagTag() {
-//        $jobToTagRows = $this->dao->findByJobTagFk( ['job_tag_tag' => self::$job_tag_tag_fk] );
-//        $this->assertIsArray($jobToTagRows);
-//        $this->assertGreaterThan(0, count($jobToTagRows));
-//        $this->assertInstanceOf(RowDataInterface::class, $jobToTagRows[0]);
-//    }
+
     public function testFindExistingRowsByJobTagId() {
         $jobToTagRows = $this->dao->findByJobTagIdFk( [ 'job_tag_id' =>  self::$jobTagIdTouple['id']   ] );
         $this->assertIsArray($jobToTagRows);

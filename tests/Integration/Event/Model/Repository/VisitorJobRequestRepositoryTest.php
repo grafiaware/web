@@ -279,7 +279,7 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
         $this->assertTrue($visitorJobRequest->isPersisted());
         $this->assertFalse($visitorJobRequest->isLocked());
 
-        $this-$this->visitorJobRequestRepo->remove($visitorJobRequest);
+        $this->visitorJobRequestRepo->remove($visitorJobRequest);
 
         $this->assertTrue($visitorJobRequest->isPersisted());
         $this->assertTrue($visitorJobRequest->isLocked());   // zatim zamcena entita, maže až při flush
