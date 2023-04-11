@@ -32,6 +32,7 @@ class JobTagRepositoryTest extends AppRunner {
     private $jobTagRepo;
 
     private static $tagKlic = "proJobTagRepoTest";
+    private static $tagKlic1IdTouple;
 
 
     public static function setUpBeforeClass(): void {
@@ -56,6 +57,8 @@ class JobTagRepositoryTest extends AppRunner {
         $rowData = new RowData();
         $rowData->offsetSet('tag', self::$tagKlic . "1" );
         $jobTagDao->insert($rowData);
+        self::$tagKlic1IdTouple = $jobTagDao->getLastInsertedPrimaryKey();
+        
     }
 
 
@@ -109,7 +112,7 @@ class JobTagRepositoryTest extends AppRunner {
 
     public function testGetAndRemoveAfterSetup() {
         /** @var JobTag $jobTag */
-        $jobTag = $this->jobTagRepo->get( self::$tagKlic  . "1" );
+        $jobTag = $this->jobTagRepo->get( self::$tagKlic1IdTouple['id'] );
         $this->assertInstanceOf( JobTagInterface::class, $jobTag );
 
         $this->jobTagRepo->remove($jobTag);
@@ -117,7 +120,7 @@ class JobTagRepositoryTest extends AppRunner {
 
     public function testGetAfterRemove() {
         /** @var JobTag $jobTag */
-        $jobTag = $this->jobTagRepo->get( self::$tagKlic  . "1" );
+        $jobTag = $this->jobTagRepo->get( self::$tagKlic1IdTouple['id'] );
         $this->assertNull($jobTag);
     }
 
