@@ -50,8 +50,8 @@ class ConfigurationCache {
                 case 'app':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::app();
                     break;
-                case 'component':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::component();
+                case 'webComponent':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::webComponent();
                     break;
                 case 'redComponent':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::redComponent();
@@ -151,8 +151,8 @@ class ConfigurationCache {
         return self::getConfigModule('build');
     }
 
-    public static function component() {
-        return self::getConfigModule('component');
+    public static function webComponent() {
+        return self::getConfigModule('webComponent');
     }
 
     public static function redComponent() {

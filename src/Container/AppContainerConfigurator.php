@@ -41,6 +41,12 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
+// viewmodel
+use Component\ViewModel\StatusViewModel;
+
+// login aggregate ze session - přihlášený uživatel
+use Auth\Model\Entity\LoginAggregateFullInterface;
+
 // router
 use Pes\Router\RouterInterface;
 use Pes\Router\Router;
@@ -132,6 +138,24 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             StatusFlashRepo::class => function(ContainerInterface $c) {
                 return new StatusFlashRepo($c->get(StatusDao::class));
+            },
+        ####
+        # StatusViewModel
+        #
+            StatusViewModel::class => function(ContainerInterface $c) {
+                return new StatusViewModel(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusPresentationRepo::class),
+                            $c->get(StatusFlashRepo::class)
+//                        ,
+//                            $c->get(ItemActionRepo::class)
+                    );
+            },
+            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
+            LoginAggregateFullInterface::class => function(ContainerInterface $c) {
+                /** @var StatusSecurityRepo $securityStatusRepo */
+                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
+                return $securityStatusRepo->get()->getLoginAggregate();
             },
 
             // router

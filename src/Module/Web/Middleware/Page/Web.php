@@ -41,13 +41,13 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         //      app container se nekonfuguruje znovu - bere se z app
         $this->container =
             (new WebContainerConfigurator())->configure(
-                (new RedGetContainerConfigurator())->configure(
-                    (new RedModelContainerConfigurator())->configure(
+//                (new RedGetContainerConfigurator())->configure(
+//                    (new RedModelContainerConfigurator())->configure(
                         (new DbUpgradeContainerConfigurator())->configure(
                                 new Container($this->getApp()->getAppContainer())
                         )
-                    )
-                )
+//                    )
+//                )
             );
         // Nový kontejner nastaví jako kontejner aplikace - pro middleware Transformator
         $this->getApp()->setAppContainer($this->container);

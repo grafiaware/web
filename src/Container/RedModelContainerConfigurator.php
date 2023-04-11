@@ -18,10 +18,6 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 
-// database
-use Pes\Database\Handler\Account;
-use Pes\Database\Handler\AccountInterface;
-
 // models
 
 // user - ze session
@@ -46,67 +42,48 @@ use Model\DataManager\DataManagerAbstract;
 
 //dao + hydrator + repo
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
-use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+//use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
-use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
+//use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 use Red\Model\Hydrator\HierarchyHydrator;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Hydrator\HierarchyChildHydrator;
 
-use Red\Model\Entity\MenuItem;
 use Red\Model\Dao\MenuItemDao;
 use Red\Model\Hydrator\MenuItemHydrator;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\Association\MenuItemAssociation;
 
-use Red\Model\Entity\MenuItemAsset;
 use Red\Model\Dao\MenuItemAssetDao;
 use Red\Model\Hydrator\MenuItemAssetHydrator;
 use Red\Model\Repository\MenuItemAssetRepo;
 
-use Red\Model\Entity\MenuRoot;
-use Red\Model\Dao\MenuRootDao;
-use Red\Model\Hydrator\MenuRootHydrator;
-use Red\Model\Repository\MenuRootRepo;
-
-use Red\Model\Entity\Language;
 use Red\Model\Dao\LanguageDao;
 use Red\Model\Hydrator\LanguageHydrator;
 use Red\Model\Repository\LanguageRepo;
 
-use Red\Model\Entity\MenuItemType;
 use Red\Model\Dao\MenuItemTypeDao;
 use Red\Model\Hydrator\MenuItemTypeHydrator;
 use Red\Model\Repository\MenuItemTypeRepo;
 
-use Red\Model\Entity\Block;
-use Red\Model\Dao\BlockDao;
-use Red\Model\Hydrator\BlockHydrator;
-use Red\Model\Repository\BlockRepo;
-
-use Red\Model\Entity\Paper;
 use Red\Model\Dao\PaperDao;
 use Red\Model\Hydrator\PaperHydrator;
 use Red\Model\Repository\PaperRepo;
 use Red\Model\Repository\Association\PaperAssociation;
 
-use Red\Model\Entity\PaperSection;
 use Red\Model\Dao\PaperSectionDao;
 use Red\Model\Hydrator\PaperSectionHydrator;
 use Red\Model\Repository\PaperSectionRepo;
 use Red\Model\Repository\Association\SectionsAssociation;
 
-use Red\Model\Entity\Article;
 use Red\Model\Dao\ArticleDao;
 use Red\Model\Hydrator\ArticleHydrator;
 use Red\Model\Repository\ArticleRepo;
 
-use Red\Model\Entity\Multipage;
 use Red\Model\Dao\MultipageDao;
 use Red\Model\Hydrator\MultipageHydrator;
 use Red\Model\Repository\MultipageRepo;
 
-use Red\Model\Entity\ItemAction;
 use Red\Model\Dao\ItemActionDao;
 use Red\Model\Hydrator\ItemActionHydrator;
 use Red\Model\Repository\ItemActionRepo;
@@ -144,10 +121,8 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases(): iterable {
         return [
             ContextProviderInterface::class => ContextProvider::class,
-            HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
             HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
             CredentialsInterface::class => Credentials::class,
-            AccountInterface::class => Account::class,
         ];
     }
 
@@ -335,45 +310,6 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             ItemActionRepo::class => function(ContainerInterface $c) {
                 return new ItemActionRepo($c->get(ItemActionDao::class), $c->get(ItemActionHydrator::class));
             },
-            BlockDao::class => function(ContainerInterface $c) {
-                return new BlockDao(
-                        $c->get(HandlerInterface::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            BlockHydrator::class => function(ContainerInterface $c) {
-                return new BlockHydrator($c->get(BlockDao::class));
-            },
-            BlockChildHydrator::class => function(ContainerInterface $c) {
-                return new BlockChildHydrator();
-            },
-            BlockRepo::class => function(ContainerInterface $c) {
-                return new BlockRepo(
-                        $c->get(BlockDao::class),
-                        $c->get(BlockHydrator::class)
-                    );
-            },
-            BlockAggregateRepo::class => function(ContainerInterface $c) {
-                return new BlockAggregateRepo(
-                        $c->get(BlockDao::class),
-                        $c->get(BlockHydrator::class),
-                        $c->get(MenuItemRepo::class),
-                        $c->get(BlockChildHydrator::class)
-                    );
-            },
-
-            MenuRootDao::class => function(ContainerInterface $c) {
-                return new MenuRootDao(
-                        $c->get(HandlerInterface::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            MenuRootHydrator::class => function(ContainerInterface $c) {
-                return new MenuRootHydrator();
-            },
-            MenuRootRepo::class => function(ContainerInterface $c) {
-                return new MenuRootRepo($c->get(MenuRootDao::class), $c->get(MenuRootHydrator::class));
-            },
 
             LanguageDao::class => function(ContainerInterface $c) {
                 return new LanguageDao(
@@ -388,39 +324,6 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LanguageRepo($c->get(LanguageDao::class), $c->get(LanguageHydrator::class));
             },
 
-            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
-            LoginAggregateFullInterface::class => function(ContainerInterface $c) {
-                /** @var StatusSecurityRepo $securityStatusRepo */
-                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getLoginAggregate();
-            },
-
-            // database account
-            Account::class => function(ContainerInterface $c) {
-                /* @var $user LoginAggregateFullInterface */
-                $user = $c->get(LoginAggregateFullInterface::class);
-                if (isset($user)) {
-                    $role = $user ? $user->getCredentials()->getRole() : "";
-                    switch ($role) {
-                        case 'administrator':
-                            $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
-                            break;
-                        case 'supervisor':
-                            $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
-                            break;
-                        default:
-                            if ($role) {
-                                $account = new Account($c->get('web.db.account.authenticated.name'), $c->get('web.db.account.authenticated.password'));
-                            } else {
-                                $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
-                            }
-                            break;
-                    }
-                } else {
-                    $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
-                }
-                return $account;
-            },
         ];
     }
 }

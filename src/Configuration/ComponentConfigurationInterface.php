@@ -12,17 +12,5 @@ interface ComponentConfigurationInterface {
 
     public function getLogsRender();
 
-    public function getTemplateFlash();
-
-    public function getTemplateLogin();
-
-    public function getTemplateRegister();
-
-    public function getTemplateLogout();
-
-    public function getTemplateUserAction();
-
-    public function getTemplateStatusBoard();
-
-    public function getTemplateControlEditMenu();
+    public function getTemplate($name): string;
 }

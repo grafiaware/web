@@ -2,7 +2,7 @@
 namespace Red\Component\ViewModel\Menu;
 
 use Component\ViewModel\ViewModelAbstract;
-use Red\Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModel;
 
 use Red\Model\Entity\MenuItemInterface;
 

@@ -40,7 +40,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $response = $handler->handle($request);
         if ($request->getMethod()=="GET") {
             $startTime = microtime(true);
-            $this->container = $this->getApp()->getAppContainer();
+            $this->container = $this->getApp()->getAppContainer();  // měl by mít nastaven kontejner z middleware web
             $newBody = new Body(fopen('php://temp', 'r+'));
             $newBody->write($this->transform($response->getBody()->getContents()));
     //        $newBody->write($response->getBody()->getContents());

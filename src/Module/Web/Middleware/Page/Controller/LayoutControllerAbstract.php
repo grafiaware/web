@@ -179,7 +179,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
         $views = array_merge(
                 [
-                    'content' => $this->getContentLoadScript($menuItem),
+                    'content' => $this->getMenuItemComponentLoadScript($menuItem),
                 ],
 
                 $this->getEditableModeViews($request),
@@ -238,7 +238,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         foreach ($map as $variableName => $blockName) {
             $menuItem = $this->getMenuItemForBlock($blockName);
             if (isset($menuItem)) {
-                $componets[$variableName] = $this->getContentLoadScript($menuItem);
+                $componets[$variableName] = $this->getMenuItemComponentLoadScript($menuItem);
             } else {
                 $componets[$variableName] = $this->getUnknownContentView("Unknown block $blockName configured for layout variable $variableName.");
             }
@@ -259,7 +259,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param type $menuItem
      * @return View
      */
-    private function getContentLoadScript(MenuItemInterface $menuItem) {
+    private function getMenuItemComponentLoadScript(MenuItemInterface $menuItem) {
         /** @var View $view */
         $view = $this->container->get(View::class);
 
@@ -301,6 +301,23 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());
         }
         return $name;
+    }
+    private function getRedServiceComponentLoadScript($serviceName) {
+        /** @var View $view */
+        $view = $this->container->get(View::class);
+
+        // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        $uniquid = uniqid();
+        $dataRedApiUri = "red/v1/service/$serviceName";
+
+        $view->setData([
+                        'loaderElementId' => "red_loaded_$uniquid",
+                        'dataRedApiUri' => $dataRedApiUri,
+                        'dataRedInfo' => "service_component_{$name}",
+                        'dataRedSelector' => $menuItem->getUidFk()
+                        ]);
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
+        return $view;
     }
 
     private function getUnknownContentView($message='') {

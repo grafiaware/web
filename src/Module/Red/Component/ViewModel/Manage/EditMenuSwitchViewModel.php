@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\ViewModel\Manage;
 
-use Red\Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModel;
 
 /**
  * Description of ToggleEditMenuViewModel

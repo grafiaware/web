@@ -78,19 +78,22 @@ class ConfigurationRed extends ConfigurationDb {
      *
      * @return array
      */
-    public static function component() {
+    public static function webComponent() {
         return [
-            'component.logs.directory' => 'Logs/App/Web',
-            'component.logs.render' => 'Render.log',
-            'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
-            'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
-//            'component.template.register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
-            'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
-            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
-            'component.template.statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-            'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
-            // site layout templates
-            'component.template.register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+            'webcomponent.logs.directory' => 'Logs/App/Web',
+            'webcomponent.logs.render' => 'Render.log',
+            'webcomponent.templates' =>
+                [
+                'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
+//                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
+                'logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
+                'useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
+                'statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+                'controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
+                // site layout templates
+                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+                ]
         ];
     }
 
@@ -105,6 +108,8 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'redcomponent.logs.directory' => 'Logs/App/Red',
             'redcomponent.logs.render' => 'Render.log',
+            'redcomponent.templates' => [
+            ]
         ];
     }
 

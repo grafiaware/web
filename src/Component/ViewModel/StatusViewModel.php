@@ -37,18 +37,19 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     /**
      * @var ItemActionRepo
      */
-    protected $itemActionRepo;
+//    protected $itemActionRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            ItemActionRepo $itemActionRepo
+            StatusFlashRepo $statusFlashRepo
+//            ,
+//            ItemActionRepo $itemActionRepo
             ) {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
         $this->statusFlashRepo = $statusFlashRepo;
-        $this->itemActionRepo = $itemActionRepo;
+//        $this->itemActionRepo = $itemActionRepo;
         parent::__construct();
         }
 
