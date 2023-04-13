@@ -33,7 +33,7 @@ class JobTagRepositoryTest extends AppRunner {
 
     private static $tagKlic = "proJobTagRepoTest";
     private static $tagKlic1IdTouple;
-    private static $tagKlic3IdTouple;
+    //private static $tagKlic3IdTouple;
     private static $tagKlic3Id;
 
 
@@ -156,7 +156,7 @@ class JobTagRepositoryTest extends AppRunner {
     public function testAddAndReread() {
         /** @var JobTag $jobTag */
         $jobTag = new JobTag();
-        $jobTag->setTag( self::$tagKlic3Id  );
+        $jobTag->setTag( self::$tagKlic . "3"  );
         $this->jobTagRepo->add($jobTag);                // autoincrement(zde) a overovany klic zapise hned
 
         // $this->->flush();
@@ -186,7 +186,7 @@ class JobTagRepositoryTest extends AppRunner {
         $rows =  $this->jobTagRepo->find( " tag LIKE '" . self::$tagKlic . "%'", []);
 
         $this->assertTrue(is_array($rows));
-        $this->assertGreaterThanOrEqualThan(2,count($rows)); //jsou tam minimalne 2
+        $this->assertGreaterThanOrEqual(2,count($rows)); //jsou tam minimalne 2
     }
 
 
