@@ -11,8 +11,13 @@ namespace Site\Grafia;
 use Application\WebAppFactory;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
-use Red\Component\View\Generated\SearchResultComponent;
 use Web\Component\View\Flash\FlashComponent;
+use Auth\Component\View\LoginComponent;
+use Auth\Component\View\LogoutComponent;
+use Auth\Component\View\RegisterComponent;
+use Auth\Component\View\RegisterComponent;
+use Red\Component\View\Manage\UserActionComponent;
+use Red\Component\View\Manage\StatusBoardComponent;
 
 /**
  * Description of Configuration
@@ -85,13 +90,13 @@ class ConfigurationRed extends ConfigurationDb {
                 [
                 'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
-//                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
+                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
                 'logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
                 'useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
                 'statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 'controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
                 // site layout templates
-                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+//                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
                 ]
         ];
     }
@@ -107,6 +112,8 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'redcomponent.logs.directory' => 'Logs/App/Red',
             'redcomponent.logs.render' => 'Render.log',
+            'redcomponent.templates' => [
+            ]
         ];
     }
 
@@ -154,10 +161,6 @@ class ConfigurationRed extends ConfigurationDb {
             'scriptsEditableMode' => self::RED_TEMPLATES_COMMON.'layout/head/scriptsEditableMode.php',
 
             // linksEditorJs links
-
-//            'urlTinyMCE' => self::RED_ASSETS.'tinymce_6_3_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => '',
-
             'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
             'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
 //            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
@@ -199,6 +202,11 @@ class ConfigurationRed extends ConfigurationDb {
                     'languageSelect' => LanguageSelectComponent::class,
                     'searchPhrase' => SearchPhraseComponent::class,
                     'flash' => FlashComponent::class,
+                    'modalLoginLogout' => LoginComponent::class,
+                    'modalLoginLogout' => LogoutComponent::class,
+                    'modalRegister' => RegisterComponent::class,
+                    'modalUserAction' => UserActionComponent::class,
+                    'poznamky' => StatusBoardComponent::class,
                     'menuPresmerovani' => 'menu.presmerovani',
                     'menuVodorovne' => 'menu.vodorovne',
                     'menuSvisle' => 'menu.svisle',
@@ -212,10 +220,13 @@ class ConfigurationRed extends ConfigurationDb {
             // 'jméno služby kontejneru' => [pole parametrů menu]
             // 'jméno služby kontejneru' - jmébo služby kontejneru, která vrací příslušný menu komponent
             // parametry menu jsou:
-            //      'rootName' => jméno kořene menu v db tabulce rootName,
-            //      'withRootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
-            //      'itemtype! => jedna z hodnot 'onelevel', 'multilevel', 'trash' - určuje výběr rendereru menu item
-            //      'levelRenderer' => jméno služby pro získání rendereru jedné úrovně menu - konfigurace je v ConfigurationStyles, tam se předávají příslušné ClassMap
+            //      'context_name' => jméno proměnné v šabloně (bez znaku $),
+            //      'service_name' => jméno služby component kontejneru,
+            //      'root_name' => jméno kořene menu v db tabulce root_name,
+            //      'with_rootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
+            //      'itemtype! => jedna z hodnot 'menu', 'block', 'trash' - určuje výběr rendereru menu item
+            //      'menuwraprenderer' => jméno rendereru obalového elementu menu
+            //      'levelwraprenderer' => jméno rendereru jedné úrovně menu
         return [
             'menu.componentsServices' => [
                     'menu.presmerovani' => [
@@ -269,7 +280,7 @@ class ConfigurationRed extends ConfigurationDb {
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo,
                 'roleVisitor' => 'visitor',
-                'rolePresenter' => 'presenter',
+                'roleRepresentative' => 'representative',
         ];
     }
 
@@ -347,6 +358,7 @@ class ConfigurationRed extends ConfigurationDb {
             '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'movies/' : self::RED_FILES_SITE.'movies/',
 
             'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'files/' : self::RED_FILES_SITE.'files/',
+            'presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE."presenter/" : self::RED_FILES_SITE."presenter/",
 
         ];
     }

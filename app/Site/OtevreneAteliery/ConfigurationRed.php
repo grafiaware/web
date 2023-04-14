@@ -12,6 +12,8 @@ use Application\WebAppFactory;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
 use Web\Component\View\Flash\FlashComponent;
+use Auth\Component\View\LoginComponent;
+use Auth\Component\View\RegisterComponent;
 
 /**
  * Description of Configuration
@@ -84,13 +86,13 @@ class ConfigurationRed extends ConfigurationDb {
                 [
                 'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
-//                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
+                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
                 'logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
                 'useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
                 'statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 'controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
                 // site layout templates
-                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+//                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
                 ]
         ];
     }
@@ -106,6 +108,8 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'redcomponent.logs.directory' => 'Logs/App/Red',
             'redcomponent.logs.render' => 'Render.log',
+            'redcomponent.templates' => [
+            ]
         ];
     }
 
@@ -243,7 +247,7 @@ class ConfigurationRed extends ConfigurationDb {
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo,
                 'roleVisitor' => 'visitor',
-                'rolePresenter' => 'presenter',
+                'roleRepresentative' => 'representative',
         ];
     }
 

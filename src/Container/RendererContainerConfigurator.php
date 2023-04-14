@@ -9,6 +9,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 use Pes\View\Renderer\PhpTemplateRenderer;
 
+
 use Red\Component\Renderer\Html\Menu\MenuRenderer;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
 
@@ -58,6 +59,7 @@ use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\View\Renderer\InterpolateRenderer;
 use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoContentForStatusRenderer;
 
 /**
  *
@@ -96,6 +98,10 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         NoPermittedContentRenderer::class => function(ContainerInterface $c) {
             return new NoPermittedContentRenderer();
         },
+        NoContentForStatusRenderer::class => function(ContainerInterface $c) {
+            return new NoContentForStatusRenderer();
+        },
+
         // menu
 
         ButtonsItemManipulationRenderer::class => function(ContainerInterface $c) {

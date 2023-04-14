@@ -33,10 +33,10 @@ class PresentationStatusComfigurator extends ContainerConfiguratorAbstract {
     public function getServicesDefinitions(): iterable {
         return [
             // database account
-//            Account::class => function(ContainerInterface $c) {
-//                $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
-//                return $account;
-//            },
+            Account::class => function(ContainerInterface $c) {
+                $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
+                return $account;
+            },
         ];
     }
 }

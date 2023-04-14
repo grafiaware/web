@@ -12,6 +12,8 @@ use Application\WebAppFactory;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
 use Web\Component\View\Flash\FlashComponent;
+use Auth\Component\View\LoginComponent;
+use Auth\Component\View\RegisterComponent;
 
 /**
  * Description of Configuration
@@ -106,6 +108,8 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'redcomponent.logs.directory' => 'Logs/App/Red',
             'redcomponent.logs.render' => 'Render.log',
+            'redcomponent.templates' => [
+            ]
         ];
     }
 
@@ -243,7 +247,7 @@ class ConfigurationRed extends ConfigurationDb {
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo,
                 'roleVisitor' => 'visitor',
-                'rolePresenter' => 'presenter',
+                'roleRepresentative' => 'representative',
         ];
     }
 
@@ -285,7 +289,8 @@ class ConfigurationRed extends ConfigurationDb {
     public static function filesUploadController() {
 
         return [
-            'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'uploads/editor/' : self::RED_FILES_SITE.'uploads/editor/',
+            'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'upload/editor/' : self::RED_FILES_SITE.'upload/editor/',
+            'upload.events.visitor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'upload/events/visitor' : self::RED_FILES_SITE.'upload/events/visitor',
             'upload.events.acceptedextensions' => [".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"],
             ];
     }
@@ -320,6 +325,7 @@ class ConfigurationRed extends ConfigurationDb {
             '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'movies/' : self::RED_FILES_SITE.'movies/',
 
             'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'files/' : self::RED_FILES_SITE.'files/',
+            'presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE."presenter/" : self::RED_FILES_SITE."presenter/",
 
         ];
     }

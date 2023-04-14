@@ -69,25 +69,11 @@ use Red\Component\View\Menu\MenuComponentInterface;
 use Red\Component\View\Menu\LevelComponent;
 use Red\Component\View\Manage\EditMenuSwitchComponent;
 
-use Web\Component\View\Flash\FlashComponent;
-
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\StatusBoardComponent;
 
 
 // viewModel
 use Component\ViewModel\StatusViewModel;  // pro službu delegáta - app kontejner
 use Red\Component\ViewModel\Manage\EditMenuSwitchViewModel;
-
-use Auth\Component\ViewModel\LoginViewModel;
-use Auth\Component\ViewModel\LogoutViewModel;
-use Red\Component\ViewModel\Manage\StatusBoardViewModel;
-use Red\Component\ViewModel\Manage\UserActionViewModel;
-
-use Web\Component\ViewModel\Flash\FlashViewModel;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\NoContentForStatusRenderer;
@@ -686,108 +672,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 //                $component->setRendererContainer($c->get('rendererContainer'));
 //                return $component;
 //            },
-            StatusBoardComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
-                $component = new StatusBoardComponent($configuration);
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(StatusBoardViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('statusboard')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoPermittedContentRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            UserActionComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                $configuration = $c->get(ComponentConfiguration::class);
 
-                $component = new UserActionComponent($c->get(ComponentConfiguration::class));
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(UserActionViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('useraction')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoPermittedContentRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            // FlashComponent s vlastním rendererem
-//            FlashComponent::class => function(ContainerInterface $c) {
-//                $viewModel = new FlashViewModelForRenderer($c->get(StatusFlashRepo::class));
-//                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
-//            },
-
-            // komponenty s PHP template
-            // - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
-            FlashComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
-
-                $component = new FlashComponent($c->get(ComponentConfiguration::class));
-                $component->setData($c->get(FlashViewModel::class));
-                $component->setTemplate(new PhpTemplate($configuration->getTemplate('flash')));
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            LoginComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                $configuration = $c->get(ComponentConfiguration::class);
-
-                $component = new LoginComponent($configuration);
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(LoginViewModel::class));
-                    $status = $c->get(StatusViewModel::class);
-                        $component->setTemplate(new PhpTemplate($configuration->getTemplate('login')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoContentForStatusRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            LogoutComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                $configuration = $c->get(ComponentConfiguration::class);
-
-                $component = new LogoutComponent($configuration);
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(LogoutViewModel::class));
-                    $status = $c->get(StatusViewModel::class);
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('logout')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoContentForStatusRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            RegisterComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
-
-                $component = new RegisterComponent($c->get(ComponentConfiguration::class));
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('register')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoContentForStatusRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
 
 
         ];
@@ -1072,33 +957,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 //                            $c->get(MenuItemRepo::class)
 //                    );
 //            },
-
-            ## modely pro komponenty s template
-            StatusBoardViewModel::class => function(ContainerInterface $c) {
-                return new StatusBoardViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
-            },
-            FlashViewModel::class => function(ContainerInterface $c) {
-                return new FlashViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
-            },
-            LoginViewModel::class => function(ContainerInterface $c) {
-                return new LoginViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
-            },
-            LogoutViewModel::class => function(ContainerInterface $c) {
-                return new LogoutViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
-            },
-            UserActionViewModel::class => function(ContainerInterface $c) {
-                return new UserActionViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
-            },
 
 
             ## modely pro komponenty s template

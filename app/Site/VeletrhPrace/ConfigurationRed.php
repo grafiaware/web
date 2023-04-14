@@ -13,7 +13,10 @@ use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
 use Web\Component\View\Flash\FlashComponent;
 use Auth\Component\View\LoginComponent;
+use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
+use Red\Component\View\Manage\UserActionComponent;
+use Red\Component\View\Manage\StatusBoardComponent;
 
 /**
  * Description of Configuration
@@ -84,15 +87,7 @@ class ConfigurationRed extends ConfigurationDb {
             'webcomponent.logs.render' => 'Render.log',
             'webcomponent.templates' =>
                 [
-                'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
-                'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
-//                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
-                'logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
-                'useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
-                'statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-                'controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
-                // site layout templates
-                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+
                 ]
         ];
     }
@@ -109,6 +104,15 @@ class ConfigurationRed extends ConfigurationDb {
             'redcomponent.logs.directory' => 'Logs/App/Red',
             'redcomponent.logs.render' => 'Render.log',
             'redcomponent.templates' => [
+                'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
+//                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
+                'logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
+                'useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
+                'statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+                'controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
+                // site layout templates
+                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
             ]
         ];
     }
@@ -188,6 +192,11 @@ class ConfigurationRed extends ConfigurationDb {
             //      'service_name' => jméno služby component kontejneru,
             'contextServiceMap' => [
                     'flash' => FlashComponent::class,
+                    'modalLoginLogout' => LoginComponent::class,
+                    'modalLoginLogout' => LogoutComponent::class,
+                    'modalRegister' => RegisterComponent::class,
+                    'modalUserAction' => UserActionComponent::class,
+                    'poznamky' => StatusBoardComponent::class,
                     'menuSvisle' => 'menu.svisle',
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',

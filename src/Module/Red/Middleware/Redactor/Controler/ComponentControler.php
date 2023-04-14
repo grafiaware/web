@@ -16,6 +16,9 @@ use Template\Compiler\TemplateCompilerInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+// konfigurace
+use Site\ConfigurationCache;
+
 // enum
 use Red\Model\Enum\AuthoredTypeEnum;
 //TODO: oprávnění pro routy
@@ -67,11 +70,12 @@ class ComponentControler extends FrontControlerAbstract {
 
     ### action metody ###############
 
-    public function serviceComponent(ServerRequestInterface $request, $service) {
-        if ($this->container->has($service)) {
+    public function serviceComponent(ServerRequestInterface $request, $name) {
+        $service = ConfigurationCache::layoutController()['contextServiceMap'][$name] ?? null;
+        if (isset($service) AND $this->container->has($service)) {
             $view = $this->container->get($service);
         } else {
-            $view = '';
+            $view = $this->errorView($request, 'Component not in configuration.');
         }
         return $this->createResponseFromView($request, $view);
     }
@@ -125,12 +129,12 @@ class ComponentControler extends FrontControlerAbstract {
         $view = $this->container->get(MultipageComponent::class);
         return $this->createResponseFromView($request, $view);
     }
-
-    public function unknown(ServerRequestInterface $request) {
+###################
+    private function errorView(ServerRequestInterface $request, $message = '') {
         $view = $this->container->get(View::class);
-        $view->setData([Html::tag('div', ['style'=>'display: none;' ], 'Unknown content.')]);
+        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $message)]);
         $view->setRenderer(new ImplodeRenderer());
-        return $this->createResponseFromView($request, $view);
+        return $view;
     }
 
 

@@ -42,9 +42,9 @@ use Model\DataManager\DataManagerAbstract;
 
 //dao + hydrator + repo
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
-//use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
-//use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 use Red\Model\Hydrator\HierarchyHydrator;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Hydrator\HierarchyChildHydrator;

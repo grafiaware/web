@@ -179,16 +179,16 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
         $views = array_merge(
                 [
-                    'content' => $this->getMenuItemComponentLoadScript($menuItem),
+                    'content' => $this->getMenuItemLoaders($menuItem),
                 ],
 
                 $this->getEditableModeViews($request),
                 $this->getLoggedOnOffViews(),
-                $this->getMenuComponents(),
+//                $this->getMenuComponents(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
                 // cascade
-                $this->getAuthoredLayoutBlockLoaders(),
+                $this->getBlockLoaders(),
             );
         return $views;
     }
@@ -205,17 +205,22 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     }
 
     private function getLoggedOnOffViews() {
-        if($this->isUserLoggedIn()) {
-            $views = [
-                'modalLoginLogout' => $this->container->get(LogoutComponent::class),
-                'modalUserAction' => $this->container->get(UserActionComponent::class),
-                'poznamky' => $this->container->get(StatusBoardComponent::class),
-            ];
-        } else {
-            $views =  [
-                'modalRegister' => $this->container->get(RegisterComponent::class),
-                'modalLoginLogout' => $this->container->get(LoginComponent::class),
-            ];
+//        if($this->isUserLoggedIn()) {
+//            $views = [
+//                'modalLoginLogout' => $this->container->get(LogoutComponent::class),
+//                'modalUserAction' => $this->container->get(UserActionComponent::class),
+//                'poznamky' => $this->container->get(StatusBoardComponent::class),
+//            ];
+//        } else {
+//            $views =  [
+//                'modalRegister' => $this->container->get(RegisterComponent::class),
+//                'modalLoginLogout' => $this->container->get(LoginComponent::class),
+//            ];
+//        }
+//        return $views;
+        $views = [];
+        foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
+                $views[$contextName] = $this->getRedServiceComponentLoadScript($contextName);
         }
         return $views;
     }
@@ -230,7 +235,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      *
      * @return View[]
      */
-    private function getAuthoredLayoutBlockLoaders() {
+    private function getBlockLoaders() {
         $map = ConfigurationCache::layoutController()['layout_blocks'];
         $componets = [];
 
@@ -238,7 +243,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         foreach ($map as $variableName => $blockName) {
             $menuItem = $this->getMenuItemForBlock($blockName);
             if (isset($menuItem)) {
-                $componets[$variableName] = $this->getMenuItemComponentLoadScript($menuItem);
+                $componets[$variableName] = $this->getMenuItemLoaders($menuItem);
             } else {
                 $componets[$variableName] = $this->getUnknownContentView("Unknown block $blockName configured for layout variable $variableName.");
             }
@@ -259,7 +264,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param type $menuItem
      * @return View
      */
-    private function getMenuItemComponentLoadScript(MenuItemInterface $menuItem) {
+    private function getMenuItemLoaders(MenuItemInterface $menuItem) {
         /** @var View $view */
         $view = $this->container->get(View::class);
 
@@ -287,7 +292,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                         'loaderElementId' => "red_loaded_$uniquid",
                         'dataRedApiUri' => $dataRedApiUri,
                         'dataRedInfo' => "{$menuItemType}_for_item_{$id}",
-                        'dataRedSelector' => $menuItem->getUidFk()
+//                        'dataRedSelector' => $menuItem->getUidFk()
                         ]);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
         return $view;
@@ -313,8 +318,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         $view->setData([
                         'loaderElementId' => "red_loaded_$uniquid",
                         'dataRedApiUri' => $dataRedApiUri,
-                        'dataRedInfo' => "service_component_{$name}",
-                        'dataRedSelector' => $menuItem->getUidFk()
+                        'dataRedInfo' => "service_component_{$serviceName}",
+//                        'dataRedSelector' => $menuItem->getUidFk()
                         ]);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
         return $view;
