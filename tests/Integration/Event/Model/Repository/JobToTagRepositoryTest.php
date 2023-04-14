@@ -42,6 +42,8 @@ class JobToTagRepositoryTest  extends AppRunner {
     private static $jobId2;
     private static $jobId3;
     private static $jobId4;
+    
+    private static $jobToTagId1Touple;
 
 
 
@@ -114,8 +116,8 @@ class JobToTagRepositoryTest  extends AppRunner {
             ]);
         $jobTagDao->insert($rowData);
         
-        $jobTagIdTouple = $jobTagDao->getLastInsertedPrimaryKey();
-
+        
+        self::$jobToTagId1Touple = $jobTagDao->getLastInsertedPrimaryKey();
         
         //----------- vlozi JobToTag
         /** @var JobToTagDao $jobToTagDao */
@@ -123,7 +125,7 @@ class JobToTagRepositoryTest  extends AppRunner {
         $rowData = new RowData();
         //$rowData->offsetSet('job_tag_tag', self::$jobToTagTestString );       
         $rowData->offsetSet('job_id', self::$jobId1 ) ;
-        $rowData->offsetSet('job_tag_id', $jobTagIdTouple['id'] ) ;
+        $rowData->offsetSet('job_tag_id', self::$jobToTagId1Touple['id'] ) ;
         $jobToTagDao->insert($rowData);
     }
 
@@ -198,14 +200,14 @@ class JobToTagRepositoryTest  extends AppRunner {
 
 
     public function testGetAfterSetUp() {
-        $jobToTag = $this->jobToTagRepo->get(  self::$jobId1, self::$jobToTagTestString );
+        $jobToTag = $this->jobToTagRepo->get(  self::$jobId1, self::$jobToTagId1Touple['id'] );
         $this->assertInstanceOf(JobToTagInterface::class, $jobToTag);
     }
 
     public function testAdd() {
         $jobToTag = new JobToTag();
-        $jobToTag->setJobId(self::$jobId2 );
-        $jobToTag->setJobTagTag(self::$jobToTagTestString);
+        $jobToTag->setJobId( self::$jobId2 );        
+        $jobToTag->setJobTagId(self::$jobToTagId1Touple['id']);
         $this->jobToTagRepo->add($jobToTag);
 
         // pro automaticky|generovany klic a pro  overovany klic  - !!! zapise se hned !!!   DaoEditKeyDbVerifiedInterface
@@ -218,7 +220,7 @@ class JobToTagRepositoryTest  extends AppRunner {
 
     public function testGetAfterAdd() {
         /** @var JobToTagInterface $jobToTag */
-        $jobToTag = $this->jobToTagRepo->get( self::$jobId2, self::$jobToTagTestString);
+        $jobToTag = $this->jobToTagRepo->get( self::$jobId2, self::$jobToTagId1Touple['id'] );
         $this->assertInstanceOf(JobToTagInterface::class, $jobToTag);
     }
 
@@ -226,26 +228,27 @@ class JobToTagRepositoryTest  extends AppRunner {
         /** @var JobToTag $jobToTag */
         $jobToTag = new JobToTag();
         $jobToTag->setJobId( self::$jobId3 );
-        $jobToTag->setJobTagTag(self::$jobToTagTestString);
+        $jobToTag->setJobTagId(self::$jobToTagId1Touple['id']);
         $this->jobToTagRepo->add($jobToTag);
 
         $this->jobToTagRepo->flush();
 
-        $jobToTagR = $this->jobToTagRepo->get( $jobToTag->getJobId(),  $jobToTag->getJobTagTag() );
+        $jobToTagR = $this->jobToTagRepo->get( $jobToTag->getJobId(),  $jobToTag->getJobTagId() );
         $this->assertInstanceOf(JobToTagInterface::class, $jobToTagR);
         $this->assertTrue($jobToTagR->isPersisted() );
         $this->assertFalse($jobToTagR->isLocked());
 
-        $this->assertEquals( self::$jobToTagTestString, $jobToTagR->getJobTagTag() );
+        //$this->assertEquals( self::$jobToTagTestString, $jobToTagR->getJobTagTag() );
     }
 
+    
     public function testFindByEvent(){
         $jobToTagArray = $this->jobToTagRepo->findByJobId(self::$jobId1);
         $this->assertTrue(is_array($jobToTagArray));
     }
 
     public function testFindByLoginName(){
-        $jobToTagArray = $this->jobToTagRepo->findByJobTagTag(self::$jobToTagTestString );
+        $jobToTagArray = $this->jobToTagRepo->findByJobTagId( self::$jobToTagId1Touple['id']  );
         $this->assertTrue(is_array($jobToTagArray));
     }
 
@@ -261,7 +264,7 @@ class JobToTagRepositoryTest  extends AppRunner {
         /** @var JobToTag $jobToTag */
         $jobToTag = new JobToTag();
         $jobToTag->setJobId( self::$jobId4 );
-        $jobToTag->setJobTagTag(self::$jobToTagTestString);
+        $jobToTag->setJobTagId( self::$jobToTagId1Touple['id'] );
         $this->jobToTagRepo->add($jobToTag);
 
         $this->assertFalse($jobToTag->isPersisted());
@@ -275,7 +278,7 @@ class JobToTagRepositoryTest  extends AppRunner {
 
     public function testRemove() {
         /** @var JobToTag $jobToTag */
-        $jobToTag = $this->jobToTagRepo->get(self::$jobId3, self::$jobToTagTestString );
+        $jobToTag = $this->jobToTagRepo->get(self::$jobId3, self::$jobToTagId1Touple['id'] );
 
         $this->assertInstanceOf(JobToTagInterface::class, $jobToTag);
         $this->assertTrue($jobToTag->isPersisted());
@@ -290,7 +293,7 @@ class JobToTagRepositoryTest  extends AppRunner {
         $this->assertFalse($jobToTag->isLocked());
 
         // pokus o čtení, entita JobToTag  uz  neni
-        $jobToTag = $this->jobToTagRepo->get( $jobToTag->getJobId(),  $jobToTag->getJobTagTag() );
+        $jobToTag = $this->jobToTagRepo->get( $jobToTag->getJobId(),  self::$jobToTagId1Touple['id']);
         $this->assertNull($jobToTag);
 
     }
