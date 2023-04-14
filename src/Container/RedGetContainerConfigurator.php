@@ -208,179 +208,179 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         #
         ####
 
-//        ####
-//        # MenuComponent
-//        # - stavový objekt, je třeba více kusů
-//        #
-//            MenuComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                $component = new MenuComponent($c->get(ComponentConfiguration::class), $c);  // kontejner
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                    $component->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponentInterface::TOGGLE_EDIT_MENU_BUTTON);
-//                }
-//                return $component;
-//            },
-//            LevelComponent::class => function(ContainerInterface $c) {
-//                $component = new LevelComponent($c->get(ComponentConfiguration::class));
-//                $component->setData($c->get(LevelViewModel::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//        ####
-//        # MenuViewModel
-//        # - stavový objekt, je třeba více kusů
-//        #
-//            MenuViewModel::class => function(ContainerInterface $c) {
-//                return new MenuViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(HierarchyJoinMenuItemRepo::class),
-//                            $c->get(MenuRootRepo::class)
-//                        );
-//            },
-//            LevelViewModel::class => function(ContainerInterface $c) {
-//                return new LevelViewModel();
-//            },
-//            ItemTypeEnum::class => function(ContainerInterface $c) {
-//                return new ItemTypeEnum();
-//            },
-//        ####
-//        # jednotlivé menu komponenty
-//        # (jsou jen jedna na stránku, pro přehlednost jsou zde)
-//        #
-//            'menu.presmerovani' => function(ContainerInterface $c) {
-//                $menuConfig = $c->get('menu.componentsServices')['menu.presmerovani'];
-//
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var MenuComponent $component */
-//                $component = $c->get(MenuComponent::class);
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setRendererName(MenuRenderer::class);
-//                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
-//                    /** @var MenuViewModel $viewModel */
-//                    $viewModel = $c->get(MenuViewModel::class);
-//                    $viewModel->setMenuRootName($menuConfig['rootName']);
-//                    $viewModel->withRootItem($menuConfig['withRootItem']);
-//                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
-//                    $component->setData($viewModel);
-//
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                return $component;
-//            },
-//            'menu.vodorovne' => function(ContainerInterface $c) {
-//                $menuConfig = $c->get('menu.componentsServices')['menu.vodorovne'];
-//
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var MenuComponent $component */
-//                $component = $c->get(MenuComponent::class);
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setRendererName(MenuRenderer::class);
-//                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
-//                    /** @var MenuViewModel $viewModel */
-//                    $viewModel = $c->get(MenuViewModel::class);
-//                    $viewModel->setMenuRootName($menuConfig['rootName']);
-//                    $viewModel->withRootItem($menuConfig['withRootItem']);
-//                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
-//                    $component->setData($viewModel);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                return $component;
-//            },
-//            'menu.svisle' => function(ContainerInterface $c) {
-//                $menuConfig = $c->get('menu.componentsServices')['menu.svisle'];
-//
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var MenuComponent $component */
-//                $component = $c->get(MenuComponent::class);
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setRendererName(MenuRenderer::class);
-//                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
-//                    /** @var MenuViewModel $viewModel */
-//                    $viewModel = $c->get(MenuViewModel::class);
-//                    $viewModel->setMenuRootName($menuConfig['rootName']);
-//                    $viewModel->withRootItem($menuConfig['withRootItem']);
-//                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
-//
-////                    $viewModel->setMaxDepth(2);
-//
-//                    $component->setData($viewModel);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                return $component;
-//            },
-//            //bloky
-//            'menu.bloky' => function(ContainerInterface $c) {
-//                $menuConfig = $c->get('menu.componentsServices')['menu.bloky'];
-//
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var MenuComponent $component */
-//                $component = $c->get(MenuComponent::class);
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setRendererName(MenuRenderer::class);
-//                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
-//                    /** @var MenuViewModel $viewModel */
-//                    $viewModel = $c->get(MenuViewModel::class);
-//                    $viewModel->setMenuRootName($menuConfig['rootName']);
-//                    $viewModel->withRootItem($menuConfig['withRootItem']);
-//                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
-//                    $component->setData($viewModel);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                return $component;
-//            },
-//            //kos
-//            'menu.kos' => function(ContainerInterface $c) {
-//                $menuConfig = $c->get('menu.componentsServices')['menu.kos'];
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var MenuComponent $component */
-//                $component = $c->get(MenuComponent::class);
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setRendererName(MenuRenderer::class);
-//                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
-//                    /** @var MenuViewModel $viewModel */
-//                    $viewModel = $c->get(MenuViewModel::class);
-//                    $viewModel->setMenuRootName($menuConfig['rootName']);
-//                    $viewModel->withRootItem($menuConfig['withRootItem']);
-//                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
-//                    $component->setData($viewModel);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                return $component;
-//            },
+        ####
+        # MenuComponent
+        # - stavový objekt, je třeba více kusů
+        #
+            MenuComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $component = new MenuComponent($c->get(ComponentConfiguration::class), $c);  // kontejner
+                $component->setRendererContainer($c->get('rendererContainer'));
+                if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
+                    $component->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponentInterface::TOGGLE_EDIT_MENU_BUTTON);
+                }
+                return $component;
+            },
+            LevelComponent::class => function(ContainerInterface $c) {
+                $component = new LevelComponent($c->get(ComponentConfiguration::class));
+                $component->setData($c->get(LevelViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+        ####
+        # MenuViewModel
+        # - stavový objekt, je třeba více kusů
+        #
+            MenuViewModel::class => function(ContainerInterface $c) {
+                return new MenuViewModel(
+                            $c->get(StatusViewModel::class),
+                            $c->get(HierarchyJoinMenuItemRepo::class),
+                            $c->get(MenuRootRepo::class)
+                        );
+            },
+            LevelViewModel::class => function(ContainerInterface $c) {
+                return new LevelViewModel();
+            },
+            ItemTypeEnum::class => function(ContainerInterface $c) {
+                return new ItemTypeEnum();
+            },
+        ####
+        # jednotlivé menu komponenty
+        # (jsou jen jedna na stránku, pro přehlednost jsou zde)
+        #
+            'menu.presmerovani' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.componentsServices')['menu.presmerovani'];
 
-//            EditMenuSwitchComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                $configuration = $c->get(ComponentConfiguration::class);
-//
-//                $component = new EditMenuSwitchComponent($configuration);
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setData($c->get(EditMenuSwitchViewModel::class));
-//                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('controleditmenu')));
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                    $component->setRendererName(MenuRenderer::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $component->setData($viewModel);
+
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },
+            'menu.vodorovne' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.componentsServices')['menu.vodorovne'];
+
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                    $component->setRendererName(MenuRenderer::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $component->setData($viewModel);
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },
+            'menu.svisle' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.componentsServices')['menu.svisle'];
+
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                    $component->setRendererName(MenuRenderer::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+
+//                    $viewModel->setMaxDepth(2);
+
+                    $component->setData($viewModel);
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },
+            //bloky
+            'menu.bloky' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.componentsServices')['menu.bloky'];
+
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                    $component->setRendererName(MenuRenderer::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $component->setData($viewModel);
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },
+            //kos
+            'menu.kos' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.componentsServices')['menu.kos'];
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                    $component->setRendererName(MenuRenderer::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $component->setData($viewModel);
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },
+
+            EditMenuSwitchComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+
+                $component = new EditMenuSwitchComponent($configuration);
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                    $component->setData($c->get(EditMenuSwitchViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('controleditmenu')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
             ButtonsItemManipulationComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
