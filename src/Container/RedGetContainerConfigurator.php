@@ -176,7 +176,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         return array_merge(
                 ConfigurationCache::web(),  //db
                 ConfigurationCache::redComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
-//                ConfigurationCache::menu(),
+                ConfigurationCache::menu(),
 //                Configuration::renderer(),
                 ConfigurationCache::templates()
                 );
