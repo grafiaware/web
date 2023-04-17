@@ -41,9 +41,8 @@ class Presenter {
 
             $retArray =  [  //representative a company
                           'regname' =>  $representativeEntity->getLoginLoginName(),
-//                          'regmail' => '',
+//                          
                           'regcompany' => $companyEntity->getName(),
-
                           'idCompany' =>  $companyEntity->getId(),
                           'name' =>  $companyEntity->getName(),
                           'eventInstitutionName' =>  $companyEntity->getEventInstitutionName30(),
