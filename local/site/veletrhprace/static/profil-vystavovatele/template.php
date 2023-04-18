@@ -77,39 +77,47 @@ if (isset($loginAggregate)) {
                     AND  $representativeRepo->get($loginName, $idCompanyVystavovatele) )  {
         $isRepresentative = true;
 
-        //--- Z ARRAY MODELU------------------------
-        $presenterPerson = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);
-        //  vznikne   array 'regname', 'regmail', 'regcompany', 'shortName'  ||  "name", "eventInstitutionName", "shortName"
+        //--- Z 'ARRAY' MODELU------------------------
+        // každý s rolí presenter musí existovat v modelu (tj. v databázi) jako presenterPerson
+        $presenterPerson = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);  // z represrntative a company
+        //  vznikne   array 
+        //  
+        //   z representative - 'regname' - t.. login_login_name
+        //   z  company.name - 'regcompany', 'shortName', "name"    //   z  company - "eventInstitutionName", id'
+        //   'regmail',
         
+        // 'logNameRepresentative' - tj. login_login_name, z representative 
+        // 'idCompany', 'nameCompany' , 'eventInstitutionNameCompany' - z  company
 //$presenterJobs = array();
         
+            //if ($representativePersonI) {
+        if ($presenterPerson) {
+            $presenterPerson ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail
+         
         
-        
-        $shortName = $presenterPerson['shortName'];  // každý s rolí presenter musí existovat v modelu jako presenterPerson
-   /*  ********  */     $idCompanyZPresenterPerson = $presenterPerson['idCompany'];
-        
-        
-        
-        
+        $companyNameZPresenterPerson = $presenterPerson['nameCompany'];  
+        //------------------- pro tuto company vypsat vsechny companyContact
+         //$idCompanyFromRepresentative = $representativePersonI['idCompany'];
+        $idCompanyZPresenterPerson = $presenterPerson['idCompany'];
 
-        //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
-        foreach ($jobModel->getCompanyJobList($shortName) as $job) {
-            $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
+        //-------------------        
+ //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php   
+        foreach ($jobModel->getCompanyJobList($idCompanyZPresenterPerson) as $job) {
+           // $jobs[] = array_merge( $job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $companyNameZPresenterPerson] );
+            $jobs[] = array_merge( $job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'nameCompany' => $companyNameZPresenterPerson] );
+ 
         }
 
         //Z DB lze PRECIST REPRESENTATIVE - ale vlastnosti nema zadne, krome id_company
         // $loginName je přihlášený,  zjištěno z $loginAggregate
-        $representativePersonI = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);    // Z DB z  tabulek representative a company
-        if ($representativePersonI) {
-            $representativePersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail
-            //  array  'regname',  'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName',   'regmail'
+       // $representativePersonI = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);    // Z DB z  tabulek representative a company
+         //  array  'regname',  'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName',   'regmail'
 
-
-            //------------------- pro tuto company vypsat vsechny companyContact
-            $idCompanyFromRepresentative = $representativePersonI['idCompany'];
-            //-------------------
-            $representativeCompany = $companyRepo->get($idCompanyFromRepresentative);
-            $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $representativePersonI['idCompany'] ] );
+        //$representativeCompany = $companyRepo->get( /*$idCompanyFromRepresentative */ $idCompanyZPresenterPerson);
+        
+        
+        //----------------------------------------------
+            $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany' => $idCompanyZPresenterPerson ] );
             $companyContacts=[];
             foreach ($companyContactEntities as $cntct) {
                 /** @var CompanyContactInterface $cntct */
@@ -125,25 +133,25 @@ if (isset($loginAggregate)) {
             //----------------------- pro tuto company vypsat companyAddress
             $companyAddress=[];
             /** @var CompanyAddressInterface $companyAddressEntity */
-            $companyAddressEntity = $companyAddressRepo->get($idCompanyFromRepresentative);
+            $companyAddressEntity = $companyAddressRepo->get( $idCompanyZPresenterPerson );
             if ($companyAddressEntity) {
                 $companyAddress = [
-                    'companyId'=> $idCompanyFromRepresentative,
-                    'companyIdA' => $idCompanyFromRepresentative,
+                    'companyId'=> /*$idCompanyFromRepresentative,*/ $idCompanyZPresenterPerson,
+                    'companyIdA' => /*$idCompanyFromRepresentative,*/ $idCompanyZPresenterPerson,
                     'name'   => $companyAddressEntity->getName(),
                     'lokace' => $companyAddressEntity->getLokace(),
                     'psc'    => $companyAddressEntity->getPsc(),
                     'obec'   => $companyAddressEntity->getObec()
-                    ];
+                    ];                                                                                                                                                                                                                                                                                                                                                                                                                                      
             }
             else {
-                $companyAddress = ['companyId' => $idCompanyFromRepresentative];
+                $companyAddress = ['companyId' => /*$idCompanyFromRepresentative*/  $idCompanyZPresenterPerson ];
             }
 
             // jobsy pro company tohoto representative
-            $jobs = $jobModel->getCompanyJobList(  $representativePersonI ['idCompany']  );
+            $jobs = $jobModel->getCompanyJobList( $idCompanyZPresenterPerson  );
 
-        }// $representativePersonI
+        }// $representativePersonI $presenterPerson
 
     } //representative AND role
 
@@ -186,7 +194,7 @@ if($isRepresentative) {
         <section>
             <div class="field margin">
                 <label>Společnost</label>
-                <?= $representativeCompany->getName() ?>
+                <?= /*$representativeCompany->getName()*/ $companyNameZPresenterPerson ?>
                 <div class="">
                    <div class="ui styled fluid accordion">
 
@@ -212,7 +220,7 @@ if($isRepresentative) {
                                 Přidejte další kontakt vystavovatele
                             </div>
                             <div class="active content">
-                                <?= $this->insert( __DIR__.'/../company-contacts/company-contact.php', [ 'companyId' => $idCompanyFromRepresentative ] ) ?>
+                                <?= $this->insert( __DIR__.'/../company-contacts/company-contact.php', [ 'companyId' => $idCompanyZPresenterPerson ] ) ?>
                             </div>
                        </div>
 

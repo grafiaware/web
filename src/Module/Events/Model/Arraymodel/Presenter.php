@@ -40,13 +40,13 @@ class Presenter {
             $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
 
             $retArray =  [  //representative a company
-                          'regname' =>  $representativeEntity->getLoginLoginName(),
+                          'logNameRepresentative' =>  $representativeEntity->getLoginLoginName(),
 //                          
-                          'regcompany' => $companyEntity->getName(),
+                          //'regcompany' => $companyEntity->getName(),
                           'idCompany' =>  $companyEntity->getId(),
-                          'name' =>  $companyEntity->getName(),
-                          'eventInstitutionName' =>  $companyEntity->getEventInstitutionName30(),
-                          'shortName' =>  $companyEntity->getName(),
+                          'nameCompany' =>  $companyEntity->getName(),
+                          'eventInstitutionNameCompany' =>  $companyEntity->getEventInstitutionName30(),
+                          //'shortName' =>  $companyEntity->getName(),
                          ];
         }
         return  $retArray ?? [] ;

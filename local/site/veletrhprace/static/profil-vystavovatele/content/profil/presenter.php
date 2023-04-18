@@ -26,11 +26,12 @@ use Pes\Text\Html;
                     <div class="two fields">
                         <div class="field">
                             <label>Přihlašovací jméno</label>
-                            <input <?= $readonly ?> type="text" name="regname" placeholder="" maxlength="90" value="<?= $regname ?>">
+                            <input <?= $readonly ?> type="text" name="logNameRepresentative" placeholder="" maxlength="90" 
+                                                                value="<?= /*regname'*/ $logNameRepresentative ?>">
                         </div>
                         <div class="field">
                             <label>Zastupuje</label>
-                            <input <?= $readonly ?> type="text" name="regcompany" placeholder="" maxlength="90" value="<?= $name ?>">
+                            <input <?= $readonly ?> type="text" name="nameCompany" placeholder="" maxlength="90" value="<?= $nameCompany ?>">
                         </div>
                     </div>
                     <div class="two fields">
