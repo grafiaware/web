@@ -24,9 +24,8 @@ class JobTagHydrator extends TypeHydratorAbstract implements HydratorInterface {
     */
     public function hydrate(EntityInterface $jobTag, ArrayAccess $rowData) {
         /** @var  JobTag $jobTag */
-        $jobTag                
-             
-            ->setTag($this->getPhpValue($rowData, 'tag' ));
+        $jobTag->setId($this->getPhpValue($rowData, 'id'));                
+        $jobTag->setTag($this->getPhpValue($rowData, 'tag' ));
     } 
 
     /**

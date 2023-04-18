@@ -92,10 +92,10 @@ class JobTagRepo extends RepoAbstract implements JobTagRepoInterface {
     }
 
     protected function indexFromEntity(JobTagInterface $jobtag) {
-        return $jobtag->getTag();
+        return $jobtag->getId();
     }
 
     protected function indexFromRow($row) {
-        return $row['tag'];
+        return $row['id'];
     }
 }

@@ -66,10 +66,13 @@ if (isset($loginAggregate)) {
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
 
-    //###################### natvrdo zvoleny vystavovatel
-    $idCompanyVystavovatele = 10;
-
-    //---------------------------------------------------------------------
+    //######################     natvrdo zvoleny vystavovatel
+    $idCompanyVystavovatele = 10;       
+    //-------------------------------------------------------------------
+    
+    
+    
+    //###################### ----------------- jen reprezentant vystavovatele  ----------------------------------
     if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative'])
                     AND  $representativeRepo->get($loginName, $idCompanyVystavovatele) )  {
         $isRepresentative = true;
@@ -77,8 +80,17 @@ if (isset($loginAggregate)) {
         //--- Z ARRAY MODELU------------------------
         $presenterPerson = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);
         //  vznikne   array 'regname', 'regmail', 'regcompany', 'shortName'  ||  "name", "eventInstitutionName", "shortName"
-        $presenterJobs = array();
+        
+//$presenterJobs = array();
+        
+        
+        
         $shortName = $presenterPerson['shortName'];  // každý s rolí presenter musí existovat v modelu jako presenterPerson
+   /*  ********  */     $idCompanyZPresenterPerson = $presenterPerson['idCompany'];
+        
+        
+        
+        
 
         //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
         foreach ($jobModel->getCompanyJobList($shortName) as $job) {
@@ -90,7 +102,7 @@ if (isset($loginAggregate)) {
         $representativePersonI = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);    // Z DB z  tabulek representative a company
         if ($representativePersonI) {
             $representativePersonI ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail
-            //  array  'regname'. 'regmail', 'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName'
+            //  array  'regname',  'regcompany', 'idCompany', 'name', 'eventInstitutionName', 'shortName',   'regmail'
 
 
             //------------------- pro tuto company vypsat vsechny companyContact
