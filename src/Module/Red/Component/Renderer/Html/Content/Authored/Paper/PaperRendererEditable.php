@@ -41,7 +41,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
     protected function renderEditControlButtons(AuthoredViewModelInterface $viewModel): string {
         /** @var PaperViewModelInterface $viewModel */
         $authoredId = $viewModel->getAuthoredContentId();
-        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
+        $onclick = (string) "toggleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons1 = [];
 
         $buttons1[] = Html::tag('button', [
@@ -156,7 +156,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 //                    'formtarget'=>'_self',
 //                    'formmethod'=>'post',
 //                    'formaction'=>"",
-//                    'onclick'=>"togleTemplateSelect(event, 'select_template_paper_$paperId');"
+//                    'onclick'=>"toggleTemplateSelect(event, 'select_template_paper_$paperId');"
 //                    ],
 //                    Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.template i')])
 //                );

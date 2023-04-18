@@ -34,15 +34,11 @@ use Pes\Database\Handler\HandlerInterface;
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
-use Red\Middleware\Redactor\Controler\ComponentControler;
-use Red\Middleware\Redactor\Controler\TemplateControler;
 
 
 // configuration
 use Configuration\ComponentConfiguration;
 use Configuration\ComponentConfigurationInterface;
-use Configuration\TemplateControlerConfiguration;
-use Configuration\TemplateControlerConfigurationInterface;
 
 // logger
 use Pes\Logger\FileLogger;
@@ -53,60 +49,17 @@ use Container\RendererContainerConfigurator;
 // template renderer container
 use Pes\View\Renderer\Container\TemplateRendererContainer;
 
-// template
-use Pes\View\Template\PhpTemplate;
-
-// Access
-use Access\AccessPresentation;
-use Access\AccessPresentationInterface;
-use Access\Enum\AccessPresentationEnum;
-
-//component
-use Component\View\ComponentInterface;
-
-use Red\Component\View\Menu\MenuComponent;
-use Red\Component\View\Menu\MenuComponentInterface;
-use Red\Component\View\Menu\LevelComponent;
-use Red\Component\View\Manage\EditMenuSwitchComponent;
-
-
-
-// viewModel
-use Component\ViewModel\StatusViewModel;  // pro službu delegáta - app kontejner
-use Red\Component\ViewModel\Manage\EditMenuSwitchViewModel;
-
-// renderery - pro volání služeb renderer kontejneru renderer::class
-use Component\Renderer\Html\NoContentForStatusRenderer;
-use Component\Renderer\Html\NoPermittedContentRenderer;
-
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\ItemActionRepo;
 
 use Red\Model\Hydrator\HierarchyHydrator;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 use Red\Model\Repository\Association\MenuItemAssociation;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
-// enum pro typ položek menu
-use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
-use Red\Model\Dao\MenuRootDao;
-use Red\Model\Hydrator\MenuRootHydrator;
-use Red\Model\Repository\MenuRootRepo;
 
-use Red\Component\ViewModel\Menu\MenuViewModel;
-use Red\Component\ViewModel\Menu\LevelViewModel;
-use Red\Component\Renderer\Html\Menu\MenuRenderer;
-
-// renderery - pro volání služeb renderer kontejneru renderer::class
-use Red\Component\Renderer\Html\Menu\ItemRenderer;
-use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
-use Red\Component\Renderer\Html\Menu\ItemBlockRenderer;
-use Red\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
-use Red\Component\Renderer\Html\Menu\ItemTrashRenderer;
-use Red\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 // view
 use Pes\View\View;
 use Pes\View\CompositeView;
@@ -163,346 +116,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             CollectionView::class => function(ContainerInterface $c) {
                 return (new CollectionView())->setRendererContainer($c->get('rendererContainer'));
             },
-
-        ####
-        # Komponenty
-        #
-        # - komponenty je nutné definovat jako factory v getFactoriesDefinitions(), mohou se vyskytovat opakovaně na jedné stránce
-        # - view modely pro komponenty jsou definovány jako služby v getServicesDefinitions(), všechny komponenty jednoho typu používají jeden společný model, výjimkou je MenuViewModel
-        #
-        ####
-
-        ####
-
-        ####
-        # Element komponenty - vždy zobrazeny
-        #
-        #
-//            ElementComponent::class => function(ContainerInterface $c) {
-//                $component = new ElementComponent($c->get(ComponentConfiguration::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            ElementInheritDataComponent::class => function(ContainerInterface $c) {
-//                $component = new ElementInheritDataComponent($c->get(ComponentConfiguration::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-        ####
-        # authored komponenty
-        #
-        #
-            // komponent (t.j. view) - před renderování beforeRenderingHook() vytvoří a připojí objekt template podle vlastností authored komponentu (Paper, Multipage)
-            // data (viewModel) "zdědí" od komponentu, do kterého bude vložen - je typu InheritDataViewInterface
-//            TemplatedComponent::class => function(ContainerInterface $c) {
-//                $component = new TemplatedComponent(
-//                        $c->get(ComponentConfiguration::class),
-//                        $c->get(TemplateSeeker::class)
-//                     );
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            EditContentSwitchComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//
-//                $component = new EditContentSwitchComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                    $component->setRendererName(EditContentSwitchRenderer::class);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//
-//            PaperComponent::HEADLINE => function(ContainerInterface $c) {
-//                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(HeadlineRenderer::class);
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            PaperComponent::PEREX => function(ContainerInterface $c) {
-//                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(PerexRenderer::class);
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            PaperComponent::SECTIONS => function(ContainerInterface $c) {
-//                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(SectionsRenderer::class);
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//
-//            PaperComponent::class => function(ContainerInterface $c) {
-//                /** @var PaperViewModel $viewModel */
-//                $viewModel = $c->get(PaperViewModel::class);
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//
-//                $component = new PaperComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    // komponent s obsahem
-//                    $component->setData($viewModel);
-//                    $component->setRendererContainer($c->get('rendererContainer'));
-//                    /** @var TemplatedComponent $templatedComponent */
-//                    $templatedComponent = $c->get(TemplatedComponent::class);
-//                    $templatedComponent->setRendererContainer($c->get('rendererContainer'));
-//                    $headline = $c->get(PaperComponent::HEADLINE);
-//                    $perex = $c->get(PaperComponent::PEREX);
-//                    $sections = $c->get(PaperComponent::SECTIONS);
-//                    $templatedComponent->appendComponentView($headline, PaperComponent::HEADLINE);
-//                    $templatedComponent->appendComponentView($perex, PaperComponent::PEREX);
-//                    $templatedComponent->appendComponentView($sections, PaperComponent::SECTIONS);
-//
-//                    // přidání komponentu do paper
-//                    $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
-//                    if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                        $editContentSwithComponent = $c->get(EditContentSwitchComponent::class); // komponent - view s buttonem zapni/vypni editaci (tužtička)
-//                        $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);
-//                        if ($viewModel->userPerformAuthoredContentAction()) {   // v této chvíli musí mít komponent nastaveno setMenuItemId() - v kontroleru
-//                            $component->setRendererName(PaperRendererEditable::class);
-//                            $headline->setRendererName(HeadlineRendererEditable::class);
-//                            $perex->setRendererName(PerexRendererEditable::class);
-//                            $sections->setRendererName(SectionsRendererEditable::class);
-//
-//                            $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
-//                            $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
-//                        } else {
-//                            $component->setRendererName(PaperRenderer::class);
-//                            $headline->setRendererName(HeadlineRenderer::class);
-//                            $perex->setRendererName(PerexRenderer::class);
-//                            $sections->setRendererName(SectionsRenderer::class);
-//                        }
-//                    } else {
-//                            $component->setRendererName(PaperRenderer::class);
-//                            $headline->setRendererName(HeadlineRenderer::class);
-//                            $perex->setRendererName(PerexRenderer::class);
-//                            $sections->setRendererName(SectionsRenderer::class);
-//                    }
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                    $component->setRendererContainer($c->get('rendererContainer'));
-//                }
-//                return $component;
-//            },
-//            PaperTemplatePreviewComponent::class => function(ContainerInterface $c) {
-//                /** @var PaperTemplatePreviewViewModel $viewModel */
-//                $viewModel = $c->get(PaperTemplatePreviewViewModel::class);
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var ComponentConfigurationInterface $configuration */
-//                $configuration = $c->get(ComponentConfiguration::class);
-//
-//                $component = new PaperTemplatePreviewComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                    // komponent s obsahem
-//                    $component->setData($viewModel);
-//                    /** @var TemplatedComponent $templatedComponent */
-//                    $templatedComponent = $c->get(TemplatedComponent::class);
-//                    $templatedComponent->appendComponentView($c->get(PaperComponent::HEADLINE), PaperComponent::HEADLINE);
-//                    $templatedComponent->appendComponentView($c->get(PaperComponent::PEREX), PaperComponent::PEREX);
-//                    $templatedComponent->appendComponentView($c->get(PaperComponent::SECTIONS), PaperComponent::SECTIONS);
-//
-//                    // přidání komponentu do paper
-//                    $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
-//                    $component->setRendererName(PaperRenderer::class);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            // náhled šablony pro výběr šablony v tiny
-//            PaperTemplateComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//
-//                $component = new PaperTemplateComponent($c->get(ComponentConfiguration::class));
-//                $component->setData($c->get(PaperViewModel::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//
-//                return $component;
-//            },
-//            ArticleComponent::class => function(ContainerInterface $c)   {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var ComponentConfigurationInterface $configuration */
-//                $configuration = $c->get(ComponentConfiguration::class);
-//                $component = new ArticleComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    /** @var ArticleViewModel $viewModel */
-//                    $viewModel = $c->get(ArticleViewModel::class);
-//                    $component->setData($viewModel);
-//
-//                    if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                        $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
-//                        if($viewModel->userPerformAuthoredContentAction()) {
-//                            $component->setRendererName(ArticleRendererEditable::class);
-//                            if (!$viewModel->hasContent()) {
-//                                $component->appendComponentView($c->get(SelectTemplateComponent::class), ArticleComponent::SELECT_TEMPLATE);
-//                            }
-//                        } else {
-//                            $component->setRendererName(ArticleRenderer::class);
-//                        }
-//                    } else {
-//                        $component->setRendererName(ArticleRenderer::class);
-//                    }
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            MultipageComponent::class => function(ContainerInterface $c) {
-//                $viewModel = $c->get(MultipageViewModel::class);
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var ComponentConfigurationInterface $configuration */
-//                $configuration = $c->get(ComponentConfiguration::class);
-//                $component = new MultipageComponent($configuration);
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setData($viewModel);
-//                    $component->setRendererContainer($c->get('rendererContainer'));
-//
-//                    // komponent s obsahem
-//                    /** @var TemplatedComponent $templatedComponent */
-//                    $templatedComponent = $c->get(TemplatedComponent::class);
-//                    // přidání komponent do article
-//                    $component->appendComponentView($templatedComponent, MultipageComponent::CONTENT);
-//
-//            // zvolí MultipageRenderer nebo MultipageRendererEditable
-//                    if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                        $component->appendComponentView($c->get(EditContentSwitchComponent::class), MultipageComponent::BUTTON_EDIT_CONTENT);
-//
-//                        if($viewModel->userPerformAuthoredContentAction()) {
-//                            $component->setRendererName(MultipageRendererEditable::class);
-//                            $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
-//                            $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
-//                        } else {
-//                            $component->setRendererName(MultipageRenderer::class);
-//                        }
-//                    } else {
-//                        $component->setRendererName(MultipageRenderer::class);
-//                    }
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                    $component->setRendererContainer($c->get('rendererContainer'));
-//                }
-//                return $component;
-//            },
-//            MultipageTemplatePreviewComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//
-//                $viewModel = $c->get(MultipageTemplatePreviewViewModel::class);
-//
-//                $component = new MultipageTemplatePreviewComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                    $component->setData($viewModel);
-//                    $component->setRendererContainer($c->get('rendererContainer'));
-//
-//                    // komponent s obsahem
-//                    /** @var TemplatedComponent $templatedComponent */
-//                    $templatedComponent = $c->get(TemplatedComponent::class);
-//                    // přidání komponent do article
-//                    $component->appendComponentView($templatedComponent, MultipageComponent::CONTENT);
-//
-//                    $component->setRendererName(MultipageRenderer::class);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                    $component->setRendererContainer($c->get('rendererContainer'));
-//                }
-//                return $component;
-//            },
-
-            ####
-            # komponenty - pro editační režim authored komponent
-            #
-            #
-// dál uý není allowed
-//            SelectTemplateComponent::class  => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var ComponentConfigurationInterface $configuration */
-//                $configuration = $c->get(ComponentConfiguration::class);
-//
-//                $component = new SelectTemplateComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                    $component->setRendererName(SelectTemplateRenderer::class);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            PaperTemplateButtonsForm::class => function(ContainerInterface $c) {
-//                $component = new PaperTemplateButtonsForm();
-//                $component->setRenderer(new PaperButtonsFormRenderer());
-//                return $component;
-//                },
-//
-            // generated komponenty
-//            LanguageSelectComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//
-//                $component = new LanguageSelectComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-//                    $component->setData($c->get(LanguageSelectViewModel::class));
-//                    $component->setRendererName(LanguageSelectRenderer::class);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-//            SearchResultComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var ComponentConfigurationInterface $configuration */
-//                $configuration = $c->get(ComponentConfiguration::class);
-//
-//                $component = new SearchResultComponent($c->get(ComponentConfiguration::class));
-//                $component->setData($c->get(SearchResultViewModel::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                $component->setRendererName(SearchResultRenderer::class);
-//                return $component;
-//            },
-//            SearchPhraseComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//                /** @var ComponentConfigurationInterface $configuration */
-//                $configuration = $c->get(ComponentConfiguration::class);
-//
-//                $component = new SearchPhraseComponent($c->get(ComponentConfiguration::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                $component->setRendererName(SearchPhraseRenderer::class);
-//                return $component;
-//            },
-//            ItemTypeSelectComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//
-//                $component = new ItemTypeSelectComponent($c->get(ComponentConfiguration::class));
-//                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
-//                    $component->setData($c->get(ItemTypeSelectViewModel::class));
-//                    $component->setRendererName(ItemTypeSelectRenderer::class);
-//                } else {
-//                    $component = $c->get(ElementComponent::class);
-//                    $component->setRendererName(NoPermittedContentRenderer::class);
-//                }
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//                return $component;
-//            },
-
-
 
         ];
     }
@@ -588,19 +201,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $repo;
             },
 
-            MenuRootDao::class => function(ContainerInterface $c) {
-                return new MenuRootDao(
-                        $c->get(HandlerInterface::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            MenuRootHydrator::class => function(ContainerInterface $c) {
-                return new MenuRootHydrator();
-            },
-            MenuRootRepo::class => function(ContainerInterface $c) {
-                return new MenuRootRepo($c->get(MenuRootDao::class), $c->get(MenuRootHydrator::class));
-            },
-
 
             // database account
             Account::class => function(ContainerInterface $c) {
@@ -647,37 +247,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-//            ComponentControler::class => function(ContainerInterface $c) {
-//                return (new ComponentControler(
-//                            $c->get(StatusSecurityRepo::class),
-//                            $c->get(StatusFlashRepo::class),
-//                            $c->get(StatusPresentationRepo::class),
-//                            $c->get(TemplateCompiler::class)
-//                        )
-//                    )->injectContainer($c);  // inject component kontejner
-//            },
-//            // pro template controler
-//             TemplateControlerConfiguration::class => function(ContainerInterface $c) {
-//                return new TemplateControlerConfiguration(
-//                        $c->get('templates.defaultExtension'),
-//                        $c->get('templates.folders')
-//                        );
-//            },
-//
-//            TemplateControler::class => function(ContainerInterface $c) {
-//                return (new TemplateControler(
-//                            $c->get(StatusSecurityRepo::class),
-//                            $c->get(StatusFlashRepo::class),
-//                            $c->get(StatusPresentationRepo::class),
-//                            $c->get(TemplateSeeker::class))
-//                        )->injectContainer($c);  // inject component kontejner
-//            },
-//            TemplateSeeker::class => function(ContainerInterface $c) {
-//                return new TemplateSeeker($c->get(TemplateControlerConfiguration::class));
-//            },
-//            TemplateCompiler::class => function(ContainerInterface $c) {
-//                return new TemplateCompiler();
-//            },
+
         ####
         # view factory
         #
@@ -719,85 +289,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
             },
 
-        ####
-        # Access
-        #
-            AccessPresentation::class => function(ContainerInterface $c) {
-                return new AccessPresentation($c->get(StatusViewModel::class));
-            },
-
-
-
-        ####
-        # view modely pro komponenty
-        #
-//            PaperViewModel::class => function(ContainerInterface $c) {
-//                return new PaperViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(MenuItemRepo::class),
-//                            $c->get(PaperAggregateSectionsRepo::class)
-//                    );
-//            },
-//            ArticleViewModel::class => function(ContainerInterface $c) {
-//                return new ArticleViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(MenuItemRepo::class),
-//                            $c->get(ArticleRepo::class)
-//                    );
-//            },
-//            MultipageViewModel::class => function(ContainerInterface $c) {
-//                return new MultipageViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(MenuItemRepo::class),
-//                            $c->get(MultipageRepo::class),
-//                            $c->get(HierarchyJoinMenuItemRepo::class)
-//                    );
-//            },
-//            PaperTemplatePreviewViewModel::class => function(ContainerInterface $c) {
-//                return new PaperTemplatePreviewViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(MenuItemRepo::class),
-//                            $c->get(PaperAggregateSectionsRepo::class)
-//                    );
-//            },
-//            MultipageTemplatePreviewViewModel::class => function(ContainerInterface $c) {
-//                return new MultipageTemplatePreviewViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(MenuItemRepo::class),
-//                            $c->get(MultipageRepo::class),
-//                            $c->get(HierarchyJoinMenuItemRepo::class)
-//                    );
-//            },
-//            LanguageSelectViewModel::class => function(ContainerInterface $c) {
-//                return new LanguageSelectViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(LanguageRepo::class)
-//                    );
-//            },
-//            SearchResultViewModel::class => function(ContainerInterface $c) {
-//                return new SearchResultViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(MenuItemRepo::class)
-//                    );
-//            },
-//            ItemTypeSelectViewModel::class => function(ContainerInterface $c) {
-//                return new ItemTypeSelectViewModel(
-//                            $c->get(StatusViewModel::class),
-//                            $c->get(MenuItemRepo::class)
-//                    );
-//            },
-
-
-            ## modely pro komponenty s template
-            EditMenuSwitchViewModel::class => function(ContainerInterface $c) {
-                return new EditMenuSwitchViewModel(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusPresentationRepo::class),
-                            $c->get(StatusFlashRepo::class)
-//                        ,
-//                            $c->get(ItemActionRepo::class)
-                    );
-            },
         ];
     }
 }

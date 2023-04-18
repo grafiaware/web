@@ -41,6 +41,11 @@ use Model\Builder\Sql;
 use Model\DataManager\DataManagerAbstract;
 
 //dao + hydrator + repo
+
+use Red\Model\Dao\MenuRootDao;
+use Red\Model\Hydrator\MenuRootHydrator;
+use Red\Model\Repository\MenuRootRepo;
+
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
@@ -135,6 +140,20 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             Sql::class => function(ContainerInterface $c) {
                 return new Sql();
             },
+
+            MenuRootDao::class => function(ContainerInterface $c) {
+                return new MenuRootDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            MenuRootHydrator::class => function(ContainerInterface $c) {
+                return new MenuRootHydrator();
+            },
+            MenuRootRepo::class => function(ContainerInterface $c) {
+                return new MenuRootRepo($c->get(MenuRootDao::class), $c->get(MenuRootHydrator::class));
+            },
+
             HierarchyAggregateReadonlyDao::class => function(ContainerInterface $c) : HierarchyAggregateReadonlyDao {
                 return new HierarchyAggregateReadonlyDao(
                         $c->get(Handler::class),

@@ -1,5 +1,5 @@
 //=== ui elementy ===
-
+function initJqueryEvents() {
     //semantic-ui dropdown (použitý např. pro přihlašování)
     $('.ui.dropdown')
       .dropdown()
@@ -74,6 +74,7 @@
     $('.tertiary.button').on('click', function(){
         $('.notRequired').attr("required", false);
     });
+}
 
 //=== cascade load of components ===
 
@@ -86,13 +87,18 @@
 document.onreadystatechange = function () {
 //    if (event.target.readyState === 'interactive') {   // Alternative to DOMContentLoaded event
     if (document.readyState === 'complete') {  // Alternative to load event
+        // https://stackoverflow.com/questions/10777684/how-to-use-queryselectorall-only-for-elements-that-have-a-specific-attribute-set
         const init = async () => {
         console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
         let result = await loadSubsequentElements(document, "cascade");
             console.log(result);
-            console.log("body: loadSubsequentElements fullfilled, run initLoaded for TinyMce init");
+            console.log("body: loadSubsequentElements fullfilled");
+            console.log("body: run initLoaded for TinyMce init");
             initLoaded();
             console.log("body: initLoaded finished");
+            console.log("body: run initJqueryEvents for jQuery events on loaded elements");
+            initJqueryEvents();
+            console.log("body: initJqueryEvents finished");
         }
         init(); // async - volá initLoaded()
     }

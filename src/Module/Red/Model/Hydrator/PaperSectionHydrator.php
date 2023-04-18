@@ -38,10 +38,10 @@ class PaperSectionHydrator extends TypeHydratorAbstract implements HydratorInter
             ->setTemplate($this->getPhpValue($rowData, 'template'))
             ->setActive($this->getPhpValue($rowData, 'active'))
             ->setPriority($this->getPhpValue($rowData, 'priority'))
-            ->setShowTime($this->getPhpDatetime($rowData, 'show_time'))
-            ->setHideTime($this->getPhpDatetime($rowData, 'hide_time'))
-            ->setEventStartTime($this->getPhpDatetime($rowData, 'event_start_time'))
-            ->setEventEndTime($this->getPhpDatetime($rowData, 'event_end_time'))
+            ->setShowTime($this->getPhpDate($rowData, 'show_time'))
+            ->setHideTime($this->getPhpDate($rowData, 'hide_time'))
+            ->setEventStartTime($this->getPhpDate($rowData, 'event_start_time'))
+            ->setEventEndTime($this->getPhpDate($rowData, 'event_end_time'))
             ->setEditor($this->getPhpValue($rowData, 'editor'))
             ->setUpdated($this->getPhpDatetime($rowData, 'updated'))  // včetně času
             ;
@@ -61,10 +61,10 @@ class PaperSectionHydrator extends TypeHydratorAbstract implements HydratorInter
         $this->setSqlValue($rowData, 'template',  $paperContent->getTemplate());
         $this->setSqlValue($rowData, 'active',  $paperContent->getActive());
         $this->setSqlValue($rowData, 'priority',  $paperContent->getPriority());
-        $this->setSqlDatetime($rowData, 'show_time',  $paperContent->getShowTime());
-        $this->setSqlDatetime($rowData, 'hide_time',  $paperContent->getHideTime());
-        $this->setSqlDatetime($rowData, 'event_start_time',  $paperContent->getEventStartTime());
-        $this->setSqlDatetime($rowData, 'event_end_time',  $paperContent->getEventEndTime());
+        $this->setSqlDate($rowData, 'show_time',  $paperContent->getShowTime());
+        $this->setSqlDate($rowData, 'hide_time',  $paperContent->getHideTime());
+        $this->setSqlDate($rowData, 'event_start_time',  $paperContent->getEventStartTime());
+        $this->setSqlDate($rowData, 'event_end_time',  $paperContent->getEventEndTime());
         $this->setSqlValue($rowData, 'editor',  $paperContent->getEditor());
         // updated je timestamp
         // actual je readonly

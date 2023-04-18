@@ -66,11 +66,12 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
 
     protected function renderEditControlButtons(AuthoredViewModelInterface $viewModel): string {
         /** @var ArticleViewModelInterface $viewModel */
+        $useSelectTemplateButton = $viewModel->getContextVariable(ArticleComponent::SELECT_TEMPLATE) ? true : false;
         $templateName = $viewModel->getAuthoredTemplateName() ?? '';
-        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
+        $onclick = (string) "toggleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons = [];
-        $disabled = $templateName ? 'disabled' : '';
-        $tooltip = $templateName ? 'Nelze podruhé vybrat šablonu stránky' : 'Vybrat šablonu stránky';
+        $disabled = $useSelectTemplateButton ? '' : 'disabled';
+        $tooltip = $useSelectTemplateButton ? 'Vybrat šablonu stránky' : 'Nelze podruhé vybrat šablonu stránky';
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', $disabled ? 'button.disabled':'button'),
                 'data-tooltip'=> $tooltip,

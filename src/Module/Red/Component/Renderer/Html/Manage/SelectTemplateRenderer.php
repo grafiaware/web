@@ -20,7 +20,7 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
         $templateContentPostVar = $viewModel->getTemplateContentPostVarName();
 
         return
-            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
+            // id je parametr pro toggleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
             Html::tag('div', ['id'=> $this->getTemplateSelectId($viewModel),'class'=>$this->classMap->get('Template', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$type/$authoredContentId/template"],
                     [

@@ -44,6 +44,7 @@ use Component\View\ComponentInterface;
 use Red\Component\View\Menu\MenuComponent;
 use Red\Component\View\Menu\MenuComponentInterface;
 use Red\Component\View\Menu\LevelComponent;
+use Red\Component\View\Manage\EditMenuSwitchComponent;
 
 use Auth\Component\View\LoginComponent;
 use Auth\Component\View\LogoutComponent;
@@ -78,6 +79,10 @@ use Red\Component\View\Manage\EditContentSwitchComponent;
 
 // viewModel
 use Component\ViewModel\StatusViewModel;  // pro službu delegáta - app kontejner
+// enum pro typ položek menu
+use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
+use Red\Component\ViewModel\Menu\MenuViewModel;
+use Red\Component\ViewModel\Menu\LevelViewModel;
 
 use Auth\Component\ViewModel\LoginViewModel;
 use Auth\Component\ViewModel\LogoutViewModel;
@@ -484,8 +489,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = new LoginComponent($configuration);
                 if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
                     $component->setData($c->get(LoginViewModel::class));
-                    $status = $c->get(StatusViewModel::class);
-                        $component->setTemplate(new PhpTemplate($configuration->getTemplate('login')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('login')));
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoContentForStatusRenderer::class);
@@ -497,11 +501,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-
                 $component = new LogoutComponent($configuration);
                 if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
                     $component->setData($c->get(LogoutViewModel::class));
-                    $status = $c->get(StatusViewModel::class);
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('logout')));
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -1038,16 +1040,16 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(MenuItemRepo::class)
                     );
             },
-//
+
 //            ## modely pro komponenty s template
-//            EditMenuSwitchViewModel::class => function(ContainerInterface $c) {
-//                return new EditMenuSwitchViewModel(
-//                            $c->get(StatusSecurityRepo::class),
-//                            $c->get(StatusPresentationRepo::class),
-//                            $c->get(StatusFlashRepo::class),
-//                            $c->get(ItemActionRepo::class)
-//                    );
-//            },
+            EditMenuSwitchViewModel::class => function(ContainerInterface $c) {
+                return new EditMenuSwitchViewModel(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusPresentationRepo::class),
+                            $c->get(StatusFlashRepo::class),
+                            $c->get(ItemActionRepo::class)
+                    );
+            },
 
             // database account
             Account::class => function(ContainerInterface $c) {

@@ -29,6 +29,12 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
      */
     protected $articleRepo;
 
+    /**
+     *
+     * @var ArticleInterface
+     */
+    private $article;
+
     public function __construct(
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
@@ -64,10 +70,12 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
      * @return ArticleInterface|null
      */
     public function getArticle(): ?ArticleInterface {
-        if (isset($this->menuItemId)) {
-            $article = $this->articleRepo->getByMenuItemId($this->menuItemId);
+        if (!isset($this->article)) {
+            if (isset($this->menuItemId)) {
+                $this->article = $this->articleRepo->getByMenuItemId($this->menuItemId);
+            }
         }
-        return $article ?? null;
+        return $this->article ?? null;
     }
 
     /**

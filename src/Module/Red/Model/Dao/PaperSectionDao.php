@@ -12,7 +12,7 @@ use Model\Dao\DaoEditAbstract;
 
 use Model\Dao\DaoAutoincrementTrait;
 use Model\Dao\DaoReferenceNonuniqueTrait;
-
+use Model\RowData\RowDataInterface;
 /**
  * Description of RsDao
  *
@@ -67,5 +67,9 @@ class PaperSectionDao extends DaoEditAbstract implements PaperSectionDaoInterfac
             $contextConditions[] = "paper_section.active = 1";
         }
         return $contextConditions;
+    }
+
+    public function update(RowDataInterface $rowData): bool {
+        return parent::update($rowData);
     }
 }

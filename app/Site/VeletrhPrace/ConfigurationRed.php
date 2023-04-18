@@ -192,8 +192,8 @@ class ConfigurationRed extends ConfigurationDb {
             //      'service_name' => jméno služby component kontejneru,
             'contextServiceMap' => [
                     'flash' => FlashComponent::class,
-                    'modalLoginLogout' => LoginComponent::class,
-                    'modalLoginLogout' => LogoutComponent::class,
+                    'modalLogin' => LoginComponent::class,
+                    'modalLogout' => LogoutComponent::class,
                     'modalRegister' => RegisterComponent::class,
                     'modalUserAction' => UserActionComponent::class,
                     'poznamky' => StatusBoardComponent::class,

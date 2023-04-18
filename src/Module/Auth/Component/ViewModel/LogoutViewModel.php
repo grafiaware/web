@@ -16,17 +16,16 @@ class LogoutViewModel extends ViewModelAbstract implements LogoutViewModelInterf
 
     private $status;
 
-    public function __construct(
-            StatusViewModelInterface $status) {
+    public function __construct(StatusViewModelInterface $status) {
         $this->status = $status;
     }
 
     public function getUserLoginName(): string {
-        return $this->status->getUserLoginName();
+        return $this->status->getUserLoginName() ?? '';
     }
 
     public function getUserRole(): string {
-        return $this->status->getUserRole();
+        return $this->status->getUserRole() ?? '';
     }
 
     public function getIterator() {

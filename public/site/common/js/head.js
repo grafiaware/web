@@ -8,14 +8,18 @@ function hamburger_close() {
     document.getElementById("myOverlay").style.display = "none";
 }
 
-function togleTemplateSelect(event, id) {
+function toggleTemplateSelect(event, id) {
 //    $('#'+id).toggle();
-    console.log("togleTemplateSelect: element id "+id+".");
+    console.log("toggleTemplateSelect: element id "+id+".");
     var elm = document.getElementById(id);
-    if (elm.style.display=="block") {
-        elm.style.display = "none";
+    if (elm == null) {
+        console.error("toggleTemplateSelect: Unable toggle template select. There is no element with id '"+id+"'.");
     } else {
-        elm.style.display = "block";
+        if (elm.style.display=="block") {
+            elm.style.display = "none";
+        } else {
+            elm.style.display = "block";
+        }
     }
     event.preventDefault();
     event.stopPropagation();

@@ -19,29 +19,32 @@ function htmlToElement(html) {
  * @param {String} HTML representing any number of sibling elements
  * @return {NodeList}
  */
-//function htmlToElements(html) {
-//    var template = document.createElement('template');
-//    template.onload = function() {
-//        console.log("template onload");
-//    }
-//    template.innerHTML = html;
-//    return template.content.childNodes;
-//}
+function htmlToElements(html) {
+    var template = document.createElement('template');
+    template.onload = function() {
+        console.log("template onload");
+    }
+    template.innerHTML = html;
+    return template.content.childNodes;
+}
 
 /**
  * Nahradí element se zadaným id elementem s potomky vzniklým parsováním zadaného textu jako HTML.
  * Používá funkci htmlToElement(), proto očekává, že zadaný text je HTML string, který má jeden kořenový element.
  * Element může mít potomky, ale v kořenu nesmí být sada elementů.
  *
- * @param {Element} parentElement nahrazovaný element
+ * @param {Element} parentElement - element jehož obsah bude nahrazován
  * @param {String} responseText
- * @returns {Element} Nový element, kterým byl nahrazen starý element
+ * @returns {Element} parentElement s nahrazeným obsahem
  */
 function replaceChildren(parentElement, responseText) {
-    newElement = htmlToElement(responseText);
-    parentElement.replaceChildren(newElement);  // přidá nový a odstraní starý element
-    console.log("cascade: Replaced children of element "+parentElement.tagName+" id: "+parentElement.getAttribute('id')+" with element "+newElement.tagName+" id: "+newElement.getAttribute('id')+".");
-    return newElement;
+//    newElement = htmlToElement(responseText);
+//    parentElement.replaceChildren(newElement);  // přidá nový a odstraní starý element
+    var newElement = htmlToElements(responseText);
+    var cnt = newElement.length;
+    parentElement.replaceChildren(...newElement);  // odstraní starý a přidá nové elementy
+    console.log("cascade: Replaced children of element "+parentElement.tagName+" id: "+parentElement.getAttribute('id')+" with collection of "+cnt+".");
+    return parentElement;
 };
 
 /**
@@ -53,7 +56,7 @@ function fetchElementContent(parentElement){
     let apiUri = getApiUri(parentElement);
     /// fetch ///
     // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
-    // tento return je klíčový - vrací jako návratovou hodnotu hodotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
+    // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
     return fetch(apiUri)
     .then(response => {
       if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
@@ -67,9 +70,8 @@ function fetchElementContent(parentElement){
         console.log(`cascade: Loading content from ${apiUri}.`);
         return replaceChildren(parentElement, textPromise);  // vrací nový Element
     })
-    .then(newElement => {
-        loadSubPromise = loadSubsequentElements(newElement, "cascade");
-        return loadSubPromise;
+    .then(parentWithNewContent => {
+        return loadSubsequentElements(parentWithNewContent, "cascade");
     })
     .catch(e => {
       console.log(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);

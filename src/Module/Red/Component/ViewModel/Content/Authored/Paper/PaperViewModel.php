@@ -32,6 +32,12 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      */
     protected $paperAggregateRepo;
 
+    /**
+     *
+     * @var PaperAggregatePaperSectionInterface
+     */
+    private $paper;
+
     public function __construct(
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
@@ -68,10 +74,12 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      * @return PaperAggregatePaperSectionInterface|null
      */
     public function getPaper(): ?PaperAggregatePaperSectionInterface {
-        if (isset($this->menuItemId)) {
-            $paper = $this->paperAggregateRepo->getByMenuItemId($this->menuItemId);
+        if (!isset($this->paper)) {
+            if (isset($this->menuItemId)) {
+                $this->paper = $this->paperAggregateRepo->getByMenuItemId($this->menuItemId);
+            }
         }
-        return $paper ?? null;
+        return $this->paper ?? null;
     }
 
 }

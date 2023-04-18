@@ -41,7 +41,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
     protected function renderEditControlButtons(AuthoredViewModelInterface $viewModel): string {
         /** @var PaperViewModelInterface $viewModel */
         $authoredId = $viewModel->getAuthoredContentId();
-        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
+        $onclick = (string) "toggleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons = [];
 
         $buttons[] = Html::tag('button', [

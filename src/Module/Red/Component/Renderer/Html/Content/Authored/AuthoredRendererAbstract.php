@@ -23,7 +23,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         $contentId = $viewModel->getAuthoredContentId();
 
         return
-            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
+            // id je parametr pro toggleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
             Html::tag('div', ['id'=>"select_template_paper_$contentId",'class'=>$this->classMap->get('Template', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$contentType/$contentId/template"],
                     [

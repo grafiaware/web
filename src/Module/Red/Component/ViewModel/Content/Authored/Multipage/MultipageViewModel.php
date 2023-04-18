@@ -33,6 +33,12 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      */
     private $hierarchyRepo;
 
+    /**
+     * @var MultipageInterface
+     */
+    private $multipage;
+
+
     public function __construct(
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
@@ -71,10 +77,12 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      * @return MultipageInterface|null
      */
     public function getMultipage(): ?MultipageInterface {
-        if (isset($this->menuItemId)) {
-            $paper = $this->multipageRepo->getByMenuItemId($this->menuItemId);
+        if(!isset($this->multipage)) {
+            if (isset($this->menuItemId)) {
+                $this->multipage = $this->multipageRepo->getByMenuItemId($this->menuItemId);
+            }
         }
-        return $paper ?? null;
+        return $this->multipage ?? null;
     }
 
     /**
@@ -83,6 +91,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      * @return MenuItemAggregateHierarchyInterface[]
      */
     public function getSubTree() {
+        assert(1, 'Je to potřeba!');
         $multipage = $this->getMultipage();
         if (isset($multipage)) {
             $langCode = $this->getStatus()->getPresentedLanguage()->getLangCode();
