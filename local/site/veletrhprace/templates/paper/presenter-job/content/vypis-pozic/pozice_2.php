@@ -146,6 +146,7 @@ if (isset($loginAggregate)) {
     }
 
     if ($isRepresentative) {        
+        //vsechny zadosti o práci $jobId
         $visitorJobRequests = $visitorJobRequestRepo->find(  ' job_Id = :jobId ',  [  'jobId' => $jobId  ] );
         $visitorJobRequestCount = count($visitorJobRequests);        
         $allFormVisitorDataPost = [];
@@ -154,8 +155,8 @@ if (isset($loginAggregate)) {
             $isVisitorDataPost = true;
             $visitorFormData['readonly'] = 'readonly="1"';
             $visitorFormData['disabled'] = 'disabled="1"';
-            $visitorFormData['shortName'] = $shortName;
-            $visitorFormData['positionName'] = $positionName;
+            $visitorFormData['shortName'] =  $nameCompany;   //$shortName;
+            $visitorFormData['positionName'] = $positionName;  //$nazev
             $visitorFormData['jobId'] = $jobId;
             
             $visitorFormData['isRepresentative'] = $isRepresentative;
@@ -212,8 +213,7 @@ if (isset($loginAggregate)) {
 
 
         <div class="title">
-       
-            
+                   
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag_2.php', isset($kategorie) ? $kategorie : [] , 'seznam') ?>
                 <?php
