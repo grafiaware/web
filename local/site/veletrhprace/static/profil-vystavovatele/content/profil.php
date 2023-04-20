@@ -14,8 +14,7 @@ use Pes\Text\Html;
         <div class="ui stackable centered grid">
             <div class="column">
                 <div class="ui styled fluid accordion">
-                    <?= $this->insert(__DIR__.'/profil/presenter.php',  $presenterPerson 
-                            /*$representativePerson  $presenterPersonI*/ )  ?>
+                    <?= $this->insert(__DIR__.'/profil/presenter.php',  $presenterPerson )  ?>
                 </div>
                 <br/>
             </div>

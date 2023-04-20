@@ -6,8 +6,6 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
-
-//**I** vypis-pozic_2 ****
 ?>
  
 

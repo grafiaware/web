@@ -7,14 +7,15 @@ use Events\Model\Repository\JobToTagRepoInterface;
 use Events\Model\Repository\JobTagRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 
+use Events\Model\Entity\PozadovaneVzdelaniInterface;
+use Events\Model\Entity\JobInterface;
+use Events\Model\Entity\JobToTagInterface;
+use Events\Model\Entity\JobTagInterface;
+ 
 use Template\Compiler\TemplateCompilerInterface;
 
-class JobArrayModel {
 
-    /**
-     * @var CompanyRepoInterface
-     */
-    private $companyRepo;
+class JobArrayModel {
 
     /**
      * @var JobRepoInterface
@@ -22,10 +23,9 @@ class JobArrayModel {
     private $jobRepo;
 
     /**
-     *
      * @var JobToTagRepoInterface
      */
- //cdsf -********   private $jobToTagRepo;
+    private $jobToTagRepo;
 
     /**
      * @var JobTagRepoInterface
@@ -37,6 +37,7 @@ class JobArrayModel {
      */
     private $pozadovaneVzdelaniRepo;
 
+    
     public function __construct(
 //            CompanyRepoInterface $companyRepo,
             JobRepoInterface $jobRepo,
@@ -60,7 +61,7 @@ class JobArrayModel {
             $jobArray['jobId'] = $job->getId();
             $jobArray['companyId'] = $job->getCompanyId();
 
-            $jobArray['nazev'] = $job->getNazev();
+            $jobArray['nazevPozice'] = $job->getNazev();
             $jobArray['mistoVykonu'] = $job->getMistoVykonu();
             $jobArray['nabizime'][] = $job->getNabizime();
             $jobArray['popisPozice'] = $job->getPopisPozice();
@@ -72,7 +73,6 @@ class JobArrayModel {
             $jobToTags = $this->jobToTagRepo->findByJobId($job->getId());
             /** @var JobToTagInterface $jobToTag */
             foreach ($jobToTags as $jobToTag)  {
-                //$jobArray['kategorie'][] = $jobToTag->getJobTagTag();
                  $id = $jobToTag->getJobTagId();
                  $tag = $this->jobTagRepo->get($id);
                  $jobArray['kategorie'][] = $tag->getTag();

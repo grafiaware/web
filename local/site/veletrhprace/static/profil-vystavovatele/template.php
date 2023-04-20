@@ -82,21 +82,17 @@ if (isset($loginAggregate)) {
         $isRepresentative = true;
 
         //--- bylo Z 'ARRAY' MODELU   nyni z Presenter::class --------------------
-        // každý s rolí presenter musí existovat v modelu  jako presenterPerson
         $presenterPerson = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);  // z representative a company
         // vznikne   array                 
         // 'logNameRepresentative' - tj. login_login_name  z representative 
         // 'idCompany', 'nameCompany' , 'eventInstitutionNameCompany' - z  company
         
         if ($presenterPerson) {
-            $presenterPerson ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail                 
-           
-            $companyNameZPresenterPerson = $presenterPerson['nameCompany'];             
-            //------------------- pro tuto company vypsat vsechny companyContact
+            $presenterPerson ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail                            
+            $companyNameZPresenterPerson = $presenterPerson['nameCompany'];                    
             $idCompanyZPresenterPerson = $presenterPerson['idCompany'];
-            //-------------------        
                
-            //----------------------------pro company z PresenterPerson------------------
+            //----------------------------pro company z PresenterPerson vypsat vsechny companyContact -----------------
             $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany' => $idCompanyZPresenterPerson ] );
             $companyContacts=[];
             foreach ($companyContactEntities as $cntct) {
@@ -116,8 +112,8 @@ if (isset($loginAggregate)) {
             $companyAddressEntity = $companyAddressRepo->get( $idCompanyZPresenterPerson );
             if ($companyAddressEntity) {
                 $companyAddress = [
-                    'companyId'=>    $idCompanyZPresenterPerson,
-                    'companyIdA' =>  $idCompanyZPresenterPerson,  //??? pouziva se???
+                    'companyId'=>   /* $idCompanyZPresenterPerson,*/ $companyAddressEntity->getCompanyId(),
+                   // 'companyIdA' =>  $idCompanyZPresenterPerson,  //??? pouziva se???
                     'name'   => $companyAddressEntity->getName(),
                     'lokace' => $companyAddressEntity->getLokace(),
                     'psc'    => $companyAddressEntity->getPsc(),
@@ -128,15 +124,16 @@ if (isset($loginAggregate)) {
                 $companyAddress = ['companyId' =>   $idCompanyZPresenterPerson ];
             }
 
-            // jobsy pro company tohoto representative
+            //-------------- jobsy pro company tohoto representative
             //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php   
             foreach ($jobModel->getCompanyJobList($idCompanyZPresenterPerson) as $job) {
-                $jobs[] = array_merge( $job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'nameCompany' => $companyNameZPresenterPerson] ); 
+                $jobs[] = array_merge( $job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER} /*, 
+                                              'nameCompanyZPrezentera' => $companyNameZPresenterPerson */ ] ); 
             }
-        }// $representativePersonI $presenterPerson
+        }// $presenterPerson
 
     } //representative AND role
-    //###################### --------konec - reprezentant vystavovatele  ----------------------------------
+    //###################### -------- konec - reprezentant vystavovatele  ----------------------------------
 
 
 
@@ -173,7 +170,7 @@ if($isRepresentative) {
         <section>
             <div class="field margin">
                 <label>Společnost</label>
-                <?= /*$representativeCompany->getName()*/ $companyNameZPresenterPerson ?>
+                <?=  $companyNameZPresenterPerson ?>
                 <div class="">
                    <div class="ui styled fluid accordion">
 
