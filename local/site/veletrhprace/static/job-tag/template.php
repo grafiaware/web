@@ -28,13 +28,24 @@ use Events\Model\Entity\JobTag;
 
  
     $allTags = $jobTagRepo->findAll();
-    $allTagsString=[];
+    $allTagsArray=[];
     /** @var  JobTag $tag */
-    foreach ($allTags as $tag) {
-        $allTagsString[] = $tag->getTag();
+    foreach ($allTags as $tag) {        
+        $tg ['tag'] = $tag->getTag();
+        $tg ['tagId'] = $tag->getId();               
+        $allTagsArray[] = $tg;
         
-        $allTagsStringRepeat[] = ['tag' => $tag->getTag()];
+        $allTagsString[] = $tag->getTag();
+        //$allTagsStringForRepeat[] = ['tag' => $tag->getTag()];
     }
+    
+//    $allTagsString=[];
+//    /** @var  JobTag $tag */
+//    foreach ($allTags as $tag) {
+//        $allTagsString[] = $tag->getTag();
+//        
+//        $allTagsStringForRepeat[] = ['tag' => $tag->getTag()];
+//    }
     
     
     
@@ -72,16 +83,17 @@ use Events\Model\Entity\JobTag;
         <div>
             <?= $this->repeat(__DIR__.'/job-tagSeznam.php', $allTagsString, 'seznam') ?>
         </div>
-        
+        ------------------------------------------------------
         
         
          <div>      
-                <?= $this->repeat(__DIR__.'/job-tag.php',  $allTagsStringRepeat)  ?>
+                <?= $this->repeat(__DIR__.'/job-tag.php',  $allTagsArray)  ?>
                 <div>                   
                     Přidej další typ
                 </div>  
                 <div>     
-                    <?= $this->insert( __DIR__.'/job-tag.php', [] ) ?>                                                                                 
+                    //    $readonly = '';
+                    <?= $this->insert( __DIR__.'/job-tag.php' ) ?>                                                                                 
                 </div>                  
         </div>           
         

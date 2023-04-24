@@ -8,32 +8,38 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
  
 
-    //    $readonly = 'readonly="1"';
+        $readonly = 'readonly="1"';
     //    $disabled = 'disabled="1"';
-        $readonly = '';
+    //    $readonly = '';
         $disabled = ''; 
 
 ?>
 
     <form class="ui huge form" action="" method="POST" >
 
+        
+        
+        
     <div class="field">
-            <label>Typ pracovní pozice: </label>
-            <input readonly type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
+            Typ pracovní pozice:
+            //    if($readonly === '') {
+            else
+            
+            <input <?= $readonly ?> type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
     </div>
 
         <?php
-        if($readonly === '') {
+    //    if($readonly === '') {
         ?>
         <div>                                                                                                                                
             <?=
-            isset($tag) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/jotag/:tag/remove'> Odstranit  </button>" :
-                "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/:tag' > Uložit </button>" ;                
+            isset($tagId) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/jobtag/" .$tagId . "/remove'> Odstranit  </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/jobtag' > Uložit </button>" ;                
             ?>                                                                                                         
         </div>
         <?php
-        }
+    //    }
         ?>
 
     </form >
