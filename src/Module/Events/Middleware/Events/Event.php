@@ -293,10 +293,10 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
         
         
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:tagId' , function(ServerRequestInterface $request, $tagId) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag' , function(ServerRequestInterface $request) {
             /** @var JobControler $ctrl */
             $ctrl = $this->container->get(JobControler::class);
-            return $ctrl->updateJobTag($request,  $tagId);
+            return $ctrl->addJobTag($request);
         });
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:tagId/remove' , function(ServerRequestInterface $request, $tagId) {
             /** @var JobControler $ctrl */

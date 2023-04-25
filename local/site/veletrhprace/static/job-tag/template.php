@@ -19,90 +19,41 @@ use Events\Model\Entity\JobTag;
 
     /** @var JobTagRepoInterface $jobTagRepo */ 
     $jobTagRepo = $container->get(JobTagRepo::class );
-    
-//    /** @var CompanyContactRepo $companyContactRepo */
-//    $companyContactRepo = $container->get(CompanyContactRepo::class );
-//    /** @var RepresentativeRepo $representativeRepo */
-//    $representativeRepo = $container->get(RepresentativeRepo::class );
     //------------------------------------------------------------------
-
  
     $allTags = $jobTagRepo->findAll();
     $allTagsArray=[];
+    $allTagsString=[]; 
     /** @var  JobTag $tag */
     foreach ($allTags as $tag) {        
         $tg ['tag'] = $tag->getTag();
         $tg ['tagId'] = $tag->getId();               
-        $allTagsArray[] = $tg;
-        
+        $allTagsArray[] = $tg;       
         $allTagsString[] = $tag->getTag();
-        //$allTagsStringForRepeat[] = ['tag' => $tag->getTag()];
     }
-    
-//    $allTagsString=[];
-//    /** @var  JobTag $tag */
-//    foreach ($allTags as $tag) {
-//        $allTagsString[] = $tag->getTag();
-//        
-//        $allTagsStringForRepeat[] = ['tag' => $tag->getTag()];
-//    }
-    
-    
-    
-    
-    
-    
-//    if (isset ($companyEntity)) {       
-//            
-//        $companyContacts=[];
-//        $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
-//        if ($companyContactEntities) {         
-//            foreach ($companyContactEntities as $cCEntity) {
-//                /** @var CompanyContactInterface $cCEntity */
-//                $companyContacts[] = [
-//                    'companyContactId' => $cCEntity->getId(),
-//                    'companyId' => $cCEntity->getCompanyId(),
-//                    'name' =>  $cCEntity->getName(),
-//                    'phones' =>  $cCEntity->getPhones(),
-//                    'mobiles' =>  $cCEntity->getMobiles(),
-//                    'emails' =>  $cCEntity->getEmails()
-//                    ];
-//            }   
-//        }             
-//        
+             
   ?>
 
-
-    <div>
+    
     <div class="ui styled fluid accordion">   
         
         <div>                
            <b>Typy nabízených pozic </b>
-        </div>   
-                
+        </div>                   
         <div>
             <?= $this->repeat(__DIR__.'/job-tagSeznam.php', $allTagsString, 'seznam') ?>
         </div>
-        ------------------------------------------------------
-        
+        ------------------------------------------------------        
         
          <div>      
-                <?= $this->repeat(__DIR__.'/job-tag.php',  $allTagsArray)  ?>
-                <div>                   
-                    Přidej další typ
-                </div>  
-                <div>     
-                    //    $readonly = '';
-                    <?= $this->insert( __DIR__.'/job-tag.php' ) ?>                                                                                 
-                </div>                  
+            <?= $this->repeat(__DIR__.'/job-tag.php',  $allTagsArray)  ?>
+            <div>                   
+                Přidej další typ
+            </div>  
+            <div>     
+                <?= $this->insert( __DIR__.'/job-tag.php' ) ?>                                                                                 
+            </div>                  
         </div>           
-        
-        
-        
-        
-        
-        
-                 
-    </div>
+                                      
     </div>
 

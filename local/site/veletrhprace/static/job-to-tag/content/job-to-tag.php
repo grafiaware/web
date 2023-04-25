@@ -20,12 +20,13 @@ use Events\Model\Repository\JobTagRepo;
 <?php if ( (isset($jobNazev)) ) { ?>
         <form class="ui huge form" action="" method="POST" >
             <div class="fields">
-
-                <div class="field">
-                        <label>Název pozice:</label>
-                        <input <?= $readonly ?> type="text" name="job-nazev" placeholder="" maxlength="45"
-                                                value="<?= isset($jobNazev)?  $jobNazev : '' ?>" >
-                         <?= Html::checkbox( $allTags , $checkTags ); ?>
+                <div >
+                    <label>Název pozice:</label>
+                    <input <?= $readonly ?> type="text" name="job-nazev" placeholder="" maxlength="45"
+                                            value="<?= isset($jobNazev)?  $jobNazev : '' ?>" >
+                    <div class="field">
+                        <?= Html::checkbox( $allTags , $checkTags ); ?>
+                    </div>
 
                         <button class='ui primary button' type='submit' formaction='events/v1/jobtotag/<?= $jobId ?>' > Uložit </button>
                 </div>

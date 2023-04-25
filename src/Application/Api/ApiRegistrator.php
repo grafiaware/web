@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Application\Api;
 
 use Pes\Router\MethodEnum;
@@ -178,7 +172,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId/remove'));   
                 
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:tagId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:tagId/remove'));
         
         

@@ -59,7 +59,7 @@ use Events\Model\Entity\LoginInterface;
         /** @var JobTagInterface  $jobTagEntity */
         foreach ( $jobTagEntitiesAll as $jobTagEntity) {
             $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getId()] ;
-            $allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
+            //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
         }
 
         /** @var CompanyInterface $company */
@@ -93,21 +93,20 @@ use Events\Model\Entity\LoginInterface;
 
   ?>
     <div>
-        Vystavovatel (company): |* <?= $companyEntity->getName(); ?> *|
+        Vystavovatel (company): |* <?= $company->getName(); ?> *|
         <br/><br/>
     <div class="ui styled fluid accordion">
 
-        <section>
+        
             Přiřaďte typy k nabízeným pozicím
             <div class="content">
                 <?= $this->repeat(__DIR__.'/content/job-to-tag.php',  $jobToTagies  )  ?>
             </div>
             <p></p>
-        </section>
+        
 
 
-
-
+    //------------------------------------
         <p> <?= Html::select("jmeno-mesta", "To je label Město:",
             [1=>"", 2=>"Plzeň-město", 3=>"Plzeň-jih", 4=>"Plzeň-sever", 5=>"Klatovy", 6=>"Cheb", 7=>"jiné"],
             ["jmeno-mesta"=>4], []) ?></p>

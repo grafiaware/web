@@ -8,29 +8,24 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
  
 
-        $readonly = 'readonly="1"';
+    //    $readonly = 'readonly="1"';
     //    $disabled = 'disabled="1"';
-    //    $readonly = '';
+        $readonly = '';
         $disabled = ''; 
 
 ?>
 
-    <form class="ui huge form" action="" method="POST" >
-
+    <form class="ui huge form" action="" method="POST" >               
         
-        
-        
-    <div class="field">
+        <div class="field">
             Typ pracovní pozice:
-            //    if($readonly === '') {
-            else
-            
-            <input <?= $readonly ?> type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
-    </div>
+            <?php  if (isset ($tagId) ) {   ?>
+                    <input readonly  type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
+            <?php  } else {   ?>    
+                    <input <?= $readonly ?> type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
+            <?php  } ?>            
+        </div>
 
-        <?php
-    //    if($readonly === '') {
-        ?>
         <div>                                                                                                                                
             <?=
             isset($tagId) ?
@@ -38,8 +33,5 @@ use Pes\Text\Html;
                 "<button class='ui primary button' type='submit' formaction='events/v1/jobtag' > Uložit </button>" ;                
             ?>                                                                                                         
         </div>
-        <?php
-    //    }
-        ?>
 
     </form >
