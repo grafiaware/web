@@ -5,15 +5,9 @@ use Site\ConfigurationCache;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-use Events\Model\Repository\CompanyRepo;
-use Events\Model\Repository\CompanyContactRepo;
-use Events\Model\Entity\CompanyInterface;
-use Events\Model\Entity\CompanyContactInterface;
-use Events\Model\Repository\RepresentativeRepo;
-
 use Events\Model\Repository\JobTagRepoInterface;
 use Events\Model\Repository\JobTagRepo;
-use Events\Model\Entity\JobTag;
+use Events\Model\Entity\JobTagInterface;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -24,7 +18,7 @@ use Events\Model\Entity\JobTag;
     $allTags = $jobTagRepo->findAll();
     $allTagsArray=[];
     $allTagsString=[]; 
-    /** @var  JobTag $tag */
+    /** @var  JobTagInterface $tag */
     foreach ($allTags as $tag) {        
         $tg ['tag'] = $tag->getTag();
         $tg ['tagId'] = $tag->getId();               

@@ -240,13 +240,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeInstitutionType($request, $institutionTypeId);
         });
         
-        
-        
-        
-        
-        
-        
-        
+        //--------------------------------------
         
         
         
@@ -292,6 +286,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeJob($request, $idCompany,  $jobId);
         });
         
+        //------------------------------------------------
         
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag' , function(ServerRequestInterface $request) {
             /** @var JobControler $ctrl */
@@ -302,12 +297,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var JobControler $ctrl */
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->removeJobTag($request,  $tagId);
-        });
-        
-        
-        
-        
-        
+        });             
        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtotag/:jobId' , function(ServerRequestInterface $request, $jobId) {
             /** @var JobControler $ctrl */
@@ -315,6 +305,22 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->processingJobToTag($request,  $jobId);
         });
         
+        
+       $this->routeGenerator->addRouteForAction('POST', '/events/v1/vzdelani' , function(ServerRequestInterface $request) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->addPozadovaneVzdelani($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/vzdelani/:stupen' , function(ServerRequestInterface $request, $stupen) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->updatePozadovaneVzdelani($request, $stupen);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/vzdelani/:stupen/remove' , function(ServerRequestInterface $request, $stupen) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->removePozadovaneVzdelani($request, $stupen);
+        });                  
              
         
     }
