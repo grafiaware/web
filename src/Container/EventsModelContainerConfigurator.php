@@ -225,7 +225,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LoginRepo($c->get(LoginDao::class), $c->get(LoginHydrator::class));
             },
 
-            // representative
+            // Representative
             RepresentativeDao::class => function(ContainerInterface $c) {
                 return new RepresentativeDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -236,7 +236,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new RepresentativeRepo($c->get(RepresentativeDao::class), $c->get(RepresentativeHydrator::class));
             },
 
-            // event
+            // Event
             EventDao::class => function(ContainerInterface $c) {
                 return new EventDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class, $c->get(ContextProvider::class));
             },
@@ -247,7 +247,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new EventRepo($c->get(EventDao::class), $c->get(EventHydrator::class));
             },
 
-            // eventContentType
+            // EventContentType
             EventContentTypeDao::class => function(ContainerInterface $c) {
                 return new EventContentTypeDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -258,7 +258,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new EventContentTypeRepo($c->get(EventContentTypeDao::class), $c->get(EventContentTypeHydrator::class));
             },
 
-            // eventContent
+            // EventContent
             EventContentDao::class => function(ContainerInterface $c) {
                 return new EventContentDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -269,7 +269,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new EventContentRepo($c->get(EventContentDao::class), $c->get(EventContentHydrator::class));
             },
 
-            // eventLink
+            // EventLink
             EventLinkDao::class => function(ContainerInterface $c) {
                 return new EventLinkDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -280,7 +280,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new EventLinkRepo($c->get(EventLinkDao::class), $c->get(EventLinkHydrator::class));
             },
 
-            // eventLinkPhase
+            // EventLinkPhase
             EventLinkPhaseDao::class => function(ContainerInterface $c) {
                 return new EventLinkPhaseDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -446,6 +446,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new VisitorProfileRepo($c->get(VisitorProfileDao::class), $c->get(VisitorProfileHydrator::class));
             },
 
+                    
             DocumentDao::class => function(ContainerInterface $c) {
                 return new DocumentDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },

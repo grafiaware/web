@@ -121,7 +121,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
                 )
             );
 
-####################################
+        ####################################
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
@@ -206,8 +206,9 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
         
         
-        
-        
+        ###################        
+        # EventControler_2
+        ###################
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/institution', function(ServerRequestInterface $request) {
             /** @var EventControler_2 $ctrl */
             $ctrl = $this->container->get(EventControler_2::class);
@@ -268,7 +269,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
         
         
-  //-----------------      
+        //-----------------      
               
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/job' , function(ServerRequestInterface $request, $idCompany) {
             /** @var JobControler $ctrl */
@@ -306,7 +307,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
         
         
-       $this->routeGenerator->addRouteForAction('POST', '/events/v1/vzdelani' , function(ServerRequestInterface $request) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/vzdelani' , function(ServerRequestInterface $request) {
             /** @var JobControler $ctrl */
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->addPozadovaneVzdelani($request);

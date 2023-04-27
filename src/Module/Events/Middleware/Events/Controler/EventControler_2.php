@@ -210,10 +210,7 @@ class EventControler_2 extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
             
-    
-    
-       
-               
+     
     
     /**
      * 
@@ -241,7 +238,8 @@ class EventControler_2 extends FrontControlerAbstract {
 //            if ($isRepresentative) {
                 
                 /** @var InstitutionInterface $institution */
-                $institution = new Institution(); //new           
+                //$institution = new Institution(); //new      
+                $institution = $this->container->get(InstitutionInterface::class); //new     
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
                 $institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'institutionTypeId') );
 
@@ -337,6 +335,22 @@ class EventControler_2 extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
             
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

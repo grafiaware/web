@@ -18,34 +18,34 @@ use Pes\Text\Html;
     <form class="ui huge form" action="" method="POST" >                       
       
             <div class="fields">  
-            <?php  if (isset ($stupen) ) {   ?>   
-                    <p>Stupeň (číslo):</p>
+            <?php  if (isset ($type) ) {   ?>   
+                    <p>Typ:</p>
                     <div class="field">
-                    <input readonly type="text" name="stupen"  value="<?= $stupen ?>" >
+                    <input readonly type="text" name="type"  value="<?= $type ?>" >
                     </div>
-                    Vzděláni:   
+                    Name:   
                     <div class="field">
-                    <input <?= $readonly ?> type="text" name="vzdelani" placeholder="" maxlength="100" value="<?= isset($vzdelani) ? $vzdelani : '' ?>">
+                    <input <?= $readonly ?> type="text" name="vzdelani" placeholder="" maxlength="100" value="<?= isset($name) ? $name : '' ?>">
                     </div>
             <?php  } else {   ?>    
-                    <p>Stupeň (číslo):</p>
+                    <p>Typ:</p>
                     <div class="field">
-                    <input <?= $readonly ?>  type="number" name="stupen"   value="" >
+                    <input <?= $readonly ?>  type="text" name="type"   value="" >
                     </div>
-                    Vzděláni:  
+                    Name:  
                     <div class="field">
-                    <input <?= $readonly ?> type="text" name="vzdelani" placeholder="" maxlength="100" value="<?= isset($vzdelani) ? $vzdelani : '' ?>">
+                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="100" value="<?= isset($name) ? $name : '' ?>">
                     </div>
             <?php  } ?>    
             </div>
     
         <div>                                                                                                                                
             <?=
-            isset($stupen) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/vzdelani/" . $stupen . "'> Uložit </button>" .
-                "<button class='ui primary button' type='submit' formaction='events/v1/vzdelani/" . $stupen . "/remove'> Odstranit  </button>" :
+            isset($type) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $type . "'> Uložit </button>" .
+                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $type . "/remove'> Odstranit  </button>" :
                 
-                "<button class='ui primary button' type='submit' formaction='events/v1/vzdelani' > Uložit </button>" ;                
+                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype' > Uložit </button>" ;                
             ?>                                                                                                         
         </div>
 

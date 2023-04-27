@@ -496,8 +496,8 @@ class JobControler extends FrontControlerAbstract {
 
                 
                 /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
-               $pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
-               //$pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
+                $pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
+                //$pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
 
                 $pozadovaneVzdelani->setStupen((new RequestParams())->getParsedBodyParam($request, 'stupen') );
                 $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
