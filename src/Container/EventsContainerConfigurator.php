@@ -38,6 +38,9 @@ use Events\Model\Repository\JobTagRepo;
 use Events\Model\Repository\InstitutionRepo;
 use Events\Model\Repository\InstitutionTypeRepo;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
+use Events\Model\Repository\EventContentRepo;
+use Events\Model\Repository\EventContentTypeRepo;
+
 
 // service
 use Template\Compiler\TemplateCompiler;
@@ -140,7 +143,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),                        
                         $c->get(InstitutionRepo::class),
-                        $c->get(InstitutionTypeRepo::class)                       
+                        $c->get(InstitutionTypeRepo::class),                                               
+                        $c->get(EventContentRepo::class),
+                        $c->get(EventContentTypeRepo::class)                   
                         )
                        )->injectContainer($c);
             },

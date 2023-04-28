@@ -38,10 +38,12 @@ use Events\Model\Repository\EventRepo;
 use Events\Model\Dao\EventContentTypeDao;
 use Events\Model\Hydrator\EventContentTypeHydrator;
 use Events\Model\Repository\EventContentTypeRepo;
+use Events\Model\Entity\EventContentType;
 
 use Events\Model\Dao\EventContentDao;
 use Events\Model\Hydrator\EventContentHydrator;
 use Events\Model\Repository\EventContentRepo;
+use Events\Model\Entity\EventContent;
 
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Hydrator\EventLinkPhaseHydrator;
@@ -179,6 +181,13 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobTag::class => function(ContainerInterface $c) {
             return new JobTag();
+            },
+            
+            EventContentType::class => function(ContainerInterface $c) {
+            return new EventContentType();
+            },
+            EventContent::class => function(ContainerInterface $c) {
+            return new EventContent();
             }
 
         ];
