@@ -101,6 +101,11 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
         }
     }
 
+    public function isPartInEditableMode() {
+        $userActions = $this->getStatus()->getUserActions();
+        return isset($userActions) ? $userActions->presentAnyInEditableMode() : false;
+    }
+    
 //    public function getIterator() {
 //        $this->appendData(['multipage'=> $this->getMultipage()]);
 //        return parent::getIterator();

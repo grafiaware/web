@@ -156,9 +156,12 @@ class ConfigurationRed extends ConfigurationDb {
             'linksSite' => self::RED_LINKS_SITE,
 
             // local templates paths
-            'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
-            'tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
-            'scriptsEditableMode' => self::RED_TEMPLATES_COMMON.'layout/head/scriptsEditableMode.php',
+            // php templates
+            'templates.layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
+            'templates.redScripts' => self::RED_TEMPLATES_COMMON.'layout/head/redScripts.php',
+            // js templates
+            'templates.navConfig' => self::RED_TEMPLATES_COMMON.'js/navConfig.js',
+            'templates.tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
 
             // linksEditorJs links
             'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
@@ -168,7 +171,9 @@ class ConfigurationRed extends ConfigurationDb {
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
+            'urlRedConfig' => self::RED_LINKS_COMMON.'js/redConfig.js',
+            'urltinyConfig' => self::RED_LINKS_COMMON.'js/tinyConfig.js',
+            'urlTinyInit' => self::RED_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::RED_LINKS_COMMON . 'js/edit.js',
 
             // linkEditorCss links
@@ -181,11 +186,16 @@ class ConfigurationRed extends ConfigurationDb {
 //           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
             'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
-            'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
-            'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+            'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
             'templates.unknownContent' => self::RED_TEMPLATES_COMMON.'layout/error/unknownContent.php',
             'layout_blocks' => [
                 ],
+            // hodnoty RequestCache pro hlavičky requestů odesílaných příkazem fetch v cascade.js
+            // viz https://developer.mozilla.org/en-US/docs/Web/API/Request/cache
+            'cascade.class' => 'cascade',
+            'cascade.cacheReloadOnNav' => 'reload',
+            'cascade.cacheLoadOnce' => 'default',
+
             // parametry kontext - service mapy jsou:
             //'context_name' => 'service_name'
             //      'context_name' - jméno proměnné v šabloně (bez znaku $),
@@ -197,6 +207,8 @@ class ConfigurationRed extends ConfigurationDb {
                     'modalRegister' => RegisterComponent::class,
                     'modalUserAction' => UserActionComponent::class,
                     'poznamky' => StatusBoardComponent::class,
+                ],
+            'contextLayoutMap' => [
                     'menuSvisle' => 'menu.svisle',
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',

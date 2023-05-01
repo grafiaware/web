@@ -8,7 +8,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\FrontControlerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -54,7 +54,7 @@ use Pes\View\View;
  *
  * @author pes2704
  */
-class ComponentControler extends FrontControlerAbstract {
+class ComponentControler extends PresentationFrontControlerAbstract {
 
     private $templateCompiler;
 
@@ -71,11 +71,15 @@ class ComponentControler extends FrontControlerAbstract {
     ### action metody ###############
 
     public function serviceComponent(ServerRequestInterface $request, $name) {
-        $service = ConfigurationCache::layoutController()['contextServiceMap'][$name] ?? null;
-        if (isset($service) AND $this->container->has($service)) {
-            $view = $this->container->get($service);
+        if($this->isAllowed(AllowedActionEnum::GET)) {
+            $service = ConfigurationCache::layoutController()['contextServiceMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? null;
+            if (isset($service) AND $this->container->has($service)) {
+                $view = $this->container->get($service);
+            } else {
+                $view = $this->errorView($request, 'Component is not in controler configuration of context map.');
+            }
         } else {
-            $view = $this->errorView($request, 'Component not in configuration.');
+            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createResponseFromView($request, $view);
     }

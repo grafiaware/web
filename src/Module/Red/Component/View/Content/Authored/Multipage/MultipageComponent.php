@@ -44,11 +44,13 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
             array_shift($subNodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
                 $contentView = $this->getComponentView(self::CONTENT);
             foreach ($subNodes as $subNode) {
-                $item = $subNode->getMenuItem();
-                $contentView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
-//                $pages[] = $this->getContentLoadScript($item);
+                $menuItem = $subNode->getMenuItem();
+
+                $contentView->appendComponentView(
+                        $this->getMenuItemLoaders($menuItem),
+                        $menuItem->getTypeFk().'_'.$menuItem->getId()
+                    );
             }
-//            $this->contextData->offsetSet('pages', $pages);
         }
     }
 
@@ -58,7 +60,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
 
     ### load scripts ###
 
-    protected function getContentLoadScript(MenuItemInterface $menuItem) {
+    protected function getMenuItemLoaders(MenuItemInterface $menuItem) {
         /** @var View $view */
         $view = new CompositeView();
         $view->setRendererContainer($this->rendererContainer);
@@ -84,11 +86,18 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
                 $dataRedApiUri = "red/v1/$menuItemType/$id";
                 break;
         }
+        if ($this->contextData->isPartInEditableMode()) {
+            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
+        } else {
+            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheLoadOnce'];
+        }
         $view->setData([
+                        'class' => ConfigurationCache::layoutController()['cascade.class'],
+                        'dataRedCacheControl' => $dataRedCacheControl,
                         'loaderElementId' => "red_loaded_$uniquid",
                         'dataRedApiUri' => $dataRedApiUri,
                         'dataRedInfo' => "{$menuItemType}_for_item_{$id}",
-                        'dataRedSelector' => $menuItem->getUidFk()
+//                        'dataRedSelector' => $menuItem->getUidFk()
                         ]);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
         return $view;

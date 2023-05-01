@@ -23,4 +23,6 @@ interface MultipageViewModelInterface extends AuthoredViewModelInterface {
      * @return HierarchyAggregateInterface[]
      */
     public function getSubTree();
+
+    public function isPartInEditableMode();
 }

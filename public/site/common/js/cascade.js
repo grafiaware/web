@@ -54,10 +54,17 @@ function replaceChildren(parentElement, responseText) {
  */
 function fetchElementContent(parentElement){
     let apiUri = getApiUri(parentElement);
+    let cacheControl = getCacheControl(parentElement);
     /// fetch ///
     // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
     // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
-    return fetch(apiUri)
+    return fetch(apiUri, {
+        method: "GET",      //default
+          cache: cacheControl,
+          headers: {
+            "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
+          },
+        })
     .then(response => {
       if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
           // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
@@ -87,6 +94,16 @@ function fetchElementContent(parentElement){
  */
 function getApiUri(element) {
     return  element.attributes.getNamedItem("data-red-apiuri").nodeValue;
+}
+
+/**
+ * Vrací hodnotu atributu "data-red-cache-control".
+ *
+ * @param {Element} element
+ * @returns {String}
+ */
+function getCacheControl(element) {
+    return  element.attributes.getNamedItem("data-red-cache-control").nodeValue;
 }
 
 /**

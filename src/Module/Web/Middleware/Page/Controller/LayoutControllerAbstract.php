@@ -17,16 +17,6 @@ use Psr\Http\Message\ResponseInterface;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\BlockRepo;
 
-// komponenty
-use Red\Component\View\Generated\LanguageSelectComponent;
-use Red\Component\View\Generated\SearchPhraseComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\StatusBoardComponent;
-use Web\Component\View\Flash\FlashComponent;
-
 use Red\Model\Entity\MenuItemInterface;
 
 ####################
@@ -85,7 +75,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 #### response ################################
 #
     /**
-     * Metzoda pro pomtomkovský controler (page controler). Rozšiřuje funkčnost metod FrontControlerAbstract.
+     * Metoda pro pomtomkovský controler (page controler). Rozšiřuje funkčnost metod FrontControlerAbstract.
      * Vytvoří response pro položku v hierarchii - menu item. Pro neexistující menu item vytvoří response s přesměrováním na "home" stránku.
      *
      * @param ServerRequestInterface $request
@@ -137,7 +127,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getLayoutView(ServerRequestInterface $request): CompositeViewInterface {
         /** @var CompositeViewInterface $view */
         $view = $this->container->get(CompositeView::class);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['layout']));
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.layout']));
         $view->setData(
                 [
                     // v layout.php
@@ -149,18 +139,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     // na mnoha místech - cesty k souborům zadané v konfiguraci
                     'linksCommon' => ConfigurationCache::layoutController()['linksCommon'],
                     'linksSite' => ConfigurationCache::layoutController()['linksSite'],
-                    // atributy div v container.php
-                    'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
+                    // js proměnná navConfig - pro volání cascade v body.js
+                    'navConfigView' => $this->getNavConfigView($request),
                 ]);
         return $view;
-    }
-
-    private function getBodyContainerAttributes() {
-        if ($this->isPartInEditableMode()) {
-            return ["class" => "editable"];
-        } else {
-            return ["class" => ""];
-        }
     }
 
     #### komponenty a komponentní views ######
@@ -183,8 +165,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 ],
 
                 $this->getEditableModeViews($request),
-                $this->getLoggedOnOffViews(),
-//                $this->getMenuComponents(),
+                $this->getCascadeViews(),
+                $this->getLayoutViews(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
                 // cascade
@@ -196,31 +178,25 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getEditableModeViews($request) {
         if ($this->isPartInEditableMode()) {
             $views = [
-                'scriptsEditableMode' => $this->getScriptsEditableModeView($request),
+                'redScripts' => $this->getRedScriptView($request),
             ];
         } else {
            $views = [];
         }
         return $views;
     }
+    private function getLayoutViews() {
+        $views = [];
+        foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutMap']) as $contextName) {
+                $views[$contextName] = $this->getRedServiceComponentLoadScript($contextName, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
+        }
+        return $views;
+    }
 
-    private function getLoggedOnOffViews() {
-//        if($this->isUserLoggedIn()) {
-//            $views = [
-//                'modalLoginLogout' => $this->container->get(LogoutComponent::class),
-//                'modalUserAction' => $this->container->get(UserActionComponent::class),
-//                'poznamky' => $this->container->get(StatusBoardComponent::class),
-//            ];
-//        } else {
-//            $views =  [
-//                'modalRegister' => $this->container->get(RegisterComponent::class),
-//                'modalLoginLogout' => $this->container->get(LoginComponent::class),
-//            ];
-//        }
-//        return $views;
+    private function getCascadeViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
-                $views[$contextName] = $this->getRedServiceComponentLoadScript($contextName);
+                $views[$contextName] = $this->getRedServiceComponentLoadScript($contextName, ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);
         }
         return $views;
     }
@@ -288,7 +264,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 $dataRedApiUri = "red/v1/$menuItemType/$id";
                 break;
         }
+        if ($this->isPartInEditableMode()) {
+            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
+        } else {
+            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheLoadOnce'];
+        }
         $view->setData([
+                        'class' => ConfigurationCache::layoutController()['cascade.class'],
+                        'dataRedCacheControl' => $dataRedCacheControl,
                         'loaderElementId' => "red_loaded_$uniquid",
                         'dataRedApiUri' => $dataRedApiUri,
                         'dataRedInfo' => "{$menuItemType}_for_item_{$id}",
@@ -307,7 +290,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         }
         return $name;
     }
-    private function getRedServiceComponentLoadScript($serviceName) {
+    private function getRedServiceComponentLoadScript($serviceName, $dataRedCacheControl) {
         /** @var View $view */
         $view = $this->container->get(View::class);
 
@@ -316,6 +299,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         $dataRedApiUri = "red/v1/service/$serviceName";
 
         $view->setData([
+                        'class' => ConfigurationCache::layoutController()['cascade.class'],
+                        'dataRedCacheControl' => $dataRedCacheControl,
                         'loaderElementId' => "red_loaded_$uniquid",
                         'dataRedApiUri' => $dataRedApiUri,
                         'dataRedInfo' => "service_component_{$serviceName}",
@@ -343,7 +328,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     private function getMenuComponents() {
         $components = [];
-        foreach (ConfigurationCache::layoutController()['contextServiceMap'] as $contextName => $serviceName) {
+        foreach (ConfigurationCache::layoutController()['qqq'] as $contextName => $serviceName) {
             $components[$contextName] = $this->container->get($serviceName);
         }
         return $components;
@@ -358,43 +343,52 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param ServerRequestInterface $request
      * @return type
      */
-    private function getScriptsEditableModeView(ServerRequestInterface $request) {
-        $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
-        $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
+    private function getRedScriptView(ServerRequestInterface $request) {
         return
             $this->container->get(View::class)
-                ->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['scriptsEditableMode']))
+                ->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.redScripts']))
                 ->setData([
-                    'tinyMCEConfig' => $this->container->get(View::class)
-                            ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['tinyConfig']))
-                            ->setData([
-                                // pro tiny_config.js
-                                'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
-                                'toolbarsLang' => $tinyToolsbarsLang,
-                                // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
-                                'urlStylesCss' => ConfigurationCache::layoutController()['urlStylesCss'],
-                                'urlSemanticCss' => ConfigurationCache::layoutController()['urlSemanticCss'],
-                                'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss'],
-                                'urlMediaCss' => ConfigurationCache::layoutController()['urlMediaCss']
-                    ]),
+                    'tinyConfigView' => $this->getTinyConfigView($request),
 
                     'urlTinyMCE' => ConfigurationCache::layoutController()['urlTinyMCE'],
 //                    'urlJqueryTinyMCE' => ConfigurationCache::layoutController()['urlJqueryTinyMCE'],
-
                     'urlTinyInit' => ConfigurationCache::layoutController()['urlTinyInit'],
-                    'editScript' => ConfigurationCache::layoutController()['urlEditScript'],
+                    'urlEditScript' => ConfigurationCache::layoutController()['urlEditScript'],
+                ]);
+    }
+
+    private function getNavConfigView($request) {
+        return $this->container->get(View::class)
+                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['templates.navConfig']))
+                ->setData([
+                    // pro navConfig.js
+                    'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
+                    'cascadeClass' => ConfigurationCache::layoutController()['cascade.class']
+                ]);
+    }
+
+    private function getTinyConfigView($request) {
+        $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
+        $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
+
+        return $this->container->get(View::class)
+                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['templates.tinyConfig']))
+                ->setData([
+                    // pro tinyConfig.js
+                    'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
+                    'toolbarsLang' => $tinyToolsbarsLang,
+                    // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
+                    'urlStylesCss' => ConfigurationCache::layoutController()['urlStylesCss'],
+                    'urlSemanticCss' => ConfigurationCache::layoutController()['urlSemanticCss'],
+                    'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss'],
+                    'urlMediaCss' => ConfigurationCache::layoutController()['urlMediaCss']
                 ]);
     }
 
     private function isPartInEditableMode() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return isset($userActions) ? $userActions->presentAnyInEditableMode() : false;
-    }
-
-    private function isUserLoggedIn() {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
-        return (isset($loginAggregate) AND $loginAggregate->getLoginName()) ? true : false;
     }
 
 }

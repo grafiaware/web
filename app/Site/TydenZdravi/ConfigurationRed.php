@@ -177,8 +177,8 @@ class ConfigurationRed extends ConfigurationDb {
 //           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
             'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
-            'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
-            'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+            'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
+            'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/cascade/loaderElementEditable.php',
             'templates.unknownContent' => self::RED_TEMPLATES_COMMON.'layout/error/unknownContent.php',
             'layout_blocks' => [
                 ],

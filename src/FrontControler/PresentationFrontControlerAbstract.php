@@ -46,14 +46,24 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
 
     ### response ###
 
+    /**
+     * Volá rodičovskou metodu Front kontroleru a k vrácenému response přidává řízení cache
+     * a ukládá poslední GET request pro "post redirect get".
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $stringContent
+     * @return ResponseInterface
+     */
     public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface {
         $response = parent::createResponseFromString($request, $stringContent);
         $statusPresentation = $this->statusPresentationRepo->get();
         if ($request->getMethod()=='GET') {
             /** @var UriInfoInterface $uriInfo */
             $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
-            $restUri = $uriInfo->getRestUri();
-            $statusPresentation->setLastGetResourcePath($restUri);
+            if (!$request->hasHeader("X-Cascade")) {
+                $restUri = $uriInfo->getRestUri();
+                $statusPresentation->setLastGetResourcePath($restUri);
+            }
         }
         return $response;
     }

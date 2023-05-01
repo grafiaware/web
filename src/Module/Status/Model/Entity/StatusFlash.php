@@ -22,17 +22,14 @@ use Status\Model\Exception\UndefinedFlashMessageSeverityException;
  */
 class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterface {
 
-    private $preparedFlashMessage=[];
-    private $storedFlashMessage=[];
-    private $restoredFlashMessage=[];
+    private $preparedFlashMessages=[];
+    private $storedFlashMessages=[];
 
     private $preparedFlashCommand;
     private $storedFlashCommand;
-    private $restoredFlashCommand;
 
-    private $restoredPostFlashCommand;
-    private $storedPostFlashCommand;
     private $preparedPostFlashCommand;
+    private $storedPostFlashCommand;
 
     /**
      * @var FlashSeverityEnum
@@ -49,21 +46,25 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
      * @return array Array Flash messages.
      */
     public function getMessages(): array {
-        return $this->restoredFlashMessage;
+        $messages = $this->storedFlashMessages;
+        $this->storedFlashMessages = [];
+        return $messages;
     }
 
     /**
      * Vrací command se životností do příštího requestu (standartní "flash" životnost).
      */
     public function getCommand() {
-        return $this->restoredFlashCommand;
+        $command = $this->storedFlashCommand;
+        $this->storedFlashCommand = null;
+        return $command;
     }
 
     /**
      * Vrací command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      */
     public function getPostCommand() {
-        return $this->restoredPostFlashCommand;
+        return $this->storedPostFlashCommand;
     }
 
     /**
@@ -75,7 +76,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): StatusFlashInterface {
         $en = $this->severityEnum;
         try {
-            $this->preparedFlashMessage[] = ['severity'=>$en($severity), 'message'=>$message];
+            $this->preparedFlashMessages[] = ['severity'=>$en($severity), 'message'=>$message];
         } catch (ValueNotInEnumException $e) {
             throw new UndefinedFlashMessageSeverityException("nepřípustná hodnota severity $severity", 0, $e);
         }
@@ -115,22 +116,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
      * @return void
      */
     public function beforeHandle(ServerRequestInterface $request): void {
-        $this->restoredFlashMessage = $this->storedFlashMessage;
-        $this->restoredFlashCommand = $this->storedFlashCommand;
-        $this->restoredPostFlashCommand = $this->storedPostFlashCommand;
 
-        $method = $request->getMethod();
-        switch ($method) {
-            case 'GET':
-                $this->storedFlashMessage = [];
-                $this->storedFlashCommand = null;
-                break;
-            case 'POST':
-                $this->storedPostFlashCommand = null;
-                break;
-            default:
-                break;
-        }
     }
 
     /**
@@ -143,21 +129,19 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
      * @return void
      */
     public function afterHandle(ServerRequestInterface $request): void {
-        $this->storedFlashMessage = $this->preparedFlashMessage;
-        $this->storedFlashCommand = $this->preparedFlashCommand;
-        $this->preparedFlashMessage = [];
-        $this->preparedFlashCommand = null;
-        $method = $request->getMethod();
-        switch ($method) {
-            case 'GET':
-
-                break;
-            case 'POST':
+        $this->storedFlashMessages += $this->preparedFlashMessages;
+        $this->preparedFlashMessages = [];
+        if (isset($this->preparedFlashCommand)) {
+            $this->storedFlashCommand = $this->preparedFlashCommand;
+            $this->preparedFlashCommand = null;
+        }
+        if ($request->getMethod() == 'POST') {
+            $this->storedPostFlashCommand = null;
+            if (isset($this->preparedPostFlashCommand)) {
                 $this->storedPostFlashCommand = $this->preparedPostFlashCommand;
                 $this->preparedPostFlashCommand = null;
-                break;
-            default:
-                break;
+            }
         }
+
     }
 }

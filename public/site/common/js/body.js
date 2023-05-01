@@ -76,6 +76,11 @@ function initJqueryEvents() {
     });
 }
 
+
+//
+//
+//
+//
 //=== cascade load of components ===
 
 /**
@@ -90,15 +95,21 @@ document.onreadystatechange = function () {
         // https://stackoverflow.com/questions/10777684/how-to-use-queryselectorall-only-for-elements-that-have-a-specific-attribute-set
         const init = async () => {
         console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
-        let result = await loadSubsequentElements(document, "cascade");
-            console.log(result);
-            console.log("body: loadSubsequentElements fullfilled");
-            console.log("body: run initLoaded for TinyMce init");
-            initLoaded();
-            console.log("body: initLoaded finished");
-            console.log("body: run initJqueryEvents for jQuery events on loaded elements");
-            initJqueryEvents();
-            console.log("body: initJqueryEvents finished");
+        let resultComponents = await loadSubsequentElements(document, navConfig.cascadeClass);
+        console.log(resultComponents);
+        console.log("body: load cascadeLoadOnce elements fullfilled");
+        let resultCascade = await loadSubsequentElements(document, navConfig.cascadeClass);
+        console.log(resultCascade);
+        console.log("body: load cascadeReloadOnNav elements fullfilled");
+        initLoadedElements();
+        console.log("body: initLoaded elements");
+        if (isTinyMCEDefined()) {
+            initLoadedEditableElements();
+            console.log("body: initLoaded elements for editable mode");
+        }
+        console.log("body: run initJqueryEvents for jQuery events on loaded elements");
+        initJqueryEvents();
+        console.log("body: initJqueryEvents finished");
         }
         init(); // async - volá initLoaded()
     }
@@ -107,16 +118,12 @@ document.onreadystatechange = function () {
 //=== init loaded TinyMce editors ===
 
 /**
- * HACK! Provede initLoadedElements() a pokud je definována proměnná tinymce, provede initLoadedEditableElements().
- * Závisí na tinymce. Tato proměnná je případně definována v šabloně 'tinyConfig' (viz konfigurace a Layout kontroler)
+ * HACK! Závisí na tinymce. Tato proměnná je případně definována v šabloně 'tinyConfig' (viz konfigurace a Layout kontroler)
  *
  * @returns {undefined}
  */
-function initLoaded() {
-    initLoadedElements();
-    if (typeof tinymce!=='undefined') {
-        initLoadedEditableElements();
-    }
+function isTinyMCEDefined() {
+    return typeof tinymce!=='undefined'
 }
 
 /**

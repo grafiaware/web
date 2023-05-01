@@ -87,7 +87,9 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return ResponseInterface
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        $response = $response->withHeader('Cache-Control', 'no-cache');
+//        $response = $response->withHeader('Cache-Control', 'no-cache');
+        $response = $response->withHeader('Cache-Control', 'max-age=100, must-revalidate');
+
         return $response;
     }
 

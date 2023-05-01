@@ -39,8 +39,13 @@ class UserActionComponent extends ComponentCompositeAbstract {
 //    }
 
     public function getComponentPermissions(): array {
+//        return [
+//            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+//        ];
+
         return [
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
         ];
     }
 }

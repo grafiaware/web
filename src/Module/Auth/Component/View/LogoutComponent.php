@@ -11,6 +11,9 @@ namespace Auth\Component\View;
 use Component\View\ComponentCompositeAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 
+use Access\Enum\RoleEnum;
+use Access\Enum\AccessPresentationEnum;
+
 /**
  * Description of LogoutComponent
  *
@@ -23,4 +26,10 @@ class LogoutComponent extends ComponentCompositeAbstract {
      */
     protected $contextData;
 
+    public function getComponentPermissions(): array {
+        // komponent vidí jen příhlášení
+        return [
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+        ];
+    }
 }
