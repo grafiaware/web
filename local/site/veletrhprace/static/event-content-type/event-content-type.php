@@ -19,7 +19,7 @@ use Pes\Text\Html;
       
             <div class="fields">  
             <?php  if (isset ($type) ) {   ?>   
-                    <p>Typ:</p>
+                    <p>Typ obsahu:</p>
                     <div class="field">
                     <input readonly type="text" name="type"  value="<?= $type ?>" >
                     </div>

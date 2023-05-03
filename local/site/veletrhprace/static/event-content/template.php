@@ -49,14 +49,24 @@ use Events\Model\Entity\InstitutionInterface;
     
     
     
-    //VYBRAT Content pro institutio 23
-    
-    
-    
-    
-    
-    
-    
+    // Contenty pro institution 23
+    $eventContentEntities = $eventContentRepo->find(  " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> '23' ]);
+    if ($eventContentEntities) {   
+            /** @var EventContentInterface $entity */
+            foreach ($eventContentEntities as $entity) {
+                $institutionE = $institutionRepo->get($entity->getInstitutionIdFk()) ;               
+                $eventContents[] = [
+                    'institutionIdFk' => $entity->getId(),
+                    'institutionName' => $institutionE->getName(),
+                    'eventContentTypeFk' => $entity->getEventContentTypeFk(),
+                    
+                    'title' =>  $entity->getTitle(),
+                    'perex' =>  $entity->getPerex(),
+                    'party' =>  $entity->getParty(),
+                    'idI' =>  $entity->getId()
+                    ];
+            }   
+    }                                     
     
              
   ?>
@@ -65,20 +75,23 @@ use Events\Model\Entity\InstitutionInterface;
     <div class="ui styled fluid accordion">   
         
         <div>                
-           <b>Typ obsahu eventu</b>
+           <b>Obsah eventu (události)</b>
         </div>                   
         <div>
            <!--  < ?= /* $this->repeat(__DIR__.'/job-tagSeznam.php', $allTagsString, 'seznam')  */ ? > -->
         </div>
-        ------------------------------------------------------        
+        ------------------------------------------------------      
         
-         <div>      
-            <?= $this->repeat(__DIR__.'/event-content-type.php',  $allContentTypeArray)  ?>
+        
+        <div>      
+            <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> )
+            
+            
             <div>                   
-                Přidej další typ
+                Přidej další obsah eventu (události)
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/event-content-type.php' ) ?>                                                                                 
+                <?= $this->insert( __DIR__.'/event-content.php' ) ?>                                                                                 
             </div>                  
         </div>           
                                       
