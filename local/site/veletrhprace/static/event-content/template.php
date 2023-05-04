@@ -36,18 +36,32 @@ use Events\Model\Entity\InstitutionInterface;
  
     
     
- 
+    $selectContentType = [];
     $allContentType = $eventContentTypeRepo->findAll();
     $allContentTypeArray=[];
     /** @var  EventContentInterface $type */
     foreach ($allContentType as $type) {    
         $contype ['type'] = $type->getType();
         $contype ['name'] = $type->getName();               
-        $allContentTypeArray[] = $contype;       
+        $allContentTypeArray[] = $contype;    
+        
+        $selectContentType [$type->getType()] =  $type->getName() ;
     }
     
+        
+    $selecty = [];
+    $selectInstitution = [];
+    $institutionEntities = $institutionRepo->findAll();
+        /** @var InstitutionInterface $inst */ 
+    foreach ( $institutionEntities as $inst ) {
+        $selectInstitution [$inst->getId()] =  $inst->getName() ;
+    }
+    
+    $selecty['selectInstitution'] = $selectInstitution;
+    $selecty['selectContentType'] = $selectContentType;
     
     
+  
     
     // Contenty pro institution 23
     $eventContentEntities = $eventContentRepo->find(  " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> '23' ]);
@@ -56,14 +70,17 @@ use Events\Model\Entity\InstitutionInterface;
             foreach ($eventContentEntities as $entity) {
                 $institutionE = $institutionRepo->get($entity->getInstitutionIdFk()) ;               
                 $eventContents[] = [
-                    'institutionIdFk' => $entity->getId(),
+                    'institutionIdFk' => $entity->getId(), 
+                    'selectInstitution' => $selectInstitution, 
+
                     'institutionName' => $institutionE->getName(),
                     'eventContentTypeFk' => $entity->getEventContentTypeFk(),
+                    'selectContentType' => $selectContentType, 
                     
                     'title' =>  $entity->getTitle(),
                     'perex' =>  $entity->getPerex(),
                     'party' =>  $entity->getParty(),
-                    'idI' =>  $entity->getId()
+                    'idContent' =>  $entity->getId()
                     ];
             }   
     }                                     
@@ -75,7 +92,7 @@ use Events\Model\Entity\InstitutionInterface;
     <div class="ui styled fluid accordion">   
         
         <div>                
-           <b>Obsah eventu (události)</b>
+           <b>Obsah události (event content)</b>
         </div>                   
         <div>
            <!--  < ?= /* $this->repeat(__DIR__.'/job-tagSeznam.php', $allTagsString, 'seznam')  */ ? > -->
@@ -84,11 +101,11 @@ use Events\Model\Entity\InstitutionInterface;
         
         
         <div>      
-            <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> )
+            <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> 
             
             
             <div>                   
-                Přidej další obsah eventu (události)
+                Přidej další obsah události (event content) :
             </div>  
             <div>     
                 <?= $this->insert( __DIR__.'/event-content.php' ) ?>                                                                                 

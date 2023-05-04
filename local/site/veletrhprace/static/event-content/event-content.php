@@ -23,55 +23,62 @@ use Pes\Text\Html;
                     'title' =>  $entity->getTitle(),
                     'perex' =>  $entity->getPerex(),
                     'party' =>  $entity->getParty(),
-                    'idI' =>  $entity->getId() -->
+                    'idContent' =>  $entity->getId() 
+    $selecty['selectInstitution'] = $selectInstitution;
+    $selecty['selectContentType'] = $selectContentType;
+
+-->
 
     <form class="ui huge form" action="" method="POST" >                       
       
-            <div class="fields">  
-            <?php  if (isset ($idI) ) {   ?>   
+        <?php  if (isset ($idContent) ) {   ?>        
+                        
+        <div>       
+            Název instituce: --select!
+            <div class="eight wide field">  
+                 <?= Html::select("selectInstitution", "Instituce:",   $selectInstitutionType ?? [] , 
+                                                    ["institutionIdFk" =>  $idContent ?? '' ] , []) ?>  
                 
-                    Název instituce: --select!
-                    <div class="field">    
-                    <input <?= $readonly ?> type="text" name="institutionIdFk???" placeholder="" maxlength="200" 
-                                            value="<?= isset($institutionIdFk) ? $institutionIdFk : '' ?>">
-                    
-                    </div>
-                    Title:
-                    <div class="field">
-                    <input <?= $readonly ?> type="text" name="title"  maxlength="200" value="<?= isset($title) ? $title : ''?>" >
-                    </div>
-                    Perex:   
-                    <div class="field">
-                    <input <?= $readonly ?> type="text" name="perex" placeholder="" maxlength="500" value="<?= isset($perex) ? $perex : '' ?>">
-                    </div>
-                    Party:   
-                    <div class="field">
-                    <input <?= $readonly ?> type="text" name="party" placeholder="" maxlength="200" value="<?= isset($party) ? $party : '' ?>">
-                    </div>
-                    Typ obsahu: --select!
-                    <div class="field">    
-                    <input <?= $readonly ?> type="text" name="event_content_type_fk" placeholder="" maxlength="45" 
-                                            value="<?= isset($eventContentTypeFk) ? $eventContentTypeFk : '' ?>" >
- 
-                    
-                    
-            <?php  } else {   ?>    
-                    <p>Typ:</p>
-                    <div class="field">
-                    <input <?= $readonly ?>  type="text" name="type"  maxlength="45"  value="" >
-                    </div>
-                    Name:  
-                    <div class="field">
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="45" value="" >
-                    </div>
-            <?php  } ?>    
+                
+                
+                <input <?= $readonly ?> type="text" name="institutionIdFk" placeholder="" maxlength="200" 
+                                       value="<?= isset($institutionIdFk) ? $institutionIdFk : '' ?>">         
+                
+                
             </div>
+            
+                  
+            Title:
+            <div  class="field">
+                <input <?= $readonly ?> type="text" name="title"  maxlength="200" value="<?= isset($title) ? $title : ''?>" >
+            </div>
+
+
+            Perex:   
+            <div class="field">
+                <input <?= $readonly ?> type="text" name="perex" placeholder="" maxlength="500" value="<?= isset($perex) ? $perex : '' ?>" >
+            </div>
+            Party:   
+            <div  class="field">
+                <input <?= $readonly ?> type="text" name="party" placeholder="" maxlength="200" value="<?= isset($party) ? $party : '' ?>" >
+            </div>
+
+            <div >    
+                Typ obsahu: --select!
+                <input <?= $readonly ?> type="text" name="eventContentTypeFk" placeholder="" maxlength="45" 
+                                    value="<?= isset($eventContentTypeFk) ? $eventContentTypeFk : '' ?>" >
+            </div>
+                 
+        </div>  
+        <?php  }   ?>         
+            
+           
     
         <div>                                                                                                                                
             <?=
-            isset($type) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $type . "'> Uložit </button>" .
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $type . "/remove'> Odstranit  </button>" :
+            isset($idI) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $idContent . "'> Uložit </button>" .
+                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $idContent . "/remove'> Odstranit  </button>" :
                 
                 "<button class='ui primary button' type='submit' formaction='events/v1/contenttype' > Uložit </button>" ;                
             ?>                                                                                                         

@@ -42,10 +42,10 @@ use Pes\Text\Html;
         <div>                                                                                                                                
             <?=
             isset($type) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $type . "'> Uložit </button>" .
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $type . "/remove'> Odstranit  </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventcontenttype/" . $type . "'> Uložit </button>" .
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventcontenttype/" . $type . "/remove'> Odstranit  </button>" :
                 
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype' > Uložit </button>" ;                
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventcontenttype' > Uložit </button>" ;                
             ?>                                                                                                         
         </div>
 

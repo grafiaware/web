@@ -186,13 +186,13 @@ class ApiRegistrator {
         
         
         
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/contenttype'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/contenttype/:type'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/contenttype/:type/remove'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:type'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:type/remove'));
 
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/content'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/content/:id'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/content/:id/remove'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:id'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:id/remove'));
 
 
    
