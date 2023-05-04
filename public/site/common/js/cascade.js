@@ -16,33 +16,29 @@ function htmlToElement(html) {
 }
 
 /**
+ * Přavede zadaný text na elementy.
+ * Vytvoří nový element a pokusí se vložit raxt jako innerHtml, pokud prohlížeč uspěje s parsováním textu jako html, vloží nové elementy jako potomky
+ *
  * @param {String} HTML representing any number of sibling elements
  * @return {NodeList}
  */
 function htmlToElements(html) {
     var template = document.createElement('template');
-    template.onload = function() {
-        console.log("template onload");
-    }
     template.innerHTML = html;
     return template.content.childNodes;
 }
 
 /**
- * Nahradí element se zadaným id elementem s potomky vzniklým parsováním zadaného textu jako HTML.
- * Používá funkci htmlToElement(), proto očekává, že zadaný text je HTML string, který má jeden kořenový element.
- * Element může mít potomky, ale v kořenu nesmí být sada elementů.
+ * Nahradí potomky zadaného elementu novými potomky vzniklými parsováním zadaného textu jako HTML.
  *
  * @param {Element} parentElement - element jehož obsah bude nahrazován
  * @param {String} responseText
  * @returns {Element} parentElement s nahrazeným obsahem
  */
 function replaceChildren(parentElement, responseText) {
-//    newElement = htmlToElement(responseText);
-//    parentElement.replaceChildren(newElement);  // přidá nový a odstraní starý element
-    var newElement = htmlToElements(responseText);
-    var cnt = newElement.length;
-    parentElement.replaceChildren(...newElement);  // odstraní starý a přidá nové elementy
+    var newElements = htmlToElements(responseText);
+    var cnt = newElements.length;  // live collection - v replaceChildren se "spotřebuje", length se musí zjistit před použitím
+    parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové elementy
     console.log("cascade: Replaced children of element "+parentElement.tagName+" id: "+parentElement.getAttribute('id')+" with collection of "+cnt+".");
     return parentElement;
 };
@@ -81,8 +77,7 @@ function fetchElementContent(parentElement){
         return loadSubsequentElements(parentWithNewContent, "cascade");
     })
     .catch(e => {
-      console.log(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
-      throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
+        throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
 };
 
@@ -127,7 +122,7 @@ function loadSubsequentElements(element, className) {
     // elements is a live HTMLCollection of found elements
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
     var subElements = element.getElementsByClassName(className);
-    console.log(`cascade: ${subElements.length} elements for cascade founded with class="${className}".`);
+    console.log(`cascade: ${subElements.length} elements for cascade founded by class="${className}".`);
     var subElementsArray = Array.from(subElements);
     let loadSubPromises = subElementsArray.map(subElement => fetchElementContent(subElement));
 
