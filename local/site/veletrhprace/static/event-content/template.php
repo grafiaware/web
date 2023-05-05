@@ -34,7 +34,7 @@ use Events\Model\Entity\InstitutionInterface;
     $idInstitution = 23;
     //------------------------------------------------------------------
  
-    
+    $institutionIdFk  = $idInstitution;
     
     $selectContentType = [];
     $allContentType = $eventContentTypeRepo->findAll();
@@ -64,16 +64,16 @@ use Events\Model\Entity\InstitutionInterface;
   
     
     // Contenty pro institution 23
-    $eventContentEntities = $eventContentRepo->find(  " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> '23' ]);
+    $eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
     if ($eventContentEntities) {   
             /** @var EventContentInterface $entity */
             foreach ($eventContentEntities as $entity) {
                 $institutionE = $institutionRepo->get($entity->getInstitutionIdFk()) ;               
                 $eventContents[] = [
-                    'institutionIdFk' => $entity->getId(), 
+                    'institutionIdFk' => $entity->getInstitutionIdFk(), 
                     'selectInstitution' => $selectInstitution, 
-
                     'institutionName' => $institutionE->getName(),
+                    
                     'eventContentTypeFk' => $entity->getEventContentTypeFk(),
                     'selectContentType' => $selectContentType, 
                     
@@ -94,21 +94,24 @@ use Events\Model\Entity\InstitutionInterface;
         <div>                
            <b>Obsah události (event content)</b>
         </div>                   
-        <div>
-           <!--  < ?= /* $this->repeat(__DIR__.'/job-tagSeznam.php', $allTagsString, 'seznam')  */ ? > -->
-        </div>
+       
         ------------------------------------------------------      
         
         
         <div>      
             <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> 
             
-            
+            <br>
             <div>                   
                 Přidej další obsah události (event content) :
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/event-content.php' ) ?>                                                                                 
+                <?= $this->insert( __DIR__.'/event-content.php', [ "institutionIdFk" => $institutionIdFk,
+                                                                   "selectContentType" => $selectContentType,
+                                                                   "eventContentTypeFk" => "",
+                    
+                                                                   "selectInstitution" => $selectInstitution
+                                                                 ] ) ?>                                                                                 
             </div>                  
         </div>           
                                       

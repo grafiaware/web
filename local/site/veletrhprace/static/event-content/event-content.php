@@ -14,12 +14,9 @@ use Pes\Text\Html;
         $disabled = ''; 
 
 ?>
-    <br>
-    
-<!--                'institutionIdFk' => $entity->getId(),
+   <!--                'institutionIdFk' => $entity->getId(),
                     'institutionName' => $institutionE->getName(),
-                    'eventContentTypeFk' => $entity->getCompanyId(),
-                    
+                    'eventContentTypeFk' => $entity->getCompanyId(),                    
                     'title' =>  $entity->getTitle(),
                     'perex' =>  $entity->getPerex(),
                     'party' =>  $entity->getParty(),
@@ -31,55 +28,46 @@ use Pes\Text\Html;
 
     <form class="ui huge form" action="" method="POST" >                       
       
-        <?php  if (isset ($idContent) ) {   ?>        
-                        
-        <div>       
-            Název instituce: --select!
-            <div class="eight wide field">  
-                 <?= Html::select("selectInstitution", "Instituce:",   $selectInstitutionType ?? [] , 
-                                                    ["institutionIdFk" =>  $idContent ?? '' ] , []) ?>  
+        <!-- < ?php  if (isset ($idContent) ) {   ?>        -->                         
+            <div>       
+                <div class="eight wide field">  
+                    <?= Html::select( "institutionIdFk", " Název instituce:",  $selectInstitution ?? [] , 
+                                     ["institutionIdFk" => $institutionIdFk ?? '' ] , [] ) ?>  
+                </div>
                 
-                
-                
-                <input <?= $readonly ?> type="text" name="institutionIdFk" placeholder="" maxlength="200" 
-                                       value="<?= isset($institutionIdFk) ? $institutionIdFk : '' ?>">         
-                
-                
-            </div>
-            
-                  
-            Title:
-            <div  class="field">
-                <input <?= $readonly ?> type="text" name="title"  maxlength="200" value="<?= isset($title) ? $title : ''?>" >
-            </div>
+                Title:
+                <div  class="field">
+                    <input <?= $readonly ?> type="text" name="title"  maxlength="200" value="<?= isset($title) ? $title : ''?>" >
+                </div>
+                Perex:   
+                <div class="field">
+                    <input <?= $readonly ?> type="text" name="perex" placeholder="" maxlength="500" value="<?= isset($perex) ? $perex : '' ?>" >
+                </div>
+                Party:   
+                <div  class="field">
+                    <input <?= $readonly ?> type="text" name="party" placeholder="" maxlength="200" value="<?= isset($party) ? $party : '' ?>" >
+                </div>
+              
+                <div class="eight wide field">                                  
+                    <?= Html::select( "eventContentTypeFk", "Typ obsahu:", $selectContentType ?? [] , 
+                                     ["eventContentTypeFk" =>  $eventContentTypeFk ?? '' ] , [] ) ?>  
+                </div>
 
-
-            Perex:   
-            <div class="field">
-                <input <?= $readonly ?> type="text" name="perex" placeholder="" maxlength="500" value="<?= isset($perex) ? $perex : '' ?>" >
-            </div>
-            Party:   
-            <div  class="field">
-                <input <?= $readonly ?> type="text" name="party" placeholder="" maxlength="200" value="<?= isset($party) ? $party : '' ?>" >
-            </div>
-
-            <div >    
-                Typ obsahu: --select!
-                <input <?= $readonly ?> type="text" name="eventContentTypeFk" placeholder="" maxlength="45" 
-                                    value="<?= isset($eventContentTypeFk) ? $eventContentTypeFk : '' ?>" >
-            </div>
-                 
-        </div>  
-        <?php  }   ?>         
+            </div>  
+        <!--  < ?php  }  else { ?>   -->
+        
+        
+        
             
            
     
         <div>                                                                                                                                
             <?=
-            isset($idI) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $idContent . "'> Uložit </button>" .
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $idContent . "/remove'> Odstranit  </button>" :
-                
+       
+            isset($idContent) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $idContent . "'> Uložit </button>
+                <button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $idContent . "/remove'> Odstranit  </button>" 
+                :                
                 "<button class='ui primary button' type='submit' formaction='events/v1/contenttype' > Uložit </button>" ;                
             ?>                                                                                                         
         </div>
