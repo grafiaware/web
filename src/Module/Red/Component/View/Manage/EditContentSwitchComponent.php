@@ -25,7 +25,7 @@ class EditContentSwitchComponent extends ComponentCompositeAbstract implements I
         return $this->setData($data);
     }
 
-    public function getComponentPermissions(): array {
+    public static function getComponentPermissions(): array {
         return [
             RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
             RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],

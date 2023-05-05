@@ -33,7 +33,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         $language = $this->statusPresentationRepo->get()->getLanguage();
         $response = $response->withHeader('Content-Language', $language->getLocale());
-
+//        if ($this->statusSecurityRepo->get()->hasSecurityContext()) {
         if ($userActions AND $userActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-cache');
         } else {
@@ -49,13 +49,15 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     /**
      * Volá rodičovskou metodu Front kontroleru a k vrácenému response přidává řízení cache
      * a ukládá poslední GET request pro "post redirect get".
-     * 
+     *
      * @param ServerRequestInterface $request
      * @param type $stringContent
      * @return ResponseInterface
      */
     public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface {
+
         $response = parent::createResponseFromString($request, $stringContent);
+        
         $statusPresentation = $this->statusPresentationRepo->get();
         if ($request->getMethod()=='GET') {
             /** @var UriInfoInterface $uriInfo */

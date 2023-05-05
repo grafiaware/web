@@ -12,7 +12,7 @@ use Access\Enum\RoleEnum;
 class ButtonsMenuItemManipulationComponent extends ButtonsMenuComponentAbstract {
 
 
-    public function getComponentPermissions(): array {
+    public static function getComponentPermissions(): array {
         return [
             RoleEnum::SUP => [AccessPresentationEnum::EDIT => static::class],
             RoleEnum::EDITOR => [AccessPresentationEnum::EDIT => static::class],

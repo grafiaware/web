@@ -26,7 +26,7 @@ class LogoutComponent extends ComponentCompositeAbstract {
      */
     protected $contextData;
 
-    public function getComponentPermissions(): array {
+    public static function getComponentPermissions(): array {
         // komponent vidí jen příhlášení
         return [
             RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],

@@ -14,6 +14,6 @@ namespace Component\View;
  */
 interface ComponentInterface {
 
-    public function getComponentPermissions(): array;
+    public static function getComponentPermissions(): array;
 
 }

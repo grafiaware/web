@@ -21,8 +21,8 @@ use Red\Model\Entity\ItemActionInterface;
  */
 class UserActions extends PersistableEntityAbstract implements UserActionsInterface {
 
-    private $editArticle = false;
-    private $editMenu = false;
+    private $editableContent = false;
+    private $editableMenu = false;
     private $userItemAction = [];
 
     /**
@@ -40,7 +40,7 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
      * @return bool
      */
     public function presentEditableContent(): bool {
-        return $this->editArticle;
+        return $this->editableContent;
     }
 
     /**
@@ -49,7 +49,7 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
      * @return bool
      */
     public function presentEditableMenu(): bool {
-        return $this->editMenu;
+        return $this->editableMenu;
     }
 
     /**
@@ -70,7 +70,7 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
      * @return UserActionsInterface
      */
     public function setEditableContent($editPaper): UserActionsInterface {
-        $this->editArticle = boolval($editPaper);
+        $this->editableContent = boolval($editPaper);
         return $this;
     }
 
@@ -81,7 +81,7 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
      * @return UserActionsInterface
      */
     public function setEditableMenu($editableMenu): UserActionsInterface {
-        $this->editMenu = boolval($editableMenu);
+        $this->editableMenu = boolval($editableMenu);
         return $this;
     }
 

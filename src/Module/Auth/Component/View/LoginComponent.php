@@ -26,7 +26,7 @@ class LoginComponent extends ComponentCompositeAbstract {
      */
     protected $contextData;
 
-    public function getComponentPermissions(): array {
+    public static function getComponentPermissions(): array {
         // komponent vidí jen nepřihlášení
         return [
             RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]

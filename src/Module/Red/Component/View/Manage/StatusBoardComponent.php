@@ -38,7 +38,7 @@ class StatusBoardComponent extends ComponentCompositeAbstract {
 //        }
 //    }
 
-    public function getComponentPermissions(): array {
+    public static function getComponentPermissions(): array {
         return [
             RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class],
         ];

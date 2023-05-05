@@ -273,7 +273,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     private function setRenderingByAccess(ViewInterface $component, $rendererName) {
         /** @var AccessPresentationInterface $accessPresentation */
         $accessPresentation = $this->container->get(AccessPresentation::class);
-        if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
+        if($accessPresentation->isAllowed(get_class($component), AccessPresentationEnum::EDIT)) {
             $component->setRendererName($rendererName);
         } else {
             $component->setRendererName(NoPermittedContentRenderer::class);

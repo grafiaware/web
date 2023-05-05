@@ -11,6 +11,8 @@ use Component\View\ComponentInterface;
 use Component\ViewModel\StatusViewModelInterface;
 use Access\Enum\RoleEnum;
 
+use Access\Exception\ClassNotExistsException;
+
 /**
  * Description of Access
  *
@@ -33,21 +35,25 @@ class AccessPresentation implements AccessPresentationInterface {
 
     /**
      *
-     * @param object $resource Objekt (například view nebo komponent), pro který zjičťuji oprávnění k akci
+     * @param string $resourceClassname FQDN třídy (například view nebo komponent), pro kterou zjišťuji oprávnění k akci
      * @param type $action Akce
      * @return bool
      */
-    public function isAllowed(ComponentInterface $resource, $action): bool {
+    public function isAllowed(string $resourceClassname, $action): bool {
+        // autoload proběhne již při použití XXX::class
+        if (!class_exists($resourceClassname)) {
+            throw new ClassNotExistsException("Třída '$resourceClassname' neexistuje.");
+        }
         $isAllowed = false;
         $role = $this->statusViewModel->getUserRole();
         $logged = $this->statusViewModel->getUserLoginName() ? true : false;
-        $permissions = $resource->getComponentPermissions();
+        $permissions = $resourceClassname::getComponentPermissions();
         $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
         $isAllowed =false;
         foreach ($activeRoles as $activeRole) {
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
                 $permittedResource = $permissions[$activeRole][$action];
-                $isAllowed = ($resource instanceof $permittedResource) ? true : false;
+                $isAllowed = ($resourceClassname === $permittedResource) ? true : false;
                 if ($isAllowed) {
                     break;
                 }

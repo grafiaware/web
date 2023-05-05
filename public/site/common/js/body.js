@@ -97,10 +97,7 @@ document.onreadystatechange = function () {
         console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
         let resultComponents = await loadSubsequentElements(document, navConfig.cascadeClass);
         console.log(resultComponents);
-        console.log("body: load cascadeLoadOnce elements fullfilled");
-        let resultCascade = await loadSubsequentElements(document, navConfig.cascadeClass);
-        console.log(resultCascade);
-        console.log("body: load cascadeReloadOnNav elements fullfilled");
+        console.log("body: load elements fullfilled");
         initLoadedElements();
         console.log("body: initLoaded elements");
         if (isTinyMCEDefined()) {
