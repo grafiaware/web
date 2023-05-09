@@ -14,27 +14,19 @@ use Pes\Text\Html;
         $disabled = ''; 
 
 ?>
-   <!--                'institutionIdFk' => $entity->getId(),
-                    'institutionName' => $institutionE->getName(),
-                    'eventContentTypeFk' => $entity->getCompanyId(),                    
-                    'title' =>  $entity->getTitle(),
-                    'perex' =>  $entity->getPerex(),
-                    'party' =>  $entity->getParty(),
-                    'idContent' =>  $entity->getId() 
+   <!--                'institutionIdFk' => $entity->getId(),                    
+                    'eventContentTypeFk' => $entity->getCompanyId(),                                       
     $selecty['selectInstitution'] = $selectInstitution;
     $selecty['selectContentType'] = $selectContentType;
 
 -->
-
     <form class="ui huge form" action="" method="POST" >                       
       
-        <!-- < ?php  if (isset ($idContent) ) {   ?>        -->                         
             <div>       
                 <div class="eight wide field">  
                     <?= Html::select( "institutionIdFk", " Název instituce:",  $selectInstitution ?? [] , 
                                      ["institutionIdFk" => $institutionIdFk ?? '' ] , [] ) ?>  
-                </div>
-                
+                </div>                
                 Title:
                 <div  class="field">
                     <input <?= $readonly ?> type="text" name="title"  maxlength="200" value="<?= isset($title) ? $title : ''?>" >
@@ -54,21 +46,15 @@ use Pes\Text\Html;
                 </div>
 
             </div>  
-        <!--  < ?php  }  else { ?>   -->
-        
-        
-        
-            
-           
+       
     
         <div>                                                                                                                                
-            <?=
-       
+            <?=       
             isset($idContent) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $idContent . "'> Uložit </button>
-                <button class='ui primary button' type='submit' formaction='events/v1/contenttype/" . $idContent . "/remove'> Odstranit  </button>" 
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventcontent/" . $idContent . "'> Uložit </button>
+                <button class='ui primary button' type='submit' formaction='events/v1/eventcontent/" . $idContent . "/remove'> Odstranit  </button>" 
                 :                
-                "<button class='ui primary button' type='submit' formaction='events/v1/contenttype' > Uložit </button>" ;                
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventcontent' > Uložit </button>" ;                
             ?>                                                                                                         
         </div>
 

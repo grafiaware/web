@@ -59,11 +59,10 @@ use Events\Model\Entity\InstitutionInterface;
     
     $selecty['selectInstitution'] = $selectInstitution;
     $selecty['selectContentType'] = $selectContentType;
-    
+     
     
   
-    
-    // Contenty pro institution 23
+    // Contenty pro  $idInstitution
     $eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
     if ($eventContentEntities) {   
             /** @var EventContentInterface $entity */
@@ -89,21 +88,19 @@ use Events\Model\Entity\InstitutionInterface;
   ?>
 
     
-    <div class="ui styled fluid accordion">   
-        
+    <div class="ui styled fluid accordion">           
         <div>                
-           <b>Obsah události (event content)</b>
-        </div>                   
-       
-        ------------------------------------------------------      
-        
-        
+           <b>Obsahy událostí (event content)</b>
+        </div>                          
+        ------------------------------------------------------                      
         <div>      
-            <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> 
+            <?php  if (isset ($eventContents) ) {   ?> 
+                <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> 
+            <?php  }   ?>
             
             <br>
             <div>                   
-                Přidej další obsah události (event content) :
+                Přidej další obsah události (event content)
             </div>  
             <div>     
                 <?= $this->insert( __DIR__.'/event-content.php', [ "institutionIdFk" => $institutionIdFk,

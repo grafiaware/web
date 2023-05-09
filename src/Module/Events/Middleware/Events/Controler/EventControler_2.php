@@ -562,15 +562,15 @@ class EventControler_2 extends FrontControlerAbstract {
 //            }                        
 //            if ($isRepresentative) {
             
+        
                 /** @var EventContent $content */
-                $content = $this->container->get(EventContent::class); //new     
+               // $content = $this->container->get(EventContent::class); //new     
+                $content = $this->eventContentRepo->get($id);
                 $content->setTitle((new RequestParams())->getParsedBodyParam($request, 'title') );
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
-                $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
-                
-              //....
-              //   $content->setEventContentTypeFk ((new RequestParams())->getParsedBodyParam($request, '') );
-              //   $content->setInstitutionIdFk  ((new RequestParams())->getParsedBodyParam($request, '') );
+                $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );            
+                $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'institutionIdFk') );
+                $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'eventContentTypeFk') );
 
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
