@@ -57,8 +57,8 @@ use Events\Model\Entity\InstitutionInterface;
         $selectInstitution [$inst->getId()] =  $inst->getName() ;
     }
     
-    $selecty['selectInstitution'] = $selectInstitution;
-    $selecty['selectContentType'] = $selectContentType;
+    $selecty['selectInstitutions'] = $selectInstitution;
+    $selecty['selectContentTypes'] = $selectContentType;
      
     
   
@@ -70,11 +70,11 @@ use Events\Model\Entity\InstitutionInterface;
                 $institutionE = $institutionRepo->get($entity->getInstitutionIdFk()) ;               
                 $eventContents[] = [
                     'institutionIdFk' => $entity->getInstitutionIdFk(), 
-                    'selectInstitution' => $selectInstitution, 
+                    'selectInstitutions' => $selectInstitution, 
                     'institutionName' => $institutionE->getName(),
                     
                     'eventContentTypeFk' => $entity->getEventContentTypeFk(),
-                    'selectContentType' => $selectContentType, 
+                    'selectContentTypes' => $selectContentType, 
                     
                     'title' =>  $entity->getTitle(),
                     'perex' =>  $entity->getPerex(),
@@ -103,11 +103,11 @@ use Events\Model\Entity\InstitutionInterface;
                 Přidej další obsah události (event content)
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/event-content.php', [ "institutionIdFk" => $institutionIdFk,
-                                                                   "selectContentType" => $selectContentType,
-                                                                   "eventContentTypeFk" => "",
+                <?= $this->insert( __DIR__.'/event-content.php', [ "selectInstitutions" => $selectInstitution,
+                                                                   "institutionIdFk" => $institutionIdFk,
                     
-                                                                   "selectInstitution" => $selectInstitution
+                                                                   "selectContentTypes" => $selectContentType,
+                                                                   "eventContentTypeFk" => ""                    
                                                                  ] ) ?>                                                                                 
             </div>                  
         </div>           

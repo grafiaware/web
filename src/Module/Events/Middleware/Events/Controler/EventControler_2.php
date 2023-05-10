@@ -521,8 +521,8 @@ class EventControler_2 extends FrontControlerAbstract {
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
               //....
-              //   $content->setEventContentTypeFk ((new RequestParams())->getParsedBodyParam($request, '') );
-              //   $content->setInstitutionIdFk  ((new RequestParams())->getParsedBodyParam($request, '') );
+                $content->setEventContentTypeFk((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
+                $content->setInstitutionIdFk((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
 
                 $this->eventContentRepo->add($content);             
                
