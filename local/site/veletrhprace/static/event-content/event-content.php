@@ -24,8 +24,8 @@ use Pes\Text\Html;
       
             <div>       
                 <div class="eight wide field">  
-                    <?= Html::select( "selectInstitution", " Název instituce:",  isset($selectInstitutions) ? $selectInstitutions : [] , 
-                                     [ "selectInstitution" =>  $institutionIdFk ?? '' ] , [] ) ?>  
+                    <?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
+                                     [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [] ) ?>  
                 </div>                
                 Title:
                 <div  class="field">
@@ -41,7 +41,7 @@ use Pes\Text\Html;
                 </div>
               
                 <div class="eight wide field">                                  
-                    <?= Html::select( "selectContentType", "Typ obsahu:", isset($selectContentTypes) ? $selectContentTypes : []  , 
+                    <?= Html::select( "selectContentType", "Typ obsahu:", $selectContentTypes ?? []  , 
                                      ["selectContentType" =>  $eventContentTypeFk ?? ''  ] , [] ) ?>  
                 </div>
 

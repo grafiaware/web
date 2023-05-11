@@ -51,6 +51,8 @@ use Events\Model\Repository\EventContentRepoInterface;
  */
 class EventControler_2 extends FrontControlerAbstract {
 
+    const NULL_VALUE = "Toto je speciální hodnota představující NULL";
+    
     private $enrollRepo;
 
     private $eventListModel;
@@ -390,7 +392,7 @@ class EventControler_2 extends FrontControlerAbstract {
 //            }                        
 //            if ($isRepresentative) {
                 
-                /** @var EventContentType $contentType */
+                /** @var EventContentTypeInterface $contentType */
                 $contentType = $this->container->get(EventContentType::class); //new     
                 $contentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );
                 $contentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );
@@ -514,7 +516,7 @@ class EventControler_2 extends FrontControlerAbstract {
 //            }                        
 //            if ($isRepresentative) {
                 
-                /** @var EventContent $content */
+                /** @var EventContentInterface $content */
                 $content = $this->container->get(EventContent::class); //new     
                 $content->setTitle((new RequestParams())->getParsedBodyParam($request, 'title') );
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
@@ -563,15 +565,21 @@ class EventControler_2 extends FrontControlerAbstract {
 //            if ($isRepresentative) {
             
         
-                /** @var EventContent $content */
-               // $content = $this->container->get(EventContent::class); //new     
+                /** @var EventContentInterface $content */
                 $content = $this->eventContentRepo->get($id);
                 $content->setTitle((new RequestParams())->getParsedBodyParam($request, 'title') );
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
-                $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );            
-                $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'institutionIdFk') );
-                $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'eventContentTypeFk') );
+                $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
+                
+                $selectI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') ;
+                if ( $selectI != self::NULL_VALUE )   {
+                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
+                }                   
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE )   {
+                     $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
+                }     
 
+                
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
 //            }

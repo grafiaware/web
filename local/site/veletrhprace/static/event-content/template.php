@@ -17,7 +17,7 @@ use Events\Model\Repository\InstitutionRepoInterface;
 use Events\Model\Repository\InstitutionRepo;
 use Events\Model\Entity\InstitutionInterface;
 
-
+use Events\Middleware\Events\Controler\EventControler_2;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -36,7 +36,8 @@ use Events\Model\Entity\InstitutionInterface;
  
     $institutionIdFk  = $idInstitution;
     
-    $selectContentType = [];
+    $selectContentTypes = [];
+    $selectContentTypes [EventControler_2::NULL_VALUE] =  "" ;
     $allContentType = $eventContentTypeRepo->findAll();
     $allContentTypeArray=[];
     /** @var  EventContentInterface $type */
@@ -45,36 +46,45 @@ use Events\Model\Entity\InstitutionInterface;
         $contype ['name'] = $type->getName();               
         $allContentTypeArray[] = $contype;    
         
-        $selectContentType [$type->getType()] =  $type->getName() ;
+        $selectContentTypes [$type->getType()] =  $type->getName() ;
     }
+    //$selectContentTypes [EventControler_2::NULL_VALUE] =  "" ;  
+  
     
-        
-    $selecty = [];
-    $selectInstitution = [];
+    $selectInstitutions = [];
+    $selectInstitutions [EventControler_2::NULL_VALUE] =  "" ;
     $institutionEntities = $institutionRepo->findAll();
         /** @var InstitutionInterface $inst */ 
     foreach ( $institutionEntities as $inst ) {
-        $selectInstitution [$inst->getId()] =  $inst->getName() ;
+        $selectInstitutions [$inst->getId()] =  $inst->getName() ;
     }
+    //$selectInstitutions [EventControler_2::NULL_VALUE] =  "" ;
     
-    $selecty['selectInstitutions'] = $selectInstitution;
-    $selecty['selectContentTypes'] = $selectContentType;
+    
+    $selecty = [];
+    $selecty['selectInstitutions'] = $selectInstitutions;
+    $selecty['selectContentTypes'] = $selectContentTypes;
      
     
-  
+      
+          
+          
     // Contenty pro  $idInstitution
     $eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
     if ($eventContentEntities) {   
             /** @var EventContentInterface $entity */
             foreach ($eventContentEntities as $entity) {
+                      $nu1 = $entity->getInstitutionIdFk();
+                      $nu2 = $entity->getEventContentTypeFk();
+                
                 $institutionE = $institutionRepo->get($entity->getInstitutionIdFk()) ;               
                 $eventContents[] = [
-                    'institutionIdFk' => $entity->getInstitutionIdFk(), 
-                    'selectInstitutions' => $selectInstitution, 
+                    'institutionIdFk' => ($entity->getInstitutionIdFk()) ?? EventControler_2::NULL_VALUE , 
+                    'selectInstitutions' => $selectInstitutions, 
                     'institutionName' => $institutionE->getName(),
                     
-                    'eventContentTypeFk' => $entity->getEventContentTypeFk(),
-                    'selectContentTypes' => $selectContentType, 
+                    'eventContentTypeFk' => ($entity->getEventContentTypeFk()) ?? EventControler_2::NULL_VALUE,
+                    'selectContentTypes' => $selectContentTypes, 
                     
                     'title' =>  $entity->getTitle(),
                     'perex' =>  $entity->getPerex(),
@@ -103,11 +113,11 @@ use Events\Model\Entity\InstitutionInterface;
                 Přidej další obsah události (event content)
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/event-content.php', [ "selectInstitutions" => $selectInstitution,
+                <?= $this->insert( __DIR__.'/event-content.php', [ "selectInstitutions" => $selectInstitutions,
                                                                    "institutionIdFk" => $institutionIdFk,
                     
-                                                                   "selectContentTypes" => $selectContentType,
-                                                                   "eventContentTypeFk" => ""                    
+                                                                   "selectContentTypes" => $selectContentTypes,
+                                                                   "eventContentTypeFk" => EventControler_2::NULL_VALUE                   
                                                                  ] ) ?>                                                                                 
             </div>                  
         </div>           

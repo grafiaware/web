@@ -28,6 +28,29 @@ use Events\Model\Entity\JobInterface;
 use Events\Model\Repository\LoginRepo;
 use Events\Model\Entity\LoginInterface;
 
+    $optionValues = [
+    "toto je hodnota NULL" => "" ,
+     1 =>  " retez1" ,
+     2 =>  " retez1" 
+    ]    ;    
+    $jePole1 = is_array($optionValues);
+ $aa = array_key_first($optionValues);
+    $neni0_1 = (array_key_first($optionValues)!==0) ;
+    //$useKeysAsValues1 = (!is_array($optionValues)) || (array_key_first($optionValues)!=0); 
+    $useKeysAsValues1 = (!is_array($optionValues)) || (array_key_first($optionValues)!==0); 
+
+//--------------------------------------
+    
+    $optionValues = [    
+     1 =>  " retez1" ,
+     2 =>  " retez1" ,
+     "toto je hodnota NULL" => "" ,
+    ]    ;
+    $jePole1 = is_array($optionValues);
+    $neni0_2 = (array_key_first($optionValues)!==0) ;
+    //$useKeysAsValues2 = (!is_array($optionValues)) || (array_key_first($optionValues)!=0); 
+    $useKeysAsValues1 = (!is_array($optionValues)) || (array_key_first($optionValues)!==0); 
+
 ?>   
 
     <div>
@@ -37,8 +60,10 @@ use Events\Model\Entity\LoginInterface;
          $context = 
         ["jmeno-mesta"=>4,
         "selectCompany"=>35,
-        "jmeno-mesta2"=>1,
-        "selectCompany2"=>"firma0"
+        //"jmeno-mesta2"=>1,
+        //"selectCompany2"=>"firma0"
+        "jmeno-mesta2"=>"",
+        "selectCompany2"=>""    
         ]; ?>
     
         <p> <?= Html::select("jmeno-mesta", "To je label Město:",
@@ -51,11 +76,11 @@ use Events\Model\Entity\LoginInterface;
                
         //--------------------------//
          <p> <?= Html::select("jmeno-mesta2", "To je label Město:",
-            [ ''=>'nic'  , 1=>"", 2=>"Plzeň-město", 3=>"Plzeň-jih", 4=>"Plzeň-sever", 5=>"Klatovy", 6=>"Cheb", 7=>"jiné"],
+            [ ''=>''  , 1=>"00", 2=>"Plzeň-město", 3=>"Plzeň-jih", 4=>"Plzeň-sever", 5=>"Klatovy", 6=>"Cheb", 7=>"jiné"],
             $context, []) ?></p>
         
          <p> <?= Html::select("selectCompany2", "Company name:",
-            [ ''=>'nic'  , "firma0" => "", "Firma1" => "Firma2", "Firma3" =>"Firma1-město25", "Firma4"=>"Firma35", "Firma5" =>"jiná"],
+            [ ''=>'nic'  , "firma0" => "00", "Firma1" => "Firma2", "Firma3" =>"Firma1-město25", "Firma4"=>"Firma35", "Firma5" =>"jiná"],
             $context, []) ?></p>
         
         //--------------------------//
