@@ -9,10 +9,6 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
-//use Red\Model\Repository\{
-//    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, EnrollRepo
-//};
-
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -39,9 +35,6 @@ use Events\Model\Repository\EventContentRepoInterface;
 
 
 
-
-
-
 //use Events\Model\Arraymodel\Event;
 //use Model\Entity\Enroll;
 
@@ -51,13 +44,7 @@ use Events\Model\Repository\EventContentRepoInterface;
  */
 class EventControler_2 extends FrontControlerAbstract {
 
-    const NULL_VALUE = "Toto je speciální hodnota představující NULL";
-    
-    private $enrollRepo;
-
-    private $eventListModel;
-
-    
+    const NULL_VALUE_nahradni = "Toto je speciální hodnota představující NULL";        
         
     /**
      * 
@@ -91,9 +78,7 @@ class EventControler_2 extends FrontControlerAbstract {
             InstitutionTypeRepoInterface  $institutionTypeRepo,
             EventContentRepoInterface  $eventContentRepo,
             EventContentTypeRepoInterface  $eventContentTypeRepo 
-            
-           // EnrollRepo $enrollRepo,
-           // Event $eventListModel
+                       
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
        
@@ -102,18 +87,12 @@ class EventControler_2 extends FrontControlerAbstract {
         
         $this->eventContentRepo = $eventContentRepo;
         $this->eventContentTypeRepo = $eventContentTypeRepo;
-
-        
-        //$this->enrollRepo = $enrollRepo;
-        //$this->eventListModel = $eventListModel;
+             
     }
-
-    
 
     //----------------------------------------------------------------------------------------------
     
-    
-    
+  
     
            
     /**
@@ -522,10 +501,13 @@ class EventControler_2 extends FrontControlerAbstract {
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
-              //....
-                $content->setEventContentTypeFk((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
-                $content->setInstitutionIdFk((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
-
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
+                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
+                }                   
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
+                     $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
+                }     
+                
                 $this->eventContentRepo->add($content);             
                
 //            } else {
@@ -572,10 +554,10 @@ class EventControler_2 extends FrontControlerAbstract {
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
                 $selectI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') ;
-                if ( $selectI != self::NULL_VALUE )   {
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
                      $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
                 }                   
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE )   {
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
                      $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
                 }     
 
@@ -618,8 +600,8 @@ class EventControler_2 extends FrontControlerAbstract {
 //            if ($isRepresentative) {                                                    
                 
                 /** @var EventContentInterface $eventContent */
-                $eventContent = $this->eventContentTypeRepo->get($id);             
-                $this->eventContentRepo->remove($eventContent) ;               
+                $content = $this->eventContentRepo->get($id);             
+                $this->eventContentRepo->remove($content) ;               
         
                                                      
 //            } else {

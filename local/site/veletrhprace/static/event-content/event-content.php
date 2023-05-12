@@ -24,9 +24,16 @@ use Pes\Text\Html;
       
             <div>       
                 <div class="eight wide field">  
-                    <?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
-                                     [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [] ) ?>  
-                </div>                
+                    <?php if (isset($idContent)) { ?>
+                        <label>Název instituce</label>
+                            <input <?= $readonly ?> type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($institutionName)?  $institutionName: '' ?>">
+                            <input hidden type="text" name="selectInstitution" placeholder="" maxlength="11" value="<?= $institutionIdFk  ?? '' ?>">
+                    <?php } else { ?>
+                       <?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
+                                        [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [] ) ?>  
+                    <?php } ?>
+                </div>       
+                
                 Title:
                 <div  class="field">
                     <input <?= $readonly ?> type="text" name="title"  maxlength="200" value="<?= isset($title) ? $title : ''?>" >

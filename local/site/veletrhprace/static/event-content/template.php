@@ -37,7 +37,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
     $institutionIdFk  = $idInstitution;
     
     $selectContentTypes = [];
-    $selectContentTypes [EventControler_2::NULL_VALUE] =  "" ;
+    $selectContentTypes [EventControler_2::NULL_VALUE_nahradni] =  "" ;
     $allContentType = $eventContentTypeRepo->findAll();
     $allContentTypeArray=[];
     /** @var  EventContentInterface $type */
@@ -52,7 +52,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
   
     
     $selectInstitutions = [];
-    $selectInstitutions [EventControler_2::NULL_VALUE] =  "" ;
+    $selectInstitutions [EventControler_2::NULL_VALUE_nahradni] =  "" ;
     $institutionEntities = $institutionRepo->findAll();
         /** @var InstitutionInterface $inst */ 
     foreach ( $institutionEntities as $inst ) {
@@ -68,7 +68,9 @@ use Events\Middleware\Events\Controler\EventControler_2;
     
       
           
-          
+    $institutionE1 = $institutionRepo->get($institutionIdFk) ;  
+    $iName = $institutionE1->getName();
+    
     // Contenty pro  $idInstitution
     $eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
     if ($eventContentEntities) {   
@@ -79,11 +81,11 @@ use Events\Middleware\Events\Controler\EventControler_2;
                 
                 $institutionE = $institutionRepo->get($entity->getInstitutionIdFk()) ;               
                 $eventContents[] = [
-                    'institutionIdFk' => ($entity->getInstitutionIdFk()) ?? EventControler_2::NULL_VALUE , 
+                    'institutionIdFk' => ($entity->getInstitutionIdFk()) ?? EventControler_2::NULL_VALUE_nahradni , 
                     'selectInstitutions' => $selectInstitutions, 
                     'institutionName' => $institutionE->getName(),
                     
-                    'eventContentTypeFk' => ($entity->getEventContentTypeFk()) ?? EventControler_2::NULL_VALUE,
+                    'eventContentTypeFk' => ($entity->getEventContentTypeFk()) ?? EventControler_2::NULL_VALUE_nahradni,
                     'selectContentTypes' => $selectContentTypes, 
                     
                     'title' =>  $entity->getTitle(),
@@ -92,15 +94,12 @@ use Events\Middleware\Events\Controler\EventControler_2;
                     'idContent' =>  $entity->getId()
                     ];
             }   
-    }                                     
-    
-             
+    }                                          
   ?>
-
     
     <div class="ui styled fluid accordion">           
         <div>                
-           <b>Obsahy událostí (event content)</b>
+           <b>Obsahy událostí (event content) pro instituci <?= $iName ?> </b>
         </div>                          
         ------------------------------------------------------                      
         <div>      
@@ -117,7 +116,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
                                                                    "institutionIdFk" => $institutionIdFk,
                     
                                                                    "selectContentTypes" => $selectContentTypes,
-                                                                   "eventContentTypeFk" => EventControler_2::NULL_VALUE                   
+                                                                   "eventContentTypeFk" => EventControler_2::NULL_VALUE_nahradni                   
                                                                  ] ) ?>                                                                                 
             </div>                  
         </div>           
