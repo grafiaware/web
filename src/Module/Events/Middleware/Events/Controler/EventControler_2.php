@@ -503,7 +503,9 @@ class EventControler_2 extends FrontControlerAbstract {
                 
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
                      $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
-                }                   
+                }                     
+//      $content->setInstitutionIdFk ($institutionIdFk);
+                
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
                      $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
                 }     
@@ -526,7 +528,7 @@ class EventControler_2 extends FrontControlerAbstract {
      * @param type $type
      * @return type
      */
-    public function updateContent (ServerRequestInterface $request, $id) {                    
+    public function updateContent (ServerRequestInterface $request, $idContent) {                    
 //        $isRepresentative = false;
 //        
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -548,15 +550,23 @@ class EventControler_2 extends FrontControlerAbstract {
             
         
                 /** @var EventContentInterface $content */
-                $content = $this->eventContentRepo->get($id);
+                $content = $this->eventContentRepo->get($idContent);
                 $content->setTitle((new RequestParams())->getParsedBodyParam($request, 'title') );
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
-                $selectI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') ;
+                // cvicne
+                $selecI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') ;
+                
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
                      $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
-                }                   
+                }     
+                else {
+                    $content->setInstitutionIdFk('');
+                }
+                
+//$content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'institutionIdFk') );
+                
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
                      $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
                 }     
@@ -578,7 +588,7 @@ class EventControler_2 extends FrontControlerAbstract {
      * @param type $institutionId
      * @return type
      */
-    public function removeContent (ServerRequestInterface $request, $id ) {                   
+    public function removeContent (ServerRequestInterface $request, $idContent ) {                   
 //        $isRepresentative = false;
 //                
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -600,7 +610,7 @@ class EventControler_2 extends FrontControlerAbstract {
 //            if ($isRepresentative) {                                                    
                 
                 /** @var EventContentInterface $eventContent */
-                $content = $this->eventContentRepo->get($id);             
+                $content = $this->eventContentRepo->get($idContent);             
                 $this->eventContentRepo->remove($content) ;               
         
                                                      

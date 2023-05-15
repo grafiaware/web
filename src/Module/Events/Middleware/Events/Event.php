@@ -259,20 +259,20 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeContentType($request, $type);
         });
         
-         $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent', function(ServerRequestInterface $request) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent', function(ServerRequestInterface $request) {
             /** @var EventControler_2 $ctrl */
             $ctrl = $this->container->get(EventControler_2::class);
             return $ctrl->addContent($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent/:id', function(ServerRequestInterface $request, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent/:idContent', function(ServerRequestInterface $request, $idContent) {
             /** @var EventControler_2 $ctrl */
             $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateContent($request, $id);
+            return $ctrl->updateContent($request, $idContent);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent/:id/remove', function(ServerRequestInterface $request, $id ) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent/:idContent/remove', function(ServerRequestInterface $request, $idContent ) {
             /** @var EventControler_2 $ctrl */
             $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeContent($request, $id);
+            return $ctrl->removeContent($request, $idContent);
         });
         
         

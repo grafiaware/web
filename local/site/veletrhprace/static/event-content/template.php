@@ -64,13 +64,11 @@ use Events\Middleware\Events\Controler\EventControler_2;
     $selecty = [];
     $selecty['selectInstitutions'] = $selectInstitutions;
     $selecty['selectContentTypes'] = $selectContentTypes;
-     
-    
-      
-          
+        
     $institutionE1 = $institutionRepo->get($institutionIdFk) ;  
-    $iName = $institutionE1->getName();
+    $iNameE1 = $institutionE1->getName();
     
+    //---------------------------------------------------------
     // Contenty pro  $idInstitution
     $eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
     if ($eventContentEntities) {   
@@ -99,7 +97,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
     
     <div class="ui styled fluid accordion">           
         <div>                
-           <b>Obsahy událostí (event content) pro instituci <?= $iName ?> </b>
+           <b>Obsahy událostí (event content) pro instituci -  <?= $iNameE1 ?> </b>
         </div>                          
         ------------------------------------------------------                      
         <div>      
@@ -114,6 +112,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
             <div>     
                 <?= $this->insert( __DIR__.'/event-content.php', [ "selectInstitutions" => $selectInstitutions,
                                                                    "institutionIdFk" => $institutionIdFk,
+                                                                   "institutionName"=> $iNameE1,
                     
                                                                    "selectContentTypes" => $selectContentTypes,
                                                                    "eventContentTypeFk" => EventControler_2::NULL_VALUE_nahradni                   

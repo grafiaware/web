@@ -18,20 +18,22 @@ use Pes\Text\Html;
                     'eventContentTypeFk' => $entity->getCompanyId(),                                       
     $selecty['selectInstitution'] = $selectInstitution;
     $selecty['selectContentType'] = $selectContentType;
-
 -->
+
     <form class="ui huge form" action="" method="POST" >                       
       
             <div>       
                 <div class="eight wide field">  
-                    <?php if (isset($idContent)) { ?>
+                                     
+                 <!--   < ?php if (isset($idContent)) { ?>
                         <label>Název instituce</label>
-                            <input <?= $readonly ?> type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($institutionName)?  $institutionName: '' ?>">
-                            <input hidden type="text" name="selectInstitution" placeholder="" maxlength="11" value="<?= $institutionIdFk  ?? '' ?>">
-                    <?php } else { ?>
+                        <input readonly  type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($institutionName)?  $institutionName: '' ?>">
+                    < ?php } else { ?>
+                       <!--  <input hidden type="text" name="selectInstitution" placeholder="" maxlength="11" value="< ?= $institutionIdFk  ?? '' ?>">  -->                   
+
                        <?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
                                         [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [] ) ?>  
-                    <?php } ?>
+                    <!-- < ?php } ?>  -->
                 </div>       
                 
                 Title:
