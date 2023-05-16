@@ -504,14 +504,15 @@ class EventControler_2 extends FrontControlerAbstract {
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
                      $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
                 }                     
-//      $content->setInstitutionIdFk ($institutionIdFk);
                 
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
                      $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
                 }     
                 
+                
                 $this->eventContentRepo->add($content);             
                
+                
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
 //            }
@@ -555,21 +556,21 @@ class EventControler_2 extends FrontControlerAbstract {
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
-                // cvicne
-                $selecI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') ;
+                /* cvicne */  $selecI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') ;
                 
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
                      $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
                 }     
                 else {
-                    $content->setInstitutionIdFk('');
+                    $content->setInstitutionIdFk( null );
                 }
-                
-//$content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'institutionIdFk') );
-                
+                               
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
                      $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
                 }     
+                else {
+                    $content->setEventContentTypeFk( null );
+                }
 
                 
 //            } else {
