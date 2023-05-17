@@ -19,7 +19,7 @@ use Pes\Text\Html;
         
         <div class="active title">
                 <i class="dropdown icon"></i>
-                <?= "Obsah události pro - " . ($institutionName ?? '') . " - " . ($title ?? '') ?>
+                <?= "Obsah události pro " . ($institutionName ?? '') . " - " . ($title ?? '') ?>
         </div>                        
         <div class="active content">                                                                         
             <div class="eight wide field">  

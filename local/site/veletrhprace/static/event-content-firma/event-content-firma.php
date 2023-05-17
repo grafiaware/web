@@ -19,20 +19,19 @@ use Pes\Text\Html;
         
         <div class="active title">
                 <i class="dropdown icon"></i>
-                <?= "Obsah události pro - " . ($institutionName ?? '') . " - " . ($title ?? '') ?>
+                <?= "Obsah události pro  " . ($institutionName ?? '') . " - " . ($title ?? '') ?>
         </div>                        
         <div class="active content">                                                                         
             <div class="eight wide field">  
-              <!--  < ?php if (isset($idContent)) { ?>
+                
                     <label>Název instituce</label>
-                    <input readonly  type="text" name="institutionName" placeholder="" maxlength="100" value="< ?= isset($institutionName)?  $institutionName: '' ?>">
-                < ?php } else { ?>
-                     <input hidden type="text" name="selectInstitution" placeholder="" maxlength="11" value="< ?= $institutionIdFk  ?? '' ?>">  
-                < ?php } ?>  -->
-
+                    <input readonly  type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($institutionName)?  $institutionName: '' ?>">
+                
+                     <input hidden type="text" name="selectInstitution" placeholder="" maxlength="11" value="<?= $institutionIdFk  ?? '' ?>">  
+               
               
-                <?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
-                                    [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [] ) ?>   
+               <!-- < ?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
+                                    [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [] ) ?>    -->
                 
             </div>                       
             Title:

@@ -30,7 +30,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
     
     
     //------------------------------------------------------------------            
-    $idInstitution = 23;   //nepouzite
+    $idInstitution = 23;  
     //------------------------------------------------------------------
  
     $institutionIdFk  = $idInstitution;
@@ -65,10 +65,10 @@ use Events\Middleware\Events\Controler\EventControler_2;
     
     //---------------------------------------------------------
     // Contenty pro  $idInstitution
-    //$eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
+    $eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
     
     // Contenty všechny
-    $eventContentEntities = $eventContentRepo->findAll();
+    //$eventContentEntities = $eventContentRepo->findAll();
 
     if ($eventContentEntities) {   
             /** @var EventContentInterface $entity */
@@ -91,17 +91,20 @@ use Events\Middleware\Events\Controler\EventControler_2;
                     'idContent' =>  $entity->getId()
                     ];
             }   
-    }                                          
+    }
+    
+    $institution_idInstitutionFk = $institutionRepo->get( $institutionIdFk )  ;
   ?>
     
+
     <div class="ui styled fluid accordion">           
         <div>                
-           <b>Obsahy událostí (event content ?> </b>
+           <b>Obsahy událostí (event content) </b>
         </div>                          
         ------------------------------------------------------                      
         <div>      
             <?php  if (isset ($eventContents) ) {   ?> 
-                <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> 
+                <?= $this->repeat(__DIR__.'/event-content-firma.php',  $eventContents )  ?> 
             <?php  }   ?>
             
             <br>
@@ -109,8 +112,10 @@ use Events\Middleware\Events\Controler\EventControler_2;
                !+++! Přidej další obsah události (event content)
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/event-content.php', [ "selectInstitutions" => $selectInstitutions,
-                                                                   "institutionIdFk" =>  EventControler_2::NULL_VALUE_nahradni,                                                                  
+                <?= $this->insert( __DIR__.'/event-content-firma.php', [ "selectInstitutions" => $selectInstitutions,
+                                                                   "institutionIdFk" => $institution_idInstitutionFk,
+                                                                                    /*EventControler_2::NULL_VALUE_nahradni*/
+                                                                   "institutionName" => $institution_idInstitutionFk->getName(),
                     
                                                                    "selectContentTypes" => $selectContentTypes,
                                                                    "eventContentTypeFk" => EventControler_2::NULL_VALUE_nahradni                   
