@@ -2,8 +2,6 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 
-use Events\Middleware\Events\Controler\EventControler_2;
-
 use Pes\Text\Text;
 use Pes\Text\Html;
 
@@ -24,8 +22,8 @@ use Pes\Text\Html;
                 </div>
                 
                 <div class="field">                                                    
-                    <?= Html::select( "selinstitutionTypeId", "Typ instituce:", $selectInstitutionTypeId ?? [] , 
-                                     ["selinstitutionTypeId" =>  $institutionTypeId ?? EventControler_2::NULL_VALUE_nahradni /*'' */ ], []) ?>                   
+                    <?= Html::select( "institutionTypeId", "Typ instituce:", $selectInstitutionTypeId ?? [] , 
+                                     ["institutionTypeId" =>  $institutionTypeId ?? ''  ], []) ?>                   
                 </div>               
                                
             </div>

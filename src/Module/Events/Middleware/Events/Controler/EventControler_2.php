@@ -248,7 +248,12 @@ class EventControler_2 extends FrontControlerAbstract {
                 //$institution = new Institution(); //new      
                 $institution = $this->container->get(InstitutionInterface::class); //new     
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
-                $institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'institutionTypeId') );
+                
+                //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
+                      $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                }     
+                            
 
                 $this->institutionRepo->add($institution);             
                
@@ -291,7 +296,14 @@ class EventControler_2 extends FrontControlerAbstract {
                 /** @var InstitutionInterface $institution */
                 $institution = $this->institutionRepo->get($institutionId);             
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
-                $institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'institutionTypeId') );           
+                //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );     
+                
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
+                    $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                }     
+                else {
+                    $institution->setInstitutionTypeId( null );
+                }         
         
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");

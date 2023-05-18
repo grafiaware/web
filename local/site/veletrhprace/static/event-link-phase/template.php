@@ -7,12 +7,10 @@ use Pes\Text\Html;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
+use Events\Model\Repository\EventLinkPhaseRepo;
 
-use Events\Model\Repository\InstitutionTypeRepo;
-
-
-use Events\Model\Entity\InstitutionTypeInterface;
-use Events\Model\Entity\InstitutionType;
+use Events\Model\Entity\EventLinkPhaseInterface;
+use Events\Model\Entity\EventLinkPhase;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -24,25 +22,30 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 
 //if (isset($loginAggregate)) {  
+
+
+
+
  
-     /** @var InstitutionTypeRepo $institutionTypeRepo */
-    $institutionTypeRepo = $container->get(InstitutionTypeRepo::class );
+     /** @var EventLinkPhaseRepo $eventLinkPhaseRepo */
+    $eventLinkPhaseRepo = $container->get(EventLinkPhaseRepo::class );
             
     //------------------------------------------------------------------    
-              
-        $institutionType=[];
-        $institutionTypeEntities = $institutionTypeRepo->findAll();
+          
+    
+        $eventLinkPhase=[];
+        $eventLinkPhaseEntities = $eventLinkPhaseRepo->findAll();
         
-        if ($institutionTypeEntities) {       
-             /** @var InstitutionTypeInterface $institutionTypeE */ 
-            foreach ($institutionTypeEntities as $institutionTypeE) {               
-                $institutionType[] = [                                        
-                    'institutionTypeId' => $institutionTypeE->getId(),                    
-                    'institutionType' => $institutionTypeE->getInstitutionType()
+        if ($eventLinkPhaseEntities) {       
+             /** @var EventLinkPhaseInterface $eventLinkPhaseE */ 
+            foreach ($eventLinkPhaseEntities as  $eventLinkPhaseE ) {
+                $eventLinkPhase[] = [                                        
+                    'eventLinkPhaseId' => $eventLinkPhaseE->getId(),                    
+                    'eventLinkPhaseText' => $eventLinkPhaseE->getText()
                     ];
             }   
-        }        
-        
+        } 
+                                     
   ?>
 
 
@@ -51,19 +54,18 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
             Typ instituce <hr/>                      
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/institution-type.php',  $institutionType)  ?>
+                <?= $this->repeat(__DIR__.'/event-link-phase.php',  $eventLinkPhase)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další typ instituce
+                    Přidej další link phase
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/institution-type.php' ) ?>     
+                    <?= $this->insert( __DIR__.'/event-link-phase.php' ) ?>     
                 </div>                  
             </div>            
     </div>
     </div>
-
 
     
    ?>

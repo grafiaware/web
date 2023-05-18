@@ -7,13 +7,18 @@ use Pes\Text\Html;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
+//use Events\Model\Repository\CompanyRepo;
+//use Events\Model\Repository\CompanyContactRepo;
+//use Events\Model\Repository\InstitutionRepo;
 use Events\Model\Repository\InstitutionRepo;
 use Events\Model\Repository\InstitutionTypeRepo;
 
+//use Events\Model\Entity\CompanyInterface;
+//use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Entity\Institution;
 
-use Events\Middleware\Events\Controler\EventControler_2;
+//use Events\Model\Repository\RepresentativeRepo;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -41,7 +46,6 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             
     //------------------------------------------------------------------    
         $selectInstitutionType =[];    
-        $selectInstitutionType [EventControler_2::NULL_VALUE_nahradni] =  "" ;
         $institutionTypeEntities = $institutionTypeRepo->findAll();
             /** @var InstitutionTypeInterface $entity */ 
         foreach ( $institutionTypeEntities as $entity) {
@@ -77,14 +81,14 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
             Instituce <hr/>                      
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/institution.php',  $institutions)  ?>
+                <?= $this->repeat(__DIR__.'/event-link.php',  $institutions)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
                     Přidej další instituci
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/institution.php', $selecty ) ?>                                                                                 
+                    <?= $this->insert( __DIR__.'/event-link.php', $selecty ) ?>                                                                                 
                 </div>                  
             </div>            
     </div>
