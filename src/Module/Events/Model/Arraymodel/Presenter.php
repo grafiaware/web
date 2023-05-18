@@ -10,16 +10,16 @@ use Events\Model\Repository\RepresentativeRepoInterface;
  * @author pes"daikin"7"na""mdelektronik"
  */
 class Presenter {
-
     /**
      * @var CompanyRepoInterface
      */
     private $companyRepo;
-
     /**
      * @var RepresentativeRepoInterface
      */
     private $representativeRepo;
+    
+    
 
     public function __construct(
             CompanyRepoInterface $companyRepo,
@@ -40,13 +40,10 @@ class Presenter {
             $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
 
             $retArray =  [  //representative a company
-                          'regname' =>  $representativeEntity->getLoginLoginName(),
-//                          
-                          'regcompany' => $companyEntity->getName(),
+                          'logNameRepresentative' =>  $representativeEntity->getLoginLoginName(),
                           'idCompany' =>  $companyEntity->getId(),
-                          'name' =>  $companyEntity->getName(),
-                          'eventInstitutionName' =>  $companyEntity->getEventInstitutionName30(),
-                          'shortName' =>  $companyEntity->getName(),
+                          'nameCompany' =>  $companyEntity->getName(),
+                          'eventInstitutionNameCompany' =>  $companyEntity->getEventInstitutionName30(),                        
                          ];
         }
         return  $retArray ?? [] ;

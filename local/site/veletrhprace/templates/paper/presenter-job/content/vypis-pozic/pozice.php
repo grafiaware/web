@@ -15,9 +15,9 @@ use Events\Model\Entity\VisitorJobRequestInterface;
 
 use Events\Model\Arraymodel\Presenter;
 /** @var PhpTemplateRendererInterface $this */
-
+//  ************** pozice = job **************************
 ###### kontext #######
-// jobs expand -> $nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané $nazev, $container
+// jobs[]- expand job -> $nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané  $container
 $positionName = $nazev;
 #######################
 

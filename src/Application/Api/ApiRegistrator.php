@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Application\Api;
 
 use Pes\Router\MethodEnum;
@@ -137,16 +131,31 @@ class ApiRegistrator {
         #### TinyUploadImagesController
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/editorimages'));
 
+        
+        
+        
+        
+        
+        
         ### events module ###
-        #
+        
+        
+        
+        
         #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         
-        #### VisitorProfileController ####
+             
+        
+        
+        
+        
+        
+        #### VisitorProfileControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
         
-        #### CompanyController  ####
+        #### CompanyControler  ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/remove'));        
@@ -162,6 +171,11 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
        
+        
+        
+        
+        
+        #### EventController_2 ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId/remove'));
@@ -169,8 +183,19 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId/remove'));
+        
+        
+        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:type'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:type/remove'));
+
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent/remove'));
 
 
+   
         
         
         
@@ -180,8 +205,17 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId/remove'));   
-        
+                
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:tagId/remove'));
+                
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtotag/:jobId'));   
+       
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/vzdelani'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/vzdelani/:stupen'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/vzdelani/:stupen/remove'));   
+      
+     
         
                
         

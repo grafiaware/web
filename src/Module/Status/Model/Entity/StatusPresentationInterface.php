@@ -45,6 +45,7 @@ interface StatusPresentationInterface extends PersistableEntityInterface {
      * @return string
      */
     public function getRequestedLangCode();
+    
     /**
      *
      * @param LanguageInterface $language

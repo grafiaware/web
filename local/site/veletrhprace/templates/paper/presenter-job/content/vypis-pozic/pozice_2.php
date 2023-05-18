@@ -22,8 +22,7 @@ use Events\Model\Arraymodel\Presenter;
 /** @var PhpTemplateRendererInterface $this */
 
 ###### kontext #######
-// jobs expand -> $nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané $nazev, $container
-$positionName = $nazev;    // potrebuje se v osobni-udaje_2
+// jobs expand -> jobId, companyId, $nazevPozice; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané $container
 
 $isRepresentative = false;
 $isVisitor = false;
@@ -66,7 +65,7 @@ if (isset($loginAggregate)) {
         $visitorProfileEntity = $visitorProfileRepo->get($loginName);
 
         /** @var VisitorJobRequestInterface $visitorJobRequestEntity */
-        $visitorJobRequestEntity = $visitorJobRequestRepo->get($loginName, $jobId) ; // tady ma byt id jobu                                
+        $visitorJobRequestEntity = $visitorJobRequestRepo->get($loginName, $jobId) ;                        
 
         // formulář
         // unikátní jména souborů pro upload
@@ -146,6 +145,7 @@ if (isset($loginAggregate)) {
     }
 
     if ($isRepresentative) {        
+        //vsechny zadosti o práci $jobId
         $visitorJobRequests = $visitorJobRequestRepo->find(  ' job_Id = :jobId ',  [  'jobId' => $jobId  ] );
         $visitorJobRequestCount = count($visitorJobRequests);        
         $allFormVisitorDataPost = [];
@@ -154,8 +154,8 @@ if (isset($loginAggregate)) {
             $isVisitorDataPost = true;
             $visitorFormData['readonly'] = 'readonly="1"';
             $visitorFormData['disabled'] = 'disabled="1"';
-            $visitorFormData['shortName'] = $shortName;
-            $visitorFormData['positionName'] = $positionName;
+          //  $visitorFormData['shortName'] =  $nameCompany;   //$shortName;
+            $visitorFormData['positionName'] = $nazevPozice;  //$nazev
             $visitorFormData['jobId'] = $jobId;
             
             $visitorFormData['isRepresentative'] = $isRepresentative;
@@ -187,34 +187,17 @@ if (isset($loginAggregate)) {
                     $documentLetter = $documentRepo->get($letterId);
                     $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();  
                 }                
-                $allFormVisitorDataPost[] = $visitorFormData;
-            //    $allFormVisitorDataPost[] = array_merge ($visitorFormData);
-                
+                $allFormVisitorDataPost[] = $visitorFormData;               
             }
             //$allFormVisitorDataPostMerge = array_merge ($allFormVisitorDataPost, ['loginName' => $loginName  ]);
         }
     }
-//    //*--------------------------------------------------
-//    $companyContactEntities = $companyContactRepo->find( ' company_id = :companyId ',  [  'companyId' => $companyId  ] ) ;
-//    $сompanyEmailsA = '';
-//    /** @var CompanyContactInterface $companyContactEntity */
-//    foreach ($companyContactEntities  as  $companyContactEntity) {
-//        $сompanyEmails  = '';
-//        $e = $companyContactEntity->getEmails();
-//        $сompanyEmails  = ( $e  ) ?   $e.';'  : '' ;
-//        $сompanyEmailsA =  $сompanyEmailsA . $сompanyEmails; 
-//    }
-//    $presenterEmails = $сompanyEmailsA;
-    
-     //**I** xxxxxxx pozice_2 ****
 }
 ?>
 
-
         <div class="title">
-       
-            
-            <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
+                   
+            <p class="podnadpis"><i class="dropdown icon"></i><?= $nazevPozice ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag_2.php', isset($kategorie) ? $kategorie : [] , 'seznam') ?>
                 <?php
                 if($isVisitor AND $isVisitorDataPost) {
@@ -297,7 +280,7 @@ if (isset($loginAggregate)) {
                                         <div class="sixteen wide column">
                                             <div class="profil hidden">
                                                 <?php
-                                                    // pokud je $visitorDataPosted je nastaveno readonly
+                                                    // pokud je $visitorDataPosted je nastaveno readonly  ?????
                                                     include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php'; ?>
                                             </div>
                                         </div>
