@@ -7,18 +7,10 @@ use Pes\Text\Html;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-//use Events\Model\Repository\CompanyRepo;
-//use Events\Model\Repository\CompanyContactRepo;
-//use Events\Model\Repository\InstitutionRepo;
-use Events\Model\Repository\InstitutionRepo;
-use Events\Model\Repository\InstitutionTypeRepo;
 
-//use Events\Model\Entity\CompanyInterface;
-//use Events\Model\Entity\CompanyContactInterface;
-use Events\Model\Entity\InstitutionInterface;
-use Events\Model\Entity\Institution;
-
-//use Events\Model\Repository\RepresentativeRepo;
+use Events\Model\Repository\EventLinkPhaseRepo;
+use Events\Model\Entity\EventLinkPhaseInterface;
+use Events\Model\Entity\EventLinkPhase;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -79,13 +71,13 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     <div>
     <div class="ui styled fluid accordion">   
 
-            Instituce <hr/>                      
+            Odkazy pro události <hr/>                      
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/event-link.php',  $institutions)  ?>
+                <?= $this->repeat(__DIR__.'/event-link.php',  $institu)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další instituci
+                    Přidej další odkaz
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/event-link.php', $selecty ) ?>                                                                                 

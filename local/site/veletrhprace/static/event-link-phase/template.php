@@ -8,7 +8,6 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Model\Repository\EventLinkPhaseRepo;
-
 use Events\Model\Entity\EventLinkPhaseInterface;
 use Events\Model\Entity\EventLinkPhase;
 
@@ -41,7 +40,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             foreach ($eventLinkPhaseEntities as  $eventLinkPhaseE ) {
                 $eventLinkPhase[] = [                                        
                     'eventLinkPhaseId' => $eventLinkPhaseE->getId(),                    
-                    'eventLinkPhaseText' => $eventLinkPhaseE->getText()
+                    'eventLinkPhaseText' => $eventLinkPhaseE->getText() ?? '' 
                     ];
             }   
         } 
@@ -52,13 +51,13 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     <div>
     <div class="ui styled fluid accordion">   
 
-            Typ instituce <hr/>                      
+            Fáze odkazu pro události <hr/>                      
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/event-link-phase.php',  $eventLinkPhase)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další link phase
+                    Přidej další fázi (fáze odkazu pro událost)
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/event-link-phase.php' ) ?>     

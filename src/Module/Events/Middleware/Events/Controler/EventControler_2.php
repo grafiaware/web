@@ -32,7 +32,13 @@ use Events\Model\Entity\EventContentInterface;
 use Events\Model\Entity\EventContent;
 use Events\Model\Repository\EventContentRepoInterface;
 
+use Events\Model\Entity\EventLinkPhaseInterface;
+use Events\Model\Entity\EventLinkPhase;
+use Events\Model\Repository\EventLinkPhaseRepoInterface;
 
+use Events\Model\Entity\EventLinkInterface;
+use Events\Model\Entity\EventLink;
+use Events\Model\Repository\EventLinkRepoInterface;
 
 
 //use Events\Model\Arraymodel\Event;
@@ -66,7 +72,14 @@ class EventControler_2 extends FrontControlerAbstract {
      * @var EventContentRepoInterface
      */
     private $eventContentRepo;
-    
+    /**
+     *  @var EventLinkPhaseRepoInterface
+     */
+    private $eventLinkPhaseRepo;
+    /**
+     *  @var EventLinkRepoInterface
+     */
+    private $eventLinkRepo;
     
     
     public function __construct(
@@ -77,16 +90,20 @@ class EventControler_2 extends FrontControlerAbstract {
             InstitutionRepoInterface  $institutionRepo,
             InstitutionTypeRepoInterface  $institutionTypeRepo,
             EventContentRepoInterface  $eventContentRepo,
-            EventContentTypeRepoInterface  $eventContentTypeRepo 
+            EventContentTypeRepoInterface  $eventContentTypeRepo,
+            EventLinkPhaseRepoInterface $eventLinkPhaseRepo,
+            EventLinkRepoInterface $eventLinkRepo
                        
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
        
         $this->institutionRepo = $institutionRepo;
-        $this->institutionTypeRepo = $institutionTypeRepo;
-        
+        $this->institutionTypeRepo = $institutionTypeRepo;        
         $this->eventContentRepo = $eventContentRepo;
         $this->eventContentTypeRepo = $eventContentTypeRepo;
+        
+        $this->eventLinkPhaseRepo = $eventLinkPhaseRepo;
+        $this->eventLinkRepo = $eventLinkRepo;
              
     }
 
@@ -443,7 +460,7 @@ class EventControler_2 extends FrontControlerAbstract {
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $institutionId
+     * @param type $type
      * @return type
      */
     public function removeContentType (ServerRequestInterface $request, $type ) {                   
@@ -535,10 +552,11 @@ class EventControler_2 extends FrontControlerAbstract {
     
     
       
+  
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $type
+     * @param type $idContent
      * @return type
      */
     public function updateContent (ServerRequestInterface $request, $idContent) {                    
@@ -594,11 +612,11 @@ class EventControler_2 extends FrontControlerAbstract {
 
     }    
       
-   
+  
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $institutionId
+     * @param type $idContent
      * @return type
      */
     public function removeContent (ServerRequestInterface $request, $idContent ) {                   
@@ -635,11 +653,132 @@ class EventControler_2 extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
     
+    //------------------------------------------------------------------
     
     
     
+     /**
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function addEventLinkPhase (ServerRequestInterface $request) {                 
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+//                $isRepresentative = true; 
+//            }                        
+//            if ($isRepresentative) {
+
+                
+                    /** @var EventLinkPhase $eventLinkPhase */
+                    $eventLinkPhase = new EventLinkPhase(); //new           
+                    $eventLinkPhase->setText((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseText') );
     
+                    $this->institutionTypeRepo->add($eventLinkPhase);             
+               
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
+//            }
+//        }   
+        
+        return $this->redirectSeeLastGet($request);
+    }
     
+          
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $eventLinkPhaseId
+     * @return type
+     */
+    public function updateEventLinkPhase (ServerRequestInterface $request, $eventLinkPhaseId) {                    
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+//                $isRepresentative = true; 
+//            }                        
+//            if ($isRepresentative) {
+                           
+                /** @var EventLinkPhase $eventLinkPhase */               
+                $eventLinkPhase =  $this->eventLinkPhaseRepo->get( $eventLinkPhaseId );         
+                $eventLinkPhase->setId((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );                         
+                $eventLinkPhase->setText((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseText') );
+    
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
+//            }
+//        }           
+        
+        return $this->redirectSeeLastGet($request);
+
+    }    
+      
+
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $eventLinkPhaseId
+     * @return type
+     */
+    public function removeEventLinkPhase (ServerRequestInterface $request, $eventLinkPhaseId ) {                   
+//        $isRepresentative = false;
+//                
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {                                   
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
+//                            $isRepresentative = true; 
+//                }
+//            }                          
+//            if ($isRepresentative) {                                                    
+                
+                /** @var EventLinkPhase $eventLinkPhase */               
+                $eventLinkPhase =  $this->eventLinkPhaseRepo->get( $eventLinkPhaseId );   
+                $this->eventLinkPhaseRepo->remove($eventLinkPhase);                
+                                                
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
+//            }           
+//        }
+                
+        return $this->redirectSeeLastGet($request);
+    }
+            
+     
     
     
     

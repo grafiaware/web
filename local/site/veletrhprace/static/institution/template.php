@@ -53,15 +53,16 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
         if ($institutionsEntities) {         
             foreach ($institutionsEntities as $entity) {
                 
-                $institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() );
-                $type = $institutionTypE->getInstitutionType();
+                $pom = $entity->getInstitutionTypeId() ?? '';
+                $institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() ?? '' );
+                $type = isset ($institutionTypE) ? $institutionTypE->getInstitutionType()  : '';                
                 
                 /** @var InstitutionInterface $entity */
                 $institutions[] = [
                     'institutionId' => $entity->getId(),
                     'name' =>  $entity->getName(),
-                    'institutionTypeId' => $entity->getInstitutionTypeId(),
-                    'institutionType' => ($institutionTypeRepo->get( $entity->getInstitutionTypeId() ) )->getInstitutionType(),
+                    'institutionTypeId' => $entity->getInstitutionTypeId() ?? ''   /*$entity->getInstitutionTypeId()*/,
+                    'institutionType' =>   $type, 
                     'selectInstitutionTypeId' =>  $selectInstitutionType
                     ];
             }   
