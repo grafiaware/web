@@ -11,6 +11,9 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 use Events\Model\Repository\EventLinkPhaseRepo;
 use Events\Model\Entity\EventLinkPhaseInterface;
 use Events\Model\Entity\EventLinkPhase;
+use Events\Model\Repository\EventLinkRepo;
+use Events\Model\Entity\EventLinkInterface;
+use Events\Model\Entity\EventLink;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -31,20 +34,29 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 //    /** @var RepresentativeRepo $representativeRepo */
 //    $representativeRepo = $container->get(RepresentativeRepo::class );
     
-    /** @var InstitutionRepo $institutionRepo */
-    $institutionRepo = $container->get(InstitutionRepo::class );
-     /** @var InstitutionTypeRepo $institutionTypeRepo */
-    $institutionTypeRepo = $container->get(InstitutionTypeRepo::class );
+    /** @var EventLinkRepo $eventLinkRepo */
+    $eventLinkRepo = $container->get(EventLinkRepo::class );
+     /** @var EventLinkPhaseRepo $EventLinkPhaseRepo */
+    $EventLinkPhaseRepo = $container->get(EventLinkPhaseRepo::class );
             
     //------------------------------------------------------------------    
-        $selectInstitutionType =[];    
-        $institutionTypeEntities = $institutionTypeRepo->findAll();
-            /** @var InstitutionTypeInterface $entity */ 
-        foreach ( $institutionTypeEntities as $entity) {
-            $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
-        }                 
     
-        $institutions=[];
+    
+    
+    
+    
+    
+        $selectEventLinkPhase =[];    
+        $eventLinkPhaseEntities = $eventLinkPhaseRepo->findAll();
+            /** @var EventLinkPhaseInterface $entity */ 
+        foreach ( $eventLinkPhaseEntities as $entity) {
+            $selectEventLinkPhase [$entity->getId()] =  $entity->getText() ;
+        }                 
+        
+        
+    
+        $eventLinks=[];
+        **
         $institutionsEntities = $institutionRepo->findAll();
         if ($institutionsEntities) {         
             foreach ($institutionsEntities as $entity) {

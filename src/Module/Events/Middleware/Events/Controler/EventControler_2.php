@@ -778,7 +778,142 @@ class EventControler_2 extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
             
-     
+//-----------------------------------------------------------------------------------------
+    
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function addEventLink (ServerRequestInterface $request) {                 
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+//                $isRepresentative = true; 
+//            }                        
+//            if ($isRepresentative) {
+                
+                /** @var InstitutionInterface $institution */
+                //$institution = new Institution(); //new      
+                $institution = $this->container->get(InstitutionInterface::class); //new     
+                $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
+                
+                //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
+                      $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                }     
+                            
+
+                $this->institutionRepo->add($institution);             
+               
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
+//            }
+//        }   
+        
+        return $this->redirectSeeLastGet($request);
+    }
+    
+    
+      
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $eventLinkId
+     * @return type
+     */
+    public function updateEventLink (ServerRequestInterface $request, $eventLinkId) {                    
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+//                $isRepresentative = true; 
+//            }                        
+//            if ($isRepresentative) {
+            
+                /** @var InstitutionInterface $institution */
+                $institution = $this->institutionRepo->get($institutionId);             
+                $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
+                //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );     
+                
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
+                    $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                }     
+                else {
+                    $institution->setInstitutionTypeId( null );
+                }         
+        
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
+//            }
+//        }           
+        
+        return $this->redirectSeeLastGet($request);
+
+    }    
+      
+   
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $eventLinkId
+     * @return type
+     */
+    public function removeEventLink (ServerRequestInterface $request, $eventLinkId ) {                   
+//        $isRepresentative = false;
+//                
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {                                   
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
+//                            $isRepresentative = true; 
+//                }
+//            }                          
+//            if ($isRepresentative) {       
+                                 
+                /** @var InstitutionInterface $institution */
+                $institution = $this->institutionRepo->get($institutionId);  
+                $this->institutionRepo->remove($institution);  
+                                                     
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
+//            }           
+//        }
+                
+        return $this->redirectSeeLastGet($request);
+    }
     
     
     
