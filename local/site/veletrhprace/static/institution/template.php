@@ -43,10 +43,12 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
         $selectInstitutionType =[];    
         $selectInstitutionType [EventControler_2::NULL_VALUE_nahradni] =  "" ;
         $institutionTypeEntities = $institutionTypeRepo->findAll();
+        if (isset($institutionTypeEntities) ) {
             /** @var InstitutionTypeInterface $entity */ 
-        foreach ( $institutionTypeEntities as $entity) {
-            $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
-        }                 
+            foreach ( $institutionTypeEntities as $entity) {
+                $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
+            }                 
+        }
     
         $institutions=[];
         $institutionsEntities = $institutionRepo->findAll();

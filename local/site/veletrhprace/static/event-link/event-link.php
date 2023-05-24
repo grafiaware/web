@@ -14,16 +14,19 @@ use Pes\Text\Html;
 ?>
 
         <form class="ui huge form" action="" method="POST" >          
+            <div class="field">    show - radio                                                
+                                     
+            </div>   
             
             <div class="two fields">                                        
                 <div class="field">                   
-                    <label>Jméno instituce</label>
-                    <input <?= $readonly ?> type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($name)?  $name : '' ?>">                   
+                    <label>Href - Odkaz</label>
+                    <input <?= $readonly ?> type="text" name="href" placeholder="" maxlength="255" value="<?= isset($href)?  $href : '' ?>">                   
                 </div>
                 
                 <div class="field">                                                    
-                    <?= Html::select( "institutionTypeId", "Typ instituce:", $selectInstitutionTypeId ?? [] , 
-                                     ["institutionTypeId" =>  $institutionTypeId ?? ''  ], []) ?>                   
+                    <?= Html::select( "eventLinkPhaseId", "Fáze události:", selectEventLinkPhaseId ?? [] , 
+                                     ["eventLinkPhaseId" =>  $eventLinkPhaseIdFk ?? EventControler_2::NULL_VALUE_nahradni ], []) ?>                   
                 </div>               
                                
             </div>
@@ -34,14 +37,14 @@ use Pes\Text\Html;
             ?>
             <div>
                 <?=
-                 isset($institutionId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/institution/".$institutionId. "' > Uložit </button>" :
-                "<button class='ui primary button' type='submit' formaction='events/v1/institution' > Uložit </button>" ;                                   
+                 isset($eventLinkId) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventlink/".$eventLinkId. "' > Uložit </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventlink' > Uložit </button>" ;                                   
                  ?>   
 
                 <?=
-                isset($institutionId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/institution/".$institutionId."/remove' > Odstranit instituci </button>" :
+                isset($eventLinkId) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventlink/".$eventLinkId."/remove' > Odstranit odkaz </button>" :
                 "" ;
                 ?>                                                                                                         
             </div>

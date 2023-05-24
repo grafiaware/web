@@ -15,6 +15,8 @@ use Events\Model\Repository\EventLinkRepo;
 use Events\Model\Entity\EventLinkInterface;
 use Events\Model\Entity\EventLink;
 
+use Events\Middleware\Events\Controler\EventControler_2;
+
 /** @var PhpTemplateRendererInterface $this */
 
 
@@ -37,45 +39,46 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     /** @var EventLinkRepo $eventLinkRepo */
     $eventLinkRepo = $container->get(EventLinkRepo::class );
      /** @var EventLinkPhaseRepo $EventLinkPhaseRepo */
-    $EventLinkPhaseRepo = $container->get(EventLinkPhaseRepo::class );
+    $eventLinkPhaseRepo = $container->get(EventLinkPhaseRepo::class );
             
     //------------------------------------------------------------------    
+            
     
     
     
     
-    
-    
-        $selectEventLinkPhase =[];    
+        $selectEventLinkPhase =[];  
+        $selectEventLinkPhase [EventControler_2::NULL_VALUE_nahradni] =  "" ;
         $eventLinkPhaseEntities = $eventLinkPhaseRepo->findAll();
-            /** @var EventLinkPhaseInterface $entity */ 
-        foreach ( $eventLinkPhaseEntities as $entity) {
-            $selectEventLinkPhase [$entity->getId()] =  $entity->getText() ;
-        }                 
-        
-        
+        if (isset($eventLinkPhaseEntities) ) {
+            /** @var EventLinkPhaseInterface $ent */ 
+            foreach ( $eventLinkPhaseEntities as $ent) {
+                $selectEventLinkPhase [$ent->getId()] =  $ent->getText() ?? '' ;
+            }                         
+        }
     
-        $eventLinks=[];
-        **
-        $institutionsEntities = $institutionRepo->findAll();
-        if ($institutionsEntities) {         
-            foreach ($institutionsEntities as $entity) {
+        $eventLinks=[];        
+        $eventLinksEntities = $eventLinkRepo->findAll();
+        if ($eventLinksEntities) {      
+            /** @var EventLinkInterface $entity */
+            foreach ($eventLinksEntities as $entity) {
+                /** @var EventLinkPhaseInterface $eventLinkPhaseE */
+                $eventLinkPhaseE = $eventLinkPhaseRepo->get( $entity->getLinkPhaseIdFk() ?? '' ) ;
+                $phaseText = isset ($eventLinkPhaseE) ? $eventLinkPhaseE->getText()  : '' ;
                 
-                $institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() );
-                $type = $institutionTypE->getInstitutionType();
-                
-                /** @var InstitutionInterface $entity */
-                $institutions[] = [
-                    'institutionId' => $entity->getId(),
-                    'name' =>  $entity->getName(),
-                    'institutionTypeId' => $entity->getInstitutionTypeId(),
-                    'institutionType' => ($institutionTypeRepo->get( $entity->getInstitutionTypeId() ) )->getInstitutionType(),
-                    'selectInstitutionTypeId' =>  $selectInstitutionType
+                $eventLinks[] = [
+                    'eventLinkId' => $entity->getId(),
+                    'show' =>  $entity->getShow(),
+                    'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ?? '',
+                    'eventLinkPhaseText' => $phaseText,
+                    
+                    'href' =>  $entity->getHref()
                     ];
             }   
         } 
                               
-        $selecty['selectInstitutionTypeId'] = $selectInstitutionType;       
+        $selecty['selectEventLinkPhaseId'] = $selectEventLinkPhase;       
+             
         
   ?>
 
@@ -85,7 +88,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
             Odkazy pro události <hr/>                      
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/event-link.php',  $institu)  ?>
+                <?= $this->repeat(__DIR__.'/event-link.php',  $eventLinks)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
