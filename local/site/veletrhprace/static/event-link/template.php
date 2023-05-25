@@ -55,7 +55,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             foreach ( $eventLinkPhaseEntities as $ent) {
                 $selectEventLinkPhase [$ent->getId()] =  $ent->getText() ?? '' ;
             }                         
-        }
+        } 
     
         $eventLinks=[];        
         $eventLinksEntities = $eventLinkRepo->findAll();
@@ -68,18 +68,22 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                 
                 $eventLinks[] = [
                     'eventLinkId' => $entity->getId(),
-                    'show' =>  $entity->getShow(),
-                    'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ?? '',
-                    'eventLinkPhaseText' => $phaseText,
+                    'show' => boolval($entity->getShow() ) /*??  EventControler_2::NULL_VALUE_nahradni*/ ,
+                    'href' =>  $entity->getHref(),
                     
-                    'href' =>  $entity->getHref()
+                    'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler_2::NULL_VALUE_nahradni , 
+                    'eventLinkPhaseText' => $phaseText,                  
+                    'selectEventLinkPhase' => $selectEventLinkPhase
                     ];
             }   
         } 
+//        else {
+//             $eventLinks[] = [ 
+//                 'selectEventLinkPhase' => $selectEventLinkPhase
+//             ];
+//        }
                               
-        $selecty['selectEventLinkPhaseId'] = $selectEventLinkPhase;       
-             
-        
+       // $selecty['selectEventLinkPhase'] = $selectEventLinkPhase;         
   ?>
 
 
@@ -87,15 +91,20 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     <div class="ui styled fluid accordion">   
 
             Odkazy pro události <hr/>                      
-            <div class="active content">      
-                <?= $this->repeat(__DIR__.'/event-link.php',  $eventLinks)  ?>
+            <div class="active content">                    
+                <?php  if (isset ($eventLinks) ) {   ?> 
+                    <?= $this->repeat(__DIR__.'/event-link.php',  $eventLinks)  ?>             
+                <?php  }   ?>                
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
                     Přidej další odkaz
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/event-link.php', $selecty ) ?>                                                                                 
+                    <?= $this->insert( __DIR__.'/event-link.php', [
+                                                            'selectEventLinkPhase' => $selectEventLinkPhase,
+                                                            'eventLinkPhaseIdFk' =>  EventControler_2::NULL_VALUE_nahradni,
+                    ] ) ?>                                                                                 
                 </div>                  
             </div>            
     </div>

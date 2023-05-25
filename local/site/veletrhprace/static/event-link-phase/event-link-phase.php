@@ -33,7 +33,7 @@ use Pes\Text\Html;
 
                 <?=
                 isset($eventLinkPhaseId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventlinkphase/".$eventLinkPhaseId."/remove' > Odstranit event_link_phase </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/eventlinkphase/".$eventLinkPhaseId."/remove' > Odstranit fázi </button>" :
                 "" ;
                 ?>                                                                                                         
             </div>

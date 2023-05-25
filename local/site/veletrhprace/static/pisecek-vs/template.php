@@ -103,6 +103,24 @@ use Events\Model\Entity\LoginInterface;
         <?= MojeHTML::checkbox( ["Label1"=>['technická'=>'technická'],
                                  "Label2"=>['manažerská/vedoucí'=>'manažerská/vedoucí']] ,
                                 ['technická'=>'technická'] ) ?>
+        
+        <br/> //------------------------------------------------- <br/>
+         
+        <?= Html::radio(   'show',                  
+                            ['labelAno' => true, 'labelNe' => false ]
+                            /*$radiosetLbelsValues*/,                
+                            ['show' => false ] /*$context*/
+                                             ) ?>
+        <br/>//------------------------------------------------- <br/>
+        <?= Html::checkbox(["Ano"=>['ano'=>true],
+                            "Ne"=>['ne'=>false]] ,
+                           ['ano'=> true]  ) ?>
+                
+         <br/>//------------------------------------------------- <br/>
+        <?= Html::checkbox(["Zobraz"=>['show'=>true] ]
+                             ) ?>
+
+        
 
     </div>
     </div>

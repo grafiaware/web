@@ -14,19 +14,20 @@ use Pes\Text\Html;
 ?>
 
         <form class="ui huge form" action="" method="POST" >          
-            <div class="field">    show - radio                                                
-                                     
+            <div class="field"> 
+                    <label>Show - zobraz</label>                                           
+                    <?= Html::checkbox( ["Zobraz"=>['show'=>  $show ?? ''  ] ] ,  ) ?>
             </div>   
             
             <div class="two fields">                                        
                 <div class="field">                   
                     <label>Href - Odkaz</label>
-                    <input <?= $readonly ?> type="text" name="href" placeholder="" maxlength="255" value="<?= isset($href)?  $href : '' ?>">                   
+                    <input <?= $readonly ?> type="text" name="href" placeholder="" maxlength="255" value="<?= isset($href) ?  $href : '' ?>">                   
                 </div>
                 
                 <div class="field">                                                    
-                    <?= Html::select( "eventLinkPhaseId", "Fáze události:", selectEventLinkPhaseId ?? [] , 
-                                     ["eventLinkPhaseId" =>  $eventLinkPhaseIdFk ?? EventControler_2::NULL_VALUE_nahradni ], []) ?>                   
+                    <?= Html::select( "eventLinkPhaseId", "Fáze události:", $selectEventLinkPhase ?? [] , 
+                                     ["eventLinkPhaseId" =>  $eventLinkPhaseIdFk ?? '' ], []) ?>                   
                 </div>               
                                
             </div>
