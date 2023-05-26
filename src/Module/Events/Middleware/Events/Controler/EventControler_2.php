@@ -269,6 +269,9 @@ class EventControler_2 extends FrontControlerAbstract {
                 //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
                       $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                }    
+                 else {
+                    $institution->setInstitutionTypeId( null );
                 }     
                             
 
@@ -532,10 +535,16 @@ class EventControler_2 extends FrontControlerAbstract {
                 
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
                      $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
-                }                     
+                }   
+                else {
+                    $content->setInstitutionIdFk( null );
+                }     
                 
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
                      $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
+                }     
+                else {
+                   $content->setEventContentTypeFk ( null );
                 }     
                 
                 
@@ -687,7 +696,7 @@ class EventControler_2 extends FrontControlerAbstract {
                     $eventLinkPhase = new EventLinkPhase(); //new           
                     $eventLinkPhase->setText((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseText') );
     
-                    $this->institutionTypeRepo->add($eventLinkPhase);             
+                    $this->eventLinkPhaseRepo->add($eventLinkPhase);             
                
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
@@ -726,7 +735,6 @@ class EventControler_2 extends FrontControlerAbstract {
                            
                 /** @var EventLinkPhase $eventLinkPhase */               
                 $eventLinkPhase =  $this->eventLinkPhaseRepo->get( $eventLinkPhaseId );         
-                $eventLinkPhase->setId((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );                         
                 $eventLinkPhase->setText((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseText') );
     
 //            } else {
@@ -805,18 +813,19 @@ class EventControler_2 extends FrontControlerAbstract {
 //            }                        
 //            if ($isRepresentative) {
                 
-                /** @var InstitutionInterface $institution */
-                //$institution = new Institution(); //new      
-                $institution = $this->container->get(InstitutionInterface::class); //new     
-                $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
-                
-                //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
-                      $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
-                }     
+                /** @var EventLinkInterface $eventLink */
+                $eventLink = $this->container->get(EventLinkInterface::class); //new     
+                $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') );
+                $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );                     
                             
+                if ( (new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') != self::NULL_VALUE_nahradni )   {
+                    $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );
+                }     // je NOT NULL
+//                else {
+//                    $eventLink->setLinkPhaseIdFk ( null );
+//                }         
 
-                $this->institutionRepo->add($institution);             
+                $this->eventLinkRepo->add($eventLink);             
                
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
@@ -854,17 +863,17 @@ class EventControler_2 extends FrontControlerAbstract {
 //            }                        
 //            if ($isRepresentative) {
             
-                /** @var InstitutionInterface $institution */
-                $institution = $this->institutionRepo->get($institutionId);             
-                $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
-                //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );     
-                
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
-                    $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
-                }     
-                else {
-                    $institution->setInstitutionTypeId( null );
-                }         
+                /** @var EventLinkInterface $eventLink */
+                $eventLink = $this->eventLinkRepo->get($eventLinkId);             
+                $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') );
+                $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );
+               
+                if ( (new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') != self::NULL_VALUE_nahradni )   {
+                    $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );
+                }   // je NOT NULL  
+//                else {
+//                    $eventLink->setLinkPhaseIdFk ( null );
+//                }         
         
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
@@ -903,9 +912,10 @@ class EventControler_2 extends FrontControlerAbstract {
 //            }                          
 //            if ($isRepresentative) {       
                                  
-                /** @var InstitutionInterface $institution */
-                $institution = $this->institutionRepo->get($institutionId);  
-                $this->institutionRepo->remove($institution);  
+                /** @var EventLinkInterface $eventLink */
+                $eventLink = $this->eventLinkRepo->get($eventLinkId);             
+
+                $this->eventLinkRepo->remove($eventLink);  
                                                      
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");

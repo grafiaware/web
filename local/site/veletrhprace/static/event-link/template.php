@@ -48,7 +48,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     
     
         $selectEventLinkPhase =[];  
-        $selectEventLinkPhase [EventControler_2::NULL_VALUE_nahradni] =  "" ;
+        $selectEventLinkPhase [''] =  "tady musis" ;
         $eventLinkPhaseEntities = $eventLinkPhaseRepo->findAll();
         if (isset($eventLinkPhaseEntities) ) {
             /** @var EventLinkPhaseInterface $ent */ 
@@ -57,7 +57,8 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             }                         
         } 
     
-        $eventLinks=[];        
+        $eventLinks=[];      
+       // $AR=[];
         $eventLinksEntities = $eventLinkRepo->findAll();
         if ($eventLinksEntities) {      
             /** @var EventLinkInterface $entity */
@@ -68,7 +69,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                 
                 $eventLinks[] = [
                     'eventLinkId' => $entity->getId(),
-                    'show' => boolval($entity->getShow() ) /*??  EventControler_2::NULL_VALUE_nahradni*/ ,
+                    'show' => boolval($entity->getShow())  /*??  EventControler_2::NULL_VALUE_nahradni*/ ,
                     'href' =>  $entity->getHref(),
                     
                     'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler_2::NULL_VALUE_nahradni , 

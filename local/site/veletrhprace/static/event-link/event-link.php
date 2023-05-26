@@ -15,19 +15,20 @@ use Pes\Text\Html;
 
         <form class="ui huge form" action="" method="POST" >          
             <div class="field"> 
-                    <label>Show - zobraz</label>                                           
-                    <?= Html::checkbox( ["Zobraz"=>['show'=>  $show ?? ''  ] ] ,  ) ?>
+                    <label>políčko Show - Zobraz:</label>  
+                    <?= Html::checkbox( ["Zobraz" => ['show'=> true ] ] , 
+                                        ['show'=> $show ?? false ] ) ?>
             </div>   
             
             <div class="two fields">                                        
                 <div class="field">                   
-                    <label>Href - Odkaz</label>
+                    <label>Href - Odkaz:</label>
                     <input <?= $readonly ?> type="text" name="href" placeholder="" maxlength="255" value="<?= isset($href) ?  $href : '' ?>">                   
                 </div>
                 
                 <div class="field">                                                    
                     <?= Html::select( "eventLinkPhaseId", "Fáze události:", $selectEventLinkPhase ?? [] , 
-                                     ["eventLinkPhaseId" =>  $eventLinkPhaseIdFk ?? '' ], []) ?>                   
+                                     ["eventLinkPhaseId" =>  $eventLinkPhaseIdFk ?? '' ], ['required' => true ]) ?>                   
                 </div>               
                                
             </div>
@@ -38,7 +39,7 @@ use Pes\Text\Html;
             ?>
             <div>
                 <?=
-                 isset($eventLinkId) ?
+                isset($eventLinkId) ?
                 "<button class='ui primary button' type='submit' formaction='events/v1/eventlink/".$eventLinkId. "' > Uložit </button>" :
                 "<button class='ui primary button' type='submit' formaction='events/v1/eventlink' > Uložit </button>" ;                                   
                  ?>   

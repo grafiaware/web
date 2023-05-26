@@ -50,7 +50,6 @@ use Events\Model\Hydrator\EventLinkPhaseHydrator;
 use Events\Model\Repository\EventLinkPhaseRepo;
 use Events\Model\Entity\EventLinkPhase;
 
-
 use Events\Model\Dao\EventLinkDao;
 use Events\Model\Hydrator\EventLinkHydrator;
 use Events\Model\Repository\EventLinkRepo;
