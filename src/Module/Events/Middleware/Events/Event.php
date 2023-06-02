@@ -275,6 +275,39 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeContent($request, $idContent);
         });
         
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase', function(ServerRequestInterface $request) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->addEventLinkPhase($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId', function(ServerRequestInterface $request, $eventLinkPhaseId) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->updateEventLinkPhase($request, $eventLinkPhaseId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId/remove', function(ServerRequestInterface $request, $eventLinkPhaseId ) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->removeEventLinkPhase($request, $eventLinkPhaseId);
+        });
+        
+         $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink', function(ServerRequestInterface $request) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->addEventLink($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink/:eventLinkId', function(ServerRequestInterface $request, $eventLinkId) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->updateEventLink($request, $eventLinkId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink/:eventLinkId/remove', function(ServerRequestInterface $request, $eventLinkId ) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->removeEventLink($request, $eventLinkId);
+        });
+        
+        
         
         
         

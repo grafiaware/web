@@ -113,7 +113,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
             </div>  
             <div>     
                 <?= $this->insert( __DIR__.'/event-content-firma.php', [ "selectInstitutions" => $selectInstitutions,
-                                                                   "institutionIdFk" => $institution_idInstitutionFk,
+                                                                   "institutionIdFk" => $institutionIdFk,
                                                                                     /*EventControler_2::NULL_VALUE_nahradni*/
                                                                    "institutionName" => $institution_idInstitutionFk->getName(),
                     

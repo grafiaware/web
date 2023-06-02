@@ -22,17 +22,13 @@ use Pes\Text\Html;
                 <?= "Obsah události pro  " . ($institutionName ?? '') . " - " . ($title ?? '') ?>
         </div>                        
         <div class="active content">                                                                         
-            <div class="eight wide field">  
-                
-                    <label>Název instituce</label>
-                    <input readonly  type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($institutionName)?  $institutionName: '' ?>">
-                
-                     <input hidden type="text" name="selectInstitution" placeholder="" maxlength="11" value="<?= $institutionIdFk  ?? '' ?>">  
-               
+            <div class="eight wide field">                  
+                <label>Název instituce</label>
+                <input readonly  type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($institutionName) ?  $institutionName : '' ?>">
+                <input hidden type="text" name="selectInstitution" placeholder="" maxlength="11" value="<?= $institutionIdFk  ?? '' ?>">                 
               
-               <!-- < ?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
-                                    [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [] ) ?>    -->
-                
+                <!-- < ?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
+                                    [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [] ) ?>    -->                
             </div>                       
             Title:
             <div  class="field">

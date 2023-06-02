@@ -48,18 +48,22 @@ use Events\Model\Entity\EventContent;
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Hydrator\EventLinkPhaseHydrator;
 use Events\Model\Repository\EventLinkPhaseRepo;
+use Events\Model\Entity\EventLinkPhase;
 
 use Events\Model\Dao\EventLinkDao;
 use Events\Model\Hydrator\EventLinkHydrator;
 use Events\Model\Repository\EventLinkRepo;
+use Events\Model\Entity\EventLink;
 
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Hydrator\InstitutionHydrator;
 use Events\Model\Repository\InstitutionRepo;
+use Events\Model\Entity\Institution;
 
 use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
+use Events\Model\Entity\InstitutionType;
 
 use Events\Model\Hydrator\InstitutionTypeChildHydrator;
 use Events\Model\Repository\Association\InstitutionsAssociation;
@@ -188,7 +192,22 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             EventContent::class => function(ContainerInterface $c) {
             return new EventContent();
+            },
+            
+            EventLink::class => function(ContainerInterface $c) {
+            return new EventLink();
+            },
+            EventLinkPhase::class => function(ContainerInterface $c) {
+            return new EventLinkPhase();
+            },
+             
+            Institution::class => function(ContainerInterface $c) {
+            return new Institution();
+            },
+            InstitutionType::class => function(ContainerInterface $c) {
+            return new InstitutionType();
             }
+            
 
         ];
     }

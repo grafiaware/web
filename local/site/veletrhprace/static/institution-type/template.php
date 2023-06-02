@@ -7,14 +7,10 @@ use Pes\Text\Html;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-//use Events\Model\Repository\CompanyRepo;
-//use Events\Model\Repository\CompanyContactRepo;
-//use Events\Model\Repository\InstitutionRepo;
-//use Events\Model\Repository\InstitutionRepo;
+
 use Events\Model\Repository\InstitutionTypeRepo;
 
-//use Events\Model\Entity\CompanyInterface;
-//use Events\Model\Entity\CompanyContactInterface;
+
 use Events\Model\Entity\InstitutionTypeInterface;
 use Events\Model\Entity\InstitutionType;
 
@@ -33,33 +29,19 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     $institutionTypeRepo = $container->get(InstitutionTypeRepo::class );
             
     //------------------------------------------------------------------    
-//        $selectInstitutionType =[];    
-//        $institutionTypeEntities = $institutionTypeRepo->findAll();
-//            /** @var InstitutionTypeInterface $entity */ 
-//        foreach ( $institutionTypeEntities as $entity) {
-//            $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
-//        }                 
-//    
+              
         $institutionType=[];
         $institutionTypeEntities = $institutionTypeRepo->findAll();
         
         if ($institutionTypeEntities) {       
              /** @var InstitutionTypeInterface $institutionTypeE */ 
-            foreach ($institutionTypeEntities as $institutionTypeE) {
-                
-                //$institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() );
-                //$type = $institutionType->getInstitutionType();
-                
-                /** @var InstitutionInterface $entity */
+            foreach ($institutionTypeEntities as $institutionTypeE) {               
                 $institutionType[] = [                                        
                     'institutionTypeId' => $institutionTypeE->getId(),                    
                     'institutionType' => $institutionTypeE->getInstitutionType()
-//                    'selectInstitutionTypeId' =>  $selectInstitutionType
                     ];
             }   
-        } 
-                              
-       // $selecty['selectInstitutionTypeId'] = $selectInstitutionType;       
+        }        
         
   ?>
 
@@ -82,16 +64,6 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     </div>
     </div>
 
-  <?php     
-//    } else { ?>
-          <div>
-          </div>   
-  <?php 
-//    }
-//   
-//} 
-//else{
-//     echo  "Údaje o typu institutice smí vidět jen přihlášený." ; 
-//}
+
     
    ?>

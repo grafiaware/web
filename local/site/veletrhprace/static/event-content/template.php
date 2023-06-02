@@ -91,7 +91,14 @@ use Events\Middleware\Events\Controler\EventControler_2;
                     'idContent' =>  $entity->getId()
                     ];
             }   
-    }                                          
+    }
+//    else {
+//        $eventContents[] = [
+//             'selectInstitutions' => $selectInstitutions, 
+//             'selectContentTypes' => $selectContentTypes, 
+//        ];
+//    }
+                                              
   ?>
     
     <div class="ui styled fluid accordion">           

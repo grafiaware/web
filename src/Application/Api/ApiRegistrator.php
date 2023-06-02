@@ -195,6 +195,14 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent/remove'));
 
 
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase/:eventLinkPhaseId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase/:eventLinkPhaseId/remove'));
+
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId/remove'));
+
    
         
         

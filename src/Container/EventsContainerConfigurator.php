@@ -40,6 +40,8 @@ use Events\Model\Repository\InstitutionTypeRepo;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Repository\EventContentRepo;
 use Events\Model\Repository\EventContentTypeRepo;
+use Events\Model\Repository\EventLinkPhaseRepo;
+use Events\Model\Repository\EventLinkRepo;
 
 
 // service
@@ -145,7 +147,10 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(InstitutionRepo::class),
                         $c->get(InstitutionTypeRepo::class),                                               
                         $c->get(EventContentRepo::class),
-                        $c->get(EventContentTypeRepo::class)                   
+                        $c->get(EventContentTypeRepo::class),
+                        
+                        $c->get(EventLinkPhaseRepo::class),
+                        $c->get(EventLinkRepo::class)  
                         )
                        )->injectContainer($c);
             },

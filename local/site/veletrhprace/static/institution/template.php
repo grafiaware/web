@@ -7,18 +7,13 @@ use Pes\Text\Html;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-//use Events\Model\Repository\CompanyRepo;
-//use Events\Model\Repository\CompanyContactRepo;
-//use Events\Model\Repository\InstitutionRepo;
 use Events\Model\Repository\InstitutionRepo;
 use Events\Model\Repository\InstitutionTypeRepo;
 
-//use Events\Model\Entity\CompanyInterface;
-//use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Entity\Institution;
 
-//use Events\Model\Repository\RepresentativeRepo;
+use Events\Middleware\Events\Controler\EventControler_2;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -46,26 +41,30 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             
     //------------------------------------------------------------------    
         $selectInstitutionType =[];    
+        $selectInstitutionType [EventControler_2::NULL_VALUE_nahradni] =  "" ;
         $institutionTypeEntities = $institutionTypeRepo->findAll();
+        if (isset($institutionTypeEntities) ) {
             /** @var InstitutionTypeInterface $entity */ 
-        foreach ( $institutionTypeEntities as $entity) {
-            $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
-        }                 
+            foreach ( $institutionTypeEntities as $entity) {
+                $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
+            }                 
+        }
     
         $institutions=[];
         $institutionsEntities = $institutionRepo->findAll();
         if ($institutionsEntities) {         
             foreach ($institutionsEntities as $entity) {
                 
-                $institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() );
-                $type = $institutionTypE->getInstitutionType();
+                $pom = $entity->getInstitutionTypeId() ?? '';
+                $institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() ?? '' );
+                $type = isset ($institutionTypE) ? $institutionTypE->getInstitutionType()  : '';                
                 
                 /** @var InstitutionInterface $entity */
                 $institutions[] = [
                     'institutionId' => $entity->getId(),
                     'name' =>  $entity->getName(),
-                    'institutionTypeId' => $entity->getInstitutionTypeId(),
-                    'institutionType' => ($institutionTypeRepo->get( $entity->getInstitutionTypeId() ) )->getInstitutionType(),
+                    'institutionTypeId' => $entity->getInstitutionTypeId() ?? ''   /*$entity->getInstitutionTypeId()*/,
+                    'institutionType' =>   $type, 
                     'selectInstitutionTypeId' =>  $selectInstitutionType
                     ];
             }   
