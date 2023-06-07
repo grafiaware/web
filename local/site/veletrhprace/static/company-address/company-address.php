@@ -15,9 +15,9 @@ use Pes\Text\Html;
 
         <form class="ui huge form" action="" method="POST" >
 
-            <div class="two fields">                        
+            <div class="two fields ">                        
                 <div class="field">
-                <label>Jméno adresy</label>
+                <label>Jméno vystavovatele v adrese</label>
                     <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="100" minlength="1" value="<?= isset($name)?  $name : '' ?>">
                  </div>  
                 <div class="field">
