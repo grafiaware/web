@@ -1,10 +1,10 @@
 /*!
  * # Fomantic-UI - Reset
- * http://github.com/fomantic/Fomantic-UI/
+ * https://github.com/fomantic/Fomantic-UI/
  *
  *
  * Released under the MIT license
- * http://opensource.org/licenses/MIT
+ * https://opensource.org/licenses/MIT
  *
  */
 
@@ -16,8 +16,8 @@
 
 /* Border-Box */
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   -webkit-box-sizing: inherit;
           box-sizing: inherit;
 }
@@ -215,9 +215,9 @@ textarea {
  */
 button,
 input {
+  overflow: visible;
   
 /* 1 */
-  overflow: visible;
 }
 /**
  * Remove the inheritance of text transform in Edge, Firefox, and IE.
@@ -225,9 +225,9 @@ input {
  */
 button,
 select {
+  text-transform: none;
   
 /* 1 */
-  text-transform: none;
 }
 /**
  * Correct the inability to style clickable types in iOS and Safari.

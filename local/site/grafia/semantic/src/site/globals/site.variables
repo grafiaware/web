@@ -26,7 +26,7 @@
        Links
 --------------------*/
 
-@linkColor           : @red; 
+@linkColor           : @red;  
 @linkHoverColor      : darken(saturate(@linkColor, 20), 25, relative);
 
 /*-------------------
