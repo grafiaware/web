@@ -112,6 +112,7 @@ use Events\Model\Entity\LoginInterface;
                             ['show' => false ] /*$context*/
                                              ) ?>
         <br/>//------------------------------------------------- <br/>
+        <br/>//------------------------------------------------- <br/>
         <?= Html::checkbox(["Ano"=>['ano'=>true],
                             "Ne"=>['ne'=>false]] ,
                            ['ano'=> true]  ) ?>

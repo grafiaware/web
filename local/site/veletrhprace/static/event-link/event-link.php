@@ -16,14 +16,14 @@ use Pes\Text\Html;
         <form class="ui huge form" action="" method="POST" >          
             <div class="field"> 
                     <label>políčko Show - Zobraz:</label>  
-                    <?= Html::checkbox( ["Zobraz" => ['show'=> true ] ] , 
-                                        ['show'=> $show ?? false ] ) ?>
+                    <?= Html::checkbox( ["Zobraz" => ['show'=> 1 ] ] , 
+                                        ['show'=> $show  ] ) ?>
             </div>   
             
             <div class="two fields">                                        
                 <div class="field">                   
                     <label>Href - Odkaz:</label>
-                    <input <?= $readonly ?> type="text" name="href" placeholder="" maxlength="255" value="<?= isset($href) ?  $href : '' ?>">                   
+                    <input <?= $readonly ?> type="text" name="href" placeholder="" maxlength="255" required value="<?=  $href  ?>">                   
                 </div>
                 
                 <div class="field">                                                    

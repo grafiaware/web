@@ -48,7 +48,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     
     
         $selectEventLinkPhase =[];  
-        $selectEventLinkPhase [''] =  "tady musis" ;
+        $selectEventLinkPhase [''] =  "vyber fázi - poviinné pole" ;
         $eventLinkPhaseEntities = $eventLinkPhaseRepo->findAll();
         if (isset($eventLinkPhaseEntities) ) {
             /** @var EventLinkPhaseInterface $ent */ 
@@ -58,7 +58,6 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
         } 
     
         $eventLinks=[];      
-       // $AR=[];
         $eventLinksEntities = $eventLinkRepo->findAll();
         if ($eventLinksEntities) {      
             /** @var EventLinkInterface $entity */
@@ -69,11 +68,11 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                 
                 $eventLinks[] = [
                     'eventLinkId' => $entity->getId(),
-                    'show' => boolval($entity->getShow())  /*??  EventControler_2::NULL_VALUE_nahradni*/ ,
+                    'show' => ($entity->getShow())  /*??  EventControler_2::NULL_VALUE_nahradni*/ ,
                     'href' =>  $entity->getHref(),
                     
                     'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler_2::NULL_VALUE_nahradni , 
-                    'eventLinkPhaseText' => $phaseText,                  
+                   // 'eventLinkPhaseText' => $phaseText,                  
                     'selectEventLinkPhase' => $selectEventLinkPhase
                     ];
             }   
@@ -105,6 +104,8 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                     <?= $this->insert( __DIR__.'/event-link.php', [
                                                             'selectEventLinkPhase' => $selectEventLinkPhase,
                                                             'eventLinkPhaseIdFk' =>  EventControler_2::NULL_VALUE_nahradni,
+                                                             'href' =>  "",
+                                                             'show' =>  "0"
                     ] ) ?>                                                                                 
                 </div>                  
             </div>            
