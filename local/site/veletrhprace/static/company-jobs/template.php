@@ -77,7 +77,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     <div>
     <div class="ui styled fluid accordion">   
 
-            Vystavovatel (company): |* <?= $company->getName(); ?> *|
+            Vystavovatel (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Nabízené pracovní pozice 
