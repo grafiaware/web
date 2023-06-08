@@ -16,7 +16,7 @@ use Pes\Text\Html;
         <form class="ui huge form" action="" method="POST" >                                                                         
                 <div class="field">                   
                     <label>Fáze odkazu</label>
-                    <input <?= $readonly ?> type="text" name="eventLinkPhaseText" placeholder="" maxlength="100" 
+                    <input <?= $readonly ?> type="text" name="eventLinkPhaseText" placeholder="" maxlength="100" required
                                             value="<?= isset($eventLinkPhaseText)?  $eventLinkPhaseText : '' ?>">                   
                 </div>           
             

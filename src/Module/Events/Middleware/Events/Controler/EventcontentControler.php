@@ -8,7 +8,7 @@
 
 namespace Events\Middleware\Events\Controler;
 
-use FrontControler\FrontControlerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -21,7 +21,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author pes2704
  */
-class EventcontentControler extends FrontControlerAbstract {
+class EventcontentControler extends PresentationFrontControlerAbstract {
 
     private $templateCompiler;
 

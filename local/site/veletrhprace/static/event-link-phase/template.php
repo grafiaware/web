@@ -67,6 +67,4 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             </div>            
     </div>
     </div>
-
     
-   ?>
