@@ -15,7 +15,6 @@ use Web\Component\View\Flash\FlashComponent;
 use Auth\Component\View\LoginComponent;
 use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
-use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\StatusBoardComponent;
 
@@ -88,15 +87,7 @@ class ConfigurationRed extends ConfigurationDb {
             'webcomponent.logs.render' => 'Render.log',
             'webcomponent.templates' =>
                 [
-                'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
-                'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
-                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
-                'logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
-                'useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
-                'statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-                'controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
-                // site layout templates
-//                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+
                 ]
         ];
     }
@@ -113,6 +104,13 @@ class ConfigurationRed extends ConfigurationDb {
             'redcomponent.logs.directory' => 'Logs/App/Red',
             'redcomponent.logs.render' => 'Render.log',
             'redcomponent.templates' => [
+                'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
+                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php', 
+                'logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
+                'useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
+                'statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+                'controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
             ]
         ];
     }
@@ -156,9 +154,12 @@ class ConfigurationRed extends ConfigurationDb {
             'linksSite' => self::RED_LINKS_SITE,
 
             // local templates paths
-            'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
-            'tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
-            'scriptsEditableMode' => self::RED_TEMPLATES_COMMON.'layout/head/scriptsEditableMode.php',
+            // php templates
+            'templates.layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
+            'templates.redScripts' => self::RED_TEMPLATES_COMMON.'layout/head/redScripts.php',
+            // js templates
+            'templates.navConfig' => self::RED_TEMPLATES_COMMON.'js/navConfig.js',
+            'templates.tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
 
             // linksEditorJs links
             'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
@@ -168,7 +169,9 @@ class ConfigurationRed extends ConfigurationDb {
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
+            'urlRedConfig' => self::RED_LINKS_COMMON.'js/redConfig.js',
+            'urltinyConfig' => self::RED_LINKS_COMMON.'js/tinyConfig.js',
+            'urlTinyInit' => self::RED_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::RED_LINKS_COMMON . 'js/edit.js',
 
             // linkEditorCss links
@@ -182,7 +185,6 @@ class ConfigurationRed extends ConfigurationDb {
 
             'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
-            'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/cascade/loaderElementEditable.php',
             'templates.unknownContent' => self::RED_TEMPLATES_COMMON.'layout/error/unknownContent.php',
             'layout_blocks' => [
                     'rychleOdkazy' => 'a3',
@@ -194,6 +196,12 @@ class ConfigurationRed extends ConfigurationDb {
                     'logo' => 'a7',
                     'banner' => 'a8',
                 ],
+            // hodnoty RequestCache pro hlavičky requestů odesílaných příkazem fetch v cascade.js
+            // viz https://developer.mozilla.org/en-US/docs/Web/API/Request/cache
+            'cascade.class' => 'cascade',
+            'cascade.cacheReloadOnNav' => 'reload',
+            'cascade.cacheLoadOnce' => 'default',
+
             // parametry kontext - service mapy jsou:
             //'context_name' => 'service_name'
             //      'context_name' - jméno proměnné v šabloně (bez znaku $),
@@ -202,11 +210,13 @@ class ConfigurationRed extends ConfigurationDb {
                     'languageSelect' => LanguageSelectComponent::class,
                     'searchPhrase' => SearchPhraseComponent::class,
                     'flash' => FlashComponent::class,
-                    'modalLoginLogout' => LoginComponent::class,
-                    'modalLoginLogout' => LogoutComponent::class,
+                    'modalLogin' => LoginComponent::class,
+                    'modalLogout' => LogoutComponent::class,
                     'modalRegister' => RegisterComponent::class,
                     'modalUserAction' => UserActionComponent::class,
                     'poznamky' => StatusBoardComponent::class,
+                ],
+            'contextLayoutMap' => [
                     'menuPresmerovani' => 'menu.presmerovani',
                     'menuVodorovne' => 'menu.vodorovne',
                     'menuSvisle' => 'menu.svisle',

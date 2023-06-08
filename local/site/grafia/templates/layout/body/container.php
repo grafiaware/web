@@ -2,7 +2,7 @@
 use Pes\Text\Html;
 ?>
 
-<div <?= Html::attributes($bodyContainerAttributes)?> >
+<div>
     <div class="ui container" >
         <div class="column">
             <header>
