@@ -37,7 +37,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         if ($userActions AND $userActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-cache');
         } else {
-            $response = $response->withHeader('Cache-Control', 'public, max-age=0');
+            $response = $response->withHeader('Cache-Control', 'public, max-age=0');  
         }
         $cls = (new \ReflectionClass($this))->getShortName();
         $response = $response->withHeader('X-RED-Controlled', "$cls");
