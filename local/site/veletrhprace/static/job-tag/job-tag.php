@@ -22,7 +22,7 @@ use Pes\Text\Html;
             <?php  if (isset ($tagId) ) {   ?>
                     <input readonly  type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
             <?php  } else {   ?>    
-                    <input <?= $readonly ?> type="text" name="tag" placeholder="" maxlength="45" value="<?= isset($tag) ? $tag : '' ?>">
+                    <input <?= $readonly ?> type="text" name="tag" placeholder="" maxlength="45" required value="<?= isset($tag) ? $tag : '' ?>">
             <?php  } ?>            
         </div>
 
