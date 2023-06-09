@@ -3,7 +3,7 @@
 namespace Events\Middleware\Events\Controler;
 
 use Site\ConfigurationCache;
-use FrontControler\FrontControlerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -53,7 +53,7 @@ use Mail\Params\Party;
  *
  * @author pes2704
  */
-class CompanyControler extends FrontControlerAbstract {
+class CompanyControler extends PresentationFrontControlerAbstract {
 
     /**
      * @var CompanyContactRepoInterface
