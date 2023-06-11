@@ -815,7 +815,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 
                 /** @var EventLinkInterface $eventLink */
                 $eventLink = $this->container->get(EventLinkInterface::class); //new     
-                $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') );
+                $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') ?? 0 );
                 $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );                     
                             
                 if ( (new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') != self::NULL_VALUE_nahradni )   {
@@ -865,7 +865,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
             
                 /** @var EventLinkInterface $eventLink */
                 $eventLink = $this->eventLinkRepo->get($eventLinkId);             
-                $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') );
+                $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') ?? 0 );
                 $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );
                
                 if ( (new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') != self::NULL_VALUE_nahradni )   {
