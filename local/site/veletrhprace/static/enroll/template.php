@@ -59,16 +59,14 @@ use Events\Model\Entity\LoginInterface;
                     ];
             }
     //------------------------------------------------------------------
-    $selectCompany =[];    
-   //$selectCompany [''] =  "vyber firmu - povinné pole" ; //toto zde  ne
+    $selectCompany =[];
+    $selectLogin =[];    
+    
     $companyEntities = $companyRepo->findAll();
         /** @var CompanyInterface $comp */ 
     foreach ( $companyEntities as $comp) {
         $selectCompany [$comp->getId()] =  $comp->getName() ;
     }
-    
-    $selectLogin =[]; 
-    //$selectLogin [''] =  "vyber representanta - povinné pole" ; //toto zde  ne
     $loginEntities = $loginRepo->findAll();
         /** @var LoginInterface  $logi */ 
     foreach ( $loginEntities as $logi) {

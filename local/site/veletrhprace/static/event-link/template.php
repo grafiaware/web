@@ -48,7 +48,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     
     
         $selectEventLinkPhase =[];  
-        $selectEventLinkPhase [''] =  "vyber fázi - poviinné pole" ;
+        $selectEventLinkPhase [''] =  "vyber fázi - povinné pole" ;
         $eventLinkPhaseEntities = $eventLinkPhaseRepo->findAll();
         if (isset($eventLinkPhaseEntities) ) {
             /** @var EventLinkPhaseInterface $ent */ 
@@ -72,7 +72,6 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                     'href' =>  $entity->getHref(),
                     
                     'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler_2::NULL_VALUE_nahradni , 
-                   // 'eventLinkPhaseText' => $phaseText,                  
                     'selectEventLinkPhase' => $selectEventLinkPhase
                     ];
             }   
@@ -101,11 +100,11 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                     Přidej další odkaz
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/event-link.php', [
-                                                            'selectEventLinkPhase' => $selectEventLinkPhase,
-                                                            'eventLinkPhaseIdFk' =>  EventControler_2::NULL_VALUE_nahradni,
-                                                             'href' =>  "",
-                                                             'show' =>  "0"
+                    <?= $this->insert( __DIR__.'/event-link.php', [                                                           
+                                                'eventLinkPhaseIdFk' =>  EventControler_2::NULL_VALUE_nahradni,
+                                                'selectEventLinkPhase' => $selectEventLinkPhase,                                                            
+                                                'show' =>  "0",
+                                                'href' =>  "",
                     ] ) ?>                                                                                 
                 </div>                  
             </div>            

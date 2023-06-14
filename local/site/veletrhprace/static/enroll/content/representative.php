@@ -26,17 +26,16 @@ use Pes\Text\Html;
                             <label>CompanyName</label>
                             <input <?= $readonly ?> type="text" name="company-name" placeholder="" maxlength="250" value="<?= isset($companyName)?  $companyName : '' ?>">
                     <?php } else { ?>
-                            <?= Html::select("selectCompany", "Company name:", $selectCompanies, [], ['required' => true ]) ?>                      
+                            <?= Html::select("selectCompany", "Company name:", $selectCompanies, [], []) ?>                      
                     <?php } ?>    
                 </div>
                 
                 <div class="field"> 
                     <?php  if (isset($loginLoginName) ) { ?>
-                            <label>Representant - loginLoginName</label>
+                            <label>loginLoginName</label>
                             <input <?= $readonly ?> type="text" name="login-login-name" placeholder="" maxlength="50" value="<?= isset($loginLoginName)? $loginLoginName : '' ?>">
                     <?php } else { ?>
-                            <?= Html::select("selectLogin", "Login name:",  $selectLogins,
-                                             [], ['required' => true ]) ?>   
+                            <?= Html::select("selectLogin", "Login name:",  $selectLogins, [], []) ?>   
                     <?php } ?> 
                 </div>
             </div>

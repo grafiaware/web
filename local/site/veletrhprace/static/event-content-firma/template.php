@@ -36,7 +36,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
     $institutionIdFk  = $idInstitution;
     
     $selectContentTypes = [];
-    $selectContentTypes [EventControler_2::NULL_VALUE_nahradni] =  "" ;
+    $selectContentTypes [''] =  "vyber typ - povinné pole" ;     
     $allContentType = $eventContentTypeRepo->findAll();
     $allContentTypeArray=[];
     /** @var  EventContentInterface $type */
@@ -99,7 +99,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
 
     <div class="ui styled fluid accordion">           
         <div>                
-           <b>Obsahy událostí (event content) </b>
+           <b>Obsahy událostí (event content) -  <?= $institution_idInstitutionFk->getName() . ' ' . $institutionIdFk ?> </b>
         </div>                          
         ------------------------------------------------------                      
         <div>      
@@ -112,9 +112,9 @@ use Events\Middleware\Events\Controler\EventControler_2;
                !+++! Přidej další obsah události (event content)
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/event-content-firma.php', [ "selectInstitutions" => $selectInstitutions,
-                                                                   "institutionIdFk" => $institutionIdFk,
-                                                                                    /*EventControler_2::NULL_VALUE_nahradni*/
+                <?= $this->insert( __DIR__.'/event-content-firma.php', [ 
+                                                                   "selectInstitutions" => $selectInstitutions,
+                                                                   "institutionIdFk" => $institutionIdFk,   /*EventControler_2::NULL_VALUE_nahradni*/
                                                                    "institutionName" => $institution_idInstitutionFk->getName(),
                     
                                                                    "selectContentTypes" => $selectContentTypes,
