@@ -23,9 +23,11 @@ use Pes\Text\Html;
                 
                 <div class="field">
                     <?php if (isset($companyName) ){ ?>
-                            <label>CompanyName</label>
-                            <input <?= $readonly ?> type="text" name="company-name" placeholder="" maxlength="250" value="<?= isset($companyName)?  $companyName : '' ?>">
+                            <label>Titul události</label>
+                            <input <?= $readonly ?> type="text" name="event-title" placeholder="" maxlength="250" value="<?= isset($companyName)?  $companyName : '' ?>">
                     <?php } else { ?>
+                            
+                            
                             <?= Html::select("selectCompany", "Company name:", $selectCompanies, [], []) ?>                      
                     <?php } ?>    
                 </div>
@@ -46,9 +48,9 @@ use Pes\Text\Html;
             ?>
             <div>
                 <?=
-                 isset($companyId) ?                 
-                "<button class='ui primary button' type='submit' formaction='events/v1/representative/". $loginLoginName . "/" . $companyId  ."/remove' > Odstranit representanta </button>" :    
-                "<button class='ui primary button' type='submit' formaction='events/v1/representative' > Uložit </button>" ;                
+                 isset($eventId) ?                 
+                "<button class='ui primary button' type='submit' formaction='events/v1/enroll/". $loginLoginName . "/" . $eventId  ."/remove' > Odstranit událost </button>" :    
+                "<button class='ui primary button' type='submit' formaction='events/v1/enroll' > Uložit </button>" ;                
                 ?>                                                                                                                                                                                                                                                 
             </div>
             <?php

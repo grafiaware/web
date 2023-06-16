@@ -80,15 +80,15 @@ use Events\Model\Entity\LoginInterface;
  
  
         <div >
-            Representanti vystavovatelů             
+            Události           
             <div class="ui styled fluid accordion">      
-                <?= $this->repeat(__DIR__.'/content/representative.php', $representatives  )  ?>
+                <?= $this->repeat(__DIR__.'/content/enroll.php', $representatives  )  ?>
             </div>
             <p></p>
 
-            Přidej dalšího representanta
+            Přidej další událost
             <div class="ui styled fluid accordion">            
-                    <?= $this->insert( __DIR__.'/content/representative.php',$selecty ) ?>                     
+                    <?= $this->insert( __DIR__.'/content/enroll.php',$selecty ) ?>                     
             </div>            
         
         </div>
