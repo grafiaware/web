@@ -28,8 +28,8 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
      * @param type $id
      * @return MenuItemAssetInterface|null
      */
-    public function get($id): ?MenuItemAssetInterface {
-        return $this->getEntity($id);
+    public function get($menuItemId, $filepath): ?MenuItemAssetInterface {
+        return $this->getEntity($menuItemId, $filepath);
     }
 
     /**
@@ -42,23 +42,12 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
     }
 
     /**
-     * Vrací jednu entitu nebo null vyhledanou podle filename, filename je unikátní (je definován unique index).
-     * @param type $filepath
-     * @return MenuItemAssetInterface
-     */
-    public function getByFilename($filepath): ?MenuItemAssetInterface {
-        return $this->getEntityByUnique(["filepath"=>$filepath]);
-    }
-
-    /**
      *
      * @return MenuItemAssetInterface[]
      */
     public function findAll() : array {
         return $this->findEntities();
     }
-
-
 
     /**
      *
@@ -69,8 +58,6 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
         $this->addEntity($menuItemAsset);
     }
 
-
-
     /**
      *
      * @param MenuItemAssetInterface $manuItem
@@ -79,8 +66,6 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
     public function remove(MenuItemAssetInterface $manuItem) :void {
         $this->removeEntity($manuItem);
     }
-
-
 
     protected function createEntity() {
         return new MenuItemAsset();
@@ -93,5 +78,4 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
     protected function indexFromRow($row) {
         return $row['id'];
     }
-
 }

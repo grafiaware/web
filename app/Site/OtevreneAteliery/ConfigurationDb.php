@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Site\VeletrhPrace;
+namespace Site\OtevreneAteliery;
 
 use Pes\Database\Handler\DbTypeEnum;
 
@@ -179,7 +179,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
             'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_nstavit' : 'veletrhprace',
+            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_nstavit' : 'oa_upgrade',
             #
             ###################################
             # Konfigurace logu databáze

@@ -13,6 +13,12 @@ include PROJECT_PATH.'app/Site/Grafia/ConfigurationDb.php';
 include PROJECT_PATH.'app/Site/Grafia/ConfigurationRed.php';
 include PROJECT_PATH.'app/Site/Grafia/ConfigurationStyles.php';
 
+//use Site\OtevreneAteliery as Siteconfig;
+//include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationConstants.php';
+//include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationDb.php';
+//include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationRed.php';
+//include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationStyles.php';
+
 //use Site\TydenZdravi as Siteconfig;
 //include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationConstants.php';
 //include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationDb.php';

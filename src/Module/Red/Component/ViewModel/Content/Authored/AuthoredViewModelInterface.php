@@ -19,7 +19,7 @@ use Red\Model\Entity\ItemActionInterface;
 interface AuthoredViewModelInterface extends MenuItemViewModelInterface {
 
     /**
-     * Vrací typ položky. Používá hodnoty z AuthoredTypeEnum.
+     * Vrací typ položky. MUSÍ použít hodnoty z AuthoredTypeEnum.
      *
      * @return string
      */

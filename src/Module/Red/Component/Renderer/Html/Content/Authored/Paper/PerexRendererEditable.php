@@ -29,7 +29,8 @@ class PerexRendererEditable extends HtmlRendererAbstract {
             $html = Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/perex"],
                 Html::tag('perex',
                     [
-                        'id' => PaperControler::PEREX_CONTENT."{$paperId}_{$componentUid}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'id'=> implode("_", [PaperControler::PEREX_CONTENT, $paperId, $componentUid]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                        'data-red-menuitemid'=>$viewModel->getMenuItemId(),
                         'class'=>$this->classMap->get('Perex', 'perex.edit-html')
                     ],
                     $paperAggregate->getPerex() ?? ""

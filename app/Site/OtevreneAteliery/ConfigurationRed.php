@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Site\VeletrhPrace;
+namespace Site\OtevreneAteliery;
 
 use Application\WebAppFactory;
 use Red\Component\View\Generated\LanguageSelectComponent;
@@ -149,7 +149,7 @@ class ConfigurationRed extends ConfigurationDb {
                 ],
 
             // title
-            'title' => "Veletrh práce online",
+            'title' => "Otevřené ateliery",
 
             // folders
             'linksCommon' => self::RED_LINKS_COMMON,

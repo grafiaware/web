@@ -4,9 +4,15 @@ namespace FrontControler;
 
 use Site\ConfigurationCache;
 
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Pes\Http\Response;
+
+use FrontControler\Exception\UploadFileException;
 
 /**
  * Description of NestedFilesUpload
@@ -16,17 +22,86 @@ use Pes\Http\Response;
 class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
 
     const UPLOADED_KEY = "file";
-
+    const MAX_FILE_SIZE = 0;
+    const ACCEPTED_EXTENSIONS = [];
+    
     private $multiple;
 
     private $accept;
+    
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        $this->setAcceptedExtensions(static::ACCEPTED_EXTENSIONS);
+    }
+    
+    protected function checkAndGetUploadedFile(ServerRequestInterface $request): UploadedFileInterface {  
+        // POST - jeden soubor
+        /* @var $uploadedFile UploadedFileInterface */
+        $uploadedFile = $request->getUploadedFiles()[static::UPLOADED_KEY];
+        if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
+            // messege z uploadErrorMessage()
+            throw new UploadFileException('Bad Request. '.$this->uploadErrorMessage($uploadedFile->getError()), 400); // 400 Bad Request
+        }
 
+        $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
+        $clientFileSize = $uploadedFile->getSize();  // v bytech
+        $clientFileExt = pathinfo($clientFileName,  PATHINFO_EXTENSION );
+
+        if ($clientFileSize > static::MAX_FILE_SIZE) {
+            $message = "Maximum controler file size ".static::MAX_FILE_SIZE." bytes exceeded.";
+            throw new UploadFileException('Payload Too Large. '.$message, 413); // 413 Payload Too Large
+        }
+        if (!in_array($clientFileExt, static::ACCEPTED_EXTENSIONS)) {
+            $accepted = "'".implode("', '", static::ACCEPTED_EXTENSIONS)."'";
+            $message = "Invalid file extension. Accept only: $accepted.";
+            throw new UploadFileException('Not Acceptable '.$message, 406);  // 406 Not Acceptable
+        }
+        return $uploadedFile;
+    }
+    
+        // KOPIE metody z VisitorControler
+    protected function uploadErrorMessage($error) {
+        switch ($error) {
+            case UPLOAD_ERR_OK:
+                $message = 'There is no error, the file uploaded with success.';
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+                $message = 'The uploaded file exceeds the upload_max_filesize directive in php.ini.';
+                break;
+            case UPLOAD_ERR_FORM_SIZE:
+                $message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.';
+                break;
+            case UPLOAD_ERR_PARTIAL:
+                $message = 'The uploaded file was only partially uploaded.';
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $message = 'No file was uploaded.';
+                break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                $message = 'Missing a temporary folder.';
+                break;
+            case UPLOAD_ERR_CANT_WRITE:
+                $message = 'Failed to write file to disk.';
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                $message = 'File upload stopped by extension.';
+                break;
+            default:
+                $message = 'Unknown upload error.';
+                break;
+        }
+        return $message;
+    }
+    
     /**
      * Nastaví, zda bude možné vybrat k uploadu více souborů současně.
      *
      * @param bool $multiple
      */
-    public function setMultiple($multiple=false) {
+    protected function setMultiple($multiple=false) {
         $this->multiple = (bool) $multiple;
     }
 
@@ -35,21 +110,25 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
      *
      * @param array $acceptedExtensions Pole hodnot
      */
-    public function setAcceptedExtensions($acceptedExtensions=[]) {
+    protected function setAcceptedExtensions($acceptedExtensions=[]) {
         $accepted = [];
         foreach ($acceptedExtensions as $extension) {
             $accepted[] =".".trim(trim($extension), ".");
         }
         $this->accept = implode(", ", $accepted);
     }
-
+    
+    protected function getAcceptedExtensions(): string {
+        return $this->accept ?? '';
+    }
+    
     /**
      * Vrací čas uploadu souboru odvozený z času requestu. Nahradí desetinou čárku v čísle pomlčkou. Řetězec je možné použít jako součást názvu souboru.
      *
      * @param ServerRequestInterface $request
      * @return string
      */
-    public function getUploadTimeString(ServerRequestInterface $request) {
+    protected function getUploadTimeString(ServerRequestInterface $request) {
         return str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
 //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
     }

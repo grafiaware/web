@@ -25,13 +25,12 @@ class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInte
     public function hydrate(EntityInterface $menuItemAsset, ArrayAccess $rowData) {
         /** @var MenuItemAssetInterface $menuItemAsset */
         $menuItemAsset
-            ->setId( $this->getPhpValue( $rowData,'id') )
             ->setMenuItemIdFk( $this->getPhpValue( $rowData,'menu_item_id_FK') )
             ->setFilepath( $this->getPhpValue( $rowData,'filepath') )
             ->setMimeType($this->getPhpValue( $rowData,'mime_type'))
             ->setEditorLoginName( $this->getPhpValue( $rowData,'editor_login_name') )
-            ->setCreated( $this->getPhpValue( $rowData,'created') )
-            ->setUpdated( $this->getPhpValue( $rowData,'updated') )
+            ->setCreated( $this->getPhpDate( $rowData,'created') )
+            ->setUpdated( $this->getPhpDate( $rowData,'updated') )
             ;
     }
 
@@ -42,7 +41,6 @@ class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInte
      */
     public function extract(EntityInterface $menuItemAsset, ArrayAccess $rowData) {
         /** @var MenuItemAssetInterface $menuItemAsset */
-        // id je autoincrement
         $this->setSqlValue( $rowData, 'menu_item_id_FK', $menuItemAsset->getMenuItemIdFk() );
         $this->setSqlValue( $rowData, 'filepath', $menuItemAsset->getFilepath() );
         $this->setSqlValue( $rowData, 'mime_type', $menuItemAsset->getMimeType() );

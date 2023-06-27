@@ -16,8 +16,6 @@ use Model\Entity\PersistableEntityInterface;
  */
 interface MenuItemAssetInterface extends PersistableEntityInterface {
 
-    public function getId() ;
-
     public function getMenuItemIdFk();
 
     public function getFilepath();
@@ -29,8 +27,6 @@ interface MenuItemAssetInterface extends PersistableEntityInterface {
     public function getCreated();
 
     public function getUpdated();
-
-    public function setId($id): MenuItemAssetInterface;
 
     public function setMenuItemIdFk($menuItemIdFk): MenuItemAssetInterface;
 
