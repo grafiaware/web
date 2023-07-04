@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Site\VeletrhPrace;
+namespace Site\OtevreneAteliery;
 
 /**
  * Description of Configuration

@@ -57,12 +57,14 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
     public function setMenuItemId($menuItemId) {
         $this->menuItemId = $menuItemId;
     }
-
-    public function getMenuItem(): MenuItemInterface {
+    public function getMenuItemId() {
         if (!isset($this->menuItemId)) {
             throw new LogicException("Modelu ". static::class ." nebyla nastavena hodnota menu item id. Hodnotu je nutné nastavit voláním metody setItemId().");
         }
-        return $this->menuItemRepo->getById($this->menuItemId);
+        return $this->menuItemId;
+    }
+    public function getMenuItem(): MenuItemInterface {
+        return $this->menuItemRepo->getById($this->getMenuItemId());
     }
 
 }

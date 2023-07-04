@@ -37,10 +37,8 @@ use UnexpectedValueException;
  */
 class PaperControler extends AuthoredControlerAbstract {
 
-    const PEREX_CONTENT = 'perex_content';
-    const HEADLINE_CONTENT = 'headline_content';
-    const SECTION_CONTENT = 'section_content';
-
+    const PEREX_CONTENT = 'perex-content';
+    const HEADLINE_CONTENT = 'headline-content';
 
     private $paperAggregateRepo;
 
@@ -65,7 +63,7 @@ class PaperControler extends AuthoredControlerAbstract {
         if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
-            $namePrefix = self::HEADLINE_CONTENT.$paperId;
+            $namePrefix = implode("_", [self::HEADLINE_CONTENT, $paperId]);
             $headlinePost = $this->paramValue($request, $namePrefix);
             $paperAggregate->setHeadline($headlinePost);
             $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
@@ -85,7 +83,7 @@ class PaperControler extends AuthoredControlerAbstract {
         if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
-            $namePrefix = self::PEREX_CONTENT.$paperId;
+            $namePrefix = implode("_", [self::PEREX_CONTENT, $paperId]);
             $perexPost = $this->paramValue($request, $namePrefix);
             $paperAggregate->setPerex($perexPost);
             $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);

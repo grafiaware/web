@@ -19,17 +19,12 @@ use Red\Model\Entity\MenuItemAssetInterface;
  */
 class MenuItemAsset extends PersistableEntityAbstract implements MenuItemAssetInterface {
 
-    private $id;
     private $menuItemIdFk;
     private $filepath;
     private $mimeType;
     private $editorLoginName;
     private $created;
     private $updated;
-
-    public function getId() {
-        return $this->id;
-    }
 
     public function getMenuItemIdFk() {
         return $this->menuItemIdFk;
@@ -53,11 +48,6 @@ class MenuItemAsset extends PersistableEntityAbstract implements MenuItemAssetIn
 
     public function getUpdated() {
         return $this->updated;
-    }
-
-    public function setId($id): MenuItemAssetInterface {
-        $this->id = $id;
-        return $this;
     }
 
     public function setMenuItemIdFk($menuItemIdFk): MenuItemAssetInterface {

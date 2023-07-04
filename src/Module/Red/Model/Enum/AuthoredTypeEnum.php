@@ -12,21 +12,15 @@ use Pes\Type\Enum;
 
 /**
  * Description of AuthoredEnum
+ * 
+ * Výčet typů authoringového obsahu (editovatelného obsahu)
+ * POZOR! Hodnoty se používají mimo jiné i pro konstruování url řetězců (pro authoringové templaty) a musí odpovídat zaregistrovanýmm url v API.
  *
  * @author pes2704
  */
 class AuthoredTypeEnum extends Enum {
-//    db menu_item:
-//article
-//empty
-//multipage
-//paper
-//redirect
-//root
-//static
-//trash
+
     const PAPER = 'paper';
     const ARTICLE =  'article';
     const MULTIPAGE = 'multipage';
-    const ITEM_TYPE_SELECT = 'item_type_select';
 }

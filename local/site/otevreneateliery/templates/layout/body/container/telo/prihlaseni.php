@@ -1,9 +1,12 @@
         <div class="prihlaseni">
             <?=
-                $modalLoginLogout
+                $modalLogin ?? '';
             ?>
             <?=
-                $modalRegister ?? ''
+                $modalLogout ?? '';
+            ?>
+            <?=
+                $modalRegister ?? '';
             ?>
             <?=
                 $modalUserAction ?? ''

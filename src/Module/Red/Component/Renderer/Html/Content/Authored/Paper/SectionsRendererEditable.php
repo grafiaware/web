@@ -105,8 +105,9 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/section/{$paperSection->getId()}"],
                 Html::tag('content',
                     [
-                    'id' => SectionsControler::SECTION_CONTENT."{$paperSection->getId()}_{$viewModel->getComponentUid()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                    'class'=>$this->classMap->get('Content', 'content.edit-html')
+                        'id'=> implode("_", [SectionsControler::SECTION_CONTENT, $paperSection->getId(), $viewModel->getComponentUid()]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                        'data-red-menuitemid'=>$viewModel->getMenuItemId(),
+                        'class'=>$this->classMap->get('Content', 'content.edit-html')
                     ],
                     $paperSection->getContent() ?? ""
                 )

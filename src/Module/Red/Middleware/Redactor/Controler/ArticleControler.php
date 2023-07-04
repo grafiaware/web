@@ -38,8 +38,8 @@ use UnexpectedValueException;
  */
 class ArticleControler extends AuthoredControlerAbstract {
 
-    const ARTICLE_TEMPLATE_NAME = 'article_template';
-    const ARTICLE_CONTENT = 'article_content';
+    const ARTICLE_TEMPLATE_NAME = 'article-template';
+    const ARTICLE_CONTENT = 'article-content';
 
     private $articleRepo;
 

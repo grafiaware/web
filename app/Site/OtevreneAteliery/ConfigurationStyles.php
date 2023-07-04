@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Site\VeletrhPrace;
+namespace Site\OtevreneAteliery;
 
 use Pes\View\Renderer\ClassMap\ClassMap;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;

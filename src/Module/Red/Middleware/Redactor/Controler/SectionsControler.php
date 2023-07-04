@@ -37,7 +37,7 @@ use Pes\Text\Message;
  */
 class SectionsControler extends FrontControlerAbstract {
 
-    const SECTION_CONTENT = 'section_content';
+    const SECTION_CONTENT = 'section-content';
 
     private $paperSectionRepo;
 
@@ -62,7 +62,7 @@ class SectionsControler extends FrontControlerAbstract {
         if (!isset($section)) {
             user_error("Neexistuje sekce se zadaným id.$sectionId");
         } else {
-            $namePrefix = self::SECTION_CONTENT.$sectionId;
+            $namePrefix = implode("_", [self::SECTION_CONTENT, $sectionId]);
             $sectionPost = $this->paramValue($request, $namePrefix);
             $section->setContent($sectionPost);
             $this->addFlashMessage('Section updated', FlashSeverityEnum::SUCCESS);
@@ -160,7 +160,7 @@ class SectionsControler extends FrontControlerAbstract {
     public function up(ServerRequestInterface $request, $sectionId) {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
-        $sections = $this->paperSectionRepo->findByReference($section->getPaperIdFk());
+        $sections = $this->paperSectionRepo->findByPaperIdFk($section->getPaperIdFk());
         $selectedSectionPriority = $section->getPriority();
         $shifted = false;
         foreach ($sections as $sectionsItem) {
@@ -180,7 +180,7 @@ class SectionsControler extends FrontControlerAbstract {
     public function down(ServerRequestInterface $request, $sectionId) {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
-        $sections = $this->paperSectionRepo->findByReference($section->getPaperIdFk());
+        $sections = $this->paperSectionRepo->findByPaperIdFk($section->getPaperIdFk());
         $selectedSectionPriority = $section->getPriority();
         $shifted = false;
         foreach ($sections as $sectionsItem) {
@@ -206,7 +206,7 @@ class SectionsControler extends FrontControlerAbstract {
     public function add(ServerRequestInterface $request, $paperId) {
         $priority = 1;
         // pro případ volání add i v situaci, kdy již existuje obsah
-        $sections = $this->paperSectionRepo->findByReference($paperId);
+        $sections = $this->paperSectionRepo->findByPaperIdFk($paperId);
         foreach ($sections as $sectionsItem) {
             /** @var PaperSectionInterface $sectionsItem */
             $sectionsItem->setPriority($sectionsItem->getPriority()+1);
@@ -220,7 +220,7 @@ class SectionsControler extends FrontControlerAbstract {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($contentId);
         $paperId = $section->getPaperIdFk();
-        $sections = $this->paperSectionRepo->findByReference($paperId);
+        $sections = $this->paperSectionRepo->findByPaperIdFk($paperId);
         $priority = $section->getPriority();
         foreach ($sections as $sectionsItem) {
             /** @var PaperSectionInterface $sectionsItem */
@@ -238,7 +238,7 @@ class SectionsControler extends FrontControlerAbstract {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
         $paperId = $section->getPaperIdFk();
-        $sections = $this->paperSectionRepo->findByReference($paperId);
+        $sections = $this->paperSectionRepo->findByPaperIdFk($paperId);
         $priority = $section->getPriority();
         foreach ($sections as $sectionsItem) {
             /** @var PaperSectionInterface $sectionsItem */
@@ -264,7 +264,7 @@ class SectionsControler extends FrontControlerAbstract {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
         $paperId = $section->getPaperIdFk();
-        $sections = $this->paperSectionRepo->findByReference($paperId);
+        $sections = $this->paperSectionRepo->findByPaperIdFk($paperId);
         $priority = $section->getPriority();
         $section->setPriority(0);   // "koš" - s prioritou 0 může být více contentů
         $section->setActive(0);
@@ -284,7 +284,7 @@ class SectionsControler extends FrontControlerAbstract {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
         $paperId = $section->getPaperIdFk();
-        $sections = $this->paperSectionRepo->findByReference($paperId);
+        $sections = $this->paperSectionRepo->findByPaperIdFk($paperId);
         foreach ($sections as $contentItem) {
             /** @var PaperSectionInterface $contentItem */
             $itemPriority = $contentItem->getPriority();

@@ -216,6 +216,7 @@ function image_upload_handler (blobInfo, success, failure, progress) {
         }
         success(json.location);
     };
+
     xhr.onerror = function () {
         failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
         console.error('image_upload_handler: failed upload - ' + xhr.status);
@@ -236,9 +237,6 @@ function image_upload_handler (blobInfo, success, failure, progress) {
     xhr.send(formData);
 };
 
-  function images_dataimg_filter(img) {
-    return !img.hasAttribute('internal-blob');  // blocks the upload of <img> elements with the attribute "internal-blob".
-  }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -375,7 +373,7 @@ var editHtmlConfig = {
     /* enable title field in the Image dialog*/
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs*/
-    automatic_uploads: true, // default true
+//    automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 // odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
@@ -385,7 +383,6 @@ var editHtmlConfig = {
     file_picker_types: 'image media',
     /* and here's our custom image picker*/
     file_picker_callback: file_picker_callback_function,
-    images_dataimg_filter: images_dataimg_filter,
     images_upload_handler: image_upload_handler,
 
     setup: editorFunction,  // callback that will be executed before the TinyMCE editor instance is rendered
@@ -424,7 +421,7 @@ var editMceEditableConfig = {
     /* enable title field in the Image dialog*/
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs*/
-    automatic_uploads: true, // default true
+    automatic_uploads: false,  // default value true
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 // odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
@@ -434,17 +431,19 @@ var editMceEditableConfig = {
     file_picker_types: 'image media',
     /* and here's our custom image picker*/
     file_picker_callback: file_picker_callback_function,
-    images_dataimg_filter: images_dataimg_filter,
     images_upload_handler: image_upload_handler,
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
-let selectTemplateCommonConfig = {
+
+var selectTemplateArticleConfig = {
+    selector: '.tiny_select_template_article',
     schema : 'html5',
+    placeholder: 'Výběr šablony stránky', 
+    relative_urls : true,
     extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
     custom_elements: ['headline', 'perex', 'content'],
     valid_children: '+a[div] ',
-    relative_urls : true,
     link_title: false,
     noneditable_editable_class: 'mceEditable',
     noneditable_noneditable_class: 'mceNonEditable',
@@ -452,40 +451,70 @@ let selectTemplateCommonConfig = {
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
     body_class: "layout preview",
+
     menubar: false,
     inline: true,
     plugins: [
-    'template', 'save', 'noneditable'
-    ]
-};
-
-var selectTemplateArticleConfig = {
-    ...selectTemplateCommonConfig,
-    selector: '.tiny_select_template_article',
-    placeholder: 'Výběr šablony article',
+    'template', 'save', 'noneditable',
+    ],
     toolbar: 'template | save',
     templates: 'red/v1/templateslist/article'
-};
 
+};
 var selectTemplatePaperConfig = {
-    ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_paper',
-    placeholder: 'Výběr šablony paper',
+    schema : 'html5',
+    placeholder: 'Výběr šablony stránky',
+    relative_urls : true,
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
     style_formats: [
         { title: 'Vertikálně prohodit perex a contents', selector: 'div.vertikalne-prohodit', classes: [ 'active' ], styles: { 'flex-direction': 'column-reverse' } },
         { title: 'Horizontálně prohodit perex a contents', selector: 'div.horizontalne-prohodit', styles: { 'flex-direction': 'row-reverse' } },
     ],
     style_formats_autohide: true,
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable',
+    ],
     toolbar: 'template | save cancel | styleselect',
     templates: 'red/v1/templateslist/paper'
+
 };
 
 var selectTemplateMultipageConfig = {
-    ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_multipage',
-    placeholder: 'Výběr šablony multipage',
+    schema : 'html5',
+    placeholder: 'Výběr šablony stránky',
+    relative_urls : true,
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable',
+    ],
     toolbar: 'template | save',
     templates: 'red/v1/templateslist/multipage'
+
 };
 
 var editWorkDataConfig = {

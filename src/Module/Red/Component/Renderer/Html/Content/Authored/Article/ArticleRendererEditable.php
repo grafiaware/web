@@ -47,13 +47,16 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $id = $viewModel->getAuthoredContentId();
         $componentUid = $viewModel->getComponentUid();
         $templateName = $viewModel->getAuthoredTemplateName();
-
+        /** @var ArticleViewModelInterface $viewModel */
+        $article = $viewModel->getArticle();  // vrací PaperAggregate
+        
         return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$id"],
-                Html::tag('div',
+                Html::tag('div',        // toto je element tinymce.activeEditor.getElement();
                     [
-                        'id'=> ArticleControler::ARTICLE_CONTENT.$id."_".$componentUid,           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                        'id'=> implode("_", [ArticleControler::ARTICLE_CONTENT, $id, $componentUid]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
                         'class'=>'edit-html',
                         "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
+                        'data-red-menuitemid'=>$viewModel->getMenuItemId()
                     ],
                      $viewModel->getArticle()->getContent()  // co je editovatelné je dáno šablonou
                 )

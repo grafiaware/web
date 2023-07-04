@@ -11,11 +11,12 @@ use Red\Model\Entity\MenuItemAssetInterface;
  */
 interface MenuItemAssetRepoInterface  extends RepoInterface {
     /**
-     *
-     * @param type $id
+     * 
+     * @param type $menuItemId
+     * @param type $filepath
      * @return MenuItemAssetInterface|null
      */
-    public function get($id): ?MenuItemAssetInterface ;
+    public function get($menuItemId, $filepath): ?MenuItemAssetInterface ;
 
     /**
      *
@@ -23,15 +24,6 @@ interface MenuItemAssetRepoInterface  extends RepoInterface {
      * @return MenuItemAssetInterface[]
      */
     public function findByMenuItemId($menuItemId) : array;
-
-
-    /**
-     *
-     * @param type $filename
-     * @return MenuItemAssetInterface[]
-     */
-    public function getByFilename($filename): ?MenuItemAssetInterface ;
-
 
     /**
      *

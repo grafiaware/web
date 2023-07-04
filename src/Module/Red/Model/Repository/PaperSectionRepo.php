@@ -48,8 +48,9 @@ class PaperSectionRepo extends RepoAbstract implements PaperSectionRepoInterface
      * @return iterable
      */
     public function findByPaperIdFk($paperIdFk): iterable {
-        $key = $this->dataManager->getForeignKeyTouples('paper_id_fk', ['paper_id_fk'=>$paperIdFk]);
-        return $this->findEntitiesByReference('paper_id_fk', $key);
+        return $this->findEntityByReference(PaperSectionDao::REFERENCE_PAPER, $paperIdFk);
+//        $key = $this->dataManager->getForeignKeyTouples('paper_id_fk', ['paper_id_fk'=>$paperIdFk]);
+//        return $this->findEntitiesByReference('paper_id_fk', $key);
 
 //            public function findByJobTagTag($jobTagTag) : array  {
 //        return $this->findEntities("job_tag_tag = :job_tag_tag", [":job_tag_tag"=>$jobTagTag]);

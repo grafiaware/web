@@ -53,6 +53,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
                 .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.nameMenuItem')],
                     Html::tag('p', ['class'=>''],
                         $type
+                        ."&nbsp"
                         .Html::tag('span', ['class'=>''],$menuItem->getTitle())
                     )
                 )

@@ -32,7 +32,8 @@ class HeadlineRendererEditable extends HtmlRendererAbstract {
             $html = Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/headline"],
             Html::tag('headline',
                     [
-                        'id'=>PaperControler::HEADLINE_CONTENT."{$paperId}_{$componentUid}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'id'=> implode("_", [PaperControler::HEADLINE_CONTENT, $paperId, $componentUid]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                        'data-red-menuitemid'=>$viewModel->getMenuItemId(),
                         'class'=>$this->classMap->get('Headline', 'headline.edit-text'),
                     ],
                     $paperAggregate->getHeadline() ?? ""
