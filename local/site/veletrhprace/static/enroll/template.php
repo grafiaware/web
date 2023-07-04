@@ -59,16 +59,14 @@ use Events\Model\Entity\LoginInterface;
                     ];
             }
     //------------------------------------------------------------------
-    $selectCompany =[];    
-   //$selectCompany [''] =  "vyber firmu - povinné pole" ; //toto zde  ne
+    $selectCompany =[];
+    $selectLogin =[];    
+    
     $companyEntities = $companyRepo->findAll();
         /** @var CompanyInterface $comp */ 
     foreach ( $companyEntities as $comp) {
         $selectCompany [$comp->getId()] =  $comp->getName() ;
     }
-    
-    $selectLogin =[]; 
-    //$selectLogin [''] =  "vyber representanta - povinné pole" ; //toto zde  ne
     $loginEntities = $loginRepo->findAll();
         /** @var LoginInterface  $logi */ 
     foreach ( $loginEntities as $logi) {
@@ -82,15 +80,15 @@ use Events\Model\Entity\LoginInterface;
  
  
         <div >
-            Representanti vystavovatelů             
+            Události           
             <div class="ui styled fluid accordion">      
-                <?= $this->repeat(__DIR__.'/content/representative.php', $representatives  )  ?>
+                <?= $this->repeat(__DIR__.'/content/enroll.php', $representatives  )  ?>
             </div>
             <p></p>
 
-            Přidej dalšího representanta
+            Přidej další událost
             <div class="ui styled fluid accordion">            
-                    <?= $this->insert( __DIR__.'/content/representative.php',$selecty ) ?>                     
+                    <?= $this->insert( __DIR__.'/content/enroll.php',$selecty ) ?>                     
             </div>            
         
         </div>

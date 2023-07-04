@@ -529,7 +529,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 
                 /** @var EventContentInterface $content */
                 $content = $this->container->get(EventContent::class); //new     
-                $content->setTitle((new RequestParams())->getParsedBodyParam($request, 'title') );
+                $a = (new RequestParams())->getParsedBodyParam($request, 'title') ;                                                            
+                $content->setTitle((new RequestParams())->getParsedBodyParam($request, 'title') );               
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 

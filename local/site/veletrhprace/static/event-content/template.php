@@ -36,7 +36,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
     $institutionIdFk  = $idInstitution;
     
     $selectContentTypes = [];
-    $selectContentTypes [EventControler_2::NULL_VALUE_nahradni] =  "" ;
+    $selectContentTypes [''] =  "vyber typ - povinné pole" ;
     $allContentType = $eventContentTypeRepo->findAll();
     $allContentTypeArray=[];
     /** @var  EventContentInterface $type */
@@ -103,7 +103,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
     
     <div class="ui styled fluid accordion">           
         <div>                
-           <b>Obsahy událostí (event content ?> </b>
+           <b>Obsahy událostí (event content) </b>
         </div>                          
         ------------------------------------------------------                      
         <div>      
@@ -120,7 +120,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
                                                                    "institutionIdFk" =>  EventControler_2::NULL_VALUE_nahradni,                                                                  
                     
                                                                    "selectContentTypes" => $selectContentTypes,
-                                                                   "eventContentTypeFk" => EventControler_2::NULL_VALUE_nahradni                   
+                                                                   "eventContentTypeFk" => EventControler_2::NULL_VALUE_nahradni
                                                                  ] ) ?>                                                                                 
             </div>                  
         </div>           
