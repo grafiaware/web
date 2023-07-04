@@ -12,10 +12,10 @@ function toggleTemplateSelect(event, id) {
 //    $('#'+id).toggle();
     console.log("toggleTemplateSelect: element id "+id+".");
     var elm = document.getElementById(id);
-    if (elm == null) {
+    if (elm === null) {
         console.error("toggleTemplateSelect: Unable toggle template select. There is no element with id '"+id+"'.");
     } else {
-        if (elm.style.display=="block") {
+        if (elm.style.display==="block") {
             elm.style.display = "none";
         } else {
             elm.style.display = "block";

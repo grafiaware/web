@@ -769,7 +769,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(SelectTemplateComponent::class, AccessPresentationEnum::EDIT)) {
                     /** @var ComponentConfigurationInterface $configuration */
                     $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new SelectTemplateComponent($c->get(ComponentConfiguration::class));
+                    $component = new SelectTemplateComponent($configuration);
                     $component->setRendererName(SelectTemplateRenderer::class);
                 } else {
                     $component = $c->get(ElementComponent::class);

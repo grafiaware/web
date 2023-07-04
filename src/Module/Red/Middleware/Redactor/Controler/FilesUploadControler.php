@@ -70,7 +70,14 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             $baseFilepath = ConfigurationCache::filesUploadController()['upload.red'];
             // vytvoř složku pokud neexistuje
             Directory::createDirectory($baseFilepath);
-            $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
+            $clientFName = $uploadedFile->getClientFilename();
+            if (is_null($clientFName)) {
+                throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no filename.", 406);
+            }
+            if ($clientFName==='') {
+                throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty filename.", 406);
+            }
+            $clientFileName = urldecode($clientFName);  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
             $targetFilepath = $baseFilepath.$clientFileName;
             $uploadedFile->moveTo($targetFilepath);
         } catch (UploadFileException $e) {
@@ -85,27 +92,35 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         }
 
         if (isset($httpError)) {
-            $httpStatus = $httpStatus ?? 404;
-            $response = (new ResponseFactory())->createResponse()->withStatus($httpStatus, $httpError);
-            $response = $this->addHeaders($request, $response);
+            $response = $this->errorResponse($request, $httpError, $httpStatus);
         } else {
             $editedItemId = $this->paramValue($request, 'edited_item_id');
-            $clientMime = $uploadedFile->getClientMediaType();
-            if ($clientFileName AND $editedItemId) {
+            if ($editedItemId) {
+                $clientMime = $uploadedFile->getClientMediaType();
                 $this->recordAsset($clientFileName, $clientMime, $editedItemId);
-                // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
-                // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-                $json = json_encode(array('location' => $targetFilepath));  //
-                $response = $this->createResponseFromString($request, $json);
+                $response = $this->okJsonResponse($request, $targetFilepath);
             } else {
-                $response = (new ResponseFactory())->createResponse()->withStatus(406, "Request has no filename or menu item id.");  // 406 Not Acceptable
-                $response = $this->addHeaders($request, $response);                
+                $httpError = "Not Acceptable. Redactor: Request has no 'edited_item_id' variable.";  // 406 Not Acceptable
+                $httpStatus = 406;
+                $response = $this->errorResponse($request, $httpError, $httpStatus);            
             }
 
         }
         return $response;
     }
+    private function errorResponse(ServerRequestInterface $request, $httpError, $httpStatus=null) {
+        return $this->addHeaders(
+                $request, 
+                (new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $httpError)
+            );
+    }
     
+    private function okJsonResponse(erverRequestInterface $request, $targetFilepath) {
+        // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
+        // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
+        $json = json_encode(array('location' => $targetFilepath));  //
+        return $this->createResponseFromString($request, $json);        
+    }
     private function recordAsset($clientFileName, $clientMime, $editedItemId) {
         if (is_null($this->menuItemAssetRepo->get($editedItemId, $clientFileName))) {
             //TODO: SV 

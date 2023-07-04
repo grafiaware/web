@@ -43,7 +43,7 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
         $uploadedFile = $request->getUploadedFiles()[static::UPLOADED_KEY];
         if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
             // messege z uploadErrorMessage()
-            throw new UploadFileException('Bad Request. '.$this->uploadErrorMessage($uploadedFile->getError()), 400); // 400 Bad Request
+            throw new UploadFileException('Bad Request. Redactor: '.$this->uploadErrorMessage($uploadedFile->getError()), 400); // 400 Bad Request
         }
 
         $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
@@ -52,12 +52,12 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
 
         if ($clientFileSize > static::MAX_FILE_SIZE) {
             $message = "Maximum controler file size ".static::MAX_FILE_SIZE." bytes exceeded.";
-            throw new UploadFileException('Payload Too Large. '.$message, 413); // 413 Payload Too Large
+            throw new UploadFileException('Payload Too Large. Redactor: '.$message, 413); // 413 Payload Too Large
         }
         if (!in_array($clientFileExt, static::ACCEPTED_EXTENSIONS)) {
             $accepted = "'".implode("', '", static::ACCEPTED_EXTENSIONS)."'";
             $message = "Invalid file extension. Accept only: $accepted.";
-            throw new UploadFileException('Not Acceptable '.$message, 406);  // 406 Not Acceptable
+            throw new UploadFileException('Not Acceptable. Redactor: '.$message, 406);  // 406 Not Acceptable
         }
         return $uploadedFile;
     }

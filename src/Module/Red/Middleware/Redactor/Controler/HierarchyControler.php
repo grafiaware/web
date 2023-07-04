@@ -141,8 +141,6 @@ class HierarchyControler extends FrontControlerAbstract {
      */
     public function pastechild(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
-
-        $statusFlash = $this->statusFlashRepo->get();
         $success = false;
         $postCommand = $statusFlash->getPostCommand();
         if (is_array($postCommand) ) {

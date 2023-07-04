@@ -26,6 +26,7 @@ use Red\Service\ItemCreator\ItemCreatorRegistryInterface;
 use Red\Service\MenuItemxManipulator\MenuItemToggleResultEnum;
 
 use Pes\Type\Exception\ValueNotInEnumException;
+use LogicException;
 
 /**
  * Description of Controler
@@ -154,7 +155,7 @@ class EditItemControler extends FrontControlerAbstract {
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
             if ($langMenuItem->getTypeFk()) {
                 $isEmpty = false;
-                user_error("Pokus o nastavení typu položce menu, která již má typ. Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' je typu {$langMenuItem->getTypeFk()}.");
+                throw new LogicException("Pokus o nastavení typu položce menu, která již má typ. Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' je typu {$langMenuItem->getTypeFk()}.");
             }
         }
         if ($isEmpty) {
