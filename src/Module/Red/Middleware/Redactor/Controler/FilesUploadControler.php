@@ -68,18 +68,15 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             $uploadedFile = $this->checkAndGetUploadedFile($request);
             // relativní cesta vzhledem k root (_files/...)
             $baseFilepath = ConfigurationCache::filesUploadController()['upload.red'];
+            $clientFileName = $this->getClientFileName($uploadedFile);
+            $clientMime = $this->getMimeType($uploadedFile);
+            $editedItemId = $this->getEditedItemId($request);
             // vytvoř složku pokud neexistuje
-            Directory::createDirectory($baseFilepath);
-            $clientFName = $uploadedFile->getClientFilename();
-            if (is_null($clientFName)) {
-                throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no filename.", 406);
-            }
-            if ($clientFName==='') {
-                throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty filename.", 406);
-            }
-            $clientFileName = urldecode($clientFName);  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
-            $targetFilepath = $baseFilepath.$clientFileName;
+            $path = $baseFilepath.$editedItemId.'/';
+            Directory::createDirectory($path);            
+            $targetFilepath = $path.$clientFileName;
             $uploadedFile->moveTo($targetFilepath);
+            $this->recordAsset($clientFileName, $clientMime, $editedItemId);
         } catch (UploadFileException $e) {
             $httpStatus = $e->getCode(); // http error kod byl předán do Expetion code v checkAndGetUploadedFile()
             $httpError =  $e->getMessage();
@@ -94,18 +91,9 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         if (isset($httpError)) {
             $response = $this->errorResponse($request, $httpError, $httpStatus);
         } else {
-            $editedItemId = $this->paramValue($request, 'edited_item_id');
-            if ($editedItemId) {
-                $clientMime = $uploadedFile->getClientMediaType();
-                $this->recordAsset($clientFileName, $clientMime, $editedItemId);
-                $response = $this->okJsonResponse($request, $targetFilepath);
-            } else {
-                $httpError = "Not Acceptable. Redactor: Request has no 'edited_item_id' variable.";  // 406 Not Acceptable
-                $httpStatus = 406;
-                $response = $this->errorResponse($request, $httpError, $httpStatus);            
-            }
-
+            $response = $this->okJsonResponse($request, $targetFilepath);
         }
+
         return $response;
     }
     private function errorResponse(ServerRequestInterface $request, $httpError, $httpStatus=null) {
@@ -115,11 +103,41 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             );
     }
     
-    private function okJsonResponse(erverRequestInterface $request, $targetFilepath) {
+    private function okJsonResponse(ServerRequestInterface $request, $targetFilepath) {
         // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
         $json = json_encode(array('location' => $targetFilepath));  //
         return $this->createResponseFromString($request, $json);        
+    }
+    
+    public function getClientFileName($uploadedFile) {
+        $clientFName = $uploadedFile->getClientFilename();
+        if (is_null($clientFName)) {
+            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no filename.", 406);
+        }
+        if ($clientFName==='') {
+            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty filename.", 406);
+        }
+        return urldecode($clientFName);  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován        
+    }    
+    
+    public function getMimeType($uploadedFile) {
+        $clientMime = $uploadedFile->getClientMediaType();
+        if (is_null($clientMime)) {
+            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no MIME type.", 406);
+        }
+        if ($clientMime==='') {
+            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty MIME type.", 406);
+        }                  
+        return $clientMime;
+    }
+    private function getEditedItemId(ServerRequestInterface $request) {
+        $editedItemId = $this->paramValue($request, 'edited_item_id');
+        if ($editedItemId) {    
+            return $editedItemId;
+        }else {
+            throw new UploadFileException("Not Acceptable. Redactor: Request has no 'edited_item_id' variable.", 406);
+        }    
     }
     private function recordAsset($clientFileName, $clientMime, $editedItemId) {
         if (is_null($this->menuItemAssetRepo->get($editedItemId, $clientFileName))) {
@@ -156,6 +174,8 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         /* @var $file UploadedFileInterface */
         $file = $request->getUploadedFiles()[self::UPLOADED_KEY];
         $size = 0;
+        
+        // item je vždy presented item, t.j. item, který byl zobrazen po kliknutí na lolořky menu - nelze uploadovat soubor pro obsah, který nebyl zobrazen po kliknutí na lolořky menu
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
         $targetFilename = ConfigurationCache::filesUploadControler()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
