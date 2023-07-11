@@ -165,12 +165,12 @@ class EventContentTypeDaoTest extends AppRunner {
         $this->assertEquals(1, $eventContentDao->getRowCount());
 
         //pak jde smazet ContentType
-        $this->setUp();
+        $this->setUp();  //nove dao
         $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $this->dao->delete($eventContentTypeRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
-        $this->setUp();
+        $this->setUp();  //nove dao
         $eventContentTypeRowRev = $this->dao->get(self::$eventContentTypeTouple);
         $this->assertNull($eventContentTypeRowRev);
 

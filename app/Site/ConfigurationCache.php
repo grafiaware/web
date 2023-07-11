@@ -7,11 +7,11 @@
 
 namespace Site;
 
-use Site\Grafia as Siteconfig;
-include PROJECT_PATH.'app/Site/Grafia/ConfigurationConstants.php';
-include PROJECT_PATH.'app/Site/Grafia/ConfigurationDb.php';
-include PROJECT_PATH.'app/Site/Grafia/ConfigurationRed.php';
-include PROJECT_PATH.'app/Site/Grafia/ConfigurationStyles.php';
+//use Site\Grafia as Siteconfig;
+//include PROJECT_PATH.'app/Site/Grafia/ConfigurationConstants.php';
+//include PROJECT_PATH.'app/Site/Grafia/ConfigurationDb.php';
+//include PROJECT_PATH.'app/Site/Grafia/ConfigurationRed.php';
+//include PROJECT_PATH.'app/Site/Grafia/ConfigurationStyles.php';
 
 //use Site\OtevreneAteliery as Siteconfig;
 //include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationConstants.php';
@@ -25,11 +25,11 @@ include PROJECT_PATH.'app/Site/Grafia/ConfigurationStyles.php';
 //include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationRed.php';
 //include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationStyles.php';
 
-//use Site\VeletrhPrace as Siteconfig;
-//include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationConstants.php';
-//include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationDb.php';
-//include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationRed.php';
-//include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationStyles.php';
+use Site\VeletrhPrace as Siteconfig;
+include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationConstants.php';
+include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationDb.php';
+include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationRed.php';
+include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationStyles.php';
 
 
 /**

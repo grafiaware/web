@@ -14,6 +14,8 @@ use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Dao\EventDao;
+use Events\Model\Dao\EventContentTypeDao;
+
 
 /**
  *
@@ -28,6 +30,7 @@ class EventContentDaoTest extends AppRunner {
      */
     private $dao;
 
+    private static $eventContenTypePrimaryKey;
     private static $eventContentPrimaryKey;
     private static $institutionPrimaryKey;
     private static $eventPrimaryKey;
@@ -47,6 +50,15 @@ class EventContentDaoTest extends AppRunner {
         $rowData->import( [ 'name' => "testEventContentDao-name" , 'institution_type_id' => null ]);
         $institutionDao->insert($rowData);
         self::$institutionPrimaryKey =  $institutionDao->getLastInsertedPrimaryKey(); //pro autoincrement
+        
+         //tabulka EventContentType
+        /** @var EventContentTypeDao $eventContenTypeDao */
+        $eventContenTypeDao = $container->get(EventContentTypeDao::class);
+        $rowData1 = new RowData();
+        $rowData1->import( [ 'type' => "testEventContentDao-type" , 'name' => "testEventContentDao-type" ]);
+        $eventContenTypeDao->insert($rowData1);
+        self::$eventContenTypePrimaryKey =  $eventContenTypeDao->getLastInsertedPrimaryKey(); //pro autoincrement
+
 
 
     }
@@ -75,6 +87,15 @@ class EventContentDaoTest extends AppRunner {
         if (isset($eventRow)) {
             $eventDao->delete($eventRow);
         }
+       
+        //uklidit eventContenType
+        /** @var EventContentTypeDao $eventContenTypeDao */
+        $eventContenTypeDao = $container->get(EventContentTypeDao::class);
+        $eventContenTypeRow = $eventContenTypeDao->get(self::$eventContenTypePrimaryKey);
+        if (isset($eventContenTypeRow)) {
+            $eventContenTypeDao->delete($eventContenTypeRow);
+        }
+        
         //uklidit institution
         /** @var InstitutionDao $institutionDao */
         $institutionDao = $container->get(InstitutionDao::class);
@@ -82,6 +103,7 @@ class EventContentDaoTest extends AppRunner {
         if (isset($institutionRow)) {
             $institutionDao->delete($institutionRow);
         }
+        
     }
 
     public function testSetUp() {
@@ -93,7 +115,7 @@ class EventContentDaoTest extends AppRunner {
         $rowData->offsetSet('title', "testEventContentDao-title");
         $rowData->offsetSet('perex', "testEventContentDao-perex");
         $rowData->offsetSet('party', "testEventContentDao-party");
-        $rowData->offsetSet('event_content_type_fk', null);
+        $rowData->offsetSet('event_content_type_fk', self::$eventContenTypePrimaryKey );
         $rowData->offsetSet('institution_id_fk', self::$institutionPrimaryKey ['id'] ) ;
         $this->dao->insert($rowData);
         self::$eventContentPrimaryKey =  $this->dao->getLastInsertedPrimaryKey();
