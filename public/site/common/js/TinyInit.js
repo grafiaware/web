@@ -186,7 +186,7 @@ function image_upload_handler (blobInfo, success, failure, progress) {
 
     xhr = new XMLHttpRequest();
     xhr.withCredentials = false;  // should pass along credentials (such as cookies, authorization headers, or TLS client certificates) for cross-domain uploads
-    xhr.open('POST', 'red/v1/upload/editorimages');
+    xhr.open('POST', 'red/v1/upload/editorasset');
 
     xhr.upload.onprogress = function (e) {
         progress(e.loaded / e.total * 100);
@@ -379,7 +379,7 @@ var editHtmlConfig = {
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 // odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
-//    images_upload_url: 'red/v1/upload/editorimages',
+//    images_upload_url: 'red/v1/upload/editorasset',
     images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image media',
@@ -428,7 +428,7 @@ var editMceEditableConfig = {
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 // odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
-//    images_upload_url: 'red/v1/upload/editorimages',
+//    images_upload_url: 'red/v1/upload/editorasset',
     images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image media',

@@ -386,10 +386,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->trash($request, $uid);
         });
 
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/upload/editorimages', function(ServerRequestInterface $request) {
+        #### FilesUploadControler ####
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/upload/editorasset', function(ServerRequestInterface $request) {
             /** @var FilesUploadControler $ctrl */
             $ctrl = $this->container->get(FilesUploadControler::class);
-            return $ctrl->uploadEditorImages($request);
+            return $ctrl->uploadEditorAssets($request);
         });
     }
 }

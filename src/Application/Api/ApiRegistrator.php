@@ -129,7 +129,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/trash'));
 
         #### TinyUploadImagesController
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/editorimages'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/editorasset'));
 
         
         

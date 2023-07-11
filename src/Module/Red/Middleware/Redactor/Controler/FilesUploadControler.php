@@ -63,7 +63,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
      *
      * @return Response
      */
-    public function uploadEditorImages(ServerRequestInterface $request) {
+    public function uploadEditorAssets(ServerRequestInterface $request) {
         try {
             $uploadedFile = $this->checkAndGetUploadedFile($request);
             // relativní cesta vzhledem k root (_files/...)
