@@ -131,11 +131,11 @@ class EventContentTypeDaoTest extends AppRunner {
     }
 
 
-    // Test , ze nejde smazat věta v  event_content_type, kdyz je pouzito type v event_content.event_content_type_fk
+    // Test , ze nejde smazat věta v  event_content_type, kdyz je pouzito hodnota type v event_content.event_content_type_fk
     // problem import x forcedSet
-    //nelze mazat pomoci new RowData + RowData->import!
-    //protože v RowData jsou pak "nova" data, a  "nova" data nelze mazat  metodou ->delete!
-    //pro takovy zpusob mazaní nutno použít buď:  objekt PdoRowData a metodou ->forcedSet nastavit přříslušná data jako "stará"
+    //- nelze mazat pomoci postupu  new RowData + RowData->import!,
+    //protože v RowData jsou takto vytvorena "nova" data, a  "nova" data nelze mazat  metodou ->delete!
+    //- pro takovy zpusob mazaní nutno použít buď:  objekt PdoRowData a metodou ->forcedSet nastavit přslušná data jako "stará"
     //nebo postup: !napřed přečíst, pak smazat!
 
     //kontrola RESTRICT

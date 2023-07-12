@@ -72,6 +72,7 @@ class EventLinkPhaseDaoTest extends AppRunner {
         $eventLinkData = new RowData();
         $eventLinkData->import( ['show' => 1 ] );
         $eventLinkData->import( ['link_phase_id_fk' => self::$eventLinkPhaseIdTouple['id']  ] );
+        $eventLinkData->import( ['href' => 'odkaz na někam...' ] );
         $eventLinkDao->insert($eventLinkData);
         self::$eventLinkIdTouple = $eventLinkDao->getLastInsertedPrimaryKey();
     }

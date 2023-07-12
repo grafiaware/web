@@ -49,16 +49,23 @@ class EventContentDaoTest extends AppRunner {
         $rowData = new RowData();
         $rowData->import( [ 'name' => "testEventContentDao-name" , 'institution_type_id' => null ]);
         $institutionDao->insert($rowData);
-        self::$institutionPrimaryKey =  $institutionDao->getLastInsertedPrimaryKey(); //pro autoincrement
+        self::$institutionPrimaryKey =  $institutionDao->getLastInsertedPrimaryKey();  //array //pro autoincrement
         
          //tabulka EventContentType
+         //uklidit eventContenType
         /** @var EventContentTypeDao $eventContenTypeDao */
         $eventContenTypeDao = $container->get(EventContentTypeDao::class);
-        $rowData1 = new RowData();
-        $rowData1->import( [ 'type' => "testEventContentDao-type" , 'name' => "testEventContentDao-type" ]);
-        $eventContenTypeDao->insert($rowData1);
-        self::$eventContenTypePrimaryKey =  $eventContenTypeDao->getLastInsertedPrimaryKey(); //pro autoincrement
-
+        $eventContenTypeRow = $eventContenTypeDao->get( [ 'type'=>"testEventContentDao-type"] );
+        
+        if (isset($eventContenTypeRow)) {
+            self::$eventContenTypePrimaryKey =  ['type' => $eventContenTypeRow['type'] ];
+        }else {                 
+            // $eventContenTypeDao = $container->get(EventContentTypeDao::class);
+            $rowData1 = new RowData();
+            $rowData1->import( [ 'type' => "testEventContentDao-type" , 'name' => "testEventContentDao-name" ]);
+            $eventContenTypeDao->insert($rowData1);
+            self::$eventContenTypePrimaryKey =  $eventContenTypeDao->getLastInsertedPrimaryKey(); // array  
+           }
 
 
     }
@@ -115,7 +122,7 @@ class EventContentDaoTest extends AppRunner {
         $rowData->offsetSet('title', "testEventContentDao-title");
         $rowData->offsetSet('perex', "testEventContentDao-perex");
         $rowData->offsetSet('party', "testEventContentDao-party");
-        $rowData->offsetSet('event_content_type_fk', self::$eventContenTypePrimaryKey );
+        $rowData->offsetSet('event_content_type_fk', self::$eventContenTypePrimaryKey ['type'] );
         $rowData->offsetSet('institution_id_fk', self::$institutionPrimaryKey ['id'] ) ;
         $this->dao->insert($rowData);
         self::$eventContentPrimaryKey =  $this->dao->getLastInsertedPrimaryKey();
@@ -131,6 +138,7 @@ class EventContentDaoTest extends AppRunner {
         $eventDao->insert($eventData);  // id je autoincrement
         self::$eventPrimaryKey = $eventDao->getLastInsertedPrimaryKey();
     }
+    
 
     public function testGetExistingRow() {
         $eventContentRow = $this->dao->get(self::$eventContentPrimaryKey);
