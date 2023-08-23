@@ -55,7 +55,7 @@ class ItemActionControler extends FrontControlerAbstract {
             $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
             $this->itemActionRepo->add($itemAction);  // do repo
             $userActions->addUserItemAction($itemAction);  // do statusu
-            $this->addFlashMessage("add user action for $typeFkEnumValue (item $itemId)", FlashSeverityEnum::INFO);
+            $this->addFlashMessage("Zahájena úprava položky $typeFkEnumValue (item $itemId)", FlashSeverityEnum::INFO);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -70,7 +70,7 @@ class ItemActionControler extends FrontControlerAbstract {
         if (isset($itemAction)) {
             $this->itemActionRepo->remove($itemAction);
         }
-        $this->addFlashMessage("remove user action for $typeFk (item $itemId)", FlashSeverityEnum::INFO);
+        $this->addFlashMessage("Ukončena úprava položky $typeFk (item $itemId)", FlashSeverityEnum::INFO);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }

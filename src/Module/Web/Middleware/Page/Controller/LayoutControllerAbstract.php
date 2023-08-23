@@ -25,7 +25,6 @@ use Pes\View\CompositeView;
 use Pes\View\CompositeViewInterface;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
-use Pes\View\Renderer\ImplodeRenderer;
 
 use Pes\Text\FriendlyUrl;
 
@@ -38,9 +37,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
     protected $componentViews = [];
 
-#
-#### get menu item z repository ###########################################################################
-#
     /**
      * Podle hierarchy uid a aktuálního jazyka prezentace vrací menuItem nebo null
      *
@@ -85,10 +81,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         if ($menuItem) {
             $this->setPresentationMenuItem($menuItem);
-            $view = $this->createView($request, $this->getComponentViews($request, $menuItem));
-            $string = $view->getString();
-//            $response = $this->createResponseFromView($request, $view);
-            $response = $this->createResponseFromString($request, $string);
+            $view = $this->composeLayoutView($request, $menuItem);
+            $response = $this->createResponseFromView($request, $view);
         } else {
             // neexistující stránka
             $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
@@ -104,13 +98,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * Tomuto view přidá jako komponenty případné zadané komponentní views.
      *
      * @param ServerRequestInterface $request
-     * @param array $componentViews
-     * @return CompositeView
+     * @param MenuItemInterface $menuItem
+     * @return type
      */
-    protected function createView(ServerRequestInterface $request, array $componentViews) {
+    protected function composeLayoutView(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
 
         $layoutView = $this->getLayoutView($request);
-        foreach ($componentViews as $name => $componentView) {
+        foreach ($this->getComponentViews($request, $menuItem) as $name => $componentView) {
             if (isset($componentView)) {
                 $layoutView->appendComponentView($componentView, $name);
             }
@@ -125,6 +119,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return CompositeView
      */
     private function getLayoutView(ServerRequestInterface $request): CompositeViewInterface {
+        $navConfigView = $this->container->get(View::class)
+                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['templates.navConfig']))
+                ->setData([
+                    // pro navConfig.js
+                    'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
+                    'cascadeClass' => ConfigurationCache::layoutController()['cascade.class']
+                ]);
+        
         /** @var CompositeViewInterface $view */
         $view = $this->container->get(CompositeView::class);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.layout']));
@@ -140,7 +142,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     'linksCommon' => ConfigurationCache::layoutController()['linksCommon'],
                     'linksSite' => ConfigurationCache::layoutController()['linksSite'],
                     // js proměnná navConfig - pro volání cascade v body.js
-                    'navConfigView' => $this->getNavConfigView($request),
+                    'navConfigView' => $navConfigView,
                 ]);
         return $view;
     }
@@ -163,8 +165,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 [
                     'content' => $this->getMenuItemLoaders($menuItem),
                 ],
-
-                $this->getEditableModeViews($request),
+                $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
                 $this->getCascadeViews(),
                 $this->getLayoutViews(),
                 // for debug
@@ -175,15 +176,39 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         return $views;
     }
 
+    /**
+     * Generuje html obsahující definice tagů <script> vkládaných do stránku pouze v editačním módu
+     * @param type $request
+     * @return array
+     */
     private function getEditableModeViews($request) {
-        if ($this->isPartInEditableMode()) {
-            $views = [
-                'redScripts' => $this->getRedScriptView($request),
-            ];
-        } else {
-           $views = [];
-        }
-        return $views;
+        $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
+        $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
+        $tinyConfigView =  $this->container->get(View::class)
+                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['templates.tinyConfig']))
+                ->setData([
+                    // pro tinyConfig.js
+                    'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
+                    'toolbarsLang' => $tinyToolsbarsLang,
+                    // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
+                    'urlStylesCss' => ConfigurationCache::layoutController()['urlStylesCss'],
+                    'urlSemanticCss' => ConfigurationCache::layoutController()['urlSemanticCss'],
+                    'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss'],
+                    'urlMediaCss' => ConfigurationCache::layoutController()['urlMediaCss']
+                ]);        
+                    
+        return [
+            'redScripts' => $this->container->get(View::class)
+                ->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.redScripts']))
+                ->setData([
+                    'tinyConfigView' => $tinyConfigView,
+                    'urlTinyMCE' => ConfigurationCache::layoutController()['urlTinyMCE'],
+    //                    'urlJqueryTinyMCE' => ConfigurationCache::layoutController()['urlJqueryTinyMCE'],
+                    'urlTinyInit' => ConfigurationCache::layoutController()['urlTinyInit'],
+                    'urlEditScript' => ConfigurationCache::layoutController()['urlEditScript'],
+                    ]),
+                ];
     }
     private function getLayoutViews() {
         $views = [];
@@ -221,7 +246,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             if (isset($menuItem)) {
                 $componets[$variableName] = $this->getMenuItemLoaders($menuItem);
             } else {
-                $componets[$variableName] = $this->getUnknownContentView("Unknown block $blockName configured for layout variable $variableName.");
+                $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);
             }
         }
         return $componets;
@@ -310,7 +335,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         return $view;
     }
 
-    private function getUnknownContentView($message='') {
+    private function getUnknownBlockView($blockName, $variableName) {
+        $message = "Unknown block $blockName configured for layout variable $variableName.";
+
         /** @var View $view */
         $view = $this->container->get(View::class);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.unknownContent']))
@@ -326,65 +353,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      *
      * @return View[]
      */
-    private function getMenuComponents() {
-        $components = [];
-        foreach (ConfigurationCache::layoutController()['qqq'] as $contextName => $serviceName) {
-            $components[$contextName] = $this->container->get($serviceName);
-        }
-        return $components;
-    }
-#
-#### view s js a css pro editační mód #####################################################
-#
-
-    /**
-     * Generuje html obsahující definice tagů <script> vkládaných do stránku pouze v editačním módu
-     *
-     * @param ServerRequestInterface $request
-     * @return type
-     */
-    private function getRedScriptView(ServerRequestInterface $request) {
-        return
-            $this->container->get(View::class)
-                ->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.redScripts']))
-                ->setData([
-                    'tinyConfigView' => $this->getTinyConfigView($request),
-
-                    'urlTinyMCE' => ConfigurationCache::layoutController()['urlTinyMCE'],
-//                    'urlJqueryTinyMCE' => ConfigurationCache::layoutController()['urlJqueryTinyMCE'],
-                    'urlTinyInit' => ConfigurationCache::layoutController()['urlTinyInit'],
-                    'urlEditScript' => ConfigurationCache::layoutController()['urlEditScript'],
-                ]);
-    }
-
-    private function getNavConfigView($request) {
-        return $this->container->get(View::class)
-                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['templates.navConfig']))
-                ->setData([
-                    // pro navConfig.js
-                    'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
-                    'cascadeClass' => ConfigurationCache::layoutController()['cascade.class']
-                ]);
-    }
-
-    private function getTinyConfigView($request) {
-        $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
-        $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
-
-        return $this->container->get(View::class)
-                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['templates.tinyConfig']))
-                ->setData([
-                    // pro tinyConfig.js
-                    'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
-                    'toolbarsLang' => $tinyToolsbarsLang,
-                    // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
-                    'urlStylesCss' => ConfigurationCache::layoutController()['urlStylesCss'],
-                    'urlSemanticCss' => ConfigurationCache::layoutController()['urlSemanticCss'],
-                    'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss'],
-                    'urlMediaCss' => ConfigurationCache::layoutController()['urlMediaCss']
-                ]);
-    }
+//    private function getMenuComponents() {
+//        $components = [];
+//        foreach (ConfigurationCache::layoutController()['qqq'] as $contextName => $serviceName) {
+//            $components[$contextName] = $this->container->get($serviceName);
+//        }
+//        return $components;
+//    }
 
     private function isPartInEditableMode() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();

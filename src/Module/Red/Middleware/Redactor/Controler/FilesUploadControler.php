@@ -33,8 +33,13 @@ use FrontControler\Exception\UploadFileException;
 class FilesUploadControler extends FilesUploadControllerAbstract {
 
     const UPLOADED_KEY = "file";
-    const MAX_FILE_SIZE = 1E6;
-    const ACCEPTED_EXTENSIONS = ["apng","avif", "gif", "jpg", "png", "svg", "webp"];
+    const IMAGE_MAX_FILE_SIZE = 1E6;
+    // MUSÍ se shodovat s možnými file typy vybíranými v filePickerCallback funkci pro tinyMCE
+    const IMAGE_ACCEPTED_EXTENSIONS = ['.apng','.avif','.jpeg','.jpg','.jpe','.jfi','.jif','.jfif','.png','.gif','.bmp','.svg','.webp'];
+    const ATTACHMENT_MAX_FILE_SIZE = 10E6;
+    // MUSÍ se shodovat s možnými file typy vybíranými v filePickerCallback funkci pro tinyMCE
+//    const ATTACHMENT_ACCEPTED_EXTENSIONS = ['pdf'];    
+    const ATTACHMENT_ACCEPTED_EXTENSIONS = [".doc", ".docx", ".dot", ".odt", ".pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"];
     /**
      * @var MenuItemAssetRepo
      */
@@ -47,11 +52,26 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             MenuItemAssetRepo $menuItemAssetRepoRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->menuItemAssetRepo = $menuItemAssetRepoRepo;
-        $this->setAcceptedExtensions(self::ACCEPTED_EXTENSIONS);
     }
 
+    public function imageUpload(ServerRequestInterface $request) {
+        return $this->storeUpload(
+                    $request, 
+                    static::UPLOADED_KEY, 
+                    static::IMAGE_MAX_FILE_SIZE, 
+                    static::IMAGE_ACCEPTED_EXTENSIONS);
+    }
+    
+    public function attachmentUpload(ServerRequestInterface $request) {
+        return $this->storeUpload(
+                    $request, 
+                    static::UPLOADED_KEY, 
+                    static::ATTACHMENT_MAX_FILE_SIZE, 
+                    static::ATTACHMENT_ACCEPTED_EXTENSIONS);
+    }
+    
     /**
-     * Metoda přijímá soubory typu image odesílané image handlerem editoru TinyMCE.
+     * Metoda přijímá soubory typu image a video odesílané image handlerem editoru TinyMCE.
      *
      * Image handler je skript definovaný v v inicializaci TinyMCE (image_upload_handler() ).
      * Image handler odesílá POST request s s daty FormData, ve kterých je položka odpovídající <input> typu 'file' s uploadovaným souborem.
@@ -63,9 +83,13 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
      *
      * @return Response
      */
-    public function uploadEditorAssets(ServerRequestInterface $request) {
+    private function storeUpload(
+            ServerRequestInterface $request,
+            $uploadedKey,
+            $maxFileSize,
+            $acceptedExtensions = []) {
         try {
-            $uploadedFile = $this->checkAndGetUploadedFile($request);
+            $uploadedFile = $this->checkAndGetUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
             // relativní cesta vzhledem k root (_files/...)
             $baseFilepath = ConfigurationCache::filesUploadController()['upload.red'];
             $clientFileName = $this->getClientFileName($uploadedFile);
@@ -110,7 +134,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         return $this->createResponseFromString($request, $json);        
     }
     
-    public function getClientFileName($uploadedFile) {
+    private function getClientFileName($uploadedFile) {
         $clientFName = $uploadedFile->getClientFilename();
         if (is_null($clientFName)) {
             throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no filename.", 406);
@@ -121,7 +145,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         return urldecode($clientFName);  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován        
     }    
     
-    public function getMimeType($uploadedFile) {
+    private function getMimeType($uploadedFile) {
         $clientMime = $uploadedFile->getClientMediaType();
         if (is_null($clientMime)) {
             throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no MIME type.", 406);
@@ -167,7 +191,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
 
         $statusSecurity = $this->statusSecurityRepo->get();
 
-        $this->setAcceptedExtensions([".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"]);
+        $this->setAcceptedExtensions([".doc", ".docx", ".dot", ".odt", ".pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"]);
         $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // přesnost: stovky mikrosekund
 //        $timestamp = (new \DateTime("now"))->getTimestamp();  // přesnost: sekundy
         // POST - jeden soubor

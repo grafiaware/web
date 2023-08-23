@@ -29,8 +29,8 @@ class ApiRegistrator {
 
     public function registerApi(ResourceRegistryInterface $registry): void {
 
-        ### auth module ###
-
+    ### auth module ###
+    #
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/logout'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register'));
@@ -40,8 +40,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/forgottenpassword'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/changepassword'));
 
-        ### web module ###
-        #
+    ### web module ###
+    #
         #### PageController ####
         $registry->register($this->getPrototype->withUrlPattern('/'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/item/:uid'));
@@ -49,11 +49,8 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/searchresult'));
 
-
-
-
-        ### red module ###
-        #
+    ### red module ###
+    #
         #### ComponentController ####
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/flash'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/service/:name'));
@@ -129,19 +126,11 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/trash'));
 
         #### TinyUploadImagesController
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/editorasset'));
-
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/image'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/attachment'));
         
-        
-        
-        
-        
-        
-        ### events module ###
-        
-        
-        
-        
+    ### events module ###
+    #
         #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         
@@ -170,11 +159,7 @@ class ApiRegistrator {
         
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
-       
-        
-        
-        
-        
+
         #### EventController_2 ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId'));
@@ -184,8 +169,6 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId/remove'));
         
-        
-        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:type'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:type/remove'));
@@ -194,23 +177,14 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent/remove'));
 
-
-       
-        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase/:eventLinkPhaseId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase/:eventLinkPhaseId/remove'));
 
-       
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId/remove'));
 
-        
-        
-        
-        
-        
         #### JobControler  ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job'));
@@ -225,10 +199,6 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/vzdelani/:stupen'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/vzdelani/:stupen/remove'));   
       
-     
-        
-               
-        
         #### VisitorJobRequestControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/:jobId/jobrequest'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
@@ -238,15 +208,13 @@ class ApiRegistrator {
         #### DocumentControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/document/:id/remove'));
 
-        
-        
-        ### mail module ###
-        #
+    ### mail module ###
+    #
         #### MailController ######
         $registry->register($this->getPrototype->withUrlPattern('/sendmail/v1/sendmail/:campaign'));
 
-        ### build module ###
-        #
+    ### build module ###
+    #
         #### BuildController #### '/build/listconfig'
         $registry->register($this->getPrototype->withUrlPattern('/build/listconfig'));
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));

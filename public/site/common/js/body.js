@@ -94,19 +94,27 @@ document.onreadystatechange = function () {
     if (document.readyState === 'complete') {  // Alternative to load event
         // https://stackoverflow.com/questions/10777684/how-to-use-queryselectorall-only-for-elements-that-have-a-specific-attribute-set
         const init = async () => {
-        console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
-        let resultComponents = await loadSubsequentElements(document, navConfig.cascadeClass);
-        console.log(resultComponents);
-        console.log("body: load elements fullfilled");
-        initLoadedElements();
-        console.log("body: initLoaded elements");
-        if (isTinyMCEDefined()) {
-            initLoadedEditableElements();
-            console.log("body: initLoaded elements for editable mode");
-        }
-        console.log("body: run initJqueryEvents for jQuery events on loaded elements");
-        initJqueryEvents();
-        console.log("body: initJqueryEvents finished");
+            console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
+            let resultComponents = await loadSubsequentElements(document, navConfig.cascadeClass);
+            console.log(resultComponents);
+            console.log("body: load elements fullfilled");
+            initLoadedElements();
+            console.log("body: initLoaded elements");
+            if (isTinyMCEDefined()) {
+                await import("./TinyInit.js")
+                    .then((tinyInitModule) => {
+                        tinyInitModule.initEditors();
+                    })
+                    .catch((err) => {
+                        console.error = err.message;
+                    });
+                
+                initLoadedEditableElements();
+                console.log("body: initLoaded elements for editable mode");
+            }
+            console.log("body: run initJqueryEvents for jQuery events on loaded elements");
+            initJqueryEvents();
+            console.log("body: initJqueryEvents finished");
         }
         init(); // async - volá initLoaded()
     }
@@ -120,7 +128,7 @@ document.onreadystatechange = function () {
  * @returns {undefined}
  */
 function isTinyMCEDefined() {
-    return typeof tinymce!=='undefined'
+    return typeof tinymce!=='undefined';
 }
 
 /**
@@ -130,21 +138,6 @@ function isTinyMCEDefined() {
  * @returns {undefined}
  */
 function initLoadedEditableElements() {
-    tinymce.remove();
-    tinymce.init(editTextConfig);
-    tinymce.init(editHtmlConfig);
-    tinymce.init(editMceEditableConfig);
-    tinymce.init(selectTemplateArticleConfig);
-    tinymce.init(selectTemplatePaperConfig);
-    tinymce.init(selectTemplateMultipageConfig);
-
-    //pro editaci pracovního popisu pro přihlášené uživatele
-    tinymce.init(editWorkDataConfig);
-    //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
-        $('.profil-visible').on('click', function(){
-        $('.profil.hidden').css('display', 'block');
-    });
-
     //semantic-ui dropdown (použitý např. pro přihlašování)
     //$('.ui.dropdown').dropdown();
     //menu semantic-ui dropdown reaguje na událost hover

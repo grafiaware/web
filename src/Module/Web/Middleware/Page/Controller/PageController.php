@@ -94,7 +94,7 @@ class PageController extends LayoutControllerAbstract {
         $component = $this->container->get(SearchResultComponent::class);
         $key = $request->getQueryParams()['klic'];
         $actionComponents = ["content" => $component->setSearch($key)];
-        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+        return $this->createResponseFromView($request, $this->composeLayoutView($request, $this->getComponentViews($actionComponents)));
     }
 
 

@@ -99,7 +99,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
                 <?= $this->insert(ConfigurationCache::componentController()['templates']."zprava"."/template.php", $zprava) ?>
             </content>
             <content>
-                <?php include "content/profil.php" ?> <!-- Tiny pro .working-data -->
+                <?php include "content/profil.php" ?> <!-- Tiny pro .edit-userinput -->
             </content>
         </section>
     </article>

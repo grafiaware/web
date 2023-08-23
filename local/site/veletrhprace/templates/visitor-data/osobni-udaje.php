@@ -49,11 +49,11 @@
                     <div class="two fields">
                         <div class="field">
                             <label>Vzdělání, kurzy</label>
-                            <textarea <?= $disabled ?> name="cv-education-text" class="working-data"><?= $cvEducationText ?></textarea>
+                            <textarea <?= $disabled ?> name="cv-education-text" class="edit-userinput"><?= $cvEducationText ?></textarea>
                         </div>
                         <div class="field">
                             <label>Pracovní zkušenosti, dovednosti</label>
-                            <textarea <?= $disabled ?> name="cv-skills-text" class="working-data"><?= $cvSkillsText ?></textarea>
+                            <textarea <?= $disabled ?> name="cv-skills-text" class="edit-userinput"><?= $cvSkillsText ?></textarea>
                         </div>
                     </div>
 

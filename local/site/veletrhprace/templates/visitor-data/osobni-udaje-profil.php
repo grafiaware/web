@@ -67,11 +67,11 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                     <div class="two fields">
                         <div class="field">
                             <label>Vzdělání, kurzy</label>
-                            <textarea name="cv-education-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvEducationText() : ''; ?></textarea>
+                            <textarea name="cv-education-text" class="edit-userinput"><?= isset($visitorData) ? $visitorData->getCvEducationText() : ''; ?></textarea>
                         </div>
                         <div class="field margin">
                             <label>Pracovní zkušenosti, dovednosti</label>
-                            <textarea name="cv-skills-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvSkillsText() : ''; ?></textarea>
+                            <textarea name="cv-skills-text" class="edit-userinput"><?= isset($visitorData) ? $visitorData->getCvSkillsText() : ''; ?></textarea>
                         </div>
                     </div>
                     <div class="field margin">

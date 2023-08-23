@@ -62,14 +62,22 @@ class ArticleControler extends AuthoredControlerAbstract {
         /** @var ArticleInterface $article */
         $article = $this->articleRepo->get($articleId);
         if (!isset($article)) {
-            user_error("Neexistuje article se zadaným id $articleId");
+            $errorMessage = "Neexistuje article se zadaným id $articleId";
+            user_error($errorMessage, E_USER_WARNING);
+            $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
         } else {
-            $namePrefix = self::ARTICLE_CONTENT.$articleId;
+            $namePrefix = implode("_", [self::ARTICLE_CONTENT, $articleId]);
             $articlePost = $this->paramValue($request, $namePrefix);
-            $statusPresentation = $this->statusPresentationRepo->get();
-            $statusPresentation->setLastTemplateName('');
-            $article->setContent($articlePost);
-            $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
+            if (false===$articlePost) {
+                $errorMessage = "Požadavek neobsahuje parametr s obsahem.";
+                user_error($errorMessage, E_USER_WARNING);
+                $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
+            } else {
+                $statusPresentation = $this->statusPresentationRepo->get();
+                $statusPresentation->setLastTemplateName('');
+                $article->setContent($articlePost);
+                $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
+            }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

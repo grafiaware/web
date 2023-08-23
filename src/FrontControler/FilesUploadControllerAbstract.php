@@ -34,13 +34,17 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->setAcceptedExtensions(static::ACCEPTED_EXTENSIONS);
     }
     
-    protected function checkAndGetUploadedFile(ServerRequestInterface $request): UploadedFileInterface {  
+    protected function checkAndGetUploadedFile(
+            ServerRequestInterface $request,
+            $uploadedKey,
+            $maxFileSize,
+            $acceptedExtensions = []
+            ): UploadedFileInterface {  
         // POST - jeden soubor
         /* @var $uploadedFile UploadedFileInterface */
-        $uploadedFile = $request->getUploadedFiles()[static::UPLOADED_KEY];
+        $uploadedFile = $request->getUploadedFiles()[$uploadedKey];
         if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
             // messege z uploadErrorMessage()
             throw new UploadFileException('Bad Request. Redactor: '.$this->uploadErrorMessage($uploadedFile->getError()), 400); // 400 Bad Request
@@ -50,13 +54,13 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
         $clientFileSize = $uploadedFile->getSize();  // v bytech
         $clientFileExt = pathinfo($clientFileName,  PATHINFO_EXTENSION );
 
-        if ($clientFileSize > static::MAX_FILE_SIZE) {
-            $message = "Maximum controler file size ".static::MAX_FILE_SIZE." bytes exceeded.";
+        if ($clientFileSize > $maxFileSize) {
+            $message = "Maximum controler file size ".$maxFileSize." bytes exceeded.";
             throw new UploadFileException('Payload Too Large. Redactor: '.$message, 413); // 413 Payload Too Large
         }
-        if (!in_array($clientFileExt, static::ACCEPTED_EXTENSIONS)) {
-            $accepted = "'".implode("', '", static::ACCEPTED_EXTENSIONS)."'";
-            $message = "Invalid file extension. Accept only: $accepted.";
+        if (!in_array('.'.$clientFileExt, $acceptedExtensions)) {   // extension s tečkou - pro sjednocení s javascript
+            $accepted = "'".implode("', '", $acceptedExtensions)."'";
+            $message = "Invalid file extension '$clientFileExt'. Accepted only: $accepted.";
             throw new UploadFileException('Not Acceptable. Redactor: '.$message, 406);  // 406 Not Acceptable
         }
         return $uploadedFile;

@@ -61,11 +61,20 @@ class PaperControler extends AuthoredControlerAbstract {
         /** @var PaperAggregatePaperSectionInterface $paperAggregate */
         $paperAggregate = $this->paperAggregateRepo->get($paperId);
         if (!isset($paperAggregate)) {
-            user_error("Neexistuje paper se zadaným id.$paperId");
+            $errorMessage = "Neexistuje paper se zadaným id.$paperId";
+            user_error($errorMessage, E_USER_WARNING);
+            $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);            
         } else {
             $namePrefix = implode("_", [self::HEADLINE_CONTENT, $paperId]);
             $headlinePost = $this->paramValue($request, $namePrefix);
-            $paperAggregate->setHeadline($headlinePost);
+            if (false===$headlinePost) {
+                $errorMessage = "Požadavek neobsahuje parametr s obsahem.";
+                user_error($errorMessage, E_USER_WARNING);
+                $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
+            } else {    
+                $paperAggregate->setHeadline($headlinePost);
+                $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
+            }
             $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -81,12 +90,20 @@ class PaperControler extends AuthoredControlerAbstract {
         /** @var PaperAggregatePaperSectionInterface $paperAggregate */
         $paperAggregate = $this->paperAggregateRepo->get($paperId);
         if (!isset($paperAggregate)) {
-            user_error("Neexistuje paper se zadaným id.$paperId");
+            $errorMessage = "Neexistuje paper se zadaným id.$paperId";
+            user_error($errorMessage, E_USER_WARNING);
+            $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING); 
         } else {
             $namePrefix = implode("_", [self::PEREX_CONTENT, $paperId]);
             $perexPost = $this->paramValue($request, $namePrefix);
-            $paperAggregate->setPerex($perexPost);
-            $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
+            if (false===$perexPost) {
+                $errorMessage = "Požadavek neobsahuje parametr s obsahem.";
+                user_error($errorMessage, E_USER_WARNING);
+                $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
+            } else {            
+                $paperAggregate->setPerex($perexPost);
+                $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
+            }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
