@@ -33,7 +33,7 @@ use LogicException;
  *
  * @author pes2704
  */
-class EditItemControler extends FrontControlerAbstract {
+class ItemEditControler extends FrontControlerAbstract {
 
     /**
      * @var MenuItemRepo

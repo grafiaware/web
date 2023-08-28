@@ -15,6 +15,7 @@ use Red\Component\ViewModel\Content\Authored\AuthoredViewModelAbstract;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
+use Red\Model\Repository\ItemActionRepoInterface;
 
 use Red\Model\Repository\PaperAggregateSectionsRepo;
 
@@ -41,9 +42,10 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
     public function __construct(
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
+            ItemActionRepoInterface $itemActionRepo,
             PaperAggregateSectionsRepo $paperAggregateRepo
             ) {
-        parent::__construct($status, $menuItemRepo);
+        parent::__construct($status, $menuItemRepo, $itemActionRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 

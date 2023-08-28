@@ -254,7 +254,7 @@ abstract class DaoAbstract implements DaoInterface {
             }
             if(!is_scalar($values[$field])) {
                 $type = gettype($values[$field]);
-                throw new UnexpectedValueException("Prvky pole primárního klíče musí mít skalární hodnoty. v předaném klíči je prvek pro pole primárního klíče '$field' který nemá skalární hodnotu, je typu $values[$field]");
+                throw new UnexpectedValueException("Prvky pole primárního klíče musí mít skalární hodnoty. v předaném klíči je prvek pro pole primárního klíče '$field' který nemá skalární hodnotu, je typu '$type'.");
             }
             $touples[":".$field] = $values[$field];
         }

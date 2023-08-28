@@ -17,14 +17,9 @@ use Model\Entity\PersistableEntityAbstract;
  */
 class ItemAction extends PersistableEntityAbstract implements ItemActionInterface {
 
-    private $typeFk;
     private $itemId;
     private $editorLoginName;
     private $created;
-
-    public function getTypeFk(): string {
-        return $this->typeFk;
-    }
 
     public function getItemId(): string {
         return $this->itemId;
@@ -36,11 +31,6 @@ class ItemAction extends PersistableEntityAbstract implements ItemActionInterfac
 
     public function getCreated(): \DateTime {
         return $this->created;
-    }
-
-    public function setTypeFk($typeFk): ItemActionInterface {
-        $this->typeFk = $typeFk;
-        return $this;
     }
 
     public function setItemId($itemId): ItemActionInterface {

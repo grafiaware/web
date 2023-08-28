@@ -37,8 +37,8 @@ interface AuthoredViewModelInterface extends MenuItemViewModelInterface {
      */
     public function getAuthoredContentId(): string;
 
-    public function getAuthoredContentAction(): ?ItemActionInterface;
-    public function userPerformAuthoredContentAction(): bool;
+    public function getItemAction(): ?ItemActionInterface;
+    public function userPerformItemAction(): bool;
     /**
      * Vrací jméno, které musí být v rendereru použito jako id pro element, na kterém visí tiny editor.
      * POZOR - id musí být unikátní - jinak selhává tiny selektor - a "nic není vidět"

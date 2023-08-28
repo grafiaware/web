@@ -2,8 +2,7 @@
 namespace Red\Component\Renderer\Html\Manage;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Red\Component\ViewModel\Authored\AuthoredViewModelInterface;
-use Red\Middleware\Redactor\Controler\UserActionControler;
+use Red\Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
 
 use Pes\Text\Html;
 
@@ -15,27 +14,23 @@ use Pes\Text\Html;
 class EditContentSwitchRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = NULL) {
         /** @var AuthoredViewModelInterface $viewModel */
-        $contentType = $viewModel->getMenuItem()->getTypeFk();
         $menuItemId = $viewModel->getMenuItem()->getId();
-        $userPerformActionWithContent = $viewModel->userPerformAuthoredContentAction();
+        $userPerformActionWithContent = $viewModel->userPerformItemAction();
         $editor = '';
         $disabled = '';
-        $itemAction = $viewModel->getAuthoredContentAction();
+        $itemAction = $viewModel->getItemAction();
 
         if($userPerformActionWithContent) {
-            if (isset($itemAction)) {
-                $editor = $itemAction->getEditorLoginName() ?? '';
-            }
-            $tooltip = $editor ? "Vypnout editaci (Obsah upravuje $editor)." :  "Vypnout editaci";
-            $action = "red/v1/itemaction/$contentType/$menuItemId/remove";
+            $tooltip = "Vypnout editaci";
+            $action = "red/v1/itemaction/$menuItemId/remove";
         } else {
-            $itemAction = $viewModel->getAuthoredContentAction();
+            $itemAction = $viewModel->getItemAction();
             if (isset($itemAction)) {
                 $editor = $itemAction->getEditorLoginName() ?? '';
                 $disabled = 'disabled';
             }
-            $tooltip = $editor ? "Zapnout editaci (Obsah upravuje $editor)." :  "Zapnout editaci";
-            $action = "red/v1/itemaction/$contentType/$menuItemId/add";
+            $tooltip = $editor ? "Nelze zapnout editaci (Obsah upravuje $editor)." :  "Zapnout editaci";
+            $action = "red/v1/itemaction/$menuItemId/add";
         }
         return
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace

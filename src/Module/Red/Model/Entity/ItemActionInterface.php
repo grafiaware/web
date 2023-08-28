@@ -10,15 +10,11 @@ use Model\Entity\PersistableEntityInterface;
  */
 interface ItemActionInterface extends PersistableEntityInterface {
 
-    public function getTypeFk(): string;
-
     public function getItemId(): string;
 
     public function getEditorLoginName(): string;
 
     public function getCreated(): \DateTime;
-
-    public function setTypeFk($typeFk): ItemActionInterface;
 
     public function setItemId($itemId): ItemActionInterface;
 

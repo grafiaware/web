@@ -23,7 +23,7 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
 
     private $editableContent = false;
     private $editableMenu = false;
-    private $userItemAction = [];
+    private $userItemActions = [];
 
     /**
      * Informuje, zda je některá část prezentace přepnuta do editačního módu.
@@ -87,19 +87,19 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
 
     ### user actions ###
 
-    public function addUserItemAction(ItemActionInterface $itemAction): void {
-        $this->userItemAction[$itemAction->getTypeFk()][$itemAction->getItemId()] = $itemAction;
+    public function addItemAction(ItemActionInterface $itemAction): void {
+        $this->userItemActions[$itemAction->getItemId()] = $itemAction;
     }
 
-    public function removeUserItemAction(ItemActionInterface $itemAction): void {
-        unset($this->userItemAction[$itemAction->getTypeFk()][$itemAction->getItemId()]);
+    public function removeItemAction(ItemActionInterface $itemAction): void {
+        unset($this->userItemActions[$itemAction->getItemId()]);
     }
 
-    public function hasUserItemAction($typeFk, $itemId): bool {
-        return (array_key_exists($typeFk, $this->userItemAction) AND array_key_exists($itemId, $this->userItemAction[$typeFk]));
+    public function hasItemAction($itemId): bool {
+        return (array_key_exists($itemId, $this->userItemActions));
     }
 
-    public function getUserItemAction($typeFk, $itemId): ?ItemActionInterface {
-        return $this->hasUserItemAction($typeFk, $itemId) ? $this->userItemAction[$typeFk][$itemId] : null;
+    public function getItemAction($itemId): ?ItemActionInterface {
+        return $this->hasItemAction($itemId) ? $this->userItemActions[$itemId] : null;
     }
 }

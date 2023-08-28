@@ -76,8 +76,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_mode'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_content'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_menu'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:typeFk/:itemId/add'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:typeFk/:itemId/remove'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:itemId/add'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:itemId/remove'));
 
         #### PaperController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper'));

@@ -9,11 +9,13 @@
 namespace Red\Component\ViewModel\Content\Authored\Article;
 
 use Red\Component\ViewModel\Content\Authored\AuthoredViewModelAbstract;
+
 use Component\ViewModel\StatusViewModelInterface;
+use Red\Model\Repository\MenuItemRepoInterface;
+use Red\Model\Repository\ItemActionRepoInterface;
 
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Repository\ArticleRepo;
-use Red\Model\Repository\MenuItemRepoInterface;
 
 use Red\Model\Enum\AuthoredTypeEnum;
 
@@ -38,9 +40,10 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
     public function __construct(
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
+            ItemActionRepoInterface $itemActionRepo,
             ArticleRepo $articleRepo
             ) {
-        parent::__construct($status, $menuItemRepo);
+        parent::__construct($status, $menuItemRepo, $itemActionRepo);
         $this->articleRepo = $articleRepo;
     }
 

@@ -22,10 +22,15 @@ export const editorHtmlEditSetup = (editor) => {
         if (editor.isDirty()) {
             if (confirm("Uložit změny?")) {
                 editor.save();  // vloží obsah do příslušného hidden inputu
+                removeItemAction(editor);  // post request - ukončení editace
                 form.submit();
             } else {
                 if (confirm("Zahodit změny?")) {
+                    removeItemAction(editor);  // post request - ukončení editace, nerefreshne se stránka, není vidět odhlášení
                     editor.resetContent();
+                    // nadbytečný submit - posílá původní obsah, slouží pouze pro vyncené refreshe obsahu 
+                    // (post redirect get) a tím zajistí správné zobrazení tlačítka Zapnout/Vypnout editaci
+                    form.submit();
                 } else {
                     editor.focus();
                 }
@@ -36,6 +41,25 @@ export const editorHtmlEditSetup = (editor) => {
         console.log('The ' + e.element.nodeName + ' changed.');
     });
 }; 
+
+const removeItemAction = (editor) => {
+    const editedElement = editor.getElement();
+    const editedMenuItemId =  editedElement.getAttribute('data-red-menuitemid');
+    fetch("red/v1/itemaction/"+editedMenuItemId+"/remove", {
+    method: "POST", body: ""})  // request je typi text/plain - Pes http body parser vrací obsah body jakoStream
+  .then(response => {
+    //handle response            
+    console.log(response);
+  })
+  .then(data => {
+    //handle data
+    console.log(data);
+    }
+  )
+  .catch(error => {
+    //handle error
+  });
+}
 
 /**
  * Callback funkce volaná před inicializací TinyMce - použito v editWorkDataConfig.

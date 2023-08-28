@@ -23,7 +23,7 @@ use Red\Middleware\Redactor\Controler\ComponentControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\UserActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
-use Red\Middleware\Redactor\Controler\EditItemControler;
+use Red\Middleware\Redactor\Controler\ItemEditControler;
 use Red\Middleware\Redactor\Controler\ItemActionControler;
 use Red\Middleware\Redactor\Controler\PaperControler;
 use Red\Middleware\Redactor\Controler\ArticleControler;
@@ -202,15 +202,15 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         #### ItemActionControler ####
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:typeFk/:itemId/add', function(ServerRequestInterface $request, $typeFk, $itemId) {
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/add', function(ServerRequestInterface $request, $itemId) {
                 /** @var ItemActionControler $ctrl */
                 $ctrl = $this->container->get(ItemActionControler::class);
-                return $ctrl->addUserItemAction($request, $typeFk, $itemId);
+                return $ctrl->addUserItemAction($request, $itemId);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:typeFk/:itemId/remove', function(ServerRequestInterface $request, $typeFk, $itemId) {
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/remove', function(ServerRequestInterface $request, $itemId) {
                 /** @var ItemActionControler $ctrl */
                 $ctrl = $this->container->get(ItemActionControler::class);
-                return $ctrl->removeUserItemAction($request, $typeFk, $itemId);
+                return $ctrl->removeUserItemAction($request, $itemId);
         });
 
         #### PaperController ####
@@ -324,18 +324,18 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         #### EditItemController ####
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/menu/:menuItemUidFk/toggle', function(ServerRequestInterface $request, $menuItemId) {
-                /** @var EditItemControler $ctrl */
-                $ctrl = $this->container->get(EditItemControler::class);
+                /** @var ItemEditControler $ctrl */
+                $ctrl = $this->container->get(ItemEditControler::class);
                 return $ctrl->toggle($request, $menuItemId);
         });
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/menu/:menuItemUidFk/title', function(ServerRequestInterface $request, $menuItemId) {
-                /** @var EditItemControler $ctrl */
-                $ctrl = $this->container->get(EditItemControler::class);
+                /** @var ItemEditControler $ctrl */
+                $ctrl = $this->container->get(ItemEditControler::class);
                 return $ctrl->title($request, $menuItemId);
         });
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/menu/:menuItemUidFk/type', function(ServerRequestInterface $request, $menuItemId) {
-                /** @var EditItemControler $ctrl */
-                $ctrl = $this->container->get(EditItemControler::class);
+                /** @var ItemEditControler $ctrl */
+                $ctrl = $this->container->get(ItemEditControler::class);
                 return $ctrl->type($request, $menuItemId);
         });
 

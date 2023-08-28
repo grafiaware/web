@@ -17,3 +17,11 @@ CREATE TABLE `item_action` (
   KEY `type_menu_item_type_fk2` (`type_fk`),
   CONSTRAINT `type_menu_item_type_fk2` FOREIGN KEY (`type_fk`) REFERENCES `menu_item_type` (`type`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `item_action` 
+DROP FOREIGN KEY `type_menu_item_type_fk2`;
+ALTER TABLE `item_action` 
+DROP COLUMN `type_fk`,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`item_id`),
+DROP INDEX `type_menu_item_type_fk2` ;

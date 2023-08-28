@@ -44,33 +44,34 @@ class ItemActionControler extends FrontControlerAbstract {
         $this->itemActionRepo = $itemActionRepo;
     }
 
-    public function addUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
+    public function addUserItemAction(ServerRequestInterface $request, $itemId) {
         $statusSecurity = $this->statusSecurityRepo->get();
         $userActions = $statusSecurity->getUserActions();
-        $typeFkEnumValue = (new AuthoredTypeEnum())($typeFk);
-        if (! $userActions->hasUserItemAction($typeFkEnumValue, $itemId)) {
+        if (! $userActions->hasItemAction($itemId)) {
             $itemAction = new ItemAction();
-            $itemAction->setTypeFk($typeFkEnumValue);
             $itemAction->setItemId($itemId);
             $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
             $this->itemActionRepo->add($itemAction);  // do repo
-            $userActions->addUserItemAction($itemAction);  // do statusu
-            $this->addFlashMessage("Zahájena úprava položky $typeFkEnumValue (item $itemId)", FlashSeverityEnum::INFO);
+            $userActions->addItemAction($itemAction);  // do statusu
+            $this->addFlashMessage("Zahájena úprava položky (item) $itemId.", FlashSeverityEnum::INFO);
+        } else {
+            $activeEditor = $userActions->getItemAction($itemId)->getEditorLoginName();
+            $this->addFlashMessage("Položku (item) $itemId upravuje $activeEditor.", FlashSeverityEnum::WARNING);            
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function removeUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
+    public function removeUserItemAction(ServerRequestInterface $request, $itemId) {
         // mažu nezávisle itemAction z statusPresentation (session) i z itemActionRepo (db) - hrozí chyby při opakované modeslání požadavku POST nebo naopak při ztrátě session
         $userActions = $this->statusSecurityRepo->get()->getUserActions();  // načtení ze sesiion
-        if ($userActions->hasUserItemAction($typeFk, $itemId)) {
-            $userActions->removeUserItemAction($userActions->getUserItemAction($typeFk, $itemId));
+        if ($userActions->hasItemAction($itemId)) {
+            $userActions->removeItemAction($userActions->getItemAction($itemId));
         }
-        $itemAction = $this->itemActionRepo->get($typeFk, $itemId);  // načtení z db
+        $itemAction = $this->itemActionRepo->get($itemId);  // načtení z db
         if (isset($itemAction)) {
             $this->itemActionRepo->remove($itemAction);
         }
-        $this->addFlashMessage("Ukončena úprava položky $typeFk (item $itemId)", FlashSeverityEnum::INFO);
+        $this->addFlashMessage("Ukončena úprava položky (item $itemId)", FlashSeverityEnum::INFO);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }

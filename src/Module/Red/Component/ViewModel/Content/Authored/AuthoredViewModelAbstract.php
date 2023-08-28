@@ -11,9 +11,13 @@ namespace Red\Component\ViewModel\Content\Authored;
 use Red\Component\ViewModel\Content\MenuItemViewModel;
 
 use Red\Middleware\Redactor\Controler\AuthoredControlerAbstract;
+
+use Component\ViewModel\StatusViewModelInterface;
+use Red\Model\Repository\MenuItemRepoInterface;
+use Red\Model\Repository\ItemActionRepoInterface;
+
 use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Enum\AuthoredTypeEnum;
-
 use UnexpectedValueException;
 
 /**
@@ -23,6 +27,8 @@ use UnexpectedValueException;
  */
 abstract class AuthoredViewModelAbstract extends MenuItemViewModel implements AuthoredViewModelInterface {
 
+    protected $itemActionRepo;
+
     protected $menuItemType;
 
     abstract public function getAuthoredContentType(): string;
@@ -31,25 +37,38 @@ abstract class AuthoredViewModelAbstract extends MenuItemViewModel implements Au
 
     abstract public function getAuthoredContentId(): string;
 
-
+    public function __construct(
+            StatusViewModelInterface $status,
+            MenuItemRepoInterface $menuItemRepo,
+            ItemActionRepoInterface $itemActionRepo
+            ) {
+        parent::__construct($status, $menuItemRepo);
+        $this->itemActionRepo = $itemActionRepo;
+    }
+    
     // zatím mimo interface!
     //
     // item action
 
+    // - z itemActionRepo - podle $menuItem->getId() - dostanu jestli a kdo edituje item
+    // - z $this->status->getUserActions()->getUserItemAction($menuItem->getId());  - dostanu jestli přihlášený úživatel zahájil editaci
+    //   tohoto itemu v této session
+    
     /**
      *
      * @return ItemActionInterface|null
      */
-    public function getAuthoredContentAction(): ?ItemActionInterface {
-        $menuItem = $this->getMenuItem();
-        return $this->status->getUserActions()->getUserItemAction($menuItem->getTypeFk(), $menuItem->getId());
+    public function getItemAction(): ?ItemActionInterface {
+        return $this->itemActionRepo->get($this->getMenuItemId());   // vyhazuje výjimku pokud nebylo zadáno item id
     }
 
-    public function userPerformAuthoredContentAction(): bool {
-        $itemAction = $this->getAuthoredContentAction();
+    public function userPerformItemAction(): bool {
+//        ve statusu je aktuální itemAction: $this->status->getUserActions()->getUserItemAction($menuItem->getId());  
+        $itemAction = $this->getItemAction();
         if (isset($itemAction)) {
             $loginName = $this->status->getUserLoginName();
-            $userPerformActionWithItem = isset($loginName) AND $itemAction->getEditorLoginName()==$loginName;
+            $editorName = $itemAction->getEditorLoginName();
+            $userPerformActionWithItem = $loginName==$editorName;
         } else {
             $userPerformActionWithItem = false;
         }

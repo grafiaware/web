@@ -19,12 +19,11 @@ use Model\RowData\RowDataInterface;
 class ItemActionDao extends DaoEditAbstract implements ItemActionDaoInterface {
 
     public function getPrimaryKeyAttributes(): array {
-        return ['type_fk', 'item_id'];
+        return ['item_id'];
     }
 
     public function getAttributes(): array {
         return [
-            'type_fk',
             'item_id',
             'editor_login_name',
             'created'

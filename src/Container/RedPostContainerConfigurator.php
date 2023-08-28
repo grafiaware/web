@@ -22,7 +22,7 @@ use Pes\Database\Handler\AccountInterface;
 // controller
 use Red\Middleware\Redactor\Controler\UserActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
-use Red\Middleware\Redactor\Controler\EditItemControler;
+use Red\Middleware\Redactor\Controler\ItemEditControler;
 use Red\Middleware\Redactor\Controler\ItemActionControler;
 use Red\Middleware\Redactor\Controler\PaperControler;
 use Red\Middleware\Redactor\Controler\ArticleControler;
@@ -111,8 +111,8 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(HierarchyAggregateEditDao::class),
                         $c->get(MenuRootRepo::class));
             },
-            EditItemControler::class => function(ContainerInterface $c) {
-                return new EditItemControler(
+            ItemEditControler::class => function(ContainerInterface $c) {
+                return new ItemEditControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),

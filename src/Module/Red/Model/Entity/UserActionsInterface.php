@@ -64,8 +64,8 @@ interface UserActionsInterface extends PersistableEntityInterface {
      */
     public function setEditableMenu($editableMenu): UserActionsInterface;
 
-    public function addUserItemAction(ItemActionInterface $itemAction): void;
-    public function removeUserItemAction(ItemActionInterface $iemAction): void;
-    public function getUserItemAction($typeFk, $itemId): ?ItemActionInterface;
-    public function hasUserItemAction($typeFk, $itemId): bool;
+    public function addItemAction(ItemActionInterface $itemAction): void;
+    public function removeItemAction(ItemActionInterface $iemAction): void;
+    public function getItemAction($itemId): ?ItemActionInterface;
+    public function hasItemAction($itemId): bool;
 }

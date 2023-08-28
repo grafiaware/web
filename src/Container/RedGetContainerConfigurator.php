@@ -596,7 +596,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(PaperComponent::class, AccessPresentationEnum::EDIT)) {
                         $editContentSwithComponent = $c->get(EditContentSwitchComponent::class); // komponent - view s buttonem zapni/vypni editaci (tužtička)
                         $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);
-                        if ($viewModel->userPerformAuthoredContentAction()) {   // v této chvíli musí mít komponent nastaveno setMenuItemId() - v kontroleru
+                        if ($viewModel->userPerformItemAction()) {   // v této chvíli musí mít komponent nastaveno setMenuItemId() - v kontroleru
                             $component->setRendererName(PaperRendererEditable::class);
                             $headline->setRendererName(HeadlineRendererEditable::class);
                             $perex->setRendererName(PerexRendererEditable::class);
@@ -675,7 +675,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
 
                     if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(ArticleComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
-                        if($viewModel->userPerformAuthoredContentAction()) {
+                        if($viewModel->userPerformItemAction()) {
                             $component->setRendererName(ArticleRendererEditable::class);
                             if (!$viewModel->hasContent()) {
                                 $component->appendComponentView($c->get(SelectTemplateComponent::class), ArticleComponent::SELECT_TEMPLATE);
@@ -714,7 +714,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(MultipageComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), MultipageComponent::BUTTON_EDIT_CONTENT);
 
-                        if($viewModel->userPerformAuthoredContentAction()) {
+                        if($viewModel->userPerformItemAction()) {
                             $component->setRendererName(MultipageRendererEditable::class);
                             $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
                             $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
@@ -761,7 +761,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             # komponenty - pro editační režim authored komponent
             #
             #
-// dál uý není allowed
             SelectTemplateComponent::class  => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -985,6 +984,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PaperViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
+                            $c->get(ItemActionRepo::class),
                             $c->get(PaperAggregateSectionsRepo::class)
                     );
             },
@@ -992,6 +992,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ArticleViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
+                            $c->get(ItemActionRepo::class),
                             $c->get(ArticleRepo::class)
                     );
             },
@@ -999,6 +1000,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MultipageViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
+                            $c->get(ItemActionRepo::class),
                             $c->get(MultipageRepo::class),
                             $c->get(HierarchyJoinMenuItemRepo::class)
                     );
@@ -1007,6 +1009,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PaperTemplatePreviewViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
+                            $c->get(ItemActionRepo::class),
                             $c->get(PaperAggregateSectionsRepo::class)
                     );
             },
@@ -1014,6 +1017,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MultipageTemplatePreviewViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
+                            $c->get(ItemActionRepo::class),
                             $c->get(MultipageRepo::class),
                             $c->get(HierarchyJoinMenuItemRepo::class)
                     );

@@ -6,8 +6,8 @@ use Red\Component\ViewModel\Content\Authored\AuthoredViewModelAbstract;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModelInterface;
 
 use Component\ViewModel\StatusViewModelInterface;
-
 use Red\Model\Repository\MenuItemRepoInterface;
+use Red\Model\Repository\ItemActionRepoInterface;
 
 use Red\Model\Repository\MultipageRepo;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
@@ -42,10 +42,11 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     public function __construct(
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
+            ItemActionRepoInterface $itemActionRepo,
             MultipageRepo $multipageRepo,
             HierarchyJoinMenuItemRepo $hierarchyRepo
             ) {
-        parent::__construct($status, $menuItemRepo);
+        parent::__construct($status, $menuItemRepo, $itemActionRepo);
         $this->multipageRepo = $multipageRepo;
         $this->hierarchyRepo = $hierarchyRepo;
     }
