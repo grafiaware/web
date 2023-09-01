@@ -31,14 +31,10 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     private $userActions;
 
     /**
-     * Vrací LoginAggregateFull - login s credentials a registration
-     *
-     * @return LoginAggregateFullInterface|null
+     * {@inheritdoc}
+     * 
+     * @return StatusSecurityInterface
      */
-    public function getLoginAggregate(): ?LoginAggregateFullInterface {
-        return $this->loginAggregate;
-    }
-
     public function remove(): StatusSecurityInterface {
         $this->loginAggregate = null;
         $this->userActions = null;
@@ -47,20 +43,35 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
 
     /**
      * {@inheritdoc}
+     * 
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
-    public function renew(LoginAggregateFullInterface $loginAggregate, UserActionsInterface $userActions): StatusSecurityInterface {
+    public function new(LoginAggregateFullInterface $loginAggregate, UserActionsInterface $userActions): StatusSecurityInterface {
         $this->loginAggregate = $loginAggregate;
         $this->userActions = $userActions;
         return $this;
     }
 
-    public function hasSecurityContext(): bool {
+    /**
+     * {@inheritdoc}
+     * 
+     * @return bool
+     */
+    public function hasValidSecurityContext(): bool {
         return isset($this->loginAggregate) AND $this->loginAggregate->isPersisted();
     }
-
-    ## user action
+    
+    ### GETTERY
+    
+    /**
+     * Vrací LoginAggregateFull - login s credentials a registration
+     *
+     * @return LoginAggregateFullInterface|null
+     */
+    public function getLoginAggregate(): ?LoginAggregateFullInterface {
+        return $this->loginAggregate;
+    }
 
     /**
      *

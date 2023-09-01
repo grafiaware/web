@@ -74,7 +74,7 @@ class LoginLogoutController extends FrontControlerAbstract {
                 if (isset($loginAggregateFull) AND $this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
                     $securityStatus = $this->statusSecurityRepo->get();  // ze session
                     /** @var StatusSecurityInterface $securityStatus */
-                    $securityStatus->renew($loginAggregateFull, new UserActions());
+                    $securityStatus->new($loginAggregateFull, new UserActions());
                     $this->addFlashMessage("Jste přihlášeni.");
                 }
                 else {

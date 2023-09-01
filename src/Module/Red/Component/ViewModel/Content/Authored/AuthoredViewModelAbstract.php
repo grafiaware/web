@@ -46,10 +46,6 @@ abstract class AuthoredViewModelAbstract extends MenuItemViewModel implements Au
         $this->itemActionRepo = $itemActionRepo;
     }
     
-    // zatím mimo interface!
-    //
-    // item action
-
     // - z itemActionRepo - podle $menuItem->getId() - dostanu jestli a kdo edituje item
     // - z $this->status->getUserActions()->getUserItemAction($menuItem->getId());  - dostanu jestli přihlášený úživatel zahájil editaci
     //   tohoto itemu v této session
@@ -59,7 +55,8 @@ abstract class AuthoredViewModelAbstract extends MenuItemViewModel implements Au
      * @return ItemActionInterface|null
      */
     public function getItemAction(): ?ItemActionInterface {
-        return $this->itemActionRepo->get($this->getMenuItemId());   // vyhazuje výjimku pokud nebylo zadáno item id
+        // item action hledá pouze podle itemId
+        return $this->itemActionRepo->getByItemId($this->getMenuItemId());   // vyhazuje výjimku pokud nebylo zadáno item id
     }
 
     public function userPerformItemAction(): bool {

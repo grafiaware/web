@@ -27,29 +27,35 @@ use Red\Model\Entity\UserActionsInterface;
 interface StatusSecurityInterface extends PersistableEntityInterface {
 
     /**
-     *
-     * @return LoginAggregateFullInterface|null
-     */
-    public function getLoginAggregate(): ?LoginAggregateFullInterface;
-
-
-    /**
-     *
+     * Odstraní parametry. Určeno pro volání při záníku securiry kontextu nebo pokud se zjistí, že security kontext neexistuje.
+     * Zypicky po odhlášení uživatele nebo při zpracování požadavku a zjištění, že uživatžel není přihlášen.
+     * 
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
     public function remove(): StatusSecurityInterface;
 
     /**
-     *
+     * Nastaví výchozí parametry po vzniku security kontextu. Určeno pro volání po přihlášení uživatele.
+     * 
      * @param LoginAggregateFullInterface $loginAggregate
      * @param UserActionsInterface $userActions
      * @return StatusSecurityInterface
      */
-    public function renew(LoginAggregateFullInterface $loginAggregate, UserActionsInterface $userActions): StatusSecurityInterface;
+    public function new(LoginAggregateFullInterface $loginAggregate, UserActionsInterface $userActions): StatusSecurityInterface;
 
-    public function hasSecurityContext(): bool;
+    /**
+     * Informuje, zda security kontext existuje a zda je platný.
+     * 
+     * @return bool
+     */
+    public function hasValidSecurityContext(): bool;
 
+    /**
+     *
+     * @return LoginAggregateFullInterface|null
+     */
+    public function getLoginAggregate(): ?LoginAggregateFullInterface;
 
     /**
      *

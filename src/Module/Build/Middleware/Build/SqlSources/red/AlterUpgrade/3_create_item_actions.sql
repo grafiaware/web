@@ -25,3 +25,14 @@ DROP COLUMN `type_fk`,
 DROP PRIMARY KEY,
 ADD PRIMARY KEY (`item_id`),
 DROP INDEX `type_menu_item_type_fk2` ;
+
+ALTER TABLE `veletrhprace`.`item_action` 
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`item_id`, `editor_login_name`);
+
+-- CREATE TABLE `item_action` (
+--   `item_id` varchar(45) NOT NULL,
+--   `editor_login_name` varchar(45) NOT NULL,
+--   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   PRIMARY KEY (`item_id`,`editor_login_name`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

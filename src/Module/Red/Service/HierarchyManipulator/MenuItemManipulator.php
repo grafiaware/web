@@ -1,8 +1,8 @@
 <?php
-namespace Red\Service\MenuItemxManipulator;
+namespace Red\Service\HierarchyManipulator;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Service\MenuItemxManipulator\MenuItemToggleResultEnum;
+use Red\Service\HierarchyManipulator\MenuItemToggleResultEnum;
 
 /**
  * Description of MenuItemxManipulator

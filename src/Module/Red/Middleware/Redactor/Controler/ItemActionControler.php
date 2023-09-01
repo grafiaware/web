@@ -16,12 +16,13 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
+use Site\ConfigurationCache;
 use Status\Model\Enum\FlashSeverityEnum;
 
-use Red\Model\Repository\ItemActionRepo;
-use Red\Model\Entity\ItemAction;
-use Red\Model\Enum\AuthoredTypeEnum;
+use Red\Service\ItemAction\ItemActionServiceInterface;
+use Red\Service\ItemAction\Exception\UnableToAddItemActionForItemException;
 
+use DateInterval;
 /**
  * Description of PostControler
  *
@@ -33,45 +34,40 @@ class ItemActionControler extends FrontControlerAbstract {
      *
      * @var ItemActionRepo
      */
-    private $itemActionRepo;
+    private $itemActionService;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            ItemActionRepo $itemActionRepo) {
+            ItemActionServiceInterface $itemActionService) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->itemActionRepo = $itemActionRepo;
+        $this->itemActionService = $itemActionService;
     }
 
     public function addUserItemAction(ServerRequestInterface $request, $itemId) {
         $statusSecurity = $this->statusSecurityRepo->get();
-        $userActions = $statusSecurity->getUserActions();
-        if (! $userActions->hasItemAction($itemId)) {
-            $itemAction = new ItemAction();
-            $itemAction->setItemId($itemId);
-            $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-            $this->itemActionRepo->add($itemAction);  // do repo
-            $userActions->addItemAction($itemAction);  // do statusu
+        $loginName = $statusSecurity->getLoginAggregate()->getLoginName();
+        // vyčištění starých item action
+        $interval = new DateInterval(ConfigurationCache::itemActionControler()['timeout']);
+        try {
+            $newItemAction = $this->itemActionService->refreshItemActionsAndCreateNew($interval, $itemId, $loginName);  // uložení do repo, vyhodí výjimku, pokud jiný editor upravuje item
+            $statusSecurity->getUserActions()->addItemAction($newItemAction);
             $this->addFlashMessage("Zahájena úprava položky (item) $itemId.", FlashSeverityEnum::INFO);
-        } else {
-            $activeEditor = $userActions->getItemAction($itemId)->getEditorLoginName();
-            $this->addFlashMessage("Položku (item) $itemId upravuje $activeEditor.", FlashSeverityEnum::WARNING);            
+        } catch (UnableToAddItemActionForItemException $e) {
+            $activeEditor = $this->itemActionService->getActiveEditor($itemId);
+            $this->addFlashMessage("Položku (item) $itemId upravuje $activeEditor.", FlashSeverityEnum::WARNING);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function removeUserItemAction(ServerRequestInterface $request, $itemId) {
-        // mažu nezávisle itemAction z statusPresentation (session) i z itemActionRepo (db) - hrozí chyby při opakované modeslání požadavku POST nebo naopak při ztrátě session
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();  // načtení ze sesiion
-        if ($userActions->hasItemAction($itemId)) {
-            $userActions->removeItemAction($userActions->getItemAction($itemId));
-        }
-        $itemAction = $this->itemActionRepo->get($itemId);  // načtení z db
-        if (isset($itemAction)) {
-            $this->itemActionRepo->remove($itemAction);
-        }
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginName = $statusSecurity->getLoginAggregate()->getLoginName();
+        $this->itemActionService->remove($itemId, $loginName);  // odstranění z repo
+        $statusSecurity->getUserActions()->removeItemAction($itemId);
         $this->addFlashMessage("Ukončena úprava položky (item $itemId)", FlashSeverityEnum::INFO);
+        
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }

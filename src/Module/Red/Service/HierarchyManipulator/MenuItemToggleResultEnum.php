@@ -5,7 +5,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
  */
 
-namespace Red\Service\MenuItemxManipulator;
+namespace Red\Service\HierarchyManipulator;
 
 use Pes\Type\Enum;
 

@@ -12,14 +12,17 @@ use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 /**
- * Description of RsDao
+ * Description of ItemActionDao
  *
  * @author pes2704
  */
 class ItemActionDao extends DaoEditAbstract implements ItemActionDaoInterface {
 
     public function getPrimaryKeyAttributes(): array {
-        return ['item_id'];
+        return [
+            'item_id',
+            'editor_login_name'
+            ];
     }
 
     public function getAttributes(): array {

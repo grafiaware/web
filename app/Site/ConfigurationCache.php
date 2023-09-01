@@ -71,6 +71,9 @@ class ConfigurationCache {
                 case 'menu':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::menu();
                     break;
+                case 'itemActionControler':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::itemActionControler();
+                    break;
                 case 'loginLogoutController':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::loginLogoutController();
                     break;
@@ -211,6 +214,10 @@ class ConfigurationCache {
         return self::getConfigModule('menu');
     }
 
+    public static function itemActionControler() {
+        return self::getConfigModule('itemActionControler');
+    }
+    
     public static function loginLogoutController() {
         return self::getConfigModule('loginLogoutController');
     }

@@ -91,8 +91,8 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
         $this->userItemActions[$itemAction->getItemId()] = $itemAction;
     }
 
-    public function removeItemAction(ItemActionInterface $itemAction): void {
-        unset($this->userItemActions[$itemAction->getItemId()]);
+    public function removeItemAction($itemId): void {
+        unset($this->userItemActions[$itemId]);
     }
 
     public function hasItemAction($itemId): bool {

@@ -165,9 +165,8 @@ abstract class RepoAbstract {
 
     /**
      * Pro konkrétní metodu konkrétního repository
-     *
-     * @param string $referenceName
-     * @param type $referenceParams
+     * 
+     * @param type $touplesToBind Pole dvojic jméno-hodnota pro UNIQUE sloupec nebo sloupce
      * @return PersistableEntityInterface|null
      */
     protected function getEntityByUnique($touplesToBind=[]): ?PersistableEntityInterface {

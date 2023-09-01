@@ -21,9 +21,9 @@ use Status\Model\Enum\FlashSeverityEnum;
 
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Service\MenuItemxManipulator\MenuItemManipulator;
+use Red\Service\HierarchyManipulator\MenuItemManipulator;
 use Red\Service\ItemCreator\ItemCreatorRegistryInterface;
-use Red\Service\MenuItemxManipulator\MenuItemToggleResultEnum;
+use Red\Service\HierarchyManipulator\MenuItemToggleResultEnum;
 
 use Pes\Type\Exception\ValueNotInEnumException;
 use LogicException;

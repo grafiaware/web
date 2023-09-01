@@ -1,5 +1,5 @@
 <?php
-namespace Red\Service\MenuItemxManipulator;
+namespace Red\Service\HierarchyManipulator;
 
 
 /**

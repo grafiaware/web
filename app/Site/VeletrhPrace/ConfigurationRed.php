@@ -261,6 +261,12 @@ class ConfigurationRed extends ConfigurationDb {
 
             ];
     }
+    
+    public static function itemActionControler() {
+        return [
+            'timeout' => 'PT1H'   // 1 hodina
+        ];
+    }
 
     public static function loginLogoutController() {
         ## HESLO - malé velké písmeno, číslice, min. 5 znaků

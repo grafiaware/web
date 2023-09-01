@@ -43,7 +43,7 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
             $statusSecurity = new StatusSecurity();
             $statusSecurityRepo->add($statusSecurity);    // obnoví status bez login
         }
-        if ( !$statusSecurity->hasSecurityContext()) {
+        if ( !$statusSecurity->hasValidSecurityContext()) {
             $statusSecurity->remove();
         }
 

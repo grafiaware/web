@@ -86,9 +86,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         return array_merge(
                 ConfigurationCache::web(),  //db
                 ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
-//                ConfigurationCache::menu(),
-//                Configuration::renderer(),
-//                ConfigurationCache::templates()
                 );
     }
 

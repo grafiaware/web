@@ -75,7 +75,7 @@ class UserActionControler extends FrontControlerAbstract {
 
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
         $this->statusSecurityRepo->get()->getUserActions()->setEditableContent($edit);
-        $this->addFlashMessage("set editable article $edit", FlashSeverityEnum::INFO);
+        $this->addFlashMessage("set editable content $edit", FlashSeverityEnum::INFO);
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
@@ -83,29 +83,14 @@ class UserActionControler extends FrontControlerAbstract {
         }
     }
 
-//    public function setEditContent(ServerRequestInterface $request) {
-//        $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_CONTENT);
-////        $this->switchEditable('article', $edit);
-//
-//        //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
-//        $this->statusSecurityRepo->get()->getUserActions()->setEditableContent($edit);
-//        $this->addFlashMessage("set editable article $edit", FlashSeverityEnum::INFO);
-//        if ($edit OR $this->isPresentedItemActive()) {
-//            return $this->redirectSeeLastGet($request); // 303 See Other
-//        } else {
-//            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
-//        }
-//    }
-
     public function setEditMenu(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MENU);
-//        $this->switchEditable('menu', $edit);
         $this->addFlashMessage("set editable menu $edit", FlashSeverityEnum::INFO);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableMenu($edit);
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
-            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
+            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední item, který byl editován v režimu edit 
         }
     }
 

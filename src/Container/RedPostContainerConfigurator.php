@@ -40,7 +40,9 @@ use Red\Service\ItemCreator\Article\ArticleCreator;
 use Red\Service\ItemCreator\StaticTemplate\StaticTemplateCreator;
 use Red\Service\ItemCreator\Multipage\MultipageCreator;
 // menu itemmanipulator
-use Red\Service\MenuItemxManipulator\MenuItemManipulator;
+use Red\Service\HierarchyManipulator\MenuItemManipulator;
+// item action service
+use Red\Service\ItemAction\ItemActionService;
 
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -101,7 +103,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(ItemActionRepo::class));
+                        $c->get(ItemActionService::class));
             },
             HierarchyControler::class => function(ContainerInterface $c) {
                 return new HierarchyControler(
@@ -209,6 +211,12 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MenuItemManipulator($c->get(MenuItemRepo::class),
                         $c->get(HierarchyAggregateReadonlyDao::class));
             },
+                    
+            ItemActionService::class => function(ContainerInterface $c) {
+                return new ItemActionService(
+                        $c->get(ItemActionRepo::class)
+                    );
+            },                    
             // view
             'renderLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);

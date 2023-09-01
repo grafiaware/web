@@ -32,14 +32,42 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
     }
 
     /**
-     *
+     * 
+     * @param type $itemId
+     * @param type $loginName
+     * @return ItemActionInterface|null
+     */
+    public function get($itemId, $loginName): ?ItemActionInterface {
+        return $this->getEntity($itemId, $loginName);
+    }
+    
+    /**
+     * 
      * @param type $itemId
      * @return ItemActionInterface|null
      */
-    public function get($itemId): ?ItemActionInterface {
-        return $this->getEntity($itemId);
+    public function getByItemId($itemId): ?ItemActionInterface {
+        return $this->getEntityByUnique(['item_id'=>$itemId]);  
     }
-
+    
+    /**
+     * 
+     * @param type $itemId
+     * @return type
+     */
+    public function findByLoginName($itemId) {
+        return $this->findEntities("item_id=:item_id", ['item_id'=>$itemId]);
+    }
+    
+    /**
+     * 
+     * @param type $loginName
+     * @return ItemActionInterface[]
+     */
+    public function findByOtherLoginName($loginName) {
+        return $this->findEntities("editor_login_name<>:editor_login_name", ['editor_login_name'=>$loginName]);
+    }
+    
     /**
      *
      * @return ItemActionInterface[]
@@ -61,12 +89,10 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
     }
 
     protected function indexFromEntity(ItemActionInterface $itemAction) {
-        return $itemAction->getItemId();
+        return $itemAction->getItemId().$itemAction->getEditorLoginName();
     }
 
     protected function indexFromRow($row) {
-        return $row['item_id'];
+        return $row['item_id'].$row['editor_login_name'];
     }
-
-
 }
