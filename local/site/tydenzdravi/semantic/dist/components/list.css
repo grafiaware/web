@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - List
+ * # Fomantic-UI 2.9.2 - List
  * https://github.com/fomantic/Fomantic-UI/
  *
  *
@@ -98,7 +98,6 @@ ol.ui.list ol li,
   min-width: 1.55em;
   margin: 0;
   padding-top: 0;
-  -webkit-transition: color 0.1s ease;
   transition: color 0.1s ease;
 }
 .ui.list .list > .item > i.icon:not(.loading),
@@ -171,8 +170,8 @@ ol.ui.list ol li,
 .ui.list > .item .header {
   display: block;
   margin: 0;
-  font-family: 'Signika Negative';
-  font-weight: bold;
+  font-family: 'Rubik';
+  font-weight: 500;
   color: #000;
 }
 
@@ -193,11 +192,11 @@ ol.ui.list ol li,
 .ui.list .list > a.item,
 .ui.list > a.item {
   cursor: pointer;
-  color: #2aa411;
+  color: #3e9aec;
 }
 .ui.list .list > a.item:hover,
 .ui.list > a.item:hover {
-  color: #1a9a00;
+  color: #0086fd;
 }
 
 /* Linked Item Icons */
@@ -212,11 +211,11 @@ ol.ui.list ol li,
 .ui.list .list > .item a.header,
 .ui.list > .item a.header {
   cursor: pointer;
-  color: #2aa411 !important;
+  color: #3e9aec !important;
 }
 .ui.list .list > .item > a.header:hover,
 .ui.list > .item > a.header:hover {
-  color: #1a9a00 !important;
+  color: #0086fd !important;
 }
 
 /* Floated Content */
@@ -388,7 +387,7 @@ ol.ui.list ol li,
 }
 .ui.inverted.list .list > a.item:hover,
 .ui.inverted.list > a.item:hover {
-  color: #1a9a00;
+  color: #0086fd;
 }
 
 /* Linking Content */
@@ -396,7 +395,7 @@ ol.ui.list ol li,
   color: #fff !important;
 }
 .ui.inverted.list .item a:not(.ui):hover {
-  color: #1a9a00 !important;
+  color: #0086fd !important;
 }
 
 /* -------------------
@@ -425,7 +424,6 @@ ol.ui.list ol li,
 .ui.link.list a.item,
 .ui.link.list .item a:not(.ui) {
   color: rgba(0, 0, 0, 0.4);
-  -webkit-transition: 0.1s color ease;
   transition: 0.1s color ease;
 }
 .ui.link.list.list a.item:hover,
@@ -471,7 +469,6 @@ ol.ui.list ol li,
   margin: 0;
   color: rgba(0, 0, 0, 0.4);
   border-radius: 0.5em;
-  -webkit-transition: 0.1s color ease, 0.1s padding-left ease, 0.1s background-color ease;
   transition: 0.1s color ease, 0.1s padding-left ease, 0.1s background-color ease;
 }
 .ui.selection.list .list > .item:last-child,
@@ -524,7 +521,6 @@ ol.ui.list ol li,
            Animated
     -------------------- */
 .ui.animated.list > .item {
-  -webkit-transition: 0.25s color ease 0.1s, 0.25s padding-left ease 0.1s, 0.25s background-color ease 0.1s;
   transition: 0.25s color ease 0.1s, 0.25s padding-left ease 0.1s, 0.25s background-color ease 0.1s;
 }
 .ui.animated.list:not(.horizontal) > .item:hover {
@@ -561,14 +557,13 @@ ul.ui.list li::before,
 .ui.bulleted.list .list > .item::before,
 .ui.bulleted.list > .item::before {
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   pointer-events: none;
   position: absolute;
   top: auto;
   left: auto;
-  font-weight: normal;
+  font-weight: 300;
   margin-left: -1.25rem;
   content: "\2022";
   opacity: 1;
@@ -631,7 +626,6 @@ ol.ui.list li::before,
   top: auto;
   left: auto;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   pointer-events: none;
@@ -896,7 +890,7 @@ ol.ui.suffixed.list li::before,
       Sizes
 -------------------- */
 .ui.list {
-  font-size: 1em;
+  font-size: 1.42857143em;
 }
 .ui.mini.list {
   font-size: 0.78571429em;
@@ -913,11 +907,11 @@ ol.ui.suffixed.list li::before,
   font-size: 0.85714286rem;
 }
 .ui.small.list {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 .ui.small.horizontal.list .list > .item,
 .ui.small.horizontal.list > .item {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.large.list {
   font-size: 1.14285714em;

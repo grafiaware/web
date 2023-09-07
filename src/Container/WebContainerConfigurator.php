@@ -59,6 +59,9 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 use Red\Model\Repository\Association\MenuItemAssociation;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
+use Red\Model\Dao\LanguageDao;
+use Red\Model\Hydrator\LanguageHydrator;
+use Red\Model\Repository\LanguageRepo;
 
 // view
 use Pes\View\View;
@@ -197,7 +200,18 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $repo->registerOneToOneAssociation($assotiation);  // reference se jménem, které neodpovídá jménu rodičovské tabulky
                 return $repo;
             },
-
+            LanguageDao::class => function(ContainerInterface $c) {
+                return new LanguageDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            LanguageHydrator::class => function(ContainerInterface $c) {
+                return new LanguageHydrator();
+            },
+            LanguageRepo::class => function(ContainerInterface $c) {
+                return new LanguageRepo($c->get(LanguageDao::class), $c->get(LanguageHydrator::class));
+            },
 
             // database account
             Account::class => function(ContainerInterface $c) {

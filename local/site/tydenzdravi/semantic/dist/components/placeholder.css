@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - Placeholder
+ * # Fomantic-UI 2.9.2 - Placeholder
  * https://github.com/fomantic/Fomantic-UI/
  *
  *
@@ -14,24 +14,12 @@
 .ui.placeholder {
   position: static;
   overflow: hidden;
-  -webkit-animation: placeholderShimmer 2s linear;
-          animation: placeholderShimmer 2s linear;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation: placeholderShimmer 2s linear;
+  animation-iteration-count: infinite;
   background-color: #fff;
-  background-image: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(0, 0, 0, 0.08)), color-stop(15%, rgba(0, 0, 0, 0.15)), color-stop(30%, rgba(0, 0, 0, 0.08)));
-  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.08) 0, rgba(0, 0, 0, 0.15) 15%, rgba(0, 0, 0, 0.08) 30%);
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.08) 0, rgba(0, 0, 0, 0.15) 15%, rgba(0, 0, 0, 0.08) 30%);
   background-size: 1200px 100%;
   max-width: 30rem;
-}
-@-webkit-keyframes placeholderShimmer {
-  0% {
-    background-position: -1200px 0;
-  }
-  100% {
-    background-position: 1200px 0;
-  }
 }
 @keyframes placeholderShimmer {
   0% {
@@ -45,20 +33,16 @@
   margin-top: 2rem;
 }
 .ui.placeholder + .ui.placeholder {
-  -webkit-animation-delay: 0.15s;
-          animation-delay: 0.15s;
+  animation-delay: 0.15s;
 }
 .ui.placeholder + .ui.placeholder + .ui.placeholder {
-  -webkit-animation-delay: 0.3s;
-          animation-delay: 0.3s;
+  animation-delay: 0.3s;
 }
 .ui.placeholder + .ui.placeholder + .ui.placeholder + .ui.placeholder {
-  -webkit-animation-delay: 0.45s;
-          animation-delay: 0.45s;
+  animation-delay: 0.45s;
 }
 .ui.placeholder + .ui.placeholder + .ui.placeholder + .ui.placeholder + .ui.placeholder {
-  -webkit-animation-delay: 0.6s;
-          animation-delay: 0.6s;
+  animation-delay: 0.6s;
 }
 .ui.placeholder,
 .ui.placeholder > ::before,
@@ -192,8 +176,6 @@
 
 /* Inverted Content Loader */
 .ui.inverted.placeholder {
-  background-image: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(255, 255, 255, 0.08)), color-stop(15%, rgba(255, 255, 255, 0.14)), color-stop(30%, rgba(255, 255, 255, 0.08)));
-  background-image: -webkit-linear-gradient(left, rgba(255, 255, 255, 0.08) 0, rgba(255, 255, 255, 0.14) 15%, rgba(255, 255, 255, 0.08) 30%);
   background-image: linear-gradient(to right, rgba(255, 255, 255, 0.08) 0, rgba(255, 255, 255, 0.14) 15%, rgba(255, 255, 255, 0.08) 30%);
 }
 .ui.inverted.placeholder,

@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - Header
+ * # Fomantic-UI 2.9.2 - Header
  * https://github.com/fomantic/Fomantic-UI/
  *
  *
@@ -19,8 +19,8 @@
   border: none;
   margin: calc(2rem - 0.1428571428571429em) 0 1rem;
   padding: 0 0;
-  font-family: 'Signika Negative';
-  font-weight: bold;
+  font-family: 'Rubik';
+  font-weight: 500;
   line-height: 1.28571429em;
   text-transform: none;
   color: #000;
@@ -37,10 +37,10 @@
     --------------- */
 .ui.header .sub.header {
   display: block;
-  font-weight: normal;
+  font-weight: 300;
   padding: 0;
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.42857143rem;
   line-height: 1.2em;
   color: rgba(0, 0, 0, 0.6);
 }
@@ -128,84 +128,84 @@
      Page
 --------------- */
 h1.ui.header {
-  font-size: 2rem;
+  font-size: 3.57142857rem;
 }
 h1.ui.header .sub.header {
   font-size: 1.14285714rem;
 }
 h2.ui.header {
-  font-size: 4.14285714rem;
+  font-size: 3.57142857rem;
 }
 h2.ui.header .sub.header {
   font-size: 1.14285714rem;
 }
 h3.ui.header {
-  font-size: 3.92857143rem;
+  font-size: 3.35714286rem;
 }
 h3.ui.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.42857143rem;
 }
 h4.ui.header {
-  font-size: 3.42857143rem;
+  font-size: 2.85714286rem;
 }
 h4.ui.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.42857143rem;
 }
 h5.ui.header {
-  font-size: 3.21428571rem;
+  font-size: 2.64285714rem;
 }
 h5.ui.header .sub.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 h6.ui.header {
-  font-size: 2.71428571rem;
+  font-size: 2.21428571rem;
 }
 h6.ui.header .sub.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 
 /* --------------
  Content Heading
 --------------- */
 .ui.mini.header {
-  font-size: 2.71428571em;
+  font-size: 2.21428571em;
   min-height: 1em;
 }
 .ui.mini.header .sub.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.mini.sub.header {
   font-size: 0.78571429em;
 }
 .ui.tiny.header {
-  font-size: 3.21428571em;
+  font-size: 2.64285714em;
   min-height: 1em;
 }
 .ui.tiny.header .sub.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.tiny.sub.header {
   font-size: 0.78571429em;
 }
 .ui.small.header {
-  font-size: 3.42857143em;
+  font-size: 2.85714286em;
   min-height: 1em;
 }
 .ui.small.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.42857143rem;
 }
 .ui.small.sub.header {
   font-size: 0.78571429em;
 }
 .ui.large.header {
-  font-size: 4.14285714em;
+  font-size: 3.57142857em;
   min-height: 1em;
 }
 .ui.large.header .sub.header {
   font-size: 1.14285714rem;
 }
 .ui.large.sub.header {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 .ui.big.header {
   font-size: 1.85714286em;
@@ -214,17 +214,17 @@ h6.ui.header .sub.header {
   font-size: 1.14285714rem;
 }
 .ui.big.sub.header {
-  font-size: 1em;
+  font-size: 1.42857143em;
 }
 .ui.huge.header {
-  font-size: 2em;
+  font-size: 3.57142857em;
   min-height: 1em;
 }
 .ui.huge.header .sub.header {
   font-size: 1.14285714rem;
 }
 .ui.huge.sub.header {
-  font-size: 1em;
+  font-size: 1.42857143em;
 }
 .ui.massive.header {
   font-size: 2.28571429em;
@@ -243,7 +243,7 @@ h6.ui.header .sub.header {
 .ui.sub.header {
   padding: 0;
   margin-bottom: 0.14285714rem;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 0.85714286em;
   text-transform: uppercase;
   color: "";
@@ -330,16 +330,12 @@ h6.ui.header .sub.header {
 }
 .ui.inverted.attached.header {
   background: #1b1c1d;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   border-color: transparent;
 }
 .ui.inverted.block.header {
-  background: #545454 -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(0, 0, 0, 0.05)));
-  background: #545454 -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.05));
   background: #545454 linear-gradient(transparent, rgba(0, 0, 0, 0.05));
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   border-bottom: none;
 }
 
@@ -683,14 +679,13 @@ a.ui.inverted.black.header.header.header:hover {
     -------------------- */
 .ui.block.header {
   background: #f3f4f5;
-  padding: 0.78571429rem 1rem;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  padding: 0.78571429rem 1.42857143rem;
+  box-shadow: none;
   border: 1px solid #d4d4d5;
-  border-radius: 0;
+  border-radius: 0.42857143rem;
 }
 .ui.block.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1rem;
+  font-size: 1.42857143rem;
 }
 .ui.mini.block.header {
   font-size: 0.78571429rem;
@@ -699,7 +694,7 @@ a.ui.inverted.black.header.header.header:hover {
   font-size: 0.85714286rem;
 }
 .ui.small.block.header {
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.large.block.header {
   font-size: 1.14285714rem;
@@ -719,10 +714,9 @@ a.ui.inverted.black.header.header.header:hover {
     -------------------- */
 .ui.attached.header {
   background: #fff;
-  padding: 0.78571429rem 1rem;
+  padding: 0.78571429rem 1.42857143rem;
   margin: 0 -1px;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   border: 1px solid #d4d4d5;
   border-radius: 0;
 }
@@ -733,15 +727,15 @@ a.ui.inverted.black.header.header.header:hover {
   border-top: none;
 }
 .ui.top.attached.header {
-  border-radius: 0 0 0 0;
+  border-radius: 0.42857143rem 0.42857143rem 0 0;
 }
 .ui.bottom.attached.header {
-  border-radius: 0 0 0 0;
+  border-radius: 0 0 0.42857143rem 0.42857143rem;
 }
 
 /* Attached Sizes */
 .ui.attached.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1em;
+  font-size: 1.42857143em;
 }
 .ui.mini.attached.header {
   font-size: 0.78571429em;
@@ -750,7 +744,7 @@ a.ui.inverted.black.header.header.header:hover {
   font-size: 0.85714286em;
 }
 .ui.small.attached.header {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 .ui.large.attached.header {
   font-size: 1.14285714em;
@@ -769,7 +763,7 @@ a.ui.inverted.black.header.header.header:hover {
         Sizing
 -------------------- */
 .ui.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 3.92857143em;
+  font-size: 3.35714286em;
 }
 
 

@@ -1,26 +1,33 @@
 /*******************************
      User Global Variables
 *******************************/
-@fontName          : 'Signika Negative';
+@fontName          : 'Rubik';
+@googleFontSizes   : '300,300italic,400,500,600,700,400italic,700italic';
 
 @headerFont        : @fontName;
 @pageFont          : @fontName;
+ 
+@lineHeight        : 1.4em;
+@bold              : 500;
+@normal            : 300;
 
-@lineHeight          : 1.25em;
+/* This is the single variable that controls them all */
+@emSize   : 14px;  
 
 
-/* The size of page text  */
-@fontSize : 27px;
-@smallFontSize : 20px;
-@bigFontSize: 37px;
-
+/* The size of page text */
+@fontSize :     20px; 
+@smallFontSize :   15px;
+@bigFontSize:   30px;       
 
 /*-------------------
     Border Radius
 --------------------*/
 
-@relativeBorderRadius: 0;
-@absoluteBorderRadius: 0;
+@relativeBorderRadius: @relative6px;
+@absoluteBorderRadius: @6px;
+
+@defaultBorderRadius: @absoluteBorderRadius; 
 
 /*-------------------
     Brand Colors
@@ -36,17 +43,35 @@
        Links
 --------------------*/
 
-@linkColor           : #2aa411;
+@linkColor           : #3e9aec; 
 
 /*--------------
-  Page Heading
+  Page Heading 
 ---------------*/
 
-@h2 : unit((58 / 14), rem);
-@h3 : unit((55 / 14), rem);
-@h4 : unit((48 / 14), rem);
-@h5 : unit((45 / 14), rem); 
-@h6 : unit((38 / 14), rem);
+@h1 : unit((50 / 14), rem);
+@h2 : unit((50 / 14), rem);
+@h3 : unit((47 / 14), rem); 
+@h4 : unit((40 / 14), rem);
+@h5 : unit((37 / 14), rem); 
+@h6 : unit((31 / 14), rem); 
+
+/*-------------------
+        Sizes
+--------------------*/ 
+/*
+  Sizes are all expressed in terms of 14px/em (default em)
+  This ensures these "ratios" remain constant despite changes in EM 
+*/
+
+@miniSize        : (11 / 14);
+@tinySize        : (12 / 14);
+@smallSize       : (16 / 14); 
+@mediumSize      : (20 / 14);
+@largeSize       : (16 / 14);
+@bigSize         : (18 / 14);  
+@hugeSize        : (20 / 14);
+@massiveSize     : (24 / 14);
 
 /*-------------------
      Breakpoints 

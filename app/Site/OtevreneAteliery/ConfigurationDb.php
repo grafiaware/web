@@ -69,8 +69,10 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_jmeno_nastavit' : 'oa_upgrader',
-            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_heslo_nastavit' : 'oa_upgrader',
+            # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
+            # a také select k staré databázi - reálně nejlépe role DBA
+            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'oa_upgrader',
+            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'oa_upgrader',
             #
             ###################################
 
@@ -79,15 +81,15 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             'build.config.users.everyone' =>
                 [
-                    'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_jmeno_nastavit' : 'oa_everyone',
-                    'everyone_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_heslo_nastavit' : 'oa_everyone',
+                    'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'oa_everyone',
+                    'everyone_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'oa_everyone',
                 ],
             'build.config.users.granted' =>
                 [
-                    'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_jmeno_nastavit' : 'oa_auth',
-                    'authenticated_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_heslo_nastavit' : 'oa_auth',
-                    'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_jmeno_nastavit' : 'oa_admin',
-                    'administrator_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_heslo_nastavit' : 'oa_admin',
+                    'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'oa_auth',
+                    'authenticated_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'oa_auth',
+                    'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'oa_admin',
+                    'administrator_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'oa_admin',
                 ],
             #
             ###################################
@@ -107,8 +109,14 @@ class ConfigurationDb extends ConfigurationConstants {
                 'blocks',
                 'menu_vertical',
             ],
-            'build.config.convert.copy' => [],
-            'build.config.convert.updatestranky' => [],
+            'build.config.convert.copy' =>
+                [
+                    'source' => 'stranky',
+                    'target' => 'stranky'
+                ],
+            'build.config.convert.updatestranky' => [
+                [],        
+            ],
             'build.config.convert.home' => [],
             'build.config.convert.repairs' => [],
             #
@@ -150,8 +158,8 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbold.db.port' => '3306',
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
-            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_old_nstavit' : 'gr_pracovni',
+            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'gr_pracovni',
             #
             ###################################
             # Konfigurace logu databáze
@@ -178,8 +186,8 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_nstavit' : 'oa_upgrade',
+            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : 'localhost',
+            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'gr_upgrade',
             #
             ###################################
             # Konfigurace logu databáze
@@ -198,14 +206,7 @@ class ConfigurationDb extends ConfigurationConstants {
      */
     public static function hierarchy() {
         return  [
-            #################################
-            # Konfigurace uživatele databáze
-            #
-            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
-            #
-            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_jmeno_nastavit' : 'oa_upgrader',
-            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_heslo_nastavit' : 'oa_upgrader',
-            #
+
             ###################################
             # Konfigurace hierarchy tabulek
             #
@@ -235,8 +236,8 @@ class ConfigurationDb extends ConfigurationConstants {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_login_nstavit' : 'oa_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_login_heslo_nstavit' : 'oa_login',
+            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'oa_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_login' : 'oa_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',

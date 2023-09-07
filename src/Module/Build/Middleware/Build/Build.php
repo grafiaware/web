@@ -15,6 +15,7 @@ use Container\{
     BuildContainerConfigurator, DbUpgradeContainerConfigurator, AuthContainerConfigurator, DbOldContainerConfigurator
 };
 
+use Build\Middleware\Build\Controller\ControlPanelController;
 use Build\Middleware\Build\Controller\DatabaseController;
 
 /**
@@ -37,11 +38,11 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
                 new Container(      // pro Build musí bý nový kontejner - jeho konfigurace přepisuje objekty v DbUpgrade
                     (new DbUpgradeContainerConfigurator())->configure(
                         new Container(      // pro DbUpgrade musí bý nový kontejner - jeho konfigurace přepisuje objekty v DbOld
-                            (new AuthContainerConfigurator())->configure(
+//                            (new AuthContainerConfigurator())->configure(
                                 (new DbOldContainerConfigurator())->configure(
                                     new Container($this->getApp()->getAppContainer())
                                 )
-                            )
+//                            )
                         )
                     )
                 )
@@ -50,45 +51,52 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
 ####################################
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
-
+        
+        #### ControlPanelController ####
+        $routeGenerator->addRouteForAction('GET', '/build', function(ServerRequestInterface $request) {
+            /** @var ControlPanelController $ctrl */
+            $ctrl = $this->container->get(ControlPanelController::class);
+            return $ctrl->panel($request);
+            });
+            
         #### DatabaseController ####
-        $routeGenerator->addRouteForAction('GET', '/build/listconfig', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/build/listconfig', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->listConfig($request);
             });
 
-        $routeGenerator->addRouteForAction('GET', '/build/createdb', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/build/createdb', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->createDb();
             });
-        $routeGenerator->addRouteForAction('GET', '/build/dropdb', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/build/dropdb', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->dropDb();
             });
-        $routeGenerator->addRouteForAction('GET', '/build/createusers', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/build/createusers', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->createUsers();
             });
-        $routeGenerator->addRouteForAction('GET', '/build/dropusers', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/build/dropusers', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->dropUsers();
             });
-        $routeGenerator->addRouteForAction('GET', '/build/droptables', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/build/droptables', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->dropTables();
             });
-        $routeGenerator->addRouteForAction('GET', '/build/make', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/build/make', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->make();
             });
-        $routeGenerator->addRouteForAction('GET', '/build/convert', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/build/convert', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->convert();

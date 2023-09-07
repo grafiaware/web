@@ -69,15 +69,15 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     }
 
     /**
-     * Nastaví jazyk prezentace pokud není nastaven.
+     * Nastaví jazyk prezentace pokud není nastaven. Pokud je již se statusu entita language, požadovaný jazyk v requestu nehraje roli.
      *
      * @param type $statusPresentation
      */
     private function presetPresentationStatus(StatusPresentation $statusPresentation, ServerRequestInterface $request) {
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguage())) {
-            $language = $this->getRequestedLanguage($request);
-            $statusPresentation->setLanguage($language);
+            $langCode = $this->getRequestedLangCode($request);
+            $statusPresentation->setRequestedLangCode($langCode);
         }
     }
 
@@ -89,19 +89,16 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      * @return LanguageInterface
      * @throws UnexpectedValueException
      */
-    private function getRequestedLanguage(ServerRequestInterface $request): LanguageInterface {
+    private function getRequestedLangCode(ServerRequestInterface $request) {
         $requestedLangCode = $request->getAttribute(WebAppFactory::REQUESTED_LANGUAGE_ATTRIBUTE_NAME);
-//TODO:      languageRepo z kontejneru - výkonostní problém - ? nestačí jen jazyk z konfigurace - nebude to celá entita language, alespoň udělej nový menší kontejner místo Hierarchy
-        $languageRepo = $this->container->get(LanguageRepo::class);
-        $language = $languageRepo->get($requestedLangCode);
-        if (!isset($language)) {
+        
+        if (in_array($requestedLangCode, ConfigurationCache::presentationStatus()['accepted_languages'])) {
+            $langCode = $requestedLangCode;
+        } else {
             user_error("Podle hlavičky requestu Accept-Language je požadován kód jazyka $requestedLangCode. "
-                    . "Takový kód jazyka nebyl nalezen mezi jazyky v databázi. Nastaven default jazyk aplikace.", E_USER_NOTICE);
-            $language = $languageRepo->get(ConfigurationCache::presentationStatus()['default_lang_code']);
-            if (!isset($language)) {
-                throw new UnexpectedValueException("Kód jazyka nastavený v konfiguraci jako výchozí jazyk nebyl nalezen mezi jazyky v databázi.");
-            }
+                    . "Takový kód jazyka nebyl nalezen mezi jazyky v konfiguraci. Nastaven default jazyk aplikace.", E_USER_NOTICE);
+            $langCode = ConfigurationCache::presentationStatus()['default_lang_code'];
         }
-        return $language;
+        return $langCode;
     }
 }

@@ -1,4 +1,4 @@
-.svisle-menu .menu{ 
+.svisle-menu .menu{
     li:not(.cut) p.presented{
         outline: 3px solid;
         border-left: 3px solid;
@@ -6,24 +6,51 @@
         padding-bottom: 15px;
         margin: 10px 0 0;
     }
-/*    p:not(.item){
-        display: none;
-    }*/
 }
 .svisle-menu.kos{
     .menu{
         li:not(.cut) .presented{
             outline: 3px solid;
-            border-left: 3px solid; 
-            padding-top: 20px;
-            padding-bottom: 15px;
-            margin: 10px 0 0;
+            border-left: 3px solid;
+            padding-top: 30px;
+            padding-bottom: 25px;
+            margin-bottom: 0;
         }
         .item{
             color: darken(@barvaKos,20);
         }
     }
 }
-.editMenu .button-edit-menu{
-    top: -40px;
+.ui.ribbon.label:not(.page-edit){
+    padding-top: 15px;
+    padding-bottom: 15px; 
 }
+.template-multipage{
+    .zapnout_editaci{
+        //display: none; 
+    }
+}
+.ui.ribbon.label.page-edit{
+    font-size: 1.45rem;
+}
+.ui.ribbon.label:not(.page-edit) .ribbon-svg:nth-child(2){
+    top: -1px;
+}
+.ui.ribbon.label:not(.page-edit) .content-priority{
+    margin-top: -5px;
+}
+.semafor-radek{
+        display: inline-flex;
+        flex-direction: row;
+        position: relative;
+        vertical-align: top;
+        top: -8px;
+        > div{
+            display: inline-flex;
+            font-size: 1.2rem;
+            &:nth-child(2){
+                font-size: 1.3rem;
+            }
+        }
+} 
+

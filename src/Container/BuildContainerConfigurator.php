@@ -31,6 +31,10 @@ use Pes\Logger\FileLogger;
 
 use Pes\Database\Manipulator\Manipulator;
 
+use Model\Builder\Sql;
+use Model\Context\ContextProviderInterface;
+use Model\RowData\PdoRowData;
+use Red\Model\Context\ContextProvider;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
@@ -40,6 +44,7 @@ use Red\Model\HierarchyHooks\HookedMenuItemActor;
 use Red\Model\HierarchyHooks\ArticleTitleUpdater;
 use Red\Model\HierarchyHooks\MenuListStyles;
 
+use Build\Middleware\Build\Controller\ControlPanelController;
 use Build\Middleware\Build\Controller\DatabaseController;
 
 // repo
@@ -58,11 +63,6 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getFactoriesDefinitions(): iterable {
         return [
-                'build.config.copy' => function(ContainerInterface $c) {
-                    return [
-
-                        ];
-                    },
                 'build.config.drop' => function(ContainerInterface $c) {
                     return [
                         'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
@@ -101,8 +101,8 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                     },
                 'build.config.convert' => function(ContainerInterface $c) {
                     return [
-                        'source_table_name' =>  $c->get('dbold.db.connection.name').'.'.ConfigurationCache::build()['build.config.convert.copy']['source'],
-                        'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.'.ConfigurationCache::build()['build.config.convert.copy']['target'],
+                        'source_table_name' =>  ConfigurationCache::build()['build.config.convert.copy']['source'] ?? '',  // jméno source obsahuje jméno db i tabulky: source_db.source_table
+                        'target_table_name' => ConfigurationCache::build()['build.config.convert.copy']['target'] ?? '',  // jméno target obsahuje jméno db i tabulky: target_db.target_table
                         'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
                         'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
                         'home' =>  ConfigurationCache::build()['build.config.convert.home'],
@@ -116,16 +116,17 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
             RouterInterface::class => Router::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
             HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
+            ContextProviderInterface::class => ContextProvider::class,
         ];
     }
 
     public function getServicesDefinitions(): iterable {
         return [
-            'dropLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('build.db.logs.directory'), $c->get('build.db.logs.file.drop'), FileLogger::REWRITE_LOG); //new NullLogger();
+            'dropOrCreateDbLogger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('build.db.logs.directory'), $c->get('build.db.logs.file.dropOrCreateDb'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
-            'createLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('build.db.logs.directory'), $c->get('build.db.logs.file.create'), FileLogger::REWRITE_LOG); //new NullLogger();
+            'dropOrCreateUsersLogger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('build.db.logs.directory'), $c->get('build.db.logs.file.dropOrCreateUsers'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             'convertLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('build.db.logs.directory'), $c->get('build.db.logs.file.convert'), FileLogger::REWRITE_LOG); //new NullLogger();
@@ -148,7 +149,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('dropLogger'));
+                        $c->get('dropOrCreateDbLogger'));
             },
             'handler_for_create_database' => function(ContainerInterface $c) : HandlerInterface {
                 return new Handler(
@@ -157,27 +158,46 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('createLogger'));
+                        $c->get('dropOrCreateDbLogger'));
             },
-        #
+            'handler_for_convert' => function(ContainerInterface $c) : HandlerInterface {
+                return new Handler(
+                        $c->get(Account::class),
+                        $c->get(ConnectionInfo::class),
+                        $c->get(DsnProviderMysql::class),
+                        $c->get(OptionsProviderMysql::class),
+                        $c->get(AttributesProvider::class),
+                        $c->get('convertLogger'));
+            },
+                    #
             // manipulator
             'manipulator_for_drop_database' => function(ContainerInterface $c) : Manipulator {
-                return new Manipulator($c->get('handler_for_drop_database'), $c->get('dropLogger'));
+                return new Manipulator($c->get('handler_for_drop_database'), $c->get('dropOrCreateDbLogger'));
             },
             'manipulator_for_create_database' => function(ContainerInterface $c) : Manipulator {
-                return new Manipulator($c->get('handler_for_create_database'), $c->get('createLogger'));
+                return new Manipulator($c->get('handler_for_create_database'), $c->get('dropOrCreateDbLogger'));
             },
-            Manipulator::class => function(ContainerInterface $c) : Manipulator {
-                return new Manipulator($c->get(Handler::class), $c->get('convertLogger'));
+            'manipulator_for_convert' => function(ContainerInterface $c) : Manipulator {
+                return new Manipulator($c->get('handler_for_convert'), $c->get('convertLogger'));
             },
 
-            // hierarchny
+            // hierarchy
+                    
+            Sql::class => function(ContainerInterface $c) {
+                return new Sql();
+            },                    
             HierarchyAggregateReadonlyDao::class => function(ContainerInterface $c) : HierarchyAggregateReadonlyDao {
-                return new HierarchyAggregateReadonlyDao($c->get(Handler::class), $c->get('build.hierarchy.view'));
-            },
+                return new HierarchyAggregateReadonlyDao(
+                        $c->get('handler_for_convert'),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },                    
 
             HierarchyAggregateEditDao::class => function(ContainerInterface $c) : HierarchyAggregateEditDao {
-                return new HierarchyAggregateEditDao($c->get(Handler::class), $c->get('build.hierarchy.table'));
+                return new HierarchyAggregateEditDao(
+                        $c->get('handler_for_convert'),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
 
 //            HookedMenuItemActor::class => function(ContainerInterface $c) {
@@ -185,9 +205,14 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
 //            },
 
             ArticleTitleUpdater::class => function(ContainerInterface $c) {
-                return new ArticleTitleUpdater($c->get(Handler::class));
+                return new ArticleTitleUpdater($c->get('handler_for_convert'));
             },
-
+            ControlPanelController::class => function(ContainerInterface $c) {
+                return (new ControlPanelController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class)))->injectContainer($c);
+            },
             DatabaseController::class => function(ContainerInterface $c) {
                 return (new DatabaseController(
                         $c->get(StatusSecurityRepo::class),
@@ -199,20 +224,12 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesOverrideDefinitions(): iterable {
         return [
-            // Account a Handler "přetěžují" Account a Handler z DbOld kontejneru
+            // Account nahrazuje Account z vnořeného kontejneru (delegáta)
+            // uživatel musí mít práva CRUD i CREATE DROP pro db upgrade databázi a pro convert i pro zdrojovou (dbOld) databázi
             Account::class => function(ContainerInterface $c) {
                 return new Account(
                         $c->get('build.db.user.name'),
                         $c->get('build.db.user.password'));
-            },
-            Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                return new Handler(
-                        $c->get(Account::class),
-                        $c->get(ConnectionInfo::class),
-                        $c->get(DsnProviderMysql::class),
-                        $c->get(OptionsProviderMysql::class),
-                        $c->get(AttributesProvider::class),
-                        $c->get('convertLogger'));
             },
         ];
     }

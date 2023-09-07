@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - Item
+ * # Fomantic-UI 2.9.2 - Item
  * https://github.com/fomantic/Fomantic-UI/
  *
  *
@@ -18,8 +18,6 @@
       Item
 --------------- */
 .ui.items > .item {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   margin: 1em 0;
   width: 100%;
@@ -28,12 +26,8 @@
   padding: 0;
   border: none;
   border-radius: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  -webkit-transition: -webkit-box-shadow 0.1s ease;
-  transition: -webkit-box-shadow 0.1s ease;
+  box-shadow: none;
   transition: box-shadow 0.1s ease;
-  transition: box-shadow 0.1s ease, -webkit-box-shadow 0.1s ease;
   z-index: "";
 }
 .ui.items > .item a {
@@ -76,16 +70,13 @@
     --------------- */
 .ui.items > .item > .image {
   position: relative;
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
+  flex: 0 0 auto;
   display: block;
   float: none;
   margin: 0;
   padding: 0;
   max-height: "";
-  -ms-flex-item-align: start;
-      align-self: start;
+  align-self: start;
 }
 .ui.items > .item > .image > img {
   display: block;
@@ -103,15 +94,12 @@
 --------------- */
 .ui.items > .item > .content {
   display: block;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: 1 1 auto;
   background: none;
   color: #000;
   margin: 0;
   padding: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   font-size: 1em;
   border: none;
   border-radius: 0;
@@ -129,15 +117,14 @@
   width: auto;
   display: block;
   margin-left: 0;
-  -ms-flex-item-align: start;
-      align-self: start;
+  align-self: start;
   padding-left: 1.5em;
 }
 .ui.items > .item > .content > .header {
   display: inline-block;
-  margin: -0.125em 0 0;
-  font-family: 'Signika Negative';
-  font-weight: bold;
+  margin: -0.2em 0 0;
+  font-family: 'Rubik';
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.85);
 }
 
@@ -160,8 +147,7 @@
       Content Image
     --------------- */
 .ui.items > .item .content img {
-  -ms-flex-item-align: center;
-      align-self: center;
+  align-self: center;
   width: "";
 }
 .ui.items > .item img.avatar,
@@ -178,7 +164,7 @@
   margin-top: 0.6em;
   max-width: none;
   font-size: 1em;
-  line-height: 1.25em;
+  line-height: 1.4em;
   color: #000;
 }
 
@@ -219,7 +205,6 @@
 /* Generic */
 .ui.items > .item > .content a:not(.ui) {
   color: "";
-  -webkit-transition: color 0.1s ease;
   transition: color 0.1s ease;
 }
 .ui.items > .item > .content a:not(.ui):hover {
@@ -231,7 +216,7 @@
   color: rgba(0, 0, 0, 0.85);
 }
 .ui.items > .item > .content > a.header:hover {
-  color: #1a9a00;
+  color: #0086fd;
 }
 
 /* Meta */
@@ -252,7 +237,6 @@
 .ui.items > .item > .content .favorite.icon {
   cursor: pointer;
   opacity: 0.75;
-  -webkit-transition: color 0.1s ease;
   transition: color 0.1s ease;
 }
 .ui.items > .item > .content .favorite.icon:hover {
@@ -269,7 +253,6 @@
 .ui.items > .item > .content .like.icon {
   cursor: pointer;
   opacity: 0.75;
-  -webkit-transition: color 0.1s ease;
   transition: color 0.1s ease;
 }
 .ui.items > .item > .content .like.icon:hover {
@@ -293,9 +276,7 @@
   top: 0;
   left: 0;
   color: rgba(0, 0, 0, 0.4);
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  -webkit-transition: color 0.1s ease;
+  box-shadow: none;
   transition: color 0.1s ease;
   border-top: none;
 }
@@ -342,10 +323,7 @@
 /* Mobile Only */
 @media only screen and (max-width: 999.98px) {
   .ui.items:not(.unstackable) > .item {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    flex-direction: column;
     margin: 2em 0;
   }
   .ui.items:not(.unstackable) > .item > .image {
@@ -375,16 +353,13 @@
            Aligned
     -------------------- */
 .ui.items > .item > .image + [class*="top aligned"].content {
-  -ms-flex-item-align: start;
-      align-self: flex-start;
+  align-self: flex-start;
 }
 .ui.items > .item > .image + [class*="middle aligned"].content {
-  -ms-flex-item-align: center;
-      align-self: center;
+  align-self: center;
 }
 .ui.items > .item > .image + [class*="bottom aligned"].content {
-  -ms-flex-item-align: end;
-      align-self: flex-end;
+  align-self: flex-end;
 }
 
 /* --------------
@@ -434,14 +409,14 @@
 }
 .ui.items a.item:hover .content .header,
 .ui.link.items > .item:hover .content .header {
-  color: #1a9a00;
+  color: #0086fd;
 }
 
 /* --------------
       Size
 --------------- */
 .ui.items > .item {
-  font-size: 1em;
+  font-size: 1.42857143em;
 }
 .ui.mini.items > .item {
   font-size: 0.78571429em;
@@ -450,7 +425,7 @@
   font-size: 0.85714286em;
 }
 .ui.small.items > .item {
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
 }
 .ui.large.items > .item {
   font-size: 1.14285714em;
@@ -498,10 +473,10 @@
   color: rgba(255, 255, 255, 0.8);
 }
 .ui.inverted.items > .item > .content a:not(.ui) {
-  color: #26e200;
+  color: #76beff;
 }
 .ui.inverted.items > .item > .content a:not(.ui):hover {
-  color: #2aa411;
+  color: #3e9aec;
 }
 .ui.inverted.items > .item > .content > a.header {
   color: #fff;

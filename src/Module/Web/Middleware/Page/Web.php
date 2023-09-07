@@ -15,11 +15,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\WebContainerConfigurator;
-use Container\RedGetContainerConfigurator;
-use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 
 use Web\Middleware\Page\Controller\PageController;
+use Status\Model\Repository\StatusPresentationRepo;
+use Red\Model\Repository\LanguageRepo;
+use Web\Middleware\Page\Prepare;
 
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -41,13 +42,9 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         //      app container se nekonfuguruje znovu - bere se z app
         $this->container =
             (new WebContainerConfigurator())->configure(
-//                (new RedGetContainerConfigurator())->configure(
-//                    (new RedModelContainerConfigurator())->configure(
-                        (new DbUpgradeContainerConfigurator())->configure(
-                                new Container($this->getApp()->getAppContainer())
-                        )
-//                    )
-//                )
+                (new DbUpgradeContainerConfigurator())->configure(
+                    new Container($this->getApp()->getAppContainer())
+                )
             );
         // Nový kontejner nastaví jako kontejner aplikace - pro middleware Transformator
         $this->getApp()->setAppContainer($this->container);
@@ -75,7 +72,7 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(PageController::class);
             return $ctrl->searchResult($request);
             });
-        $routeGenerator->addRouteForAction('GET', '/', function(ServerRequestInterface $request) {
+            $routeGenerator->addRouteForAction('GET', '/', function(ServerRequestInterface $request) {
             /** @var PageController $ctrl */
             $ctrl = $this->container->get(PageController::class);
             return $ctrl->home($request);
@@ -86,6 +83,11 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
 
+        /** @var StatusPresentationRepo $statusPresentationRepo */
+        $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);        
+        $languageRepo = $this->container->get(LanguageRepo::class);
+        Prepare::preperePresentation($statusPresentationRepo, $languageRepo);
+        
         $response =  $router->process($request, $handler) ;
 
         return $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));

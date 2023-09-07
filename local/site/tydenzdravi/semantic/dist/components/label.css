@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - Label
+ * # Fomantic-UI 2.9.2 - Label
  * https://github.com/fomantic/Fomantic-UI/
  *
  *
@@ -23,10 +23,9 @@
   padding: 0.5833em 0.833em;
   color: rgba(0, 0, 0, 0.6);
   text-transform: none;
-  font-weight: bold;
+  font-weight: 500;
   border: 0 solid transparent;
-  border-radius: 0;
-  -webkit-transition: background 0.1s ease;
+  border-radius: 0.42857143rem;
   transition: background 0.1s ease;
 }
 .ui.label:first-child {
@@ -46,7 +45,6 @@ a.ui.label {
   cursor: pointer;
   color: inherit;
   opacity: 0.5;
-  -webkit-transition: 0.1s opacity ease;
   transition: 0.1s opacity ease;
 }
 .ui.label > a:hover {
@@ -71,7 +69,7 @@ a.ui.label {
 .ui.label > .detail {
   display: inline-block;
   vertical-align: top;
-  font-weight: bold;
+  font-weight: 500;
   margin-left: 1em;
   opacity: 0.8;
 }
@@ -83,9 +81,8 @@ a.ui.label {
 .ui.label > .close.icon,
 .ui.label > .delete.icon {
   cursor: pointer;
-  font-size: 0.92857143em;
+  font-size: 1.14285714em;
   opacity: 0.5;
-  -webkit-transition: background 0.1s ease;
   transition: background 0.1s ease;
 }
 .ui.label > .close.icon:hover,
@@ -186,9 +183,8 @@ a.ui.label {
   text-transform: none;
   background: #e8e8e8;
   padding: 0.5833em 0.833em 0.5833em 0.5em;
-  border-radius: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  border-radius: 0.42857143rem;
+  box-shadow: none;
 }
 .ui.image.label.attached:not(.basic) {
   padding: 0.5833em 0.833em 0.5833em 0.5em;
@@ -198,13 +194,13 @@ a.ui.label {
   vertical-align: top;
   height: 2.1666em;
   margin: -0.5833em 0.5em -0.5833em -0.5em;
-  border-radius: 0 0 0 0;
+  border-radius: 0.42857143rem 0 0 0.42857143rem;
 }
 .ui.image.label .detail {
   background: rgba(0, 0, 0, 0.1);
   margin: -0.5833em -0.833em -0.5833em 0.5em;
   padding: 0.5833em 0.833em;
-  border-radius: 0 0 0 0;
+  border-radius: 0 0.42857143rem 0.42857143rem 0;
 }
 .ui.bottom.attached.image.label:not(.right) > img,
 .ui.top.right.attached.image.label > img {
@@ -224,15 +220,13 @@ a.ui.label {
   position: relative;
   padding-left: 1.5em;
   padding-right: 1.5em;
-  border-radius: 0 0 0 0;
-  -webkit-transition: none;
+  border-radius: 0 0.42857143rem 0.42857143rem 0;
   transition: none;
 }
 .ui.tag.labels .label::before,
 .ui.tag.label::before {
   position: absolute;
-  -webkit-transform: translateY(-50%) translateX(50%) rotate(-45deg);
-          transform: translateY(-50%) translateX(50%) rotate(-45deg);
+  transform: translateY(-50%) translateX(50%) rotate(-45deg);
   top: 50%;
   right: 100%;
   content: "";
@@ -240,7 +234,6 @@ a.ui.label {
   background-image: none;
   width: 1.56em;
   height: 1.56em;
-  -webkit-transition: none;
   transition: none;
 }
 .ui.tag.labels .label::after,
@@ -253,8 +246,7 @@ a.ui.label {
   background-color: #fff;
   width: 0.5em;
   height: 0.5em;
-  -webkit-box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
-          box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
   border-radius: 500rem;
 }
 .ui.basic.tag.labels .label::before,
@@ -266,8 +258,7 @@ a.ui.label {
 }
 .ui.basic.tag.labels .label::after,
 .ui.basic.tag.label::after {
-  -webkit-box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.8);
-          box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.8);
+  box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.8);
 }
 
 /* -------------------
@@ -284,7 +275,6 @@ a.ui.label {
   width: 4em;
   height: 4em;
   z-index: 1;
-  -webkit-transition: border-color 0.1s ease;
   transition: border-color 0.1s ease;
 }
 
@@ -306,7 +296,6 @@ a.ui.label {
   border-bottom: 4em solid transparent;
   border-left: 0 solid transparent;
   border-right-color: inherit;
-  -webkit-transition: border-color 0.1s ease;
   transition: border-color 0.1s ease;
 }
 .ui.corner.label .icon {
@@ -354,9 +343,8 @@ a.ui.label {
   position: relative;
   margin: 0;
   min-width: -webkit-max-content;
-  min-width: -moz-max-content;
   min-width: max-content;
-  border-radius: 0 0 0 0;
+  border-radius: 0 0.42857143rem 0.42857143rem 0;
   border-color: rgba(0, 0, 0, 0.15);
 }
 .ui.ribbon.label::after {
@@ -410,9 +398,8 @@ a.ui.label {
 /* Right Ribbon */
 .ui[class*="right ribbon"].label {
   text-align: left;
-  -webkit-transform: translateX(-100%);
-          transform: translateX(-100%);
-  border-radius: 0 0 0 0;
+  transform: translateX(-100%);
+  border-radius: 0.42857143rem 0 0 0.42857143rem;
 }
 .ui[class*="right ribbon"].label::after {
   left: auto;
@@ -441,10 +428,10 @@ a.ui.label {
 
 /* Inside Table */
 .ui.table td > .ui.ribbon.label {
-  left: calc(-1em - 1.2em);
+  left: calc(-1.4285714285714286em - 1.2em);
 }
 .ui.table td > .ui[class*="right ribbon"].label {
-  left: calc(100% + 1em + 1.2em);
+  left: calc(100% + 1.4285714285714286em + 1.2em);
   padding-left: 0.833em;
 }
 
@@ -469,19 +456,19 @@ a.ui.label {
 .ui[class*="top left attached"].label {
   width: auto;
   margin-top: 0;
-  border-radius: 0.21428571rem 0 0 0;
+  border-radius: 0.21428571rem 0 0.42857143rem 0;
 }
 .ui[class*="top right attached"].label {
   width: auto;
   left: auto;
   right: 0;
-  border-radius: 0 0.21428571rem 0 0;
+  border-radius: 0 0.21428571rem 0 0.42857143rem;
 }
 .ui[class*="bottom left attached"].label {
   width: auto;
   top: auto;
   bottom: 0;
-  border-radius: 0 0 0 0.21428571rem;
+  border-radius: 0 0.42857143rem 0 0.21428571rem;
 }
 .ui[class*="bottom right attached"].label {
   top: auto;
@@ -489,7 +476,7 @@ a.ui.label {
   left: auto;
   right: 0;
   width: auto;
-  border-radius: 0 0 0.21428571rem 0;
+  border-radius: 0.42857143rem 0 0.21428571rem 0;
 }
 
 
@@ -584,8 +571,7 @@ a.ui.active.label:hover::before {
   background: none #fff;
   border: 1px solid rgba(34, 36, 38, 0.15);
   color: #000;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   padding-top: calc(0.5833em - 1px);
   padding-bottom: calc(0.5833em - 1px);
   padding-right: calc(0.833em - 1px);
@@ -603,9 +589,8 @@ a.ui.active.label:hover::before {
 a.ui.basic.label:hover {
   text-decoration: none;
   background: none #fff;
-  color: #1a9a00;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  color: #0086fd;
+  box-shadow: none;
 }
 
 /* Pointing */
@@ -619,8 +604,7 @@ a.ui.basic.label:hover {
 .ui.label.fluid,
 .ui.fluid.labels > .label {
   width: 100%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .ui.centered.labels .label,
 .ui.centered.label {
@@ -640,7 +624,6 @@ a.ui.basic.label:hover {
 }
 .ui.inverted.corner.label:hover {
   border-color: #e8e8e8;
-  -webkit-transition: none;
   transition: none;
 }
 .ui.inverted.basic.labels .label,
@@ -650,7 +633,7 @@ a.ui.basic.label:hover {
   background: #1b1c1d;
 }
 .ui.inverted.basic.label:hover {
-  color: #2aa411;
+  color: #3e9aec;
 }
 
 /* -------------------
@@ -1939,13 +1922,11 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 .ui.pointing.label::before {
   position: absolute;
   content: "";
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+  transform: rotate(45deg);
   background-image: none;
   z-index: 2;
   width: 0.6666em;
   height: 0.6666em;
-  -webkit-transition: none;
   transition: none;
 }
 
@@ -1957,8 +1938,7 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 .ui.pointing.label::before,
 .ui[class*="pointing above"].label::before {
   border-width: 1px 0 0 1px;
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
-          transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
   top: 0;
   left: 50%;
 }
@@ -1973,8 +1953,7 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 .ui[class*="pointing below"].label::before {
   border-width: 0 1px 1px 0;
   right: auto;
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
-          transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
   top: 100%;
   left: 50%;
 }
@@ -1986,8 +1965,7 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 }
 .ui[class*="left pointing"].label::before {
   border-width: 0 0 1px 1px;
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
-          transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform: translateX(-50%) translateY(-50%) rotate(45deg);
   bottom: auto;
   right: auto;
   top: 50%;
@@ -2001,8 +1979,7 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 }
 .ui[class*="right pointing"].label::before {
   border-width: 1px 1px 0 0;
-  -webkit-transform: translateX(50%) translateY(-50%) rotate(45deg);
-          transform: translateX(50%) translateY(-50%) rotate(45deg);
+  transform: translateX(50%) translateY(-50%) rotate(45deg);
   top: 50%;
   right: 0;
   bottom: auto;
@@ -2046,22 +2023,18 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
   top: -1em;
   right: 0;
   white-space: nowrap;
-  -webkit-transform: translateX(50%);
-          transform: translateX(50%);
+  transform: translateX(50%);
 }
 .ui.right.aligned.floating.label {
-  -webkit-transform: translateX(1.2em);
-          transform: translateX(1.2em);
+  transform: translateX(1.2em);
 }
 .ui.left.floating.label {
   left: 0;
   right: auto;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 .ui.left.aligned.floating.label {
-  -webkit-transform: translateX(-1.2em);
-          transform: translateX(-1.2em);
+  transform: translateX(-1.2em);
 }
 .ui.bottom.floating.label {
   top: auto;
@@ -2089,7 +2062,7 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 }
 .ui.large.labels .label,
 .ui.large.label {
-  font-size: 1rem;
+  font-size: 1.42857143rem;
 }
 .ui.big.labels .label,
 .ui.big.label {

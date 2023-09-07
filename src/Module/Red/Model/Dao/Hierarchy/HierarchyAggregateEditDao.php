@@ -79,7 +79,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
         $stmt = $this->getPreparedStatement("SELECT uid FROM $this->nestedSetTableName");
         $stmt->execute();
         if($stmt->rowCount()) {
-            throw new \LogicException("Tabulka pro uložení nested et není prázná. Tabulka '$this->nestedSetTableName' má {$stmt->rowCount()} řádek.");
+            throw new \LogicException("Tabulka pro uložení nested set není prázná. Tabulka '$this->nestedSetTableName' má {$stmt->rowCount()} řádek.");
         }
 
         return $this->insertNode(1, 2, NULL);

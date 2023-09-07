@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - Image
+ * # Fomantic-UI 2.9.2 - Image
  * https://github.com/fomantic/Fomantic-UI/
  *
  *
@@ -92,18 +92,15 @@ img.ui.image {
 }
 .ui.top.aligned.images .image,
 .ui.images .ui.top.aligned.image {
-  -ms-flex-item-align: start;
-      align-self: flex-start;
+  align-self: flex-start;
 }
 .ui.middle.aligned.images .image,
 .ui.images .ui.middle.aligned.image {
-  -ms-flex-item-align: center;
-      align-self: center;
+  align-self: center;
 }
 .ui.bottom.aligned.images .image,
 .ui.images .ui.bottom.aligned.image {
-  -ms-flex-item-align: end;
-      align-self: flex-end;
+  align-self: flex-end;
 }
 
 /* --------------
@@ -215,19 +212,10 @@ img.ui.bordered.image {
   margin-right: auto;
 }
 .ui.centered.images {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row wrap;
-          flex-flow: row wrap;
-  -webkit-box-align: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: center;
 }
 
 /* --------------
@@ -239,7 +227,7 @@ img.ui.bordered.image {
 .ui.medium.image {
   width: 300px;
   height: auto;
-  font-size: 1rem;
+  font-size: 1.42857143rem;
 }
 .ui.mini.images .image,
 .ui.mini.images img,
@@ -263,7 +251,7 @@ img.ui.bordered.image {
 .ui.small.image {
   width: 150px;
   height: auto;
-  font-size: 0.92857143rem;
+  font-size: 1.14285714rem;
 }
 .ui.large.images .image,
 .ui.large.images img,

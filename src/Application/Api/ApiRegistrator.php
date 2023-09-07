@@ -216,13 +216,14 @@ class ApiRegistrator {
     ### build module ###
     #
         #### BuildController #### '/build/listconfig'
-        $registry->register($this->getPrototype->withUrlPattern('/build/listconfig'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/createusers'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/dropusers'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/droptables'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/convert'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/make'));
+        $registry->register($this->getPrototype->withUrlPattern('/build'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/listconfig'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/createdb'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/dropdb'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/createusers'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/dropusers'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/droptables'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/convert'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/make'));
     }
 }

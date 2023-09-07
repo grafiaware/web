@@ -117,20 +117,11 @@ class ConfigurationDb extends ConfigurationConstants {
             ###################################
             # Konfigurace logů konverze
             'build.db.logs.directory' => 'Logs/Build',
-            'build.db.logs.file.drop' => 'Drop.log',
-            'build.db.logs.file.create' => 'Create.log',
+            'build.db.logs.file.dropOrCreateDb' => 'dropOrCreateDb.log',
+            'build.db.logs.file.dropOrCreateUsers' => 'dropOrCreateUsers.log',
             'build.db.logs.file.convert' => 'Convert.log',
             #
             ###################################
-
-            ###################################
-            # Konfigurace hierarchy tabulek
-            #
-            'build.hierarchy.table' => 'hierarchy',
-            'build.hierarchy.view' => 'hierarchy_view',
-            #
-            ##################################
-            #
         ];
     }
 
@@ -151,7 +142,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
             'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline01' : 'gr_pracovni',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline01' : 'single_login',
             #
             ###################################
             # Konfigurace logu databáze
@@ -235,8 +226,8 @@ class ConfigurationDb extends ConfigurationConstants {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo002' : 'vp_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_login' : 'vp_login',
+            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo002' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_login' : 'single_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',

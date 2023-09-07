@@ -110,11 +110,13 @@ class ConfigurationDb extends ConfigurationConstants {
                 'trash',
                 'blocks',
                 'menu_vertical',
+                'menu_horizontal',
+                'menu_redirect',
             ],
             'build.config.convert.copy' =>
                 [
-                    'source' => 'stranky',
-                    'target' => 'stranky'
+                    'source' => 'wwwgrafia.stranky',
+                    'target' => 'g2_upgrade.stranky'
                 ],
             'build.config.convert.updatestranky' => [
                 ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
@@ -132,20 +134,11 @@ class ConfigurationDb extends ConfigurationConstants {
             ###################################
             # Konfigurace logů konverze
             'build.db.logs.directory' => 'Logs/Build',
-            'build.db.logs.file.drop' => 'Drop.log',
-            'build.db.logs.file.create' => 'Create.log',
+            'build.db.logs.file.dropOrCreateDb' => 'dropOrCreateDb.log',
+            'build.db.logs.file.dropOrCreateUsers' => 'dropOrCreateUsers.log',
             'build.db.logs.file.convert' => 'Convert.log',
             #
             ###################################
-
-            ###################################
-            # Konfigurace hierarchy tabulek
-            #
-            'build.hierarchy.table' => 'hierarchy',
-            'build.hierarchy.view' => 'hierarchy_view',
-            #
-            ##################################
-            #
         ];
     }
 
@@ -166,7 +159,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
             'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'gr_pracovni',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'single_login',
             #
             ###################################
             # Konfigurace logu databáze
@@ -243,8 +236,8 @@ class ConfigurationDb extends ConfigurationConstants {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'gr_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_login' : 'gr_login',
+            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'single_login' : 'single_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',

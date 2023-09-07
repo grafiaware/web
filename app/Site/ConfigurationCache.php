@@ -7,29 +7,30 @@
 
 namespace Site;
 
+#### ZDE PONECH ODKOMENROVANOU JEN JEDNU DVOJICI #############################
+#
+use Site\G2 as Siteconfig;
+const SITE_PATH = 'app/Site/G2/';
+
 //use Site\Grafia as Siteconfig;
-//include PROJECT_PATH.'app/Site/Grafia/ConfigurationConstants.php';
-//include PROJECT_PATH.'app/Site/Grafia/ConfigurationDb.php';
-//include PROJECT_PATH.'app/Site/Grafia/ConfigurationRed.php';
-//include PROJECT_PATH.'app/Site/Grafia/ConfigurationStyles.php';
+//const SITE_PATH = 'app/Site/Grafia/';
 
 //use Site\OtevreneAteliery as Siteconfig;
-//include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationConstants.php';
-//include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationDb.php';
-//include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationRed.php';
-//include PROJECT_PATH.'app/Site/OtevreneAteliery/ConfigurationStyles.php';
+//const SITE_PATH = 'app/Site/OtevreneAteliery/';
 
 //use Site\TydenZdravi as Siteconfig;
-//include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationConstants.php';
-//include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationDb.php';
-//include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationRed.php';
-//include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationStyles.php';
+//const SITE_PATH = 'app/Site/TydenZdravi/';
 
-use Site\VeletrhPrace as Siteconfig;
-include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationConstants.php';
-include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationDb.php';
-include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationRed.php';
-include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationStyles.php';
+//use Site\VeletrhPrace as Siteconfig;
+//const SITE_PATH = 'app/Site/VeletrhPrace/';
+#
+###########################################################################
+
+
+include PROJECT_PATH.SITE_PATH.'ConfigurationConstants.php';
+include PROJECT_PATH.SITE_PATH.'ConfigurationDb.php';
+include PROJECT_PATH.SITE_PATH.'ConfigurationRed.php';
+include PROJECT_PATH.SITE_PATH.'ConfigurationStyles.php';
 
 
 /**

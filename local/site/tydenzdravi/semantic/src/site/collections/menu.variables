@@ -9,9 +9,9 @@
 
 /* Menu Item */
 @itemTextColor: @invertedTextColor;
-@itemVerticalPadding: 0.5em;
+@itemVerticalPadding: 0.30em;
+@subMenuVerticalPadding: 0.25em;
 @itemHorizontalPadding: 0;
-@subMenuVerticalPadding: 0.4em;
 @subMenuTextColor: @invertedTextColor;
 
 /* Hovered Item */
@@ -19,8 +19,7 @@
 @hoverItemTextColor: @invertedTextColor;
 
 /* Resize large sizes */
-@huge: @18px;
-@massive: @30px; 
+@huge: @14px;
 
-@massiveWidth: 30rem;
+@massiveWidth: 30rem; 
 

@@ -162,10 +162,20 @@ class ConfigurationRed extends ConfigurationDb {
             'templates.tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
 
             // linksEditorJs links
-            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+            'urlTinyMCE' => self::RED_ASSETS.'tinymce_6.6.1\js\tinymce\tinymce.min.js',
+            // full dev not mified version:
+//            'urlTinyMCE' => self::RED_ASSETS.'tinymce_6.6.1_dev\js\tinymce\tinymce.js',
+            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce-jquery.min.js',         // pro tinyMce 6.6.1   
+            // full dev not mified version:
+//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce-jquery.js',         // pro tinyMce 6.6.1   
+
+
+//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
 //            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
 //            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => "https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js",
+
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
@@ -272,6 +282,12 @@ class ConfigurationRed extends ConfigurationDb {
                 ],
 
             ];
+    }
+
+    public static function itemActionControler() {
+        return [
+            'timeout' => 'PT1H'   // 1 hodina
+        ];
     }
 
     public static function loginLogoutController() {

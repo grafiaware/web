@@ -47,11 +47,11 @@ class DatabaseController extends BuildControllerAbstract {
         #
         ####
         $dropSteps[] = function() {
-            return $this->executeFromTemplate("drop_database_template.sql", $this->container->get('build.config.drop'));
+            $this->executeFromTemplate("dropDb/drop_database_template.sql", $this->container->get('build.config.drop'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_drop_database');
-        $this->log[] = "Záznam o smazání databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        $this->reportMessage[] = "Záznam o smazání databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
         $this->executeSteps($dropSteps);
         if ($this->container instanceof ContainerSettingsAwareInterface) {
             $this->container->reset('manipulator_for_drop_database');
@@ -70,11 +70,11 @@ class DatabaseController extends BuildControllerAbstract {
         #
         ####
         $createSteps[] = function() {
-            return $this->executeFromTemplate("create_database_template.sql", $this->container->get('build.config.createdb'));
+            $this->executeFromTemplate("createDb/create_database_template.sql", $this->container->get('build.config.createdb'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_create_database');
-        $this->log[] = "Záznam o vytvoření databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        $this->reportMessage[] = "Záznam o vytvoření databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
         $response = $this->executeSteps($createSteps);
         if ($this->container instanceof ContainerSettingsAwareInterface) {
             $this->container->reset('manipulator_for_create_database');
@@ -84,15 +84,15 @@ class DatabaseController extends BuildControllerAbstract {
 
     public function dropUsers() {
         $dropSteps[] = function() {
-            return $this->executeFromTemplate("drop_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
+            $this->executeFromTemplate("dropUsers/drop_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
         };
         $dropSteps[] = function() {
-            return $this->executeFromTemplate("drop_users_granted_template.sql", $this->container->get('build.config.createdropusers.granted'));
+            $this->executeFromTemplate("dropUsers/drop_users_granted_template.sql", $this->container->get('build.config.createdropusers.granted'));
         };
         // users
 
         $this->manipulator = $this->container->get('manipulator_for_create_database');  // TODO: provizorium - potřebuji connection bez db - třeba přidat manipulátor s loggere, pro drop users
-        $this->log[] = "Záznam o smazání uživatelů ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        $this->reportMessage[] = "Záznam o smazání uživatelů ".(new \DateTime("now"))->format("d.m.Y H:i:s");
         $this->executeSteps($dropSteps);
         return $this->createResponseFromReport();
     }
@@ -110,23 +110,23 @@ class DatabaseController extends BuildControllerAbstract {
 
 
         $this->manipulator = $this->container->get('manipulator_for_drop_database');
-        $this->log[] = "Záznam o smazání tabulek a pohledů ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        $this->reportMessage[] = "Záznam o smazání tabulek a pohledů ".(new \DateTime("now"))->format("d.m.Y H:i:s");
         // tables
-        $selectStatement = $this->queryFromTemplate("drop_tables_0_select_tables_template.sql", $this->container->get('build.config.drop'));
+        $selectStatement = $this->queryFromTemplate("dropTables/drop_tables_0_select_tables_template.sql", $this->container->get('build.config.drop'));
         $tableNamesRows = $selectStatement->fetchAll(\PDO::FETCH_ASSOC);
         $dropQueriesString = '';
         foreach ($tableNamesRows as $tableNamesRow) {
             $dropQueriesString .= 'DROP TABLE IF EXISTS '.$tableNamesRow['table_name'].';'.PHP_EOL;
         }
-        $this->executeFromTemplate('drop_tables_1_drop_tables_template.sql', ['dropTablesSql' => $dropQueriesString]);
+        $this->executeFromTemplate('dropTables/drop_tables_1_drop_tables_template.sql', ['dropTablesSql' => $dropQueriesString]);
         // views
-        $selectStatement = $this->queryFromTemplate("drop_tables_2_select_views_template.sql", $this->container->get('build.config.drop'));
+        $selectStatement = $this->queryFromTemplate("dropTables/drop_tables_2_select_views_template.sql", $this->container->get('build.config.drop'));
         $viewNamesRows = $selectStatement->fetchAll(\PDO::FETCH_ASSOC);
         $dropQueriesString = '';
         foreach ($viewNamesRows as $viewNamesRow) {
             $dropQueriesString .= 'DROP TABLE IF EXISTS '.$viewNamesRow['table_name'].';'.PHP_EOL;
         }
-        $this->executeFromTemplate('drop_tables_3_drop_views_template.sql', ['dropViewsSql' => $dropQueriesString]);
+        $this->executeFromTemplate('dropTables/drop_tables_3_drop_views_template.sql', ['dropViewsSql' => $dropQueriesString]);
 
         if ($this->container instanceof ContainerSettingsAwareInterface) {
             $this->container->reset('manipulator_for_drop_database');
@@ -145,14 +145,14 @@ class DatabaseController extends BuildControllerAbstract {
         #
         ####
         $createSteps[] = function() {
-            return $this->executeFromTemplate("create_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
+            $this->executeFromTemplate("createUsers/create_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
         };
         $createSteps[] = function() {
-            return $this->executeFromTemplate("create_granted_users_template.sql", $this->container->get('build.config.createdropusers.granted'));
+            $this->executeFromTemplate("createUsers/create_granted_users_template.sql", $this->container->get('build.config.createdropusers.granted'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_create_database');
-        $this->log[] = "Záznam o vytvoření uživatelů databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        $this->reportMessage[] = "Záznam o vytvoření uživatelů databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
         $response = $this->executeSteps($createSteps);
         if ($this->container instanceof ContainerSettingsAwareInterface) {
             $this->container->reset('manipulator_for_create_database');
@@ -170,7 +170,7 @@ class DatabaseController extends BuildControllerAbstract {
 
     private function makeAndConvert($convert) {
 
-        $this->manipulator = $this->container->get(Manipulator::class);
+        $this->manipulator = $this->container->get('manipulator_for_convert');
 
         ##### convert db ####
         if($convert) {
@@ -185,19 +185,19 @@ class DatabaseController extends BuildControllerAbstract {
                 foreach ($convertRepairs as $repair) {
                     $this->executeFromString($repair);
                 }
-                return ;
             };
 
             $conversionSteps[] = function() {   // convert
-                return $this->executeFromFile("page0_createStrankyInnoDb&copy_stranky.sql");
+                $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
             };
         }
 
         $conversionSteps[] = function() {
-            return $this->executeFromFile("page1_createTables.sql");
+//            $this->executeFromFile("makeAndConvert/page1_createTables.sql");
+            $this->executeFromFile("makeAndConvert/page1_v2_createTables.sql");
         };
         $conversionSteps[] = function() {
-            return $this->executeFromFile("page2_0_insertIntoLanguage&MenuItemType.sql");
+            $this->executeFromFile("makeAndConvert/page2_0_insertIntoLanguage&MenuItemType.sql");
         };
 
         if($convert) {
@@ -205,7 +205,7 @@ class DatabaseController extends BuildControllerAbstract {
                 $oldRootsUpdateDefinitions = $this->container->get('build.config.convert')['updatestranky'];
                 $executedSql = [];
                 foreach ($oldRootsUpdateDefinitions as $oldDef) {
-                    return $this->executeFromTemplate("page2_1_updateStrankyInnodb.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
+                    $this->executeFromTemplate("makeAndConvert/page2_1_updateStrankyInnodb.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
                 }
             };
         }
@@ -213,30 +213,28 @@ class DatabaseController extends BuildControllerAbstract {
         $conversionSteps[] = function() {
             // [type, list, title]
             $rootsDefinitions = $this->container->get('build.config.make.items');
-            $executedSql = [];
             foreach ($rootsDefinitions as $rootDef) {
-                $executedSql[] .= $this->executeFromTemplate("page2_2_insertIntoMenuItemNewMenuRoot.sql", ['menu_root_type' => $rootDef[0], 'menu_root_list'=>$rootDef[1], 'menu_root_title'=>$rootDef[2]]);
+                $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql", ['menu_root_type' => $rootDef[0], 'menu_root_list'=>$rootDef[1], 'menu_root_title'=>$rootDef[2]]);
             }
-            return implode(PHP_EOL, $executedSql);
         };
 
         if($convert) {
             $conversionSteps[] = function() {   // convert
-                return $this->executeFromFile("page2_3_insertIntoMenuItemFromStranky.sql", );
+                $this->executeFromFile("makeAndConvert/page2_3_insertIntoMenuItemFromStranky.sql", );
             };
             $conversionSteps[] = function() {   // convert
-                return $this->executeFromFile("page2_4_updateMenuItemTypes&Active.sql", );
+                $this->executeFromFile("makeAndConvert/page2_4_updateMenuItemTypes&Active.sql", );
             };
         }
 
         $conversionSteps[] = function() {   // convert
-            $fileName = "page3_selectIntoAdjList.sql";
-            return $this->executeFromFile($fileName);
+            $fileName = "makeAndConvert/page3_selectIntoAdjList.sql";
+            $this->executeFromFile($fileName);
         };
         $conversionSteps[] = function() {   // convert
                 $adjList = $this->manipulator->findAllRows('menu_adjlist');
                 if (is_array($adjList) AND count($adjList)) {
-                    $this->log[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
+                    $this->reportMessage[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
                     $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
                     // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
                     $rootUid = $hierachy->newNestedSet();
@@ -265,54 +263,82 @@ class DatabaseController extends BuildControllerAbstract {
                     } catch (\Exception $e) {
                         throw new HierarchyStepFailedException("Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při transformaci adjacency list na nested tree.", 0, $e);
                     }
-                    $this->log[] = "Skriptem pomocí Hierarchy vygenerována tabulka 'menu_nested_set' z dat tabulky 'menu_adjlist'.";
-                    $this->log[] = $this->timer->interval();
-                    $this->log[] = "Vykonán krok.";
+                    $this->reportMessage[] = "Skriptem pomocí Hierarchy vygenerována tabulka 'menu_nested_set' z dat tabulky 'menu_adjlist'.";
+                    $this->reportMessage[] = $this->timer->interval();
+                    $this->reportMessage[] = "Vykonán krok.";
                 }
             return TRUE;
         };
 
         $conversionSteps[] = function() {
-            $fileName = "page4_alterMenuItem_fk.sql";
-            return $this->executeFromFile($fileName);
+            $fileName = "makeAndConvert/page4_alterMenuItem_fk.sql";
+            $this->executeFromFile($fileName);
         };
         $conversionSteps[] = function() {
             // [type, list, title]
             $rootsListNames = $this->container->get('build.config.make.roots');
-            $executedSql = [];
             foreach ($rootsListNames as $rootName) {
-                $executedSql[] .= $this->executeFromTemplate("page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
+                $this->executeFromTemplate("makeAndConvert/page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
             }
-            return implode(PHP_EOL, $executedSql);
         };
 
         if($convert) {
             $conversionSteps[] = function() {   // convert - pro případ, kdy konvertovaný "starý" kořen menu je home page
                 $homeList = $this->container->get('build.config.convert')['home'];
-                return $this->executeFromTemplate("page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1]]);
+                $this->executeFromTemplate("makeAndConvert/page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1]]);
             };
             $conversionSteps[] = function() {  // convert
-                $fileName = "page5_3_insertIntoBlockTable.sql";
-                return $this->executeFromFile($fileName);
+                $fileName = "makeAndConvert/page5_3_insertIntoBlockTable.sql";
+                $this->executeFromFile($fileName);
             };
         }
 
         $conversionSteps[] = function() {
-            $fileName = "page6_createHierarchy_view.sql";
-            return $this->executeFromFile($fileName);
+            $fileName = "makeAndConvert/page6_createHierarchy_view.sql";
+            $this->executeFromFile($fileName);
         };
 
         if($convert) {
             $conversionSteps[] = function() {    // convert
-                $fileName = "page7_insertIntoPaper.sql";
-                return $this->executeFromFile($fileName);
+                $fileName = "makeAndConvert/page7_insertIntoPaper.sql";
+                $this->executeFromFile($fileName);
             };
         }
+        
 
-        $this->manipulator = $this->container->get(Manipulator::class);
         $this->setTimeLimit();
-        $this->log[] = "Záznam o vytvoření a konverzi databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        $this->reportMessage[] = "Záznam o vytvoření a konverzi databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
         $this->executeSteps($conversionSteps);
         return $this->createResponseFromReport();
+    }
+    
+    private function createAuthUsers() {
+        
+        ####
+        #
+        #   Před spuštením tohoto kroku:
+        #   - nesmí existovat uživatelé: prefix_everyone, prefix_authenticated, prefix_administrator
+        #   - uživatel pod kterým je vytvořeno první spojení k databázovámu stroji (před vytvořením databáze)
+        #     musí mít práva zakládat databáze a přidělovat všechna práva - nejlépe tedy role DBA
+        #
+        ####
+        $createSteps[] = function() {
+            $this->executeFromTemplate("createUsers/create_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
+        };
+        $createSteps[] = function() {
+            $this->executeFromTemplate("createUsers/create_granted_users_template.sql", $this->container->get('build.config.createdropusers.granted'));
+        };
+
+        $this->manipulator = $this->container->get('manipulator_for_create_database');
+        $this->reportMessage[] = "Záznam o vytvoření uživatelů databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        $response = $this->executeSteps($createSteps);
+        if ($this->container instanceof ContainerSettingsAwareInterface) {
+            $this->container->reset('manipulator_for_create_database');
+        }
+        return $this->createResponseFromReport();
+    }
+    
+    protected function dropAuthUsers() {
+        
     }
 }

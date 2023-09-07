@@ -13,12 +13,13 @@ use Pes\View\Template\InterpolateTemplate;
 use Pes\View\Renderer\InterpolateRenderer;
 
 use Pes\Database\Manipulator\Manipulator;
-use \Pes\Database\Statement\StatementInterface;
+use Pes\Database\Statement\StatementInterface;
 use Pes\Debug\Timer;
 use Pes\Http\Headers;
 use Pes\Http\Body;
 use Pes\Http\Response;
 
+use Exception;
 
 /**
  * Description of InstallationControllerAbstract
@@ -43,7 +44,7 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
      * @var Timer
      */
     protected $timer;
-    protected $log;
+    protected $reportMessage;
 
     /** @var InterpolateRenderer */
     private $interpolateRenderer;
@@ -61,13 +62,13 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
         try {
             foreach ($steps as $step) {
                 $step();
-                $this->log[] = "Vykonán krok. ".$this->timer->interval();
+                $this->reportMessage[] = "Vykonán krok. ".$this->timer->interval();
             }
         } catch (BuildExceptionInterface $ke) {
             throw $ke;
         }
 
-        $this->log[] = '<pre>Celkový čas: '.$this->timer->runtime().'</pre>';
+        $this->reportMessage[] = '<pre>Celkový čas: '.$this->timer->runtime().'</pre>';
 
     }
     protected function createResponseFromReport() {
@@ -79,7 +80,7 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
     protected function setTimeLimit() {
         $limit = self::TIME_LIMIT;
         set_time_limit($limit);
-        $this->log[] = "Nastaven časový limit běhu php skriptu na $limit sekund.";
+        $this->reportMessage[] = "Nastaven časový limit běhu php skriptu na $limit sekund.";
     }
 
     public static function timeout() {
@@ -90,6 +91,7 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
     }
 
     protected function executeFromTemplate($templateFilename, array $data=[]): void {
+        $this->reportMessage[] = "## Execute from template '$templateFilename'.";
         if (!isset($this->interpolateRenderer)) {
             $this->interpolateRenderer = new InterpolateRenderer();
         }
@@ -99,30 +101,36 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
             $this->executeFromString($sql);
         } catch (SqlExecutionStepFailedException $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v template $templateFilename.";
-            $this->log[] = $message;
-            $this->log[] = print_r($data, true);
-            throw new SqlExecutionStepFailedException($message, 0, $e);
+            $this->reportMessage[] = $message;
+            $this->reportMessage[] = print_r($data, true);
+            throw $e;
         }
     }
 
     protected function executeFromFile($fileName): void {
-        $fileName = self::RELATIVE_SQLFILE_PATH.$fileName;
+        $this->reportMessage[] = "## Execute from file '$fileName'.";
+        $filePath = self::RELATIVE_SQLFILE_PATH.$fileName;
         try {
-            $this->executeFromString(file_get_contents($fileName));
+            $this->executeFromString(file_get_contents($filePath));
         } catch (SqlExecutionStepFailedException $e) {
-            $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v souboru $fileName.";
-            $this->log[] = $message;
-            throw new SqlExecutionStepFailedException($message, 0, $e);
+            $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v souboru $filePath.";
+            $this->reportMessage[] = $message;
+            throw $e;
         }
     }
 
     protected function executeFromString($sqlString): void {
-        $this->log[] = $sqlString;
+        $this->reportMessage[] = "## Execute from string '$sqlString'.";
+        $this->execute($sqlString);
+    }
+    
+    private function execute($sqlString): void {
+        $this->reportMessage[] = $sqlString;
         try {
             $this->manipulator->exec($sqlString);
         } catch (\Exception $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v řetězci: ". substr($sqlString, 0, 100);
-            $this->log[] = $message;
+            $this->reportMessage[] = $message;
             throw new SqlExecutionStepFailedException($message, 0, $e);
         }
     }
@@ -137,8 +145,8 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
             $statement = $this->queryFromString($sql);
         } catch (SqlExecutionStepFailedException $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v template $templateFilename.";
-            $this->log[] = $message;
-            $this->log[] = print_r($data, true);
+            $this->reportMessage[] = $message;
+            $this->reportMessage[] = print_r($data, true);
             throw new SqlExecutionStepFailedException($message, 0, $e);
         }
         return $statement;
@@ -150,19 +158,19 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
             $statement = $this->queryFromString(file_get_contents($fileName));
         } catch (SqlExecutionStepFailedException $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v souboru $fileName.";
-            $this->log[] = $message;
+            $this->reportMessage[] = $message;
             throw new SqlExecutionStepFailedException($message, 0, $e);
         }
         return $statement;
     }
 
     protected function queryFromString($sqlString): StatementInterface {
-        $this->log[] = $sqlString;
+        $this->reportMessage[] = $sqlString;
         try {
             $statement = $this->manipulator->query($sqlString);
         } catch (\Exception $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v řetězci: ". substr($sqlString, 0, 100);
-            $this->log[] = $message;
+            $this->reportMessage[] = $message;
             throw new SqlExecutionStepFailedException($message, 0, $e);
         }
         return $statement;
@@ -170,7 +178,7 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
 
     private function createReport() {
         $report = [];
-        foreach ($this->log as $value) {
+        foreach ($this->reportMessage as $value) {
             $report[] = "<pre>$value</pre>";
         }
         return implode(PHP_EOL, $report);
