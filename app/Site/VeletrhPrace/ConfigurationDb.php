@@ -9,6 +9,7 @@
 namespace Site\VeletrhPrace;
 
 use Pes\Database\Handler\DbTypeEnum;
+use Pes\Logger\FileLogger;
 
 /**
  * Description of Configuration
@@ -45,6 +46,7 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             'api.logs.view.directory' => 'Logs/App/Web',
             'api.logs.view.file' => 'Render.log',
+            'api.logs.view.type' => FileLogger::FILE_PER_DAY
             #
             ###################################
         ];
@@ -120,6 +122,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'build.db.logs.file.dropOrCreateDb' => 'dropOrCreateDb.log',
             'build.db.logs.file.dropOrCreateUsers' => 'dropOrCreateUsers.log',
             'build.db.logs.file.convert' => 'Convert.log',
+            'build.db.logs.file.type' => FileLogger::REWRITE_LOG
             #
             ###################################
         ];
@@ -148,7 +151,7 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace logu databáze
             #
             'dbold.logs.directory' => 'Logs/DbOld',
-            'dbold.logs.db.file' => 'Database.log',
+            'dbold.logs.db.file' => FileLogger::FILE_PER_DAY,
             #
             ###################################
         ];
@@ -177,6 +180,7 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             'dbUpgrade.logs.db.directory' => 'Logs/Hierarchy',
             'dbUpgrade.logs.db.file' => 'Database.log',
+            'dbUpgrade.logs.db.type' => FileLogger::FILE_PER_DAY,
             #
             #################################
 
@@ -231,6 +235,7 @@ class ConfigurationDb extends ConfigurationConstants {
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
+            'login.logs.database.type' => FileLogger::FILE_PER_DAY
             #
             ###################################
 

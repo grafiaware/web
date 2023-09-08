@@ -18,6 +18,8 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\StatusBoardComponent;
 
+use Pes\Logger\FileLogger;
+
 /**
  * Description of Configuration
  *
@@ -47,6 +49,7 @@ class ConfigurationRed extends ConfigurationDb {
             # Konfigurace adresáře logů
             #
             'app.logs.directory' => 'Logs/App',
+            'app.logs.type' => FileLogger::REWRITE_LOG,
             #
             #################################
 
@@ -55,6 +58,7 @@ class ConfigurationRed extends ConfigurationDb {
             #
             WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
             'app.logs.session.file' => 'Session.log',
+            'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
             ##################################
 
@@ -62,6 +66,7 @@ class ConfigurationRed extends ConfigurationDb {
             # Konfigurace router loggeru
             #
             'app.logs.router.file' => 'Router.log',
+            'app.logs.router.type' => FileLogger::APPEND_TO_LOG,
             #
             ##################################
 
@@ -69,6 +74,7 @@ class ConfigurationRed extends ConfigurationDb {
             # Konfigurace selector loggeru
             #
             'app.logs.selector.file' => 'Selector.log',
+            'app.logs.selector.type' => FileLogger::APPEND_TO_LOG,
             #
             ##################################
         ];
@@ -85,6 +91,7 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'webcomponent.logs.directory' => 'Logs/App/Web',
             'webcomponent.logs.render' => 'Render.log',
+            'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
             'webcomponent.templates' =>
                 [
 
@@ -103,6 +110,7 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'redcomponent.logs.directory' => 'Logs/App/Red',
             'redcomponent.logs.render' => 'Render.log',
+            'redcomponent.logs.type' => FileLogger::REWRITE_LOG,
             'redcomponent.templates' => [
                 'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
@@ -164,10 +172,20 @@ class ConfigurationRed extends ConfigurationDb {
             'templates.tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
 
             // linksEditorJs links
-            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+            'urlTinyMCE' => self::RED_ASSETS.'tinymce_6.6.1\js\tinymce\tinymce.min.js',
+            // full dev not mified version:
+//            'urlTinyMCE' => self::RED_ASSETS.'tinymce_6.6.1_dev\js\tinymce\tinymce.js',
+            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce-jquery.min.js',         // pro tinyMce 6.6.1   
+            // full dev not mified version:
+//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce-jquery.js',         // pro tinyMce 6.6.1   
+
+
+//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
 //            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
 //            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => "https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js",
+
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
@@ -250,6 +268,12 @@ class ConfigurationRed extends ConfigurationDb {
                 ],
 
             ];
+    }
+
+    public static function itemActionControler() {
+        return [
+            'timeout' => 'PT1H'   // 1 hodina
+        ];
     }
 
     public static function loginLogoutController() {

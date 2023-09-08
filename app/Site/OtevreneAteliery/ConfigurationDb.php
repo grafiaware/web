@@ -9,6 +9,7 @@
 namespace Site\OtevreneAteliery;
 
 use Pes\Database\Handler\DbTypeEnum;
+use Pes\Logger\FileLogger;
 
 /**
  * Description of Configuration
@@ -41,10 +42,11 @@ class ConfigurationDb extends ConfigurationConstants {
             'api.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_heslo_nastavit' : 'oa_admin',
             #
             ###################################
-            # Konfigurace logu databáze
+            # Konfigurace logu renderování
             #
             'api.logs.view.directory' => 'Logs/App/Web',
             'api.logs.view.file' => 'Render.log',
+            'api.logs.view.type' => FileLogger::FILE_PER_DAY
             #
             ###################################
         ];
@@ -111,8 +113,8 @@ class ConfigurationDb extends ConfigurationConstants {
             ],
             'build.config.convert.copy' =>
                 [
-                    'source' => 'stranky',
-                    'target' => 'stranky'
+                    'source' => 'wwwotevreneateliery.stranky',
+                    'target' => 'oa_upgrade.stranky'
                 ],
             'build.config.convert.updatestranky' => [
                 [],        
@@ -128,17 +130,9 @@ class ConfigurationDb extends ConfigurationConstants {
             'build.db.logs.file.drop' => 'Drop.log',
             'build.db.logs.file.create' => 'Create.log',
             'build.db.logs.file.convert' => 'Convert.log',
+            'build.db.logs.file.type' => FileLogger::REWRITE_LOG
             #
             ###################################
-
-            ###################################
-            # Konfigurace hierarchy tabulek
-            #
-            'build.hierarchy.table' => 'hierarchy',
-            'build.hierarchy.view' => 'hierarchy_view',
-            #
-            ##################################
-            #
         ];
     }
 
@@ -165,7 +159,7 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace logu databáze
             #
             'dbold.logs.directory' => 'Logs/DbOld',
-            'dbold.logs.db.file' => 'Database.log',
+            'dbold.logs.db.file' => FileLogger::FILE_PER_DAY,
             #
             ###################################
         ];
@@ -194,6 +188,7 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             'dbUpgrade.logs.db.directory' => 'Logs/Hierarchy',
             'dbUpgrade.logs.db.file' => 'Database.log',
+            'dbUpgrade.logs.db.type' => FileLogger::FILE_PER_DAY,
             #
             #################################
 
@@ -241,6 +236,7 @@ class ConfigurationDb extends ConfigurationConstants {
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
+            'login.logs.database.type' => FileLogger::FILE_PER_DAY
             #
             ###################################
 
