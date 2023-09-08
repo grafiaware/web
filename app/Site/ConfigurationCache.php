@@ -9,8 +9,8 @@ namespace Site;
 
 #### ZDE PONECH ODKOMENROVANOU JEN JEDNU DVOJICI #############################
 #
-use Site\G2 as Siteconfig;
-const SITE_PATH = 'app/Site/G2/';
+//use Site\G2 as Siteconfig;
+//const SITE_PATH = 'app/Site/G2/';
 
 //use Site\Grafia as Siteconfig;
 //const SITE_PATH = 'app/Site/Grafia/';
@@ -21,8 +21,8 @@ const SITE_PATH = 'app/Site/G2/';
 //use Site\TydenZdravi as Siteconfig;
 //const SITE_PATH = 'app/Site/TydenZdravi/';
 
-//use Site\VeletrhPrace as Siteconfig;
-//const SITE_PATH = 'app/Site/VeletrhPrace/';
+use Site\VeletrhPrace as Siteconfig;
+const SITE_PATH = 'app/Site/VeletrhPrace/';
 #
 ###########################################################################
 
