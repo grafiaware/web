@@ -96,7 +96,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             # na používání ve více instancích - používají interně PHP funkce pro práci se session a docházelo by ke kolizím při práci se session.
             // session handler
             'sessionLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance( $c->get('app.logs.directory'), $c->get('app.logs.session.file'), FileLogger::REWRITE_LOG);
+                return FileLogger::getInstance( $c->get('app.logs.directory'), $c->get('app.logs.session.file'), $c->get('app.logs.session.type'));
             },
             SessionStatusHandler::class => function(ContainerInterface $c) {
                 ## startuje session ##
@@ -169,14 +169,14 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 // middleware selector
                 $selector = new Selector();
                 if (PES_DEVELOPMENT) {
-                    $selector->setLogger(FileLogger::getInstance($c->get('app.logs.directory'), $c->get('app.logs.selector.file'), FileLogger::APPEND_TO_LOG));
+                    $selector->setLogger(FileLogger::getInstance($c->get('app.logs.directory'), $c->get('app.logs.selector.file'), $c->get('app.logs.selector.type')));
                 }
                 return $selector;
             },
             Router::class => function(ContainerInterface $c) {
                 $router = new Router();
                 if (PES_DEVELOPMENT) {
-                    $router->setLogger(FileLogger::getInstance($c->get('app.logs.directory'), $c->get('app.logs.router.file'), FileLogger::APPEND_TO_LOG));
+                    $router->setLogger(FileLogger::getInstance($c->get('app.logs.directory'), $c->get('app.logs.router.file'), $c->get('app.logs.router.type')));
                 }
                 return $router;
             },

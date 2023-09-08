@@ -26,14 +26,6 @@ use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Logger\FileLogger;
 
-// models
-
-//dao + hydrator + repo
-use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
-use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
-use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
-
 
 /**
  * Description of DbUpgradeContainerConfigurator
@@ -60,7 +52,7 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
             'dbUpgradeLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
+                return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), $c->get('dbUpgrade.logs.db.type')); //new NullLogger();
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();

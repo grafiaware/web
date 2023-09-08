@@ -874,6 +874,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ComponentConfiguration(
                         $c->get('redcomponent.logs.directory'),
                         $c->get('redcomponent.logs.render'),
+                        $c->get('redcomponent.logs.type'),
                         $c->get('redcomponent.templates')
                     );
             },

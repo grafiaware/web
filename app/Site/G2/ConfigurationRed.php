@@ -18,6 +18,8 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\StatusBoardComponent;
 
+use Pes\Logger\FileLogger;
+
 /**
  * Description of Configuration
  *
@@ -47,6 +49,7 @@ class ConfigurationRed extends ConfigurationDb {
             # Konfigurace adresáře logů
             #
             'app.logs.directory' => 'Logs/App',
+            'app.logs.type' => FileLogger::REWRITE_LOG,
             #
             #################################
 
@@ -55,6 +58,7 @@ class ConfigurationRed extends ConfigurationDb {
             #
             WebAppFactory::SESSION_NAME_SERVICE => 'www_g2_session',
             'app.logs.session.file' => 'Session.log',
+            'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
             ##################################
 
@@ -62,6 +66,7 @@ class ConfigurationRed extends ConfigurationDb {
             # Konfigurace router loggeru
             #
             'app.logs.router.file' => 'Router.log',
+            'app.logs.router.type' => FileLogger::APPEND_TO_LOG,
             #
             ##################################
 
@@ -69,6 +74,7 @@ class ConfigurationRed extends ConfigurationDb {
             # Konfigurace selector loggeru
             #
             'app.logs.selector.file' => 'Selector.log',
+            'app.logs.selector.type' => FileLogger::APPEND_TO_LOG,
             #
             ##################################
         ];
@@ -85,6 +91,7 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'webcomponent.logs.directory' => 'Logs/App/Web',
             'webcomponent.logs.render' => 'Render.log',
+            'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
             'webcomponent.templates' =>
                 [
 
@@ -103,6 +110,7 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'redcomponent.logs.directory' => 'Logs/App/Red',
             'redcomponent.logs.render' => 'Render.log',
+            'redcomponent.logs.type' => FileLogger::REWRITE_LOG,
             'redcomponent.templates' => [
                 'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',

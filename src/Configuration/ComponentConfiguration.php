@@ -12,16 +12,19 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
 
     private $logsDirectory;
     private $logsRender;
+    private $logsType;
     private $templates=[];
 
 
     public function __construct(
             $logsDirectory,
             $logsRender,
+            $logsType,
             array $templates
             ) {
         $this->logsDirectory = $logsDirectory;
         $this->logsRender = $logsRender;
+        $this->logsType = $logsType;
         $this->templates = $templates;
     }
 
@@ -31,6 +34,10 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
 
     public function getLogsRender() {
         return $this->logsRender;
+    }
+    
+    public function getLogsType() {
+        return $this->logsType;
     }
 
     public function getTemplate($name): string {

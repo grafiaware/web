@@ -32,7 +32,7 @@ class ItemActionControler extends FrontControlerAbstract {
 
     /**
      *
-     * @var ItemActionRepo
+     * @var ItemActionServiceInterface
      */
     private $itemActionService;
 
