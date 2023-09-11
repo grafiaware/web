@@ -97,23 +97,17 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * @throws \LogicException
      */
     public function beforeRenderingHook(): void {
-        // set renderer
-//        if (!isset($this->rendererContainer)) {
-//            throw new \LogicException("Komponent ".get_called_class()." nemá nastaven renderer kontejner metodou setRendererContainer().");
-//        }
-//        /** @var MenuWrapRendererInterface $menuWrapRenderer */
-//        $menuWrapRenderer = $this->rendererContainer->get($this->rendererName);
-//        $menuWrapRenderer->setLevelWrapRenderer($this->rendererContainer->get($this->levelWrapRendererName));
-//        $this->setRenderer($menuWrapRenderer);
 
         // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek
         $this->editableMode = $this->contextData->presentEditableMenu();
+//        $this->editableMode = $this->contextData->presentOnlyPublished();
 
         $subtreeItemModels = $this->contextData->getItemModels();
 
         if ($subtreeItemModels) {
             $level = '';
             $itemTags = [];
+            $itemViewModelStack = [];
             $first = true;
             foreach ($subtreeItemModels as $itemViewModel) {
                 /** @var ItemViewModelInterface $itemViewModel */
@@ -124,16 +118,9 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
                     $first = false;
                 }
                 if ($itemDepth>$currDepth) {
-//                    if ($itemDepth-$currDepth==1) {
-                        $itemViewModelStack[$itemDepth][] = $itemViewModel;
-                        $currDepth = $itemDepth;
-//                    } else {
-//                        //TODO: log nebo např. render span s hlášením
-//                        $uidWithNonactiveParent = $itemViewModel->getHierarchyAggregate()->getUid();
-////                        throw new LogicException( "Poškozené menu - neaktivní položka má aktivní potomky. Neaktivní nadřízená položka nad položkou s uid '$uidWithNonactiveParent'.");
-//                    }
+                    $itemViewModelStack[$itemDepth][] = $itemViewModel;
+                    $currDepth = $itemDepth;
                 } elseif ($itemDepth<$currDepth) {
-                    // následující dva řádky jsou přehozené
                     $this->createChildrenComponents($currDepth, $itemDepth, $itemViewModelStack);
                     $itemViewModelStack[$itemDepth][] = $itemViewModel;
                     $currDepth = $itemDepth;
@@ -189,11 +176,11 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             $item->setData($itemViewModel)->setRendererContainer($this->rendererContainer);
             if($this->editableMode) {
             $item->setRendererName($this->itemEditableRendererName);
-            // u kořenového item menu nejsou buttony
-            if ($itemViewModel->isPresented() AND !$itemViewModel->isRoot()) {
-                $itemButtons = $this->createItemButtonsComponent();
-                $item->appendComponentView($itemButtons, ItemComponentInterface::ITEM_BUTTONS);
-            }
+                // u kořenového item menu nejsou buttony
+                if ($itemViewModel->isPresented() AND !$itemViewModel->isRoot()) {
+                    $itemButtons = $this->createItemButtonsComponent();
+                    $item->appendComponentView($itemButtons, ItemComponentInterface::ITEM_BUTTONS);
+                }
             } else {
                 $item->setRendererName($this->itemRendererName);
             }

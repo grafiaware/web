@@ -22,11 +22,9 @@ use Auth\Authenticator\AuthenticatorInterface;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Auth\Model\Repository\CredentialsRepo;
 use Auth\Model\Repository\LoginAggregateFullRepo;
 
 use Red\Model\Entity\UserActions;
-use Auth\Model\Entity\Credentials;
 use Auth\Model\Entity\LoginAggregateFull;
 
 use Status\Model\Entity\StatusSecurityInterface;
@@ -88,7 +86,7 @@ class LoginLogoutController extends FrontControlerAbstract {
     public function logout(ServerRequestInterface $request) {
         $logout = (new RequestParams())->getParsedBodyParam($request, 'logout', FALSE);
         if ($logout) {
-            $this->statusSecurityRepo->get()->remove();
+            $this->statusSecurityRepo->get()->removeContext();
             $this->addFlashMessage("Jste odhlášeni.");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

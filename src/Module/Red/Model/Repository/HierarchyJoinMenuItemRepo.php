@@ -31,15 +31,11 @@ use Red\Model\Hydrator\HierarchyChildHydrator;
 class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMenuItemRepoInterface {  // HierarchyAggregateMenuItemRepo nemá skutečné rodičovské repo
 
     public function __construct(HierarchyAggregateReadonlyDaoInterface $editHirerarchy, HierarchyHydrator $hierarchyNodeHydrator
-//            ,
-//            MenuItemRepo $menuItemRepo, HierarchyChildHydrator $hierarchyChildHydrator
             ) {
 
 
         $this->dataManager = $editHirerarchy;
-//        $this->registerOneToOneAssociation(MenuItemInterface::class, ['uid_fk', 'lang_code_fk'], $menuItemRepo);
         $this->registerHydrator($hierarchyNodeHydrator);
-//        $this->registerHydrator($hierarchyChildHydrator);
     }
 
     use RepoAssotiatingOneTrait;

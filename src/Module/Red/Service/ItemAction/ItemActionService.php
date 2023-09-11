@@ -84,7 +84,7 @@ class ItemActionService implements ItemActionServiceInterface {
 //        If you use INSERT ... ON DUPLICATE KEY UPDATE, records with duplicate PRIMARY KEYs will trigger de facto UPDATEs on existing records in the database that they are “conflicting with”. The details on which columns get UPDATEd by this operation are specified by directives you specify in the INSERT .. ON DUPLICATE KEY syntax.
         $unableToAdd = false;
         $timeoutDatetime = (new DateTime())->sub($interval);
-        foreach ($this->itemActionRepo->findByOtherLoginName($loginName) as $itemAction) {
+        foreach ($this->itemActionRepo->findWithAnotherLoginName($loginName) as $itemAction) {
             if ($itemAction->getCreated()<$timeoutDatetime) {
                 $this->itemActionRepo->remove($itemAction); // cizí starý - smaž        
             } elseif($itemAction->getItemId()==$itemId) {

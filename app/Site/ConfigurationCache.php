@@ -117,6 +117,9 @@ class ConfigurationCache {
                 case 'login':
                     self::$cache[$name] = Siteconfig\ConfigurationDb::login();
                     break;
+                case 'sqlite':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::sqlite();
+                    break;
                 case 'web':
                     self::$cache[$name] = Siteconfig\ConfigurationDb::web();
                     break;
@@ -191,6 +194,10 @@ class ConfigurationCache {
 
     public static function renderer() {
         return self::getConfigModule('renderer');
+    }
+
+    public static function sqlite() {
+        return self::getConfigModule('sqlite');
     }
 
     public static function web() {

@@ -241,7 +241,31 @@ class ConfigurationDb extends ConfigurationConstants {
 
         ];
     }
+    /**
+     * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator a DbUpgradeContainerConfigurator
+     * @return array
+     */
+    public static function sqlite() {
+        return [
+            #####################################
+            # Konfigurace připojení k databázi sqlite
+            #
+            #
+            'sqlite.db.type' => DbTypeEnum::SQLITE,
+            'sqlite.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? '/sqlite' : '/sqlite',
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
+            'sqlite.logs.db.directory' => 'Logs/Sqlite',
+            'sqlite.logs.db.file' => 'Database.log',
+            'sqlite.logs.db.type' => FileLogger::FILE_PER_DAY,
+            #
+            #################################
 
+        ];
+    }
+    
     /**
      * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator
      * @return array

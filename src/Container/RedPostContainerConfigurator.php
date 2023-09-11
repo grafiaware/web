@@ -96,7 +96,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(LanguageRepo::class),
-                        $c->get(MenuItemRepo::class));
+                        $c->get(ItemActionService::class));
             },
             ItemActionControler::class => function(ContainerInterface $c) {
                 return new ItemActionControler(

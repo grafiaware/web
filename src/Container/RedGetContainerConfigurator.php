@@ -880,14 +880,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             // front kontrolery
-//            PageController::class => function(ContainerInterface $c) {
-//                return (new PageController(
-//                            $c->get(StatusSecurityRepo::class),
-//                            $c->get(StatusFlashRepo::class),
-//                            $c->get(StatusPresentationRepo::class),
-//                            $c->get(ViewFactory::class))
-//                        )->injectContainer($c);  // inject component kontejner
-//            },
             ComponentControler::class => function(ContainerInterface $c) {
                 return (new ComponentControler(
                             $c->get(StatusSecurityRepo::class),

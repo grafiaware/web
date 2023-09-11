@@ -52,11 +52,11 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
     
     /**
      * 
-     * @param type $itemId
-     * @return type
+     * @param type $loginName
+     * @return ItemActionInterface[]
      */
-    public function findByLoginName($itemId) {
-        return $this->findEntities("item_id=:item_id", ['item_id'=>$itemId]);
+    public function findByLoginName($loginName) {
+        return $this->findEntities("editor_login_name=:editor_login_name", ['editor_login_name'=>$loginName]);
     }
     
     /**
@@ -64,7 +64,7 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
      * @param type $loginName
      * @return ItemActionInterface[]
      */
-    public function findByOtherLoginName($loginName) {
+    public function findWithAnotherLoginName($loginName) {
         return $this->findEntities("editor_login_name<>:editor_login_name", ['editor_login_name'=>$loginName]);
     }
     

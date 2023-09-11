@@ -33,7 +33,7 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
-    public function remove(): StatusSecurityInterface;
+    public function removeContext(): StatusSecurityInterface;
 
     /**
      * Nastaví výchozí parametry po vzniku security kontextu. Určeno pro volání po přihlášení uživatele.

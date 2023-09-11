@@ -19,10 +19,25 @@ use Model\RowData\PdoRowData;
 use Red\Model\Dao\BlockDao;
 use Red\Model\Hydrator\BlockHydrator;
 use Red\Model\Repository\BlockRepo;
-
 use Red\Model\Dao\MenuItemDao;
 use Red\Model\Hydrator\MenuItemHydrator;
 use Red\Model\Repository\MenuItemRepo;
+use Red\Model\Hydrator\HierarchyHydrator;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
+use Red\Model\Repository\Association\MenuItemAssociation;
+use Red\Model\Repository\HierarchyJoinMenuItemRepo;
+use Red\Model\Dao\LanguageDao;
+use Red\Model\Hydrator\LanguageHydrator;
+use Red\Model\Repository\LanguageRepo;
+use Red\Model\Dao\ItemActionDao;
+use Red\Model\Hydrator\ItemActionHydrator;
+use Red\Model\Repository\ItemActionRepo;
+
+// status repo
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
 
 // login aggregate ze session - přihlášený uživatel
 use Auth\Model\Entity\LoginAggregateFullInterface; // pro app kontejner
@@ -31,6 +46,14 @@ use Auth\Model\Entity\LoginAggregateFullInterface; // pro app kontejner
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
+    // pro service acoount
+use Pes\Database\Handler\ConnectionInfo;
+use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
+use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
+use Pes\Database\Handler\AttributesProvider\AttributesProvider;
+    // pro sqlite
+use Pes\Database\Handler\DsnProvider\DsnProviderSqliteFile;
+use Pes\Database\Handler\OptionsProvider\OptionsProviderNull;
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
@@ -49,19 +72,8 @@ use Container\RendererContainerConfigurator;
 // template renderer container
 use Pes\View\Renderer\Container\TemplateRendererContainer;
 
-// repo
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-
-use Red\Model\Hydrator\HierarchyHydrator;
-use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
-use Red\Model\Repository\Association\MenuItemAssociation;
-use Red\Model\Repository\HierarchyJoinMenuItemRepo;
-use Red\Model\Dao\LanguageDao;
-use Red\Model\Hydrator\LanguageHydrator;
-use Red\Model\Repository\LanguageRepo;
+// service
+use Red\Service\ItemAction\ItemActionService;
 
 // view
 use Pes\View\View;
@@ -73,8 +85,10 @@ use Pes\View\Recorder\VariablesUsageRecorder;
 use Pes\View\Recorder\RecordsLogger;
 
 // view factory
-
 use \Pes\View\ViewFactory;
+
+// Prepare
+use Web\Middleware\Page\Prepare\Prepare;
 
 
 /**
@@ -87,7 +101,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getParams(): iterable {
         // parametry
         return array_merge(
-                ConfigurationCache::web(),  //db
+                ConfigurationCache::web(),  //db upgrade s různými přístupy
+                ConfigurationCache::sqlite(), // db sqlite
                 ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
                 );
     }
@@ -212,6 +227,21 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             LanguageRepo::class => function(ContainerInterface $c) {
                 return new LanguageRepo($c->get(LanguageDao::class), $c->get(LanguageHydrator::class));
             },
+            ItemActionDao::class => function(ContainerInterface $c) {
+                return new ItemActionDao(
+                        $c->get('service_handler'),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            ItemActionHydrator::class => function(ContainerInterface $c) {
+                return new ItemActionHydrator();
+            },
+            ItemActionRepo::class => function(ContainerInterface $c) {
+                return new ItemActionRepo($c->get(ItemActionDao::class), $c->get(ItemActionHydrator::class));
+            },                    
+            ItemActionService::class => function(ContainerInterface $c) {
+                return new ItemActionService($c->get(ItemActionRepo::class));
+            },
 
             // database account
             Account::class => function(ContainerInterface $c) {
@@ -239,6 +269,87 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $account;
             },
+            'service account' => function(ContainerInterface $c) {
+                $account = new Account($c->get('web.db.account.authenticated.name'), $c->get('web.db.account.authenticated.password'));
+                return $account;
+            },
+                    
+            // sqlite handler
+            // 
+            // JEN PŘIPRAVENO PRO SQLITE DATABÁZI - PRO ITEM ACTIONS
+            // pravděpodobně patří do app kontejneru
+            // 
+            // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
+//            'sqlite.db.type' => DbTypeEnum::SQLITE,
+//            'sqlite.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? '/sqlite' : '/sqlite',
+//            #
+//            ###################################
+//            # Konfigurace logu databáze
+//            #
+//            'sqlite.logs.db.directory' => 'Logs/Sqlite',
+//            'sqlite.logs.db.file' => 'Database.log',
+//            'sqlite.logs.db.type' => FileLogger::FILE_PER_DAY,                    
+                    
+//            'dbSqliteLogger' => function(ContainerInterface $c) {
+//                return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), $c->get('dbUpgrade.logs.db.type')); //new NullLogger();
+//            },
+//            'sqlite_DsnProvider' =>  function(ContainerInterface $c) {
+//                $dsnProvider = new \Pes\Database\Handler\DsnProvider\DsnProviderSqliteFile();
+//                if (PES_DEVELOPMENT) {
+//                    $dsnProvider->setLogger($c->get('dbSqliteLogger'));
+//                }
+//                return $dsnProvider;
+//            },
+//            DsnProviderSqliteFile::class =>  function(ContainerInterface $c) {
+//                $optionsProvider = new OptionsProviderMysql();
+//                if (PES_DEVELOPMENT) {
+//                    $optionsProvider->setLogger($c->get('dbSqliteLogger'));
+//                }
+//                return $optionsProvider;
+//            },
+//            'sqlite_AttributesProvider' =>  function(ContainerInterface $c) {
+//                $attributesProvider = new AttributesProvider();
+//                if (PES_DEVELOPMENT) {
+//                    $attributesProvider->setLogger($c->get('dbSqliteLogger'));
+//                }
+//                return $attributesProvider;
+//            },
+//            'sqlite_ConnectionInfo' => function(ContainerInterface $c) {
+//                return new ConnectionInfo(
+//                        $c->get('sqlite.db.type'),
+//                        '',
+//                        $c->get('sqlite.db.connection.name'),
+//                        $c->get('dbUpgrade.db.charset'),
+//                        $c->get('dbUpgrade.db.collation'),
+//                        $c->get('dbUpgrade.db.port'));
+//            },
+//            // db objekty
+//            'sqlite_handler' => function(ContainerInterface $c) : HandlerInterface {
+//                // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
+//                $logger = $c->get('dbSqliteLogger');
+//                return new Handler(
+//                        $c->get(Account::class),  ??????
+//                        $c->get('sqlite_ConnectionInfo'),
+//                        $c->get('sqlite_DsnProvider'),
+//                        $c->get(OptionsProviderNull::class),
+//                        $c->get('sqlite_AttributesProvider'),
+//                        $logger);
+//            },
+            // nadler pro připojení k databázi s vyššími právy (authenticated) 
+            // použit v ItemActionService pro mazání item_action při GET requestu - po odhlášení uživatele, přesměrováno post redirect get, 
+            // v tu chvíli vznikne Handler s uživatelem everyone
+            'service_handler' => function(ContainerInterface $c) : HandlerInterface {
+                // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
+                $logger = $c->get('dbUpgradeLogger');
+                return new Handler(
+                        $c->get('service account'),  // přístupová práva authenticated
+                        $c->get(ConnectionInfo::class),
+                        $c->get(DsnProviderMysql::class),
+                        $c->get(OptionsProviderMysql::class),
+                        $c->get(AttributesProvider::class),
+                        $logger);
+            },
+
 ## konec části web model
             // configuration - používá parametry nastavené metodou getParams()
             ComponentConfiguration::class => function(ContainerInterface $c) {
@@ -266,6 +377,17 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new ViewFactory())->setRendererContainer($c->get('rendererContainer'));
             },
 
+        ####
+        # Prepare
+        #                    
+            Prepare::class => function(ContainerInterface $c) {
+                return new Prepare(
+                    $c->get(StatusPresentationRepo::class), 
+                    $c->get(LanguageRepo::class),
+                    $c->get(StatusSecurityRepo::class),
+                    $c->get(ItemActionService::class));
+            },
+                    
         ####
         # components loggery
         #

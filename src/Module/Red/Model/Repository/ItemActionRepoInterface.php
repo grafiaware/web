@@ -40,7 +40,7 @@ interface ItemActionRepoInterface extends RepoInterface {
      * @param type $loginName
      * @return ItemActionInterface[]
      */
-    public function findByOtherLoginName($loginName);
+    public function findWithAnotherLoginName($loginName);
     
     /**
      * Vrací položjy se zadanžm item id - sloupec item id je unique, nesmí bát více editorů jedné položjy současně

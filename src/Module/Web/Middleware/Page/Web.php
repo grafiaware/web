@@ -18,9 +18,8 @@ use Container\WebContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 
 use Web\Middleware\Page\Controller\PageController;
-use Status\Model\Repository\StatusPresentationRepo;
-use Red\Model\Repository\LanguageRepo;
-use Web\Middleware\Page\Prepare;
+
+use Web\Middleware\Page\Prepare\Prepare;
 
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -82,11 +81,9 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
-
-        /** @var StatusPresentationRepo $statusPresentationRepo */
-        $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);        
-        $languageRepo = $this->container->get(LanguageRepo::class);
-        Prepare::preperePresentation($statusPresentationRepo, $languageRepo);
+        /** @var Prepare $prepare */
+        $prepare = $this->container->get(Prepare::class);
+        $prepare->prepareStatus();
         
         $response =  $router->process($request, $handler) ;
 

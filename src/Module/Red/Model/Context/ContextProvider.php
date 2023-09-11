@@ -40,7 +40,6 @@ class ContextProvider implements ContextProviderInterface {
 
     public function showOnlyPublished(): bool {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $onlyPublished = $userActions ? ! $userActions->presentAnyInEditableMode() : true;
-        return $onlyPublished;
+        return isset($userActions) ? !$userActions->presentEditableContent() : false;
     }
 }

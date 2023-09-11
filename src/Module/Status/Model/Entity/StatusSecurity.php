@@ -35,9 +35,11 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
      * 
      * @return StatusSecurityInterface
      */
-    public function remove(): StatusSecurityInterface {
-        $this->loginAggregate = null;
-        $this->userActions = null;
+    public function removeContext(): StatusSecurityInterface {
+        if (isset($this->loginAggregate)) {
+            $this->userActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
+            $this->loginAggregate = null;
+        }
         return $this;
     }
 

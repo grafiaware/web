@@ -176,7 +176,6 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      * @return array
      */
     private function prepareItemModels() {
-//            $nodes, $presentedNode=null) {
         $nodes = $this->getSubTreeNodes();
         $rootNode = reset($nodes);
         $presentedNode = $this->getPresentedMenuNode($rootNode);

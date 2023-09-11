@@ -26,6 +26,7 @@ use Status\Model\Enum\FlashSeverityEnum;
 use Red\Model\Repository\LanguageRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\ItemActionRepo;
+use Red\Service\ItemAction\ItemActionServiceInterface;
 
 use Red\Model\Entity\ItemAction;
 use Red\Model\Enum\AuthoredTypeEnum;
@@ -44,18 +45,18 @@ class UserActionControler extends FrontControlerAbstract {
     const FORM_USER_ACTION_EDIT_CONTENT = 'edit_content';
 
     private $languageRepo;
-
-    private $menuItemRepo;
+    
+    private $itemActionService;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             LanguageRepo $languageRepo,
-            MenuItemRepo $menuItemRepo) {
+            ItemActionServiceInterface $itemActionService) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->languageRepo = $languageRepo;
-        $this->menuItemRepo = $menuItemRepo;  // nevyužito - zrušena metoda setPresentedItem
+        $this->itemActionService = $itemActionService;
     }
 
     public function setLangCode(ServerRequestInterface $request) {
@@ -71,11 +72,21 @@ class UserActionControler extends FrontControlerAbstract {
     }
 
     public function setEditMode(ServerRequestInterface $request) {
-        $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MODE);
-
-        //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
+        $edit = (bool) (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MODE);
+        // SMAZÁNÍ ItemActions přihlášeného uživatele z databáze při vzpnutí editačního režimu
+        if (!$edit) {
+            $loginName = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
+            $this->itemActionService->removeUserItemActions($loginName);
+        }
+        // nastavení aktuálního editačního režimu ve statusu
         $this->statusSecurityRepo->get()->getUserActions()->setEditableContent($edit);
         $this->addFlashMessage("set editable content $edit", FlashSeverityEnum::INFO);
+
+        //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
+
+        // při zapnutí editačního modu nebo při jeho vypnutí, ale pro neaktivní položku - zobrazím znovu aktuální stránku
+        // při vypnutí editace a zobrazené aktivní položce - přesměruji na home, neaktivní položka v needitačním režimu není zobrazená (není publikovaná) 
+        // a zobrazila by se prázdná stránka
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
@@ -87,11 +98,11 @@ class UserActionControler extends FrontControlerAbstract {
         $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MENU);
         $this->addFlashMessage("set editable menu $edit", FlashSeverityEnum::INFO);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableMenu($edit);
-        if ($edit OR $this->isPresentedItemActive()) {
+//        if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
-        } else {
-            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední item, který byl editován v režimu edit 
-        }
+//        } else {
+//            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední item, který byl editován v režimu edit 
+//        }
     }
 
     private function isPresentedItemActive() {

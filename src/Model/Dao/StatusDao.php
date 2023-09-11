@@ -20,11 +20,9 @@ use Pes\Session\SessionStatusHandlerInterface;
 class StatusDao {
 
     private $sessionHandler;
-    private $handlerUid;
 
     public function __construct(SessionStatusHandlerInterface $sessionHandler) {
         $this->sessionHandler = $sessionHandler;
-        $this->handlerUid = spl_object_hash($sessionHandler);
     }
 
     public function get($fragmentName) {

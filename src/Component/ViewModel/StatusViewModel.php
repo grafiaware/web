@@ -97,7 +97,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     public function presentEditableMenu(): bool {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->presentEditableMenu() : false;
+        return $userActions ? $userActions->presentEditableContent() : false;
     }
 
     public function getPresentedLanguage(): ?LanguageInterface {

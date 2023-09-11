@@ -39,7 +39,8 @@ use UnexpectedValueException;
 class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
 
     private $container;
-
+    private $statusPresentationRepo;
+    
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
         $this->container =
@@ -53,17 +54,18 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         $statusPresentation = $this->getOrCreateStatusIfNotExists();
         $this->presetPresentationStatus($statusPresentation, $request);
         $response = $handler->handle($request);
+        $response = $this->addResponseHeaders($response);
         return $response;
     }
-
+    
     private function getOrCreateStatusIfNotExists() {
         /** @var StatusPresentationRepo $statusPresentationRepo */
-        $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
+        $this->statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
 
-        $statusPresentation = $statusPresentationRepo->get();
+        $statusPresentation = $this->statusPresentationRepo->get();
         if (!isset($statusPresentation)) {
             $statusPresentation = $this->container->get(StatusPresentation::class);
-            $statusPresentationRepo->add($statusPresentation);
+            $this->statusPresentationRepo->add($statusPresentation);
         }
         return $statusPresentation;
     }
@@ -101,4 +103,9 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         }
         return $langCode;
     }
+    
+    private function addResponseHeaders(ResponseInterface $response) {
+        $language = $this->statusPresentationRepo->get()->getLanguage();
+        return $response->withHeader('Content-Language', $language->getLocale());
+    }    
 }

@@ -10,7 +10,7 @@ namespace Red\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
 use Red\Model\Entity\ItemActionInterface;
-
+use Auth\Model\Entity\LoginInterface;
 /**
  * Description of UserActions
  *
@@ -24,15 +24,9 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
     private $editableContent = false;
     private $editableMenu = false;
     private $userItemActions = [];
+    
+    private $loggedOffUserName;
 
-    /**
-     * Informuje, zda je některá část prezentace přepnuta do editačního módu.
-     *
-     * @return bool
-     */
-    public function presentAnyInEditableMode(): bool {
-        return  $this->presentEditableContent() OR $this->presentEditableMenu();
-    }
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace článku.
@@ -84,8 +78,33 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
         $this->editableMenu = boolval($editableMenu);
         return $this;
     }
+    
+    /**
+     * Uloží Login entitu pro použití v jiném middleware a příštím requestu, ostraní stav editable content a editable menu.
+     * 
+     * Akce spojené s ItemActions je pak třeba provést v budoucnu, v middleware s přístupem k databázi s uloženými informacemi zavíslými na ItemActions.
+     * 
+     * @param string $loggedOffUserName
+     */
+    public function processActionsForLossOfSecurityContext($loggedOffUserName) {
+        $this->loggedOffUserName = $loggedOffUserName;
+        $this->setEditableContent(false);
+        $this->setEditableMenu(false);
+        unset($this->userItemActions);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return string|null
+     */
+    public function provideLoggedOffUsername(): ?string {
+        $lo = $this->loggedOffUserName;
+        unset($this->loggedOffUserName);
+        return $lo;
+    }
 
-    ### user actions ###
+    ### item actions ###
 
     public function addItemAction(ItemActionInterface $itemAction): void {
         $this->userItemActions[$itemAction->getItemId()] = $itemAction;
