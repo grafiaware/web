@@ -113,13 +113,15 @@ class ConfigurationDb extends ConfigurationConstants {
             ],
             'build.config.convert.copy' =>
                 [
-                    'source' => 'wwwotevreneateliery.stranky',
+                    'source' => 'otevreneatelierycz_20230905.stranky',
                     'target' => 'oa_upgrade.stranky'
                 ],
             'build.config.convert.updatestranky' => [
-                [],        
+                ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
             ],
-            'build.config.convert.home' => [],
+            'build.config.convert.home' => [
+                'home', 's00',        // titulní stránka s00 (změněná a0) je home page
+            ],
             'build.config.convert.repairs' => [],
             #
             ###################################
@@ -127,8 +129,8 @@ class ConfigurationDb extends ConfigurationConstants {
             ###################################
             # Konfigurace logů konverze
             'build.db.logs.directory' => 'Logs/Build',
-            'build.db.logs.file.drop' => 'Drop.log',
-            'build.db.logs.file.create' => 'Create.log',
+            'build.db.logs.file.dropOrCreateDb' => 'dropOrCreateDb.log',
+            'build.db.logs.file.dropOrCreateUsers' => 'dropOrCreateUsers.log',
             'build.db.logs.file.convert' => 'Convert.log',
             'build.db.logs.file.type' => FileLogger::REWRITE_LOG
             #
@@ -153,7 +155,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
             'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'gr_pracovni',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'single_login',
             #
             ###################################
             # Konfigurace logu databáze
@@ -181,7 +183,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
             'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : 'localhost',
-            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'gr_upgrade',
+            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'oa_upgrade',
             #
             ###################################
             # Konfigurace logu databáze
@@ -201,7 +203,6 @@ class ConfigurationDb extends ConfigurationConstants {
      */
     public static function hierarchy() {
         return  [
-
             ###################################
             # Konfigurace hierarchy tabulek
             #
@@ -231,8 +232,8 @@ class ConfigurationDb extends ConfigurationConstants {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'oa_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_login' : 'oa_login',
+            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_login' : 'single_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
@@ -242,7 +243,31 @@ class ConfigurationDb extends ConfigurationConstants {
 
         ];
     }
+    /**
+     * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator a DbUpgradeContainerConfigurator
+     * @return array
+     */
+    public static function sqlite() {
+        return [
+            #####################################
+            # Konfigurace připojení k databázi sqlite
+            #
+            #
+            'sqlite.db.type' => DbTypeEnum::SQLITE,
+            'sqlite.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? '/sqlite' : '/sqlite',
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
+            'sqlite.logs.db.directory' => 'Logs/Sqlite',
+            'sqlite.logs.db.file' => 'Database.log',
+            'sqlite.logs.db.type' => FileLogger::FILE_PER_DAY,
+            #
+            #################################
 
+        ];
+    }
+    
     /**
      * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator
      * @return array

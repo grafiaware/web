@@ -193,14 +193,6 @@ class ConfigurationDb extends ConfigurationConstants {
      */
     public static function hierarchy() {
         return  [
-            #################################
-            # Konfigurace uživatele databáze
-            #
-            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
-            #
-            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_upgrader',
-            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_upgrader',
-            #
             ###################################
             # Konfigurace hierarchy tabulek
             #

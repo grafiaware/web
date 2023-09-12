@@ -58,7 +58,10 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
 class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return ConfigurationCache::build();
+        return array_merge(
+                ConfigurationCache::build(),
+                ConfigurationCache::login()
+                );
     }
 
     public function getFactoriesDefinitions(): iterable {

@@ -1,5 +1,6 @@
 //=== ui elementy ===
 function initJqueryEvents() {
+    
     //semantic-ui dropdown (použitý např. pro přihlašování)
     $('.ui.dropdown')
       .dropdown()
@@ -76,6 +77,23 @@ function initJqueryEvents() {
     });
 }
 
+/**
+ * Funkce scrolluje stránku na pozici kotvy, pokud je v adrese uveden "fragment", tedy část url za znakem #, tedy v javascriptu window.location.hash
+ * Používá jQuery animaci, tu lze nastavit.
+ * @returns {undefined}
+ */
+function scrollToAnchorPosition() {
+    if(window.location.hash) {
+        $('html, body').animate({
+            scrollTop: $(window.location.hash).offset().top, // - 20
+            opacity: 'o.4'
+        }, 150);
+        $('html, body').animate({
+            scrollTop: $(window.location.hash).offset().top, // - 20
+            opacity: '1'
+        }, 1000);        
+    }
+}
 
 //
 //
@@ -112,6 +130,8 @@ document.onreadystatechange = function () {
                 initLoadedEditableElements();
                 console.log("body: initLoaded elements for editable mode");
             }
+            console.log("Initiate scrolling onto anchor position.")
+            scrollToAnchorPosition();
             console.log("body: run initJqueryEvents for jQuery events on loaded elements");
             initJqueryEvents();
             console.log("body: initJqueryEvents finished");

@@ -7,6 +7,8 @@ use Site\ConfigurationCache;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
+use Pes\Application\AppFactory;
+use Pes\Application\UriInfoInterface;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -42,8 +44,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             $startTime = microtime(true);
             $this->container = $this->getApp()->getAppContainer();  // měl by mít nastaven kontejner z middleware web
             $newBody = new Body(fopen('php://temp', 'r+'));
-            $newBody->write($this->transform($response->getBody()->getContents()));
-    //        $newBody->write($response->getBody()->getContents());
+            $uri = $request->getUri();
+            $newBody->write($this->transform($request, $response->getBody()->getContents()));
             $response = $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
             $response = $response->withBody($newBody);
         }
@@ -55,7 +57,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
      * @param type $text
      * @return type
      */
-    private function transform($text) {
+    private function transform(ServerRequestInterface $request, $text) {
 
         $downloadDirectory = ConfigurationCache::files()['@download'];
         $siteImagesDirectory = ConfigurationCache::files()['@siteimages'];
@@ -76,16 +78,16 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             '@sitemovies/'             => $siteMoviesDirectory,
 
             // staré stránky rs
-            '"files/'            => '"'.$filesDirectory,
             '"../files/'            => '"'.$filesDirectory,   // pro chybně zadané obrázky (s dvěma tečkami)
+            '"files/'            => '"'.$filesDirectory,
+            '"../index.php'            => '"index.php',  // pro odkazy do rs - vznikly asi zkopírováním kódu z etevřené editované stránky
 
             '"layout-images/' => '"'.$siteDirectory.'layout-images/',
             '"public/web/'=>'"'.$publicDirectory,
         );
 
         $first = str_replace(array_keys($transform), array_values($transform), $text);
-        $transformUrls = $this->transformUrls($first);
-        $second = str_replace(array_keys($transformUrls), array_values($transformUrls), $first);
+        $second = $this->transformUrls($request, $first);
         return $second;
     }
 
@@ -95,61 +97,103 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
      * Pole setřídí podle klíčů v reverzním pořadí tak, aby při nahrazování byl nahrazen nejprve delší klíč (staré url) a teprve pak kratší klíč.
      *
      * @param type $text
-     * @return type
+     * @return string
      */
-    private function transformUrls($text) {
+    private function transformUrls(ServerRequestInterface $request, $text): string {
         // <a href="index.php?list=download&amp;file=1197476.txt" target="_blank">Obchodní podmínky e-shop Grafia ke stažení</a>
         $prefix = 'href="';
         $key = 'list';
-        $length = strlen($prefix);
+        $prefixLength = strlen($prefix);
         $dao = $this->container->get(MenuItemDao::class);
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
         $langCode = $statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $transform = [];
-        $end = 0;
-        $notFound = [];
+        $lastGetResourcePath = $statusPresentationRepo->get()->getLastGetResourcePath();
+        $transform = '';
+        $hrefLastChar = 0;
+        
         do {
-            $begin = strpos($text, $prefix, $end);
-            if ($begin !== false) {
-                $begin = $begin+$length;
-                $end = strpos($text, '"', $begin);
-                if ($end !== false) {
-                    $url = substr($text, $begin, $end-$begin);
+            $prefixFound = strpos($text, $prefix, $hrefLastChar);
+            if ($prefixFound !== false) {
+                $hrefFirstChar = $prefixFound+$prefixLength;
+                $transform .= substr($text, $hrefLastChar, $hrefFirstChar-$hrefLastChar);  // tady je $hrefLastChar pozice posledního znaku z minulého cyklu
+                $hrefLastChar = strpos($text, '"', $hrefFirstChar);
+                if ($hrefLastChar !== false) {                    
+                    $url = substr($text, $hrefFirstChar, $hrefLastChar-$hrefFirstChar);
                     $query = parse_url($url, PHP_URL_QUERY);
-                    parse_str($query, $pairs);
-                    if (array_key_exists($key, $pairs)) {
-                        $row = $dao->getByList(['lang_code_fk'=>$langCode, 'list'=>$pairs[$key]]);
-                        if ($row) {
-                            $transform[$url] = "web/v1/page/item/{$row['uid_fk']}";
-                        } else {
-                            $notFound[] = $url;
-
+                    $anchor = parse_url($url, PHP_URL_FRAGMENT);
+                    $sub = $this->getUriInfo($request)->getSubdomainPath();
+                    if (isset($query)) {
+                        $pairs = [];
+                        parse_str($query, $pairs);
+                        if (array_key_exists($key, $pairs)) {
+                            $row = $dao->getByList(['lang_code_fk'=>$langCode, 'list'=>$pairs[$key]]);
+                            if ($row) {
+                                $newUrl = $sub."web/v1/page/item/{$row['uid_fk']}".($anchor ? "#$anchor" : "");
+                                $transform .= $newUrl;
+                            } else {
+                                $this->flashAndLogNotFound($url);
+                                $transform .= $url;
+                            }
                         }
+                    } elseif(isset ($anchor)) {  // odkaz na kotvu na téže stránce - např. href="#A"                        
+                        $newUrl = $sub.trim("$lastGetResourcePath#$anchor", "/");
+                        $transform .= $newUrl;
+                    } else {
+                        $transform .= $url;                        
                     }
+                } else {
+                    $this->flashAndLogIncorrectHtmlSyntax($request);
                 }
+            } else {
+                $transform .= substr($text, $hrefLastChar);                        
             }
-
-        } while ($begin!==false);
-        if ($notFound) {
-            $requestUri = $this->getApp()->getServerRequest()->getUri()->getPath();
-            /** @var StatusFlashRepo $statusFlashRepo */
-            $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
-            foreach ($notFound as $url) {
-                if (PES_DEVELOPMENT) {
-                    $statusFlashRepo->get()->setMessage("Nenalezen odkaz $url v databázi.");
-                }
-                if ($this->hasLogger()) {
-                    $this->getLogger()->notice("Pro uri $requestUri nenalezen v obsahu stránky v databázi odkaz $url.");
-                }
-            }
-
-        }
-        // str_replace při použití polí pro záměnu provádí náhrady postupně znovu v celém řetězci pro každý prvek pole záměn
-        // pokud je v poli záměn řetězec, který je podřetězcem řetězce, který je v poli záměn později dojde k záměně podřetězce - např. chci nahradit
-        // ada za mařka a adam2 za božena3 -> v řetězci adam2 je nahrazen podřetězec ada a vznikne -> mařkam2 - a ta už tam zůstane
-        // nutné provést setřídění podle klíčů v reverzním pořadí
-        krsort($transform);
+        } while ($prefixFound!==false);
         return $transform;
+    }
+    
+    private function flashAndLogNotFound($url) {
+        $requestUri = $this->getApp()->getServerRequest()->getUri()->getPath();
+        /** @var StatusFlashRepo $statusFlashRepo */
+        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
+        if (PES_DEVELOPMENT) {
+            $statusFlashRepo->get()->setMessage("Nenalezen odkaz $url v databázi.");
+        }
+        if ($this->hasLogger()) {
+            $this->getLogger()->notice("Pro uri $requestUri nenalezen v obsahu stránky v databázi odkaz $url.");
+        }
+    }
+    private function flashAndLogIncorrectHtmlSyntax(ServerRequestInterface $request) {
+        $requestUri = $request->getUri()->getPath();
+        /** @var StatusFlashRepo $statusFlashRepo */
+        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);        
+        if (PES_DEVELOPMENT) {
+            $statusFlashRepo->get()->setMessage("Chyba při transformaci obsahu. Url: '$requestUri'.");
+        }
+        if ($this->hasLogger()) {
+            $this->getLogger()->notice("Chyba při transformaci obsahu. Nalezen počáteční řetězec a nenalezen konec. Url: '$requestUri'.");
+        }
+    }
+    /**
+     * Pomocná metoda - získá base path z objektu UriInfo, který byl vložen do requestu jako atribut s jménem AppFactory::URI_INFO_ATTRIBUTE_NAME v AppFactory.
+     *
+     * @return UriInfoInterface
+     */
+    protected function getUriInfo(ServerRequestInterface $request): UriInfoInterface {
+        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
+        if (! $uriInfo instanceof UriInfoInterface) {
+            throw new LogicException("Atribut requestu ".AppFactory::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
+        }
+        return $uriInfo;
+    }
+    
+    /**
+     * Vrací base path pro nastavení html base path
+     * @param ServerRequestInterface $request
+     * @return string
+     */
+    private function getBasePath(ServerRequestInterface $request) {
+        $basePath = $this->getUriInfo($request)->getSubdomainPath();
+        return $basePath;
     }
 }
