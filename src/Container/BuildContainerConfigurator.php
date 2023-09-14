@@ -19,6 +19,7 @@ use Pes\Router\Router;
 
 
 // db Handler
+use PDO;
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\ConnectionInfo;
 use Pes\Database\Handler\DbTypeEnum;
@@ -234,6 +235,14 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('build.db.user.name'),
                         $c->get('build.db.user.password'));
             },
+            AttributesProvider::class =>  function(ContainerInterface $c) {
+                $attributesProvider = new AttributesProvider([PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false]);  // unbuffered mode - lze jen v Mysql
+                $attributesProvider = new AttributesProvider();
+                if (PES_DEVELOPMENT) {
+                    $attributesProvider->setLogger($c->get('convertLogger'));
+                }
+                return $attributesProvider;
+            },                    
         ];
     }
 }
