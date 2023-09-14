@@ -38,7 +38,7 @@ class EventLinkHydrator extends TypeHydratorAbstract implements HydratorInterfac
     /**
      *
      * @param EventLinkInterface $eventLink
-     * @param ArrayAccess $row
+     * @param ArrayAccess $rowData
      */
     public function extract(EntityInterface $eventLink, ArrayAccess $rowData) {
         /** @var EventLinkInterface $eventLink */

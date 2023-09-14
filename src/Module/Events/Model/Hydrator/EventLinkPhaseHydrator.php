@@ -35,7 +35,7 @@ class EventLinkPhaseHydrator extends TypeHydratorAbstract implements HydratorInt
 
     /**
      *
-     * @param EventLinkPhaseInterface $event
+     * @param EventLinkPhaseInterface $eventLinkPhase
      * @param ArrayAccess $rowData
      */
     public function extract(EntityInterface $eventLinkPhase, ArrayAccess $rowData) {

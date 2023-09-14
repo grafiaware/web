@@ -19,7 +19,7 @@ class EventContentTypeHydrator extends TypeHydratorAbstract implements HydratorI
     /**
      *
      * @param EventContentTypeInterface $eventContentType
-     * @param type $row
+     * @param type $rowData
      */
     public function hydrate(EntityInterface $eventContentType, ArrayAccess $rowData) {
         /** @var EventContentTypeInterface $eventContentType */
@@ -32,7 +32,7 @@ class EventContentTypeHydrator extends TypeHydratorAbstract implements HydratorI
     /**
      *
      * @param EventContentTypeInterface $eventContentType
-     * @param array $row
+     * @param array $rowData
      */
     public function extract(EntityInterface $eventContentType, ArrayAccess $rowData) {
         /** @var EventContentTypeInterface $eventContentType */
