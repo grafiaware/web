@@ -11,13 +11,13 @@
 
 INSERT INTO menu_adjlist (child, parent)
 	SELECT child, parent FROM (
-		SELECT 'root' AS child, NULL AS parent, 999 AS poradi, 1 AS level
+		SELECT 'root' AS child, NULL AS parent, 0 AS poradi, 1 AS level
         UNION
 		SELECT DISTINCT
 
 
         childrens.list AS child, parents.list AS parent,
-        if(childrens.order=0, 999, childrens.order ) AS poradi,
+        if(childrens.order<0, 0, childrens.order ) AS poradi,
         parents.level AS level
         FROM
 

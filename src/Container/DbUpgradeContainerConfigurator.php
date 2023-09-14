@@ -26,7 +26,6 @@ use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Logger\FileLogger;
 
-
 /**
  * Description of DbUpgradeContainerConfigurator
  *
@@ -69,7 +68,7 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
-                $attributesProvider = new AttributesProvider();
+            $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
                     $attributesProvider->setLogger($c->get('dbUpgradeLogger'));
                 }
