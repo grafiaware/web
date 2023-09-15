@@ -16,6 +16,6 @@ interface InstitutionTypeInterface  extends PersistableEntityInterface {
 
     public function setId($id): InstitutionTypeInterface;
 
-    public function setInstitutionType( $value=null): InstitutionTypeInterface;
+    public function setInstitutionType( $value): InstitutionTypeInterface;
 
     }
