@@ -49,8 +49,8 @@ use Pes\Text\Html;
             </div>
 
             <div class="eight wide field">                                  
-                <?= Html::select( "selectContentType", "Typ obsahu:", $selectContentTypes ?? []  , 
-                                 ["selectContentType" =>  $eventContentTypeFk ?? ''  ] , [ 'required' => true ] ) ?>  
+                <?= Html::select( "selectContentType", "Typ obsahu:", 
+                                 ["selectContentType" =>  $eventContentTypeFk ?? ''  ], $selectContentTypes ?? [] , [ 'required' => true ], true) ?>  
             </div>
 
             <div>                                                                                                                                
