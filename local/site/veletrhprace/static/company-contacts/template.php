@@ -56,7 +56,8 @@ use Events\Model\Repository\RepresentativeRepo;
 
     <div>
     <div class="ui styled fluid accordion">   
-
+            
+        Vyžaduje přihlášení. <br/>
             Vystavovatel (company): |* <?= $company->getName(); ?> *|
             <div class="active title">
                 <i class="dropdown icon"></i>

@@ -60,7 +60,7 @@ use Events\Model\Entity\LoginInterface;
             }
     //------------------------------------------------------------------
     $selectCompany =[];    
-   //$selectCompany [''] =  "vyber firmu - povinné pole" ; //toto zde  ne
+    $selectCompany [''] =  "vyber firmu - povinné pole" ;
     $companyEntities = $companyRepo->findAll();
         /** @var CompanyInterface $comp */ 
     foreach ( $companyEntities as $comp) {
@@ -68,7 +68,7 @@ use Events\Model\Entity\LoginInterface;
     }
     
     $selectLogin =[]; 
-    //$selectLogin [''] =  "vyber representanta - povinné pole" ; //toto zde  ne
+    $selectLogin [''] =  "vyber representanta - povinné pole" ;
     $loginEntities = $loginRepo->findAll();
         /** @var LoginInterface  $logi */ 
     foreach ( $loginEntities as $logi) {

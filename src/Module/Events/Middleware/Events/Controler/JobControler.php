@@ -178,6 +178,8 @@ class JobControler extends PresentationFrontControlerAbstract {
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
         if (!isset($loginAggregateCredentials)) {
+            //$this->addFlashMessage("Nejste přihlášen!"); //ale neni to videt
+            
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unauthorized
         } else {                                   

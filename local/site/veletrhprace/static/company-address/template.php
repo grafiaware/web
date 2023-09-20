@@ -55,7 +55,8 @@ use Events\Model\Entity\CompanyAddressInterface;
 
     <div>
     <div class="ui styled fluid accordion">
-            
+        
+        Vyžaduje přihlášení. <br/>        
             Vystavovatel (company): |* <?= $company->getName(); ?> *|                   
             <div class="active title">
                 <i class="dropdown icon"></i>
