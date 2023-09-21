@@ -93,6 +93,7 @@ use Events\Model\Entity\LoginInterface;
 
   ?>
     <div>
+        Nutné přihlášení <br/>
         Vystavovatel (company): |* <?= $company->getName(); ?> *|
         <br/><br/>
     <div class="ui styled fluid accordion">

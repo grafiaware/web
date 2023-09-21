@@ -25,7 +25,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
         $allVzdelaniArray[] = $vzd;       
         //$allVzdelanString[] = $tag->getTag();
     }
-             
+    $pro_min =  $vzdelani->getStupen() +1 ;       
   ?>
 
     
@@ -45,7 +45,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
                 Přidej další vzdelani
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/pozadovane-vzdelani.php' ) ?>                                                                                 
+                <?= $this->insert( __DIR__.'/pozadovane-vzdelani.php', [ 'pro_minimum'=>$pro_min ]  ) ?>                                                                                 
             </div>                  
         </div>           
                                       

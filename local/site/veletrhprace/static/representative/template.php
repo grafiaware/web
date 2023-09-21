@@ -68,7 +68,7 @@ use Events\Model\Entity\LoginInterface;
     }
     
     $selectLogin =[]; 
-    $selectLogin [''] =  "vyber representanta - povinné pole" ;
+    $selectLogin [] =  "vyber representanta - povinné pole" ;
     $loginEntities = $loginRepo->findAll();
         /** @var LoginInterface  $logi */ 
     foreach ( $loginEntities as $logi) {

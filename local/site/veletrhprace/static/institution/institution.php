@@ -24,8 +24,10 @@ use Pes\Text\Html;
                 </div>
                 
                 <div class="field">                                                    
-                    <?= Html::select( "selinstitutionTypeId", "Typ instituce:", $selectInstitutionTypeId ?? [] , 
-                                     ["selinstitutionTypeId" =>  $institutionTypeId ?? EventControler_2::NULL_VALUE_nahradni /*'' */ ], []) ?>                   
+                    <?= Html::select( "selinstitutionTypeId", "Typ instituce:", 
+                                      ["selinstitutionTypeId" =>  $institutionTypeId ?? EventControler_2::NULL_VALUE_nahradni /*'' */ ],
+                                      $selectInstitutionTypeId ?? [] ,                                      
+                                      []) ?>                   
                 </div>               
                                
             </div>

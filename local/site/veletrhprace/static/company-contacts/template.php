@@ -23,7 +23,7 @@ use Events\Model\Repository\RepresentativeRepo;
     $representativeRepo = $container->get(RepresentativeRepo::class );
     //------------------------------------------------------------------
 
-    $idCompany = 10;         
+    $idCompany = 25;         
                                            
     //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem
     //        if ( $representativeRepo->findByLogin($loginName) )   --neni metoda 
