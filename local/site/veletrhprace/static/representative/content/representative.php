@@ -30,7 +30,7 @@ use Pes\Text\Html;
                                             [ ],
                                             $selectCompanies, 
                                             ['required' => true ],
-                                            true ) ?>                      
+                                            ''   ) ?>                      
                     <?php } ?>    
                 </div>
                 
@@ -43,7 +43,7 @@ use Pes\Text\Html;
                                              [ ],                                    
                                              $selectLogins,
                                              ['required' => true ],                                  
-                                             true ) ?>   
+                                            "vyber representanta - povinné pole") ?>   
                     <?php } ?> 
                 </div>
             </div>

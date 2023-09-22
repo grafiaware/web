@@ -30,7 +30,7 @@ use Pes\Text\Html;
             <?php  } else {   ?>    
                     <p>Stupeň (číslo):</p>
                     <div class="field">
-                    <input <?= $readonly ?>  type="number" name="stupen"   min="<?= $pro_minimum?>"  required  value="" >
+                    <input <?= $readonly ?>  type="number" name="stupen"    required  value="" >
                     </div>
                     Vzděláni:  
                     <div class="field">
