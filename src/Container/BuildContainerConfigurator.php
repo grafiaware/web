@@ -234,15 +234,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new Account(
                         $c->get('build.db.user.name'),
                         $c->get('build.db.user.password'));
-            },
-            AttributesProvider::class =>  function(ContainerInterface $c) {
-                $attributesProvider = new AttributesProvider([PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false]);  // unbuffered mode - lze jen v Mysql
-                $attributesProvider = new AttributesProvider();
-                if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('convertLogger'));
-                }
-                return $attributesProvider;
-            },                    
+            },            
         ];
     }
 }

@@ -20,6 +20,9 @@ use Mail\Exception\MailException;
  */
 class Mail {
 
+    const CHARSET = "UTF-8";
+    const ENCODING = "8bit";
+    
     /**
      *
      * @var Params
@@ -27,12 +30,30 @@ class Mail {
     private $params;
     private static $logger;
 
+    /**
+     * Přijímá výchozí sadu parametrů. Tyto parametru mohou být doplněny nebo zaměněny dalšími paramatery zadanými 
+     * při odesílání mailu metodou mail(). Do konstuktoru je vhodné zadat sahu parametrů, které budou shodné pro včechny maily 
+     * odesílané při běhu skriptu. 
+     * 
+     * Typicky se jedná a sadu:
+     * - smtp host (objekt Mail\Params\Host)
+     * - smtp autentikace pro přístup k smtp hostu (objekt Mail\Params\SmtpAuth)
+     * - šifrování mailů (objekt Mail\Params\Encryption)
+     * - nastavení základní sady hlaviček (objekt Mail\Params\Headers)
+     * 
+     * @param Params $params Výchozí sada parametrů. 
+     * @param LoggerInterface $logger Logger
+     */
     public function __construct(Params $params = null, LoggerInterface $logger) {
         $this->params = $params;
         self::$logger = $logger;
     }
 
     /**
+     * Metoda pro PHPMailer. Metodu volá PHPMailer po pokusu o odeslání mailu. Metoda slouží pro logování a odeslání 
+     * informačních mailů např. o úspěchu nebo neúspěchu
+     *  
+     * Info PHPMailer:
      * Use: [MyClass::class, 'myStaticCallback']
      *
      *
@@ -81,10 +102,27 @@ class Mail {
         }
     }
 
+    /**
+     * Metoda odešle mail pomocí odesílacího objektu PHPMailer.
+     * 
+     * Metoda nakonfiguruje odesílací objekt pomocí parametrů předaných do konstruktoru a parametrů předaných metodě. 
+     * Parametry předané metodě mají přednost před parametry konstruktoru, použijí se jen pro jedno volání metody mail(), 
+     * nepřepisují trvale parametry konstruktoru. 
+     * 
+     * Pevně zadané parametry mailu jsou: kódování 8 bit, UTF-8.
+     *  
+     * Parametry metody typicky obsahují:
+     * - odesílatele, sadu příjemců, příjemců kopie, příjemců skryté kopie (objekt Mail\Params\Party)
+     * - předmět mailu, tělo mailu, přílohy (objekt objekt Mail\Params\Content)
+     * 
+     * 
+     * @param Params $params Parametry aktuálně odesílaného mailu
+     * @throws MailException
+     */
     public function mail(Params $params = null) {
         $actualParams = $this->params ;
         if (isset($params)) {
-            $actualParams->adotpConfugurationParams($params);
+            $actualParams->adotpConfigurationParams($params);
         }
 
         //Instantiation and passing `true` enables exceptions
@@ -107,7 +145,7 @@ class Mail {
             //Password to use for SMTP authentication
             $mail->Password = $actualParams->getSmtpAuth()->getPassword();
 
-            $mail->Encoding = '8bit';
+            $mail->Encoding = self::ENCODING;
 
             //Recipients
             $from = $actualParams->getParty()->getFrom();
@@ -131,7 +169,7 @@ class Mail {
             $mail->Subject = $actualParams->getContent()->getSubject();
             $mail->msgHTML($actualParams->getContent()->getHtml(), __DIR__);
             $mail->AltBody = $actualParams->getContent()->getAltBody();
-            $mail->CharSet = "UTF-8";
+            $mail->CharSet = self::CHARSET;
             $mail->action_function = Mail::class.'::actionOnSend';
 
             $mail->send();

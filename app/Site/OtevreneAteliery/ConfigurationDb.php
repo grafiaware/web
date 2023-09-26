@@ -34,11 +34,11 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_nstavit' : 'oa_everyone',
+            'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_everyone',
             'api.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_heslo_nastavit' : 'oa_everyone',
-            'api.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_nstavit' : 'oa_auth',
+            'api.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_auth',
             'api.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_heslo_nastavit' : 'oa_auth',
-            'api.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_nstavit' : 'oa_admin',
+            'api.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_admin',
             'api.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_heslo_nastavit' : 'oa_admin',
             #
             ###################################
@@ -83,14 +83,14 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             'build.config.users.everyone' =>
                 [
-                    'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'oa_everyone',
+                    'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_everyone',
                     'everyone_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'oa_everyone',
                 ],
             'build.config.users.granted' =>
                 [
-                    'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'oa_auth',
+                    'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_auth',
                     'authenticated_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'oa_auth',
-                    'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'oa_admin',
+                    'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_admin',
                     'administrator_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'oa_admin',
                 ],
             #
@@ -113,8 +113,8 @@ class ConfigurationDb extends ConfigurationConstants {
             ],
             'build.config.convert.copy' =>
                 [
-                    'source' => 'otevreneatelierycz_20230905.stranky',
-                    'target' => 'oa_upgrade.stranky'
+                    'source' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg0XXX.stranky' : 'otevreneatelierycz_20230905.stranky',
+                    'target' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg02.stranky' : 'oa_upgrade.stranky'
                 ],
             'build.config.convert.updatestranky' => [
                 ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
@@ -154,8 +154,8 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbold.db.port' => '3306',
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
-            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'single_login',
+            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline01' : 'single_login',
             #
             ###################################
             # Konfigurace logu databáze
