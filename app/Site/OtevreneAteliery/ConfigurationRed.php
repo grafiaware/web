@@ -355,7 +355,7 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
-            'mail.paramsname' => 'itGrafiaGmail', // 'najdisi',
+            'mail.paramsname' => 'najdisi',
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_PATH.'attachments/' : self::RED_FILES_PATH.'attachments/',
 
         ];

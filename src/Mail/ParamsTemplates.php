@@ -13,11 +13,13 @@ use Mail\Params\{
     Host, Encryption, SmtpAuth, Party, Content, Attachment, Headers
 };
 /**
- * Description of Configuration
+ * Description of ParamsTemplates
+ * 
+ * Sada šablon parametrů, obsahují zejména připojovací informace k SMTP serverům a základní konfiguraci
  *
  * @author pes2704
  */
-class ParamsContainer {
+class ParamsTemplates {
 
     private static $paramsArray = [ ];
 

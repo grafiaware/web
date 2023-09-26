@@ -12,7 +12,7 @@ use Pes\Logger\FileLogger;
 
 // mail
 use Mail\Mail;
-use Mail\ParamsContainer;
+use Mail\ParamsTemplates;
 use Mail\MessageFactory\HtmlMessage;
 
 use Sendmail\Middleware\Sendmail\Controller\MailController;
@@ -50,7 +50,7 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
                 return FileLogger::getInstance($c->get('mail.logs.directory'), $c->get('mail.logs.file'), FileLogger::APPEND_TO_LOG); //new NullLogger();
             },
             Mail::class => function(ContainerInterface $c) {
-                return new Mail(ParamsContainer::params($c->get('mail.paramsname')), $c->get('mailLogger'));
+                return new Mail(ParamsTemplates::params($c->get('mail.paramsname')), $c->get('mailLogger'));
             },
             HtmlMessage::class => function(ContainerInterface $c) {
                 return new HtmlMessage();

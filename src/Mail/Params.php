@@ -50,7 +50,7 @@ class Params {
      */
     private $headers;
 
-    public function adotpConfugurationParams(Params $params) {
+    public function adotpConfigurationParams(Params $params) {
         if ($params->getContent()) {
             $this->setContent($params->getContent());
         }

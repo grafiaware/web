@@ -3,12 +3,12 @@
 require '../../../vendor/autoload.php';
 
 use Mail\Mail;
-use Mail\ParamsContainer;
+use Mail\ParamsTemplates;
 use Mail\Params;
 use Mail\Params\{Content, Attachment, Party};
 
 
-$configuration = ParamsContainer::params('najdisi');
+$configuration = ParamsTemplates::params('najdisi');
 
 $mail = new Mail($configuration);
 
