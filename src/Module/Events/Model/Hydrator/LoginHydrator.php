@@ -36,7 +36,7 @@ class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
     /**
      *
      * @param LoginInterface $login
-     * @param array $row
+     * @param array $rowData
      */
     public function extract(EntityInterface $login, ArrayAccess $rowData) {
         /** @var LoginInterface $login */

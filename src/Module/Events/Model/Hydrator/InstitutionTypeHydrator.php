@@ -31,7 +31,7 @@ class InstitutionTypeHydrator  extends TypeHydratorAbstract implements HydratorI
     /**
      *
      * @param InstitutionTypeInterface $institutionType
-     * @param ArrayAccess $row
+     * @param ArrayAccess $rowData
      */
     public function extract(EntityInterface $institutionType, ArrayAccess $rowData) {
         /** @var InstitutionTypeInterface $institutionType */

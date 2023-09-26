@@ -21,11 +21,18 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     /** @var  PozadovaneVzdelaniInterface $vzdelani */
     foreach ($allVzdelani as $vzdelani) {    
         $vzd ['stupen'] = $vzdelani->getStupen();
-        $vzd ['vzdelani'] = $vzdelani->getVzdelani();               
-        $allVzdelaniArray[] = $vzd;       
-        //$allVzdelanString[] = $tag->getTag();
+        $vzd ['vzdelani'] = $vzdelani->getVzdelani();   
+        $allVzdelaniArray[] = $vzd;  
+        //$tmpArray [  $vzdelani->getStupen()] = $vzd;            
     }
-             
+//    //seradit
+//    ksort( $tmpArray );
+//    foreach ($tmpArray as $vzdel2) {  
+//        $allVzdelaniArray[] = $vzdel2; 
+//    }
+    
+   
+    //$pro_min =  $vzdelani->getStupen() +1 ;       
   ?>
 
     
@@ -45,7 +52,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
                 Přidej další vzdelani
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/pozadovane-vzdelani.php' ) ?>                                                                                 
+                <?= $this->insert( __DIR__.'/pozadovane-vzdelani.php' /*, [ 'pro_minimum'=>$pro_min ] */ ) ?>
             </div>                  
         </div>           
                                       

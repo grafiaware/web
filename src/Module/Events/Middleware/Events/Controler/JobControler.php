@@ -154,7 +154,7 @@ class JobControler extends PresentationFrontControlerAbstract {
                 $this->jobRepo->add($job);
                 
             } else {
-                $this->addFlashMessage("Údaje o kontaktech vyvstavovatele smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o pozicích u vyvstavovatele smí editovat pouze representant vystavovatele.");
             }
             
         }
@@ -178,6 +178,8 @@ class JobControler extends PresentationFrontControlerAbstract {
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
         if (!isset($loginAggregateCredentials)) {
+            //$this->addFlashMessage("Nejste přihlášen!"); //ale neni to videt
+            
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unauthorized
         } else {                                   
@@ -204,7 +206,7 @@ class JobControler extends PresentationFrontControlerAbstract {
                 //$this->jobRepo->add($job);
                 
             } else {
-                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o pozicích vystavovatele smí editovat pouze representant vystavovatele.");
             }
             
         }
@@ -247,7 +249,7 @@ class JobControler extends PresentationFrontControlerAbstract {
                 $this->jobRepo->remove( $job ); 
                                 
             } else {
-                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o pozicích vystavovatele smí mazat pouze representant vystavovatele.");
             }
             
         }

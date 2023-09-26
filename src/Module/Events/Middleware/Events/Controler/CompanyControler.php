@@ -183,7 +183,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $company->setEventInstitutionName30( (new RequestParams())->getParsedBodyParam($request, 'eventInstitutionName30') );                                                     
                 
 //            } else {
-//                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
+//                $this->addFlashMessage("Údaje o ... smí editovat pouze representant vystavovatele.");
 //            }            
 //        }
         return $this->redirectSeeLastGet($request);
@@ -226,7 +226,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $this->companyRepo->remove( $company ); 
                                 
 //            } else {
-//                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+//                $this->addFlashMessage("Údaje o ... vystavovatele smí mazat pouze representant vystavovatele.");
 //            }            
 //        }
         return $this->redirectSeeLastGet($request);
@@ -469,7 +469,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 
                 
             } else {
-                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o adrese vystavovatele smí editovat pouze representant vystavovatele.");
             }
             
         }
@@ -513,7 +513,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $this->companyAddressRepo->remove( $companyAddress ); 
                                 
             } else {
-                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o adrese vystavovatele smí mazat pouze representant vystavovatele.");
             }
             
         }
@@ -557,7 +557,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $this->representativeRepo->add($representative);
                 
 //            } else {
-//                $this->addFlashMessage("Údaje o adrese vyvstavovatele smí editovat pouze representant vystavovatele.");
+//                $this->addFlashMessage("Údaje o ... vyvstavovatele smí editovat pouze representant vystavovatele.");
 //            }
 //            
 //        }
@@ -595,7 +595,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
 
                 
 //            } else {
-//                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+//                $this->addFlashMessage("Údaje o ... vystavovatele smí mazat pouze representant vystavovatele.");
 //            }
 //            
 //        }

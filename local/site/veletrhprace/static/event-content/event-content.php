@@ -31,8 +31,10 @@ use Pes\Text\Html;
                 < ?php } ?>  -->
 
               
-                <?= Html::select( "selectInstitution", " Název instituce:",    $selectInstitutions ??  [] , 
-                                    [ "selectInstitution" =>  $institutionIdFk  ?? ''  ] , [ ] ) ?>   
+                <?= Html::select( "selectInstitution", " Název instituce:",  
+                                  [ "selectInstitution" =>  $institutionIdFk  ?? ''  ],  
+                                   $selectInstitutions ??  [] , 
+                                   [ ] ) ?>   
                 
             </div>                       
             Title:
@@ -49,8 +51,11 @@ use Pes\Text\Html;
             </div>
 
             <div class="eight wide field">                                  
-                <?= Html::select( "selectContentType", "Typ obsahu:", $selectContentTypes ?? []  , 
-                                 ["selectContentType" =>  $eventContentTypeFk ?? ''  ] , [ 'required' => true ] ) ?>  
+                <?= Html::select( "selectContentType", "Typ obsahu:", 
+                                  ["selectContentType" =>  $eventContentTypeFk ?? ''  ], 
+                                  $selectContentTypes ?? [] ,
+                                  ['required' => true ],
+                                  true) ?>  
             </div>
 
             <div>                                                                                                                                

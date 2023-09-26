@@ -20,7 +20,7 @@ use Events\Model\Entity\CompanyAddressInterface;
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
 
-    $idCompany = 10 ;
+    $idCompany = 25 ;
     
     //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem
     //        if ( $representativeRepo->findByLogin($loginName) )  --neni metoda 
@@ -55,7 +55,8 @@ use Events\Model\Entity\CompanyAddressInterface;
 
     <div>
     <div class="ui styled fluid accordion">
-            
+        
+        Vyžaduje přihlášení. <br/>        
             Vystavovatel (company): |* <?= $company->getName(); ?> *|                   
             <div class="active title">
                 <i class="dropdown icon"></i>

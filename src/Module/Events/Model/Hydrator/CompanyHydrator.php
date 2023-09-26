@@ -18,7 +18,7 @@ class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface 
     /**
      *
      * @param CompanyInterface $company
-     * @param ArrayAccess $row
+     * @param ArrayAccess $rowData
      */
     public function hydrate( EntityInterface $company, ArrayAccess $rowData) {
         /** @var CompanyInterface $company */
@@ -35,7 +35,7 @@ class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface 
     /**
      *
      * @param CompanyInterface $company
-     * @param ArrayAccess $row
+     * @param ArrayAccess $rowData
      */
     public function extract(EntityInterface $company, ArrayAccess $rowData) {
         /** @var CompanyInterface $company */

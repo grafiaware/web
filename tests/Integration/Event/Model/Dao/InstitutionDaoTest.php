@@ -72,6 +72,7 @@ class InstitutionDaoTest extends AppRunner {
         $eventContentDao = $this->container->get(EventContentDao::class);
         $evenContentData = new RowData();
         $evenContentData->import( ['title' => 'pro InstitutionDao test',
+                                   'event_content_type_fk' => 'Pohovor ',
                                    'institution_id_fk' => self::$institutionPrimaryKey['id']
                                   ] );
         $eventContentDao->insert($evenContentData);

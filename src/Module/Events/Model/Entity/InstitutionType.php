@@ -30,7 +30,7 @@ class InstitutionType  extends PersistableEntityAbstract implements InstitutionT
         return $this;
     }
 
-    public function setInstitutionType(  $value=null ): InstitutionTypeInterface {
+    public function setInstitutionType(  $value ): InstitutionTypeInterface {
         $this->institutionType = $value;
         return $this;
     }

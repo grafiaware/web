@@ -30,7 +30,7 @@ use Pes\Text\Html;
             <?php  } else {   ?>    
                     <p>Typ:</p>
                     <div class="field">
-                    <input <?= $readonly ?>  type="text" name="type"  maxlength="45"  value="" >
+                    <input <?= $readonly ?>  type="text" name="type"   required maxlength="45"  value="" >
                     </div>
                     Name:  
                     <div class="field">

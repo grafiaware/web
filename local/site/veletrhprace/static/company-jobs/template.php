@@ -76,7 +76,8 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
 
     <div>
     <div class="ui styled fluid accordion">   
-
+        
+        Vyžaduje přihlášení. <br/>
             Vystavovatel (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
             <div class="active title">
                 <i class="dropdown icon"></i>
