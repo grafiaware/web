@@ -53,13 +53,13 @@ interface CompanyAddressInterface extends PersistableEntityInterface {
      * @param string $psc
      * @return CompanyAddressInterface
      */
-    public function setPsc(  $psc= null):CompanyAddressInterface ;
+    public function setPsc(  $psc):CompanyAddressInterface ;
     /**
      * 
      * @param string $obec
      * @return CompanyAddressInterface
      */
-    public function setObec(  $obec= null ):CompanyAddressInterface;    
+    public function setObec(  $obec ):CompanyAddressInterface;    
 
    
 }

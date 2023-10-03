@@ -12,26 +12,37 @@ use Events\Model\Entity\CompanyAddressInterface;
 class CompanyAddress extends PersistableEntityAbstract implements CompanyAddressInterface {
 
     private $companyId;   //NOT NULL
-
+    
     private $name;      //NOT NULL
     private $lokace;    //NOT NULL
     private $psc;
     private $obec;
 
     
-    
+    /**
+     * 
+     * @return integer
+     */
     public function getCompanyId()  {
         return $this->companyId;
     }
     
+    /**
+     * 
+     * @return string
+     */
     public function getName() {
         return $this->name;
     }
     
-    
+    /**
+     * 
+     * @return string
+     */
     public function getLokace()  {
         return $this->lokace;
     }
+    
     /**
      *
      * @return string|null
@@ -39,6 +50,7 @@ class CompanyAddress extends PersistableEntityAbstract implements CompanyAddress
     public function getPsc()   {
         return $this->psc;
     }
+    
     /**
      *
      * @return string|null
@@ -46,19 +58,21 @@ class CompanyAddress extends PersistableEntityAbstract implements CompanyAddress
     public function getObec() {
         return $this->obec;
     }
+    
     /**
      *
-     * @param int $companyId
-     * @return $this
+     * @param type $companyId
+     * @return  CompanyAddressInterface $this
      */
-    public function setCompanyId(  $companyId) {
+    
+    public function setCompanyId( $companyId) {
         $this->companyId = $companyId;
         return $this;
     }
     /**
      *
      * @param string $name
-     * @return CompanyAddressInterface
+     * @return CompanyAddressInterface $this
      */
     public function setName( $name) :CompanyAddressInterface {
         $this->name = $name;
@@ -67,7 +81,7 @@ class CompanyAddress extends PersistableEntityAbstract implements CompanyAddress
     /**
      *
      * @param string $lokace
-     * @return CompanyAddressInterface
+     * @return CompanyAddressInterface $this
      */
     public function setLokace( $lokace) :CompanyAddressInterface {
         $this->lokace = $lokace;
@@ -78,7 +92,7 @@ class CompanyAddress extends PersistableEntityAbstract implements CompanyAddress
      * @param string $psc
      * @return CompanyAddressInterface
      */
-    public function setPsc( $psc = null):CompanyAddressInterface {
+    public function setPsc( $psc ):CompanyAddressInterface {
         $this->psc = $psc;
         return $this;
     }
@@ -87,7 +101,7 @@ class CompanyAddress extends PersistableEntityAbstract implements CompanyAddress
      * @param string $obec
      * @return CompanyAddressInterface
      */
-    public function setObec(  $obec= null ):CompanyAddressInterface {
+    public function setObec(  $obec ):CompanyAddressInterface {
         $this->obec = $obec;
         return $this;
     }

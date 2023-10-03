@@ -15,7 +15,7 @@ use Model\Entity\PersistableEntityAbstract;
 class InstitutionType  extends PersistableEntityAbstract implements InstitutionTypeInterface {
 
     private $id;
-    private $institutionType;
+    private $institutionType;  //NOT NULL
 
     public function getId() {
         return $this->id;

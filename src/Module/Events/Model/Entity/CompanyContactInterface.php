@@ -36,13 +36,13 @@ interface CompanyContactInterface extends PersistableEntityInterface {
     public function getEmails()  ;    
     /**
      * 
-     * @param string $id
+     * @param type $id
      * @return CompanyContactInterface
      */
-    public function setId(  $id) :CompanyContactInterface;   
+    public function setId( $id) :CompanyContactInterface;   
     /**
      * 
-     * @param type $company_id
+     * @param type $companyId
      * @return CompanyContactInterface
      */
     public function setCompanyId(  $companyId) :CompanyContactInterface ;      
@@ -51,25 +51,25 @@ interface CompanyContactInterface extends PersistableEntityInterface {
      * @param string $name
      * @return CompanyContactInterface
      */
-    public function setName( $name=null) :CompanyContactInterface ;    
+    public function setName( $name ) :CompanyContactInterface ;    
     /**
      * 
      * @param string $phones
      * @return CompanyContactInterface
      */
-    public function setPhones( $phones=null) :CompanyContactInterface ;    
+    public function setPhones( $phones ) :CompanyContactInterface ;    
     /**
      * 
      * @param string $mobiles
      * @return CompanyContactInterface
      */
-    public function setMobiles(  $mobiles=null) :CompanyContactInterface ;    
+    public function setMobiles(  $mobiles ) :CompanyContactInterface ;    
     /**
      * 
      * @param string $emails
      * @return CompanyContactInterface
      */
-    public function setEmails( $emails=null) :CompanyContactInterface ;    
+    public function setEmails( $emails ) :CompanyContactInterface ;    
         
     
 }

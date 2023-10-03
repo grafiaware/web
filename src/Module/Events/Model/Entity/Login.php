@@ -4,6 +4,7 @@
 namespace Events\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
+use Events\Model\Entity\LoginInterface;
 
 /**
  * Description of Login
@@ -15,11 +16,11 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
     /**
      * @var string
      */
-    private $loginName;
+    private $loginName; //NOT NULL
 
     /**
      *
-     * @return string|null
+     * @return string
      */
     public function getLoginName() {
         return $this->loginName;
@@ -28,7 +29,7 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
     /**
      *
      * @param string $loginName
-     * @return LoginInterface
+     * @return LoginInterface  $this
      */
     public function setLoginName( $loginName): LoginInterface {
         $this->loginName = $loginName;

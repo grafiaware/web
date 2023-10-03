@@ -12,7 +12,7 @@ interface PozadovaneVzdelaniInterface extends PersistableEntityInterface {
 
     /**
      * 
-     * @return int
+     * @return type
      */    
     public function getStupen()  ;    
     /**
@@ -23,13 +23,13 @@ interface PozadovaneVzdelaniInterface extends PersistableEntityInterface {
     /**
      * 
      * @param int $stupen
-     * @return PozadovaneVzdelaniInterface
+     * @return PozadovaneVzdelaniInterface $this
      */
     public function setStupen( $stupen) : PozadovaneVzdelaniInterface ;
     /**
      * 
      * @param string $vzdelani
-     * @return PozadovaneVzdelaniInterface
+     * @return PozadovaneVzdelaniInterface $this
      */
     public function setVzdelani(  $vzdelani) : PozadovaneVzdelaniInterface ;
    

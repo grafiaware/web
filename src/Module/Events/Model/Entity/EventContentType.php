@@ -1,10 +1,8 @@
 <?php
-
-
 namespace Events\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
-use Model\Entity\EntityGeneratedKeyInterface;
+use Events\Model\Entity\EventContentTypeInterface;
 
 /**
  * Description of Login
@@ -13,13 +11,28 @@ use Model\Entity\EntityGeneratedKeyInterface;
  */
 class EventContentType extends PersistableEntityAbstract implements EventContentTypeInterface {
 
-    private $type;
-
+    private $id;        //NOT NULL
+    
+    /**
+     * 
+     * @var string
+     */
+    private $type;      //NOT NULL
+    
     /**
      * @var string
      */
     private $name;
 
+    
+    public function getId()  {
+        return $this->id;
+    }       
+    
+    /**
+     * 
+     * @return string
+     */
     public function getType() {
         return $this->type;
     }
@@ -32,10 +45,21 @@ class EventContentType extends PersistableEntityAbstract implements EventContent
         return $this->name;
     }
 
+    
+    /**
+     * 
+     * @param type $id
+     * @return EventContentTypeInterface $this
+     */
+    public function setId($id) : EventContentTypeInterface{
+        $this->id = $id;
+        return $this;
+    }    
+    
     /**
      *
      * @param string $type
-     * @return EventContentTypeInterface
+     * @return EventContentTypeInterface $this
      */
     public function setType( $type): EventContentTypeInterface {
         $this->type = $type;
@@ -44,10 +68,10 @@ class EventContentType extends PersistableEntityAbstract implements EventContent
 
     /**
      *
-     * @param string $name
-     * @return EventContentTypeInterface
+     * @param string|null $name
+     * @return EventContentTypeInterface $this
      */
-    public function setName( $name): EventContentTypeInterface {
+    public function setName( $name ): EventContentTypeInterface {
         $this->name = $name;
         return $this;
     }

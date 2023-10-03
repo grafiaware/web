@@ -13,7 +13,7 @@ interface RepresentativeInterface extends PersistableEntityInterface {
 
     /**
      * 
-     * @return int
+     * @return type
      */ 
     public function getCompanyId()  ;
     
@@ -25,15 +25,15 @@ interface RepresentativeInterface extends PersistableEntityInterface {
     
     /**
      * 
-     * @param int $companyId
-     * @return RepresentativeInterface
+     * @param type $companyId
+     * @return RepresentativeInterface $this
      */
     public function setCompanyId(  $companyId) : RepresentativeInterface ;
     
     /**
      * 
      * @param string $loginLoginName
-     * @return RepresentativeInterface
+     * @return RepresentativeInterface $this
      */
     public function setLoginLoginName(  $loginLoginName)  : RepresentativeInterface;
     

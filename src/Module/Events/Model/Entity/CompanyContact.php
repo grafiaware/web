@@ -12,8 +12,8 @@ use Events\Model\Entity\CompanyContactInterface;
 class CompanyContact extends PersistableEntityAbstract implements CompanyContactInterface {
 
     private $id;  //NOT NULL
+   
     private $companyId;   //NOT NULL
-
     private $name;
     private $phones;
     private $mobiles;
@@ -23,11 +23,11 @@ class CompanyContact extends PersistableEntityAbstract implements CompanyContact
     public function getId()  {
         return $this->id;
     }
-    
-    
+        
     public function getCompanyId()  {
         return $this->companyId;
     }
+    
     /**
      *
      * @return string|null
@@ -58,8 +58,8 @@ class CompanyContact extends PersistableEntityAbstract implements CompanyContact
     }
     /**
      *
-     * @param string $id
-     * @return CompanyContactInterface
+     * @param type $id
+     * @return CompanyContactInterface $this
      */
     public function setId( $id) :CompanyContactInterface{
         $this->id = $id;
@@ -67,8 +67,8 @@ class CompanyContact extends PersistableEntityAbstract implements CompanyContact
     }
     /**
      *
-     * @param type $company_id
-     * @return CompanyContactInterface
+     * @param type $companyId
+     * @return CompanyContactInterface $this
      */
     public function setCompanyId( $companyId ) :CompanyContactInterface {
         $this->companyId = $companyId;
@@ -76,37 +76,37 @@ class CompanyContact extends PersistableEntityAbstract implements CompanyContact
     }
     /**
      *
-     * @param string $name
-     * @return CompanyContactInterface
+     * @param string|null $name
+     * @return CompanyContactInterface $this
      */
-    public function setName( $name=null) :CompanyContactInterface {
+    public function setName( $name ) :CompanyContactInterface {
         $this->name = $name;
         return $this;
     }
     /**
      *
-     * @param string $phones
+     * @param string|null $phones
      * @return CompanyContactInterface
      */
-    public function setPhones( $phones=null) :CompanyContactInterface {
+    public function setPhones( $phones) :CompanyContactInterface {
         $this->phones = $phones;
         return $this;
     }
     /**
      *
-     * @param string $mobiles
+     * @param string|null $mobiles
      * @return CompanyContactInterface
      */
-    public function setMobiles(  $mobiles=null) :CompanyContactInterface {
+    public function setMobiles(  $mobiles ) :CompanyContactInterface {
         $this->mobiles = $mobiles;
         return $this;
     }
     /**
      *
-     * @param string $emails
+     * @param string|null $emails
      * @return CompanyContactInterface
      */
-    public function setEmails( $emails=null) :CompanyContactInterface {
+    public function setEmails( $emails ) :CompanyContactInterface {
         $this->emails = $emails;
         return $this;
     }

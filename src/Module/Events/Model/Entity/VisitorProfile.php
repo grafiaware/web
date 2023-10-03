@@ -1,23 +1,18 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
+use Events\Model\Entity\VisitorProfileInterface;
 
 /**
- * Description of VisitorData
+ * Description of VisitorProfile
  *
  * @author pes2704
  */
 class VisitorProfile extends PersistableEntityAbstract implements VisitorProfileInterface {
 
-    private $loginLoginName;
+    private $loginLoginName; //NOT NULL
     private $prefix;
     private $name;
     private $surname;

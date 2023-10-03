@@ -11,7 +11,7 @@ use Model\Entity\PersistableEntityAbstract;
  */
 class Institution extends PersistableEntityAbstract implements InstitutionInterface {
 
-    private $id;
+    private $id; //NOT NULL
     private $name;
     private $institutionTypeId;
 

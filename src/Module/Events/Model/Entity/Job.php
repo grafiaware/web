@@ -13,9 +13,9 @@ use Model\Entity\PersistableEntityAbstract;
  */
 class Job extends PersistableEntityAbstract implements JobInterface {
 
-    private $id;
-    private $companyId;
-    private $pozadovaneVzdelaniStupen;
+    private $id;            //NOT NULL
+    private $companyId;     //NOT NULL
+    private $pozadovaneVzdelaniStupen;  //NOT NULL
     private $nazev;
     private $mistoVykonu;
     private $popisPozice;
@@ -26,19 +26,32 @@ class Job extends PersistableEntityAbstract implements JobInterface {
         return $this->id;
     }
 
-    
+    /**
+     *
+     * @return string
+     */
     public function getCompanyId()  {
         return $this->companyId;
     }
-    
+    /**
+     *
+     * @return string
+     */
     public function getPozadovaneVzdelaniStupen()  {
         return $this->pozadovaneVzdelaniStupen;
     }
-   
+    /**
+     *
+     * @return string|null
+     */
     public function getNazev() {
         return $this->nazev;
     }
     
+    /**
+     *
+     * @return string|null
+     */
     public function getMistoVykonu() {
         return $this->mistoVykonu;
     }
@@ -76,7 +89,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
     }
     /**
      *
-     * @param int $companyId
+     * @param type $companyId
      * @return JobInterface
      */
     public function setCompanyId( $companyId) : JobInterface{
@@ -85,7 +98,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
     }
     /**
      *
-     * @param int $pozadovaneVzdelaniStupen
+     * @param type $pozadovaneVzdelaniStupen
      * @return JobInterface
      */
     public function setPozadovaneVzdelaniStupen(  $pozadovaneVzdelaniStupen) : JobInterface{
@@ -94,47 +107,47 @@ class Job extends PersistableEntityAbstract implements JobInterface {
     }
     /**
      *
-     * @param string $nazev
+     * @param string|null $nazev
      * @return JobInterface
      */
-    public function setNazev( $nazev=null) : JobInterface{
+    public function setNazev( $nazev ) : JobInterface{
         $this->nazev = $nazev;
         return $this;
     }
     /**
      *
-     * @param string $mistoVykonu
+     * @param string|null $mistoVykonu
      * @return JobInterface
      */
-    public function setMistoVykonu( $mistoVykonu=null ) : JobInterface{
+    public function setMistoVykonu( $mistoVykonu  ) : JobInterface{
         $this->mistoVykonu = $mistoVykonu;
         return $this;
     }
 
     /**
      *
-     * @param string $popisPozice
+     * @param string|null $popisPozice
      * @return JobInterface
      */
-    public function setPopisPozice( $popisPozice=null) : JobInterface{
+    public function setPopisPozice( $popisPozice ) : JobInterface{
         $this->popisPozice = $popisPozice;
         return $this;
     }
    /**
     *
-    * @param string $pozadujeme
+    * @param string|null $pozadujeme
     * @return JobInterface
     */
-    public function setPozadujeme( $pozadujeme=null ) : JobInterface{
+    public function setPozadujeme( $pozadujeme ) : JobInterface{
         $this->pozadujeme = $pozadujeme;
         return $this;
     }
     /**
      *
-     * @param string $nabizime
+     * @param string|null $nabizime
      * @return JobInterface
      */
-    public function setNabizime( $nabizime=null) : JobInterface{
+    public function setNabizime( $nabizime ) : JobInterface{
         $this->nabizime = $nabizime;
         return $this;
     }

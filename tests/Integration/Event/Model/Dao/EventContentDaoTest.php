@@ -123,6 +123,7 @@ class EventContentDaoTest extends AppRunner {
         $rowData->offsetSet('perex', "testEventContentDao-perex");
         $rowData->offsetSet('party', "testEventContentDao-party");
         $rowData->offsetSet('event_content_type_fk', self::$eventContenTypePrimaryKey ['type'] );
+        
         $rowData->offsetSet('institution_id_fk', self::$institutionPrimaryKey ['id'] ) ;
         $this->dao->insert($rowData);
         self::$eventContentPrimaryKey =  $this->dao->getLastInsertedPrimaryKey();

@@ -1,20 +1,28 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Entity;
 
 use Model\Entity\PersistableEntityInterface;
+use Events\Model\Entity\LoginInterface;
+
 
 /**
  *
  * @author pes2704
  */
 interface LoginInterface extends PersistableEntityInterface {
+   
+    /**
+     *
+     * @return string
+     */
     public function getLoginName();
+    
+    
+     /**
+     *
+     * @param string $loginName
+     * @return LoginInterface  $this
+     */
     public function setLoginName(string $loginName): LoginInterface;
 }

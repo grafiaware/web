@@ -12,12 +12,12 @@ use Model\Entity\PersistableEntityAbstract;
  */
 class Representative  extends PersistableEntityAbstract implements RepresentativeInterface {
 
-    private $companyId;
-    private $loginLoginName;
+    private $companyId;         //NOT NULL
+    private $loginLoginName;    //NOT NULL
 
     /**
      *
-     * @return int
+     * @return type
      */
     public function getCompanyId()  {
         return $this->companyId;
@@ -31,8 +31,8 @@ class Representative  extends PersistableEntityAbstract implements Representativ
     }
     /**
      *
-     * @param int $companyId
-     * @return RepresentativeInterface
+     * @param type $companyId
+     * @return RepresentativeInterface $this
      */
     public function setCompanyId(  $companyId) : RepresentativeInterface {
         $this->companyId = $companyId;
@@ -41,7 +41,7 @@ class Representative  extends PersistableEntityAbstract implements Representativ
     /**
      *
      * @param string $loginLoginName
-     * @return RepresentativeInterface
+     * @return RepresentativeInterface $this
      */
     public function setLoginLoginName(  $loginLoginName)  : RepresentativeInterface{
         $this->loginLoginName = $loginLoginName;

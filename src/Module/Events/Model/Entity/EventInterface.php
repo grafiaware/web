@@ -28,9 +28,9 @@ interface EventInterface extends PersistableEntityInterface {
 
     public function setPublished($published): EventInterface;
 
-    public function setStart(\DateTime $start = null): EventInterface;
+    public function setStart(?\DateTime $start): EventInterface;
 
-    public function setEnd(\DateTime $end = null): EventInterface;
+    public function setEnd(?\DateTime $end ): EventInterface;
 
     public function setEnrollLinkIdFk($enrollLinkIdFk) :EventInterface ;
     
