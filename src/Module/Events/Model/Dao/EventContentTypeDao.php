@@ -2,7 +2,8 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
+
 
 
 /**
@@ -10,16 +11,25 @@ use Model\Dao\DaoEditKeyDbVerifiedInterface;
  *
  * @author pes2704
  */
-class EventContentTypeDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
+class EventContentTypeDao extends DaoEditAbstract  implements DaoEditAutoincrementKeyInterface  {   
 
-    public function getPrimaryKeyAttributes(): array {
-        return ['type'];
+    use DaoAutoincrementTrait;    
+//extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
+    
+    
+    public function getAutoincrementFieldName() {
+        return 'id';
+    }
+        
+    public function getPrimaryKeyAttributes(): array {       
+        return ['id'];
     }
 
     public function getAttributes(): array {
-        return ['type', 'name'];
+        return ['id', 'type', 'name'];
     }
 
+       
     public function getTableName(): string {
         return 'event_content_type';
     }

@@ -28,8 +28,8 @@ class EventContentDao extends DaoEditAbstract implements DaoEditAutoincrementKey
             'id',
             'title',
             'perex',
-            'party',
-            'event_content_type_fk',
+            'party',            
+            'event_content_type_id_fk',
             'institution_id_fk'
         ];
     }

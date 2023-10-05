@@ -14,10 +14,20 @@ interface JobTagRepoInterface extends RepoInterface  {
    
     /**
      * 
-     * @param type $tag
+     * @param type $id
      * @return JobTagInterface|null
      */
-    public function get( $tag ): ?JobTagInterface ;
+    public function get( $id ): ?JobTagInterface ;
+    
+    
+    /**
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return JobTagInterface[]
+     */
+    public function find($whereClause=null, $touplesToBind=[]) : array ;
+    
 
     /**
      * 
