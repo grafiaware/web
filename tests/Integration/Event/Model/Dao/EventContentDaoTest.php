@@ -51,23 +51,20 @@ class EventContentDaoTest extends AppRunner {
         $institutionDao->insert($rowData);
         self::$institutionPrimaryKey =  $institutionDao->getLastInsertedPrimaryKey();  //array //pro autoincrement
         
-         //tabulka EventContentType
-         //uklidit eventContenType
+         //tabulka EventContentType         
         /** @var EventContentTypeDao $eventContenTypeDao */
-        $eventContenTypeDao = $container->get(EventContentTypeDao::class);
-        $eventContenTypeRow = $eventContenTypeDao->get( [ 'type'=>"testEventContentDao-type"] );
+        $eventContenTypeDao = $container->get(EventContentTypeDao::class);  
         
-        if (isset($eventContenTypeRow)) {
-            self::$eventContenTypePrimaryKey =  ['type' => $eventContenTypeRow['type'] ];
-        }else {                 
-            // $eventContenTypeDao = $container->get(EventContentTypeDao::class);
-            $rowData1 = new RowData();
-            $rowData1->import( [ 'type' => "testEventContentDao-type" , 'name' => "testEventContentDao-name" ]);
-            $eventContenTypeDao->insert($rowData1);
-            self::$eventContenTypePrimaryKey =  $eventContenTypeDao->getLastInsertedPrimaryKey(); // array  
-           }
-
-
+            $zapomenuta =  $eventContenTypeDao->find( " name = 'testEventContentDao-name' "  );
+            foreach  ( $zapomenuta as $i=>$ror  ) {                
+                $eventContenTypeDao->delete ($ror) ;
+            }
+        
+        $rowData1 = new RowData();
+        $rowData1->import( [ 'type' => "testEventContentDao-type",  'name' => "testEventContentDao-name"  ]);              
+        $eventContenTypeDao->insert($rowData1);
+        self::$eventContenTypePrimaryKey =  $eventContenTypeDao->getLastInsertedPrimaryKey(); // array  
+        
     }
 
     protected function setUp(): void {
@@ -102,6 +99,11 @@ class EventContentDaoTest extends AppRunner {
         if (isset($eventContenTypeRow)) {
             $eventContenTypeDao->delete($eventContenTypeRow);
         }
+                       
+        $zapomenuta =  $eventContenTypeDao->find( " name = 'testEventContentDao-name' "  );
+        foreach  ( $zapomenuta as $i=>$ror  ) {                
+                $eventContenTypeDao->delete ($ror) ;
+        }
         
         //uklidit institution
         /** @var InstitutionDao $institutionDao */
@@ -122,8 +124,7 @@ class EventContentDaoTest extends AppRunner {
         $rowData->offsetSet('title', "testEventContentDao-title");
         $rowData->offsetSet('perex', "testEventContentDao-perex");
         $rowData->offsetSet('party', "testEventContentDao-party");
-        $rowData->offsetSet('event_content_type_fk', self::$eventContenTypePrimaryKey ['type'] );
-        
+        $rowData->offsetSet('event_content_type_id_fk', self::$eventContenTypePrimaryKey ['id'] );       
         $rowData->offsetSet('institution_id_fk', self::$institutionPrimaryKey ['id'] ) ;
         $this->dao->insert($rowData);
         self::$eventContentPrimaryKey =  $this->dao->getLastInsertedPrimaryKey();
@@ -181,8 +182,8 @@ class EventContentDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentRow = $this->dao->get(self::$eventContentPrimaryKey);
-        $this->assertNull($eventContentRow);
+        $eventContentRow1 = $this->dao->get(self::$eventContentPrimaryKey);
+        $this->assertNull($eventContentRow1);
 
         // kontrola SET
         // zda se nastavil v event   event_content_id_fk na NULL

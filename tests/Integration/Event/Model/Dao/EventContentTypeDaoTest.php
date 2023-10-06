@@ -33,6 +33,8 @@ class EventContentTypeDaoTest extends AppRunner {
 
     private static $eventContentTypeTouple;
     private static $eventContentIdTouple;
+    private static $eventContenTypePrimaryKeyTouple;
+    
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -73,6 +75,8 @@ class EventContentTypeDaoTest extends AppRunner {
         $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
         $this->dao->insert($rowData);
         $this->assertEquals(1, $this->dao->getRowCount());
+        self::$eventContenTypePrimaryKeyTouple = $this->dao->getLastInsertedPrimaryKey();
+
 
         //event_content
         /** @var EventContentDao $eventContentDao */
@@ -81,19 +85,13 @@ class EventContentTypeDaoTest extends AppRunner {
         $rowData->offsetSet('title', "testEventTypeContentDao-title");
         $rowData->offsetSet('perex', "-perex");
         $rowData->offsetSet('party', "-party");
-        $rowData->offsetSet('event_content_type_fk', $type);
+        $rowData->offsetSet('event_content_type_id_fk', self::$eventContenTypePrimaryKeyTouple ['id'] );
         $rowData->offsetSet('institution_id_fk',null ) ;
         $eventContentDao->insert($rowData);
         self::$eventContentIdTouple =  $eventContentDao->getLastInsertedPrimaryKey(); //pro autoincrement
     }
 
-    public function testInsertDaoKeyVerificationFailedException() {
-        $rowData = new RowData();
-        $rowData->import( self::$eventContentTypeTouple);
-        $rowData->offsetSet('name', "name_pro testContenTypeDao" );
-        $this->expectException(DaoKeyVerificationFailedException::class);
-        $this->dao->insert($rowData);
-    }
+   
 
 
     public function testGetExistingRow() {
@@ -101,9 +99,9 @@ class EventContentTypeDaoTest extends AppRunner {
         $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow);
     }
 
-    public function test2Columns() {
+    public function test3Columns() {
         $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
-        $this->assertCount(2, $eventContentTypeRow);
+        $this->assertCount(3, $eventContentTypeRow);
     }
 
     public function testUpdate() {

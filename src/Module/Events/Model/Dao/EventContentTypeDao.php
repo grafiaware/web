@@ -3,6 +3,8 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Model\Dao\DaoAutoincrementTrait;
+
 
 
 
