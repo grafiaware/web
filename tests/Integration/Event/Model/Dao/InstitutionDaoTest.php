@@ -72,7 +72,7 @@ class InstitutionDaoTest extends AppRunner {
         $eventContentDao = $this->container->get(EventContentDao::class);
         $evenContentData = new RowData();
         $evenContentData->import( ['title' => 'pro InstitutionDao test',
-                                   'event_content_type_fk' => 'Pohovor ',
+                                   'event_content_type_id_fk' => 3,     //3 je Pohovor
                                    'institution_id_fk' => self::$institutionPrimaryKey['id']
                                   ] );
         $eventContentDao->insert($evenContentData);
@@ -114,26 +114,25 @@ class InstitutionDaoTest extends AppRunner {
     }
 
 
-     public function testDeleteException() {
-        //naplneno event_content.institution_event_fk
-        $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
-        $this->expectException(ExecuteException::class);
-        $this->dao->delete($institutionRow);
-    }
-
-
     public function testDelete() {
-        //smazat event_content
-        /** @var  EventContentDao $eventContentDao */
-        $eventContentDao = $this->container->get(EventContentDao::class);
-        $evenContentData = $eventContentDao->get(self::$eventContentPrimaryKey);
-        $eventContentDao->delete($evenContentData);
+//        //smazat event_content
+//        /** @var  EventContentDao $eventContentDao */
+//        $eventContentDao = $this->container->get(EventContentDao::class);
+//        $evenContentData = $eventContentDao->get(self::$eventContentPrimaryKey);
+//        $eventContentDao->delete($evenContentData);
 
-        //pak jde mazat institution
+        
         $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
         $this->dao->delete($institutionRow);
         $this->assertEquals(1, $this->dao->getRowCount());
-
+        
+        //v event_content.institution_id_fk se nastavilo null - kontrola
+        /** @var  EventContentDao $eventContentDao */
+        $eventContentDao = $this->container->get(EventContentDao::class);
+        $evenContentData = $eventContentDao->get(self::$eventContentPrimaryKey);        
+        $this->assertNull ($evenContentData['institution_id_fk'] );                
+        $eventContentDao->delete($evenContentData);
+        
         $this->setUp();
         $institutionRow = $this->dao->get(self::$institutionPrimaryKey);
         $this->assertNull($institutionRow);

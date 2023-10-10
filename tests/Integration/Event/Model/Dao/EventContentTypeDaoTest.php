@@ -170,6 +170,7 @@ class EventContentTypeDaoTest extends AppRunner {
 
         //napred vymazu Content
         /** @var EventContentDao $eventContentDao */
+        $this->setUp(); 
         $eventContentRow = $eventContentDao->get( self::$eventContentIdTouple );
         $eventContentDao->delete($eventContentRow);
         $this->assertEquals(1, $eventContentDao->getRowCount());
