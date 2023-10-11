@@ -39,7 +39,7 @@ class Document extends PersistableEntityAbstract implements DocumentInterface {
         return $this;
     }
 
-    public function setDocument( ?DocumentInterface $document ): DocumentInterface {
+    public function setDocument( $document ): DocumentInterface {
         $this->document = $document;
         return $this;
     }

@@ -3,7 +3,7 @@
 namespace Events\Model\Entity;
 
 use Model\Entity\PersistableEntityInterface;
-use Model\Entity\EventContentTypeInterface;
+//use Model\Entity\EventContentTypeInterface;
 
 
 /**

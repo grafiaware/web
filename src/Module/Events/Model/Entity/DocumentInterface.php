@@ -21,7 +21,7 @@ interface DocumentInterface extends PersistableEntityInterface {
 
     public function setId($id): DocumentInterface;
 
-    public function setDocument( ?DocumentInterface $document  ): DocumentInterface;
+    public function setDocument( $document  ): DocumentInterface;
 
     public function setDocumentFilename($document_filename): DocumentInterface;
 
