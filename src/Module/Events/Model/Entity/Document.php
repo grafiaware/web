@@ -13,7 +13,7 @@ use Events\Model\Entity\DocumentInterface;
 class Document extends PersistableEntityAbstract implements DocumentInterface {
 
     private $id;    //NOT NULL
-    private $document;
+    private $content;
     private $documentFilename;
     private $documentMimetype;
 
@@ -21,7 +21,7 @@ class Document extends PersistableEntityAbstract implements DocumentInterface {
         return $this->id;
     }
 
-    public function getDocument(): ?DocumentInterface {
+    public function getContent(): ?DocumentInterface {
         return $this->document;
     }
 
@@ -39,8 +39,8 @@ class Document extends PersistableEntityAbstract implements DocumentInterface {
         return $this;
     }
 
-    public function setDocument( $document ): DocumentInterface {
-        $this->document = $document;
+    public function setContent( $content ): DocumentInterface {
+        $this->content = $content;
         return $this;
     }
 

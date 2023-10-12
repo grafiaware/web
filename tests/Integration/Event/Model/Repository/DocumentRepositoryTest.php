@@ -66,7 +66,7 @@ class DocumentRepositoryTest extends AppRunner {
 
         $rowData = new RowData();
         $rowData->import([
-            'document' => $cvContent,
+            'content' => $cvContent,
             'document_filename' => $cvFilepathName,
             'document_mimetype' => $cvMime,
         ]);
@@ -75,7 +75,7 @@ class DocumentRepositoryTest extends AppRunner {
 
         $rowData = new RowData();
         $rowData->import([
-            'document' => $letterContent,
+            'content' => $letterContent,
             'document_filename' => $letterFilepathName,
             'document_mimetype' => $letterMime,
         ]);
@@ -144,7 +144,7 @@ class DocumentRepositoryTest extends AppRunner {
         $content = file_get_contents($filepathName);
         finfo_close($finfo);
 
-        $document->setDocument($content);
+        $document->setContent($content);
         $document->setDocumentMimetype($mime);
         $document->setDocumentFilename($filepathName);
 
@@ -165,7 +165,7 @@ class DocumentRepositoryTest extends AppRunner {
         $content = file_get_contents($filepathName);
         finfo_close($finfo);
 
-        $document->setDocument($content);
+        $document->setContent($content);
         $document->setDocumentMimetype($mime);
         $document->setDocumentFilename($filepathName);
 

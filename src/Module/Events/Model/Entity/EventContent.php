@@ -36,7 +36,7 @@ class EventContent extends PersistableEntityAbstract implements EventContentInte
         return $this->party;
     }
 
-    public function getEventContentTypeFk() {
+    public function getEventContentTypeIdFk() {
         return $this->eventContentTypeFk;
     }
 
@@ -64,8 +64,8 @@ class EventContent extends PersistableEntityAbstract implements EventContentInte
         return $this;
     }
 
-    public function setEventContentTypeFk($eventContentTypeTypeFk): EventContentInterface {
-        $this->eventContentTypeFk = $eventContentTypeTypeFk;
+    public function setEventContentTypeIdFk($eventContentTypeTypeIdFk): EventContentInterface {
+        $this->eventContentTypeIdFk = $eventContentTypeTypeIdFk;
         return $this;
     }
 

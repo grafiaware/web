@@ -24,7 +24,7 @@ class DocumentHydrator extends TypeHydratorAbstract implements HydratorInterface
         /** @var DocumentInterface $document */
         $document
                 ->setId( $this->getPhpValue  ( $rowData, 'id'))
-                ->setDocument( $this->getPhpValue ( $rowData, 'document'))
+                ->setContent( $this->getPhpValue ( $rowData, 'content'))
                 ->setDocumentFilename( $this->getPhpValue ( $rowData, 'document_filename'))
                 ->setDocumentMimetype( $this->getPhpValue ( $rowData, 'document_mimetype'));       
     }
@@ -37,7 +37,7 @@ class DocumentHydrator extends TypeHydratorAbstract implements HydratorInterface
     public function extract(EntityInterface $document, ArrayAccess $rowData) {
         /** @var DocumentInterface $document */
             // id je autoincrement
-            $this->setSqlValue( $rowData, 'document', $document->getDocument());
+            $this->setSqlValue( $rowData, 'content', $document->getContent());
             $this->setSqlValue( $rowData, 'document_filename', $document->getDocumentFilename());
             $this->setSqlValue( $rowData, 'document_mimetype', $document->getDocumentMimetype());            
     }

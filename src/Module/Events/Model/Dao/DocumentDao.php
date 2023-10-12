@@ -6,7 +6,6 @@ use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
-use Model\RowData\RowDataInterface;
 /**
  * Description of DocumentDao
  *
@@ -28,7 +27,7 @@ class DocumentDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInte
     public function getAttributes(): array {
         return [
             'id',
-            'document',
+            'content',
             'document_filename',
             'document_mimetype'
         ];

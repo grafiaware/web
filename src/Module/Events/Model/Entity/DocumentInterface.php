@@ -13,7 +13,7 @@ interface DocumentInterface extends PersistableEntityInterface {
 
     public function getId();
 
-    public function getDocument(): ?DocumentInterface;
+    public function getContent(): ?DocumentInterface;
 
     public function getDocumentFilename();
 
@@ -21,7 +21,7 @@ interface DocumentInterface extends PersistableEntityInterface {
 
     public function setId($id): DocumentInterface;
 
-    public function setDocument( $document  ): DocumentInterface;
+    public function setContent( $content ): DocumentInterface;
 
     public function setDocumentFilename($document_filename): DocumentInterface;
 

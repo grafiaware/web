@@ -66,7 +66,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
         $cvContent = file_get_contents($cvFilepathName);
         $rowData = new RowData();
         $rowData->import([
-            'document' => $cvContent,
+            'content' => $cvContent,
             'document_filename' => $cvFilepathName,
             'document_mimetype' => $cvMime,
         ]);
