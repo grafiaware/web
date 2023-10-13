@@ -13,7 +13,7 @@ use Events\Model\Entity\EventInterface;
  */
 class Event extends PersistableEntityAbstract implements EventInterface {
 
-    private $id;
+    private $id;        //NOT NULL
     private $published;
     private $start;
     private $end;
@@ -61,12 +61,12 @@ class Event extends PersistableEntityAbstract implements EventInterface {
         return $this;
     }
 
-    public function setStart(\DateTime $start = null): EventInterface {
+    public function setStart(?\DateTime $start ): EventInterface {
         $this->start = $start;
         return $this;
     }
 
-    public function setEnd(\DateTime $end = null): EventInterface {
+    public function setEnd(?\DateTime $end ): EventInterface {
         $this->end = $end;
         return $this;
     }

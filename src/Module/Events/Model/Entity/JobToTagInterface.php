@@ -13,22 +13,22 @@ interface JobToTagInterface extends PersistableEntityInterface {
     
    /**
     * 
-    * @return int
+    * @return type
     */
     public function getJobId() ;
 
     
     /**
      * 
-     * @return int
+     * @return type
      */
-    public function getJobTagId() : int ;
+    public function getJobTagId() ;
         
     
     /**
      * 
-     * @param int $jobId
-     * @return JobToTagInterface
+     * @param type $jobId
+     * @return JobToTagInterface $this
      */
     public function setJobId(  $jobId) : JobToTagInterface ;                    
    
@@ -37,7 +37,7 @@ interface JobToTagInterface extends PersistableEntityInterface {
      /**
      * 
      * @param int $jobTagId
-     * @return JobToTagInterface
+     * @return JobToTagInterface $this
      */
     public function setJobTagId($jobTagId) : JobToTagInterface;
     

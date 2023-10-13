@@ -33,6 +33,8 @@ class EventContentTypeDaoTest extends AppRunner {
 
     private static $eventContentTypeTouple;
     private static $eventContentIdTouple;
+    private static $eventContenTypePrimaryKeyTouple;
+    
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -73,6 +75,8 @@ class EventContentTypeDaoTest extends AppRunner {
         $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
         $this->dao->insert($rowData);
         $this->assertEquals(1, $this->dao->getRowCount());
+        self::$eventContenTypePrimaryKeyTouple = $this->dao->getLastInsertedPrimaryKey();
+
 
         //event_content
         /** @var EventContentDao $eventContentDao */
@@ -81,33 +85,27 @@ class EventContentTypeDaoTest extends AppRunner {
         $rowData->offsetSet('title', "testEventTypeContentDao-title");
         $rowData->offsetSet('perex', "-perex");
         $rowData->offsetSet('party', "-party");
-        $rowData->offsetSet('event_content_type_fk', $type);
+        $rowData->offsetSet('event_content_type_id_fk', self::$eventContenTypePrimaryKeyTouple ['id'] );
         $rowData->offsetSet('institution_id_fk',null ) ;
         $eventContentDao->insert($rowData);
         self::$eventContentIdTouple =  $eventContentDao->getLastInsertedPrimaryKey(); //pro autoincrement
     }
 
-    public function testInsertDaoKeyVerificationFailedException() {
-        $rowData = new RowData();
-        $rowData->import( self::$eventContentTypeTouple);
-        $rowData->offsetSet('name', "name_pro testContenTypeDao" );
-        $this->expectException(DaoKeyVerificationFailedException::class);
-        $this->dao->insert($rowData);
-    }
+   
 
 
     public function testGetExistingRow() {
-        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
+        $eventContentTypeRow = $this->dao->get(self::$eventContenTypePrimaryKeyTouple);
         $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow);
     }
 
-    public function test2Columns() {
-        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
-        $this->assertCount(2, $eventContentTypeRow);
+    public function test3Columns() {
+        $eventContentTypeRow = $this->dao->get(self::$eventContenTypePrimaryKeyTouple);
+        $this->assertCount(3, $eventContentTypeRow);
     }
 
     public function testUpdate() {
-        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
+        $eventContentTypeRow = $this->dao->get(self::$eventContenTypePrimaryKeyTouple);
         $name = $eventContentTypeRow['name'];
         $this->assertIsString($eventContentTypeRow['name']);
         //
@@ -118,7 +116,7 @@ class EventContentTypeDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentTypeRowRereaded = $this->dao->get(self::$eventContentTypeTouple);
+        $eventContentTypeRowRereaded = $this->dao->get(self::$eventContenTypePrimaryKeyTouple);
         $this->assertEquals($eventContentTypeRow, $eventContentTypeRowRereaded);
         $this->assertStringContainsString('test_name_updated', $eventContentTypeRowRereaded['name']);
     }
@@ -139,14 +137,26 @@ class EventContentTypeDaoTest extends AppRunner {
     //nebo postup: !napřed přečíst, pak smazat!
 
     //kontrola RESTRICT
+//    public function testDeleteException1() {
+//        $eventContentTypeRowPdo = new PdoRowData();
+//        $eventContentTypeRowPdo->forcedSet( 'type', self::$eventContentTypeTouple['type'] );
+//        $this->expectException(ExecuteException::class);
+//        $this->dao->delete($eventContentTypeRowPdo);
+//    }
+//    public function testDeleteException2() {
+//        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
+//        $this->expectException(ExecuteException::class);
+//        $this->dao->delete($eventContentTypeRow);
+//    }
     public function testDeleteException1() {
         $eventContentTypeRowPdo = new PdoRowData();
-        $eventContentTypeRowPdo->forcedSet( 'type', self::$eventContentTypeTouple['type'] );
+        $eventContentTypeRowPdo->forcedSet( 'id', self::$eventContenTypePrimaryKeyTouple['id'] );
+       // $eventContentTypeRowPdo->forcedSet( '', self::$eventContenTypePrimaryKeyTouple['id'] );        
         $this->expectException(ExecuteException::class);
         $this->dao->delete($eventContentTypeRowPdo);
     }
     public function testDeleteException2() {
-        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
+        $eventContentTypeRow = $this->dao->get(self::$eventContenTypePrimaryKeyTouple);
         $this->expectException(ExecuteException::class);
         $this->dao->delete($eventContentTypeRow);
     }
@@ -156,22 +166,23 @@ class EventContentTypeDaoTest extends AppRunner {
         /** @var EventContentDao $eventContentDao */
         $eventContentDao = $this->container->get(EventContentDao::class);
         $eventContentRow = $eventContentDao->get( self::$eventContentIdTouple );
-        $this->assertEquals (self::$eventContentTypeTouple['type'], $eventContentRow['event_content_type_fk']);
+        $this->assertEquals (self::$eventContenTypePrimaryKeyTouple['id'], $eventContentRow['event_content_type_id_fk']);
 
         //napred vymazu Content
         /** @var EventContentDao $eventContentDao */
+        $this->setUp(); 
         $eventContentRow = $eventContentDao->get( self::$eventContentIdTouple );
         $eventContentDao->delete($eventContentRow);
         $this->assertEquals(1, $eventContentDao->getRowCount());
 
         //pak jde smazet ContentType
         $this->setUp();  //nove dao
-        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
+        $eventContentTypeRow = $this->dao->get(self::$eventContenTypePrimaryKeyTouple);
         $this->dao->delete($eventContentTypeRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();  //nove dao
-        $eventContentTypeRowRev = $this->dao->get(self::$eventContentTypeTouple);
+        $eventContentTypeRowRev = $this->dao->get(self::$eventContenTypePrimaryKeyTouple);
         $this->assertNull($eventContentTypeRowRev);
 
     }

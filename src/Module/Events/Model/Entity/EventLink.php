@@ -11,10 +11,10 @@ use Model\Entity\PersistableEntityAbstract;
  * @author vlse2610
  */
 class EventLink extends PersistableEntityAbstract implements EventLinkInterface {
-    private $id;
-    private $show;
-    private $href;
-    private $linkPhaseIdFk;
+    private $id;    // NOT NULL
+    private $show;  // NOT NULL
+    private $href;  // NOT NULL
+    private $linkPhaseIdFk; // NOT NULL
 
     public function getId()  {
         return $this->id;
@@ -42,7 +42,7 @@ class EventLink extends PersistableEntityAbstract implements EventLinkInterface 
         return $this;
     }
 
-    public function setHref(  $href=null) :EventLinkInterface{
+    public function setHref($href) :EventLinkInterface{
         $this->href = $href;
         return $this;
     }

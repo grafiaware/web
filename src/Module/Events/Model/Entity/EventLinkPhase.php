@@ -11,8 +11,8 @@ use Events\Model\Entity\EventLinkPhaseInterface;
  */
 class EventLinkPhase extends PersistableEntityAbstract implements EventLinkPhaseInterface {
 
-    private $id;
-    private $text;
+    private $id;    // NOT NULL
+    private $text;  // NOT NULL
 
     public function getId()  {
         return $this->id;
@@ -26,7 +26,7 @@ class EventLinkPhase extends PersistableEntityAbstract implements EventLinkPhase
         return $this;
     }
 
-    public function setText(  $text=null) :EventLinkPhaseInterface {
+    public function setText(  $text) :EventLinkPhaseInterface {
         $this->text = $text;
         return $this;
     }

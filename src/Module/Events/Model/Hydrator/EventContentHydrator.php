@@ -19,7 +19,7 @@ class EventContentHydrator extends TypeHydratorAbstract implements HydratorInter
 //    `event_content`.`title`,
 //    `event_content`.`perex`,
 //    `event_content`.`party`,
-//    `event_content`.`event_content_type_type_fk`,
+//    `event_content`.`event_content_type_type_id_fk`,
 //    `event_content`.`institution_id_fk`
 //FROM `events`.`event_content`;
 
@@ -35,7 +35,7 @@ class EventContentHydrator extends TypeHydratorAbstract implements HydratorInter
             ->setTitle( $this->getPhpValue( $rowData, 'title') )
             ->setPerex( $this->getPhpValue( $rowData, 'perex') )
             ->setParty( $this->getPhpValue( $rowData, 'party') )
-            ->setEventContentTypeFk( $this->getPhpValue( $rowData, 'event_content_type_fk') )
+            ->setEventContentTypeIdFk( $this->getPhpValue( $rowData, 'event_content_type_id_fk') )
             ->setInstitutionIdFk( $this->getPhpValue( $rowData, 'institution_id_fk') );
         
     }
@@ -51,7 +51,7 @@ class EventContentHydrator extends TypeHydratorAbstract implements HydratorInter
          $this->setSqlValue( $rowData, 'title', $eventContent->getTitle() );
          $this->setSqlValue( $rowData, 'perex', $eventContent->getPerex() );
          $this->setSqlValue( $rowData, 'party', $eventContent->getParty() );
-         $this->setSqlValue( $rowData, 'event_content_type_fk', $eventContent->getEventContentTypeFk() );
+         $this->setSqlValue( $rowData, 'event_content_type_id_fk', $eventContent->getEventContentTypeIdFk() );
          $this->setSqlValue( $rowData, 'institution_id_fk', $eventContent->getInstitutionIdFk() );
         
     }

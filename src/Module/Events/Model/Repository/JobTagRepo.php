@@ -24,14 +24,6 @@ class JobTagRepo extends RepoAbstract implements JobTagRepoInterface {
         $this->registerHydrator($jobTagHydrator);
     }
 
-//    /**
-//     *
-//     * @param type $tag
-//     * @return JobTagInterface|null
-//     */
-//    public function get($tag): ?JobTagInterface {
-//        return $this->getEntity($tag);
-//    }
 
    
     /**
@@ -43,8 +35,7 @@ class JobTagRepo extends RepoAbstract implements JobTagRepoInterface {
         return $this->getEntity($id);
     }
 
-    
-    
+  
     /**
      *
      * @param type $whereClause
@@ -65,7 +56,6 @@ class JobTagRepo extends RepoAbstract implements JobTagRepoInterface {
         return $this->findEntities();
     }
 
-
     /**
      *
      * @param JobTagInterface $jobtag
@@ -75,7 +65,6 @@ class JobTagRepo extends RepoAbstract implements JobTagRepoInterface {
         $this->addEntity($jobtag);
     }
 
-
      /**
      *
      * @param JobTagInterface $jobtag
@@ -84,8 +73,6 @@ class JobTagRepo extends RepoAbstract implements JobTagRepoInterface {
     public function remove( JobTagInterface $jobtag ) :void {
         $this->removeEntity($jobtag);
     }
-
-
 
     protected function createEntity() {
         return new JobTag();
@@ -98,4 +85,5 @@ class JobTagRepo extends RepoAbstract implements JobTagRepoInterface {
     protected function indexFromRow($row) {
         return $row['id'];
     }
+    
 }

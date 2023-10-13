@@ -12,8 +12,15 @@ interface JobInterface extends PersistableEntityInterface {
      
     public function getId()  ;        
     
+     /**
+     *
+     * @return string
+     */
     public function getCompanyId()  ;
-    
+     /**
+     *
+     * @return string
+     */
     public function getPozadovaneVzdelaniStupen()  ;
     
     /**
@@ -54,53 +61,53 @@ interface JobInterface extends PersistableEntityInterface {
     
     /**
      * 
-     * @param int $companyId
+     * @param type $companyId
      * @return JobInterface
      */
     public function setCompanyId( $companyId) : JobInterface;
     
     /**
      * 
-     * @param int $pozadovaneVzdelaniStupen
+     * @param type $pozadovaneVzdelaniStupen
      * @return JobInterface
      */
     public function setPozadovaneVzdelaniStupen(  $pozadovaneVzdelaniStupen) : JobInterface;
     
     /**
      * 
-     * @param string $nazev
+     * @param string|null $nazev
      * @return JobInterface
      */
-    public function setNazev( $nazev=null) : JobInterface;
+    public function setNazev( $nazev) : JobInterface;
     
     /**
      * 
-     * @param string $mistoVykonu
+     * @param string|null $mistoVykonu
      * @return JobInterface
      */
-    public function setMistoVykonu( $mistoVykonu=null ) : JobInterface;
+    public function setMistoVykonu( $mistoVykonu ) : JobInterface;
     
     
     /**
      * 
-     * @param string $popisPozice
+     * @param string|null $popisPozice
      * @return JobInterface
      */
-    public function setPopisPozice( $popisPozice=null) : JobInterface;
+    public function setPopisPozice( $popisPozice ) : JobInterface;
     
    /**
     * 
-    * @param string $pozadujeme
+    * @param string|null $pozadujeme
     * @return JobInterface
     */
-    public function setPozadujeme( $pozadujeme=null ) : JobInterface;
+    public function setPozadujeme( $pozadujeme ) : JobInterface;
     
     /**
      * 
-     * @param string $nabizime
+     * @param string|null $nabizime
      * @return JobInterface
      */
-    public function setNabizime( $nabizime=null) : JobInterface;
+    public function setNabizime( $nabizime ) : JobInterface;
     
 
 }

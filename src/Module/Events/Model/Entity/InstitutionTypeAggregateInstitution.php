@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Events\Model\Entity\Institution;
+//use Events\Model\Entity\Institution;
 use Events\Model\Entity\InstitutionType;
 use Events\Model\Entity\InstitutionTypeAggregateInstitutionInterface;
 
@@ -23,10 +23,11 @@ class InstitutionTypeAggregateInstitution extends InstitutionType implements Ins
 
     /**
      *
-     * @param  $institutions[]
+     * @param InstitutionInterface[] $institutions
      * @return InstitutionTypeAggregateInstitutionInterface
      */
-    public function setInstitutions(array $institutions=[]): InstitutionTypeAggregateInstitutionInterface {
+    
+    public function setInstitutions(array $institutions=[] ): InstitutionTypeAggregateInstitutionInterface {
         $this->institutions = $institutions;
         return $this;
      }

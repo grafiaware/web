@@ -1,10 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 namespace Events\Model\Entity;
 
@@ -24,21 +19,21 @@ interface EventContentInterface extends PersistableEntityInterface {
 
     public function getParty();
 
-    public function getEventContentTypeFk();
+    public function getEventContentTypeIdFk();
 
     public function getInstitutionIdFk();
 
     public function setId($id): EventContentInterface;
 
-    public function setTitle($title = null): EventContentInterface;
+    public function setTitle($title): EventContentInterface;
 
-    public function setPerex($perex = null): EventContentInterface;
+    public function setPerex($perex): EventContentInterface;
 
-    public function setParty($party = null): EventContentInterface;
+    public function setParty($party): EventContentInterface;
 
-    public function setEventContentTypeFk($eventContentTypeTypeFk = null): EventContentInterface;
+    public function setEventContentTypeIdFk($eventContentTypeTypeIdFk ): EventContentInterface;
 
-    public function setInstitutionIdFk($institutionIdFk = null): EventContentInterface;
+    public function setInstitutionIdFk($institutionIdFk ): EventContentInterface;
 
 
 }

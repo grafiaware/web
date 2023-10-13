@@ -11,7 +11,8 @@ use Events\Model\Entity\CompanyInterface;
  */
 class Company  extends PersistableEntityAbstract implements CompanyInterface {
 
-    private $id;
+    private $id; //NOT NULL
+    
     private $name;
     private $eventInstitutionName30;
 
@@ -47,7 +48,7 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
      * @param string $name
      * @return CompanyInterface
      */
-    public function setName(  $name=null ) :CompanyInterface {
+    public function setName(  $name ) :CompanyInterface {
         $this->name = $name;
         return $this;
     }
@@ -56,7 +57,7 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
      * @param string $eventInstitutionName30
      * @return CompanyInterface
      */
-    public function setEventInstitutionName30(  $eventInstitutionName30=null) :CompanyInterface {
+    public function setEventInstitutionName30(  $eventInstitutionName30 ) :CompanyInterface {
         $this->eventInstitutionName30 = $eventInstitutionName30;
         return $this;
     }

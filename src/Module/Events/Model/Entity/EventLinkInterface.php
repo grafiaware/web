@@ -23,7 +23,7 @@ interface EventLinkInterface  extends PersistableEntityInterface {
     
     public function setShow($show) :EventLinkInterface;   
 
-    public function setHref(  $href=null) :EventLinkInterface;      
+    public function setHref($href) :EventLinkInterface;      
       
     public function setLinkPhaseIdFk($linkPhaseIdFk) :EventLinkInterface;   
 }

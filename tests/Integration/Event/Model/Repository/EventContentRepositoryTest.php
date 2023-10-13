@@ -67,7 +67,7 @@ class EventContentRepositoryTest extends AppRunner {
         $rowData->offsetSet('party', "Kluk, Ťuk, Muk, Kuk, Buk, Guk");
         $rowData->offsetSet('perex', "sůheůrjheů");       
         $rowData->offsetSet('title', self::$eventContentTitle . "titlePrednasky");
-        $rowData->offsetSet('event_content_type_fk', "Přednáška" );
+        $rowData->offsetSet('event_content_type_id_fk', 3 ); //tj. Prednaska
         $eventContentDao->insert($rowData);
         self::$eventContentId = $eventContentDao->getLastInsertedPrimaryKey()[$eventContentDao->getAutoincrementFieldName()];
 
@@ -164,7 +164,7 @@ class EventContentRepositoryTest extends AppRunner {
         $eventContent->setParty("testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk");
         $eventContent->setPerex("testEventContent Perexůrjheů");
         $eventContent->setTitle("testEventContent TitlePřednáška");
-        $eventContent->setEventContentTypeFk( "Přednáška" );
+        $eventContent->setEventContentTypeIdFk( 3 );  //Přednáška
 
         $this->eventContentRepo->add($eventContent); //zapise hned
 
@@ -232,7 +232,7 @@ class EventContentRepositoryTest extends AppRunner {
         $eventContent->setParty("testEventContent Fšicí");
         $eventContent->setPerex("testEventContent Vážení přátelé ANO!");
         $eventContent->setTitle("testEventContent Přednáška pro fšecky.");
-        $eventContent->setEventContentTypeFk( "Přednáška" );
+        $eventContent->setEventContentTypeIdFk( 3 );   //"Přednáška"
         
         $this->eventContentRepo->add($eventContent);  //zapise hned, auto gener.klic
         //$this->eventContentRepo->flush();

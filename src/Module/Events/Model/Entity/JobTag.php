@@ -12,8 +12,8 @@ use Events\Model\Entity\JobTagInterface;
  */
 class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
     
-    private $id;    
-    private $tag;
+    private $id;     //NOT NULL
+    private $tag;    //NOT NULL
     
     
     
@@ -25,7 +25,7 @@ class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
      *
      * @return string
      */
-    public function getTag() : string  {
+    public function getTag()  {
         return $this->tag;
     }
 
@@ -33,20 +33,19 @@ class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
     /**
      *
      * @param type $id
-     * @return JobInterface
+     * @return JobInterface $this
      */
     public function setId($id) : JobTagInterface{
         $this->id = $id;
         return $this;
     }
-    
-    
+        
     /**
      *
      * @param string $tag
-     * @return JobTagInterface
+     * @return JobTagInterface $this
      */
-    public function setTag( $tag=null) : JobTagInterface {
+    public function setTag( $tag) : JobTagInterface {
         $this->tag = $tag;
         return $this;
     }

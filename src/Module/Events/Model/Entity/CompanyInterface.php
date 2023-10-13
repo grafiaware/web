@@ -34,13 +34,13 @@ interface CompanyInterface   extends PersistableEntityInterface {
      * @param string $name
      * @return CompanyInterface
      */  
-    public function setName(  $name=null) :CompanyInterface ;          
+    public function setName(  $name ) :CompanyInterface ;          
     /**
      * 
      * @param string $eventInstitutionName30
      * @return CompanyInterface
      */
-    public function setEventInstitutionName30( $eventInstitutionName30=null) :CompanyInterface ;    
+    public function setEventInstitutionName30( $eventInstitutionName30) :CompanyInterface ;    
       
     
     

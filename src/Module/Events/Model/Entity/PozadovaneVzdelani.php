@@ -11,12 +11,12 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
  */
 class PozadovaneVzdelani extends PersistableEntityAbstract implements PozadovaneVzdelaniInterface {
 
-    private $stupen;  //int NOT NULL
-    private $vzdelani;   //NOT NULL
+    private $stupen;    //NOT NULL
+    private $vzdelani;  //NOT NULL
     
     /**
      *
-     * @return int
+     * @return type
      */
     public function getStupen()  {
         return $this->stupen;
@@ -31,7 +31,7 @@ class PozadovaneVzdelani extends PersistableEntityAbstract implements Pozadovane
     /**
      *
      * @param type $stupen
-     * @return PozadovaneVzdelaniInterface
+     * @return PozadovaneVzdelaniInterface $this
      */
     public function setStupen( $stupen) : PozadovaneVzdelaniInterface {
         $this->stupen = $stupen;
@@ -40,7 +40,7 @@ class PozadovaneVzdelani extends PersistableEntityAbstract implements Pozadovane
     /**
      *
      * @param string $vzdelani
-     * @return PozadovaneVzdelaniInterface
+     * @return PozadovaneVzdelaniInterface $this
      */
     public function setVzdelani(  $vzdelani) : PozadovaneVzdelaniInterface {
         $this->vzdelani = $vzdelani;

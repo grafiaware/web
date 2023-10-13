@@ -23,14 +23,15 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
         $this->registerHydrator($eventContentTypeHydrator);
     }
 
-
+    
     /**
      *
-     * @param string $type
+     * @param type $id
      * @return EventContentTypeInterface|null
      */
-    public function get(string $type): ?EventContentTypeInterface {
-        return $this->getEntity($type);    }
+    public function get($id): ?EventContentTypeInterface {
+        return $this->getEntity($id); 
+    }    
 
     /**
      *

@@ -15,6 +15,6 @@ interface EventLinkPhaseInterface extends PersistableEntityInterface {
     
     public function setId($id) :EventLinkPhaseInterface;
     
-    public function setText( $text=null) :EventLinkPhaseInterface;      
+    public function setText( $text) :EventLinkPhaseInterface;      
       
 }

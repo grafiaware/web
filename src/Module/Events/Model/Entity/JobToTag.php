@@ -17,7 +17,7 @@ class JobToTag extends PersistableEntityAbstract implements JobToTagInterface {
 
    /**
     *
-    * @return int
+    * @return type
     */
     public function getJobId() {
         return $this->jobId;
@@ -25,9 +25,9 @@ class JobToTag extends PersistableEntityAbstract implements JobToTagInterface {
 
     /**
      * 
-     * @return int
+     * @return type
      */
-    public function getJobTagId() :int {
+    public function getJobTagId()  {
         return $this->jobTagId;
     }
 
@@ -36,8 +36,8 @@ class JobToTag extends PersistableEntityAbstract implements JobToTagInterface {
     
     /**
      *
-     * @param int $jobId
-     * @return JobToTagInterface
+     * @param type $jobId
+     * @return JobToTagInterface $this
      */
     public function setJobId($jobId) : JobToTagInterface {
         $this->jobId = $jobId;
@@ -48,7 +48,7 @@ class JobToTag extends PersistableEntityAbstract implements JobToTagInterface {
     
     /**
      * 
-     * @param int $jobTagId
+     * @param type $jobTagId
      * @return JobToTagInterface
      */
     public function setJobTagId($jobTagId) : JobToTagInterface {

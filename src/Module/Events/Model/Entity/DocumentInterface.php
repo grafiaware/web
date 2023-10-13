@@ -1,14 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Entity;
 
 use Model\Entity\PersistableEntityInterface;
+use Events\Model\Entity\DocumentInterface;
 
 /**
  *
@@ -18,7 +13,7 @@ interface DocumentInterface extends PersistableEntityInterface {
 
     public function getId();
 
-    public function getDocument();
+    public function getContent(): ?DocumentInterface;
 
     public function getDocumentFilename();
 
@@ -26,7 +21,7 @@ interface DocumentInterface extends PersistableEntityInterface {
 
     public function setId($id): DocumentInterface;
 
-    public function setDocument($document): DocumentInterface;
+    public function setContent( $content ): DocumentInterface;
 
     public function setDocumentFilename($document_filename): DocumentInterface;
 

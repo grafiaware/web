@@ -11,9 +11,10 @@ use Events\Model\Entity\VisitorJobRequestInterface;
  */
 class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobRequestInterface {
 
-    private $loginLoginName;
-    private $jobId;
-    private $positionName;
+    private $loginLoginName;    //NOT NULL
+    private $jobId;             //NOT NULL
+    private $positionName;      //NOT NULL
+    
     private $prefix;
     private $name;
     private $surname;

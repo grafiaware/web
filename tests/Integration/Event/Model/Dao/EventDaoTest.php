@@ -57,14 +57,14 @@ class EventDaoTest extends AppRunner {
         $loginDao->insert($loginData);
         self::$loginPrimaryKey = $loginDao->getLastInsertedPrimaryKey();
 
-        // nový event_content
+        // nový event_content - aje to id  3 Pohovor
         /** @var EventContentDao $eventContentDao */
         $eventContentDao = $container->get( EventContentDao::class);
         $rowData = new RowData();
         $rowData->import( ['title' => 'proEventDaoTest' ,
                                     'perex' => 'AAAA',
                                     'party' => 'bbbb',
-                                    'event_content_type_fk' => 'Pohovor' ] );
+                                    'event_content_type_id_fk' => 3 ] );
         $eventContentDao->insert($rowData);
         self::$eventContentPrimaryKey = $eventContentDao->getLastInsertedPrimaryKey(); //pro autoincrement
     }
