@@ -97,8 +97,8 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         if (in_array($requestedLangCode, ConfigurationCache::presentationStatus()['accepted_languages'])) {
             $langCode = $requestedLangCode;
         } else {
-            user_error("Podle hlavičky requestu Accept-Language je požadován kód jazyka $requestedLangCode. "
-                    . "Takový kód jazyka nebyl nalezen mezi jazyky v konfiguraci. Nastaven default jazyk aplikace.", E_USER_NOTICE);
+//            user_error("Podle hlavičky requestu Accept-Language je požadován kód jazyka $requestedLangCode. "
+//                    . "Takový kód jazyka nebyl nalezen mezi jazyky v konfiguraci. Nastaven default jazyk aplikace.", E_USER_NOTICE);
             $langCode = ConfigurationCache::presentationStatus()['default_lang_code'];
         }
         return $langCode;
