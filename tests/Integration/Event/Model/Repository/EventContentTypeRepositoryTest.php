@@ -88,6 +88,8 @@ class EventContentTypeRepositoryTest extends AppRunner {
     protected function tearDown(): void {
         //$this->eventContentTypeRepo->flush();
       $this->eventContentTypeRepo->__destruct();
+      
+    
     }
 
     public static function tearDownAfterClass(): void {
@@ -193,11 +195,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
 
     public function testRemove_OperationWithLockedEntity() {
         /** @var EventContentType $eventContentType */
-        $eventContentType = $this->eventContentTypeRepo->get( self::$idContentType2 );
-               
-        
-        
-        
+        $eventContentType = $this->eventContentTypeRepo->get( self::$idContentType2 );                    
         
         $this->assertInstanceOf(EventContentTypeInterface::class, $eventContentType);
         $this->assertTrue($eventContentType->isPersisted());
