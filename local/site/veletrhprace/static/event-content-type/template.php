@@ -18,7 +18,8 @@ use Events\Model\Entity\EventContentTypeInterface;
     $allContentType = $eventContentTypeRepo->findAll();
     $allContentTypeArray=[];
     /** @var  EventContentInterface $type */
-    foreach ($allContentType as $type) {    
+    foreach ($allContentType as $type) {   
+        $contype ['id'] = $type->getId();
         $contype ['type'] = $type->getType();
         $contype ['name'] = $type->getName();               
         $allContentTypeArray[] = $contype;       

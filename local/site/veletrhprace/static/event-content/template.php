@@ -74,7 +74,8 @@ use Events\Middleware\Events\Controler\EventControler_2;
             /** @var EventContentInterface $entity */
             foreach ($eventContentEntities as $entity) {
                       $nu1 = $entity->getInstitutionIdFk();
-                      $nu2 = $entity->getEventContentTypeFk();
+                      //$nu2 = $entity->getEventContentTypeFk();
+                      $nu2 = $entity->getEventContentTypeIdFk();
                 
                 $institutionE = $institutionRepo->get(  ($entity->getInstitutionIdFk()) ?? ''    ) ;               
                 $eventContents[] = [
@@ -82,7 +83,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
                     'selectInstitutions' => $selectInstitutions, 
                     'institutionName' => ( isset($institutionE) ? $institutionE->getName() : '' ),
                     
-                    'eventContentTypeFk' => ($entity->getEventContentTypeFk()) ?? EventControler_2::NULL_VALUE_nahradni,
+                    'eventContentTypeIdFk' => ($entity->getEventContentTypeIdFk()) ?? EventControler_2::NULL_VALUE_nahradni,
                     'selectContentTypes' => $selectContentTypes, 
                     
                     'title' =>  $entity->getTitle(),
@@ -120,7 +121,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
                                                                    "institutionIdFk" =>  EventControler_2::NULL_VALUE_nahradni,                                                                  
                     
                                                                    "selectContentTypes" => $selectContentTypes,
-                                                                   "eventContentTypeFk" => EventControler_2::NULL_VALUE_nahradni
+                                                                   "eventContentTypeIdFk" => EventControler_2::NULL_VALUE_nahradni
                                                                  ] ) ?>                                                                                 
             </div>                  
         </div>           

@@ -426,7 +426,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
      * @param type $type
      * @return type
      */
-    public function updateContentType (ServerRequestInterface $request, $type) {                    
+    public function updateContentType (ServerRequestInterface $request, $id) {                    
 //        $isRepresentative = false;
 //        
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -447,7 +447,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {
             
                 /** @var EventContentTypeInterface $eventContentType */
-                $eventContentType = $this->eventContentTypeRepo->get($type);             
+                $eventContentType = $this->eventContentTypeRepo->get($id);             
                 $eventContentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );
         
 //            } else {
@@ -466,7 +466,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
      * @param type $type
      * @return type
      */
-    public function removeContentType (ServerRequestInterface $request, $type ) {                   
+    public function removeContentType (ServerRequestInterface $request, $id ) {                   
 //        $isRepresentative = false;
 //                
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -488,7 +488,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {                                                    
                 
                 /** @var EventContentTypeInterface $eventContentType */
-                $eventContentType = $this->eventContentTypeRepo->get($type);             
+                $eventContentType = $this->eventContentTypeRepo->get($id);             
                 $this->eventContentTypeRepo->remove($eventContentType) ;               
         
                                                      
