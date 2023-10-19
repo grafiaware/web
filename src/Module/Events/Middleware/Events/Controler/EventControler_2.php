@@ -405,9 +405,9 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 
                 /** @var EventContentTypeInterface $contentType */
                 $contentType = $this->container->get(EventContentType::class); //new     
+                $contentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );                
                 $contentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );
-                $contentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );
-
+     
                 $this->eventContentTypeRepo->add($contentType);             
                
 //            } else {
@@ -448,7 +448,9 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
             
                 /** @var EventContentTypeInterface $eventContentType */
                 $eventContentType = $this->eventContentTypeRepo->get($id);             
-                $eventContentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );
+                $eventContentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );                
+                $eventContentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );                
+
         
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
@@ -604,7 +606,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 else {
                     $content->setInstitutionIdFk( null );
                 }
-                               
+                  
+                //not null
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
                      $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
                 }     

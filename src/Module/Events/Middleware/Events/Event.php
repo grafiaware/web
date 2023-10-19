@@ -251,12 +251,12 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontenttype/:id', function(ServerRequestInterface $request, $id) {
             /** @var EventControler_2 $ctrl */
             $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateContentType($request, $type);
+            return $ctrl->updateContentType($request, $id);
         });
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontenttype/:id/remove', function(ServerRequestInterface $request, $id ) {
             /** @var EventControler_2 $ctrl */
             $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeContentType($request, $type);
+            return $ctrl->removeContentType($request, $id);
         });
         
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent', function(ServerRequestInterface $request) {

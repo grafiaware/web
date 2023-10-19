@@ -45,7 +45,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
         $contype ['name'] = $type->getName();               
         $allContentTypeArray[] = $contype;    
         
-        $selectContentTypes [$type->getType()] =  $type->getName() ;
+        $selectContentTypes [$type->getId()] =  $type->getName() . " ". $type->getName() ;
     }
   
     
@@ -83,7 +83,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
                     'selectInstitutions' => $selectInstitutions, 
                     'institutionName' => ( isset($institutionE) ? $institutionE->getName() : '' ),
                     
-                    'eventContentTypeIdFk' => ($entity->getEventContentTypeIdFk()) ?? EventControler_2::NULL_VALUE_nahradni,
+                    'eventContentTypeIdFk' => ($entity->getEventContentTypeIdFk()), /*?? EventControler_2::NULL_VALUE_nahradni,*/
                     'selectContentTypes' => $selectContentTypes, 
                     
                     'title' =>  $entity->getTitle(),
@@ -121,7 +121,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
                                                                    "institutionIdFk" =>  EventControler_2::NULL_VALUE_nahradni,                                                                  
                     
                                                                    "selectContentTypes" => $selectContentTypes,
-                                                                   "eventContentTypeIdFk" => EventControler_2::NULL_VALUE_nahradni
+                                                                   "eventContentTypeIdFk" =>  ''//not null
                                                                  ] ) ?>                                                                                 
             </div>                  
         </div>           
