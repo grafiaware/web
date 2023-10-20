@@ -405,9 +405,9 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 
                 /** @var EventContentTypeInterface $contentType */
                 $contentType = $this->container->get(EventContentType::class); //new     
+                $contentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );                
                 $contentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );
-                $contentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );
-
+     
                 $this->eventContentTypeRepo->add($contentType);             
                
 //            } else {
@@ -426,7 +426,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
      * @param type $type
      * @return type
      */
-    public function updateContentType (ServerRequestInterface $request, $type) {                    
+    public function updateContentType (ServerRequestInterface $request, $id) {                    
 //        $isRepresentative = false;
 //        
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -447,8 +447,10 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {
             
                 /** @var EventContentTypeInterface $eventContentType */
-                $eventContentType = $this->eventContentTypeRepo->get($type);             
-                $eventContentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );
+                $eventContentType = $this->eventContentTypeRepo->get($id);             
+                $eventContentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );                
+                $eventContentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );                
+
         
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
@@ -466,7 +468,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
      * @param type $type
      * @return type
      */
-    public function removeContentType (ServerRequestInterface $request, $type ) {                   
+    public function removeContentType (ServerRequestInterface $request, $id ) {                   
 //        $isRepresentative = false;
 //                
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -488,7 +490,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {                                                    
                 
                 /** @var EventContentTypeInterface $eventContentType */
-                $eventContentType = $this->eventContentTypeRepo->get($type);             
+                $eventContentType = $this->eventContentTypeRepo->get($id);             
                 $this->eventContentTypeRepo->remove($eventContentType) ;               
         
                                                      
@@ -604,7 +606,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 else {
                     $content->setInstitutionIdFk( null );
                 }
-                               
+                  
+                //not null
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
                      $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
                 }     

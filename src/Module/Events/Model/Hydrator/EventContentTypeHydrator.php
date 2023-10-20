@@ -24,6 +24,7 @@ class EventContentTypeHydrator extends TypeHydratorAbstract implements HydratorI
     public function hydrate(EntityInterface $eventContentType, ArrayAccess $rowData) {
         /** @var EventContentTypeInterface $eventContentType */
         $eventContentType
+            ->setId( $this->getPhpValue($rowData, 'id'))                          
             ->setType( $this->getPhpValue( $rowData, 'type'))
             ->setName( $this->getPhpValue( $rowData, 'name'));
                

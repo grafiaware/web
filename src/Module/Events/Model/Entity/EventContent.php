@@ -17,7 +17,7 @@ class EventContent extends PersistableEntityAbstract implements EventContentInte
     private $title;
     private $perex;
     private $party;
-    private $eventContentTypeFk;    //NOT NULL
+    private $eventContentTypeIdFk;    //NOT NULL
     private $institutionIdFk;
 
     public function getId() {
@@ -37,7 +37,7 @@ class EventContent extends PersistableEntityAbstract implements EventContentInte
     }
 
     public function getEventContentTypeIdFk() {
-        return $this->eventContentTypeFk;
+        return $this->eventContentTypeIdFk;
     }
 
     public function getInstitutionIdFk() {

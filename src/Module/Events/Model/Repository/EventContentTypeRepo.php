@@ -62,10 +62,10 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
     }
 
     protected function indexFromEntity(EventContentTypeInterface $eventContentType) {
-        return $eventContentType->getType();
+        return $eventContentType->getId();
     }
 
     protected function indexFromRow($row) {
-        return $row['type'];
+        return $row['id'];
     }
 }

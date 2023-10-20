@@ -170,8 +170,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId/remove'));
         
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:type'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:type/remove'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:id'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:id/remove'));
 
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent'));
