@@ -47,7 +47,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
                 $menuItem = $subNode->getMenuItem();
 
                 $contentView->appendComponentView(
-                        $this->getMenuItemLoaders($menuItem),
+                        $this->getMenuItemLoader($menuItem),
                         $menuItem->getTypeFk().'_'.$menuItem->getId()
                     );
             }
@@ -60,7 +60,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
 
     ### load scripts ###
 
-    protected function getMenuItemLoaders(MenuItemInterface $menuItem) {
+    protected function getMenuItemLoader(MenuItemInterface $menuItem) {
         /** @var View $view */
         $view = new CompositeView();
         $view->setRendererContainer($this->rendererContainer);
