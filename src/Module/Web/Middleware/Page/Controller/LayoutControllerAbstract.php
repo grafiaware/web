@@ -163,7 +163,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
         $views = array_merge(
                 [
-                    'content' => $this->getMenuItemLoaders($menuItem),
+                    'content' => $this->getMenuItemLoader($menuItem),
                 ],
                 $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
                 $this->getCascadeViews(),
@@ -244,7 +244,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         foreach ($map as $variableName => $blockName) {
             $menuItem = $this->getMenuItemForBlock($blockName);
             if (isset($menuItem)) {
-                $componets[$variableName] = $this->getMenuItemLoaders($menuItem);
+                $componets[$variableName] = $this->getMenuItemLoader($menuItem);
             } else {
                 $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);
             }
@@ -265,7 +265,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param type $menuItem
      * @return View
      */
-    private function getMenuItemLoaders(MenuItemInterface $menuItem) {
+    private function getMenuItemLoader(MenuItemInterface $menuItem) {
         /** @var View $view */
         $view = $this->container->get(View::class);
 
