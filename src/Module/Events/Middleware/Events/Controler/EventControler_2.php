@@ -536,21 +536,16 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
-                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') != self::NULL_VALUE_nahradni )   {
+                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') );
                 }   
                 else {
                     $content->setInstitutionIdFk( null );
                 }     
                 
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
-                     $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
-                }     
-                else {
-                   $content->setEventContentTypeFk ( null );
-                }     
-                
-                
+                //not null
+                $content->setEventContentTypeIdFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentTypeId') );
+            
                 $this->eventContentRepo->add($content);             
                
                 
@@ -598,22 +593,18 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
-                /* cvicne */  $selecI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') ;
+                /* cvicne */  $selecI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') ;
                 
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
-                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') != self::NULL_VALUE_nahradni )   {
+                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') );
                 }     
                 else {
                     $content->setInstitutionIdFk( null );
                 }
                   
                 //not null
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
-                     $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
-                }     
-                else {
-                    $content->setEventContentTypeFk( null );
-                }
+               $content->setEventContentTypeIdFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentTypeId') );
+                
 
                 
 //            } else {

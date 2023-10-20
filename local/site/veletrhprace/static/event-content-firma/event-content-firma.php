@@ -43,9 +43,13 @@ use Pes\Text\Html;
                 <input <?= $readonly ?> type="text" name="party" placeholder="" maxlength="200" value="<?= isset($party) ? $party : '' ?>" >
             </div>
 
-            <div class="eight wide field">                                  
-                <?= Html::select( "selectContentType", "Typ obsahu:", $selectContentTypes ?? []  , 
-                                 ["selectContentType" =>  $eventContentTypeFk ?? ''  ] , ['required' => true ] ) ?>  
+            <div class="eight wide field">                                                 
+                
+                <?= Html::select( "selectContentTypeId", "Typ obsahu:", 
+                                  ["selectContentTypeId" =>  $eventContentTypeIdFk ?? ''  ], 
+                                  $selectContentTypes ?? [] ,
+                                  ['required' => true ]
+                                  ) ?>  
             </div>
 
             <div>                                                                                                                                
