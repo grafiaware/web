@@ -31,8 +31,17 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
      */
     public function get($id): ?EventContentTypeInterface {
         return $this->getEntity($id); 
-    }    
-
+    }
+    
+    /**
+     *
+     * @param type $type
+     * @return EventContentTypeInterface|null
+     */
+    public function getByType($type): ?EventContentTypeInterface {
+        return $this->getEntityByUnique(['type'=>$type]);
+    }
+    
     /**
      *
      * @return EventContentTypeInterface[]
@@ -40,6 +49,7 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
     public function findAll() :array  {
         return $this->findEntities();
     }
+    
     /**
      *
      * @param EventContentTypeInterface $eventContentType
@@ -48,6 +58,7 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
     public function add(EventContentTypeInterface $eventContentType) :void {
         $this->addEntity($eventContentType);
     }
+    
     /**
      *
      * @param EventContentTypeInterface $eventContentType

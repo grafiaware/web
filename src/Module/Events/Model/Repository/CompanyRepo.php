@@ -31,7 +31,16 @@ class CompanyRepo extends RepoAbstract implements CompanyRepoInterface {
     public function get($id): ?CompanyInterface {
         return $this->getEntity($id);
     }
-
+    
+    /**
+     *
+     * @param type $name
+     * @return CompanyInterface|null
+     */
+    public function getByName($name): ?CompanyInterface {
+        return $this->getEntityByUnique(['name'=>$name]);
+    }
+    
     /**
      *
      * @param type $whereClause

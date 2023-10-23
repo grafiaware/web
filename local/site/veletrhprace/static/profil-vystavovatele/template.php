@@ -8,25 +8,17 @@ use Site\ConfigurationCache;
 
 use Status\Model\Repository\StatusSecurityRepo;
 
-use Events\Model\Repository\PozadovaneVzdelaniRepo;
-use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\EnrollRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 
-use Events\Model\Arraymodel\JobArrayModel;
-use Events\Model\Arraymodel\Presenter;
+use Events\Model\Arraymodel\JobViewModel;
+use Events\Model\Arraymodel\RepresenrativeViewModel;
 
-use Events\Model\Entity\JobToTagInterface;
-use Events\Model\Entity\JobInterface as JobEntityInterface;
-use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyContactInterface;
-use Events\Model\Entity\PozadovaneVzdelaniInterface;
-use Events\Model\Entity\RepresentativeInterface;
-
 
 use Pes\Text\Html;
 use Pes\Text\Text;
@@ -51,10 +43,10 @@ if (isset($loginAggregate)) {
 //        $disabled = '';
     $isRepresentative = false;
 
-    /** @var JobArrayModel $jobModel */
-    $jobModel = $container->get( JobArrayModel::class );   //ARRAY model
-    /** @var Presenter $presenterModel */
-    $presenterModel = $container->get(Presenter::class );       //ARRAY model
+    /** @var JobViewModel $jobModel */
+    $jobModel = $container->get( JobViewModel::class );
+    /** @var RepresenrativeViewModel $representativeModel */
+    $representativeModel = $container->get(RepresenrativeViewModel::class ); 
     
     /** @var RepresentativeRepo $representativeRepo */
     $representativeRepo = $container->get(RepresentativeRepo::class );
@@ -82,7 +74,7 @@ if (isset($loginAggregate)) {
         $isRepresentative = true;
 
         //--- bylo Z 'ARRAY' MODELU   nyni z Presenter::class --------------------
-        $presenterPerson = $presenterModel->getPerson($loginName, $idCompanyVystavovatele);  // z representative a company
+        $presenterPerson = $representativeModel->getPerson($loginName, $idCompanyVystavovatele);  // z representative a company
         // vznikne   array                 
         // 'logNameRepresentative' - tj. login_login_name  z representative 
         // 'idCompany', 'nameCompany' , 'eventInstitutionNameCompany' - z  company
@@ -211,7 +203,7 @@ if($isRepresentative) {
 <?php
 } else {
     $headline = "Profil vystavovatele";
-    $perex = "Profil vystavovatele je dostupný pouze přihlášenému vystavovateli.";
+    $perex = "Profil vystavovatele je dostupný pouze representantu přihlášeného vystavovatele.";
     ?>
     <article class="paper">
         <section>

@@ -5,8 +5,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 use Template\Compiler\TemplateCompilerInterface;
 
-use Events\Model\Arraymodel\JobArrayModel;
-use Events\Model\Arraymodel\Presenter;
+use Events\Model\Arraymodel\JobViewModel;
+use Events\Model\Arraymodel\RepresenrativeViewModel;
 use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Entity\CompanyInterface;
@@ -16,10 +16,10 @@ $perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
 
 
 
-/** @var Presenter $presenterModel */
-$presenterModel = $container->get( Presenter::class );
-/** @var JobArrayModel $jobModel */
-$jobModel = $container->get( JobArrayModel::class );
+/** @var RepresenrativeViewModel $representativeModel */
+$representativeModel = $container->get( RepresenrativeViewModel::class );
+/** @var JobViewModel $jobModel */
+$jobModel = $container->get( JobViewModel::class );
 
 //TODO: prezentace - link na prezentaci (místo block)
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
@@ -31,7 +31,7 @@ $jobModel = $container->get( JobArrayModel::class );
 // SVOBODA - čeká na Red databázi - slouží pro generování odkazů na stránku firmy
 
 
-    foreach ($presenterModel->getCompanyList() as $company ) {
+    foreach ($representativeModel->getCompanyList() as $company ) {
 
         //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
         foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {

@@ -7,17 +7,16 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-use Events\Model\Arraymodel\JobArrayModel;
-
+use Events\Model\Arraymodel\JobViewModel;
 include 'data.php';
 
-/** @var JobArrayModel $jobModel */
-$jobModel = $container->get( JobArrayModel::class );
+/** @var JobViewModel $jobModel */
+$jobModel = $container->get( JobViewModel::class );
 
-        //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
-        foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
-            $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
-        }
+//TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
+foreach ($jobModel->getCompanyJobList($shortName) as $job) {
+    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
+}
 
 ?>
 

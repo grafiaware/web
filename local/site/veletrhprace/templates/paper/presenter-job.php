@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\Event;
+use Events\Model\Arraymodel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 

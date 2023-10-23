@@ -15,7 +15,7 @@ use Events\Model\Entity\JobTagInterface;
 use Template\Compiler\TemplateCompilerInterface;
 
 
-class JobArrayModel {
+class JobViewModel {
 
     /**
      * @var JobRepoInterface

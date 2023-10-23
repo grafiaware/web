@@ -17,7 +17,7 @@ use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Repository\RepresentativeRepo;
 
-use Events\Model\Arraymodel\Presenter;
+use Events\Model\Arraymodel\RepresenrativeViewModel;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -38,8 +38,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-/** @var Presenter $presenterModel */
-$presenterModel = $container->get( Presenter::class );
+/** @var RepresenrativeViewModel $representativeModel */
+$representativeModel = $container->get( RepresenrativeViewModel::class );
 
 /** @var VisitorJobRequestRepo $visitorJobRequestRepo */
 $visitorJobRequestRepo = $container->get(VisitorJobRequestRepo::class);

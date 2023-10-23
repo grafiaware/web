@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\Event;
+use Events\Model\Arraymodel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
@@ -12,7 +12,7 @@ use Status\Model\Repository\StatusSecurityRepo;
 
 //    $eventTypeName = "Prezentace, Pohovor, Přednáška";  // viz Events\Model\Arraymodel\EventType
     $institutionName = "AKKA Czech Republic";
-    $event = (new Event($statusSecurity))->getEventList("", $institutionName, [], true);   // enrolling = true
+    $event = (new EventViewModel($statusSecurity))->getEventList("", $institutionName, [], true);   // enrolling = true
 
 
 

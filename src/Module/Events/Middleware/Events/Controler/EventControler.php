@@ -23,7 +23,7 @@ use Red\Model\Repository\{
 
 use Middleware\Api\Controller\Exception\UnexpectedLanguageException;
 
-use \Events\Model\Arraymodel\Event;
+use \Events\Model\Arraymodel\EventViewModel;
 use \Model\Entity\Enroll;
 
 /**
@@ -42,7 +42,7 @@ class EventControler extends PresentationFrontControlerAbstract {
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             EnrollRepo $enrollRepo,
-            Event $eventListModel
+            EventViewModel $eventListModel
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->enrollRepo = $enrollRepo;

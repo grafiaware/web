@@ -120,8 +120,8 @@ use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\Document;
 
-use Events\Model\Arraymodel\JobArrayModel;
-use Events\Model\Arraymodel\Presenter;
+use Events\Model\Arraymodel\JobViewModel;
+use Events\Model\Arraymodel\RepresenrativeViewModel;
 
 // database
 use Pes\Database\Handler\Account;
@@ -484,8 +484,8 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             DocumentRepo::class => function(ContainerInterface $c) {
                 return new DocumentRepo($c->get(DocumentDao::class), $c->get(DocumentHydrator::class));
             },
-            JobArrayModel::class => function(ContainerInterface $c) {
-                return new JobArrayModel(
+            JobViewModel::class => function(ContainerInterface $c) {
+                return new JobViewModel(
 //                        $c->get(CompanyRepo::class),
                         $c->get(JobRepo::class), 
                         $c->get(JobToTagRepo::class),
@@ -494,8 +494,8 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
 
-            Presenter::class => function(ContainerInterface $c) {
-                return new Presenter($c->get(CompanyRepo::class), $c->get(RepresentativeRepo::class)  );
+            RepresenrativeViewModel::class => function(ContainerInterface $c) {
+                return new RepresenrativeViewModel($c->get(CompanyRepo::class), $c->get(RepresentativeRepo::class)  );
             }
 
         ];

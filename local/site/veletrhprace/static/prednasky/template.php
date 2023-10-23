@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\Event;
+use Events\Model\Arraymodel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -33,7 +33,7 @@ $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurity = $statusSecurityRepo->get();
 
-$event = (new Event($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
+$event = (new EventViewModel($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
 //include Configuration::componentController()['templates']."paper/timecolumn.php";
 include ConfigurationCache::componentController()['templates']."paper/timeline-boxes.php";
