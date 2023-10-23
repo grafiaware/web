@@ -39,10 +39,9 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
      * Nastaví výchozí parametry po vzniku security kontextu. Určeno pro volání po přihlášení uživatele.
      * 
      * @param LoginAggregateFullInterface $loginAggregate
-     * @param UserActionsInterface $userActions
      * @return StatusSecurityInterface
      */
-    public function new(LoginAggregateFullInterface $loginAggregate, UserActionsInterface $userActions): StatusSecurityInterface;
+    public function new(LoginAggregateFullInterface $loginAggregate): StatusSecurityInterface;
 
     /**
      * Informuje, zda security kontext existuje a zda je platný.
@@ -62,4 +61,8 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
      * @return UserActionsInterface|null
      */
     public function getUserActions(): ?UserActionsInterface;
+    
+    public function setInfo($name, $value);
+    
+    public function getInfo($name);    
 }

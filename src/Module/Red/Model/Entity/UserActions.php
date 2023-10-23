@@ -80,7 +80,7 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
     }
     
     /**
-     * Uloží Login entitu pro použití v jiném middleware a příštím requestu, ostraní stav editable content a editable menu.
+     * Uloží Login entitu pro použití v jiném middleware a příštím requestu, odstraní stav editable content a editable menu.
      * 
      * Akce spojené s ItemActions je pak třeba provést v budoucnu, v middleware s přístupem k databázi s uloženými informacemi zavíslými na ItemActions.
      * 
@@ -98,7 +98,7 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
      * 
      * @return string|null
      */
-    public function provideLoggedOffUsername(): ?string {
+    public function lastLoggedOffUsername(): ?string {
         $lo = $this->loggedOffUserName;
         unset($this->loggedOffUserName);
         return $lo;

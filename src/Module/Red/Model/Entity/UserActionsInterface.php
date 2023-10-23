@@ -72,10 +72,11 @@ interface UserActionsInterface extends PersistableEntityInterface {
     
     /**
      * Vrací POUZE JEDNOU login name uložené metodou processActionsForLossOfSecurityContext. Uložený login name smaže.
+     * Metoda použita pro smazání ItemAction v RED databázi - to proběhne až při příštím GET requestu.
      * 
      * @return LoginInterface
      */
-    public function provideLoggedOffUsername(): ?string;
+    public function lastLoggedOffUsername(): ?string;
     public function addItemAction(ItemActionInterface $itemAction): void;
     public function removeItemAction($itemId): void ;
     public function getItemAction($itemId): ?ItemActionInterface;

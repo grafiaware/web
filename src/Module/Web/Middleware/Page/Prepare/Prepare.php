@@ -40,7 +40,7 @@ class Prepare {
      * a podle dostupných jazykových verzí v databázi (potřebuje LanguageRepo).
      * 
      * StatusSecurity akce:
-     * Metoda smaže v databázi ItemActions toho uživatele, který se v předcháuejícím (POST) requestu adhlásil.
+     * Metoda smaže v databázi akce ItemActions toho uživatele, který se v předcháuejícím (POST) requestu odhlásil.
      * 
      * @param StatusPresentationRepo $statusPresentationRepo
      * @param LanguageRepo $languageRepo
@@ -64,11 +64,11 @@ class Prepare {
         }
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         if(isset($userActions)) {
-            $loggedOffUser = $this->statusSecurityRepo->get()->getUserActions()->provideLoggedOffUsername();  // logged off user je automaticky smazáno z UserActions  
+            $loggedOffUser = $this->statusSecurityRepo->get()->getUserActions()->lastLoggedOffUsername();  // logged off user je automaticky smazáno z UserActions  
         }
         if (isset($loggedOffUser)) {
             // skutečné smazámí proběhne au po skončení skriptu - jde o GET request a tak zpoždění není velké (neprovádím repo->flush())
-            $this->itemActionService->removeUserItemActions($loggedOffUser);  // skutečné smazámí proběhne au po skončení skriptu
+            $this->itemActionService->removeUserItemActions($loggedOffUser);  // skutečné smazámí proběhne až po skončení skriptu
         }
     }
 }

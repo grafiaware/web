@@ -24,7 +24,6 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Auth\Model\Repository\LoginAggregateFullRepo;
 
-use Red\Model\Entity\UserActions;
 use Auth\Model\Entity\LoginAggregateFull;
 
 use Status\Model\Entity\StatusSecurityInterface;
@@ -72,7 +71,7 @@ class LoginLogoutController extends FrontControlerAbstract {
                 if (isset($loginAggregateFull) AND $this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
                     $securityStatus = $this->statusSecurityRepo->get();  // ze session
                     /** @var StatusSecurityInterface $securityStatus */
-                    $securityStatus->new($loginAggregateFull, new UserActions());
+                    $securityStatus->new($loginAggregateFull);
                     $this->addFlashMessage("Jste přihlášeni.");
                 }
                 else {

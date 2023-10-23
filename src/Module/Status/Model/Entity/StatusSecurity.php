@@ -11,6 +11,8 @@ namespace Status\Model\Entity;
 use Model\Entity\PersistableEntityAbstract;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
+use Red\Model\Entity\UserActions;
+
 use Red\Model\Entity\UserActionsInterface;
 
 /**
@@ -29,6 +31,8 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
      * @var UserActionsInterface
      */
     private $userActions;
+    
+    private $info;
 
     /**
      * {@inheritdoc}
@@ -49,9 +53,9 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
-    public function new(LoginAggregateFullInterface $loginAggregate, UserActionsInterface $userActions): StatusSecurityInterface {
+    public function new(LoginAggregateFullInterface $loginAggregate): StatusSecurityInterface {
         $this->loginAggregate = $loginAggregate;
-        $this->userActions = $userActions;
+        $this->userActions = new UserActions();
         return $this;
     }
 
@@ -82,4 +86,12 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     public function getUserActions(): ?UserActionsInterface {
         return $this->userActions;
     }
+    
+    public function setInfo($name, $value) {
+        $this->info[$name] = $value;
+    }
+    
+    public function getInfo($name) {
+        return $this->info[$name];
+    }    
 }
