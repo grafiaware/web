@@ -45,8 +45,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-/** @var RepresenrativeViewModel $representativeModel */
-$representativeModel = $container->get( RepresenrativeViewModel::class );
+/** @var RepresenrativeViewModel $representativeViewModel */
+$representativeViewModel = $container->get( RepresenrativeViewModel::class );
 
 
 /** @var VisitorJobRequestRepo $visitorDataPostRepo */
@@ -56,10 +56,14 @@ $visitorDataPostRepo = $container->get(VisitorJobRequestRepo::class);
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
+<<<<<<< HEAD
     $presenterPerson = $representativeModel->getPerson($loginName);
+=======
+    $representativeContext = $representativeViewModel->getRepresentative($loginName);
+>>>>>>> events_templates_fix
 
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];
-    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
+    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($representativeContext['shortName']==$shortName));
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorDataRepo */

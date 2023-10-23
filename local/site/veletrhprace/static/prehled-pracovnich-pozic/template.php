@@ -16,8 +16,9 @@ $perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
 
 
 
-/** @var RepresenrativeViewModel $representativeModel */
-$representativeModel = $container->get( RepresenrativeViewModel::class );
+
+/** @var RepresenrativeViewModel $representativeViewModel */
+$representativeViewModel = $container->get( RepresenrativeViewModel::class );
 /** @var JobViewModel $jobModel */
 $jobModel = $container->get( JobViewModel::class );
 
@@ -31,7 +32,7 @@ $jobModel = $container->get( JobViewModel::class );
 // SVOBODA - čeká na Red databázi - slouží pro generování odkazů na stránku firmy
 
 
-    foreach ($representativeModel->getCompanyList() as $company ) {
+    foreach ($representativeViewModel->getCompanyList() as $company ) {
 
         //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
         foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {

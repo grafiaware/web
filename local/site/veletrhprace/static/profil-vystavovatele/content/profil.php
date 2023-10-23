@@ -7,14 +7,13 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
 
 ?>
     <div class="profil">
         <div class="ui stackable centered grid">
             <div class="column">
                 <div class="ui styled fluid accordion">
-                    <?= $this->insert(__DIR__.'/profil/presenter.php',  $presenterPerson )  ?>
+                    <?= $this->insert(__DIR__.'/profil/representative.php',  $representativeContext )  ?>
                 </div>
                 <br/>
             </div>

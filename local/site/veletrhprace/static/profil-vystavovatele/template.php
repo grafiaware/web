@@ -8,6 +8,7 @@ use Site\ConfigurationCache;
 
 use Status\Model\Repository\StatusSecurityRepo;
 
+use Status\Model\Entity\StatusSecurity;
 use Events\Model\Repository\EnrollRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\CompanyRepo;
@@ -45,8 +46,9 @@ if (isset($loginAggregate)) {
 
     /** @var JobViewModel $jobModel */
     $jobModel = $container->get( JobViewModel::class );
-    /** @var RepresenrativeViewModel $representativeModel */
-    $representativeModel = $container->get(RepresenrativeViewModel::class ); 
+
+    /** @var RepresenrativeViewModel $representativeViewModel */
+    $representativeViewModel = $container->get(RepresenrativeViewModel::class ); 
     
     /** @var RepresentativeRepo $representativeRepo */
     $representativeRepo = $container->get(RepresentativeRepo::class );
@@ -74,15 +76,18 @@ if (isset($loginAggregate)) {
         $isRepresentative = true;
 
         //--- bylo Z 'ARRAY' MODELU   nyni z Presenter::class --------------------
-        $presenterPerson = $representativeModel->getPerson($loginName, $idCompanyVystavovatele);  // z representative a company
-        // vznikne   array                 
-        // 'logNameRepresentative' - tj. login_login_name  z representative 
-        // 'idCompany', 'nameCompany' , 'eventInstitutionNameCompany' - z  company
-        
-        if ($presenterPerson) {
-            $presenterPerson ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail                            
-            $companyNameZPresenterPerson = $presenterPerson['nameCompany'];                    
-            $idCompanyZPresenterPerson = $presenterPerson['idCompany'];
+        $representativeEntity = $representativeViewModel->getRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
+        $companyEntity = $representativeViewModel->getRepresentativeCompany($representativeEntity);
+        if (isset($representativeEntity)) {
+            $representativeContext =  [  //representative a company
+                'logNameRepresentative' =>  $representativeEntity->getLoginLoginName(),
+                'idCompany' =>  $companyEntity->getId(),
+                'nameCompany' =>  $companyEntity->getName(),
+                'eventInstitutionNameCompany' =>  $companyEntity->getEventInstitutionName30(),                        
+                ];            
+            $representativeContext ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail                            
+            $companyNameZPresenterPerson = $representativeContext['nameCompany'];                    
+            $idCompanyZPresenterPerson = $representativeContext['idCompany'];
                
             //----------------------------pro company z PresenterPerson vypsat vsechny companyContact -----------------
             $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany' => $idCompanyZPresenterPerson ] );
@@ -104,8 +109,7 @@ if (isset($loginAggregate)) {
             $companyAddressEntity = $companyAddressRepo->get( $idCompanyZPresenterPerson );
             if ($companyAddressEntity) {
                 $companyAddress = [
-                    'companyId'=>   /* $idCompanyZPresenterPerson,*/ $companyAddressEntity->getCompanyId(),
-                   // 'companyIdA' =>  $idCompanyZPresenterPerson,  //??? pouziva se???
+                    'companyId'=> $companyAddressEntity->getCompanyId(),
                     'name'   => $companyAddressEntity->getName(),
                     'lokace' => $companyAddressEntity->getLokace(),
                     'psc'    => $companyAddressEntity->getPsc(),

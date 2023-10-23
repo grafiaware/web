@@ -4,6 +4,9 @@ namespace Events\Model\Arraymodel;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\RepresentativeRepoInterface;
 
+use Events\Model\Entity\RepresentativeInterface;
+use Events\Model\Entity\CompanyInterface;
+
 /**
  * Description of Presenter
  *
@@ -30,25 +33,24 @@ class RepresenrativeViewModel {
     }
 
     /**
-     * Z DB tabulky representative a tabulky company
+     * 
      * @param type $loginName
-     * @return type
+     * @param type $idCompany
+     * @return RepresentativeInterface|null
      */
-     public function getPerson($loginName, $idCompany) {
-        $representativeEntity = $this->representativeRepo->get($loginName, $idCompany); //companyId, loginLoginName
-        if ($representativeEntity) {
-            $companyEntity = $this->companyRepo->get($representativeEntity->getCompanyId()); //id, name, eventInstitutionName30
-
-            $retArray =  [  //representative a company
-                          'logNameRepresentative' =>  $representativeEntity->getLoginLoginName(),
-                          'idCompany' =>  $companyEntity->getId(),
-                          'nameCompany' =>  $companyEntity->getName(),
-                          'eventInstitutionNameCompany' =>  $companyEntity->getEventInstitutionName30(),                        
-                         ];
-        }
-        return  $retArray ?? [] ;
+     public function getRepresentative($loginName, $idCompany): ?RepresentativeInterface {
+        return $this->representativeRepo->get($loginName, $idCompany);
     }
-
+    
+    /**
+     * 
+     * @param RepresentativeInterface $representative
+     * @return CompanyInterface|null
+     */
+    public function getRepresentativeCompany(RepresentativeInterface $representative): ?CompanyInterface {
+        return $this->companyRepo->get($representative->getCompanyId());      
+    }
+    
     /**
      * Z DB
      * @return array

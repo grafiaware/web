@@ -38,8 +38,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-/** @var RepresenrativeViewModel $representativeModel */
-$representativeModel = $container->get( RepresenrativeViewModel::class );
+/** @var RepresenrativeViewModel $representativeViewModel */
+$representativeViewModel = $container->get( RepresenrativeViewModel::class );
 
 /** @var VisitorJobRequestRepo $visitorJobRequestRepo */
 $visitorJobRequestRepo = $container->get(VisitorJobRequestRepo::class);

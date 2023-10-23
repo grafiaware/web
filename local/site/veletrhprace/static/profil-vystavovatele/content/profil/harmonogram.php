@@ -17,27 +17,20 @@ Další přednášky průběžně doplňujeme, koukněte sem za pár dnů!
 Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz na youtube kanál zde najdete po 28. 3. 2021';
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
-
 $eventTypeName = "";  // viz Events\Model\Arraymodel\EventType
-$eventInstitutionName = "";
-$event = [];
+
 $eventList = new EventViewModel($statusSecurity);
-
-
-$eventInstitutionName = $presenterPerson["nameCompany"];
-
+$eventInstitutionName = $representativeContext["nameCompany"];
 $event = $eventList->getEventList(null, $eventInstitutionName, [], false);   // enrolling = false
-
-
-//include Configuration::componentController()['templates']."timecolumn/template.php";
-//include Configuration::componentController()['templates']."timeline-boxes/template.php";
-
-
 ?>
+
 <div class="title">
     <i class="dropdown icon"></i>
     Harmonogram
 </div>
 <div class="content">
-    <?php include ConfigurationCache::componentController()['templates']."paper/timeline-leafs/content/timeline.php"; ?>
+    <?php include ConfigurationCache::componentController()['templates']."paper/timeline-leafs/content/timeline.php";
+//include Configuration::componentController()['templates']."timecolumn/template.php";
+//include Configuration::componentController()['templates']."timeline-boxes/template.php";
+    ?>
 </div>
