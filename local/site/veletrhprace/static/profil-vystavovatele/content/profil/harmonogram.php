@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\Event;
+use Events\Model\Arraymodel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -21,10 +21,10 @@ $footer = 'Další přednášky budou postupně přibývat, sledujte tuto strán
 $eventTypeName = "";  // viz Events\Model\Arraymodel\EventType
 $eventInstitutionName = "";
 $event = [];
-$eventList = new Event($statusSecurity);
+$eventList = new EventViewModel($statusSecurity);
 
 
-$eventInstitutionName = $presenterPerson["eventInstitutionNameCompany"];
+$eventInstitutionName = $presenterPerson["nameCompany"];
 
 $event = $eventList->getEventList(null, $eventInstitutionName, [], false);   // enrolling = false
 

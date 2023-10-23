@@ -1,17 +1,12 @@
 <?php
-use Template\Compiler\TemplateCompilerInterface;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
-use Events\Model\Arraymodel\JobArrayModel;
 
 include 'data.php';
+include 'presenterdata.php';
 
-$jobModel = new JobArrayModel();
-foreach ($jobModel->getCompanyJobList($shortName) as $job) {
-    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
-}
 
 ?>
 
@@ -33,4 +28,3 @@ foreach ($jobModel->getCompanyJobList($shortName) as $job) {
     <?php include "chci-navazat-kontakt/template.php" ?>
     <?php include "stahnout-letak/template.php" ?>
 </article>
-

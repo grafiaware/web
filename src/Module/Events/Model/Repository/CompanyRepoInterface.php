@@ -17,7 +17,12 @@ interface CompanyRepoInterface  extends RepoInterface  {
      */
     public function get($id): ?CompanyInterface ;
 
-    
+    /**
+     * 
+     * @param type $name
+     * @return CompanyInterface|null
+     */
+    public function getByName($name): ?CompanyInterface;    
     
     /**
      * 

@@ -9,7 +9,7 @@ use Events\Model\Repository\RepresentativeRepoInterface;
  *
  * @author pes"daikin"7"na""mdelektronik"
  */
-class Presenter {
+class RepresenrativeViewModel {
     /**
      * @var CompanyRepoInterface
      */

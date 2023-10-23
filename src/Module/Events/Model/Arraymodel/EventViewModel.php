@@ -15,7 +15,7 @@ use Status\Model\Entity\StatusSecurityInterface;
  *
  * @author pes2704
  */
-class Event {
+class EventViewModel {
 
     private $statusSecurity;
 

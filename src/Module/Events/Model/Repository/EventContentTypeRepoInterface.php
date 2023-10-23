@@ -16,7 +16,13 @@ interface EventContentTypeRepoInterface extends RepoInterface  {
      * @return EventContentTypeInterface|null
      */
     public function get($id): ?EventContentTypeInterface ;
-
+    
+    /**
+     * 
+     * @param type $type
+     * @return EventContentTypeInterface|null
+     */
+    public function getByType($type): ?EventContentTypeInterface;
     /**
      * 
      * @return EventContentTypeInterface[]

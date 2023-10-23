@@ -45,7 +45,7 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
      * @return PaperInterface|null
      */
     public function getByMenuItemId($menuItemId): ?PaperInterface {
-        return $this->getByReference('menu_item', $menuItemId);
+        return $this->getEntityByReference(PaperDao::REFERENCE_MENU_ITEM, $menuItemId);
     }
 
     public function add(PaperInterface $paper) {

@@ -13,7 +13,7 @@ use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Entity\VisitorJobRequestInterface;
 
-use Events\Model\Arraymodel\Presenter;
+use Events\Model\Arraymodel\RepresenrativeViewModel;
 /** @var PhpTemplateRendererInterface $this */
 //  ************** pozice = job **************************
 ###### kontext #######
@@ -45,8 +45,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-/** @var Presenter $presenterModel */
-$presenterModel = $container->get( Presenter::class );
+/** @var RepresenrativeViewModel $representativeModel */
+$representativeModel = $container->get( RepresenrativeViewModel::class );
 
 
 /** @var VisitorJobRequestRepo $visitorDataPostRepo */
@@ -56,7 +56,7 @@ $visitorDataPostRepo = $container->get(VisitorJobRequestRepo::class);
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    $presenterPerson = $presenterModel->getPerson($loginName);
+    $presenterPerson = $representativeModel->getPerson($loginName);
 
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];
     $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));

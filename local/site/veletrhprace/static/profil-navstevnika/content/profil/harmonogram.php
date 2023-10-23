@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\Event;
+use Events\Model\Arraymodel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -22,7 +22,7 @@ $eventTypeName = "";  // viz Events\Model\Arraymodel\EventType
 $institutionName = "";
 
 $event = [];
-$eventList = new Event($statusSecurity);
+$eventList = new EventViewModel($statusSecurity);
 
 $eventIds = [];
 foreach ($enrolls as $enroll) {

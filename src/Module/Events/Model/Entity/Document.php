@@ -22,7 +22,7 @@ class Document extends PersistableEntityAbstract implements DocumentInterface {
     }
 
     public function getContent(): ?DocumentInterface {
-        return $this->document;
+        return $this->content;
     }
 
     public function getDocumentFilename() {
