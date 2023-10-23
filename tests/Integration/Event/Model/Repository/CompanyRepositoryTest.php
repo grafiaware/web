@@ -164,8 +164,17 @@ class CompanyRepositoryTest extends AppRunner {
        $companyArray = $this->companyRepo->find( " name LIKE '%" . self::$companyName . "%'", []);
        $this->assertTrue(is_array($companyArray));
        $this->assertGreaterThan(0,count($companyArray)); //jsou tam minimalne 2
-
     }
+    
+     public function  getByName() {
+        $company = $this->companyRepo->getByName(self::$companyName);
+        $this->assertInstanceOf(CompanyInterface::class, $company);
+        
+        $company = $this->companyRepo->getByName('neočekávaná');
+        $this->assertNull(CompanyInterface::class, $company);
+        
+         ****
+     }
 
 
     public function testRemove_OperationWithLockedEntity() {

@@ -21,7 +21,7 @@ class Document extends PersistableEntityAbstract implements DocumentInterface {
         return $this->id;
     }
 
-    public function getContent(): ?DocumentInterface {
+    public function getContent() {
         return $this->content;
     }
 
