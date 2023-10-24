@@ -30,6 +30,7 @@ class CompanyRepositoryTest extends AppRunner {
     private $companyRepo;
 
     private static $companyName = "proCompanyRepoTest";
+    private static $companyName2 = "proCompanyRepoTest" ."trrwqz.zu?aa";
     private static $companyId;
 
     /**
@@ -135,7 +136,7 @@ class CompanyRepositoryTest extends AppRunner {
 
     public function testAdd() {
         $company = new Company();
-        $company->setName( self::$companyName  . "trrwqz.zu?aa" );
+        $company->setName( self::$companyName2 );
         $this->companyRepo->add($company);  //zapise hned
 
         $this->assertFalse($company->isLocked());
@@ -163,18 +164,16 @@ class CompanyRepositoryTest extends AppRunner {
     public function testFind() {
        $companyArray = $this->companyRepo->find( " name LIKE '%" . self::$companyName . "%'", []);
        $this->assertTrue(is_array($companyArray));
-       $this->assertGreaterThan(0,count($companyArray)); //jsou tam minimalne 2
+       $this->assertGreaterThan(0,count($companyArray)); //jsou tam 
     }
     
-     public function  getByName() {
-        $company = $this->companyRepo->getByName(self::$companyName);
+    public function  testGetByName() {
+        $company = $this->companyRepo->getByName(self::$companyName2);   
         $this->assertInstanceOf(CompanyInterface::class, $company);
         
         $company = $this->companyRepo->getByName('neočekávaná');
-        $this->assertNull(CompanyInterface::class, $company);
-        
-         ****
-     }
+        $this->assertNull($company);               
+    }
 
 
     public function testRemove_OperationWithLockedEntity() {

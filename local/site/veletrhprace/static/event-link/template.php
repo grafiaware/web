@@ -43,17 +43,15 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             
     //------------------------------------------------------------------    
             
+   
     
-    
-    
-    
-        $selectEventLinkPhase =[];  
-        $selectEventLinkPhase [''] =  "vyber fázi - povinné pole" ;
+        $selectEventLinkPhasies =[];  
+        $selectEventLinkPhasies [''] =  "vyber fázi - povinné pole" ;
         $eventLinkPhaseEntities = $eventLinkPhaseRepo->findAll();
         if (isset($eventLinkPhaseEntities) ) {
             /** @var EventLinkPhaseInterface $ent */ 
             foreach ( $eventLinkPhaseEntities as $ent) {
-                $selectEventLinkPhase [$ent->getId()] =  $ent->getText() ?? '' ;
+                $selectEventLinkPhasies [$ent->getId()] =  $ent->getText() ?? '' ;
             }                         
         } 
     
@@ -72,7 +70,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                     'href' =>  $entity->getHref(),
                     
                     'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler_2::NULL_VALUE_nahradni , 
-                    'selectEventLinkPhase' => $selectEventLinkPhase
+                    'selectEventLinkPhasies' => $selectEventLinkPhasies
                     ];
             }   
         } 
@@ -101,8 +99,8 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/event-link.php', [                                                           
-                                                'eventLinkPhaseIdFk' =>  EventControler_2::NULL_VALUE_nahradni,
-                                                'selectEventLinkPhase' => $selectEventLinkPhase,                                                            
+                                                'eventLinkPhaseIdFk' => ''  /*EventControler_2::NULL_VALUE_nahradni*/ ,
+                                                'selectEventLinkPhasies' => $selectEventLinkPhasies,                                                            
                                                 'show' =>  "0",
                                                 'href' =>  "",
                     ] ) ?>                                                                                 

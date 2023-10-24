@@ -191,6 +191,17 @@ class EventContentTypeRepositoryTest extends AppRunner {
 //        $this->assertTrue(is_array($rows));
 //        $this->assertGreaterThan(0,count($rows)); //jsou tam minimalne 2
 //    }
+    
+    
+    public function  testGetByType() {
+        $eventContentType = $this->eventContentTypeRepo->getByType(self::$typeDalsi);  
+        $this->assertInstanceOf(EventContentType::class, $eventContentType);
+        
+        $eventContentType = $this->eventContentTypeRepo->getByType('neočekávaná');
+        $this->assertNull($eventContentType);               
+    }
+    
+    
 
 
     public function testRemove_OperationWithLockedEntity() {

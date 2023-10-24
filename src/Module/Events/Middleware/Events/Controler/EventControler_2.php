@@ -812,13 +812,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $eventLink = $this->container->get(EventLinkInterface::class); //new     
                 $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') ?? 0 );
                 $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );                     
-                            
-                if ( (new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') != self::NULL_VALUE_nahradni )   {
-                    $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );
-                }     // je NOT NULL
-//                else {
-//                    $eventLink->setLinkPhaseIdFk ( null );
-//                }         
+                //not null            
+                $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );                                       
 
                 $this->eventLinkRepo->add($eventLink);             
                
@@ -863,17 +858,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') ?? 0 );
                 $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );
                
-                if ( (new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') != self::NULL_VALUE_nahradni )   {
-                    $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );
-                }   // je NOT NULL  
-//                else {
-//                    $eventLink->setLinkPhaseIdFk ( null );
-//                }         
-        
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
-//            }
-//        }           
+                 //not null            
+                $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );                        
         
         return $this->redirectSeeLastGet($request);
 
