@@ -7,6 +7,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 
 use Status\Model\Repository\StatusSecurityRepo;
+
 use Status\Model\Entity\StatusSecurity;
 use Events\Model\Repository\EnrollRepo;
 use Events\Model\Repository\RepresentativeRepo;
@@ -45,6 +46,7 @@ if (isset($loginAggregate)) {
 
     /** @var JobViewModel $jobModel */
     $jobModel = $container->get( JobViewModel::class );
+
     /** @var RepresenrativeViewModel $representativeViewModel */
     $representativeViewModel = $container->get(RepresenrativeViewModel::class ); 
     

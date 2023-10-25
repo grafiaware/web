@@ -267,8 +267,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
                 
                 //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
-                      $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionTypeId') != self::NULL_VALUE_nahradni )   {
+                      $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selectInstitutionTypeId') );
                 }    
                  else {
                     $institution->setInstitutionTypeId( null );
@@ -318,8 +318,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
                 //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );     
                 
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
-                    $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionTypeId') != self::NULL_VALUE_nahradni )   {
+                    $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selectInstitutionTypeId') );
                 }     
                 else {
                     $institution->setInstitutionTypeId( null );
@@ -536,21 +536,16 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
-                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') != self::NULL_VALUE_nahradni )   {
+                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') );
                 }   
                 else {
                     $content->setInstitutionIdFk( null );
                 }     
                 
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
-                     $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
-                }     
-                else {
-                   $content->setEventContentTypeFk ( null );
-                }     
-                
-                
+                //not null
+                $content->setEventContentTypeIdFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentTypeId') );
+            
                 $this->eventContentRepo->add($content);             
                
                 
@@ -598,22 +593,18 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
                 $content->setParty((new RequestParams())->getParsedBodyParam($request, 'party') );
                 
-                /* cvicne */  $selecI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') ;
+                /* cvicne */  $selecI =  (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') ;
                 
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitution') != self::NULL_VALUE_nahradni )   {
-                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitution') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') != self::NULL_VALUE_nahradni )   {
+                     $content->setInstitutionIdFk ((new RequestParams())->getParsedBodyParam($request, 'selectInstitutionId') );
                 }     
                 else {
                     $content->setInstitutionIdFk( null );
                 }
                   
                 //not null
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectContentType') != self::NULL_VALUE_nahradni )   {
-                     $content->setEventContentTypeFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentType') );
-                }     
-                else {
-                    $content->setEventContentTypeFk( null );
-                }
+               $content->setEventContentTypeIdFk  ((new RequestParams())->getParsedBodyParam($request, 'selectContentTypeId') );
+                
 
                 
 //            } else {
@@ -821,13 +812,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $eventLink = $this->container->get(EventLinkInterface::class); //new     
                 $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') ?? 0 );
                 $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );                     
-                            
-                if ( (new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') != self::NULL_VALUE_nahradni )   {
-                    $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );
-                }     // je NOT NULL
-//                else {
-//                    $eventLink->setLinkPhaseIdFk ( null );
-//                }         
+                //not null            
+                $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );                                       
 
                 $this->eventLinkRepo->add($eventLink);             
                
@@ -872,17 +858,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') ?? 0 );
                 $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );
                
-                if ( (new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') != self::NULL_VALUE_nahradni )   {
-                    $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );
-                }   // je NOT NULL  
-//                else {
-//                    $eventLink->setLinkPhaseIdFk ( null );
-//                }         
-        
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
-//            }
-//        }           
+                 //not null            
+                $eventLink->setLinkPhaseIdFk ((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseId') );                        
         
         return $this->redirectSeeLastGet($request);
 

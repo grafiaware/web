@@ -36,7 +36,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
     $institutionIdFk  = $idInstitution;
     
     $selectContentTypes = [];
-    $selectContentTypes [''] =  "vyber typ - povinné pole" ;
+    $selectContentTypes [''] =  "vyber - povinné pole" ;
     $allContentType = $eventContentTypeRepo->findAll();
     $allContentTypeArray=[];
     /** @var  EventContentInterface $type */
@@ -45,7 +45,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
         $contype ['name'] = $type->getName();               
         $allContentTypeArray[] = $contype;    
         
-        $selectContentTypes [$type->getId()] =  $type->getName() . " ". $type->getName() ;
+        $selectContentTypes [$type->getId()] =  $type->getName()  ;
     }
   
     
@@ -74,7 +74,6 @@ use Events\Middleware\Events\Controler\EventControler_2;
             /** @var EventContentInterface $entity */
             foreach ($eventContentEntities as $entity) {
                       $nu1 = $entity->getInstitutionIdFk();
-                      //$nu2 = $entity->getEventContentTypeFk();
                       $nu2 = $entity->getEventContentTypeIdFk();
                 
                 $institutionE = $institutionRepo->get(  ($entity->getInstitutionIdFk()) ?? ''    ) ;               

@@ -27,8 +27,11 @@ use Pes\Text\Html;
                 </div>
                 
                 <div class="field">                                                    
-                    <?= Html::select( "eventLinkPhaseId", "Fáze události:", $selectEventLinkPhase ?? [] , 
-                                     ["eventLinkPhaseId" =>  $eventLinkPhaseIdFk ?? '' ], ['required' => true ]) ?>                   
+                    <?= Html::select( "eventLinkPhaseId", "Fáze události:", 
+                                      ["eventLinkPhaseId" => $eventLinkPhaseIdFk ?? '' ], 
+                                      $selectEventLinkPhasies ?? [] ,                            
+                                      ['required' => true ]) 
+                                      ?>                   
                 </div>               
                                
             </div>

@@ -143,7 +143,8 @@ class JobControler extends PresentationFrontControlerAbstract {
                 $job = $this->container->get(Job::class); //new $job
                 
                 $job->setCompanyId($idCompany);
-                // POST formularovadata                
+                // POST formularovadata       
+                //not null
                 $job->setPozadovaneVzdelaniStupen((new RequestParams())->getParsedBodyParam($request, 'pozadovane-vzdelani-stupen'));
                 $job->setNazev((new RequestParams())->getParsedBodyParam($request, 'nazev'));
                 $job->setMistoVykonu((new RequestParams())->getParsedBodyParam($request, 'misto-vykonu'));
@@ -195,7 +196,8 @@ class JobControler extends PresentationFrontControlerAbstract {
                 /** @var JobInterface $job */
                 $job = $this->jobRepo->get( $idJob );
                 
-                // POST formularova data                                                            
+                // POST formularova data         
+                //not null
                 $job->setPozadovaneVzdelaniStupen((new RequestParams())->getParsedBodyParam($request, 'pozadovane-vzdelani-stupen'));
                 $job->setNazev((new RequestParams())->getParsedBodyParam($request, 'nazev'));
                 $job->setMistoVykonu((new RequestParams())->getParsedBodyParam($request, 'misto-vykonu'));

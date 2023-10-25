@@ -119,6 +119,16 @@ class EventLinkPhaseRepositoryTest extends AppRunner {
         $this->assertTrue($eventLinkPhase->isPersisted());  // !!!!!! EventLinkPhaseDao ma DaoEditAutoincrementKeyInterface, k zápisu dojde ihned !!!!!!!
         // pro automaticky|generovany klic (tento pripad zde ) a  pro  overovany klic  - !!! zapise se hned !!!
         $this->assertFalse($eventLinkPhase->isLocked());
+        
+        //toto projde , polozka text je sice not null, ale rady se dává ""
+        $eventLinkPhase = new EventLinkPhase();
+        $eventLinkPhase->setText("");
+        $this->eventLinkPhaseRepo->add($eventLinkPhase);
+        
+        $id = $eventLinkPhase->getId();    
+        $eventLinkPhase1 = $this->eventLinkPhaseRepo->get($id);
+        $this->eventLinkPhaseRepo->remove($eventLinkPhase1);              
+        
     }
 
 

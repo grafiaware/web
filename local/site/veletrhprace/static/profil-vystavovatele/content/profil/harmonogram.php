@@ -18,6 +18,7 @@ Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz n
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
 $eventTypeName = "";  // viz Events\Model\Arraymodel\EventType
+
 $eventList = new EventViewModel($statusSecurity);
 $eventInstitutionName = $representativeContext["nameCompany"];
 $event = $eventList->getEventList(null, $eventInstitutionName, [], false);   // enrolling = false
