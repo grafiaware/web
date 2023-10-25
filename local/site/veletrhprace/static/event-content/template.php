@@ -36,7 +36,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
     $institutionIdFk  = $idInstitution;
     
     $selectContentTypes = [];
-    $selectContentTypes [''] =  "vyber typ - povinné pole" ;
+    $selectContentTypes [''] =  "vyber - povinné pole" ;
     $allContentType = $eventContentTypeRepo->findAll();
     $allContentTypeArray=[];
     /** @var  EventContentInterface $type */

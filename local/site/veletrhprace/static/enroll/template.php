@@ -59,22 +59,22 @@ use Events\Model\Entity\LoginInterface;
                     ];
             }
     //------------------------------------------------------------------
-    $selectCompany =[];
-    $selectLogin =[];    
+    $selectCompanies =[];
+    $selectLogins =[];    
     
     $companyEntities = $companyRepo->findAll();
         /** @var CompanyInterface $comp */ 
     foreach ( $companyEntities as $comp) {
-        $selectCompany [$comp->getId()] =  $comp->getName() ;
+        $selectCompanies [$comp->getId()] =  $comp->getName() ;
     }
     $loginEntities = $loginRepo->findAll();
         /** @var LoginInterface  $logi */ 
     foreach ( $loginEntities as $logi) {
-        $selectLogin [] =  $logi->getLoginName() ;
+        $selectLogins [] =  $logi->getLoginName() ;
     }
      
-    $selecty['selectCompanies'] = $selectCompany;
-    $selecty['selectLogins']   = $selectLogin;   
+    $selecty['selectCompanies'] = $selectCompanies;
+    $selecty['selectLogins']   = $selectLogins;   
         
   ?>
  

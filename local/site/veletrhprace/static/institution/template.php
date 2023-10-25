@@ -40,13 +40,13 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
     $institutionTypeRepo = $container->get(InstitutionTypeRepo::class );
             
     //------------------------------------------------------------------    
-        $selectInstitutionType =[];    
-        $selectInstitutionType [EventControler_2::NULL_VALUE_nahradni] =  "" ;
+        $selectInstitutionTypes =[];    
+        $selectInstitutionTypes [EventControler_2::NULL_VALUE_nahradni] =  "" ;
         $institutionTypeEntities = $institutionTypeRepo->findAll();
         if (isset($institutionTypeEntities) ) {
             /** @var InstitutionTypeInterface $entity */ 
             foreach ( $institutionTypeEntities as $entity) {
-                $selectInstitutionType [$entity->getId()] =  $entity->getInstitutionType() ;
+                $selectInstitutionTypes [$entity->getId()] =  $entity->getInstitutionType() ;
             }                 
         }
     
@@ -56,21 +56,21 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             foreach ($institutionsEntities as $entity) {
                 
                 $pom = $entity->getInstitutionTypeId() ?? '';
-                $institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() ?? '' );
+                    $institutionTypE = $institutionTypeRepo->get( $entity->getInstitutionTypeId() ?? '' );
                 $type = isset ($institutionTypE) ? $institutionTypE->getInstitutionType()  : '';                
                 
                 /** @var InstitutionInterface $entity */
                 $institutions[] = [
                     'institutionId' => $entity->getId(),
                     'name' =>  $entity->getName(),
-                    'institutionTypeId' => $entity->getInstitutionTypeId() ?? ''   /*$entity->getInstitutionTypeId()*/,
+                    'institutionTypeId' => $entity->getInstitutionTypeId() ?? ''   ,
                     'institutionType' =>   $type, 
-                    'selectInstitutionTypeId' =>  $selectInstitutionType
+                    'selectInstitutionTypes' =>  $selectInstitutionTypes
                     ];
             }   
         } 
                               
-        $selecty['selectInstitutionTypeId'] = $selectInstitutionType;       
+        $selecty['selectInstitutionTypes'] = $selectInstitutionTypes;       
         
   ?>
 

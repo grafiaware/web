@@ -58,25 +58,25 @@ use Events\Model\Entity\LoginInterface;
                     'loginLoginName' => $rprs->getLoginLoginName(),
                     ];
             }
-    //------------------------------------------------------------------
-    $selectCompany =[];    
-    $selectCompany [''] =  "vyber firmu - povinné pole" ;
+    //------------------------------------------------------------------         
+    $selectCompanies =[];    
+    $selectCompanies [''] =  "vyber - povinné pole" ;
     $companyEntities = $companyRepo->findAll();
         /** @var CompanyInterface $comp */ 
     foreach ( $companyEntities as $comp) {
-        $selectCompany [$comp->getId()] =  $comp->getName() ;
+        $selectCompanies [$comp->getId()] =  $comp->getName() ;
     }
     
-    $selectLogin =[]; 
-    $selectLogin [] =  "vyber representanta - povinné pole" ;
+    $selectLogins =[]; 
+    $selectLogins [''] =  "vyber - povinné pole" ;
     $loginEntities = $loginRepo->findAll();
         /** @var LoginInterface  $logi */ 
     foreach ( $loginEntities as $logi) {
-        $selectLogin [] =  $logi->getLoginName() ;
+        $selectLogins [ $logi->getLoginName() ] =  $logi->getLoginName() ;
     }
      
-    $selecty['selectCompanies'] = $selectCompany;
-    $selecty['selectLogins']   = $selectLogin;   
+    $selecty['selectCompanies'] = $selectCompanies;
+    $selecty['selectLogins']   = $selectLogins;   
         
   ?>
  

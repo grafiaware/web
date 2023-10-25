@@ -23,10 +23,10 @@ use Pes\Text\Html;
                 
                 <div class="field">
                     <?php if (isset($companyName) ){ ?>
-                            <label>CompanyName</label>
+                            <label>Vystavovatel - CompanyName</label>
                             <input <?= $readonly ?> type="text" name="company-name" placeholder="" maxlength="250" value="<?= $companyName ?>">
                     <?php } else { ?>
-                            <?= Html::select("selectCompany", "Company name:",
+                            <?= Html::select("selectCompany", "Vystavovatel - Company name:",
                                             [ ],
                                             $selectCompanies, 
                                             ['required' => true ],
@@ -39,11 +39,11 @@ use Pes\Text\Html;
                             <label>Representant - loginLoginName</label>
                             <input <?= $readonly ?> type="text" name="login-login-name" placeholder="" maxlength="50" value="<?=  $loginLoginName  ?>">
                     <?php } else { ?>
-                            <?= Html::select("selectLogin", "Login name:",  
+                            <?= Html::select("selectLogin", "Representant - Login name:",  
                                              [ ],                                    
                                              $selectLogins,
                                              ['required' => true ],                                  
-                                            "vyber representanta - povinné pole") ?>   
+                                            '') ?>   
                     <?php } ?> 
                 </div>
             </div>

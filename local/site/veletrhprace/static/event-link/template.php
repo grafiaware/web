@@ -66,7 +66,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                 
                 $eventLinks[] = [
                     'eventLinkId' => $entity->getId(),
-                    'show' => ($entity->getShow())  /*??  EventControler_2::NULL_VALUE_nahradni*/ ,
+                    'show' => ($entity->getShow()),
                     'href' =>  $entity->getHref(),
                     
                     'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler_2::NULL_VALUE_nahradni , 

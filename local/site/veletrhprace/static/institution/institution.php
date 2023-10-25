@@ -20,14 +20,15 @@ use Pes\Text\Html;
             <div class="two fields">                                        
                 <div class="field">                   
                     <label>Jméno instituce</label>
-                    <input <?= $readonly ?> type="text" name="institutionName" placeholder="" maxlength="100" value="<?= isset($name)?  $name : '' ?>">                   
+                    <input <?= $readonly ?> type="text" name="institutionName" required placeholder="" maxlength="100" value="<?= isset($name)?  $name : '' ?>">                   
                 </div>
                 
                 <div class="field">                                                    
-                    <?= Html::select( "selinstitutionTypeId", "Typ instituce:", 
-                                      ["selinstitutionTypeId" =>  $institutionTypeId ?? EventControler_2::NULL_VALUE_nahradni /*'' */ ],
-                                      $selectInstitutionTypeId ?? [] ,                                      
-                                      []) ?>                   
+                    <?= Html::select( "selectInstitutionTypeId", "Typ instituce:", 
+                                      ["selectInstitutionTypeId" =>  $institutionTypeId ?? '' ],
+                                      $selectInstitutionTypes ?? [] ,                                      
+                                      []) ?>         
+                    
                 </div>               
                                
             </div>

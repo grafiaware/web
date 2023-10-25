@@ -26,8 +26,8 @@ use Pes\Text\Html;
                     <input < ?= $readonly ?> type="text" name="pozadovane-vzdelani-stupen" placeholder="" maxlength="100" 
                                             value="< ?= isset($pozadovaneVzdelaniStupen)?  $pozadovaneVzdelaniStupen : ''  ?>">   -->                                     
                     <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
-                                      ["pozadovane-vzdelani-stupen"=> isset($pozadovaneVzdelaniStupen) ? $pozadovaneVzdelaniStupen: '' ],  
-                                      isset($selectVzdelanich) ? $selectVzdelanich : [], 
+                                      ["pozadovane-vzdelani-stupen"=> $pozadovaneVzdelaniStupen ?? '' ],  
+                                      $selectEducations ??  [], 
                                       ['required' => true ],
                                       []) ?>  
                 </div>

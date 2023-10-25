@@ -267,8 +267,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
                 
                 //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
-                      $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionTypeId') != self::NULL_VALUE_nahradni )   {
+                      $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selectInstitutionTypeId') );
                 }    
                  else {
                     $institution->setInstitutionTypeId( null );
@@ -318,8 +318,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
                 //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );     
                 
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') != self::NULL_VALUE_nahradni )   {
-                    $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectInstitutionTypeId') != self::NULL_VALUE_nahradni )   {
+                    $institution->setInstitutionTypeId ((new RequestParams())->getParsedBodyParam($request, 'selectInstitutionTypeId') );
                 }     
                 else {
                     $institution->setInstitutionTypeId( null );

@@ -35,11 +35,12 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     $idCompany = 25;
     //------------------------------------------------------------------
     
-    $selectVzdelani=[];
+    $selectEducations = [];
+    $selectEducations [''] =  "vyber - povinné pole" ;
     $vzdelaniEntities = $pozadovaneVzdelaniRepo->findAll();
     /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */ 
     foreach ( $vzdelaniEntities as $vzdelaniEntity ) {
-        $selectVzdelanich [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
+        $selectEducations [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
     }
 
        
@@ -66,7 +67,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
                 'popisPozice' =>  $jEntity->getPopisPozice(),
                 'pozadujeme' =>  $jEntity->getPozadujeme(),
                 'nabizime' =>  $jEntity->getNabizime(),                    
-                'selectVzdelanich' =>  $selectVzdelanich 
+                'selectEducations' =>  $selectEducations 
                 ];
         }   
             
@@ -77,7 +78,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     <div>
     <div class="ui styled fluid accordion">   
         
-        Vyžaduje přihlášení. <br/>
+        Vyžaduje přihlášení representanta. <br/>
             Vystavovatel (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
             <div class="active title">
                 <i class="dropdown icon"></i>
@@ -92,7 +93,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company-job.php', ['companyId' => $idCompany, 
-                                                                    'selectVzdelanich' =>  $selectVzdelanich ] ) ?>                                                                                 
+                                                                    'selectEducations' =>  $selectEducations ] ) ?>                                                                                 
                 </div>                  
             </div>            
     </div>
