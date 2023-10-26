@@ -16,7 +16,7 @@ use Pes\Text\Html;
         <form class="ui huge form" action="" method="POST" >                                                                         
                 <div class="field">                   
                     <label>Typ instituce</label>
-                    <input <?= $readonly ?> type="text" name="institutionType" placeholder="" maxlength="45" 
+                    <input <?= $readonly ?> type="text" name="institutionType" required placeholder="" maxlength="45" 
                                             value="<?= isset($institutionType)?  $institutionType : '' ?>">                   
                 </div>           
             
