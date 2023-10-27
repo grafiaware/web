@@ -5,8 +5,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 use Template\Compiler\TemplateCompilerInterface;
 
-use Events\Model\Arraymodel\JobViewModel;
-use Events\Model\Arraymodel\RepresenrativeViewModel;
+use Events\Middleware\Events\ViewModel\JobViewModel;
+use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
 use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Entity\CompanyInterface;

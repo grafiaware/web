@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Events\Model\Arraymodel;
+namespace Events\Middleware\Events\ViewModel;
 
 use Status\Model\Entity\StatusSecurityInterface;
 

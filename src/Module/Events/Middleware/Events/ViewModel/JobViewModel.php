@@ -1,5 +1,5 @@
 <?php
-namespace Events\Model\Arraymodel;
+namespace Events\Middleware\Events\ViewModel;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
@@ -7,6 +7,7 @@ use Events\Model\Repository\JobToTagRepoInterface;
 use Events\Model\Repository\JobTagRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 
+use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\PozadovaneVzdelaniInterface;
 use Events\Model\Entity\JobInterface;
 use Events\Model\Entity\JobToTagInterface;
@@ -17,6 +18,11 @@ use Template\Compiler\TemplateCompilerInterface;
 
 class JobViewModel {
 
+    /**
+     * @var CompanyRepoInterface
+     */
+    private $companyRepo;
+    
     /**
      * @var JobRepoInterface
      */
@@ -39,20 +45,34 @@ class JobViewModel {
 
     
     public function __construct(
-//            CompanyRepoInterface $companyRepo,
+            CompanyRepoInterface $companyRepo,
             JobRepoInterface $jobRepo,
             JobToTagRepoInterface $jobToTagRepo,
             JobTagRepoInterface $jobTagRepo,
             PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
         ) {
-//        $this->companyRepo = $companyRepo;
+        $this->companyRepo = $companyRepo;
         $this->jobRepo = $jobRepo;
         $this->jobToTagRepo = $jobToTagRepo;
         $this->jobTagRepo = $jobTagRepo;
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;
     }
 
-    public function getCompanyJobList($idCompany)  {
+    /**
+     * 
+     * @param type $name
+     * @return CompanyInterface|null
+     */
+    public function getCompanyByName($name): ?CompanyInterface {
+        return $this->companyRepo->getByName($name);
+    }
+    
+    /**
+     * 
+     * @param type $idCompany
+     * @return array
+     */
+    public function getCompanyJobList($idCompany): array {
         $companyJobs = $this->jobRepo->find( " company_id = :idCompany " , [ 'idCompany' => $idCompany ]);
         $jobsArray = [];
         foreach ($companyJobs as $job) {
@@ -77,7 +97,6 @@ class JobViewModel {
                  $tag = $this->jobTagRepo->get($id);
                  $jobArray['kategorie'][] = $tag->getTag();
             }
-//            $jobsArray[] = array_merge($jobArray, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}] );
             $jobsArray[] = array_merge($jobArray);
         }
         return $jobsArray;

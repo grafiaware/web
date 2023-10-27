@@ -7,7 +7,7 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-use Events\Model\Arraymodel\JobViewModel;
+use Events\Middleware\Events\ViewModel\JobViewModel;
 include 'data.php';
 
 /** @var JobViewModel $jobModel */

@@ -16,7 +16,7 @@ use Pes\Logger\FileLogger;
  *
  * @author pes2704
  */
-class ConfigurationDb extends ConfigurationConstants {
+class ConfigurationDb {
 
     ### kontejner ###
     #

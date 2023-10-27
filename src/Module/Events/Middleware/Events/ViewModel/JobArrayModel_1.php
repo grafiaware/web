@@ -1,5 +1,5 @@
 <?php
-namespace Events\Model\Arraymodel;
+namespace Events\Middleware\Events\ViewModel;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;

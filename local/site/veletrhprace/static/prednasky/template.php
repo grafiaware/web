@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\EventViewModel;
+use Events\Middleware\Events\ViewModel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -25,7 +25,7 @@ Před zahájením akce zde uvidíte barevný odkaz pro vstup na akci nebo odkaz 
         ;
 $footer = '';
 
-$eventTypeName = "Přednáška";  // viz Events\Model\Arraymodel\EventType
+$eventTypeName = "Přednáška";  // viz Events\Middleware\Events\ViewModel\EventType
 $institutionName = "";
 
 

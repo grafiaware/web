@@ -1,7 +1,7 @@
 <?php
 use Site\ConfigurationCache;
 use Psr\Container\ContainerInterface;
-use Events\Model\Arraymodel\EventViewModel;
+use Events\Middleware\Events\ViewModel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -19,7 +19,7 @@ Přihlaste se do vybrané poradny! Vstoupit mohou pouze registrovaní návštěv
 ';
 $footer = '';
 
-$eventTypeName = "Poradna";  // viz Events\Model\Arraymodel\EventType
+$eventTypeName = "Poradna";  // viz Events\Middleware\Events\ViewModel\EventType
 $institutionName = "";
 
 /** @var ContainerInterface $container */

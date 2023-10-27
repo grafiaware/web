@@ -15,8 +15,8 @@ use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 
-use Events\Model\Arraymodel\JobViewModel;
-use Events\Model\Arraymodel\RepresenrativeViewModel;
+use Events\Middleware\Events\ViewModel\JobViewModel;
+use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
 
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyContactInterface;

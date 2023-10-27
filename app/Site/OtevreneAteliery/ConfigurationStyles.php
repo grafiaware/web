@@ -10,13 +10,6 @@ namespace Site\OtevreneAteliery;
 
 use Pes\View\Renderer\ClassMap\ClassMap;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
-use Red\Component\Renderer\Html\Menu\MenuWrapEditableRenderer;
-use Red\Component\Renderer\Html\Menu\ItemRenderer;
-use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
-use Red\Component\Renderer\Html\Menu\ItemBlockRenderer;
-use Red\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
-use Red\Component\Renderer\Html\Menu\ItemTrashRenderer;
-use Red\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -25,7 +18,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
  *
  * @author pes2704
  */
-class ConfigurationStyles extends ConfigurationRed {
+class ConfigurationStyles {
 
     /**
      * Pomocná metoda pro konfiguraci renderer kontejneru - vrací default hodnoty pro metodu self::renderer()
@@ -348,7 +341,7 @@ class ConfigurationStyles extends ConfigurationRed {
      */
     public static function languageSelectRenderer() {
         return [
-            'assets' => self::RED_ASSETS.'flags-mini/'
+            'assets' => self::WEB_ASSETS.'flags-mini/'
         ];
     }
 }

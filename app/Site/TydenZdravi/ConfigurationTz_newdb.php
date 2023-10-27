@@ -27,17 +27,17 @@ use \Pes\View\Renderer\ClassMap\ClassMap;
 class ConfigurationTz_newdb {
 
     // site
-    const RED_SITE_PATH = 'tydenzdravi/';
+    const WEB_SITE_PATH = 'tydenzdravi/';
 
     // local
-    const RED_TEMPLATES_COMMON = 'local/site/common/templates/';
-    const RED_TEMPLATES_SITE = 'local/site/'.self::RED_SITE_PATH.'templates/';
+    const WEB_TEMPLATES_COMMON = 'local/site/common/templates/';
+    const WEB_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE_PATH.'templates/';
     // public
-    const RED_ASSETS = 'public/assets/';
-    const RED_LINKS_COMMON = 'public/site/common/';
-    const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
+    const WEB_ASSETS = 'public/assets/';
+    const WEB_LINKS_COMMON = 'public/site/common/';
+    const WEB_LINKS_SITE = 'public/site/'.self::WEB_SITE_PATH;
     // files
-    const RED_FILES = '_www_tz_files/';
+    const WEB_FILES = '_www_tz_files/';
 
     ### bootstrap ###
     #
@@ -204,12 +204,12 @@ class ConfigurationTz_newdb {
         return [
             'component.logs.directory' => 'Logs/App/Web',
             'component.logs.render' => 'Render.log',
-            'component.templatepath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
-            'component.templatepath.article' => self::RED_TEMPLATES_COMMON.'article/',
-            'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
-            'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
-            'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
-            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/status/user_action.php',
+            'component.templatepath.paper' => self::WEB_TEMPLATES_COMMON.'paper/',
+            'component.templatepath.article' => self::WEB_TEMPLATES_COMMON.'article/',
+            'component.template.flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessage.php',
+            'component.template.login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
+            'component.template.logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+            'component.template.useraction' => self::WEB_TEMPLATES_COMMON.'layout/status/user_action.php',
         ];
     }
 
@@ -795,33 +795,33 @@ class ConfigurationTz_newdb {
             'title' => "Týden zdraví",
 
             // folders
-            'linksCommon' => self::RED_LINKS_COMMON,
-            'linksSite' => self::RED_LINKS_SITE,
+            'linksCommon' => self::WEB_LINKS_COMMON,
+            'linksSite' => self::WEB_LINKS_SITE,
 
             // local templates paths
-            'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
-            'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
-            'linksEditorJs' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorJs.php',
-            'linkEditorCss' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorCss.php',
+            'layout' => self::WEB_TEMPLATES_SITE.'layout/layout.php',
+            'tiny_config' => self::WEB_TEMPLATES_SITE.'js/tiny_config.js',
+            'linksEditorJs' => self::WEB_TEMPLATES_COMMON.'layout/links/linkEditorJs.php',
+            'linkEditorCss' => self::WEB_TEMPLATES_COMMON.'layout/links/linkEditorCss.php',
 
             // linksEditorJs links
-            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+            'urlTinyMCE' => self::WEB_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => self::WEB_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
-            'urlEditScript' => self::RED_LINKS_COMMON . 'js/editDelegated.js',
+            'urlTinyInit' => self::WEB_LINKS_COMMON.'js/TinyInit.js',
+            'urlEditScript' => self::WEB_LINKS_COMMON . 'js/editDelegated.js',
 
             // linkEditorCss links
-            'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
-            'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
-            'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
+            'urlStylesCss' => self::WEB_LINKS_COMMON."css/old/styles.css",
+            'urlSemanticCss' => self::WEB_LINKS_SITE."semantic-ui/semantic.min.css",
+            'urlContentTemplatesCss' => self::WEB_LINKS_COMMON."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template Controller
-            'authorTemplatesPath' => self::RED_LINKS_COMMON."templates/author/",
+            'paperTemplatesUri' =>  self::WEB_LINKS_SITE."templates/paper/",  // URI pro Template Controller
+            'authorTemplatesPath' => self::WEB_LINKS_COMMON."templates/author/",
 
         ];
     }
@@ -840,9 +840,9 @@ class ConfigurationTz_newdb {
 //               'home_page' => ['static', 'body-pro-zdravi'],
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
-               'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
-               'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
-               'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/cascade/loaderElementEditable.php',
+               'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
+               'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
+               'templates.loaderElementEditable' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElementEditable.php',
             ];
     }
 
@@ -853,7 +853,7 @@ class ConfigurationTz_newdb {
     public static function componentController() {
 
         return [
-               'static' => self::RED_TEMPLATES_SITE.'static/',
+               'static' => self::WEB_TEMPLATES_SITE.'static/',
 
             ];
     }
@@ -865,9 +865,9 @@ class ConfigurationTz_newdb {
     public static function templates() {
 
         return [
-               'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
-               'templates.paperFolder' => self::RED_TEMPLATES_COMMON.'paper/',
-               'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',
+               'templates.authorFolder' => self::WEB_TEMPLATES_COMMON.'author/',
+               'templates.paperFolder' => self::WEB_TEMPLATES_COMMON.'paper/',
+               'templates.paperContentFolder' => self::WEB_TEMPLATES_COMMON.'paper-content/',
 
             ];
     }
@@ -879,7 +879,7 @@ class ConfigurationTz_newdb {
     public static function filesUploadController() {
 
         return [
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE : self::RED_FILES_SITE,
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE : self::WEB_FILES_SITE,
 
             ];
     }
@@ -890,7 +890,7 @@ class ConfigurationTz_newdb {
      */
     public static function languageSelectRenderer() {
         return [
-            'assets' => self::RED_ASSETS.'flags-mini/'
+            'assets' => self::WEB_ASSETS.'flags-mini/'
         ];
     }
 
@@ -901,8 +901,8 @@ class ConfigurationTz_newdb {
     public static function transformator() {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE : '/'.self::RED_FILES_SITE,
-            'public' => self::RED_LINKS_COMMON,
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE : '/'.self::WEB_FILES_SITE,
+            'public' => self::WEB_LINKS_COMMON,
         ];
     }
 }

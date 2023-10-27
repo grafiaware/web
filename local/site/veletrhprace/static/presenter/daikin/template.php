@@ -5,7 +5,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 
-use Events\Model\Arraymodel\JobViewModel;
+use Events\Middleware\Events\ViewModel\JobViewModel;
 
 include 'data.php';
 

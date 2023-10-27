@@ -13,7 +13,7 @@ use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Entity\VisitorJobRequestInterface;
 
-use Events\Model\Arraymodel\RepresenrativeViewModel;
+use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
 /** @var PhpTemplateRendererInterface $this */
 //  ************** pozice = job **************************
 ###### kontext #######
@@ -45,8 +45,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-/** @var RepresenrativeViewModel $representativeModel */
-$representativeModel = $container->get( RepresenrativeViewModel::class );
+/** @var RepresenrativeViewModel $representativeViewModel */
+$representativeViewModel = $container->get( RepresenrativeViewModel::class );
 
 
 /** @var VisitorJobRequestRepo $visitorDataPostRepo */
@@ -56,10 +56,10 @@ $visitorDataPostRepo = $container->get(VisitorJobRequestRepo::class);
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    $presenterPerson = $representativeModel->getPerson($loginName);
+    $representativeContext = $representativeViewModel->getRepresentative($loginName);
 
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];
-    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
+    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($representativeContext['shortName']==$shortName));
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorDataRepo */
@@ -245,7 +245,7 @@ if (isset($loginAggregate)) {
                                             <div class="profil hidden">
                                                 <?php
                                                     // pokud je $visitorDataPosted je nastaveno readonly
-                                                    include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udajeOLD.php'; ?>
+                                                    include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje.php'; ?>
                                             </div>
                                         </div>
                                         <?php
@@ -262,7 +262,7 @@ if (isset($loginAggregate)) {
                                             </div>
                                             <div class="sixteen wide column">
                                                 <div class="profil hidden">
-                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udajeOLD.php', $allFormVisitorDataPost); ?>
+                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje.php', $allFormVisitorDataPost); ?>
                                                 </div>
                                             </div>
                                             <?php

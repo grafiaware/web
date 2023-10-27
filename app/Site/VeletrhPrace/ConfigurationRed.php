@@ -25,14 +25,19 @@ use Pes\Logger\FileLogger;
  *
  * @author pes2704
  */
-class ConfigurationRed extends ConfigurationDb {
+class ConfigurationRed extends ConfigurationConstants {
 
+    // local
+    const RED_TEMPLATES_COMMON = 'local/site/common/templates/red/';
+    const RED_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE_PATH.'templates/red/';
+    const RED_STATIC = 'local/site/'.self::WEB_SITE_PATH.'static/';
+    
     ### bootstrap ###
     #
     public static function bootstrap() {
         return [
-            'bootstrap.logs.basepath' => self::RED_BOOTSTRAP_LOGS,
-            'bootstrap.productionhost' => self::RED_BOOTSTRAP_PRODUCTION_HOST,
+            'bootstrap.logs.basepath' => self::WEB_BOOTSTRAP_LOGS,
+            'bootstrap.productionhost' => self::WEB_BOOTSTRAP_PRODUCTION_HOST,
         ];
     }
 
@@ -112,15 +117,15 @@ class ConfigurationRed extends ConfigurationDb {
             'redcomponent.logs.render' => 'Render.log',
             'redcomponent.logs.type' => FileLogger::REWRITE_LOG,
             'redcomponent.templates' => [
-                'flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
-                'login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
-//                'register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
-                'logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
-                'useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
-                'statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-                'controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
+                'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
+//                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
+                'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+                'useraction' => self::WEB_TEMPLATES_COMMON.'layout/status/userAction.php',
+                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+                'controleditmenu' => self::WEB_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
                 // site layout templates
-                'register' => self::RED_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
             ]
         ];
     }
@@ -160,52 +165,52 @@ class ConfigurationRed extends ConfigurationDb {
             'title' => "Veletrh práce online",
 
             // folders
-            'linksCommon' => self::RED_LINKS_COMMON,
-            'linksSite' => self::RED_LINKS_SITE,
+            'linksCommon' => self::WEB_LINKS_COMMON,
+            'linksSite' => self::WEB_LINKS_SITE,
 
             // local templates paths
             // php templates
-            'templates.layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
+            'templates.layout' => self::WEB_TEMPLATES_SITE.'layout/layout.php',
             'templates.redScripts' => self::RED_TEMPLATES_COMMON.'layout/head/redScripts.php',
             // js templates
-            'templates.navConfig' => self::RED_TEMPLATES_COMMON.'js/navConfig.js',
+            'templates.navConfig' => self::WEB_TEMPLATES_COMMON.'js/navConfig.js',
             'templates.tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
 
             // linksEditorJs links
-            'urlTinyMCE' => self::RED_ASSETS.'tinymce_6.6.1\js\tinymce\tinymce.min.js',
+            'urlTinyMCE' => self::WEB_ASSETS.'tinymce_6.6.1\js\tinymce\tinymce.min.js',
             // full dev not mified version:
-//            'urlTinyMCE' => self::RED_ASSETS.'tinymce_6.6.1_dev\js\tinymce\tinymce.js',
-            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce-jquery.min.js',         // pro tinyMce 6.6.1   
+//            'urlTinyMCE' => self::WEB_ASSETS.'tinymce_6.6.1_dev\js\tinymce\tinymce.js',
+            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce-jquery.min.js',         // pro tinyMce 6.6.1   
             // full dev not mified version:
-//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce-jquery.js',         // pro tinyMce 6.6.1   
+//            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce-jquery.js',         // pro tinyMce 6.6.1   
 
 
-//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => self::WEB_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => self::WEB_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //            'urlTinyMCE' => "https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js",
 
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlRedConfig' => self::RED_LINKS_COMMON.'js/redConfig.js',
-            'urltinyConfig' => self::RED_LINKS_COMMON.'js/tinyConfig.js',
-            'urlTinyInit' => self::RED_LINKS_COMMON.'js/tinyInit.js',
-            'urlEditScript' => self::RED_LINKS_COMMON . 'js/edit.js',
+            'urlRedConfig' => self::WEB_LINKS_COMMON.'js/redConfig.js',
+            'urltinyConfig' => self::WEB_LINKS_COMMON.'js/tinyConfig.js',
+            'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
+            'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
 
             // linkEditorCss links
-            'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
-            'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
-            'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",
-            'urlMediaCss' => self::RED_LINKS_COMMON."css/media.css",
+            'urlStylesCss' => self::WEB_LINKS_COMMON."css/old/styles.css",
+            'urlSemanticCss' => self::WEB_LINKS_SITE."semantic-ui/semantic.min.css",
+            'urlContentTemplatesCss' => self::WEB_LINKS_COMMON."css/templates.css",
+            'urlMediaCss' => self::WEB_LINKS_COMMON."css/media.css",
             // home page
             'home_page' => ['block', 'home'],
 //           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
-            'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
-            'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
-            'templates.unknownContent' => self::RED_TEMPLATES_COMMON.'layout/error/unknownContent.php',
+            'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
+            'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
+            'templates.unknownContent' => self::WEB_TEMPLATES_COMMON.'layout/error/unknownContent.php',
             'layout_blocks' => [
                 ],
             // hodnoty RequestCache pro hlavičky requestů odesílaných příkazem fetch v cascade.js
@@ -285,7 +290,7 @@ class ConfigurationRed extends ConfigurationDb {
 //        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,}";
 //        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 3 znaky.";
 
-        $siteSpecificToken = str_replace('/', '', self::RED_SITE_PATH);
+        $siteSpecificToken = str_replace('/', '', self::WEB_SITE_PATH);
         return [
                 'fieldNameJmeno' => 'jmeno'.$siteSpecificToken,
                 'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
@@ -334,8 +339,8 @@ class ConfigurationRed extends ConfigurationDb {
     public static function filesUploadController() {
 
         return [
-            'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'upload/editor/' : self::RED_FILES_SITE.'upload/editor/',
-            'upload.events.visitor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'upload/events/visitor' : self::RED_FILES_SITE.'upload/events/visitor',
+            'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload/editor/' : self::WEB_FILES_SITE.'upload/editor/',
+            'upload.events.visitor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload/events/visitor' : self::WEB_FILES_SITE.'upload/events/visitor',
             'upload.events.acceptedextensions' => [".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"],
             ];
     }
@@ -346,8 +351,8 @@ class ConfigurationRed extends ConfigurationDb {
      */
     public static function transformator() {
         return [
-            'publicDirectory' => self::RED_LINKS_COMMON,
-            'siteDirectory' => self::RED_LINKS_SITE,
+            'publicDirectory' => self::WEB_LINKS_COMMON,
+            'siteDirectory' => self::WEB_LINKS_SITE,
         ];
     }
 
@@ -356,21 +361,21 @@ class ConfigurationRed extends ConfigurationDb {
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
             'mail.paramsname' => 'itGrafiaGmail', // 'najdisi',
-            'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_PATH.'attachments/' : self::RED_FILES_PATH.'attachments/',
+            'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_PATH.'attachments/' : self::WEB_FILES_PATH.'attachments/',
 
         ];
     }
 
     public static function files() {
         return [
-            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'download/' : self::RED_FILES_SITE.'download/',
-            '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_COMMON.'images/' : self::RED_FILES_COMMON.'images/',
-            '@commonmovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_COMMON.'movies/' : self::RED_FILES_COMMON.'movies/',
-            '@siteimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'images/' : self::RED_FILES_SITE.'images/',
-            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'movies/' : self::RED_FILES_SITE.'movies/',
+            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'download/' : self::WEB_FILES_SITE.'download/',
+            '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'images/' : self::WEB_FILES_COMMON.'images/',
+            '@commonmovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'movies/' : self::WEB_FILES_COMMON.'movies/',
+            '@siteimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'images/' : self::WEB_FILES_SITE.'images/',
+            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'movies/' : self::WEB_FILES_SITE.'movies/',
 
-            'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'files/' : self::RED_FILES_SITE.'files/',
-            'presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE."presenter/" : self::RED_FILES_SITE."presenter/",
+            'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'files/' : self::WEB_FILES_SITE.'files/',
+            'presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter/" : self::WEB_FILES_SITE."presenter/",
 
         ];
     }

@@ -16,22 +16,22 @@ namespace Site\Grafia;
 class ConfigurationConstants {
 
     // site
-    const RED_SITE_PATH = 'grafia/';
+    const WEB_SITE_PATH = 'grafia/';
 
     // local
-    const RED_TEMPLATES_COMMON = 'local/site/common/templates/';
-    const RED_TEMPLATES_SITE = 'local/site/'.self::RED_SITE_PATH.'templates/';
-    const RED_STATIC = 'local/site/'.self::RED_SITE_PATH.'static/';
+    const WEB_TEMPLATES_COMMON = 'local/site/common/templates/';
+    const WEB_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE_PATH.'templates/';
+    const WEB_STATIC = 'local/site/'.self::WEB_SITE_PATH.'static/';
     // public
-    const RED_ASSETS = 'public/assets/';
-    const RED_LINKS_COMMON = 'public/site/common/';
-    const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
+    const WEB_ASSETS = 'public/assets/';
+    const WEB_LINKS_COMMON = 'public/site/common/';
+    const WEB_LINKS_SITE = 'public/site/'.self::WEB_SITE_PATH;
     // files
-    const RED_FILES_PATH = '_files/'.self::RED_SITE_PATH;
-    const RED_FILES_COMMON = '_files/common/';
-    const RED_FILES_SITE = '_files/'.self::RED_SITE_PATH;
-    const RED_BOOTSTRAP_LOGS = '/_www_gr_logs/';
+    const WEB_FILES_PATH = '_files/'.self::WEB_SITE_PATH;
+    const WEB_FILES_COMMON = '_files/common/';
+    const WEB_FILES_SITE = '_files/'.self::WEB_SITE_PATH;
+    const WEB_BOOTSTRAP_LOGS = '/_www_gr_logs/';
 
     // production host
-    const RED_BOOTSTRAP_PRODUCTION_HOST =  'mcintyre';  //hosting grafia
+    const WEB_BOOTSTRAP_PRODUCTION_HOST =  'mcintyre';  //hosting grafia
 }

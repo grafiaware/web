@@ -17,7 +17,7 @@ use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Repository\RepresentativeRepo;
 
-use Events\Model\Arraymodel\RepresenrativeViewModel;
+use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
 
 /** @var PhpTemplateRendererInterface $this */
 

@@ -41,7 +41,7 @@ use Events\Model\Entity\EventLink;
 use Events\Model\Repository\EventLinkRepoInterface;
 
 
-//use Events\Model\Arraymodel\Event;
+//use Events\Middleware\Events\ViewModel\Event;
 //use Model\Entity\Enroll;
 
 
