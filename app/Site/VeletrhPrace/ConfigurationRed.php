@@ -318,7 +318,7 @@ class ConfigurationRed extends ConfigurationConstants {
      * Konfigurace - parametry pro templateController
      * @return array
      */
-    public static function templates() {
+    public static function redTemplates() {
 
         return [
                 'templates.defaultExtension' => '.php',
@@ -328,6 +328,7 @@ class ConfigurationRed extends ConfigurationConstants {
                     'paper' => [self::RED_TEMPLATES_SITE.'paper/', self::RED_TEMPLATES_COMMON.'paper/'],
                     'article' => [self::RED_TEMPLATES_SITE.'article/', self::RED_TEMPLATES_COMMON.'article/'],
                     'multipage' => [self::RED_TEMPLATES_SITE.'multipage/', self::RED_TEMPLATES_COMMON.'multipage/'],
+                    'paper-content' => [self::RED_TEMPLATES_SITE.'paper-content/', self::RED_TEMPLATES_COMMON.'paper-content/'],
                     ],
             ];
     }

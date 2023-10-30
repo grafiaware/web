@@ -45,8 +45,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-/** @var RepresenrativeViewModel $representativeViewModel */
-$representativeViewModel = $container->get( RepresenrativeViewModel::class );
+/** @var RepresenrativeViewModel $representativeModel */
+$representativeModel = $container->get( RepresenrativeViewModel::class );
 
 
 /** @var VisitorJobRequestRepo $visitorDataPostRepo */
@@ -56,10 +56,10 @@ $visitorDataPostRepo = $container->get(VisitorJobRequestRepo::class);
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    $representativeContext = $representativeViewModel->getRepresentative($loginName);
+    $presenterPerson = $representativeModel->getPerson($loginName);
 
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];
-    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($representativeContext['shortName']==$shortName));
+    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorDataRepo */
@@ -245,7 +245,7 @@ if (isset($loginAggregate)) {
                                             <div class="profil hidden">
                                                 <?php
                                                     // pokud je $visitorDataPosted je nastaveno readonly
-                                                    include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje.php'; ?>
+                                                    include ConfigurationCache::eventTemplates()['templates'].'visitor-data/osobni-udajeOLD.php'; ?>
                                             </div>
                                         </div>
                                         <?php
@@ -262,7 +262,7 @@ if (isset($loginAggregate)) {
                                             </div>
                                             <div class="sixteen wide column">
                                                 <div class="profil hidden">
-                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje.php', $allFormVisitorDataPost); ?>
+                                                    <?= $this->repeat(ConfigurationCache::eventTemplates()['templates'].'visitor-data/osobni-udajeOLD.php', $allFormVisitorDataPost); ?>
                                                 </div>
                                             </div>
                                             <?php

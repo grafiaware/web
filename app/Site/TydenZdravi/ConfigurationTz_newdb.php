@@ -862,7 +862,7 @@ class ConfigurationTz_newdb {
      * Konfigurace prezentace - vrací parametry pro templateController
      * @return array
      */
-    public static function templates() {
+    public static function redTemplates() {
 
         return [
                'templates.authorFolder' => self::WEB_TEMPLATES_COMMON.'author/',

@@ -8,6 +8,6 @@
                 <div class="sixteen wide column">
                     <?= $perex ?>
                 </div>
-                <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default.php", $sections, 'paperSection'); ?>
+                <?= $this->repeat(PROJECT_PATH."local/site/common/templates/red/paper/section/default.php", $sections, 'paperSection'); ?>
             </div>
         </div>

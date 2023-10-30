@@ -20,7 +20,7 @@ use Pes\Text\Html;
         </div>
         
         
-        <?php include ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic_2.php"; ?>
+        <?php include ConfigurationCache::eventTemplates()['templates']."paper/presenter-job/content/vypis-pozic_2.php"; ?>
 
         <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Náš program</p>
         <?php include 'profil/harmonogram.php' ?>

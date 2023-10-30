@@ -29,6 +29,6 @@ foreach ($posters as $poster) {
     ];
 };
 
-include ConfigurationCache::componentController()['templates']."paper/presenter-posters.php"; 
+include ConfigurationCache::eventTemplates()['templates']."paper/presenter-posters.php"; 
 
 ?>

@@ -10,7 +10,7 @@
                             </section>
                             <i class="huge angle left icon"></i>
                             <div class="carousel-cards">
-                                <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/carousel-item.php", $sections, 'paperSection'); ?>
+                                <?= $this->repeat(PROJECT_PATH."local/site/common/templates/red/paper/section/carousel-item.php", $sections, 'paperSection'); ?>
                             </div>
                             <i class="huge angle right icon"></i>
                         </div>

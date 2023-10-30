@@ -96,7 +96,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
         </section>
         <section>
             <content>
-                <?= $this->insert(ConfigurationCache::componentController()['templates']."zprava"."/template.php", $zprava) ?>
+                <?= $this->insert(ConfigurationCache::eventTemplates()['templates']."zprava"."/template.php", $zprava) ?>
             </content>
             <content>
                 <?php include "content/profil.php" ?> <!-- Tiny pro .edit-userinput -->
@@ -134,7 +134,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
                 <?php include "perex.php" ?>
             </perex>
             <content>             
-                <?= $this->insert(ConfigurationCache::componentController()['templates']."zprava"."/template.php", $zprava) ?>
+                <?= $this->insert(ConfigurationCache::eventTemplates()['templates']."zprava"."/template.php", $zprava) ?>
             </content>
         </section>
     </article>

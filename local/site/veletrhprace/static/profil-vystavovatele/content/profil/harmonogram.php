@@ -29,7 +29,7 @@ $event = $eventList->getEventList(null, $eventInstitutionName, [], false);   // 
     Harmonogram
 </div>
 <div class="content">
-    <?php include ConfigurationCache::componentController()['templates']."paper/timeline-leafs/content/timeline.php";
+    <?php include ConfigurationCache::eventTemplates()['templates']."paper/timeline-leafs/content/timeline.php";
 //include Configuration::componentController()['templates']."timecolumn/template.php";
 //include Configuration::componentController()['templates']."timeline-boxes/template.php";
     ?>

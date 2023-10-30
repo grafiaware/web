@@ -42,5 +42,5 @@ $event = $eventList->getEventList(null, $institutionName, $eventIds, false);   /
     Můj harmonogram
 </div>
 <div class="content">
-    <?php include ConfigurationCache::componentController()['templates']."timeline-leafs/content/timeline.php"; ?>
+    <?php include ConfigurationCache::eventTemplates()['templates']."timeline-leafs/content/timeline.php"; ?>
 </div>

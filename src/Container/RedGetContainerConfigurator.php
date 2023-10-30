@@ -183,7 +183,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 ConfigurationCache::redComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
                 ConfigurationCache::menu(),
 //                Configuration::renderer(),
-                ConfigurationCache::templates()
+                ConfigurationCache::redTemplates()
                 );
     }
 
