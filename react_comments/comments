@@ -1,0 +1,33 @@
+https://react.dev/learn/responding-to-events
+
+Pitfall
+
+Funkce předávané obsluze událostí musí být předávány, nikoli volány. Například:
+předání funkce (správně) volání funkce (nesprávně)
+<button onClick={handleClick}> <button onClick={handleClick()}>
+
+Rozdíl je nepatrný. V prvním příkladu je funkce handleClick předána jako obsluha události onClick. To říká systému React, aby si ji zapamatoval a zavolal vaši funkci pouze tehdy, když uživatel klikne na tlačítko.
+
+Ve druhém příkladu () na konci funkce handleClick() spustí funkci okamžitě během vykreslování, bez jakéhokoli kliknutí. Je to proto, že JavaScript uvnitř JSX { a } se spustí okamžitě.
+
+Při zápisu kódu inline se stejné úskalí projevuje jiným způsobem:
+Předávání funkce (správně) volání funkce (nesprávně)
+<button onClick={() => alert('...')}> <button onClick={alert('...')}>
+
+Předání inline kódu tímto způsobem se nevyvolá při kliknutí - vyvolá se při každém vykreslení komponenty:
+
+// Tento alert se spustí při vykreslení komponenty, ne při kliknutí!
+<button onClick={alert('Klikli jste na mě!')}>
+
+Pokud chcete definovat obsluhu události inline, zabalte ji do anonymní funkce takto:
+
+<button onClick={() => alert('Kliknul jsi na mě!')}>>.
+
+Namísto toho, aby se kód uvnitř spouštěl při každém vykreslení, vytvoří se tím funkce, která se zavolá později.
+
+V obou případech je to, co chcete předat, funkce:
+
+    <button onClick={handleClick}> předává funkci handleClick.
+    <button onClick={() => alert('...')}> předává funkci () => alert('...').
+
+
