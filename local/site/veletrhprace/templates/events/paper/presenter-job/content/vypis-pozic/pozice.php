@@ -17,8 +17,10 @@ use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
 /** @var PhpTemplateRendererInterface $this */
 //  ************** pozice = job **************************
 ###### kontext #######
-// jobs[]- expand job -> $nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané  $container
-$positionName = $nazev;
+// viz JobViewModel->getCompanyJobList
+//'companyId', 'nazevPozice', 'mistoVykonu', 'nabizime', 'popisPozice', 'vzdelani', 'pozadujeme', 'kategorie'
+// jobs[]- expand job + přidané  $container
+$positionName = $nazevPozice;
 #######################
 
 
@@ -41,25 +43,33 @@ $kvalifikace = [
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurity = $statusSecurityRepo->get();
-/** @var LoginAggregateFullInterface $loginAggregate */
-$loginAggregate = $statusSecurity->getLoginAggregate();
-####
+/** @var VisitorJobRequestRepo $visitorDataPostRepo */
+$visitorDataPostRepo = $container->get(VisitorJobRequestRepo::class);
 
 /** @var RepresenrativeViewModel $representativeViewModel */
 $representativeViewModel = $container->get( RepresenrativeViewModel::class );
 
 
-/** @var VisitorJobRequestRepo $visitorDataPostRepo */
-$visitorDataPostRepo = $container->get(VisitorJobRequestRepo::class);
-
-
+/** @var LoginAggregateFullInterface $loginAggregate */
+$loginAggregate = $statusSecurity->getLoginAggregate();
+####
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    $representativeContext = $representativeViewModel->getRepresentative($loginName);
 
-    $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];
-    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($representativeContext['shortName']==$shortName));
+    if ($role==ConfigurationCache::loginLogoutController()['roleVisitor']) {
+        $isPresenter = false;
+        $isVisitor = true;        
+    } elseif($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) {
+        $representative = $representativeViewModel->getRepresentative($loginName, $companyName);
+        if (isset($representative)) {
+            $isPresenter = true;
+            $isVisitor = false;
+        } else {
+            $isPresenter = false;
+            $isVisitor = false;
+        }
+    }
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorDataRepo */
@@ -126,7 +136,7 @@ if (isset($loginAggregate)) {
 
     if ($isPresenter) {
         /** @var VisitorJobRequestInterface $visitorDataPost */
-        $visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
+        $visitorDataPosts = $visitorDataPostRepo->findByLoginNameAndPosition($loginName, $positionName);
         $visitorDataCount = count($visitorDataPosts);
         $allFormVisitorDataPost = [];
 
@@ -134,7 +144,7 @@ if (isset($loginAggregate)) {
             $isVisitorDataPost = true;
             $visitorFormData['readonly'] = 'readonly="1"';
             $visitorFormData['disabled'] = 'disabled="1"';
-            $visitorFormData['shortName'] = $shortName;
+            $visitorFormData['shortName'] = $companyName;
             $visitorFormData['positionName'] = $positionName;
             $visitorFormData['isPresenter'] = $isPresenter;
             $visitorFormData['isVisitor'] = $isVisitor;
@@ -161,8 +171,8 @@ if (isset($loginAggregate)) {
 ?>
 
         <div class="title">
-            <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
-                <?= $this->repeat(__DIR__.'/pozice/tag.php', $kategorie, 'cislo') ?>
+            <p class="podnadpis"><i class="dropdown icon"></i><?= $positionName ?>, <?= $mistoVykonu ?>
+                <?= $this->repeat(__DIR__.'/pozice/tag.php', $jobTags, 'tag') ?>
                 <?php
                 if($isVisitor AND $isVisitorDataPost) {
                     ?>

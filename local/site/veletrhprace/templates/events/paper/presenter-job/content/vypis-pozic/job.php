@@ -198,7 +198,7 @@ if (isset($loginAggregate)) {
         <div class="title">
                    
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazevPozice ?>, <?= $mistoVykonu ?>
-                <?= $this->repeat(__DIR__.'/pozice/tag.php', isset($kategorie) ? $kategorie : [] , 'seznam') ?>
+                <?= $this->repeat(__DIR__.'/pozice/tag.php', $jobTags, 'tag') ?>
                 <?php
                 if($isVisitor AND $isVisitorDataPost) {
                     ?>

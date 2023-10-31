@@ -20,7 +20,7 @@ $video_WEBM_ref = '/movies/video-stanek-WEBM.webm';
 $stanek_ref = '/assets/stanek.png';
 
 
-$shortName = 'up';
+$companyName = 'up';
 $letakAttributesClass = ['class' => 'letak-v-igelitce'];
 
 
@@ -42,14 +42,14 @@ foreach ($buttonTitle as $title) {
 $firma = [
     'nazev' => 'Úřad práce&nbsp;ČR a&nbsp;EURES',
     'videoAttributes' => [
-        'poster' => ConfigurationCache::files()['presenter'].$shortName.$monitor_ref,
+        'poster' => ConfigurationCache::files()['presenter'].$companyName.$monitor_ref,
     ],
     'videoSourceSrc' => [
-        ['src' => ConfigurationCache::files()['presenter'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
-        ['src' => ConfigurationCache::files()['presenter'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+        ['src' => ConfigurationCache::files()['presenter'].$companyName.$video_MP4_ref, 'type' => 'video/mp4'],
+        ['src' => ConfigurationCache::files()['presenter'].$companyName.$video_WEBM_ref, 'type' => 'video/webm'],
     ],
     'imgStankuAttributes' => [
-        'src' => ConfigurationCache::files()['presenter'].$shortName.$stanek_ref,
+        'src' => ConfigurationCache::files()['presenter'].$companyName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [

@@ -92,10 +92,11 @@ class JobViewModel {
 
             $jobToTags = $this->jobToTagRepo->findByJobId($job->getId());
             /** @var JobToTagInterface $jobToTag */
+            $jobArray['jobTags'] = [];  //pole vždy existuje
             foreach ($jobToTags as $jobToTag)  {
                  $id = $jobToTag->getJobTagId();
                  $tag = $this->jobTagRepo->get($id);
-                 $jobArray['kategorie'][] = $tag->getTag();
+                 $jobArray['jobTags'][] = $tag->getTag();
             }
             $jobsArray[] = array_merge($jobArray);
         }

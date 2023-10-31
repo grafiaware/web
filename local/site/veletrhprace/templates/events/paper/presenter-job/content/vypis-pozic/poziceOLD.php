@@ -59,7 +59,7 @@ if (isset($loginAggregate)) {
     $presenterPerson = $representativeModel->getPerson($loginName);
 
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];
-    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
+    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) AND ($presenterPerson['shortName']==$companyName));
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorDataRepo */
@@ -126,7 +126,7 @@ if (isset($loginAggregate)) {
 
     if ($isPresenter) {
         /** @var VisitorJobRequestInterface $visitorDataPost */
-        $visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
+        $visitorDataPosts = $visitorDataPostRepo->findAllForPosition($companyName, $positionName);
         $visitorDataCount = count($visitorDataPosts);
         $allFormVisitorDataPost = [];
 
@@ -134,7 +134,7 @@ if (isset($loginAggregate)) {
             $isVisitorDataPost = true;
             $visitorFormData['readonly'] = 'readonly="1"';
             $visitorFormData['disabled'] = 'disabled="1"';
-            $visitorFormData['shortName'] = $shortName;
+            $visitorFormData['shortName'] = $companyName;
             $visitorFormData['positionName'] = $positionName;
             $visitorFormData['isPresenter'] = $isPresenter;
             $visitorFormData['isVisitor'] = $isVisitor;

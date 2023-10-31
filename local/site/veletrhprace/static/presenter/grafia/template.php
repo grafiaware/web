@@ -14,8 +14,8 @@ include 'data.php';
 $jobModel = $container->get( JobViewModel::class );
 
 //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
-foreach ($jobModel->getCompanyJobList($shortName) as $job) {
-    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $shortName]);
+foreach ($jobModel->getCompanyJobList($companyName) as $job) {
+    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $companyName]);
 }
 
 ?>

@@ -15,7 +15,7 @@
             </div>
             <div class="active content">
                 <form class="ui huge form" action="" method="POST" enctype="multipart/form-data">
-                    <input type='hidden' name="short-name" value="<?= $shortName ?>">
+                    <input type='hidden' name="short-name" value="<?= $companyName ?>">
                     <input type='hidden' name="position-name" value="<?= $positionName ?>">
                     <input type='hidden' name="visitor-login-name" value="<?= $visitorLoginName ?? '' ?>">
                     <div class="four fields">

@@ -38,8 +38,9 @@ class RepresenrativeViewModel {
      * @param type $idCompany
      * @return RepresentativeInterface|null
      */
-     public function getRepresentative($loginName, $idCompany): ?RepresentativeInterface {
-        return $this->representativeRepo->get($loginName, $idCompany);
+    public function getRepresentative($loginName, $companyName): ?RepresentativeInterface {
+        $company = $this->companyRepo->getByName($companyName);
+        return isset($company) ? $this->representativeRepo->get($loginName, $company->getId()) : null;
     }
     
     /**
