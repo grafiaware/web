@@ -96,7 +96,9 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
         </section>
         <section>
             <content>
-                <?= $this->insert(ConfigurationCache::eventTemplates()['templates']."zprava"."/template.php", $zprava) ?>
+                <?php /*= $this->insert(ConfigurationCache::eventTemplates()['templates']."zprava"."/template.php", $zprava) */?>
+                
+                <!-- cesta k templates/static přidat do konfigurace -->
             </content>
             <content>
                 <?php include "content/profil.php" ?> <!-- Tiny pro .edit-userinput -->
