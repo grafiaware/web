@@ -1,20 +1,11 @@
 <?php
-use Template\Compiler\TemplateCompilerInterface;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Red\Model\Entity\PaperAggregateInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
-
-use Events\Middleware\Events\ViewModel\JobViewModel;
 
 include 'data.php';
-
-$jobModel = $container->get( JobViewModel::class );
-foreach ($jobModel->getCompanyJobList($companyName) as $job) {
-    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $companyName]);
-}
+include __DIR__.'/../presenterdata.php';
 
 ?>
 

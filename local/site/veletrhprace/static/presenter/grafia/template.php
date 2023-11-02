@@ -1,22 +1,10 @@
 <?php
-use Template\Compiler\TemplateCompilerInterface;
-
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Red\Model\Entity\PaperAggregateInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
 
-use Events\Middleware\Events\ViewModel\JobViewModel;
 include 'data.php';
-
-/** @var JobViewModel $jobModel */
-$jobModel = $container->get( JobViewModel::class );
-
-//TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
-foreach ($jobModel->getCompanyJobList($companyName) as $job) {
-    $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'shortName' => $companyName]);
-}
+include __DIR__.'/../presenterdata.php';
 
 ?>
 
