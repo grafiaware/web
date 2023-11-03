@@ -18,7 +18,10 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
             </section>
             <section>
                 <content>
-                    <?php include "presenter-job/content/vypis-pozic.php" ?>
+                    <?php 
+//                    include "presenter-job/content/vypis-pozic.php" 
+                    include "presenter-job/content/job-list.php" 
+                    ?>
                 </content>
             </section>
         </article>

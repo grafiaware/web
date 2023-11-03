@@ -53,7 +53,7 @@ use Auth\Component\View\RegisterComponent;
 use Web\Component\View\Flash\FlashComponent;
 
 use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\StatusBoardComponent;
+use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
@@ -86,7 +86,7 @@ use Red\Component\ViewModel\Menu\LevelViewModel;
 
 use Auth\Component\ViewModel\LoginViewModel;
 use Auth\Component\ViewModel\LogoutViewModel;
-use Red\Component\ViewModel\Manage\StatusBoardViewModel;
+use Red\Component\ViewModel\Manage\InfoBoardViewModel;
 use Red\Component\ViewModel\Manage\UserActionViewModel;
 
 use Web\Component\ViewModel\Flash\FlashViewModel;
@@ -428,14 +428,14 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 ## layout komponenty
 #
-            StatusBoardComponent::class => function(ContainerInterface $c) {
+            InfoBoardComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(StatusBoardComponent::class, AccessPresentationEnum::DISPLAY)) {
+                if($accessPresentation->isAllowed(InfoBoardComponent::class, AccessPresentationEnum::DISPLAY)) {
                 /** @var ComponentConfigurationInterface $configuration */
                     $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new StatusBoardComponent($configuration);
-                    $component->setData($c->get(StatusBoardViewModel::class));
+                    $component = new InfoBoardComponent($configuration);
+                    $component->setData($c->get(InfoBoardViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('statusboard')));
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -945,8 +945,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new AccessPresentation($c->get(StatusViewModel::class));
             },
         ## modely pro komponenty s template
-            StatusBoardViewModel::class => function(ContainerInterface $c) {
-                return new StatusBoardViewModel(
+            InfoBoardViewModel::class => function(ContainerInterface $c) {
+                return new InfoBoardViewModel(
                         $c->get(StatusViewModel::class)
                     );
             },

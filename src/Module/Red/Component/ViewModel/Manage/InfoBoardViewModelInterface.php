@@ -14,6 +14,6 @@ use Component\ViewModel\ViewModelInterface;
  *
  * @author pes2704
  */
-interface StatusBoardViewModelInterface extends ViewModelInterface {
+interface InfoBoardViewModelInterface extends ViewModelInterface {
 
 }

@@ -14,7 +14,7 @@ class ButtonsMenuItemManipulationComponent extends ButtonsMenuComponentAbstract 
 
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::EDIT => static::class],
             RoleEnum::EDITOR => [AccessPresentationEnum::EDIT => static::class],
         ];
     }

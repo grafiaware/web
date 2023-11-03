@@ -16,7 +16,7 @@ use Auth\Component\View\LoginComponent;
 use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\StatusBoardComponent;
+use Red\Component\View\Manage\InfoBoardComponent;
 
 use Pes\Logger\FileLogger;
 
@@ -229,7 +229,7 @@ class ConfigurationRed extends ConfigurationConstants {
                     'modalLogout' => LogoutComponent::class,
                     'modalRegister' => RegisterComponent::class,
                     'modalUserAction' => UserActionComponent::class,
-                    'poznamky' => StatusBoardComponent::class,
+                    'info' => InfoBoardComponent::class,
                 ],
             'contextLayoutMap' => [
                     'menuSvisle' => 'menu.svisle',

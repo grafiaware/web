@@ -296,7 +296,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUP => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
             RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
             RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
             RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]

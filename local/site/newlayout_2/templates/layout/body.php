@@ -23,7 +23,7 @@
     <div class="ui container">
         <div class="column">
             <main class="page-content">
-                <?=$poznamky ?? '' ?>
+                <?=$info ?? '' ?>
                 <nav id="mySidenav" class="svisle-menu">
                     <form action="">
                     <div class="close-item" onclick="hamburger_close()"><a href="javascript:void(0)"><i class="times circle outline large icon"></i>Zavřít</a></div>

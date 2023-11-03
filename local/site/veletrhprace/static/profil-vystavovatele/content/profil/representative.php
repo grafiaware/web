@@ -8,8 +8,6 @@ use Pes\Text\Html;
 
         $readonly = 'readonly="1"';
         $disabled = 'disabled="1"';
-//        $readonly = '';
-//        $disabled = '';
 ?>
 
 

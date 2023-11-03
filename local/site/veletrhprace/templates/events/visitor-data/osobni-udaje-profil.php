@@ -14,7 +14,7 @@ use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\Document;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var VisitorProfile $visitorData */
+/** @var VisitorProfile $visitorProfile */
 /** @var LoginAggregateFullInterface $loginAggregate */
 /** @var Document $visitorDocumentCv */
 /** @var Document $visitorDocumentLetter */
@@ -28,7 +28,7 @@ $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
 // - předvyplňuje se z $visitorData
-$email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
+$email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
 ?>
             <div class="active title">
                 <i class="dropdown icon"></i>
@@ -39,19 +39,19 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
-                            <input type="text" name="prefix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPrefix() : ''; ?>">
+                            <input type="text" name="prefix" placeholder="" maxlength="45" value="<?= isset($visitorProfile) ? $visitorProfile->getPrefix() : ''; ?>">
                         </div>
                         <div class="five wide field">
                             <label>Jméno</label>
-                            <input type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getName() : ''; ?>">
+                            <input type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($visitorProfile) ? $visitorProfile->getName() : ''; ?>">
                         </div>
                         <div class="five wide field">
                             <label>Příjmení</label>
-                            <input type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getSurname() : ''; ?>">
+                            <input type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($visitorProfile) ? $visitorProfile->getSurname() : ''; ?>">
                         </div>
                         <div class="three wide field">
                             <label>Titul za jménem</label>
-                            <input type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPostfix() : ''; ?>">
+                            <input type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($visitorProfile) ? $visitorProfile->getPostfix() : ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
@@ -61,17 +61,17 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input type="tel" name="phone" placeholder="+420 777 888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPhone() : ''; ?>">
+                            <input type="tel" name="phone" placeholder="+420 777 888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($visitorProfile) ? $visitorProfile->getPhone() : ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>Vzdělání, kurzy</label>
-                            <textarea name="cv-education-text" class="edit-userinput"><?= isset($visitorData) ? $visitorData->getCvEducationText() : ''; ?></textarea>
+                            <textarea name="cv-education-text" class="edit-userinput"><?= isset($visitorProfile) ? $visitorProfile->getCvEducationText() : ''; ?></textarea>
                         </div>
                         <div class="field margin">
                             <label>Pracovní zkušenosti, dovednosti</label>
-                            <textarea name="cv-skills-text" class="edit-userinput"><?= isset($visitorData) ? $visitorData->getCvSkillsText() : ''; ?></textarea>
+                            <textarea name="cv-skills-text" class="edit-userinput"><?= isset($visitorProfile) ? $visitorProfile->getCvSkillsText() : ''; ?></textarea>
                         </div>
                     </div>
                     <div class="field margin">

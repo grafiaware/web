@@ -41,13 +41,13 @@ use Pes\Text\Html;
                 ?>
                 <div>
                     <?=
-                     isset($companyIdA) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyIdA. "' > Uložit </button>" :
+                     isset($companyId) ?
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyId. "' > Uložit </button>" :
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress' > Uložit </button>" ;
                     ?>                                                                                                                             
                     <?=
-                     isset($companyIdA) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyIdA. "/remove' > Odstranit adresu </button>" :
+                     isset($companyId) ?
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyId. "/remove' > Odstranit adresu </button>" :
                     "" ;
                     ?>                                                                                                         
                 </div>

@@ -10,7 +10,7 @@ namespace Red\Component\View\Manage;
 
 use Component\View\ComponentCompositeAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
-use Red\Component\ViewModel\Manage\StatusBoardViewModelInterface;
+use Red\Component\ViewModel\Manage\InfoBoardViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
 use Access\Enum\RoleEnum;
@@ -21,7 +21,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class StatusBoardComponent extends ComponentCompositeAbstract {
+class InfoBoardComponent extends ComponentCompositeAbstract {
 
     /**
      * @var StatusViewModelInterface
@@ -40,7 +40,9 @@ class StatusBoardComponent extends ComponentCompositeAbstract {
 
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => static::class],
         ];
     }
 }

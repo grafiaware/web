@@ -11,47 +11,55 @@ namespace Red\Component\ViewModel\Manage;
 use Component\ViewModel\ViewModelAbstract;
 
 use Component\ViewModel\StatusViewModelInterface;
+use Access\Enum\RoleEnum;
 
 /**
  * Description of StatusBoardViewModel
  *
  * @author pes2704
  */
-class StatusBoardViewModel extends ViewModelAbstract implements StatusBoardViewModelInterface {
+class InfoBoardViewModel extends ViewModelAbstract implements InfoBoardViewModelInterface {
 
-    private $status;
+    private $statusViewModel;
 
     public function __construct(
-            StatusViewModelInterface $status) {
-        $this->status = $status;
+            StatusViewModelInterface $statusViewModel) {
+        $this->statusViewModel = $statusViewModel;
     }
 
     private function getLanguageInfo() {
-        $language = $this->status->getPresentedLanguage();
+        $language = $this->statusViewModel->getPresentedLanguage();
         return [
-            'code' => $language->getLangCode(),
-            'name' => $language->getName(),
-            'state' => $language->getState(),
-            'locale' => $language->getLocale(),
+            'jazyk' => $language->getName(),
             ];
     }
 
-    private function getSecurityInfo() {
+    private function getUserInfo() {
         return [
-            'userName' => $this->status->getUserLoginName(),
-            'role' => $this->status->getUserRole(),
+            'userName' => $this->statusViewModel->getUserLoginName(),
+            'role' => $this->statusViewModel->getUserRole(),
             ];
     }
-
+    
+    private function getSecurityInfos() {
+        return ['infos' => $this->statusViewModel->getInfos()];
+    }
+    
     public function getIterator(): \Traversable {
+        $role = $this->statusViewModel->getUserRole();
+            
+        $boardInfo[] = $this->prettyDump($this->getLanguageInfo());
+        $boardInfo[] = $this->prettyDump($this->getUserInfo());
+        if ($role==RoleEnum::SUPERVISOR) {
+            $boardInfo[] = $this->prettyDump($this->statusViewModel->getUserActions());
+//              $this->prettyDump($this->status->presentEditableContent()),
+//              $this->prettyDump($this->status->presentEditableMenu()),
+        }
+        if ($role==RoleEnum::REPRESENTATIVE) {
+            $boardInfo[] = $this->prettyDump($this->getSecurityInfos());            
+        }
         $this->appendData(
-                [
-                'languageInfo' => $this->prettyDump($this->getLanguageInfo()),
-                'securityInfo' => $this->prettyDump($this->getSecurityInfo()),
-                'userActions' => $this->prettyDump($this->status->getUserActions()),
-//                'presentEditableContent' => $this->prettyDump($this->status->presentEditableContent()),
-//                'presentEditableMenu' => $this->prettyDump($this->status->presentEditableMenu()),
-                ]
+                ['infos' => $boardInfo]
             );
         return parent::getIterator();
     }

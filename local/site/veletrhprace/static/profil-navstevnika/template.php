@@ -32,12 +32,12 @@ if (isset($loginAggregate)) {
 if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
     /** @var VisitorProfileRepo $visitorProfileRepo */
     $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
-    $visitorData = $visitorProfileRepo->get($loginName);    //$visitorData jsou z visitor_profile repository
+    $visitorProfile = $visitorProfileRepo->get($loginName);    //$visitorData jsou z visitor_profile repository
 
-    /** @var VisitorProfileInterface $visitorData */
-    if (isset($visitorData)) {
-        $documentCvId = $visitorData->getCvDocument();
-        $documentLettterId = $visitorData->getLetterDocument();        
+    /** @var VisitorProfileInterface $visitorProfile */
+    if (isset($visitorProfile)) {
+        $documentCvId = $visitorProfile->getCvDocument();
+        $documentLettterId = $visitorProfile->getLetterDocument();        
     }
     /** @var DocumentRepo $documentRepo */
     $documentRepo = $container->get(DocumentRepo::class);

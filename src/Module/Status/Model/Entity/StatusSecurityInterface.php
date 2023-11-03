@@ -64,5 +64,7 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
     
     public function setInfo($name, $value);
     
-    public function getInfo($name);    
+    public function getInfo($name);
+
+    public function getInfos(): array;        
 }

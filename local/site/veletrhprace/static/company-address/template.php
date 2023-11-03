@@ -37,7 +37,6 @@ use Events\Model\Entity\CompanyAddressInterface;
         if ($companyAddressEntity) {           
             $companyAddress = [
                 'companyId'=> $idCompany,
-                'companyIdA' => $idCompany,               
                 'name'   => $companyAddressEntity->getName(),
                 'lokace' => $companyAddressEntity->getLokace(),
                 'psc'    => $companyAddressEntity->getPsc(),
