@@ -7,7 +7,7 @@ use Auth\Model\Entity\CredentialsInterface;
 use Model\Entity\PersistableEntityAbstract;
 
 /**
- * Description of User
+ * Description of 
  *
  * @author pes2704
  */
@@ -16,28 +16,28 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
     /**
      * @var string
      */
-    private $loginNameFk;
+    private $loginNameFk; //NOT NULL
 
     /**
      * @var string
      */
-    private $passwordHash;
+    private $passwordHash; //NOT NULL
 
     /**
-     * @var string
+     * @var 
      */
-    private $role;
+    private $roleFk;
 
 
     /**
      * @var \DateTime
      */
-    private $created;
+    private $created; //NOT NULL
 
     /**
      * @var \DateTime
      */
-    private $updated;
+    private $updated; //NOT NULL
 
     /**
      *
@@ -85,8 +85,8 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      *
      * @return string|null
      */
-    public function getRole(): ?string {
-        return $this->role;
+    public function getRoleFk(): ?string {
+        return $this->roleFk;
     }
 
     /**
@@ -121,11 +121,11 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
 
     /**
      *
-     * @param string $role
+     * @param string $roleFk
      * @return CredentialsInterface
      */
-    public function setRole(string $role=null): CredentialsInterface {
-        $this->role = $role;
+    public function setRoleFk(string $roleFk=null): CredentialsInterface {
+        $this->role = $roleFk;
         return $this;
     }
 }

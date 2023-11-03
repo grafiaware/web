@@ -36,7 +36,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    $role = $loginAggregate->getCredentials()->getRole() ?? '';
+    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
 }
     $readonly = 'readonly="1"';
     $disabled = 'disabled="1"';

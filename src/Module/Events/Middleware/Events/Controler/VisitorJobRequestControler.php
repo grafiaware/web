@@ -401,7 +401,7 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
         } else {
            
             $loginName = $loginAggregateCredentials->getLoginName();  //prihlaseny          
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
             //$companyId = (new RequestParams())->getParsedBodyParam($request, "company-id");   //z POST  ---zjistit z jpbId
             
             if (isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative'])   ) {                

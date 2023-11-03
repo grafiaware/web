@@ -5,7 +5,7 @@ namespace Auth\Model\Dao;
 use Model\Dao\DaoAbstract;
 
 /**
- * Description of UserDao
+ * Description of 
  *
  * @author pes2704
  */
@@ -20,7 +20,7 @@ class LoginAggregateReadonlyDao extends DaoAbstract {
             '`login`.`login_name`',
             '`credentials`.`login_name_fk`',
             '`credentials`.`password_hash`',
-            '`credentials`.`role`',
+            '`credentials`.`role_fk`',
             '`credentials`.`created`',
             '`credentials`.`updated`'
         ];

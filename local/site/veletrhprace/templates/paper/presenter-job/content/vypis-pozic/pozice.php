@@ -55,7 +55,7 @@ $visitorDataPostRepo = $container->get(VisitorJobRequestRepo::class);
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    $role = $loginAggregate->getCredentials()->getRole() ?? '';
+    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
 <<<<<<< HEAD
     $presenterPerson = $representativeModel->getPerson($loginName);
 =======

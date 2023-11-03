@@ -77,12 +77,12 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
                 /* @var $user UserInterface::class */
                 $user = $c->get(Credentials::class);
                 if (isset($user)) {
-                    switch ($user->getRole()) {
+                    switch ($user->getRoleFk()) {
                         case 'administrator':
                             $account = new Account($c->get('rs.db.account.administrator.name'), $c->get('rs.db.account.administrator.password'));
                             break;
                         default:
-                            if ($user->getRole()) {
+                            if ($user->getRoleFk()) {
                                 $account = new Account($c->get('rs.db.account.authenticated.name'), $c->get('rs.db.account.authenticated.password'));
                             } else {
                                 $account = new Account($c->get('rs.db.account.everyone.name'), $c->get('rs.db.account.everyone.password'));

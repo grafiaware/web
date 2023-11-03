@@ -1,10 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 namespace Auth\Model\Entity;
 
@@ -17,7 +12,7 @@ use Model\Entity\PersistableEntityInterface;
 interface CredentialsInterface extends PersistableEntityInterface {
     public function getLoginNameFk(): ?string;
     public function getPasswordHash(): ?string;
-    public function getRole(): ?string;
+    public function getRoleFk(): ?string;
     public function getCreated(): ?\DateTime;
     public function getUpdated(): ?\DateTime;
 
@@ -25,6 +20,6 @@ interface CredentialsInterface extends PersistableEntityInterface {
     public function setPasswordHash(string $password_hash): CredentialsInterface;
     public function setCreated(\DateTime $created): CredentialsInterface;
     public function setUpdated(\DateTime $updated): CredentialsInterface;
-    public function setRole(string $role=null): CredentialsInterface;
+    public function setRoleFk(string $roleFk=null): CredentialsInterface;
 
 }

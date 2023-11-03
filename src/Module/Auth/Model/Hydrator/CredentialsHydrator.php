@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
@@ -28,7 +22,7 @@ class CredentialsHydrator implements HydratorInterface {
         $credentials
             ->setLoginNameFk($rowData->offsetGet('login_name_fk'))
             ->setPasswordHash($rowData->offsetGet('password_hash'))
-            ->setRole($rowData->offsetGet('role'))
+            ->setRoleFk($rowData->offsetGet('role_fk'))
             ->setCreated($rowData->offsetGet('created') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('created')) : NULL)
             ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL);
     }
@@ -43,7 +37,7 @@ class CredentialsHydrator implements HydratorInterface {
         /** @var CredentialsInterface $credentials */
         $rowData->offsetSet('login_name_fk', $credentials->getLoginNameFk()); // hodnota pro where
         $rowData->offsetSet('password_hash', $credentials->getPasswordHash());
-        $rowData->offsetSet('role', $credentials->getRole());
+        $rowData->offsetSet('role_fk', $credentials->getRoleFk());
         // created a updated jsou timestamp - readonly
     }
 
