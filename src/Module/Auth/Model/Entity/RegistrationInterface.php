@@ -12,15 +12,15 @@ interface RegistrationInterface extends PersistableEntityInterface {
 
     public function getLoginNameFk(): string;
 
-    public function getPasswordHash(): ?string;
+    public function getPasswordHash(): string;
 
     public function getEmail(): ?string;
 
     public function getEmailTime(): ?\DateTime;
 
-    public function getCreated(): ?\DateTime;
+    public function getCreated(): \DateTime;
 
-    public function getUid(): ?string;
+    public function getUid(): string;
 
     public function getInfo(): ?string;
 

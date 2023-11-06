@@ -10,11 +10,11 @@ use Model\Entity\PersistableEntityInterface;
  * @author pes2704
  */
 interface CredentialsInterface extends PersistableEntityInterface {
-    public function getLoginNameFk(): ?string;
-    public function getPasswordHash(): ?string;
+    public function getLoginNameFk(): string;
+    public function getPasswordHash(): string;  
+    public function getCreated(): \DateTime;
+    public function getUpdated(): \DateTime;
     public function getRoleFk(): ?string;
-    public function getCreated(): ?\DateTime;
-    public function getUpdated(): ?\DateTime;
 
     public function setLoginNameFk(string $loginNameFK): CredentialsInterface;
     public function setPasswordHash(string $password_hash): CredentialsInterface;

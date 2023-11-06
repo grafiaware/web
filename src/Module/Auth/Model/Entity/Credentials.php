@@ -12,28 +12,22 @@ use Model\Entity\PersistableEntityAbstract;
  * @author pes2704
  */
 class Credentials extends PersistableEntityAbstract implements CredentialsInterface {
-
     /**
      * @var string
      */
     private $loginNameFk; //NOT NULL
-
     /**
      * @var string
      */
     private $passwordHash; //NOT NULL
-
     /**
      * @var 
      */
     private $roleFk;
-
-
     /**
      * @var \DateTime
      */
     private $created; //NOT NULL
-
     /**
      * @var \DateTime
      */
@@ -41,15 +35,15 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
 
     /**
      *
-     * @return string|null
+     * @return string
      */
-    public function getLoginNameFk(): ?string {
+    public function getLoginNameFk(): string {
         return $this->loginNameFk;
     }
 
     /**
      *
-     * @param string $loginName
+     * @param string $loginNameFk
      * @return CredentialsInterface
      */
     public function setLoginNameFk(string $loginNameFk): CredentialsInterface {
@@ -59,25 +53,25 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
 
     /**
      *
-     * @return string|null
+     * @return string
      */
-    public function getPasswordHash(): ?string {
+    public function getPasswordHash(): string {
         return $this->passwordHash;
     }
 
     /**
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCreated(): ?\DateTime {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
     /**
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getUpdated(): ?\DateTime {
+    public function getUpdated(): \DateTime {
         return $this->updated;
     }
 
