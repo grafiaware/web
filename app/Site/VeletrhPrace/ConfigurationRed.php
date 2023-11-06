@@ -361,7 +361,7 @@ class ConfigurationRed extends ConfigurationConstants {
         return [
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
-            'mail.paramsname' => 'itGrafiaGmail', // 'najdisi',
+            'mail.paramsname' => 'grafiaInterni', //'najdisi', //'itGrafiaGmail', // 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_PATH.'attachments/' : self::WEB_FILES_PATH.'attachments/',
 
         ];

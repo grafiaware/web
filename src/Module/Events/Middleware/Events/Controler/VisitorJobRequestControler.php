@@ -187,7 +187,7 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
                         $cvDocumentIdFromProfile = $visitorProfileData->getCvDocument();
                         $cvDocumentFromProfile = $this->documentRepo->get($cvDocumentIdFromProfile);                  
 
-                        $cvDocument->setDocument($cvDocumentFromProfile->getDocument());
+                        $cvDocument->setContent($cvDocumentFromProfile->getContent());
                         $cvDocument->setDocumentFilename($cvDocumentFromProfile->getDocumentFilename());
                         $cvDocument->setDocumentMimetype($cvDocumentFromProfile->getDocumentMimetype());
 
@@ -205,7 +205,7 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
                         $letterDocumentIdFromProfile = $visitorProfileData->getLetterDocument();                    
                         $letterDocumentFromProfile = $this->documentRepo->get($letterDocumentIdFromProfile);     
 
-                        $letterDocument->setDocument($letterDocumentFromProfile->getDocument());
+                        $letterDocument->setContent($letterDocumentFromProfile->getContent());
                         $letterDocument->setDocumentFilename($letterDocumentFromProfile->getDocumentFilename());
                         $letterDocument->setDocumentMimetype($letterDocumentFromProfile->getDocumentMimetype());                    
 
@@ -241,7 +241,7 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      */
-    private function processingDocs( /*ServerRequestInterface $request,*/ $files, VisitorJobRequestInterface $visitorJobRequest) {
+    private function processingDocs($files, VisitorJobRequestInterface $visitorJobRequest) {
 
         //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
         //".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
@@ -320,66 +320,6 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
         $flashMessage = "Uloženo $size bytů.";
         $this->addFlashMessage($flashMessage);
     }
-
-         /**
-     * Nic nehlídá - chyby při uploadu NEHLÁSÍ - pokud nevyvolají výjimku, výjimky nejsou ošetřeny!
-     *
-     *
-     * @param ServerRequestInterface $request
-     * @return type
-     */
-    private function uploadDocs_stare(ServerRequestInterface $request, VisitorJobRequestInterface $visitorJobRequest) {
-
-        //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
-        //".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
-
-        $statusSecurity = $this->statusSecurityRepo->get();
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
-        if (isset($loginAggregateCredentials)) {
-            $userHash = $loginAggregateCredentials->getLoginNameHash();
-            $uploadError = '';
-
-            //files z requestu
-            $files = $request->getUploadedFiles();  
-            /** @var  UploadedFileInterface  $file */
-            if(isset($files) AND $files) {
-                // !po jednom souboru!
-                foreach ($files as $uploadedFileName => $file) {
-                                       
-                    // naplnit novy document daty z uploadu a naplnit VisitorJobRequest                                                                                
-                    if ($file->getError()=== UPLOAD_ERR_OK) {                                               
-                        switch ($uploadedFileName) {
-                            case self::UPLOADED_KEY_CV.$userHash:
-                                 /** @var DocumentInterface $documentCv */
-                                $documentCv = $this->container->get(Document::class); //   new Document();
-                                $this->documentRepo->add($documentCv);
-                                                                
-                                $this->hydrateVisitorJobRequestDataByFile($file, self::UPLOADED_KEY_CV, $documentCv, $visitorJobRequest);
-                                break;
-                            
-                            case self::UPLOADED_KEY_LETTER.$userHash:
-                                /** @var  DocumentInterface  $documentLetter */
-                                $documentLetter = $this->container->get(Document::class); //   new Document();
-                                $this->documentRepo->add($documentLetter);
-                                
-                                $this->hydrateVisitorJobRequestDataByFile($file, self::UPLOADED_KEY_LETTER, $documentLetter, $visitorJobRequest);
-                                break;
-                            default:
-                                $uploadError = "Neznámé jméno souboru, neodpovídá žádnému očekávanému jménu. Soubor {$file->getClientFilename()} neuložen.";
-                                break;
-                        }
-                    } else {
-                        $uploadError = $this->uploadErrorMessage($file->getError());
-                    }
-                }
-            }
-
-        }
-        return $uploadError;
-    }
-    
-    
-    //----------------------------------------------------------------------
     
     /**
      * Representative odesílá mailem sobě.
@@ -397,12 +337,10 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
         
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unaathorized
+            return $response->withStatus(401);  // Unathorized
         } else {
-           
             $loginName = $loginAggregateCredentials->getLoginName();  //prihlaseny          
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-            //$companyId = (new RequestParams())->getParsedBodyParam($request, "company-id");   //z POST  ---zjistit z jpbId
             
             if (isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative'])   ) {                
                 /**  @var  Job $job  */
@@ -413,15 +351,15 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
             }                
             
             if ($isRepresentative) {        
-                /** @var VisitorJobRequestInterface  $visitorDataJRqPost */
-                $visitorDataJRqPost = $this->visitorJobRequestRepo->get($visitorLoginName, $jobId);
+                /** @var VisitorJobRequestInterface  $visitorJobRequest */
+                $visitorJobRequest = $this->visitorJobRequestRepo->get($visitorLoginName, $jobId);
               
-                if (!isset($visitorDataJRqPost)) {
+                if (!isset($visitorJobRequest)) {
                     $this->addFlashMessage("Pracovní údaje pro pozici  nenalezeny v databázi.");
                 } else {
-                    $positionName = $visitorDataJRqPost->getPositionName();
-              /**/  $this->sendMail($positionName, $visitorDataJRqPost, $loginAggregateCredentials);
-                    $this->addFlashMessage("Pracovní údaje pro pozici " .  $visitorDataJRqPost->getPositionName() . " neodeslány.**Momentálně se maily neposílají.**");
+                    $positionName = $visitorJobRequest->getPositionName();
+                    $this->sendMail($positionName, $visitorJobRequest, $loginAggregateCredentials);
+                    $this->addFlashMessage("Pracovní údaje pro pozici " .  $visitorJobRequest->getPositionName() . " neodeslány.");
                 }
             } else {
                 $this->addFlashMessage("Pracovní údaje smí mailem odesílat pouze vystavovatel.");
@@ -433,7 +371,7 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
     
     
     private function sendMail($positionName, 
-                              VisitorJobRequestInterface $visitorDataPost,
+                              VisitorJobRequestInterface $visitorJobRequest,
                               LoginAggregateFullInterface $loginAggregateCredentials) {
         /** @var Mail $mail */
         $mail = $this->container->get(Mail::class);
@@ -443,23 +381,22 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
         $body = $mailMessageFactory->create(__DIR__."/Messages/pracovni-udaje-navstevnika.php",
                                             [
                                                 'positionName' => $positionName,
-                                                'visitorDataPost' => $visitorDataPost]);
+                                                'visitorJobRequest' => $visitorJobRequest]);
         
         $attachments=[];        
-        // getCvDocument() dava id  tabulky document, a v ni je teprve ulozen document
-        if ($visitorDataPost->getCvDocument()) {
-            $cvDocument = $this->documentRepo->get($visitorDataPost->getCvDocument());
+        if ($visitorJobRequest->getCvDocument()) {
+            $cvDocument = $this->documentRepo->get($visitorJobRequest->getCvDocument());
             if ($cvDocument) {
                 $attachments[] = (new StringAttachment())
-                            ->setStringAttachment($cvDocument->getDocument())                                       
+                            ->setStringAttachment($cvDocument->getContent())                                       
                             ->setAltText($cvDocument->getDocumentFilename());
             }
         }
-        if ($visitorDataPost->getLetterDocument()) {
-            $letterDocument = $this->documentRepo->get($visitorDataPost->getLetterDocument());
+        if ($visitorJobRequest->getLetterDocument()) {
+            $letterDocument = $this->documentRepo->get($visitorJobRequest->getLetterDocument());
             if ($letterDocument) {
                 $attachments[] = (new StringAttachment())
-                            ->setStringAttachment($letterDocument->getDocument())     
+                            ->setStringAttachment($letterDocument->getContent())     
                             ->setAltText($letterDocument->getDocumentFilename());
             } 
         }
@@ -472,27 +409,16 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
                                      ->setAttachments($attachments)
                                 )
                     ->setParty  (  (new Party())
-                                     ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
+                                     ->setFrom('info@najdidi.cz', 'web veletrhprace')
                                      ->addTo($loginAggregateCredentials->getRegistration()->getEmail(), $presenterLogiName.' veletrhprace.online')
                                      ->addTo('svoboda@grafia.cz', $presenterLogiName.' veletrhprace.online')
                                 );
         
-        //$mail->mail($params); // posle mail
-        $this->addFlashMessage("!!! Momentálně se maily neposílají !!!");
+        $mail->mail($params); // posle mail
+//        $this->addFlashMessage("!!! Momentálně se maily neposílají !!!");
     }    
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     protected function uploadErrorMessage($error) {
-
         switch ($error) {
             case UPLOAD_ERR_OK:
                 $response = 'There is no error, the file uploaded with success.';
@@ -524,10 +450,6 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
         }
         return $response;
     }
-
-    
-    
-
 }
 
 

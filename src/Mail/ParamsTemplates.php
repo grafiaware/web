@@ -86,27 +86,62 @@ class ParamsTemplates {
         $params
             ->setHost(
                     (new Host())
-                        ->setHost('smtp.cesky-hosting.cz')
+                        ->setHost('websmtp.cesky-hosting.cz')
                     )
             ->setSmtpAuth(
                     (new SmtpAuth())
                         ->setSmtpAuth(true)
-                        ->setUserName('info@najdisi.cz')
-                        ->setPassword('KroKF56uJ2pp')
+                        ->setUserName('najdisi.cz')
+                        ->setPassword('Kostrčnenihouba')
                     )
             ->setEncryption(
                     (new Encryption())->setEncryption(Encryption::NONE)
                     )
             ->setHeaders(
                     (new Headers())
-                        ->setHeaders(['X-Mailer' => 'veletrhprace.online'])
+                        ->setHeaders(['X-Mailer' => 'web mail'])
                     )
             ;
 
         return $params;
     }
     //-----------------------------------------------------------------------------------------------------------------------
+    /**
+     * Parametry pro odesílání prostřednictvím smtp.cesky-hosting.cz
+     * Pro přihlášení k SMTP serveru se používají údaje emailového účtu 'info@najdisi.cz' zřízeného na doméně najdisi.cz
+     *
+     * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
+     *
+     * @return Params
+     */
+    private static function grafiaInterni() {
 
+        $params = new Params();
+        $params
+            ->setHost(
+                    (new Host())
+                        ->setHost('posta.grafia.cz')
+                        ->setHost('localhost')
+                    )
+            ->setSmtpAuth(
+                    (new SmtpAuth())
+                        ->setSmtpAuth(true)
+                        ->setUserName('allmail')
+                        ->setPassword('Liamlla123')
+                    )
+            ->setEncryption(
+                    (new Encryption())->setEncryption(Encryption::NONE)
+                    )
+            ->setHeaders(
+                    (new Headers())
+                        ->setHeaders(['X-Mailer' => 'web mail'])
+                    )
+            ;
+
+        return $params;
+    }
+    //-----------------------------------------------------------------------------------------------------------------------
+    
         private static function test() {
         $subject =  'Předmět!!!';
         $body  =
@@ -142,12 +177,12 @@ class ParamsTemplates {
                     )
             ->setHeaders(
                     (new Headers())
-                        ->setHeaders(['X-Mailer' => 'veletrhprace.online'])
+                        ->setHeaders(['X-Mailer' => 'web mail'])
                     )
             ->setParty(
                     (new Party())
-                        ->setFrom('info@najdisi.cz', 'veletrhprace.online')
-                        ->addReplyTo('svoboda@grafia.cz', 'veletrhprace.online')
+                        ->setFrom('info@najdisi.cz', 'web veletrhprace')
+                        ->addReplyTo('svoboda@grafia.cz', 'seb veletrhprace')
                         ->addTo('svoboda@grafia.cz', 'Pes')
                         ->addTo('selnerova@grafia.cz', 'vlse')
 //                        ->addCc($ccAddress, $ccName)

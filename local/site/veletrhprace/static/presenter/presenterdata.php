@@ -3,9 +3,16 @@ use Status\Model\Repository\StatusSecurityRepo;
 
 use Events\Middleware\Events\ViewModel\JobViewModel;
 use Template\Compiler\TemplateCompilerInterface;
+
+#####################
+# vyžaduje proměnnou $companyName s hodnotou, která se nachází v db events, tabulce company, ve sloupci name
+#####################
+
+
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 $statusSecurity = $statusSecurityRepo->get();
+$jobs = [];
 if ($companyName) {
     /** @var JobViewModel $jobModel */
     $jobModel = $container->get( JobViewModel::class );
@@ -20,8 +27,6 @@ if ($companyName) {
             $jobs[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}, 'companyName' => $companyName]);
         }
     }
-        
 } else {
     $statusSecurity->setInfo('companyName', null);
-    $jobs = [];
 }

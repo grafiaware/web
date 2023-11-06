@@ -30,7 +30,7 @@ class ConfigurationConstants {
     const WEB_FILES_PATH = '_files/'.self::WEB_SITE_PATH;
     const WEB_FILES_COMMON = '_files/common/';
     const WEB_FILES_SITE = '_files/'.self::WEB_SITE_PATH;
-    const WEB_BOOTSTRAP_LOGS = '/_www_oa_logs/';
+    const WEB_BOOTSTRAP_LOGS = '/_www_vp_logs/';
 
     // production host
     const WEB_BOOTSTRAP_PRODUCTION_HOST =  'WEB_BOOTSTRAP_PRODUCTION_HOST_doplnit';  //vp
