@@ -52,7 +52,7 @@ class EventControler extends PresentationFrontControlerAbstract {
     public function XX(){
         $loginAggregateCredentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (isset($loginAggregateCredentials)) {
-            $role = $loginAggregateCredentials->getCredentials()->getRole();
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk();
             $permission = [
                 'sup' => true,
                 'editor' => true

@@ -45,7 +45,7 @@ $idCompanyVystavovatele = 10;       // tato stranka musi byt dostupna jen z odka
     
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    $role = $loginAggregate->getCredentials()->getRole() ?? '';
+    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
     if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']))  {
         /** @var RepresenrativeViewModel $representativeViewModel */
         $representativeViewModel = $container->get(RepresenrativeViewModel::class );

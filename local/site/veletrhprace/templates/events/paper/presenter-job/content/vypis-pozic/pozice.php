@@ -55,7 +55,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    $role = $loginAggregate->getCredentials()->getRole() ?? '';
+    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
 
     if ($role==ConfigurationCache::loginLogoutController()['roleVisitor']) {
         $isRepresentative = false;
