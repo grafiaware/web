@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 // controller
 use Red\Middleware\Redactor\Controler\ComponentControler;
+use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 
 // configuration
@@ -884,13 +885,20 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new ComponentControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
+                            $c->get(StatusPresentationRepo::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            StaticControler::class => function(ContainerInterface $c) {
+                return (new StaticControler(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(TemplateCompiler::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
-            // pro template controler
-             TemplateControlerConfiguration::class => function(ContainerInterface $c) {
+            TemplateControlerConfiguration::class => function(ContainerInterface $c) {
                 return new TemplateControlerConfiguration(
                         $c->get('templates.defaultExtension'),
                         $c->get('templates.folders')
