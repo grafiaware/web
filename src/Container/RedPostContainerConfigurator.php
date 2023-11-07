@@ -238,7 +238,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var LoginAggregate $sessionLoginAggregate */
                 $sessionLoginAggregate = $c->get(LoginAggregate::class);
                 if (isset($sessionLoginAggregate)) {
-                    $role = $sessionLoginAggregate->getCredentials()->getRole();
+                    $role = $sessionLoginAggregate->getCredentials()->getRoleFk();
                     switch ($role) {
                         case 'administrator':
                             $account = new Account($c->get('api.db.administrator.name'), $c->get('api.db.administrator.password'));

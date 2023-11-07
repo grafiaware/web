@@ -28,7 +28,7 @@ class CredentialsDao extends DaoEditAbstract implements DaoReferenceUniqueInterf
         return [
             'login_name_fk',
             'password_hash',
-            'role',
+            'role_fk',
             'created',
             'updated'
         ];

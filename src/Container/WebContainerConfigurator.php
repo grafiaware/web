@@ -248,7 +248,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 /* @var $user LoginAggregateFullInterface */
                 $user = $c->get(LoginAggregateFullInterface::class);
                 if (isset($user)) {
-                    $role = $user ? $user->getCredentials()->getRole() : "";
+                    $role = $user ? $user->getCredentials()->getRoleFk() : "";
                     switch ($role) {
                         case 'administrator':
                             $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));

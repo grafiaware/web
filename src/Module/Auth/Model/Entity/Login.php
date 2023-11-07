@@ -4,6 +4,7 @@
 namespace Auth\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
+use Auth\Model\Entity\LoginInterface;
 
 /**
  * Description of Login
@@ -15,7 +16,7 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
     /**
      * @var string
      */
-    private $loginName;
+    private $loginName;   //NOT NULL
 
     /**
      * Metoda vrací hash logiName pro účely generování tokenu uživatele. Neukládá v sobě token (není pak součástí serializovaných dat).
@@ -27,9 +28,9 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
 
     /**
      *
-     * @return string|null
+     * @return string
      */
-    public function getLoginName(): ?string {
+    public function getLoginName(): string {
         return $this->loginName;
     }
 

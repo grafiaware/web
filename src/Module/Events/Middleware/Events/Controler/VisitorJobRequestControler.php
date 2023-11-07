@@ -341,7 +341,7 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
         } else {
             $loginName = $loginAggregateCredentials->getLoginName();  //prihlaseny          
             $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
-            
+          
             if (isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative'])   ) {                
                 /**  @var  Job $job  */
                 $job = $this->jobRepo->get($jobId);

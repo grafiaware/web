@@ -131,7 +131,7 @@ class JobControler extends PresentationFrontControlerAbstract {
             return $response->withStatus(401);  // Unaathorized
         } else {  
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
                             AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -185,7 +185,7 @@ class JobControler extends PresentationFrontControlerAbstract {
             return $response->withStatus(401);  // Unauthorized
         } else {                                   
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';         
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
                 if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
@@ -237,7 +237,7 @@ class JobControler extends PresentationFrontControlerAbstract {
             return $response->withStatus(401);  // Unaathorized
         } else {                                   
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
                 if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
@@ -280,7 +280,7 @@ class JobControler extends PresentationFrontControlerAbstract {
             return $response->withStatus(401);  // Unauthorized
         } else {                                   
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';   
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';   
             
             $job = $this->jobRepo->get($idJob);            
             
@@ -352,7 +352,7 @@ class JobControler extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -393,7 +393,7 @@ class JobControler extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -435,7 +435,7 @@ class JobControler extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {                                   
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
@@ -478,7 +478,7 @@ class JobControler extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -524,7 +524,7 @@ class JobControler extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -566,7 +566,7 @@ class JobControler extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {                                   
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {

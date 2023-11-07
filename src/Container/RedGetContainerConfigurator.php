@@ -1049,8 +1049,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /* @var $user LoginAggregateFullInterface */
                 $user = $c->get(LoginAggregateFullInterface::class);
                 if (isset($user)) {
-                    $role = $user ? $user->getCredentials()->getRole() : "";
-                    switch ($role) {
+                    $roleFk = $user ? $user->getCredentials()->getRoleFk() : "";
+                    switch ($roleFk) {
                         case 'administrator':
                             $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
                             break;
@@ -1058,7 +1058,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
                             break;
                         default:
-                            if ($role) {
+                            if ($roleFk) {
                                 $account = new Account($c->get('web.db.account.authenticated.name'), $c->get('web.db.account.authenticated.password'));
                             } else {
                                 $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
