@@ -4,7 +4,8 @@ namespace Auth\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditKeyDbVerifiedInterface;
-//use Model\RowData\RowDataInterface;
+use Model\RowData\RowDataInterface;
+
 
 /**
  * Description of 
@@ -26,7 +27,7 @@ class RoleDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
         return 'role';
     }
 
-//    public function update(RowDataInterface $rowData): bool {
-//        return parent::update($rowData);
-//    }
+    public function update(RowDataInterface $rowData): bool {
+        return parent::update($rowData);
+    }
 }
