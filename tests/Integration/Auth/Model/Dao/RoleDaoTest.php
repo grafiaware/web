@@ -35,7 +35,8 @@ class RoleDaoTest extends AppRunner {
 
     
     private static $roleTouple ;
-    private static $credentialsPKloginNameTouple;
+    private static $credentialsPKTouple;
+    private static $loginPKTouple;
     
     
 //    private static $companyPrimaryKey;
@@ -71,29 +72,8 @@ class RoleDaoTest extends AppRunner {
         $rowData = new RowData();
         $rowData->offsetSet('login_name', self::ROLE_PREFIX."Login1");
         $loginDao->insert($rowData);   
-         
-                
+        self::$loginPKTouple = $loginDao->getLastInsertedPrimaryKey();           
 
-        // nova credentials - priprava potrebne propojene tabulky
-        /** @var CredentialsDao $credentialsDao */
-        $credentialsDao = $container->get(CredentialsDao::class);
-        $rowData = new RowData();
-        $rowData->offsetSet('login_name_fk', self::ROLE_PREFIX."Login" );
-        
-        xcxcb
-        $rowData->offsetSet('eventInstitutionName30', 'ShortyCo.');
-        $credentialsDao->insert($rowData);
-        self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
-
-//        // nova job - priprava potrebne propojene tabulky
-//         /** @var JobDao $jobDao */
-//        $jobDao = $container->get(JobDao::class);
-//        $jobData = new RowData();
-//        $jobData->import([ 'company_id' => self::$companyPrimaryKey['id'],
-//                           'pozadovane_vzdelani_stupen' => 1
-//                         ]);
-//        $ok = $jobDao->insert($jobData);
-//        self::$jobPrimaryKey = $jobDao->getLastInsertedPrimaryKey();
     }
 
     
@@ -125,6 +105,14 @@ class RoleDaoTest extends AppRunner {
 //        $companyRows = $companyDao->find("name LIKE :name_like", ['name_like'=> self::COMPANY_NAME_PREFIX."%"]);
 //        foreach ($companyRows as $companyRow) {
 //            $companyDao->delete($companyRow);
+               
+        
+        /** @var CredentialsDao $credentialsDao */
+        $credentialsDao = $container->get(CredentialsDao::class);
+        $credentialsRows =  $credentialsDao->find( " login_name_fk LIKE :name_like", ['name_like'=> self::ROLE_PREFIX."%"] ) ;
+        foreach ($credentialsRows as $credRow) {
+            $credentialsDao->delete($credRow);
+        }
         
         /** @var RoleDao $roleDao */
         $roleDao = $container->get(RoleDao::class);
@@ -132,7 +120,6 @@ class RoleDaoTest extends AppRunner {
         foreach ($roleRows as $roleRow) {
             $roleDao->delete($roleRow);
         }
-        
         
         //pak smazat login
         /** @var LoginDao $loginDao */
@@ -177,11 +164,32 @@ class RoleDaoTest extends AppRunner {
                     )
                 )
             );        
+        
+        
+        
+        
+        /** @var CredentialsDao $credentialsDao */
+        $credentialsDao = $container->get(CredentialsDao::class);
+        $credentialsRows =  $credentialsDao->find( " login_name_fk LIKE :name_like", ['name_like'=> self::ROLE_PREFIX."%"] ) ;
+        foreach ($credentialsRows as $credRow) {
+            $credentialsDao->delete($credRow);
+        }
+        
         $roleDao = $container->get(RoleDao::class);
-            $roleRows = $roleDao->find(" role LIKE :role_like", ['role_like'=> self::ROLE_PREFIX."%"]);
-            foreach ($roleRows as $roleRow) {
+        $roleRows = $roleDao->find(" role LIKE :role_like", ['role_like'=> self::ROLE_PREFIX."%"]);
+        foreach ($roleRows as $roleRow) {
                 $roleDao->delete($roleRow);
-            }
+        }
+               
+        //este smazat login
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        $loginData = $loginDao->get( [ 'login_name' => self::ROLE_PREFIX."Login1" ] );
+        if (isset($loginData) )  {
+                $loginDao->delete($loginData);
+        }
+        
+        
 
     }
 
@@ -202,33 +210,21 @@ class RoleDaoTest extends AppRunner {
         $this->assertEquals(1, $numRows);
         //-------------------------------------------------
 
-        //nova credentials s insertovanou roli vyse
+        //nova credentials s propojenim na insertovanou roli vyse
         /** @var CredentialsDao $credentialsDao */
         $credentialsDao = $this->container->get(CredentialsDao::class);
+       
+//        $credRow = $credentialsDao->get(self::$credentialsPKloginNameTouple );
+//        $credRow->import(['role_fk' => self::$roleTouple [role_fk] ]);
+//        $credentialsDao->update($credRow);
+//        
+        
         $credentialsData = new RowData();
         $credentialsData->import( ['role_fk' => $rowDataRole['role'], 'password_hash' => 'a' ] );
+        $credentialsData->import( ['login_name_fk' => self::$loginPKTouple ['login_name'] ] );
         $credentialsDao->insert($credentialsData);
-        self::$credentialsPKloginNameTouple  = $credentialsDao->getLastInsertedPrimaryKey();
-//
-//
-//        // nova visitor_job_request
-//        /** @var VisitorJobRequestDao $visitorJobRequestDao */
-//        $visitorJobRequestDao = $this->container->get(VisitorJobRequestDao::class);
-//        $visitorJobRequesData = new RowData();
-//        $visitorJobRequesData->import( ['login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobPrimaryKey['id'],
-//                                        'position_name' => 'sedící spící'] );
-//        $visitorJobRequestDao->insert($visitorJobRequesData);
-//        self::$visitorJobTouples  = $visitorJobRequestDao->getLastInsertedPrimaryKey();
-//
-//        // nova visitor_profile
-//        /** @var VisitorProfileDao $visitorProfileDao */
-//        $visitorProfileDao = $this->container->get(VisitorProfileDao::class);
-//        $visitorProfileData = new RowData();
-//        $visitorProfileData->import( [ 'login_login_name' => self::$loginNameTouple ['login_name']   ] );
-//        $visitorProfileDao->insert($visitorProfileData);
-//        self::$visitorProfileTouples  = $visitorProfileDao->getLastInsertedPrimaryKey();
-//
-//        // nova enroll - priprava potrebne propojene tabulky ...melo by byt take ...a neni udelano
+        self::$credentialsPKTouple  = $credentialsDao->getLastInsertedPrimaryKey();
+
    }
 
 
@@ -246,25 +242,22 @@ class RoleDaoTest extends AppRunner {
 
     public function testUpdate() {
         // updatuje, je nastaven CASCADE na tabulce credentials propojene pres role_fk        
-        $roleRow = $this->dao->get( ['role_fk' => self::ROLE_PREFIX."Barbuch"] );
-        $this->assertIsString( $roleRow['role_fk'] );
+        $roleRow = $this->roleDAO->get( ['role' => self::ROLE_PREFIX."Barbuch"] );
+        $this->assertIsString( $roleRow['role'] );
 
         $this->setUp();
-        $roleUpdated = str_replace('buch', 'bubuchac',$loginRow['role_fk']);
-        $roleRow['role_fk'] = $roleUpdated;
+        $roleUpdated = str_replace('buch', 'bubuchac',$roleRow['role']);
+        $roleRow['role'] = $roleUpdated;
         $ok = $this->roleDAO->update($roleRow);
-        $this->isTrue($ok);
-                        
-         //$this->setUp();
-         
+        $this->isTrue($ok);                                     
     }
 
 
     public function testCascadeAfterUpdate()   {
         // testuji, zda  role_fk v credentials a updatovana.role v tabulce role jsou stejne
-         /** @var CredentialsDao $credentialsDao */
+        /** @var CredentialsDao $credentialsDao */
         $credentialsDao = $this->container->get(CredentialsDao::class);
-        $credentialsRow = $credentialsDao->get(self::$credentialsPKloginNameTouple );
+        $credentialsRow = $credentialsDao->get(self::$credentialsPKTouple );
         
         $this->assertEquals( $credentialsRow['role_fk'], self::ROLE_PREFIX."Barbubuchac" );
             
@@ -275,7 +268,7 @@ class RoleDaoTest extends AppRunner {
         $credentialsRows = $this->roleDAO->find();
         $this->assertIsArray($credentialsRows);
         $this->assertGreaterThanOrEqual(1, count($credentialsRows));
-        $this->assertInstanceOf(CredentialsDao::class, $credentialsRows[0]);
+        $this->assertInstanceOf(RowDataInterface::class, $credentialsRows[0]);
     }
 
     
