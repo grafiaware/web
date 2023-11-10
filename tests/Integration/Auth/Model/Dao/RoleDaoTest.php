@@ -10,12 +10,8 @@ use Container\DbOldContainerConfigurator;
 //use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Auth\Model\Dao\RoleDao;
-//use Events\Model\Dao\VisitorJobRequestDao;
-//use Events\Model\Dao\VisitorProfileDao;
-//use Events\Model\Dao\RepresentativeDao;
-//use Events\Model\Dao\JobDao;
-
-//use Events\Model\Dao\LoginDao;
+use Auth\Model\Dao\CredentialsDao;
+use Auth\Model\Dao\LoginDao;
 
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
@@ -29,7 +25,6 @@ use Pes\Database\Statement\Exception\ExecuteException;
 class RoleDaoTest extends AppRunner {
 
     const ROLE_PREFIX = "ROLEDaoTest_";
-    //const COMPANY_NAME_PREFIX = "LoginDaoTest_";
 
     private $container;
     /**
@@ -40,6 +35,10 @@ class RoleDaoTest extends AppRunner {
 
     
     private static $roleTouple ;
+    private static $credentialsPKTouple;
+    private static $loginPKTouple;
+    
+    
 //    private static $companyPrimaryKey;
 //    private static $jobPrimaryKey;
 //    private static $visitorJobTouples;
@@ -67,28 +66,14 @@ class RoleDaoTest extends AppRunner {
             );
 
         
-        
-        
-        
+        //nove Login
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        $rowData = new RowData();
+        $rowData->offsetSet('login_name', self::ROLE_PREFIX."Login1");
+        $loginDao->insert($rowData);   
+        self::$loginPKTouple = $loginDao->getLastInsertedPrimaryKey();           
 
-//        // nova company - priprava potrebne propojene tabulky
-//        /** @var CompanyDao $companyDao */
-//        $companyDao = $container->get(CompanyDao::class);
-//        $rowData = new RowData();
-//        $rowData->offsetSet('name', self::COMPANY_NAME_PREFIX."Company1");
-//        $rowData->offsetSet('eventInstitutionName30', 'ShortyCo.');
-//        $companyDao->insert($rowData);
-//        self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
-//
-//        // nova job - priprava potrebne propojene tabulky
-//         /** @var JobDao $jobDao */
-//        $jobDao = $container->get(JobDao::class);
-//        $jobData = new RowData();
-//        $jobData->import([ 'company_id' => self::$companyPrimaryKey['id'],
-//                           'pozadovane_vzdelani_stupen' => 1
-//                         ]);
-//        $ok = $jobDao->insert($jobData);
-//        self::$jobPrimaryKey = $jobDao->getLastInsertedPrimaryKey();
     }
 
     
@@ -120,18 +105,33 @@ class RoleDaoTest extends AppRunner {
 //        $companyRows = $companyDao->find("name LIKE :name_like", ['name_like'=> self::COMPANY_NAME_PREFIX."%"]);
 //        foreach ($companyRows as $companyRow) {
 //            $companyDao->delete($companyRow);
-//            //pak smazat login
+               
         
-            $roleDao = $container->get(RoleDao::class);
-            $roleRows = $roleDao->find(" role LIKE :role_like", ['role_like'=> self::ROLE_PREFIX."%"]);
-            foreach ($roleRows as $roleRow) {
-                $roleDao->delete($roleRow);
+        /** @var CredentialsDao $credentialsDao */
+        $credentialsDao = $container->get(CredentialsDao::class);
+        $credentialsRows =  $credentialsDao->find( " login_name_fk LIKE :name_like", ['name_like'=> self::ROLE_PREFIX."%"] ) ;
+        foreach ($credentialsRows as $credRow) {
+            $credentialsDao->delete($credRow);
+        }
+        
+        /** @var RoleDao $roleDao */
+        $roleDao = $container->get(RoleDao::class);
+        $roleRows = $roleDao->find(" role LIKE :role_like", ['role_like'=> self::ROLE_PREFIX."%"]);
+        foreach ($roleRows as $roleRow) {
+            $roleDao->delete($roleRow);
+        }
+        
+        //pak smazat login
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        $loginData = $loginDao->get( [ 'login_name' => self::ROLE_PREFIX."Login1" ] );
+        if (isset($loginData) )  {
+                $loginDao->delete($loginData);
             }
-            
-//        }
-        
-    }
 
+        }
+
+    
     protected function setUp(): void {
 //        $this->container =
 //            (new EventsModelContainerConfigurator())->configure(
@@ -164,11 +164,32 @@ class RoleDaoTest extends AppRunner {
                     )
                 )
             );        
+        
+        
+        
+        
+        /** @var CredentialsDao $credentialsDao */
+        $credentialsDao = $container->get(CredentialsDao::class);
+        $credentialsRows =  $credentialsDao->find( " login_name_fk LIKE :name_like", ['name_like'=> self::ROLE_PREFIX."%"] ) ;
+        foreach ($credentialsRows as $credRow) {
+            $credentialsDao->delete($credRow);
+        }
+        
         $roleDao = $container->get(RoleDao::class);
-            $roleRows = $roleDao->find(" role LIKE :role_like", ['role_like'=> self::ROLE_PREFIX."%"]);
-            foreach ($roleRows as $roleRow) {
+        $roleRows = $roleDao->find(" role LIKE :role_like", ['role_like'=> self::ROLE_PREFIX."%"]);
+        foreach ($roleRows as $roleRow) {
                 $roleDao->delete($roleRow);
-            }
+        }
+               
+        //este smazat login
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        $loginData = $loginDao->get( [ 'login_name' => self::ROLE_PREFIX."Login1" ] );
+        if (isset($loginData) )  {
+                $loginDao->delete($loginData);
+        }
+        
+        
 
     }
 
@@ -178,9 +199,9 @@ class RoleDaoTest extends AppRunner {
 
 
    public function testInsert() {
-        $rowData = new RowData();
-        $rowData->offsetSet( 'role' , self::ROLE_PREFIX."Barbuch" );
-        $this->roleDAO->insert($rowData);
+        $rowDataRole = new RowData();
+        $rowDataRole->offsetSet( 'role' , self::ROLE_PREFIX."Barbuch" );
+        $this->roleDAO->insert($rowDataRole);
 
         self::$roleTouple =  $this->roleDAO->getLastInsertedPrimaryKey();
         $this->assertIsArray( self::$roleTouple );
@@ -189,33 +210,21 @@ class RoleDaoTest extends AppRunner {
         $this->assertEquals(1, $numRows);
         //-------------------------------------------------
 
-//        //nova representative
-//        /** @var RepresentativeDao $representativeDao */
-//        $representativeDao = $this->container->get(RepresentativeDao::class);
-//        $representativeData = new RowData();
-//        $representativeData->import( ['login_login_name' => $rowData['login_name'], 'company_id' =>self::$companyPrimaryKey['id']] );
-//        $representativeDao->insert($representativeData);
-//        self::$representativeIdTouple  = $representativeDao->getLastInsertedPrimaryKey();
-//
-//
-//        // nova visitor_job_request
-//        /** @var VisitorJobRequestDao $visitorJobRequestDao */
-//        $visitorJobRequestDao = $this->container->get(VisitorJobRequestDao::class);
-//        $visitorJobRequesData = new RowData();
-//        $visitorJobRequesData->import( ['login_login_name' => self::$loginNameTouple ['login_name']  , 'job_id'=>self::$jobPrimaryKey['id'],
-//                                        'position_name' => 'sedící spící'] );
-//        $visitorJobRequestDao->insert($visitorJobRequesData);
-//        self::$visitorJobTouples  = $visitorJobRequestDao->getLastInsertedPrimaryKey();
-//
-//        // nova visitor_profile
-//        /** @var VisitorProfileDao $visitorProfileDao */
-//        $visitorProfileDao = $this->container->get(VisitorProfileDao::class);
-//        $visitorProfileData = new RowData();
-//        $visitorProfileData->import( [ 'login_login_name' => self::$loginNameTouple ['login_name']   ] );
-//        $visitorProfileDao->insert($visitorProfileData);
-//        self::$visitorProfileTouples  = $visitorProfileDao->getLastInsertedPrimaryKey();
-//
-//        // nova enroll - priprava potrebne propojene tabulky ...melo by byt take ...a neni udelano
+        //nova credentials s propojenim na insertovanou roli vyse
+        /** @var CredentialsDao $credentialsDao */
+        $credentialsDao = $this->container->get(CredentialsDao::class);
+       
+//        $credRow = $credentialsDao->get(self::$credentialsPKloginNameTouple );
+//        $credRow->import(['role_fk' => self::$roleTouple [role_fk] ]);
+//        $credentialsDao->update($credRow);
+//        
+        
+        $credentialsData = new RowData();
+        $credentialsData->import( ['role_fk' => $rowDataRole['role'], 'password_hash' => 'a' ] );
+        $credentialsData->import( ['login_name_fk' => self::$loginPKTouple ['login_name'] ] );
+        $credentialsDao->insert($credentialsData);
+        self::$credentialsPKTouple  = $credentialsDao->getLastInsertedPrimaryKey();
+
    }
 
 
@@ -231,44 +240,38 @@ class RoleDaoTest extends AppRunner {
 
 
 
-//    public function testUpdate_and_Exception() {
-//        // neupdatuje, protoze nastaven RESTRICT na tabulkach propojenych pres login_name
-//        // vznikne Exception
-//        $loginRow = $this->dao->get( ['login_name' => self::LOGIN_NAME_PREFIX."Barbucha"] );
-//        $this->assertIsString( $loginRow['login_name'] );
-//
-//        $this->setUp();
-//        $nameUpdated = str_replace('bucha', 'bubuchac',$loginRow['login_name']);
-//        $loginRow['login_name'] = $nameUpdated;
-//        $this->expectException(ExecuteException::class);
-//        $this->dao->update($loginRow);
-//
-//   }
+    public function testUpdate() {
+        // updatuje, je nastaven CASCADE na tabulce credentials propojene pres role_fk        
+        $roleRow = $this->roleDAO->get( ['role' => self::ROLE_PREFIX."Barbuch"] );
+        $this->assertIsString( $roleRow['role'] );
+
+        $this->setUp();
+        $roleUpdated = str_replace('buch', 'bubuchac',$roleRow['role']);
+        $roleRow['role'] = $roleUpdated;
+        $ok = $this->roleDAO->update($roleRow);
+        $this->isTrue($ok);                                     
+    }
 
 
+    public function testCascadeAfterUpdate()   {
+        // testuji, zda  role_fk v credentials a updatovana.role v tabulce role jsou stejne
+        /** @var CredentialsDao $credentialsDao */
+        $credentialsDao = $this->container->get(CredentialsDao::class);
+        $credentialsRow = $credentialsDao->get(self::$credentialsPKTouple );
+        
+        $this->assertEquals( $credentialsRow['role_fk'], self::ROLE_PREFIX."Barbubuchac" );
+            
+    }
+       
 
+    public function testFind() {
+        $credentialsRows = $this->roleDAO->find();
+        $this->assertIsArray($credentialsRows);
+        $this->assertGreaterThanOrEqual(1, count($credentialsRows));
+        $this->assertInstanceOf(RowDataInterface::class, $credentialsRows[0]);
+    }
 
-//    public function testAfterUpdate_and_Exception()   {
-//        // testuji, zda  login_name v login, a login_login_name ve visitor_profile  zustalo stejne
-//        $loginRowRereaded = $this->dao->get( self::$loginNameTouple  );
-//
-//        /** @var VisitorProfileDao $visitorProfileDao */
-//        $visitorProfileDao = $this->container->get(VisitorProfileDao::class);
-//        /**  @var RowData  $row */
-//        $row = $visitorProfileDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  ] );
-//
-//        $this->assertEquals( $row['login_login_name'], $loginRowRereaded['login_name'] );
-//    }
-//
-//
-//    public function testFind() {
-//        $loginRows = $this->dao->find();
-//        $this->assertIsArray($loginRows);
-//        $this->assertGreaterThanOrEqual(1, count($loginRows));
-//        $this->assertInstanceOf(RowDataInterface::class, $loginRows[0]);
-//    }
-//
-//
+    
 //    public function testDeleteException() {
 //        // kontrola RESTRICT = že nevymaže login, kdyz je  pouzit v jine tabulce (yde napr. v representative,... atd.)
 //        /**  @var RowData  $loginRow */
