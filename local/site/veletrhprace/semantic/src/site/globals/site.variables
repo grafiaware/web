@@ -16,9 +16,9 @@
 
 
 /* The size of page text */
-@fontSize :     20px; 
-@smallFontSize :   15px;
-@bigFontSize:   30px;       
+@fontSize :        20px; 
+@smallFontSize:    15px;
+@bigFontSize:      30px;
 
 /*-------------------
     Border Radius
@@ -27,13 +27,13 @@
 @relativeBorderRadius: @relative6px;
 @absoluteBorderRadius: @6px;
 
-@defaultBorderRadius: @absoluteBorderRadius; 
+@defaultBorderRadius: @absoluteBorderRadius;
 
 /*-------------------
     Brand Colors
 --------------------*/
 
-@primaryColor        : #CB0A1F;
+@primaryColor        : #CB0A1F; /*#0072d4;*/
 @secondaryColor      : #97BF0D;
 
 @textColor           : #000;
@@ -43,7 +43,7 @@
        Links
 --------------------*/
 
-@linkColor           : #3e9aec; 
+@linkColor          : #3e9aec; /*#CB0A1F; */
 
 /*--------------
   Page Heading 

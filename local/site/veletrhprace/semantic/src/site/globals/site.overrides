@@ -28,7 +28,7 @@ footer a:not(.item):not(.button):not(.link-img):not(.image){
     vertical-align: top;
     &:hover::after{
         transform: scaleX(1);
-        background-color: @linkColor; 
+        background-color:  @linkColor; 
     }
     &::after{
         background: none; 
