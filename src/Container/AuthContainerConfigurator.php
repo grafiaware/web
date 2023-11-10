@@ -46,6 +46,8 @@ use Auth\Model\Hydrator\LoginAggregateHydrator;
 use Auth\Model\Repository\LoginAggregateReadonlyRepo;
 
 use Auth\Model\Dao\RoleDao;
+use Auth\Model\Hydrator\RoleHydrator;
+use Auth\Model\Repository\RoleRepo;
 
 
 // database
@@ -233,6 +235,13 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(Handler::class),
                         $c->get(Sql::class),
                         PdoRowData::class);                
+            },
+            RoleHydrator::class => function(ContainerInterface $c) {
+                return new RoleHydrator();
+            },
+                    
+            RoleRepo::class => function(ContainerInterface $c) {
+                return new Role($c->get(RoleDao::class), $c->get(RoleHydrator::class));
             },
                     
                     
