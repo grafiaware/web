@@ -19,7 +19,7 @@ use Container\DbUpgradeContainerConfigurator;
 
 use Web\Middleware\Page\Controller\PageController;
 
-use Web\Middleware\Page\Prepare\Prepare;
+use Web\Middleware\Page\PrepareService\Prepare;
 
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -83,7 +83,7 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $router->exchangeRoutes($routeGenerator);
         /** @var Prepare $prepare */
         $prepare = $this->container->get(Prepare::class);
-        $prepare->prepareStatus();
+        $prepare->prepareDbByStatus();
         
         $response =  $router->process($request, $handler) ;
 

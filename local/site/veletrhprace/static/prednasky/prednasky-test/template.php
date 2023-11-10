@@ -35,9 +35,9 @@ $statusSecurity = $statusSecurityRepo->get();
 
 $event = (new EventViewModel($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
-//include Configuration::componentController()['templates']."paper/timecolumn.php";
-include ConfigurationCache::eventTemplates()['templates']."paper/timeline-boxes.php";
-//include Configuration::componentController()['templates']."paper/timeline-leafs.php";
+//include Configuration::componentController()['templates']."timecolumn.php";
+include ConfigurationCache::eventTemplates()['templates']."timeline-boxes.php";
+//include Configuration::componentController()['templates']."timeline-leafs.php";
 
 
 ?>

@@ -75,19 +75,6 @@ class PageController extends LayoutControllerAbstract {
 
     }
 
-//    public function block(ServerRequestInterface $request, $name) {
-//        $menuItem = $this->getMenuItemForBlock($name);
-//        return $this->createResponseWithItem($request, $menuItem);
-//    }
-//
-//    public function subitem(ServerRequestInterface $request, $uid) {
-//        /** @var MenuItemRepo $menuItemRepo */
-//        $menuItemRepo = $this->container->get(MenuItemRepo::class);
-//        $langCode = $this->getPresentationLangCode();
-//        $menuItem = $menuItemRepo->getOutOfContext($langCode, $uid);
-//        return $this->createResponseWithItem($request, $menuItem);
-//    }
-
     public function searchResult(ServerRequestInterface $request) {
         // TODO tady je nějaký zmatek
         /** @var SearchResultComponent $component */

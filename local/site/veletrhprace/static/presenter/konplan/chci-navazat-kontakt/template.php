@@ -27,6 +27,6 @@ $corporateAddress = [
        <?php
        
         
-        include ConfigurationCache::eventTemplates()['templates']."paper/presenter-contacts.php";
+        include ConfigurationCache::eventTemplates()['templates']."presenter-contacts.php";
         ?>
     </div>

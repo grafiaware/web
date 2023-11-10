@@ -29,6 +29,8 @@ class MenuItemDaoTest extends AppRunner {
 
     private static $container;
 
+    private static $initialState = [];
+
     /**
      *
      * @var MenuItemDao
@@ -77,9 +79,40 @@ class MenuItemDaoTest extends AppRunner {
 
         $statement = $manipulator->query($sql);
         $menuItemRow = $statement->fetch();
-        $active = $menuItemRow['active'];
-    }
+        self::$initialState['active ']= $menuItemRow['active'];
+        // nastav neaktivní položku menu na aktivní
+        if (!self::$initialState['active ']) {
+            $lk = self::$primaryKey['lang_code_fk'];
+            $ui = self::$primaryKey['uid_fk'];
+            $sql = "
+                UPDATE `menu_item`
+                SET
+                `active` = 1
+                WHERE `lang_code_fk` = '$lk' AND `uid_fk` = '$ui'";
 
+            $manipulator->exec($sql);
+        }
+    }
+    public static function tearDownAfterClass(): void {
+        // pokud položka před testem byla neaktivní, vrať položku do stavu neaktivní
+        if (!self::$initialState['active ']) {        
+            $container =
+                (new TestHierarchyContainerConfigurator())->configure(
+                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                        );        
+            /** @var Manipulator $manipulator */
+            $manipulator = $container->get(Manipulator::class);        
+            $lk = self::$primaryKey['lang_code_fk'];
+            $ui = self::$primaryKey['uid_fk'];
+            $sql = "
+                UPDATE `menu_item`
+                SET
+                `active` = 0
+                WHERE `lang_code_fk` = '$lk' AND `uid_fk` = '$ui'";
+
+            $manipulator->exec($sql);
+        }
+    }
     protected function setUp(): void {
         self::$container =
                 (new TestHierarchyContainerConfigurator())->configure(
@@ -108,19 +141,20 @@ class MenuItemDaoTest extends AppRunner {
     /**
      *
      */
-    public function testUpdatePrettyUrl() {
+    public function testUpdatePrettyuri() {
         $menuItemRow = self::$dao->get(self::$primaryKey);
-        self::$upd = explode('/', $menuItemRow['prettyUrl'])[0].'/'.date('Y-m-d H:i:s');
-        $menuItemRow['prettyUrl'] = self::$upd;
+        self::$upd = explode('/', $menuItemRow['prettyuri'])[0].'/'.date('Y-m-d H:i:s');
+        $menuItemRow['prettyuri'] = self::$upd;
         $succ = self::$dao->update($menuItemRow);
         $this->assertTrue($succ);
     }
+
     /**
      *
      */
     public function testRereadPrettyUrl() {
         $menuItemRow = self::$dao->get(self::$primaryKey);
-        $menuItemRow['prettyUrl'] = self::$upd;
+        $menuItemRow['prettyuri'] = self::$upd;
         self::$dao->update($menuItemRow);
     }
     /**
