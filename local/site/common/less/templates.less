@@ -31,12 +31,12 @@
 
 
 /*******************************
-         styly pro šablony author v site  
+         styly pro šablony author v site   
          templates.less: @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
 *******************************/   
 &{       
 @templateType: "author";                                             
-@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
+@import (optional) "../@{commonTemplatesFolder}/@{templateType}/base-template.less";    
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 }
          
@@ -46,7 +46,7 @@
 *******************************/         
 &{         
 @templateType: "multipage";                                                                                   
-@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";     
+@import (optional) "../@{commonTemplatesFolder}/@{templateType}/base-template.less";     
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less"; 
 } 
 
@@ -56,7 +56,7 @@
 *******************************/ 
 &{                    
 @templateType: "article";                                                                                   
-@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";
+@import (optional) "../@{commonTemplatesFolder}/@{templateType}/base-template.less";
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 } 
 
@@ -66,7 +66,7 @@
 *******************************/ 
 &{    
 @templateType: "paper";                                     
-@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";
+@import (optional) "../@{commonTemplatesFolder}/@{templateType}/base-template.less";
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 }  
 
@@ -76,12 +76,12 @@
 *******************************/ 
 &{          
 @templateType: "paper-content";
-@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";         
+@import (optional) "../@{commonTemplatesFolder}/@{templateType}/base-template.less";         
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";  
 }
           
 
-/*******************************
+/******************************* 
          styly pro šablony static v site
          templates.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"           
 *******************************/ 
@@ -91,8 +91,13 @@
          společná část stylů pro všechny šablony v site
          templates.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/site-templates.less"      
 *******************************/       
-@import (optional) "../../@{sitename}/@{siteStylesFolder}/site-templates.less";        
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/site-templates.less";       
 
-    
+/*******************************
+         společná část stylů pro šablony events v site
+         templates.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/site-templates.less"      
+*******************************/       
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/events/site-templates.less"; 
+
 
 
