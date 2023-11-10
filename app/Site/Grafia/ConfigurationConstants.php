@@ -16,20 +16,19 @@ namespace Site\Grafia;
 class ConfigurationConstants {
 
     // site
-    const WEB_SITE_PATH = 'grafia/';
+    const WEB_SITE = 'grafia/';
 
     // local
     const WEB_TEMPLATES_COMMON = 'local/site/common/templates/';
-    const WEB_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE_PATH.'templates/';
-    const WEB_STATIC = 'local/site/'.self::WEB_SITE_PATH.'static/';
+    const WEB_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/';
+    const WEB_STATIC = 'local/site/'.self::WEB_SITE.'static/';
     // public
     const WEB_ASSETS = 'public/assets/';
     const WEB_LINKS_COMMON = 'public/site/common/';
-    const WEB_LINKS_SITE = 'public/site/'.self::WEB_SITE_PATH;
+    const WEB_LINKS_SITE = 'public/site/'.self::WEB_SITE;
     // files
-    const WEB_FILES_PATH = '_files/'.self::WEB_SITE_PATH;
     const WEB_FILES_COMMON = '_files/common/';
-    const WEB_FILES_SITE = '_files/'.self::WEB_SITE_PATH;
+    const WEB_FILES_SITE = '_files/'.self::WEB_SITE;
     const WEB_BOOTSTRAP_LOGS = '/_www_gr_logs/';
 
     // production host
