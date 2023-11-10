@@ -11,7 +11,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                 <?= $this->insertIf( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', $context); ?>
                 <?= $this->insertIf( !$isMenuEditableMode, __DIR__.'/container/teloNoneditableMode.php', $context); ?>
                 <?= $flash ?? '' ?>
-                <?= $poznamky ?? '' ?>
+                <?= $info ?? '' ?>
             </div>
             <div class="row">
                 <div class="sixteen wide column">

@@ -5,7 +5,7 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 
 include 'data.php';
-include 'presenterdata.php';
+include __DIR__.'/../presenterdata.php';
 
 
 ?>

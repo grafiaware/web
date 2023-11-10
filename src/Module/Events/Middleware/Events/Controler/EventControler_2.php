@@ -41,7 +41,7 @@ use Events\Model\Entity\EventLink;
 use Events\Model\Repository\EventLinkRepoInterface;
 
 
-//use Events\Model\Arraymodel\Event;
+//use Events\Middleware\Events\ViewModel\Event;
 //use Model\Entity\Enroll;
 
 
@@ -129,7 +129,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -173,7 +173,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -213,7 +213,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {                                   
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
@@ -253,7 +253,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -305,7 +305,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -353,7 +353,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {                                   
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
@@ -395,7 +395,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -438,7 +438,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -480,7 +480,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {                                   
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
@@ -521,7 +521,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -578,7 +578,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -635,7 +635,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {                                   
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
@@ -678,7 +678,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -720,7 +720,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -760,7 +760,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {                                   
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
@@ -800,7 +800,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -845,7 +845,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {  
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? ''; 
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -884,7 +884,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            return $response->withStatus(401);  // Unaathorized
 //        } else {                                   
 //            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRole() ?? '';           
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
 //            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {

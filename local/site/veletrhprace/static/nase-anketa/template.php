@@ -36,7 +36,7 @@ use Red\Model\Repository\VisitorDataRepo;
 
     if (isset($loginAggregate)) {
         $loginName = $loginAggregate->getLoginName();
-        $role = $loginAggregate->getCredentials()->getRole() ?? '';
+        $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
     }
 
     // poue pro default roli 'visitor'

@@ -251,7 +251,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     protected function isAllowed($action): bool {
         $isAllowed = false;
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
-        $role = isset($loginAggregate) ? $loginAggregate->getCredentials()->getRole() : null;
+        $role = isset($loginAggregate) ? $loginAggregate->getCredentials()->getRoleFk() : null;
         $logged = isset($loginAggregate) ? true : false;
         $permissions = $this->getActionPermissions();
         $activeRole = $this->getActiveRole($logged, $role, $permissions);
@@ -296,7 +296,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUP => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
             RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
             RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
             RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]

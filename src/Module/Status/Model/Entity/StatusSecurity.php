@@ -32,7 +32,7 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
      */
     private $userActions;
     
-    private $info;
+    private $info = [];
 
     /**
      * {@inheritdoc}
@@ -90,8 +90,10 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     public function setInfo($name, $value) {
         $this->info[$name] = $value;
     }
-    
     public function getInfo($name) {
-        return $this->info[$name];
+        return $this->info[$name] ?? null;
+    }
+    public function getInfos(): array {
+        return $this->info;
     }    
 }

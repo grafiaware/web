@@ -381,7 +381,7 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
      */
     public static function languageSelectRenderer() {
         return [
-            'assets' => self::RED_ASSETS.'flags-mini/'
+            'assets' => self::WEB_ASSETS.'flags-mini/'
         ];
     }
 }

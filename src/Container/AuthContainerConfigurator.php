@@ -45,6 +45,9 @@ use Auth\Model\Dao\LoginAggregateReadonlyDao;
 use Auth\Model\Hydrator\LoginAggregateHydrator;
 use Auth\Model\Repository\LoginAggregateReadonlyRepo;
 
+use Auth\Model\Dao\RoleDao;
+
+
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -224,7 +227,19 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $repo;
             },
 
-
+//---------------------------------------------------------------------------
+            RoleDao::class => function(ContainerInterface $c) {
+                return new RoleDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);                
+            },
+                    
+                    
+                    
+                    
+                    
+//--------------------------------------------------------                    
             DbAuthenticator::class => function(ContainerInterface $c) {
                 return new DbAuthenticator($c->get(CredentialsDao::class));
             },

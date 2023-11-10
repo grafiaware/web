@@ -20,6 +20,7 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\MailContainerConfigurator;
 
 use Red\Middleware\Redactor\Controler\ComponentControler;
+use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\UserActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
@@ -101,13 +102,13 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->serviceComponent($request, $name);
             });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var StaticControler $ctrl */
+            $ctrl = $this->container->get(StaticControler::class);
             return $ctrl->static($request, $staticName);
             });
 //        $this->routeGenerator->addRouteForAction('GET', '/red/v1/staticfolded/:folderName', function(ServerRequestInterface $request, $staticName) {
-//            /** @var ComponentController $ctrl */
-//            $ctrl = $this->container->get(ComponentController::class);
+//            /** @var StaticControler $ctrl */
+//            $ctrl = $this->container->get(StaticControler::class);
 //            return $ctrl->static($request, $staticName);
 //            });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/empty/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {

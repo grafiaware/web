@@ -63,7 +63,7 @@ class MailController extends PresentationFrontControlerAbstract {
         $visitorsLoginAgg = $this->getLogins();
         foreach ($visitorsLoginAgg as $visitorLoginAgg) {
             $credentials = $visitorLoginAgg->getCredentials();
-            if (isset($credentials) AND ($credentials->getRole() === "visitor")) {
+            if (isset($credentials) AND ($credentials->getRoleFk() === "visitor")) {
                 $counter++;
                 if ($counter>=$min AND $counter<=$max ) {
                     $registration = $this->registrationRepo->get($visitorLoginAgg->getLoginName());

@@ -19,6 +19,8 @@ class RoleEnum  extends Enum {
     const ANONYMOUS = 'anonymous';
     const AUTHENTICATED = 'authenticated';
     const EDITOR = 'editor';
-    const SUP = 'sup';
+    const SUPERVISOR = 'supervisor';
+    const VISITOR = 'visitor';
+    const REPRESENTATIVE = 'representative';
 
 }

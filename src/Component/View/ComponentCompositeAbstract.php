@@ -36,7 +36,7 @@ abstract class ComponentCompositeAbstract extends CompositeView implements Compo
 
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
             RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
             RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
             RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]

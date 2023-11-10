@@ -247,6 +247,6 @@ class TemplateControler extends FrontControlerAbstract {
                 user_error("Neexistuje soubor šablony '$templatePath'", E_USER_WARNING);
                 $this->setTemplate(null);
             }
-        return new PhpTemplate(ConfigurationCache::templates()['templates.paperFolder']."$name/".ConfigurationCache::templates()['templates.defaultExtension']);
+        return new PhpTemplate(ConfigurationCache::redTemplates()['templates.paperFolder']."$name/".ConfigurationCache::redTemplates()['templates.defaultExtension']);
     }
 }

@@ -56,18 +56,6 @@ use Pes\View\View;
  */
 class ComponentControler extends PresentationFrontControlerAbstract {
 
-    private $templateCompiler;
-
-    public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            TemplateCompilerInterface $templateCompiler
-            ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->templateCompiler = $templateCompiler;
-    }
-
     ### action metody ###############
 
     public function serviceComponent(ServerRequestInterface $request, $name) {
@@ -82,13 +70,6 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createResponseFromView($request, $view);
-    }
-
-    public function static(ServerRequestInterface $request, $staticName) {
-        $realName = str_replace('_', '/', $staticName);
-        $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
-        $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
-        return $this->createResponseFromString($request, $compiledContent);
     }
 
     public function empty(ServerRequestInterface $request, $menuItemId) {

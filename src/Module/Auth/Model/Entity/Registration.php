@@ -10,20 +10,20 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
     /**
      * @var string
      */
-    private $loginNameFk;
+    private $loginNameFk;  //NOT NULL
 
     /**
      * @var string
      */
-    private $passwordHash;
+    private $passwordHash;    //NOT NULL
 
     /**
-     * @var string
+     * @var string|null
      */
     private $email;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     private $emailTime;
 
@@ -31,18 +31,18 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
      *
      * @var string
      */
-    private $uid;
+    private $uid;    //NOT NULL
 
     /**
      *
-     * @var string
+     * @var string|null
      */
     private $info;
 
      /**
      * @var \DateTime
      */
-    private $created;
+    private $created;    //NOT NULL
 
     /**
      *
@@ -67,7 +67,7 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
      *
      * @return string
      */
-    public function getPasswordHash(): ?string {
+    public function getPasswordHash(): string {
         return $this->passwordHash;
     }
 
@@ -115,9 +115,9 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
 
     /**
      *
-     * @return string|null
+     * @return string
      */
-    public function getUid(): ?string {
+    public function getUid(): string {
         return $this->uid;
     }
     /**
@@ -142,9 +142,9 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
 
         /**
      *
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getCreated(): ?\DateTime {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
     /**

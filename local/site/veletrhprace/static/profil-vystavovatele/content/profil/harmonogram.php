@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\EventViewModel;
+use Events\Middleware\Events\ViewModel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -17,7 +17,7 @@ Další přednášky průběžně doplňujeme, koukněte sem za pár dnů!
 Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz na youtube kanál zde najdete po 28. 3. 2021';
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
-$eventTypeName = "";  // viz Events\Model\Arraymodel\EventType
+$eventTypeName = "";  // viz Events\Middleware\Events\ViewModel\EventType
 
 $eventList = new EventViewModel($statusSecurity);
 $eventInstitutionName = $representativeContext["nameCompany"];
@@ -29,7 +29,7 @@ $event = $eventList->getEventList(null, $eventInstitutionName, [], false);   // 
     Harmonogram
 </div>
 <div class="content">
-    <?php include ConfigurationCache::componentController()['templates']."paper/timeline-leafs/content/timeline.php";
+    <?php include ConfigurationCache::eventTemplates()['templates']."paper/timeline-leafs/content/timeline.php";
 //include Configuration::componentController()['templates']."timecolumn/template.php";
 //include Configuration::componentController()['templates']."timeline-boxes/template.php";
     ?>

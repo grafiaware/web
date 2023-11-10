@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\EventViewModel;
+use Events\Middleware\Events\ViewModel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -18,7 +18,7 @@ Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz n
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
 
-$eventTypeName = "";  // viz Events\Model\Arraymodel\EventType
+$eventTypeName = "";  // viz Events\Middleware\Events\ViewModel\EventType
 $institutionName = "";
 
 $event = [];
@@ -42,5 +42,5 @@ $event = $eventList->getEventList(null, $institutionName, $eventIds, false);   /
     Můj harmonogram
 </div>
 <div class="content">
-    <?php include ConfigurationCache::componentController()['templates']."timeline-leafs/content/timeline.php"; ?>
+    <?php include ConfigurationCache::eventTemplates()['templates']."timeline-leafs/content/timeline.php"; ?>
 </div>

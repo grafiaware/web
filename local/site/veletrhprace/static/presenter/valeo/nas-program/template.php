@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\EventViewModel;
+use Events\Middleware\Events\ViewModel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
@@ -27,6 +27,6 @@ use Status\Model\Repository\StatusSecurityRepo;
     <div id="nas-program">
         <?php
         //include Configuration::componentController()['templates']."timecolumn/template.php";
-        include ConfigurationCache::componentController()['templates']."paper/timeline-boxes.php";
+        include ConfigurationCache::eventTemplates()['templates']."paper/timeline-boxes.php";
         ?>
     </div>

@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 // controller
 use Red\Middleware\Redactor\Controler\ComponentControler;
+use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 
 // configuration
@@ -53,7 +54,7 @@ use Auth\Component\View\RegisterComponent;
 use Web\Component\View\Flash\FlashComponent;
 
 use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\StatusBoardComponent;
+use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
@@ -86,7 +87,7 @@ use Red\Component\ViewModel\Menu\LevelViewModel;
 
 use Auth\Component\ViewModel\LoginViewModel;
 use Auth\Component\ViewModel\LogoutViewModel;
-use Red\Component\ViewModel\Manage\StatusBoardViewModel;
+use Red\Component\ViewModel\Manage\InfoBoardViewModel;
 use Red\Component\ViewModel\Manage\UserActionViewModel;
 
 use Web\Component\ViewModel\Flash\FlashViewModel;
@@ -183,7 +184,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 ConfigurationCache::redComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
                 ConfigurationCache::menu(),
 //                Configuration::renderer(),
-                ConfigurationCache::templates()
+                ConfigurationCache::redTemplates()
                 );
     }
 
@@ -428,14 +429,14 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 ## layout komponenty
 #
-            StatusBoardComponent::class => function(ContainerInterface $c) {
+            InfoBoardComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(StatusBoardComponent::class, AccessPresentationEnum::DISPLAY)) {
+                if($accessPresentation->isAllowed(InfoBoardComponent::class, AccessPresentationEnum::DISPLAY)) {
                 /** @var ComponentConfigurationInterface $configuration */
                     $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new StatusBoardComponent($configuration);
-                    $component->setData($c->get(StatusBoardViewModel::class));
+                    $component = new InfoBoardComponent($configuration);
+                    $component->setData($c->get(InfoBoardViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('statusboard')));
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -884,13 +885,20 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new ComponentControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
+                            $c->get(StatusPresentationRepo::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            StaticControler::class => function(ContainerInterface $c) {
+                return (new StaticControler(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(TemplateCompiler::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
-            // pro template controler
-             TemplateControlerConfiguration::class => function(ContainerInterface $c) {
+            TemplateControlerConfiguration::class => function(ContainerInterface $c) {
                 return new TemplateControlerConfiguration(
                         $c->get('templates.defaultExtension'),
                         $c->get('templates.folders')
@@ -945,8 +953,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new AccessPresentation($c->get(StatusViewModel::class));
             },
         ## modely pro komponenty s template
-            StatusBoardViewModel::class => function(ContainerInterface $c) {
-                return new StatusBoardViewModel(
+            InfoBoardViewModel::class => function(ContainerInterface $c) {
+                return new InfoBoardViewModel(
                         $c->get(StatusViewModel::class)
                     );
             },
@@ -1049,8 +1057,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /* @var $user LoginAggregateFullInterface */
                 $user = $c->get(LoginAggregateFullInterface::class);
                 if (isset($user)) {
-                    $role = $user ? $user->getCredentials()->getRole() : "";
-                    switch ($role) {
+                    $roleFk = $user ? $user->getCredentials()->getRoleFk() : "";
+                    switch ($roleFk) {
                         case 'administrator':
                             $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
                             break;
@@ -1058,7 +1066,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
                             break;
                         default:
-                            if ($role) {
+                            if ($roleFk) {
                                 $account = new Account($c->get('web.db.account.authenticated.name'), $c->get('web.db.account.authenticated.password'));
                             } else {
                                 $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));

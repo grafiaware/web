@@ -1,6 +1,6 @@
 <?php
 use Red\Model\Entity\VisitorDataPostInterface;
-/** @var VisitorDataPostInterface $visitorDataPost */
+/** @var VisitorDataPostInterface $visitorJobRequest */
 use Pes\Text\Text;
 ?>
 
@@ -27,32 +27,32 @@ use Pes\Text\Text;
                 <p>Návštěvník veletrhprace.online</p><p> Jméno:&nbsp;&nbsp; <b>
                     <?= Text::esc(
                     trim(
-                            $visitorDataPost->getPrefix()
-                            .' '.$visitorDataPost->getName()
-                            .' '.$visitorDataPost->getSurname()
-                            .($visitorDataPost->getPostfix() ? ', '.$visitorDataPost->getPostfix() : ''))
+                            $visitorJobRequest->getPrefix()
+                            .' '.$visitorJobRequest->getName()
+                            .' '.$visitorJobRequest->getSurname()
+                            .($visitorJobRequest->getPostfix() ? ', '.$visitorJobRequest->getPostfix() : ''))
                             ); ?>
                     </b></p>
             </div>
             <div><br></div>
             <div>
                 <p>e-mail</p>
-                <p><?= Text::esc($visitorDataPost->getEmail()); ?></p>
+                <p><?= Text::esc($visitorJobRequest->getEmail()); ?></p>
             </div>
             <div><br></div>
             <div>
                 <p>Telefon</p>
-                <p><?= Text::esc($visitorDataPost->getPhone()); ?></p>
+                <p><?= Text::esc($visitorJobRequest->getPhone()); ?></p>
             </div>
             <div><br></div>
             <div>
                 <p>Vzdělání, kurzy</p>
-                <p><?= Text::esc($visitorDataPost->getCvEducationText()); ?></p>
+                <p><?= Text::esc($visitorJobRequest->getCvEducationText()); ?></p>
             </div>
             <div><br></div>
             <div>
                 <p>Pracovní zkušenosti, dovednosti</p>
-                <p><?= Text::esc($visitorDataPost->getCvSkillsText()); ?></p>
+                <p><?= Text::esc($visitorJobRequest->getCvSkillsText()); ?></p>
             </div>
             <div><br></div>
             <div>V příloze zasíláme případně přiložený životopis a motivační dopis.

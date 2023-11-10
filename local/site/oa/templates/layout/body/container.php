@@ -9,7 +9,7 @@ use Pes\Text\Html;
             </header>
             <main class="page-content">
                 <?= $flash ?? '' ?>
-                <?= $poznamky ?? '' ?>
+                <?= $info ?? '' ?>
                 <?php include "container/telo.php"; ?>
             </main>
             <footer>

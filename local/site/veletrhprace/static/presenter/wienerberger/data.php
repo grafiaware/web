@@ -14,15 +14,15 @@ use Red\Model\Entity\PaperAggregateInterface;
 /** @var PaperAggregateInterface $paperAggregate */
 
 ############################
-$shortName = 'wienerberger';
+$companyName = 'wienerberger';
 ############################
 
 
-$monitorFilename = ConfigurationCache::files()['presenter'].$shortName.'/movies/monitor-stanek.jpg';
+$monitorFilename = ConfigurationCache::files()['presenter'].$companyName.'/movies/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
-$videoMp4Filename = ConfigurationCache::files()['presenter'].$shortName.'/movies/video-stanek-MP4.mp4';
+$videoMp4Filename = ConfigurationCache::files()['presenter'].$companyName.'/movies/video-stanek-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = ConfigurationCache::files()['presenter'].$shortName.'/movies/video-stanek-WEBM.webm';
+$videoWebmFilename = ConfigurationCache::files()['presenter'].$companyName.'/movies/video-stanek-WEBM.webm';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 
@@ -52,7 +52,7 @@ $firma = [
         $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
     ],
     'imgStankuAttributes' => [
-        'src' => ConfigurationCache::files()['presenter'].$shortName.$stanek_ref,
+        'src' => ConfigurationCache::files()['presenter'].$companyName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [
@@ -77,7 +77,7 @@ $firma = [
             'nazevSocialniSite' => 'Twitter',
             'btnClass' => 'btn-tw',
             'modalID' => 'modal_twitter',
-            'iframe' => '<a href="https://twitter.com/Wienerbergercz" target="_blank"><img src="'.ConfigurationCache::files()['presenter'].$shortName.'/assets/twitter.png" alt="profil Twitter" height="" width="100%"/></a>',
+            'iframe' => '<a href="https://twitter.com/Wienerbergercz" target="_blank"><img src="'.ConfigurationCache::files()['presenter'].$companyName.'/assets/twitter.png" alt="profil Twitter" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://twitter.com/Wienerbergercz'
         ]
     ],

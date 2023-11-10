@@ -25,19 +25,19 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    $role = $loginAggregate->getCredentials()->getRole() ?? '';
+    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
 }
 
 // pouze pro default roli 'visitor' ????
 if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
     /** @var VisitorProfileRepo $visitorProfileRepo */
     $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
-    $visitorData = $visitorProfileRepo->get($loginName);    //$visitorData jsou z visitor_profile repository
+    $visitorProfile = $visitorProfileRepo->get($loginName);    //$visitorData jsou z visitor_profile repository
 
-    /** @var VisitorProfileInterface $visitorData */
-    if (isset($visitorData)) {
-        $documentCvId = $visitorData->getCvDocument();
-        $documentLettterId = $visitorData->getLetterDocument();        
+    /** @var VisitorProfileInterface $visitorProfile */
+    if (isset($visitorProfile)) {
+        $documentCvId = $visitorProfile->getCvDocument();
+        $documentLettterId = $visitorProfile->getLetterDocument();        
     }
     /** @var DocumentRepo $documentRepo */
     $documentRepo = $container->get(DocumentRepo::class);
@@ -96,7 +96,9 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
         </section>
         <section>
             <content>
-                <?= $this->insert(ConfigurationCache::componentController()['templates']."zprava"."/template.php", $zprava) ?>
+                <?php /*= $this->insert(ConfigurationCache::eventTemplates()['templates']."zprava"."/template.php", $zprava) */?>
+                
+                <!-- cesta k templates/static přidat do konfigurace -->
             </content>
             <content>
                 <?php include "content/profil.php" ?> <!-- Tiny pro .edit-userinput -->
@@ -134,7 +136,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
                 <?php include "perex.php" ?>
             </perex>
             <content>             
-                <?= $this->insert(ConfigurationCache::componentController()['templates']."zprava"."/template.php", $zprava) ?>
+                <?= $this->insert(ConfigurationCache::eventTemplates()['templates']."zprava"."/template.php", $zprava) ?>
             </content>
         </section>
     </article>

@@ -120,8 +120,8 @@ use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\Document;
 
-use Events\Model\Arraymodel\JobViewModel;
-use Events\Model\Arraymodel\RepresenrativeViewModel;
+use Events\Middleware\Events\ViewModel\JobViewModel;
+use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
 
 // database
 use Pes\Database\Handler\Account;
@@ -486,7 +486,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobViewModel::class => function(ContainerInterface $c) {
                 return new JobViewModel(
-//                        $c->get(CompanyRepo::class),
+                        $c->get(CompanyRepo::class),
                         $c->get(JobRepo::class), 
                         $c->get(JobToTagRepo::class),
                         $c->get(JobTagRepo::class),

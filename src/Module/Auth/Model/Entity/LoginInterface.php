@@ -15,7 +15,7 @@ use Model\Entity\PersistableEntityInterface;
  * @author pes2704
  */
 interface LoginInterface extends PersistableEntityInterface {
-    public function getLoginName(): ?string;
+    public function getLoginName(): string;
     public function setLoginName(string $loginName): LoginInterface;
 
     public function getLoginNameHash();

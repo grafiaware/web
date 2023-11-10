@@ -69,7 +69,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     public function getUserRole(): ?string {
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
-        return isset($loginAggregate) ? $loginAggregate->getCredentials()->getRole() : null;
+        return isset($loginAggregate) ? $loginAggregate->getCredentials()->getRoleFk() : null;
     }
 
     public function getUserLoginName(): ?string {
@@ -111,5 +111,8 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     public function getPresentedMenuItem(): ?MenuItemInterface {
         return $this->statusPresentationRepo->get()->getMenuItem();
     }
-
+    
+    public function getInfos(): array {
+        return $this->statusSecurityRepo->get()->getInfos();
+    }
 }

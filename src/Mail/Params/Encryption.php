@@ -18,8 +18,21 @@ class Encryption {
     private $smtpSecure = '';
     private $port = 25;
 
+    /**
+     * Nasraví šifrováni připojení k SMTP serveru. Je třeba jako hodnotu parametru použít některou z konstant třídy SMTPS, STARTTLS, NONE.
+     * Metoda vždy automaticka nystaví odpovídající SMTP port. Default hodnoty jsou NONE (nez šifrování) a port 25.
+     * - SMTPS - encryption TLS (dříve nazývano SSL), port 587
+     * - STARTTLS - encryption TLS s použitím dialogu STARTTLS, port 465
+     * - NONE
+     * 
+     * @param string $encryption Hodnota některé z konstant třídy SMTPS, STARTTLS, NONE, default NONE
+     * @return $this
+     */
     public function setEncryption($encryption = self::NONE) {
-
+//Protokol  Port            Zabezpečení spojení Zabezpečená autentizace
+//SMTP      25 nebo 625     žádné nebo TLS 	ne
+//SMTP      587             TLS                 ne
+//SMTPS     465             SSL                 ne
         switch ($encryption) {
             case self::SMTPS:
                 $this->smtpSecure = PHPMailer::ENCRYPTION_STARTTLS;

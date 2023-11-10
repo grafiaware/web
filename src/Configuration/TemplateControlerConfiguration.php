@@ -10,10 +10,10 @@ class TemplateControlerConfiguration implements TemplateControlerConfigurationIn
 //                'templates.defaultExtension' => '.php',
 //                // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného typu
 //                'templates.folders' => [
-//                    'author'=>[self::RED_TEMPLATES_COMMON.'author/'],   //jen v common
-//                    'paper' => [self::RED_TEMPLATES_SITE.'paper/', self::RED_TEMPLATES_COMMON.'paper/'],
-//                    'article' => [self::RED_TEMPLATES_SITE.'article/', self::RED_TEMPLATES_COMMON.'article/'],
-//                    'multipage' => [self::RED_TEMPLATES_SITE.'multipage/', self::RED_TEMPLATES_COMMON.'multipage/'],
+//                    'author'=>[self::WEB_TEMPLATES_COMMON.'author/'],   //jen v common
+//                    'paper' => [self::WEB_TEMPLATES_SITE.'paper/', self::WEB_TEMPLATES_COMMON.'paper/'],
+//                    'article' => [self::WEB_TEMPLATES_SITE.'article/', self::WEB_TEMPLATES_COMMON.'article/'],
+//                    'multipage' => [self::WEB_TEMPLATES_SITE.'multipage/', self::WEB_TEMPLATES_COMMON.'multipage/'],
 //                    ],
 
 

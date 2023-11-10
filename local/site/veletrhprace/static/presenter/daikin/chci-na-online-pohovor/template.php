@@ -1,6 +1,6 @@
 <?php
 use Site\ConfigurationCache;
-use Events\Model\Arraymodel\EventViewModel;
+use Events\Middleware\Events\ViewModel\EventViewModel;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
@@ -10,7 +10,7 @@ use Status\Model\Repository\StatusSecurityRepo;
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
     $statusSecurity = $statusSecurityRepo->get();
-    $eventTypeName = "Pohovor";  // viz Events\Model\Arraymodel\EventType
+    $eventTypeName = "Pohovor";  // viz Events\Middleware\Events\ViewModel\EventType
     $institutionName = "Daikin";
     $event = (new EventViewModel($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
@@ -26,6 +26,6 @@ use Status\Model\Repository\StatusSecurityRepo;
     <div id="chci-na-online-pohovor">
         <?php
         //include Configuration::componentController()['templates']."timecolumn/template.php";
-        include ConfigurationCache::componentController()['templates']."paper/timeline-boxes.php";
+        include ConfigurationCache::eventTemplates()['templates']."paper/timeline-boxes.php";
         ?>
     </div>

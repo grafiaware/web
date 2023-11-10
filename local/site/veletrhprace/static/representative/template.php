@@ -31,7 +31,7 @@ use Events\Model\Entity\LoginInterface;
         $loginName = $loginAggregate->getLoginName();
         $cred = $loginAggregate->getCredentials();
         
-        $role = $loginAggregate->getCredentials()->getRole() ?? '';
+        $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
     }
 //    ------------------------------------------------
     

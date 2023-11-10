@@ -34,4 +34,6 @@ interface StatusViewModelInterface extends ViewModelInterface {
     public function getPresentedLanguage(): ?LanguageInterface;
     public function getUserActions(): ?UserActionsInterface;
     public function getPresentedMenuItem(): ?MenuItemInterface;
+    public function getInfos(): array;
+            
 }
