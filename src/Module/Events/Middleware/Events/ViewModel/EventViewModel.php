@@ -44,7 +44,7 @@ class EventViewModel {
 
     public function __construct(StatusSecurityInterface $statusSecurity) {
         $this->statusSecurity = $statusSecurity;
-        $this->eventContent = new EventContent();
+        $this->eventContent = new EventContentViewModel();
     }
 
 

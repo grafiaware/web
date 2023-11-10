@@ -91,7 +91,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         try {
             $uploadedFile = $this->checkAndGetUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
             // relativní cesta vzhledem k root (_files/...)
-            $baseFilepath = ConfigurationCache::filesUploadController()['upload.red'];
+            $baseFilepath = ConfigurationCache::redUpload()['upload.red'];
             $clientFileName = $this->getClientFileName($uploadedFile);
             $clientMime = $this->getMimeType($uploadedFile);
             $editedItemId = $this->getEditedItemId($request);
@@ -202,7 +202,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         // item je vždy presented item, t.j. item, který byl zobrazen po kliknutí na lolořky menu - nelze uploadovat soubor pro obsah, který nebyl zobrazen po kliknutí na lolořky menu
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
-        $targetFilename = ConfigurationCache::filesUploadControler()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
+        $targetFilename = ConfigurationCache::eventsUploads()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
         $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
         return $this->createResponseFromString($request, $json);

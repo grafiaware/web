@@ -74,7 +74,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
         /** @var RegistrationDao $credentialsDao */
         $credentialsDao = $container->get(CredentialsDao::class);
         $rowData = new RowData();
-        $rowData->import(['login_name_fk'=> self::LOGIN_NAME1, 'password_hash'=>"testHeslosetUpBeforeClass", "role"=>"panákZTestu"]);
+        $rowData->import(['login_name_fk'=> self::LOGIN_NAME1, 'password_hash'=>"testHeslosetUpBeforeClass", "role_fk"=>"panákZTestu"]);
         $credentialsDao->insert($rowData);
     }
 

@@ -38,12 +38,12 @@ use Events\Middleware\Events\Controler\EventControler_2;
     $selectContentTypes = [];
     $selectContentTypes [''] =  "vyber - povinné pole" ;
     $allContentType = $eventContentTypeRepo->findAll();
-    $allContentTypeArray=[];
+    $eventContentTypesArray=[];
     /** @var  EventContentInterface $type */
     foreach ($allContentType as $type) {    
         $contype ['type'] = $type->getType();
         $contype ['name'] = $type->getName();               
-        $allContentTypeArray[] = $contype;    
+        $eventContentTypesArray[] = $contype;    
         
         $selectContentTypes [$type->getId()] =  $type->getName()  ;
     }

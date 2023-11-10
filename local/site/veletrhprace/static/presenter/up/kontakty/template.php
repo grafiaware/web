@@ -27,7 +27,7 @@ $corporateAddress = [
        <?php
        
         
-        include ConfigurationCache::eventTemplates()['templates']."paper/presenter-contacts.php";
+        include ConfigurationCache::eventTemplates()['templates']."presenter-contacts.php";
         ?>
         <p class="text nastred"><a href="https://www.uradprace.cz/plzen" target="_blank">Všechny kontaktní údaje</a></p>
     </div>

@@ -222,8 +222,6 @@ class VisitorProfileControler extends PresentationFrontControlerAbstract {
         }
     }
 
-    
-
     /**
      *
      * @param ServerRequestInterface $request
@@ -238,8 +236,7 @@ class VisitorProfileControler extends PresentationFrontControlerAbstract {
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
 
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            $response = $response->withStatus(401);  // Unauthorized
+            $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
         } else {
             $userHash = $loginAggregateCredentials->getLoginNameHash();
 
@@ -423,7 +420,7 @@ class VisitorProfileControler extends PresentationFrontControlerAbstract {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. No file name.");
             $this->addFlashMessage("Prázdné jméno souboru.", FlashSeverityEnum::WARNING);
-        } elseif (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), ConfigurationCache::filesUploadController()['upload.events.acceptedextensions'])) {
+        } elseif (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), ConfigurationCache::eventsUploads()['upload.events.acceptedextensions'])) {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. Invalid file extesion.");
             $this->addFlashMessage("Chybná přípona souboru.", FlashSeverityEnum::WARNING);

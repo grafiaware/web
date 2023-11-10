@@ -43,7 +43,7 @@ class ItemEditControler extends FrontControlerAbstract {
     /**
      * @var MenuItemManipulator
      */
-    private $menuItemxManipulator;
+    private $menuItemManipulator;
 
     /**
      * @var ItemCreatorRegistryInterface
@@ -62,13 +62,13 @@ class ItemEditControler extends FrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo,
             MenuItemRepo $menuItemRepo,
             HierarchyAggregateReadonlyDao $hierarchyDao,
-            MenuItemManipulator $menuItemxManipulator,
+            MenuItemManipulator $menuItemManipulator,
             ItemCreatorRegistryInterface $contentGeneratorFactory
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
         $this->hierarchyDao = $hierarchyDao;
-        $this->menuItemxManipulator = $menuItemxManipulator;
+        $this->menuItemManipulator = $menuItemManipulator;
         $this->contentGeneratorRegistry = $contentGeneratorFactory;
     }
 
@@ -88,7 +88,7 @@ class ItemEditControler extends FrontControlerAbstract {
      */
     public function toggle(ServerRequestInterface $request, $uid) {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $msg = $this->menuItemxManipulator->toggleItems($langCode, $uid);
+        $msg = $this->menuItemManipulator->toggleItems($langCode, $uid);
 
         try {
             $toggleResult = new MenuItemToggleResultEnum();
@@ -111,15 +111,12 @@ class ItemEditControler extends FrontControlerAbstract {
             return $this->redirectSeeLastGet($request); // 303 See Other
 
         } catch (ValueNotInEnumException $notInEnumExc) {
-            throw new ValueNotInEnumException(" Neznámy výsledek operace menuItemxManipulator->toggleItems()!");;
+            throw new ValueNotInEnumException(" Neznámý výsledek operace menuItemxManipulator->toggleItems()!");
         }
-
-
      }
 
      /**
       * Nastaví nový titulek a také hodnotu prettyUri.
-      *
       *
       * @param ServerRequestInterface $request
       * @param type $uid

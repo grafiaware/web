@@ -876,7 +876,7 @@ class ConfigurationTz_newdb {
      * Konfigurace upload files - vrací parametry pro FilesUploadController
      * @return array
      */
-    public static function filesUploadController() {
+    public static function redUpload() {
 
         return [
             'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE : self::WEB_FILES_SITE,
