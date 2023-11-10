@@ -121,8 +121,8 @@ use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\Document;
 
 use Events\Middleware\Events\ViewModel\JobViewModel;
-use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
-
+use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
+use Events\Middleware\Events\ViewModel\EventContentTypeViewModel;
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -494,10 +494,12 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
 
-            RepresenrativeViewModel::class => function(ContainerInterface $c) {
-                return new RepresenrativeViewModel($c->get(CompanyRepo::class), $c->get(RepresentativeRepo::class)  );
+            RepresentativeViewModel::class => function(ContainerInterface $c) {
+                return new RepresentativeViewModel($c->get(CompanyRepo::class), $c->get(RepresentativeRepo::class)  );
+            },
+            EventContentTypeViewModel::class => function(ContainerInterface $c) {
+                return new EventContentTypeViewModel($c->get(EventContentTypeRepo::class));
             }
-
         ];
     }
 

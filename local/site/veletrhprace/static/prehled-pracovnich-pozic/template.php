@@ -6,7 +6,7 @@ use Site\ConfigurationCache;
 use Template\Compiler\TemplateCompilerInterface;
 
 use Events\Middleware\Events\ViewModel\JobViewModel;
-use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
+use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Entity\CompanyInterface;
@@ -17,8 +17,8 @@ $perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
 
 
 
-/** @var RepresenrativeViewModel $representativeViewModel */
-$representativeViewModel = $container->get( RepresenrativeViewModel::class );
+/** @var RepresentativeViewModel $representativeViewModel */
+$representativeViewModel = $container->get( RepresentativeViewModel::class );
 /** @var JobViewModel $jobModel */
 $jobModel = $container->get( JobViewModel::class );
 

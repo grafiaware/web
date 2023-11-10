@@ -21,7 +21,7 @@ use Events\Model\Entity\Document;
 
 
 $userHash = $loginAggregate->getLoginNameHash();
-$accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
+$accept = implode(", ", ConfigurationCache::redUpload()['upload.events.acceptedextensions']);
 $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
 $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
 

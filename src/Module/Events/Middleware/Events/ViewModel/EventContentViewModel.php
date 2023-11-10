@@ -13,12 +13,12 @@ namespace Events\Middleware\Events\ViewModel;
  *
  * @author pes2704
  */
-class EventContent {
+class EventContentViewModel {
 
     private $eventType;
 
     public function __construct() {
-        $this->eventType = new EventType();
+        $this->eventType = new EventContentTypeViewModel();
     }
 
     public function getEventContent($id) {

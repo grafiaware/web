@@ -10,8 +10,11 @@ if ($published) {
                 <i class="<?= $eventType['icon'] ?>"></i>
                 <p><b><?= Text::mono($title)?></b></p>
                 <p><?= "$startTime - $endTime" ?></p>
-                <?php if ($linkButton['show']) {?>
-                <p><a <?= Html::attributes($linkButton['linkButtonAttributes']) ?>> <?= $linkButton['linkButtonText'] ?> </a></p>
+                <?php if ($linkButtonEnroll['showEnroll']) {?>
+                <p><a <?= Html::attributes($linkButtonEnroll['linkButtonAttributes']) ?>> <?= $linkButtonEnroll['linkButtonText'] ?> </a></p>
+                <?php } ?>
+                <?php if ($linkButtonEnter['showEnter']) {?>
+                <p><a <?= Html::attributes($linkButtonEnter['linkButtonAttributes']) ?>> <?= $linkButtonEnter['linkButtonText'] ?> </a></p>
                 <?php } ?>
             </div>
             <div class="eight wide column">

@@ -25,7 +25,4 @@ class ItemTypeSelectComponent extends ComponentCompositeAbstract {
      */
     protected $contextData;
 
-    public function getString() {
-        return parent::getString();
-    }
 }

@@ -16,7 +16,7 @@ use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 
 use Events\Middleware\Events\ViewModel\JobViewModel;
-use Events\Middleware\Events\ViewModel\RepresenrativeViewModel;
+use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyContactInterface;
@@ -47,8 +47,8 @@ if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
     if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']))  {
-        /** @var RepresenrativeViewModel $representativeViewModel */
-        $representativeViewModel = $container->get(RepresenrativeViewModel::class );
+        /** @var RepresentativeViewModel $representativeViewModel */
+        $representativeViewModel = $container->get(RepresentativeViewModel::class );
         $companyEntity = $representativeViewModel->getRepresentativeCompany($representativeEntity);
         $representativeEntity = $representativeViewModel->getRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
         if (isset($representativeEntity)) {  

@@ -79,7 +79,7 @@ class TemplateCompiler implements TemplateCompilerInterface {
 
     private function compileContent($templateFilename, $context=[], $compiledFileName) {
         if(!is_readable($templateFilename)) {
-            $compiledContent = Message::t("Není čitený soubor statické stránky {file}.", ['file'=>$templateFilename]);
+            $compiledContent = Message::t("Není čitelný soubor statické stránky {file}.", ['file'=>$templateFilename]);
         } else {
             $view = new View();
             $view->setRenderer(new PhpTemplateRenderer());

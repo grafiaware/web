@@ -1,6 +1,6 @@
 <?php
+namespace Web\Middleware\Page\PrepareService;
 
-namespace Web\Middleware\Page\Prepare;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 use Red\Model\Repository\LanguageRepo;
@@ -12,7 +12,7 @@ use Site\ConfigurationCache;
  *
  * @author pes2704
  */
-class Prepare {
+class Prepare implements PrepareStatusServiceInterface {
     
     private $statusPresentationRepo;
     private $languageRepo;
@@ -46,7 +46,7 @@ class Prepare {
      * @param LanguageRepo $languageRepo
      * @throws UnexpectedValueException
      */
-    public function prepareStatus() {
+    public function prepareDbByStatus() {
         $statusPresentation = $this->statusPresentationRepo->get();
         if (!$statusPresentation->getLanguage()) {
             $requestedLangCode = $statusPresentation->getRequestedLangCode();

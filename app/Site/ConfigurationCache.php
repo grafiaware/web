@@ -29,6 +29,7 @@ const SITE_PATH = 'app/Site/VeletrhPrace/';
 
 include PROJECT_PATH.SITE_PATH.'ConfigurationConstants.php';
 include PROJECT_PATH.SITE_PATH.'ConfigurationDb.php';
+include PROJECT_PATH.SITE_PATH.'ConfigurationWeb.php';
 include PROJECT_PATH.SITE_PATH.'ConfigurationRed.php';
 include PROJECT_PATH.SITE_PATH.'ConfigurationStyles.php';
 
@@ -52,25 +53,25 @@ class ConfigurationCache {
                 # configutation red
                 #
                 case 'bootstrap':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::bootstrap();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::bootstrap();
                     break;
                 case 'app':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::app();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::app();
                     break;
                 case 'webComponent':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::webComponent();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::webComponent();
                     break;
                 case 'redComponent':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::redComponent();
                     break;
                 case 'presentationStatus':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::presentationStatus();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::presentationStatus();
                     break;
                 case 'layoutController':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::layoutController();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::layoutController();
                     break;
                 case 'menu':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::menu();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::menu();
                     break;
                 case 'itemActionControler':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::itemActionControler();
@@ -84,18 +85,21 @@ class ConfigurationCache {
                 case 'redTemplates':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::redTemplates();
                     break;
-                case 'filesUploadController':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::filesUploadController();
+                case 'redUpload':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::redUpload();
                     break;
                 case 'transformator':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::transformator();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::transformator();
                     break;
                 case 'mail':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::mail();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::mail();
                     break;
                 case 'files':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::files();
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::files();
                     break;
+                case 'eventsUploads':
+                    self::$cache[$name] = Siteconfig\ConfigurationEvents::eventsUploads();
+                    break;  
                 case 'eventTemplates':
                     self::$cache[$name] = Siteconfig\ConfigurationEvents::eventTemplates();
                     break;                
@@ -241,8 +245,8 @@ class ConfigurationCache {
         return self::getConfigModule('redTemplates');
     }
 
-    public static function filesUploadController() {
-        return self::getConfigModule('filesUploadController');
+    public static function redUpload() {
+        return self::getConfigModule('redUpload');
     }
 
     public static function languageSelectRenderer() {
@@ -261,6 +265,10 @@ class ConfigurationCache {
         return self::getConfigModule('files');
     }
 
+    public static function eventsUploads() {
+        return self::getConfigModule('eventsUploads');
+    }
+    
     public static function eventTemplates() {
         return self::getConfigModule('eventTemplates');
     }

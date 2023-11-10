@@ -191,7 +191,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases(): iterable {
         return [
             AccountInterface::class => Account::class,
-
         ];
     }
 
