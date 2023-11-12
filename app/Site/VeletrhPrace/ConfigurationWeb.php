@@ -94,7 +94,7 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function webComponent() {
         return [
-            'webcomponent.logs.directory' => 'Logs/App/Web',
+            'webcomponent.logs.directory' => 'Logs/Web',
             'webcomponent.logs.render' => 'Render.log',
             'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
             'webcomponent.templates' =>

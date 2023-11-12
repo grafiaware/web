@@ -21,7 +21,7 @@ class Edun extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         /* @var $sessionHandler \Pes\Session\SessionStatusHandlerInterface */
         $sessionHandler = $this->getMwContainer()->get(\Pes\Session\SessionStatusHandlerInterface::class);
-        $loggedUser = $sessionHandler->get('login.user');
+        $loggedUser = $sessionHandler->get('auth.user');
 
         $response = (new ResponseFactory())->createResponse();
         $output = (new Includer())->protectedIncludeScope('Middleware/Edun/index.php',

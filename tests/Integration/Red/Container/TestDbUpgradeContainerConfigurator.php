@@ -37,13 +37,13 @@ class TestDbUpgradeContainerConfigurator extends DbUpgradeContainerConfigurator 
                 # Konfigurace připojení k databázi pro test
                 #
                 #
-//                'dbUpgrade.db.connection.name' => 'web_red_test',
+//                'red.db.connection.name' => 'web_red_test',
                 #
                 ###################################
                 # Konfigurace logu databáze pro test
                 #
-                'dbUpgrade.logs.db.directory' => 'TestLogs/Red',
-                'dbUpgrade.logs.db.file' => 'Database.log',
+                'red.logs.db.directory' => 'TestLogs/Red',
+                'red.logs.db.file' => 'Database.log',
                 #
                 #################################
 

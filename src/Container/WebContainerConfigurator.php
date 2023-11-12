@@ -291,7 +291,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 //            'sqlite.logs.db.type' => FileLogger::FILE_PER_DAY,                    
                     
 //            'dbSqliteLogger' => function(ContainerInterface $c) {
-//                return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), $c->get('dbUpgrade.logs.db.type')); //new NullLogger();
+//                return FileLogger::getInstance($c->get('red.logs.db.directory'), $c->get('red.logs.db.file'), $c->get('red.logs.db.type')); //new NullLogger();
 //            },
 //            'sqlite_DsnProvider' =>  function(ContainerInterface $c) {
 //                $dsnProvider = new \Pes\Database\Handler\DsnProvider\DsnProviderSqliteFile();
@@ -319,9 +319,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 //                        $c->get('sqlite.db.type'),
 //                        '',
 //                        $c->get('sqlite.db.connection.name'),
-//                        $c->get('dbUpgrade.db.charset'),
-//                        $c->get('dbUpgrade.db.collation'),
-//                        $c->get('dbUpgrade.db.port'));
+//                        $c->get('red.db.charset'),
+//                        $c->get('red.db.collation'),
+//                        $c->get('red.db.port'));
 //            },
 //            // db objekty
 //            'sqlite_handler' => function(ContainerInterface $c) : HandlerInterface {

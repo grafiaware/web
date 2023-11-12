@@ -36,7 +36,7 @@ class ConfigurationRed extends ConfigurationDb {
      */
     public static function redComponent() {
         return [
-            'redcomponent.logs.directory' => 'Logs/App/Red',
+            'redcomponent.logs.directory' => 'Logs/Red',
             'redcomponent.logs.render' => 'Render.log',
             'redcomponent.logs.type' => FileLogger::REWRITE_LOG,
             'redcomponent.templates' => [

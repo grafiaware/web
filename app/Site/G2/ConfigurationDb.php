@@ -34,19 +34,19 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'g2_everyone',
-            'api.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'g2_upgrader' : 'g2_everyone',
-            'api.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'g2_auth',
-            'api.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'g2_upgrader' : 'g2_auth',
-            'api.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'g2_admin',
-            'api.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'g2_upgrader' : 'g2_admin',
+            'red.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'g2_everyone',
+            'red.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'g2_upgrader' : 'g2_everyone',
+            'red.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'g2_auth',
+            'red.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'g2_upgrader' : 'g2_auth',
+            'red.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'g2_admin',
+            'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'g2_upgrader' : 'g2_admin',
             #
             ###################################
             # Konfigurace logu renderování
             #
-            'api.logs.view.directory' => 'Logs/App/Web',
-            'api.logs.view.file' => 'Render.log',
-            'api.logs.view.type' => FileLogger::FILE_PER_DAY
+            'red.logs.view.directory' => 'Logs/Red',
+            'red.logs.view.file' => 'Render.log',
+            'red.logs.view.type' => FileLogger::FILE_PER_DAY
             #
             ###################################
         ];
@@ -157,18 +157,19 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
-            'dbold.db.type' => DbTypeEnum::MySQL,
-            'dbold.db.port' => '3306',
-            'dbold.db.charset' => 'utf8',
-            'dbold.db.collation' => 'utf8_general_ci',
-            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'single_login',
+            'auth.db.type' => DbTypeEnum::MySQL,
+            'auth.db.port' => '3306',
+            'auth.db.charset' => 'utf8',
+            'auth.db.collation' => 'utf8_general_ci',
+            'auth.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
+            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'single_login',
             #
             ###################################
             # Konfigurace logu databáze
             #
-            'dbold.logs.directory' => 'Logs/DbOld',
-            'dbold.logs.db.file' => FileLogger::FILE_PER_DAY,
+            'auth.logs.directory' => 'Logs/Auth',
+            'auth.logs.db.file' => 'Database.log',
+            'auth.logs.db.type' => FileLogger::FILE_PER_DAY,
             #
             ###################################
         ];
@@ -185,19 +186,19 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
-            'dbUpgrade.db.type' => DbTypeEnum::MySQL,
-            'dbUpgrade.db.port' => '3306',
-            'dbUpgrade.db.charset' => 'utf8',
-            'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : 'localhost',
-            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'g2_upgrade',
+            'red.db.type' => DbTypeEnum::MySQL,
+            'red.db.port' => '3306',
+            'red.db.charset' => 'utf8',
+            'red.db.collation' => 'utf8_general_ci',
+            'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : 'localhost',
+            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'g2_upgrade',
             #
             ###################################
             # Konfigurace logu databáze
             #
-            'dbUpgrade.logs.db.directory' => 'Logs/Hierarchy',
-            'dbUpgrade.logs.db.file' => 'Database.log',
-            'dbUpgrade.logs.db.type' => FileLogger::FILE_PER_DAY,
+            'red.logs.db.directory' => 'Logs/Red',
+            'red.logs.db.file' => 'Database.log',
+            'red.logs.db.type' => FileLogger::FILE_PER_DAY,
             #
             #################################
 
@@ -239,12 +240,12 @@ class ConfigurationDb extends ConfigurationConstants {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'single_login' : 'single_login',
+            'auth.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'auth.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'single_login' : 'single_login',
 
-            'login.logs.database.directory' => 'Logs/Login',
-            'login.logs.database.file' => 'Database.log',
-            'login.logs.database.type' => FileLogger::FILE_PER_DAY
+            'auth.logs.database.directory' => 'Logs/Login',
+            'auth.logs.database.file' => 'Database.log',
+            'auth.logs.database.type' => FileLogger::FILE_PER_DAY
             #
             ###################################
 

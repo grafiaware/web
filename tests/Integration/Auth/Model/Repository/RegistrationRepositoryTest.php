@@ -7,7 +7,7 @@ use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
 use Container\AuthContainerConfigurator;
-use Container\DbOldContainerConfigurator;
+use Container\AuthDbContainerConfigurator;
 
 use Auth\Model\Entity\Registration;
 use Auth\Model\Dao\LoginDao;
@@ -39,7 +39,7 @@ class RegistrationRepositoryTest extends AppRunner {
 
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -78,7 +78,7 @@ class RegistrationRepositoryTest extends AppRunner {
 
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -96,7 +96,7 @@ class RegistrationRepositoryTest extends AppRunner {
     public static function tearDownAfterClass(): void {
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )

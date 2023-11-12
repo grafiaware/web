@@ -69,24 +69,24 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
                 'build.config.drop' => function(ContainerInterface $c) {
                     return [
-                        'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
+                        'database' => $c->get('red.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
                         ];
                     },
                 'build.config.createdb' => function(ContainerInterface $c) {
                     return [
-                        'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
+                        'database' => $c->get('red.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
                         ];
                     },
                 'build.config.createdropusers.everyone' => function(ContainerInterface $c) {
                     return array_merge(
                         ConfigurationCache::build()['build.config.users.everyone'],
                         [
-                        'host' => $c->get('dbUpgrade.db.connection.host'),
-                        'database' => $c->get('dbUpgrade.db.connection.name'),
-                        'login_database' => $c->get('dbold.db.connection.name'),
+                        'host' => $c->get('red.db.connection.host'),
+                        'database' => $c->get('red.db.connection.name'),
+                        'login_database' => $c->get('auth.db.connection.name'),
 
-                        'login_user' => $c->get('login.db.account.everyone.name'),
-                        'login_password' => $c->get('login.db.account.everyone.password'),
+                        'login_user' => $c->get('auth.db.account.everyone.name'),
+                        'login_password' => $c->get('auth.db.account.everyone.password'),
                         ]
                         );
                     },
@@ -94,12 +94,12 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                     return array_merge(
                         ConfigurationCache::build()['build.config.users.granted'],
                         [
-                        'host' => $c->get('dbUpgrade.db.connection.host'),
-                        'database' => $c->get('dbUpgrade.db.connection.name'),
-                        'login_database' => $c->get('dbold.db.connection.name'),
+                        'host' => $c->get('red.db.connection.host'),
+                        'database' => $c->get('red.db.connection.name'),
+                        'login_database' => $c->get('auth.db.connection.name'),
 
-                        'login_user' => $c->get('login.db.account.everyone.name'),
-                        'login_password' => $c->get('login.db.account.everyone.password'),
+                        'login_user' => $c->get('auth.db.account.everyone.name'),
+                        'login_password' => $c->get('auth.db.account.everyone.password'),
                         ]
                         );
                     },
@@ -139,12 +139,12 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
             // connection info bez jména databáze
             'connection_info_for_create_database' => function(ContainerInterface $c) {
                 return new ConnectionInfo(
-                        $c->get('dbUpgrade.db.type'),
-                        $c->get('dbUpgrade.db.connection.host'),
+                        $c->get('red.db.type'),
+                        $c->get('red.db.connection.host'),
                         '',
-                        $c->get('dbUpgrade.db.charset'),
-                        $c->get('dbUpgrade.db.collation'),
-                        $c->get('dbUpgrade.db.port'));
+                        $c->get('red.db.charset'),
+                        $c->get('red.db.collation'),
+                        $c->get('red.db.port'));
             },
             'handler_for_drop_database' => function(ContainerInterface $c) : HandlerInterface {
                 return new Handler(

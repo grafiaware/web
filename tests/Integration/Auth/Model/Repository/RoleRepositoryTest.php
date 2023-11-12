@@ -7,7 +7,7 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 use Container\AuthContainerConfigurator;
-use Container\DbOldContainerConfigurator;
+use Container\AuthDbContainerConfigurator;
 
 use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
@@ -41,7 +41,7 @@ class RoleRepositoryTest  extends AppRunner {
         
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -85,7 +85,7 @@ class RoleRepositoryTest  extends AppRunner {
 
         $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -109,7 +109,7 @@ class RoleRepositoryTest  extends AppRunner {
         
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )

@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Container\MailContainerConfigurator;
 use Container\AuthContainerConfigurator;
-use Container\DbOldContainerConfigurator;
+use Container\AuthDbContainerConfigurator;
 
 use Sendmail\Middleware\Sendmail\Controller\MailController;
 
@@ -44,7 +44,7 @@ class Sendmail extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->container =
             (new MailContainerConfigurator())->configure(
                 (new AuthContainerConfigurator())->configure(
-                    (new DbOldContainerConfigurator())->configure(
+                    (new AuthDbContainerConfigurator())->configure(
                         new Container($this->getApp()->getAppContainer())
                     )
                 )

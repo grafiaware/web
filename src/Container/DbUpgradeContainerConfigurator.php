@@ -51,7 +51,7 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
             'dbUpgradeLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), $c->get('dbUpgrade.logs.db.type')); //new NullLogger();
+                return FileLogger::getInstance($c->get('red.logs.db.directory'), $c->get('red.logs.db.file'), $c->get('red.logs.db.type')); //new NullLogger();
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
@@ -76,12 +76,12 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
                 return new ConnectionInfo(
-                        $c->get('dbUpgrade.db.type'),
-                        $c->get('dbUpgrade.db.connection.host'),
-                        $c->get('dbUpgrade.db.connection.name'),
-                        $c->get('dbUpgrade.db.charset'),
-                        $c->get('dbUpgrade.db.collation'),
-                        $c->get('dbUpgrade.db.port'));
+                        $c->get('red.db.type'),
+                        $c->get('red.db.connection.host'),
+                        $c->get('red.db.connection.name'),
+                        $c->get('red.db.charset'),
+                        $c->get('red.db.collation'),
+                        $c->get('red.db.port'));
             },
             // db objekty
             Handler::class => function(ContainerInterface $c) : HandlerInterface {

@@ -22,6 +22,7 @@ use Site\ConfigurationCache;
 // enum
 use Red\Model\Enum\AuthoredTypeEnum;
 //TODO: oprávnění pro routy
+use Access\Enum\RoleEnum;
 use Access\Enum\AllowedActionEnum;
 
 // view model
@@ -56,6 +57,15 @@ use Pes\View\View;
  */
 class ComponentControler extends PresentationFrontControlerAbstract {
 
+    protected function getActionPermissions(): array {
+        return [
+            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
+            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
+        ];
+    }
+    
     ### action metody ###############
 
     public function serviceComponent(ServerRequestInterface $request, $name) {
