@@ -46,7 +46,7 @@ class AuthDbContainerConfigurator extends ContainerConfiguratorAbstract {
             // database
             // account a handler v middleware kontejnerech
             'AuthDbLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('auth.logs.directory'), $c->get('auth.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
+                return FileLogger::getInstance($c->get('auth.logs.directory'), $c->get('auth.logs.db.file'), $c->get('auth.logs.db.type')); //new NullLogger();
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
                 return new ConnectionInfo(

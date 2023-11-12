@@ -226,7 +226,7 @@ class ConfigurationDb {
             'auth.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo002' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
             'auth.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_login' : 'single_login',
 
-            'auth.logs.database.directory' => 'Logs/Login',
+            'auth.logs.database.directory' => 'Logs/Auth',
             'auth.logs.database.file' => 'Database.log',
             'auth.logs.database.type' => FileLogger::FILE_PER_DAY
             #

@@ -316,7 +316,7 @@ class ConfigurationTz_newdb {
             'auth.db.account.everyone.name' => 'tydenzdravieu002',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
             'auth.db.account.everyone.password' => 'tz_opravneni',
 
-            'auth.logs.database.directory' => 'Logs/Login',
+            'auth.logs.database.directory' => 'Logs/Auth',
             'auth.logs.database.file' => 'Database.log',
             #
             ###################################
