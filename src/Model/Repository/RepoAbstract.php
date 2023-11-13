@@ -302,7 +302,7 @@ abstract class RepoAbstract {
      * @throws BadImplemntastionOfChildRepository
      */
     private function recreateAssociations(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void {
-        foreach ($this->associations as $index => $association) {
+        foreach ($this->associations as $association) {
             if ($association instanceof AssociationOneToManyInterface) {
                 /** @var AssociationOneToManyInterface $association */
                 $association->recreateChildEntities($parentEntity, $parentRowData);
