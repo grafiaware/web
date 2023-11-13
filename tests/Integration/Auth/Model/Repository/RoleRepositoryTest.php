@@ -1,21 +1,22 @@
 <?php
 declare(strict_types=1);
-
 namespace Test\Integration\Auth\Model\Repository;
 
 use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
+
 use Container\AuthContainerConfigurator;
 use Container\AuthDbContainerConfigurator;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
-
-use Auth\Model\Dao\RoleDao;
-use Auth\Model\Repository\RoleRepo;
 use Auth\Model\Entity\Role;
 use Auth\Model\Entity\RoleInterface;
+use Auth\Model\Dao\RoleDao;
+use Auth\Model\Repository\RoleRepo;
+use Model\RowData\RowData;
+
+use Model\Repository\Exception\OperationWithLockedEntityException;
+
 
 
 /**
@@ -57,23 +58,22 @@ class RoleRepositoryTest  extends AppRunner {
 
 
     private static function insertRecords(Container $container) {
-        // toto je příprava testu, vlozi 1 login
-        /** @var LoginDao $loginDao */
-//        $loginDao = $container->get(LoginDao::class);
-//        $rowData = new RowData();
-//        $rowData->offsetSet('login_name', self::$loginKlic);
-//        $loginDao->insert($rowData);
+        // toto je příprava testu, vlozi 1 role
+        /** @var RoleDao $roleDao */
+        $roleDao = $container->get(RoleDao::class);
+        $rowData = new RowData();
+        $rowData->offsetSet('role', self::$roleKlic);
+        $roleDao->insert($rowData);
     }
 
     private static function deleteRecords(Container $container) {
-        /** @var LoginDao $loginDao */
-//        $loginDao = $container->get(LoginDao::class);
-//
-//        $rows = $loginDao->find( "login_name LIKE '". self::$loginKlic . "%'", []);
-//        foreach($rows as $row) {
-//            $ok =  $loginDao->delete($row);
-//        }
+        /** @var RoleDao $roleDao */
+        $roleDao = $container->get(RoleDao::class);
 
+        $rows = $roleDao->find( "role LIKE '". self::$roleKlic . "%'", []); 
+        foreach($rows as $row) {
+            $ok =  $roleDao->delete($row);
+        }
     }
 
     protected function setUp(): void {
@@ -83,7 +83,7 @@ class RoleRepositoryTest  extends AppRunner {
 //                    (new Container(  ) )  )
 //            );
 
-        $this->container =
+        $container =
             (new AuthContainerConfigurator())->configure(
                 (new AuthDbContainerConfigurator())->configure(
                     (new Container(
@@ -92,7 +92,7 @@ class RoleRepositoryTest  extends AppRunner {
                     )
                 )
             );
-        $this->roleRepo = $this->container->get(RoleRepo::class);
+        $this->roleRepo = $container->get(RoleRepo::class);
     }
     
 
@@ -120,6 +120,7 @@ class RoleRepositoryTest  extends AppRunner {
         self::deleteRecords($container);
     }
 
+    
     public function testSetUp() {
         $this->assertInstanceOf(RoleRepo::class, $this->roleRepo);
     }
@@ -142,9 +143,12 @@ class RoleRepositoryTest  extends AppRunner {
         $this->assertNull($role);
     }
 
+    
+    
+    
     public function testAdd() {
         $role = new Role();
-        $role->setLoginName(self::$roleKlic);
+        $role->setRole(self::$roleKlic);
         $this->roleRepo->add($role);
 
         // pro automaticky|generovany klic a pro  overovany klic (tento pripad zde ) - !!! zapise se hned !!!   DaoEditKeyDbVerifiedInterface
@@ -154,67 +158,67 @@ class RoleRepositoryTest  extends AppRunner {
         // je isPersisted hned po ->add() protože je typu Model\Dao\DaoKeyDbVerifiedInterface
     }
 
-//
-//    public function testGetAfterAdd() {
-//        $login = $this->roleRepo->get(self::$loginKlic);
-//        $this->assertInstanceOf(LoginInterface::class, $login);
-//        $this->assertTrue(is_string($login->getLoginName()));
-//    }
-//
-//
-//
-//
-//    public function testAddAndReread() {
-//        $login = new Login();
-//        $login->setLoginName(self::$loginKlic . "1");
-//        $this->roleRepo->add($login);
-//        $this->roleRepo->flush();
-//
-//        $login = $this->roleRepo->get($login->getLoginName());
-//        $this->assertTrue($login->isPersisted() );
-//        $this->assertFalse($login->isLocked());
-//        $this->assertTrue(is_string($login->getLoginName()));
-//        $this->assertEquals(self::$loginKlic . "1", $login->getLoginName());
-//    }
-//
-//
-//
-//    public function testRemove_OperationWithLockedEntity() {
-//        /** @var Login $login */
-//        $login = $this->roleRepo->get(self::$loginKlic . "1");
-//        $this->assertInstanceOf(LoginInterface::class, $login);
-//        $this->assertTrue($login->isPersisted());
-//        $this->assertFalse($login->isLocked());
-//
-//        $login->lock();
-//        $this->expectException( OperationWithLockedEntityException::class);
-//        $this->roleRepo->remove($login);
-//    }
-//
-//
-//
-//
-//    public function testRemove() {
-//        /** @var Login $login */
-//        $login = $this->roleRepo->get(self::$loginKlic . "1" );
-//
-//        $this->assertInstanceOf(LoginInterface::class, $login);
-//        $this->assertTrue($login->isPersisted());
-//        $this->assertFalse($login->isLocked());
-//
-//        $this->roleRepo->remove($login);
-//
-//        $this->assertTrue($login->isPersisted());
-//        $this->assertTrue($login->isLocked());   // zatim zamcena entita, maže až při flush
-//        $this->roleRepo->flush();
-//        //  uz neni locked
-//        $this->assertFalse($login->isLocked());
-//
-//        // pokus o čtení, entita Login.self::$loginKlic  uz  neni
-//        $login = $this->roleRepo->get(self::$loginKlic . "1" );
-//        $this->assertNull($login);
-//
-//    }
+
+    public function testGetAfterAdd() {
+        $role = $this->roleRepo->get(self::$roleKlic);
+        $this->assertInstanceOf(RoleInterface::class, $role);
+        $this->assertTrue(is_string($role->getRole()));
+    }
+
+
+
+
+    public function testAddAndReread() {
+        $role = new Role();
+        $role->setRole(self::$roleKlic . "1");
+        $this->roleRepo->add($role);
+        $this->roleRepo->flush();
+
+        $role = $this->roleRepo->get($role->getRole());
+        $this->assertTrue($role->isPersisted() );
+        $this->assertFalse($role->isLocked());
+        $this->assertTrue(is_string($role->getRole()));
+        $this->assertEquals(self::$roleKlic . "1", $role->getRole());
+    }
+
+    
+    
+    public function testRemove_OperationWithLockedEntity() {
+        /** @var Role $role */
+        $role = $this->roleRepo->get(self::$roleKlic . "1");
+        $this->assertInstanceOf(RoleInterface::class, $role);
+        $this->assertTrue($role->isPersisted());
+        $this->assertFalse($role->isLocked());
+
+        $role->lock();
+        $this->expectException( OperationWithLockedEntityException::class);
+        $this->roleRepo->remove($role);
+    }
+
+
+
+
+    public function testRemove() {
+        /** @var Role $role */
+        $role = $this->roleRepo->get(self::$roleKlic . "1" );
+
+        $this->assertInstanceOf(RoleInterface::class, $role);
+        $this->assertTrue($role->isPersisted());
+        $this->assertFalse($role->isLocked());
+
+        $this->roleRepo->remove($role);
+
+        $this->assertTrue($role->isPersisted());
+        $this->assertTrue($role->isLocked());   // zatim zamcena entita, maže až při flush
+        $this->roleRepo->flush();
+        //  uz neni locked
+        $this->assertFalse($role->isLocked());
+
+        // pokus o čtení, entita Role s self::$roleKlic . "1" uz  neni
+        $role = $this->roleRepo->get(self::$roleKlic . "1" );
+        $this->assertNull($role);
+
+    }
 
 
 

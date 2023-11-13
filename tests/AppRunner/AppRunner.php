@@ -29,7 +29,9 @@ class AppRunner extends TestCase {
 
     public static function bootstrapBeforeClass(): void {
         if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
+            if ( !defined('PES_FORCE_DEVELOPMENT')) {
+                define('PES_FORCE_DEVELOPMENT', 'force_development');
+            }
             //// nebo
             //define('PES_FORCE_PRODUCTION', 'force_production');
 

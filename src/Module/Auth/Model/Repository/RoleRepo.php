@@ -51,7 +51,7 @@ class RoleRepo extends RepoAbstract implements RoleRepoInterface {
     }
 
     protected function indexFromEntity(RoleInterface $role) {
-        return $role->getLoginName();
+        return $role->getRole();
     }
 
     protected function indexFromRow($row) {
