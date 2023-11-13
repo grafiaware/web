@@ -119,7 +119,7 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      * @return CredentialsInterface
      */
     public function setRoleFk(string $roleFk=null): CredentialsInterface {
-        $this->role = $roleFk;
+        $this->roleFk = $roleFk;
         return $this;
     }
 }
