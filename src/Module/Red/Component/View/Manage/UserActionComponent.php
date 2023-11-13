@@ -28,21 +28,7 @@ class UserActionComponent extends ComponentCompositeAbstract {
      */
     protected $contextData;
 
-    //renderuje template nebo NonPermittedContentRenderer
-
-//    public function beforeRenderingHook(): void {
-//        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-//            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateUserAction()));
-//        } else {
-//            $this->setRendererName(NoPermittedContentRenderer::class);
-//        }
-//    }
-
     public static function getComponentPermissions(): array {
-//        return [
-//            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
-//        ];
-
         return [
             RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
             RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],

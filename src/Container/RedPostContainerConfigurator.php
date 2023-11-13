@@ -168,11 +168,12 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemTypeRepo::class)
                     );
                 // lazy volání služby kontejneru
-                $factory->registerGenerator('paper', function() use ($c) {return $c->get(PaperCreator::class);});
-                $factory->registerGenerator('article', function() use ($c) {return $c->get(ArticleCreator::class);});
-                $factory->registerGenerator('static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
-                $factory->registerGenerator('multipage', function() use ($c) {return $c->get(MultipageCreator::class);});
-                $factory->registerGenerator('eventcontent', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator('red_paper', function() use ($c) {return $c->get(PaperCreator::class);});
+                $factory->registerGenerator('red_article', function() use ($c) {return $c->get(ArticleCreator::class);});
+                $factory->registerGenerator('red_multipage', function() use ($c) {return $c->get(MultipageCreator::class);});
+                $factory->registerGenerator('red_static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator('auth_static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator('event_static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
                 return $factory;
             },
             PaperCreator::class => function(ContainerInterface $c) {

@@ -245,11 +245,6 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $repo;
             },
 
-//---------------------------------------------------------------------------
-  
-                    
-                    
-                    
                     
 //--------------------------------------------------------                    
             DbAuthenticator::class => function(ContainerInterface $c) {
@@ -258,7 +253,16 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             DbHashAuthenticator::class => function(ContainerInterface $c) {
                 return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
-
+//---------------------------------------------------------------------------
+            EventStaticControler::class => function(ContainerInterface $c) {
+                return (new EventStaticControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(TemplateCompiler::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },
             LoginLogoutController::class => function(ContainerInterface $c) {
                 return (new LoginLogoutController(
                     $c->get(StatusSecurityRepo::class),

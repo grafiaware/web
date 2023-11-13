@@ -1,5 +1,4 @@
 <?php
-
 namespace Auth\Middleware\Login\Controller;
 
 use Site\ConfigurationCache;

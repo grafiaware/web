@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 // controler
-use Events\Middleware\Events\Controler\EventcontentControler;
+use Events\Middleware\Events\Controler\EventStaticControler;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\DocumentControler;
@@ -72,8 +72,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions(): iterable {
         return [
-            EventcontentControler::class => function(ContainerInterface $c) {
-                return (new EventcontentControler(
+            EventStaticControler::class => function(ContainerInterface $c) {
+                return (new EventStaticControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),

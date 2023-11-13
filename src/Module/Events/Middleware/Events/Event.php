@@ -18,7 +18,7 @@ use Container\EventsDbContainerConfigurator;
 use Container\AuthContainerConfigurator;
 use Container\MailContainerConfigurator;
 
-use Events\Middleware\Events\Controler\EventcontentControler;
+use Events\Middleware\Events\Controler\EventStaticControler;
 use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\EventControler_2;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
@@ -87,9 +87,9 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         #### ComponentController ####
-        $this->routeGenerator->addRouteForAction('GET', '/events/v1/eventcontent/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var EventcontentControler $ctrl */
-            $ctrl = $this->container->get(EventcontentControler::class);
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
+            /** @var EventStaticControler $ctrl */
+            $ctrl = $this->container->get(EventStaticControler::class);
             return $ctrl->static($request, $staticName);
             });
     }
