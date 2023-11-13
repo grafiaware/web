@@ -219,7 +219,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
             },                    
             // view
             'renderLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);
+                return FileLogger::getInstance($c->get('red.logs.view.directory'), $c->get('red.logs.view.file'), FileLogger::REWRITE_LOG);
             },
             // session LoginAggregate - vyzvedává LoginAggregate entitu z session - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             LoginAggregate::class => function(ContainerInterface $c) {
@@ -241,18 +241,18 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                     $role = $sessionLoginAggregate->getCredentials()->getRoleFk();
                     switch ($role) {
                         case 'administrator':
-                            $account = new Account($c->get('api.db.administrator.name'), $c->get('api.db.administrator.password'));
+                            $account = new Account($c->get('red.db.administrator.name'), $c->get('red.db.administrator.password'));
                             break;
                         default:
                             if ($role) {
-                                $account = new Account($c->get('api.db.authenticated.name'), $c->get('api.db.authenticated.password'));
+                                $account = new Account($c->get('red.db.authenticated.name'), $c->get('red.db.authenticated.password'));
                             } else {
-                                $account = new Account($c->get('api.db.everyone.name'), $c->get('api.db.everyone.password'));
+                                $account = new Account($c->get('red.db.everyone.name'), $c->get('red.db.everyone.password'));
                             }
                             break;
                     }
                 } else {
-                    $account = new Account($c->get('api.db.everyone.name'), $c->get('api.db.everyone.password'));
+                    $account = new Account($c->get('red.db.everyone.name'), $c->get('red.db.everyone.password'));
                 }
                 return $account;
             },

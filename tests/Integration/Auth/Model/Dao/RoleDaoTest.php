@@ -6,7 +6,7 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 use Container\AuthContainerConfigurator;
-use Container\DbOldContainerConfigurator;
+use Container\AuthDbContainerConfigurator;
 //use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Auth\Model\Dao\RoleDao;
@@ -48,7 +48,7 @@ class RoleDaoTest extends AppRunner {
         
          $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
             //         $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -75,7 +75,7 @@ class RoleDaoTest extends AppRunner {
 //            );
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
                     //   $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -115,7 +115,7 @@ class RoleDaoTest extends AppRunner {
 //            );
          $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
             //         $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -133,7 +133,7 @@ class RoleDaoTest extends AppRunner {
         
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
                     //   $this->getApp()->getAppContainer()       bez app kontejneru
                         )

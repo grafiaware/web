@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Container\EventsContainerConfigurator;
 use Container\EventsModelContainerConfigurator;
-use Container\DbEventsContainerConfigurator;
+use Container\EventsDbContainerConfigurator;
 use Container\AuthContainerConfigurator;
 use Container\MailContainerConfigurator;
 
@@ -69,7 +69,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->container =
             (new EventsContainerConfigurator())->configure(
                 (new EventsModelContainerConfigurator())->configure(
-                    (new DbEventsContainerConfigurator())->configure(
+                    (new EventsDbContainerConfigurator())->configure(
                         (new Container(
 //                                (new LoginContainerConfigurator())->configure(
                                     (new MailContainerConfigurator())->configure(
@@ -108,7 +108,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->container =
             (new EventsContainerConfigurator())->configure(
                 (new EventsModelContainerConfigurator())->configure(
-                    (new DbEventsContainerConfigurator())->configure(
+                    (new EventsDbContainerConfigurator())->configure(
                         (new Container(
 //                                (new LoginContainerConfigurator())->configure(
                                     (new MailContainerConfigurator())->configure(

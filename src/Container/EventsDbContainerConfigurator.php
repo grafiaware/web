@@ -23,7 +23,7 @@ use Pes\Logger\FileLogger;
  *
  * @author pes2704
  */
-class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
+class EventsDbContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return [

@@ -35,6 +35,7 @@ use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 
+use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
 // pro metodu -> do contejneru
 use Access\AccessPresentation;
@@ -70,7 +71,17 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         parent::__construct($configuration);
         $this->container = $container;
     }
-
+    
+    public static function getComponentPermissions(): array {
+        return [
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+//            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+//            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
+            RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => static::class]
+        ];
+    }
+    
     public function getString() {
         $str = parent::getString();
         return $str;

@@ -88,7 +88,7 @@ use Pes\View\Recorder\RecordsLogger;
 use \Pes\View\ViewFactory;
 
 // Prepare
-use Web\Middleware\Page\Prepare\Prepare;
+use Web\Middleware\Page\PrepareService\Prepare;
 
 
 /**
@@ -192,29 +192,29 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemHydrator::class),
                 );
             },
-            'MenuItemAllRepo' => function(ContainerInterface $c) {
-                return new MenuItemRepo($c->get('MenuItemAllDao'),
-                        $c->get(MenuItemHydrator::class),
-                );
-            },
-            HierarchyHydrator::class => function(ContainerInterface $c) {
-                return new HierarchyHydrator();
-            },
-            HierarchyAggregateReadonlyDao::class => function(ContainerInterface $c) : HierarchyAggregateReadonlyDao {
-                return new HierarchyAggregateReadonlyDao(
-                        $c->get(Handler::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class,
-                        $c->get(ContextProviderInterface::class));
-            },
-            HierarchyJoinMenuItemRepo::class => function(ContainerInterface $c) {
-                $repo = new HierarchyJoinMenuItemRepo(
-                        $c->get(HierarchyAggregateReadonlyDao::class),
-                        $c->get(HierarchyHydrator::class));
-                $assotiation = new MenuItemAssociation($c->get(MenuItemRepo::class));
-                $repo->registerOneToOneAssociation($assotiation);  // reference se jménem, které neodpovídá jménu rodičovské tabulky
-                return $repo;
-            },
+//            'MenuItemAllRepo' => function(ContainerInterface $c) {
+//                return new MenuItemRepo($c->get('MenuItemAllDao'),
+//                        $c->get(MenuItemHydrator::class),
+//                );
+//            },
+//            HierarchyHydrator::class => function(ContainerInterface $c) {
+//                return new HierarchyHydrator();
+//            },
+//            HierarchyAggregateReadonlyDao::class => function(ContainerInterface $c) : HierarchyAggregateReadonlyDao {
+//                return new HierarchyAggregateReadonlyDao(
+//                        $c->get(Handler::class),
+//                        $c->get(Sql::class),
+//                        PdoRowData::class,
+//                        $c->get(ContextProviderInterface::class));
+//            },
+//            HierarchyJoinMenuItemRepo::class => function(ContainerInterface $c) {
+//                $repo = new HierarchyJoinMenuItemRepo(
+//                        $c->get(HierarchyAggregateReadonlyDao::class),
+//                        $c->get(HierarchyHydrator::class));
+//                $assotiation = new MenuItemAssociation($c->get(MenuItemRepo::class));
+//                $repo->registerOneToOneAssociation($assotiation);  // reference se jménem, které neodpovídá jménu rodičovské tabulky
+//                return $repo;
+//            },
             LanguageDao::class => function(ContainerInterface $c) {
                 return new LanguageDao(
                         $c->get(HandlerInterface::class),
@@ -229,7 +229,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ItemActionDao::class => function(ContainerInterface $c) {
                 return new ItemActionDao(
-                        $c->get('service_handler'),
+                        $c->get('service_handler'), // práva authenticated
                         $c->get(Sql::class),
                         PdoRowData::class);
             },
@@ -291,7 +291,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 //            'sqlite.logs.db.type' => FileLogger::FILE_PER_DAY,                    
                     
 //            'dbSqliteLogger' => function(ContainerInterface $c) {
-//                return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), $c->get('dbUpgrade.logs.db.type')); //new NullLogger();
+//                return FileLogger::getInstance($c->get('red.logs.db.directory'), $c->get('red.logs.db.file'), $c->get('red.logs.db.type')); //new NullLogger();
 //            },
 //            'sqlite_DsnProvider' =>  function(ContainerInterface $c) {
 //                $dsnProvider = new \Pes\Database\Handler\DsnProvider\DsnProviderSqliteFile();
@@ -319,9 +319,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 //                        $c->get('sqlite.db.type'),
 //                        '',
 //                        $c->get('sqlite.db.connection.name'),
-//                        $c->get('dbUpgrade.db.charset'),
-//                        $c->get('dbUpgrade.db.collation'),
-//                        $c->get('dbUpgrade.db.port'));
+//                        $c->get('red.db.charset'),
+//                        $c->get('red.db.collation'),
+//                        $c->get('red.db.port'));
 //            },
 //            // db objekty
 //            'sqlite_handler' => function(ContainerInterface $c) : HandlerInterface {

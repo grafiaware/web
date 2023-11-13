@@ -10,7 +10,7 @@ use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Container\AuthContainerConfigurator;
-use Container\DbOldContainerConfigurator;
+use Container\AuthDbContainerConfigurator;
 use Container\MailContainerConfigurator;
 
 use Pes\Router\RouteSegmentGenerator;
@@ -36,7 +36,7 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new MailContainerConfigurator())->configure(
                         (new Container($this->getApp()->getAppContainer()))
                     )

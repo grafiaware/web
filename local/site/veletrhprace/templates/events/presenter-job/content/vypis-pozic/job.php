@@ -17,7 +17,7 @@ use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Repository\RepresentativeRepo;
 
-use Events\Model\Arraymodel\RepresenrativeViewModel;
+use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -38,8 +38,8 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-/** @var RepresenrativeViewModel $representativeViewModel */
-$representativeViewModel = $container->get( RepresenrativeViewModel::class );
+/** @var RepresentativeViewModel $representativeViewModel */
+$representativeViewModel = $container->get( RepresentativeViewModel::class );
 
 /** @var VisitorJobRequestRepo $visitorJobRequestRepo */
 $visitorJobRequestRepo = $container->get(VisitorJobRequestRepo::class);
@@ -70,7 +70,7 @@ if (isset($loginAggregate)) {
         // formulář
         // unikátní jména souborů pro upload
         $userHash = $loginAggregate->getLoginNameHash();
-        $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
+        $accept = implode(", ", ConfigurationCache::redUpload()['upload.events.acceptedextensions']);
         $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
         $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
 
@@ -198,7 +198,7 @@ if (isset($loginAggregate)) {
         <div class="title">
                    
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazevPozice ?>, <?= $mistoVykonu ?>
-                <?= $this->repeat(__DIR__.'/pozice/tag_2.php', isset($kategorie) ? $kategorie : [] , 'seznam') ?>
+                <?= $this->repeat(__DIR__.'/pozice/tag.php', $jobTags, 'tag') ?>
                 <?php
                 if($isVisitor AND $isVisitorDataPost) {
                     ?>
@@ -253,85 +253,85 @@ if (isset($loginAggregate)) {
                     <div class="sixteen wide column">
                         <div  class="navazat-kontakt">
                             <div class="ui grid">
+                                <?php
+                                if ($isVisitor) {
+                                    ?>
+                                    <div class="sixteen wide column center aligned">
                                     <?php
-                                    if ($isVisitor) {
+                                    if($isVisitorDataPost) {
                                         ?>
-                                        <div class="sixteen wide column center aligned">
-                                        <?php
-                                        if($isVisitorDataPost) {
-                                            ?>
-                                            <div class="ui large button green profil-visible">
-                                                <i class="play icon"></i>
-                                                <span>Chci si prohlédnout údaje, které jsem odeslal/a  &nbsp;</span>
-                                                <i class="play flipped icon"></i>
-                                            </div>
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <div class="ui large button blue profil-visible">
-                                                <i class="play icon"></i>
-                                                <span>Mám zájem o tuto pozici &nbsp;</span>
-                                                <i class="play flipped icon"></i>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                        </div>
-                                        <div class="sixteen wide column">
-                                            <div class="profil hidden">
-                                                <?php
-                                                    // pokud je $visitorDataPosted je nastaveno readonly  ?????
-                                                    include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php'; ?>
-                                            </div>
+                                        <div class="ui large button green profil-visible">
+                                            <i class="play icon"></i>
+                                            <span>Chci si prohlédnout údaje, které jsem odeslal/a  &nbsp;</span>
+                                            <i class="play flipped icon"></i>
                                         </div>
                                         <?php
-                                    } elseif ($isRepresentative) {
-                                        if($isVisitorDataPost) {
-                                            ?>
-                                            <div class="sixteen wide column center aligned">
-
-                                                <div class="ui large button green profil-visible">
-                                                    <i class="play icon"></i>
-                                                    <span>Chci si prohlédnout údaje, které zájemci odeslali  &nbsp;</span>
-                                                    <i class="play flipped icon"></i>
-                                                </div>
-                                            </div>
-                                            <div class="sixteen wide column">
-                                                <div class="profil hidden">
-                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje_2.php',
-                                                                      $allFormVisitorDataPost) ?>
-                                                </div>
-                                            </div>
-                                            <?php
-                                        }
                                     } else {
                                         ?>
-                                        <div class="sixteen wide column center aligned">
-                                            <div class="ui large button blue profil-visible">
-                                                <i class="play icon"></i>
-                                                <span>Mám zájem o tuto pozici &nbsp;</span>
-                                                <i class="play flipped icon"></i>
-                                            </div>
-                                            <div class="profil hidden">
-                                                <div class="active title">
-                                                    <i class="exclamation icon"></i>Přihlašte se jako návštěvník. <i class="user icon"></i> Přihlášení návštěvníci mohou posílat přímo zaměstnavateli. Pokud ještě nejste zaregistrování, nejprve se registrujte. <i class="address card icon"></i>
-                                                </div>
-                                                <?php
-                                                if (isset($block)) {
-                                                    ?>
-                                                    <a href="<?= "web/v1/page/block/".$block->getName()."#chci-navazat-kontakt" ?>">
-                                                        <div class="ui large button grey profil-visible">
-                                                            Chci jít na stánek pro kontaktní údaje
-                                                        </div>
-                                                    </a>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </div>
+                                        <div class="ui large button blue profil-visible">
+                                            <i class="play icon"></i>
+                                            <span>Mám zájem o tuto pozici &nbsp;</span>
+                                            <i class="play flipped icon"></i>
                                         </div>
                                         <?php
                                     }
                                     ?>
+                                    </div>
+                                    <div class="sixteen wide column">
+                                        <div class="profil hidden">
+                                            <?php
+                                                // pokud je $visitorDataPosted je nastaveno readonly  ?????
+                                                include ConfigurationCache::eventTemplates()['templates'].'visitor-data/osobni-udaje.php'; ?>
+                                        </div>
+                                    </div>
+                                    <?php
+                                } elseif ($isRepresentative) {
+                                    if($isVisitorDataPost) {
+                                        ?>
+                                        <div class="sixteen wide column center aligned">
+
+                                            <div class="ui large button green profil-visible">
+                                                <i class="play icon"></i>
+                                                <span>Chci si prohlédnout údaje, které zájemci odeslali  &nbsp;</span>
+                                                <i class="play flipped icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="sixteen wide column">
+                                            <div class="profil hidden">
+                                                <?= $this->repeat(ConfigurationCache::eventTemplates()['templates'].'visitor-data/osobni-udaje.php',
+                                                                  $allFormVisitorDataPost) ?>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <div class="sixteen wide column center aligned">
+                                        <div class="ui large button blue profil-visible">
+                                            <i class="play icon"></i>
+                                            <span>Mám zájem o tuto pozici &nbsp;</span>
+                                            <i class="play flipped icon"></i>
+                                        </div>
+                                        <div class="profil hidden">
+                                            <div class="active title">
+                                                <i class="exclamation icon"></i>Přihlašte se jako návštěvník. <i class="user icon"></i> Přihlášení návštěvníci mohou posílat přímo zaměstnavateli. Pokud ještě nejste zaregistrování, nejprve se registrujte. <i class="address card icon"></i>
+                                            </div>
+                                            <?php
+                                            if (isset($block)) {
+                                                ?>
+                                                <a href="<?= "web/v1/page/block/".$block->getName()."#chci-navazat-kontakt" ?>">
+                                                    <div class="ui large button grey profil-visible">
+                                                        Chci jít na stánek pro kontaktní údaje
+                                                    </div>
+                                                </a>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>

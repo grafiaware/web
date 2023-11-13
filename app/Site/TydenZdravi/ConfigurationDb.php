@@ -33,18 +33,18 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
-            'api.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
-            'api.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
-            'api.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
-            'api.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
-            'api.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
+            'red.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
+            'red.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
+            'red.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
+            'red.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
+            'red.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
+            'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
             #
             ###################################
             # Konfigurace logu databáze
             #
-            'api.logs.view.directory' => 'Logs/App/Web',
-            'api.logs.view.file' => 'Render.log',
+            'red.logs.view.directory' => 'Logs/Red',
+            'red.logs.view.file' => 'Render.log',
             #
             ###################################
         ];
@@ -150,18 +150,19 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
-            'dbold.db.type' => DbTypeEnum::MySQL,
-            'dbold.db.port' => '3306',
-            'dbold.db.charset' => 'utf8',
-            'dbold.db.collation' => 'utf8_general_ci',
-            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu01' : 'wwwgrafia',
+            'auth.db.type' => DbTypeEnum::MySQL,
+            'auth.db.port' => '3306',
+            'auth.db.charset' => 'utf8',
+            'auth.db.collation' => 'utf8_general_ci',
+            'auth.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
+            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu01' : 'wwwgrafia',
             #
             ###################################
             # Konfigurace logu databáze
             #
-            'dbold.logs.directory' => 'Logs/DbOld',
-            'dbold.logs.db.file' => 'Database.log',
+            'auth.logs.directory' => 'Logs/Auth',
+            'auth.logs.db.file' => 'Database.log',
+            'auth.logs.db.type' => FileLogger::FILE_PER_DAY,
             #
             ###################################
         ];
@@ -178,19 +179,19 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
-            'dbUpgrade.db.type' => DbTypeEnum::MySQL,
-            'dbUpgrade.db.port' => '3306',
-            'dbUpgrade.db.charset' => 'utf8',
-            'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu' : 'tydenzdravieu',
+            'red.db.type' => DbTypeEnum::MySQL,
+            'red.db.port' => '3306',
+            'red.db.charset' => 'utf8',
+            'red.db.collation' => 'utf8_general_ci',
+            'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
+            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu' : 'tydenzdravieu',
             #
             #  Konec sekce konfigurace databáze
             ###################################
             # Konfigurace logu databáze
             #
-            'dbUpgrade.logs.db.directory' => 'Logs/Hierarchy',
-            'dbUpgrade.logs.db.file' => 'Database.log',
+            'red.logs.db.directory' => 'Logs/Red',
+            'red.logs.db.file' => 'Database.log',
             #
             #################################
 
@@ -208,8 +209,8 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
             #
-            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
-            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
+            'red.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
+            'red.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
             #
             ###################################
             # Konfigurace hierarchy tabulek
@@ -240,11 +241,11 @@ class ConfigurationDb extends ConfigurationConstants {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu002' : 'tydenzdravieu002',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_opravneni' : 'tz_opravneni',
+            'auth.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu002' : 'tydenzdravieu002',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'auth.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_opravneni' : 'tz_opravneni',
 
-            'login.logs.database.directory' => 'Logs/Login',
-            'login.logs.database.file' => 'Database.log',
+            'auth.logs.database.directory' => 'Logs/Auth',
+            'auth.logs.database.file' => 'Database.log',
             #
             ###################################
 

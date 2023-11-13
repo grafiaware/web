@@ -12,7 +12,7 @@ use Events\Model\Entity\CompanyInterface;
  *
  * @author pes"daikin"7"na""mdelektronik"
  */
-class RepresenrativeViewModel {
+class RepresentativeViewModel {
     /**
      * @var CompanyRepoInterface
      */

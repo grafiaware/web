@@ -101,11 +101,10 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesOverrideDefinitions(): iterable {
         return [
-            // LoginContainer musí mít DbOld kontejner jako delegáta
             //
-            'loginDbLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('login.logs.database.directory'), $c->get('login.logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
-            },
+//            'AuthDbLogger' => function(ContainerInterface $c) {
+//                return FileLogger::getInstance($c->get('auth.logs.database.directory'), $c->get('auth.logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
+//            },
 
             ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
             #         jako factory. Pokud definuji jako factory, múže vzniknou řada objektů Account a Handler, které vznikly s použití
@@ -115,7 +114,7 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             ##
             // database account
             Account::class => function(ContainerInterface $c) {
-                return new Account($c->get('login.db.account.everyone.name'), $c->get('login.db.account.everyone.password'));
+                return new Account($c->get('auth.db.account.everyone.name'), $c->get('auth.db.account.everyone.password'));
             },
 
             // database
@@ -128,7 +127,7 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('loginDbLogger'));
+                        $c->get('AuthDbLogger'));
             },
         ];
     }

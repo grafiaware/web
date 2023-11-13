@@ -1,12 +1,10 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Red\Model\Entity\PaperAggregateInterface;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
  
 
     //    $readonly = 'readonly="1"';
@@ -19,7 +17,7 @@ use Pes\Text\Html;
     <form class="ui huge form" action="" method="POST" >                       
       
             <div class="fields">  
-            <?php  if (isset ($type) ) {  /*stary*/ ?>   
+            <?php  if (isset ($type) ) {  ?>   
                     <p>Typ obsahu:</p>
                     <div class="field">
                     <input <?= $readonly ?> type="text" name="type"  required  maxlength="45"  value="<?= $type ?>" >
@@ -43,10 +41,10 @@ use Pes\Text\Html;
         <div>                                                                                                                                
             <?=
             isset($type) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventcontenttype/" . $id . "'> Uložit </button>" .
+                "<button class='ui secondary button' type='submit' formaction='events/v1/eventcontenttype/" . $id . "'> Uložit </button>" .
                 "<button class='ui primary button' type='submit' formaction='events/v1/eventcontenttype/" . $id . "/remove'> Odstranit  </button>" :
                 
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventcontenttype' > Uložit </button>" ;                
+                "<button class='ui secondary button' type='submit' formaction='events/v1/eventcontenttype' > Uložit </button>" ;                
             ?>                                                                                                         
         </div>
 

@@ -39,20 +39,25 @@ class AccessPresentation implements AccessPresentationInterface {
      * @param type $action Akce
      * @return bool
      */
-    public function isAllowed(string $resourceClassname, $action): bool {
-        // autoload proběhne již při použití XXX::class
-        if (!class_exists($resourceClassname)) {
-            throw new ClassNotExistsException("Třída '$resourceClassname' neexistuje.");
-        }
+    public function isAllowed($resourceClassname, $action): bool {
+
         $isAllowed = false;
         $role = $this->statusViewModel->getUserRole();
         $logged = $this->statusViewModel->getUserLoginName() ? true : false;
         $permissions = $resourceClassname::getComponentPermissions();
         $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
-        $isAllowed =false;
         foreach ($activeRoles as $activeRole) {
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
-                $permittedResource = $permissions[$activeRole][$action];
+                $permission = $permissions[$activeRole][$action];
+                if (is_string($permission)) {
+                    $permittedResource = $permission;
+                } elseif($permission instanceof \Closure) {
+                    $permittedResource = $permission();
+                }
+                // autoload proběhne již při použití XXX::class
+                if (!class_exists($permittedResource)) {
+                    throw new ClassNotExistsException("Třída '$permittedResource' neexistuje.");
+                }                
                 $isAllowed = ($resourceClassname === $permittedResource) ? true : false;
                 if ($isAllowed) {
                     break;

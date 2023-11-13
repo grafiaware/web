@@ -10,5 +10,5 @@ use Component\View\ComponentInterface;
  */
 interface AccessPresentationInterface {
     public function getStatus(): StatusViewModelInterface;
-    public function isAllowed(string $resource, $action): bool;
+    public function isAllowed($resource, $action): bool;
 }

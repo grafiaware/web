@@ -56,10 +56,10 @@ Message::addTranslations(
         ],
 
 
-// component Controller
-    "Není čitený soubor statické stránky {file}." =>
+// TemplateCompiler
+    "Není čitelný soubor statické stránky {file}." =>
         [
-            'cs' => "Není čitený soubor statické stránky {file}."
+            'cs' => "Není čitelný soubor statické stránky {file}."
         ]
 
 

@@ -49,21 +49,6 @@ class EventControler extends PresentationFrontControlerAbstract {
         $this->eventListModel = $eventListModel;
     }
 
-    public function XX(){
-        $loginAggregateCredentials = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if (isset($loginAggregateCredentials)) {
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk();
-            $permission = [
-                'sup' => true,
-                'editor' => true
-            ];
-            if (array_key_exists($role, $permission) AND $permission[$role]) {
-
-            }
-        }
-    }
-
-
     public function enroll(ServerRequestInterface $request) {
         $requestedEventId = (new RequestParams())->getParsedBodyParam($request, 'event_enroll');
         if (isset($requestedEventId)) {

@@ -24,7 +24,7 @@ use Pes\Database\Handler\AttributesProvider\AttributesProvider;
  *
  * @author pes2704
  */
-class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
+class AuthDbContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return ConfigurationCache::dbOld();
@@ -45,36 +45,36 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // database
             // account a handler v middleware kontejnerech
-            'dboldDbLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('dbold.logs.directory'), $c->get('dbold.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
+            'AuthDbLogger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('auth.logs.directory'), $c->get('auth.logs.db.file'), $c->get('auth.logs.db.type')); //new NullLogger();
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
                 return new ConnectionInfo(
-                        $c->get('dbold.db.type'),
-                        $c->get('dbold.db.connection.host'),
-                        $c->get('dbold.db.connection.name'),
-                        $c->get('dbold.db.charset'),
-                        $c->get('dbold.db.collation'),
-                        $c->get('dbold.db.port'));
+                        $c->get('auth.db.type'),
+                        $c->get('auth.db.connection.host'),
+                        $c->get('auth.db.connection.name'),
+                        $c->get('auth.db.charset'),
+                        $c->get('auth.db.collation'),
+                        $c->get('auth.db.port'));
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('dboldDbLogger'));
+                    $dsnProvider->setLogger($c->get('AuthDbLogger'));
                 }
                 return $dsnProvider;
             },
             OptionsProviderMysql::class =>  function(ContainerInterface $c) {
                 $optionsProvider = new OptionsProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('dboldDbLogger'));
+                    $optionsProvider->setLogger($c->get('AuthDbLogger'));
                 }
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
                 $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('dboldDbLogger'));
+                    $attributesProvider->setLogger($c->get('AuthDbLogger'));
                 }
                 return $attributesProvider;
             },

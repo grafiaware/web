@@ -7,7 +7,7 @@ use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
 use Container\AuthContainerConfigurator;
-use Container\DbOldContainerConfigurator;
+use Container\AuthDbContainerConfigurator;
 
 use Model\RowData\RowData;
 
@@ -60,7 +60,7 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
 
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -86,7 +86,7 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
     protected function setUp(): void {
         $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -104,7 +104,7 @@ class LoginAggregateRegistrationRepositoryTest extends AppRunner {
     public static function tearDownAfterClass(): void {
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new DbOldContainerConfigurator())->configure(
+                (new AuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
