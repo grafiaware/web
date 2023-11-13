@@ -76,8 +76,8 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         return [
             RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
             RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-//            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
-//            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class],
             RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => static::class]
         ];
     }
