@@ -21,7 +21,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author pes2704
  */
-class EventcontentControler extends PresentationFrontControlerAbstract {
+class EventStaticControler extends PresentationFrontControlerAbstract {
 
     private $templateCompiler;
 

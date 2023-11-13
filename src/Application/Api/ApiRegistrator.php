@@ -33,6 +33,7 @@ class ApiRegistrator {
     #
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/logout'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/:staticName'));        
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register'));
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/registerapplication/:loginname'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register1'));
@@ -134,12 +135,6 @@ class ApiRegistrator {
         #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         
-             
-        
-        
-        
-        
-        
         #### VisitorProfileControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
@@ -202,8 +197,9 @@ class ApiRegistrator {
         #### VisitorJobRequestControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/:jobId/jobrequest'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
-        #### VisitorDataController ####
-        $registry->register($this->getPrototype->withUrlPattern('/events/v1/eventcontent/:staticName'));
+        
+        #### EventsStaticControler ####
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/:staticName'));
        
         #### DocumentControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/document/:id/remove'));

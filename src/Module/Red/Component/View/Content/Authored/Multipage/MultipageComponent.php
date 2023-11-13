@@ -73,19 +73,23 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
             $menuItemType = 'empty';
         }
         switch ($menuItemType) {
-            case 'static':
+            case 'red_static':
                 $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "red/v1/$menuItemType/$id";
+                $dataRedApiUri = "red/v1/static/$id";
                 break;
-            case 'eventcontent':
+            case 'events_static':
                 $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "events/v1/$menuItemType/$id";
+                $dataRedApiUri = "events/v1/static/$id";
+                break;
+            case 'auth_static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $dataRedApiUri = "events/v1/static/$id";
                 break;
             default:
                 $id = $menuItem->getId();
                 $dataRedApiUri = "red/v1/$menuItemType/$id";
                 break;
-        }
+        }        
         if ($this->contextData->isPartInEditableMode()) {
             $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
         } else {

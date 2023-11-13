@@ -20,23 +20,24 @@ public function render(iterable $viewModel = NULL) {
         $transitions = $viewModel->getTypeTransitions();
         $radioHtml = '';
         if (isset($transitions)) {
-            foreach ($transitions as $type ) {
-                $radioHtml .=Html::tag('label', [],
-                                    Html::tag('input', ['type'=>"radio", 'name'=>"type", 'value'=>$type, 'required'=>'1'])
-                                    .$type
-                                );
+//            foreach ($transitions as $type ) {
+                $radioHtml = Html::radio("type", $transitions, [], ['required'=>'1']);
+//                $radioHtml .=Html::tag('label', [],
+//                                    Html::tag('input', ['type'=>"radio", 'name'=>"type", 'value'=>$type, 'required'=>'1'])
+//                                    .$type
+//                                );
             }
             return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/menu/$menuItemUidFk/type"],
                         Html::tag('p', [], Message::t("Vyberte typ obsahu:"))
                         .Html::tag('div', [],
                             $radioHtml
                          )
-                        .Html::tag('label', [], "static path:" . Html::tag('input', ['type'=>"text", 'name'=>"folded", 'value'=>""]))
+//                        .Html::tag('label', [], "static path:" . Html::tag('input', ['type'=>"text", 'name'=>"folded", 'value'=>""]))
                         .Html::tag("div", [],
                             Html::tag("button", [], Message::t("Odeslat"))
                         )
                     );
-        }
+//        }
     }
 
 }

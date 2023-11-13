@@ -2,6 +2,7 @@
 namespace Auth\Middleware\Login;
 
 use Auth\Middleware\Login\Controller\LoginLogoutController;
+use Auth\Middleware\Login\Controller\AuthStaticControler;
 use Auth\Middleware\Login\Controller\RegistrationController;
 use Auth\Middleware\Login\Controller\ConfirmController;
 use Auth\Middleware\Login\Controller\PasswordController;
@@ -58,6 +59,13 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->login($request);
             });
 
+        // AuthStaticControler
+        $routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
+            /** @var AuthStaticControler $ctrl */
+            $ctrl = $this->container->get(AuthStaticControler::class);
+            return $ctrl->static($request, $staticName);
+            });            
+            
         // RegistrationController
         $routeGenerator->addRouteForAction('POST', '/auth/v1/register', function(ServerRequestInterface $request) {
             /** @var RegistrationController $ctrl */
@@ -74,11 +82,15 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(RegistrationController::class);
             return $ctrl->registerapplication($request, $loginname);
             });
+            
+        // ConfirmController
         $routeGenerator->addRouteForAction('GET', '/auth/v1/confirm/:uid', function(ServerRequestInterface $request, $uid) {
             /** @var ConfirmController $ctrl */
             $ctrl = $this->container->get(ConfirmController::class);
             return $ctrl->confirm($request, $uid);
             });
+            
+        // PasswordController    
         $routeGenerator->addRouteForAction('POST', '/auth/v1/forgottenpassword', function(ServerRequestInterface $request) {
             /** @var PasswordController $ctrl */
             $ctrl = $this->container->get(PasswordController::class);
