@@ -3,7 +3,7 @@
 namespace Auth\Model\Repository;
 
 use Model\Repository\RepoInterface;
-use Auth\Model\Entity\RepoInterface;
+use Auth\Model\Entity\RoleInterface;
 
 /**
  *

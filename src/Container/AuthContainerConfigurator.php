@@ -202,6 +202,23 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             RegistrationRepo::class => function(ContainerInterface $c) {
                 return new RegistrationRepo($c->get(RegistrationDao::class), $c->get(RegistrationHydrator::class));
             },
+                    
+           //-------------------------------------------------------------         
+            RoleDao::class => function(ContainerInterface $c) {
+                return new RoleDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);                
+            },
+            RoleHydrator::class => function(ContainerInterface $c) {
+                return new RoleHydrator();
+            },
+                    
+            RoleRepo::class => function(ContainerInterface $c) {
+                return new RoleRepo($c->get(RoleDao::class), $c->get(RoleHydrator::class));
+            },
+                                        
+                   
 
             LoginAggregateRegistrationRepo::class => function(ContainerInterface $c) {
                 $repo = new LoginAggregateRegistrationRepo(
@@ -229,20 +246,7 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
 //---------------------------------------------------------------------------
-            RoleDao::class => function(ContainerInterface $c) {
-                return new RoleDao(
-                        $c->get(Handler::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);                
-            },
-            RoleHydrator::class => function(ContainerInterface $c) {
-                return new RoleHydrator();
-            },
-                    
-            RoleRepo::class => function(ContainerInterface $c) {
-                return new Role($c->get(RoleDao::class), $c->get(RoleHydrator::class));
-            },
-                    
+  
                     
                     
                     
