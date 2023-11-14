@@ -16,7 +16,14 @@ interface RoleRepoInterface extends RepoInterface {
      * @param type $role
      * @return RoleInterface|null
      */
-    public function get($role): ?RoleInterface;
+    public function get($role): ?RoleInterface;           
+    /**
+     * 
+     * @return RoleInterface[]
+     */
+    public function findAll() :array ;
+    
+    
 
     /**
      *

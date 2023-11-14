@@ -21,7 +21,15 @@ use Pes\Text\Html;
 
 use Auth\Model\Repository\CredentialsRepoInterface;
 use Auth\Model\Repository\CredentialsRepo;
+use Auth\Model\Repository\RoleRepoInterface;
+use Auth\Model\Repository\RoleRepo;
+use Auth\Model\Entity\RoleInterface;
 
+
+
+
+use Auth\Model\Repository\CredentialsRepo;
+use Auth\Middleware\Login\Controller\AuthController;
 
 
 
@@ -29,9 +37,9 @@ use Auth\Model\Repository\CredentialsRepo;
 
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
-    
-    
-    dfdf
+    /** @var RoleRepoInterface $roleRepo */ 
+    $roleRepo = $container->get(RoleRepoInterface::class );
+      
     
     
 //     = [];
@@ -49,28 +57,49 @@ use Auth\Model\Repository\CredentialsRepo;
   
     
     $selectRoles = [];
-    
-    
-    $selectInstitutions [EventControler_2::NULL_VALUE_nahradni] =  "" ;
-    $institutionEntities = $institutionRepo->findAll();
-        /** @var InstitutionInterface $inst */ 
-    foreach ( $institutionEntities as $inst ) {
-        $selectInstitutions [$inst->getId()] =  $inst->getName() ;
+    $selectRoles [AuthController::NULL_VALUE_nahradni] =  "" ;
+    $rolesEntities = $roleRepo->findAll();
+        /** @var RoleInterface $role */ 
+    foreach ( $rolesEntities as $role ) {
+        $selectRoles [$role->getRole()] ;
     }
     
     
+//    
+//    $selectInstitutions [EventControler_2::NULL_VALUE_nahradni] =  "" ;
+//    $institutionEntities = $institutionRepo->findAll();
+//        /** @var InstitutionInterface $inst */ 
+//    foreach ( $institutionEntities as $inst ) {
+//        $selectInstitutions [$inst->getId()] =  $inst->getName() ;
+//    }
+    
     $selecty = [];
-    $selecty['selectInstitutions'] = $selectInstitutions;
-    $selecty['selectContentTypes'] = $selectContentTypes;
-           
+    $selecty['selectRoles'] = $selectRoles;
     
+//    $selecty = [];
+//    $selecty['selectInstitutions'] = $selectInstitutions;
+//    $selecty['selectContentTypes'] = $selectContentTypes;
+               
     //---------------------------------------------------------
-    // Contenty pro  $idInstitution
-    //$eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
     
-    // Contenty všechny
-    $eventContentEntities = $eventContentRepo->findAll();
-
+    
+    
+    
+    
+    
+       
+    // Credentials všechny
+    $credentials = $credentialsRepo->findAll();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     if ($eventContentEntities) {   
             /** @var EventContentInterface $entity */
             foreach ($eventContentEntities as $entity) {

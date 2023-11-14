@@ -27,7 +27,15 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
      */
     public function get($loginNameFk): ?CredentialsInterface {
         return $this->getEntity($loginNameFk);
+    }    
+    /**
+     *
+     * @return CredentialsInterface[]
+     */
+    public function findAll() :array  {
+        return $this->findEntities();
     }
+    
 
     public function add(CredentialsInterface $credentials) {
         $this->addEntity($credentials);

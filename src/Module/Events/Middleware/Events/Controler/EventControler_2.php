@@ -4,16 +4,11 @@ namespace Events\Middleware\Events\Controler;
 
 use FrontControler\PresentationFrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
-use Pes\Application\AppFactory;
 use Pes\Http\Request\RequestParams;
-use Pes\Http\Response;
-use Pes\Http\Response\RedirectResponse;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
-
-use Middleware\Api\Controller\Exception\UnexpectedLanguageException;
 
 use Events\Model\Entity\InstitutionTypeInterface;
 use Events\Model\Entity\InstitutionType;
@@ -22,7 +17,6 @@ use Events\Model\Repository\InstitutionTypeRepoInterface;
 use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Entity\Institution;
 use Events\Model\Repository\InstitutionRepoInterface;
-
 
 use Events\Model\Entity\EventContentTypeInterface;
 use Events\Model\Entity\EventContentType;
@@ -40,9 +34,6 @@ use Events\Model\Entity\EventLinkInterface;
 use Events\Model\Entity\EventLink;
 use Events\Model\Repository\EventLinkRepoInterface;
 
-
-//use Events\Middleware\Events\ViewModel\Event;
-//use Model\Entity\Enroll;
 
 
 /**
@@ -136,10 +127,8 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //                $isRepresentative = true; 
 //            }                        
 //            if ($isRepresentative) {
-
-                
+               
                     /** @var InstitutionTypeInterface $institutionType */
-                    //$institutionType = $this->container->get(InstitutionType::class); //new    
                     $institutionType = new InstitutionType(); //new           
                     $institutionType->setInstitutionType((new RequestParams())->getParsedBodyParam($request, 'institutionType') );
     
@@ -262,8 +251,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {
                 
                 /** @var InstitutionInterface $institution */
-                //$institution = new Institution(); //new      
-                $institution = $this->container->get(InstitutionInterface::class); //new     
+                $institution = new Institution(); //new      
                 $institution->setName((new RequestParams())->getParsedBodyParam($request, 'institutionName') );
                 
                 //$institution->setInstitutionTypeId((new RequestParams())->getParsedBodyParam($request, 'selinstitutionTypeId') );
@@ -404,7 +392,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {
                 
                 /** @var EventContentTypeInterface $contentType */
-                $contentType = $this->container->get(EventContentType::class); //new     
+                $contentType = new EventContentType(); //new
                 $contentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );                
                 $contentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );
      
@@ -530,7 +518,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {
                 
                 /** @var EventContentInterface $content */
-                $content = $this->container->get(EventContent::class); //new     
+                $content = new EventContent();  //new
                 $a = (new RequestParams())->getParsedBodyParam($request, 'title') ;                                                            
                 $content->setTitle((new RequestParams())->getParsedBodyParam($request, 'title') );               
                 $content->setPerex((new RequestParams())->getParsedBodyParam($request, 'perex') );
@@ -687,7 +675,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {
 
                 
-                    /** @var EventLinkPhase $eventLinkPhase */
+                    /** @var EventLinkPhaseInterface $eventLinkPhase */
                     $eventLinkPhase = new EventLinkPhase(); //new           
                     $eventLinkPhase->setText((new RequestParams())->getParsedBodyParam($request, 'eventLinkPhaseText') );
     
@@ -809,7 +797,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            if ($isRepresentative) {
                 
                 /** @var EventLinkInterface $eventLink */
-                $eventLink = $this->container->get(EventLinkInterface::class); //new     
+                $eventLink = new EventLink(); //new
                 $eventLink->setShow((new RequestParams())->getParsedBodyParam($request, 'show') ?? 0 );
                 $eventLink->setHref((new RequestParams())->getParsedBodyParam($request, 'href') );                     
                 //not null            

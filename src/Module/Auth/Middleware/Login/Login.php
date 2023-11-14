@@ -6,6 +6,7 @@ use Auth\Middleware\Login\Controller\AuthStaticControler;
 use Auth\Middleware\Login\Controller\RegistrationController;
 use Auth\Middleware\Login\Controller\ConfirmController;
 use Auth\Middleware\Login\Controller\PasswordController;
+use Auth\Middleware\Login\Controller\AuthController;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -101,10 +102,35 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(PasswordController::class);
             return $ctrl->changePassword($request);
             });
+       
+        
+        
+//        //AuthController        
+//        $routeGenerator->addRouteForAction('POST', '/auth/v1/credentials/:loginname', function(ServerRequestInterface $request) {
+//            /** @var AuthController $ctrl */
+//            $ctrl = $this->container->get(AuthController::class);
+//            return $ctrl->upgradeCredentials($request);
+//        });
+        
+//        $routeGenerator->addRouteForAction('POST', '/auth/v1/role', function(ServerRequestInterface $request) {
+//            /** @var AuthController $ctrl */
+//            $ctrl = $this->container->get(AuthController::class);
+//            return $ctrl->addRole($request);
+//        });
+//        $routeGenerator->addRouteForAction('POST', '/auth/v1/role/:role', function(ServerRequestInterface $request, $role) {
+//            /** @var AuthController $ctrl */
+//            $ctrl = $this->container->get(AuthController::class);
+//            return $ctrl->updateRole($request, $role);
+//        });
+//        $routeGenerator->addRouteForAction('POST', '/auth/v1/role/:role/remove', function(ServerRequestInterface $request, $role ) {
+//            /** @var AuthController $ctrl */
+//            $ctrl = $this->container->get(AuthController::class);
+//            return $ctrl->removeRole($request, $role);
+//        });             
+        
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
-
 
         return $router->process($request, $handler) ;
     }

@@ -32,8 +32,16 @@ class RoleRepo extends RepoAbstract implements RoleRepoInterface {
      */
     public function get($role): ?RoleInterface {
         return $this->getEntity($role);
+    }     
+    /**
+     *
+     * @return RoleInterface[]
+     */
+    public function findAll() :array  {
+        return $this->findEntities();
     }
 
+    
     public function add(RoleInterface $role) {
         $this->addEntity($role);
     }

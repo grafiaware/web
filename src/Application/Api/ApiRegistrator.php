@@ -40,6 +40,13 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/confirm/:uid'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/forgottenpassword'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/changepassword'));
+        
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/credentials/:loginname'));
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role'));
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:role'));
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:role/remove'));
+        
+        
 
     ### web module ###
     #
