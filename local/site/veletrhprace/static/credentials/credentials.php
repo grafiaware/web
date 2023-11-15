@@ -17,59 +17,38 @@ use Pes\Text\Html;
 
     <form class="ui huge form" action="" method="POST" >            
         
-            <tr>
-        <td>
-            <div class="active title">                
-                    <?= "loginName  " . $loginNameFk  ?>
-            </div>       
-        </td>  
+        <tr>
+        <td>                         
+                    <?= $loginNameFk  ?>                   
+        </td>         
         
-        <div class="active content">                                                                         
-            <div class="eight wide field">               
+        <td>    
+                                                                                 
+                           
 
               
-                <?= Html::select( "selectInstitutionId", " Název instituce:",  
-                                  [ "selectInstitutionId" =>  $institutionIdFk  ?? ''  ],  
-                                   $selectInstitutions ??  [] , 
+                <?= Html::select( "selectRoles", "",  
+                                  [ "selectRoles" =>  $roleFk  ?? ''  ],  
+                                   $selectRoles ??  [] , 
                                    [ ] ) ?>   
+            </td>   
                 
-            </div>                       
-            Title:
-            <div  class="field">
-                <input <?= $readonly ?> type="text" name="title"  maxlength="200" value="<?= isset($title) ? $title : ''?>" >
+             
+           
+         
+               <td>  
+            <div>      
+                 <?= 
+               "<button class='ui secondary button' type='submit' formaction='events/v1/credentials/" . $loginNameFk . "'> Uložit </button>"   
+                ?>
             </div>
-            Perex:   
-            <div class="field">
-                <input <?= $readonly ?> type="text" name="perex" placeholder="" maxlength="500" value="<?= isset($perex) ? $perex : '' ?>" >
-            </div>
-            Party:   
-            <div  class="field">
-                <input <?= $readonly ?> type="text" name="party" placeholder="" maxlength="200" value="<?= isset($party) ? $party : '' ?>" >
-            </div>
-
-            <div class="eight wide field">                                  
-                <?= Html::select( "selectContentTypeId", "Typ obsahu:", 
-                                  ["selectContentTypeId" =>  $eventContentTypeIdFk ?? ''  ], 
-                                  $selectContentTypes ?? [] ,
-                                  ['required' => true ]
-                                  ) ?>  
-            </div>
-
-            <div>                                                                                                                                
-                <?=       
-                isset($idContent) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/eventcontent/" . $idContent . "'> Uložit </button>
-                    <button class='ui primary button' type='submit' formaction='events/v1/eventcontent/" . $idContent . "/remove'> Odstranit  </button>" 
-                    :                
-                    "<button class='ui primary button' type='submit' formaction='events/v1/eventcontent' > Uložit </button>" ;                
-                ?>                                                                                                         
-            </div>
+           
+             </td>   
+                
+           </tr>      
         
-        </div>    
+        
             
-            
-            
-            
-            </tr>
+                                   
    
     </form >

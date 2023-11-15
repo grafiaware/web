@@ -120,32 +120,24 @@ use Auth\Middleware\Login\Controller\AuthController;
     
     <div class="ui styled fluid accordion">           
         <div>             
-           <b>CREDENTIALS-tabulka</b>
-           
-           
-           <b>Obsahy událostí (event content) </b>
+           <b>CREDENTIALS-tabulka</b>                                 
         </div>                          
         ------------------------------------------------------                      
         <div>      
             <?php  if (isset ($credentialsEntities) ) {   ?> 
             <table>
-                <?= $this->repeat(__DIR__.'/credentials.php',  $credentialsEntities )  ?> 
+                <tr>
+                    <th>Login Name</th>
+                    <th>Role</th>  
+                </tr>
+                <?= $this->repeat(__DIR__.'/credentials.php',  $credentials )  ?> 
             </table>    
             <?php  }   ?>
             
-            <br>
-            <div>                   
-               !+++! Přidej pověření=credential
-            </div>  
-            <div>     
-                <?= $this->insert( __DIR__.'/credentials.php', [ "selectRoles" => $selectRoles,
-                                                                 "roleFk" =>  AuthController::NULL_VALUE_nahradni,                                                                  
-                    
-                                                                 "loginNameFk"  =>  '',  //not null,
-                                                                 "passwordHash" =>  ''   //not null
-                                                                 ] ) ?>                                                                                 
-            </div>                  
-        </div>           
+          
+           
+            
+        
                                       
     </div>
 
