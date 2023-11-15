@@ -27,6 +27,15 @@ interface LoginRepoInterface extends RepoInterface {
 
     /**
      *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return LoginInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array  ;
+       
+    
+    /**
+     *
      * @param LoginInterface $login
      */
     public function add(LoginInterface $login);

@@ -23,12 +23,15 @@ use Auth\Model\Repository\CredentialsRepoInterface;
 use Auth\Model\Repository\CredentialsRepo;
 use Auth\Model\Repository\RoleRepoInterface;
 use Auth\Model\Repository\RoleRepo;
+use Auth\Model\Repository\LoginRepo;
+use Auth\Model\Repository\LoginRepoInterface;
+
 use Auth\Model\Entity\RoleInterface;
+use Auth\Model\Entity\CredentialsInterface;
+use Auth\Model\Entity\Login;
+use Auth\Model\Entity\LoginInterface;
 
 
-
-
-use Auth\Model\Repository\CredentialsRepo;
 use Auth\Middleware\Login\Controller\AuthController;
 
 
@@ -38,30 +41,30 @@ use Auth\Middleware\Login\Controller\AuthController;
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
     /** @var RoleRepoInterface $roleRepo */ 
-    $roleRepo = $container->get(RoleRepoInterface::class );
+    $roleRepo = $container->get(RoleRepo::class );
+    /** @var LoginRepoInterface $loginRepo */ 
+    $loginRepo = $container->get(LoginRepo::class );
+      
       
     
     
-//     = [];
-//    $selectContentTypes [''] =  "vyber - povinné pole" ;
-//    $allContentType = $eventContentTypeRepo->findAll();
-//    $eventContentTypesArray=[];
-//    /** @var  EventContentInterface $type */
-//    foreach ($allContentType as $type) {    
-//        $contype ['type'] = $type->getType();
-//        $contype ['name'] = $type->getName();               
-//        $eventContentTypesArray[] = $contype;    
-//        
-//        $selectContentTypes [$type->getId()] =  $type->getName()  ;
-//    }
+    $selectLoginNames = [];
+    $selectLoginNames [''] =  "vyber - povinné pole" ;
+    $allLogin = $loginRepo->find(' 1=1 order by login_name ', [] );
+    $loginsArray=[];
+    /** @var  LoginInterface $log */
+    foreach ($allLogin as $log) {    
+        $loginsArray ['loginName'] = $log->getLoginName();               
+        $selectLoginNames [ $log->getLoginName() ] =  $log->getLoginName()  ;
+    }
   
     
     $selectRoles = [];
     $selectRoles [AuthController::NULL_VALUE_nahradni] =  "" ;
-    $rolesEntities = $roleRepo->findAll();
+    $roles = $roleRepo->findAll();
         /** @var RoleInterface $role */ 
-    foreach ( $rolesEntities as $role ) {
-        $selectRoles [$role->getRole()] ;
+    foreach ( $roles as $role ) {
+        $selectRoles [$role->getRole()] = $role->getRole() ;
     }
     
     
@@ -75,6 +78,7 @@ use Auth\Middleware\Login\Controller\AuthController;
     
     $selecty = [];
     $selecty['selectRoles'] = $selectRoles;
+    $selecty['selectLoginNames'] = $selectLoginNames;
     
 //    $selecty = [];
 //    $selecty['selectInstitutions'] = $selectInstitutions;
@@ -89,36 +93,19 @@ use Auth\Middleware\Login\Controller\AuthController;
     
        
     // Credentials všechny
-    $credentials = $credentialsRepo->findAll();
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    if ($eventContentEntities) {   
-            /** @var EventContentInterface $entity */
-            foreach ($eventContentEntities as $entity) {
-                      $nu1 = $entity->getInstitutionIdFk();
-                      $nu2 = $entity->getEventContentTypeIdFk();
+    $credentialsEntities = $credentialsRepo->findAll();               
+    if ($credentialsEntities) {   
+            /** @var CredentialsInterface $entity */
+            foreach ($credentialsEntities as $entity) {
+//                      $nu1 = $entity->getInstitutionIdFk();
+//                      $nu2 = $entity->getEventContentTypeIdFk();
                 
-                $institutionE = $institutionRepo->get(  ($entity->getInstitutionIdFk()) ?? ''    ) ;               
-                $eventContents[] = [
-                    'institutionIdFk' => ($entity->getInstitutionIdFk()) ?? EventControler_2::NULL_VALUE_nahradni , 
-                    'selectInstitutions' => $selectInstitutions, 
-                    'institutionName' => ( isset($institutionE) ? $institutionE->getName() : '' ),
-                    
-                    'eventContentTypeIdFk' => ($entity->getEventContentTypeIdFk()), /*?? EventControler_2::NULL_VALUE_nahradni,*/
-                    'selectContentTypes' => $selectContentTypes, 
-                    
-                    'title' =>  $entity->getTitle(),
-                    'perex' =>  $entity->getPerex(),
-                    'party' =>  $entity->getParty(),
-                    'idContent' =>  $entity->getId()
+                $credential = $credentialsRepo->get(  ($entity->getRoleFk()) ?? ''    ) ;               
+                $credentials[] = [
+                    'roleFk' => ($entity->getRoleFk()) ?? AuthController::NULL_VALUE_nahradni , 
+                    'selectRoles' =>  $selectRoles,                     
+                    'loginNameFk' =>  $entity->getLoginNameFk(),
+                    'passwordHash' => $entity->getPasswordHash()                                               
                     ];
             }   
     }
@@ -133,27 +120,29 @@ use Auth\Middleware\Login\Controller\AuthController;
     
     <div class="ui styled fluid accordion">           
         <div>             
-           <b>CREDENTIALS</b>
+           <b>CREDENTIALS-tabulka</b>
            
            
            <b>Obsahy událostí (event content) </b>
         </div>                          
         ------------------------------------------------------                      
         <div>      
-            <?php  if (isset ($eventContents) ) {   ?> 
-                <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> 
+            <?php  if (isset ($credentialsEntities) ) {   ?> 
+            <table>
+                <?= $this->repeat(__DIR__.'/credentials.php',  $credentialsEntities )  ?> 
+            </table>    
             <?php  }   ?>
             
             <br>
             <div>                   
-               !+++! Přidej další obsah události (event content)
+               !+++! Přidej pověření=credential
             </div>  
             <div>     
-                <?= $this->insert( __DIR__.'/event-content.php', [ "selectInstitutions" => $selectInstitutions,
-                                                                   "institutionIdFk" =>  EventControler_2::NULL_VALUE_nahradni,                                                                  
+                <?= $this->insert( __DIR__.'/credentials.php', [ "selectRoles" => $selectRoles,
+                                                                 "roleFk" =>  AuthController::NULL_VALUE_nahradni,                                                                  
                     
-                                                                   "selectContentTypes" => $selectContentTypes,
-                                                                   "eventContentTypeIdFk" =>  ''//not null
+                                                                 "loginNameFk"  =>  '',  //not null,
+                                                                 "passwordHash" =>  ''   //not null
                                                                  ] ) ?>                                                                                 
             </div>                  
         </div>           

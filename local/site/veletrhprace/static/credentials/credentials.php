@@ -17,10 +17,13 @@ use Pes\Text\Html;
 
     <form class="ui huge form" action="" method="POST" >            
         
-        <div class="active title">
-                <i class="dropdown icon"></i>
-                <?= "Obsah události pro " . ($institutionName ?? '') . " - " . ($title ?? '') ?>
-        </div>                        
+            <tr>
+        <td>
+            <div class="active title">                
+                    <?= "loginName  " . $loginNameFk  ?>
+            </div>       
+        </td>  
+        
         <div class="active content">                                                                         
             <div class="eight wide field">               
 
@@ -62,6 +65,11 @@ use Pes\Text\Html;
                 ?>                                                                                                         
             </div>
         
-        </div>      
-
+        </div>    
+            
+            
+            
+            
+            </tr>
+   
     </form >

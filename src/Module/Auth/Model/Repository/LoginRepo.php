@@ -40,6 +40,18 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
     public function get($loginName): ?LoginInterface {
         return $this->getEntity($loginName);
     }
+    
+    /**
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return LoginInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array {
+        return $this->findEntities($whereClause, $touplesToBind);
+    }
+    
+    
 
     public function add(LoginInterface $login) {
         $this->addEntity($login);

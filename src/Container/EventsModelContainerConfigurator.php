@@ -155,61 +155,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getFactoriesDefinitions(): iterable {
-        return [
-//            Document::class => function(ContainerInterface $c) {
-//                return new Document();
-//            },
-//            VisitorJobRequest::class => function(ContainerInterface $c) {
-//                return new VisitorJobRequest();
-//            },
-//            CompanyContact::class => function(ContainerInterface $c) {
-//            return new CompanyContact();
-//            },
-//            CompanyAddress::class => function(ContainerInterface $c) {
-//            return new CompanyAddress();
-//            },
-//            Company::class => function(ContainerInterface $c) {
-//            return new Company();
-//            },
-//            Representative::class => function(ContainerInterface $c) {
-//            return new Representative();
-//            },
-//            PozadovaneVzdelani::class => function(ContainerInterface $c) {
-//            return new PozadovaneVzdelani();
-//            },
-//            Job::class => function(ContainerInterface $c) {
-//            return new Job();
-//            },
-//            JobToTag::class => function(ContainerInterface $c) {
-//            return new JobToTag();
-//            },
-//            JobTag::class => function(ContainerInterface $c) {
-//            return new JobTag();
-//            },
-//            
-//            EventContentType::class => function(ContainerInterface $c) {
-//            return new EventContentType();
-//            },
-//            EventContent::class => function(ContainerInterface $c) {
-//            return new EventContent();
-//            },
-//            
-//            EventLink::class => function(ContainerInterface $c) {
-//            return new EventLink();
-//            },
-//            EventLinkPhase::class => function(ContainerInterface $c) {
-//            return new EventLinkPhase();
-//            },
-//             
-//            Institution::class => function(ContainerInterface $c) {
-//            return new Institution();
-//            },
-//            InstitutionType::class => function(ContainerInterface $c) {
-//            return new InstitutionType();
-//            }
-//            
-
-        ];
+        return [];
     }
 
     public function getAliases(): iterable {

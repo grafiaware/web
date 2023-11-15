@@ -28,6 +28,7 @@ use Auth\Model\Repository\CredentialsRepo;
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Hydrator\LoginHydrator;
 use Auth\Model\Repository\LoginRepo;
+
 use Auth\Model\Hydrator\LoginChildCredentialsHydrator;
 use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 use Auth\Model\Repository\Association\CredentialsAssociation;
@@ -35,6 +36,7 @@ use Auth\Model\Repository\Association\CredentialsAssociation;
 use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Hydrator\RegistrationHydrator;
 use Auth\Model\Repository\RegistrationRepo;
+
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
 use Auth\Model\Repository\LoginAggregateRegistrationRepo;
 use Auth\Model\Repository\Association\RegistrationAssociation;
@@ -48,6 +50,8 @@ use Auth\Model\Repository\LoginAggregateReadonlyRepo;
 use Auth\Model\Dao\RoleDao;
 use Auth\Model\Hydrator\RoleHydrator;
 use Auth\Model\Repository\RoleRepo;
+
+use Template\Compiler\TemplateCompiler;
 
 
 // database
@@ -67,6 +71,8 @@ use Auth\Middleware\Login\Controller\LoginLogoutController;
 use Auth\Middleware\Login\Controller\RegistrationController;
 use Auth\Middleware\Login\Controller\ConfirmController;
 use Auth\Middleware\Login\Controller\PasswordController;
+use Auth\Middleware\Login\Controller\AuthController;
+use Auth\Middleware\Login\Controller\AuthStaticControler;
 
 // authenticator
 use Auth\Authenticator\AuthenticatorInterface;
@@ -149,6 +155,9 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginHydrator::class => function(ContainerInterface $c) {
                 return new LoginHydrator();
             },
+            LoginRepo::class => function(ContainerInterface $c) {
+                   return new LoginRepo($c->get(LoginDao::class), $c->get(LoginHydrator::class));
+            },            
 
             CredentialsDao::class => function(ContainerInterface $c) {
                 return new CredentialsDao(
@@ -301,7 +310,34 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
-            }
+            },
+                    
+            AuthController::class => function(ContainerInterface $c) {
+                return (new AuthController(
+                    $c->get(StatusSecurityRepo::class),
+                    $c->get(StatusFlashRepo::class),
+                    $c->get(StatusPresentationRepo::class),                     
+                    $c->get(RoleRepo::class ),                       
+                    $c->get(CredentialsRepo::class ))          
+                    )->injectContainer($c);  // inject component kontejner
+                    ;
+            },        
+                    
+            AuthStaticControler::class => function(ContainerInterface $c) {
+                return (new AuthStaticControler(
+                    $c->get(StatusSecurityRepo::class),
+                    $c->get(StatusFlashRepo::class),
+                    $c->get(StatusPresentationRepo::class),
+                    $c->get(TemplateCompiler::class)  )          
+                    )->injectContainer($c);  // inject component kontejner
+                    ;
+            },        
+                        
+            TemplateCompiler::class => function(ContainerInterface $c) {
+                return new TemplateCompiler();
+            },                    
+                    
+                    
         ];
     }
 }

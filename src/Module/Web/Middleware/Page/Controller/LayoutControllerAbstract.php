@@ -286,7 +286,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 break;
             case 'auth_static':
                 $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "events/v1/static/$id";
+                $dataRedApiUri = "auth/v1/static/$id";
                 break;
             default:
                 $id = $menuItem->getId();
