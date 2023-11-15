@@ -192,19 +192,19 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(ArticleRepo::class)
                     );
             },
-            StaticTemplateCreator::class => function(ContainerInterface $c) {
-                return new StaticTemplateCreator(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(StatusFlashRepo::class)
-                    );
-            },
             MultipageCreator::class => function(ContainerInterface $c) {
                 return new MultipageCreator(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(MultipageRepo::class)
+                    );
+            },                    
+            StaticTemplateCreator::class => function(ContainerInterface $c) {
+                return new StaticTemplateCreator(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(StatusFlashRepo::class)
                     );
             },
 

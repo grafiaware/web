@@ -101,18 +101,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param MenuItemInterface $menuItem
      * @return type
      */
-    protected function composeLayoutView(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
-
+    private function composeLayoutView(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         $layoutView = $this->getLayoutView($request);
-        foreach ($this->getComponentViews($request, $menuItem) as $name => $componentView) {
-            if (isset($componentView)) {
-                $layoutView->appendComponentView($componentView, $name);
-            }
-        }
-        return $layoutView;
+        return $layoutView->appendComponentViews($this->getComponentViews($request, $menuItem));        
     }
-
-######################################
 
     /**
      * View s tempate layout.php a data pro template
@@ -166,12 +158,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     'content' => $this->getMenuItemLoader($menuItem),
                 ],
                 $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
-                $this->getCascadeViews(),
                 $this->getLayoutViews(),
+                $this->getBlockLoaders(),
+                $this->getCascadeViews(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
                 // cascade
-                $this->getBlockLoaders(),
             );
         return $views;
     }
