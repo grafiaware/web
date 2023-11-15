@@ -8,21 +8,22 @@
  * @param {String} html HTML representing a single element
  * @return {Element}
  */
-function htmlToElement(html) {
-    var template = document.createElement('template');
-    html = html.trim(); // Never return a text node of whitespace as the result
-    template.innerHTML = html;
-    return template.content.firstChild;
-}
+//function htmlToElement(html) {
+//    var template = document.createElement('template');
+//    html = html.trim(); // Never return a text node of whitespace as the result
+//    template.innerHTML = html;
+//    return template.content.firstChild;
+//}
 
 /**
- * Přavede zadaný text na elementy.
- * Vytvoří nový element a pokusí se vložit raxt jako innerHtml, pokud prohlížeč uspěje s parsováním textu jako html, vloží nové elementy jako potomky
+ * Převede zadaný text na elementy.
  *
  * @param {String} HTML representing any number of sibling elements
  * @return {NodeList}
  */
 function htmlToElements(html) {
+//    Vytvoří nový template element a pokusí se vložit hodnotu prametru jako innerHtml template elementu, 
+//    pokud prohlížeč uspěje s parsováním textu jako html, vloží nové elementy jako potomky    
     var template = document.createElement('template');
     template.innerHTML = html;
     return template.content.childNodes;
@@ -32,11 +33,11 @@ function htmlToElements(html) {
  * Nahradí potomky zadaného elementu novými potomky vzniklými parsováním zadaného textu jako HTML.
  *
  * @param {Element} parentElement - element jehož obsah bude nahrazován
- * @param {String} responseText
+ * @param {String} newHtmlTextContent HTML string obsahující elementy pro vložení do rodičovského elementu
  * @returns {Element} parentElement s nahrazeným obsahem
  */
-function replaceChildren(parentElement, responseText) {
-    var newElements = htmlToElements(responseText);
+function replaceChildren(parentElement, newHtmlTextContent) {
+    var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;  // live collection - v replaceChildren se "spotřebuje", length se musí zjistit před použitím
     parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové elementy
     console.log("cascade: Replaced children of element "+parentElement.tagName+" id: "+parentElement.getAttribute('id')+" with collection of "+cnt+".");
@@ -44,7 +45,14 @@ function replaceChildren(parentElement, responseText) {
 };
 
 /**
- *
+ * Získá HTML řetězec pomocí HTTP GET requestu na adresu (url) s hlavičkou Cache-Control a přidanou hlavičkou X-Cascade.
+ * 
+ * - adresu url získá z atributu rodičovského HTML elementu "data-red-apiuri"
+ * - hlavičku Cache-Control získá z atributu rodičovského HTML elementu "data-red-cache-control" - slouží k požadavku na reload obsahu pro případ, 
+ *   kdy obsah je v editačním režimu, jinak je nastavena tak, že se obsah načte jen jednou a používá se z cache 
+ * - hlavičku X-Cascade odesílá s hodnotou "Do not store request" - tato hlavička je signál, aby PresentationFrontControlerAbstract neukládal tento 
+ *   cascade request jako "last GET"
+ * 
  * @param {Element} parentElement
  * @returns {Promise}
  */
@@ -113,7 +121,7 @@ function getCacheControl(element) {
  * @returns {Promise}
  */
 function loadSubsequentElements(element, className) {
-    if (element.nodeName=='#document') {
+    if (element.nodeName==='#document') {
         console.log(`cascade: Run loadSubsequentElements() for document.`);
     } else {
         console.log(`cascade: Run loadSubsequentElements() for element ${element.tagName}.`);

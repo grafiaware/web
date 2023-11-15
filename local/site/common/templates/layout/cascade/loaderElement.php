@@ -1,6 +1,18 @@
 <?php
-// $loaderElementId
-?>
-<div id="<?=$loaderElementId?>" class="<?=$class?>" data-red-apiuri="<?=$dataRedApiUri?>" data-red-cache-control="<?= $dataRedCacheControl ?>" data-red-info="<?=$dataRedInfo?>">
+use Pes\Text\Text;
+use Pes\Text\Html;
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+/** @var PhpTemplateRendererInterface $this */
 
-</div>
+echo Html::tag('div', 
+        [
+            'id'=>$loaderElementId,
+            'class'=>$class,
+            'data-red-apiuri'=>$dataRedApiUri,
+            'data-red-cache-control'=>$dataRedCacheControl,
+            'data-red-info'=>$dataRedInfo
+        ]
+    )
+
+?>
+

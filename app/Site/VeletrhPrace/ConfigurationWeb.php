@@ -18,6 +18,8 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
+use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
+
 use Pes\Logger\FileLogger;
 
 /**
@@ -190,10 +192,15 @@ class ConfigurationWeb extends ConfigurationConstants {
             // hodnoty RequestCache pro hlavičky requestů odesílaných příkazem fetch v cascade.js
             // viz https://developer.mozilla.org/en-US/docs/Web/API/Request/cache
             'cascade.class' => 'cascade',
+            // "reload" – don’t take the result from HTTP-cache (if any), but populate the cache with the response (if the response headers permit this action),
             'cascade.cacheReloadOnNav' => 'reload',
+            // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
-
-            // parametry kontext - service mapy jsou:
+            
+            // mapování komponenr na proměnné kontextu v šablonách
+            // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
+            // contextServiceMap - mapy komponent, které budou v editačním modu načítány vždy znovu novým requestem - viz parametr 'cascade.cacheReloadOnNav'
+            // parametry kontext - service/layout mapy jsou:
             //'context_name' => 'service_name'
             //      'context_name' - jméno proměnné v šabloně (bez znaku $),
             //      'service_name' => jméno služby component kontejneru,
@@ -217,31 +224,28 @@ class ConfigurationWeb extends ConfigurationConstants {
             // 'jméno služby kontejneru' => [pole parametrů menu]
             // 'jméno služby kontejneru' - jmébo služby kontejneru, která vrací příslušný menu komponent
             // parametry menu jsou:
-            //      'context_name' => jméno proměnné v šabloně (bez znaku $),
-            //      'service_name' => jméno služby component kontejneru,
-            //      'root_name' => jméno kořene menu v db tabulce root_name,
-            //      'with_rootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
-            //      'itemtype! => jedna z hodnot 'menu', 'block', 'trash' - určuje výběr rendereru menu item
-            //      'menuwraprenderer' => jméno rendereru obalového elementu menu
-            //      'levelwraprenderer' => jméno rendereru jedné úrovně menu
+            //      'rootName' => jméno kořene menu v db tabulce root_name,
+            //      'withRootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
+            //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
+            //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
             'menu.componentsServices' => [
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
                         'withRootItem' => false,
-                        'itemtype' => 'multilevel',
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menu.svisle.levelRenderer',
                         ],
                     'menu.bloky' => [
                         'rootName' => 'blocks',
                         'withRootItem' => true,
-                        'itemtype' => 'onelevel',
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.bloky.levelRenderer',
                         ],
                     'menu.kos' => [
                         'rootName' => 'trash',
                         'withRootItem' => true,
-                        'itemtype' => 'trash',
+                        'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],
