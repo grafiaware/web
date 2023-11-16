@@ -5,19 +5,6 @@ use Site\ConfigurationCache;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-//use Events\Model\Repository\EventContentTypeRepoInterface;
-//use Events\Model\Repository\EventContentTypeRepo;
-//use Events\Model\Entity\EventContentTypeInterface;
-//
-//use Events\Model\Repository\EventContentRepoInterface;
-//use Events\Model\Repository\EventContentRepo;
-//use Events\Model\Entity\EventContentInterface;
-//
-//use Events\Model\Repository\InstitutionRepoInterface;
-//use Events\Model\Repository\InstitutionRepo;
-//use Events\Model\Entity\InstitutionInterface;
-//
-//use Events\Middleware\Events\Controler\EventControler_2;
 
 use Auth\Model\Repository\CredentialsRepoInterface;
 use Auth\Model\Repository\CredentialsRepo;
@@ -28,7 +15,6 @@ use Auth\Model\Repository\LoginRepoInterface;
 
 use Auth\Model\Entity\RoleInterface;
 use Auth\Model\Entity\CredentialsInterface;
-use Auth\Model\Entity\Login;
 use Auth\Model\Entity\LoginInterface;
 
 
@@ -45,9 +31,7 @@ use Auth\Middleware\Login\Controller\AuthController;
     /** @var LoginRepoInterface $loginRepo */ 
     $loginRepo = $container->get(LoginRepo::class );
       
-      
-    
-    
+     
     $selectLoginNames = [];
     $selectLoginNames [''] =  "vyber - povinné pole" ;
     $allLogin = $loginRepo->find(' 1=1 order by login_name ', [] );
@@ -65,16 +49,7 @@ use Auth\Middleware\Login\Controller\AuthController;
         /** @var RoleInterface $role */ 
     foreach ( $roles as $role ) {
         $selectRoles [$role->getRole()] = $role->getRole() ;
-    }
-    
-    
-//    
-//    $selectInstitutions [EventControler_2::NULL_VALUE_nahradni] =  "" ;
-//    $institutionEntities = $institutionRepo->findAll();
-//        /** @var InstitutionInterface $inst */ 
-//    foreach ( $institutionEntities as $inst ) {
-//        $selectInstitutions [$inst->getId()] =  $inst->getName() ;
-//    }
+    }    
     
     $selecty = [];
     $selecty['selectRoles'] = $selectRoles;
@@ -82,7 +57,7 @@ use Auth\Middleware\Login\Controller\AuthController;
 
     //---------------------------------------------------------       
     // Credentials všechny
-    $credentialsEntities = $credentialsRepo->findAll();               
+    $credentialsEntities = $credentialsRepo->find(' 1=1 order by login_name_fk ', [] );               
     if ($credentialsEntities) {   
             /** @var CredentialsInterface $entity */
             foreach ($credentialsEntities as $entity) {
@@ -109,16 +84,11 @@ use Auth\Middleware\Login\Controller\AuthController;
         </div>                          
         ------------------------------------------------------                      
         <div>      
-            <?php  if (isset ($credentialsEntities) ) {   ?> 
-            <table>
-                <tr>
-                    <th>Login Name</th>
-                    <th>PasswordHash</th>  
-                    <th>Role</th>  
-                </tr>
-                <?= $this->repeat(__DIR__.'/credentials.php',  $credentials )  ?> 
-            </table>    
+            <?php  if (isset ($credentialsEntities) ) {   ?>                                
+                    <span>Login Name | PasswordHash | Role</span>                                 
+                <?= $this->repeat(__DIR__.'/credentials.php',  $credentials )  ?>                         
             <?php }   ?>      
                                       
-    </div>
+        </div>
+    </div>    
 

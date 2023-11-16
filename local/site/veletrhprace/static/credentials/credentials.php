@@ -6,37 +6,36 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
  
-
     //    $readonly = 'readonly="1"';
     //    $disabled = 'disabled="1"';
         $readonly = '';
         $disabled = ''; 
 
 ?>   
-
-    <form class="ui huge form" action="" method="POST" >                    
+<form class="ui huge form" action="" method="POST" > 
+        <table>
         <tr>
             <td>                         
                 <?= $loginNameFk  ?>                   
             </td>       
-            <td>                         
-                              
+            <td>                                                       
                 <div  class="field">
-                    <input <?= $readonly ?> readonly type="text" name="title"  maxlength="255" value="<?= isset($passwordHash) ? $passwordHash : ''?>" >
+                    <input readonly type="text" name="passwordHash"  maxlength="255" 
+                                            value="<?= isset($passwordHash) ? $passwordHash : ''?>" >
                 </div>
             </td>  
             <td>                        
-                <?= Html::select( "selectRoles", "",  
-                                  [ "selectRoles" =>  $roleFk  ?? ''  ],  
+                <?= Html::select( "selectRole", "",  
+                                  [ "selectRole" =>  $roleFk  ?? ''  ],  
                                   $selectRoles ??  [] , 
                                   [ ] ) ?>   
             </td>                
             <td>  
                 <div>      
-                <?= 
-                "<button class='ui secondary button' type='submit' formaction='events/v1/credentials/" . $loginNameFk . "'> Uložit </button>"   
-                ?>
+                <button class='ui secondary button' type='submit' formaction='<?= "auth/v1/credentials/$loginNameFk" ?>'> Uložit </button>
                 </div>           
             </td>                   
-        </tr>         
-    </form >
+        </tr>   
+        </table>
+        
+        </form >

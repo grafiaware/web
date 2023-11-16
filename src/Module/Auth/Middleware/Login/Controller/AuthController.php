@@ -13,6 +13,10 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Auth\Model\Repository\RoleRepoInterface;
 use Auth\Model\Repository\CredentialsRepoInterface;
 
+use Auth\Model\Entity\CredentialsInterface;
+use Auth\Model\Entity\RoleInterface;
+use Auth\Model\Entity\Role;
+
 
 
 
@@ -22,9 +26,22 @@ use Auth\Model\Repository\CredentialsRepoInterface;
  * @author vlse2610
  */
 class AuthController extends PresentationFrontControlerAbstract {
-    
-    
+        
     const NULL_VALUE_nahradni = "Toto je speciální hodnota představující NULL";        
+    
+    /**
+     * 
+     * @var CredentialsRepoInterface
+     */
+    private $credentialsRepo;
+    /**
+     * 
+     * @var RoleRepoInterface
+     */
+    private $roleRepo;    
+    
+    
+    
 
      public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -68,12 +85,11 @@ class AuthController extends PresentationFrontControlerAbstract {
 //            }                        
 //            if ($isRepresentative) {
                 
-                /** @var EventContentTypeInterface $contentType */
-                $contentType = new EventContentType(); //new
-                $contentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );                
-                $contentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );
+                /** @var RoleInterface $roleE*/
+                $roleE = new Role(); //new
+                $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                
      
-                $this->eventContentTypeRepo->add($contentType);             
+                $this->roleRepo->add($roleE);             
                
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
@@ -111,10 +127,9 @@ class AuthController extends PresentationFrontControlerAbstract {
 //            }                        
 //            if ($isRepresentative) {
             
-                /** @var EventContentTypeInterface $eventContentType */
-                $eventContentType = $this->eventContentTypeRepo->get($id);             
-                $eventContentType->setType((new RequestParams())->getParsedBodyParam($request, 'type') );                
-                $eventContentType->setName((new RequestParams())->getParsedBodyParam($request, 'name') );                
+                /** @var Role $roleE */
+                $roleE = $this->roleRepo->get($role);             
+                $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                
 
         
 //            } else {
@@ -154,10 +169,9 @@ class AuthController extends PresentationFrontControlerAbstract {
 //            }                          
 //            if ($isRepresentative) {                                                    
                 
-                /** @var EventContentTypeInterface $eventContentType */
-                $eventContentType = $this->eventContentTypeRepo->get($id);             
-                $this->eventContentTypeRepo->remove($eventContentType) ;               
-        
+                /** @var Role $roleE */
+                $roleE = $this->roleRepo->get($role);   
+                $this->roleRepo->remove($roleE) ;                                                            
                                                      
 //            } else {
 //                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
@@ -168,6 +182,58 @@ class AuthController extends PresentationFrontControlerAbstract {
     }
     
     
+    
+    
+         
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $loginNameFk
+     * @return type
+     */
+    public function updateCredentials (ServerRequestInterface $request, $loginNameFk) {                    
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+//                $isRepresentative = true; 
+//            }                        
+//            if ($isRepresentative) {
+            
+                /** @var CredentialsInterface $credentials */
+                $credentials = $this->credentialsRepo->get($loginNameFk);             
+                //$credentials->setRoleFk((new RequestParams())->getParsedBodyParam($request, 'selectRole') );    
+                
+                
+                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectRole') != self::NULL_VALUE_nahradni )   {
+                      $credentials->setRoleFk ((new RequestParams())->getParsedBodyParam($request, 'selectRole') );
+                }    
+                 else {
+                    $credentials->setRoleFk( null );
+                }     
+                
+
+        
+//            } else {
+//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
+//            }
+//        }           
+        
+        return $this->redirectSeeLastGet($request);
+
+    }    
+      
     
     
 }

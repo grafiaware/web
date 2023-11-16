@@ -36,6 +36,17 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         return $this->findEntities();
     }
     
+    /**
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return CredentialsInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array {
+        return $this->findEntities($whereClause, $touplesToBind);
+    }
+    
+    
 
     public function add(CredentialsInterface $credentials) {
         $this->addEntity($credentials);

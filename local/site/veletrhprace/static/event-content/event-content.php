@@ -22,14 +22,11 @@ use Pes\Text\Html;
                 <?= "Obsah události pro " . ($institutionName ?? '') . " - " . ($title ?? '') ?>
         </div>                        
         <div class="active content">                                                                         
-            <div class="eight wide field">               
-
-              
+            <div class="eight wide field">                            
                 <?= Html::select( "selectInstitutionId", " Název instituce:",  
                                   [ "selectInstitutionId" =>  $institutionIdFk  ?? ''  ],  
                                    $selectInstitutions ??  [] , 
-                                   [ ] ) ?>   
-                
+                                   [ ] ) ?>                   
             </div>                       
             Title:
             <div  class="field">

@@ -41,10 +41,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/forgottenpassword'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/changepassword'));
         
-        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/credentials/:loginname'));
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/credentials/:loginnamefk'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role'));
-        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:role'));
-        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:role/remove'));
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:rolefk'));
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:rolefk/remove'));
         
         
 

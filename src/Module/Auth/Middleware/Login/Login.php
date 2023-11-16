@@ -104,29 +104,32 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             });
        
         
+            
+            
+            
         
-//        //AuthController        
-//        $routeGenerator->addRouteForAction('POST', '/auth/v1/credentials/:loginname', function(ServerRequestInterface $request) {
-//            /** @var AuthController $ctrl */
-//            $ctrl = $this->container->get(AuthController::class);
-//            return $ctrl->upgradeCredentials($request);
-//        });
+        //AuthController        
+        $routeGenerator->addRouteForAction('POST', '/auth/v1/credentials/:loginnamefk', function(ServerRequestInterface $request, $loginnamefk) {
+            /** @var AuthController $ctrl */
+            $ctrl = $this->container->get(AuthController::class);
+            return $ctrl->updateCredentials($request, $loginnamefk);
+        });
         
-//        $routeGenerator->addRouteForAction('POST', '/auth/v1/role', function(ServerRequestInterface $request) {
-//            /** @var AuthController $ctrl */
-//            $ctrl = $this->container->get(AuthController::class);
-//            return $ctrl->addRole($request);
-//        });
-//        $routeGenerator->addRouteForAction('POST', '/auth/v1/role/:role', function(ServerRequestInterface $request, $role) {
-//            /** @var AuthController $ctrl */
-//            $ctrl = $this->container->get(AuthController::class);
-//            return $ctrl->updateRole($request, $role);
-//        });
-//        $routeGenerator->addRouteForAction('POST', '/auth/v1/role/:role/remove', function(ServerRequestInterface $request, $role ) {
-//            /** @var AuthController $ctrl */
-//            $ctrl = $this->container->get(AuthController::class);
-//            return $ctrl->removeRole($request, $role);
-//        });             
+        $routeGenerator->addRouteForAction('POST', '/auth/v1/role', function(ServerRequestInterface $request) {
+            /** @var AuthController $ctrl */
+            $ctrl = $this->container->get(AuthController::class);
+            return $ctrl->addRole($request);
+        });
+        $routeGenerator->addRouteForAction('POST', '/auth/v1/role/:role', function(ServerRequestInterface $request, $role) {
+            /** @var AuthController $ctrl */
+            $ctrl = $this->container->get(AuthController::class);
+            return $ctrl->updateRole($request, $role);
+        });
+        $routeGenerator->addRouteForAction('POST', '/auth/v1/role/:role/remove', function(ServerRequestInterface $request, $role ) {
+            /** @var AuthController $ctrl */
+            $ctrl = $this->container->get(AuthController::class);
+            return $ctrl->removeRole($request, $role);
+        });             
         
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);

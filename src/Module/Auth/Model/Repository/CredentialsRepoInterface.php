@@ -20,6 +20,14 @@ interface CredentialsRepoInterface extends RepoAssotiatedOneInterface {
     public function findAll() :array ;
     
     
+     /**
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return CredentialsInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array ;
+    
     
     public function add(CredentialsInterface $credentials);
     
