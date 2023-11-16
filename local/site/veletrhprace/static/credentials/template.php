@@ -79,28 +79,17 @@ use Auth\Middleware\Login\Controller\AuthController;
     $selecty = [];
     $selecty['selectRoles'] = $selectRoles;
     $selecty['selectLoginNames'] = $selectLoginNames;
-    
-//    $selecty = [];
-//    $selecty['selectInstitutions'] = $selectInstitutions;
-//    $selecty['selectContentTypes'] = $selectContentTypes;
-               
-    //---------------------------------------------------------
-    
-    
-    
-    
-    
-    
-       
+
+    //---------------------------------------------------------       
     // Credentials všechny
     $credentialsEntities = $credentialsRepo->findAll();               
     if ($credentialsEntities) {   
             /** @var CredentialsInterface $entity */
             foreach ($credentialsEntities as $entity) {
-//                      $nu1 = $entity->getInstitutionIdFk();
-//                      $nu2 = $entity->getEventContentTypeIdFk();
+                      $nu1 = $entity->getRoleFk();
+                      $nu2 = $entity->getLoginNameFk();
                 
-                $credential = $credentialsRepo->get(  ($entity->getRoleFk()) ?? ''    ) ;               
+                $credential = $credentialsRepo->get( $entity->getRoleFk() ?? ''    ) ;               
                 $credentials[] = [
                     'roleFk' => ($entity->getRoleFk()) ?? AuthController::NULL_VALUE_nahradni , 
                     'selectRoles' =>  $selectRoles,                     
@@ -109,11 +98,7 @@ use Auth\Middleware\Login\Controller\AuthController;
                     ];
             }   
     }
-//    else {
-//        $eventContents[] = [
-//             'selectInstitutions' => $selectInstitutions, 
-//             'selectContentTypes' => $selectContentTypes, 
-//        ];
+//    else {                
 //    }
                                               
   ?>
@@ -128,16 +113,12 @@ use Auth\Middleware\Login\Controller\AuthController;
             <table>
                 <tr>
                     <th>Login Name</th>
+                    <th>PasswordHash</th>  
                     <th>Role</th>  
                 </tr>
                 <?= $this->repeat(__DIR__.'/credentials.php',  $credentials )  ?> 
             </table>    
-            <?php  }   ?>
-            
-          
-           
-            
-        
+            <?php }   ?>      
                                       
     </div>
 

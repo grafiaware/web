@@ -1,11 +1,10 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Red\Model\Entity\PaperAggregateInterface;
+//use Red\Model\Entity\PaperAggregateInterface;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
  
 
     //    $readonly = 'readonly="1"';
@@ -15,40 +14,29 @@ use Pes\Text\Html;
 
 ?>   
 
-    <form class="ui huge form" action="" method="POST" >            
-        
+    <form class="ui huge form" action="" method="POST" >                    
         <tr>
-        <td>                         
-                    <?= $loginNameFk  ?>                   
-        </td>         
-        
-        <td>    
-                                                                                 
-                           
-
-              
+            <td>                         
+                <?= $loginNameFk  ?>                   
+            </td>       
+            <td>                         
+                              
+                <div  class="field">
+                    <input <?= $readonly ?> readonly type="text" name="title"  maxlength="255" value="<?= isset($passwordHash) ? $passwordHash : ''?>" >
+                </div>
+            </td>  
+            <td>                        
                 <?= Html::select( "selectRoles", "",  
                                   [ "selectRoles" =>  $roleFk  ?? ''  ],  
-                                   $selectRoles ??  [] , 
-                                   [ ] ) ?>   
-            </td>   
-                
-             
-           
-         
-               <td>  
-            <div>      
-                 <?= 
-               "<button class='ui secondary button' type='submit' formaction='events/v1/credentials/" . $loginNameFk . "'> Uložit </button>"   
+                                  $selectRoles ??  [] , 
+                                  [ ] ) ?>   
+            </td>                
+            <td>  
+                <div>      
+                <?= 
+                "<button class='ui secondary button' type='submit' formaction='events/v1/credentials/" . $loginNameFk . "'> Uložit </button>"   
                 ?>
-            </div>
-           
-             </td>   
-                
-           </tr>      
-        
-        
-            
-                                   
-   
+                </div>           
+            </td>                   
+        </tr>         
     </form >
