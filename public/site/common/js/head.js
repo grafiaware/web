@@ -25,5 +25,7 @@ function toggleTemplateSelect(event, id) {
     event.stopPropagation();
 }
 
-
+                function removeDisabled(elementId){
+                   document.getElementById(elementId).removeAttribute('disabled');
+               };
 

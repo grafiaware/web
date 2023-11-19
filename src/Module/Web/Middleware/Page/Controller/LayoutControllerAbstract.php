@@ -205,7 +205,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getLayoutViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutMap']) as $contextName) {
-                $views[$contextName] = $this->getRedServiceComponentLoadScript($contextName, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
+                $views[$contextName] = $this->getRedLoadScript('red/v1/service', $contextName, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
         }
         return $views;
     }
@@ -213,7 +213,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getCascadeViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
-                $views[$contextName] = $this->getRedServiceComponentLoadScript($contextName, ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);
+                $views[$contextName] = $this->getRedLoadScript('red/v1/service', $contextName, ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);
         }
         return $views;
     }
@@ -258,47 +258,35 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return View
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
-        /** @var View $view */
-        $view = $this->container->get(View::class);
-
-        // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $uniquid = uniqid();
-        $menuItemType = $menuItem->getTypeFk();
-        if (!isset($menuItemType)) {
-            $menuItemType = 'empty';
-        }
-        switch ($menuItemType) {
-            case 'red_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "red/v1/static/$id";
-                break;
-            case 'events_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "events/v1/static/$id";
-                break;
-            case 'auth_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "auth/v1/static/$id";
-                break;
-            default:
-                $id = $menuItem->getId();
-                $dataRedApiUri = "red/v1/$menuItemType/$id";
-                break;
-        }        
         if ($this->isPartInEditableMode()) {
             $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
         } else {
             $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheLoadOnce'];
         }
-        $view->setData([
-                        'class' => ConfigurationCache::layoutController()['cascade.class'],
-                        'dataRedCacheControl' => $dataRedCacheControl,
-                        'loaderElementId' => "red_loaded_$uniquid",
-                        'dataRedApiUri' => $dataRedApiUri,
-                        'dataRedInfo' => "{$menuItemType}_for_item_{$id}",
-//                        'dataRedSelector' => $menuItem->getUidFk()
-                        ]);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
+
+        $menuItemType = $menuItem->getTypeFk();
+        switch ($menuItemType) {
+            case null:
+                $componentType = "red/v1/empty";
+                break;
+            case 'red_static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $componentType = "red/v1/static";
+                break;
+            case 'events_static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $componentType = "events/v1/static";
+                break;
+            case 'auth_static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $componentType = "auth/v1/static";
+                break;
+            default:
+                $id = $menuItem->getId();
+                $componentType = "red/v1/$menuItemType";
+                break;
+        }        
+        $view = $this->getRedLoadScript($componentType, $id, $dataRedCacheControl);
         return $view;
     }
 
@@ -311,21 +299,19 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         }
         return $name;
     }
-    private function getRedServiceComponentLoadScript($serviceName, $dataRedCacheControl) {
+    private function getRedLoadScript($componentType, $componentId, $dataRedCacheControl) {
         /** @var View $view */
         $view = $this->container->get(View::class);
 
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $uniquid = uniqid();
-        $dataRedApiUri = "red/v1/service/$serviceName";
+        $dataRedApiUri = "$componentType/$componentId";
 
         $view->setData([
                         'class' => ConfigurationCache::layoutController()['cascade.class'],
                         'dataRedCacheControl' => $dataRedCacheControl,
                         'loaderElementId' => "red_loaded_$uniquid",
                         'dataRedApiUri' => $dataRedApiUri,
-                        'dataRedInfo' => "service_component_{$serviceName}",
-//                        'dataRedSelector' => $menuItem->getUidFk()
                         ]);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
         return $view;

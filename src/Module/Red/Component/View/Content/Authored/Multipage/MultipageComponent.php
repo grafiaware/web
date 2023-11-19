@@ -60,50 +60,45 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
 
     ### load scripts ###
 
-    protected function getMenuItemLoader(MenuItemInterface $menuItem) {
-        /** @var View $view */
-        $view = new CompositeView();
-        $view->setRendererContainer($this->rendererContainer);
-//        $view = $this->container->get(View::class);   // v Layout kontroleru mám kontejner
-
-        // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $uniquid = uniqid();
-        $menuItemType = $menuItem->getTypeFk();
-        if (!isset($menuItemType)) {
-            $menuItemType = 'empty';
-        }
-        switch ($menuItemType) {
-            case 'red_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "red/v1/static/$id";
-                break;
-            case 'events_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "events/v1/static/$id";
-                break;
-            case 'auth_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $dataRedApiUri = "auth/v1/static/$id";
-                break;
-            default:
-                $id = $menuItem->getId();
-                $dataRedApiUri = "red/v1/$menuItemType/$id";
-                break;
-        }        
+    /**
+     * Vrací view s šablonou obsahující skript pro načtení obsahu na základě typu menuItem a id menu item. Načtení probíhá pomocí cascade.js.
+     * cascade.js odešle request a získá obsah a zámění původní obsah html elementu v layoutu.
+     * Parametry uri v načítacím skriptu jsou typ menuItem a id menu item, aby nebylo třeba načítat data s obsahem (paper, article, multipage a další) zde v kontroleru.
+     * Pro případ obsahu typu 'static' jsou jako prametry uri předány typ 'static' a jméno statické stránky, které je pak použito pro načtení statické šablony.
+     *
+     * @param type $menuItem
+     * @return View
+     */
+    private function getMenuItemLoader(MenuItemInterface $menuItem) {
         if ($this->contextData->isPartInEditableMode()) {
             $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
         } else {
             $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheLoadOnce'];
         }
-        $view->setData([
-                        'class' => ConfigurationCache::layoutController()['cascade.class'],
-                        'dataRedCacheControl' => $dataRedCacheControl,
-                        'loaderElementId' => "red_loaded_$uniquid",
-                        'dataRedApiUri' => $dataRedApiUri,
-                        'dataRedInfo' => "{$menuItemType}_for_item_{$id}",
-//                        'dataRedSelector' => $menuItem->getUidFk()
-                        ]);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
+
+        $menuItemType = $menuItem->getTypeFk();
+        switch ($menuItemType) {
+            case null:
+                $componentType = "red/v1/empty";
+                break;
+            case 'red_static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $componentType = "red/v1/static";
+                break;
+            case 'events_static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $componentType = "events/v1/static";
+                break;
+            case 'auth_static':
+                $id = $this->getNameForStaticPage($menuItem);
+                $componentType = "auth/v1/static";
+                break;
+            default:
+                $id = $menuItem->getId();
+                $componentType = "red/v1/$menuItemType";
+                break;
+        }        
+        $view = $this->getRedLoadScript($componentType, $id, $dataRedCacheControl);
         return $view;
     }
 
@@ -115,6 +110,25 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
             $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());
         }
         return $name;
+    }
+    private function getRedLoadScript($componentType, $componentId, $dataRedCacheControl) {
+        /** @var View $view */
+//        $view = $this->container->get(View::class);
+$view = new CompositeView();
+$view->setRendererContainer($this->rendererContainer);
+
+        // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        $uniquid = uniqid();
+        $dataRedApiUri = "$componentType/$componentId";
+
+        $view->setData([
+                        'class' => ConfigurationCache::layoutController()['cascade.class'],
+                        'dataRedCacheControl' => $dataRedCacheControl,
+                        'loaderElementId' => "red_loaded_$uniquid",
+                        'dataRedApiUri' => $dataRedApiUri,
+                        ]);
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
+        return $view;
     }
 
 }
