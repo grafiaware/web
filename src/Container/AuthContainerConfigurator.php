@@ -51,9 +51,6 @@ use Auth\Model\Dao\RoleDao;
 use Auth\Model\Hydrator\RoleHydrator;
 use Auth\Model\Repository\RoleRepo;
 
-use Template\Compiler\TemplateCompiler;
-
-
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -81,6 +78,11 @@ use Auth\Authenticator\DbHashAuthenticator;
 
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+
+use Template\Compiler\TemplateCompiler;
+
+use Pes\View\View;
+
 /**
  *
  *
@@ -336,8 +338,9 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();
             },                    
-                    
-                    
+            View::class => function(ContainerInterface $c) {
+                return new View();
+            },                        
         ];
     }
 }

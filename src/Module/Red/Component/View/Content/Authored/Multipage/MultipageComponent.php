@@ -79,6 +79,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         $menuItemType = $menuItem->getTypeFk();
         switch ($menuItemType) {
             case null:
+                $id = $menuItem->getId();
                 $componentType = "red/v1/empty";
                 break;
             case 'red_static':

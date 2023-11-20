@@ -103,11 +103,6 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->changePassword($request);
             });
        
-        
-            
-            
-            
-        
         //AuthController        
         $routeGenerator->addRouteForAction('POST', '/auth/v1/credentials/:loginnamefk', function(ServerRequestInterface $request, $loginnamefk) {
             /** @var AuthController $ctrl */

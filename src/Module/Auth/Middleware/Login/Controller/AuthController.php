@@ -1,6 +1,8 @@
 <?php
 namespace Auth\Middleware\Login\Controller;
 
+use Access\Enum\RoleEnum;
+use Access\Enum\AllowedActionEnum;
 
 use FrontControler\PresentationFrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,7 +19,7 @@ use Auth\Model\Entity\CredentialsInterface;
 use Auth\Model\Entity\RoleInterface;
 use Auth\Model\Entity\Role;
 
-
+use Status\Model\Enum\FlashSeverityEnum;
 
 
 /**
@@ -59,6 +61,14 @@ class AuthController extends PresentationFrontControlerAbstract {
              
     }
     
+    protected function getActionPermissions(): array {
+        return [
+            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+//            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+//            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
+//            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
+        ];
+    }    
      
     /**
      * 
@@ -66,24 +76,7 @@ class AuthController extends PresentationFrontControlerAbstract {
      * @return type
      */
     public function addRole (ServerRequestInterface $request) {                 
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }                        
-//            if ($isRepresentative) {
+
                 
                 /** @var RoleInterface $roleE*/
                 $roleE = new Role(); //new
@@ -192,30 +185,11 @@ class AuthController extends PresentationFrontControlerAbstract {
      * @return type
      */
     public function updateCredentials (ServerRequestInterface $request, $loginNameFk) {                    
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }                        
-//            if ($isRepresentative) {
+        if($this->isAllowed(AllowedActionEnum::POST)) {
             
                 /** @var CredentialsInterface $credentials */
                 $credentials = $this->credentialsRepo->get($loginNameFk);             
                 //$credentials->setRoleFk((new RequestParams())->getParsedBodyParam($request, 'selectRole') );    
-                
-                
                  if ( (new RequestParams())->getParsedBodyParam($request, 'selectRole') != self::NULL_VALUE_nahradni )   {
                       $credentials->setRoleFk ((new RequestParams())->getParsedBodyParam($request, 'selectRole') );
                 }    
@@ -223,12 +197,10 @@ class AuthController extends PresentationFrontControlerAbstract {
                     $credentials->setRoleFk( null );
                 }     
                 
-
         
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
-//            }
-//        }           
+            } else {
+                $this->addFlashMessage("Nemáte oprávnění k požadované operaci!", FlashSeverityEnum::WARNING);
+        }           
         
         return $this->redirectSeeLastGet($request);
 

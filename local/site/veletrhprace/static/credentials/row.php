@@ -28,7 +28,8 @@ use Pes\Text\Html;
             </td>                
             <td>  
                 <div>      
-                <button disabled id="<?="credentials_button_$loginNameFk"?>" form="<?="credentials_$loginNameFk"?>" class='ui secondary button' type='submit' formaction='<?= "auth/v1/credentials/$loginNameFk" ?>'> Uložit </button>
+                <button disabled id="<?="credentials_button_$loginNameFk"?>" form="<?="credentials_$loginNameFk"?>" class='ui secondary button' 
+                        type='submit' formaction='<?= "auth/v1/credentials/$loginNameFk" ?>'> Uložit </button>
                 </div>           
             </td>                   
         </tr>   

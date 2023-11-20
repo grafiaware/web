@@ -46,6 +46,8 @@ use Events\Model\Repository\EventLinkRepo;
 
 // service
 use Template\Compiler\TemplateCompiler;
+// view
+use Pes\View\View;
 
 /**
  *
@@ -170,6 +172,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();
             },
+            View::class => function(ContainerInterface $c) {
+                return new View();
+            },                           
         ];
     }
 
