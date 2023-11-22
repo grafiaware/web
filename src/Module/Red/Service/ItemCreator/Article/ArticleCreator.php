@@ -18,7 +18,7 @@ use Red\Model\Repository\ArticleRepo;
 use Red\Model\Entity\Article;
 
 /**
- * Description of PaperService
+ * Description of ArticleCreator
  *
  * @author pes2704
  */

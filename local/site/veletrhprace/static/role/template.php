@@ -29,20 +29,12 @@ use Auth\Model\Entity\RoleInterface;
 
   
     <div class="ui styled fluid accordion">           
-        <div>                
            <b>Role uživatelů </b>
-        </div>                           
         ------------------------------------------------------        
         
-        <div>      
             <?= $this->repeat(__DIR__.'/role.php',  $allRolesArray)  ?>
-            <div>
             ------ Přidej další roli --------            
-            </div>
-            <div>     
                 <?= $this->insert( __DIR__.'/role.php' ) ?>                                                                                 
-            </div>                  
-        </div>           
                                       
     </div>
 

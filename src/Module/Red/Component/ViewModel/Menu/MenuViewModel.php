@@ -16,7 +16,7 @@ use Red\Model\Repository\MenuRootRepo;
 use Red\Component\ViewModel\Menu\Item\ItemViewModel;
 use Red\Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
-use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemRenderTypeEnum;
 
 /**
  * Description of MenuViewModel
@@ -95,7 +95,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     }
 
     public function setItemType($itemType) {
-        $typeEnum = new ItemTypeEnum();
+        $typeEnum = new ItemRenderTypeEnum();
         $this->itemType = $typeEnum($itemType);
     }
 

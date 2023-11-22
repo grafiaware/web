@@ -8,7 +8,7 @@ use Pes\Type\Enum;
  *
  * @author pes2704
  */
-class ItemTypeEnum extends Enum {
+class ItemRenderTypeEnum extends Enum {
     const MULTILEVEL ='multilevel';
     const ONELEVEL = 'onelevel';
     const TRASH = 'trash';

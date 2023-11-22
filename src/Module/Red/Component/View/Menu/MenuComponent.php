@@ -42,7 +42,7 @@ use Access\AccessPresentation;
 use Pes\View\ViewInterface;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 
-use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemRenderTypeEnum;
 
 use LogicException;
 
@@ -212,19 +212,19 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 
         #### buttons ####
         $buttonComponents = [];
-        switch ((new ItemTypeEnum())($this->contextData->getItemType())) {
+        switch ((new ItemRenderTypeEnum())($this->contextData->getItemType())) {
             // ButtonsXXX komponenty jsou typu InheritData - dědí ItemViewModel
-            case ItemTypeEnum::MULTILEVEL:
+            case ItemRenderTypeEnum::MULTILEVEL:
                 $buttonComponents[] = $this->createItemManipulationButtons();
                 $buttonComponents[] = $this->createAddOrPasteMultilevelButtons($pasteMode);
                 $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
                 break;
-            case ItemTypeEnum::ONELEVEL:
+            case ItemRenderTypeEnum::ONELEVEL:
                 $buttonComponents[] = $this->createItemManipulationButtons();
                 $buttonComponents[] = $this->createAddOrPasteOnelevelButtons($pasteMode);
                 $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
                 break;
-            case ItemTypeEnum::TRASH:
+            case ItemRenderTypeEnum::TRASH:
                 $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
                 $buttonComponents[] = $this->createDeleteButtons();
                 break;

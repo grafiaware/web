@@ -18,7 +18,7 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
-use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemRenderTypeEnum;
 
 use Pes\Logger\FileLogger;
 
@@ -233,19 +233,19 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
                         'withRootItem' => false,
-                        'itemtype' => ItemTypeEnum::MULTILEVEL,
+                        'itemtype' => ItemRenderTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menu.svisle.levelRenderer',
                         ],
                     'menu.bloky' => [
                         'rootName' => 'blocks',
                         'withRootItem' => true,
-                        'itemtype' => ItemTypeEnum::ONELEVEL,
+                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.bloky.levelRenderer',
                         ],
                     'menu.kos' => [
                         'rootName' => 'trash',
                         'withRootItem' => true,
-                        'itemtype' => ItemTypeEnum::TRASH,
+                        'itemtype' => ItemRenderTypeEnum::TRASH,
                         'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],

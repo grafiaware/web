@@ -81,7 +81,7 @@ use Red\Component\View\Manage\EditContentSwitchComponent;
 // viewModel
 use Component\ViewModel\StatusViewModel;  // pro službu delegáta - app kontejner
 // enum pro typ položek menu
-use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemRenderTypeEnum;
 use Red\Component\ViewModel\Menu\MenuViewModel;
 use Red\Component\ViewModel\Menu\LevelViewModel;
 
@@ -247,8 +247,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             LevelViewModel::class => function(ContainerInterface $c) {
                 return new LevelViewModel();
             },
-            ItemTypeEnum::class => function(ContainerInterface $c) {
-                return new ItemTypeEnum();
+            ItemRenderTypeEnum::class => function(ContainerInterface $c) {
+                return new ItemRenderTypeEnum();
             },
         ####
         # jednotlivé menu komponenty
@@ -268,7 +268,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $viewModel->setItemType($c->get(ItemRenderTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
 
                 } else {
@@ -291,7 +291,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $viewModel->setItemType($c->get(ItemRenderTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -313,7 +313,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $viewModel->setItemType($c->get(ItemRenderTypeEnum::class)($menuConfig['itemtype']));
 
 //                    $viewModel->setMaxDepth(2);
 
@@ -339,7 +339,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $viewModel->setItemType($c->get(ItemRenderTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -361,7 +361,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
+                    $viewModel->setItemType($c->get(ItemRenderTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
