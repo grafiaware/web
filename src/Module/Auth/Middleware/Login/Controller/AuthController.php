@@ -76,18 +76,25 @@ class AuthController extends PresentationFrontControlerAbstract {
      * @return type
      */
     public function addRole (ServerRequestInterface $request) {                 
+        
+        if($this->isAllowed(AllowedActionEnum::POST)) {            
 
-                
                 /** @var RoleInterface $roleE*/
-                $roleE = new Role(); //new
-                $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                
-     
-                $this->roleRepo->add($roleE);             
+                $roleE = new Role(); //new                
+                if ( ( (new RequestParams())->getParsedBodyParam($request, 'role') == '') //or  //je required, taky sem  nedojde
+                     //( str_contains( (new RequestParams())->getParsedBodyParam($request, 'role'), ' ' ) ) -- obsahuje-li mezery, nedojde az sem
+                   )
+                {
+                   $this->addFlashMessage("Nepřípustná hodnota!",  FlashSeverityEnum::WARNING);
+                }
+                else {
+                    $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                     
+                    $this->roleRepo->add($roleE);  
+                }
                
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
-//            }
-//        }   
+        } else {
+                $this->addFlashMessage("Nemáte oprávnění k požadované operaci!",  FlashSeverityEnum::WARNING);
+        }           
         
         return $this->redirectSeeLastGet($request);
     }
@@ -97,38 +104,18 @@ class AuthController extends PresentationFrontControlerAbstract {
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $type
+     * @param type $role
      * @return type
      */
     public function updateRole (ServerRequestInterface $request, $role) {                    
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }                        
-//            if ($isRepresentative) {
-            
+        
+        if($this->isAllowed(AllowedActionEnum::POST)) {            
                 /** @var Role $roleE */
                 $roleE = $this->roleRepo->get($role);             
-                $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                
-
-        
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
-//            }
-//        }           
+                $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                        
+        } else {
+                $this->addFlashMessage("Nemáte oprávnění k požadované operaci!",  FlashSeverityEnum::WARNING);
+        }
         
         return $this->redirectSeeLastGet($request);
 
@@ -138,38 +125,30 @@ class AuthController extends PresentationFrontControlerAbstract {
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $type
+     * @param type $role
      * @return type
      */
-    public function removeRole (ServerRequestInterface $request, $role ) {                   
-//        $isRepresentative = false;
-//                
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {                                   
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
-//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-//                            $isRepresentative = true; 
-//                }
-//            }                          
-//            if ($isRepresentative) {                                                    
-                
+    public function removeRole (ServerRequestInterface $request, $role ) {                                    
+        
+        if($this->isAllowed(AllowedActionEnum::POST)) {        
+            
+            
+            //KDYZ je pouzite tak NE
+            //-------------------------------------------------
+            $credArray = $this->credentialsRepo->find( " role_fk = :role ", ['role' => $role ] );
+            if (count($credArray)== 0) {            
                 /** @var Role $roleE */
                 $roleE = $this->roleRepo->get($role);   
                 $this->roleRepo->remove($roleE) ;                                                            
-                                                     
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
-//            }           
-//        }
+            }
+            else {
+               $this->addFlashMessage("Operaci nelze provést!",  FlashSeverityEnum::WARNING);
+            }
+                         
+            
+        } else {
+               $this->addFlashMessage("Nemáte oprávnění k požadované operaci!",  FlashSeverityEnum::WARNING);
+        }           
                 
         return $this->redirectSeeLastGet($request);
     }
@@ -185,21 +164,19 @@ class AuthController extends PresentationFrontControlerAbstract {
      * @return type
      */
     public function updateCredentials (ServerRequestInterface $request, $loginNameFk) {                    
-        if($this->isAllowed(AllowedActionEnum::POST)) {
-            
+        
+        if($this->isAllowed(AllowedActionEnum::POST)) {            
                 /** @var CredentialsInterface $credentials */
                 $credentials = $this->credentialsRepo->get($loginNameFk);             
-                //$credentials->setRoleFk((new RequestParams())->getParsedBodyParam($request, 'selectRole') );    
-                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectRole') != self::NULL_VALUE_nahradni )   {
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectRole') != self::NULL_VALUE_nahradni )   {
                       $credentials->setRoleFk ((new RequestParams())->getParsedBodyParam($request, 'selectRole') );
                 }    
                  else {
                     $credentials->setRoleFk( null );
-                }     
-                
+                }                     
         
-            } else {
-                $this->addFlashMessage("Nemáte oprávnění k požadované operaci!", FlashSeverityEnum::WARNING);
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění k požadované operaci!", FlashSeverityEnum::WARNING);
         }           
         
         return $this->redirectSeeLastGet($request);

@@ -5,16 +5,9 @@ use Site\ConfigurationCache;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-//use Auth\Model\Repository\CredentialsRepoInterface;
-//use Auth\Model\Repository\CredentialsRepo;
 use Auth\Model\Repository\RoleRepoInterface;
 //use Auth\Model\Repository\RoleRepo;
-//use Auth\Model\Repository\LoginRepoInterface;
-
 use Auth\Model\Entity\RoleInterface;
-//use Auth\Model\Entity\CredentialsInterface;
-
-//use Auth\Middleware\Login\Controller\AuthController;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -23,31 +16,29 @@ use Auth\Model\Entity\RoleInterface;
     //------------------------------------------------------------------
  
     $allRoles = $roleRepo->findAll();
+    //$allRolesArray1=[];
     $allRolesArray=[];
-    //$allRolesString=[]; 
     /** @var  RoleInterface $role */
     foreach ($allRoles as $role) {         
-        $allRolesArray[$role->getRole()] = $role->getRole();
-       // $tg ['tagId'] = $role->getId();               
-       // $allRolesArray[] = $rl;       
-        //$allTagsString[] = $tag->getTag();
+        //$rl ['role'] = $role->getRole(); 
+        //$allRolesArray1[]= $rl; 
+        $allRolesArray[] =  ['role' => $role->getRole() ];        
     }
              
   ?>
 
-    
-    <div class="ui styled fluid accordion">   
-        
+  
+    <div class="ui styled fluid accordion">           
         <div>                
            <b>Role uživatelů </b>
         </div>                           
         ------------------------------------------------------        
         
-         <div>      
+        <div>      
             <?= $this->repeat(__DIR__.'/role.php',  $allRolesArray)  ?>
-            <div>       
-                ------ Přidej další roli --------
-            </div>  
+            <div>
+            ------ Přidej další roli --------            
+            </div>
             <div>     
                 <?= $this->insert( __DIR__.'/role.php' ) ?>                                                                                 
             </div>                  

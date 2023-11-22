@@ -6,11 +6,6 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
  
-    //    $readonly = 'readonly="1"';
-    //    $disabled = 'disabled="1"';
-        $readonly = '';
-        $disabled = ''; 
-
 ?>   
 <form class="ui huge form" action="" method="POST" > 
         <table>
