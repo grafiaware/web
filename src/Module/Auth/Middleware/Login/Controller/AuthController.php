@@ -81,16 +81,16 @@ class AuthController extends PresentationFrontControlerAbstract {
 
                 /** @var RoleInterface $roleE*/
                 $roleE = new Role(); //new                
-                if ( ( (new RequestParams())->getParsedBodyParam($request, 'role') == '') //or  //je required, taky sem  nedojde
-                     //( str_contains( (new RequestParams())->getParsedBodyParam($request, 'role'), ' ' ) ) -- obsahuje-li mezery, nedojde az sem
-                   )
-                {
-                   $this->addFlashMessage("Nepřípustná hodnota!",  FlashSeverityEnum::WARNING);
-                }
-                else {
+//                if ( ( (new RequestParams())->getParsedBodyParam($request, 'role') == '') //or  //je required, taky sem nikdy nedojde
+//                     //( str_contains( (new RequestParams())->getParsedBodyParam($request, 'role'), ' ' ) ) -- obsahuje-li mezery, nedojde az sem
+//                   )
+//                {
+//                   $this->addFlashMessage("Nepřípustná hodnota!",  FlashSeverityEnum::WARNING);
+//                }
+//                else {
                     $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                     
                     $this->roleRepo->add($roleE);  
-                }
+//                }
                
         } else {
                 $this->addFlashMessage("Nemáte oprávnění k požadované operaci!",  FlashSeverityEnum::WARNING);
@@ -130,8 +130,7 @@ class AuthController extends PresentationFrontControlerAbstract {
      */
     public function removeRole (ServerRequestInterface $request, $role ) {                                    
         
-        if($this->isAllowed(AllowedActionEnum::POST)) {        
-            
+        if($this->isAllowed(AllowedActionEnum::POST)) {                    
             
             //KDYZ je pouzite tak NE
             //-------------------------------------------------
