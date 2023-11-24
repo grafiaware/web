@@ -6,7 +6,6 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Auth\Model\Repository\RoleRepoInterface;
-//use Auth\Model\Repository\RoleRepo;
 use Auth\Model\Entity\RoleInterface;
 
 /** @var PhpTemplateRendererInterface $this */
@@ -16,12 +15,9 @@ use Auth\Model\Entity\RoleInterface;
     //------------------------------------------------------------------
  
     $allRoles = $roleRepo->findAll();
-    //$allRolesArray1=[];
     $allRolesArray=[];
     /** @var  RoleInterface $role */
-    foreach ($allRoles as $role) {         
-        //$rl ['role'] = $role->getRole(); 
-        //$allRolesArray1[]= $rl; 
+    foreach ($allRoles as $role) {               
         $allRolesArray[] =  ['role' => $role->getRole() ];        
     }
              
@@ -30,7 +26,6 @@ use Auth\Model\Entity\RoleInterface;
   
     <div class="ui styled fluid accordion">           
            <b>Role uživatelů </b>
-        ------------------------------------------------------        
         
             <?= $this->repeat(__DIR__.'/role.php',  $allRolesArray)  ?>
             ------ Přidej další roli --------            
