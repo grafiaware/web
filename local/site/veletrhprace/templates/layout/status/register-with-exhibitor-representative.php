@@ -22,14 +22,17 @@ use Site\ConfigurationCache;
                     <input type="email" name="email" placeholder="Email" required>
                 </div>
             
-                <div class="field">
+                <div class="">
                     <div class="ui checkbox exhibitor">
                       <input type="checkbox"
                                  name="fieldNameExhibitor"
                                  value="1">
                       <label>Zastupuji vystavovatele</label>
                     </div>
-                    <input class="input-company" type="text" name="info" placeholder="Název společnosti" maxlength="50">
+                    <div class="ui input input-company">
+                        <input class="" type="text" name="info" placeholder="Název společnosti" maxlength="50">
+                        <p class="maly text">Vyplňte jméno společnosti, kterou zastupujete. <br/> Pokud zastupujete více společností, oddělte je čárkou.</p>
+                    </div>
                 </div>
 
 

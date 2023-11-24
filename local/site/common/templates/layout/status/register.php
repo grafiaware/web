@@ -33,7 +33,7 @@ use Site\ConfigurationCache;
     <div class="ui mini page modal transition hidden register">
         <i class="white close icon"></i>
         <div class="content">
-            <h2>Registrovat se</h2>
+            <h2>Registrovat seee</h2>
             <form class="ui form centered" method="POST" action="auth/v1/login">
                 <div class="field">
                     <label>Přihlašovací jméno</label>
