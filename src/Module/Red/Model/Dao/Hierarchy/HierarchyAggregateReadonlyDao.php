@@ -52,7 +52,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
 //        return ['lang_code_fk', 'uid_fk', 'type_fk', 'id', 'list',  'title', 'prettyuri', 'active'];
 
         return ["uid", "depth", "left_node", "right_node"," parent_uid",
-        "lang_code_fk", "uid_fk", "type_fk", "id", 'list', "title", "prettyuri", "active"];
+        "lang_code_fk", "uid_fk", "api_module_fk", "api_generator_fk", "id", 'list', "title", "prettyuri", "active"];
     }
 
     public function getTableName(): string {
@@ -89,7 +89,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
     private function selected() {
         return "
 	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
-        menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.list, menu_item.title, menu_item.prettyuri, menu_item.active
+        menu_item.lang_code_fk, menu_item.uid_fk, menu_item.api_module_fk, menu_item.api_generator_fk, menu_item.id, menu_item.list, menu_item.title, menu_item.prettyuri, menu_item.active
         ";
     }
 #

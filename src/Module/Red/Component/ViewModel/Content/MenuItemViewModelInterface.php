@@ -10,7 +10,7 @@ use Red\Model\Entity\MenuItemInterface;
  * @author pes2704
  */
 interface MenuItemViewModelInterface {
-    public function getStatus(): StatusViewModelInterface;
+    public function getStatusViewModel(): StatusViewModelInterface;
     public function setMenuItemId($menuItemId);
     public function getMenuItemId();    
     public function getMenuItem(): MenuItemInterface;

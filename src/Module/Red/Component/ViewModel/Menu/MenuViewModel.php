@@ -28,7 +28,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     /**
      * @var StatusViewModel
      */
-    private $status;
+    private $statusViewModel;
 
     private $menuRootRepo;
     private $hierarchyRepo;
@@ -47,13 +47,13 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             HierarchyJoinMenuItemRepo $hierarchyRepo,
             MenuRootRepo $menuRootRepo
             ) {
-        $this->status = $status;
+        $this->statusViewModel = $status;
         $this->hierarchyRepo = $hierarchyRepo;
         $this->menuRootRepo = $menuRootRepo;
     }
 
     public function presentEditableMenu(): bool {
-        return $this->status->presentEditableMenu();
+        return $this->statusViewModel->presentEditableMenu();
     }
 
     /**
@@ -61,7 +61,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      * @return bool
      */
     public function presentOnlyPublished(): bool {
-        return ! $this->status->presentEditableContent();  //negace
+        return ! $this->statusViewModel->presentEditableContent();  //negace
     }
 
     /**
@@ -104,7 +104,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     }
 
     public function getPostCommand($key) {
-        return $this->status->getFlashPostCommand($key);
+        return $this->statusViewModel->getFlashPostCommand($key);
     }
 
     /**
@@ -114,7 +114,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      */
     public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface {
         if(!isset($this->presentedMenuNode)) {
-            $presentedMenuItem = $this->status->getPresentedMenuItem();
+            $presentedMenuItem = $this->statusViewModel->getPresentedMenuItem();
             if (isset($presentedMenuItem)) {
                 $presented = $this->getMenuNode($presentedMenuItem);
                 if ($presented->getLeftNode() >= $rootNode->getLeftNode() AND $presented->getLeftNode() < $rootNode->getRightNode()) {
@@ -136,7 +136,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     }
 
     private function presentedLanguageLangCode() {
-        return $this->status->getPresentedLanguage()->getLangCode();
+        return $this->statusViewModel->getPresentedLanguage()->getLangCode();
     }
     /**
      * Původní metoda getSubtreeItemModel pro Menu Display Controller. Načte podstrom uzlů menu, potomkků
@@ -190,11 +190,11 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             $removed = array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
         }
         // command
-        $pasteUid = $this->status->getFlashPostCommand('cut');
+        $pasteUid = $this->statusViewModel->getFlashPostCommand('cut');
         $pasteMode = $pasteUid ? true : false;
 
         //editable menu
-        $menuEditable = $this->status->presentEditableMenu();
+        $menuEditable = $this->statusViewModel->presentEditableMenu();
 
         // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné),
         // u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek

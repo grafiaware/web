@@ -3,6 +3,7 @@ namespace Red\Component\View\Content\Authored\Multipage;
 
 use Site\ConfigurationCache;
 
+use Configuration\ComponentConfigurationInterface;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\ImplodeTemplate;
@@ -12,6 +13,8 @@ use Pes\Text\FriendlyUrl;
 use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModelInterface;
 use Red\Model\Entity\MenuItemInterface;
+use Red\Service\ItemApi\ItemApiServiceInterface;
+use Red\Service\CascadeLoader\CascadeLoaderFactoryInterface;
 
 use Access\Enum\AccessPresentationEnum;
 
@@ -27,11 +30,30 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
     const CONTENT = 'content';
 
     /**
-     *
      * @var MultipageViewModelInterface
      */
     protected $contextData;
-
+    
+    /**
+     * @var ItemApiServiceInterface
+     */
+    private $itemApiService;
+    
+    /**
+     * @var CascadeLoaderFactoryInterface
+     */
+    private $cascadeLoaderFactory;
+    
+    public function __construct(
+            ComponentConfigurationInterface $configuration,
+            ItemApiServiceInterface $itemApiService, 
+            CascadeLoaderFactoryInterface $cascadeLoaderFactory 
+            ) {
+        parent::__construct($configuration);
+        $this->itemApiService = $itemApiService;
+        $this->cascadeLoaderFactory = $cascadeLoaderFactory;
+    }
+    
     /**
      * Přetěžuje metodu View. Generuje PHP template z názvu template a použije ji.
      * Pokud soubor template neexistuje, použije ImplodeRenderer (ten zřetězí obsahy jednotlivých komponentních view).
@@ -48,7 +70,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
 
                 $contentView->appendComponentView(
                         $this->getMenuItemLoader($menuItem),
-                        $menuItem->getTypeFk().'_'.$menuItem->getId()
+                        $menuItem->getApiModuleFk().'_'.$menuItem->getId()
                     );
             }
         }
@@ -58,11 +80,13 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         return parent::getString();
     }
 
-    ### load scripts ###
+#
+#### view s content loaderem #####################################################
+#
 
     /**
      * Vrací view s šablonou obsahující skript pro načtení obsahu na základě typu menuItem a id menu item. Načtení probíhá pomocí cascade.js.
-     * cascade.js odešle request a získá obsah a zámění původní obsah html elementu v layoutu.
+     * cascade.js odešle request, získaným obsahem a zamění původní obsah html elementu v layoutu.
      * Parametry uri v načítacím skriptu jsou typ menuItem a id menu item, aby nebylo třeba načítat data s obsahem (paper, article, multipage a další) zde v kontroleru.
      * Pro případ obsahu typu 'static' jsou jako prametry uri předány typ 'static' a jméno statické stránky, které je pak použito pro načtení statické šablony.
      *
@@ -70,66 +94,12 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
      * @return View
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
-        if ($this->contextData->isPartInEditableMode()) {
-            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
-        } else {
-            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheLoadOnce'];
-        }
-
-        $menuItemType = $menuItem->getTypeFk();
-        switch ($menuItemType) {
-            case null:
-                $id = $menuItem->getId();
-                $componentType = "red/v1/empty";
-                break;
-            case 'red_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $componentType = "red/v1/static";
-                break;
-            case 'events_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $componentType = "events/v1/static";
-                break;
-            case 'auth_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $componentType = "auth/v1/static";
-                break;
-            default:
-                $id = $menuItem->getId();
-                $componentType = "red/v1/$menuItemType";
-                break;
-        }        
-        $view = $this->getRedLoadScript($componentType, $id, $dataRedCacheControl);
-        return $view;
+        $dataRedApiUri = $this->itemApiService->getLoaderApiUri($menuItem);
+        return $this->getRedLoadScript($dataRedApiUri);
     }
-
-    private function getNameForStaticPage(MenuItemInterface $menuItem) {
-        $menuItemPrettyUri = $menuItem->getPrettyuri();
-        if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93
-            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recipročně
-        } else {
-            $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());
-        }
-        return $name;
-    }
-    private function getRedLoadScript($componentType, $componentId, $dataRedCacheControl) {
-        /** @var View $view */
-//        $view = $this->container->get(View::class);
-$view = new CompositeView();
-$view->setRendererContainer($this->rendererContainer);
-
-        // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $uniquid = uniqid();
-        $dataRedApiUri = "$componentType/$componentId";
-
-        $view->setData([
-                        'class' => ConfigurationCache::layoutController()['cascade.class'],
-                        'dataRedCacheControl' => $dataRedCacheControl,
-                        'loaderElementId' => "red_loaded_$uniquid",
-                        'dataRedApiUri' => $dataRedApiUri,
-                        ]);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
-        return $view;
+    
+    private function getRedLoadScript($dataRedApiUri) {
+        return $this->cascadeLoaderFactory->getRedLoadScript($dataRedApiUri, $this->contextData->isPartInEditableMode());        
     }
 
 }

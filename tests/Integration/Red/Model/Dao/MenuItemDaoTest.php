@@ -73,7 +73,7 @@ class MenuItemDaoTest extends AppRunner {
         $manipulator = $container->get(Manipulator::class);
         $sql = "
             SELECT
-            lang_code_fk, uid_fk, type_fk, id, list, title, prettyuri, active
+            lang_code_fk, uid_fk, api_module_fk, api_generator_fk, id, list, title, prettyuri, active
             FROM menu_item
             WHERE title='$title'";
 
@@ -135,7 +135,7 @@ class MenuItemDaoTest extends AppRunner {
      */
     public function test8Columns() {
         $menuItemRow = self::$dao->get(self::$primaryKey);
-        $this->assertCount(8, $menuItemRow);
+        $this->assertCount(9, $menuItemRow);
     }
 
     /**
@@ -154,57 +154,9 @@ class MenuItemDaoTest extends AppRunner {
      */
     public function testRereadPrettyUrl() {
         $menuItemRow = self::$dao->get(self::$primaryKey);
+        $this->assertStringStartsWith(self::$upd, $menuItemRow['prettyuri']);
         $menuItemRow['prettyuri'] = self::$upd;
         self::$dao->update($menuItemRow);
-    }
-    /**
-     *
-     */
-    public function testUpdate1() {
-        $menuItemRow = self::$dao->get(self::$primaryKey);
-        $menuItemRow['active'] = $menuItemRow['active'] ? 0 : 1;
-        self::$dao->update($menuItemRow);
-    }
-
-    /**
-     *
-     */
-    public function testUpdate2ReadUpdated() {
-        $menuItemRowRereaded = self::$dao->get(self::$primaryKey);
-        $this->assertNotEquals($this->activeBeforeTest, $menuItemRowRereaded['active']);
-    }
-
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testContext1deactivate() {
-        $menuItemRow['active'] = 0;
-        self::$dao->update($menuItemRow);
-    }
-
-    /**
-     *
-     */
-    public function testContext2readInContext() {
-        $menuItemRow = self::$dao->get(self::$primaryKey, $this->uid);
-        $this->assertNull($menuItemRow);
-    }
-
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testRestoreActive() {
-        // vrácení původní hodnoty
-                $menuItemRow = self::$dao->getOu(self::$primaryKey, $this->uid);
-
-        $menuItemRow['active'] = 12345;
-        self::$dao->update($menuItemRow);
-        $this->setUp();
-        self::$dao = self::$container->get(MenuItemDao::class);
-        $menuItemRowRereaded = self::$dao->get(self::$primaryKey, $this->uid);
-        $this->assertEquals($menuItemRow, $menuItemRowRereaded);
-        $this->assertEquals($oldActive, $menuItemRowRereaded['active']);
-
     }
 
     /**
@@ -224,4 +176,41 @@ class MenuItemDaoTest extends AppRunner {
         $this->expectException(DaoForbiddenOperationException::class);
         self::$dao->delete($menuItemRow);
     }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testContext1deactivate() {
+        $menuItemRow = self::$dao->get(self::$primaryKey);
+        $menuItemRow['active'] = 0;
+        self::$dao->update($menuItemRow);
+    }
+
+    /**
+     *
+     */
+    public function testContext2readInContext() {
+        $menuItemRow = self::$dao->get(self::$primaryKey);
+        $this->assertNull($menuItemRow);
+    }
+
+    /**
+     *
+     */
+    public function testRestoreActive() {
+        // vrácení původní hodnoty
+        // kontext pro čtení pomocí hierarchy - čte v editovatelném modu - načte i neaktivní node
+        self::$contextProvider->changeContext(true);        
+        $menuItemRow = self::$dao->get(self::$primaryKey);
+
+        $menuItemRow['active'] = self::$initialState['active '];
+        self::$dao->update($menuItemRow);
+        $this->setUp();
+        self::$dao = self::$container->get(MenuItemDao::class);
+        self::$contextProvider->changeContext(true);  // znovu po setUp()
+        $menuItemRowRereaded = self::$dao->get(self::$primaryKey);
+        $this->assertEquals($menuItemRow, $menuItemRowRereaded);
+        $this->assertEquals(self::$initialState['active '], $menuItemRowRereaded['active']);
+
+    }    
 }

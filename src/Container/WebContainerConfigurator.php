@@ -74,6 +74,8 @@ use Pes\View\Renderer\Container\TemplateRendererContainer;
 
 // service
 use Red\Service\ItemAction\ItemActionService;
+use Red\Service\ItemApi\ItemApiService;
+use Red\Service\CascadeLoader\CascadeLoaderFactory;
 
 // view
 use Pes\View\View;
@@ -131,7 +133,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             CollectionView::class => function(ContainerInterface $c) {
                 return (new CollectionView())->setRendererContainer($c->get('rendererContainer'));
             },
-
+            CascadeLoaderFactory::class => function(ContainerInterface $c) {
+                return new CascadeLoaderFactory($c->get(CompositeView::class));
+            },
         ];
     }
 
@@ -243,6 +247,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ItemActionService($c->get(ItemActionRepo::class));
             },
 
+                    
             // database account
             Account::class => function(ContainerInterface $c) {
                 /* @var $user LoginAggregateFullInterface */
@@ -369,7 +374,10 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-
+            ItemApiService::class => function(ContainerInterface $c) {
+                return new ItemApiService();
+            },
+                    
         ####
         # view factory
         #

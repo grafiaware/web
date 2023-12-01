@@ -7,6 +7,6 @@ use Model\Dao\DaoEditKeyDbVerifiedInterface;
  *
  * @author pes2704
  */
-interface MenuItemTypeDaoInterface extends DaoEditKeyDbVerifiedInterface {
+interface MenuItemApiDaoInterface extends DaoEditKeyDbVerifiedInterface {
     //put your code here
 }

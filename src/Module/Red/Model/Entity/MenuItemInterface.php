@@ -18,7 +18,8 @@ interface MenuItemInterface extends PersistableEntityInterface {
 
     public function getUidFk();
     public function getLangCodeFk();
-    public function getTypeFk();
+    public function getApiModuleFk();
+    public function getApiGeneratorFk();
     public function getId();
     public function getTitle();
     public function getPrettyuri();
@@ -26,7 +27,8 @@ interface MenuItemInterface extends PersistableEntityInterface {
 
     public function setUidFk($uidFk): MenuItemInterface;
     public function setLangCodeFk($lang): MenuItemInterface;
-    public function setType($type): MenuItemInterface;
+    public function setApiModuleFk($type): MenuItemInterface;
+    public function setApiGeneratorFk($type): MenuItemInterface;
     public function setId($id): MenuItemInterface;
     public function setTitle($title): MenuItemInterface;
     public function setPrettyuri($prettyuri): MenuItemInterface;

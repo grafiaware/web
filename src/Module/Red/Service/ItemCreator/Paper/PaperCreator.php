@@ -15,6 +15,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\PaperRepo;
 
+use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\Paper;
 
 /**
@@ -41,14 +42,14 @@ class PaperCreator extends ItemCreatorAbstract {
 
     /**
      * Vytvoří nový Paper pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Paper ponechá prázdné. Entitu přidá do Repository.
-     *
-     * @param type $menuItemIdFk
+     * 
+     * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize($menuItemIdFk): void {
+    public function initialize(MenuItemInterface $menuItem): void {
         $paper = new Paper();
         $paper->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-        $paper->setMenuItemIdFk($menuItemIdFk);
+        $paper->setMenuItemIdFk($menuItem->getId());
         $this->paperRepo->add($paper);
     }
 }

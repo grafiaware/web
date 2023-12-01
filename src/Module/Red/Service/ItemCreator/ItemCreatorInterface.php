@@ -8,11 +8,18 @@
 
 namespace Red\Service\ItemCreator;
 
+use Red\Model\Entity\MenuItemInterface;
 
 /**
  *
  * @author pes2704
  */
 interface ItemCreatorInterface {
-    public function initialize($menuItemIdFk): void;
+    
+    /**
+     * Založí potřebné datové struktury pro generování obsahu, např. záznamy v databázi a soubory template
+     * @param MenuItemInterface $menuItem
+     * @return void
+     */
+    public function initialize(MenuItemInterface $menuItem): void;
 }

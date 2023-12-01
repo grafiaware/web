@@ -14,9 +14,9 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
-use Red\Model\Repository\MenuItemTypeRepo;
+use Red\Model\Repository\MenuItemApiRepo;
 
-use Red\Model\Entity\MenuItemTypeInterface;
+use Red\Model\Entity\MenuItemApiInterface;
 use Red\Model\Entity\MenuItemInterface;
 /**
  * Description of LanguageSelect
@@ -26,7 +26,7 @@ use Red\Model\Entity\MenuItemInterface;
 class StaticItemViewModel extends StatusViewModel implements StaticItemViewModelInterface {
 
     /**
-     * @var MenuItemTypeRepo
+     * @var MenuItemApiRepo
      */
     private $menuItemTypeRepo;
 
@@ -34,7 +34,7 @@ class StaticItemViewModel extends StatusViewModel implements StaticItemViewModel
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            MenuItemTypeRepo $menuItemTypeRepo
+            MenuItemApiRepo $menuItemTypeRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->menuItemTypeRepo = $menuItemTypeRepo;

@@ -33,7 +33,8 @@ class MenuItemHydrator implements HydratorInterface {
         $menuItem
             ->setLangCodeFk($rowData->offsetGet('lang_code_fk'))
             ->setUidFk($rowData->offsetGet('uid_fk'))
-            ->setType($rowData->offsetGet('type_fk'))
+            ->setApiModuleFk($rowData->offsetGet('api_module_fk'))
+            ->setApiGeneratorFk($rowData->offsetGet('api_generator_fk'))
             ->setId($rowData->offsetGet('id'))
             ->setTitle($rowData->offsetGet('title'))
             ->setPrettyuri($rowData->offsetGet('prettyuri'))
@@ -50,7 +51,8 @@ class MenuItemHydrator implements HydratorInterface {
         /** @var MenuItemInterface $menuItem */
         $rowData->offsetSet('lang_code_fk', $menuItem->getLangCodeFk());
         $rowData->offsetSet('uid_fk', $menuItem->getUidFk());
-        $rowData->offsetSet('type_fk', $menuItem->getTypeFk());
+        $rowData->offsetSet('api_module_fk', $menuItem->getApiModuleFk());
+        $rowData->offsetSet('api_generator_fk', $menuItem->getApiGeneratorFk());
         $rowData->offsetSet('id', $menuItem->getId());
         $rowData->offsetSet('title', $menuItem->getTitle());
         $rowData->offsetSet('prettyuri', $menuItem->getPrettyuri());

@@ -67,9 +67,9 @@ use Red\Model\Dao\LanguageDao;
 use Red\Model\Hydrator\LanguageHydrator;
 use Red\Model\Repository\LanguageRepo;
 
-use Red\Model\Dao\MenuItemTypeDao;
-use Red\Model\Hydrator\MenuItemTypeHydrator;
-use Red\Model\Repository\MenuItemTypeRepo;
+use Red\Model\Dao\MenuItemApiDao;
+use Red\Model\Hydrator\MenuItemApiHydrator;
+use Red\Model\Repository\MenuItemApiRepo;
 
 use Red\Model\Dao\PaperDao;
 use Red\Model\Hydrator\PaperHydrator;
@@ -218,17 +218,17 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 $repo->registerOneToOneAssociation($assotiation);  // reference se jménem, které neodpovídá jménu rodičovské tabulky
                 return $repo;
             },
-            MenuItemTypeDao::class => function(ContainerInterface $c) {
-                return new MenuItemTypeDao(
+            MenuItemApiDao::class => function(ContainerInterface $c) {
+                return new MenuItemApiDao(
                         $c->get(HandlerInterface::class),
                         $c->get(Sql::class),
                         PdoRowData::class);
             },
-            MenuItemTypeHydrator::class => function(ContainerInterface $c) {
-                return new MenuItemTypeHydrator();
+            MenuItemApiHydrator::class => function(ContainerInterface $c) {
+                return new MenuItemApiHydrator();
             },
-            MenuItemTypeRepo::class => function(ContainerInterface $c) {
-                return new MenuItemTypeRepo($c->get(MenuItemTypeDao::class), $c->get(MenuItemTypeHydrator::class));
+            MenuItemApiRepo::class => function(ContainerInterface $c) {
+                return new MenuItemApiRepo($c->get(MenuItemApiDao::class), $c->get(MenuItemApiHydrator::class));
             },
             MenuItemAssetDao::class => function(ContainerInterface $c) {
                 return new MenuItemAssetDao(

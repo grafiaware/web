@@ -14,7 +14,9 @@ use Model\Entity\PersistableEntityInterface;
  *
  * @author pes2704
  */
-interface MenuItemTypeInterface extends PersistableEntityInterface {
-    public function getType();
-    public function setType($type);
+interface MenuItemApiInterface extends PersistableEntityInterface {
+    public function getModule();
+    public function setModule($module);
+    public function getGenerator();
+    public function setGenerator($generator);
 }

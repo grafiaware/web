@@ -20,13 +20,15 @@ use Red\Model\Repository\BlockRepo;
 use Red\Model\Entity\MenuItemInterface;
 
 ####################
+
+use Red\Service\ItemApi\ItemApiService;
+use Red\Service\CascadeLoader\CascadeLoaderFactory;
+
 use Pes\View\View;
 use Pes\View\CompositeView;
 use Pes\View\CompositeViewInterface;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
-
-use Pes\Text\FriendlyUrl;
 
 /**
  * Description of GetController
@@ -205,7 +207,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getLayoutViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutMap']) as $contextName) {
-                $views[$contextName] = $this->getRedLoadScript('red/v1/service', $contextName, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
+                $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
         }
         return $views;
     }
@@ -213,7 +215,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getCascadeViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
-                $views[$contextName] = $this->getRedLoadScript('red/v1/service', $contextName, ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);
+                $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);
         }
         return $views;
     }
@@ -250,7 +252,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
     /**
      * Vrací view s šablonou obsahující skript pro načtení obsahu na základě typu menuItem a id menu item. Načtení probíhá pomocí cascade.js.
-     * cascade.js odešle request a získá obsah a zámění původní obsah html elementu v layoutu.
+     * cascade.js odešle request, získaným obsahem a zamění původní obsah html elementu v layoutu.
      * Parametry uri v načítacím skriptu jsou typ menuItem a id menu item, aby nebylo třeba načítat data s obsahem (paper, article, multipage a další) zde v kontroleru.
      * Pro případ obsahu typu 'static' jsou jako prametry uri předány typ 'static' a jméno statické stránky, které je pak použito pro načtení statické šablony.
      *
@@ -258,66 +260,18 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return View
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
-        if ($this->isPartInEditableMode()) {
-            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
-        } else {
-            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheLoadOnce'];
-        }
-
-        $menuItemType = $menuItem->getTypeFk();
-        switch ($menuItemType) {
-            case null:
-                $id = $menuItem->getId();
-                $componentType = "red/v1/empty";
-                break;
-            case 'red_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $componentType = "red/v1/static";
-                break;
-            case 'events_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $componentType = "events/v1/static";
-                break;
-            case 'auth_static':
-                $id = $this->getNameForStaticPage($menuItem);
-                $componentType = "auth/v1/static";
-                break;
-            default:
-                $id = $menuItem->getId();
-                $componentType = "red/v1/$menuItemType";
-                break;
-        }        
-        $view = $this->getRedLoadScript($componentType, $id, $dataRedCacheControl);
-        return $view;
+        /** @var ItemApiService $itemApiService */
+        $itemApiService = $this->container->get(ItemApiService::class);
+        $dataRedApiUri = $itemApiService->getLoaderApiUri($menuItem);
+        return $this->getRedLoadScript($dataRedApiUri);
     }
-
-    private function getNameForStaticPage(MenuItemInterface $menuItem) {
-        $menuItemPrettyUri = $menuItem->getPrettyuri();
-        if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93
-            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recipročně
-        } else {
-            $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());
-        }
-        return $name;
+    
+    private function getRedLoadScript($dataRedApiUri) {
+        /** @var CascadeLoaderFactory $cascadeLoaderService */
+        $cascadeLoaderService = $this->container->get(CascadeLoaderFactory::class);
+        return $cascadeLoaderService->getRedLoadScript($dataRedApiUri, $this->isPartInEditableMode());        
     }
-    private function getRedLoadScript($componentType, $componentId, $dataRedCacheControl) {
-        /** @var View $view */
-        $view = $this->container->get(View::class);
-
-        // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $uniquid = uniqid();
-        $dataRedApiUri = "$componentType/$componentId";
-
-        $view->setData([
-                        'class' => ConfigurationCache::layoutController()['cascade.class'],
-                        'dataRedCacheControl' => $dataRedCacheControl,
-                        'loaderElementId' => "red_loaded_$uniquid",
-                        'dataRedApiUri' => $dataRedApiUri,
-                        ]);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
-        return $view;
-    }
-
+    
     private function getUnknownBlockView($blockName, $variableName) {
         $message = "Unknown block $blockName configured for layout variable $variableName.";
 
@@ -327,22 +281,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 ->setData(['message'=>$message]);
         return $view;
     }
-
-#
-##### menu komponenty ##############################################################
-#
-    /**
-     * Pole komponent generujících menu.
-     *
-     * @return View[]
-     */
-//    private function getMenuComponents() {
-//        $components = [];
-//        foreach (ConfigurationCache::layoutController()['qqq'] as $contextName => $serviceName) {
-//            $components[$contextName] = $this->container->get($serviceName);
-//        }
-//        return $components;
-//    }
 
     private function isPartInEditableMode() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();

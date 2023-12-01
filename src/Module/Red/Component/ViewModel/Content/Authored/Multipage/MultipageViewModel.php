@@ -95,7 +95,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
         assert(1, 'Je to potřeba!');
         $multipage = $this->getMultipage();
         if (isset($multipage)) {
-            $langCode = $this->getStatus()->getPresentedLanguage()->getLangCode();
+            $langCode = $this->getStatusViewModel()->getPresentedLanguage()->getLangCode();
             $menuItem = $this->menuItemRepo->getById($multipage->getMenuItemIdFk());
             $nodes = $this->hierarchyRepo->getSubTree($langCode, $menuItem->getUidFk());  // neomezená maxDepth
             return $nodes;
@@ -103,7 +103,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     }
 
     public function isPartInEditableMode() {
-        $userActions = $this->getStatus()->getUserActions();
+        $userActions = $this->getStatusViewModel()->getUserActions();
         return isset($userActions) ? $userActions->presentEditableContent() : false;
     }
     

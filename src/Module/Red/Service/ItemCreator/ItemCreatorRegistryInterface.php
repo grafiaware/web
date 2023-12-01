@@ -1,5 +1,4 @@
 <?php
-
 namespace Red\Service\ItemCreator;
 
 /**
@@ -11,18 +10,20 @@ interface ItemCreatorRegistryInterface {
     const EMPTY_MENU_ITEM_TYPE = 'empty';
 
     /**
-     *
-     * @param string $name
+     * 
+     * @param string $menuItemApiModule
+     * @param string $menuItemApiGenerator
      * @param callable $service
      * @return void
      */
-    public function registerGenerator(string $name, callable $service): void;
+    public function registerGenerator(string $menuItemApiModule, string $menuItemApiGenerator, callable $service): void;
 
     /**
-     *
-     * @param string $menuItemType
+     * 
+     * @param string $menuItemApiModule
+     * @param string $menuItemApiGenerator
      * @return ItemCreatorInterface
      */
-    public function getGenerator(string $menuItemType): ItemCreatorInterface ;
+    public function getGenerator(string $menuItemApiModule, string $menuItemApiGenerator): ItemCreatorInterface ;
 
     }

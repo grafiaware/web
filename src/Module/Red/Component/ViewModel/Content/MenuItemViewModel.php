@@ -25,7 +25,7 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
     /**
      * @var StatusViewModelInterface
      */
-    protected $status;
+    private $statusViewModel;
 
     private $uid;
 
@@ -33,7 +33,7 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo
             ) {
-        $this->status = $status;
+        $this->statusViewModel = $status;
         $this->menuItemRepo = $menuItemRepo;
         $this->uid = uniqid();
         // Gets a prefixed unique identifier based on the current time in microseconds.
@@ -44,9 +44,10 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
         return $this->uid;
     }
 
-    public function getStatus(): StatusViewModelInterface {
-        return $this->status;
+    public function getStatusViewModel(): StatusViewModelInterface {
+        return $this->statusViewModel;
     }
+    
     /**
      * Nastaví id položky MenuItem, podle kterého bude načítáná příslušná entita s obsahem (např. Paper, Article, Multipage) a ItemAction
      * Obvykle je metoda volána z metody Front kontroleru.
@@ -57,14 +58,15 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
     public function setMenuItemId($menuItemId) {
         $this->menuItemId = $menuItemId;
     }
+    
     public function getMenuItemId() {
         if (!isset($this->menuItemId)) {
             throw new LogicException("Modelu ". static::class ." nebyla nastavena hodnota menu item id. Hodnotu je nutné nastavit voláním metody setItemId().");
         }
         return $this->menuItemId;
     }
+    
     public function getMenuItem(): MenuItemInterface {
         return $this->menuItemRepo->getById($this->getMenuItemId());
     }
-
 }

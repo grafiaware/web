@@ -19,7 +19,8 @@ class MenuItem extends PersistableEntityAbstract implements MenuItemInterface {
 
     private $uidFk;
     private $langCodeFk;
-    private $type;
+    private $apiModuleFk;
+    private $apiGeneratorFk;
     private $id;
     private $title;
     private $prettyuri;
@@ -33,9 +34,14 @@ class MenuItem extends PersistableEntityAbstract implements MenuItemInterface {
         return $this->langCodeFk;
     }
 
-    public function getTypeFk() {
-        return $this->type;
+    public function getApiModuleFk() {
+        return $this->apiModuleFk;
     }
+    
+    public function getApiGeneratorFk() {
+        return $this->apiGeneratorFk;
+    }
+    
     public function getId() {
         return $this->id;
     }
@@ -61,9 +67,14 @@ class MenuItem extends PersistableEntityAbstract implements MenuItemInterface {
         $this->langCodeFk = $lang;
         return $this;
     }
-
-    public function setType($type): MenuItemInterface {
-        $this->type = $type;
+    
+    public function setApiModuleFk($module): MenuItemInterface {
+        $this->apiModuleFk = $module;
+        return $this;
+    }
+    
+    public function setApiGeneratorFk($generator): MenuItemInterface {
+        $this->apiGeneratorFk = $generator;
         return $this;
     }
 
