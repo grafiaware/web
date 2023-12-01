@@ -10,7 +10,10 @@ namespace Red\Component\ViewModel\Content\TypeSelect;
 
 use Red\Component\ViewModel\Content\MenuItemViewModel;
 
-use Red\Model\Entity\MenuItemTypeInterface;
+use Red\Model\Entity\MenuItemApiInterface;
+use Red\Service\ItemCreator\Enum\ApiModuleEnum;
+use Red\Service\ItemCreator\Enum\ApiGeneratorEnum;
+use Red\Middleware\Redactor\Controler\ItemEditControler;
 
 /**
  * Description of LanguageSelect
@@ -18,27 +21,27 @@ use Red\Model\Entity\MenuItemTypeInterface;
  * @author pes2704
  */
 class ItemTypeSelectViewModel extends MenuItemViewModel implements ItemTypeSelectViewModelInterface {
-
+    
     /**
-     * @return MenuItemTypeInterface array of
+     * @return MenuItemApiInterface array of
      */
-    public function getTypeTransitions() {
+    public function getTypeGenerators() {
         // label => menu_item_type
         return [
-            'red paper'=>'paper', 
-            'red article'=>'article', 
-            'red multipage'=>'multipage', 
-            'red static'=>'red_static', 
-            'events static'=>'events_static', 
-            'auth static'=>'auth_static'
+            'red paper - stránka redakčního systému typu paper'=> ApiModuleEnum::RED_MODULE.ItemEditControler::SEPARATOR.ApiGeneratorEnum::PAPER_GENERATOR, 
+            'red article - stránka redakčního systému typu article'=> ApiModuleEnum::RED_MODULE.ItemEditControler::SEPARATOR.ApiGeneratorEnum::ARTICLE_GENERATOR, 
+            'red multipage - stránka redakčního systému typu multipage'=> ApiModuleEnum::RED_MODULE.ItemEditControler::SEPARATOR.ApiGeneratorEnum::MULTIPAGE_GENERATOR, 
+            'red static - stránka vytvářená html šablonou s možností použít data redakčního systému'=> ApiModuleEnum::RED_MODULE.ItemEditControler::SEPARATOR.ApiGeneratorEnum::STATIC_GENERATOR,
+            'events static - stránka vytvářená html šablonou s možností použít data modulu Events'=> ApiModuleEnum::EVENTS_MODULE.ItemEditControler::SEPARATOR.ApiGeneratorEnum::STATIC_GENERATOR,
+            'auth static - stránka vytvářená html šablonou s možností použít data modulu Auth'=> ApiModuleEnum::AUTH_MODULE.ItemEditControler::SEPARATOR.ApiGeneratorEnum::STATIC_GENERATOR
             ];
     }
 
     public function getIterator(): \Traversable {
         $this->appendData(
                 [
-                    'menuItem' => $this->getStatus()->getPresentedMenuItem(),
-                    'typeTransitions' => $this->getTypeTransitions()
+                    'menuItem' => $this->statusViewModel->getPresentedMenuItem(),
+                    'typeGenerators' => $this->getTypeGenerators()
                 ]
                 );
         return parent::getIterator();

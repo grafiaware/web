@@ -11,8 +11,6 @@ namespace Red\Model\Dao;
 use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
-
 use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
@@ -20,21 +18,21 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class MenuItemTypeDao extends DaoEditAbstract implements MenuItemTypeDaoInterface {
+class MenuItemApiDao extends DaoEditAbstract implements MenuItemApiDaoInterface {
 
     public function getPrimaryKeyAttributes(): array {
-        return ['type'];
+        return ['module', 'generator'];
     }
 
     public function getAttributes(): array {
-        return ['type'];
+        return ['module', 'generator'];
     }
 
     public function getTableName(): string {
-        return 'menu_item_type';
+        return 'menu_item_api';
     }
 
     public function update(RowDataInterface $rowData): bool {
-        throw new DaoForbiddenOperationException("Není implemtováno - nelze měnit primární klíč type.");
+        throw new DaoForbiddenOperationException("Není implemtováno - nelze měnit primární klíč.");
     }
 }

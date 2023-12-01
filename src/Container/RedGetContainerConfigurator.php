@@ -38,6 +38,11 @@ use Access\Enum\AccessPresentationEnum;
 
 // view
 use Pes\View\View;
+use Pes\View\CompositeView;
+
+// service
+use Red\Service\ItemApi\ItemApiService;
+use Red\Service\CascadeLoader\CascadeLoaderFactory;
 
 //component
 use Component\View\ComponentInterface;
@@ -150,7 +155,7 @@ use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\LanguageRepo;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuItemRepo;
-use Red\Model\Repository\MenuItemTypeRepo;
+use Red\Model\Repository\MenuItemApiRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\PaperRepo;
@@ -202,7 +207,13 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             View::class => function(ContainerInterface $c) {
                 return (new View())->setRendererContainer($c->get('rendererContainer'));
             },
-
+            CompositeView::class => function(ContainerInterface $c) {
+                return (new CompositeView())->setRendererContainer($c->get('rendererContainer'));
+            },                    
+            CascadeLoaderFactory::class => function(ContainerInterface $c) {
+                return new CascadeLoaderFactory($c->get(CompositeView::class));
+            },
+                    
         // components
 
         ####
@@ -516,7 +527,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(RegisterComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var ComponentConfigurationInterface $configuration */
                     $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new RegisterComponent($c->get(ComponentConfiguration::class));
+                    $component = new RegisterComponent($configuration);
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('register')));
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -668,7 +679,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(ArticleComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var ComponentConfigurationInterface $configuration */
                     $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new ArticleComponent($c->get(ComponentConfiguration::class));
+                    $component = new ArticleComponent($configuration);
                     /** @var ArticleViewModel $viewModel */
                     $viewModel = $c->get(ArticleViewModel::class);
                     $component->setData($viewModel);
@@ -697,9 +708,11 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MultipageComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var ComponentConfigurationInterface $configuration */
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new MultipageComponent($configuration);
+                    $component = new MultipageComponent(
+                            $c->get(ComponentConfiguration::class), 
+                            $c->get(ItemApiService::class), 
+                            $c->get(CascadeLoaderFactory::class)
+                        );
                     $viewModel = $c->get(MultipageViewModel::class);
                     $component->setData($viewModel);
                     $component->setRendererContainer($c->get('rendererContainer'));
@@ -918,6 +931,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();
             },
+            ItemApiService::class => function(ContainerInterface $c) {
+                return new ItemApiService();
+            },                    
         ####
         # view factory
         #

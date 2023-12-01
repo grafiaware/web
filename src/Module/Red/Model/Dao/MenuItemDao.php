@@ -31,7 +31,7 @@ class MenuItemDao extends DaoEditAbstract implements MenuItemDaoInterface {
     const REFERENCE_PRIMARY = 'PRIMARY';
     const REFERENCE_HIERARCHY = 'hierarchy';
     const REFERENCE_LANGUAGE = 'language';
-    const REFERENCE_MENU_ITEM_TYPE = 'menu_item_type';
+    const REFERENCE_MENU_ITEM_API = 'menu_item_api';
 
 //    use DaoReferenceNonuniqueTrait;
     use DaoReferenceUniqueTrait;
@@ -43,7 +43,7 @@ class MenuItemDao extends DaoEditAbstract implements MenuItemDaoInterface {
     public function getAttributes(): array {
         // POZOR! Musí obsahovat jméno 'list'. Není v entitě atd., ale používá se v Transformator middleware pro transformaci obsahu starých stránek.
         // Transformator middleware používá data čtená přímo pomocí tohoto Dao
-        return ['lang_code_fk', 'uid_fk', 'type_fk', 'id', 'list',  'title', 'prettyuri', 'active'];
+        return ['lang_code_fk', 'uid_fk', 'api_module_fk', 'api_generator_fk', 'id', 'list',  'title', 'prettyuri', 'active'];
     }
 
     public function getReferenceAttributes($referenceName): array {
@@ -62,7 +62,7 @@ class MenuItemDao extends DaoEditAbstract implements MenuItemDaoInterface {
             self::REFERENCE_PRIMARY => ['lang_code_fk'=>'lang_code', 'uid_fk'=>'uid'],   // primární klíč je současně reference (1:1)
             self::REFERENCE_HIERARCHY => ['uid_fk'=>'uid'],
             self::REFERENCE_LANGUAGE => ['lang_code_fk'=>'lang_code'],
-            self::REFERENCE_MENU_ITEM_TYPE => ['type_fk'=>'type']
+            self::REFERENCE_MENU_ITEM_API => ['api_module_fk'=>'module', 'api_generator_fk'=>'generator']
         ][$referenceName];
     }
 
@@ -126,13 +126,13 @@ class MenuItemDao extends DaoEditAbstract implements MenuItemDaoInterface {
         $scoreLimitHeadline = '1';  // musí být string - císlo 0.2 se převede na string 0,2
         $scoreLimitContent = '0.2';  // musí být string - císlo 0.2 se převede na string 0,2
 
-        $select = $this->sql->select("lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, prettyuri, active
+        $select = $this->sql->select("lang_code_fk, uid_fk, api_module_fk, api_generator_fk, active_menu_item.id AS id, title, prettyuri, active
                 , searched_paper.headline, searched_paper.perex
                 , active_content.content
                 , active_menu_item.active AS active,
                 score_h,
                 score_c");
-        $from = $this->sql->from("(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage
+        $from = $this->sql->from("(SELECT lang_code_fk, uid_fk, api_module_fk, api_generator_fk, id, title, prettyuri, active, multipage
                     FROM menu_item "
                         .$this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', "menu_item.type_fk = 'paper'"]))
                         ."

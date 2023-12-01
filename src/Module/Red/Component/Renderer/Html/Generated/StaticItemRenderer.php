@@ -25,10 +25,10 @@ class StaticItemRenderer extends HtmlRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
         /** @var ItemTypeSelectViewModel $viewModel */
-        $typeFk = $viewModel->getMenuItem()->getTypeFk();
+        $typeFk = $viewModel->getMenuItem()->getApiModuleFk();
         $menuItemUidFk = $viewModel->getMenuItem()->getUidFk();
         $radioHtml = '';
-        $transitions = $viewModel->getTypeTransitions()[$typeFk];
+        $transitions = $viewModel->getTypeGenerators()[$typeFk];
         if (isset($transitions)) {
             foreach ($transitions as $type ) {
                 $radioHtml .=Html::tag('label', [],

@@ -2,8 +2,7 @@
 namespace Red\Component\Renderer\Html\Content\TypeSelect;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-//use Red\Component\ViewModel\Authored\TypeSelect\ItemTypeSelectViewModel;
-
+use Red\Middleware\Redactor\Controler\ItemEditControler;
 
 use Pes\Text\Message;
 use Pes\Text\Html;
@@ -17,11 +16,11 @@ class ItemTypeSelectRenderer extends HtmlRendererAbstract {
 
 public function render(iterable $viewModel = NULL) {
         $menuItemUidFk = $viewModel->getMenuItem()->getUidFk();
-        $transitions = $viewModel->getTypeTransitions();
+        $contentGeneratorsTypes = $viewModel->getTypeGenerators();
         $radioHtml = '';
-        if (isset($transitions)) {
+        if (isset($contentGeneratorsTypes)) {
 //            foreach ($transitions as $type ) {
-                $radioHtml = Html::radio("type", $transitions, [], ['required'=>'1']);
+                $radioHtml = Html::radio(ItemEditControler::TYPE_VARIABLE_NAME, $contentGeneratorsTypes, [], ['required'=>'1']);
 //                $radioHtml .=Html::tag('label', [],
 //                                    Html::tag('input', ['type'=>"radio", 'name'=>"type", 'value'=>$type, 'required'=>'1'])
 //                                    .$type

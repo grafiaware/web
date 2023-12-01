@@ -39,6 +39,10 @@ use Red\Service\ItemCreator\Paper\PaperCreator;
 use Red\Service\ItemCreator\Article\ArticleCreator;
 use Red\Service\ItemCreator\StaticTemplate\StaticTemplateCreator;
 use Red\Service\ItemCreator\Multipage\MultipageCreator;
+//enum
+use Red\Service\ItemCreator\Enum\ApiModuleEnum;
+use Red\Service\ItemCreator\Enum\ApiGeneratorEnum;
+
 // menu itemmanipulator
 use Red\Service\HierarchyManipulator\MenuItemManipulator;
 // item action service
@@ -53,7 +57,7 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
 use Red\Model\Repository\LanguageRepo;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuItemRepo;
-use Red\Model\Repository\MenuItemTypeRepo;
+use Red\Model\Repository\MenuItemApiRepo;
 use Red\Model\Repository\MenuItemAssetRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\MenuRootRepo;
@@ -165,15 +169,15 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
 
             ItemCreatorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ItemCreatorRegistry(
-                        $c->get(MenuItemTypeRepo::class)
+                        $c->get(MenuItemApiRepo::class)
                     );
                 // lazy volání služby kontejneru
-                $factory->registerGenerator('red_paper', function() use ($c) {return $c->get(PaperCreator::class);});
-                $factory->registerGenerator('red_article', function() use ($c) {return $c->get(ArticleCreator::class);});
-                $factory->registerGenerator('red_multipage', function() use ($c) {return $c->get(MultipageCreator::class);});
-                $factory->registerGenerator('red_static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
-                $factory->registerGenerator('auth_static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
-                $factory->registerGenerator('event_static', function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ApiGeneratorEnum::PAPER_GENERATOR, function() use ($c) {return $c->get(PaperCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ApiGeneratorEnum::ARTICLE_GENERATOR, function() use ($c) {return $c->get(ArticleCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ApiGeneratorEnum::MULTIPAGE_GENERATOR, function() use ($c) {return $c->get(MultipageCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::EVENTS_MODULE, ApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::AUTH_MODULE, ApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
                 return $factory;
             },
             PaperCreator::class => function(ContainerInterface $c) {

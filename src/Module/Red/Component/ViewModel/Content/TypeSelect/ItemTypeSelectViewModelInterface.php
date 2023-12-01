@@ -8,14 +8,13 @@
 
 namespace Red\Component\ViewModel\Content\TypeSelect;
 
-use Red\Component\ViewModel\Content\MenuItemViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ItemTypeSelectViewModelInterface extends MenuItemViewModelInterface {
-
-    public function getTypeTransitions();
+interface ItemTypeSelectViewModelInterface {
+    public function getTypeGenerators();
 
 }

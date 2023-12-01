@@ -8,6 +8,7 @@
 namespace Red\Service\ItemCreator\StaticTemplate;   // Static je keyword a použití Red\Service\ItemCreator\Static je syntaktická chyba
 
 use Red\Service\ItemCreator\ItemCreatorAbstract;
+use Red\Model\Entity\MenuItemInterface;
 
 /**
  * Description of StaticService
@@ -15,7 +16,13 @@ use Red\Service\ItemCreator\ItemCreatorAbstract;
  * @author pes2704
  */
 class StaticTemplateCreator extends ItemCreatorAbstract {
-    public function initialize($menuItemIdFk): void {
+    
+    /**
+     * 
+     * @param MenuItemInterface $menuItem
+     * @return void
+     */
+    public function initialize(MenuItemInterface $menuItem): void {
 
         ;
     }

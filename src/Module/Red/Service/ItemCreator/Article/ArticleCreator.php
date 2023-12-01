@@ -15,6 +15,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\ArticleRepo;
 
+use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\Article;
 
 /**
@@ -41,14 +42,14 @@ class ArticleCreator extends ItemCreatorAbstract {
 
     /**
      * Vytvoří nový Article pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Article ponechá prázdné. Entitu přidá do Repository.
-     *
-     * @param type $menuItemIdFk
+     * 
+     * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize($menuItemIdFk): void {
+    public function initialize(MenuItemInterface $menuItem): void {
         $article = new Article();
         $article->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-        $article->setMenuItemIdFk($menuItemIdFk);
+        $article->setMenuItemIdFk($menuItem->getId());
         $this->articleRepo->add($article);
     }
 

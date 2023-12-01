@@ -35,6 +35,9 @@ use LogicException;
  */
 class ItemEditControler extends FrontControlerAbstract {
 
+    const SEPARATOR = '+';
+    const TYPE_VARIABLE_NAME = 'content_generator_type';
+    
     /**
      * @var MenuItemRepo
      */
@@ -144,33 +147,29 @@ class ItemEditControler extends FrontControlerAbstract {
      * @return Response
      */
     public function type(ServerRequestInterface $request, $uid) {
-        $typePostParam = (new RequestParams())->getParam($request, 'type');
+        $postedType = (new RequestParams())->getParam($request, self::TYPE_VARIABLE_NAME);
+        list($postedModule, $postedGenerator) = explode(self::SEPARATOR, $postedType);
         $folded = (new RequestParams())->getParam($request, 'folded', false);   //TODO:  dočasně pro static path!!!!
         $allLangVersionsMenuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
         /** @var MenuItemInterface $langMenuItem */
-        $isEmpty = true;
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
-            if ($langMenuItem->getTypeFk()) {
-                $isEmpty = false;
-                throw new LogicException("Pokus o nastavení typu položce menu, která již má typ. Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' je typu {$langMenuItem->getTypeFk()}.");
+            if (null!==$langMenuItem->getApiModuleFk() OR null!==$langMenuItem->getApiGeneratorFk()) {
+                throw new LogicException("Pokus o nastavení typu položce menu, která již má api modul nebo api generator. "
+                        . "Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' má nastaven api modul {$langMenuItem->getApiModuleFk()} a api generátor {$langMenuItem->getApiGeneratorFk()}.");
             }
         }
-        if ($isEmpty) {
-            $contentGenerator = $this->contentGeneratorRegistry->getGenerator($typePostParam);
-            foreach ($allLangVersionsMenuItems as $langMenuItem) {
-                $langMenuItem->setType($typePostParam);
-                if ($folded) {
-                    $langMenuItem->setPrettyuri('folded:'.$folded);   //TODO:  dočasně pro static path!!!!
-                } else {
-                    $langMenuItem->setPrettyuri($langMenuItem->getLangCodeFk().$langMenuItem->getUidFk());
-                }
-                $contentGenerator->initialize($langMenuItem->getId());
+        $contentGenerator = $this->contentGeneratorRegistry->getGenerator($postedModule, $postedGenerator);
+        foreach ($allLangVersionsMenuItems as $langMenuItem) {
+            $langMenuItem->setApiModuleFk($postedModule);
+            $langMenuItem->setApiGeneratorFk($postedGenerator);
+            if ($folded) {
+                $langMenuItem->setPrettyuri('folded:'.$folded);   //TODO:  dočasně pro static path!!!!
+            } else {
+                $langMenuItem->setPrettyuri($langMenuItem->getLangCodeFk().$langMenuItem->getUidFk());
             }
-            $this->addFlashMessage("menuItem type($typePostParam)", FlashSeverityEnum::SUCCESS);
-        } else {
-
-
+            $contentGenerator->initialize($langMenuItem);
         }
+        $this->addFlashMessage("menuItem type($postedModule, $postedGenerator)", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
