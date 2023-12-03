@@ -74,8 +74,6 @@ use Pes\View\Renderer\Container\TemplateRendererContainer;
 
 // service
 use Red\Service\ItemAction\ItemActionService;
-use Red\Service\ItemApi\ItemApiService;
-use Red\Service\CascadeLoader\CascadeLoaderFactory;
 
 // view
 use Pes\View\View;
@@ -88,6 +86,10 @@ use Pes\View\Recorder\RecordsLogger;
 
 // view factory
 use \Pes\View\ViewFactory;
+
+// cascade service
+use Red\Service\ItemApi\ItemApiService;
+use Red\Service\CascadeLoader\CascadeLoaderFactory;
 
 // Prepare
 use Web\Middleware\Page\PrepareService\Prepare;
@@ -245,8 +247,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },                    
             ItemActionService::class => function(ContainerInterface $c) {
                 return new ItemActionService($c->get(ItemActionRepo::class));
-            },
-
+            },   
                     
             // database account
             Account::class => function(ContainerInterface $c) {
@@ -371,8 +372,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
-                            $c->get(ViewFactory::class))
-                        )->injectContainer($c);  // inject component kontejner
+                            $c->get(ItemApiService::class), 
+                            $c->get(CascadeLoaderFactory::class))
+                        )->injectContainer($c);  // inject web kontejner
             },
             ItemApiService::class => function(ContainerInterface $c) {
                 return new ItemApiService();
