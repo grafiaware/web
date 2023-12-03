@@ -20,7 +20,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @var ResourceRegistryInterface
      */
     protected $resourceRegistry;
-
+    
     ### headers ###
 
     /**

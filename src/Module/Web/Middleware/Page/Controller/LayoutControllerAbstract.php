@@ -11,6 +11,14 @@ namespace Web\Middleware\Page\Controller;
 use Site\ConfigurationCache;
 
 use FrontControler\PresentationFrontControlerAbstract;
+
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+
+use Red\Service\ItemApi\ItemApiServiceInterface;
+use Red\Service\CascadeLoader\CascadeLoaderFactoryInterface;
+
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -38,7 +46,28 @@ use Pes\View\Template\InterpolateTemplate;
 abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstract {
 
     protected $componentViews = [];
-
+    
+    /**
+     * @var ItemApiServiceInterface
+     */
+    private $itemApiService;
+    
+    /**
+     * @var CascadeLoaderFactoryInterface
+     */
+    private $cascadeLoaderFactory;
+    
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo, 
+            StatusFlashRepo $statusFlashRepo, 
+            StatusPresentationRepo $statusPresentationRepo,
+            ItemApiServiceInterface $itemApiService, 
+            CascadeLoaderFactoryInterface $cascadeLoaderFactory ) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        $this->itemApiService = $itemApiService;
+        $this->cascadeLoaderFactory = $cascadeLoaderFactory;              
+    }
+    
     /**
      * Podle hierarchy uid a aktuálního jazyka prezentace vrací menuItem nebo null
      *
@@ -260,16 +289,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return View
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
-        /** @var ItemApiService $itemApiService */
-        $itemApiService = $this->container->get(ItemApiService::class);
-        $dataRedApiUri = $itemApiService->getLoaderApiUri($menuItem);
+        $dataRedApiUri = $this->itemApiService->getLoaderApiUri($menuItem);
         return $this->getRedLoadScript($dataRedApiUri);
     }
     
     private function getRedLoadScript($dataRedApiUri) {
-        /** @var CascadeLoaderFactory $cascadeLoaderService */
-        $cascadeLoaderService = $this->container->get(CascadeLoaderFactory::class);
-        return $cascadeLoaderService->getRedLoadScript($dataRedApiUri, $this->isPartInEditableMode());        
+        return $this->cascadeLoaderFactory->getRedLoadScript($dataRedApiUri, $this->isPartInEditableMode());        
     }
     
     private function getUnknownBlockView($blockName, $variableName) {
