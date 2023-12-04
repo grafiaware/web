@@ -40,6 +40,9 @@ use Access\Enum\AccessPresentationEnum;
 use Pes\View\View;
 use Pes\View\CompositeView;
 
+// view factory
+use \Pes\View\ViewFactory;
+
 // service
 use Red\Service\ItemApi\ItemApiService;
 use Red\Service\CascadeLoader\CascadeLoaderFactory;
@@ -211,7 +214,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new CompositeView())->setRendererContainer($c->get('rendererContainer'));
             },                    
             CascadeLoaderFactory::class => function(ContainerInterface $c) {
-                return new CascadeLoaderFactory($c->get(CompositeView::class));
+                return new CascadeLoaderFactory($c->get(ViewFactory::class));
             },
                     
         // components
@@ -937,9 +940,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         ####
         # view factory
         #
-//            ViewFactory::class => function(ContainerInterface $c) {
-//                return (new ViewFactory())->setRendererContainer($c->get('rendererContainer'));
-//            },
+            ViewFactory::class => function(ContainerInterface $c) {
+                return (new ViewFactory())->setRendererContainer($c->get('rendererContainer'));
+            },
 
         ####
         # components loggery

@@ -80,12 +80,12 @@ use Pes\View\View;
 use Pes\View\CompositeView;
 use Pes\View\CollectionView;
 
+// view factory
+use \Pes\View\ViewFactory;
+
 use Pes\View\Recorder\RecorderProvider;
 use Pes\View\Recorder\VariablesUsageRecorder;
 use Pes\View\Recorder\RecordsLogger;
-
-// view factory
-use \Pes\View\ViewFactory;
 
 // cascade service
 use Red\Service\ItemApi\ItemApiService;
@@ -136,7 +136,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new CollectionView())->setRendererContainer($c->get('rendererContainer'));
             },
             CascadeLoaderFactory::class => function(ContainerInterface $c) {
-                return new CascadeLoaderFactory($c->get(CompositeView::class));
+                return new CascadeLoaderFactory($c->get(ViewFactory::class));
             },
         ];
     }

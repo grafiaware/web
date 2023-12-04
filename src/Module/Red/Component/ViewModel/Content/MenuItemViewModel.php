@@ -25,7 +25,7 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
     /**
      * @var StatusViewModelInterface
      */
-    private $statusViewModel;
+    protected $statusViewModel;
 
     private $uid;
 

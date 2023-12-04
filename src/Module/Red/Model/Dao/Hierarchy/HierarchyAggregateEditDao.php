@@ -618,15 +618,15 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
     private function copySourceContentIntoTarget($dbhTransact, $targetNodes, $deactivate=true) {
         $preparedInsertToTarget = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
         $preparedSelectSourceItem = $this->getPreparedStatement("
-                SELECT lang_code_fk, type_fk, id, `list`, `order`, title, prettyuri, active, auto_generated
+                SELECT lang_code_fk, api_module_fk, api_generator_fk, id, `list`, `order`, title, prettyuri, active, auto_generated
                     FROM
                     $this->itemTableName
                     WHERE
                     $this->itemTableName.uid_fk=:source_uid
             ");
         $preparedInsertTargetItem = $this->getPreparedStatement("
-                INSERT INTO menu_item (lang_code_fk, uid_fk, type_fk, `list`, `order`, title, prettyuri, active, auto_generated)
-                VALUES (:lang_code_fk, :uid_fk, :type_fk, :list, :order, :title, :prettyuri, :active, :auto_generated)
+                INSERT INTO menu_item (lang_code_fk, uid_fk, api_module_fk, api_generator_fk, `list`, `order`, title, prettyuri, active, auto_generated)
+                VALUES (:lang_code_fk, :uid_fk, :api_module_fk, :api_generator_fk, :list, :order, :title, :prettyuri, :active, :auto_generated)
             ");
 
         $preparedCopyArticle = $this->getPreparedStatement("
@@ -672,7 +672,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 // prettyUri - složit s novým uid
                 // active - vždy 0 - zjednodušené řešení, zkopírované položky jsou vřdy všechny neaktivní
                 $this->bindParams($preparedInsertTargetItem, [
-                    'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 'type_fk'=>$sourceItem['type_fk'],
+                    'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 
+                    'api_module_fk'=>$sourceItem['api_module_fk'], 'api_generator_fk'=>$sourceItem['api_generator_fk'],
                     'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
                     // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž EditItemControler)
                     'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title'], 80),

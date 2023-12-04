@@ -63,7 +63,7 @@ abstract class AuthoredViewModelAbstract extends MenuItemViewModel implements Au
 //        ve statusu je aktuální itemAction: $this->status->getUserActions()->getUserItemAction($menuItem->getId());  
         $itemAction = $this->getItemAction();
         if (isset($itemAction)) {
-            $loginName = $this->status->getUserLoginName();
+            $loginName = $this->statusViewModel->getUserLoginName();
             $editorName = $itemAction->getEditorLoginName();
             $userPerformActionWithItem = $loginName==$editorName;
         } else {
