@@ -1,0 +1,485 @@
+@halfWidth: 50%;
+
+               
+.layout{                  
+    /************************************media*************************************/ 
+    @media (max-width: 1750px) {  
+
+    }            
+    @media (max-width: 1300px) {
+        header{
+            .grid > .row:first-child{ 
+                /*editační*/
+                height: 150px;
+            }
+        }
+        /*menu*/
+        /*svisle menu*/ 
+        .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons{
+            &:first-of-type{
+                //left: 50px;
+            }
+            &:nth-of-type(2){
+                right: 3px;
+            }
+        }
+        .dimmer .content{
+            width: 25%;   
+        }
+        .poznamky{
+            left: 10px;
+        }
+        .vodorovne-menu .text.menu{
+            width: 600px;
+        }
+    }
+    @media (max-width: 1099px) {
+        /*menu*/
+        /*vodorovne menu*/
+        .vodorovne-menu ul.menu.edit{
+            width: 620px;
+        }
+        .vodorovne-menu .text.menu:not(.edit){
+            width: 550px;
+        }
+        /*svisle menu*/
+        .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons{
+            &:first-of-type{
+                left: auto;
+                right: 15px;
+            }
+            &:nth-of-type(2){
+                right: 15px;
+            } 
+        }
+        .page-content > .grid > .column:not(.row){
+            &:nth-child(2){
+                padding-left: 2em;
+                padding-right: 1.5em;
+            }
+        }
+        .page-content .svisle-menu form > ul.menu.edit{
+            width: 100%;
+        }
+        .dimmer .content{
+            width: 35%;
+        }
+        .ui.container{
+            width: 100% !important;
+        }
+        header{
+            .kontakt-hlavicka{
+                margin-top: 10px;
+                img{ //.ui.image img
+                    width: 55px;
+                    height: 65px !important;
+                    margin: 5px 0 10px 5px
+                }
+            }
+            .row:first-child{
+                margin-bottom: 25px;
+                .column:first-child{
+                    img{
+                        width: 130px;
+                    }
+                }
+                .column:nth-child(2){
+                    presmerovani-menu ul.menu li.presented div.buttons{
+                        z-index: 20;
+                    }
+                    img{ //.ui.image
+                        z-index: 0 !important;
+                        position: static;
+                    }
+                    ul.text.menu{
+                        width: @halfWidth - 5;
+                        transform: translateY(-30%);
+                    }
+                }
+            }
+        }
+        header{
+            .grid > .row:first-child{
+                /*editační*/
+                height: 140px;
+            }
+        }
+        .page-content .grid .one.column{
+            .ui.segment{
+                display: none !important;
+            }
+        }  
+        .page-content .column .segment:not(.ui):not(.grafia){
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            margin: 10px auto;
+            width: 70%;
+            height: auto;
+        }  
+        .page-content .column > form > button.ui.button.save{
+            right: 15px;
+        } 
+        .nav-mobile{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            padding: 5px;
+            margin-top: 0;
+            left: 15px;
+            border: 1px solid @lightGrey;
+            border-radius: 5px;
+            box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
+            cursor: pointer;
+            &:hover{
+                background-color: rgb(242, 242, 242);
+                transition: 0.3s all;
+            }
+        }
+        .svisle-menu:first-child {
+            display: none;
+        }
+        #mySidenav {
+            display: none;
+            height: 100%;
+            width: 80%;
+            background-color: @white;
+            position: fixed!important;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            overflow: auto;
+            -webkit-animation: animateleft 0.4s;
+            animation: animateleft 0.4s;
+            padding: 20px; 
+        }
+        #myOverlay{
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+            z-index: 5; 
+        }
+        .svisle-menu{
+            width: 90%;
+            &:first-of-type{
+                margin-left: 2px;
+            }
+            &:nth-of-type(2){
+                margin-left: 2px;
+            }
+            &:last-of-type{
+                margin-left: 2px;
+            }
+        }
+        @-webkit-keyframes animateleft {
+          from {
+            left: -300px;
+            opacity: 0;
+          }
+          to {
+            left: 0;
+            opacity: 1;
+          }
+        }
+        @keyframes animateleft {
+          from {
+            left: -300px;
+            opacity: 0;
+          }
+          to {
+            left: 0;
+            opacity: 1;
+          }
+        }
+        .poznamky{
+            left: 25px; 
+            top: 240px;
+            .label{ 
+                width: 55px !important;
+            }
+        }
+        .poznamky:hover{
+            .label{ 
+                width: 100% !important;
+            } 
+        } 
+    } 
+    @media (min-width: 1100px) {
+        .close-item, span.nav-mobile{
+            display: none;   
+        }
+        #mySidenav { 
+            display: block !important;
+        }
+    }
+    @media (max-width: 920px) {
+        /*menu*/
+        /*vodorovne menu*/
+        .vodorovne-menu ul.menu.edit{
+            width: 530px;
+        }
+        .vodorovne-menu .text.menu:not(.edit){
+            width: 500px;
+        }
+        header .grid > .row:first-child{
+            height: 125px;
+            margin-bottom: 35px;
+        }
+        header{
+            .row:first-child{
+                ul.text.menu{
+                   // width: @halfWidth + 10;
+                }
+                .column:first-child{
+                    img{
+                        width: 110px;
+                    }
+                }
+                .column:nth-child(2) .image{
+                   // top: -10px;
+                   // left: 15px;
+                }
+            }
+            .row:last-child{
+                .column:nth-child(2){
+                    left: -7px;
+                }
+            }
+            .kontakt-hlavicka{
+                margin-right: -4px;
+            }
+            .jazyky{
+                margin-top: 0;
+                margin-bottom: -10px;
+                margin-right: -4px;
+            }
+        }
+        .nav-mobile {
+            left: 10px;
+        }
+        .fluid.input{
+            float: right;
+            width: 110px;
+        }
+        .page-content .column .segment:not(.ui):not(.grafia){
+            width: 50%;
+            z-index: 5;
+            float: right;
+        }
+        .poznamky{
+            left: 20px;
+            top: 225px;
+        }
+    }
+    @media (max-width: 768px) {
+        header{
+            .grid > .row:first-child{
+                /*editační*/
+                height: auto;
+            }
+        }
+        /*menu s butony*/
+        /*vodorovne menu*/
+        .vodorovne-menu ul.menu.edit li{
+            i.line{
+                &:first-of-type{
+                    left: -8px;
+                }
+                &:nth-of-type(2){
+                    left: -4px;
+                }
+            }
+            &.presented{
+                i.line{
+                    height: 30px;
+                    top: 1px;
+                    transform: translateY(-15%);
+                }
+                div.buttons{
+                    background-color: @white;
+                    &:first-of-type{
+                        position: absolute;
+                        top: -28px;
+                        right: 0;
+                        left: auto;
+                        > .button{
+                            width: auto;
+                        }
+                    }
+                    &:nth-of-type(2){
+                        position: absolute;
+                        top: -25px;
+                        bottom: auto;
+                        right: 5px;
+                        > .button{
+                            width: auto;
+                        }
+                    }
+                }
+            }
+        }
+        .vodorovne-menu ui.menu:not(.floated):not(.left){
+            flex-direction: column;
+            align-items: center;
+        }
+        .svisle-menu{
+            width: 95%;
+        }
+        .nav-mobile{
+           background: #fff;
+           z-index: 1;
+        }
+        @keyframes prechodPozadi {
+            0% { background-color: @primaryColor }
+            100% { background-color: @white }
+        }
+        .nav-mobile.active{
+           display: flex;
+           left: 30px;
+           transform: translateY(-168%);
+           padding: 6px;
+           margin-left: 5px;
+           animation-name: prechodPozadi;
+           animation-duration: 1s;
+           animation-timing-function: ease;
+           animation-delay: 0s;
+           animation-iteration-count: 1;
+        }
+        .nav-mobile:not(.active){
+            display: none; 
+        }
+        .dimmer .content{
+            width: 80%;
+        }
+        header .row:first-child{
+            .column:first-child{
+                position: absolute;
+                text-align: left !important;
+                left: 10px;
+                .ui.buttons{
+                    top: -48px;
+                    left: 55px;
+                    right: auto;
+                }
+            }
+            .column:nth-child(2){
+                img{ //.image
+                    top: 10px;
+                    left: auto;
+                }
+            }
+            ul.text.menu{
+                width: @halfWidth;
+                transform: translateY(0);
+            }
+            .kontakt-hlavicka{
+                font-size: 0.75em;
+                margin-top: 10px;
+                img{ //.ui.image
+                    width: 65px;
+                    height: auto !important;
+                    margin: 2px 0 10px 5px
+                }
+            }
+        }
+        header .ui.grid .row:last-child .column:nth-child(2){
+            padding-bottom: 0 !important;
+        }
+        header .row:last-child{
+            .column:first-child{
+                margin-left: 5px !important;
+                height: auto;
+            }
+            .column:nth-child(2){
+                left: 0;
+                .text.menu{
+                    display: block;
+                    column-count: 2;
+                    width: 85%;
+                    float: right;
+                    .item{
+                        margin: 10px auto;
+                        &:first-child{
+                            margin-top: 0;
+                        }
+                        > .button{
+                            width: 101%;
+                            margin-left: -5px;
+                        }
+                    }
+                }
+            }
+            .column:last-child{
+                .fluid.input{
+                    width: 85%;
+                    font-size: 1em;
+                }
+            }
+        }
+        .page-content .column > form > button.ui.button.save{
+            right: 10px;
+        }
+        footer .grid > .column{
+            text-align: center;
+            &:first-child p{
+                margin-left: auto;
+            }
+        }
+        .poznamky{
+            left: 35px;
+            top: 430px;
+        }
+    }
+    @media (max-width: 500px) {
+        header .row:first-child{
+           .column:first-child{
+                /*position:relative;
+                text-align: center !important;
+                img{
+                    margin: auto;
+                    width: 40%;
+                }*/
+            }
+            .column:nth-child(2){
+               // display: none;
+            }
+        }
+        header .row:last-child{
+            .column:nth-child(2) .text.menu{
+                width: 100%;
+                column-count: 1;
+            }
+            .column:last-child{
+                .fluid.input{
+                    width: 100%;
+                }
+            }
+        }
+        .nav-mobile.active {
+            transform: translateY(0);
+            top: 130px;
+        }
+        .poznamky{
+            left: 35px;
+            top: 100px;
+        }
+        .page-content .ui.segment{
+            padding: 0;
+        }
+    }
+}
+@keyframes border-dance {
+  0% {
+    background-position: 0 0, 100% 100%, 0 100%, 100% 0;
+  }
+  100% {
+    background-position: 100% 0, 0 100%, 0 0, 100% 100%;
+  }
+}

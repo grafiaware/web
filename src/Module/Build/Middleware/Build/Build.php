@@ -102,7 +102,7 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->convert();
             });
 ####################################
-        /** @var $router RouterInterface */
+        /** @var RouterInterface $router */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
 

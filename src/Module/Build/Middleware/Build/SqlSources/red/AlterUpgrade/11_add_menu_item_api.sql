@@ -27,7 +27,7 @@ INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('events', 'static');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('auth', 'static');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'empty');
 
--- update v1 -> v2
+-- update v2 -> v3
 
 UPDATE menu_item AS mi 
 INNER JOIN 

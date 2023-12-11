@@ -21,8 +21,12 @@ namespace Site;
 //use Site\TydenZdravi as Siteconfig;
 //const SITE_PATH = 'app/Site/TydenZdravi/';
 
-use Site\VeletrhPrace as Siteconfig;
-const SITE_PATH = 'app/Site/VeletrhPrace/';
+//use Site\VeletrhPrace as Siteconfig;
+//const SITE_PATH = 'app/Site/VeletrhPrace/';
+
+use Site\Vyrob as Siteconfig;
+const SITE_PATH = 'app/Site/Vyrob/';
+
 #
 ###########################################################################
 
