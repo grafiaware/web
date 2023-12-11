@@ -8,16 +8,6 @@
 
 namespace Site\VeletrhPrace;
 
-use Application\WebAppFactory;
-use Red\Component\View\Generated\LanguageSelectComponent;
-use Red\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
-
 use Pes\Logger\FileLogger;
 
 /**
@@ -26,11 +16,6 @@ use Pes\Logger\FileLogger;
  * @author pes2704
  */
 class ConfigurationRed extends ConfigurationConstants {
-
-    // local
-    const RED_TEMPLATES_COMMON = 'local/site/common/templates/red/';
-    const RED_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/red/';
-    const RED_STATIC = 'local/site/'.self::WEB_SITE.'static/';
 
     /**
      * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
@@ -91,9 +76,9 @@ class ConfigurationRed extends ConfigurationConstants {
     public static function componentController() {
 
         return [
-                'templates' => self::RED_TEMPLATES_SITE,
-                'static' => self::RED_STATIC,
-                'compiled' => self::RED_STATIC.'__compiled/',
+                'templates' => self::WEB_TEMPLATES_SITE,
+                'static' => self::WEB_STATIC,
+                'compiled' => self::WEB_STATIC.'__compiled/',
             ];
     }
 
@@ -107,11 +92,10 @@ class ConfigurationRed extends ConfigurationConstants {
                 'templates.defaultExtension' => '.php',
                 // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného typu
                 'templates.folders' => [
-                    'author'=>[self::RED_TEMPLATES_COMMON.'author/'],   //jen v common
-                    'paper' => [self::RED_TEMPLATES_SITE.'paper/', self::RED_TEMPLATES_COMMON.'paper/'],
-                    'article' => [self::RED_TEMPLATES_SITE.'article/', self::RED_TEMPLATES_COMMON.'article/'],
-                    'multipage' => [self::RED_TEMPLATES_SITE.'multipage/', self::RED_TEMPLATES_COMMON.'multipage/'],
-                    'paper-content' => [self::RED_TEMPLATES_SITE.'paper-content/', self::RED_TEMPLATES_COMMON.'paper-content/'],
+                    'author'=>[self::WEB_TEMPLATES_COMMON.'red/author/'],   //jen v common
+                    'paper' => [self::WEB_TEMPLATES_SITE.'red/paper/', self::WEB_TEMPLATES_COMMON.'red/paper/'],
+                    'article' => [self::WEB_TEMPLATES_SITE.'red/article/', self::WEB_TEMPLATES_COMMON.'red/article/'],
+                    'multipage' => [self::WEB_TEMPLATES_SITE.'red/multipage/', self::WEB_TEMPLATES_COMMON.'red/multipage/'],
                     ],
             ];
     }

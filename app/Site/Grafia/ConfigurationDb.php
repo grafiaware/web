@@ -16,7 +16,7 @@ use Pes\Logger\FileLogger;
  *
  * @author pes2704
  */
-class ConfigurationDb extends ConfigurationConstants {
+class ConfigurationDb {
 
     ### kontejner ###
     #
@@ -42,7 +42,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_admin',
             #
             ###################################
-            # Konfigurace logu renderování
+            # Konfigurace logu databáze
             #
             'red.logs.view.directory' => 'Logs/Red',
             'red.logs.view.file' => 'Render.log',
@@ -71,10 +71,8 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
-            # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'gr_upgrader',
-            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'gr_upgrader',
+            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'gr_upgrader',
+            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'gr_upgrader',
             #
             ###################################
 

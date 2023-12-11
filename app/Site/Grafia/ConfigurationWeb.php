@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Site\VeletrhPrace;
+namespace Site\Grafia;
 
 use Application\WebAppFactory;
 use Red\Component\View\Generated\LanguageSelectComponent;
@@ -133,8 +133,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
                     'cs' => 'cs',
-//                    'de' => 'de',
-//                    'en' => 'en_US'
+                    'de' => 'de',
+                    'en' => 'en_US'
                 ],
 
             // title
@@ -210,13 +210,22 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'modalRegister' => RegisterComponent::class,
                     'modalUserAction' => UserActionComponent::class,
                     'info' => InfoBoardComponent::class,
+                    'languageSelect'=> LanguageSelectComponent::class,
+                'searchPhrase'=> SearchPhraseComponent::class,
                 ],
             'contextLayoutMap' => [
                     'menuSvisle' => 'menu.svisle',
+                    'menuVodorovne' => 'menu.vodorovne',
+                    'menuPresmerovani' => 'menu.presmerovani',
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
                 ],
             'contextBlocksMap' => [
+                'aktuality'=>'a1',
+                'nejblizsiAkce'=>'a2',
+                'rychleOdkazy'=>'a3',
+                'razitko'=>'a4',
+                'socialniSite'=>'a5',
                 ],            
             ];
     }
@@ -231,6 +240,18 @@ class ConfigurationWeb extends ConfigurationConstants {
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
             'menu.componentsServices' => [
+                    'menu.presmerovani' => [
+                        'rootName' => 'menu_redirect',
+                        'withRootItem' => false,
+                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'levelRenderer' => 'menu.presmerovani.levelRenderer',
+                        ],
+                    'menu.vodorovne' => [
+                        'rootName' => 'menu_horizontal',
+                        'withRootItem' => false,
+                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'levelRenderer' => 'menu.vodorovne.levelRenderer',
+                        ],
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
                         'withRootItem' => false,

@@ -18,7 +18,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
  *
  * @author pes2704
  */
-class ConfigurationStyles {
+class ConfigurationStyles extends ConfigurationConstants {
 
     /**
      * Pomocná metoda pro konfiguraci renderer kontejneru - vrací default hodnoty pro metodu self::renderer()

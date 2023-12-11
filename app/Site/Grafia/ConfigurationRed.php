@@ -8,16 +8,6 @@
 
 namespace Site\Grafia;
 
-use Application\WebAppFactory;
-use Red\Component\View\Generated\LanguageSelectComponent;
-use Red\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
-
 use Pes\Logger\FileLogger;
 
 /**
@@ -25,7 +15,7 @@ use Pes\Logger\FileLogger;
  *
  * @author pes2704
  */
-class ConfigurationRed extends ConfigurationDb {
+class ConfigurationRed extends ConfigurationConstants {
 
     /**
      * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
@@ -100,10 +90,10 @@ class ConfigurationRed extends ConfigurationDb {
                 'templates.defaultExtension' => '.php',
                 // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného typu
                 'templates.folders' => [
-                    'author'=>[self::WEB_TEMPLATES_COMMON.'author/'],   //jen v common
-                    'paper' => [self::WEB_TEMPLATES_SITE.'paper/', self::WEB_TEMPLATES_COMMON.'paper/'],
-                    'article' => [self::WEB_TEMPLATES_SITE.'article/', self::WEB_TEMPLATES_COMMON.'article/'],
-                    'multipage' => [self::WEB_TEMPLATES_SITE.'multipage/', self::WEB_TEMPLATES_COMMON.'multipage/'],
+                    'author'=>[self::WEB_TEMPLATES_COMMON.'red/author/'],   //jen v common
+                    'paper' => [self::WEB_TEMPLATES_SITE.'red/paper/', self::WEB_TEMPLATES_COMMON.'red/paper/'],
+                    'article' => [self::WEB_TEMPLATES_SITE.'red/article/', self::WEB_TEMPLATES_COMMON.'red/article/'],
+                    'multipage' => [self::WEB_TEMPLATES_SITE.'red/multipage/', self::WEB_TEMPLATES_COMMON.'red/multipage/'],
                     ],
             ];
     }

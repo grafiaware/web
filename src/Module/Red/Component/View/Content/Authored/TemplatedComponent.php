@@ -14,8 +14,8 @@ use Component\ViewModel\StatusViewModelInterface;
 use Access\AccessPresentationInterface;
 use Template\Seeker\TemplateSeekerInterface;
 
-use Template\Seeker\Exception\Red\Service\TemplateServiceExceptionInterface;
-use Template\Seeker\Exception\TemplateNotFoundException;
+use Pes\View\Template\Exception\NoTemplateFileException;
+use Template\Seeker\Exception\TemplateServiceExceptionInterface;
 
 use Pes\View\Template\PhpTemplate;
 
@@ -94,9 +94,11 @@ class TemplatedComponent extends AuthoredComponentAbstract implements InheritDat
                     // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
                     $template = new PhpTemplate($templateFileName);
                 } catch (NoTemplateFileException $noTemplExc) {
+                    //TODO: Sv raději zobrazit místo obsahu hlášení o neexistující template
                     $template = new ImplodeTemplate();
                 }
-            } catch (Red\Service\TemplateServiceExceptionInterface $exc) {
+            } catch (TemplateServiceExceptionInterface $exc) {
+                // viz TODO
                 $template = new ImplodeTemplate();
             }
 

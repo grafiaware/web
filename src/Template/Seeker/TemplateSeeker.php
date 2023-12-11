@@ -56,6 +56,7 @@ class TemplateSeeker implements TemplateSeekerInterface {
                 return $filename;
             }
         }
-        throw new TemplateNotFoundException("Nebyl nalezen soubor template '$templateName$templateExtension' ve složkách zadaných v konfiguraci ('folders').");
+        $configClass = get_class($this->configuration);
+        throw new TemplateNotFoundException("Nebyl nalezen soubor template typu '$templatesType' s názvem '$templateName$templateExtension' ve složkách zadaných v konfiguraci '$configClass'.");
     }
 }

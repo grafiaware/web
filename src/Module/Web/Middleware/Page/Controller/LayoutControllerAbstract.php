@@ -250,6 +250,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     }
 
 #
+#### view s content loaderem #####################################################
+#
+#
 #### menu item loadery pro bloky layoutu #########################################################################
 #
 
@@ -260,7 +263,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return View[]
      */
     private function getBlockLoaders() {
-        $map = ConfigurationCache::layoutController()['layout_blocks'];
+        $map = ConfigurationCache::layoutController()['contextBlocksMap'];
         $componets = [];
 
         // pro neexistující bloky nedělá nic
@@ -274,11 +277,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         }
         return $componets;
     }
-
-#
-#### view s content loaderem #####################################################
-#
-
+    
     /**
      * Vrací view s šablonou obsahující skript pro načtení obsahu na základě typu menuItem a id menu item. Načtení probíhá pomocí cascade.js.
      * cascade.js odešle request, získaným obsahem a zamění původní obsah html elementu v layoutu.
