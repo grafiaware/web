@@ -111,14 +111,8 @@ class DatabaseController extends BuildControllerAbstract {
 
         $this->manipulator = $this->container->get('manipulator_for_drop_database');
         $this->reportMessage[] = "Záznam o smazání tabulek a pohledů ".(new \DateTime("now"))->format("d.m.Y H:i:s");
-        // tables
-        $selectStatement = $this->queryFromTemplate("dropTables/drop_tables_0_select_tables_template.sql", $this->container->get('build.config.drop'));
-        $tableNamesRows = $selectStatement->fetchAll(\PDO::FETCH_ASSOC);
-        $dropQueriesString = '';
-        foreach ($tableNamesRows as $tableNamesRow) {
-            $dropQueriesString .= 'DROP TABLE IF EXISTS '.$tableNamesRow['table_name'].';'.PHP_EOL;
-        }
-        $this->executeFromTemplate('dropTables/drop_tables_1_drop_tables_template.sql', ['dropTablesSql' => $dropQueriesString]);
+        
+                
         // views
         $selectStatement = $this->queryFromTemplate("dropTables/drop_tables_2_select_views_template.sql", $this->container->get('build.config.drop'));
         $viewNamesRows = $selectStatement->fetchAll(\PDO::FETCH_ASSOC);
@@ -128,6 +122,17 @@ class DatabaseController extends BuildControllerAbstract {
         }
         $this->executeFromTemplate('dropTables/drop_tables_3_drop_views_template.sql', ['dropViewsSql' => $dropQueriesString]);
 
+        // tables
+        $selectStatement = $this->queryFromTemplate("dropTables/drop_tables_0_select_tables_template.sql", $this->container->get('build.config.drop'));
+        $tableNamesRows = $selectStatement->fetchAll(\PDO::FETCH_ASSOC);
+        $dropQueriesString = '';
+        foreach ($tableNamesRows as $tableNamesRow) {
+            $dropQueriesString .= 'DROP TABLE IF EXISTS '.$tableNamesRow['table_name'].';'.PHP_EOL;
+        }
+        $this->executeFromTemplate('dropTables/drop_tables_1_drop_tables_template.sql', ['dropTablesSql' => $dropQueriesString]);
+
+        
+        
         if ($this->container instanceof ContainerSettingsAwareInterface) {
             $this->container->reset('manipulator_for_drop_database');
         }

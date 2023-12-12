@@ -92,13 +92,27 @@ CREATE TABLE `menu_adjlist` (
 ) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for menu_item_api
+-- ----------------------------
+CREATE TABLE `menu_item_api` (
+  `module` varchar(20) NOT NULL,
+  `generator` varchar(20) NOT NULL,
+  PRIMARY KEY (`module`,`generator`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
 -- Table structure for menu_item
 -- ----------------------------
 DROP TABLE IF EXISTS `menu_item`;
 CREATE TABLE `menu_item` (
   `lang_code_fk` char(25) NOT NULL,  -- bude UNIQUE KEY (`lang_code_fk`,`uid_fk`)
   `uid_fk` varchar(45) DEFAULT NULL,  -- bude změněno na NOT NULL po naplnění hodnot
-  `type_fk` varchar(45) DEFAULT NULL,
+
+-- `type_fk` varchar(45) DEFAULT NULL,
+  `api_module_fk` varchar(45) DEFAULT NULL,
+  `api_generator_fk` varchar(20) DEFAULT NULL,
+
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do menu_item
   `order` tinyint(1) NOT NULL DEFAULT '0',
@@ -108,10 +122,37 @@ CREATE TABLE `menu_item` (
   `auto_generated` varchar(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY (`prettyuri`),
-  CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`)
+-- CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`)
+  CONSTRAINT `menu_item_api_fk` FOREIGN KEY (`api_module_fk`, `api_generator_fk`) REFERENCES `menu_item_api` (`module`, `generator`) ON UPDATE CASCADE
+
   ON UPDATE CASCADE
   ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- CREATE TABLE `menu_item` (
+--   `lang_code_fk` char(25) NOT NULL,
+--   `uid_fk` varchar(45) NOT NULL,
+--   `api_module_fk` varchar(45) DEFAULT NULL,  ***
+--   `api_generator_fk` varchar(20) DEFAULT NULL, ***
+--   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+--   `list` varchar(45) DEFAULT NULL,
+--   `order` tinyint(80) NOT NULL DEFAULT '0',
+--   `title` text,
+--   `prettyuri` varchar(100) DEFAULT NULL,
+--   `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+--   `auto_generated` varchar(6) NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`lang_code_fk`,`uid_fk`),   ***
+--   UNIQUE KEY `lang_code_fk` (`lang_code_fk`,`uid_fk`),***
+--   UNIQUE KEY `id` (`id`),***
+--   UNIQUE KEY `prettyuri` (`prettyuri`), ***
+--   KEY `hierarchy_uid_fk` (`uid_fk`), ***
+--   KEY `menu_item_api_fk_idx1` (`api_module_fk`,`api_generator_fk`),
+--   *** CONSTRAINT `hierarchy_uid_fk` FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`),
+--   *** CONSTRAINT `language_lang_code_fk` FOREIGN KEY (`lang_code_fk`) REFERENCES `language` (`lang_code`),
+--   CONSTRAINT `menu_item_api_fk` FOREIGN KEY (`api_module_fk`, `api_generator_fk`) REFERENCES `menu_item_api` (`module`, `generator`) ON UPDATE CASCADE
+-- ) ENGINE=InnoDB AUTO_INCREMENT=769 DEFAULT CHARSET=utf8;
+
+
 
 -- ----------------------------
 -- Table structure for menu_item_asset
@@ -237,11 +278,12 @@ CREATE TABLE `paper_section` (
 -- ----------------------------
 -- View structure for fulltree
 -- ----------------------------
-DROP VIEW IF EXISTS `fulltree`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `fulltree` AS select `node`.`uid` AS `uid`,(count(`parent`.`uid`) - 1) AS `depth`,`node`.`left_node` AS `left_node`,`node`.`right_node` AS `right_node`,`node`.`parent_uid` AS `parent_uid` from (`hierarchy` `node` join `hierarchy` `parent` on((`node`.`left_node` between `parent`.`left_node` and `parent`.`right_node`))) group by `node`.`uid`;
+-- DROP VIEW IF EXISTS `fulltree`;
+-- CREATE VIEW `fulltree` AS select `node`.`uid` AS `uidqq`,(count(`parent`.`uid`) - 1) AS `depth`,`node`.`left_node` AS `left_node`,`node`.`right_node` AS `right_node`,`node`.`parent_uid` AS `parent_uid` from (`hierarchy` `node` join `hierarchy` `parent` on((`node`.`left_node` between `parent`.`left_node` and `parent`.`right_node`))) group by `node`.`uid`;
 
 -- ----------------------------
 -- View structure for hierarchy_view
 -- ----------------------------
-DROP VIEW IF EXISTS `hierarchy_view`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`gr_upgrader`@`localhost` SQL SECURITY DEFINER VIEW `hierarchy_view` AS select `hierarchy`.`uid` AS `uid`,`hierarchy`.`left_node` AS `left_node`,`hierarchy`.`right_node` AS `right_node`,`hierarchy`.`parent_uid` AS `parent_uid`,`menu_item`.`lang_code_fk` AS `lang_code`,`menu_item`.`uid_fk` AS `uid_fk`,`menu_item`.`type_fk` AS `type_fk`,`menu_item`.`id` AS `id`,`menu_item`.`list` AS `list`,`menu_item`.`order` AS `order`,`menu_item`.`title` AS `title`,`menu_item`.`active` AS `active`,`menu_item`.`auto_generated` AS `auto_generated` from (`hierarchy` left join `menu_item` on((`hierarchy`.`uid` = `menu_item`.`uid_fk`)));
+-- DROP VIEW IF EXISTS `hierarchy_view`;
+-- CREATE VIEW `hierarchy_view` AS select `hierarchy`.`uid` AS `uid`,`hierarchy`.`left_node` AS `left_node`,`hierarchy`.`right_node` AS `right_node`,`hierarchy`.`parent_uid` AS `parent_uid`,`menu_item`.`lang_code_fk` AS `lang_code`,`menu_item`.`uid_fk` AS `uid_fk`,`menu_item`.`type_fk` AS `type_fk`,`menu_item`.`id` AS `id`,`menu_item`.`list` AS `list`,`menu_item`.`order` AS `order`,`menu_item`.`title` AS `title`,`menu_item`.`active` AS `active`,`menu_item`.`auto_generated` AS `auto_generated` from (`hierarchy` left join `menu_item` on((`hierarchy`.`uid` = `menu_item`.`uid_fk`)));
+-- ALGORITHM=UNDEFINED DEFINER=`gr_upgrader`@`localhost` SQL SECURITY DEFINER 

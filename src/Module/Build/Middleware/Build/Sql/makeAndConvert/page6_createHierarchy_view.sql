@@ -32,3 +32,10 @@ select
 `menu_item`.`active` AS `active`,
 `menu_item`.`auto_generated` AS `auto_generated` 
 from (`hierarchy` left join `menu_item` on((`hierarchy`.`uid` = `menu_item`.`uid_fk`)));
+
+
+-- ----------------------------
+-- View structure for fulltree
+-- ----------------------------
+DROP VIEW IF EXISTS `fulltree`;
+CREATE VIEW `fulltree` AS select `node`.`uid` AS `uidqq`,(count(`parent`.`uid`) - 1) AS `depth`,`node`.`left_node` AS `left_node`,`node`.`right_node` AS `right_node`,`node`.`parent_uid` AS `parent_uid` from (`hierarchy` `node` join `hierarchy` `parent` on((`node`.`left_node` between `parent`.`left_node` and `parent`.`right_node`))) group by `node`.`uid`;
