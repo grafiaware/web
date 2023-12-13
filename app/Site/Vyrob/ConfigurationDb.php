@@ -98,12 +98,12 @@ class ConfigurationDb {
             # Konfigurace make - ostatní parametry přidá kontejner
             # pole build.config.make.roots: [type, list, title]
             'build.config.make.items' => [
-                ['root', 'root', 'ROOT'],
-                ['trash', 'trash', 'Trash'],
-                ['paper', 'blocks', 'Blocks'],
-                ['paper', 'menu_vertical', 'Menu'],
-                ['paper', 'menu_horizontal', 'Menu'],
-                ['paper', 'menu_redirect', 'Menu'],
+                ['NULL', 'root', 'root', 'ROOT'],
+                ['NULL', 'trash', 'trash', 'Trash'],
+                ['NULL', 'block', 'blocks', 'Blocks'],
+                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+                ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
+                ['red', 'empty', 'menu_redirect', 'Menu redirect'],
             ],
             'build.config.make.roots' => [
                 'root',

@@ -1,3 +1,4 @@
+/* page5_3_insertIntoBlockTable */
 -- naplnění tabulky block
   --  položky 'a'
 INSERT INTO block (uid_fk, name)

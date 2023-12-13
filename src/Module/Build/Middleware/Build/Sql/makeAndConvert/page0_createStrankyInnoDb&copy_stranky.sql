@@ -1,3 +1,5 @@
+/* page0_createStrankyInnoDb&copy_stranky */
+
 DROP TABLE IF EXISTS `stranky_innodb`;
 
 -- tabulka stranky_innodb - je innodb a lze používat cizí klíče, má collation defaultní k utf8 - t.j. generalci (mám vícejazyčný obsah)

@@ -1,3 +1,5 @@
+/* page6_createHierarchy_view */
+
 DROP VIEW IF EXISTS hierarchy_view;
 
 -- CREATE VIEW `hierarchy_view` AS

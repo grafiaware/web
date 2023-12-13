@@ -1,3 +1,4 @@
+/* page3_selectIntoAdjList */
 /*
  * -- druhá úroveň stromu menu jsou kořeny jednotlivých menu - 'trash', 'blocks', 'menu_vertical', 'menu_horizontal', 'menu_redirect'
  * -- do sloupce parent je zapsáno root - jeich společným rodičem je kořen celého stromu

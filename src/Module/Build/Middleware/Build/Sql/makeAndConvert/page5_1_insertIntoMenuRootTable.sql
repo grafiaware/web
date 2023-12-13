@@ -1,3 +1,4 @@
+/* page5_1_insertIntoMenuRootTable */
 -- naplnění tabulky menu_root
   -- kořeny jednotlivých menu
   -- kořen a je přejmenován na block

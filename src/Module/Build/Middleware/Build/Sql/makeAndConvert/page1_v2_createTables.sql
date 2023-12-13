@@ -1,3 +1,4 @@
+/* page1_v2_createTables  */
 /*
 POZOR!  Tabulky stranky a stranky_innodb vytváří skript page0 - kopie ze staré db
 Tabulka menu_item je vytvořena bez primárního klíče a později bude změněna
@@ -103,16 +104,19 @@ CREATE TABLE `menu_item_api` (
 
 -- ----------------------------
 -- Table structure for menu_item
--- ----------------------------
+-- ----------------------------  
+-- `type_fk` varchar(45) DEFAULT NULL,
+-- CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`)
+-- ON UPDATE CASCADE
+-- ON DELETE CASCADE
+
+
 DROP TABLE IF EXISTS `menu_item`;
 CREATE TABLE `menu_item` (
   `lang_code_fk` char(25) NOT NULL,  -- bude UNIQUE KEY (`lang_code_fk`,`uid_fk`)
   `uid_fk` varchar(45) DEFAULT NULL,  -- bude změněno na NOT NULL po naplnění hodnot
-
--- `type_fk` varchar(45) DEFAULT NULL,
   `api_module_fk` varchar(45) DEFAULT NULL,
   `api_generator_fk` varchar(20) DEFAULT NULL,
-
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do menu_item
   `order` tinyint(1) NOT NULL DEFAULT '0',
@@ -122,11 +126,8 @@ CREATE TABLE `menu_item` (
   `auto_generated` varchar(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY (`prettyuri`),
--- CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`)
   CONSTRAINT `menu_item_api_fk` FOREIGN KEY (`api_module_fk`, `api_generator_fk`) REFERENCES `menu_item_api` (`module`, `generator`) ON UPDATE CASCADE
-
-  ON UPDATE CASCADE
-  ON DELETE CASCADE
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- CREATE TABLE `menu_item` (
@@ -274,6 +275,18 @@ CREATE TABLE `paper_section` (
   FULLTEXT KEY `searchcontent` (`content`),
   CONSTRAINT `paper_id_fk2` FOREIGN KEY (`paper_id_fk`) REFERENCES `paper` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `static` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_item_id_fk` int(11) unsigned NOT NULL,
+  `path` varchar(150) NOT NULL,
+  `folded` tinyint(1) NOT NULL DEFAULT '0',
+  `editor` varchar(20) DEFAULT '',
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `menu_item_id_fk2` (`menu_item_id_fk`),
+  CONSTRAINT `menu_item_id_fk2` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- View structure for fulltree

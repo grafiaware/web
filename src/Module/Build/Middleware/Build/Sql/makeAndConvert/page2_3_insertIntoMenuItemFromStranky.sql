@@ -1,3 +1,4 @@
+/* page2_3_insertIntoMenuItemFromStranky */
 -- naplnění menu_item selectem z stranky_innodb
 -- list je dočasný, slouží pro propojení ve fázi naplňování 'menu_item' tabulky a bude odstraněn
 INSERT INTO `menu_item` ( `lang_code_fk`, `list`, `order`,  `title`, `active`, `auto_generated`)

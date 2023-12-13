@@ -1,3 +1,4 @@
+/* page5_2_insertHomeIntoBlockTable */
 -- naplnění tabulky block
   --  položka home page
 INSERT INTO block (uid_fk, name)

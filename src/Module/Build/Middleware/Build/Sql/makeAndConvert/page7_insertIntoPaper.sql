@@ -1,3 +1,4 @@
+/* page7_insertIntoPaper */
 -- naplnění paper a paper_section selectem z stranky_innodb join menu_item
 -- list slouží pro propojení ve fázi naplňování 'paper' tabulky a bude odstraněn
 -- obsah starých stránek (content) se kopíruje do perex, pokud jsou nemá nasteveno časové omezení aktiv_lanXstart IS NULL AND aktiv_lanXstop IS NULL nebo jsou

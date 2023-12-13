@@ -219,7 +219,13 @@ class DatabaseController extends BuildControllerAbstract {
             // [type, list, title]
             $rootsDefinitions = $this->container->get('build.config.make.items');
             foreach ($rootsDefinitions as $rootDef) {
-                $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql", ['menu_root_type' => $rootDef[0], 'menu_root_list'=>$rootDef[1], 'menu_root_title'=>$rootDef[2]]);
+                $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql", 
+                    [
+                        'menu_root_api_module' => $rootDef[0], 
+                        'menu_root_api_generator' => $rootDef[1],
+                        'menu_root_list'=>$rootDef[2],
+                        'menu_root_title'=>$rootDef[3],
+                    ]);
             }
         };
 

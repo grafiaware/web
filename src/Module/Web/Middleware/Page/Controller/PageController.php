@@ -15,6 +15,7 @@ use Red\Model\Entity\MenuItemInterface;
 
 // komponenty
 use Red\Component\View\Generated\SearchResultComponent;
+use UnexpectedValueException;
 
 ####################
 
