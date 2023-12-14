@@ -1,0 +1,29 @@
+/*******************************
+         Site Overrides
+*******************************/
+
+.prihlaseni .dropdown{
+    .tertiary.button{
+        font-size: @relative5px; 
+    }
+} 
+.editSize.buttons, .editingButtons_size.buttons{
+    .button{
+        font-size: @small;
+        .icon{
+            font-size: @huge; 
+        } 
+    }
+} 
+.editSize.button, .editingButtons_size.button{
+    font-size: @small;
+    .icon{
+        font-size: @huge; 
+    }
+}
+.ui.button:disabled, .ui.buttons .disabled.button:not(.basic), .ui.disabled.active.button, .ui.disabled.button, .ui.disabled.button:hover {
+    pointer-events: auto !important;
+    opacity: 1 !important;  
+    color: rgba(34,36,38,.3); 
+}
+   

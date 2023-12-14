@@ -15,6 +15,9 @@ namespace Site;
 //use Site\Grafia as Siteconfig;
 //const SITE_PATH = 'app/Site/Grafia/';
 
+use Site\NajdiSi as Siteconfig;
+const SITE_PATH = 'app/Site/NajdiSi/';
+
 //use Site\OtevreneAteliery as Siteconfig;
 //const SITE_PATH = 'app/Site/OtevreneAteliery/';
 
@@ -24,8 +27,8 @@ namespace Site;
 //use Site\VeletrhPrace as Siteconfig;
 //const SITE_PATH = 'app/Site/VeletrhPrace/';
 
-use Site\Vyrob as Siteconfig;
-const SITE_PATH = 'app/Site/Vyrob/';
+//use Site\Vyrob as Siteconfig;
+//const SITE_PATH = 'app/Site/Vyrob/';
 
 #
 ###########################################################################

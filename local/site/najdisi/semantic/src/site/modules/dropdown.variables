@@ -1,0 +1,18 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+@menuHeaderTextTransform: none;  
+
+/* Menu Item */
+@itemFontSize: @smallSize; 
+
+
+@menuHeaderColor: @darkTextColor;
+@menuHeaderFontSize:  @relative8px;
+
+/* Menu Input */
+@menuInputVerticalPadding:  0.3em;
+@menuInputHorizontalPadding:  0.3em;
+
+/* Sub Menu */
+@subMenuDistanceAway: -0.5em; 

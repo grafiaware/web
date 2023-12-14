@@ -1,0 +1,543 @@
+@marginDefault: 70px;
+main{
+/*    :not(.paper) perex, :not(.paper) content{
+        margin: @marginDefault 0;
+    }*/
+    .paper perex { 
+        margin: 50px 0;
+    }
+    section > content{
+        margin: 150px 0;
+    }
+    .ui.segment content{
+        margin: 0 0;
+    }
+    #pracovni-pozice, #chci-na-online-pohovor,
+    #chci-navazat-kontakt, #nas-program{
+        margin: 100px 0;
+    }
+} 
+main headline{
+   // margin: 70px 0 -20px
+}
+
+/**úvodní stránka***/
+.nadpis.uvod{
+    font-weight: 300;
+    font-size: @h4;
+    margin-top: -40px; 
+    text-transform: none;
+}
+
+
+.blok-nadpis-loga{
+    .text{
+        margin-top: @marginDefault + 20px;
+    }
+    .stretched.row:first-child{
+        padding-left: 40px;
+        padding-right: 40px;
+        .column:first-child img{
+            max-width: 100%;
+            height: auto;
+        }
+        .column:nth-child(2) img{
+            height: 200px;
+            width: auto;
+        }
+        .column:last-child img{
+            height: 120px;
+            width: auto;
+        }
+    }
+    .logo-partnera img{
+        filter: grayscale();
+        &:hover{
+            filter: none;
+            transition: 0.3s all;
+        }
+    }
+    .partneri-pozadi{
+        padding: 80px 15%;
+        margin: 80px -15% 0 -19%;
+        background-color: @greyBackground ;
+    }
+}
+content .online-stanky{
+    margin: -70px -50px 0 -50px;
+}
+.online-stanky{
+    padding: 70px 50px;
+    margin: 0 -50px 0 -50px;
+    background-image: url('@{imgForSite}pozadi-hala.png');
+    background-size: 100% auto;
+    background-repeat: repeat-y; 
+    .logo-vystavovatele img{
+        max-height: 100px;
+        max-width: 260px; 
+    }
+}
+.letak-stanku{
+    img{
+        width: 280px;
+        object-fit: cover;
+        object-position: top;
+    }
+}
+.letak-v-igelitce{
+    height: 300px;
+}
+.prednasejici{
+    margin-bottom: 70px;
+    border: 1px solid @borderColor;
+    border-radius: 5px;
+    //font-size: 25px;
+}
+.blokEL-obr-text{
+    position: relative;
+    margin-bottom: @marginDefault * 3.3;
+    &.sekundarni-barva::before,&.sekundarni-barva::after{
+        background-color: @secondaryColor;
+    }
+    &.primarni-barva::before,&.primarni-barva::after{
+        background-color: @primaryColor;
+    }
+    &::before{
+        content: '';
+        width: 97px;
+        height: 100%;
+        position: absolute;
+        top: 40px;
+        left: -97px;
+    }
+    &::after{
+        content: '';
+        width: 60%;
+        height: 97px;
+        position: absolute;
+        bottom: -97px;
+        left: -97px;
+    }
+    img{
+        width: 100%;
+        height: auto;
+    }
+}
+.pozadi-img{
+    height: 480px;
+    height: 300px;
+    background-position: top;
+    background-repeat: no-repeat;
+    margin-bottom: 30px;
+    .text{
+        position: absolute;
+        bottom: 0;
+    }
+}
+.pozadi-video{ 
+    background-image: url('@{imgForSite}videonavod.png');
+    &:hover{
+        background-image: url('@{imgForSite}videonavod_2.png');
+    }
+}
+.pozadi-stanek{ 
+    background-image: url('@{imgForSite}stanek.png');
+    &:hover{
+        background-image: url('@{imgForSite}stanek_2.png');
+    }
+}
+.pozadi-prednasky{
+    background-image: url('@{imgForSite}pocitac.png');
+    &:hover{
+        background-image: url('@{imgForSite}pocitac_2.png');
+    }
+}
+.pozadi-letak{
+    background-image: url('@{imgForSite}letak.png');
+    &:hover{
+        background-image: url('@{imgForSite}letak_2.png');
+    }
+}
+
+
+/********stanek***********/
+.jmeno-stanku{
+    position: absolute;
+    width: 700px !important;
+    left: 0;
+    top: 70px; 
+    text-align: center;
+}
+.video-na-stanku{
+    position: relative; 
+    top: 70px; 
+    text-align: right;
+    margin-right: 80px;
+}
+.pani-na-stanku{
+    //margin-top: 50px;
+    content{
+        margin: 10px auto;
+    }
+    img{
+        max-width: 95%;
+    }
+}
+.soc-site-stanku{
+    margin-bottom: 15px;
+    text-align: right;
+    content{
+        display: inline-block;
+        margin: 10px auto;
+    }
+    i{
+        cursor: pointer;
+        &:hover{
+            opacity: 0.8;
+            transition: 0.2s all;
+        }
+    }
+}
+.buttony-mimo-stanek{
+    .basic.button{
+        font-weight: 500;
+    }
+    content{ 
+        margin: 10px auto;
+    }
+}
+.buttony-na-stanku{
+    .basic.button{
+        font-weight: 500;
+    }
+    .button:first-child{
+        position: absolute; 
+        top: -340px;  
+        left: 8%;
+    }
+}
+.prednaska-stanku{
+    .img-prednasejici{
+        height: 110px !important;
+        border-radius: 100%; 
+    }
+}
+.vypis-prac-pozic{
+    .podnadpis{
+        font-size: 2rem; 
+    }
+    font-size: 1.6rem;
+    .podnadpis .tag{
+        vertical-align: middle;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .podnadpis .pointing{
+        display: block;;
+    }
+}
+
+/*profil*/
+.profil{
+    .primary.button{
+        &:not(.basic){
+            position: absolute;
+            bottom: 0;
+            right: 0;    
+        }
+        &.basic{
+            position: relative;
+            bottom: 0;
+            left: 0;
+/*            input[type="file"]{
+                opacity: 0;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 63px;
+                width: 203px;
+                cursor: pointer;
+            }*/
+        }
+    }
+    .field.margin{
+        margin-bottom: 70px !important;
+        position: relative;
+    }
+}
+
+/*chci navazat kontakt*/
+.navazat-kontakt{
+    .profil.hidden{
+       display: none;
+    }
+}
+
+/*časová osa3*/
+.timeline{
+    margin-top:20px;
+    position:relative;
+    &::before{
+        position:absolute;
+        content:'';
+        width:4px;
+        height:calc(100% + 50px);
+        background: rgb(138,145,150);
+        left:5px;
+        top:5px;
+        border-radius:4px;
+    }
+    .timeline-section{
+        padding-left:35px;
+        display:block;
+        position:relative;
+        margin-bottom:30px;
+        &::before{
+            content:'';
+            position:absolute;
+            width:40px;
+            height:2px;
+            background-color:@primaryColor;
+            top:20px;
+            left:5px;
+        }
+        &::after{
+            content:'';
+            position:absolute;
+            width:15px;
+            height:15px;
+            background: @white;
+            top:13px;
+            left:-1px;
+            border:2px solid @primaryColor;
+            border-radius:100%;
+        }
+    }
+    .timeline-date{
+        margin-bottom:20px;
+        padding:2px 15px;
+        background: @primaryColor;
+        position:relative;
+        display:inline-block;
+        border-radius: 20px;
+        color: @white;
+        font-weight: 500;
+    }
+    .timeline-box{
+        position:relative;
+        background-color: @white;
+        border-radius:15px;
+        border-top-left-radius:0px;
+        border-bottom-right-radius:0px;
+        border:1px solid #8a9196;
+        transition:all 0.3s ease;
+        overflow:hidden;
+        margin-bottom: 30px;
+    }
+    .box-icon{
+        position:absolute;
+        right:5px;
+        top:0px;
+    }
+    .box-title{
+        padding:5px 15px;
+        border-bottom: 1px solid #8a9196;
+        font-size: 23px;
+    }
+    .box-title i{
+        margin-right:5px;
+    }
+    .box-content{
+        padding:5px 15px;
+        background-color: @white;
+    }
+    .box-item{
+        margin: 10px;
+        line-height: 1.5em;
+        
+        .box-name{
+            font-size: 20px;
+            font-weight: 400;
+            margin: 0;
+        }
+        .box-description{
+            font-size: 17px; 
+            &.bold{
+                font-weight: 400;
+            }
+        }
+    }
+    .box-footer{
+        padding:5px 15px;
+        border-top: 1px solid #8a9196;
+        background-color: @white;
+        text-align:right;
+        font-size: 23px;
+    }
+}
+
+
+.casova-osa p{
+    margin: 110px 10px;
+    &:first-child{
+        margin-top: 0;
+    }
+}
+.aktivity{
+    .ui.raised.segment{
+        width: 30%;
+        float: left;
+        margin: 10px;
+    }
+}
+.prehled-pozic > div{
+    margin-top: 100px;
+}
+
+/*časová osa1**/
+.timeline-1{
+    position: relative;
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 15px 0;
+    &::after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        background: @primaryColor;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1px;
+    }
+    .timeline-section{
+        width: 100%;
+    }
+    .timeline-date{
+        margin-bottom: 20px;
+        padding: 2px 15px;
+        border-radius: 20px;
+        border: 3px solid @primaryColor;
+        z-index: 1;
+        font-weight: 500;
+        position: relative;
+        left: 50%;
+        display: inline-block;
+        transform: translateX(-50%);
+        margin-top: 20px;
+        background: @primaryColor;
+        color: @white;
+
+    }
+    .box-direction{
+        padding: 15px 30px;
+        position: relative;
+        background: inherit;
+        width: 50%;
+        .time{
+            position: absolute;
+            display: inline-block;
+            top: calc(50% - 35px);
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: @primaryColor;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+        .icon{
+            position: absolute;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            padding: 13px 0;
+            top: calc(50% - 25px);
+            background: @greyBackground;
+            border: 2px solid @primaryColor;
+            border-radius: 40px;
+            text-align: center;
+            font-size: 20px;
+            color: @primaryColor;
+            z-index: 1;
+        }
+        .summary{
+            padding: 30px 90px 30px 30px;
+            background: @greyBackground;
+            position: relative;
+            border-radius: 0 500px 500px 0;
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: calc(50% - 8px);
+            right: -8px;
+            background: @white;
+            border: 2px solid @primaryColor;
+            border-radius: 16px;
+            z-index: 1;
+        }
+        &::before{
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            top: calc(50% - 1px);
+            right: 8px;
+            background: @primaryColor;
+            z-index: 1;
+        }
+    }
+    .row:nth-child(2n){
+        .box-direction{
+            left: 0;
+            .time{
+                right: -75px;
+            }
+            .icon{
+                right: 56px;
+            }
+        }
+    }
+    .row:nth-child(2n+1){
+        .box-direction{
+            left: 50%;
+            &::after {
+                left: -8px;
+            }
+            &::before {
+                left: 8px;
+            }
+            .time{
+                left: -75px;
+            }
+            .icon{
+                left: 56px;
+            }
+            .summary{
+                padding: 30px 30px 30px 90px;
+                border-radius: 500px 0 0 500px;
+            }
+        }
+    }
+    h2{
+        margin: 0 0 10px 0;
+        font-size: 20px;
+        font-weight: normal;
+        color: @primaryColor;
+    }
+    p{
+        margin: 7px 0;
+        font-size: 18px;
+        line-height: 22px;
+        color: @textColor;
+    }
+}
+
+.definition.table{
+    font-size: 20px;
+    margin: 200px auto 200px auto;
+}

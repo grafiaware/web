@@ -1,0 +1,17 @@
+/*******************************
+        User Overrides
+*******************************/
+.prihlaseni .dropdown{
+    label{
+        font-size: @relative5px;
+        padding-left: 1.3em; 
+    }
+    .input{
+        font-size: @relative8px; 
+    }
+}
+.dropdown .button{
+    font-size: 1.15rem;
+    display: flex;
+    margin: 5px auto;
+}
