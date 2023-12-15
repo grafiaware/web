@@ -84,6 +84,9 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
             '"layout-images/' => '"'.$siteDirectory.'layout-images/',
             '"public/web/'=>'"'.$publicDirectory,
+            'font-size: x-small;' => '',
+            'font-size: small;' => '',
+            'font-size: medium;' => '',
         );
 
         $first = str_replace(array_keys($transform), array_values($transform), $text);
