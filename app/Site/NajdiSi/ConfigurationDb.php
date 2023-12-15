@@ -139,6 +139,26 @@ WHERE
 s1.list = s2.list
 ",
                 ],
+            'build.config.convert.final' => [
+             // změna zpět s na l
+"
+UPDATE stranky AS s1 
+INNER JOIN
+(
+SELECT 
+concat('l', mid(list, 2)) AS newlist,
+list
+FROM
+stranky
+WHERE
+left(list, 1)='s'
+) AS s2
+SET
+s1.list = s2.newlist
+WHERE 
+s1.list = s2.list
+",
+                ],
             #
             ###################################
 

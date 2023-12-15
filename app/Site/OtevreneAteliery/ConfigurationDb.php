@@ -123,6 +123,7 @@ class ConfigurationDb extends ConfigurationConstants {
                 'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
             'build.config.convert.repairs' => [],
+            'build.config.convert.final' => [],
             #
             ###################################
 

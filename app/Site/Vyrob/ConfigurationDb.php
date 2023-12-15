@@ -128,6 +128,7 @@ class ConfigurationDb {
                 // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
                 "DELETE FROM stranky WHERE list = 's_01'",
                 ],
+            'build.config.convert.final' => [],
             #
             ###################################
 

@@ -108,6 +108,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         'source_table_name' =>  ConfigurationCache::build()['build.config.convert.copy']['source'] ?? '',  // jméno source obsahuje jméno db i tabulky: source_db.source_table
                         'target_table_name' => ConfigurationCache::build()['build.config.convert.copy']['target'] ?? '',  // jméno target obsahuje jméno db i tabulky: target_db.target_table
                         'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
+                        'final' => ConfigurationCache::build()['build.config.convert.final'] ?? [],                        
                         'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
                         'home' =>  ConfigurationCache::build()['build.config.convert.home'],
                         ];

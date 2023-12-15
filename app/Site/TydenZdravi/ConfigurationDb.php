@@ -115,6 +115,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'build.config.convert.updatestranky' => [],
             'build.config.convert.home' => [],
             'build.config.convert.repairs' => [],
+            'build.config.convert.final' => [],
             #
             ###################################
 

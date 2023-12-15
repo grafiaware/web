@@ -314,9 +314,14 @@ class DatabaseController extends BuildControllerAbstract {
                 $fileName = "makeAndConvert/page7_insertIntoPaper.sql";
                 $this->executeFromFile($fileName);
             };
+            $conversionSteps[] = function() {   // jen pro convert grafia
+                $convertFinal = $this->container->get('build.config.convert')['final'];
+                foreach ($convertFinal as $final) {
+                    $this->executeFromString($final);
+                }
+            };
         }
-        
-
+            
         $this->setTimeLimit();
         $this->reportMessage[] = "Záznam o vytvoření a konverzi databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
         $this->executeSteps($conversionSteps);
