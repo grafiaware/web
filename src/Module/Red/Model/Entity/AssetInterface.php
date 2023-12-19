@@ -21,15 +21,15 @@ interface AssetInterface extends PersistableEntityInterface {
 
     public function getUpdated();
 
-    public function setId($id): MenuItemAssetInterface;
+    public function setId($id): AssetInterface;
 
-    public function setFilepath($filepath): MenuItemAssetInterface;
+    public function setFilepath($filepath): AssetInterface;
 
-    public function setMimeType($mimeType): MenuItemAssetInterface;
+    public function setMimeType($mimeType): AssetInterface;
 
-    public function setEditorLoginName($editorLoginName): MenuItemAssetInterface;
+    public function setEditorLoginName($editorLoginName): AssetInterface;
 
-    public function setCreated($created): MenuItemAssetInterface;
+    public function setCreated($created): AssetInterface;
 
-    public function setUpdated($created): MenuItemAssetInterface;
+    public function setUpdated($created): AssetInterface;
 }

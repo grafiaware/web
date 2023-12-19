@@ -3,7 +3,7 @@ namespace Red\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
 
-use Red\Model\Entity\MenuItemAssetInterface;
+use Red\Model\Entity\AssetInterface;
 
 /**
  * Description of Asset
@@ -43,32 +43,32 @@ class Asset extends PersistableEntityAbstract implements AssetInterface {
         return $this->updated;
     }
 
-    public function setId($id): MenuItemAssetInterface {
-        $this->id = $$id;
+    public function setId($id): AssetInterface {
+        $this->id = $id;
         return $this;
     }
 
-    public function setFilepath($filepath): MenuItemAssetInterface {
+    public function setFilepath($filepath): AssetInterface {
         $this->filepath = $filepath;
         return $this;
     }
 
-    public function setMimeType($mimeType): MenuItemAssetInterface  {
+    public function setMimeType($mimeType): AssetInterface  {
         $this->mimeType = $mimeType;
         return $this;
     }
 
-    public function setEditorLoginName($editorLoginName): MenuItemAssetInterface {
+    public function setEditorLoginName($editorLoginName): AssetInterface {
         $this->editorLoginName = $editorLoginName;
         return $this;
     }
 
-    public function setCreated($created): MenuItemAssetInterface {
+    public function setCreated($created): AssetInterface {
         $this->created = $created;
         return $this;
     }
 
-    public function setUpdated($updated): MenuItemAssetInterface {
+    public function setUpdated($updated): AssetInterface {
         $this->updated = $updated;
         return $this;
     }

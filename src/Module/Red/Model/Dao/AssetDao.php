@@ -4,14 +4,15 @@ namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 use \Model\Dao\DaoAutoincrementTrait;
+use \Model\Dao\DaoReferenceUniqueTrait;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class MenuItemAssetDao extends DaoEditAbstract implements AssetDaoInterface {
-    
+class AssetDao extends DaoEditAbstract implements AssetDaoInterface {
+        
     use DaoAutoincrementTrait;
 
     public function getAutoincrementFieldName() {
@@ -25,9 +26,9 @@ class MenuItemAssetDao extends DaoEditAbstract implements AssetDaoInterface {
     public function getAttributes(): array {
         return ['id', 'filepath', 'mime_type', 'editor_login_name', 'created', 'updated'];
     }
-
+    
     public function getTableName(): string {
-        return 'menu_item_asset';
+        return 'asset';
     }
 
     public function getByFilepath($filepath) {

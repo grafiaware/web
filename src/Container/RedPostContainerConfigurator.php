@@ -59,6 +59,7 @@ use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemApiRepo;
 use Red\Model\Repository\MenuItemAssetRepo;
+use Red\Model\Repository\AssetRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
@@ -161,7 +162,8 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(MenuItemAssetRepo::class));
+                        $c->get(MenuItemAssetRepo::class),
+                        $c->get(AssetRepo::class));
             },
             // generator service
 

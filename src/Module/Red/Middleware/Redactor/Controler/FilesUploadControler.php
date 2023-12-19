@@ -120,7 +120,11 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             $httpError =  $e->getMessage();
         } catch (Exception $e) {
             $httpStatus = 500; // 500 Internal Server Error
-            $httpError =  $e->getMessage();
+            if($e->getMessage()) {
+                $httpError =  $e->getMessage();
+            } else {
+                $httpError = get_class($e);   // vypíše typ exception - typicky PDO exception nemá message
+            }
         }
 
         if (isset($httpError)) {
@@ -185,7 +189,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
     
     private function recordAsset($clientFileName, $clientMime, $editedItemId) {
         $asset = $this->assetRepo->findByFilename($clientFileName);
-        if (isset($asset)) {
+        if ($asset) { //array
             // mám asset v databázi
             if ($this->menuItemAssetRepo->get($editedItemId, $asset->getId())) {
                 // asset byl již dříve uložen pro aktuální item

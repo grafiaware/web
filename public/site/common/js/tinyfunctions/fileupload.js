@@ -121,7 +121,12 @@ export const imageUploadHandler = (blobInfo, progress) => new Promise((resolve, 
             console.error('imageUploadHandler: failed upload - status: ' + xhr.status + ', message: ' + xhr.statusText);
             return;
         }
-        const json = JSON.parse(xhr.responseText);
+        try {
+            const json = JSON.parse(xhr.responseText);
+        } catch (e) {
+            reject('Image upload failed due to invalid returned JSON.');
+            return console.error('imageUploadHandler: ' + e);
+        }
         if (!json || typeof json.location !== 'string') {
             reject('Invalid JSON: ' + xhr.responseText);
             console.error('imageUploadHandler: failed upload - message: ' + xhr.responseText);
