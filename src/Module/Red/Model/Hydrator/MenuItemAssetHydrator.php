@@ -15,7 +15,7 @@ use ArrayAccess;
  * @author pes2704
  */
 class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInterface {
-//        return ['id', 'menu_item_id_FK', 'filepath', 'editor_login_name', 'created'];
+//        return ['menu_item_id_fk', 'asset_id_fk'];
 
     /**
      *
@@ -25,12 +25,8 @@ class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInte
     public function hydrate(EntityInterface $menuItemAsset, ArrayAccess $rowData) {
         /** @var MenuItemAssetInterface $menuItemAsset */
         $menuItemAsset
-            ->setMenuItemIdFk( $this->getPhpValue( $rowData,'menu_item_id_FK') )
-            ->setFilepath( $this->getPhpValue( $rowData,'filepath') )
-            ->setMimeType($this->getPhpValue( $rowData,'mime_type'))
-            ->setEditorLoginName( $this->getPhpValue( $rowData,'editor_login_name') )
-            ->setCreated( $this->getPhpDate( $rowData,'created') )
-            ->setUpdated( $this->getPhpDate( $rowData,'updated') )
+            ->setMenuItemIdFk($this->getPhpValue( $rowData,'menu_item_id_fk'))
+            ->setAssetIdFk($this->getPhpValue( $rowData,'asset_id_fk'))
             ;
     }
 
@@ -41,12 +37,8 @@ class MenuItemAssetHydrator extends TypeHydratorAbstract implements HydratorInte
      */
     public function extract(EntityInterface $menuItemAsset, ArrayAccess $rowData) {
         /** @var MenuItemAssetInterface $menuItemAsset */
-        $this->setSqlValue( $rowData, 'menu_item_id_FK', $menuItemAsset->getMenuItemIdFk() );
-        $this->setSqlValue( $rowData, 'filepath', $menuItemAsset->getFilepath() );
-        $this->setSqlValue( $rowData, 'mime_type', $menuItemAsset->getMimeType() );
-        $this->setSqlValue( $rowData, 'editor_login_name', $menuItemAsset->getEditorLoginName() );
-        // created je DEFAULT CURRENT_TIMESTAMP
-        // updated je ON UPDATE CURRENT_TIMESTAMP
+        $this->setSqlValue( $rowData, 'menu_item_id_fk', $menuItemAsset->getMenuItemIdFk() );
+        $this->setSqlValue( $rowData, 'asset_id_fk', $menuItemAsset->getAssetIdFk() );
 
     }
 

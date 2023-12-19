@@ -15,4 +15,5 @@ use Model\Dao\DaoReferenceUniqueInterface;
  */
 interface MenuItemAssetDaoInterface extends DaoReferenceUniqueInterface {
     public function findByMenuItemIdFk(array $menuItemIdFk);
+    public function findByAssetIdFk(array $assetIdFk);    
 }

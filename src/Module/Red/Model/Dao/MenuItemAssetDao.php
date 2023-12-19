@@ -13,21 +13,23 @@ use Model\Dao\DaoReferenceUniqueTrait;
 class MenuItemAssetDao extends DaoEditAbstract implements MenuItemAssetDaoInterface {
 
     const REFERENCE_MENU_ITEM = 'menu_item';
+    const REFERENCE_ASSET = 'asset';
 
 //    use DaoReferenceNonuniqueTrait;
     use DaoReferenceUniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
-        return ['menu_item_id_FK', 'filepath'];
+        return ['menu_item_id_fk', 'asset_id_fk'];
     }
 
     public function getAttributes(): array {
-        return ['menu_item_id_FK', 'filepath', 'mime_type', 'editor_login_name', 'created', 'updated'];
+        return ['menu_item_id_fk', 'asset_id_fk'];
     }
 
     public function getReferenceAttributes($referenceName): array {
         return [
-        self::REFERENCE_MENU_ITEM=>['menu_item_id_FK'=>'id']
+        self::REFERENCE_MENU_ITEM=>['menu_item_id_FK'=>'id'],
+        self::REFERENCE_ASSET=>['asset_id_fk'=>'id']
         ][$referenceName];
     }
 
@@ -36,6 +38,11 @@ class MenuItemAssetDao extends DaoEditAbstract implements MenuItemAssetDaoInterf
     }
 
     public function findByMenuItemIdFk(array $menuItemIdFk) {
-        return $this->findByFk('menu_item_id_FK', $menuItemIdFk);
+        return $this->findByFk('menu_item_id_fk', $menuItemIdFk);
     }
+
+    public function findByAssetIdFk(array $assetIdFk) {
+        return $this->findByFk('asset_id_fk', $assetIdFk);
+    }
+    
 }

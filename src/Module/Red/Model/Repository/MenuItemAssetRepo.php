@@ -24,12 +24,13 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
     }
 
     /**
-     *
-     * @param type $id
+     * 
+     * @param type $menuItemId
+     * @param type $assetId
      * @return MenuItemAssetInterface|null
      */
-    public function get($menuItemId, $filepath): ?MenuItemAssetInterface {
-        return $this->getEntity($menuItemId, $filepath);
+    public function get($menuItemId, $assetId): ?MenuItemAssetInterface {
+        return $this->getEntity($menuItemId, $assetId);
     }
 
     /**
@@ -38,9 +39,18 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
      * @return MenuItemAssetInterface[]
      */
     public function findByMenuItemId($menuItemId): array {
-        return $this->findEntities("menu_item_id_FK = :menu_item_id_FK", [":menu_item_id_FK"=>$menuItemId]);
+        return $this->findEntities("menu_item_id_fk = :menu_item_id_fk", [":menu_item_id_fk"=>$menuItemId]);
     }
-
+    
+    /**
+     * 
+     * @param type $assetId
+     * @return MenuItemAssetInterface[]
+     */
+    public function findByAssetId($assetId): array {
+        return $this->findEntities("asset_id_fk = :asset_id_fk", [":asset_id_fk"=>$assetId]);
+    }
+    
     /**
      *
      * @return MenuItemAssetInterface[]
@@ -60,11 +70,11 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
 
     /**
      *
-     * @param MenuItemAssetInterface $manuItem
+     * @param MenuItemAssetInterface $menuItemAsset
      * @return void
      */
-    public function remove(MenuItemAssetInterface $manuItem) :void {
-        $this->removeEntity($manuItem);
+    public function remove(MenuItemAssetInterface $menuItemAsset) :void {
+        $this->removeEntity($menuItemAsset);
     }
 
     protected function createEntity() {
@@ -72,10 +82,10 @@ class MenuItemAssetRepo extends RepoAbstract implements MenuItemAssetRepoInterfa
     }
 
     protected function indexFromEntity(MenuItemAssetInterface $menuItemAsset) {
-       return $menuItemAsset->getId() ;
+       return $menuItemAsset->getMenuItemIdFk().$menuItemAsset->getAssetIdFk() ;
     }
 
     protected function indexFromRow($row) {
-        return $row['id'];
+        return $row['menu_item_id_fk'].$row['asset_id_fk'];
     }
 }

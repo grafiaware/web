@@ -18,7 +18,7 @@ class PaperAggregatePaperSection extends Paper implements PaperAggregatePaperSec
     /**
      * @var PaperSection array of
      */
-    private $contents = [];
+    private $sections = [];
 
     /**
      *
@@ -26,7 +26,7 @@ class PaperAggregatePaperSection extends Paper implements PaperAggregatePaperSec
      * @return PaperSectionInterface|null
      */
     public function getPaperSection($id): ?PaperSectionInterface {
-        return array_key_exists($id, $this->contents) ? $this->contents[$id] : null;
+        return array_key_exists($id, $this->sections) ? $this->sections[$id] : null;
     }
 
     /**
@@ -34,7 +34,7 @@ class PaperAggregatePaperSection extends Paper implements PaperAggregatePaperSec
      * @return PaperSectionInterface array of
      */
     public function getPaperSectionsArray(): array {
-        return $this->contents;
+        return $this->sections;
     }
 
     /**
@@ -42,7 +42,7 @@ class PaperAggregatePaperSection extends Paper implements PaperAggregatePaperSec
      * @return PaperSectionInterface array of
      */
     public function getPaperSectionsArraySorted($sortType = self::BY_PRIORITY): array {
-        $contents = $this->contents;
+        $contents = $this->sections;
         switch ($sortType) {
             case self::BY_PRIORITY :
                 \usort($contents, array($this, "compareByPriority"));
@@ -59,7 +59,7 @@ class PaperAggregatePaperSection extends Paper implements PaperAggregatePaperSec
      * @return \Model\Entity\MenuItemAggregatePaperInterface
      */
     public function setPaperSectionsArray(array $contents=[]): PaperAggregatePaperSectionInterface {
-        $this->contents = $contents;
+        $this->sections = $contents;
         return $this;
     }
 

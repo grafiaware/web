@@ -13,10 +13,10 @@ interface MenuItemAssetRepoInterface  extends RepoInterface {
     /**
      * 
      * @param type $menuItemId
-     * @param type $filepath
+     * @param type $assetId
      * @return MenuItemAssetInterface|null
      */
-    public function get($menuItemId, $filepath): ?MenuItemAssetInterface ;
+    public function get($menuItemId, $assetId): ?MenuItemAssetInterface ;
 
     /**
      *
@@ -25,6 +25,13 @@ interface MenuItemAssetRepoInterface  extends RepoInterface {
      */
     public function findByMenuItemId($menuItemId) : array;
 
+    /**
+     *
+     * @param type $assetId
+     * @return MenuItemAssetInterface[]
+     */
+    public function findByAssetId($assetId) : array;
+    
     /**
      *
      * @return MenuItemAssetInterface[]

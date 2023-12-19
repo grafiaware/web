@@ -24,6 +24,7 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Service\HierarchyManipulator\MenuItemManipulator;
 use Red\Service\ItemCreator\ItemCreatorRegistryInterface;
 use Red\Service\HierarchyManipulator\MenuItemToggleResultEnum;
+use Red\Service\ItemApi\ItemApiService;
 
 use Pes\Type\Exception\ValueNotInEnumException;
 use LogicException;
@@ -153,7 +154,9 @@ class ItemEditControler extends FrontControlerAbstract {
         $allLangVersionsMenuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
         /** @var MenuItemInterface $langMenuItem */
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
-            if (null!==$langMenuItem->getApiModuleFk() OR null!==$langMenuItem->getApiGeneratorFk()) {
+            if (null!==$langMenuItem->getApiModuleFk() AND ItemApiService::EMPTY_MODULE!=$langMenuItem->getApiModuleFk()
+                    OR 
+                null!==$langMenuItem->getApiGeneratorFk() AND ItemApiService::EMPTY_GENERATOR!=$langMenuItem->getApiGeneratorFk()) {
                 throw new LogicException("Pokus o nastavení typu položce menu, která již má api modul nebo api generator. "
                         . "Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' má nastaven api modul {$langMenuItem->getApiModuleFk()} a api generátor {$langMenuItem->getApiGeneratorFk()}.");
             }

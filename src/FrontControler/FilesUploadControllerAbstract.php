@@ -36,11 +36,20 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
     }
     
-    protected function checkAndGetUploadedFile(
-            ServerRequestInterface $request,
-            $uploadedKey,
-            $maxFileSize,
-            $acceptedExtensions = []
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $uploadedKey
+     * @param type $maxFileSize
+     * @param type $acceptedExtensions
+     * @return UploadedFileInterface
+     * @throws UploadFileException
+     */
+    protected function getAndValidateUploadedFile(
+                ServerRequestInterface $request,
+                $uploadedKey,
+                $maxFileSize,
+                $acceptedExtensions = []
             ): UploadedFileInterface {  
         // POST - jeden soubor
         /* @var $uploadedFile UploadedFileInterface */

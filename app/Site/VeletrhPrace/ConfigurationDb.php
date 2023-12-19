@@ -175,7 +175,7 @@ class ConfigurationDb {
             'red.db.charset' => 'utf8',
             'red.db.collation' => 'utf8_general_ci',
             'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline' : 'veletrhprace',
+            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline' : 'veletrhprace_asset',
             #
             ###################################
             # Konfigurace logu databáze

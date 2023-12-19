@@ -14,16 +14,23 @@ use Pes\Utils\Directory;
 use Utils\UrlConvertor;
 
 use Red\Model\Entity\MenuItemAsset;
+use Red\Model\Entity\Asset;
+use Red\Model\Entity\AssetInterface;
+
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
+
 use Red\Model\Repository\MenuItemAssetRepo;
+use Red\Model\Repository\AssetRepo;
 
 use Pes\Http\Factory\ResponseFactory;
 
 use Exception;
 use Pes\Utils\Exception\CreateDirectoryFailedException;
 use FrontControler\Exception\UploadFileException;
+
+use RuntimeException;
 
 /**
  * Description of NestedFilesUpload
@@ -44,14 +51,21 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
      * @var MenuItemAssetRepo
      */
     private $menuItemAssetRepo;
+    
+    /**
+     * @var AssetRepo
+     */
+    private $assetRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            MenuItemAssetRepo $menuItemAssetRepoRepo) {
+            MenuItemAssetRepo $menuItemAssetRepoRepo,
+            AssetRepo $assetRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->menuItemAssetRepo = $menuItemAssetRepoRepo;
+        $this->assetRepo = $assetRepo;
     }
 
     public function imageUpload(ServerRequestInterface $request) {
@@ -89,20 +103,17 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             $maxFileSize,
             $acceptedExtensions = []) {
         try {
-            $uploadedFile = $this->checkAndGetUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
+            $uploadedFile = $this->getAndValidateUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
             // relativní cesta vzhledem k root (_files/...)
             $baseFilepath = ConfigurationCache::redUpload()['upload.red'];
             $clientFileName = $this->getClientFileName($uploadedFile);
             $clientMime = $this->getMimeType($uploadedFile);
             $editedItemId = $this->getEditedItemId($request);
-            // vytvoř složku pokud neexistuje
-            $path = $baseFilepath.$editedItemId.'/';
-            Directory::createDirectory($path);            
-            $targetFilepath = $path.$clientFileName;
+            $targetFilepath = $this->prepareAssetFilePath($baseFilepath, $editedItemId, $clientFileName);
             $uploadedFile->moveTo($targetFilepath);
             $this->recordAsset($clientFileName, $clientMime, $editedItemId);
         } catch (UploadFileException $e) {
-            $httpStatus = $e->getCode(); // http error kod byl předán do Expetion code v checkAndGetUploadedFile()
+            $httpStatus = $e->getCode(); // http error kod byl předán do Exception->code v getAndValidateUploadedFile()
             $httpError =  $e->getMessage();
         } catch (CreateDirectoryFailedException $e) {
             $httpStatus = 500; // 500 Internal Server Error
@@ -155,6 +166,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         }                  
         return $clientMime;
     }
+    
     private function getEditedItemId(ServerRequestInterface $request) {
         $editedItemId = $this->paramValue($request, 'edited_item_id');
         if ($editedItemId) {    
@@ -163,19 +175,50 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             throw new UploadFileException("Not Acceptable. Redactor: Request has no 'edited_item_id' variable.", 406);
         }    
     }
+    
+    private function prepareAssetFilePath($baseFilepath, $editedItemId, $clientFileName) {
+        // vytvoř složku pokud neexistuje
+        $path = $baseFilepath.$editedItemId.'/';
+        Directory::createDirectory($path);            
+        return $path.$clientFileName;        
+    }
+    
     private function recordAsset($clientFileName, $clientMime, $editedItemId) {
-        if (is_null($this->menuItemAssetRepo->get($editedItemId, $clientFileName))) {
-            //TODO: SV 
-            //// !! předpokládá, že edituji presented menu item - CHYBA
-//            $presentedMenuitem = $this->statusPresentationRepo->get()->getMenuItem();
-//            $presentedMenuitem = $this->statusSecurityRepo->get()->getUserActions()->hasUserItemAction($typeFk, $itemId);
-            $newAsset = new MenuItemAsset();
-            $newAsset->setMenuItemIdFk($editedItemId); 
-            $newAsset->setFilepath($clientFileName);
-            $newAsset->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-            $newAsset->setMimeType($clientMime);
-            $this->menuItemAssetRepo->add($newAsset);    
+        $asset = $this->assetRepo->findByFilename($clientFileName);
+        if (isset($asset)) {
+            // mám asset v databázi
+            if ($this->menuItemAssetRepo->get($editedItemId, $asset->getId())) {
+                // asset byl již dříve uložen pro aktuální item
+            } else {
+                $menuItemIds = $this->menuItemAssetRepo->findByAssetId($asset->getId());
+                if ($menuItemIds) {  // array
+                    // asset byl již uložen pro jiný (jiné) menu item
+                    $this->addMenuitemAsset($editedItemId, $asset);
+                } else {
+                    throw new RuntimeException(" V databázi nalezen asset '$clientFileName', který není uložen jako asset pro menu item s id '$editedItemId'.");
+                }
+            }
+        } else {
+            $this->addAsset($clientFileName, $clientMime, $editedItemId);
         }
+        
+    }
+    
+    private function addAsset($clientFileName, $clientMime, $editedItemId) {
+        $asset = new Asset();
+        $asset->setFilepath($clientFileName);
+        $asset->setMimeType($clientMime);
+        $asset->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
+        $this->assetRepo->add($asset);
+        $this->assetRepo->flush();
+        $this->addMenuitemAsset($editedItemId, $asset);
+    }
+    
+    private function addMenuitemAsset($editedItemId, AssetInterface $asset) {
+        $menuiteAsset = new MenuItemAsset();
+        $menuiteAsset->setMenuItemIdFk($editedItemId); 
+        $menuiteAsset->setAssetIdFk($asset->getId());
+        $this->menuItemAssetRepo->add($menuiteAsset);
     }
 
     /**

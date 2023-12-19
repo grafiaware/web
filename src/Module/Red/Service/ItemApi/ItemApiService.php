@@ -15,8 +15,8 @@ use UnexpectedValueException;
  */
 class ItemApiService implements ItemApiServiceInterface {
     
-    const DEFAULT_MODULE = 'red';
-    const DEFAULT_GENERATOR = 'empty';
+    const EMPTY_MODULE = 'red';
+    const EMPTY_GENERATOR = 'empty';
     
     /**
      * 
@@ -27,14 +27,11 @@ class ItemApiService implements ItemApiServiceInterface {
     public function getLoaderApiUri(MenuItemInterface $menuItem) {
         $apiModule = $menuItem->getApiModuleFk();
         $apiGenerator = $menuItem->getApiGeneratorFk();
-        if (!isset($apiModule)){
-            if (!isset($apiGenerator)) {
-                throw new UnexpectedValueException("Nelze vytvořit content loader api uri pro menu item s id '{$menuItem->getId()}'. Menu item nemá nastaven api module a api generator.");
-            } else {
-                $apiModule = self::DEFAULT_MODULE;
-            }
-        } elseif (!isset($apiGenerator)) {
-            throw new UnexpectedValueException("Nelze vytvořit content loader api uri pro menu item s id '{$menuItem->getId()}'. Menu item nemá nastaven api generator.");
+        if (!isset($apiModule) AND !isset($apiGenerator)) {
+            $apiModule = self::EMPTY_MODULE;
+            $apiGenerator = self::EMPTY_GENERATOR;
+        } elseif (!isset($apiModule) AND !isset($apiGenerator)) {
+            throw new UnexpectedValueException("Nelze vytvořit content loader api uri pro menu item s id '{$menuItem->getId()}'. Menu item musí mít hodnoty api module a api generator obě nastaveny nebo obě NULL.");
         }
         if($apiGenerator==ApiGeneratorEnum::STATIC_GENERATOR) {
             $id = $this->getNameForStaticPage($menuItem);
