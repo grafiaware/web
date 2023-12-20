@@ -72,6 +72,20 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
             $message = "Invalid file extension '$clientFileExt'. Accepted only: $accepted.";
             throw new UploadFileException('Not Acceptable. Redactor: '.$message, 406);  // 406 Not Acceptable
         }
+        $clientMime = $uploadedFile->getClientMediaType();
+        if (is_null($clientMime)) {
+            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no MIME type.", 406);
+        }
+        if ($clientMime==='') {
+            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty MIME type.", 406);
+        }
+        $clientFName = $uploadedFile->getClientFilename();
+        if (is_null($clientFName)) {
+            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no filename.", 406);
+        }
+        if ($clientFName==='') {
+            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty filename.", 406);
+        }        
         return $uploadedFile;
     }
     

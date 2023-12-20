@@ -5,32 +5,19 @@ namespace Red\Middleware\Redactor\Controler;
 use Site\ConfigurationCache;
 
 use FrontControler\FilesUploadControllerAbstract;
-
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UploadedFileInterface;
-use Pes\Http\Response;
-use Pes\Utils\Directory;
-
-use Utils\UrlConvertor;
-
-use Red\Model\Entity\MenuItemAsset;
-use Red\Model\Entity\Asset;
-use Red\Model\Entity\AssetInterface;
-
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
-use Red\Model\Repository\MenuItemAssetRepo;
-use Red\Model\Repository\AssetRepo;
-
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UploadedFileInterface;
+use Pes\Http\Response;
+use Red\Service\Asset\AssetServiceInterface;
 use Pes\Http\Factory\ResponseFactory;
 
 use Exception;
 use Pes\Utils\Exception\CreateDirectoryFailedException;
 use FrontControler\Exception\UploadFileException;
-
-use RuntimeException;
 
 /**
  * Description of NestedFilesUpload
@@ -39,6 +26,17 @@ use RuntimeException;
  */
 class FilesUploadControler extends FilesUploadControllerAbstract {
 
+    private $assetService;
+    
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo, 
+            StatusFlashRepo $statusFlashRepo, 
+            StatusPresentationRepo $statusPresentationRepo,
+            AssetServiceInterface $assetService) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        $this->assetService = $assetService;
+    }
+    
     const UPLOADED_KEY = "file";
     const IMAGE_MAX_FILE_SIZE = 1E6;
     // MUSÍ se shodovat s možnými file typy vybíranými v filePickerCallback funkci pro tinyMCE
@@ -47,26 +45,6 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
     // MUSÍ se shodovat s možnými file typy vybíranými v filePickerCallback funkci pro tinyMCE
 //    const ATTACHMENT_ACCEPTED_EXTENSIONS = ['pdf'];    
     const ATTACHMENT_ACCEPTED_EXTENSIONS = [".doc", ".docx", ".dot", ".odt", ".pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"];
-    /**
-     * @var MenuItemAssetRepo
-     */
-    private $menuItemAssetRepo;
-    
-    /**
-     * @var AssetRepo
-     */
-    private $assetRepo;
-
-    public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            MenuItemAssetRepo $menuItemAssetRepoRepo,
-            AssetRepo $assetRepo) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->menuItemAssetRepo = $menuItemAssetRepoRepo;
-        $this->assetRepo = $assetRepo;
-    }
 
     public function imageUpload(ServerRequestInterface $request) {
         return $this->storeUpload(
@@ -104,14 +82,6 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             $acceptedExtensions = []) {
         try {
             $uploadedFile = $this->getAndValidateUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
-            // relativní cesta vzhledem k root (_files/...)
-            $baseFilepath = ConfigurationCache::redUpload()['upload.red'];
-            $clientFileName = $this->getClientFileName($uploadedFile);
-            $clientMime = $this->getMimeType($uploadedFile);
-            $editedItemId = $this->getEditedItemId($request);
-            $targetFilepath = $this->prepareAssetFilePath($baseFilepath, $editedItemId, $clientFileName);
-            $uploadedFile->moveTo($targetFilepath);
-            $this->recordAsset($clientFileName, $clientMime, $editedItemId);
         } catch (UploadFileException $e) {
             $httpStatus = $e->getCode(); // http error kod byl předán do Exception->code v getAndValidateUploadedFile()
             $httpError =  $e->getMessage();
@@ -130,11 +100,24 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         if (isset($httpError)) {
             $response = $this->errorResponse($request, $httpError, $httpStatus);
         } else {
+            $editedItemId = $this->getEditedItemId($request);
+            $editor = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
+            $targetFilepath = $this->assetService->storeAsset($uploadedFile, $editedItemId, $editor);
             $response = $this->okJsonResponse($request, $targetFilepath);
         }
 
         return $response;
     }
+    
+    private function getEditedItemId(ServerRequestInterface $request) {
+        $editedItemId = $this->paramValue($request, 'edited_item_id');
+        if ($editedItemId) {    
+            return $editedItemId;
+        }else {
+            throw new UploadFileException("Not Acceptable. Redactor: Request has no 'edited_item_id' variable.", 406);
+        }    
+    }
+    
     private function errorResponse(ServerRequestInterface $request, $httpError, $httpStatus=null) {
         return $this->addHeaders(
                 $request, 
@@ -147,82 +130,6 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
         $json = json_encode(array('location' => $targetFilepath));  //
         return $this->createResponseFromString($request, $json);        
-    }
-    
-    private function getClientFileName($uploadedFile) {
-        $clientFName = $uploadedFile->getClientFilename();
-        if (is_null($clientFName)) {
-            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no filename.", 406);
-        }
-        if ($clientFName==='') {
-            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty filename.", 406);
-        }
-        return urldecode($clientFName);  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován        
-    }    
-    
-    private function getMimeType($uploadedFile) {
-        $clientMime = $uploadedFile->getClientMediaType();
-        if (is_null($clientMime)) {
-            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no MIME type.", 406);
-        }
-        if ($clientMime==='') {
-            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty MIME type.", 406);
-        }                  
-        return $clientMime;
-    }
-    
-    private function getEditedItemId(ServerRequestInterface $request) {
-        $editedItemId = $this->paramValue($request, 'edited_item_id');
-        if ($editedItemId) {    
-            return $editedItemId;
-        }else {
-            throw new UploadFileException("Not Acceptable. Redactor: Request has no 'edited_item_id' variable.", 406);
-        }    
-    }
-    
-    private function prepareAssetFilePath($baseFilepath, $editedItemId, $clientFileName) {
-        // vytvoř složku pokud neexistuje
-        $path = $baseFilepath.$editedItemId.'/';
-        Directory::createDirectory($path);            
-        return $path.$clientFileName;        
-    }
-    
-    private function recordAsset($clientFileName, $clientMime, $editedItemId) {
-        $asset = $this->assetRepo->findByFilename($clientFileName);
-        if ($asset) { //array
-            // mám asset v databázi
-            if ($this->menuItemAssetRepo->get($editedItemId, $asset->getId())) {
-                // asset byl již dříve uložen pro aktuální item
-            } else {
-                $menuItemIds = $this->menuItemAssetRepo->findByAssetId($asset->getId());
-                if ($menuItemIds) {  // array
-                    // asset byl již uložen pro jiný (jiné) menu item
-                    $this->addMenuitemAsset($editedItemId, $asset);
-                } else {
-                    throw new RuntimeException(" V databázi nalezen asset '$clientFileName', který není uložen jako asset pro menu item s id '$editedItemId'.");
-                }
-            }
-        } else {
-            $this->addAsset($clientFileName, $clientMime, $editedItemId);
-        }
-        
-    }
-    
-    private function addAsset($clientFileName, $clientMime, $editedItemId) {
-        $asset = new Asset();
-        $asset->setFilepath($clientFileName);
-        $asset->setMimeType($clientMime);
-        $asset->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-        $this->assetRepo->add($asset);
-        $this->assetRepo->flush();
-        $this->addMenuitemAsset($editedItemId, $asset);
-    }
-    
-    private function addMenuitemAsset($editedItemId, AssetInterface $asset) {
-        $menuiteAsset = new MenuItemAsset();
-        $menuiteAsset->setMenuItemIdFk($editedItemId); 
-        $menuiteAsset->setAssetIdFk($asset->getId());
-        $this->menuItemAssetRepo->add($menuiteAsset);
     }
 
     /**

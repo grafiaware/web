@@ -47,7 +47,7 @@ use Red\Service\ItemCreator\Enum\ApiGeneratorEnum;
 use Red\Service\HierarchyManipulator\MenuItemManipulator;
 // item action service
 use Red\Service\ItemAction\ItemActionService;
-
+use Red\Service\Asset\AssetService;
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
@@ -162,8 +162,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(MenuItemAssetRepo::class),
-                        $c->get(AssetRepo::class));
+                        $c->get(AssetService::class));
             },
             // generator service
 
@@ -223,7 +222,13 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ItemActionService(
                         $c->get(ItemActionRepo::class)
                     );
-            },                    
+            },
+            AssetService::class => function(ContainerInterface $c) {
+                return new AssetService(
+                        $c->get(MenuItemAssetRepo::class),
+                        $c->get(AssetRepo::class)
+                        );
+            },
             // view
             'renderLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('red.logs.view.directory'), $c->get('red.logs.view.file'), FileLogger::REWRITE_LOG);
