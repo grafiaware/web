@@ -149,7 +149,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                 return new ClassMap (
                     [
                         'Level' => [
-                            'ul.lastLevel' => 'ui vertical menu', //hidden-submenu pro rozbalení submenu po kliknutí //ui text menu left floated vodorovne_menu
+                            'ul.lastLevel' => 'ui vertical menu hidden-submenu', //hidden-submenu pro rozbalení submenu po kliknutí //ui text menu left floated vodorovne_menu
                             'ul' => 'menu onpath',
                             ],
                     ]);

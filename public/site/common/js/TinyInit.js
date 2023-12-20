@@ -40,7 +40,7 @@ var plugins = [
     ];
 
 
-var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | anchor link';
+var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | anchor link | styles';
 
 var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image media | code';
 var toolbar1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image media';
@@ -88,7 +88,7 @@ var toolbar_groups = {
 var mobile = {
         menubar: false,
         plugins: [ 'save', 'cancel', 'lists', 'autolink' ],
-        toolbar: [ 'save', 'cancel', 'undo', 'bold', 'italic', 'stylesstyles' ]
+        toolbar: [ 'save', 'cancel', 'undo', 'bold', 'italic', 'styles' ]
     };
 
 var editimage_toolbar = 'editimage | rotateleft rotateright | flipv fliph | imageoptions';
@@ -115,7 +115,12 @@ var editTextConfig = {
     quickbars_insert_toolbar: '',
     quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
 
-    setup: editorHtmlEditSetup  // callback that will be executed before the TinyMCE editor instance is rendered
+    setup: editorHtmlEditSetup,  // callback that will be executed before the TinyMCE editor instance is rendered
+    
+    style_formats: [
+        {title: 'Styly nadpisu'},
+        {title: 'Animovaný, podtržený zap/vyp', selector: 'p', classes: 'nadpis podtrzeny nastred nadpis-scroll show-on-scroll is-visible'}
+    ]
 };
 
 var editHtmlConfig = {

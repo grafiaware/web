@@ -20,8 +20,12 @@
     }
 }
 @media screen and (max-width: 1750px){
+    .layout .column:not(.editMenu) .fix-bar{
+        width: 23%
+    }
     .layout .column:not(.editMenu) .fix-bar #mySidenav{
-        width: 37%;
+        //width: 37%;
+        width: 100%;
     }
     .layout header{
         h1{
@@ -50,10 +54,17 @@
         }
     }
     .layout .column:not(.editMenu) .fix-bar #mySidenav{
-        width: 42%;
+        //width: 42%;
     }
     .layout .column:not(.editMenu) .fix-bar{
-        width: 8.5%;
+        //width: 8.5%;
+        width: 24.5%;
+    }
+    #mySidenav.editMenu .ui.vertical.menu:not(.icon){
+        width: 21rem;
+    }
+    .row > .column.right.floated{
+        margin-right: 10px;
     }
 }
 @media screen and (max-width: 1340px){
@@ -70,7 +81,7 @@
         }
     }
     .layout .column:not(.editMenu) .fix-bar #mySidenav{
-        width: 47%;
+        //width: 47%;
     }
 }
 @media screen and (max-width: 1200px){
@@ -86,7 +97,51 @@
             height: auto;
         }
     }
+    .layout .column:not(.editMenu) .fix-bar.no-fix{ //.fix-bar:has(#mySidenav.editMenu)
+        > .icon-menu{
+            display: flex;
+        }
+        > .nav-mobile{
+            display: flex;
+        }
+        > .prihlaseni{
+            display: block;
+        }
+    }
+    .layout .column:not(.editMenu) .fix-bar #mySidenav.editMenu{
+            display: none;
+            height: 100%;
+            width: 33%;
+            background-color: @primaryColor;
+            position: fixed!important;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            overflow: auto;
+            -webkit-animation: animateleft 0.4s;
+            animation: animateleft 0.4s;
+            padding: 40px 20px 20px ;
+            &.open{
+                display: block !important;
+            }
+            .close-item .close.slim-icon{
+                display: block;
+            }
+        }
+    .layout .column:not(.editMenu) .fix-bar #mySidenav.editMenu + #myOverlay{
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+            z-index: 1;
+    }
     .layout .column:not(.editMenu) .fix-bar #mySidenav{
+        display: none; 
         width: 55%;
     }
     body.layout{

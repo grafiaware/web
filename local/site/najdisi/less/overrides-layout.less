@@ -4,6 +4,7 @@
     headline, content, block, div[class=""], perex{
         display: block;
         position: relative;
+        line-height: 1.4em;
         span[class=""]{
             display: inline-block;
         }
@@ -26,6 +27,21 @@
                 text-transform: none;
                 font-weight: 500;
                 margin: auto 20px;
+            }
+        }
+        .prihlaseni{
+            position: absolute;
+            top: 10px;
+            right: 0;
+            display: flex;
+            .ui.button{
+                background-color: white;
+                color: @primaryColor;
+                border: 1px solid @primaryColor;
+                border-radius: 5px;
+                &.dropdown, &.page{
+                    font-size: 1rem;
+                }
             }
         }
     }
@@ -159,7 +175,7 @@
             }
         }
         //hamburger menu
-        #mySidenav:not(.editMenu){
+        #mySidenav:not(.editMenu){ 
             display: none;
             height: 100%;
             width: 33%;
@@ -196,11 +212,10 @@
             }*/
         }
         .svisle-menu .menu .onpath{
-            left: 7%;
+            left: 7%; 
         }
     }
     .no-fix{ //.fix-bar:has(#mySidenav.editMenu)
-        position: relative;
         > .icon-menu{
             display: none;
         }
@@ -216,12 +231,12 @@
         height: 102%;
         color: @invertedTextColor;
         background-color: @primaryColor;
-        display: block !important;
+        display: block;
         position: relative;
-        overflow: hidden;
+        overflow: hidden scroll;
         padding: 0 0 20px 10px;
         z-index: 100;
-        .svisle-menu{
+        .svisle-menu{   
             padding-left: 0;
         }
         .svisle-menu .menu .onpath{
@@ -230,6 +245,7 @@
         .close-item .close.slim-icon{
             display: none;
         }
+         
     }
     .form.huge input[type="checkbox"]{
         vertical-align: middle;
@@ -278,7 +294,7 @@
             }
         }
     }
-    .hidden-submenu{
+    div > .ui.vertical.hidden-submenu{
         ul{
             display: none; 
         }
@@ -317,6 +333,13 @@
     }
     article div[data-template]{
         margin: 14px;
+    }
+    div.editMenu-article{
+        margin-left: auto;
+        margin-right: 80px; 
+    }
+    .row > .right.floated{
+        margin-right: 100px; 
     }
     
     /***/
@@ -505,6 +528,29 @@ body#tinymce{
 }
 .editMenu .button-edit-menu{
     top: -25px;
+}
+.register{
+    .checkbox.exhibitor{
+        label{
+            font-size: @fontSize;
+            padding-left: 1.1em;
+        }
+    }
+    .input-company{
+        display: none;
+        &.show{
+            display: block;
+            margin: 10px 0;
+        }
+        .field{
+            label{
+                font-size: 0.87em; 
+            }
+            input{
+                font-size: 0.75em;
+            }
+        }
+    }
 }
 
 //Poznamky a flash
