@@ -117,7 +117,7 @@ export const imageUploadHandler = (blobInfo, progress) => new Promise((resolve, 
 
     xhr.onload = () => {
         if (xhr.status < 200 || xhr.status >= 300) {
-            reject({ message: 'HTTP Error: ' + xhr.status +'. ' + xhr.statusText, remove: true });  // remove:true - smaže img element z html
+            reject({ message: 'HTTP Error: ' + xhr.status + '. ' + xhr.statusText, remove: true });  // remove:true - smaže img element z html
             console.error('imageUploadHandler: failed upload - status: ' + xhr.status + ', message: ' + xhr.statusText);
             return;
         }

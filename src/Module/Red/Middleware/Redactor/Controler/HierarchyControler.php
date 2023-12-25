@@ -168,7 +168,6 @@ class HierarchyControler extends FrontControlerAbstract {
     }
 
     public function delete(ServerRequestInterface $request, $uid) {
-        // opatrná varianta - maže jen leaf - nutno mazat po jednom uzlu (to se musí projevit i v renderování obládacích prvků - tlačítek, nabízet smazat jen pro leaf)
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
         $this->editHierarchyDao->deleteSubTree($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();

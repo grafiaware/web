@@ -51,11 +51,12 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
                 $maxFileSize,
                 $acceptedExtensions = []
             ): UploadedFileInterface {  
+        
         // POST - jeden soubor
         /* @var $uploadedFile UploadedFileInterface */
         $uploadedFile = $request->getUploadedFiles()[$uploadedKey];
         if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
-            // messege z uploadErrorMessage()
+            // message z uploadErrorMessage()
             throw new UploadFileException('Bad Request. Redactor: '.$this->uploadErrorMessage($uploadedFile->getError()), 400); // 400 Bad Request
         }
 
@@ -157,7 +158,7 @@ class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
      */
     protected function getUploadTimeString(ServerRequestInterface $request) {
         return str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
-//        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+//        return (new \DateTime("now"))->getTimestamp();  // sekundy
     }
 
 

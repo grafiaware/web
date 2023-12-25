@@ -83,7 +83,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         try {
             $uploadedFile = $this->getAndValidateUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
         } catch (UploadFileException $e) {
-            $httpStatus = $e->getCode(); // http error kod byl předán do Exception->code v getAndValidateUploadedFile()
+            $httpStatus = $e->getCode(); // http status kód byl předán do Exception->code v getAndValidateUploadedFile()
             $httpError =  $e->getMessage();
         } catch (CreateDirectoryFailedException $e) {
             $httpStatus = 500; // 500 Internal Server Error
@@ -128,8 +128,9 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
     private function okJsonResponse(ServerRequestInterface $request, $targetFilepath) {
         // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-        $json = json_encode(array('location' => $targetFilepath));  //
-        return $this->createResponseFromString($request, $json);        
+        $json = json_encode(['location' => $targetFilepath]);  //
+        $response = $this->createResponseFromString($request, $json);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**

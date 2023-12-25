@@ -81,19 +81,40 @@ class HookedMenuItemActor extends HookedActorAbstract {
      * Metoda delete smaže položky menu_item, paper a všechny položky content. Maže položky ve všech jazykových verzích.
      *
      * Smaže položky menu_item. paper a všechny položky content. Maže položky ve všec jazykových verzích.
-     * Tabulky paper a content mají constraint ON DELETE CASCADE - smazání menu_item smaže i paper a content. Použitý SQL příkaz delete
+     * Tabulky article, paper a content, mulripage mají constraint ON DELETE CASCADE - smazání menu_item smaže i paper a content. Použitý SQL příkaz delete
      * vybírá menu_item jen podle uid_fk => smaže všechny jazykové verze.
      */
     public function delete(HandlerInterface $transactionHandler, $uidsArray) {
         $this->checkTransaction($transactionHandler);
-        $in = $this->getInFromUidsArray($uidsArray);
-        // tvrdý delete
-
-        // !! paper a content mají constraint ON DELETE CASCADE - smazání menu_item smaže i paper a content
+        // maže menu_item a menu_item_asset a 
+        // maže asset pžímo příkazem DELETE  a menu_item_asset ON DELETE CASCSADE
+        $uidsIn = $this->getInFromUidsArray($uidsArray);
+        // tvrdý delete - všechny jazykové verze
+        $stmtSelectItemsIds = $transactionHandler->prepare(
+                    "SELECT id FROM $this->menuItemTableName
+                    WHERE uid_fk IN ( $uidsIn )"
+                    );
+            $stmtSelectItemsIds->execute();
+            $itemIdsToDelete = $stmtSelectItemsIds->fetchAll(\PDO::FETCH_NUM);
+            $itemsIdsIn = $this->getInFromUidsArray($itemIdsToDelete);
+            // menu_item_asset ma fk asset_id_fk s ON DELETE CASCADE - kaskádně se smaže
+            $transactionHandler->exec(
+            "DELETE 
+              a
+              FROM asset AS a 
+            INNER JOIN (
+              SELECT id, asset_id_fk FROM menu_item_asset INNER JOIN asset ON (menu_item_asset.asset_id_fk=asset.id)
+              WHERE menu_item_id_fk IN ($itemsIdsIn)
+            ) AS p2
+            USING (id)"
+            );
+            
+        // !! article, paper a content, multipage mají constraint ON DELETE CASCADE - smazání menu_item smaže i paper a content
+        // smazal by i menu_item_asset ON DELETE CASCADE - ale tyto položky by již měly být smazány výše
         // !! delete vybírá menu_item jen podle uid_fk => smaže všechny jazykové verze
         $transactionHandler->exec(
             "DELETE FROM $this->menuItemTableName
-            WHERE uid_fk IN ( $in )"
+            WHERE uid_fk IN ( $uidsIn )"
             );
 
 
