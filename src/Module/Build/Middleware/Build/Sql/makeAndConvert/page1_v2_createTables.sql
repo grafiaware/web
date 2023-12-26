@@ -1,16 +1,10 @@
 /* page1_v2_createTables  */
 /*
 POZOR!  Tabulky stranky a stranky_innodb vytváří skript page0 - kopie ze staré db
-Tabulka menu_item je vytvořena bez primárního klíče a později bude změněna
 */
 
 /*
 MySQL Data Transfer
-Source Host: localhost
-Source Database: gr_upgrade
-Target Host: localhost
-Target Database: gr_upgrade
-Date: 04.09.2023 19:01:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -101,15 +95,9 @@ CREATE TABLE `menu_item_api` (
   PRIMARY KEY (`module`,`generator`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 -- ----------------------------
 -- Table structure for menu_item
 -- ----------------------------  
--- `type_fk` varchar(45) DEFAULT NULL,
--- CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`)
--- ON UPDATE CASCADE
--- ON DELETE CASCADE
-
 
 DROP TABLE IF EXISTS `menu_item`;
 CREATE TABLE `menu_item` (
@@ -130,50 +118,9 @@ CREATE TABLE `menu_item` (
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- CREATE TABLE `menu_item` (
---   `lang_code_fk` char(25) NOT NULL,
---   `uid_fk` varchar(45) NOT NULL,
---   `api_module_fk` varchar(45) DEFAULT NULL,  ***
---   `api_generator_fk` varchar(20) DEFAULT NULL, ***
---   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
---   `list` varchar(45) DEFAULT NULL,
---   `order` tinyint(80) NOT NULL DEFAULT '0',
---   `title` text,
---   `prettyuri` varchar(100) DEFAULT NULL,
---   `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
---   `auto_generated` varchar(6) NOT NULL DEFAULT '0',
---   PRIMARY KEY (`lang_code_fk`,`uid_fk`),   ***
---   UNIQUE KEY `lang_code_fk` (`lang_code_fk`,`uid_fk`),***
---   UNIQUE KEY `id` (`id`),***
---   UNIQUE KEY `prettyuri` (`prettyuri`), ***
---   KEY `hierarchy_uid_fk` (`uid_fk`), ***
---   KEY `menu_item_api_fk_idx1` (`api_module_fk`,`api_generator_fk`),
---   *** CONSTRAINT `hierarchy_uid_fk` FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`),
---   *** CONSTRAINT `language_lang_code_fk` FOREIGN KEY (`lang_code_fk`) REFERENCES `language` (`lang_code`),
---   CONSTRAINT `menu_item_api_fk` FOREIGN KEY (`api_module_fk`, `api_generator_fk`) REFERENCES `menu_item_api` (`module`, `generator`) ON UPDATE CASCADE
--- ) ENGINE=InnoDB AUTO_INCREMENT=769 DEFAULT CHARSET=utf8;
-
-
-
--- -- ----------------------------
--- -- Table structure for menu_item_asset
--- -- ----------------------------
--- DROP TABLE IF EXISTS `menu_item_asset`;
--- CREATE TABLE `menu_item_asset` (
---   `menu_item_id_FK` int(11) unsigned NOT NULL,
---   `filepath` varchar(255) NOT NULL,
---   `mime_type` varchar(255) NOT NULL,
---   `editor_login_name` varchar(45) DEFAULT NULL,
---   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
---   `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
---   PRIMARY KEY (`menu_item_id_FK`,`filepath`),
---   CONSTRAINT `menu_item_fk1` FOREIGN KEY (`menu_item_id_FK`) REFERENCES `menu_item` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-
-
+-- ----------------------------
+-- Table structure for asset
+-- ----------------------------
 DROP TABLE IF EXISTS `asset`;
 CREATE TABLE `asset` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -186,7 +133,9 @@ CREATE TABLE `asset` (
   UNIQUE KEY `filepath_idx1` (`filepath`)
 ) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
-
+-- ----------------------------
+-- Table structure for menu_item_asset
+-- ----------------------------
 DROP TABLE IF EXISTS `menu_item_asset`;
 CREATE TABLE `menu_item_asset` (
   `menu_item_id_fk` int(11) unsigned NOT NULL,
@@ -194,12 +143,8 @@ CREATE TABLE `menu_item_asset` (
   PRIMARY KEY (`menu_item_id_fk`,`asset_id_fk`),
   KEY `asset_ibfk2_idx` (`asset_id_fk`),
   CONSTRAINT `asset_ibfk2` FOREIGN KEY (`asset_id_fk`) REFERENCES `asset` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `menu_item_ibfk1` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `menu_item_ibfk1` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-
 
 -- ----------------------------
 -- Table structure for menu_item_test
