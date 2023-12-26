@@ -17,7 +17,6 @@ use Red\Model\Entity\PaperAggregatePaperSectionInterface;
                     <?= $elementWrapper->wrapPerex($paperAggregate) ?>
             </section>
             <section>
-                <?=
-        $this->repeat(PROJECT_PATH."local/site/common/templates/red/paper/section/default.php", $paperAggregate->getPaperSectionsArraySorted(PaperAggregatePaperSectionInterface::BY_PRIORITY), 'paperSection'); ?>
+                <?= $this->repeat(__DIR__."/section/default.php", $paperAggregate->getPaperSectionsArraySorted(PaperAggregatePaperSectionInterface::BY_PRIORITY), 'paperSection'); ?>
             </section>
         </article>

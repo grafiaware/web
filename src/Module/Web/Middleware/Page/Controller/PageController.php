@@ -11,17 +11,10 @@ namespace Web\Middleware\Page\Controller;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Site\ConfigurationCache;
-use Red\Model\Entity\MenuItemInterface;
 
 // komponenty
 use Red\Component\View\Generated\SearchResultComponent;
 use UnexpectedValueException;
-
-####################
-
-use Red\Model\Repository\MenuItemRepo;
-use Red\Model\Repository\BlockRepo;
-use Red\Model\Entity\BlockAggregateMenuItemInterface;
 
 /**
  * Description of GetController
@@ -30,7 +23,7 @@ use Red\Model\Entity\BlockAggregateMenuItemInterface;
  */
 class PageController extends LayoutControllerAbstract {
 
-    const HEADER = 'X-RED-PageCtrl-Time';
+    const HEADER = 'X-WEB-PageCtrl-Time';
 
     ### action metody ###############
 
@@ -59,20 +52,19 @@ class PageController extends LayoutControllerAbstract {
                 break;
             default:
                 throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
-                break;
         }
         return $this->createResponseWithItem($request, $menuItem);
     }
 
     public function item(ServerRequestInterface $request, $uid) {
-        $startTime = microtime(true);
+//        $startTime = microtime(true);
 
         $menuItem = $this->getMenuItem($uid);
-        $getTime = (microtime(true) - $startTime) * 1000;
+//        $getTime = (microtime(true) - $startTime) * 1000;
         $response = $this->createResponseWithItem($request, $menuItem);
-        return $response
-            ->withHeader('X-RED-PageCtrlGetItem-Time', sprintf('%2.3fms', $getTime))
-            ->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
+        return $response;
+//            ->withHeader('X-WEB-PageCtrlGetItem-Time', sprintf('%2.3fms', $getTime))
+//            ->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
 
     }
 

@@ -20,6 +20,6 @@ use Red\Model\Entity\PaperAggregatePaperSectionInterface;
             </div>
         </div>
         <div class="ui grid stackable centered">
-            <?= $this->repeat(PROJECT_PATH."local/site/common/templates/red/paper/section/rows.php", $sections, 'paperSection'); ?>
+            <?= $this->repeat(__DIR__."/section/rows.php", $sections, 'paperSection'); ?>
         </div>
     </div>

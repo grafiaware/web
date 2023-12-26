@@ -23,7 +23,7 @@ use Web\Middleware\Page\PrepareService\Prepare;
 
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
 
-    const HEADER = 'X-RED-Web-Time';
+    const HEADER = 'X-WEB-Time';
 
     private $container;
 
@@ -61,11 +61,6 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(PageController::class);
             return $ctrl->item($request, $uid);
             });
-            $routeGenerator->addRouteForAction('GET', '/web/v1/page/subitem/:uid', function(ServerRequestInterface $request, $uid) {
-            /** @var PageController $ctrl */
-            $ctrl = $this->container->get(PageController::class);
-            return $ctrl->subitem($request, $uid);
-            });
             $routeGenerator->addRouteForAction('GET', '/web/v1/page/searchresult', function(ServerRequestInterface $request) {
             /** @var PageController $ctrl */
             $ctrl = $this->container->get(PageController::class);
@@ -81,6 +76,7 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
+        
         /** @var Prepare $prepare */
         $prepare = $this->container->get(Prepare::class);
         $prepare->prepareDbByStatus();

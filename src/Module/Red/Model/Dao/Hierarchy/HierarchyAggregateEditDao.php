@@ -564,9 +564,9 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
     public function copySubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): void {
         $dbhTransact = $this->dbHandler;
         try {
-            // parametry
             $dbhTransact->beginTransaction();
-
+            
+            // parametry
             $stmt = $this->getPreparedStatement("SET @sourceId := :source_uid");
             $stmt->bindParam(':source_uid', $sourceUid);
             $stmt->execute();
@@ -582,13 +582,13 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
             $dbhTransact->exec("SELECT right_node INTO @target_right_node
                 FROM $this->nestedSetTableName WHERE uid = @targetId");
 
-            // cílová data ze zdrojových dat (před vytvořením cílového prostoru - přídáním cílového prostoru se mohou zdrojová data posunout doprava)
-            $stmt = $this->getPreparedStatement("
+            // cílová data ze zdrojových dat (zdrojová data čtu před vytvořením cílového prostoru - přídáním cílového prostoru se mohou zdrojová data posunout doprava)
+            $targetNodesStmt = $this->getPreparedStatement("
                     SELECT uid, left_node - (@source_left_node - @target_right_node - 1) AS left_node, right_node - (@source_left_node - @target_right_node - 1) AS right_node
                     FROM $this->nestedSetTableName WHERE left_node BETWEEN @source_left_node AND @source_right_node
                 ");
-            $stmt->execute();
-            $targetData = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $targetNodesStmt->execute();
+            $targetData = $targetNodesStmt->fetchAll(\PDO::FETCH_ASSOC);
 
             // vytvoř cílový volný prostor
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node > @target_right_node");
@@ -616,20 +616,21 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      * @param bool $deactivate
      */
     private function copySourceContentIntoTarget($dbhTransact, $targetNodes, $deactivate=true) {
-        $preparedInsertToTarget = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
-        $preparedSelectSourceItem = $this->getPreparedStatement("
+        $insertToTargetStmt = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
+        // select jen podle uid_fk -> vybere všechny jazykové verze
+        $selectSourceItemsStmt = $this->getPreparedStatement("
                 SELECT lang_code_fk, api_module_fk, api_generator_fk, id, `list`, `order`, title, prettyuri, active, auto_generated
                     FROM
                     $this->itemTableName
                     WHERE
                     $this->itemTableName.uid_fk=:source_uid
             ");
-        $preparedInsertTargetItem = $this->getPreparedStatement("
+        $insertTargetItemStmt = $this->getPreparedStatement("
                 INSERT INTO menu_item (lang_code_fk, uid_fk, api_module_fk, api_generator_fk, `list`, `order`, title, prettyuri, active, auto_generated)
                 VALUES (:lang_code_fk, :uid_fk, :api_module_fk, :api_generator_fk, :list, :order, :title, :prettyuri, :active, :auto_generated)
             ");
 
-        $preparedCopyArticle = $this->getPreparedStatement("
+        $copyArticleStmt = $this->getPreparedStatement("
                 INSERT INTO article (menu_item_id_fk, article, template, editor, updated)
                     SELECT :new_menu_item_id, article, template, editor, updated
                     FROM
@@ -637,7 +638,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     WHERE
                     article.menu_item_id_fk=:source_menu_item_id
             ");
-        $preparedCopyPaper = $this->getPreparedStatement("
+        $copyPaperStmt = $this->getPreparedStatement("
                 INSERT INTO paper (menu_item_id_fk, headline, perex, template, keywords, editor, updated)
                     SELECT :new_menu_item_id, headline, perex, template, keywords, editor, updated
                     FROM
@@ -645,7 +646,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     WHERE
                     paper.menu_item_id_fk=:source_menu_item_id
             ");
-        $preparedCopyMultipage = $this->getPreparedStatement("
+        $copyMultipageStmt = $this->getPreparedStatement("
                 INSERT INTO multipage (menu_item_id_fk, template, editor, updated)
                     SELECT :new_menu_item_id, template, editor, updated
                     FROM
@@ -653,15 +654,23 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     WHERE
                     multipage.menu_item_id_fk=:source_menu_item_id
             ");
+        $copyMenuItemAssetsStmt = $this->getPreparedStatement("
+                INSERT INTO menu_item_asset 
+                    SELECT
+                    :new_menu_item_id, asset_id_fk
+                    FROM
+                    menu_item_asset
+                    WHERE menu_item_id_fk=:source_menu_item_id
+                    ");
         foreach ($targetNodes as $node) {
             $sourceUid = $node['uid'];
             $targetUid = $this->createNewUidWithinTransaction($dbhTransact);
             $node['uid'] = $targetUid;
-            $this->bindParams($preparedInsertToTarget, $node);
-            $success = $preparedInsertToTarget->execute();
-            $this->bindParams($preparedSelectSourceItem, ['source_uid'=>$sourceUid]);
-            $preparedSelectSourceItem->execute();
-            $sourceItems = $preparedSelectSourceItem->fetchAll(\PDO::FETCH_ASSOC);  // item pro všechny jazykové verze
+            $this->bindParams($insertToTargetStmt, $node);
+            $insertToTargetStmt->execute();
+            $this->bindParams($selectSourceItemsStmt, ['source_uid'=>$sourceUid]);
+            $selectSourceItemsStmt->execute();
+            $sourceItems = $selectSourceItemsStmt->fetchAll(\PDO::FETCH_ASSOC);  // items pro všechny jazykové verze
             foreach ($sourceItems as $sourceItem) {
                 // a) tabulka menu_item: unique key a) kombinace lang_code a uid, b) prettyUri
                 // při volání metody dao get c parametrem check duplicities vzniká chyba při duplicitě lang_code a list
@@ -670,8 +679,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 // ->
                 // a) uid - nový uid, list - prázdný (jinak by vznikly duplicity při výběru podle jazyka a listu)
                 // prettyUri - složit s novým uid
-                // active - vždy 0 - zjednodušené řešení, zkopírované položky jsou vřdy všechny neaktivní
-                $this->bindParams($preparedInsertTargetItem, [
+                // active - vždy 0 - zjednodušené řešení, zkopírované položky jsou vždy všechny neaktivní
+                $this->bindParams($insertTargetItemStmt, [
                     'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 
                     'api_module_fk'=>$sourceItem['api_module_fk'], 'api_generator_fk'=>$sourceItem['api_generator_fk'],
                     'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
@@ -679,14 +688,17 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title'], 80),
                     'active'=> ($deactivate ? 0 : $sourceItem['active']),
                     'auto_generated'=>$sourceItem['auto_generated']]);
-                $preparedInsertTargetItem->execute();
+                $insertTargetItemStmt->execute();
                 $lastMenuItemId = $dbhTransact->lastInsertId();
-                $this->bindParams($preparedCopyArticle, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
-                $articleCount = $preparedCopyArticle->execute();
-                $this->bindParams($preparedCopyPaper, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
-                $paperCount = $preparedCopyPaper->execute();
-                $this->bindParams($preparedCopyMultipage, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
-                $multipageCount = $preparedCopyMultipage->execute();
+                
+                $this->bindParams($copyArticleStmt, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $articleCount = $copyArticleStmt->execute();
+                $this->bindParams($copyPaperStmt, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $paperCount = $copyPaperStmt->execute();
+                $this->bindParams($copyMultipageStmt, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $multipageCount = $copyMultipageStmt->execute();
+                $this->bindParams($copyMenuItemAssetsStmt, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $assetCount = $copyMenuItemAssetsStmt->execute();                
             }
         }
     }

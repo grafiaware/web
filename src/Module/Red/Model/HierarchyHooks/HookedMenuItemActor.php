@@ -86,37 +86,29 @@ class HookedMenuItemActor extends HookedActorAbstract {
      */
     public function delete(HandlerInterface $transactionHandler, $uidsArray) {
         $this->checkTransaction($transactionHandler);
-        // maže menu_item a menu_item_asset a 
-        // maže asset pžímo příkazem DELETE  a menu_item_asset ON DELETE CASCSADE
         $uidsIn = $this->getInFromUidsArray($uidsArray);
-        // tvrdý delete - všechny jazykové verze
-        $stmtSelectItemsIds = $transactionHandler->prepare(
-                    "SELECT id FROM $this->menuItemTableName
-                    WHERE uid_fk IN ( $uidsIn )"
-                    );
-            $stmtSelectItemsIds->execute();
-            $itemIdsToDelete = $stmtSelectItemsIds->fetchAll(\PDO::FETCH_NUM);
-            $itemsIdsIn = $this->getInFromUidsArray($itemIdsToDelete);
-            // menu_item_asset ma fk asset_id_fk s ON DELETE CASCADE - kaskádně se smaže
-            $transactionHandler->exec(
-            "DELETE 
-              a
-              FROM asset AS a 
-            INNER JOIN (
-              SELECT id, asset_id_fk FROM menu_item_asset INNER JOIN asset ON (menu_item_asset.asset_id_fk=asset.id)
-              WHERE menu_item_id_fk IN ($itemsIdsIn)
-            ) AS p2
-            USING (id)"
-            );
-            
-        // !! article, paper a content, multipage mají constraint ON DELETE CASCADE - smazání menu_item smaže i paper a content
-        // smazal by i menu_item_asset ON DELETE CASCADE - ale tyto položky by již měly být smazány výše
+
+        // !! article, paper a content, multipage i menu_item_asset mají constraint ON DELETE CASCADE
+        //  - smazání menu_item smaže i položky v těchro tabulkách
         // !! delete vybírá menu_item jen podle uid_fk => smaže všechny jazykové verze
         $transactionHandler->exec(
             "DELETE FROM $this->menuItemTableName
             WHERE uid_fk IN ( $uidsIn )"
             );
+        // promazání asset - smaže assety, kzeré nemají cizí klíč c menu_tem_asset
+        // !! nemaže soubory
+        $transactionHandler->exec(
+            "DELETE a FROM asset AS a
+                INNER JOIN
+            (SELECT 
+                id, asset_id_fk
+            FROM
+                asset
+            LEFT JOIN menu_item_asset ON (asset.id = menu_item_asset.asset_id_fk)
 
+            WHERE
+                menu_item_asset.asset_id_fk IS NULL) AS p2 USING (id)"
+            );
 
 //Sometimes, it is useful to know which table is affected by the ON DELETE CASCADE  referential action when you delete data from a table. You can query this data from the referential_constraints in the information_schema  database as follows:
 

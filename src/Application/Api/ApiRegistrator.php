@@ -53,7 +53,6 @@ class ApiRegistrator {
         #### PageController ####
         $registry->register($this->getPrototype->withUrlPattern('/'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/item/:uid'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/subitem/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/searchresult'));
 
