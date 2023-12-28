@@ -103,8 +103,10 @@ class ConfigurationDb {
                 ['NULL', 'block', 'blocks', 'Blocks'],
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
-            'build.config.make.roots' => [
+            'build.config.make.root' => [
                 'root',
+                ],
+            'build.config.make.menuroots' => [
                 'trash',
                 'blocks',
                 'menu_vertical',
@@ -113,52 +115,25 @@ class ConfigurationDb {
                     'source' => 'pracinajdisi_231214.stranky',
                     'target' => 'najdisi.stranky'
                 ],
+            'build.config.convert.repairs' => [
+                ],
             'build.config.convert.updatestranky' => [
-                ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+                ['a0', 'l00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='l00', poradi=0
+            ],
+            'build.config.convert.prefixmap' => [
+                'l'=>'menu_vertical',
+                'a'=>'blocks'
+            ],
+            'build.config.convert.importrootuid' => [
+                '658db850b8018'     // hierarchy uid položky menu, do které se provede konverze staré databáze 
             ],
             'build.config.convert.home' => [
-                'home', 's00',        // titulní stránka s00 (změněná a0) je home page
+                'home', 'l00',        // titulní stránka s00 (změněná a0) je home page
             ],
-            'build.config.convert.repairs' => [
-             // změna l na s
-"
-UPDATE stranky AS s1 
-INNER JOIN
-(
-SELECT 
-concat('s', mid(list, 2)) AS newlist,
-list
-FROM
-stranky
-WHERE
-left(list, 1)='l'
-) AS s2
-SET
-s1.list = s2.newlist
-WHERE 
-s1.list = s2.list
-",
-                ],
+
             'build.config.convert.final' => [
-             // změna zpět s na l
-"
-UPDATE stranky AS s1 
-INNER JOIN
-(
-SELECT 
-concat('l', mid(list, 2)) AS newlist,
-list
-FROM
-stranky
-WHERE
-left(list, 1)='s'
-) AS s2
-SET
-s1.list = s2.newlist
-WHERE 
-s1.list = s2.list
-",
                 ],
+
             #
             ###################################
 

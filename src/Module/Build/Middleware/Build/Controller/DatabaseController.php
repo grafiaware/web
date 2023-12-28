@@ -179,22 +179,7 @@ class DatabaseController extends BuildControllerAbstract {
 
         ##### convert db ####
         if($convert) {
-            ### copy old table stranky ###
-            $conversionSteps[] = function() {   // convert
-                $convertConfig = $this->container->get('build.config.convert');
-                return $this->manipulator->copyTable($convertConfig['source_table_name'], $convertConfig['target_table_name']);
-            };
 
-            $conversionSteps[] = function() {   // jen pro convert grafia
-                $convertRepairs = $this->container->get('build.config.convert')['repairs'];
-                foreach ($convertRepairs as $repair) {
-                    $this->executeFromString($repair);
-                }
-            };
-
-            $conversionSteps[] = function() {   // convert
-                $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
-            };
         }
 
         $conversionSteps[] = function() {
@@ -204,16 +189,6 @@ class DatabaseController extends BuildControllerAbstract {
         $conversionSteps[] = function() {
             $this->executeFromFile("makeAndConvert/page2_0_insertIntoLanguage&MenuItemType.sql");
         };
-
-        if($convert) {
-            $conversionSteps[] = function() {   // convert - pro případ, kdy kořen svislého menu je a0
-                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert')['updatestranky'];
-                $executedSql = [];
-                foreach ($oldRootsUpdateDefinitions as $oldDef) {
-                    $this->executeFromTemplate("makeAndConvert/page2_1_updateStrankyInnodb.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
-                }
-            };
-        }
 
         $conversionSteps[] = function() {
             // [type, list, title]
@@ -230,56 +205,92 @@ class DatabaseController extends BuildControllerAbstract {
         };
 
         if($convert) {
+            ### copy old table stranky ###
+            $conversionSteps[] = function() {   // kopie tabulky stranky ze staré do nové db
+                $convertConfig = $this->container->get('build.config.convert');
+                return $this->manipulator->copyTable($convertConfig['source_table_name'], $convertConfig['target_table_name']);
+            };
+            $conversionSteps[] = function() {   // prostor pro úpravy obsahu tabulky stranky v nove db
+                $convertRepairs = $this->container->get('build.config.convert')['repairs'];
+                foreach ($convertRepairs as $repair) {
+                    $this->executeFromString($repair);
+                }
+            };
+            $conversionSteps[] = function() {   // convert - pro případ, kdy kořen menu je některá ze stránek označených aXX ve staré db
+                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert')['updatestranky'];
+                $executedSql = [];
+                foreach ($oldRootsUpdateDefinitions as $oldDef) {
+                    $this->executeFromTemplate("makeAndConvert/page2_1_updateStranky.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
+                }
+            };
+            $conversionSteps[] = function() {   // kopie tabulky stranky do stranky typu InnoDb
+                $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
+            };            
             $conversionSteps[] = function() {   // convert
                 $this->executeFromFile("makeAndConvert/page2_3_insertIntoMenuItemFromStranky.sql", );
             };
             $conversionSteps[] = function() {   // convert
                 $this->executeFromFile("makeAndConvert/page2_4_updateMenuItemTypes&Active.sql", );
             };
-        }
 
-        $conversionSteps[] = function() {   // convert
-            $fileName = "makeAndConvert/page3_selectIntoAdjList.sql";
-            $this->executeFromFile($fileName);
-        };
-        $conversionSteps[] = function() {   // convert
-                $adjList = $this->manipulator->findAllRows('menu_adjlist');
-                if (is_array($adjList) AND count($adjList)) {
-                    $this->reportMessage[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
-                    $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
-                    // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
-                    $rootUid = $hierachy->newNestedSet();
-                    try {
-                        foreach ($adjList as $adjRow) {
-                            if (isset($adjRow['parent'])) {  // rodič není root
-                                // najde menu_item pro všechny jazyky - použiji jen jeden (mají stejné nested_set uid_fk, liší se jen lang_code_fk)
-                                $parentItems = $this->manipulator->find("menu_item", ["list"=>$adjRow['parent']]);
-                                if (count($parentItems) > 0) { // pro rodiče existuje položka v menu_item -> není to jen prázdný uzel ve struktuře menu
-                                    $childItems = $this->manipulator->find("menu_item", ["list"=>$adjRow['child']]);
-                                    if ($childItems) {
-                                        $childUid = $hierachy->addChildNodeAsLast($parentItems[0]['uid_fk']);  //jen jeden parent
-                                        // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
-                                        $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$childUid'
-                                           WHERE menu_item.list='{$adjRow['child']}'");
-                                    }
-                                } else {  // pro rodiče neexistuje položka v menu_item -> je to jen prázdný uzel ve struktuře menu
-                                    $childUid = $hierachy->addChildNodeAsLast($rootUid);   // ???
-                                }
-                            } else {  // rodič je root
-                                // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
-                                $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$rootUid'
-                                   WHERE menu_item.list='{$adjRow['child']}'");
-                            }
-                        }
-                    } catch (\Exception $e) {
-                        throw new HierarchyStepFailedException("Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při transformaci adjacency list na nested tree.", 0, $e);
-                    }
-                    $this->reportMessage[] = "Skriptem pomocí Hierarchy vygenerována tabulka 'menu_nested_set' z dat tabulky 'menu_adjlist'.";
-                    $this->reportMessage[] = $this->timer->interval();
-                    $this->reportMessage[] = "Vykonán krok.";
+            $conversionSteps[] = function() {   // convert
+                $this->executeFromFile("makeAndConvert/page3_1_selectIntoAdjList.sql", );
+                $rootName = $this->container->get('build.config.make.root')[0];
+                $menuRoots = $this->container->get('build.config.make.menuroots');
+                $inMenuRoots = "'". implode("', '", $menuRoots)."'";
+                $this->executeFromTemplate("makeAndConvert/page3_2_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);
+
+                $map = $this->container->get('build.config.convert.prefixmap');
+                foreach ($map as $prefix=>$menuRoot) {
+                    $this->executeFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName, 'menu_root'=>$menuRoot, 'prefix'=>$prefix]);                
                 }
-            return TRUE;
-        };
+                $this->executeFromTemplate("makeAndConvert/page3_4_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);                
+            };
+            
+            $conversionSteps[] = function() {   // convert
+    //                $adjList = $this->manipulator->findAllRows('menu_adjlist');
+                $stmt = $this->queryFromFile("makeAndConvert/page3_5_selectNodesFromAjdlist.sql");
+                $adjList = $stmt->fetchAll(\PDO::FETCH_ASSOC);                  
+                    if (is_array($adjList) AND count($adjList)) {
+                        $this->reportMessage[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
+                        $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
+//                        $rootUid = $this->container->get('build.config.convert.importrootuid');
+//                        if (!isset($rootUid)) {
+                            // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
+                            $rootUid = $hierachy->newNestedSet();
+//                        }
+                        try {
+                            foreach ($adjList as $adjRow) {
+                                if (isset($adjRow['parent'])) {  // rodič není root
+                                    // najde menu_item pro všechny jazyky - použiji jen jeden (mají stejné nested_set uid_fk, liší se jen lang_code_fk)
+                                    $parentItems = $this->manipulator->find("menu_item", ["list"=>$adjRow['parent']]);
+                                    if (count($parentItems) > 0) { // pro rodiče existuje položka v menu_item -> není to jen prázdný uzel ve struktuře menu
+                                        $childItems = $this->manipulator->find("menu_item", ["list"=>$adjRow['child']]);
+                                        if ($childItems) {
+                                            $childUid = $hierachy->addChildNodeAsLast($parentItems[0]['uid_fk']);  //jen jeden parent
+                                            // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
+                                            $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$childUid'
+                                               WHERE menu_item.list='{$adjRow['child']}'");
+                                        }
+                                    } else {  // pro rodiče neexistuje položka v menu_item -> je to jen prázdný uzel ve struktuře menu
+                                        $childUid = $hierachy->addChildNodeAsLast($rootUid);   // ???
+                                    }
+                                } else {  // rodič je root
+                                    // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
+                                    $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$rootUid'
+                                       WHERE menu_item.list='{$adjRow['child']}'");
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            throw new HierarchyStepFailedException("Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při transformaci adjacency list na nested tree.", 0, $e);
+                        }
+                        $this->reportMessage[] = "Skriptem pomocí Hierarchy vygenerována tabulka 'menu_nested_set' z dat tabulky 'menu_adjlist'.";
+                        $this->reportMessage[] = $this->timer->interval();
+                        $this->reportMessage[] = "Vykonán krok.";
+                    }
+                return TRUE;
+            };
+        }
 
         $conversionSteps[] = function() {
             $fileName = "makeAndConvert/page4_alterMenuItem_fk.sql";
@@ -287,7 +298,7 @@ class DatabaseController extends BuildControllerAbstract {
         };
         $conversionSteps[] = function() {
             // [type, list, title]
-            $rootsListNames = $this->container->get('build.config.make.roots');
+            $rootsListNames = $this->container->get('build.config.make.menuroots');
             foreach ($rootsListNames as $rootName) {
                 $this->executeFromTemplate("makeAndConvert/page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
             }
@@ -310,7 +321,7 @@ class DatabaseController extends BuildControllerAbstract {
         };
 
         if($convert) {
-            $conversionSteps[] = function() {    // convert
+            $conversionSteps[] = function() {    // naplní paper z stranky_innodb
                 $fileName = "makeAndConvert/page7_insertIntoPaper.sql";
                 $this->executeFromFile($fileName);
             };

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `stranky_innodb`;
 -- tabulka stranky_innodb - je innodb a lze používat cizí klíče, má collation defaultní k utf8 - t.j. generalci (mám vícejazyčný obsah)
 CREATE TABLE `stranky_innodb` (
   `list` varchar(50) NOT NULL,
-  `poradi` tinyint(80) NOT NULL DEFAULT '0',
+  `poradi` tinyint(1) NOT NULL DEFAULT '0',
   `nazev_lan1` text,
   `obsah_lan1` longtext,
   `aktiv_lan1` tinyint(1) unsigned NOT NULL DEFAULT '0',
