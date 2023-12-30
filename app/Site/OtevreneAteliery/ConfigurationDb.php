@@ -42,7 +42,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_heslo_nastavit' : 'oa_admin',
             #
             ###################################
-            # Konfigurace logu renderování
+            # Konfigurace logu databáze
             #
             'red.logs.view.directory' => 'Logs/Red',
             'red.logs.view.file' => 'Render.log',
@@ -71,8 +71,6 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
-            # a také select k staré databázi - reálně nejlépe role DBA
             'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'oa_upgrader',
             'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'oa_upgrader',
             #
@@ -100,10 +98,10 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace make - ostatní parametry přidá kontejner
             # pole build.config.make.roots: [type, list, title]
             'build.config.make.items' => [
-                ['root', 'root', 'ROOT'],
-                ['trash', 'trash', 'Trash'],
-                ['paper', 'blocks', 'Blocks'],
-                ['empty', 'menu_vertical', 'Menu'],
+                ['NULL', 'root', 'root', 'ROOT'],
+                ['NULL', 'trash', 'trash', 'Trash'],
+                ['NULL', 'block', 'blocks', 'Blocks'],
+                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
             'build.config.make.roots' => [
                 'root',
@@ -116,13 +114,21 @@ class ConfigurationDb extends ConfigurationConstants {
                     'source' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg0XXX.stranky' : 'otevreneatelierycz_20230905.stranky',
                     'target' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg02.stranky' : 'oa_upgrade.stranky'
                 ],
+            'build.config.convert.repairs' => [
+                ],
             'build.config.convert.updatestranky' => [
-                ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+                ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+            ],
+            'build.config.convert.prefixmap' => [
+                'l'=>'menu_vertical',
+                'a'=>'blocks'
+            ],
+            'build.config.convert.importrootuid' => [
+                '658db850b8018'     // hierarchy uid položky menu, do které se provede konverze staré databáze 
             ],
             'build.config.convert.home' => [
                 'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
-            'build.config.convert.repairs' => [],
             'build.config.convert.final' => [],
             #
             ###################################

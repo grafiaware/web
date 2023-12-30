@@ -178,9 +178,6 @@ class DatabaseController extends BuildControllerAbstract {
         $this->manipulator = $this->container->get('manipulator_for_convert');
 
         ##### convert db ####
-        if($convert) {
-
-        }
 
         $conversionSteps[] = function() {
 //            $this->executeFromFile("makeAndConvert/page1_createTables.sql");
@@ -226,10 +223,10 @@ class DatabaseController extends BuildControllerAbstract {
             $conversionSteps[] = function() {   // kopie tabulky stranky do stranky typu InnoDb
                 $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
             };            
-            $conversionSteps[] = function() {   // convert
+            $conversionSteps[] = function() {   // stranky `lang_code_fk`, `list`, `order`,  `title`, `active`, `auto_generated` do isert into menu_item
                 $this->executeFromFile("makeAndConvert/page2_3_insertIntoMenuItemFromStranky.sql", );
             };
-            $conversionSteps[] = function() {   // convert
+            $conversionSteps[] = function() {   // úprava api_module, api_geherator a active v menu_item
                 $this->executeFromFile("makeAndConvert/page2_4_updateMenuItemTypes&Active.sql", );
             };
 
@@ -248,7 +245,7 @@ class DatabaseController extends BuildControllerAbstract {
             };
             
             $conversionSteps[] = function() {   // convert
-    //                $adjList = $this->manipulator->findAllRows('menu_adjlist');
+//                $adjList = $this->manipulator->findAllRows('menu_adjlist');
                 $stmt = $this->queryFromFile("makeAndConvert/page3_5_selectNodesFromAjdlist.sql");
                 $adjList = $stmt->fetchAll(\PDO::FETCH_ASSOC);                  
                     if (is_array($adjList) AND count($adjList)) {

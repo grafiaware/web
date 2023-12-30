@@ -103,10 +103,11 @@ class ConfigurationDb {
                 ['NULL', 'block', 'blocks', 'Blocks'],
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
                 ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
-                ['red', 'empty', 'menu_redirect', 'Menu redirect'],
-            ],
-            'build.config.make.roots' => [
+                ['red', 'empty', 'menu_redirect', 'Menu redirect'],            ],
+            'build.config.make.root' => [
                 'root',
+            ],
+            'build.config.make.menuroots' => [
                 'trash',
                 'blocks',
                 'menu_vertical',
@@ -118,16 +119,25 @@ class ConfigurationDb {
                     'source' => 'wwwgrafia.stranky',
                     'target' => 'vyroba.stranky'
                 ],
+            'build.config.convert.repairs' => [
+                // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
+                "DELETE FROM stranky WHERE list = 's_01'",
+                ],            
             'build.config.convert.updatestranky' => [
                 ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+            ],
+            'build.config.convert.prefixmap' => [
+                's'=>'menu_vertical',
+                'p'=>'menu_horizontal',
+                'l'=>'menu_redirect',
+                'a'=>'blocks'
+            ],
+            'build.config.convert.importrootuid' => [
+                '658db850b8018'     // hierarchy uid položky menu, do které se provede konverze staré databáze 
             ],
             'build.config.convert.home' => [
                 'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
-            'build.config.convert.repairs' => [
-                // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
-                "DELETE FROM stranky WHERE list = 's_01'",
-                ],
             'build.config.convert.final' => [],
             #
             ###################################
