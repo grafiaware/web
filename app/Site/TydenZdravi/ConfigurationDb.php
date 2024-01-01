@@ -15,7 +15,7 @@ use Pes\Database\Handler\DbTypeEnum;
  *
  * @author pes2704
  */
-class ConfigurationDb extends ConfigurationConstants {
+class ConfigurationDb {
 
     ### kontejner ###
     #
@@ -94,17 +94,18 @@ class ConfigurationDb extends ConfigurationConstants {
 
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
-            # pole build.config.make.roots: [type, list, title]
+            # pole build.config.make.items: [api_module, api_generator, list, title]
             'build.config.make.items' => [
-                ['root', 'root', 'ROOT'],
-                ['trash', 'trash', 'Trash'],
-                ['paper', 'blocks', 'Blocks'],
-                ['paper', 'menu_vertical', 'Menu'],
-                ['paper', 'menu_horizontal', 'Menu'],
-                ['paper', 'menu_redirect', 'Menu'],
-            ],
-            'build.config.make.roots' => [
+                ['red', 'empty', 'root', 'ROOT'],
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
+                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+                ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
+                ['red', 'empty', 'menu_redirect', 'Menu redirect'],            ],
+            'build.config.make.root' => [
                 'root',
+            ],
+            'build.config.make.menuroots' => [
                 'trash',
                 'blocks',
                 'menu_vertical',
@@ -127,15 +128,6 @@ class ConfigurationDb extends ConfigurationConstants {
             'build.db.logs.file.convert' => 'Convert.log',
             #
             ###################################
-
-            ###################################
-            # Konfigurace hierarchy tabulek
-            #
-            'build.hierarchy.table' => 'hierarchy',
-            'build.hierarchy.view' => 'hierarchy_view',
-            #
-            ##################################
-            #
         ];
     }
 
@@ -187,7 +179,6 @@ class ConfigurationDb extends ConfigurationConstants {
             'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
             'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu' : 'tydenzdravieu',
             #
-            #  Konec sekce konfigurace databáze
             ###################################
             # Konfigurace logu databáze
             #
@@ -205,14 +196,6 @@ class ConfigurationDb extends ConfigurationConstants {
      */
     public static function hierarchy() {
         return  [
-            #################################
-            # Konfigurace uživatele databáze
-            #
-            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
-            #
-            'red.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
-            'red.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
-            #
             ###################################
             # Konfigurace hierarchy tabulek
             #
@@ -252,7 +235,31 @@ class ConfigurationDb extends ConfigurationConstants {
 
         ];
     }
+    /**
+     * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator a DbUpgradeContainerConfigurator
+     * @return array
+     */
+    public static function sqlite() {
+        return [
+            #####################################
+            # Konfigurace připojení k databázi sqlite
+            #
+            #
+            'sqlite.db.type' => DbTypeEnum::SQLITE,
+            'sqlite.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? '/sqlite' : '/sqlite',
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
+            'sqlite.logs.db.directory' => 'Logs/Sqlite',
+            'sqlite.logs.db.file' => 'Database.log',
+            'sqlite.logs.db.type' => FileLogger::FILE_PER_DAY,
+            #
+            #################################
 
+        ];
+    }
+    
     /**
      * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator
      * @return array

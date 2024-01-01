@@ -96,11 +96,11 @@ class ConfigurationDb {
 
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
-            # pole build.config.make.roots: [type, list, title]
+            # pole build.config.make.items: [api_module, api_generator, list, title]
             'build.config.make.items' => [
-                ['NULL', 'root', 'root', 'ROOT'],
-                ['NULL', 'trash', 'trash', 'Trash'],
-                ['NULL', 'block', 'blocks', 'Blocks'],
+                ['red', 'empty', 'root', 'ROOT'],
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
             'build.config.make.root' => [
@@ -119,7 +119,6 @@ class ConfigurationDb {
             'build.config.convert.home' => [],
 
             'build.config.convert.final' => [],
-
             #
             ###################################
 

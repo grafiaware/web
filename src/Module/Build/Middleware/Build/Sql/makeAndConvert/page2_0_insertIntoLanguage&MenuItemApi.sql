@@ -13,10 +13,12 @@ INSERT INTO `language` (`lang_code`, `name`, `locale`, `collation`, `state`) VAL
 -- INSERT INTO `menu_item_type` (`type`) VALUES ( 'trash' );  -- typ trash - koš - obsah bude načten z db tabulky paper, delete maže
 
 
+INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('rs', 'generated');
+INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'empty');
+INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'select');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'article');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'paper');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'multipage');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'static');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('events', 'static');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('auth', 'static');
-INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'empty');

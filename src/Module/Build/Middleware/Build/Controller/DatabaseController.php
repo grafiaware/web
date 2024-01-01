@@ -75,7 +75,7 @@ class DatabaseController extends BuildControllerAbstract {
 
         $this->manipulator = $this->container->get('manipulator_for_create_database');
         $this->reportMessage[] = "Záznam o vytvoření databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
-        $response = $this->executeSteps($createSteps);
+        $this->executeSteps($createSteps);
         if ($this->container instanceof ContainerSettingsAwareInterface) {
             $this->container->reset('manipulator_for_create_database');
         }
@@ -104,7 +104,7 @@ class DatabaseController extends BuildControllerAbstract {
         #   - musí existovat databáze
         #   - musí existovat uživatelé: prefix_everyone, prefix_authenticated, prefix_administrator
         #   - uživatel pod kterým je vytvořeno spojení k databázovámu stroji
-        #     musí mít práva mazat databáze a uživatele- nejlépe tedy role DBA
+        #     musí mít práva mazat databáze a uživatele - nejlépe tedy role DBA
         #
         ####
 
@@ -184,7 +184,7 @@ class DatabaseController extends BuildControllerAbstract {
             $this->executeFromFile("makeAndConvert/page1_v2_createTables.sql");
         };
         $conversionSteps[] = function() {
-            $this->executeFromFile("makeAndConvert/page2_0_insertIntoLanguage&MenuItemType.sql");
+            $this->executeFromFile("makeAndConvert/page2_0_insertIntoLanguage&MenuItemApi.sql");
         };
 
         $conversionSteps[] = function() {
@@ -204,17 +204,17 @@ class DatabaseController extends BuildControllerAbstract {
         if($convert) {
             ### copy old table stranky ###
             $conversionSteps[] = function() {   // kopie tabulky stranky ze staré do nové db
-                $convertConfig = $this->container->get('build.config.convert');
-                return $this->manipulator->copyTable($convertConfig['source_table_name'], $convertConfig['target_table_name']);
+                $convertConfig = $this->container->get('build.config.convert.copy');
+                return $this->manipulator->copyTable($convertConfig['source'], $convertConfig['target']);
             };
             $conversionSteps[] = function() {   // prostor pro úpravy obsahu tabulky stranky v nove db
-                $convertRepairs = $this->container->get('build.config.convert')['repairs'];
+                $convertRepairs = $this->container->get('build.config.convert.repairs');
                 foreach ($convertRepairs as $repair) {
                     $this->executeFromString($repair);
                 }
             };
             $conversionSteps[] = function() {   // convert - pro případ, kdy kořen menu je některá ze stránek označených aXX ve staré db
-                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert')['updatestranky'];
+                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert.updatestranky');
                 $executedSql = [];
                 foreach ($oldRootsUpdateDefinitions as $oldDef) {
                     $this->executeFromTemplate("makeAndConvert/page2_1_updateStranky.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
@@ -231,10 +231,10 @@ class DatabaseController extends BuildControllerAbstract {
             };
 
             $conversionSteps[] = function() {   // convert
-                $this->executeFromFile("makeAndConvert/page3_1_selectIntoAdjList.sql", );
                 $rootName = $this->container->get('build.config.make.root')[0];
+                $this->executeFromTemplate("makeAndConvert/page3_1_selectIntoAdjList.sql", ['root'=>$rootName]);
                 $menuRoots = $this->container->get('build.config.make.menuroots');
-                $inMenuRoots = "'". implode("', '", $menuRoots)."'";
+                $inMenuRoots = implode("', '", $menuRoots);
                 $this->executeFromTemplate("makeAndConvert/page3_2_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);
 
                 $map = $this->container->get('build.config.convert.prefixmap');
@@ -251,11 +251,8 @@ class DatabaseController extends BuildControllerAbstract {
                     if (is_array($adjList) AND count($adjList)) {
                         $this->reportMessage[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
                         $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
-//                        $rootUid = $this->container->get('build.config.convert.importrootuid');
-//                        if (!isset($rootUid)) {
-                            // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
-                            $rootUid = $hierachy->newNestedSet();
-//                        }
+                        // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
+                        $rootUid = $hierachy->newNestedSet();
                         try {
                             foreach ($adjList as $adjRow) {
                                 if (isset($adjRow['parent'])) {  // rodič není root
@@ -303,7 +300,7 @@ class DatabaseController extends BuildControllerAbstract {
 
         if($convert) {
             $conversionSteps[] = function() {   // convert - pro případ, kdy konvertovaný "starý" kořen menu je home page
-                $homeList = $this->container->get('build.config.convert')['home'];
+                $homeList = $this->container->get('build.config.convert.home');
                 $this->executeFromTemplate("makeAndConvert/page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1]]);
             };
             $conversionSteps[] = function() {  // convert
@@ -318,12 +315,12 @@ class DatabaseController extends BuildControllerAbstract {
         };
 
         if($convert) {
-            $conversionSteps[] = function() {    // naplní paper z stranky_innodb
-                $fileName = "makeAndConvert/page7_insertIntoPaper.sql";
+            $conversionSteps[] = function() {    // naplní paper a section z stranky_innodb
+                $fileName = "makeAndConvert/page7_insertIntoPaperAndSection.sql";
                 $this->executeFromFile($fileName);
             };
-            $conversionSteps[] = function() {   // jen pro convert grafia
-                $convertFinal = $this->container->get('build.config.convert')['final'];
+            $conversionSteps[] = function() {   // 
+                $convertFinal = $this->container->get('build.config.convert.final');
                 foreach ($convertFinal as $final) {
                     $this->executeFromString($final);
                 }

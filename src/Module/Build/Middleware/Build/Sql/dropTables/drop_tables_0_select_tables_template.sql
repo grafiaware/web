@@ -1,4 +1,4 @@
 
 SELECT table_name
 FROM information_schema.tables
-WHERE table_schema = '{{database}}';
+WHERE table_schema = {{database}};

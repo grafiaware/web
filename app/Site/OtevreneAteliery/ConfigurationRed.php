@@ -25,7 +25,7 @@ use Pes\Logger\FileLogger;
  *
  * @author pes2704
  */
-class ConfigurationRed extends ConfigurationDb {
+class ConfigurationRed extends ConfigurationConstants {
 
     /**
      * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator

@@ -90,13 +90,35 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
         }
     }
 
+    /**
+     * Interpoluje s použitím obsahu souboru jako šablony, ve které placeholdery jodnotami z pole dat. 
+     * Hodnoty v datech jse upraveny takto:
+     * - null je nahrazena řetězcem NULL (SQL klíčové slovo NULL)
+     * - řetězec, který začíná a končí znaky "backtick" "`" je považován za SQL identifikátor a je vložen tak, jak je (včetně backtick) (SQL identifikátor)
+     * - ostatní hodnoty jsou převedeny na string a ten je vložen s přidáním apostrofů před a za řetězec (SQL string)
+     * 
+     * @param type $templateFilename
+     * @param array $data
+     * @return void
+     * @throws SqlExecutionStepFailedException
+     */
     protected function executeFromTemplate($templateFilename, array $data=[]): void {
         $this->reportMessage[] = "## Execute from template '$templateFilename'.";
         if (!isset($this->interpolateRenderer)) {
             $this->interpolateRenderer = new InterpolateRenderer();
         }
+        $backtick = "`";
+        foreach ($data as $key => $value) {
+            if (!isset($value)) {
+                $sqlData[$key] = 'NULL';
+            } elseif ($this->startsWith($value, $backtick) AND $this->endsWith($value, $backtick)) {
+                $sqlData[$key] = $value;
+            } else {
+                $sqlData[$key] = "'".strval($value)."'"; 
+            }
+        }
         $this->interpolateRenderer->setTemplate(new InterpolateTemplate(self::RELATIVE_SQLFILE_PATH.$templateFilename));
-        $sql = $this->interpolateRenderer->render($data);
+        $sql = $this->interpolateRenderer->render($sqlData);
         try {
             $this->executeFromString($sql);
         } catch (SqlExecutionStepFailedException $e) {
@@ -106,7 +128,15 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
             throw $e;
         }
     }
-
+    
+    private function startsWith($haystack, $needle) {
+        return substr_compare($haystack, $needle, 0, strlen($needle)) === 0;
+    }
+    
+    private function endsWith($haystack, $needle) {
+        return substr_compare($haystack, $needle, -strlen($needle)) === 0;
+    }
+    
     protected function executeFromFile($fileName): void {
         $this->reportMessage[] = "## Execute from file '$fileName'.";
         $filePath = self::RELATIVE_SQLFILE_PATH.$fileName;

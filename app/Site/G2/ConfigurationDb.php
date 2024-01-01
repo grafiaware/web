@@ -96,11 +96,11 @@ class ConfigurationDb {
 
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
-            # pole build.config.make.roots: [type, list, title]
+            # pole build.config.make.items: [api_module, api_generator, list, title]
             'build.config.make.items' => [
-                ['NULL', 'root', 'root', 'ROOT'],
-                ['NULL', 'trash', 'trash', 'Trash'],
-                ['NULL', 'block', 'blocks', 'Blocks'],
+                ['red', 'empty', 'root', 'ROOT'],
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
                 ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
                 ['red', 'empty', 'menu_redirect', 'Menu redirect'],            ],
@@ -124,7 +124,7 @@ class ConfigurationDb {
                 "DELETE FROM stranky WHERE list = 's_01'",
                 ],
             'build.config.convert.updatestranky' => [
-                ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+                ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
             ],
             'build.config.convert.prefixmap' => [
                 's'=>'menu_vertical',

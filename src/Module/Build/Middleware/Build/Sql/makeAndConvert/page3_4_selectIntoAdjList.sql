@@ -17,7 +17,7 @@ INSERT INTO menu_adjlist (child, parent, poradi, level)
         FROM
 
         (SELECT menu_item.list, menu_item.lang_code_fk,
-			if(menu_item.list='{{root}}', 1,
+			if(menu_item.list={{root}}, 1,
 				if(menu_item.list IN ({{in_menu_roots}}), 2,
                     LENGTH(menu_item.list)/3+2 )) AS level
 			FROM menu_item) AS parents
@@ -28,5 +28,5 @@ INSERT INTO menu_adjlist (child, parent, poradi, level)
             (
                 parents.list=SUBSTRING(childrens.list,1,LENGTH(childrens.list)-3) AND SUBSTRING(  childrens.list,4,1)='_'
                 OR
-                parents.list = '{{root}}' AND childrens.list <> '{{root}}' AND childrens.list NOT IN ({{in_menu_roots}}) AND LENGTH(childrens.list) > 3 AND SUBSTRING(  childrens.list,4,1)<>'_'
+                parents.list = {{root}} AND childrens.list <> {{root}} AND childrens.list NOT IN ({{in_menu_roots}}) AND LENGTH(childrens.list) > 3 AND SUBSTRING(  childrens.list,4,1)<>'_'
             )

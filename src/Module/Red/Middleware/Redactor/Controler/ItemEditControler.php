@@ -154,9 +154,9 @@ class ItemEditControler extends FrontControlerAbstract {
         $allLangVersionsMenuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
         /** @var MenuItemInterface $langMenuItem */
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
-            if (null!==$langMenuItem->getApiModuleFk() AND ItemApiService::EMPTY_MODULE!=$langMenuItem->getApiModuleFk()
+            if (null!==$langMenuItem->getApiModuleFk() AND ItemApiService::DEFAULT_MODULE!=$langMenuItem->getApiModuleFk()
                     OR 
-                null!==$langMenuItem->getApiGeneratorFk() AND ItemApiService::EMPTY_GENERATOR!=$langMenuItem->getApiGeneratorFk()) {
+                null!==$langMenuItem->getApiGeneratorFk() AND ItemApiService::DEFAULT_GENERATOR!=$langMenuItem->getApiGeneratorFk()) {
                 throw new LogicException("Pokus o nastavení typu položce menu, která již má api modul nebo api generator. "
                         . "Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' má nastaven api modul {$langMenuItem->getApiModuleFk()} a api generátor {$langMenuItem->getApiGeneratorFk()}.");
             }

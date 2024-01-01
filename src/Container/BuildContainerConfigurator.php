@@ -69,50 +69,49 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
                 'build.config.drop' => function(ContainerInterface $c) {
                     return [
-                        'database' => $c->get('red.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
+                        'database' => "`".$c->get('red.db.connection.name')."`",  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
                         ];
                     },
                 'build.config.createdb' => function(ContainerInterface $c) {
                     return [
-                        'database' => $c->get('red.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
+                        'database' => "`".$c->get('red.db.connection.name')."`",  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
                         ];
                     },
                 'build.config.createdropusers.everyone' => function(ContainerInterface $c) {
                     return array_merge(
-                        ConfigurationCache::build()['build.config.users.everyone'],
+                        $c->get('build.config.users.everyone'),
                         [
-                        'host' => $c->get('red.db.connection.host'),
-                        'database' => $c->get('red.db.connection.name'),
-                        'login_database' => $c->get('auth.db.connection.name'),
-
-                        'login_user' => $c->get('auth.db.account.everyone.name'),
-                        'login_password' => $c->get('auth.db.account.everyone.password'),
+                        'host'=>$c->get('red.db.connection.host'),
+                        'database' => "`".$c->get('red.db.connection.name')."`",
+                            
+//                        'login_database' => $c->get('auth.db.connection.name'),
+//                        'login_user' => $c->get('auth.db.account.everyone.name'),
+//                        'login_password' => $c->get('auth.db.account.everyone.password'),
                         ]
                         );
                     },
                 'build.config.createdropusers.granted' => function(ContainerInterface $c) {
                     return array_merge(
-                        ConfigurationCache::build()['build.config.users.granted'],
+                        $c->get('build.config.users.granted'),
                         [
-                        'host' => $c->get('red.db.connection.host'),
-                        'database' => $c->get('red.db.connection.name'),
-                        'login_database' => $c->get('auth.db.connection.name'),
-
-                        'login_user' => $c->get('auth.db.account.everyone.name'),
-                        'login_password' => $c->get('auth.db.account.everyone.password'),
+                        'host'=>$c->get('red.db.connection.host'),
+                        'database' => "`".$c->get('red.db.connection.name')."`",
+                            
+//                        'login_database' => $c->get('auth.db.connection.name'),
+//                        'login_user' => $c->get('auth.db.account.everyone.name'),
+//                        'login_password' => $c->get('auth.db.account.everyone.password'),
                         ]
                         );
                     },
-                'build.config.convert' => function(ContainerInterface $c) {
-                    return [
-                        'source_table_name' =>  ConfigurationCache::build()['build.config.convert.copy']['source'] ?? '',  // jméno source obsahuje jméno db i tabulky: source_db.source_table
-                        'target_table_name' => ConfigurationCache::build()['build.config.convert.copy']['target'] ?? '',  // jméno target obsahuje jméno db i tabulky: target_db.target_table
-                        'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
-                        'final' => ConfigurationCache::build()['build.config.convert.final'] ?? [],                        
-                        'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
-                        'home' =>  ConfigurationCache::build()['build.config.convert.home'],
-                        ];
-                    },
+//                'build.config.convert' => function(ContainerInterface $c) {
+//                    return [
+//                        'copy' =>  ConfigurationCache::build()['build.config.convert.copy'] ?? [], 
+//                        'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
+//                        'final' => ConfigurationCache::build()['build.config.convert.final'] ?? [],                        
+//                        'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
+//                        'home' =>  ConfigurationCache::build()['build.config.convert.home'],
+//                        ];
+//                    },
                 ];
     }
 

@@ -5,5 +5,5 @@
 INSERT INTO menu_root (uid_fk, name)
 SELECT uid_fk, list as name FROM
 menu_item
-WHERE list='{{root}}'
+WHERE list={{root}}
 GROUP BY uid_fk;
