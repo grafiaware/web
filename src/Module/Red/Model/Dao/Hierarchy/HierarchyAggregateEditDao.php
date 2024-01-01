@@ -630,7 +630,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 VALUES (:lang_code_fk, :uid_fk, :api_module_fk, :api_generator_fk, :list, :order, :title, :prettyuri, :active, :auto_generated)
             ");
 
-        $copyArticleStmt = $this->getPreparedStatement("
+        $preparedCopyArticle = $this->getPreparedStatement("
                 INSERT INTO article (menu_item_id_fk, article, template, editor, updated)
                     SELECT :new_menu_item_id, article, template, editor, updated
                     FROM
@@ -638,7 +638,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     WHERE
                     article.menu_item_id_fk=:source_menu_item_id
             ");
-        $copyPaperStmt = $this->getPreparedStatement("
+        $preparedCopyPaper = $this->getPreparedStatement("
                 INSERT INTO paper (menu_item_id_fk, headline, perex, template, keywords, editor, updated)
                     SELECT :new_menu_item_id, headline, perex, template, keywords, editor, updated
                     FROM
