@@ -665,7 +665,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     WHERE
                     multipage.menu_item_id_fk=:source_menu_item_id
             ");
-        $copyMenuItemAssetsStmt = $this->getPreparedStatement("
+        $preparedCopyAssets = $this->getPreparedStatement("
                 INSERT INTO menu_item_asset 
                     SELECT
                     :new_menu_item_id, asset_id_fk
@@ -701,6 +701,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     'auto_generated'=>$sourceItem['auto_generated']]);
                 $insertTargetItemStmt->execute();
                 $lastMenuItemId = $dbhTransact->lastInsertId();
+
                 $this->bindParams($preparedCopyArticle, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
                 $articleCount = $preparedCopyArticle->execute();
                 $this->bindParams($preparedCopyPaper, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
@@ -710,6 +711,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 $sectionCount = $preparedCopySections->execute();
                 $this->bindParams($preparedCopyMultipage, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
                 $multipageCount = $preparedCopyMultipage->execute();
+                $this->bindParams($preparedCopyAssets, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $assetCount = $preparedCopyAssets->execute();                
             }
         }
     }
