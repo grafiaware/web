@@ -16,7 +16,7 @@ use Pes\Logger\FileLogger;
  *
  * @author pes2704
  */
-class ConfigurationDb extends ConfigurationConstants {
+class ConfigurationDb {
 
     ### kontejner ###
     #
@@ -42,7 +42,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'g2_upgrader' : 'g2_admin',
             #
             ###################################
-            # Konfigurace logu renderování
+            # Konfigurace logu databáze
             #
             'red.logs.view.directory' => 'Logs/Red',
             'red.logs.view.file' => 'Render.log',
@@ -71,8 +71,6 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
-            # a také select k staré databázi - reálně nejlépe role DBA
             'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'g2_upgrader',
             'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'g2_upgrader',
             #
@@ -98,17 +96,18 @@ class ConfigurationDb extends ConfigurationConstants {
 
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
-            # pole build.config.make.roots: [type, list, title]
+            # pole build.config.make.items: [api_module, api_generator, list, title]
             'build.config.make.items' => [
-                ['root', 'root', 'ROOT'],
-                ['trash', 'trash', 'Trash'],
-                ['paper', 'blocks', 'Blocks'],
-                ['paper', 'menu_vertical', 'Menu'],
-                ['paper', 'menu_horizontal', 'Menu'],
-                ['paper', 'menu_redirect', 'Menu'],
-            ],
-            'build.config.make.roots' => [
+                ['red', 'empty', 'root', 'ROOT'],
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
+                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+                ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
+                ['red', 'empty', 'menu_redirect', 'Menu redirect'],            ],
+            'build.config.make.root' => [
                 'root',
+            ],
+            'build.config.make.menuroots' => [
                 'trash',
                 'blocks',
                 'menu_vertical',
@@ -120,16 +119,25 @@ class ConfigurationDb extends ConfigurationConstants {
                     'source' => 'wwwgrafia.stranky',
                     'target' => 'g2_upgrade.stranky'
                 ],
-            'build.config.convert.updatestranky' => [
-                ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
-            ],
-            'build.config.convert.home' => [
-                'home', 's00',        // titulní stránka s00 (změněná a0) je home page
-            ],
             'build.config.convert.repairs' => [
                 // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
                 "DELETE FROM stranky WHERE list = 's_01'",
                 ],
+            'build.config.convert.updatestranky' => [
+                ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+            ],
+            'build.config.convert.prefixmap' => [
+                's'=>'menu_vertical',
+                'p'=>'menu_horizontal',
+                'l'=>'menu_redirect',
+                'a'=>'blocks'
+            ],
+            'build.config.convert.importrootuid' => [
+                '658db850b8018'     // hierarchy uid položky menu, do které se provede konverze staré databáze 
+            ],
+            'build.config.convert.home' => [
+                'home', 's00',        // titulní stránka s00 (změněná a0) je home page
+            ],
             'build.config.convert.final' => [],
             #
             ###################################

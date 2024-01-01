@@ -646,7 +646,18 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     WHERE
                     paper.menu_item_id_fk=:source_menu_item_id
             ");
-        $copyMultipageStmt = $this->getPreparedStatement("
+        $preparedCopySections = $this->getPreparedStatement("
+                INSERT INTO paper_section (paper_id_fk, list, content, template_name, template, active, priority, show_time, hide_time, event_start_time, event_end_time, editor, updated)
+                    SELECT :new_paper_id_fk, list, content, template_name, template, active, priority, show_time, hide_time, event_start_time, event_end_time, editor, updated
+                    FROM
+                        paper_section
+                        WHERE
+                        paper_id_fk=
+                        (
+                        SELECT id FROM paper WHERE menu_item_id_fk=:source_menu_item_id
+                        )
+            ");
+        $preparedCopyMultipage = $this->getPreparedStatement("
                 INSERT INTO multipage (menu_item_id_fk, template, editor, updated)
                     SELECT :new_menu_item_id, template, editor, updated
                     FROM
@@ -690,15 +701,15 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     'auto_generated'=>$sourceItem['auto_generated']]);
                 $insertTargetItemStmt->execute();
                 $lastMenuItemId = $dbhTransact->lastInsertId();
-                
-                $this->bindParams($copyArticleStmt, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
-                $articleCount = $copyArticleStmt->execute();
-                $this->bindParams($copyPaperStmt, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
-                $paperCount = $copyPaperStmt->execute();
-                $this->bindParams($copyMultipageStmt, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
-                $multipageCount = $copyMultipageStmt->execute();
-                $this->bindParams($copyMenuItemAssetsStmt, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
-                $assetCount = $copyMenuItemAssetsStmt->execute();                
+                $this->bindParams($preparedCopyArticle, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $articleCount = $preparedCopyArticle->execute();
+                $this->bindParams($preparedCopyPaper, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $paperCount = $preparedCopyPaper->execute();
+                $newPaperId = $dbhTransact->lastInsertId();
+                $this->bindParams($preparedCopySections, ['new_paper_id_fk'=>$newPaperId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $sectionCount = $preparedCopySections->execute();
+                $this->bindParams($preparedCopyMultipage, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $multipageCount = $preparedCopyMultipage->execute();
             }
         }
     }

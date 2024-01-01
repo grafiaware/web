@@ -96,23 +96,28 @@ class ConfigurationDb {
 
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
-            # pole build.config.make.roots: [type, list, title]
+            # pole build.config.make.items: [api_module, api_generator, list, title]
             'build.config.make.items' => [
-                ['root', 'root', 'ROOT'],
-                ['trash', 'trash', 'Trash'],
-                ['paper', 'blocks', 'Blocks'],
-                ['empty', 'menu_vertical', 'Menu'],
+                ['red', 'empty', 'root', 'ROOT'],
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
+                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
-            'build.config.make.roots' => [
+            'build.config.make.root' => [
                 'root',
+                ],
+            'build.config.make.menuroots' => [
                 'trash',
                 'blocks',
                 'menu_vertical',
             ],
-            'build.config.convert.copy' => [],
-            'build.config.convert.updatestranky' => [],
-            'build.config.convert.home' => [],
+            'build.config.convert.copy' =>  [],
             'build.config.convert.repairs' => [],
+            'build.config.convert.updatestranky' => [],
+            'build.config.convert.prefixmap' => [],
+            'build.config.convert.importrootuid' => [],
+            'build.config.convert.home' => [],
+
             'build.config.convert.final' => [],
             #
             ###################################

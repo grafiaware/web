@@ -1,8 +1,9 @@
 /* page7_insertIntoPaper */
 -- naplnění paper a paper_section selectem z stranky_innodb join menu_item
 -- list slouží pro propojení ve fázi naplňování 'paper' tabulky a bude odstraněn
--- obsah starých stránek (content) se kopíruje do perex, pokud jsou nemá nasteveno časové omezení aktiv_lanXstart IS NULL AND aktiv_lanXstop IS NULL nebo jsou
--- oba časy stejné - starý RS vkládal dva stejné časy, pokud užibatel nevybral v kalendáři nic
+-- obsah starých stránek (content) se kopíruje do:
+--  perex, pokud NEMÁ nasteveno časové omezení aktiv_lanXstart IS NULL AND aktiv_lanXstop IS NULL nebo jsou oba časy stejné - starý RS vkládal dva stejné časy, pokud užibatel nevybral v kalendáři nic
+--  section, pokud MÁ nastabeno časové omezení
 INSERT INTO `paper` ( `menu_item_id_fk`, `list`, `headline`, `perex`, `keywords`, `editor`, `updated`)
 SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan1 AS headline, IF((aktiv_lan1start IS NULL AND aktiv_lan1stop IS NULL) OR aktiv_lan1start=aktiv_lan1stop, obsah_lan1, '') AS perex, keywords_lan1 AS keywords, editor, zmena  AS updated
 FROM

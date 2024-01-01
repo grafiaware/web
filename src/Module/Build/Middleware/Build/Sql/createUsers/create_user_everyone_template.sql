@@ -7,7 +7,7 @@
 
 CREATE USER {{everyone_user}}@{{host}} IDENTIFIED WITH mysql_native_password;
 SET old_passwords = 0;
-SET PASSWORD FOR {{everyone_user}}@{{host}} = PASSWORD("{{everyone_password}}");
+SET PASSWORD FOR {{everyone_user}}@{{host}} = PASSWORD({{everyone_password}});
 GRANT SELECT ON {{database}}.* TO {{everyone_user}}@{{host}};
 
 -- SHOW GRANTS FOR 'gr_upgrader'@'localhost';
