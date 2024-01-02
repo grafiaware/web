@@ -107,16 +107,7 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
         if (!isset($this->interpolateRenderer)) {
             $this->interpolateRenderer = new InterpolateRenderer();
         }
-        $backtick = "`";
-        foreach ($data as $key => $value) {
-            if (!isset($value)) {
-                $sqlData[$key] = 'NULL';
-            } elseif ($this->startsWith($value, $backtick) AND $this->endsWith($value, $backtick)) {
-                $sqlData[$key] = $value;
-            } else {
-                $sqlData[$key] = "'".strval($value)."'"; 
-            }
-        }
+        $sqlData = $this->prepareSqlData($data);
         $this->interpolateRenderer->setTemplate(new InterpolateTemplate(self::RELATIVE_SQLFILE_PATH.$templateFilename));
         $sql = $this->interpolateRenderer->render($sqlData);
         try {
@@ -125,16 +116,9 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v template $templateFilename.";
             $this->reportMessage[] = $message;
             $this->reportMessage[] = print_r($data, true);
+            $this->reportMessage[] = print_r($sqlData, true);
             throw $e;
         }
-    }
-    
-    private function startsWith($haystack, $needle) {
-        return substr_compare($haystack, $needle, 0, strlen($needle)) === 0;
-    }
-    
-    private function endsWith($haystack, $needle) {
-        return substr_compare($haystack, $needle, -strlen($needle)) === 0;
     }
     
     protected function executeFromFile($fileName): void {
@@ -169,14 +153,16 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
         if (!isset($this->interpolateRenderer)) {
             $this->interpolateRenderer = new InterpolateRenderer();
         }
+        $sqlData = $this->prepareSqlData($data);        
         $this->interpolateRenderer->setTemplate(new InterpolateTemplate(self::RELATIVE_SQLFILE_PATH.$templateFilename));
-        $sql = $this->interpolateRenderer->render($data);
+        $sql = $this->interpolateRenderer->render($sqlData);
         try {
             $statement = $this->queryFromString($sql);
         } catch (SqlExecutionStepFailedException $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v template $templateFilename.";
             $this->reportMessage[] = $message;
             $this->reportMessage[] = print_r($data, true);
+            $this->reportMessage[] = print_r($sqlData, true);
             throw new SqlExecutionStepFailedException($message, 0, $e);
         }
         return $statement;
@@ -206,6 +192,28 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
         return $statement;
     }
 
+    private function prepareSqlData(array $data) {
+        $backtick = "`";
+        foreach ($data as $key => $value) {
+            if (!isset($value)) {
+                $sqlData[$key] = 'NULL';
+            } elseif ($this->startsWith($value, $backtick) AND $this->endsWith($value, $backtick)) {
+                $sqlData[$key] = $value;
+            } else {
+                $sqlData[$key] = "'".strval($value)."'"; 
+            }
+        }
+        return $sqlData;
+    }
+    
+    private function startsWith($haystack, $needle) {
+        return substr_compare($haystack, $needle, 0, strlen($needle)) === 0;
+    }
+    
+    private function endsWith($haystack, $needle) {
+        return substr_compare($haystack, $needle, -strlen($needle)) === 0;
+    }
+    
     private function createReport() {
         $report = [];
         foreach ($this->reportMessage as $value) {

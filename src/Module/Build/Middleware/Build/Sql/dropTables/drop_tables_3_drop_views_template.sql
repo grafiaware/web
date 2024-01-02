@@ -1,4 +1,4 @@
 
 SET FOREIGN_KEY_CHECKS = 0;
-{{dropViewsSql}}
+DROP TABLE IF EXISTS {{tables}};
 SET FOREIGN_KEY_CHECKS = 1;

@@ -77,6 +77,11 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         'database' => "`".$c->get('red.db.connection.name')."`",  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
                         ];
                     },
+                'build.config.droptables' => function(ContainerInterface $c) {
+                    return [
+                        'databasename' => $c->get('red.db.connection.name'),  // template proměnná databasename - hodnota (string) nikoli identifikátor - použita ve WHERE
+                        ];
+                    },
                 'build.config.createdropusers.everyone' => function(ContainerInterface $c) {
                     return array_merge(
                         $c->get('build.config.users.everyone'),

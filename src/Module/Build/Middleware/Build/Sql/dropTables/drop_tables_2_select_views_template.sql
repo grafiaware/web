@@ -1,4 +1,4 @@
 
-SELECT table_name
-FROM information_schema.views
-WHERE table_schema = {{database}};
+SELECT table_name 
+FROM information_schema.views 
+WHERE table_schema = {{databasename}};

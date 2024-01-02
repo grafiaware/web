@@ -1,4 +1,4 @@
 
 SET FOREIGN_KEY_CHECKS = 0;
-{{dropTablesSql}}
+DROP TABLE IF EXISTS {{tables}};
 SET FOREIGN_KEY_CHECKS = 1;
