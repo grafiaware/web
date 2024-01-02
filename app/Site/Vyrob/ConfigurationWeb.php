@@ -181,8 +181,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             'urlContentTemplatesCss' => self::WEB_LINKS_COMMON."css/templates.css",
             'urlMediaCss' => self::WEB_LINKS_COMMON."css/media.css",
             // home page
-//            'home_page' => ['block', 'home'],
-           'home_page' => ['item', '6579cc3c23f31'],  // přednášky - pro test
+            'home_page' => ['block', 'home'],
+//           'home_page' => ['item', '6579cc3c23f31'],  // přednášky - pro test
 
             'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
