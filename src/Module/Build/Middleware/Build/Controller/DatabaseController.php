@@ -187,19 +187,35 @@ class DatabaseController extends BuildControllerAbstract {
             $this->executeFromFile("makeAndConvert/page2_0_insertIntoLanguage&MenuItemApi.sql");
         };
 
-        $conversionSteps[] = function() {
-            // [type, list, title]
-            $rootsDefinitions = $this->container->get('build.config.make.items');
-            foreach ($rootsDefinitions as $rootDef) {
-                $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql", 
-                    [
-                        'menu_root_api_module' => $rootDef[0], 
-                        'menu_root_api_generator' => $rootDef[1],
-                        'menu_root_list'=>$rootDef[2],
-                        'menu_root_title'=>$rootDef[3],
-                    ]);
-            }
-        };
+        if ($convert) {
+            $conversionSteps[] = function() {
+                // [type, list, title]
+                $rootsDefinitions = $this->container->get('build.config.convert.items');
+                foreach ($rootsDefinitions as $rootDef) {
+                    $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql", 
+                        [
+                            'menu_root_api_module' => $rootDef[0], 
+                            'menu_root_api_generator' => $rootDef[1],
+                            'menu_root_list'=>$rootDef[2],
+                            'menu_root_title'=>$rootDef[3],
+                        ]);
+                }
+            };
+        } else {
+            $conversionSteps[] = function() {
+                // [type, list, title]
+                $rootsDefinitions = $this->container->get('build.config.make.items');
+                foreach ($rootsDefinitions as $rootDef) {
+                    $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql", 
+                        [
+                            'menu_root_api_module' => $rootDef[0], 
+                            'menu_root_api_generator' => $rootDef[1],
+                            'menu_root_list'=>$rootDef[2],
+                            'menu_root_title'=>$rootDef[3],
+                        ]);
+                }
+            };            
+        }
 
         if($convert) {
             ### copy old table stranky ###

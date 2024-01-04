@@ -41,13 +41,13 @@ class PageController extends LayoutControllerAbstract {
             case 'block':
                 $menuItem = $this->getMenuItemForBlock($homePage[1]);
                 if (!isset($menuItem)) {
-                    throw new \UnexpectedValueException("Undefined menu item for default page (home page) defined as component with name '$homePage[1]'.");
+                    throw new \UnexpectedValueException("Undefined menu item for default page (home page) defined in configuration as block with name '$homePage[1]'.");
                 }
                 break;
             case 'item':
                 $menuItem = $this->getMenuItem($homePage[1]);
                 if (!isset($menuItem)) {
-                    throw new UnexpectedValueException("Undefined default page (home page) defined as static with name '$homePage[1]'.");
+                    throw new UnexpectedValueException("Undefined default page (home page) defined in configuration as item with uid '$homePage[1]'.");
                 }
                 break;
             default:

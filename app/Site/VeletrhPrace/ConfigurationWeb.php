@@ -213,6 +213,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             'contextLayoutMap' => [
                     'menuSvisle' => 'menu.svisle',
+                ],
+            'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
                 ],

@@ -268,7 +268,7 @@ class ElementEditableWrapper {
                 .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     Html::tag('button',
                         ['class'=>$this->classMap->get('Buttons', 'button'),
-                        'data-tooltip'=>'Přidat další obsah před',
+                        'data-tooltip'=>'Přidat další sekci před',
                         'type'=>'submit',
                         'name'=>'button',
                         'value' => '',
@@ -282,7 +282,7 @@ class ElementEditableWrapper {
                     )
                     .Html::tag('button',
                         ['class'=>$this->classMap->get('Buttons', 'button'),
-                        'data-tooltip'=>'Přidat další obsah za',
+                        'data-tooltip'=>'Přidat další sekci za',
                         'type'=>'submit',
                         'name'=>'button',
                         'value' => '',

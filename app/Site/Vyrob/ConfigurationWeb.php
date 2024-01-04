@@ -217,6 +217,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'menuSvisle' => 'menu.svisle',
                     'menuVodorovne' => 'menu.vodorovne',
                     'menuPresmerovani' => 'menu.presmerovani',
+                ],
+            'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
                 ],

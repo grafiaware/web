@@ -189,6 +189,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     'content' => $this->getMenuItemLoader($menuItem),
                 ],
                 $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
+                $this->isPartInEditableMode() ? $this->getLayoutEditableViews() : [],
                 $this->getLayoutViews(),
                 $this->getBlockLoaders(),
                 $this->getCascadeViews(),
@@ -233,6 +234,15 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     ]),
                 ];
     }
+    
+    private function getLayoutEditableViews() {
+        $views = [];
+        foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutEditableMap']) as $contextName) {
+                $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
+        }
+        return $views;
+    }
+    
     private function getLayoutViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutMap']) as $contextName) {

@@ -2,13 +2,10 @@
 namespace Red\Component\Renderer\Html\Content\Authored\Paper;
 
 use Red\Component\Renderer\Html\Content\Authored\AuthoredRendererAbstract;
-
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
 
 use Red\Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
-
-use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 use Pes\Text\Html;
 
@@ -23,8 +20,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $article = $viewModel->getPaper();  // vrací PaperAggregate
 
-        $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
+        $html = Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
                     Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(PaperComponent::BUTTON_EDIT_CONTENT) ?? '',

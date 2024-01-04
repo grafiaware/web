@@ -71,6 +71,9 @@ class ComponentControler extends PresentationFrontControlerAbstract {
     public function serviceComponent(ServerRequestInterface $request, $name) {
         if($this->isAllowed(AllowedActionEnum::GET)) {
             $service = ConfigurationCache::layoutController()['contextServiceMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? null;
+            if (!isset($service)) {
+                $service = ConfigurationCache::layoutController()['contextLayoutEditableMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? null;
+            }
             if (isset($service) AND $this->container->has($service)) {
                 $view = $this->container->get($service);
             } else {
@@ -81,8 +84,12 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }
         return $this->createResponseFromView($request, $view);
     }
-
+    
     public function empty(ServerRequestInterface $request, $menuItemId) {
+        return $this->createResponseFromString($request, '');
+    }
+    
+    public function select(ServerRequestInterface $request, $menuItemId) {
         if($this->isAllowed(AllowedActionEnum::GET)) {
             /** @var ItemTypeSelectViewModel $itemTypeSelectViewModel */
             $itemTypeSelectViewModel = $this->container->get(ItemTypeSelectViewModel::class);

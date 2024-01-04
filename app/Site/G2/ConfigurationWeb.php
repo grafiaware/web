@@ -182,7 +182,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'urlMediaCss' => self::WEB_LINKS_COMMON."css/media.css",
             // home page
             'home_page' => ['block', 'home'],
-//           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+//           'home_page' => ['item', '659500ffe765e'],  // přednášky - pro test
 
             'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
@@ -217,6 +217,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'menuSvisle' => 'menu.svisle',
                     'menuVodorovne' => 'menu.vodorovne',
                     'menuPresmerovani' => 'menu.presmerovani',
+                ],
+            'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
                 ],

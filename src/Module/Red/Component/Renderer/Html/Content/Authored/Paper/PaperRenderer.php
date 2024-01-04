@@ -3,17 +3,9 @@ namespace Red\Component\Renderer\Html\Content\Authored\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
-
-use Red\Model\Entity\PaperAggregatePaperSectionInterface;
-use Red\Model\Entity\PaperInterface;
-use Red\Model\Entity\PaperSectionInterface;
-
-use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
+use Red\Component\View\Content\Authored\Paper\PaperComponent;
 
 use Pes\Text\Html;
-
-use Red\Component\View\Content\Authored\Paper\PaperComponent;
-use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
 
 /**
  * Description of PaperRenderer
