@@ -83,7 +83,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
     protected function getButtonPaste(MenuItemInterface $menuItem) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
-                'data-tooltip'=>'Vložit jako sourozence',
+                'data-tooltip'=>'Vložit vybrané jako sourozence',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/paste",
@@ -95,7 +95,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
     protected function getButtonPasteChild(MenuItemInterface $menuItem) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
-                'data-tooltip'=>'Vložit jako potomka',
+                'data-tooltip'=>'Vložit vybrané jako potomka',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/pastechild",
@@ -120,7 +120,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
     protected function getButtonCopy(MenuItemInterface $menuItem) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
-                'data-tooltip'=>'Zkopírovat položku',
+                'data-tooltip'=>'Vybrat ke zkopírování',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',

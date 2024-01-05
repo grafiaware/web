@@ -7,7 +7,7 @@
         </section>
         <section>
             <form>
-                <perex class="borderDance">Změňte název položky menu tak, aby odpovídal názvu šablony statické stránky.</perex>
+                <perex class="borderDance">Změňte název položky menu tak, aby odpovídal názvu složky s kódem statické stránky.</perex>
             </form>
         </section>
         <section>        

@@ -36,7 +36,6 @@ class EditContentSwitchRenderer extends HtmlRendererAbstract {
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace
                 Html::tag('form', ['method'=>'POST', 'action'=>$action],
                     [
-                        //Html::tag('p', [], isset($editor) ? "Obsah upravuje $editor." : ''),
                         Html::tag('button', [
                             'class'=>$this->classMap->resolve($userPerformActionWithContent, 'Buttons', 'button.offEditMode',  $disabled ? 'button.editMode.disabled':'button.editMode'),
                             'data-tooltip' => $tooltip,

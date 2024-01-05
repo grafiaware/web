@@ -238,7 +238,7 @@ let selectTemplateCommonConfig = {
 var selectTemplateArticleConfig = {
     ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_article',
-    placeholder: 'Výběr šablony article',
+    placeholder: 'Výběr stylu zobrazení pro article',
     toolbar: 'template | save',
     templates: 'red/v1/templateslist/article'
 };
@@ -246,7 +246,7 @@ var selectTemplateArticleConfig = {
 var selectTemplatePaperConfig = {
     ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_paper',
-    placeholder: 'Výběr šablony paper',
+    placeholder: 'Výběr stylu zobrazení pro paper',
     style_formats: [
         { title: 'Vertikálně prohodit perex a contents', selector: 'div.vertikalne-prohodit', classes: [ 'active' ], styles: { 'flex-direction': 'column-reverse' } },
         { title: 'Horizontálně prohodit perex a contents', selector: 'div.horizontalne-prohodit', styles: { 'flex-direction': 'row-reverse' } },
@@ -259,7 +259,7 @@ var selectTemplatePaperConfig = {
 var selectTemplateMultipageConfig = {
     ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_multipage',
-    placeholder: 'Výběr šablony multipage',
+    placeholder: 'Výběr stylu zobrazení pro multipage',
     toolbar: 'template | save',
     templates: 'red/v1/templateslist/multipage'
 };
