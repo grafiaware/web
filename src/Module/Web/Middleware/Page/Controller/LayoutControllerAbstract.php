@@ -188,8 +188,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 [
                     'content' => $this->getMenuItemLoader($menuItem),
                 ],
-                $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
-                $this->isPartInEditableMode() ? $this->getLayoutEditableViews() : [],
+                $this->isPartInEditableMode() ? $this->getLayoutEditableViews($request) : [],
                 $this->getLayoutViews(),
                 $this->getBlockLoaders(),
                 $this->getCascadeViews(),
@@ -205,7 +204,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param type $request
      * @return array
      */
-    private function getEditableModeViews($request) {
+    private function getLayoutEditableViews($request) {
         $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
         $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
@@ -221,9 +220,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss'],
                     'urlMediaCss' => ConfigurationCache::layoutController()['urlMediaCss']
                 ]);        
-                    
-        return [
-            'redScripts' => $this->container->get(View::class)
+        $views = [];                    
+        $redScriptsView = $this->container->get(View::class)
                 ->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.redScripts']))
                 ->setData([
                     'tinyConfigView' => $tinyConfigView,
@@ -231,14 +229,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     //                    'urlJqueryTinyMCE' => ConfigurationCache::layoutController()['urlJqueryTinyMCE'],
                     'urlTinyInit' => ConfigurationCache::layoutController()['urlTinyInit'],
                     'urlEditScript' => ConfigurationCache::layoutController()['urlEditScript'],
-                    ]),
-                ];
-    }
-    
-    private function getLayoutEditableViews() {
-        $views = [];
+                    ]);
+        $views ['redScripts'] = $redScriptsView;
         foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutEditableMap']) as $contextName) {
-                $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
+            $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
         }
         return $views;
     }
@@ -246,7 +240,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getLayoutViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutMap']) as $contextName) {
-                $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
+            $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
         }
         return $views;
     }
@@ -254,7 +248,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getCascadeViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
-                $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);
+            $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);
         }
         return $views;
     }
