@@ -135,6 +135,10 @@ var editHtmlConfig = {
     editable_class: 'mceEditable',   // 
     noneditable_class: 'mceNonEditable',   // 
     hidden_input: true,
+    paste_as_text: false,  // default false
+    smart_paste: true,   // Detect text that resembles a URL and change the text to a hyperlink.
+                         //Detect text that resembles the URL for an image and will try to replace the text with the image.
+
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
@@ -168,9 +172,7 @@ var editHtmlConfig = {
 
     setup: editorHtmlEditSetup,  // callback that will be executed before the TinyMCE editor instance is rendered
 
-
     /**/
-    paste_as_text: true,
     text_patterns: [
         { start: '*', end: '*', format: 'italic' },
         { start: '**', end: '**', format: 'bold' },
