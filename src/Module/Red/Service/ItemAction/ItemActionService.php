@@ -53,10 +53,9 @@ class ItemActionService implements ItemActionServiceInterface {
      */
     public function remove($itemId, $loginName) {
         $dbItemAction = $this->itemActionRepo->get($itemId, $loginName);  // načtení z db
-        if (!isset($dbItemAction)) {
-            throw new ItemActionNotExistsException("Unable to remove item action. Item action for item id '$itemId' and actual user not exists.");
+        if (isset($dbItemAction)) {  // více otevřených záložek v prohlížeči s spuštěnou editací stejným uživatelem vede k opakovanému remove se stejnými parametry
+            $this->itemActionRepo->remove($dbItemAction);
         }
-        $this->itemActionRepo->remove($dbItemAction);
     }
     
     /**
