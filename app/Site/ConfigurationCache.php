@@ -15,8 +15,8 @@ namespace Site;
 //use Site\Grafia as Siteconfig;
 //const SITE_PATH = 'app/Site/Grafia/';
 
-//use Site\NajdiSi as Siteconfig;
-//const SITE_PATH = 'app/Site/NajdiSi/';
+use Site\NajdiSi as Siteconfig;
+const SITE_PATH = 'app/Site/NajdiSi/';
 
 //use Site\OtevreneAteliery as Siteconfig;
 //const SITE_PATH = 'app/Site/OtevreneAteliery/';
