@@ -200,7 +200,8 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return type
      */
     protected function redirectSeeLastGet(ServerRequestInterface $request) {
-        return $this->createResponseRedirectSeeOther($request, $this->statusPresentationRepo->get()->getLastGetResourcePath()); // 303 See Other
+        $lastGet = $this->statusPresentationRepo->get();
+        return $this->createResponseRedirectSeeOther($request, isset($lastGet) ? $lastGet->getLastGetResourcePath() : '/'); // 303 See Other
     }
 
     /**

@@ -152,6 +152,7 @@ var editHtmlConfig = {
     templates: 'red/v1/templateslist/author',
     toolbar1: toolbar1,
     toolbar2: toolbar2,
+    toolbar_sticky: true,
     editimage_toolbar: editimage_toolbar,
     link_class_list: linkClassList,
     image_class_list: imageClassList,
