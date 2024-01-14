@@ -106,7 +106,7 @@ export const filePickerCallback = (callback, value, meta) => {
 
 // https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
 
-export const imageUploadHandler = (blobInfo, progress) => new Promise((resolve, reject) => {
+export const redImageUploadHandler = (blobInfo, progress) => new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;  // should pass along credentials (such as cookies, authorization headers, or TLS client certificates) for cross-domain uploads
     xhr.open('POST', 'red/v1/upload/image');
