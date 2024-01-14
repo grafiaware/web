@@ -10,7 +10,7 @@
  * @param {type} editor
  * @returns {undefined}
  */
-export const editorHtmlEditSetup = (editor) => {
+export const redEditorSetup = (editor) => {
     var form;
     var val;
 
