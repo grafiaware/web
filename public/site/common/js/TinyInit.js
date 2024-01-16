@@ -105,8 +105,6 @@ let editCommonConfig = {
     inline: true, // Inline editing mode does not replace the selected element with an iframe, but instead edits the element’s content in-place
                   // Sticky toolbars are always enabled in inline mode and cannot be disabled.
 //    toolbar_sticky: true,
-    editable_class: 'mceEditable',   // 
-    noneditable_class: 'mceNonEditable',   // 
     //paste_as_text: false,  // default false, true - převede vkládaný obsah na holý text
     smart_paste: true,   // Detect text that resembles a URL and change the text to a hyperlink.
                          //Detect text that resembles the URL for an image and will try to replace the text with the image.    
@@ -144,7 +142,8 @@ var editHtmlConfig = {
     valid_children: '+a[div]',
 
     content_css: tinyConfig.contentCss,
-
+    editable_class: 'mceEditable',   // 
+    noneditable_class: 'mceNonEditable',   // 
     menubar: false,
 //menubar: 'file edit insert view format table tools help': 'file edit insert view format table tools help',
 
@@ -310,10 +309,7 @@ var editUserInputConfig = {
 
         //pro editaci pracovního popisu pro přihlášené uživatele
         tinymce.init(editUserInputConfig);
-        //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
-            $('.profil-visible').on('click', function(){
-            $('.profil.hidden').css('display', 'block');
-        });
+
     }
 
 import {attachmentPlugin} from "./tinyplugins/plugins.js";
