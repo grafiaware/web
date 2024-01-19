@@ -74,7 +74,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $onclick = (string) "toggleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons = [];
         $disabled = $useSelectTemplateButton ? '' : 'disabled';
-        $tooltip = $useSelectTemplateButton ? 'Vybrat šablonu stránky' : 'Nelze podruhé vybrat šablonu stránky';
+        $tooltip = $useSelectTemplateButton ? 'Vybrat styl zobrazení stránky' : 'Nelze podruhé vybrat šablonu stránky';
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', $disabled ? 'button.disabled':'button'),
                 'data-tooltip'=> $tooltip,

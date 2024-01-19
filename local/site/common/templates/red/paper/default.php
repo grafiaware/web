@@ -1,3 +1,5 @@
+    <!--<div class="notClickable">-->
+    <div class="mceNonEditable">
         <div class="" data-template="<?= "default" ?>">
             <div class="ui grid">
                 <div class="sixteen wide column">
@@ -11,3 +13,4 @@
                 <?= $this->repeat(__DIR__."/section/default.php", $sections, 'paperSection'); ?>
             </div>
         </div>
+    </div>    

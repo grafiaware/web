@@ -28,7 +28,7 @@ public function render(iterable $viewModel = NULL) {
             }
             return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/menu/$menuItemUidFk/type"],
                         Html::tag('p', [], Message::t("Vyberte typ obsahu:"))
-                        .Html::tag('div', [],
+                        .Html::tag('div', ['class'=>'item-type'], //'class'=>$this->classMap->get('Template', 'div.templateItemType')
                             $radioHtml
                          )
 //                        .Html::tag('label', [], "static path:" . Html::tag('input', ['type'=>"text", 'name'=>"folded", 'value'=>""]))

@@ -46,7 +46,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
 
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
-                'data-tooltip'=> 'Vybrat šablonu stránky',
+                'data-tooltip'=> 'Vybrat styl zobrazení stránky',
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
@@ -57,7 +57,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
             );
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
-                'data-tooltip'=> 'Odstranit šablonu stránky',
+                'data-tooltip'=> 'Odstranit styl zobrazení stránky',
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',

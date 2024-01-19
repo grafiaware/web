@@ -7,7 +7,7 @@ use Red\Middleware\Redactor\Controler\UserActionControler;
     <div class="ui icon left pointing dropdown button">
         Akce
         <div class="menu">
-            <div class="item header">
+            <div class="text nastred">
                 <p><i class="user icon"></i><?= $userName ?></p>
             </div>
             <!--
@@ -24,7 +24,7 @@ use Red\Middleware\Redactor\Controler\UserActionControler;
             -->
             <button class="fluid ui olive labeled icon button" type="submit" name="<?= UserActionControler::FORM_USER_ACTION_EDIT_MODE ?>" value="<?= empty($editContent) ? 1 : 0 ?>" formtarget="_self"
                 formaction="red/v1/presentation/edit_mode">
-                <i class="pencil alternate large icon"></i>
+                <i class="pencil alternate icon"></i>
                 <?= empty($editContent) ? "Zapnout inline editaci" : "Vypnout inline editaci" ?>
             </button>
             <div class="item">

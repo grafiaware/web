@@ -2,6 +2,9 @@
 @import "../../@{sitename}/semantic/src/themes/default/globals/site.variables";
 @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";
 
+
+/*v každé site přeložit editingButtons_size na editingButtons v semantic/elements button.overrides*/
+
 @hodnota0: 0;
 @borderWidth: 1px;
 @borderStyle: solid;  
@@ -27,7 +30,7 @@
 @menuLiCutItemBackgroundColor: transparent;
 //Buttony pro menu
 @buttonyPasteMenuBorder: @borderWidth @borderStyle @grey;
-@buttonyPasteMenuBackgroundColor: lighten(@lightOlive, 15);
+@buttonyPasteMenuBackgroundColor: @lightOlive;
 @buttonyPasteMenuBorderLeft: 0;
 @buttonyMenuBackgroundColor: @barvaEditButtony;
 @lastButtonMenuBackgroundColor: @barvaEditButtony;
@@ -121,6 +124,13 @@
 @sectionRendererMarginTop: initial;
 @articleRendererMargin: 10px 7px;
 @rendererBoxShadow: 0 0 1px 1px @teal;
+@multiPageColor: @black;
+@articleColor: @orange;
+@paperColor: @pink;
+@rendererMultipageBoxShadow: 0 0 1px 1px @multiPageColor;
+@rendererArticleBoxShadow: 0 0 1px 1px @articleColor;
+@rendererPaperBoxShadow: 0 0 1px 1px @paperColor;
+@rendererEditingButtonHoverFilter: grayscale(40%);
 @rendererTrashBoxShadow: 0 0 0 1px darken(@barvaKos,20);
 @trashContentOpacity: 0.5; 
 @trashContentFilter: grayscale(1); 
@@ -131,7 +141,7 @@
 @zapnoutEditaciTextAlign: right;
 @zapnoutEditaciPadding: 0;
 @zapnoutEditaciMargin: 0;
-@zapnoutEditaciPositionTop: -1px;
+@zapnoutEditaciPositionTop: 0px; 
 @zapnoutEditaciPositionRight: -4px;
 @zapnoutEditaciArticlePositionRight: -4px;
 @rendererMultipageMargin: 0 9px;
@@ -156,6 +166,7 @@
 @ribbonActiveZIndex: 15;
 @ribbonIconTransform: translateX(50%);
 @ribbonCornerIconFontSize: 1em;
+@ribbonCornerIconMarginRight: -8px;
 @ribbonContentPriorityDisplay: inline-block;
 @ribbonContentPriorityVerticalAlign: top;
 @ribbonContentPriorityFontSize: 1.75rem;
@@ -211,6 +222,13 @@
 @divKalendarColumnPadding: 5px 10px;
 @divKalendarInputWidth: 100%;
 @divKalendarInputMarginBottom: 10px;
+
+//Nová položka v menu - styly pro radio
+@ItemTypeDisplay: flex;
+@ItemTypeFlexDirection: column;
+@ItemTypeMarginBottom: 20px;
+@ItemTypeLabelCursor: pointer;
+@ItemTypeInputMarginRight: 7px;
 
 //Prostředí pro Tiny
 @mceBodyOutline: 3px dotted #b4d7ff;
@@ -658,6 +676,54 @@ body{
      .template-article, .template-articleedit, .template-paper, .template-paperedit{
         margin: @articleRendererMargin;
     }
+    .template-multipage, .template-multipageedit{
+        .editingButtons.icon.button{
+            color: @multiPageColor;
+            box-shadow: @rendererMultipageBoxShadow;
+            &:not(.basic){
+                background-color: @multiPageColor;
+                color: @white;
+                &:hover{
+                    filter: @rendererEditingButtonHoverFilter;
+                }
+            }
+        }
+        &:not(.trash){
+            box-shadow: @rendererMultipageBoxShadow;
+        }
+    }
+    .template-article, .template-articleedit{
+        .editingButtons.icon.button{
+            color: @articleColor;
+            box-shadow: @rendererArticleBoxShadow;
+            &:not(.basic){
+                background-color: @articleColor;
+                color: @white;
+                &:hover{
+                    filter: @rendererEditingButtonHoverFilter;
+                }
+            }
+        }
+        &:not(.trash){
+            box-shadow: @rendererArticleBoxShadow;
+        }
+    }
+    .template-paper, .template-paperedit{
+        .editingButtons.icon.button{
+            color: @paperColor;
+            box-shadow: @rendererPaperBoxShadow;
+            &:not(.basic){
+                background-color: @paperColor;
+                color: @white;
+                &:hover{
+                    filter: @rendererEditingButtonHoverFilter;
+                }
+            }
+        }
+        &:not(.trash){
+            box-shadow: @rendererPaperBoxShadow;
+        }
+    }
     .template-multipage, .template-multipageedit, .template-article, .template-articleedit, .template-paper, .template-paperedit{
         position: relative;
         padding: @rendererPadding;
@@ -665,9 +731,6 @@ body{
         border-radius: @rendererBorderRadius;
         [data-template] > section, [data-red-template] > section{
             margin-bottom: @rendererSectionMarginBottom;
-        }
-        &:not(.trash){
-            box-shadow: @rendererBoxShadow;
         }
         &.trash{ 
             box-shadow: @rendererTrashBoxShadow; 
@@ -742,13 +805,14 @@ body{
         position: relative;
         .icon:not(.editDate){
             /*semantic má nastaveno position: absolute, což je zde nežádoucí*/
-            position: initial;
+            /*position: initial;*/
         }
         /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
         .icons .icon{
             transform: @ribbonIconTransform;
             &.corner{
                 font-size: @ribbonCornerIconFontSize;
+                margin-right: @ribbonCornerIconMarginRight;
             }
         }
         &.cornerWithTools.activeCalendar{
@@ -900,6 +964,17 @@ body{
             }
         }
     }
+    .item-type{
+        display: @ItemTypeDisplay;
+        flex-direction: @ItemTypeFlexDirection;
+        margin-bottom: @ItemTypeMarginBottom;
+        label{
+            cursor: @ItemTypeLabelCursor;
+        }
+        input{
+            margin-right: @ItemTypeInputMarginRight;
+        }
+    }
 
 
     /***PROSTŘEDÍ TINY***/
@@ -970,6 +1045,11 @@ body{
             animation: border-dance 40s infinite linear;
         }
     }
+    
+/*    .select_template .notClickable{
+        pointer-events: none !important;
+    }*/
+    
 
     //import pravidel specifických pro projekt
     @import (optional) "../../@{sitename}/@{siteStylesFolder}/overrides-author.less";

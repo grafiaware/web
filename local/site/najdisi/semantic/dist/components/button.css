@@ -4042,19 +4042,19 @@
   font-size: 0.35714286em;
 }
 .editSize.buttons .button,
-.editingButtons_size.buttons .button {
+.editingButtons.buttons .button {
   font-size: 1.14285714rem;
 }
 .editSize.buttons .button .icon,
-.editingButtons_size.buttons .button .icon {
+.editingButtons.buttons .button .icon {
   font-size: 1.42857143rem;
 }
 .editSize.button,
-.editingButtons_size.button {
+.editingButtons.button {
   font-size: 1.14285714rem;
 }
 .editSize.button .icon,
-.editingButtons_size.button .icon {
+.editingButtons.button .icon {
   font-size: 1.42857143rem;
 }
 .ui.button:disabled,
