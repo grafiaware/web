@@ -1,4 +1,9 @@
 var navConfig = {
     basePath: '{{basePath}}',
-    cascadeClass: '{{cascadeClass}}'
+    cascade: 
+        {
+        class: '{{cascadeClass}}',
+        cacheReloadOnNav: '{{cacheReloadOnNav}}',
+        cacheLoadOnce: '{{cacheLoadOnce}}'
+        }
 };

@@ -1,14 +1,13 @@
 <?php
 
-
 namespace Component\View;
-
-use Pes\View\CompositeViewInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ComponentCompositeInterface extends CompositeViewInterface, ComponentInterface {
-    //put your code here
+interface ComponentCompositeInterface {
+
+    public static function getComponentPermissions(): array;
+
 }

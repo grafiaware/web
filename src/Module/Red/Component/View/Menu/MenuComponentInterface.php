@@ -8,13 +8,13 @@
 
 namespace Red\Component\View\Menu;
 
-use Component\View\ComponentCompositeInterface;
+use Component\View\ComponentInterface;
 
 /**
  *
  * @author pes2704
  */
-interface MenuComponentInterface extends ComponentCompositeInterface {
+interface MenuComponentInterface extends ComponentInterface {
 
     const TOGGLE_EDIT_MENU_BUTTON = 'toggleEditMenuButton';
     const MENU = 'menu';

@@ -1,24 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- * @param {String} html HTML representing a single element
- * @return {Element}
- */
-//function htmlToElement(html) {
-//    var template = document.createElement('template');
-//    html = html.trim(); // Never return a text node of whitespace as the result
-//    template.innerHTML = html;
-//    return template.content.firstChild;
-//}
+/* global navConfig */
 
 /**
  * Převede zadaný text na elementy.
  *
- * @param {String} HTML representing any number of sibling elements
+ * @param {String} html HTML representing any number of sibling elements
  * @return {NodeList}
  */
 function htmlToElements(html) {
@@ -39,7 +25,7 @@ function htmlToElements(html) {
 function replaceChildren(parentElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;  // live collection - v replaceChildren se "spotřebuje", length se musí zjistit před použitím
-    parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové elementy
+    parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové potomky
     console.log("cascade: Replaced children of element "+parentElement.tagName+" id: "+parentElement.getAttribute('id')+" with collection of "+cnt+".");
     return parentElement;
 };
@@ -56,7 +42,7 @@ function replaceChildren(parentElement, newHtmlTextContent) {
  * @param {Element} parentElement
  * @returns {Promise}
  */
-function fetchElementContent(parentElement){
+function fetchAndReplaceElementContent(parentElement){
     let apiUri = getApiUri(parentElement);
     let cacheControl = getCacheControl(parentElement);
     /// fetch ///
@@ -66,23 +52,24 @@ function fetchElementContent(parentElement){
         method: "GET",      //default
           cache: cacheControl,
           headers: {
-            "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
-          },
+            "X-Cascade": "Do not store request"   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
+          }
         })
     .then(response => {
-      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
-          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
-          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
-      } else {
-          throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
-      }
+        if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+            // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+            return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
+        } else {
+            throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+        }
     })
     .then(textPromise => {
         console.log(`cascade: Loading content from ${apiUri}.`);
         return replaceChildren(parentElement, textPromise);  // vrací nový Element
     })
     .then(parentWithNewContent => {
-        return loadSubsequentElements(parentWithNewContent, "cascade");
+        // rekurze
+        return loadSubsequentElements(parentWithNewContent, navConfig.cascade.class);
     })
     .catch(e => {
         throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
@@ -120,7 +107,7 @@ function getCacheControl(element) {
  * @param {String} className
  * @returns {Promise}
  */
-function loadSubsequentElements(element, className) {
+export function loadSubsequentElements(element, className) {
     if (element.nodeName==='#document') {
         console.log(`cascade: Run loadSubsequentElements() for document.`);
     } else {
@@ -129,17 +116,19 @@ function loadSubsequentElements(element, className) {
 
     // elements is a live HTMLCollection of found elements
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
-    var subElements = element.getElementsByClassName(className);
-    console.log(`cascade: ${subElements.length} elements for cascade founded by class="${className}".`);
-    var subElementsArray = Array.from(subElements);
-    let loadSubPromises = subElementsArray.map(subElement => fetchElementContent(subElement));
+    var cascadeElements = element.getElementsByClassName(className);
+    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${className}".`);
+    // AND: "class1 class2", OR: ".class1,.class2"
+    var cascadeonceElements = element.getElementsByClassName(className+" once");
+    console.log(`cascade: ${cascadeonceElements.length} child elements for cascade founded by class="${className+' once'}".`);
+    
+    var cascadeElementsArray = Array.from(cascadeElements); // copy of collection
+    let loadSubPromises = cascadeElementsArray.map((cascadeElement) => fetchAndReplaceElementContent(cascadeElement));
 
 
-    if (subElements.length) {console.log(`cascade: Calling of fetchElementContent() fetched next ${loadSubPromises.length} element contents.`);}
+    if (cascadeElements.length) {console.log(`cascade: Calling of fetchElementContent() fetched next ${loadSubPromises.length} element contents.`);}
     // Promise.allSettled just waits for all promises to settle, regardless of the result. The resulting array has:
-
 //    {status:"fulfilled", value:result} for successful responses,
 //    {status:"rejected", reason:error} for errors.
-
     return Promise.allSettled(loadSubPromises);
 }

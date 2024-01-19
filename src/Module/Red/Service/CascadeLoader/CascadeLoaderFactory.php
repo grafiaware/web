@@ -32,7 +32,7 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
         $view->setData([
                         'class' => ConfigurationCache::layoutController()['cascade.class'],
                         'dataRedCacheControl' => $dataRedCacheControl,
-                        'loaderElementId' => "red_loaded_$uniquid",
+                        'loaderElementId' => "cascade_$uniquid",
                         'dataRedApiUri' => $dataRedApiUri,
                         ]);
 //        $this->viewFactory->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));

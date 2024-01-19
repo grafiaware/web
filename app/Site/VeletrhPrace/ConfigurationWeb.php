@@ -191,13 +191,13 @@ class ConfigurationWeb extends ConfigurationConstants {
             'cascade.cacheLoadOnce' => 'default',
             
             // mapování komponenr na proměnné kontextu v šablonách
-            // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
-            // contextServiceMap - mapy komponent, které budou v editačním modu načítány vždy znovu novým requestem - viz parametr 'cascade.cacheReloadOnNav'
+            // contextLoadOnceMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
+            // contextReloadOnNavMap - mapy komponent, které budou v editačním modu načítány vždy znovu novým requestem - viz parametr 'cascade.cacheReloadOnNav'
             // parametry kontext - service/layout mapy jsou:
             //'context_name' => 'service_name'
             //      'context_name' - jméno proměnné v šabloně (bez znaku $),
             //      'service_name' => jméno služby component kontejneru,
-            'contextServiceMap' => [
+            'contextReloadOnNavMap' => [
                     'flash' => FlashComponent::class,
                     'modalLogin' => LoginComponent::class,
                     'modalLogout' => LogoutComponent::class,
@@ -205,10 +205,10 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'modalUserAction' => UserActionComponent::class,
                     'info' => InfoBoardComponent::class,
                 ],
-            'contextLayoutMap' => [
+            'contextLoadOnceMap' => [
                     'menuSvisle' => 'menu.svisle',
                 ],
-            'contextLayoutEditableMap' => [
+            'contextLoadOnceInEditableModeMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
                 ],

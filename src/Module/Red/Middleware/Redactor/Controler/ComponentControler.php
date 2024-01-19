@@ -70,9 +70,12 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     public function serviceComponent(ServerRequestInterface $request, $name) {
         if($this->isAllowed(AllowedActionEnum::GET)) {
-            $service = ConfigurationCache::layoutController()['contextServiceMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? null;
+            $service = ConfigurationCache::layoutController()['contextReloadOnNavMap'][$name] ?? ConfigurationCache::layoutController()['contextReloadOnNavMap'][$name] ?? null;
             if (!isset($service)) {
-                $service = ConfigurationCache::layoutController()['contextLayoutEditableMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? null;
+                $service = ConfigurationCache::layoutController()['contextLoadOnceMap'][$name] ?? ConfigurationCache::layoutController()['contextLoadOnceMap'][$name] ?? null;
+            }
+            if (!isset($service)) {
+                $service = ConfigurationCache::layoutController()['contextLoadOnceInEditableModeMap'][$name] ?? ConfigurationCache::layoutController()['contextLoadOnceInEditableModeMap'][$name] ?? null;
             }
             if (isset($service) AND $this->container->has($service)) {
                 $view = $this->container->get($service);

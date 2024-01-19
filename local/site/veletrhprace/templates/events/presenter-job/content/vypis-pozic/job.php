@@ -99,13 +99,19 @@ if (isset($loginAggregate)) {
             if (isset($cvId)) {
                 /** @var DocumentInterface $documentCv */
                 $documentCv = $documentRepo->get($cvId);
-                $visitorFormData['cvDocumentFilename'] = $documentCv->getDocumentFilename();
+                if (isset($documentCv)) {
+                    $cvDocumentFilename = $documentCv->getDocumentFilename();
+                    $visitorFormData['cvDocumentFilename'] = $documentCv->getDocumentFilename();
+                }                
             }
             $letterId = $visitorJobRequestEntity->getLetterDocument();
             if (isset($letterId)) {
                 /** @var DocumentInterface $documentLetter */
                 $documentLetter = $documentRepo->get($letterId);
-                $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename(); 
+                if (isset($documentLetter)) {
+                    $letterDocumentFilename = $documentLetter->getDocumentFilename();
+                    $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();
+                }                     
             }
             
             
@@ -131,14 +137,19 @@ if (isset($loginAggregate)) {
             if (isset($cvId)) {
                 /** @var DocumentInterface $documentCv */
                 $documentCv = $documentRepo->get($cvId);
-                $visitorFormData['cvDocumentFilename'] = $documentCv->getDocumentFilename();
+                if (isset($documentCv)) {
+                    $cvDocumentFilename = $documentCv->getDocumentFilename();
+                    $visitorFormData['cvDocumentFilename'] = $documentCv->getDocumentFilename();
+                }
             }                        
             $letterId = $visitorProfileEntity->getLetterDocument();
             if (isset($letterId)) {
                  /** @var DocumentInterface $documentLetter */
                 $documentLetter = $documentRepo->get($letterId);
-                $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();
-            
+                if (isset($documentLetter)) {
+                    $letterDocumentFilename = $documentLetter->getDocumentFilename();
+                    $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();
+                }     
             }
                         
         }
@@ -179,13 +190,18 @@ if (isset($loginAggregate)) {
                 if (isset($cvId)) {
                     /** @var DocumentInterface $documentCv */
                     $documentCv = $documentRepo->get($cvId);
-                    $visitorFormData['cvDocumentFilename'] = $documentCv->getDocumentFilename();
-                }                                    
+                    if (isset($documentCv)) {
+                        $cvDocumentFilename = $documentCv->getDocumentFilename();
+                        $visitorFormData['cvDocumentFilename'] = $documentCv->getDocumentFilename();
+                    }                }                                    
                 $letterId = $visitorJobRequestEntity->getLetterDocument();
                 if (isset($letterId)) {
                     /** @var DocumentInterface $documentLetter */
                     $documentLetter = $documentRepo->get($letterId);
-                    $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();  
+                    if (isset($documentLetter)) {
+                        $letterDocumentFilename = $documentLetter->getDocumentFilename();
+                        $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();
+                    }   
                 }                
                 $allFormVisitorDataPost[] = $visitorFormData;               
             }
