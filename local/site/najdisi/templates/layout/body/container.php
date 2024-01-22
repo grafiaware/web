@@ -5,7 +5,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
 ?>
 
     <div>
-        <div class="ui grid">
+        <div class="ui grid centered">
             <div class="row">
                 <?php $isMenuEditableMode=false; ?>
                 <?= $this->insertIf( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', $context); ?>

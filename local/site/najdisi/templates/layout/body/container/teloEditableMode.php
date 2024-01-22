@@ -1,4 +1,4 @@
-                <div class="thirteen wide mobile eight wide tablet nine wide computer ten wide large screen eleven wide widescreen column right floated">
+                <div class="thirteen wide mobile eight wide tablet nine wide computer ten wide large screen eleven wide widescreen column">
                     <header>
                         <?php include "telo/hlavicka.php"; ?>
                         <?php include "telo/prihlaseni.php"; ?>
