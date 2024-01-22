@@ -1,10 +1,6 @@
 
 /* global navConfig */
 
-//
-//
-//
-//
 //=== cascade load of components ===
 
 import {loadSubsequentElements} from './cascade.js';
@@ -12,7 +8,8 @@ import {initLoadedElements, initLoadedEditableElements, scrollToAnchorPosition} 
 
 /**
  * po onreadystatechange volá funkci loadSubsequentElements() (z cascade.js)
- * loadSubsequentElements() kaskádně načte obsahy z API nahradí jimi elementy v dokumentu. Nahrazuje elementy nalezené podle třídy (class) "cascade"
+ * loadSubsequentElements() kaskádně načte obsahy z API nahradí jimi elementy v dokumentu. Nahrazuje elementy nalezené podle třídy (class) definované 
+ * v konfiguraci a předané jako hodnota navConfig.cascade.class ve skriptu navConfig
  *
  * @returns {undefined}
  */
@@ -42,8 +39,26 @@ document.onreadystatechange = function () {
             console.log("body: initLoaded elements");
             scrollToAnchorPosition();
             console.log("body: scrolling onto anchor position")
+            var linkElements = document.getElementsByClassName('link');
+            for (var i = 0, len = linkElements.length; i < len; i++) {
+                linkElements[i].addEventListener('click', (event) => link(event), true);
+            }
         }
-        init(); // async - volá initLoaded()
+
+function link(event) {
+    let apiuri = navConfig.basePath + event.currentTarget.attributes['data-red-apiuri'].value;
+        console.log("body: link to:"+apiuri)
+
+    // go to the another page
+//    window.location.replace(apiuri);
+    window.location.href = apiuri;
+    
+//let resultComponents = await loadSubsequentElements(document, 'page-content');
+//            console.log(resultComponents);
+//            console.log("body: load page content fullfilled");    
+}
+        
+        init(); // async - volá initLoadedElements()
     }
 }
 

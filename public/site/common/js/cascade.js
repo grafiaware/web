@@ -2,33 +2,41 @@
 /* global navConfig */
 
 /**
- * Převede zadaný text na elementy.
+ * Načte pomocí funkce fetchElement() nové obsahy všech elementů, které jsou potomky zadaného elementu nebo dokumentu a mají třídu zadaného jména.
+ * Nalezené potomky nahradí za nově načtené elementy.
+ * Z každého nalezeného potomka použije hodnotu atributu data-red-apiuri jako URI požadavku, pomocí kterého získá nový obsah - HTML text.
+ * Volání robíhá rekurzivně. Na nově načtený element (a jeho potomky) je znovu volána tato funkce a pokud jsou v nové načteném elementu nalezeny elementy se zadaným jménem třídy,
+ * jsou rekurzivně nahrazeny nově načtenými obsahy.
  *
- * @param {String} html HTML representing any number of sibling elements
- * @return {NodeList}
+ * @param {Element} element Element nebo Document
+ * @param {String} className
+ * @returns {Promise}
  */
-function htmlToElements(html) {
-//    Vytvoří nový template element a pokusí se vložit hodnotu prametru jako innerHtml template elementu, 
-//    pokud prohlížeč uspěje s parsováním textu jako html, vloží nové elementy jako potomky    
-    var template = document.createElement('template');
-    template.innerHTML = html;
-    return template.content.childNodes;
-}
+export function loadSubsequentElements(element, className) {
+    if (element.nodeName==='#document') {
+        console.log(`cascade: Run loadSubsequentElements() for document.`);
+    } else {
+        console.log(`cascade: Run loadSubsequentElements() for element ${element.tagName}.`);
+    }
 
-/**
- * Nahradí potomky zadaného elementu novými potomky vzniklými parsováním zadaného textu jako HTML.
- *
- * @param {Element} parentElement - element jehož obsah bude nahrazován
- * @param {String} newHtmlTextContent HTML string obsahující elementy pro vložení do rodičovského elementu
- * @returns {Element} parentElement s nahrazeným obsahem
- */
-function replaceChildren(parentElement, newHtmlTextContent) {
-    var newElements = htmlToElements(newHtmlTextContent);
-    var cnt = newElements.length;  // live collection - v replaceChildren se "spotřebuje", length se musí zjistit před použitím
-    parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové potomky
-    console.log("cascade: Replaced children of element "+parentElement.tagName+" id: "+parentElement.getAttribute('id')+" with collection of "+cnt+".");
-    return parentElement;
-};
+    // elements is a live HTMLCollection of found elements
+    // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
+    var cascadeElements = element.getElementsByClassName(className);
+    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${className}".`);
+    // AND: "class1 class2", OR: ".class1,.class2"
+    var cascadeonceElements = element.getElementsByClassName(className+" once");
+    console.log(`cascade: ${cascadeonceElements.length} child elements for cascade founded by class="${className+' once'}".`);
+    
+    var cascadeElementsArray = Array.from(cascadeElements); // copy of collection
+    let loadSubPromises = cascadeElementsArray.map((cascadeElement) => fetchAndReplaceElementContent(cascadeElement));
+
+
+    if (cascadeElements.length) {console.log(`cascade: Calling of fetchElementContent() fetched next ${loadSubPromises.length} element contents.`);}
+    // Promise.allSettled just waits for all promises to settle, regardless of the result. The resulting array has:
+//    {status:"fulfilled", value:result} for successful responses,
+//    {status:"rejected", reason:error} for errors.
+    return Promise.allSettled(loadSubPromises);
+}
 
 /**
  * Získá HTML řetězec pomocí HTTP GET requestu na adresu (url) s hlavičkou Cache-Control a přidanou hlavičkou X-Cascade.
@@ -97,38 +105,30 @@ function getCacheControl(element) {
 }
 
 /**
- * Načte pomocí funkce fetchElement() nové obsahy všech elementů, které jsou potomky zadaného elementu nebo dokumentu a mají třídu zadaného jména.
- * Nalezené potomky nahradí za nově načtené elementy.
- * Z každého nalezeného potomka použije hodnotu atributu data-red-apiuri jako URI požadavku, pomocí kterého získá nový obsah - HTML text.
- * Volání robíhá rekurzivně. Na nově načtený element (a jeho potomky) je znovu volána tato funkce a pokud jsou v nové načteném elementu nalezeny elementy se zadaným jménem třídy,
- * jsou rekurzivně nahrazeny nově načtenými obsahy.
+ * Nahradí potomky zadaného elementu novými potomky vzniklými parsováním zadaného textu jako HTML.
  *
- * @param {Element} element Element nebo Document
- * @param {String} className
- * @returns {Promise}
+ * @param {Element} parentElement - element jehož obsah bude nahrazován
+ * @param {String} newHtmlTextContent HTML string obsahující elementy pro vložení do rodičovského elementu
+ * @returns {Element} parentElement s nahrazeným obsahem
  */
-export function loadSubsequentElements(element, className) {
-    if (element.nodeName==='#document') {
-        console.log(`cascade: Run loadSubsequentElements() for document.`);
-    } else {
-        console.log(`cascade: Run loadSubsequentElements() for element ${element.tagName}.`);
-    }
+function replaceChildren(parentElement, newHtmlTextContent) {
+    var newElements = htmlToElements(newHtmlTextContent);
+    var cnt = newElements.length;  // live collection - v replaceChildren se "spotřebuje", length se musí zjistit před použitím
+    parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové potomky
+    console.log("cascade: Replaced children of element "+parentElement.tagName+" id: "+parentElement.getAttribute('id')+" with collection of "+cnt+".");
+    return parentElement;
+};
 
-    // elements is a live HTMLCollection of found elements
-    // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
-    var cascadeElements = element.getElementsByClassName(className);
-    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${className}".`);
-    // AND: "class1 class2", OR: ".class1,.class2"
-    var cascadeonceElements = element.getElementsByClassName(className+" once");
-    console.log(`cascade: ${cascadeonceElements.length} child elements for cascade founded by class="${className+' once'}".`);
-    
-    var cascadeElementsArray = Array.from(cascadeElements); // copy of collection
-    let loadSubPromises = cascadeElementsArray.map((cascadeElement) => fetchAndReplaceElementContent(cascadeElement));
-
-
-    if (cascadeElements.length) {console.log(`cascade: Calling of fetchElementContent() fetched next ${loadSubPromises.length} element contents.`);}
-    // Promise.allSettled just waits for all promises to settle, regardless of the result. The resulting array has:
-//    {status:"fulfilled", value:result} for successful responses,
-//    {status:"rejected", reason:error} for errors.
-    return Promise.allSettled(loadSubPromises);
+/**
+ * Převede zadaný text na elementy.
+ *
+ * @param {String} html HTML representing any number of sibling elements
+ * @return {NodeList}
+ */
+function htmlToElements(html) {
+//    Vytvoří nový template element a pokusí se vložit hodnotu prametru jako innerHtml template elementu, 
+//    pokud prohlížeč uspěje s parsováním textu jako html, vloží nové elementy jako potomky    
+    var template = document.createElement('template');
+    template.innerHTML = html;
+    return template.content.childNodes;
 }

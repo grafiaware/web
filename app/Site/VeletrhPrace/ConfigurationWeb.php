@@ -197,22 +197,21 @@ class ConfigurationWeb extends ConfigurationConstants {
             //'context_name' => 'service_name'
             //      'context_name' - jméno proměnné v šabloně (bez znaku $),
             //      'service_name' => jméno služby component kontejneru,
-            'contextReloadOnNavMap' => [
-                    'flash' => FlashComponent::class,
-                    'modalLogin' => LoginComponent::class,
-                    'modalLogout' => LogoutComponent::class,
-                    'modalRegister' => RegisterComponent::class,
-                    'modalUserAction' => UserActionComponent::class,
-                    'info' => InfoBoardComponent::class,
+            'contextMap' => [
+                    'flash' => [FlashComponent::class, 'reload'],
+                    'modalUserAction' => [UserActionComponent::class, 'reload'],
+                    'info' => [InfoBoardComponent::class, 'reload'],
+                    'modalLogin' => [LoginComponent::class, 'default'],
+                    'modalLogout' => [LogoutComponent::class, 'default'],
+                    'modalRegister' => [RegisterComponent::class, 'default'],
+                    'menuSvisle' => ['menu.svisle', 'default'],
                 ],
-            'contextLoadOnceMap' => [
-                    'menuSvisle' => 'menu.svisle',
-                ],
-            'contextLoadOnceInEditableModeMap' => [
-                    'bloky' => 'menu.bloky',
-                    'kos' => 'menu.kos',
+            'contextEditableModeMap' => [
+                    'bloky' => ['menu.bloky'],
+                    'kos' => ['menu.kos'],
                 ],
             'contextBlocksMap' => [
+//                'aktuality'=>['a1', 'default'],                
                 ],            
             ];
     }

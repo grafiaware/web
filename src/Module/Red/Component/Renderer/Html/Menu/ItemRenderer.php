@@ -40,10 +40,13 @@ class ItemRenderer extends HtmlRendererAbstract {
         $innerHtml = Html::tag('a',
                         [
                             'class'=>[
+                                'link',
                                 $this->classMap->get('Item', 'li a'),
                                 $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                                 ],
-                            'href'=> "web/v1/page/item/{$menuItem->getUidFk()}"
+//                            'href'=> "web/v1/page/item/{$menuItem->getUidFk()}""
+                            'href'=> "#",
+                            'data-red-apiuri' => "web/v1/page/item/{$menuItem->getUidFk()}",
                         ],
                         Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                             $menuItem->getTitle()
