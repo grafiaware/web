@@ -190,13 +190,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 [
                     'content' => $this->getMenuItemLoader($menuItem),
                 ],
-                $this->isPartInEditableMode() ? $this->getLoadOnceInEditableModeViews($request) : [],
-                $this->getLoadOnceViews(),
+                $this->isPartInEditableMode() ? $this->getContextViewsForEditableMode($request) : [],
+                $this->getContextViews(),
                 $this->getBlockLoaders(),
-                $this->getReloadOnNavViews(),
-                // for debug
-//                $this->getEmptyMenuComponents(),
-                // cascade
+
             );
         return $views;
     }
@@ -206,7 +203,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param type $request
      * @return array
      */
-    private function getLoadOnceInEditableModeViews($request) {
+    private function getContextViewsForEditableMode($request) {
         $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
         $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
@@ -233,24 +230,16 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     'urlEditScript' => ConfigurationCache::layoutController()['urlEditScript'],
                     ]);
         $views ['redScripts'] = $redScriptsView;
-        foreach (array_keys(ConfigurationCache::layoutController()['contextLoadOnceInEditableModeMap']) as $contextName) {
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoadScript("red/v1/service/$contextName", false);
+        foreach (array_keys(ConfigurationCache::layoutController()['contextEditableModeMap']) as $contextName) {
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoadScript("red/v1/service/$contextName", 'reload');  // vždy reload
         }
         return $views;
     }
     
-    private function getLoadOnceViews() {
+    private function getContextViews() {
         $views = [];
-        foreach (array_keys(ConfigurationCache::layoutController()['contextLoadOnceMap']) as $contextName) {
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoadScript("red/v1/service/$contextName", false);
-        }
-        return $views;
-    }
-
-    private function getReloadOnNavViews() {
-        $views = [];
-        foreach (array_keys(ConfigurationCache::layoutController()['contextReloadOnNavMap']) as $contextName) {
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoadScript("red/v1/service/$contextName", true);
+        foreach (ConfigurationCache::layoutController()['contextMap'] as $contextName => $contextConfig) {
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoadScript("red/v1/service/$contextName", $contextConfig[1] ?? 'default');
         }
         return $views;
     }
@@ -295,7 +284,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
         $dataRedApiUri = $this->itemApiService->getLoaderApiUri($menuItem);
-        return $this->cascadeLoaderFactory->getRedLoadScript($dataRedApiUri, $this->isPartInEditableMode());
+        if ($this->isPartInEditableMode()) {
+            $loader = $this->cascadeLoaderFactory->getRedLoadScript($dataRedApiUri, 'reload');
+        } else {
+            $loader =  $this->cascadeLoaderFactory->getRedLoadScript($dataRedApiUri, 'default');            
+        }
+        return $loader;
     }
     
     private function getUnknownBlockView($blockName, $variableName) {
