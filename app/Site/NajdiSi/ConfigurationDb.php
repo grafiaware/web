@@ -101,6 +101,12 @@ class ConfigurationDb {
                 ['red', 'empty', 'root', 'ROOT'],
                 ['red', 'empty', 'trash', 'Trash'],
                 ['red', 'empty', 'blocks', 'Blocks'],
+                ['red', 'select', 'menu_vertical', 'Menu vertical'],
+            ],
+            'build.config.convert.items' => [
+                ['red', 'empty', 'root', 'ROOT'],
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
             'build.config.make.root' => [
