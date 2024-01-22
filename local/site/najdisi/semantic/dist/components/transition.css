@@ -84,13 +84,13 @@
   }
 }
 .primary.pulsating.transition {
-  box-shadow: 0 0 0 0 rgba(203, 10, 31, 0.5);
+  box-shadow: 0 0 0 0 rgba(0, 114, 212, 0.5);
 }
 .primary.inverted.pulsating.transition {
   box-shadow: 0 0 0 0 rgba(84, 200, 255, 0.7);
 }
 .secondary.pulsating.transition {
-  box-shadow: 0 0 0 0 rgba(151, 191, 13, 0.5);
+  box-shadow: 0 0 0 0 rgba(203, 10, 31, 0.5);
 }
 .secondary.inverted.pulsating.transition {
   box-shadow: 0 0 0 0 rgba(84, 84, 84, 0.7);

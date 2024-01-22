@@ -19,7 +19,7 @@
   box-shadow: 7px 7px 5px 0 rgba(22, 23, 25, 0.15);
   margin: 1rem 0;
   padding: 1em 1em;
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
   border: 1px solid rgba(34, 36, 38, 0.15);
 }
 .ui.segment:first-child {
@@ -83,7 +83,7 @@
 }
 .ui.grid.segment {
   margin: 1rem 0;
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
 }
 
 /* Table */
@@ -156,7 +156,7 @@
 .ui.placeholder.segment > .inline > .button {
   display: inline-block;
   width: auto;
-  margin: 0 0.35714286rem 0 0;
+  margin: 0 0.41666667rem 0 0;
 }
 .ui.placeholder.segment > .inline > .button:last-child {
   margin-right: 0;
@@ -328,7 +328,7 @@
   margin: 1rem 0;
   border: 1px solid rgba(34, 36, 38, 0.15);
   box-shadow: 7px 7px 5px 0 rgba(22, 23, 25, 0.15);
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
 }
 .ui.segments:first-child {
   margin-top: 0;
@@ -354,7 +354,7 @@
   border-top: none;
   margin-top: 0;
   margin-bottom: 0;
-  border-radius: 0.42857143rem 0.42857143rem 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 /* Bottom */
@@ -364,12 +364,12 @@
   margin-top: 0;
   margin-bottom: 0;
   box-shadow: 0 2px 1px -1px rgba(34, 36, 38, 0.15);
-  border-radius: 0 0 0.42857143rem 0.42857143rem;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 
 /* Only */
 .ui.segments:not(.horizontal) > .segment:only-child {
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
 }
 
 /* Nested Group */
@@ -392,7 +392,7 @@
   padding: 0;
   box-shadow: 7px 7px 5px 0 rgba(22, 23, 25, 0.15);
   margin: 1rem 0;
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
   border: 1px solid rgba(34, 36, 38, 0.15);
 }
 .ui.stackable.horizontal.segments {
@@ -431,10 +431,10 @@
   border-left: none;
 }
 .ui.horizontal.segments > .segment:first-child {
-  border-radius: 0.42857143rem 0 0 0.42857143rem;
+  border-radius: 0.5rem 0 0 0.5rem;
 }
 .ui.horizontal.segments > .segment:last-child {
-  border-radius: 0 0.42857143rem 0.42857143rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 /* Equal Width */
@@ -483,7 +483,7 @@
   background: rgba(255, 255, 255, 0.8);
   width: 100%;
   height: 100%;
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
   z-index: 100;
 }
 .ui.loading.segments::after,
@@ -741,7 +741,7 @@
   margin-bottom: 0;
   top: 0;
   margin-top: 1rem;
-  border-radius: 0.42857143rem 0.42857143rem 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 .ui.segment[class*="top attached"]:first-child {
   margin-top: 0;
@@ -757,7 +757,7 @@
   top: 0;
   margin-bottom: 1rem;
   box-shadow: 0 2px 1px -1px rgba(34, 36, 38, 0.15);
-  border-radius: 0 0 0.42857143rem 0.42857143rem;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .ui.segment[class*="bottom attached"]:last-child {
   margin-bottom: 0;
@@ -882,35 +882,35 @@
 -------------------- */
 .ui.segments .segment,
 .ui.segment {
-  font-size: 20px;
+  font-size: 15px;
 }
 .ui.mini.segments .segment,
 .ui.mini.segment {
-  font-size: 0.78571429rem;
+  font-size: 0.75rem;
 }
 .ui.tiny.segments .segment,
 .ui.tiny.segment {
-  font-size: 0.85714286rem;
+  font-size: 0.75rem;
 }
 .ui.small.segments .segment,
 .ui.small.segment {
-  font-size: 1.14285714rem;
+  font-size: 0.83333333rem;
 }
 .ui.large.segments .segment,
 .ui.large.segment {
-  font-size: 1.14285714rem;
+  font-size: 1.25rem;
 }
 .ui.big.segments .segment,
 .ui.big.segment {
-  font-size: 1.28571429rem;
+  font-size: 1.25rem;
 }
 .ui.huge.segments .segment,
 .ui.huge.segment {
-  font-size: 1.42857143rem;
+  font-size: 1.41666667rem;
 }
 .ui.massive.segments .segment,
 .ui.massive.segment {
-  font-size: 1.71428571rem;
+  font-size: 1.75rem;
 }
 
 

@@ -8,6 +8,4 @@ use Pes\Text\Text;
 /** @var PaperAggregatePaperSectionInterface $paperAggregate */
 ?>
 
-            <h1><?= Text::mono('Veletrh práce a vzdělávání <span>online</span>')?>
-                <img class="logo" src="layout-images/klic_na_hlavicku.png" width="165" height="71"/>
-            </h1>
+            <img class="logo" src="layout-images/VPV_2024_webovy_banner.jpeg" width="1332" height="367"/>

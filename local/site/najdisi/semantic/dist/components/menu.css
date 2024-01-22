@@ -19,13 +19,13 @@
 --------------- */
 .ui.menu {
   display: flex;
-  margin: 1.42857143rem 0;
+  margin: 1.08333333rem 0;
   font-family: 'Rubik';
   background: transparent;
   font-weight: 300;
   border: 0 solid rgba(34, 36, 38, 0.15);
   box-shadow: none;
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
   min-height: 1.6em;
 }
 .ui.menu::after {
@@ -77,7 +77,7 @@
   transition: background 0.1s ease, box-shadow 0.1s ease, color 0.1s ease;
 }
 .ui.menu > .item:first-child {
-  border-radius: 0.42857143rem 0 0 0.42857143rem;
+  border-radius: 0.5rem 0 0 0.5rem;
 }
 
 /* Border */
@@ -115,7 +115,7 @@
 .ui.menu .item > i.icon {
   opacity: 0.9;
   float: none;
-  margin: 0 0.35714286em 0 0;
+  margin: 0 0.41666667em 0 0;
 }
 
 /* --------------
@@ -125,9 +125,9 @@
   position: relative;
   top: 0;
   margin: -0.5em 0;
-  padding-bottom: 0.78571429em;
-  padding-top: 0.78571429em;
-  font-size: 1.42857143em;
+  padding-bottom: 0.75em;
+  padding-top: 0.75em;
+  font-size: 1.08333333em;
 }
 
 /* ----------------
@@ -152,9 +152,9 @@
   margin: -0.5em 0;
 }
 .ui.menu .item > .input input {
-  font-size: 1.42857143em;
-  padding-top: 0.57142857em;
-  padding-bottom: 0.57142857em;
+  font-size: 1.08333333em;
+  padding-top: 0.66666667em;
+  padding-bottom: 0.66666667em;
 }
 
 /* --------------
@@ -169,7 +169,7 @@
 }
 .ui.vertical.menu .item > .header:not(.ui) {
   margin: 0 0 0.5em;
-  font-size: 1.42857143em;
+  font-size: 1.08333333em;
   font-weight: 500;
 }
 
@@ -187,7 +187,7 @@
 /* Menu */
 .ui.menu .dropdown.item .menu {
   min-width: calc(100% - 1px);
-  border-radius: 0 0 0.42857143rem 0.42857143rem;
+  border-radius: 0 0 0.5rem 0.5rem;
   background: #fff;
   margin: 0 0 0;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
@@ -200,8 +200,8 @@
 .ui.menu .ui.dropdown .menu > .item {
   margin: 0;
   text-align: left;
-  font-size: 1.42857143em !important;
-  padding: 0.78571429em 1.14285714em !important;
+  font-size: 1.08333333em !important;
+  padding: 0.75em 1.25em !important;
   background: transparent !important;
   color: #000 !important;
   text-transform: none !important;
@@ -228,7 +228,7 @@
 .ui.menu .ui.dropdown .menu > .item > .icons,
 .ui.menu .ui.dropdown .menu > .item > i.icon:not(.dropdown) {
   display: inline-block;
-  font-size: 1.42857143em !important;
+  font-size: 1.08333333em !important;
   float: none;
   margin: 0 0.75em 0 0 !important;
 }
@@ -236,8 +236,8 @@
 /* Secondary */
 .ui.secondary.menu .dropdown.item > .menu,
 .ui.text.menu .dropdown.item > .menu {
-  border-radius: 0.42857143rem;
-  margin-top: 0.35714286em;
+  border-radius: 0.5rem;
+  margin-top: 0.41666667em;
 }
 
 /* Pointing */
@@ -266,7 +266,7 @@
   min-width: max-content;
   margin: 0 0 0 0;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
-  border-radius: 0 0.42857143rem 0.42857143rem 0.42857143rem;
+  border-radius: 0 0.5rem 0.5rem 0.5rem;
 }
 .ui.vertical.menu .dropdown.item.upward .menu {
   bottom: 0;
@@ -292,15 +292,15 @@
 --------------- */
 .ui.menu .item > .label:not(.floating) {
   margin-left: 1em;
-  padding: 0.3em 0.78571429em;
+  padding: 0.3em 0.75em;
 }
 .ui.vertical.menu .item > .label {
   margin-top: -0.15em;
   margin-bottom: -0.15em;
-  padding: 0.3em 0.78571429em;
+  padding: 0.3em 0.75em;
 }
 .ui.menu .item > .floating.label {
-  padding: 0.3em 0.78571429em;
+  padding: 0.3em 0.75em;
 }
 .ui.menu .item > .label {
   background: #999;
@@ -501,10 +501,10 @@ Floated Menu / Item
   border-right: none;
 }
 .ui.vertical.menu > .item:first-child {
-  border-radius: 0.42857143rem 0.42857143rem 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 .ui.vertical.menu > .item:last-child {
-  border-radius: 0 0 0.42857143rem 0.42857143rem;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 
 /* --- Label --- */
@@ -546,7 +546,7 @@ Floated Menu / Item
 .ui.vertical.menu .menu .item {
   background: none;
   padding: 0.25em 0;
-  font-size: 0.85714286em;
+  font-size: 0.75em;
   color: #fff;
 }
 .ui.vertical.menu .item .menu a.item:hover,
@@ -564,13 +564,13 @@ Floated Menu / Item
   box-shadow: none;
 }
 .ui.vertical.menu > .active.item:first-child {
-  border-radius: 0.42857143rem 0.42857143rem 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 .ui.vertical.menu > .active.item:last-child {
-  border-radius: 0 0 0.42857143rem 0.42857143rem;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .ui.vertical.menu > .active.item:only-child {
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
 }
 .ui.vertical.menu .active.item .menu .active.item {
   border-left: none;
@@ -600,7 +600,7 @@ Floated Menu / Item
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   border-top: 2px solid transparent;
-  padding: 0.3em 1.42857143em;
+  padding: 0.3em 1.41666667em;
   color: #fff;
 }
 .ui.tabular.menu .item::before {
@@ -622,7 +622,7 @@ Floated Menu / Item
   font-weight: 500;
   margin-bottom: -1px;
   box-shadow: none;
-  border-radius: 0.42857143rem 0.42857143rem 0 0 !important;
+  border-radius: 0.5rem 0.5rem 0 0 !important;
 }
 .ui.tabular.menu .active.item:hover {
   cursor: default;
@@ -662,7 +662,7 @@ Floated Menu / Item
   color: rgba(0, 0, 0, 0.95);
   border-color: #d4d4d5;
   margin: -1px 0 0 0;
-  border-radius: 0 0 0.42857143rem 0.42857143rem !important;
+  border-radius: 0 0 0.5rem 0.5rem !important;
 }
 
 /* Vertical Tabular (Left) */
@@ -685,7 +685,7 @@ Floated Menu / Item
   color: rgba(0, 0, 0, 0.95);
   border-color: #d4d4d5;
   margin: 0 -1px 0 0;
-  border-radius: 0.42857143rem 0 0 0.42857143rem !important;
+  border-radius: 0.5rem 0 0 0.5rem !important;
 }
 
 /* Vertical Right Tabular */
@@ -709,7 +709,7 @@ Floated Menu / Item
   color: rgba(0, 0, 0, 0.95);
   border-color: #d4d4d5;
   margin: 0 0 0 -1px;
-  border-radius: 0 0.42857143rem 0.42857143rem 0 !important;
+  border-radius: 0 0.5rem 0.5rem 0 !important;
 }
 
 /* Dropdown */
@@ -740,10 +740,10 @@ Floated Menu / Item
   vertical-align: middle;
 }
 .ui.pagination.menu .item:last-child {
-  border-radius: 0 0.42857143rem 0.42857143rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 .ui.compact.menu .item:last-child {
-  border-radius: 0 0.42857143rem 0.42857143rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 .ui.pagination.menu:not(.wrapping) .item:last-child::before {
   display: none;
@@ -770,8 +770,8 @@ Floated Menu / Item
     --------------- */
 .ui.secondary.menu {
   background: none;
-  margin-left: -0.35714286em;
-  margin-right: -0.35714286em;
+  margin-left: -0.41666667em;
+  margin-right: -0.41666667em;
   border-radius: 0;
   border: none;
   box-shadow: none;
@@ -782,11 +782,11 @@ Floated Menu / Item
   align-self: center;
   box-shadow: none;
   border: none;
-  padding: 0.78571429em 1.14285714em;
-  margin: 0 0.35714286em;
+  padding: 0.75em 0.83333333em;
+  margin: 0 0.41666667em;
   background: none;
   transition: color 0.1s ease;
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
 }
 
 /* No Divider */
@@ -819,7 +819,7 @@ Floated Menu / Item
   box-shadow: none;
   background: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.95);
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
 }
 
 /* Active Hover */
@@ -863,16 +863,16 @@ Floated Menu / Item
 
 /* Sub Menu */
 .ui.vertical.secondary.menu .item:not(.dropdown) > .menu {
-  margin: 0 -1.14285714em;
+  margin: 0 -0.83333333em;
 }
 .ui.vertical.secondary.menu .item:not(.dropdown) > .menu > .item {
   margin: 0;
-  padding: 0.5em 0;
+  padding: 0.58333333em 0;
 }
 .ui.secondary.vertical.menu > .item {
   border: none;
-  margin: 0 0 0.35714286em;
-  border-radius: 0.42857143rem !important;
+  margin: 0 0 0.41666667em;
+  border-radius: 0.5rem !important;
 }
 .ui.secondary.vertical.menu > .header.item {
   border-radius: 0;
@@ -901,7 +901,7 @@ Floated Menu / Item
   border-radius: 0;
   align-self: flex-end;
   margin: 0 0 -2px;
-  padding: 0.85714286em 1.14285714em;
+  padding: 0.75em 1.25em;
   transition: color 0.1s ease;
 }
 .ui.secondary.pointing.menu .ui.dropdown .menu .item {
@@ -1012,14 +1012,14 @@ Floated Menu / Item
   border-radius: 0;
   box-shadow: none;
   border: none;
-  margin: 1.42857143em -0.5em;
+  margin: 1.08333333em -0.58333333em;
 }
 .ui.text.menu .item {
   border-radius: 0;
   box-shadow: none;
   align-self: center;
   margin: 0;
-  padding: 0.35714286em 0.5em;
+  padding: 0.41666667em 0.58333333em;
   font-weight: 300;
   color: rgba(0, 0, 0, 0.6);
   transition: opacity 0.1s ease;
@@ -1036,7 +1036,7 @@ Floated Menu / Item
   background-color: transparent;
   opacity: 1;
   color: rgba(0, 0, 0, 0.85);
-  font-size: 1.14285714em;
+  font-size: 0.83333333em;
   text-transform: uppercase;
   font-weight: 500;
 }
@@ -1053,7 +1053,7 @@ Floated Menu / Item
 
 /* --- vertical text --- */
 .ui.vertical.text.menu {
-  margin: 1.42857143em 0;
+  margin: 1.08333333em 0;
 }
 .ui.vertical.text.menu:first-child {
   margin-top: 0;
@@ -1062,16 +1062,16 @@ Floated Menu / Item
   margin-bottom: 0;
 }
 .ui.vertical.text.menu .item {
-  margin: 0.57142857em 0;
+  margin: 0.66666667em 0;
   padding-left: 0;
   padding-right: 0;
 }
 .ui.vertical.text.menu .item > i.icon {
   float: none;
-  margin: 0 0.35714286em 0 0;
+  margin: 0 0.41666667em 0 0;
 }
 .ui.vertical.text.menu .header.item {
-  margin: 0.57142857em 0 0.71428571em;
+  margin: 0.66666667em 0 0.83333333em;
 }
 
 /* Vertical Sub Menu */
@@ -1080,7 +1080,7 @@ Floated Menu / Item
 }
 .ui.vertical.text.menu .item:not(.dropdown) > .menu > .item {
   margin: 0;
-  padding: 0.5em 0;
+  padding: 0.58333333em 0;
 }
 
 /* --- hover --- */
@@ -1192,7 +1192,7 @@ Floated Menu / Item
 .ui.labeled.icon.menu > .item > i.icon:not(.dropdown) {
   height: 1em;
   display: block;
-  font-size: 1.71428571em !important;
+  font-size: 1.75em !important;
   margin: 0 auto 0.5rem !important;
 }
 
@@ -1256,7 +1256,7 @@ Floated Menu / Item
 .ui.ui.ui.menu .primary.active.item,
 .ui.ui.primary.menu .active.item:hover,
 .ui.ui.primary.menu .active.item {
-  color: #CB0A1F;
+  color: #0072D4;
 }
 .ui.ui.ui.menu .red.active.item,
 .ui.ui.red.menu .active.item:hover,
@@ -1446,7 +1446,7 @@ Floated Menu / Item
     --------------- */
 .ui.ui.ui.inverted.menu .primary.active.item,
 .ui.ui.inverted.primary.menu {
-  background-color: #CB0A1F;
+  background-color: #0072D4;
 }
 .ui.inverted.primary.menu .item::before {
   background-color: rgba(34, 36, 38, 0.1);
@@ -1455,7 +1455,7 @@ Floated Menu / Item
   background-color: rgba(0, 0, 0, 0.1);
 }
 .ui.inverted.pointing.primary.menu .active.item {
-  background-color: #bb0015;
+  background-color: #0064bb;
 }
 .ui.ui.ui.inverted.menu .red.active.item,
 .ui.ui.inverted.red.menu {
@@ -1675,7 +1675,7 @@ Floated Menu / Item
   display: inline-block;
 }
 .ui.compact.menu:not(.secondary) .item:last-child {
-  border-radius: 0 0.42857143rem 0.42857143rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 .ui.compact.menu .item:last-child::before {
   display: none;
@@ -1823,8 +1823,8 @@ Floated Menu / Item
   transform: translateX(-50%) translateY(-50%) rotate(45deg);
   background: none;
   margin: 0.5px 0 0;
-  width: 0.57142857em;
-  height: 0.57142857em;
+  width: 0.66666667em;
+  height: 0.66666667em;
   border: none;
   border-bottom: 1px solid #d4d4d5;
   border-right: 1px solid #d4d4d5;
@@ -1887,10 +1887,10 @@ Floated Menu / Item
   }
 }
 .ui.inverted.pointing.menu .primary.active.item::after {
-  background-color: #CB0A1F;
+  background-color: #0072D4;
 }
 .ui.inverted.pointing.menu .secondary.active.item::after {
-  background-color: #97BF0D;
+  background-color: #CB0A1F;
 }
 .ui.inverted.pointing.menu .red.active.item::after {
   background-color: #db2828;
@@ -1955,8 +1955,8 @@ Floated Menu / Item
   bottom: 0;
   margin-bottom: 0;
   top: 0;
-  margin-top: 1.42857143rem;
-  border-radius: 0.42857143rem 0.42857143rem 0 0;
+  margin-top: 1.08333333rem;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 .ui.menu[class*="top attached"]:first-child {
   margin-top: 0;
@@ -1967,9 +1967,9 @@ Floated Menu / Item
   bottom: 0;
   margin-top: 0;
   top: 0;
-  margin-bottom: 1.42857143rem;
+  margin-bottom: 1.08333333rem;
   box-shadow: none;
-  border-radius: 0 0 0.42857143rem 0.42857143rem;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .ui[class*="bottom attached"].menu:last-child {
   margin-bottom: 0;
@@ -1977,10 +1977,10 @@ Floated Menu / Item
 
 /* Attached Menu Item */
 .ui.top.attached.menu > .item:first-child {
-  border-radius: 0.42857143rem 0 0 0;
+  border-radius: 0.5rem 0 0 0;
 }
 .ui.bottom.attached.menu > .item:first-child {
-  border-radius: 0 0 0 0.42857143rem;
+  border-radius: 0 0 0 0.5rem;
 }
 
 /* Tabular Attached */
@@ -2023,7 +2023,7 @@ Floated Menu / Item
      Sizes
 --------------- */
 .ui.menu {
-  font-size: 1.42857143rem;
+  font-size: 1.08333333rem;
 }
 .ui.vertical.menu {
   width: 15rem;
@@ -2031,7 +2031,7 @@ Floated Menu / Item
 .ui.mini.menu,
 .ui.mini.menu .dropdown,
 .ui.mini.menu .dropdown .menu > .item {
-  font-size: 0.78571429rem;
+  font-size: 0.91666667rem;
 }
 .ui.mini.vertical.menu:not(.icon) {
   width: 9rem;
@@ -2039,7 +2039,7 @@ Floated Menu / Item
 .ui.tiny.menu,
 .ui.tiny.menu .dropdown,
 .ui.tiny.menu .dropdown .menu > .item {
-  font-size: 0.85714286rem;
+  font-size: 1rem;
 }
 .ui.tiny.vertical.menu:not(.icon) {
   width: 11rem;
@@ -2047,7 +2047,7 @@ Floated Menu / Item
 .ui.small.menu,
 .ui.small.menu .dropdown,
 .ui.small.menu .dropdown .menu > .item {
-  font-size: 0.92857143rem;
+  font-size: 1.08333333rem;
 }
 .ui.small.vertical.menu:not(.icon) {
   width: 13rem;
@@ -2055,7 +2055,7 @@ Floated Menu / Item
 .ui.large.menu,
 .ui.large.menu .dropdown,
 .ui.large.menu .dropdown .menu > .item {
-  font-size: 1.07142857rem;
+  font-size: 1.25rem;
 }
 .ui.large.vertical.menu:not(.icon) {
   width: 18rem;
@@ -2063,7 +2063,7 @@ Floated Menu / Item
 .ui.big.menu,
 .ui.big.menu .dropdown,
 .ui.big.menu .dropdown .menu > .item {
-  font-size: 1.14285714rem;
+  font-size: 1.33333333rem;
 }
 .ui.big.vertical.menu:not(.icon) {
   width: 20rem;
@@ -2071,7 +2071,7 @@ Floated Menu / Item
 .ui.huge.menu,
 .ui.huge.menu .dropdown,
 .ui.huge.menu .dropdown .menu > .item {
-  font-size: 1rem;
+  font-size: 1.16666667rem;
 }
 .ui.huge.vertical.menu:not(.icon) {
   width: 22rem;
@@ -2079,7 +2079,7 @@ Floated Menu / Item
 .ui.massive.menu,
 .ui.massive.menu .dropdown,
 .ui.massive.menu .dropdown .menu > .item {
-  font-size: 1.28571429rem;
+  font-size: 1.5rem;
 }
 .ui.massive.vertical.menu:not(.icon) {
   width: 30rem;

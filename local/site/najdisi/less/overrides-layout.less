@@ -14,7 +14,7 @@
         max-height: 100%; //aby šel obrázek deformovat při nastavení vlastní výšky a šířky v Tiny  
     }
     header{ 
-        display: flex;
+/*        display: flex;
         align-items: start;
         flex-direction: column;
         margin: 50px 0;
@@ -28,7 +28,7 @@
                 font-weight: 500;
                 margin: auto 20px;
             }
-        }
+        }*/
         .prihlaseni{
             position: absolute;
             top: 10px;
@@ -48,172 +48,17 @@
     
     /***FIXNÍ LIŠTA fix-bar***/
     .fix-bar{
-        width: 10%;
+        width: 87px;
         height: 100%;
         position: fixed;
         color: @invertedTextColor;
-        background-color: @primaryColor;
+        background-color: @secondaryColor;
         z-index: 2;
-        .prihlaseni{ 
-            top: 17%;
-            width: 100%;
-            display: flex;
-            flex-direction: column; 
-            align-items: center;
-            position: relative;
-            z-index: 3;
-            .ui.checkbox label{
-                color: black;
-            }
-            .icon.button:not(.labeled){
-                background-color: transparent;
-                > .user.icon, .address.card.icon{
-                    color: @invertedTextColor;
-                    //font-size: 1.45em;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                        transition: 0.2s all;
-                    }
-                }
-            }
-            .dropdown{
-                .header.item{
-                    background-color: @white;
-                    cursor: default;
-                    text-align: center;
-                    &:hover{
-                        background-color: @white;
-                    }
-                    .icon{ 
-                        opacity: 1;
-                    }
-                }
-                .menu{
-                    padding: 0 12px 20px 12px;
-                }
-                input{
-                    border: 1px solid @lightGrey !important;
-                    //font-size: 0.8em;
-                }
-                button.fluid{
-                    //margin: 5px 0;
-                   // font-size: 0.8em;
-                    &.tertiary{
-                        //font-size: 0.62em;
-                        &:hover{
-                            box-shadow: 0 0;
-                            text-decoration: underline;
-                        }
-                    }
-                }
-                .ui.labeled.icon.button > .icon::before{
-                    top: -15px;
-                }
-            }
-            .ui.left.pointing.dropdown:not(.top) > .menu{
-                //top: -145px;
-            }
-            .ui.left.pointing.dropdown:not(.top) > .menu::after{
-                //top: 175px;
-            }
-            .logout{
-                i.sign.out.icon{
-                    color: @invertedTextColor;
-                    //font-size: 2em;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                    }
-                }
-                i.user.circle.icon{
-                    color: @invertedTextColor;
-                    //font-size: 1.2em;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                    }
-                }
-                .profil-ikona{
-                    text-align: center;
-                }
-                .dropdown .header.item{
-                    //font-size: 1.3em;
-                }
-            }
-            > form{ //v tomhle formu je tlacitko Akce
-                > div.icon{
-                    color: @invertedTextColor;
-                    //font-size: 1.8em ;
-                    opacity: 1;
-                    padding: 7px;
-
-                }
-                label{
-                    color: @textColor !important;
-                    //font-size: 0.7em;
-                    font-weight: 400;
-                }
-            }
-            button:not(.fluid){
-                position: relative;
-                //left: 10%;
-                //font-size: 1.2em;
-                &.positive{
-                    left: 6%;
-                    //font-size: 0.92em;
-                    padding-top: 0.6em;
-                    padding-bottom: 0.6em;
-                }
-            }
-            .input-company{
-                display: none;
-                &.show{
-                    display: block;
-                    margin: 10px 0;
-                }
-            }
-        }
-        //hamburger menu
-        #mySidenav:not(.editMenu){ 
-            display: none;
-            height: 100%;
-            width: 33%;
-            background-color: @primaryColor;
-            position: fixed!important;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            overflow: auto;
-            -webkit-animation: animateleft 0.4s;
-            animation: animateleft 0.4s;
-            padding: 40px 20px 20px ;
-            &.open{
-                display: block !important;
-            }
-        }
-        #mySidenav:not(.editMenu) + #myOverlay{
-            position: fixed;
-            display: none;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
-            z-index: 1;
-        }
-        .svisle-menu .vertical.menu{
-            margin-left: 20px;
-/*            span > .icon{
-                position: absolute;
-                right: 0;
-            }*/
-        }
-        .svisle-menu .menu .onpath{
-            left: 7%; 
-        }
+    }
+    .klic-img{
+        position: absolute;
+        left: -34%;
+        z-index: 2;
     }
     .no-fix{ //.fix-bar:has(#mySidenav.editMenu)
         > .icon-menu{
@@ -226,6 +71,9 @@
             display: none;
         }
     }
+    
+    
+    /***MENU***/
     #mySidenav.editMenu{
         width: 400px;
         height: 102%;
@@ -347,12 +195,11 @@
         position: relative;
     }
     .close-item{
-        font-size: @hugeSize * @emSize;
-        border-bottom: 3px solid @invertedTextColor;
-        margin: 50px 0 15px;
-        padding: 40px 20px 40px 0;
+        font-size: @massiveSize * @emSize;
+        margin: 0px 0px 15px -10px;
+        padding: 20px;
         position: relative;
-        .hamburger-icon{
+/*        .hamburger-icon{
             position: absolute;
             top: -45px;
             left: 20px;
@@ -401,7 +248,7 @@
             &:not(.none){
                 display: block;
             }
-        }
+        }*/
     }
     .svisle-menu.kos{
         li{
@@ -468,7 +315,61 @@
     }
     
     /***PATIČKA***/
-    > .ui.grid > .row{
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*************stare menu hamburger*******/
+    /*
+    //hamburger menu
+        #mySidenav:not(.editMenu){ 
+            display: none;
+            height: 100%;
+            width: 33%;
+            background-color: @primaryColor;
+            position: fixed!important;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            overflow: auto;
+            -webkit-animation: animateleft 0.4s;
+            animation: animateleft 0.4s;
+            padding: 40px 20px 20px ;
+            &.open{
+                display: block !important;
+            }
+        }
+        #mySidenav:not(.editMenu) + #myOverlay{
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+            z-index: 1;
+        }
+        .svisle-menu .vertical.menu{
+            margin-left: 20px;
+/*            span > .icon{
+                position: absolute;
+                right: 0;
+            }*/
+      /*  }*/
+       /* .svisle-menu .menu .onpath{
+            left: 7%; 
+        }*/
+    
+    /***STARAAAAA    PATIČKA***/
+/*    > .ui.grid > .row{
         padding-bottom: 0;
     }
     footer{
@@ -485,7 +386,7 @@
             }
         }
     }
-    /*flash message*/
+    flash message
     .small.toast{ 
        // font-size: 1.3rem;
     }
@@ -501,7 +402,7 @@
                 transition: 0.3s all;
             }
         }
-    }
+    }*/
 /*    article{
         padding-left: 1rem;
         padding-right: 1.4rem;
@@ -513,6 +414,7 @@
         padding: 0;
     }*/
 }
+
 body#tinymce{
    // font-size: 24px;
     font-weight: 400;

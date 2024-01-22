@@ -17,13 +17,13 @@ span.ui.text {
   line-height: 1;
 }
 span.ui.primary.text {
-  color: #CB0A1F;
+  color: #0072D4;
 }
 span.ui.inverted.primary.text {
   color: #54c8ff;
 }
 span.ui.secondary.text {
-  color: #97BF0D;
+  color: #CB0A1F;
 }
 span.ui.inverted.secondary.text {
   color: #545454;

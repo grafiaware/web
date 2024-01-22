@@ -1243,13 +1243,13 @@
 .ui.grid > .primary.row,
 .ui.grid > .primary.column,
 .ui.grid > .row > .primary.column {
-  background-color: #CB0A1F;
+  background-color: #0072D4;
   color: #fff;
 }
 .ui.grid > .secondary.row,
 .ui.grid > .secondary.column,
 .ui.grid > .row > .secondary.column {
-  background-color: #97BF0D;
+  background-color: #CB0A1F;
   color: #fff;
 }
 .ui.grid > .red.row,

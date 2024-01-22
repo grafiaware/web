@@ -28,7 +28,7 @@
   background: #fff;
   padding: 0;
   border: none;
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
   transition: box-shadow 0.1s ease, transform 0.1s ease;
   z-index: "";
@@ -83,16 +83,16 @@
 --------------- */
 .ui.cards > .card > :first-child,
 .ui.card > :first-child {
-  border-radius: 0.42857143rem 0.42857143rem 0 0 !important;
+  border-radius: 0.5rem 0.5rem 0 0 !important;
   border-top: none !important;
 }
 .ui.cards > .card > :last-child,
 .ui.card > :last-child {
-  border-radius: 0 0 0.42857143rem 0.42857143rem !important;
+  border-radius: 0 0 0.5rem 0.5rem !important;
 }
 .ui.cards > .card > :only-child,
 .ui.card > :only-child {
-  border-radius: 0.42857143rem !important;
+  border-radius: 0.5rem !important;
 }
 
 /* --------------
@@ -154,7 +154,7 @@
 .ui.cards > .card > .content > .header:not(.ui),
 .ui.card > .content > .header:not(.ui) {
   font-weight: 500;
-  font-size: 1.28571429em;
+  font-size: 1.25em;
   margin-top: -0.2em;
   line-height: 1.28571429em;
 }
@@ -237,7 +237,7 @@
     --------------- */
 .ui.cards > .card .meta,
 .ui.card .meta {
-  font-size: 1.42857143em;
+  font-size: 1.08333333em;
   color: rgba(0, 0, 0, 0.4);
 }
 .ui.cards > .card .meta *,
@@ -276,7 +276,7 @@
 }
 .ui.cards > .card > .content > a.header:hover,
 .ui.card > .content > a.header:hover {
-  color: #0086fd;
+  color: #b50014;
 }
 
 /* Meta */
@@ -405,7 +405,7 @@
 }
 .ui.cards > .card > .extra a:not(.ui):hover,
 .ui.card > .extra a:not(.ui):hover {
-  color: #0086fd;
+  color: #b50014;
 }
 
 
@@ -440,7 +440,7 @@
   background: rgba(255, 255, 255, 0.8);
   width: 100%;
   height: 100%;
-  border-radius: 0.42857143rem;
+  border-radius: 0.5rem;
   z-index: 100;
 }
 .ui.loading.card::after {
@@ -477,7 +477,7 @@
 }
 .ui.horizontal.cards > .card > .image,
 .ui.card.horizontal > .image {
-  border-radius: 0.42857143rem 0 0 0.42857143rem;
+  border-radius: 0.5rem 0 0 0.5rem;
   width: 150px;
 }
 .ui.horizontal.cards > .card > .image > img,
@@ -489,11 +489,11 @@
   align-items: center;
   display: flex;
   width: 100%;
-  border-radius: 0.42857143rem 0 0 0.42857143rem;
+  border-radius: 0.5rem 0 0 0.5rem;
 }
 .ui.horizontal.cards > .card > .image:last-child > img,
 .ui.card.horizontal > .image:last-child > img {
-  border-radius: 0 0.42857143rem 0.42857143rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 .ui.horizontal.cards > .card > .content,
 .ui.horizontal.card > .content {
@@ -580,7 +580,7 @@ a.ui.card:hover,
 .ui.primary.cards > .card,
 .ui.cards > .primary.card,
 .ui.primary.card {
-  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 0 0 #CB0A1F, 0 1px 3px 0 #d4d4d5;
+  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 0 0 #0072D4, 0 1px 3px 0 #d4d4d5;
 }
 .ui.cards a.primary.card:hover,
 .ui.primary.cards a.card:hover,
@@ -588,7 +588,7 @@ a.ui.card:hover,
 .ui.link.cards .primary.card:not(.icon):hover,
 a.ui.primary.card:hover,
 .ui.link.primary.card:hover {
-  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 0 0 #bb0015, 0 1px 3px 0 #bcbdbd;
+  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 0 0 #0064bb, 0 1px 3px 0 #bcbdbd;
 }
 .ui.cards > .basic.primary.card,
 .ui.basic.primary.cards > .card,
@@ -623,7 +623,7 @@ a.ui.inverted.primary.card:hover,
 .ui.basic.inverted.primary.cards > .card,
 .ui.basic.inverted.cards > .primary.card,
 .ui.basic.inverted.primary.card {
-  background: #CB0A1F;
+  background: #0072D4;
 }
 .ui.inverted.cards a.basic.primary.card:hover,
 .ui.basic.inverted.cards a.primary.card:hover,
@@ -633,12 +633,12 @@ a.ui.inverted.primary.card:hover,
 .ui.link.basic.inverted.cards .primary.card:not(.icon):hover,
 a.ui.basic.inverted.primary.card:hover,
 .ui.link.basic.inverted.primary.card:hover {
-  background: #bb0015;
+  background: #0064bb;
 }
 .ui.secondary.cards > .card,
 .ui.cards > .secondary.card,
 .ui.secondary.card {
-  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 0 0 #97BF0D, 0 1px 3px 0 #d4d4d5;
+  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 0 0 #CB0A1F, 0 1px 3px 0 #d4d4d5;
 }
 .ui.cards a.secondary.card:hover,
 .ui.secondary.cards a.card:hover,
@@ -646,7 +646,7 @@ a.ui.basic.inverted.primary.card:hover,
 .ui.link.cards .secondary.card:not(.icon):hover,
 a.ui.secondary.card:hover,
 .ui.link.secondary.card:hover {
-  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 0 0 #afe105, 0 1px 3px 0 #bcbdbd;
+  box-shadow: 0 0 0 1px #d4d4d5, 0 2px 0 0 #ee001a, 0 1px 3px 0 #bcbdbd;
 }
 .ui.cards > .basic.secondary.card,
 .ui.basic.secondary.cards > .card,
@@ -681,7 +681,7 @@ a.ui.inverted.secondary.card:hover,
 .ui.basic.inverted.secondary.cards > .card,
 .ui.basic.inverted.cards > .secondary.card,
 .ui.basic.inverted.secondary.card {
-  background: #97BF0D;
+  background: #CB0A1F;
 }
 .ui.inverted.cards a.basic.secondary.card:hover,
 .ui.basic.inverted.cards a.secondary.card:hover,
@@ -691,7 +691,7 @@ a.ui.inverted.secondary.card:hover,
 .ui.link.basic.inverted.cards .secondary.card:not(.icon):hover,
 a.ui.basic.inverted.secondary.card:hover,
 .ui.link.basic.inverted.secondary.card:hover {
-  background: #afe105;
+  background: #ee001a;
 }
 .ui.red.cards > .card,
 .ui.cards > .red.card,
@@ -1761,31 +1761,31 @@ a.ui.basic.inverted.black.card:hover,
 }
 .ui.mini.card,
 .ui.mini.cards .card {
-  font-size: 0.78571429rem;
+  font-size: 0.75rem;
 }
 .ui.tiny.card,
 .ui.tiny.cards .card {
-  font-size: 0.85714286rem;
+  font-size: 0.75rem;
 }
 .ui.small.card,
 .ui.small.cards .card {
-  font-size: 1.14285714rem;
+  font-size: 0.83333333rem;
 }
 .ui.large.card,
 .ui.large.cards .card {
-  font-size: 1.14285714rem;
+  font-size: 1.25rem;
 }
 .ui.big.card,
 .ui.big.cards .card {
-  font-size: 1.28571429rem;
+  font-size: 1.25rem;
 }
 .ui.huge.card,
 .ui.huge.cards .card {
-  font-size: 1.42857143rem;
+  font-size: 1.41666667rem;
 }
 .ui.massive.card,
 .ui.massive.cards .card {
-  font-size: 1.71428571rem;
+  font-size: 1.75rem;
 }
 
 /* -----------------
@@ -1814,7 +1814,7 @@ a.ui.basic.inverted.black.card:hover,
 }
 .ui.inverted.cards > .card > .content > a.header:hover,
 .ui.inverted.card > .content > a.header:hover {
-  color: #0086fd;
+  color: #b50014;
 }
 
 /* Description */
@@ -1849,7 +1849,7 @@ a.ui.basic.inverted.black.card:hover,
 }
 .ui.inverted.cards > .card > .extra a:not(.ui):hover,
 .ui.inverted.card > .extra a:not(.ui):hover {
-  color: #0086fd;
+  color: #b50014;
 }
 
 /* Link card(s) */

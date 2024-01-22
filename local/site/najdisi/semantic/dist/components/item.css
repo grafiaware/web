@@ -130,7 +130,7 @@
 
 /* Default Header Size */
 .ui.items > .item > .content > .header:not(.ui) {
-  font-size: 1.28571429em;
+  font-size: 1.25em;
 }
 
 /* --------------
@@ -216,7 +216,7 @@
   color: rgba(0, 0, 0, 0.85);
 }
 .ui.items > .item > .content > a.header:hover {
-  color: #0086fd;
+  color: #b50014;
 }
 
 /* Meta */
@@ -409,35 +409,35 @@
 }
 .ui.items a.item:hover .content .header,
 .ui.link.items > .item:hover .content .header {
-  color: #0086fd;
+  color: #b50014;
 }
 
 /* --------------
       Size
 --------------- */
 .ui.items > .item {
-  font-size: 1.42857143em;
+  font-size: 1.08333333em;
 }
 .ui.mini.items > .item {
-  font-size: 0.78571429em;
+  font-size: 0.75em;
 }
 .ui.tiny.items > .item {
-  font-size: 0.85714286em;
+  font-size: 0.75em;
 }
 .ui.small.items > .item {
-  font-size: 1.14285714em;
+  font-size: 0.83333333em;
 }
 .ui.large.items > .item {
-  font-size: 1.14285714em;
+  font-size: 1.25em;
 }
 .ui.big.items > .item {
-  font-size: 1.28571429em;
+  font-size: 1.25em;
 }
 .ui.huge.items > .item {
-  font-size: 1.42857143em;
+  font-size: 1.41666667em;
 }
 .ui.massive.items > .item {
-  font-size: 1.71428571em;
+  font-size: 1.75em;
 }
 
 /* ---------------
@@ -473,10 +473,10 @@
   color: rgba(255, 255, 255, 0.8);
 }
 .ui.inverted.items > .item > .content a:not(.ui) {
-  color: #76beff;
+  color: #ff0b26;
 }
 .ui.inverted.items > .item > .content a:not(.ui):hover {
-  color: #3e9aec;
+  color: #CB0A1F;
 }
 .ui.inverted.items > .item > .content > a.header {
   color: #fff;

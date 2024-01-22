@@ -12,13 +12,13 @@
 @normal            : 300;
 
 /* This is the single variable that controls them all */
-@emSize   : 14px;  
+@emSize   : 12px;  
 
 
 /* The size of page text  */ 
-@fontSize :        20px; 
-@smallFontSize:    15px;
-@bigFontSize:      30px;
+@fontSize :        15px; 
+@smallFontSize:    12px;
+@bigFontSize:      20px;
 
 /*-------------------
     Border Radius
@@ -33,8 +33,8 @@
     Brand Colors
 --------------------*/
 
-@primaryColor        : #CB0A1F; /*#0072d4;*/
-@secondaryColor      : #97BF0D;
+@primaryColor        : #0072D4;
+@secondaryColor      : #CB0A1F;
 
 @textColor           : #000;
 @invertedTextColor   : #fff;
@@ -43,18 +43,18 @@
        Links
 --------------------*/
 
-@linkColor          : #3e9aec; /*#CB0A1F; */
+@linkColor          : #CB0A1F;
 
 /*--------------
   Page Heading 
 ---------------*/
 
-@h1 : unit((50 / 14), rem);
-@h2 : unit((50 / 14), rem);
-@h3 : unit((47 / 14), rem); 
-@h4 : unit((40 / 14), rem);
-@h5 : unit((37 / 14), rem); 
-@h6 : unit((31 / 14), rem); 
+@h1 : unit((35 / 14), rem);
+@h2 : unit((35 / 14), rem);
+@h3 : unit((32 / 14), rem); 
+@h4 : unit((30 / 14), rem);
+@h5 : unit((27 / 14), rem); 
+@h6 : unit((25 / 14), rem); 
 
 /*-------------------
         Sizes
@@ -64,11 +64,11 @@
   This ensures these "ratios" remain constant despite changes in EM 
 */
 
-@miniSize        : (11 / 14);
-@tinySize        : (12 / 14);
-@smallSize       : (16 / 14); 
-@mediumSize      : (20 / 14);
-@largeSize       : (16 / 14);
+@miniSize        : (10 / 14);
+@tinySize        : (11 / 14);
+@smallSize       : (12 / 14); 
+@mediumSize      : (15 / 14);
+@largeSize       : (17 / 14);
 @bigSize         : (18 / 14);  
 @hugeSize        : (20 / 14);
 @massiveSize     : (24 / 14);
