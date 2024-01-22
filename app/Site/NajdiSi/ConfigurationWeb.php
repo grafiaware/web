@@ -153,18 +153,12 @@ class ConfigurationWeb extends ConfigurationConstants {
             'templates.tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
 
             // linksEditorJs links
-            'urlTinyMCE' => self::WEB_ASSETS.'tinymce_6.6.1\js\tinymce\tinymce.min.js',
+            'urlTinyMCE' => self::WEB_ASSETS.'tinymce\js\tinymce\tinymce.min.js',  // tinymce_6.6.1 minified version
             // full dev not mified version:
 //            'urlTinyMCE' => self::WEB_ASSETS.'tinymce_6.6.1_dev\js\tinymce\tinymce.js',
             'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce-jquery.min.js',         // pro tinyMce 6.6.1   
             // full dev not mified version:
 //            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce-jquery.js',         // pro tinyMce 6.6.1   
-
-
-//            'urlTinyMCE' => self::WEB_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//            'urlTinyMCE' => self::WEB_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //            'urlTinyMCE' => "https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js",
 
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

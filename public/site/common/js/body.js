@@ -167,7 +167,7 @@ document.onreadystatechange = function () {
 //=== init loaded TinyMce editors ===
 
 /**
- * HACK! Závisí na tinymce. Tato proměnná je případně definována v šabloně 'tinyConfig' (viz konfigurace a Layout kontroler)
+ * HACK! Závisí na tinymce. Tato proměnná je definována v editačním reřimu - pokud bylo načteno TinyMce  (viz konfigurace a Layout kontroler)
  *
  * @returns {undefined}
  */
