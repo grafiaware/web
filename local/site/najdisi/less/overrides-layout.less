@@ -76,7 +76,7 @@
     /***MENU***/
     #mySidenav.editMenu{
         width: 400px;
-        height: 102%;
+        height: auto;
         color: @invertedTextColor;
         background-color: @primaryColor;
         display: block;
@@ -195,60 +195,13 @@
         position: relative;
     }
     .close-item{
+        display: none;
         font-size: @massiveSize * @emSize;
         margin: 0px 0px 15px -10px;
         padding: 20px;
         position: relative;
-/*        .hamburger-icon{
-            position: absolute;
-            top: -45px;
-            left: 20px;
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            align-items: center;
-            cursor: auto;
-        }
-        img{
-            position: absolute;
-            top: -45px;
-            left: 120px;
-        }
-        .close.slim-icon{
-            content: "";
-            position: absolute;
-            width: 63px;
-            height: 63px;
-            right: 20px;
-            top: -45px;
-            display: block;
-            &:hover{
-                opacity: 0.8;
-                transition: 0.2s all;
-            }
-            &::before, &::after{
-                position: absolute;
-                left: 30px;
-                top: -4px;
-                content: ' ';
-                height: 70px;
-                width: 3px;
-                background-color: @invertedTextColor
-                
-            }
-            &::before{
-                transform: rotate(45deg);
-            }
-            &::after{
-                transform: rotate(-45deg);
-            }
-            &.none{
-                display: none;
-            }
-            &:not(.none){
-                display: block;
-            }
-        }*/
+        background-image: linear-gradient(#fff, #0072d4);
+        background-color: #89beeb;
     }
     .svisle-menu.kos{
         li{
@@ -288,7 +241,7 @@
         padding: 5px;
         height: 70px;
         width: 100%;
-        display: flex;
+        display: none;
         flex-direction: column;
         top: 15%;
         &:hover{
