@@ -10,7 +10,7 @@
 @flashPositionTop: 10px; 
 @poznamkyPositionBottom: auto; 
 @poznamkyFontSize: @fontSize;       
-@poznamkyWidth: 250px;                      
+@poznamkyWidth: 250px;                             
 @poznamkyContentPadding: 10px;              
 @poznamkyParagraphMarginBottom: 0.7em; 
 @poznamkyLastParagraphMarginBottom: 0;    
@@ -48,7 +48,7 @@
 @import (optional) "../../@{sitename}/@{siteStylesFolder}/overrides-layout.less";                
 
 .breakPre(@poznamkyBreakPre) when (@poznamkyBreakPre){     
-    white-space: pre-wrap;  
+    white-space: pre-wrap;   
     word-wrap: break-word;
 }                        
 
@@ -56,14 +56,14 @@ body{
     /*poznámky a flash mají stejný styl, jen jinou pozici*/             
     .btn-poznamky{
         position: fixed;
-        top: @buttonPoznamkyPositionTop;
+        top: @buttonPoznamkyPositionTop;  
         right: @buttonPoznamkyPositionRight;
         background-color: @white !important;
     }
     .button.teal.basic.icon{    
         background-color: @white !important;  
     }
-    .poznamky{
+    .poznamky{               
         display: none;
         position: absolute; 
         left: @poznamkyPositionLeft;  

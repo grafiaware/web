@@ -1,6 +1,6 @@
 @media screen and (min-width: 2000px){
     .column:not(.editMenu) .fix-bar{
-        width: 13.5rem !important;
+        //width: 13.5rem !important;
     }
     .ui.column.grid > [class*="eleven wide widescreen"].column, 
     .ui.grid > .column.row > [class*="eleven wide widescreen"].column, 
@@ -10,7 +10,7 @@
     }
 }
 @media screen and (max-width: 1860px){
-    .layout header{
+    body header{
         h1{
             font-size: 3.9rem;
             span{
@@ -19,21 +19,13 @@
         }
     }
 }
-@media screen and (max-width: 1750px){
-    .layout .column:not(.editMenu) .fix-bar{
-        width: 23%
+@media screen and (max-width: 1650px){
+    body {
+       .klic-img{
+            //left: -80px;
+       }
     }
-    .layout .column:not(.editMenu) .fix-bar #mySidenav{
-        //width: 37%;
-        width: 100%;
-    }
-    .layout header{
-        h1{
-            font-size: 3.6rem;
-            span{
-                margin: auto 5px;
-            }
-        }
+    body header{
         .logo{
             width: 150px;
             height: auto;
@@ -41,7 +33,7 @@
     }
 }
 @media screen and (max-width: 1600px){
-    .layout header{
+    body header{
         h1{
             font-size: 3.3rem;
             span{
@@ -53,12 +45,12 @@
             height: auto;
         }
     }
-    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+    body .column:not(.editMenu) .fix-bar #mySidenav{
         //width: 42%;
     }
-    .layout .column:not(.editMenu) .fix-bar{
+    body .column:not(.editMenu) .fix-bar{
         //width: 8.5%;
-        width: 24.5%;
+        //width: 24.5%;
     }
     #mySidenav.editMenu .ui.vertical.menu:not(.icon){
         width: 21rem;
@@ -67,37 +59,34 @@
         margin-right: 10px;
     }
 }
-@media screen and (max-width: 1340px){
-    .layout header{
-        h1{
-            font-size: 3rem;
-            span{
-                margin: auto 0px;
-            }
+@media screen and (max-width: 1500px){
+    body {
+        header{
+            margin-bottom: -40px;
         }
-        .logo{
-            width: 110px;
+        .klic-img{
             height: auto;
+            width: 165px;
+            left: -61px;
+            top: 65px;
         }
-    }
-    .layout .column:not(.editMenu) .fix-bar #mySidenav{
-        //width: 47%;
-    }
+        .fix-bar{
+            width: 69px;
+        }
+        #mySidenav.editMenu {
+            width: 270px;
+        }
+    } 
 }
 @media screen and (max-width: 1200px){
-    .layout header{
-        h1{
-            font-size: 2.5rem;
-            span{
-                margin: auto 0px;
-            }
-        }
+    body header{
+        
         .logo{
             width: 90px;
             height: auto;
         }
     }
-    .layout .column:not(.editMenu) .fix-bar.no-fix{ //.fix-bar:has(#mySidenav.editMenu)
+    body .column:not(.editMenu) .fix-bar.no-fix{ //.fix-bar:has(#mySidenav.editMenu)
         > .icon-menu{
             display: flex;
         }
@@ -108,102 +97,221 @@
             display: block;
         }
     }
-    .layout .column:not(.editMenu) .fix-bar #mySidenav.editMenu{
-            display: none;
-            height: 100%;
-            width: 33%;
-            background-color: @primaryColor;
-            position: fixed!important;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            overflow: auto;
-            -webkit-animation: animateleft 0.4s;
-            animation: animateleft 0.4s;
-            padding: 40px 20px 20px ;
-            &.open{
-                display: block !important;
-            }
-            .close-item .close.slim-icon{
-                display: block;
-            }
-        }
-    .layout .column:not(.editMenu) .fix-bar #mySidenav.editMenu + #myOverlay{
-            position: fixed;
-            display: none;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
-            z-index: 1;
-    }
-    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+/*    body .column:not(.editMenu) .fix-bar #mySidenav{
         display: none; 
         width: 55%;
     }
-    body.layout{
+    bodybody{
         font-size: 24px;
     }
-    .layout .column:not(.editMenu) .fix-bar{
-        width: 10%;
+    body .column:not(.editMenu) .fix-bar{
+        //width: 10%;
+    }*/
+    body .fix-bar{ 
+        width: 58px;
+        //right: 25px;
+    }
+    body .klic-img{
+        width: 140px;
+        max-height: 330px !important;
+        left: -50px;
+        top: 84px;
+    }
+    body #mySidenav.editMenu{
+        margin-left: 13px;
     }
 }
 @media screen and (max-width: 1000px) and (min-width: 769px){ 
-    .layout header{
-        h1{
-            font-size: 2.5rem;
+    body #mySidenav.editMenu{
+        display: none;
+        height: 100%;
+        width: 45%;
+        background-color: @primaryColor;
+        position: fixed!important;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        overflow: auto;
+        -webkit-animation: animateleft 0.4s;
+        animation: animateleft 0.4s;
+        padding: 40px 20px 20px ;
+        margin-left: 0;
+        &.open{
+            display: block !important;
+        }
+        .close-item, .close.slim-icon{
+            display: block;
+        }
+    }
+    body #mySidenav.editMenu + #myOverlay{
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+        z-index: 20;
+    }
+    body{
+        .nav-mobile{
+            display: flex;
+        }
+        .mobile-menu-bar{
+            height: 70px;
+            background-color: @primaryColor;
+            margin-top: -59px;
             position: relative;
-            span{
-                display: block;
-                margin: auto 0px;
+            &.fixed-menu{
+              position: fixed;
+              top: 0;
+              right: 0;
+              width: 100%;
+              height: 50px;
+              margin: 0;
+              z-index: 15;
+              transition: 0.2s all;
+              .nav-mobile{
+                  left: 20px;
+              }
+              
             }
         }
-        .logo{
-            width: 90px;
-            height: auto;
-            position: absolute;
-            bottom: 6px;
-            left: 115px;
-        }
+/*        .fixed-menu{
+          position: fixed;
+          top: 0;
+          width: 100%;
+          height: 50px;
+        }*/
+    } 
+    body .grid .row .fourteen .fourteen.column{
+        width: 100% !important;
+        margin-left: 0 !important;
     }
-    .layout .column:not(.editMenu) .fix-bar{
-        width: 13%;
-        .prihlaseni{
-            .icon.button:not(.labeled){
-                > .user.icon{
-                    font-size: 1.2em;
-                }
-            }
-        }
-    }
-    .layout > .grid > .column:nth-of-type(2){
+    
+    
+    
+    
+    
+    
+/*    body > .grid > .column:nth-of-type(2){
         margin-left: 15%;
     }
-    body.layout{
+    bodybody{
         font-size: 1.4rem;
     }
-    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+    body .column:not(.editMenu) .fix-bar #mySidenav{
         width: 75%;
     }
     .ui.massive.menu{
         font-size: 2rem;
     }
-    .layout footer{
+    body footer{
         padding-left: 17%;
     }
-    .layout div.editMenu-article{
+    body div.editMenu-article{
         margin-right: auto;
         margin-left: auto;
     }
     .ui.grid > .two.wide.column.editMenu{
         width: 70% !important;
-    }
+    }*/
 }
 @media screen and (max-width: 768px){
-    .layout header{
+    body{
+        .header-mobile{
+            display: block !important;
+            max-height: 300px;
+            .logo-najdisi-mobile{
+                display: block !important;
+            }
+        }
+        .header-pc{
+            display: none !important;
+            .logo-najdisi{
+                display: none !important;
+            }
+        }
+        .klic-img{
+            width: 112px;
+            left: -60px; 
+            top: 0;
+        }
+        .fix-bar{
+            display: none;
+        }
+    } 
+    body #mySidenav.editMenu{
+        display: none;
+        height: 100%;
+        width: 85%;
+        background-color: @primaryColor;
+        position: fixed!important;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        overflow: auto;
+        -webkit-animation: animateleft 0.4s;
+        animation: animateleft 0.4s;
+        padding: 40px 20px 20px ;
+        margin-left: 0;
+        &.open{
+            display: block !important;
+        }
+        .close-item, .close.slim-icon{
+            display: block;
+        }
+    }
+    body #mySidenav.editMenu + #myOverlay{
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+        z-index: 20;
+    }
+    body{
+        .nav-mobile{
+            display: flex;
+        }
+        .mobile-menu-bar{
+            height: 70px;
+            background-color: @primaryColor;
+            margin-top: 0;
+            position: relative;
+            &.fixed-menu{
+              position: fixed;
+              top: 0;
+              right: 0;
+              width: 100%;
+              height: 60px;
+              margin: 0;
+              z-index: 15;
+              transition: 0.2s all;
+              .nav-mobile{
+                  left: 20px;
+              }
+              
+            }
+        }
+/*        .fixed-menu{
+          position: fixed;
+          top: 0;
+          width: 100%;
+          height: 50px;
+        }*/
+    } 
+    body .grid .row .fourteen .fourteen.column{
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+/*    body header{
         h1{
             font-size: 2.5rem;
             position: relative;
@@ -220,9 +328,9 @@
             left: 115px;
         }
     }
-    .layout .column:not(.editMenu) .fix-bar{
-        width: 13%;
-        height: 110%;
+    body .column:not(.editMenu) .fix-bar{
+        //width: 13%;
+        //height: 110%;
         .prihlaseni{
             .icon.button:not(.labeled){
                 > .user.icon, > .address.card.icon{
@@ -247,25 +355,25 @@
             }
         }
     }
-    .layout > .grid > .column:nth-of-type(2){
+    body > .grid > .column:nth-of-type(2){
         margin-left: 15%;
     }
-    body.layout{
+    bodybody{
         font-size: 1.4rem;
     }
-    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+    body .column:not(.editMenu) .fix-bar #mySidenav{
         width: 80%;
     }
     .ui.massive.menu{
         font-size: 1.5rem;
     }
-    .layout .svisle-menu .vertical.menu:not(.edit){
+    body .svisle-menu .vertical.menu:not(.edit){
         margin: 0;
     }
     .ui.massive.vertical.menu:not(.icon){
         width: 25rem;
-    }
-    .layout{
+    }*/
+/*    body{
         header{
             margin: 10px 0;
         }
@@ -273,144 +381,78 @@
             padding-left: 17%;
         }
     }
-    .layout div.editMenu-article{
+    body div.editMenu-article{
         margin-right: auto;
         margin-left: auto;
     }
     .ui.grid > .two.wide.column.editMenu{
         width: 70% !important;
-    }
+    }*/
+
 }
 @media screen and (max-width: 600px){
-    .layout footer{
-        padding-left: 20%;
-    }
-    .layout .fix-bar{
-        width: 50px;
-        .prihlaseni{
-            > form:not(.inverted){ //v tomhle formu je tlacitko Akce
-                > div.icon{
-                    font-size: 18px ;
-                    padding: 10px !important;
-
-                }
-            }
-            .logout{
-                i.sign.out.icon{
-                    position: relative;
-                    right: -25%;
-                }
-                i.user.circle.icon{
-                    font-size: 1.3em;
-                    position: relative;
-                    right: 0%;
-                }
+    body{
+        .logo-najdisi-mobile{
+            top: -9px;
+            position: relative;
+        }
+        .klic-img{
+            width: 83px;
+            top: 24px;
+            left: -50px;
+        }
+        .mobile-menu-bar{
+            width: 108%;
+            height: 50px;
+            margin-top: -55px;
+            &.fixed-menu{
+                padding-top: 13px;
             }
         }
     }
-    .ui.vertical.menu:not(.icon) li:not(.presented) > a.item::after{
+    .ui.vertical.menu li:not(.presented) > a.item::after{
+        bottom: 10px !important;
+    }
+}
+
+@media screen and (max-width: 450px){
+    body{
+        header{
+            height: 235px;
+            margin-bottom: 10px;
+        }
+        .logo-najdisi-mobile{
+            top: -9px;
+            position: relative;
+        }
+        .klic-img{
+            width: 69px;
+            top: 41px;
+            left: -44px;
+        }
+        .mobile-menu-bar{
+            width: 108%;
+            height: 50px;
+            margin-top: -75px;
+        }
+    }
+    .ui.vertical.menu li:not(.presented) > a.item::after{
         bottom: 10px !important;
     }
 }
 
 @media screen and (min-height: 431px) and (max-width: 530px){
-    .layout .fix-bar{
-        .prihlaseni{
-            form > div.button{
-                position: relative;
-                right: 15%;
-            }
-        }
-    }
-    video{
-        width: 90%;
-        height: auto;
-    }
+    
 }
 @media only screen and (max-height: 630px) {
-    .layout{
-        .nav-mobile{
-            top: 4%;
-        }
-        .fix-bar .prihlaseni{
-            top: 5%;
-        }
-        .icon-menu{
-            top: 50%; 
-            position: relative;
-        }
-    } 
+     
 }
 @media only screen and (max-height: 430px) and (min-width: 1600px) {
-    .layout{
-        .icon-menu{
-            top: 27%;
-            ul.vertical.menu{
-                display: inline-flex;
-                flex-direction: row;
-                justify-content: center;    
-            }
-        }
-    } 
+    
 }
 @media only screen and (max-height: 430px) and (max-width: 1599px) {
-    .layout{
-        .icon-menu{
-            top: 27%;
-            ul.vertical.menu{ 
-                display: inline-flex;
-                flex-direction: row;
-                justify-content: center; 
-                li{
-                    font-size: 0.8em;
-                }
-            }
-            
-        }
-    } 
+   
 }
 @media only screen and (max-height: 430px) and (max-width: 768px) {
-    .layout{
-        .nav-mobile{
-            top: 4%;
-            font-size: 0.8em;
-        }
-        .fix-bar{
-            height: 130%;
-            .prihlaseni{
-                top: 0;
-                .icon.button:not(.labeled){
-                    padding: 0.3em;
-                    > .user.icon{
-                        //font-size: 1em;
-                    }
-                }
-                .logout{
-                    .dropdown .header.item{
-                        font-size: 1em;
-                    }
-                }
-                > form{ //v tomhle formu je tlacitko Akce
-                    > div.icon{
-                        font-size: 1.4em;
-                    }
-                    > div.button{
-                        right: -10%;
-                    }
-                }
-            }
-        }
-        .icon-menu{
-            top: 38%;
-            ul.vertical.menu{
-                display: block;
-                li{
-                    font-size: 0.8em;
-                    .item{
-                        padding: 0.3em;
-                    }
-                }
-            }
-        }
-    } 
+    
 }

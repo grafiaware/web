@@ -84,6 +84,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit vybrané jako sourozence',
+                'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/paste",
@@ -96,6 +97,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit vybrané jako potomka',
+                'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/pastechild",

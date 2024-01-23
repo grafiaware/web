@@ -12,11 +12,11 @@ use Pes\Text\Html;
 class NoPermittedContentRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = null) {
         /** @var AuthoredViewModelInterface $viewModel */
-        if (PES_DEVELOPMENT) {
-            $style = 'display: block; color: orange';
-        } else {
+//        if (PES_DEVELOPMENT) {
+//            $style = 'display: block; color: orange';
+//        } else {
             $style = 'display: none;';
-        }
+//        }
         return Html::tag('div', ['style'=> $style], 'No permissions for component.');
     }
 }

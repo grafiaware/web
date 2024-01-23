@@ -14,7 +14,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                 <?= $info ?? '' ?>
             </div>
             <div class="row">
-                <div class="thirteen wide mobile eight wide tablet nine wide computer ten wide large screen eleven wide widescreen column">
+                <div class="fifteen wide mobile eight wide tablet nine wide computer ten wide large screen eleven wide widescreen column">
                     <footer>
                         <span id="kontakty"></span>
                         <?php include "container/paticka.php"; ?>

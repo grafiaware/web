@@ -1,10 +1,10 @@
-.layout{
+body{
     font-weight: @normal;
     /* VLASTNÍ HTML TAGY */
     headline, content, block, div[class=""], perex{
         display: block;
         position: relative;
-        line-height: 1.4em;
+        line-height: 1.4em; 
         span[class=""]{
             display: inline-block;
         }
@@ -12,8 +12,20 @@
     img{
         max-width: 100%; //aby se obrázek "vešel" do semantických obalů
         max-height: 100%; //aby šel obrázek deformovat při nastavení vlastní výšky a šířky v Tiny  
-    }
+    } 
     header{ 
+        .header-mobile{
+            display: none;
+            .logo-najdisi-mobile{
+                display: none;
+            }
+        }
+        .header-pc{
+            display: block;
+        }
+        img{
+            object-fit: contain;
+        }
 /*        display: flex;
         align-items: start;
         flex-direction: column;
@@ -32,7 +44,7 @@
         .prihlaseni{
             position: absolute;
             top: 10px;
-            right: 0;
+            left: 12px;;
             display: flex;
             .ui.button{
                 background-color: white;
@@ -56,8 +68,11 @@
         z-index: 2;
     }
     .klic-img{
+        max-width: 212px !important;
+        width: 212px;
         position: absolute;
-        left: -34%;
+        left: -83px;
+        top: 35px;
         z-index: 2;
     }
     .no-fix{ //.fix-bar:has(#mySidenav.editMenu)
@@ -75,7 +90,7 @@
     
     /***MENU***/
     #mySidenav.editMenu{
-        width: 400px;
+        width: 320px;
         height: auto;
         color: @invertedTextColor;
         background-color: @primaryColor;
@@ -149,6 +164,7 @@
         .parent{
             > ul{
                 display: block;
+                margin-left: 12px;
             }
         }
     }
@@ -200,8 +216,14 @@
         margin: 0px 0px 15px -10px;
         padding: 20px;
         position: relative;
-        background-image: linear-gradient(#fff, #0072d4);
-        background-color: #89beeb;
+        background-color: #045ba6;
+        border: 2px solid @invertedTextColor;
+        border-radius: 6px;
+        a{
+            color: @invertedTextColor;
+            display: flex;
+            justify-content: center;
+        }
     }
     .svisle-menu.kos{
         li{
@@ -239,11 +261,11 @@
         align-items: center;
         position: relative;
         padding: 5px;
-        height: 70px;
+        height: 100%;
         width: 100%;
         display: none;
-        flex-direction: column;
-        top: 15%;
+        flex-direction: row;
+        color: @invertedTextColor;
         &:hover{
             transition: 0.2s all;
         }
@@ -257,6 +279,8 @@
     main{
         min-height: 1000px;
         padding: 0 10px;
+        z-index: 10;
+        position: relative;
     }
     headline{
         font-size: @h2;
@@ -382,7 +406,7 @@ body#tinymce{
     right: 15px;
 }
 .editMenu .button-edit-menu{
-    top: -25px;
+    top: -35px;
 }
 .register{
     .checkbox.exhibitor{

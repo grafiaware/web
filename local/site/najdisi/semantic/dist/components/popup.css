@@ -93,7 +93,7 @@
   text-align: left;
   text-shadow: none;
   white-space: nowrap;
-  font-size: 17px;
+  font-size: 14px;
   border: 1px solid #d4d4d5;
   line-height: 1.4em;
   max-width: none;
@@ -1183,5 +1183,5 @@
 *******************************/
 
 [data-tooltip]::before {
-  font-size: 17px;
+  font-size: 14px;
 }

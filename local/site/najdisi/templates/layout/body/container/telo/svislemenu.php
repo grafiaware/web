@@ -17,4 +17,4 @@ use Site\ConfigurationCache;
             </nav>
         </div>
         <div id="myOverlay" onclick="hamburger_close()"></div>
-        <div class="nav-mobile active" onclick="hamburger_open()"><div><i class="bars big icon"></i><p>Menu</p></div></div>
+        <!--<div class="nav-mobile active" onclick="hamburger_open()"><div><i class="bars big icon"></i><p>Menu</p></div></div>-->

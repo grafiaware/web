@@ -52,7 +52,7 @@
 .ui.form .field > label {
   display: block;
   margin: 0 0 0.33333333rem 0;
-  font-size: 0.83333333em;
+  font-size: 1.08333333em;
   font-weight: 500;
   text-transform: none;
 }
@@ -1534,7 +1534,7 @@
 .ui.form .grouped.fields > label {
   margin: 0 0 0.33333333rem 0;
   color: #000;
-  font-size: 0.83333333em;
+  font-size: 1.08333333em;
   font-weight: 500;
   text-transform: none;
 }
@@ -1706,7 +1706,7 @@
   margin-top: 0;
   margin-bottom: 0;
   vertical-align: baseline;
-  font-size: 0.83333333em;
+  font-size: 1.08333333em;
   font-weight: 500;
   color: #000;
   text-transform: none;

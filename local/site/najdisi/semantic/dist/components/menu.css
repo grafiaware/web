@@ -26,7 +26,7 @@
   border: 0 solid rgba(34, 36, 38, 0.15);
   box-shadow: none;
   border-radius: 0.5rem;
-  min-height: 1.6em;
+  min-height: 2em;
 }
 .ui.menu::after {
   content: "";
@@ -70,7 +70,7 @@
       -ms-user-select: none;
           user-select: none;
   background: none;
-  padding: 0.3em 0;
+  padding: 0.5em 0;
   text-transform: none;
   color: #fff;
   font-weight: 300;
@@ -545,7 +545,7 @@ Floated Menu / Item
 }
 .ui.vertical.menu .menu .item {
   background: none;
-  padding: 0.25em 0;
+  padding: 0.5em 0;
   font-size: 0.75em;
   color: #fff;
 }
@@ -600,7 +600,7 @@ Floated Menu / Item
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   border-top: 2px solid transparent;
-  padding: 0.3em 1.41666667em;
+  padding: 0.5em 1.41666667em;
   color: #fff;
 }
 .ui.tabular.menu .item::before {
@@ -759,7 +759,7 @@ Floated Menu / Item
 /* Active */
 .ui.pagination.menu .active.item {
   border-top: none;
-  padding-top: 0.3em;
+  padding-top: 0.5em;
   background-color: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.95);
   box-shadow: none;
@@ -1641,8 +1641,8 @@ Floated Menu / Item
 .ui.horizontally.fitted.menu .item,
 .ui.horizontally.fitted.menu .item .menu .item,
 .ui.menu .horizontally.fitted.item {
-  padding-top: 0.3em;
-  padding-bottom: 0.3em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 .ui.vertically.fitted.menu .item,
 .ui.vertically.fitted.menu .item .menu .item,
@@ -2082,7 +2082,7 @@ Floated Menu / Item
   font-size: 1.5rem;
 }
 .ui.massive.vertical.menu:not(.icon) {
-  width: 30rem;
+  width: 25rem;
 }
 
 /* -------------------
@@ -2124,23 +2124,11 @@ Floated Menu / Item
          Site Overrides
 *******************************/
 
-.fix-bar .ui.vertical.icon.menu {
-  background-color: transparent;
-  width: 100%;
-  position: absolute;
-  bottom: 20%;
-}
-.fix-bar .ui.vertical.icon.menu .item > i.icon:not(.dropdown):hover {
-  opacity: 0.8;
-}
-.fix-bar .ui.menu .item::before {
-  display: none;
-}
 #mySidenav:not(.editMenu) .ui.menu .item::before {
   display: none;
 }
 #mySidenav:not(.editMenu) .ui.vertical.menu:not(.icon) {
-  width: 30rem;
+  width: 25rem;
   padding: 0.7em 0;
 }
 #mySidenav:not(.editMenu) .ui.vertical.menu:not(.icon) a,
@@ -2211,7 +2199,7 @@ Floated Menu / Item
   display: none;
 }
 #mySidenav.editMenu .ui.vertical.menu:not(.icon) {
-  width: 26rem;
+  width: 25rem;
 }
 #mySidenav.editMenu .ui.vertical.menu:not(.icon) a:not(.presented) {
   overflow: hidden;
@@ -2243,6 +2231,9 @@ Floated Menu / Item
   background-color: 0;
   transform: none;
 }
+#mySidenav.editMenu .button-edit-menu + .ui.vertical.menu {
+  margin-top: 3.5em;
+}
 #mySidenav.editMenu .ui.vertical.menu {
   padding: 0.7em 0;
 }
@@ -2257,30 +2248,6 @@ Floated Menu / Item
   position: relative;
   color: #fff;
 }
-#mySidenav.editMenu .ui.vertical.menu p {
-  padding-left: 25px;
-}
-#mySidenav.editMenu .ui.vertical.menu.edit {
-  width: 27rem;
-}
-#mySidenav.editMenu .ui.vertical.menu.edit .onpath {
-  width: 35rem;
-}
-#mySidenav.editMenu .ui.vertical.menu.edit a {
-  display: block;
-  width: 98%;
-  font-size: 1.7rem !important;
-  position: relative;
-}
-#mySidenav.editMenu .ui.vertical.menu.edit p {
-  padding: 0.6em 1.1em;
-  font-size: 1.4rem !important;
-  font-weight: 500;
-  position: relative;
-}
-#mySidenav.editMenu .ui.vertical.menu.edit li:not(.cut) p.presented {
-  margin-top: 0.7em;
-}
 #mySidenav.editMenu .kos .ui.vertical.menu a,
 #mySidenav.editMenu .kos .ui.vertical.menu p {
   font-size: 1.4rem !important;
@@ -2288,4 +2255,5 @@ Floated Menu / Item
 }
 .ui.vertical.menu .item > .menu {
   margin-top: 0;
+  margin-left: 12px;
 }
