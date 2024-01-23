@@ -118,7 +118,7 @@ class ConfigurationDb {
                 'menu_vertical',
             ],
             'build.config.convert.copy' =>                 [
-                    'source' => 'pracinajdisi_231214.stranky',
+                    'source' => 'pracinajdisi_20240123.stranky',
                     'target' => 'najdisi.stranky'
                 ],
             'build.config.convert.repairs' => [
