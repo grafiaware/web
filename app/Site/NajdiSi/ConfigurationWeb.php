@@ -149,7 +149,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'templates.layout' => self::WEB_TEMPLATES_SITE.'layout/layout.php',
             'templates.redScripts' => self::RED_TEMPLATES_COMMON.'layout/head/redScripts.php',
             // js templates
-            'templates.navConfig' => self::WEB_TEMPLATES_COMMON.'js/navConfig.js',
+            'templates.navConfig' => self::WEB_TEMPLATES_COMMON.'js/navConfig.js',  //???
             'templates.tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
 
             // linksEditorJs links
@@ -164,8 +164,8 @@ class ConfigurationWeb extends ConfigurationConstants {
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlRedConfig' => self::WEB_LINKS_COMMON.'js/redConfig.js',
-            'urltinyConfig' => self::WEB_LINKS_COMMON.'js/tinyConfig.js',
+//            'urlRedConfig' => self::WEB_LINKS_COMMON.'js/redConfig.js',  //???
+//            'urltinyConfig' => self::WEB_LINKS_COMMON.'js/tinyConfig.js',  //???
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
 

@@ -14,7 +14,7 @@ use Pes\Middleware\SelectorInterface;
 use Auth\Middleware\Login\Login;
 use Auth\Middleware\Logged\LoggedAccess;
 use Auth\Middleware\Logged\Service\LoggedAccessor;
-
+use Ping\Middleware\Ping;
 use Web\Middleware\Page\Web;
 use Red\Middleware\Component\Component;
 
@@ -73,7 +73,18 @@ class SelectorItems {
         //
         $this->items = [
             '/web/v1/page' => $default,
-
+            '/ping'=>
+            function() {
+                return [
+                    new ResponseTime(),
+                    new Ping(),
+//                    new SecurityStatus(),
+//                    new Login(),
+//                    new FlashStatus(),
+//                    new PresentationStatus(),
+//                    new Transformator(),
+//                    new Redactor()
+                ];},
             '/red'=>
             function() {
                 return [
