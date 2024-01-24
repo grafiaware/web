@@ -1,5 +1,5 @@
 @media screen and (min-width: 2000px){
-    .column:not(.editMenu) .fix-bar{
+/*    .column:not(.editMenu) .fix-bar{
         //width: 13.5rem !important;
     }
     .ui.column.grid > [class*="eleven wide widescreen"].column, 
@@ -7,20 +7,20 @@
     .ui.grid > .row > [class*="eleven wide widescreen"].column, 
     .ui.grid > [class*="eleven wide widescreen"].column{
         width: 93rem !important;
-    }
+    }*/
 }
 @media screen and (max-width: 1860px){
-    body header{
+/*    body header{
         h1{
             font-size: 3.9rem;
             span{
                 margin: auto 10px; 
             }
         }
-    }
+    }*/
 }
 @media screen and (max-width: 1650px){
-    body {
+/*    body {
        .klic-img{
             //left: -80px;
        }
@@ -30,11 +30,15 @@
             width: 150px;
             height: auto;
         }
-    }
+    }*/
 }
 @media screen and (max-width: 1600px){
     body header{
-        h1{
+        img{
+            height: 300px;
+            margin-bottom: 10px;
+        }
+        /*h1{
             font-size: 3.3rem;
             span{
                 margin: auto 5px;
@@ -43,6 +47,16 @@
         .logo{
             width: 130px;
             height: auto;
+        }*/
+    }
+    body{
+        .fix-bar{ 
+            width: 74px;
+        }
+        .klic-img{
+            width: 175px;
+            height: auto;
+            left: -65px;
         }
     }
     body .column:not(.editMenu) .fix-bar #mySidenav{
@@ -52,9 +66,6 @@
         //width: 8.5%;
         //width: 24.5%;
     }
-    #mySidenav.editMenu .ui.vertical.menu:not(.icon){
-        width: 21rem;
-    }
     .row > .column.right.floated{
         margin-right: 10px;
     }
@@ -62,19 +73,21 @@
 @media screen and (max-width: 1500px){
     body {
         header{
-            margin-bottom: -40px;
+            //margin-bottom: -40px;
         }
         .klic-img{
-            height: auto;
             width: 165px;
             left: -61px;
-            top: 65px;
+            top: 45px;
         }
         .fix-bar{
             width: 69px;
         }
         #mySidenav.editMenu {
             width: 270px;
+        }
+        #mySidenav.editMenu .ui.vertical.menu:not(.icon){
+            width: 21rem;
         }
     } 
 }
@@ -115,7 +128,7 @@
         width: 140px;
         max-height: 330px !important;
         left: -50px;
-        top: 84px;
+        top: 65px;
     }
     body #mySidenav.editMenu{
         margin-left: 13px;
@@ -406,8 +419,13 @@
             height: 50px;
             margin-top: -55px;
             &.fixed-menu{
-                padding-top: 13px;
+               
             }
+        }
+        header .prihlaseni{
+            flex-direction: column;
+            top: 86px;
+            left: 25px;
         }
     }
     .ui.vertical.menu li:not(.presented) > a.item::after{
@@ -416,7 +434,8 @@
 }
 
 @media screen and (max-width: 450px){
-    body{
+/*    původní*/
+/*    body{
         header{
             height: 235px;
             margin-bottom: 10px;
@@ -434,6 +453,42 @@
             width: 108%;
             height: 50px;
             margin-top: -75px;
+        }
+    }*/
+    body{
+        header{
+            height: 235px;
+            margin-bottom: 10px;
+        }
+        .logo-najdisi-mobile{
+            top: -9px;
+            position: relative;
+            height: 220px;
+        }
+        .klic-img{
+            width: 60px;
+            top: 23px;
+            left: -40px;
+        }
+        .mobile-menu-bar{
+            width: 106%;
+            height: 50px;
+            margin-top: -30px;
+        }
+        .grid > .row > .fourteen.wide.column{
+            //width: 95% !important;
+            padding: 0 !important;
+        }
+        .grid > .row > .one.wide.column{
+            width: 10px !important;
+            padding: 0 !important;
+        }
+        > div > .ui.grid.centered{
+            margin: -1rem 0;
+        }
+        header .prihlaseni{
+            flex-direction: column;
+            top: 53px;
         }
     }
     .ui.vertical.menu li:not(.presented) > a.item::after{
