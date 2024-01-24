@@ -34,11 +34,12 @@ const SITE_PATH = 'app/Site/NajdiSi/';
 ###########################################################################
 
 
-include PROJECT_PATH.SITE_PATH.'ConfigurationConstants.php';
-include PROJECT_PATH.SITE_PATH.'ConfigurationDb.php';
-include PROJECT_PATH.SITE_PATH.'ConfigurationWeb.php';
-include PROJECT_PATH.SITE_PATH.'ConfigurationRed.php';
-include PROJECT_PATH.SITE_PATH.'ConfigurationStyles.php';
+//include SITE_PATH.'ConfigurationConstants.php';
+include SITE_PATH.'ConfigurationConstants.php';
+include SITE_PATH.'ConfigurationDb.php';
+include SITE_PATH.'ConfigurationWeb.php';
+include SITE_PATH.'ConfigurationRed.php';
+include SITE_PATH.'ConfigurationStyles.php';
 
 
 /**
