@@ -231,7 +231,6 @@ class DatabaseController extends BuildControllerAbstract {
             };
             $conversionSteps[] = function() {   // convert - pro případ, kdy kořen menu je některá ze stránek označených aXX ve staré db
                 $oldRootsUpdateDefinitions = $this->container->get('build.config.convert.updatestranky');
-                $executedSql = [];
                 foreach ($oldRootsUpdateDefinitions as $oldDef) {
                     $this->executeFromTemplate("makeAndConvert/page2_1_updateStranky.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
                 }
