@@ -125,16 +125,21 @@
     body .column:not(.editMenu) .fix-bar{
         //width: 10%;
     }*/
-    body .fix-bar{ 
-        width: 58px;
-        //right: 25px;
-    }
-    body .klic-img{
-        width: 140px;
-        max-height: 330px !important;
-        left: -50px;
-        top: 65px;
-    }
+    body{
+        .fix-bar{ 
+            width: 58px;
+            //right: 25px;
+        }
+        .klic-img{
+            width: 140px;
+            max-height: 330px !important;
+            left: -50px;
+            top: 65px;
+        }
+        footer{
+            margin-right: 40px;
+        }
+    } 
     body #mySidenav.editMenu{
         margin-left: 13px;
     }
@@ -197,6 +202,35 @@
               
             }
         }
+        .blok-menu-paticka{
+            display: none;
+        }
+        .loga-paticka{
+            display: flex;
+            flex-direction: row;
+            .blok-menu-paticka{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-right: 50px;
+                p{
+                    margin-right: 20px;;
+                }
+            }
+            
+        }
+        footer{
+            margin-right: 0;
+            .partneri-img{
+                display: none;
+            }
+            .ui.grid.column-50 > .column{
+                width: 50% !important;
+            }
+            .ui.grid.column-30 > .column{
+                width: 33% !important; 
+            }
+        } 
 /*        .fixed-menu{
           position: fixed;
           top: 0;
@@ -259,6 +293,28 @@
         }
         .fix-bar{
             display: none;
+        }
+        .blok-menu-paticka{
+            display: none;
+        }
+        .loga-paticka{
+            display: flex;
+            flex-direction: row;
+            .blok-menu-paticka{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-right: 50px;
+                p{
+                    margin-right: 20px;
+                }
+            }
+        }
+        footer{
+            margin-right: 0;
+            .partneri-img{
+                display: none;
+            }
         }
     } 
     body #mySidenav.editMenu{
@@ -430,7 +486,24 @@
         header .prihlaseni{
             flex-direction: column;
             top: 86px;
-            left: 25px;
+            left: 10px;
+        }
+        .loga-paticka{
+            .blok-menu-paticka{
+                flex-direction: column;
+                margin-right: 30px;
+                p{
+                    margin-right: 10px;
+                }
+                img{
+                    height: 60px;
+                    width: auto;
+                    &.organizator{
+                        height: 70px;
+                        width: auto;
+                    }
+                }
+            }
         }
     }
     .ui.vertical.menu li:not(.presented) > a.item::after{
@@ -471,8 +544,8 @@
             height: 220px;
         }
         .klic-img{
-            width: 60px;
-            top: 23px;
+            width: 61px;
+            top: 22px;
             left: -40px;
         }
         .mobile-menu-bar{
@@ -489,11 +562,21 @@
             padding: 0 !important;
         }
         > div > .ui.grid.centered{
-            margin: -1rem 0;
+            margin: -1rem 0 -1rem -0.7rem;
         }
         header .prihlaseni{
             flex-direction: column;
             top: 53px;
+        }
+        .loga-paticka{
+            .blok-menu-paticka{
+                img{
+                    height: 50px;
+                    &.organizator{
+                        height: 60px;
+                    }
+                }
+            }
         }
     }
     .ui.vertical.menu li:not(.presented) > a.item::after{

@@ -6,6 +6,14 @@
                     <div class="ui grid">
                         <div class="one wide mobile five wide tablet five wide computer four wide large screen five wide widescreen column">
                             <?php include "telo/svislemenu.php"; ?>
+                            <div class="blok-menu-paticka">
+                                <p class="text velky tucne primarni-barva">Organizátor veletrhu</p>
+                                <a href="https://www.grafia.cz/" class="" target="_blank"><img class="" src="layout-images/Grafia_logo.jpg" width="" height="" alt="Logo Grafia, organizátor"/></a>
+                            </div>
+                            <div class="blok-menu-paticka">
+                                <p class="text velky tucne primarni-barva">Podporovatel veletrhu</p>
+                                <a href="https://www.sew-eurodrive.cz/domu.html" class="" target="_blank"><img class="" src="layout-images/SEW_logo.png" width="" height="" alt="Logo Sew, partner"/></a>
+                            </div>
                         </div>
                         <div class="fourteen wide mobile eleven wide tablet eleven wide computer eleven wide large screen eleven wide widescreen column right floated">
                             <main class="page-content">
