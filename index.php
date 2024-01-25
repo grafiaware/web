@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 // Pokud potřebujete zobrazovat či logovat chyby PHP, změňte si příslušné nastavení PHP v klientské sekci ve správě domény v části Webserver » Nastavení PHP. 
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
 //define('PROJECT_PATH', realpath(__DIR__ . '/..'));
 include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-error_log("Error log available!", 0);
+//error_log("Error log available!", 0);
 //echo PES_RUNNING_ON_PRODUCTION_HOST ? "<p>Production host</p>" : "<p>No production host</p>";
 //echo "<p>host name: ".gethostname()."<p>";
 //echo "<p>\$_SERVER['DOCUMENT_ROOT']: ".$_SERVER['DOCUMENT_ROOT']."<p>";

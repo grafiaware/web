@@ -91,7 +91,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
         $first = str_replace(array_keys($transform), array_values($transform), $text);
         $second = $this->transformUrls($request, $first);
-        return $second;
+        $third  = $this->transformVlozVideo($second);
+        return $third;
     }
 
     /**
@@ -155,14 +156,21 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         return $transform;
     }
     
-    private function transformVlozVideo($param) {
-        --%VLOZVIDEOFLV_200127 Studio Z_Grafia_Veletrh_prace_2020%--
-        
-        <video width="600px" controls  poster="./video/200127 Studio Z_Grafia_Veletrh_prace_2020.jpg">
-        <source src="./video/200127 Studio Z_Grafia_Veletrh_prace_2020.mp4" type="video/mp4">
-         Váš prohlížeč nepodporuje element video.
-        </video>        
+    private function transformVlozVideo($string) {
+        $video = '<video width="600px" controls  poster="'.ConfigurationCache::files()['@sitemovies'].'$2.jpg"'
+            . '<source src="'.ConfigurationCache::files()['@sitemovies'].'$2.mp4" type="video/mp4">'
+                . 'Váš prohlížeč nepodporuje element video.</video>'  ;
+
+        $repl = preg_replace('/(--%VLOZVIDEOFLV_)(.*)(%--)/', $video, $string);
+//        --%VLOZVIDEOFLV_200127 Studio Z_Grafia_Veletrh_prace_2020%--
+//        
+//        <video width="600px" controls  poster="./video/200127 Studio Z_Grafia_Veletrh_prace_2020.jpg">
+//        <source src="./video/200127 Studio Z_Grafia_Veletrh_prace_2020.mp4" type="video/mp4">
+//         Váš prohlížeč nepodporuje element video.
+//        </video>
+        return $repl;
     }
+    
     private function flashAndLogNotFound($url) {
         $requestUri = $this->getApp()->getServerRequest()->getUri()->getPath();
         /** @var StatusFlashRepo $statusFlashRepo */
