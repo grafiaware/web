@@ -30,7 +30,7 @@ class ConfigurationConstants {
     const WEB_FILES_COMMON = '_files/common/';
     const WEB_FILES_SITE = '_files/'.self::WEB_SITE;
 //    const WEB_BOOTSTRAP_LOGS = PES_RUNNING_ON_PRODUCTION_HOST ? '/' : '/_www_na_logs/';
-    const WEB_BOOTSTRAP_LOGS = '_www_na_logs/';
+    const WEB_BOOTSTRAP_LOGS = '/_www_na_logs/';
 
     // production host
     const WEB_BOOTSTRAP_PRODUCTION_HOST =  'replikant2871'; 

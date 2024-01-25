@@ -39,7 +39,11 @@ $selector = $appContainer->get(Selector::class);
 //TODO: ApiRegistrator dp pes, volání ->registerApi do AppFactory - APPFactory musí dostat app kontejner do konstruktoru
 // registrace api do ResourceRegistry, ResourceRegistry se zaregistrovaným api je dostupný v kontejneru aplikace
 $app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppContainer()->get(ResourceRegistry::class));
+//echo $environment->get('REQUEST_URI');
+$urihandler = fopen('uri.log', 'a+');
+fwrite($urihandler, $environment->get('REQUEST_URI').PHP_EOL);
+fclose($urihandler);
 $response = $app->run($selector, new UnprocessedRequestHandler());
-
+//echo $response->getStatusCode();
 
 (new ResponseSender())->send($response);

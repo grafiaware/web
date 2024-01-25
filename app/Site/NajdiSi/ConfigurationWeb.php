@@ -56,7 +56,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             # Konfigurace adresáře logů
             #
             'app.logs.directory' => 'Logs/App',
-            'app.logs.type' => FileLogger::REWRITE_LOG,
+            'app.logs.type' => FileLogger::APPEND_TO_LOG,
             #
             #################################
 
