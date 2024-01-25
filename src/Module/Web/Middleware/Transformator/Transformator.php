@@ -155,6 +155,14 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         return $transform;
     }
     
+    private function transformVlozVideo($param) {
+        --%VLOZVIDEOFLV_200127 Studio Z_Grafia_Veletrh_prace_2020%--
+        
+        <video width="600px" controls  poster="./video/200127 Studio Z_Grafia_Veletrh_prace_2020.jpg">
+        <source src="./video/200127 Studio Z_Grafia_Veletrh_prace_2020.mp4" type="video/mp4">
+         Váš prohlížeč nepodporuje element video.
+        </video>        
+    }
     private function flashAndLogNotFound($url) {
         $requestUri = $this->getApp()->getServerRequest()->getUri()->getPath();
         /** @var StatusFlashRepo $statusFlashRepo */
