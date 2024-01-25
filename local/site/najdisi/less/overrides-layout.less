@@ -25,6 +25,8 @@ body{
         }
         img{
             object-fit: contain;
+            position: relative;
+            z-index: -1;
         }
 /*        display: flex;
         align-items: start;
@@ -65,7 +67,7 @@ body{
         position: fixed;
         color: @invertedTextColor;
         background-color: @secondaryColor;
-        z-index: 2;
+        z-index: 0;
     }
     .klic-img{
         max-width: 212px !important;
@@ -73,7 +75,7 @@ body{
         position: absolute;
         left: -82px;
         top: 35px;
-        z-index: 2;
+        z-index: 0;
     }
     .no-fix{ //.fix-bar:has(#mySidenav.editMenu)
         > .icon-menu{
@@ -99,6 +101,7 @@ body{
         //overflow: hidden scroll;
         padding: 0 0 20px 10px;
         z-index: 100;
+        margin-bottom: 30px;
         .svisle-menu{   
             padding-left: 0;
         }
@@ -107,6 +110,12 @@ body{
         }
         .close-item .close.slim-icon{
             display: none;
+        }
+        .vertical.menu .item a.presented, .item p.presented{
+            background-color: @secondaryColor;
+            padding: 10px;
+            margin: 0 -10px;
+            width: 106.5%;
         }
          
     }
@@ -279,7 +288,7 @@ body{
     main{
         min-height: 1000px;
         padding: 0 10px;
-        z-index: 10;
+        z-index: 1;
         position: relative;
     }
     headline{
