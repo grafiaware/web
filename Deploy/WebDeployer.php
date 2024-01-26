@@ -22,7 +22,7 @@ class WebDeployer extends DeployerAbstract {
     }
 
     public function deploy($site) {
-        if (!fileExists(self::SITE_PATH-"/$site")) {
+        if (!fileExists(self::SITE_PATH."/$site")) {
             throw new SiteFolderNotExistsException("Neexistuje zadaná složka pro site deployemnt $site.");
         }
 

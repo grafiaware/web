@@ -1,0 +1,2 @@
+- Domény a hosting -> vybrat doménu -> Webserver -> upravit nastavení domény (Nastavení-tlačítko tužtička) -> Povolení používání souboru .htaccess
+- změna .htaccess: RewriteBase "/web/" -> RewriteBase "/" 

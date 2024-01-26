@@ -28,7 +28,7 @@ class ConfigurationRed extends ConfigurationConstants {
         return [
             'redcomponent.logs.directory' => 'Logs/Red',
             'redcomponent.logs.render' => 'Render.log',
-            'redcomponent.logs.type' => FileLogger::REWRITE_LOG,
+            'redcomponent.logs.type' => FileLogger::FILE_PER_DAY,
             'redcomponent.templates' => [
                 'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
