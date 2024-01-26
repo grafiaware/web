@@ -79,7 +79,11 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguage())) {
             $langCode = $this->getRequestedLangCode($request);
+            /** @var LanguageRepo $lanuageRepo */
+            $lanuageRepo = $this->container->get(LanguageRepo::class);
+            $language = $lanuageRepo->get($langCode);
             $statusPresentation->setRequestedLangCode($langCode);
+            $statusPresentation->setLanguage($language);
         }
     }
 
