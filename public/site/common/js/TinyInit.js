@@ -45,8 +45,8 @@ var editCommonPlugins = [
 
 var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | styles';
 
-var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image media | code';
-var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image media';
+var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
+var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
 var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | template | code | visualblocks | attachment';
 
 var linkClassList = [
