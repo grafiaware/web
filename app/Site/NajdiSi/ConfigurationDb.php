@@ -34,12 +34,12 @@ class ConfigurationDb {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'red.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_everyone',
-            'red.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_everyone',
-            'red.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_auth',
-            'red.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_auth',
-            'red.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_admin',
-            'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_admin',
+            'red.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_everyone',
+            'red.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_everyone',
+            'red.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_auth',
+            'red.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_auth',
+            'red.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_admin',
+            'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_admin',
             #
             ###################################
             # Konfigurace logu databáze
@@ -72,7 +72,7 @@ class ConfigurationDb {
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
             'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'XXXXXXXXXXX' : 'na_upgrader',
-            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'na_upgrader' : 'na_upgrader',
+            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'XXXXXXXXXXX' : 'na_upgrader',
             #
             ###################################
 
@@ -82,14 +82,14 @@ class ConfigurationDb {
             'build.config.users.everyone' =>
                 [
                     'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'XXXXXXXXXXX' : 'na_everyone',
-                    'everyone_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'na_upgrader' : 'na_everyone',
+                    'everyone_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'XXXXXXXXXXX' : 'na_everyone',
                 ],
             'build.config.users.granted' =>
                 [
                     'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'XXXXXXXXXXX' : 'na_auth',
-                    'authenticated_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'na_upgrader' : 'na_auth',
+                    'authenticated_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'XXXXXXXXXXX' : 'na_auth',
                     'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'XXXXXXXXXXX' : 'na_admin',
-                    'administrator_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'na_upgrader' : 'na_admin',
+                    'administrator_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'XXXXXXXXXXX' : 'na_admin',
                 ],
             #
             ###################################
@@ -172,7 +172,7 @@ class ConfigurationDb {
             'auth.db.charset' => 'utf8',
             'auth.db.collation' => 'utf8_general_ci',
             'auth.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg04' : 'single_login',
+            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz02' : 'single_login',  // 'revoluceorg04' : 'single_login',
             #
             ###################################
             # Konfigurace logu databáze
@@ -201,7 +201,7 @@ class ConfigurationDb {
             'red.db.charset' => 'utf8',
             'red.db.collation' => 'utf8_general_ci',
             'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg03' : 'najdisi',
+            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz01' : 'najdisi', // 'revoluceorg03' : 'najdisi',
             #
             ###################################
             # Konfigurace logu databáze
@@ -250,8 +250,8 @@ class ConfigurationDb {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'auth.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg005' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'auth.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg005' : 'single_login',
+            'auth.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz003' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'auth.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz003' : 'single_login',
 
             'auth.logs.database.directory' => 'Logs/Auth',
             'auth.logs.database.file' => 'Database.log',
@@ -300,12 +300,12 @@ class ConfigurationDb {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_everyone',
-            'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_everyone',
-            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_auth',
-            'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_auth',
-            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_admin',
-            'web.db.account.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg004' : 'na_admin',
+            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_everyone',
+            'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_everyone',
+            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_auth',
+            'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_auth',
+            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_admin',
+            'web.db.account.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz002' : 'na_admin',
             #
             ###################################
         ];
