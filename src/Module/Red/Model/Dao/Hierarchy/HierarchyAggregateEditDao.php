@@ -430,18 +430,6 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
         }
     }
 
-    /**
-     * Přesune podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu.
-     * Defaultně deaktivuje všechny položky menu příslušné k přesunutým uzlům.
-     *
-     * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
-     *
-     * @param string $sourceUid uid zdrojového uzlu
-     * @param string $targetUid uid cílového uzlu
-     * @param bool $deactivate
-     * @return void
-     * @throws Exception
-     */
     public function moveSubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): void {
         $dbhTransact = $this->dbHandler;
         try {
@@ -503,22 +491,24 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      *
      * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
-     * @param string $sourceUid uid zdrojového uzlu
-     * @param string $targetUid uid cílového uzlu
+     * @param type $sourceUid
+     * @param type $targetUid
+     * @param type $deactivate
+     * @return array
      * @throws Exception
      */
-    public function copySubTreeAsChild($sourceUid, $targetUid, $deactivate=true): void {
+    public function copySubTreeAsChild($sourceUid, $targetUid, $deactivate=true): array {
         $dbhTransact = $this->dbHandler;
         try {
             // parametry
             $dbhTransact->beginTransaction();
 
-            $stmt = $this->getPreparedStatement("SET @sourceId := :source_uid");
-            $stmt->bindParam(':source_uid', $sourceUid);
-            $stmt->execute();
-            $stmt = $this->getPreparedStatement("SET @targetId := :target_uid");
-            $stmt->bindParam(':target_uid', $targetUid);
-            $stmt->execute();
+            $prepareNodesDataStmt = $this->getPreparedStatement("SET @sourceId := :source_uid");
+            $prepareNodesDataStmt->bindParam(':source_uid', $sourceUid);
+            $prepareNodesDataStmt->execute();
+            $prepareNodesDataStmt = $this->getPreparedStatement("SET @targetId := :target_uid");
+            $prepareNodesDataStmt->bindParam(':target_uid', $targetUid);
+            $prepareNodesDataStmt->execute();
 
             // data zdrojového uzlu
             $dbhTransact->exec("SELECT left_node, right_node, right_node-left_node+1 INTO @source_left_node, @source_right_node, @source_width
@@ -529,25 +519,27 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 FROM $this->nestedSetTableName WHERE uid = @targetId");
 
             // cílová data ze zdrojových dat (před vytvořením cílového prostoru - přídáním cílového prostoru se mohou zdrojová data posunout doprava)
-            $stmt = $this->getPreparedStatement("
+            // data obsahují: zdrojové uid, cílový left node, cílový right node 
+            $prepareNodesDataStmt = $this->getPreparedStatement("
                     SELECT uid, left_node - (@source_left_node - @target_left_node - 1) AS left_node, right_node - (@source_left_node - @target_left_node - 1) AS right_node
                     FROM $this->nestedSetTableName WHERE left_node BETWEEN @source_left_node AND @source_right_node
                 ");
-            $stmt->execute();
-            $targetNodes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            $prepareNodesDataStmt->execute();
+            $preparedNodeData = $prepareNodesDataStmt->fetchAll(\PDO::FETCH_ASSOC);
 
             // vytvoř cílový volný prostor
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node >= @target_left_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_left_node");
 
             // kopíruj obsahy
-            $this->copySourceContentIntoTarget($dbhTransact, $targetNodes, $deactivate);
+            $transform = $this->copySourceContentIntoTarget($dbhTransact, $preparedNodeData, $deactivate);
 
             $dbhTransact->commit();
         } catch(Exception $e) {
             $dbhTransact->rollBack();
             throw new Exception($e);
         }
+        return $transform;
     }
 
     /**
@@ -558,10 +550,10 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      *
      * @param type $sourceUid
      * @param type $targetUid
-     * @return void
+     * @return array
      * @throws Exception
      */
-    public function copySubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): void {
+    public function copySubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): array {
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
@@ -582,26 +574,28 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
             $dbhTransact->exec("SELECT right_node INTO @target_right_node
                 FROM $this->nestedSetTableName WHERE uid = @targetId");
 
-            // cílová data ze zdrojových dat (zdrojová data čtu před vytvořením cílového prostoru - přídáním cílového prostoru se mohou zdrojová data posunout doprava)
-            $targetNodesStmt = $this->getPreparedStatement("
+            // cílová data ze zdrojových dat (před vytvořením cílového prostoru - přídáním cílového prostoru se mohou zdrojová data posunout doprava)
+            // data obsahují: zdrojové uid, cílový left node, cílový right node 
+            $prepareNodesDataStmt = $this->getPreparedStatement("
                     SELECT uid, left_node - (@source_left_node - @target_right_node - 1) AS left_node, right_node - (@source_left_node - @target_right_node - 1) AS right_node
                     FROM $this->nestedSetTableName WHERE left_node BETWEEN @source_left_node AND @source_right_node
                 ");
-            $targetNodesStmt->execute();
-            $targetData = $targetNodesStmt->fetchAll(\PDO::FETCH_ASSOC);
+            $prepareNodesDataStmt->execute();
+            $preparedNodeData = $prepareNodesDataStmt->fetchAll(\PDO::FETCH_ASSOC);
 
             // vytvoř cílový volný prostor
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node > @target_right_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_right_node");
 
             // kopíruj obsahy - metoda kopíruje položky menu_item
-            $this->copySourceContentIntoTarget($dbhTransact, $targetData, $deactivate);
+            $transform = $this->copySourceContentIntoTarget($dbhTransact, $preparedNodeData, $deactivate);
 
             $dbhTransact->commit();
         } catch(Exception $e) {
             $dbhTransact->rollBack();
             throw new Exception($e);
         }
+        return $transform;
     }
 
     /**
@@ -612,10 +606,11 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      *
      *
      * @param type $dbhTransact transact handler
-     * @param array $targetNodes pole dat cílových položek nested set (hierarchy nodes)
+     * @param array $preparedNodeData pole dat připravených cílových uzlů nested set (hierarchy nodes)
+     *  - data obsahují: zdrojové uid, cílový left node, cílový right node 
      * @param bool $deactivate
      */
-    private function copySourceContentIntoTarget($dbhTransact, $targetNodes, $deactivate=true) {
+    private function copySourceContentIntoTarget($dbhTransact, $preparedNodeData, $deactivate=true) {
         $insertToTargetStmt = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
         // select jen podle uid_fk -> vybere všechny jazykové verze
         $selectSourceItemsStmt = $this->getPreparedStatement("
@@ -673,11 +668,13 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     menu_item_asset
                     WHERE menu_item_id_fk=:source_menu_item_id
                     ");
-        foreach ($targetNodes as $node) {
-            $sourceUid = $node['uid'];
+        $transform = [];
+        foreach ($preparedNodeData as $nodeData) {
+            $sourceUid = $nodeData['uid'];  // uid zdrojového node
             $targetUid = $this->createNewUidWithinTransaction($dbhTransact);
-            $node['uid'] = $targetUid;
-            $this->bindParams($insertToTargetStmt, $node);
+            $transform[$sourceUid] = $targetUid;
+            $nodeData['uid'] = $targetUid;  
+            $this->bindParams($insertToTargetStmt, $nodeData);  // vloží node s nově vygenerovsným uid s připraveným left_node, right_node
             $insertToTargetStmt->execute();
             $this->bindParams($selectSourceItemsStmt, ['source_uid'=>$sourceUid]);
             $selectSourceItemsStmt->execute();
@@ -715,6 +712,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 $assetCount = $preparedCopyAssets->execute();                
             }
         }
+        return $transform;
     }
 
     /**

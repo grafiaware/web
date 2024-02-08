@@ -172,6 +172,9 @@ use Red\Model\Repository\MultipageRepo;
 use Template\Seeker\TemplateSeeker;
 use Template\Compiler\TemplateCompiler;
 
+// Replace
+use Replace\Replace;
+
 // login aggregate ze session - přihlášený uživatel
 use Auth\Model\Entity\LoginAggregateFullInterface; // pro app kontejner
 //
@@ -938,12 +941,19 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ItemApiService();
             },                    
         ####
-        # view factory
+        # view factory - je to služba kontejneru
         #
             ViewFactory::class => function(ContainerInterface $c) {
                 return (new ViewFactory())->setRendererContainer($c->get('rendererContainer'));
             },
-
+                    
+        ####
+        #
+        #
+            Replace::class => function(ContainerInterface $c) {
+                return new Replace();
+            },
+                    
         ####
         # components loggery
         #

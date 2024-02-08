@@ -19,7 +19,7 @@ use Web\Middleware\Page\Web;
 use Red\Middleware\Component\Component;
 
 use Red\Middleware\Redactor\Redactor;
-use Web\Middleware\Transformator\Transformator;
+use Transformator\Middleware\Transformator\Transformator;
 use Events\Middleware\Events\Event;
 use Sendmail\Middleware\Sendmail\Sendmail;
 
@@ -78,12 +78,6 @@ class SelectorItems {
                 return [
                     new ResponseTime(),
                     new Ping(),
-//                    new SecurityStatus(),
-//                    new Login(),
-//                    new FlashStatus(),
-//                    new PresentationStatus(),
-//                    new Transformator(),
-//                    new Redactor()
                 ];},
             '/red'=>
             function() {
