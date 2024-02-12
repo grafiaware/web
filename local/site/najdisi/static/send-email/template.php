@@ -8,7 +8,7 @@ use Site\ConfigurationCache;
 
 $msg = '';
 
-$pathToFolder = ConfigurationCache::files()['presenter']."uploads/";
+$pathToFolder = ConfigurationCache::files()['@presenter']."uploads/";
 
 
 

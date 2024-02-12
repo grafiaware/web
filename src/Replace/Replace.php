@@ -27,25 +27,36 @@ class Replace implements ReplaceInterface {
      * @param type $text Předáno referencí
      * @return void
      */
-    public function replacePatterns(ServerRequestInterface $request, &$text): void {
-        $downloadDirectory = ConfigurationCache::files()['@download'];
-        $siteImagesDirectory = ConfigurationCache::files()['@siteimages'];
-        $siteMoviesDirectory = ConfigurationCache::files()['@sitemovies'];
-        $commonImagesDirectory = ConfigurationCache::files()['@commonimages'];
-        $commonMoviesDirectory = ConfigurationCache::files()['@commonmovies'];
-        $filesDirectory = ConfigurationCache::files()['files'];
-
-        $publicDirectory = ConfigurationCache::transformator()['publicDirectory'];
-        $siteDirectory = ConfigurationCache::transformator()['siteDirectory'];
+    public function replaceTemplateStrings(ServerRequestInterface $request, &$text): void {
 
         $transform = array(
             // templates, static
-            '@download/'               => $downloadDirectory,
-            '@commonimages/'           => $commonImagesDirectory,
-            '@commonmovies/'           => $commonMoviesDirectory,
-            '@siteimages/'             => $siteImagesDirectory,
-            '@sitemovies/'             => $siteMoviesDirectory,
+            '@download/'               => ConfigurationCache::files()['@download'],
+            '@commonimages/'           => ConfigurationCache::files()['@commonimages'],
+            '@commonmovies/'           => ConfigurationCache::files()['@commonmovies'],
+            '@siteimages/'             => ConfigurationCache::files()['@siteimages'],
+            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
+            '@presenter'               => ConfigurationCache::files()['@presenter'],
+        );
 
+        // <a href="index.php?list=download&amp;file=1197476.txt" target="_blank">Obchodní podmínky e-shop Grafia ke stažení</a>
+        $text = str_replace(array_keys($transform), array_values($transform), $text);
+    }
+    
+    /**
+     * Transformuje text záměnou všech řetězců definovaných v poli náhrad.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $text Předáno referencí
+     * @return void
+     */
+    public function replaceRSStrings(ServerRequestInterface $request, &$text): void {
+
+        $publicDirectory = ConfigurationCache::transformator()['publicDirectory'];
+        $siteDirectory = ConfigurationCache::transformator()['siteDirectory'];
+        $filesDirectory = ConfigurationCache::transformator()['filesDirectory'];
+
+        $transform = array(         
             // staré stránky rs
             '"../files/'            => '"'.$filesDirectory,   // pro chybně zadané obrázky (s dvěma tečkami)
             '"files/'            => '"'.$filesDirectory,
@@ -61,6 +72,7 @@ class Replace implements ReplaceInterface {
         // <a href="index.php?list=download&amp;file=1197476.txt" target="_blank">Obchodní podmínky e-shop Grafia ke stažení</a>
         $text = str_replace(array_keys($transform), array_values($transform), $text);
     }
+
     
     public function replaceSlots(&$text): void {
         $slots = [

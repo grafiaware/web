@@ -58,8 +58,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
     /**
      * Zamění v textu předepsané vzory, href odkazy ze starého rs a sloty.
-     * Metoda replace vyhazují výjimky, ale vždy upraví text až do místa, kde výjimka vznikla.
-     * Zde má přednost zobrazení obsahu uživateli - tj. metoda vrací obsah tak, jak se ho podařilo upravit, vytvoří flash message a případně záznam v logu
+     * Metody replace mohou vyhazovat výjimky, ale vždy upraví text až do místa, kde výjimka vznikla.
+     * Zde má přednost zobrazení obsahu uživateli i v prípadě vzniku výjimky - tj. metoda vrací obsah tak, jak se ho podařilo upravit, vytvoří flash message a případně záznam v logu
      * 
      * @param ServerRequestInterface $request
      * @param type $text
@@ -68,8 +68,14 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     private function transform(ServerRequestInterface $request, $text): string {
         /** @var Replace $replacer */
         $replacer = $this->container->get(Replace::class);
-        $replacer->replacePatterns($request, $text);
-        // 
+        // template strings
+        $replacer->replaceTemplateStrings($request, $text);
+        // slots
+        $replacer->replaceSlots($text);            
+        
+        // RS strings
+        $replacer->replaceRSStrings($request, $text);
+        // RS urls
         try {
             $key = 'list';
             $dao = $this->container->get(MenuItemDao::class);
@@ -82,8 +88,6 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             $this->flashAndLogIncorrectHtmlSyntax($request->getUri()->getPath(), $e);
         } catch (ListValueNotFoundInDatabaseException $e) {
             $this->flashAndLogNotFound($request->getUri()->getPath(), $e);
-        } finally {
-            $replacer->replaceSlots($text);            
         }
         return $text;
     }
