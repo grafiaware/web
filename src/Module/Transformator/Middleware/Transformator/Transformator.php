@@ -2,13 +2,7 @@
 
 namespace Transformator\Middleware\Transformator;
 
-
-use Site\ConfigurationCache;
-
 use Pes\Middleware\AppMiddlewareAbstract;
-use Pes\Container\Container;
-use Pes\Application\AppFactory;
-use Pes\Application\UriInfoInterface;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -27,6 +21,7 @@ use Pes\Http\Body;
 use Replace\Replace;
 use Replace\Exception\InvalidHtmlSourceException;
 use Replace\Exception\ListValueNotFoundInDatabaseException;
+
 /**
  * Description of Transformator
  * Transformuje obsahy stránek uložených v původní verzi rs.
