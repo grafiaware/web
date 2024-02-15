@@ -73,20 +73,20 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         /** @var Replace $replacer */
         $replacer = $this->container->get(Replace::class);
         // template strings
-        if (array_key_exists('template substitutions',$replaceConfig)) {
+        if (in_array('template substitutions',$replaceConfig)) {
             $replacer->replaceTemplateStrings($request, $text);
         }
         // slots
-        if (array_key_exists('slots',$replaceConfig)) {
+        if (in_array('slots',$replaceConfig)) {
             $replacer->replaceSlots($text);            
         }
         
         // RS strings
-        if (array_key_exists('rs substitutions',$replaceConfig)) {
+        if (in_array('rs substitutions',$replaceConfig)) {
             $replacer->replaceRSStrings($request, $text);
         }
         // RS urls
-        if (array_key_exists('rs list urls',$replaceConfig)) {
+        if (in_array('rs list urls',$replaceConfig)) {
             try {
                 $key = 'list';
                 $dao = $this->container->get(MenuItemDao::class);
