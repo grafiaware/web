@@ -256,6 +256,12 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function transformator() {
         return [
+            'replace' => [
+                'template substitutions',
+                'slots',
+                'rs substitutions',
+                'rs list urls'
+            ],
             'publicDirectory' => self::WEB_LINKS_COMMON,
             'siteDirectory' => self::WEB_LINKS_SITE,
             'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'files/' : self::WEB_FILES_SITE.'files/',

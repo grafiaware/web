@@ -10,6 +10,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use Site\ConfigurationCache;
+
 use Red\Model\Dao\MenuItemDao;
 use Red\Model\Dao\MenuItemDaoInterface;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -61,28 +63,43 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
      * @return string
      */
     private function transform(ServerRequestInterface $request, $text): string {
+        $replaceConfig = ConfigurationCache::transformator()['replace'];
+//             => [
+//                'template substitutions',
+//                'slots',
+//                'rs substitutions',
+//                'rs list urls'
+//            ],        
         /** @var Replace $replacer */
         $replacer = $this->container->get(Replace::class);
         // template strings
-        $replacer->replaceTemplateStrings($request, $text);
+        if (array_key_exists('template substitutions',$replaceConfig)) {
+            $replacer->replaceTemplateStrings($request, $text);
+        }
         // slots
-        $replacer->replaceSlots($text);            
+        if (array_key_exists('slots',$replaceConfig)) {
+            $replacer->replaceSlots($text);            
+        }
         
         // RS strings
-        $replacer->replaceRSStrings($request, $text);
+        if (array_key_exists('rs substitutions',$replaceConfig)) {
+            $replacer->replaceRSStrings($request, $text);
+        }
         // RS urls
-        try {
-            $key = 'list';
-            $dao = $this->container->get(MenuItemDao::class);
-            /** @var StatusPresentationRepo $statusPresentationRepo */
-            $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
-            //TODO: $statusPresentation může být null -> exception
-            $statusPresentation = $statusPresentationRepo->get();
-            $replacer->replaceRsUrlsInHref($request, $text, $key, $dao, $statusPresentation);
-        } catch (InvalidHtmlSourceException $e) {
-            $this->flashAndLogIncorrectHtmlSyntax($request->getUri()->getPath(), $e);
-        } catch (ListValueNotFoundInDatabaseException $e) {
-            $this->flashAndLogNotFound($request->getUri()->getPath(), $e);
+        if (array_key_exists('rs list urls',$replaceConfig)) {
+            try {
+                $key = 'list';
+                $dao = $this->container->get(MenuItemDao::class);
+                /** @var StatusPresentationRepo $statusPresentationRepo */
+                $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
+                //TODO: $statusPresentation může být null -> exception
+                $statusPresentation = $statusPresentationRepo->get();
+                $replacer->replaceRsUrlsInHref($request, $text, $key, $dao, $statusPresentation);
+            } catch (InvalidHtmlSourceException $e) {
+                $this->flashAndLogIncorrectHtmlSyntax($request->getUri()->getPath(), $e);
+            } catch (ListValueNotFoundInDatabaseException $e) {
+                $this->flashAndLogNotFound($request->getUri()->getPath(), $e);
+            }
         }
         return $text;
     }
