@@ -239,9 +239,10 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $component = new MenuComponent($c->get(ComponentConfiguration::class), $c);  // kontejner
                 $component->setRendererContainer($c->get('rendererContainer'));
-                if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(EditMenuSwitchComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponentInterface::TOGGLE_EDIT_MENU_BUTTON);
-                }
+                // VYPNUTO - tlačítko editace menu
+//                if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(EditMenuSwitchComponent::class, AccessPresentationEnum::EDIT)) {
+//                    $component->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponentInterface::TOGGLE_EDIT_MENU_BUTTON);
+//                }
                 return $component;
             },
             LevelComponent::class => function(ContainerInterface $c) {
