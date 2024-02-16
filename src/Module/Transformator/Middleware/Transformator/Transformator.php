@@ -19,6 +19,7 @@ use Status\Model\Entity\StatusPresentationInterface;
 use Status\Model\Repository\StatusFlashRepo;
 
 use Pes\Http\Body;
+use Pes\Debug\Timer;
 
 use Replace\Replace;
 use Replace\Exception\InvalidHtmlSourceException;
@@ -40,14 +41,17 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     private $container;
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-
+        $timer = new Timer(false);
+        $timer->start();
         $response = $handler->handle($request);
         if ($request->getMethod()=="GET") {
-            $startTime = microtime(true);
+            $handleTime = $timer->interval();
             $this->container = $this->getApp()->getAppContainer();  // měl by mít nastaven kontejner z middleware (web nebo red)
             $newBody = new Body(fopen('php://temp', 'r+'));
             $newBody->write($this->transform($request, $response->getBody()->getContents()));
-            $response = $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
+            $response = $response->withHeader('X-RED-Handle-Time', sprintf('%2.3fms', ($handleTime) * 1000));
+            $response = $response->withHeader(self::HEADER, sprintf('%2.3fms', ($timer->interval()) * 1000));
+            $response = $response->withHeader('X-RED-Transformator-runtime', sprintf('%2.3fms', ($timer->runtime()) * 1000));
             $response = $response->withBody($newBody);
         }
         return $response;
