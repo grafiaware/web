@@ -69,8 +69,7 @@ class ArticleControler extends AuthoredControlerAbstract {
             $namePrefix = implode("_", [self::ARTICLE_CONTENT, $articleId]);
             $articlePost = $this->paramValue($request, $namePrefix);
             if (false===$articlePost) {
-                $errorMessage = "Požadavek neobsahuje parametr s obsahem.";
-                user_error($errorMessage, E_USER_WARNING);
+                $errorMessage = "Pokušíte se uložit prázdný obsah!";
                 $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
             } else {
                 $statusPresentation = $this->statusPresentationRepo->get();

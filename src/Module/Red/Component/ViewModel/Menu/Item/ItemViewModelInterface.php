@@ -19,6 +19,7 @@ use Component\View\ComponentInterface;
 interface ItemViewModelInterface extends ViewModelInterface {
 
     public function hydrateChild(ComponentInterface $childComponent): void;
+    public function getChild(): ?ComponentInterface;
 
     public function isOnPath();
     public function isLeaf();
@@ -29,7 +30,10 @@ interface ItemViewModelInterface extends ViewModelInterface {
     public function isPasteMode();
     public function isMenuEditable();
 
-    public function getChild(): ?ComponentInterface;
+    public function getPageHref();
+    public function getRedApiUri();
+    public function getTitle();
+    public function getActive(); 
     public function getRealDepth();
     /**
      * @return HierarchyAggregateInterface

@@ -1,7 +1,7 @@
 
-/* skript je načítán v body.js - document.onreadystatechange
-
-/* proměnné jsou definovány v web\local\site\common\templates\js\tinyConfig.js */
+/* skript je načítán v body.js - document.onreadystatechange - import("tinyinit/TinyInit.js")
+ * proměnné jsou definovány v web\local\site\common\templates\js\tinyConfig.js
+ */
 
 /* global tinyConfig */
 
@@ -15,6 +15,27 @@
  * - pokud chci selektovat Tiny pomocí třídy/id, ujistím se, že jsem jej přidal/a také v RendererContainerConfigurator.php v classmapách
  */
 
+//
+// inicializace editorů
+//
+export const initEditors = () => {
+    tinymce.remove();
+    tinymce.init(editTextConfig);
+    tinymce.init(editHtmlConfig);
+    tinymce.init(editMceEditableConfig);
+    tinymce.init(selectTemplateArticleConfig);
+    tinymce.init(selectTemplatePaperConfig);
+    tinymce.init(selectTemplateMultipageConfig);
+
+    //pro editaci pracovního popisu pro přihlášené uživatele
+    tinymce.init(editUserInputConfig);
+    
+    //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
+    $('.profil-visible').on('click', function(){
+            $('.profil.hidden').css('display', 'block');
+        });
+}
+    
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 import {redEditorSetup} from "./tinyfunctions/editorSetup.js";
@@ -301,26 +322,6 @@ var editUserInputConfig = {
     init_instance_callback: initInstanceUserInputEditor,
     paste_preprocess: pastePreprocessUserInput
 };
-
-//
-// inicializace editorů
-//
-    export const initEditors = () => {
-        tinymce.remove();
-        tinymce.init(editTextConfig);
-        tinymce.init(editHtmlConfig);
-        tinymce.init(editMceEditableConfig);
-        tinymce.init(selectTemplateArticleConfig);
-        tinymce.init(selectTemplatePaperConfig);
-        tinymce.init(selectTemplateMultipageConfig);
-
-        //pro editaci pracovního popisu pro přihlášené uživatele
-        tinymce.init(editUserInputConfig);
-        //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
-            $('.profil-visible').on('click', function(){
-            $('.profil.hidden').css('display', 'block');
-        });
-    }
 
 import {attachmentPlugin} from "./tinyplugins/plugins.js";
 tinymce.PluginManager.add('attachment', attachmentPlugin);

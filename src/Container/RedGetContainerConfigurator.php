@@ -259,7 +259,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MenuViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(HierarchyJoinMenuItemRepo::class),
-                            $c->get(MenuRootRepo::class)
+                            $c->get(MenuRootRepo::class),
+                            $c->get(ItemApiService::class)
                         );
             },
             LevelViewModel::class => function(ContainerInterface $c) {
@@ -273,7 +274,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         # (jsou jen jedna na stránku, pro přehlednost jsou zde)
         #
             'menu.presmerovani' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.componentsServices')['menu.presmerovani'];
+                $menuConfig = $c->get('menu.services')['menu.presmerovani'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -296,7 +297,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             'menu.vodorovne' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.componentsServices')['menu.vodorovne'];
+                $menuConfig = $c->get('menu.services')['menu.vodorovne'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -318,7 +319,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             'menu.svisle' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.componentsServices')['menu.svisle'];
+                $menuConfig = $c->get('menu.services')['menu.svisle'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -344,7 +345,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             //bloky
             'menu.bloky' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.componentsServices')['menu.bloky'];
+                $menuConfig = $c->get('menu.services')['menu.bloky'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -367,7 +368,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             //kos
             'menu.kos' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.componentsServices')['menu.kos'];
+                $menuConfig = $c->get('menu.services')['menu.kos'];
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {

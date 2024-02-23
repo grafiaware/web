@@ -38,6 +38,8 @@ use Pes\View\CompositeViewInterface;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 
+use UnexpectedValueException;
+
 /**
  * Description of GetController
  *
@@ -66,6 +68,32 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->itemApiService = $itemApiService;
         $this->cascadeLoaderFactory = $cascadeLoaderFactory;              
+    }
+    
+    /**
+     * 
+     * @return MenuItemInterface|null
+     * @throws UnexpectedValueException
+     */
+    protected function getHomeMenuItem(): ?MenuItemInterface {
+        $homePage = ConfigurationCache::layoutController()['home_page'];
+        switch ($homePage[0]) {
+            case 'block':
+                $menuItem = $this->getMenuItemForBlock($homePage[1]);
+                if (!isset($menuItem)) {
+                    throw new UnexpectedValueException("Undefined menu item for default page (home page) defined in configuration as block with name '$homePage[1]'.");
+                }
+                break;
+            case 'item':
+                $menuItem = $this->getMenuItem($homePage[1]);
+                if (!isset($menuItem)) {
+                    throw new UnexpectedValueException("Undefined default page (home page) defined in configuration as item with uid '$homePage[1]'.");
+                }
+                break;
+            default:
+                throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
+        }
+        return $menuItem;
     }
     
     /**
@@ -185,11 +213,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
 
         $views = array_merge(
-                [
-                    'content' => $this->getMenuItemLoader($menuItem),
-                ],
-                $this->isPartInEditableMode() ? $this->getLayoutEditableViews($request) : [],
-                $this->getLayoutViews(),
+//                [
+//                    'content' => $this->getMenuItemLoader($menuItem),
+//                ],
+                $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
+//                $this->getLayoutViews(),
+                $this->getMenuViews($menuItem),
                 $this->getBlockLoaders(),
                 $this->getCascadeViews(),
                 // for debug
@@ -204,7 +233,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param type $request
      * @return array
      */
-    private function getLayoutEditableViews($request) {
+    private function getEditableModeViews($request) {
         $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
         $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
@@ -231,28 +260,62 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     'urlEditScript' => ConfigurationCache::layoutController()['urlEditScript'],
                     ]);
         $views ['redScripts'] = $redScriptsView;
-        foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutEditableMap']) as $contextName) {
-            $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
-        }
+//        $views += $this->getLayoutEditableViews();
+        $views += $this->getMenuEditableViews();        
         return $views;
     }
     
     private function getLayoutViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutMap']) as $contextName) {
-            $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);             
         }
         return $views;
     }
-
+    
+    private function getLayoutEditableViews() {
+        $views = [];
+        foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutEditableMap']) as $contextName) {
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);             
+        }
+        return $views;
+    }
+    
     private function getCascadeViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
-            $views[$contextName] = $this->getRedLoadScript("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);             
         }
         return $views;
     }
+    
+    private function getMenuViews(MenuItemInterface $menuItem) {
+        // !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)
+        $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
 
+        $views = [];
+        foreach (ConfigurationCache::layoutController()['contextTargetMap'] as $contextName=>$targetSettings) {
+            // 'content'=>['id'=>'menutarget_content'],
+            $id = $targetSettings['id'];
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedTargetElement($id, $dataRedApiUri, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);            
+        }
+        foreach (ConfigurationCache::layoutController()['contextMenuMap'] as $contextName=>$menuSettings) {
+            // 'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
+            $targetId = $menuSettings['targetId'];
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce'], $targetId);
+        }
+        return $views;
+    }
+    
+    private function getMenuEditableViews() {
+        $views = [];
+        foreach (ConfigurationCache::layoutController()['contextMenuEditableMap'] as $contextName=>$menuSettings) {
+            // 'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
+            $targetId = $menuSettings['targetId'];
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce'], $targetId);
+        }
+        return $views;
+    }    
 #
 #### view s content loaderem #####################################################
 #
@@ -292,12 +355,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return View
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
-        $dataRedApiUri = $this->itemApiService->getLoaderApiUri($menuItem);
-        return $this->getRedLoadScript($dataRedApiUri);
-    }
-    
-    private function getRedLoadScript($dataRedApiUri) {
-        return $this->cascadeLoaderFactory->getRedLoadScript($dataRedApiUri, $this->isPartInEditableMode());        
+        $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
+        if($this->isPartInEditableMode()) {
+            return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']); 
+        } else {
+            return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);             
+        }
     }
     
     private function getUnknownBlockView($blockName, $variableName) {

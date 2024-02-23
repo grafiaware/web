@@ -68,14 +68,12 @@ class PaperControler extends AuthoredControlerAbstract {
             $namePrefix = implode("_", [self::HEADLINE_CONTENT, $paperId]);
             $headlinePost = $this->paramValue($request, $namePrefix);
             if (false===$headlinePost) {
-                $errorMessage = "Požadavek neobsahuje parametr s obsahem.";
-                user_error($errorMessage, E_USER_WARNING);
+                $errorMessage = "Pokušíte se uložit prázdný obsah!";
                 $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
             } else {    
                 $paperAggregate->setHeadline($headlinePost);
                 $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
             }
-            $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -91,14 +89,12 @@ class PaperControler extends AuthoredControlerAbstract {
         $paperAggregate = $this->paperAggregateRepo->get($paperId);
         if (!isset($paperAggregate)) {
             $errorMessage = "Neexistuje paper se zadaným id.$paperId";
-            user_error($errorMessage, E_USER_WARNING);
             $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING); 
         } else {
             $namePrefix = implode("_", [self::PEREX_CONTENT, $paperId]);
             $perexPost = $this->paramValue($request, $namePrefix);
             if (false===$perexPost) {
-                $errorMessage = "Požadavek neobsahuje parametr s obsahem.";
-                user_error($errorMessage, E_USER_WARNING);
+                $errorMessage = "Pokušíte se uložit prázdný obsah!";
                 $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
             } else {            
                 $paperAggregate->setPerex($perexPost);

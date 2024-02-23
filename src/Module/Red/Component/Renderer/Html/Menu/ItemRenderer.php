@@ -35,7 +35,7 @@ class ItemRenderer extends HtmlRendererAbstract {
     }
 
     private function renderNoneditableItem(ItemViewModelInterface $viewModel) {
-        $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
+//        $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
         $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
         $innerHtml = Html::tag('a',
                         [
@@ -43,21 +43,22 @@ class ItemRenderer extends HtmlRendererAbstract {
                                 $this->classMap->get('Item', 'li a'),
                                 $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                                 ],
-                            'href'=> "web/v1/page/item/{$menuItem->getUidFk()}"
+                            'href'=> $viewModel->getPageHref(),
+                            'data-red-content-api-uri'=> $viewModel->getRedApiUri()
                         ],
                         Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
-                            $menuItem->getTitle()
+                            $viewModel->getTitle()
                             .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                         )
                     )
                     .$levelHtml;
-        $html = Html::tag(     'li',
+        $html = Html::tag('li',
                 ['class'=>[
                     $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
                     $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
                     $this->classMap->resolve($viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                 'data-red-style'=> $this->redLiEditableStyle($viewModel)
+                 'data-red-styleinfo'=> $this->redLiEditableStyle($viewModel)
                ],
                 $innerHtml
                 );

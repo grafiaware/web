@@ -27,6 +27,10 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
      */
     private $hierarchyAggregate;
 
+    private $pageHref;
+    private $redApiUri;
+    private $title;
+    private $active;
     private $realDepth;
     private $isOnPath;
     private $isLeaf;
@@ -38,11 +42,15 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
 
     private $child;
 
-    public function __construct(HierarchyAggregateInterface $hierarchaAggregate, $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot, $isCutted, $pasteMode, $menuEditable) {
-
-        $this->uniqid = uniqid();
+    public function __construct(HierarchyAggregateInterface $hierarchaAggregate, 
+            $pageHref, $redApiUri, $title, $active, $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot, $isCutted, $pasteMode, $menuEditable) {
 
         $this->hierarchyAggregate = $hierarchaAggregate;
+        
+        $this->pageHref = $pageHref;
+        $this->redApiUri = $redApiUri;
+        $this->title = $title;
+        $this->active = $active;
         $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;
         $this->isLeaf = $isLeaf;
@@ -58,6 +66,12 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         $this->child = $child;
     }
 
+    public function getChild(): ?ComponentInterface {
+        return $this->child;
+    }
+    
+    #############
+    
     /**
      *
      * @return HierarchyAggregateInterface
@@ -65,6 +79,25 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     public function getHierarchyAggregate() {
         return $this->hierarchyAggregate;
     }
+    
+    #############
+    
+    public function getPageHref() {
+        return $this->pageHref;
+    }
+    
+    public function getRedApiUri() {
+        return $this->redApiUri;
+    }
+    
+    public function getTitle() {
+        return $this->title;
+    }
+    
+    public function getActive() {
+        return $this->active;
+    }
+
     public function getRealDepth() {
         return $this->realDepth;
     }
@@ -92,13 +125,7 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         return $this->isCutted;
     }
 
-    public function getChild(): ?ComponentInterface {
-        return $this->child;
-    }
-
     public function isMenuEditable() {
         return $this->menuEditable;
     }
-
-
 }

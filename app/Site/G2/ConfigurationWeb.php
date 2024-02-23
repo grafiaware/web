@@ -235,7 +235,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
-            'menu.componentsServices' => [
+            'menu.services' => [
                     'menu.presmerovani' => [
                         'rootName' => 'menu_redirect',
                         'withRootItem' => false,

@@ -76,9 +76,9 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         }
     }
 
-    public function getString() {
-        return parent::getString();
-    }
+//    public function getString() {
+//        return parent::getString();
+//    }
 
 #
 #### view s content loaderem #####################################################
@@ -94,12 +94,12 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
      * @return View
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
-        $dataRedApiUri = $this->itemApiService->getLoaderApiUri($menuItem);
+        $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
         return $this->getRedLoadScript($dataRedApiUri);
     }
     
     private function getRedLoadScript($dataRedApiUri) {
-        return $this->cascadeLoaderFactory->getRedLoadScript($dataRedApiUri, $this->contextData->isPartInEditableMode());        
+        return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, $this->contextData->isPartInEditableMode());        
     }
 
 }

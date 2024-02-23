@@ -125,6 +125,8 @@ function scrollToAnchorPosition() {
 //
 //=== cascade load of components ===
 
+import {loadSubsequentElements} from "./cascade/cascade.js";
+
 /**
  * po onreadystatechange volá funkci loadSubsequentElements() (z cascade.js)
  * loadSubsequentElements() kaskádně načte obsahy z API nahradí jimi elementy v dokumentu. Nahrazuje elementy nalezené podle třídy (class) "cascade"
@@ -143,12 +145,12 @@ document.onreadystatechange = function () {
             initLoadedElements();
             console.log("body: initLoaded elements");
             if (isTinyMCEDefined()) {
-                await import("./TinyInit.js")
+                await import("./tinyinit/TinyInit.js")  // lazy import TinyInit
                     .then((tinyInitModule) => {
                         tinyInitModule.initEditors();
                     })
                     .catch((err) => {
-                        console.error = err.message;
+                        console.error(err.fileName + ":" + err.message);
                     });
                 
                 initLoadedEditableElements();
@@ -159,6 +161,7 @@ document.onreadystatechange = function () {
             console.log("body: run initJqueryEvents for jQuery events on loaded elements");
             initJqueryEvents();
             console.log("body: initJqueryEvents finished");
+//            listenLinks();
         }
         init(); // async - volá initLoaded()
     }
@@ -373,3 +376,6 @@ function initLoadedElements() {
         })(jQuery);
     }
 }
+
+
+

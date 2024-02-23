@@ -35,6 +35,6 @@ class MenuRenderer extends HtmlRendererAbstract {
         if ($viewModel->offsetExists(MenuComponentInterface::MENU)) {
             $innerHtml[] = $viewModel->offsetGet(MenuComponentInterface::MENU);
         }
-        return Html::tag('div', [], $innerHtml);
+        return Html::tag('div', ['class'=>'navigation'], $innerHtml);  // class - nutná pro cascade.js, event listener
     }
 }

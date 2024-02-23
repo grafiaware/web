@@ -36,23 +36,7 @@ class PageController extends LayoutControllerAbstract {
      * @throws \UnexpectedValueException
      */
     public function home(ServerRequestInterface $request) {
-        $homePage = ConfigurationCache::layoutController()['home_page'];
-        switch ($homePage[0]) {
-            case 'block':
-                $menuItem = $this->getMenuItemForBlock($homePage[1]);
-                if (!isset($menuItem)) {
-                    throw new \UnexpectedValueException("Undefined menu item for default page (home page) defined in configuration as block with name '$homePage[1]'.");
-                }
-                break;
-            case 'item':
-                $menuItem = $this->getMenuItem($homePage[1]);
-                if (!isset($menuItem)) {
-                    throw new UnexpectedValueException("Undefined default page (home page) defined in configuration as item with uid '$homePage[1]'.");
-                }
-                break;
-            default:
-                throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
-        }
+        $menuItem = $this->getHomeMenuItem();
         return $this->createResponseWithItem($request, $menuItem);
     }
 

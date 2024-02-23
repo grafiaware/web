@@ -16,6 +16,8 @@ use Red\Model\Repository\MenuRootRepo;
 use Red\Component\ViewModel\Menu\Item\ItemViewModel;
 use Red\Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
+use Red\Service\ItemApi\ItemApiServiceInterface;
+
 use Red\Component\ViewModel\Menu\Enum\ItemRenderTypeEnum;
 
 /**
@@ -32,6 +34,8 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
 
     private $menuRootRepo;
     private $hierarchyRepo;
+    private $itemApiService;
+    
     private $presentedMenuNode;
     //TODO: stavové proměnné menu - kvůli nim musí být MenuViewModel vyráběn v kontejneru pomocí factory
     private $menuRootName;
@@ -45,11 +49,13 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     public function __construct(
             StatusViewModel $status,
             HierarchyJoinMenuItemRepo $hierarchyRepo,
-            MenuRootRepo $menuRootRepo
+            MenuRootRepo $menuRootRepo,
+            ItemApiServiceInterface $itemApiService
             ) {
         $this->statusViewModel = $status;
         $this->hierarchyRepo = $hierarchyRepo;
         $this->menuRootRepo = $menuRootRepo;
+        $this->itemApiService = $itemApiService;
     }
 
     public function presentEditableMenu(): bool {
@@ -220,13 +226,13 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isRoot = ($key==0 AND $this->withRootItem);
             $isCutted = $pasteUid == $nodeUid;
-            if (!$isLeaf) {
-                $title = $node->getMenuItem()->getTitle();
-            }
-
-            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot, $isCutted, $pasteMode, $menuEditable);
-
-            $models[] = $itemViewModel;
+            $menuItem = $node->getMenuItem();
+            $pageHref = $this->itemApiService->getPageApiUri($menuItem);
+            $redApiUri = $this->itemApiService->getContentApiUri($menuItem);
+            $title = $menuItem->getTitle();
+            $active = $menuItem->getActive();
+            $models[] = new ItemViewModel($node, 
+                    $pageHref, $redApiUri, $title, $active, $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot, $isCutted, $pasteMode, $menuEditable);
         }
         return $models;
     }

@@ -37,17 +37,6 @@ class ItemRendererEditable extends HtmlRendererAbstract {
         $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
 
         if ($viewModel->isPresented()) {
-//            $buttonsHtml = '';
-//            if ($viewModel->isPasteMode()) {
-//                if($viewModel->isCutted()) {
-//                    $buttonsHtml = $this->renderCuttedItemButtons($menuItem);
-//                } else {
-//                    $buttonsHtml = $this->renderPasteButtons($menuItem);
-//                }
-//            } else {
-//                $buttonsHtml = array_merge($this->renderItemManipulationButtons($menuItem),$this->renderMenuManipulationButtons($menuItem));
-//            }
-
             $buttonsHtml = $viewModel->offsetExists(ItemComponentInterface::ITEM_BUTTONS) ? $viewModel->offsetGet(ItemComponentInterface::ITEM_BUTTONS) : "";
 
             $liInnerHtml[] =
@@ -68,7 +57,6 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                         Html::tag('span', [
                             'contenteditable'=> "true",
                             'data-original-title'=>$menuItem->getTitle(),
-                            'data-uid'=>$menuItem->getUidFk(),
                             ],
                             $menuItem->getTitle()
                             .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
