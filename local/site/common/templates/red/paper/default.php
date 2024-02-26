@@ -1,5 +1,6 @@
     <!--<div class="notClickable">-->
-    <div class="mceNonEditable">
+    <!-- vertikalne-prohodit ** -->
+    <div class=""> <!--mceNonEditable-->
         <div class="" data-template="<?= "default" ?>">
             <div class="ui grid">
                 <div class="sixteen wide column">
