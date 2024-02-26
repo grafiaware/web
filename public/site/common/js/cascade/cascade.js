@@ -185,7 +185,9 @@ function listenLinks(loaderElement) {
     if (hasTargetId(loaderElement)) {
         contentTarget = document.getElementById(getTargetId(loaderElement));
     }    
+//   if(contentTarget!==null) {
     let previousAnchor = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
+    let previousLi = null;  // proměnná pro uložení event.currentTarget.parentElement musí být mimo tělo event handleru
     // na všechny <a> v elementu s třídou 'navigation' přidá event listener
     let navs = loaderElement.getElementsByClassName('navigation');  // CascadeLoaderFactory
     let navsCnt = navs.length;
@@ -198,15 +200,35 @@ function listenLinks(loaderElement) {
                 if(contentTarget===null) {
                     return true;
                 } else {
+                    let currentAnchor = event.currentTarget;
+                    let currentLi = currentAnchor.parentElement;
+                    
+                    // změna css class
                     if (previousAnchor) {
                         previousAnchor.classList.remove("presented");
                     }
-                    let currentAnchor = event.currentTarget;
-                    let currentLi = currentAnchor.parentElement;
                     currentAnchor.classList.add("presented");
+                    let liSieblings = getSieblings(currentLi);
+                    liSieblings.forEach(li => {
+                        if(li.classList.contains("parent")) {
+                            let children = li.getElementsByTagName("li");
+                            for (const childLi of children) {
+                                childLi.classList.remove("parent");  // vždy i když to není třeba
+                            }
+                            li.classList.remove("parent"); 
+                        }
+                    });
+                    if(!currentLi.classList.contains("leaf")) {
+                        currentLi.classList.add("parent");
+                    }
+                    
+                    // příprava elemntu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
                     contentTarget.setAttribute('data-red-apiuri', currentAnchor.getAttribute('data-red-content-api-uri'));
+                    // získání a výměna nového obsahu v cílovém elementu
                     fetchElementContent(contentTarget);
+                    // aktuální anchor a li uležené pro příští klik
                     previousAnchor = currentAnchor;
+                    previousLi = currentLi;
                     event.preventDefault();
                     return false;
                 }
@@ -216,4 +238,23 @@ function listenLinks(loaderElement) {
             }
         }    
     }
+}
+
+function getSieblings(element) {
+    // for collecting siblings
+    let siblings = []; 
+    // if no parent, return no sibling
+    if(!element.parentNode) {
+        return siblings;
+    }
+    // first child of the parent node
+    let sibling  = element.parentNode.firstChild;
+    // collecting siblings
+    while (sibling) {
+        if (sibling.nodeType === 1) {  // všechny včetnš elemet && sibling !== element) {  // type 1 = Element node
+            siblings.push(sibling);
+        }
+        sibling = sibling.nextSibling;
+    }
+    return siblings;
 }
