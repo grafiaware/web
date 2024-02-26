@@ -185,7 +185,7 @@ function listenLinks(loaderElement) {
     if (hasTargetId(loaderElement)) {
         contentTarget = document.getElementById(getTargetId(loaderElement));
     }    
-    let prevTarget = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
+    let previousAnchor = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
     // na všechny <a> v elementu s třídou 'navigation' přidá event listener
     let navs = loaderElement.getElementsByClassName('navigation');  // CascadeLoaderFactory
     let navsCnt = navs.length;
@@ -198,20 +198,21 @@ function listenLinks(loaderElement) {
                 if(contentTarget===null) {
                     return true;
                 } else {
-                    if (prevTarget) {
-                        prevTarget.classList.remove("presented");
+                    if (previousAnchor) {
+                        previousAnchor.classList.remove("presented");
                     }
-                    let current = event.currentTarget;
-                    current.classList.add("presented");
-                    contentTarget.setAttribute('data-red-apiuri', current.getAttribute('data-red-content-api-uri'));
+                    let currentAnchor = event.currentTarget;
+                    let currentLi = currentAnchor.parentElement;
+                    currentAnchor.classList.add("presented");
+                    contentTarget.setAttribute('data-red-apiuri', currentAnchor.getAttribute('data-red-content-api-uri'));
                     fetchElementContent(contentTarget);
-                    prevTarget = current;
+                    previousAnchor = currentAnchor;
                     event.preventDefault();
                     return false;
                 }
             });
             if (anchor.classList.contains("presented")) {
-                prevTarget = anchor;
+                previousAnchor = anchor;
             }
         }    
     }
