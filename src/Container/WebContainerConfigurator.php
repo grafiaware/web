@@ -94,6 +94,8 @@ use Red\Service\CascadeLoader\CascadeLoaderFactory;
 // Prepare
 use Web\Middleware\Page\PrepareService\Prepare;
 
+// Replace
+use Replace\Replace;
 
 /**
  *
@@ -396,6 +398,13 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(LanguageRepo::class),
                     $c->get(StatusSecurityRepo::class),
                     $c->get(ItemActionService::class));
+            },
+                    
+        ####
+        #
+        #
+            Replace::class => function(ContainerInterface $c) {
+                return new Replace();
             },
                     
         ####

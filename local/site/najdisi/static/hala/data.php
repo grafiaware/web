@@ -5,7 +5,7 @@ use Site\ConfigurationCache;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-$static_ref = ConfigurationCache::files()['presenter'];
+$static_ref = ConfigurationCache::files()['@presenter'];
 $logo_ref = '/assets/logo.png';
 
 $headline = 'Online stánky';

@@ -18,11 +18,11 @@ $companyName = 'akka';
 ############################
 
 
-$monitorFilename = ConfigurationCache::files()['presenter'].$companyName.'/movies/monitor-stanek.jpg';
+$monitorFilename = ConfigurationCache::files()['@presenter'].$companyName.'/movies/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
-$videoMp4Filename = ConfigurationCache::files()['presenter'].$companyName.'/movies/video-stanek-MP4.mp4';
+$videoMp4Filename = ConfigurationCache::files()['@presenter'].$companyName.'/movies/video-stanek-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = ConfigurationCache::files()['presenter'].$companyName.'/movies/video-stanek-WEBM.webm';
+$videoWebmFilename = ConfigurationCache::files()['@presenter'].$companyName.'/movies/video-stanek-WEBM.webm';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 
@@ -52,7 +52,7 @@ $firma = [
         $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
     ],
     'imgStankuAttributes' => [
-        'src' => ConfigurationCache::files()['presenter'].$companyName.$stanek_ref,
+        'src' => ConfigurationCache::files()['@presenter'].$companyName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [
@@ -69,7 +69,7 @@ $firma = [
             'nazevSocialniSite' => 'LinkedIn',
             'btnClass' => 'btn-ig',
             'modalID' => 'modal_instagram',
-            'iframe' => '<a href="https://www.linkedin.com/company/akka-technologies/" target="_blank"><img src="'.ConfigurationCache::files()['presenter'].$companyName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
+            'iframe' => '<a href="https://www.linkedin.com/company/akka-technologies/" target="_blank"><img src="'.ConfigurationCache::files()['@presenter'].$companyName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://www.linkedin.com/company/akka-technologies/'
         ],
         [
@@ -77,7 +77,7 @@ $firma = [
             'nazevSocialniSite' => 'Youtube',
             'btnClass' => 'btn-yt',
             'modalID' => 'modal_youtube',
-            'iframe' => '<a href="https://www.youtube.com/c/akkatechnologies/" target="_blank"><img src="'.ConfigurationCache::files()['presenter'].$companyName.'/assets/youtube.png" alt="profil Youtube" height="" width="100%"/></a>',
+            'iframe' => '<a href="https://www.youtube.com/c/akkatechnologies/" target="_blank"><img src="'.ConfigurationCache::files()['@presenter'].$companyName.'/assets/youtube.png" alt="profil Youtube" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://www.youtube.com/c/akkatechnologies/'
         ]
     ],

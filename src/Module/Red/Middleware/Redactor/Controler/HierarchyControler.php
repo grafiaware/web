@@ -112,7 +112,7 @@ class HierarchyControler extends FrontControlerAbstract {
                         $success = true;
                         break;
                     case 'copy':
-                        $this->editHierarchyDao->copySubTreeAsSiebling($pasteduid, $uid);
+                        $transform = $this->editHierarchyDao->copySubTreeAsSiebling($pasteduid, $uid);
                         $this->addFlashMessage('copied items pasted as a siblings', FlashSeverityEnum::SUCCESS);
                         $success = true;
                         break;
@@ -153,7 +153,7 @@ class HierarchyControler extends FrontControlerAbstract {
                     $success = true;
                     break;
                 case 'copy':
-                    $this->editHierarchyDao->copySubTreeAsChild($pasteduid, $uid);
+                    $transform = $this->editHierarchyDao->copySubTreeAsChild($pasteduid, $uid);
                     $this->addFlashMessage('copied items pasted as a child', FlashSeverityEnum::SUCCESS);
                     $success = true;
                     break;

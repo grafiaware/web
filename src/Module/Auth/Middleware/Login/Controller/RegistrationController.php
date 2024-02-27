@@ -146,7 +146,8 @@ class RegistrationController extends LoginControllerAbstract
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
                     $subject =  "veletrhprace.online - Kopie zaslaného mailu - Registrace: '$registerJmeno'";
-                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", 
+                                                        ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
                                     ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')

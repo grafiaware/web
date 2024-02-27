@@ -122,11 +122,11 @@ interface HierarchyAggregateEditDaoInterface extends HierarchyAggregateReadonlyD
      *
      * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
-     * @param string $sourceUid uid zdrojového uzlu
-     * @param string $targetUid uid cílového uzlu
+     * @param type $deactivate
+     * @return array
      * @throws Exception
      */
-    public function copySubTreeAsChild($sourceUid, $targetUid, $deactivate=true): void;
+    public function copySubTreeAsChild($sourceUid, $targetUid, $deactivate=true): array;
 
     /**
      * Zkopíruje podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu. Zkopíroje také položky menu (menu item).
@@ -136,10 +136,11 @@ interface HierarchyAggregateEditDaoInterface extends HierarchyAggregateReadonlyD
      *
      * @param type $sourceUid
      * @param type $targetUid
-     * @return void
+     * @param type $deactivate
+     * @return array
      * @throws Exception
      */
-    public function copySubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): void;
+    public function copySubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): array;
 
     /**
      * Smaže uzel a jeho potomky posune na jeho místo.
