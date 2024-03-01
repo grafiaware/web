@@ -15,11 +15,11 @@ use Pes\Text\Html;
  */
 
 /**
- * Description of Svisle
+ * Description of DriverRendererEditable
  *
  * @author pes2704
  */
-class ItemRendererEditable extends HtmlRendererAbstract {
+class DriverRendererEditable extends HtmlRendererAbstract {
 
     /**
      *

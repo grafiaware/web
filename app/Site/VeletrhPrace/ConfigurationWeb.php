@@ -190,13 +190,16 @@ class ConfigurationWeb extends ConfigurationConstants {
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
             
-            // mapování komponenr na proměnné kontextu v šablonách
+            // mapování komponent na proměnné kontextu v šablonách
             // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
             // contextServiceMap - mapy komponent, které budou v editačním modu načítány vždy znovu novým requestem - viz parametr 'cascade.cacheReloadOnNav'
             // parametry kontext - service/layout mapy jsou:
-            //'context_name' => 'service_name'
-            //      'context_name' - jméno proměnné v šabloně (bez znaku $),
-            //      'service_name' => jméno služby component kontejneru,
+            //'contextName' => 'service_name'
+            //      'contextName' - jméno proměnné v šabloně (bez znaku $), bude současně použit jako část URL (API path)
+            //      'service_name' => jméno služby component kontejneru
+            // Pro 'contextName' použijte jako bezpečné jméno v camel case notaci začínající písmenem, složené z písmen a číslic. 
+            // Toto jméno odpovídá jménu proměnné v šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
+            // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
             'contextServiceMap' => [
                     'flash' => FlashComponent::class,
                     'modalLogin' => LoginComponent::class,
@@ -211,6 +214,16 @@ class ConfigurationWeb extends ConfigurationConstants {
             'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
+                ],
+            'contextTargetMap' => [
+                    'content'=>['id'=>'menutarget_content'],
+                ],
+            'contextMenuMap' => [
+                    'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
+                ],
+            'contextMenuEditableMap' => [
+                    'bloky' => ['service'=>'menu.bloky', 'targetId'=>'menutarget_content'],
+                    'kos' => ['service'=>'menu.kos', 'targetId'=>'menutarget_content'],
                 ],
             'contextBlocksMap' => [
                 ],            

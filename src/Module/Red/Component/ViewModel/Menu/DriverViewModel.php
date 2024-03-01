@@ -6,18 +6,18 @@
  * and open the template in the editor.
  */
 
-namespace Red\Component\ViewModel\Menu\Item;
+namespace Red\Component\ViewModel\Menu;
 
 use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Component\View\ComponentInterface;
 
 /**
- * Description of ItemViwModel
+ * Description of DriverViewModel
  *
  * @author pes2704
  */
-class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
+class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterface {
 
     private $uniqid;
 
@@ -72,16 +72,6 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     
     #############
     
-    /**
-     *
-     * @return HierarchyAggregateInterface
-     */
-    public function getHierarchyAggregate() {
-        return $this->hierarchyAggregate;
-    }
-    
-    #############
-    
     public function getPageHref() {
         return $this->pageHref;
     }
@@ -93,36 +83,16 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     public function getTitle() {
         return $this->title;
     }
-    
-    public function getActive() {
-        return $this->active;
-    }
-
-    public function getRealDepth() {
-        return $this->realDepth;
-    }
-
-    public function isOnPath() {
-        return $this->isOnPath;
-    }
-
-    public function isLeaf() {
-        return $this->isLeaf;
-    }
-
-    public function isPresented() {
-        return $this->isPresented;
-    }
-
-    public function isRoot() {
-        return $this->isRoot;
-    }
 
     public function isPasteMode() {
         return $this->pasteMode;
     }
     public function isCutted() {
         return $this->isCutted;
+    }
+    
+    public function isActive() {
+        return $this->active;
     }
 
     public function isMenuEditable() {

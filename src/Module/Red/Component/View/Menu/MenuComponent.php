@@ -11,7 +11,7 @@ use Configuration\ComponentConfigurationInterface;
 
 use Red\Component\ViewModel\Menu\MenuViewModelInterface;
 use Red\Component\ViewModel\Menu\LevelViewModelInterface;
-use Red\Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 
 use Red\Component\View\Menu\LevelComponent;
 use Red\Component\View\Menu\LevelComponentInterface;

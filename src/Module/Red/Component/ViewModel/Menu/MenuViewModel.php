@@ -13,8 +13,8 @@ use Red\Model\Entity\MenuRootInterface;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
-use Red\Component\ViewModel\Menu\Item\ItemViewModel;
-use Red\Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\ItemViewModel;
+use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 
 use Red\Service\ItemApi\ItemApiServiceInterface;
 

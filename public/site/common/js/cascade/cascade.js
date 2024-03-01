@@ -175,6 +175,10 @@ function replaceChildren(parentElement, newHtmlTextContent) {
 };
 
 /////////////// menu
+// proměnné společné pro všechna menu - klik do jiného menu musí skrýt položky z předtím používaného menu
+    var previousAnchor = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
+    var previousLi = null;  // proměnná pro uložení event.currentTarget.parentElement musí být mimo tělo event handleru
+
 /**
  * 
  * @param {Element} loaderElement
@@ -186,8 +190,7 @@ function listenLinks(loaderElement) {
         contentTarget = document.getElementById(getTargetId(loaderElement));
     }    
 //   if(contentTarget!==null) {
-    let previousAnchor = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
-    let previousLi = null;  // proměnná pro uložení event.currentTarget.parentElement musí být mimo tělo event handleru
+
     // na všechny <a> v elementu s třídou 'navigation' přidá event listener
     let navs = loaderElement.getElementsByClassName('navigation');  // CascadeLoaderFactory
     let navsCnt = navs.length;
@@ -205,23 +208,14 @@ function listenLinks(loaderElement) {
                     
                     // změna css class
                     if (previousAnchor) {
-                        previousAnchor.classList.remove("presented");
+                        previousAnchor.classList.remove("presented");                        
+                        let oldParents = getOnPathElements(previousAnchor);
+                        removeParent(oldParents);
                     }
                     currentAnchor.classList.add("presented");
-                    let liSieblings = getSieblings(currentLi);
-                    liSieblings.forEach(li => {
-                        if(li.classList.contains("parent")) {
-                            let children = li.getElementsByTagName("li");
-                            for (const childLi of children) {
-                                childLi.classList.remove("parent");  // vždy i když to není třeba
-                            }
-                            li.classList.remove("parent"); 
-                        }
-                    });
-                    if(!currentLi.classList.contains("leaf")) {
-                        currentLi.classList.add("parent");
-                    }
-                    
+                    let newParents = getOnPathElements(currentAnchor);
+                    addParent(newParents);
+
                     // příprava elemntu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
                     contentTarget.setAttribute('data-red-apiuri', currentAnchor.getAttribute('data-red-content-api-uri'));
                     // získání a výměna nového obsahu v cílovém elementu
@@ -236,11 +230,16 @@ function listenLinks(loaderElement) {
             if (anchor.classList.contains("presented")) {
                 previousAnchor = anchor;
             }
-        }    
+        }
     }
 }
 
-function getSieblings(element) {
+/**
+ * Vrací pole elementů sousedících se zadaným elementem, zadaný element není ve výsledku zahrnut. Jedná se tedy o HTML sourozence s vynecháním zadaného elementu.
+ * @param {Element} element
+ * @returns {Array|getNeighbors.siblings}
+ */
+function getNeighbors(element) {
     // for collecting siblings
     let siblings = []; 
     // if no parent, return no sibling
@@ -251,10 +250,41 @@ function getSieblings(element) {
     let sibling  = element.parentNode.firstChild;
     // collecting siblings
     while (sibling) {
-        if (sibling.nodeType === 1) {  // všechny včetnš elemet && sibling !== element) {  // type 1 = Element node
+        if (sibling.nodeType === 1 && sibling !== element) {  // type 1 = Element node
             siblings.push(sibling);
         }
         sibling = sibling.nextSibling;
     }
     return siblings;
+}
+
+function getOnPathElements(element) {
+    // for collecting siblings
+    let pathElements = []; 
+    // if no parent, return no sibling
+    if(!element.parentElement) {
+        return pathElements;
+    }
+    // first child of the parent node
+    let parent  = element.parentElement;
+    // collecting siblings
+    while (parent) {
+        if (parent.tagName === "LI") { 
+            pathElements.push(parent);
+        }
+        parent = parent.parentElement;
+    }
+    return pathElements;
+}
+
+function removeParent(parentElements) {
+    parentElements.forEach(element => {element.classList.remove("parent")})
+}
+
+function addParent(parentElements) {
+    parentElements.forEach(element => {
+                    if(!element.classList.contains("leaf")) {
+                        element.classList.add("parent");
+                    }
+                });
 }

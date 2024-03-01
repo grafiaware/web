@@ -16,7 +16,9 @@ namespace Site\G2;
 class ConfigurationConstants {
 
     // site
-    const WEB_SITE = 'g2/';
+        const WEB_SITE = 'grafia/';
+
+//    const WEB_SITE = 'g2/';
 
     // local
     const WEB_TEMPLATES_COMMON = 'local/site/common/templates/';

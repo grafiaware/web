@@ -7,7 +7,7 @@ use Component\View\ComponentCompositeInterface;
  *
  * @author pes2704
  */
-interface ItemComponentInterface extends ComponentCompositeInterface {
-    const LEVEL = 'level';
+interface DriverComponentInterface extends ComponentCompositeInterface {
+    const ITEM_BUTTONS = 'itemButtons';
 
 }

@@ -12,7 +12,7 @@ use Pes\View\Renderer\RendererInterface;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
 use Red\Component\Renderer\Html\Menu\ItemRenderer;
-use Red\Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 
 /**
  * Description of MenuWrapRndererAbstract

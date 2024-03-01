@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\Renderer\Html\Manage;
 
-use Red\Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 use Pes\Text\Html;

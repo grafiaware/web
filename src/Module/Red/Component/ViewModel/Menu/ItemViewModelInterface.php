@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Component\ViewModel\Menu\Item;
+namespace Red\Component\ViewModel\Menu;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Component\ViewModel\ViewModelInterface;
@@ -20,20 +20,12 @@ interface ItemViewModelInterface extends ViewModelInterface {
 
     public function hydrateChild(ComponentInterface $childComponent): void;
     public function getChild(): ?ComponentInterface;
-
+    
     public function isOnPath();
     public function isLeaf();
     public function isPresented();
     public function isRoot();
-    public function isCutted();
 
-    public function isPasteMode();
-    public function isMenuEditable();
-
-    public function getPageHref();
-    public function getRedApiUri();
-    public function getTitle();
-    public function getActive(); 
     public function getRealDepth();
     /**
      * @return HierarchyAggregateInterface
