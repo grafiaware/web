@@ -111,7 +111,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 
         // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek
         $this->editableMode = $this->contextData->presentEditableMenu();
-//        $this->editableMode = $this->contextData->presentOnlyPublished();
 
         $subtreeItemModels = $this->contextData->getItemModels();
 
@@ -149,10 +148,8 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             $itemComponents = $this->createItemComponents($itemViewModelStack[$i]);
             $levelComponent = $this->createLevelComponent($targetDepth, $itemComponents);
             unset($itemViewModelStack[$i]);
-            if (!isset($itemViewModelStack[$i-1])) {
-                $stop = true;
-            } else {
-                end($itemViewModelStack[$i-1])->hydrateChild($levelComponent);
+            if (isset($itemViewModelStack[$i-1])) {
+                end($itemViewModelStack[$i-1])->appendLevel($levelComponent);
             }
         }
     }
@@ -179,6 +176,11 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 //        $this->appendComponentViewCollection($items);
 //    }
 
+    /**
+     * 
+     * @param type $itemViewModelStackLevel
+     * @return array of ItemComponentInterface
+     */
     private function createItemComponents($itemViewModelStackLevel): array {
         $items = [];
         foreach ($itemViewModelStackLevel as $itemViewModel) {
@@ -186,7 +188,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             $item = new ItemComponent($this->configuration);
             $item->setData($itemViewModel)->setRendererContainer($this->rendererContainer);
             if($this->editableMode) {
-            $item->setRendererName($this->itemEditableRendererName);
+                $item->setRendererName($this->itemEditableRendererName);
                 // u kořenového item menu nejsou buttony
                 if ($itemViewModel->isPresented() AND !$itemViewModel->isRoot()) {
                     $itemButtons = $this->createItemButtonsComponent();
@@ -195,7 +197,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             } else {
                 $item->setRendererName($this->itemRendererName);
             }
-            $nextLevel = $itemViewModel->getChild();
+            $nextLevel = $itemViewModel->getLevel();
             if (isset($nextLevel)) {
                 $item->appendComponentView($nextLevel, ItemComponentInterface::LEVEL);
             }

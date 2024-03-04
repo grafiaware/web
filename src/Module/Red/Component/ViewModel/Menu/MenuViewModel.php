@@ -15,6 +15,8 @@ use Red\Model\Repository\MenuRootRepo;
 
 use Red\Component\ViewModel\Menu\ItemViewModel;
 use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\DriverViewModel;
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 use Red\Service\ItemApi\ItemApiServiceInterface;
 
@@ -225,14 +227,16 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isRoot = ($key==0 AND $this->withRootItem);
+            
             $isCutted = $pasteUid == $nodeUid;
             $menuItem = $node->getMenuItem();
             $pageHref = $this->itemApiService->getPageApiUri($menuItem);
             $redApiUri = $this->itemApiService->getContentApiUri($menuItem);
             $title = $menuItem->getTitle();
             $active = $menuItem->getActive();
-            $models[] = new ItemViewModel($node, 
-                    $pageHref, $redApiUri, $title, $active, $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot, $isCutted, $pasteMode, $menuEditable);
+            $item = new ItemViewModel($realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot);
+            $item->appendDriver(new DriverViewModel($pageHref, $redApiUri, $title, $active, $realDepth, $isCutted, $pasteMode, $menuEditable));
+            $models[] = $item;
         }
         return $models;
     }

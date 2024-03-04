@@ -19,14 +19,11 @@ use Component\View\ComponentInterface;
  */
 class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
 
-    private $uniqid;
-
-
     /**
      * @var HierarchyAggregateInterface
      */
-    private $hierarchyAggregate;
-
+//    private $hierarchyAggregate;
+    
     private $realDepth;
     private $isOnPath;
     private $isLeaf;
@@ -35,10 +32,11 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
 
     private $child;
 
-    public function __construct(HierarchyAggregateInterface $hierarchaAggregate, 
+    public function __construct(
+//            HierarchyAggregateInterface $hierarchaAggregate, 
               $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot) {
 
-        $this->hierarchyAggregate = $hierarchaAggregate;
+//        $this->hierarchyAggregate = $hierarchaAggregate;
         
         $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;
@@ -47,12 +45,19 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         $this->isRoot = $isRoot;
         parent::__construct();
     }
-
-    public function hydrateChild(ComponentInterface $child): void {
+    public function appendDriver(ComponentInterface $driverComponent): void {
+        ;
+    }
+    
+    public function getDriver(): ?ComponentInterface {
+        ;
+    }
+    
+    public function appendLevel(ComponentInterface $child): void {
         $this->child = $child;
     }
 
-    public function getChild(): ?ComponentInterface {
+    public function getLevel(): ?ComponentInterface {
         return $this->child;
     }
     
@@ -62,9 +67,9 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
      *
      * @return HierarchyAggregateInterface
      */
-    public function getHierarchyAggregate() {
-        return $this->hierarchyAggregate;
-    }
+//    public function getHierarchyAggregate() {
+//        return $this->hierarchyAggregate;
+//    }
     
     #############
 

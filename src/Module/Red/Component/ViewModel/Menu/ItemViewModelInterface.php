@@ -18,8 +18,10 @@ use Component\View\ComponentInterface;
  */
 interface ItemViewModelInterface extends ViewModelInterface {
 
-    public function hydrateChild(ComponentInterface $childComponent): void;
-    public function getChild(): ?ComponentInterface;
+    public function appendDriver(ComponentInterface $driverComponent): void;
+    public function getDriver(): ?ComponentInterface;
+    public function appendLevel(ComponentInterface $childComponent): void;
+    public function getLevel(): ?ComponentInterface;
     
     public function isOnPath();
     public function isLeaf();
@@ -30,5 +32,5 @@ interface ItemViewModelInterface extends ViewModelInterface {
     /**
      * @return HierarchyAggregateInterface
      */
-    public function getHierarchyAggregate();
+//    public function getHierarchyAggregate();
 }

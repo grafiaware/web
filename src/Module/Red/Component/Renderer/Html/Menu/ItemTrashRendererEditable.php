@@ -41,7 +41,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
 //                                ])
 //                        )
                     );
-        $innerHtml[] = Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->getChild(), 'Item', 'li.isnotleaf icon', 'li.leaf')]);
+        $innerHtml[] = Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->getLevel(), 'Item', 'li.isnotleaf icon', 'li.leaf')]);
 
         $buttonsHtml = '';
         if ($presentedEditable) {
@@ -59,7 +59,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
         }
 
         $innerHtml[] = $buttonsHtml ? Html::tag('form', [], Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], $buttonsHtml)) : '';
-        $innerHtml[] = $viewModel->getChild();
+        $innerHtml[] = $viewModel->getLevel();
 
         $liClass = ['class'=>[
                     (string) $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),

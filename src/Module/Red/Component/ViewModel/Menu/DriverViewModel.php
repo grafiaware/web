@@ -19,58 +19,29 @@ use Component\View\ComponentInterface;
  */
 class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterface {
 
-    private $uniqid;
-
-
-    /**
-     * @var HierarchyAggregateInterface
-     */
-    private $hierarchyAggregate;
-
     private $pageHref;
     private $redApiUri;
     private $title;
     private $active;
     private $realDepth;
-    private $isOnPath;
-    private $isLeaf;
-    private $isPresented;
-    private $isRoot;
     private $pasteMode;
     private $isCutted;
     private $menuEditable;
 
     private $child;
 
-    public function __construct(HierarchyAggregateInterface $hierarchaAggregate, 
-            $pageHref, $redApiUri, $title, $active, $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot, $isCutted, $pasteMode, $menuEditable) {
-
-        $this->hierarchyAggregate = $hierarchaAggregate;
+    public function __construct($pageHref, $redApiUri, $title, $active, $realDepth, $isCutted, $pasteMode, $menuEditable) {
         
         $this->pageHref = $pageHref;
         $this->redApiUri = $redApiUri;
         $this->title = $title;
         $this->active = $active;
         $this->realDepth = $realDepth;
-        $this->isOnPath = $isOnPath;
-        $this->isLeaf = $isLeaf;
-        $this->isPresented = $isPresented;
-        $this->isRoot = $isRoot;
         $this->isCutted = $isCutted;
         $this->pasteMode = $pasteMode;
         $this->menuEditable = $menuEditable;
         parent::__construct();
     }
-
-    public function hydrateChild(ComponentInterface $child): void {
-        $this->child = $child;
-    }
-
-    public function getChild(): ?ComponentInterface {
-        return $this->child;
-    }
-    
-    #############
     
     public function getPageHref() {
         return $this->pageHref;
