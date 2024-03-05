@@ -101,26 +101,33 @@ class ConfigurationDb {
                 ['red', 'empty', 'root', 'ROOT'],
                 ['red', 'empty', 'trash', 'Trash'],
                 ['red', 'empty', 'blocks', 'Blocks'],
+                ['red', 'select', 'menu_vertical', 'Menu vertical'],
+            ],
+            'build.config.convert.items' => [
+                ['red', 'empty', 'root', 'ROOT'],
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
-            'build.config.make.roots' => [
+            'build.config.make.root' => [
                 'root',
+                ],
+            'build.config.make.menuroots' => [
                 'trash',
                 'blocks',
                 'menu_vertical',
             ],
-            'build.config.convert.copy' =>
-                [
-                    'source' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg0XXX.stranky' : 'otevreneatelierycz_20230905.stranky',
-                    'target' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg02.stranky' : 'oa_upgrade.stranky'
+            'build.config.convert.copy' => [
+                    'source' => 'otevreneatelierycz_20230905.stranky',
+                    'target' => 'oa_upgrade.stranky'
                 ],
             'build.config.convert.repairs' => [
                 ],
             'build.config.convert.updatestranky' => [
-                ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+                ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='l00', poradi=0
             ],
             'build.config.convert.prefixmap' => [
-                'l'=>'menu_vertical',
+                's'=>'menu_vertical',
                 'a'=>'blocks'
             ],
             'build.config.convert.importrootuid' => [
@@ -129,7 +136,10 @@ class ConfigurationDb {
             'build.config.convert.home' => [
                 'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
-            'build.config.convert.final' => [],
+
+            'build.config.convert.final' => [
+                ],
+
             #
             ###################################
 
@@ -162,7 +172,7 @@ class ConfigurationDb {
             'auth.db.charset' => 'utf8',
             'auth.db.collation' => 'utf8_general_ci',
             'auth.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
-            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline01' : 'single_login',
+            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg04' : 'single_login',  // 'revoluceorg04' : 'single_login',
             #
             ###################################
             # Konfigurace logu databáze

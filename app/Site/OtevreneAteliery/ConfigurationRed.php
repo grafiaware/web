@@ -8,16 +8,6 @@
 
 namespace Site\OtevreneAteliery;
 
-use Application\WebAppFactory;
-use Red\Component\View\Generated\LanguageSelectComponent;
-use Red\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
-
 use Pes\Logger\FileLogger;
 
 /**
