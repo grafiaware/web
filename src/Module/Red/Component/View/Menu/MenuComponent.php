@@ -18,6 +18,8 @@ use Red\Component\View\Menu\LevelComponentInterface;
 use Red\Component\View\Menu\ItemButtonsComponent;
 use Red\Component\View\Menu\ItemComponent;
 use Red\Component\View\Menu\ItemComponentInterface;
+use Red\Component\View\Menu\DriverComponent;
+use Red\Component\View\Menu\DriverComponentInterface;
 
 use Red\Component\View\Manage\ButtonsMenuItemManipulationComponent;
 use Red\Component\View\Manage\ButtonsMenuAddComponent;
@@ -143,6 +145,12 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         }
     }
 
+    /**
+     * Vytvoří LevelComponent připojí mu kolekci vnořených ItemComponent
+     * @param type $currDepth
+     * @param type $targetDepth
+     * @param type $itemViewModelStack
+     */
     private function createChildrenComponents($currDepth, $targetDepth, &$itemViewModelStack) {
         for ($i=$currDepth; $i>$targetDepth; $i--) {
             $itemComponents = $this->createItemComponents($itemViewModelStack[$i]);
@@ -154,12 +162,24 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         }
     }
 
+    /**
+     * Vytvoří poslední level component a vloží jej do MenuComponentu
+     * 
+     * @param type $itemViewModelStack
+     */
     private function createLastLevelChildrenComponents(&$itemViewModelStack) {
             $itemComponents = $this->createItemComponents($itemViewModelStack[$this->rootRealDepth]);
             $levelComponent = $this->createLevelComponent($this->rootRealDepth, $itemComponents);
             $this->appendComponentView($levelComponent, MenuComponentInterface::MENU);
     }
 
+    /**
+     * Vytvoří LevelComponent a připojí mu kolekci vnořených ItemComponent
+     * 
+     * @param type $targetDepth
+     * @param type $itemComponents
+     * @return LevelComponentInterface
+     */
     private function createLevelComponent($targetDepth, $itemComponents) {
         /** @var LevelComponentInterface $levelComponent */
         $levelComponent = $this->container->get(LevelComponent::class);
@@ -171,11 +191,9 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         return $levelComponent;
     }
 
-//    private function addLastLevelItemComponents(&$itemViewModelStackLevel, $editableMode): void {
-//        $items = $this->createItemComponents($itemViewModelStackLevel, $editableMode);
-//        $this->appendComponentViewCollection($items);
-//    }
 
+    ### buttons ###
+    
     /**
      * 
      * @param type $itemViewModelStackLevel
@@ -186,7 +204,10 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         foreach ($itemViewModelStackLevel as $itemViewModel) {
             /** @var ItemViewModelInterface $itemViewModel */
             $item = new ItemComponent($this->configuration);
+            /** @var DriverComponent $driver */
+            $driver = new DriverComponent($this->configuration);
             $item->setData($itemViewModel)->setRendererContainer($this->rendererContainer);
+            $driver->setData($itemViewModel->g!!!)->setRendererContainer($this->rendererContainer);
             if($this->editableMode) {
                 $item->setRendererName($this->itemEditableRendererName);
                 // u kořenového item menu nejsou buttony
