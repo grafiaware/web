@@ -47,7 +47,6 @@ class ItemRenderer extends HtmlRendererAbstract {
                         ],
                         Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                             $menuItem->getTitle()
-                            .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                         )
                     )
                     .$levelHtml;
@@ -59,7 +58,8 @@ class ItemRenderer extends HtmlRendererAbstract {
                     ],
                  'data-red-style'=> $this->redLiEditableStyle($viewModel)
                ],
-                $innerHtml
+                $innerHtml,
+                Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                 );
         return $html;
     }

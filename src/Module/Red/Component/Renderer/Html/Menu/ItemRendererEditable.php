@@ -71,7 +71,6 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                             'data-uid'=>$menuItem->getUidFk(),
                             ],
                             $menuItem->getTitle()
-                            .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                         )
                         . $semafor
                     )
@@ -90,7 +89,6 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 ],
                 Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                     $menuItem->getTitle()
-                    .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                 )
                 . $semafor
             );
@@ -104,9 +102,10 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                     $this->classMap->resolve($viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
                  'data-red-style'=> $this->redLiEditableStyle($viewModel)
-
                 ],
-                $liInnerHtml);
+                $liInnerHtml,
+                Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                );
 
 
         return $liHtml;
