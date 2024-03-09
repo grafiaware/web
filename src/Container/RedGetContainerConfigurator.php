@@ -123,6 +123,8 @@ use Red\Component\Renderer\Html\Menu\ItemBlockRenderer;
 use Red\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
 use Red\Component\Renderer\Html\Menu\ItemTrashRenderer;
 use Red\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
+use Red\Component\Renderer\Html\Menu\DriverRenderer;
+use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 
 use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
@@ -282,7 +284,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -305,7 +307,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -327,7 +329,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -353,7 +355,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -375,7 +377,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);

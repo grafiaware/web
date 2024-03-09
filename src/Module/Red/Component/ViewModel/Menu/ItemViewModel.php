@@ -11,6 +11,7 @@ namespace Red\Component\ViewModel\Menu;
 use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Component\View\ComponentInterface;
+use Component\ViewModel\ViewModelInterface;
 
 /**
  * Description of ItemViwModel
@@ -24,42 +25,43 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
      */
 //    private $hierarchyAggregate;
     
+    private $driverViewmodel;
+    
     private $realDepth;
     private $isOnPath;
     private $isLeaf;
-    private $isPresented;
     private $isRoot;
 
     private $child;
 
     public function __construct(
 //            HierarchyAggregateInterface $hierarchaAggregate, 
-              $realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot) {
+              $realDepth, $isOnPath, $isLeaf, $isRoot) {
 
 //        $this->hierarchyAggregate = $hierarchaAggregate;
         
         $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;
         $this->isLeaf = $isLeaf;
-        $this->isPresented = $isPresented;
         $this->isRoot = $isRoot;
         parent::__construct();
     }
-    public function appendDriver(ComponentInterface $driverComponent): void {
-        ;
+    
+    public function appendDriver(ViewModelInterface $driverViewmodel): void {
+        $this->driverViewmodel = $driverViewmodel;
     }
     
-    public function getDriver(): ?ComponentInterface {
-        ;
+    public function getDriver(): ?ViewModelInterface {
+        return $this->driverViewmodel;
     }
     
-    public function appendLevel(ComponentInterface $child): void {
-        $this->child = $child;
-    }
-
-    public function getLevel(): ?ComponentInterface {
-        return $this->child;
-    }
+//    public function appendLevel(ComponentInterface $child): void {
+//        $this->child = $child;
+//    }
+//
+//    public function getLevel(): ?ComponentInterface {
+//        return $this->child;
+//    }
     
     #############
     
@@ -83,10 +85,6 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
 
     public function isLeaf() {
         return $this->isLeaf;
-    }
-
-    public function isPresented() {
-        return $this->isPresented;
     }
 
     public function isRoot() {

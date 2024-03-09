@@ -18,14 +18,14 @@ use Component\View\ComponentInterface;
  */
 interface ItemViewModelInterface extends ViewModelInterface {
 
-    public function appendDriver(ComponentInterface $driverComponent): void;
-    public function getDriver(): ?ComponentInterface;
-    public function appendLevel(ComponentInterface $childComponent): void;
-    public function getLevel(): ?ComponentInterface;
+    public function appendDriver(ViewModelInterface $driverViewmodel): void;
+    public function getDriver(): ?ViewModelInterface;
+    
+//    public function appendLevel(ComponentInterface $childComponent): void;
+//    public function getLevel(): ?ComponentInterface;
     
     public function isOnPath();
     public function isLeaf();
-    public function isPresented();
     public function isRoot();
 
     public function getRealDepth();

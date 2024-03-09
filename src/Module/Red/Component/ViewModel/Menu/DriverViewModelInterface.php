@@ -18,7 +18,8 @@ use Component\View\ComponentInterface;
  */
 interface DriverViewModelInterface extends ViewModelInterface {
 
-    public function isActive(); 
+    public function isActive();
+    public function isPresented();    
     public function isCutted();
     public function isPasteMode();
     public function isMenuEditable();

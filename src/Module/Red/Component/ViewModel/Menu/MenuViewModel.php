@@ -172,9 +172,9 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      *
      * @return array
      */
-    public function getItemModels(): array {
+    public function getNodeModels(): array {
         if (! $this->models) {   //prázdné pole
-            $this->models = $this->prepareItemModels();
+            $this->models = $this->prepareNodeModels();
         }
         return $this->models;
     }
@@ -183,7 +183,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      * Pole ItemViewModel pro generování ul, li struktury v rendereru
      * @return array
      */
-    private function prepareItemModels() {
+    private function prepareNodeModels() {
         $nodes = $this->getSubTreeNodes();
         $rootNode = reset($nodes);
         $presentedNode = $this->getPresentedMenuNode($rootNode);
@@ -234,18 +234,19 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             $redApiUri = $this->itemApiService->getContentApiUri($menuItem);
             $title = $menuItem->getTitle();
             $active = $menuItem->getActive();
-            $item = new ItemViewModel($realDepth, $isOnPath, $isLeaf, $isPresented, $isRoot);
-            $item->appendDriver(new DriverViewModel($pageHref, $redApiUri, $title, $active, $realDepth, $isCutted, $pasteMode, $menuEditable));
-            $models[] = $item;
+            $item = new ItemViewModel($realDepth, $isOnPath, $isLeaf, $isRoot);
+            $driver = new DriverViewModel($pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable);
+//            $item->appendDriver($driver);
+            $models[] = [$item, $driver];
         }
         return $models;
     }
 
-    public function setSubTreeItemViews($itemViews) {
-        $this->itemViews = $itemViews;
-    }
-
-    public function getSubTreeItemViews() {
-        return $this->itemViews;
-    }
+//    public function setSubTreeItemViews($itemViews) {
+//        $this->itemViews = $itemViews;
+//    }
+//
+//    public function getSubTreeItemViews() {
+//        return $this->itemViews;
+//    }
 }

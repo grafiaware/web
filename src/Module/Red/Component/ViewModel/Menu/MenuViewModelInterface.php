@@ -62,7 +62,7 @@ interface MenuViewModelInterface extends ViewModelInterface {
      */
     public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface;
 
-    public function getItemModels(): array;
+    public function getNodeModels(): array;
 
     /**
      *
@@ -93,7 +93,7 @@ interface MenuViewModelInterface extends ViewModelInterface {
      */
     public function getSubTreeNodes();
 
-    public function setSubTreeItemViews($itemViews);
-
-    public function getSubTreeItemViews();
+//    public function setSubTreeItemViews($itemViews);
+//
+//    public function getSubTreeItemViews();
 }

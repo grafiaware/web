@@ -24,19 +24,20 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     private $title;
     private $active;
     private $realDepth;
+    private $isPresented;
     private $pasteMode;
     private $isCutted;
     private $menuEditable;
 
     private $child;
 
-    public function __construct($pageHref, $redApiUri, $title, $active, $realDepth, $isCutted, $pasteMode, $menuEditable) {
+    public function __construct($pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable) {
         
         $this->pageHref = $pageHref;
         $this->redApiUri = $redApiUri;
         $this->title = $title;
         $this->active = $active;
-        $this->realDepth = $realDepth;
+        $this->isPresented = $isPresented;
         $this->isCutted = $isCutted;
         $this->pasteMode = $pasteMode;
         $this->menuEditable = $menuEditable;
@@ -66,6 +67,10 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
         return $this->active;
     }
 
+    public function isPresented() {
+        return $this->isPresented;
+    }
+    
     public function isMenuEditable() {
         return $this->menuEditable;
     }
