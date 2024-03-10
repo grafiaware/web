@@ -17,10 +17,10 @@ use Red\Model\Entity\PaperAggregatePaperSectionInterface;
             </div>
         </div>
         <div class="ui grid horizontalne-prohodit">
-            <div class="sixteen wide mobile eight wide computer column">
+            <div class="eight wide computer column">
                 <?= $perex ?>
             </div>
-            <div class="sixteen wide mobile eight wide computer column">
+            <div class="eight wide computer column">
                 <div class="ui grid">
                     <?= $this->repeat(__DIR__."/section/columns_perex_contents.php", $sections, 'paperSection'); ?>
                 </div>
