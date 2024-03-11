@@ -3,7 +3,7 @@ namespace  Red\Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Menu\NodeViewModelInterface;
-use Red\Component\View\Menu\ItemComponentInterface;
+use Red\Component\View\Menu\NodeComponentInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Pes\Text\Html;
@@ -33,8 +33,8 @@ class NodeRendererEditable extends HtmlRendererAbstract {
 
     protected function renderEditableItem(NodeViewModelInterface $viewModel) {
 //        $semafor = $viewModel->isMenuEditable() ? $this->semafor($viewModel) : "";
-        $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
-        $driverHtml = ($viewModel->offsetExists(ItemComponentInterface::DRIVER)) ? $viewModel->offsetGet(ItemComponentInterface::DRIVER) : "";
+        $levelHtml = ($viewModel->offsetExists(NodeComponentInterface::LEVEL)) ? $viewModel->offsetGet(NodeComponentInterface::LEVEL) : "";
+        $driverHtml = ($viewModel->offsetExists(NodeComponentInterface::DRIVER)) ? $viewModel->offsetGet(NodeComponentInterface::DRIVER) : "";
 
         $liHtml = Html::tag(     'li',
                 ['class'=>[

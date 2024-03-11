@@ -5,7 +5,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Component\ViewModel\Menu\ItemViewModelInterface;
-use Red\Component\View\Menu\ItemComponentInterface;
+use Red\Component\View\Menu\NodeComponentInterface;
 
 use Pes\Type\ContextDataInterface;
 

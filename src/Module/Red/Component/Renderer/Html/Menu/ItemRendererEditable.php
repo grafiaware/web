@@ -3,8 +3,8 @@ namespace  Red\Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\View\Menu\NodeComponentInterface;
 use Red\Component\View\Menu\ItemComponentInterface;
-use Red\Component\View\Menu\DriverComponentInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Pes\Text\Html;
@@ -36,7 +36,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
         $semafor = $viewModel->isMenuEditable() ? $this->semafor($viewModel) : "";
 
         if ($viewModel->isPresented()) {
-            $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::ITEM_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::ITEM_BUTTONS) : "";
+            $buttonsHtml = $viewModel->offsetExists(ItemComponentInterface::ITEM_BUTTONS) ? $viewModel->offsetGet(ItemComponentInterface::ITEM_BUTTONS) : "";
 
             $itemHtml =
                 Html::tag('form', [],
