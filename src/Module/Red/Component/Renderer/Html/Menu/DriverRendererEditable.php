@@ -76,7 +76,7 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                         $this->classMap->get('Item', 'li a'),
                         $this->classMap->get('Item', 'li'),
                         ],
-                    'data-red-style'=> $this->redLiEditableStyle($viewModel),
+                    'data-red-style'=> $this->redDriverEditableStyle($viewModel),
                     'href'=>$viewModel->getPageHref(),
                     'data-red-content-api-uri'=> $viewModel->getRedApiUri(),
                 ],

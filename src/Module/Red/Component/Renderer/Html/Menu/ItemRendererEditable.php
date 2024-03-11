@@ -32,67 +32,9 @@ class ItemRendererEditable extends HtmlRendererAbstract {
     }
 
     protected function renderEditableItem(ItemViewModelInterface $viewModel) {
-        $semafor = $viewModel->isMenuEditable() ? $this->semafor($viewModel) : "";
+//        $semafor = $viewModel->isMenuEditable() ? $this->semafor($viewModel) : "";
         $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
-
-        if ($viewModel->isPresented()) {
-//            $buttonsHtml = '';
-//            if ($viewModel->isPasteMode()) {
-//                if($viewModel->isCutted()) {
-//                    $buttonsHtml = $this->renderCuttedItemButtons($menuItem);
-//                } else {
-//                    $buttonsHtml = $this->renderPasteButtons($menuItem);
-//                }
-//            } else {
-//                $buttonsHtml = array_merge($this->renderItemManipulationButtons($menuItem),$this->renderMenuManipulationButtons($menuItem));
-//            }
-
-            $buttonsHtml = $viewModel->offsetExists(ItemComponentInterface::ITEM_BUTTONS) ? $viewModel->offsetGet(ItemComponentInterface::ITEM_BUTTONS) : "";
-
-            $liInnerHtml[] =
-                Html::tag('form', [],
-                    Html::tag('p',
-                        [
-                        'class'=>[
-                            $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
-                            $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
-                            ],
-                        'data-href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
-                        'tabindex'=>0,
-                        ],
-
-                        // POZOR: závislost na edit.js
-                        // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
-                        // t.j. selektor vybírá <span>, který má rodiče <p>
-                        Html::tag('span', [
-                            'contenteditable'=> "true",
-                            'data-original-title'=>$menuItem->getTitle(),
-                            'data-uid'=>$menuItem->getUidFk(),
-                            ],
-                            $menuItem->getTitle()
-                        )
-                        . $semafor
-                    )
-                    .Html::tag('div',
-                        ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
-                        $buttonsHtml)
-                );
-        } else {
-            $liInnerHtml[] = Html::tag('a',
-                [
-                    'class'=>[
-                        $this->classMap->get('Item', 'li a'),
-                        $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
-                        ],
-                    'href'=> "web/v1/page/item/{$menuItem->getUidFk()}"
-                ],
-                Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
-                    $menuItem->getTitle()
-                )
-                . $semafor
-            );
-        }
-        $liInnerHtml[] = $levelHtml;
+        $driverHtml = ($viewModel->offsetExists(ItemComponentInterface::DRIVER)) ? $viewModel->offsetGet(ItemComponentInterface::DRIVER) : "";
 
         $liHtml = Html::tag(     'li',
                 ['class'=>[
@@ -103,19 +45,21 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                     ],
                  'data-red-style'=> $this->redLiEditableStyle($viewModel)
                 ],
-                $liInnerHtml,
-                Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
-                );
+                [
+                    $driverHtml,
+                    $levelHtml,
+                    Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                ]
+            );
 
 
         return $liHtml;
     }
 
-    private function redLiEditableStyle($viewModel) {
+    private function redLiEditableStyle(ItemViewModelInterface $viewModel) {
         return [
                 ($viewModel->isOnPath() ? "onpath " : ""),
                 (($viewModel->getRealDepth() == 1) ? "dropdown " : ""),
-                ($viewModel->isCutted() ? "cutted " : ""),
             ];
     }
 

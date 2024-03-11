@@ -36,20 +36,8 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     private function renderNoneditableItem(ItemViewModelInterface $viewModel) {
         $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
-        $innerHtml = Html::tag('a',
-                        [
-                            'class'=>[
-                                $this->classMap->get('Item', 'li a'),
-                                $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
-                                ],
-                            'href'=> "web/v1/page/item/{$menuItem->getUidFk()}"
-                        ],
-                        Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
-                            $menuItem->getTitle()
-                        )
-                    )
-                    .$levelHtml;
-        $html = Html::tag(     'li',
+        $driverHtml = ($viewModel->offsetExists(ItemComponentInterface::DRIVER)) ? $viewModel->offsetGet(ItemComponentInterface::DRIVER) : "";
+        $html = Html::tag('li',
                 ['class'=>[
                     $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
                     $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
@@ -58,9 +46,11 @@ class ItemRenderer extends HtmlRendererAbstract {
                     ],
                  'data-red-styleinfo'=> $this->redLiEditableStyle($viewModel)
                ],
-                $innerHtml,
+               [
+                $driverHtml,$levelHtml,
                 Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
-                );
+               ]
+            );
         return $html;
     }
 

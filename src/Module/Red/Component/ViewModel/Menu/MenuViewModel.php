@@ -232,10 +232,11 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             $menuItem = $node->getMenuItem();
             $pageHref = $this->itemApiService->getPageApiUri($menuItem);
             $redApiUri = $this->itemApiService->getContentApiUri($menuItem);
+            $uid = $menuItem->getUidFk();
             $title = $menuItem->getTitle();
             $active = $menuItem->getActive();
             $item = new ItemViewModel($realDepth, $isOnPath, $isLeaf, $isRoot);
-            $driver = new DriverViewModel($pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable);
+            $driver = new DriverViewModel($uid, $pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable);
 //            $item->appendDriver($driver);
             $models[] = [$item, $driver];
         }

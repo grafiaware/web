@@ -19,6 +19,8 @@ use Component\View\ComponentInterface;
  */
 class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterface {
 
+    private $uid;
+    
     private $pageHref;
     private $redApiUri;
     private $title;
@@ -31,7 +33,9 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
 
     private $child;
 
-    public function __construct($pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable) {
+    public function __construct($uid, $pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable) {
+        
+        $this->uid = $uid;
         
         $this->pageHref = $pageHref;
         $this->redApiUri = $redApiUri;
@@ -42,6 +46,10 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
         $this->pasteMode = $pasteMode;
         $this->menuEditable = $menuEditable;
         parent::__construct();
+    }
+    
+    public function getUid() {
+        return $this->uid;
     }
     
     public function getPageHref() {
@@ -59,6 +67,7 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     public function isPasteMode() {
         return $this->pasteMode;
     }
+    
     public function isCutted() {
         return $this->isCutted;
     }

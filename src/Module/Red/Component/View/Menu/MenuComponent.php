@@ -170,7 +170,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             // u kořenového item menu nejsou buttony
             if ($driverViewModel->isPresented() AND !$itemViewModel->isRoot()) {
                 $itemButtons = $this->createItemButtonsComponent();
-                $item->appendComponentView($itemButtons, DriverComponentInterface::ITEM_BUTTONS);
+                $driver->appendComponentView($itemButtons, DriverComponentInterface::ITEM_BUTTONS);// typu InheritData - dědí DriverViewModel
             }
         } else {
             $item->setRendererName($this->itemRendererName);
@@ -268,7 +268,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 //    }
 
     private function createItemButtonsComponent(): ItemButtonsComponent {
-        $itemButtons = new ItemButtonsComponent($this->configuration);  // typu InheritData - dědí ItemViewModel
+        $itemButtons = new ItemButtonsComponent($this->configuration);  // typu InheritData - dědí DriverViewModel
         $cut = $this->contextData->getPostCommand('cut') ? true : false;
         $copy = $this->contextData->getPostCommand('copy') ? true :false;
         $pasteMode = ($cut OR $copy);

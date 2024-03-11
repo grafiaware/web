@@ -290,7 +290,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     }
     
     private function getMenuViews(MenuItemInterface $menuItem) {
-        // !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)
+        //TODO:  !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)
         $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
 
         $views = [];

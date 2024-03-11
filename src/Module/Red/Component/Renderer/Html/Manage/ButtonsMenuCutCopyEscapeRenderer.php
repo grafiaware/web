@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\Renderer\Html\Manage;
 
-use Red\Model\Entity\MenuItemInterface;
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 /**
  * Description of ButtonsMenuCutCopyEscapeRenderer
@@ -10,8 +10,8 @@ use Red\Model\Entity\MenuItemInterface;
  */
 class ButtonsMenuCutCopyEscapeRenderer extends ButtonsMenuRendererAbstract {
 
-    protected function renderButtons(MenuItemInterface $menuItem) {
-        $buttons[] = $this->getButtonCutCopyEscape($menuItem);
+    protected function renderButtons(DriverViewModelInterface $viewModel) {
+        $buttons[] = $this->getButtonCutCopyEscape($viewModel);
         return $buttons;
     }
 

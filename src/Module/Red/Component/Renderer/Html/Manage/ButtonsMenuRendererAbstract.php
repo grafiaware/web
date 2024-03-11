@@ -2,7 +2,7 @@
 namespace Red\Component\Renderer\Html\Manage;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Red\Model\Entity\MenuItemInterface;
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 use Pes\Text\Html;
 
@@ -14,9 +14,7 @@ use Pes\Text\Html;
 abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
 
     public function render(iterable $viewModel = NULL) {
-        /** @var ItemViewModelInterface $viewModel */
-        $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
-        return $this->renderButtons($menuItem);
+        return $this->renderButtons($viewModel);
     }
 
     protected function expandButtons($expandedButtons, $expandsionIconClass) {
@@ -29,123 +27,123 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonActive(MenuItemInterface $menuItem) {
-        $active = $menuItem->getActive();
+    protected function getButtonActive(DriverViewModelInterface $viewModel) {
+        $active = $viewModel->isActive();
         return Html::tag('button',
                 ['class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/menu/{$menuItem->getUidFk()}/toggle",
+                'formaction'=>"red/v1/menu/{$viewModel->getUid()}/toggle",
                 ],
                 Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
             );
     }
 
-    protected function getButtonTrash(MenuItemInterface $menuItem) {
+    protected function getButtonTrash(DriverViewModelInterface $viewModel) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Odstranit položku',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
             );
     }
 
-    protected function getButtonAdd(MenuItemInterface $menuItem) {
+    protected function getButtonAdd(DriverViewModelInterface $viewModel) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat sourozence',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/add",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/add",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addsiblings')])
             );
     }
 
-    protected function getButtonAddChild(MenuItemInterface $menuItem) {
+    protected function getButtonAddChild(DriverViewModelInterface $viewModel) {
             return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat potomka',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/addchild",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/addchild",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addchildren')])
             );
     }
 
-    protected function getButtonPaste(MenuItemInterface $menuItem) {
+    protected function getButtonPaste(DriverViewModelInterface $viewModel) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit vybrané jako sourozence',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/paste",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/paste",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addsiblings')])
             );
     }
 
-    protected function getButtonPasteChild(MenuItemInterface $menuItem) {
+    protected function getButtonPasteChild(DriverViewModelInterface $viewModel) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit vybrané jako potomka',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/pastechild",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/pastechild",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addchildren')])
             );
     }
 
-    protected function getButtonCut(MenuItemInterface $menuItem) {
+    protected function getButtonCut(DriverViewModelInterface $viewModel) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/cut",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cut')])
             );
     }
 
-    protected function getButtonCopy(MenuItemInterface $menuItem) {
+    protected function getButtonCopy(DriverViewModelInterface $viewModel) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat ke zkopírování',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/copy",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/copy",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.copy')])
             );
     }
 
-    protected function getButtonCutCopyEscape(MenuItemInterface $menuItem) {
+    protected function getButtonCutCopyEscape(DriverViewModelInterface $viewModel) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Zrušit přesunutí nebo kopírování',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cutcopyescape",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/cutcopyescape",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cutted')])
             );
     }
 
-    protected function getButtonDelete(MenuItemInterface $menuItem) {
+    protected function getButtonDelete(DriverViewModelInterface $viewModel) {
         return
             Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
@@ -153,7 +151,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/delete",
+                'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/delete",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons'),],

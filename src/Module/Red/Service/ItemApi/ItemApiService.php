@@ -25,7 +25,7 @@ class ItemApiService implements ItemApiServiceInterface {
      * @return string
      */
     public function getPageApiUri(MenuItemInterface $menuItem) {
-        return '';//"web/v1/page/item/{$menuItem->getUidFk()}";
+        return 'vypnuto_v_ItemApiService';//"web/v1/page/item/{$menuItem->getUidFk()}";
     }
     
     /**

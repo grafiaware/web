@@ -24,6 +24,7 @@ interface DriverViewModelInterface extends ViewModelInterface {
     public function isPasteMode();
     public function isMenuEditable();
     
+    public function getUid();
     public function getPageHref();
     public function getRedApiUri();
     public function getTitle();    

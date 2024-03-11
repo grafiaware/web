@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\Renderer\Html\Manage;
 
-use Red\Model\Entity\MenuItemInterface;
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 /**
  * Description of ButtonsItemManipulationRenderer
@@ -10,8 +10,8 @@ use Red\Model\Entity\MenuItemInterface;
  */
 class ButtonsMenuCutCopyRenderer extends ButtonsMenuRendererAbstract {
 
-    protected function renderButtons(MenuItemInterface $menuItem) {
-        $buttons[] = $this->expandButtons([$this->getButtonCut($menuItem), $this->getButtonCopy($menuItem)], $this->classMap->get('Icons', 'icon.object'));
+    protected function renderButtons(DriverViewModelInterface $viewModel) {
+        $buttons[] = $this->expandButtons([$this->getButtonCut($viewModel), $this->getButtonCopy($viewModel)], $this->classMap->get('Icons', 'icon.object'));
         return $buttons;
     }
 
