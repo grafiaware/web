@@ -16,6 +16,6 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class ItemBlockRendererEditable extends ItemRendererEditable {
+class NodeBlockRendererEditable extends NodeRendererEditable {
     
 }

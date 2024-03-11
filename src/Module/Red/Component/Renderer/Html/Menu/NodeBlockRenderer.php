@@ -16,6 +16,6 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class ItemBlockRenderer extends ItemRenderer {
+class NodeBlockRenderer extends NodeRenderer {
 
 }

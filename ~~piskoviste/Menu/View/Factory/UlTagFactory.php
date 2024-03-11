@@ -114,7 +114,7 @@ class UlTagFactory {
             );
     }
 
-    public function getItemNodeNew(ItemViewModelInterface $itemViewModel) {
+    public function getItemNodeNew(NodeViewModelInterface $itemViewModel) {
         $returnTag = new Tag\Li(
                 [
                     'class'=>[

@@ -35,32 +35,34 @@ class ItemRenderer extends HtmlRendererAbstract {
     }
 
     private function renderNoneditableItem(ItemViewModelInterface $viewModel) {
-        $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
-        $driverHtml = ($viewModel->offsetExists(ItemComponentInterface::DRIVER)) ? $viewModel->offsetGet(ItemComponentInterface::DRIVER) : "";
-        $html = Html::tag('li',
-                ['class'=>[
-                    $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
+        $anchorHtml = Html::tag('a',
+                [
+                    'class'=>[
+                        $this->classMap->get('Item', 'li a'),
+                        $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),   
+                        ],
+                    'href'=> $viewModel->getPageHref(),
+                    'data-red-content-api-uri'=> $viewModel->getRedApiUri()
+                ],
+                Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
+                    $viewModel->getTitle()
                         //TODO: DRIVER
-//                    $this->classMap->resolve($viewModel->isCutted(), 'Item', 'li.cut', 'li')
-                    ],
-                 'data-red-styleinfo'=> $this->redLiEditableStyle($viewModel)
-               ],
-               [
-                $driverHtml,$levelHtml,
-                Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
-               ]
+//                    .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                )
             );
-        return $html;
+
+        return $anchorHtml;
     }
 
-    private function redLiEditableStyle(ItemViewModelInterface $viewModel) {
+    private function redLiEditableStyle($viewModel) {
         return [
-                ($viewModel->isLeaf() ? "leaf " : ""),
-                ($viewModel->isOnPath() ? "onpath " : ""),
-                ("realDepth:".$viewModel->getRealDepth()." "),
-                (($viewModel->getRealDepth() == 1) ? "dropdown " : ""),
-                ($viewModel->isPresented() ? "presented " : ""),
-            ];
+            $viewModel->isLeaf() ? "leaf " : "",
+            $viewModel->isOnPath() ? "onpath " : "",
+            "realDepth:".$viewModel->getRealDepth()." ",
+            ($viewModel->getRealDepth() == 1) ? "dropdown " : "",
+            $viewModel->isPresented() ? "presented " : "",
+            $viewModel->isPresented() ? "presented " : "",                
+            $viewModel->isCutted() ? "cutted " : "",
+        ];
     }
 }

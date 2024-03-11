@@ -13,10 +13,10 @@ use Red\Model\Entity\MenuRootInterface;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
+use Red\Component\ViewModel\Menu\NodeViewModel;
+use Red\Component\ViewModel\Menu\NodeViewModelInterface;
 use Red\Component\ViewModel\Menu\ItemViewModel;
 use Red\Component\ViewModel\Menu\ItemViewModelInterface;
-use Red\Component\ViewModel\Menu\DriverViewModel;
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 use Red\Service\ItemApi\ItemApiServiceInterface;
 
@@ -146,10 +146,11 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     private function presentedLanguageLangCode() {
         return $this->statusViewModel->getPresentedLanguage()->getLangCode();
     }
+    
     /**
      * Původní metoda getSubtreeItemModel pro Menu Display Controller. Načte podstrom uzlů menu, potomkků
      *
-     * @return ItemViewModelInterface array af
+     * @return NodeViewModelInterface array af
      */
     public function getSubTreeNodes() {
         // root uid z jména komponenty
@@ -235,19 +236,11 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             $uid = $menuItem->getUidFk();
             $title = $menuItem->getTitle();
             $active = $menuItem->getActive();
-            $item = new ItemViewModel($realDepth, $isOnPath, $isLeaf, $isRoot);
-            $driver = new DriverViewModel($uid, $pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable);
+            $item = new NodeViewModel($realDepth, $isOnPath, $isLeaf, $isRoot);
+            $driver = new ItemViewModel($uid, $pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable);
 //            $item->appendDriver($driver);
             $models[] = [$item, $driver];
         }
         return $models;
     }
-
-//    public function setSubTreeItemViews($itemViews) {
-//        $this->itemViews = $itemViews;
-//    }
-//
-//    public function getSubTreeItemViews() {
-//        return $this->itemViews;
-//    }
 }

@@ -89,7 +89,7 @@ interface MenuViewModelInterface extends ViewModelInterface {
     /**
      * Původní metoda
      *
-     * @return ItemViewModelInterface array af
+     * @return NodeViewModelInterface array af
      */
     public function getSubTreeNodes();
 

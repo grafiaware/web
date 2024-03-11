@@ -2,7 +2,7 @@
 namespace Red\Component\Renderer\Html\Manage;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
+use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 
 use Pes\Text\Html;
 
@@ -27,7 +27,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonActive(DriverViewModelInterface $viewModel) {
+    protected function getButtonActive(ItemViewModelInterface $viewModel) {
         $active = $viewModel->isActive();
         return Html::tag('button',
                 ['class'=>$this->classMap->get('Buttons', 'button'),
@@ -40,7 +40,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonTrash(DriverViewModelInterface $viewModel) {
+    protected function getButtonTrash(ItemViewModelInterface $viewModel) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Odstranit položku',
@@ -54,7 +54,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonAdd(DriverViewModelInterface $viewModel) {
+    protected function getButtonAdd(ItemViewModelInterface $viewModel) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat sourozence',
@@ -66,7 +66,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonAddChild(DriverViewModelInterface $viewModel) {
+    protected function getButtonAddChild(ItemViewModelInterface $viewModel) {
             return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat potomka',
@@ -78,7 +78,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonPaste(DriverViewModelInterface $viewModel) {
+    protected function getButtonPaste(ItemViewModelInterface $viewModel) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit vybrané jako sourozence',
@@ -91,7 +91,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonPasteChild(DriverViewModelInterface $viewModel) {
+    protected function getButtonPasteChild(ItemViewModelInterface $viewModel) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit vybrané jako potomka',
@@ -104,7 +104,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonCut(DriverViewModelInterface $viewModel) {
+    protected function getButtonCut(ItemViewModelInterface $viewModel) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
@@ -117,7 +117,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonCopy(DriverViewModelInterface $viewModel) {
+    protected function getButtonCopy(ItemViewModelInterface $viewModel) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat ke zkopírování',
@@ -130,7 +130,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonCutCopyEscape(DriverViewModelInterface $viewModel) {
+    protected function getButtonCutCopyEscape(ItemViewModelInterface $viewModel) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Zrušit přesunutí nebo kopírování',
@@ -143,7 +143,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
-    protected function getButtonDelete(DriverViewModelInterface $viewModel) {
+    protected function getButtonDelete(ItemViewModelInterface $viewModel) {
         return
             Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),

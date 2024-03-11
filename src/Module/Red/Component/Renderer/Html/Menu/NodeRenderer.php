@@ -4,7 +4,7 @@ namespace  Red\Component\Renderer\Html\Menu;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Model\Entity\MenuItemInterface;
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\NodeViewModelInterface;
 use Red\Component\View\Menu\ItemComponentInterface;
 
 use Pes\Type\ContextDataInterface;
@@ -22,11 +22,11 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemRenderer extends HtmlRendererAbstract {
+class NodeRenderer extends HtmlRendererAbstract {
 
     /**
      *
-     * @var ItemViewModelInterface
+     * @var NodeViewModelInterface
      */
     protected $viewModel;
 
@@ -34,7 +34,7 @@ class ItemRenderer extends HtmlRendererAbstract {
         return $this->renderNoneditableItem($viewModel);
     }
 
-    private function renderNoneditableItem(ItemViewModelInterface $viewModel) {
+    private function renderNoneditableItem(NodeViewModelInterface $viewModel) {
         $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
         $driverHtml = ($viewModel->offsetExists(ItemComponentInterface::DRIVER)) ? $viewModel->offsetGet(ItemComponentInterface::DRIVER) : "";
         $html = Html::tag('li',
@@ -47,19 +47,19 @@ class ItemRenderer extends HtmlRendererAbstract {
                  'data-red-styleinfo'=> $this->redLiEditableStyle($viewModel)
                ],
                [
-                $driverHtml,$levelHtml
+                $driverHtml,$levelHtml,
+                Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                ]
             );
         return $html;
     }
 
-    private function redLiEditableStyle(ItemViewModelInterface $viewModel) {
+    private function redLiEditableStyle(NodeViewModelInterface $viewModel) {
         return [
                 ($viewModel->isLeaf() ? "leaf " : ""),
                 ($viewModel->isOnPath() ? "onpath " : ""),
                 ("realDepth:".$viewModel->getRealDepth()." "),
                 (($viewModel->getRealDepth() == 1) ? "dropdown " : ""),
-                ($viewModel->isPresented() ? "presented " : ""),
             ];
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\Renderer\Html\Manage;
 
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
+use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 
 /**
  * Description of ButtonsItemManipulationRenderer
@@ -10,7 +10,7 @@ use Red\Component\ViewModel\Menu\DriverViewModelInterface;
  */
 class ButtonsMenuDeleteRenderer extends ButtonsMenuRendererAbstract {
 
-    protected function renderButtons(DriverViewModelInterface $viewModel) {
+    protected function renderButtons(ItemViewModelInterface $viewModel) {
         $buttons[] = $this->getButtonDelete($viewModel);
         return $buttons;
     }

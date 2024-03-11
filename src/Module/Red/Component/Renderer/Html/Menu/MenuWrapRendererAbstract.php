@@ -11,8 +11,8 @@ namespace  Red\Component\Renderer\Html\Menu;
 use Pes\View\Renderer\RendererInterface;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
-use Red\Component\Renderer\Html\Menu\ItemRenderer;
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\Renderer\Html\Menu\NodeRenderer;
+use Red\Component\ViewModel\Menu\NodeViewModelInterface;
 
 /**
  * Description of MenuWrapRndererAbstract

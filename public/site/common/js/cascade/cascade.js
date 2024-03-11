@@ -177,7 +177,6 @@ function replaceChildren(parentElement, newHtmlTextContent) {
 /////////////// menu
 // proměnné společné pro všechna menu - klik do jiného menu musí skrýt položky z předtím používaného menu
     var previousAnchor = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
-    var previousLi = null;  // proměnná pro uložení event.currentTarget.parentElement musí být mimo tělo event handleru
 
 /**
  * 
@@ -198,31 +197,27 @@ function listenLinks(loaderElement) {
     for (const navigation of [...navs]) {
         let anchors = navigation.querySelectorAll("a");
         for (const anchor of [...anchors]) {
-        console.log(`cascade: Listen links match `+anchors.length+' anchors.');
+            console.log(`cascade: Listen links match `+anchors.length+' anchors.');
             anchor.addEventListener("click", event => {
                 if(contentTarget===null) {
                     return true;
                 } else {
                     let currentAnchor = event.currentTarget;
-                    let currentLi = currentAnchor.parentElement;
-                    
-                    // změna css class
+                    // anchor - změna css class
                     if (previousAnchor) {
                         previousAnchor.classList.remove("presented");                        
-                        let oldParents = getOnPathElements(previousAnchor);
-                        removeParent(oldParents);
+                        removeParentOnPath(previousAnchor);
                     }
                     currentAnchor.classList.add("presented");
-                    let newParents = getOnPathElements(currentAnchor);
-                    addParent(newParents);
+                    addParentOnPath(currentAnchor);
 
-                    // příprava elemntu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
+                    // content - příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
                     contentTarget.setAttribute('data-red-apiuri', currentAnchor.getAttribute('data-red-content-api-uri'));
                     // získání a výměna nového obsahu v cílovém elementu
                     fetchElementContent(contentTarget);
-                    // aktuální anchor a li uležené pro příští klik
+                    
+                    // aktuální anchor uložen pro příští klik
                     previousAnchor = currentAnchor;
-                    previousLi = currentLi;
                     event.preventDefault();
                     return false;
                 }
@@ -277,14 +272,16 @@ function getOnPathElements(element) {
     return pathElements;
 }
 
-function removeParent(parentElements) {
+function removeParentOnPath(previousAnchor) {
+    let parentElements = getOnPathElements(previousAnchor);
     parentElements.forEach(element => {element.classList.remove("parent")})
 }
 
-function addParent(parentElements) {
+function addParentOnPath(currentAnchor) {
+    let parentElements = getOnPathElements(currentAnchor);    
     parentElements.forEach(element => {
-                    if(!element.classList.contains("leaf")) {
-                        element.classList.add("parent");
-                    }
-                });
+        if(!element.classList.contains("leaf")) {
+            element.classList.add("parent");
+        }
+    });
 }

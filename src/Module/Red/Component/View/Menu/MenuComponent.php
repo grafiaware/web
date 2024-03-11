@@ -11,8 +11,8 @@ use Configuration\ComponentConfigurationInterface;
 
 use Red\Component\ViewModel\Menu\MenuViewModelInterface;
 use Red\Component\ViewModel\Menu\LevelViewModelInterface;
+use Red\Component\ViewModel\Menu\NodeViewModelInterface;
 use Red\Component\ViewModel\Menu\ItemViewModelInterface;
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 use Red\Component\View\Menu\LevelComponent;
 use Red\Component\View\Menu\LevelComponentInterface;
@@ -127,7 +127,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             $itemComponentStack = [];
             $first = true;
             foreach ($subtreeNodeModels as $itemNodeModel) {
-                /** @var ItemViewModelInterface $itemNodeModel */
+                /** @var NodeViewModelInterface $itemNodeModel */
                 $itemDepth = $itemNodeModel[0]->getRealDepth();
                 if ($first) {
                     $this->rootRealDepth = $itemDepth;
@@ -151,9 +151,9 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     }
 
     private function newItemComponent($itemNodeModel) {
-        /** @var ItemViewModelInterface $itemViewModel */
+        /** @var NodeViewModelInterface $itemViewModel */
         $itemViewModel = $itemNodeModel[0];
-        /** @var DriverViewModelInterface $driverViewModel */
+        /** @var ItemViewModelInterface $driverViewModel */
         $driverViewModel = $itemNodeModel[1];
         
         /** @var ItemComponent $item */

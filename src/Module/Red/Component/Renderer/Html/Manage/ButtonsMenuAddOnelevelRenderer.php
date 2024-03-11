@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\Renderer\Html\Manage;
 
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
+use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 
 use Pes\Text\Html;
 
@@ -12,7 +12,7 @@ use Pes\Text\Html;
  */
 class ButtonsMenuAddOnelevelRenderer extends ButtonsMenuRendererAbstract {
 
-    protected function renderButtons(DriverViewModelInterface $viewModel) {
+    protected function renderButtons(ItemViewModelInterface $viewModel) {
         $buttons[] = $this->expandButtons([$this->getButtonAdd($viewModel)], $this->classMap->get('Icons', 'icon.plus'));
         return $buttons;
     }

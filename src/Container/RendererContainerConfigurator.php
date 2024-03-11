@@ -13,14 +13,14 @@ use Pes\View\Renderer\PhpTemplateRenderer;
 use Red\Component\Renderer\Html\Menu\MenuRenderer;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
 
+use Red\Component\Renderer\Html\Menu\NodeRenderer;
+use Red\Component\Renderer\Html\Menu\NodeRendererEditable;
+use Red\Component\Renderer\Html\Menu\NodeBlockRenderer;
+use Red\Component\Renderer\Html\Menu\NodeBlockRendererEditable;
+use Red\Component\Renderer\Html\Menu\NodeTrashRenderer;
+use Red\Component\Renderer\Html\Menu\NodeTrashRendererEditable;
 use Red\Component\Renderer\Html\Menu\ItemRenderer;
 use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
-use Red\Component\Renderer\Html\Menu\ItemBlockRenderer;
-use Red\Component\Renderer\Html\Menu\ItemBlockRendererEditable;
-use Red\Component\Renderer\Html\Menu\ItemTrashRenderer;
-use Red\Component\Renderer\Html\Menu\ItemTrashRendererEditable;
-use Red\Component\Renderer\Html\Menu\DriverRenderer;
-use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 
 use Red\Component\Renderer\Html\Content\Authored\Paper\ButtonsRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
@@ -140,32 +140,32 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         # menu item renderer
         ###########################
+            NodeRenderer::class => function(ContainerInterface $c) {
+                return new NodeRenderer($c->get('menu.item.classmap'));
+            },
+            NodeRendererEditable::class => function(ContainerInterface $c) {
+                return new NodeRendererEditable($c->get('menu.item.classmap.editable'));
+            },
+            NodeBlockRenderer::class => function(ContainerInterface $c) {
+                return new NodeBlockRenderer($c->get('menu.item.classmap'));
+            },
+            NodeBlockRendererEditable::class => function(ContainerInterface $c) {
+                return new NodeBlockRendererEditable($c->get('menu.item.classmap.editable'));
+            },
+            NodeTrashRenderer::class => function(ContainerInterface $c) {
+                return new NodeTrashRenderer($c->get('menu.item.classmap'));
+            },
+            NodeTrashRendererEditable::class => function(ContainerInterface $c) {
+                return new NodeTrashRendererEditable($c->get('menu.item.classmap.editable'));
+            },
+        ###########################
+        # menu driver renderer
+        ###########################
             ItemRenderer::class => function(ContainerInterface $c) {
                 return new ItemRenderer($c->get('menu.item.classmap'));
             },
             ItemRendererEditable::class => function(ContainerInterface $c) {
                 return new ItemRendererEditable($c->get('menu.item.classmap.editable'));
-            },
-            ItemBlockRenderer::class => function(ContainerInterface $c) {
-                return new ItemBlockRenderer($c->get('menu.item.classmap'));
-            },
-            ItemBlockRendererEditable::class => function(ContainerInterface $c) {
-                return new ItemBlockRendererEditable($c->get('menu.item.classmap.editable'));
-            },
-            ItemTrashRenderer::class => function(ContainerInterface $c) {
-                return new ItemTrashRenderer($c->get('menu.item.classmap'));
-            },
-            ItemTrashRendererEditable::class => function(ContainerInterface $c) {
-                return new ItemTrashRendererEditable($c->get('menu.item.classmap.editable'));
-            },
-        ###########################
-        # menu driver renderer
-        ###########################
-            DriverRenderer::class => function(ContainerInterface $c) {
-                return new DriverRenderer($c->get('menu.item.classmap'));
-            },
-            DriverRendererEditable::class => function(ContainerInterface $c) {
-                return new DriverRendererEditable($c->get('menu.item.classmap.editable'));
             },
         ###########################
         # select template renderer

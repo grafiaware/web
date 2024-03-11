@@ -2,7 +2,7 @@
 namespace Red\Component\Renderer\Html\Manage;
 
 use Red\Component\Renderer\Html\Manage\ButtonsMenuRendererAbstract;
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
+use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 use Pes\Text\Html;
@@ -17,7 +17,7 @@ class ButtonsItemManipulationRenderer extends ButtonsMenuRendererAbstract {
         return $this->renderButtons($viewModel);
     }
 
-    protected function renderButtons(DriverViewModelInterface $viewModel) {
+    protected function renderButtons(ItemViewModelInterface $viewModel) {
         $buttons[] = $this->getButtonActive($viewModel);
         $buttons[] = $this->getButtonTrash($viewModel);
         return $buttons;

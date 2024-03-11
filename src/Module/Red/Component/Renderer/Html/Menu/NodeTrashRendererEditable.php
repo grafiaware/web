@@ -4,21 +4,21 @@ namespace  Red\Component\Renderer\Html\Menu;
 use Pes\Text\Html;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuItemInterface;
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\NodeViewModelInterface;
 
 /**
  * Description of ItemTrashEditableRenderer
  *
  * @author pes2704
  */
-class ItemTrashRendererEditable extends ItemRendererEditable {
+class NodeTrashRendererEditable extends NodeRendererEditable {
 
     /**
      * Přetěžuje metodu ItemRender pro editable variantu renderování.
      *
      * @return string
      */
-    protected function renderEditableItem(ItemViewModelInterface $viewModel) {
+    protected function renderEditableItem(NodeViewModelInterface $viewModel) {
         $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
         $presentedEditable = ($viewModel->isPresented() AND $viewModel->isMenuEditable());
 //        $active = $menuItem->getActive();

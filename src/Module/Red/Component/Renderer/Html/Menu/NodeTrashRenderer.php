@@ -10,6 +10,6 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class ItemTrashRenderer extends ItemRenderer {
+class NodeTrashRenderer extends NodeRenderer {
 
 }

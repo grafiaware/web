@@ -11,83 +11,76 @@ namespace Red\Component\ViewModel\Menu;
 use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Component\View\ComponentInterface;
-use Component\ViewModel\ViewModelInterface;
 
 /**
- * Description of ItemViwModel
+ * Description of DriverViewModel
  *
  * @author pes2704
  */
 class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
 
-    /**
-     * @var HierarchyAggregateInterface
-     */
-//    private $hierarchyAggregate;
+    private $uid;
     
-    private $driverViewmodel;
-    
+    private $pageHref;
+    private $redApiUri;
+    private $title;
+    private $active;
     private $realDepth;
-    private $isOnPath;
-    private $isLeaf;
-    private $isRoot;
+    private $isPresented;
+    private $pasteMode;
+    private $isCutted;
+    private $menuEditable;
 
     private $child;
 
-    public function __construct(
-//            HierarchyAggregateInterface $hierarchaAggregate, 
-              $realDepth, $isOnPath, $isLeaf, $isRoot) {
-
-//        $this->hierarchyAggregate = $hierarchaAggregate;
+    public function __construct($uid, $pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable) {
         
-        $this->realDepth = $realDepth;
-        $this->isOnPath = $isOnPath;
-        $this->isLeaf = $isLeaf;
-        $this->isRoot = $isRoot;
+        $this->uid = $uid;
+        
+        $this->pageHref = $pageHref;
+        $this->redApiUri = $redApiUri;
+        $this->title = $title;
+        $this->active = $active;
+        $this->isPresented = $isPresented;
+        $this->isCutted = $isCutted;
+        $this->pasteMode = $pasteMode;
+        $this->menuEditable = $menuEditable;
         parent::__construct();
     }
     
-    public function appendDriver(ViewModelInterface $driverViewmodel): void {
-        $this->driverViewmodel = $driverViewmodel;
+    public function getUid() {
+        return $this->uid;
     }
     
-    public function getDriver(): ?ViewModelInterface {
-        return $this->driverViewmodel;
+    public function getPageHref() {
+        return $this->pageHref;
     }
     
-//    public function appendLevel(ComponentInterface $child): void {
-//        $this->child = $child;
-//    }
-//
-//    public function getLevel(): ?ComponentInterface {
-//        return $this->child;
-//    }
+    public function getRedApiUri() {
+        return $this->redApiUri;
+    }
     
-    #############
-    
-    /**
-     *
-     * @return HierarchyAggregateInterface
-     */
-//    public function getHierarchyAggregate() {
-//        return $this->hierarchyAggregate;
-//    }
-    
-    #############
-
-    public function getRealDepth() {
-        return $this->realDepth;
+    public function getTitle() {
+        return $this->title;
     }
 
-    public function isOnPath() {
-        return $this->isOnPath;
+    public function isPasteMode() {
+        return $this->pasteMode;
+    }
+    
+    public function isCutted() {
+        return $this->isCutted;
+    }
+    
+    public function isActive() {
+        return $this->active;
     }
 
-    public function isLeaf() {
-        return $this->isLeaf;
+    public function isPresented() {
+        return $this->isPresented;
     }
-
-    public function isRoot() {
-        return $this->isRoot;
-    }  
+    
+    public function isMenuEditable() {
+        return $this->menuEditable;
+    }
 }

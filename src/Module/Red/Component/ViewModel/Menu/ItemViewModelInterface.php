@@ -18,19 +18,14 @@ use Component\View\ComponentInterface;
  */
 interface ItemViewModelInterface extends ViewModelInterface {
 
-    public function appendDriver(ViewModelInterface $driverViewmodel): void;
-    public function getDriver(): ?ViewModelInterface;
+    public function isActive();
+    public function isPresented();    
+    public function isCutted();
+    public function isPasteMode();
+    public function isMenuEditable();
     
-//    public function appendLevel(ComponentInterface $childComponent): void;
-//    public function getLevel(): ?ComponentInterface;
-    
-    public function isOnPath();
-    public function isLeaf();
-    public function isRoot();
-
-    public function getRealDepth();
-    /**
-     * @return HierarchyAggregateInterface
-     */
-//    public function getHierarchyAggregate();
+    public function getUid();
+    public function getPageHref();
+    public function getRedApiUri();
+    public function getTitle();    
 }
