@@ -2,8 +2,8 @@
 namespace  Red\Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
-use Red\Component\View\Menu\ItemComponentInterface;
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
+use Red\Component\View\Menu\DriverComponentInterface;
 
 use Pes\Text\Html;
 
@@ -22,7 +22,7 @@ class DriverRendererEditable extends HtmlRendererAbstract {
 
     /**
      *
-     * @var ItemViewModelInterface
+     * @var DriverViewModelInterface
      */
     protected $viewModel;
 
@@ -30,9 +30,9 @@ class DriverRendererEditable extends HtmlRendererAbstract {
         return $this->renderEditableItem($viewModel);
     }
 
-    protected function renderEditableItem(ItemViewModelInterface $viewModel) {
+    protected function renderEditableItem(DriverViewModelInterface $viewModel) {
         if ($viewModel->isPresented()) {
-            $buttonsHtml = $viewModel->offsetExists(ItemComponentInterface::ITEM_BUTTONS) ? $viewModel->offsetGet(ItemComponentInterface::ITEM_BUTTONS) : "";
+            $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::ITEM_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::ITEM_BUTTONS) : "";
 
             $itemHtml =
                 Html::tag('form', [],
@@ -81,14 +81,14 @@ class DriverRendererEditable extends HtmlRendererAbstract {
         return $itemHtml;
     }
 
-    private function redDriverEditableStyle(ItemViewModelInterface $viewModel) {
+    private function redDriverEditableStyle(DriverViewModelInterface $viewModel) {
         return [
             $viewModel->isActive() ? "active " : "",
             $viewModel->isPresented() ? "presented " : "",
         ];
     }
 
-    private function semafor(ItemViewModelInterface $viewModel) {
+    private function semafor(DriverViewModelInterface $viewModel) {
         $active = $viewModel->isActive();
         $html = Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
                     Html::tag('i', [

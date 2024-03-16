@@ -11,57 +11,77 @@ namespace Red\Component\ViewModel\Menu;
 use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Component\View\ComponentInterface;
+use Component\ViewModel\ViewModelInterface;
 
 /**
- * Description of DriverViewModel
+ * Description of ItemViwModel
  *
  * @author pes2704
  */
 class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
 
-    private $uid;
+    /**
+     * @var HierarchyAggregateInterface
+     */
+//    private $hierarchyAggregate;
     
-    private $pageHref;
-    private $redApiUri;
-    private $title;
-    private $active;
-    private $isPresented;
+    private $driverViewmodel;
+    
+    private $realDepth;
+    private $isOnPath;
+    private $isLeaf;
 
     private $child;
 
-    public function __construct($uid, $pageHref, $redApiUri, $title, $active, $isPresented) {
+    public function __construct(
+//            HierarchyAggregateInterface $hierarchaAggregate, 
+              $realDepth, $isOnPath, $isLeaf) {
+
+//        $this->hierarchyAggregate = $hierarchaAggregate;
         
-        $this->uid = $uid;
-        
-        $this->pageHref = $pageHref;
-        $this->redApiUri = $redApiUri;
-        $this->title = $title;
-        $this->active = $active;
-        $this->isPresented = $isPresented;
+        $this->realDepth = $realDepth;
+        $this->isOnPath = $isOnPath;
+        $this->isLeaf = $isLeaf;
         parent::__construct();
     }
     
-    public function getUid() {
-        return $this->uid;
+    public function appendDriver(ViewModelInterface $driverViewmodel): void {
+        $this->driverViewmodel = $driverViewmodel;
     }
     
-    public function getPageHref() {
-        return $this->pageHref;
+    public function getDriver(): ?ViewModelInterface {
+        return $this->driverViewmodel;
     }
     
-    public function getRedApiUri() {
-        return $this->redApiUri;
-    }
+//    public function appendLevel(ComponentInterface $child): void {
+//        $this->child = $child;
+//    }
+//
+//    public function getLevel(): ?ComponentInterface {
+//        return $this->child;
+//    }
     
-    public function getTitle() {
-        return $this->title;
-    }
+    #############
     
-    public function isActive() {
-        return $this->active;
+    /**
+     *
+     * @return HierarchyAggregateInterface
+     */
+//    public function getHierarchyAggregate() {
+//        return $this->hierarchyAggregate;
+//    }
+    
+    #############
+
+    public function getRealDepth() {
+        return $this->realDepth;
     }
 
-    public function isPresented() {
-        return $this->isPresented;
+    public function isOnPath() {
+        return $this->isOnPath;
+    }
+
+    public function isLeaf() {
+        return $this->isLeaf;
     }
 }

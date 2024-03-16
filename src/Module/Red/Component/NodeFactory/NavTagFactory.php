@@ -178,7 +178,7 @@ class NavTagFactory implements NavTagFactoryInterface {
             );
     }
 
-    public function getItemNodeNew(NodeViewModelInterface $itemViewModel) {
+    public function getItemNodeNew(ItemViewModelInterface $itemViewModel) {
         $returnTag = new Tag\Li(
                 [
                     'class'=>[

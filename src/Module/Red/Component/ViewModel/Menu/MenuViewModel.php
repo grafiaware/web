@@ -13,10 +13,10 @@ use Red\Model\Entity\MenuRootInterface;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
-use Red\Component\ViewModel\Menu\NodeViewModel;
-use Red\Component\ViewModel\Menu\NodeViewModelInterface;
 use Red\Component\ViewModel\Menu\ItemViewModel;
 use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\DriverViewModel;
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 use Red\Service\ItemApi\ItemApiServiceInterface;
 
@@ -150,7 +150,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     /**
      * Původní metoda getSubtreeItemModel pro Menu Display Controller. Načte podstrom uzlů menu, potomkků
      *
-     * @return NodeViewModelInterface array of
+     * @return ItemViewModelInterface array of
      */
     public function getSubTreeNodes() {
         // root uid z jména komponenty
@@ -188,6 +188,9 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     private function prepareNodeModels() {
         $nodes = $this->getSubTreeNodes();
         $rootNode = reset($nodes);
+        // XX
+$presentedItem = $this->statusViewModel->getPresentedMenuItem();   
+
         $presentedNode = $this->getPresentedMenuNode($rootNode);
         if (isset($presentedNode)) {
             $presentedUid = $presentedNode->getUid();
@@ -211,6 +214,9 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         
         $models = [];
         foreach ($nodes as $key => $node) {
+            /** @var HierarchyAggregateInterface $node */
+            $menuItem = $node->getMenuItem();
+            
             $realDepth = $node->getDepth() - $rootDepth + 1;  // první úroveň má realDepth=1
             $isOnPath = isset($presentedNode) ? ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode()) : FALSE;
             $isLeaf = (
@@ -221,30 +227,31 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
                         ($nodes[$key+1]->getDepth() <= $node->getDepth())  // žádný aktivní (zobrazený) potomek - další prvek $nodes nemá větší hloubku
                     );
             $isRoot = ($key==0 AND $this->withRootItem);
-            $nodeUid = $node->getUid();
-            $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
+            // XX
+//            $nodeUid = $node->getUid();
+//            $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
+            $isPresented = isset($presentedItem) ? ($presentedItem->getId() == $menuItem->getId()) : FALSE;
 
             $models[] = 
             [
-                $this->createItemViewmodel($realDepth, $isOnPath, $isLeaf, $isRoot), 
-                $this->createDriverViewModel($node, $isPresented)
+                $this->createItemViewmodel($realDepth, $isOnPath, $isLeaf), 
+                $this->createDriverViewModel($menuItem, $isPresented, $isRoot)
             ];
         }
         return $models;
     }
     
-    private function createItemViewmodel($realDepth, $isOnPath, $isLeaf, $isRoot) {
-        return new NodeViewModel($realDepth, $isOnPath, $isLeaf, $isRoot);
+    private function createItemViewmodel($realDepth, $isOnPath, $isLeaf) {
+        return new ItemViewModel($realDepth, $isOnPath, $isLeaf);
     }
     
-    private function createDriverViewModel(HierarchyAggregateInterface $node, $isPresented) {
-        $menuItem = $node->getMenuItem();
+    private function createDriverViewModel(MenuItemInterface $menuItem, $isPresented, $isRoot) {
         $pageHref = $this->itemApiService->getPageApiUri($menuItem);
         $redApiUri = $this->itemApiService->getContentApiUri($menuItem);
         $uid = $menuItem->getUidFk();
         $title = $menuItem->getTitle();
         $active = $menuItem->getActive();
         
-        return new ItemViewModel($uid, $pageHref, $redApiUri, $title, $active, $isPresented);        
+        return new DriverViewModel($uid, $pageHref, $redApiUri, $title, $active, $isPresented, $isRoot);        
     }
 }

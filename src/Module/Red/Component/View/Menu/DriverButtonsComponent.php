@@ -12,7 +12,7 @@ use Pes\View\ViewInterface;
  *
  * @author pes2704
  */
-class ItemButtonsComponent extends ComponentCollectionAbstract implements InheritDataViewInterface {
+class DriverButtonsComponent extends ComponentCollectionAbstract implements InheritDataViewInterface {
 
     public function inheritData(iterable $data): ViewInterface {
         $this->setData($data);

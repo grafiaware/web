@@ -2,7 +2,7 @@
 namespace  Red\Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Red\Component\View\Menu\NodeComponentInterface;
+use Red\Component\View\Menu\ItemComponentInterface;
 
 use Red\Component\ViewModel\Menu\LevelViewModelInterface;
 use Pes\Text\Html;
@@ -25,7 +25,7 @@ class LevelRenderer extends HtmlRendererAbstract {
             $levelItemsHtml = "";
             /** @var LevelViewModelInterface $contextData */
             foreach ($contextData as $itemComponentHtml) {
-                /** @var NodeComponentInterface $itemComponentHtml */
+                /** @var ItemComponentInterface $itemComponentHtml */
                 $levelItemsHtml .= $itemComponentHtml;
             }
 

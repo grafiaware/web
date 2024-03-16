@@ -139,9 +139,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             ItemRenderer::class => function(ContainerInterface $c) {
                 return new ItemRenderer($c->get('menu.item.classmap'));
             },
-            ItemRendererEditable::class => function(ContainerInterface $c) {
-                return new ItemRendererEditable($c->get('menu.item.classmap.editable'));
-            },
+//            ItemRendererEditable::class => function(ContainerInterface $c) {
+//                return new ItemRendererEditable($c->get('menu.item.classmap.editable'));
+//            },
 //            NodeBlockRenderer::class => function(ContainerInterface $c) {
 //                return new NodeBlockRenderer($c->get('menu.item.classmap'));
 //            },

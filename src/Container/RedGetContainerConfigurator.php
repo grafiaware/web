@@ -53,8 +53,8 @@ use Component\View\ComponentInterface;
 use Red\Component\View\Menu\MenuComponent;
 use Red\Component\View\Menu\MenuComponentInterface;
 use Red\Component\View\Menu\LevelComponent;
-use Red\Component\View\Menu\NodeComponent;
 use Red\Component\View\Menu\ItemComponent;
+use Red\Component\View\Menu\DriverComponent;
 
 use Red\Component\View\Manage\EditMenuSwitchComponent;
 
@@ -121,7 +121,6 @@ use Red\Component\ViewModel\Generated\SearchResultViewModel;
 use Red\Component\Renderer\Html\Menu\MenuRenderer;
 
 use Red\Component\Renderer\Html\Menu\ItemRenderer;
-use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
 use Red\Component\Renderer\Html\Menu\DriverRenderer;
 use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 
@@ -252,13 +251,13 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            NodeComponent::class => function(ContainerInterface $c) {
-                $component = new NodeComponent($c->get(ComponentConfiguration::class));
+            ItemComponent::class => function(ContainerInterface $c) {
+                $component = new ItemComponent($c->get(ComponentConfiguration::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ItemComponent::class => function(ContainerInterface $c) {
-                $component = new ItemComponent($c->get(ComponentConfiguration::class));
+            DriverComponent::class => function(ContainerInterface $c) {
+                $component = new DriverComponent($c->get(ComponentConfiguration::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -293,7 +292,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -316,7 +315,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -338,7 +337,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -364,7 +363,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -386,7 +385,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -415,32 +414,32 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ButtonsItemManipulationComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                $configuration = $c->get(ComponentConfiguration::class);
-// ???
-                $component = new ButtonsItemManipulationComponent($configuration);
-                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoPermittedContentRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            ButtonsMenuManipulationComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                $configuration = $c->get(ComponentConfiguration::class);
-
-                $component = new ButtonsMenuManipulationComponent($configuration);
-                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoPermittedContentRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
+//            ButtonsItemManipulationComponent::class => function(ContainerInterface $c) {
+//                /** @var AccessPresentationInterface $accessPresentation */
+//                $accessPresentation = $c->get(AccessPresentation::class);
+//                $configuration = $c->get(ComponentConfiguration::class);
+//// ???
+//                $component = new ButtonsItemManipulationComponent($configuration);
+//                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+//                    $component = $c->get(ElementComponent::class);
+//                    $component->setRendererName(NoPermittedContentRenderer::class);
+//                }
+//                $component->setRendererContainer($c->get('rendererContainer'));
+//                return $component;
+//            },
+//            ButtonsMenuManipulationComponent::class => function(ContainerInterface $c) {
+//                /** @var AccessPresentationInterface $accessPresentation */
+//                $accessPresentation = $c->get(AccessPresentation::class);
+//                $configuration = $c->get(ComponentConfiguration::class);
+//
+//                $component = new ButtonsMenuManipulationComponent($configuration);
+//                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+//                    $component = $c->get(ElementComponent::class);
+//                    $component->setRendererName(NoPermittedContentRenderer::class);
+//                }
+//                $component->setRendererContainer($c->get('rendererContainer'));
+//                return $component;
+//            },
 
         ####
         # Element komponenty - vždy zobrazeny

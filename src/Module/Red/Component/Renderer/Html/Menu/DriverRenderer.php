@@ -3,7 +3,7 @@ namespace  Red\Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 use Pes\Text\Html;
 
@@ -22,7 +22,7 @@ class DriverRenderer extends HtmlRendererAbstract {
 
     /**
      *
-     * @var ItemViewModelInterface
+     * @var DriverViewModelInterface
      */
     protected $viewModel;
 
@@ -30,7 +30,7 @@ class DriverRenderer extends HtmlRendererAbstract {
         return $this->renderNoneditableItem($viewModel);
     }
 
-    private function renderNoneditableItem(ItemViewModelInterface $viewModel) {
+    private function renderNoneditableItem(DriverViewModelInterface $viewModel) {
         $anchorHtml = Html::tag('a',
                 [
                     'class'=>[
