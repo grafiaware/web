@@ -10,7 +10,7 @@ namespace Site\VeletrhPrace;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
 use  Red\Component\Renderer\Html\Menu\{
-    LevelRenderer, MenuWrapEditableRenderer, NodeRenderer, ItemEditableRenderer, NodeBlockRenderer, NodeTrashRenderer
+    LevelRenderer, ItemRenderer, ItemEditableRenderer, ItemRenderer
 };
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -157,7 +157,7 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
                 return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
             },
             'menu.svisle.itemrenderer' => function(ContainerInterface $c) {
-                return new NodeRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
+                return new ItemRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
             },
             //bloky
             'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
@@ -166,9 +166,9 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
             'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
             },
-            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
-                return new NodeBlockRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
-            },
+//            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
+//                return new NodeBlockRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+//            },
             //kos
             'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
@@ -176,9 +176,9 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
             'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
             },
-            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
-                return new NodeTrashRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
-            },
+//            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
+//                return new NodeTrashRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+//            },
 
 
         ###########################

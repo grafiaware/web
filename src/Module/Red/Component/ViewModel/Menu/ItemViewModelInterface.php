@@ -20,9 +20,6 @@ interface ItemViewModelInterface extends ViewModelInterface {
 
     public function isActive();
     public function isPresented();    
-    public function isCutted();
-    public function isPasteMode();
-    public function isMenuEditable();
     
     public function getUid();
     public function getPageHref();

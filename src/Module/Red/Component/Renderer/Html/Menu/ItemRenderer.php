@@ -4,7 +4,7 @@ namespace  Red\Component\Renderer\Html\Menu;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Model\Entity\MenuItemInterface;
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\NodeViewModelInterface;
 use Red\Component\View\Menu\NodeComponentInterface;
 
 use Pes\Type\ContextDataInterface;
@@ -26,7 +26,7 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     /**
      *
-     * @var ItemViewModelInterface
+     * @var NodeViewModelInterface
      */
     protected $viewModel;
 
@@ -34,35 +34,32 @@ class ItemRenderer extends HtmlRendererAbstract {
         return $this->renderNoneditableItem($viewModel);
     }
 
-    private function renderNoneditableItem(ItemViewModelInterface $viewModel) {
-        $anchorHtml = Html::tag('a',
-                [
-                    'class'=>[
-                        $this->classMap->get('Item', 'li a'),
-                        $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),   
-                        ],
-                    'href'=> $viewModel->getPageHref(),
-                    'data-red-content-api-uri'=> $viewModel->getRedApiUri()
-                ],
-                Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
-                    $viewModel->getTitle()
+    private function renderNoneditableItem(NodeViewModelInterface $viewModel) {
+        $levelHtml = ($viewModel->offsetExists(NodeComponentInterface::LEVEL)) ? $viewModel->offsetGet(NodeComponentInterface::LEVEL) : "";
+        $driverHtml = ($viewModel->offsetExists(NodeComponentInterface::DRIVER)) ? $viewModel->offsetGet(NodeComponentInterface::DRIVER) : "";
+        $html = Html::tag('li',
+                ['class'=>[
+                    $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
+                    $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
                         //TODO: DRIVER
-//                    .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
-                )
+//                    $this->classMap->resolve($viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    ],
+                 'data-red-styleinfo'=> $this->redLiEditableStyle($viewModel)
+               ],
+               [
+                $driverHtml,$levelHtml,
+                Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+               ]
             );
-
-        return $anchorHtml;
+        return $html;
     }
 
-    private function redLiEditableStyle($viewModel) {
+    private function redLiEditableStyle(NodeViewModelInterface $viewModel) {
         return [
-            $viewModel->isLeaf() ? "leaf " : "",
-            $viewModel->isOnPath() ? "onpath " : "",
-            "realDepth:".$viewModel->getRealDepth()." ",
-            ($viewModel->getRealDepth() == 1) ? "dropdown " : "",
-            $viewModel->isPresented() ? "presented " : "",
-            $viewModel->isPresented() ? "presented " : "",                
-            $viewModel->isCutted() ? "cutted " : "",
-        ];
+                ($viewModel->isLeaf() ? "leaf " : ""),
+                ($viewModel->isOnPath() ? "onpath " : ""),
+                ("realDepth:".$viewModel->getRealDepth()." "),
+                (($viewModel->getRealDepth() == 1) ? "dropdown " : ""),
+            ];
     }
 }

@@ -25,15 +25,11 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     private $redApiUri;
     private $title;
     private $active;
-    private $realDepth;
     private $isPresented;
-    private $pasteMode;
-    private $isCutted;
-    private $menuEditable;
 
     private $child;
 
-    public function __construct($uid, $pageHref, $redApiUri, $title, $active, $isPresented, $isCutted, $pasteMode, $menuEditable) {
+    public function __construct($uid, $pageHref, $redApiUri, $title, $active, $isPresented) {
         
         $this->uid = $uid;
         
@@ -42,9 +38,6 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         $this->title = $title;
         $this->active = $active;
         $this->isPresented = $isPresented;
-        $this->isCutted = $isCutted;
-        $this->pasteMode = $pasteMode;
-        $this->menuEditable = $menuEditable;
         parent::__construct();
     }
     
@@ -63,14 +56,6 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     public function getTitle() {
         return $this->title;
     }
-
-    public function isPasteMode() {
-        return $this->pasteMode;
-    }
-    
-    public function isCutted() {
-        return $this->isCutted;
-    }
     
     public function isActive() {
         return $this->active;
@@ -78,9 +63,5 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
 
     public function isPresented() {
         return $this->isPresented;
-    }
-    
-    public function isMenuEditable() {
-        return $this->menuEditable;
     }
 }

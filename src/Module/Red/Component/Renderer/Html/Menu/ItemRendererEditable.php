@@ -2,9 +2,8 @@
 namespace  Red\Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\NodeViewModelInterface;
 use Red\Component\View\Menu\NodeComponentInterface;
-use Red\Component\View\Menu\ItemComponentInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Pes\Text\Html;
@@ -16,7 +15,7 @@ use Pes\Text\Html;
  */
 
 /**
- * Description of DriverRendererEditable
+ * Description of Svisle
  *
  * @author pes2704
  */
@@ -24,7 +23,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
 
     /**
      *
-     * @var ItemViewModelInterface
+     * @var NodeViewModelInterface
      */
     protected $viewModel;
 
@@ -32,75 +31,39 @@ class ItemRendererEditable extends HtmlRendererAbstract {
         return $this->renderEditableItem($viewModel);
     }
 
-    protected function renderEditableItem(ItemViewModelInterface $viewModel) {
-        $semafor = $viewModel->isMenuEditable() ? $this->semafor($viewModel) : "";
+    protected function renderEditableItem(NodeViewModelInterface $viewModel) {
+//        $semafor = $viewModel->isMenuEditable() ? $this->semafor($viewModel) : "";
+        $levelHtml = ($viewModel->offsetExists(NodeComponentInterface::LEVEL)) ? $viewModel->offsetGet(NodeComponentInterface::LEVEL) : "";
+        $driverHtml = ($viewModel->offsetExists(NodeComponentInterface::DRIVER)) ? $viewModel->offsetGet(NodeComponentInterface::DRIVER) : "";
 
-        if ($viewModel->isPresented()) {
-            $buttonsHtml = $viewModel->offsetExists(ItemComponentInterface::ITEM_BUTTONS) ? $viewModel->offsetGet(ItemComponentInterface::ITEM_BUTTONS) : "";
-
-            $itemHtml =
-                Html::tag('form', [],
-                    Html::tag('p',
-                        [
-                        'class'=>[
-                            $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
-                            $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
-                            ],
-                        'data-red-style'=> $this->redDriverEditableStyle($viewModel),
-                        'data-href'=>$viewModel->getPageHref(),
-                        'data-red-content-api-uri'=> $viewModel->getRedApiUri(),
-                        'tabindex'=>0,
-                        ],
-
-                        // POZOR: závislost na edit.js
-                        // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
-                        // t.j. selektor vybírá <span>, který má rodiče <p>
-                        Html::tag('span', [
-                            'contenteditable'=> "true",
-                            'data-original-title'=>$viewModel->getTitle(),
-                            ],
-                            $viewModel->getTitle()
+        $liHtml = Html::tag(     'li',
+                ['class'=>[
+                    $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
+                    $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
                         //TODO: DRIVER
-//                            .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
-                        )
-                        . $semafor
-                    )
-                    .Html::tag('div',
-                        ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
-                        $buttonsHtml)
-                );
-        } else {
-            $itemHtml = Html::tag('a',
-                [
-                    'class'=>[
-                        $this->classMap->get('Item', 'li a'),
-                        $this->classMap->get('Item', 'li'),
-                        ],
-                    'data-red-style'=> $this->redDriverEditableStyle($viewModel),
-                    'href'=>$viewModel->getPageHref(),
-                    'data-red-content-api-uri'=> $viewModel->getRedApiUri(),
+//                    $this->classMap->resolve($viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    ],
+                 'data-red-style'=> $this->redLiEditableStyle($viewModel)
                 ],
-                Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
-                    $viewModel->getTitle()
-                        //TODO: DRIVER
-//                    .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
-                )
-                . $semafor
+                [
+                    $driverHtml,
+                    $levelHtml,
+                    Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                ]
             );
-        }
 
-        return $itemHtml;
+
+        return $liHtml;
     }
 
-    private function redDriverEditableStyle(ItemViewModelInterface $viewModel) {
+    private function redLiEditableStyle(NodeViewModelInterface $viewModel) {
         return [
-            $viewModel->isActive() ? "active " : "",
-            $viewModel->isPresented() ? "presented " : "",
-            $viewModel->isCutted() ? "cutted " : "",
-        ];
+                ($viewModel->isOnPath() ? "onpath " : ""),
+                (($viewModel->getRealDepth() == 1) ? "dropdown " : ""),
+            ];
     }
 
-    private function semafor(ItemViewModelInterface $viewModel) {
+    private function semafor(NodeViewModelInterface $viewModel) {
         $active = $viewModel->isActive();
         $html = Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
                     Html::tag('i', [

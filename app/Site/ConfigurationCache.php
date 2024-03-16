@@ -9,14 +9,14 @@ namespace Site;
 
 #### ZDE PONECH ODKOMENROVANOU JEN JEDNU DVOJICI #############################
 #
-//use Site\G2 as Siteconfig;
-//const SITE_PATH = 'app/Site/G2/';
+use Site\G2 as Siteconfig;
+const SITE_PATH = 'app/Site/G2/';
 
 //use Site\Grafia as Siteconfig;
 //const SITE_PATH = 'app/Site/Grafia/';
 
-use Site\NajdiSi as Siteconfig;
-const SITE_PATH = 'app/Site/NajdiSi/';
+//use Site\NajdiSi as Siteconfig;
+//const SITE_PATH = 'app/Site/NajdiSi/';
 
 //use Site\OtevreneAteliery as Siteconfig;
 //const SITE_PATH = 'app/Site/OtevreneAteliery/';

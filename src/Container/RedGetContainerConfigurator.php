@@ -53,6 +53,9 @@ use Component\View\ComponentInterface;
 use Red\Component\View\Menu\MenuComponent;
 use Red\Component\View\Menu\MenuComponentInterface;
 use Red\Component\View\Menu\LevelComponent;
+use Red\Component\View\Menu\NodeComponent;
+use Red\Component\View\Menu\ItemComponent;
+
 use Red\Component\View\Manage\EditMenuSwitchComponent;
 
 use Auth\Component\View\LoginComponent;
@@ -117,14 +120,10 @@ use Red\Component\ViewModel\Generated\SearchResultViewModel;
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Red\Component\Renderer\Html\Menu\MenuRenderer;
 
-use Red\Component\Renderer\Html\Menu\NodeRenderer;
-use Red\Component\Renderer\Html\Menu\NodeRendererEditable;
-use Red\Component\Renderer\Html\Menu\NodeBlockRenderer;
-use Red\Component\Renderer\Html\Menu\NodeBlockRendererEditable;
-use Red\Component\Renderer\Html\Menu\NodeTrashRenderer;
-use Red\Component\Renderer\Html\Menu\NodeTrashRendererEditable;
 use Red\Component\Renderer\Html\Menu\ItemRenderer;
 use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
+use Red\Component\Renderer\Html\Menu\DriverRenderer;
+use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 
 use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
@@ -233,8 +232,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         ####
 
         ####
-        # MenuComponent
-        # - stavový objekt, je třeba více kusů
+        # MenuComponent, LevelComponent, NodeComponent, ItemComponent
+        # - stavové objekty, je třeba více kusů
         #
             MenuComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
@@ -250,6 +249,16 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             LevelComponent::class => function(ContainerInterface $c) {
                 $component = new LevelComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(LevelViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            NodeComponent::class => function(ContainerInterface $c) {
+                $component = new NodeComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            ItemComponent::class => function(ContainerInterface $c) {
+                $component = new ItemComponent($c->get(ComponentConfiguration::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -284,7 +293,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], NodeRenderer::class, NodeRendererEditable::class, ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -307,7 +316,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], NodeRenderer::class, NodeRendererEditable::class, ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -329,7 +338,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], NodeRenderer::class, NodeRendererEditable::class, ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -355,7 +364,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], NodeRenderer::class, NodeRendererEditable::class, ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
@@ -377,7 +386,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer'], NodeRenderer::class, NodeRendererEditable::class, ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class, DriverRenderer::class, DriverRendererEditable::class);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
