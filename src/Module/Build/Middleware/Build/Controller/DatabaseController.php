@@ -215,6 +215,38 @@ class DatabaseController extends BuildControllerAbstract {
                         ]);
                 }
             };            
+            
+            
+            
+            
+            
+            
+            //  zacatky menu, kdyz nedela convert
+            $conversionSteps[] = function() {
+                // [type, list, title]
+                $rootsListNames1 = $this->container->get('build.config.make.menuroots');
+                foreach ($rootsListNames1 as $rootName1) {
+//                    if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
+//
+//                        $this->executeFromTemplate("makeAndConvert/page2_2a_insertIntoMenuItem.sql", 
+//                                                   ['root' => $rootName1]);
+//                    }    
+                }            
+            
+            };
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         }
 
         if($convert) {
@@ -309,6 +341,14 @@ class DatabaseController extends BuildControllerAbstract {
                 }
             return TRUE;
         };
+        
+        
+//        if (!$convert) {
+//            //$crmenu = $this->container->get('build.config.convert.final');
+//            // AAAAAAAAAA $menus = $this->container->get('menu.componentsServices');
+//             $this->manipulator->find("menu_item", [ "list"=> 'menu_vertical' ]);
+//        }
+        
         
         $conversionSteps[] = function() {
             $fileName = "makeAndConvert/page4_alterMenuItem_fk.sql";
