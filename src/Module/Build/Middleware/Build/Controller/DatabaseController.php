@@ -215,39 +215,27 @@ class DatabaseController extends BuildControllerAbstract {
                         ]);
                 }
             };            
-            
-            
-            
-            
-            
-            
-            //  zacatky menu, kdyz nedela convert
+                                        
+            // zacatky menu, kdyz nedela convert
             $conversionSteps[] = function() {
                 // [type, list, title]
                 $rootsListNames1 = $this->container->get('build.config.make.menuroots');
                 foreach ($rootsListNames1 as $rootName1) {
-//                    if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
-//
-//                        $this->executeFromTemplate("makeAndConvert/page2_2a_insertIntoMenuItem.sql", 
-//                                                   ['root' => $rootName1]);
-//                    }    
-                }            
-            
+                    if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
+                        $this->executeFromTemplate("makeAndConvert/page2_2a_insertIntoMenuItem.sql",                                                    //                                                   
+                                                    [
+                                                    'menu_root_api_module' => 'red', 
+                                                    'menu_root_api_generator' => 'select',
+                                                    'menu_root_list'=> $rootName1 .'_child' ,
+                                                    'menu_root_title'=> 'Tady začni...',
+                                                    ]);
+                    }    
+                }                       
             };
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+                                                       
         }
+        
+        
 
         if($convert) {
             ### copy old table stranky ###
@@ -286,6 +274,7 @@ class DatabaseController extends BuildControllerAbstract {
             $this->executeFromTemplate("makeAndConvert/page3_1_selectIntoAdjList.sql", ['root'=>$rootName]);
             $this->executeFromTemplate("makeAndConvert/page3_2_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
         };
+                     
         
         if ($convert) {
             $conversionSteps[] = function() {   // convert
@@ -297,9 +286,19 @@ class DatabaseController extends BuildControllerAbstract {
                     $this->executeFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName, 'menu_root'=>$menuRoot, 'prefix'=>$prefix]);                
                 }
                 $this->executeFromTemplate("makeAndConvert/page3_4_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);                
+            };            
+        } else  {
+            $conversionSteps[] = function() {   // convert
+                $rootName = $this->container->get('build.config.make.root')[0];
+                $menuRoots = $this->container->get('build.config.make.menuroots');
+                $inMenuRoots = implode("', '", $menuRoots);
+                
+                $this->executeFromTemplate("makeAndConvert/page3_2a_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
             };
-            
-        };
+         }
+        
+        
+        
         
         $conversionSteps[] = function() {   // convert
 //                $adjList = $this->manipulator->findAllRows('menu_adjlist');
@@ -342,13 +341,7 @@ class DatabaseController extends BuildControllerAbstract {
             return TRUE;
         };
         
-        
-//        if (!$convert) {
-//            //$crmenu = $this->container->get('build.config.convert.final');
-//            // AAAAAAAAAA $menus = $this->container->get('menu.componentsServices');
-//             $this->manipulator->find("menu_item", [ "list"=> 'menu_vertical' ]);
-//        }
-        
+//---------------------------------------------------        
         
         $conversionSteps[] = function() {
             $fileName = "makeAndConvert/page4_alterMenuItem_fk.sql";

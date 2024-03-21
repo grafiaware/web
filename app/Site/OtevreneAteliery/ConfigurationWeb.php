@@ -229,7 +229,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'menu.componentsServices' => [
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
-                        'withRootItem' => true,
+                        'withRootItem' => false,
                         'itemtype' => ItemRenderTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menu.svisle.levelRenderer',
                         ],
