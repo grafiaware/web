@@ -23,6 +23,8 @@ use Container\BuildContainerConfigurator;
  * @author pes2704
  */
 class DatabaseController extends BuildControllerAbstract {
+    
+    const LIST_POSTFIX = '_child';
 
     public function listConfig(ServerRequestInterface $request) {
         $configurator = new BuildContainerConfigurator();
@@ -222,11 +224,11 @@ class DatabaseController extends BuildControllerAbstract {
                 $rootsListNames1 = $this->container->get('build.config.make.menuroots');
                 foreach ($rootsListNames1 as $rootName1) {
                     if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
-                        $this->executeFromTemplate("makeAndConvert/page2_2a_insertIntoMenuItem.sql",                                                    //                                                   
+                        $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql",                                                    //                                                   
                                                     [
                                                     'menu_root_api_module' => 'red', 
                                                     'menu_root_api_generator' => 'select',
-                                                    'menu_root_list'=> $rootName1 .'_child' ,
+                                                    'menu_root_list'=> $rootName1 . self::LIST_POSTFIX ,
                                                     'menu_root_title'=> 'Tady začni...',
                                                     ]);
                     }    
@@ -293,7 +295,7 @@ class DatabaseController extends BuildControllerAbstract {
                 $menuRoots = $this->container->get('build.config.make.menuroots');
                 $inMenuRoots = implode("', '", $menuRoots);
                 
-                $this->executeFromTemplate("makeAndConvert/page3_2a_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
+                $this->executeFromTemplate("makeAndConvert/page3_2a_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName, 'child'=>self::LIST_POSTFIX]);               
             };
          }
         
@@ -364,7 +366,14 @@ class DatabaseController extends BuildControllerAbstract {
                 $fileName = "makeAndConvert/page5_3_insertIntoBlockTable.sql";
                 $this->executeFromFile($fileName);
             };
+        }else{        
+            $conversionSteps[] = function() { 
+                $homeList = $this->container->get('build.config.make.home');
+                $this->executeFromTemplate("makeAndConvert/page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1] . self::LIST_POSTFIX]);
+            };           
         }
+        
+        
 
         $conversionSteps[] = function() {
             $fileName = "makeAndConvert/page6_createHierarchy_view.sql";

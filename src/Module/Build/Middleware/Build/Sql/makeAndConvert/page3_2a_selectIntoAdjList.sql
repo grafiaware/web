@@ -25,6 +25,6 @@ INSERT INTO menu_adjlist (child, parent, poradi, level)
         WHERE parents.lang_code_fk='cs' AND childrens.lang_code_fk='cs' AND
             (
                 parents.list IN ({{in_menu_roots}}) AND
-                childrens.list = concat( parents.list, '_child' )
+                childrens.list = concat( parents.list, {{child}})
             )
 
