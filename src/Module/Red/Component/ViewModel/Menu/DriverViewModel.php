@@ -9,6 +9,10 @@
 namespace Red\Component\ViewModel\Menu;
 
 use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
+use Red\Service\ItemApi\ItemApiServiceInterface;
+use Red\Model\Entity\MenuItemInterface;
+
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Component\View\ComponentInterface;
 
@@ -19,56 +23,55 @@ use Component\View\ComponentInterface;
  */
 class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterface {
 
-    private $uid;
+    /**
+     * @var StatusViewModel
+     */
+    private $statusViewModel;
+    private $itemApiService;
+    private $menuItem;
+
+    public function __construct(StatusViewModel $status, ItemApiServiceInterface $itemApiService) {
+        $this->statusViewModel = $status;
+        $this->itemApiService = $itemApiService;
+    }
     
-    private $pageHref;
-    private $redApiUri;
-    private $title;
-    private $active;
-    private $isPresented;
-    private $isRoot;
-
-    private $child;
-
-    public function __construct($uid, $pageHref, $redApiUri, $title, $active, $isPresented, $isRoot) {
-        
-        $this->uid = $uid;
-        
-        $this->pageHref = $pageHref;
-        $this->redApiUri = $redApiUri;
-        $this->title = $title;
-        $this->active = $active;
-        $this->isPresented = $isPresented;
-        $this->isRoot = $isRoot;
-        
-        parent::__construct();
+    public function withMenuItem(MenuItemInterface $menuItem): DriverViewModelInterface {
+        $this->menuItem = $menuItem;
+        return $this;
     }
     
     public function getUid() {
-        return $this->uid;
+        return $this->menuItem->getUidFk();
     }
     
     public function getPageHref() {
-        return $this->pageHref;
+        return $this->itemApiService->getPageApiUri($this->menuItem);
     }
     
     public function getRedApiUri() {
-        return $this->redApiUri;
+        return $this->itemApiService->getContentApiUri($this->menuItem);
     }
     
     public function getTitle() {
-        return $this->title;
+        return $this->menuItem->getTitle();
     }
     
     public function isActive() {
-        return $this->active;
+        return $this->menuItem->getActive();
     }
 
     public function isPresented() {
-        return $this->isPresented;
+        $presentedItem = $this->statusViewModel->getPresentedMenuItem();   
+        return isset($presentedItem) ? ($presentedItem->getId() == $this->menuItem->getId()) : FALSE;        
     }
-
-    public function isRoot() {
-        return $this->isRoot;
-    }      
+    
+    public function presentEditableMenu(): bool {
+        return $this->statusViewModel->presentEditableMenu();
+    }
+    
+    public function isPasteMode(): bool {
+        $cut = $this->statusViewModel->getFlashPostCommand('cut') ? true : false;
+        $copy = $this->statusViewModel->getFlashPostCommand('copy') ? true :false;
+        return ($cut OR $copy);        
+    }
 }

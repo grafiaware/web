@@ -66,7 +66,7 @@ class DisplayController extends FrontControlerAbstract {
         switch ($mode) {
             // getFullTree
             case 0:
-                $flatenedTree = $menuRepo->getFullTree($langCode, $active, $actual);
+                $flatenedTree = $menuRepo->findFullTree($langCode, $active, $actual);
                 break;
             // getSubTree
             case 1:
@@ -96,7 +96,7 @@ class DisplayController extends FrontControlerAbstract {
                 $rootNode = $menuRepo->getNodeByTitle($langCode, $topMenuItemTitle, $active, $actual);
                 $maxDepth = NULL;
 //                $subLevels = 3;   // max depth v celém stromu!!
-                $flatenedTree = $menuRepo->getSubTree($langCode, $rootNode->getUid(), $active, $actual, $maxDepth);
+                $flatenedTree = $menuRepo->findSubTree($langCode, $rootNode->getUid(), $active, $actual, $maxDepth);
                 break;
             // getFullPathWithSiblings
             case 4:

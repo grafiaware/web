@@ -8,20 +8,20 @@
 
 namespace Red\Component\ViewModel\Menu;
 
-use Red\Model\Entity\HierarchyAggregateInterface;
 use Component\ViewModel\ViewModelInterface;
-use Component\View\ComponentInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 /**
  *
  * @author pes2704
  */
 interface DriverViewModelInterface extends ViewModelInterface {
-
+    public function withMenuItem(MenuItemInterface $menuItem): DriverViewModelInterface;
+    
     public function isActive();
     public function isPresented();    
-    public function isRoot();
-    
+    public function presentEditableMenu(): bool;
+    public function isPasteMode(): bool;    
     public function getUid();
     public function getPageHref();
     public function getRedApiUri();

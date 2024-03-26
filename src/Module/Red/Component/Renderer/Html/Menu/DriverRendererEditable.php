@@ -32,7 +32,7 @@ class DriverRendererEditable extends HtmlRendererAbstract {
 
     protected function renderEditableItem(DriverViewModelInterface $viewModel) {
         if ($viewModel->isPresented()) {
-            $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::ITEM_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::ITEM_BUTTONS) : "";
+            $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::DRIVER_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::DRIVER_BUTTONS) : "";
 
             $itemHtml =
                 Html::tag('form', [],

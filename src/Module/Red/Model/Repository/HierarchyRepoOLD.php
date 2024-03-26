@@ -102,7 +102,7 @@ class HierarchyRepoOLD extends RepoAbstract implements RepoReadonlyInterface {
      */
     public function getFullTree($langCode) {
         $tree = [];
-        foreach($this->dao->getFullTree($langCode) as $row) {
+        foreach($this->dao->findFullTree($langCode) as $row) {
             $index = $this->indexFromRow($row);
             $this->recreateEntity($index, $row);
             $tree[] = $this->collection[$index];
@@ -119,7 +119,7 @@ class HierarchyRepoOLD extends RepoAbstract implements RepoReadonlyInterface {
      */
     public function getSubTree($langCode, $rootUid, $maxDepth=NULL) {
         $subTree = [];
-        foreach($this->dao->getSubTree($langCode, $rootUid, $maxDepth) as $row) {
+        foreach($this->dao->findSubTree($langCode, $rootUid, $maxDepth) as $row) {
             $index = $this->indexFromRow($row);
             $this->recreateEntity($index, $row);
             $subTree[] = $this->collection[$index];
@@ -136,7 +136,7 @@ class HierarchyRepoOLD extends RepoAbstract implements RepoReadonlyInterface {
      */
     public function getSubNodes($langCode, $parentUid, $maxDepth=NULL) {
         $subTree = [];
-        foreach($this->dao->getSubTree($langCode, $parentUid, $maxDepth) as $row) {
+        foreach($this->dao->findSubTree($langCode, $parentUid, $maxDepth) as $row) {
             $index = $this->indexFromRow($row);
             $this->recreateEntity($index, $row);
             $subTree[] = $this->collection[$index];

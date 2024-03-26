@@ -18,7 +18,7 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
-use Red\Component\ViewModel\Menu\Enum\ItemRenderTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
 use Pes\Logger\FileLogger;
 
@@ -239,31 +239,31 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'menu.presmerovani' => [
                         'rootName' => 'menu_redirect',
                         'withRootItem' => false,
-                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.presmerovani.levelRenderer',
                         ],
                     'menu.vodorovne' => [
                         'rootName' => 'menu_horizontal',
                         'withRootItem' => false,
-                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.vodorovne.levelRenderer',
                         ],
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
                         'withRootItem' => false,
-                        'itemtype' => ItemRenderTypeEnum::MULTILEVEL,
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menu.svisle.levelRenderer',
                         ],
                     'menu.bloky' => [
                         'rootName' => 'blocks',
                         'withRootItem' => true,
-                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.bloky.levelRenderer',
                         ],
                     'menu.kos' => [
                         'rootName' => 'trash',
                         'withRootItem' => true,
-                        'itemtype' => ItemRenderTypeEnum::TRASH,
+                        'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],

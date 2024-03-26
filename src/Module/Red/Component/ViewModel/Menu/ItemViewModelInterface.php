@@ -17,19 +17,11 @@ use Component\View\ComponentInterface;
  * @author pes2704
  */
 interface ItemViewModelInterface extends ViewModelInterface {
-
-    public function appendDriver(ViewModelInterface $driverViewmodel): void;
-    public function getDriver(): ?ViewModelInterface;
     
-//    public function appendLevel(ComponentInterface $childComponent): void;
-//    public function getLevel(): ?ComponentInterface;
-    
+    public function setOnPath($isOnPath);
+    public function setLeaf($isLeaf);
+    public function setRealDepth($realDepth);
     public function isOnPath();
     public function isLeaf();
-
     public function getRealDepth();
-    /**
-     * @return HierarchyAggregateInterface
-     */
-//    public function getHierarchyAggregate();
 }

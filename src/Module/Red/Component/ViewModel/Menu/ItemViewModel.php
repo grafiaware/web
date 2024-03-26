@@ -19,59 +19,22 @@ use Component\ViewModel\ViewModelInterface;
  * @author pes2704
  */
 class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
-
-    /**
-     * @var HierarchyAggregateInterface
-     */
-//    private $hierarchyAggregate;
-    
-    private $driverViewmodel;
     
     private $realDepth;
     private $isOnPath;
     private $isLeaf;
-
-    private $child;
-
-    public function __construct(
-//            HierarchyAggregateInterface $hierarchaAggregate, 
-              $realDepth, $isOnPath, $isLeaf) {
-
-//        $this->hierarchyAggregate = $hierarchaAggregate;
-        
-        $this->realDepth = $realDepth;
+    
+    public function setOnPath($isOnPath) {
         $this->isOnPath = $isOnPath;
+    }
+    
+    public function setLeaf($isLeaf) {
         $this->isLeaf = $isLeaf;
-        parent::__construct();
     }
     
-    public function appendDriver(ViewModelInterface $driverViewmodel): void {
-        $this->driverViewmodel = $driverViewmodel;
+    public function setRealDepth($realDepth) {
+        $this->realDepth = $realDepth;
     }
-    
-    public function getDriver(): ?ViewModelInterface {
-        return $this->driverViewmodel;
-    }
-    
-//    public function appendLevel(ComponentInterface $child): void {
-//        $this->child = $child;
-//    }
-//
-//    public function getLevel(): ?ComponentInterface {
-//        return $this->child;
-//    }
-    
-    #############
-    
-    /**
-     *
-     * @return HierarchyAggregateInterface
-     */
-//    public function getHierarchyAggregate() {
-//        return $this->hierarchyAggregate;
-//    }
-    
-    #############
 
     public function getRealDepth() {
         return $this->realDepth;

@@ -2,6 +2,7 @@
 namespace Red\Component\View\Menu;
 
 use Component\View\ComponentCompositeAbstract;
+use Red\Component\View\Menu\DriverComponentInterface;
 
 /**
  * Description of ItemComponent
@@ -11,6 +12,6 @@ use Component\View\ComponentCompositeAbstract;
  *
  * @author pes2704
  */
-class DriverComponent extends ComponentCompositeAbstract implements ItemComponentInterface {
+class DriverComponent extends ComponentCompositeAbstract implements DriverComponentInterface {
 
 }
