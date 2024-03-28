@@ -95,12 +95,17 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->make();
-            });
+            });        
         $routeGenerator->addRouteForAction('POST', '/build/convert', function(ServerRequestInterface $request) {
             /** @var DatabaseController $ctrl */
             $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->convert();
             });
+        $routeGenerator->addRouteForAction('POST', '/build/import', function(ServerRequestInterface $request) {
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
+            return $ctrl->import();
+            });        
 ####################################
         /** @var RouterInterface $router */
         $router = $this->container->get(RouterInterface::class);
