@@ -120,9 +120,15 @@ class ConfigurationDb {
             'build.config.convert.copy' => [
                     'source' => 'otevreneatelierycz_20230905.stranky',
                     'target' => 'oa_upgrade.stranky'
-                ],
+            ],
+            'build.config.import.copy' => [
+                    'source' => 'otevreneatelierycz_20230905.stranky',
+                    'target' => 'oa_upgrade.stranky'
+            ],
             'build.config.convert.repairs' => [
-                ],
+            ],
+            'build.config.import.repairs' => [
+            ],
             'build.config.convert.updatestranky' => [
                 ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='l00', poradi=0
             ],
