@@ -447,7 +447,7 @@ class DatabaseController extends BuildControllerAbstract {
                 $conversionSteps[] = $build_config_import_repairs ;
                
                 $conversionSteps[] = $p_2_1_updateStranky;  //
-                $conversionSteps[] = $p_0_createStrankyInnoDbcopy_stranky;    //nahradi obsah tab stranky_innodb novymi dat
+                $conversionSteps[] = $p_0_createStrankyInnoDbcopy_stranky;    //nahradi obsah tab stranky_innodb novymidaty
                 
                 $conversionSteps[] = $p_3_0;
                 /*$conversionSteps[] = $p_2_4_updateMenuItemTypesActive;*/

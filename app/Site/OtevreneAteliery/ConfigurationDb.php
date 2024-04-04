@@ -109,6 +109,15 @@ class ConfigurationDb {
                 ['red', 'empty', 'blocks', 'Blocks'],
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
+            'build.config.import.items' => [
+                
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
+                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+            ],
+            'build.config.import.rootuid' => [
+                '658db850b8018'     // hierarchy uid položky menu, do které se provede konverze staré databáze 
+            ],
             'build.config.make.root' => [
                 'root',
                 ],
@@ -132,13 +141,17 @@ class ConfigurationDb {
             'build.config.convert.updatestranky' => [
                 ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='l00', poradi=0
             ],
+            'build.config.import.updatestranky' => [
+                ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='l00', poradi=0
+            ],
             'build.config.convert.prefixmap' => [
                 's'=>'menu_vertical',
                 'a'=>'blocks'
             ],
-            'build.config.convert.importrootuid' => [
-                '658db850b8018'     // hierarchy uid položky menu, do které se provede konverze staré databáze 
-            ],
+            'build.config.import.prefixmap' => [
+                's'=>'menu_vertical',
+                'a'=>'blocks'
+            ],       
             'build.config.convert.home' => [
                 'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
@@ -147,6 +160,8 @@ class ConfigurationDb {
             ],
 
             'build.config.convert.final' => [
+                ],
+            'build.config.import.final' => [
                 ],
 
             #
