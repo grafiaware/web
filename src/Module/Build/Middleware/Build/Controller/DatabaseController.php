@@ -306,11 +306,13 @@ $p_2_3a_insertIntoMenuItemPOMFromStranky = function() {  // stranky `lang_code_f
             $this->executeFromTemplate("makeAndConvert/page3_2_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
         };
         $p_3_1_p_3_2_selectIntoAdjList_I = function() {  
-            //$rootName = $this->container->get('build.config.convert-make.root')[0];
+            //$rootName = $this->container->get('build.config.convert-make.root')[0]; 
+            //$rootName = $this->container->get('build.config.import.rootuid')[0]; 
+            $rootName = 'root';
             $menuRoots = $this->container->get('build.config.menuroots');
             $inMenuRoots = implode("', '", $menuRoots);
             $this->executeFromTemplate("makeAndConvert/page3_1_selectIntoAdjList.sql", ['root'=>$rootName]);
-            $this->executeFromTemplate("makeAndConvert/page3_2_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
+            $this->executeFromTemplate("makeAndConvert/page3_2_I_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
         };
         
         
@@ -325,13 +327,32 @@ $p_2_3a_insertIntoMenuItemPOMFromStranky = function() {  // stranky `lang_code_f
                     $this->executeFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName, 'menu_root'=>$menuRoot, 'prefix'=>$prefix]);                
                 }
                 $this->executeFromTemplate("makeAndConvert/page3_4_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);                
-        };            
+        };     
+        $p_3_3_p_3_4_selectIntoAdjList_I = function() { 
+                $rootName = $this->container->get('build.config.import.rootuid')[0];
+                $menuRoots = $this->container->get('build.config.menuroots');
+                $inMenuRoots = implode("', '", $menuRoots);                
+                $map = $this->container->get('build.config.import.prefixmap');
+                foreach ($map as $prefix=>$menuRoot) {
+                    $this->executeFromTemplate("makeAndConvert/page3_3_I_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName, 'menu_root'=>$menuRoot, 'prefix'=>$prefix]);                
+                }
+                $this->executeFromTemplate("makeAndConvert/page3_4_I_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);                
+        };             
+        
+                
+        
+        
+        
+        
         $p_3_2a_selectIntoAdjList =  function() {
                 $rootName = $this->container->get('build.config.convert-make.root')[0];
                 $menuRoots = $this->container->get('build.config.menuroots');
                 $inMenuRoots = implode("', '", $menuRoots);                
                 $this->executeFromTemplate("makeAndConvert/page3_2a_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName, 'child'=>self::LIST_POSTFIX]);               
         };
+        
+        
+        
         $p_3_5_selectNodesFromAjdlist_Hierarchy = function() {  
 //                $adjList = $this->manipulator->findAllRows('menu_adjlist');
             $stmt = $this->queryFromFile("makeAndConvert/page3_5_selectNodesFromAjdlist.sql");
@@ -372,6 +393,61 @@ $p_2_3a_insertIntoMenuItemPOMFromStranky = function() {  // stranky `lang_code_f
                 }
             return TRUE;
         };
+       $p_3_5_I_selectNodesFromAjdlist_Hierarchy = function() {  
+//                $adjList = $this->manipulator->findAllRows('menu_adjlist');
+            $stmt = $this->queryFromFile("makeAndConvert/page3_5_selectNodesFromAjdlist.sql");
+            $adjList = $stmt->fetchAll(\PDO::FETCH_ASSOC);                  
+                if (is_array($adjList) AND count($adjList)) {
+                    $this->reportMessage[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
+                    $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
+                    // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
+                    
+                    //$rootUid = $hierachy->newNestedSet();
+                    $rootUid = $this->container->get('build.config.import.rootuid')[0];
+                    
+                    try {
+                        foreach ($adjList as $adjRow) {
+                            if (isset($adjRow['parent'])) {  // rodič není root
+                                // najde menu_item pro všechny jazyky - použiji jen jeden (mají stejné nested_set uid_fk, liší se jen lang_code_fk)
+                                $parentItems = $this->manipulator->find("stranky_innodb", ["list"=>$adjRow['parent']]);
+                                if (count($parentItems) > 0) { // pro rodiče existuje položka v menu_item -> není to jen prázdný uzel ve struktuře menu
+                                    $childItems = $this->manipulator->find("stranky_innodb", ["list"=>$adjRow['child']]);
+                                    if ($childItems) {
+                                        $childUid = $hierachy->addChildNodeAsLast($parentItems[0]['uid_fk']);  //jen jeden parent
+                                        // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
+                                        $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$childUid'
+                                           WHERE menu_item.list='{$adjRow['child']}'");
+                                    }
+                                } else {  // pro rodiče neexistuje položka v menu_item -> je to jen prázdný uzel ve struktuře menu
+                                    $childUid = $hierachy->addChildNodeAsLast($rootUid);   // ???
+                                }
+                            } else {  // rodič je root
+                                // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
+                                 //$this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$rootUid'
+                                 // WHERE menu_item.list='{$adjRow['child']}'");
+                            }
+                        }
+                    } catch (\Exception $e) {
+                        throw new HierarchyStepFailedException("Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při transformaci adjacency list na nested tree.", 0, $e);
+                    }
+                    $this->reportMessage[] = "Skriptem pomocí Hierarchy vygenerována tabulka 'menu_nested_set' z dat tabulky 'menu_adjlist'.";
+                    $this->reportMessage[] = $this->timer->interval();
+                    $this->reportMessage[] = "Vykonán krok.";
+                }
+            return TRUE;
+        };
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         $p_4_alterMenuItem_fk = function() {
             $fileName = "makeAndConvert/page4_alterMenuItem_fk.sql";
             $this->executeFromFile($fileName);
@@ -473,12 +549,22 @@ $p_2_3a_insertIntoMenuItemPOMFromStranky = function() {  // stranky `lang_code_f
                 $conversionSteps[] = $p_0_createStrankyInnoDbcopy_stranky;    //nahradi obsah tab stranky_innodb novymidaty
                 
                 $conversionSteps[] = $p_3_0;
-                /*$conversionSteps[] = $p_2_4_updateMenuItemTypesActive;*/
+                $conversionSteps[] = $p_3_1_p_3_2_selectIntoAdjList_I;
+                $conversionSteps[] = $p_3_3_p_3_4_selectIntoAdjList_I;
                 
-               /* $conversionSteps[] = $p_3_1_p_3_2_selectIntoAdjList;   */
-                /*$conversionSteps[] = $p_3_3_p_3_4_selectIntoAdjList;
+                $conversionSteps[] = $p_3_5_I_selectNodesFromAjdlist_Hierarchy;              
                 
-                $conversionSteps[] = $p_3_5_selectNodesFromAjdlist_Hierarchy;              
+                /*$conversionSteps[] = $p_4_alterMenuItem_fk;        
+                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;
+                
+                $conversionSteps[] = $p_5_2_insertHomeIntoBlockTable_convert;
+                $conversionSteps[] = $p_5_3_insertIntoBlockTable;
+                
+                $conversionSteps[] = $p_6_createHierarchy_view;   
+                
+                $conversionSteps[] = $p_6__insertIntoPaperAndSection;            
+                $conversionSteps[] = $build_config_convert_final;  
+                /*                
                 $conversionSteps[] = $p_4_alterMenuItem_fk;        
                 $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;
                 */
