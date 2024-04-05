@@ -118,14 +118,17 @@ class ConfigurationDb {
             'build.config.import.rootuid' => [
                 '658db850b8018'     // hierarchy uid položky menu, do které se provede konverze staré databáze 
             ],
-            'build.config.make.root' => [
+            
+            'build.config.convert-make.root' => [
                 'root',
                 ],
-            'build.config.make.menuroots' => [
+            'build.config.menuroots' => [
                 'trash',
                 'blocks',
                 'menu_vertical',
             ],
+           
+            
             'build.config.convert.copy' => [
                     'source' => 'otevreneatelierycz_20230905.stranky',
                     'target' => 'oa_upgrade.stranky'
