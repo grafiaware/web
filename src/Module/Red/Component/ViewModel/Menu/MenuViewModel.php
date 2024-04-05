@@ -118,7 +118,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      */
     public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface {
         if(!isset($this->presentedMenuNode)) {
-            $presentedMenuItem = $this->statusViewModel->getPresentedMenuItem();
+            $presentedMenuItem = $this->getPresentedMenuItem();
             if (isset($presentedMenuItem)) {
                 $presented = $this->getMenuNode($presentedMenuItem);
                 if ($presented->getLeftNode() >= $rootNode->getLeftNode() AND $presented->getLeftNode() < $rootNode->getRightNode()) {
@@ -139,10 +139,13 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         return $this->hierarchyRepo->get($this->presentedLanguageLangCode(), $menuItem->getUidFk());
     }
 
-    private function presentedLanguageLangCode() {
+    public function presentedLanguageLangCode() {
         return $this->statusViewModel->getPresentedLanguage()->getLangCode();
     }
     
+    public function getPresentedMenuItem() {
+        return $this->statusViewModel->getPresentedMenuItem();
+    }
     /**
      * Původní metoda getSubtreeItemModel pro Menu Display Controller. Načte podstrom uzlů menu, potomkků
      *

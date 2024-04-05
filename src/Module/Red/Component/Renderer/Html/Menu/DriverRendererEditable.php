@@ -40,7 +40,7 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                         [
                         'class'=>[
                             $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
-                            $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                            $this->classMap->get('Item', 'li.presented'),
                             ],
                         'data-red-style'=> $this->redDriverEditableStyle($viewModel),
                         'data-href'=>$viewModel->getPageHref(),

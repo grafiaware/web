@@ -20,7 +20,7 @@ export function loadSubsequentElements(element, className) {
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
     var cascadeElements = element.getElementsByClassName(className);
     console.log(`cascade: ${cascadeElements.length} elements for cascade founded by class="${className}".`);
-    return fetchContents(cascadeElements);
+    return fetchCascadeContents(cascadeElements);
 }
 
 /**
@@ -28,9 +28,9 @@ export function loadSubsequentElements(element, className) {
  * @param {HTMLCollection} cascadeElements
  * @returns {Promise}
  */
-function fetchContents(cascadeElements) {    
+function fetchCascadeContents(cascadeElements) {    
     var cascadeElementsArray = Array.from(cascadeElements);  // kopie z HTMLCollection, která je live collection
-    let loadSubPromises = cascadeElementsArray.map(elementToCascade => fetchElementContent(elementToCascade));
+    let loadSubPromises = cascadeElementsArray.map(elementToCascade => fetchCascadeContent(elementToCascade));
 
     if (cascadeElements.length) {console.log(`cascade: Calling of fetchContents() fetched next ${loadSubPromises.length} element contents.`);}
     // Promise.allSettled just waits for all promises to settle, regardless of the result. The resulting array has:
@@ -49,10 +49,14 @@ function fetchContents(cascadeElements) {
  * - hlavičku X-Cascade odesílá s hodnotou "Do not store request" - tato hlavička je signál, aby PresentationFrontControlerAbstract neukládal tento 
  *   cascade request jako "last GET"
  * 
+ * S nově načteným obsahem provede:  
+ *   Přidá event listenery pro akce menu - volá listenLinks() pro případ, že nový obsah obsahuje nevigaci
+ *   Rekurzivně volá loadSubsequentElements(), tím zajistí načtení případných dalších elementů v kaskádě
+ * 
  * @param {Element} parentElement
  * @returns {Promise}
  */
-function fetchElementContent(parentElement){
+function fetchCascadeContent(parentElement){
     let apiUri = getApiUri(parentElement);
     let cacheControl = getCacheControl(parentElement);
 
@@ -86,7 +90,7 @@ function fetchElementContent(parentElement){
     .catch(e => {
         throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
-};
+}
 
 function selectTarget(cascadeElement) {
     let targetId = getTargetId(cascadeElement);
@@ -174,9 +178,38 @@ function replaceChildren(parentElement, newHtmlTextContent) {
     return parentElement;
 };
 
+function fetchNewContent(parentElement, apiUri, cacheControl){
+
+    /// fetch ///
+    // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
+    // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
+    return fetch(apiUri, {
+        method: "GET",      //default
+          cache: cacheControl,
+          headers: {
+            "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
+          },
+        })
+    .then(response => {
+      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
+      } else {
+          throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+      }
+    })
+    .then(textPromise => {
+        let element = replaceChildren(parentElement, textPromise);  // vrací původní parent element
+        return element;
+    })
+    .catch(e => {
+        throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
+    });
+}
+
 /////////////// menu
 // proměnné společné pro všechna menu - klik do jiného menu musí skrýt položky z předtím používaného menu
-    var previousAnchor = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
+    var previousItem = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
 
 /**
  * 
@@ -188,82 +221,113 @@ function listenLinks(loaderElement) {
     if (hasTargetId(loaderElement)) {
         contentTarget = document.getElementById(getTargetId(loaderElement));
     }    
-//   if(contentTarget!==null) {
-
-    // na všechny <a> v elementu s třídou 'navigation' přidá event listener
+    // na všechny <li> v elementu s třídou 'navigation' přidá event listener
     let navs = loaderElement.getElementsByClassName('navigation');  // CascadeLoaderFactory
     let navsCnt = navs.length;
-        console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute('data-red-apiuri') + ' - ' + navsCnt + ' navs found.');
+    console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute('data-red-apiuri') + ' - ' + navsCnt + ' navs found.');
     for (const navigation of [...navs]) {
-        let anchors = navigation.querySelectorAll("a");
-        for (const anchor of [...anchors]) {
-            console.log(`cascade: Listen links match `+anchors.length+' anchors.');
-            anchor.addEventListener("click", event => {
+        let items = navigation.querySelectorAll("li");
+        console.log(`cascade: Listen links match `+items.length+' items.');
+        for (const item of [...items]) {
+            // když event listener z nějakého důvodu nepracuje, pro vede se dafault akce elementu anchor -> volá se načtení celé stránky
+            item.addEventListener("click", event => {
                 if(contentTarget===null) {
                     return true;
                 } else {
-                    let currentAnchor = event.currentTarget;
-                    // anchor - změna css class
-                    if (previousAnchor) {
-                        previousAnchor.classList.remove("presented");                        
-                        removeParentOnPath(previousAnchor);
+                    let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
+                    // item
+                    if (previousItem) {
+                        styleAsNotPresented(previousItem);                        
+                        shrinkChildrenOnPath(previousItem);
                     }
-                    currentAnchor.classList.add("presented");
-                    addParentOnPath(currentAnchor);
-
-                    // content - příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
-                    contentTarget.setAttribute('data-red-apiuri', currentAnchor.getAttribute('data-red-content-api-uri'));
-                    // získání a výměna nového obsahu v cílovém elementu
-                    fetchElementContent(contentTarget);
+                    styleAsPresented(currentItem);
+                    expandChildrenOnPath(currentItem);
+                    // aktuální item uložen pro příští klik
+                    previousItem = currentItem;
                     
-                    // aktuální anchor uložen pro příští klik
-                    previousAnchor = currentAnchor;
+                    // content
+                    // příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
+                    contentTarget.setAttribute('data-red-apiuri', itemAnchor(currentItem).getAttribute('data-red-content-api-uri'));
+                    // získání a výměna nového obsahu v cílovém elementu
+                    fetchCascadeContent(contentTarget);
+                                        
+                    // event
+                    // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
                     event.preventDefault();
-                    return false;
+                    // konec šírení eventu
+                    event.stopPropagation();
                 }
-            });
-            if (anchor.classList.contains("presented")) {
-                previousAnchor = anchor;
             }
-        }
+            );
+            if (itemAnchor(item).classList.contains("presented")) {
+                previousItem = item;
+            }
+        }        
     }
 }
 
 /**
  * Vrací pole elementů sousedících se zadaným elementem, zadaný element není ve výsledku zahrnut. Jedná se tedy o HTML sourozence s vynecháním zadaného elementu.
+ * 
  * @param {Element} element
  * @returns {Array|getNeighbors.siblings}
  */
-function getNeighbors(element) {
-    // for collecting siblings
-    let siblings = []; 
-    // if no parent, return no sibling
-    if(!element.parentNode) {
-        return siblings;
-    }
-    // first child of the parent node
-    let sibling  = element.parentNode.firstChild;
-    // collecting siblings
-    while (sibling) {
-        if (sibling.nodeType === 1 && sibling !== element) {  // type 1 = Element node
-            siblings.push(sibling);
-        }
-        sibling = sibling.nextSibling;
-    }
-    return siblings;
+//function getNeighbors(element) {
+//    // for collecting siblings
+//    let siblings = []; 
+//    // if no parent, return no sibling
+//    if(!element.parentNode) {
+//        return siblings;
+//    }
+//    // first child of the parent node
+//    let sibling  = element.parentNode.firstChild;
+//    // collecting siblings
+//    while (sibling) {
+//        if (sibling.nodeType === 1 && sibling !== element) {  // type 1 = Element node
+//            siblings.push(sibling);
+//        }
+//        sibling = sibling.nextSibling;
+//    }
+//    return siblings;
+//}
+
+/**
+ * Vrací anchor element obsažený v item elementu
+ * @param {type} itemElement
+ * @returns {unresolved}
+ */
+function itemAnchor(itemElement) {
+    return itemElement.children[0];
 }
 
-function getOnPathElements(element) {
-    // for collecting siblings
+function styleAsPresented(element){
+    itemAnchor(element).classList.add("presented");
+}
+
+function styleAsNotPresented(element){
+    itemAnchor(element).classList.remove("presented");    
+}
+
+/**
+ * Vybere všechny elemnty typu LI na cestě k zadanému elementu, zadaný element JE ve výsledku zahrnut.
+ * 
+ * @param {type} element
+ * @returns {Array|getOnPathItemElements.pathElements}
+ */
+function getOnPathItemElements(element) {
+    // for collecting elements
     let pathElements = []; 
-    // if no parent, return no sibling
+        if (element.tagName === "LI") { 
+            pathElements.push(element);
+        }
+    // if no parent, return no elements
     if(!element.parentElement) {
         return pathElements;
     }
     // first child of the parent node
     let parent  = element.parentElement;
-    // collecting siblings
-    while (parent) {
+    // collecting parents
+    while (parent) {   // ?? closest("li")
         if (parent.tagName === "LI") { 
             pathElements.push(parent);
         }
@@ -272,13 +336,27 @@ function getOnPathElements(element) {
     return pathElements;
 }
 
-function removeParentOnPath(previousAnchor) {
-    let parentElements = getOnPathElements(previousAnchor);
+/**
+ * Slouží pro stylování - pro skrytí potomků v menu
+ * Odstraní třídu "parent" všem elementům na cestě (viz getOnPathElements()).
+ * 
+ * @param {Element} previousAnchor
+ * @returns {undefined}
+ */
+function shrinkChildrenOnPath(previousAnchor) {
+    let parentElements = getOnPathItemElements(previousAnchor);
     parentElements.forEach(element => {element.classList.remove("parent")})
 }
 
-function addParentOnPath(currentAnchor) {
-    let parentElements = getOnPathElements(currentAnchor);    
+/**
+ * Slouží pro stylování - pro zviditelnění potomků v menu.
+ * Přidá do všech elementů na cestě (viz getOnPathElements()), které neobsahují třídu "leaf" (tedy nejsou listy=mají potomky) třídu "parent".
+ * 
+ * @param {Element} currentAnchor
+ * @returns {undefined}
+ */
+function expandChildrenOnPath(currentAnchor) {
+    let parentElements = getOnPathItemElements(currentAnchor);    
     parentElements.forEach(element => {
         if(!element.classList.contains("leaf")) {
             element.classList.add("parent");

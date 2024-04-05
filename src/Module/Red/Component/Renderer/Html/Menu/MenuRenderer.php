@@ -1,10 +1,4 @@
 <?php
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
-
 namespace Red\Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
@@ -35,6 +29,11 @@ class MenuRenderer extends HtmlRendererAbstract {
         if ($viewModel->offsetExists(MenuComponentInterface::MENU)) {
             $innerHtml[] = $viewModel->offsetGet(MenuComponentInterface::MENU);
         }
-        return Html::tag('div', ['class'=>'navigation'], $innerHtml);  // class - nutná pro cascade.js, event listener
+        if ($viewModel->presentEditableMenu()) {
+            $class[] = 'hierarchy';   // class hierarchy - nutná pro cascade.js, event listener pro výměny DriverComponent v editačním menu
+        } else {
+            $class[] = 'navigation';   // class navigation - nutná pro cascade.js, event listener pro skrytí a zobrazení položek menu v needitačním režimu
+        }
+        return Html::tag('div', ['class'=>$class], $innerHtml);
     }
 }

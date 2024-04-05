@@ -40,6 +40,9 @@ use Model\Builder\Sql;
 // data manager
 use Model\DataManager\DataManagerAbstract;
 
+// dao
+use Red\Model\Dao\Hierarchy\HierarchyDao;
+
 //dao + hydrator + repo
 
 use Red\Model\Dao\MenuRootDao;
@@ -145,6 +148,12 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new Sql();
             },
 
+            HierarchyDao::class => function(ContainerInterface $c) {
+                return new HierarchyDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
             MenuRootDao::class => function(ContainerInterface $c) {
                 return new MenuRootDao(
                         $c->get(HandlerInterface::class),

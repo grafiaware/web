@@ -24,6 +24,10 @@ class HierarchyControler extends FrontControlerAbstract {
 
     //TODO: Svoboda Konfigurace
     const TRASH_MENU_ROOT = "trash";
+    
+    const POST_COMMAND_CUT = 'post_coomand_cut';
+    const POST_COMMAND_COPY = 'post_coomand_copy';
+    
 
     //TODO: Svoboda - addChild a add - vytvořit nový paper nebo slot
     //TODO: Svoboda - neumožnit přidávání do koše?
@@ -62,7 +66,7 @@ class HierarchyControler extends FrontControlerAbstract {
 
     public function cut(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
-        $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
+        $statusFlash->setPostCommand([self::POST_COMMAND_CUT=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $statusFlash->setMessage("cut - item: $langCode/$uid selected for cut&paste operation", FlashSeverityEnum::INFO);
 
@@ -71,7 +75,7 @@ class HierarchyControler extends FrontControlerAbstract {
 
     public function copy(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
-        $statusFlash->setPostCommand(['copy'=>$uid]);  // command s životností do dalšího POST requestu
+        $statusFlash->setPostCommand([self::POST_COMMAND_COPY=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $statusFlash->setMessage("copy - item: $langCode/$uid selected for copy&paste operation", FlashSeverityEnum::INFO);
 

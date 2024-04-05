@@ -19,11 +19,11 @@ use Red\Component\ViewModel\Menu\DriverViewModel;
 
 use Red\Component\View\Menu\LevelComponent;
 use Red\Component\View\Menu\LevelComponentInterface;
-use Red\Component\View\Menu\DriverButtonsComponent;
 use Red\Component\View\Menu\ItemComponent;
 use Red\Component\View\Menu\ItemComponentInterface;
 use Red\Component\View\Menu\DriverComponent;
 use Red\Component\View\Menu\DriverComponentInterface;
+use Red\Component\View\Menu\DriverButtonsComponent;
 
 use Red\Component\View\Manage\ButtonsMenuItemManipulationComponent;
 use Red\Component\View\Manage\ButtonsMenuAddComponent;
@@ -47,6 +47,8 @@ use Access\Enum\AccessPresentationEnum;
 use Access\AccessPresentation;
 use Pes\View\ViewInterface;
 use Component\Renderer\Html\NoPermittedContentRenderer;
+//TODO: co s tímto fantem DriverRendererEditable
+use Red\Component\Renderer\Html\Menu\DriverRenderer,    Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -69,7 +71,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     private $levelRendererName;
     
     private $rootRealDepth;
-    private $editableMode;
 
     public function __construct(ComponentConfigurationInterface $configuration, ContainerInterface $container) {
         parent::__construct($configuration);
@@ -108,8 +109,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * @throws \LogicException
      */
     public function beforeRenderingHook(): void {
-        $this->editableMode = $this->contextData->presentEditableMenu();
-
         $subtreeNodeModels = $this->contextData->getNodeModels();
         $topLevelComponent = $this->buildMenuComponentsTree($subtreeNodeModels);
         $this->appendComponentView($topLevelComponent, MenuComponentInterface::MENU);        
@@ -170,7 +169,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     
     private function newNodeComponents($treeNodeModel) {
         $item = $this->newItemComponent($treeNodeModel);
-        $driver = $this->newDriverComponent($treeNodeModel['menuItem'], $this->editableMode);
+        $driver = $this->newDriverComponent($treeNodeModel['menuItem']);
         $item->appendComponentView($driver, ItemComponentInterface::DRIVER);
         return $item;
     }  
@@ -199,16 +198,96 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * @param type $editableMode
      * @return DriverComponent
      */
-    private function newDriverComponent(MenuItemInterface $menuItem, $editableMode) {
+    private function newDriverComponent(MenuItemInterface $menuItem) {
+        return $this->createDriverComponent($menuItem, $this->contextData->getItemType());
+    }
+    
+    /**
+     * Nový DriverComponent
+     * 
+     * @param MenuItemInterface $menuItem
+     * @param type $editableMode
+     * @return DriverComponent
+     */
+    public function createDriverComponent(MenuItemInterface $menuItem, $itemType) {   // PUBLIC pro volání z ComponentControler
+               $setRenderingByAccess = function (ViewInterface $component, $rendererName) {
+                    /** @var AccessPresentationInterface $accessPresentation */
+                    $accessPresentation = $this->container->get(AccessPresentation::class);
+                    if($accessPresentation->isAllowed(get_class($component), AccessPresentationEnum::EDIT)) {
+                        $component->setRendererName($rendererName);
+                    } else {
+                        $component->setRendererName(NoPermittedContentRenderer::class);
+                    }
+                    $component->setRendererContainer($this->rendererContainer);
+                    return $component;
+                }; 
+                $createItemManipulationButtons = function ($setRenderingByAccess) {
+                    return $setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
+                };
+                $createDeleteButtons = function ($setRenderingByAccess) {
+                    return $setRenderingByAccess(new ButtonsMenuDeleteComponent($this->configuration), ButtonsMenuDeleteRenderer::class);
+                };
+                $createCutCopyButtons = function ($setRenderingByAccess, $pasteMode) {
+                    if ($pasteMode) {
+                        return $setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyEscapeRenderer::class);
+                    } else {
+                        return $setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+                    }
+                };
+                $createAddOrPasteOnelevelButtons = function ($setRenderingByAccess, $pasteMode) {
+                    if ($pasteMode) {
+                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteOnelevelRenderer::class);
+                    } else {
+                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddOnelevelRenderer::class);
+                    }
+                };
+                $createAddOrPasteMultilevelButtons = function ($setRenderingByAccess, $pasteMode) {
+                    if ($pasteMode) {
+                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteMultilevelRenderer::class);
+                    } else {
+                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddMultilevelRenderer::class);
+                    }
+                };
+                #### 
         /** @var DriverComponent $driver */
         $driver = $this->container->get(DriverComponent::class);
+        /** @var DriverViewModelInterface $driverViewModel */
         $driverViewModel = $driver->getData();
-        $driverViewModel->withMenuItem($menuItem); 
-        if($editableMode) {
-            if ($driverViewModel->isPresented()) {
-                $driverButtons = $this->createDriverButtonsComponent();
-                $driver->appendComponentView($driverButtons, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
+        // před přidáním DriverButtonsComponent a button komponentů musí DriverViewModel mít nasteven menuItem a itemType
+        $driverViewModel->withMenuItem($menuItem);
+        $editableItem = ($driverViewModel->presentEditableMenu() AND $driverViewModel->isPresented());
+        $driverViewModel->setItemType($itemType);
+
+        if($editableItem) {
+            $driver->setRendererName(DriverRendererEditable::class);
+                    
+            $driverButtons = $this->container->get(DriverButtonsComponent::class);
+            $driver->appendComponentView($driverButtons, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
+            $pasteMode = $driverViewModel->isPasteMode();
+            #### buttons ####
+            $buttonComponents = [];
+            switch ($driverViewModel->getItemType()) {
+                // ButtonsXXX komponenty jsou typu InheritData - dědí DriverViewModel
+                case ItemTypeEnum::MULTILEVEL:
+                    $buttonComponents[] = $createItemManipulationButtons($setRenderingByAccess);
+                    $buttonComponents[] = $createAddOrPasteMultilevelButtons($setRenderingByAccess, $pasteMode);
+                    $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
+                    break;
+                case ItemTypeEnum::ONELEVEL:
+                    $buttonComponents[] = $createItemManipulationButtons($setRenderingByAccess);
+                    $buttonComponents[] = $createAddOrPasteOnelevelButtons($setRenderingByAccess, $pasteMode);
+                    $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
+                    break;
+                case ItemTypeEnum::TRASH:
+                    $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
+                    $buttonComponents[] = $createDeleteButtons($setRenderingByAccess);
+                    break;
+                default:
+                    throw new LogicException("Nerozpoznán typ položek menu (hodnota vrácená metodou viewModel->getItemType())");
             }
+            $driverButtons->appendComponentViewCollection($buttonComponents);  // tady button komponenty dědí DriverViewModel
+        } else {
+            $driver->setRendererName(DriverRenderer::class);                    
         }
         return $driver;
     }
@@ -284,47 +363,47 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         return $driverButtons;
     }
 
-    private function createItemManipulationButtons() {
-        return $this->setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
-    }
-
-    private function createDeleteButtons() {
-        return $this->setRenderingByAccess(new ButtonsMenuDeleteComponent($this->configuration), ButtonsMenuDeleteRenderer::class);
-    }
-
-    private function createCutCopyButtons($pasteMode) {
-        if ($pasteMode) {
-            return $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyEscapeRenderer::class);
-        } else {
-            return $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
-        }
-    }
-
-    private function createAddOrPasteOnelevelButtons($pasteMode) {
-        if ($pasteMode) {
-            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteOnelevelRenderer::class);
-        } else {
-            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddOnelevelRenderer::class);
-        }
-    }
-
-    private function createAddOrPasteMultilevelButtons($pasteMode) {
-        if ($pasteMode) {
-            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteMultilevelRenderer::class);
-        } else {
-            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddMultilevelRenderer::class);
-        }
-    }
-
-    private function setRenderingByAccess(ViewInterface $component, $rendererName) {
-        /** @var AccessPresentationInterface $accessPresentation */
-        $accessPresentation = $this->container->get(AccessPresentation::class);
-        if($accessPresentation->isAllowed(get_class($component), AccessPresentationEnum::EDIT)) {
-            $component->setRendererName($rendererName);
-        } else {
-            $component->setRendererName(NoPermittedContentRenderer::class);
-        }
-        $component->setRendererContainer($this->rendererContainer);
-        return $component;
-    }
+//    private function createItemManipulationButtons() {
+//        return $this->setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
+//    }
+//
+//    private function createDeleteButtons() {
+//        return $this->setRenderingByAccess(new ButtonsMenuDeleteComponent($this->configuration), ButtonsMenuDeleteRenderer::class);
+//    }
+//
+//    private function createCutCopyButtons($pasteMode) {
+//        if ($pasteMode) {
+//            return $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyEscapeRenderer::class);
+//        } else {
+//            return $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+//        }
+//    }
+//
+//    private function createAddOrPasteOnelevelButtons($pasteMode) {
+//        if ($pasteMode) {
+//            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteOnelevelRenderer::class);
+//        } else {
+//            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddOnelevelRenderer::class);
+//        }
+//    }
+//
+//    private function createAddOrPasteMultilevelButtons($pasteMode) {
+//        if ($pasteMode) {
+//            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteMultilevelRenderer::class);
+//        } else {
+//            return $this->setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddMultilevelRenderer::class);
+//        }
+//    }
+//
+//    private function setRenderingByAccess(ViewInterface $component, $rendererName) {
+//        /** @var AccessPresentationInterface $accessPresentation */
+//        $accessPresentation = $this->container->get(AccessPresentation::class);
+//        if($accessPresentation->isAllowed(get_class($component), AccessPresentationEnum::EDIT)) {
+//            $component->setRendererName($rendererName);
+//        } else {
+//            $component->setRendererName(NoPermittedContentRenderer::class);
+//        }
+//        $component->setRendererContainer($this->rendererContainer);
+//        return $component;
+//    }
 }

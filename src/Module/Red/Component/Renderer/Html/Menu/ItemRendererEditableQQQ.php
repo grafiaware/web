@@ -12,7 +12,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemRendererEditable extends HtmlRendererAbstract {
+class ItemRendererEditableQQQ extends HtmlRendererAbstract {
 
     /**
      *

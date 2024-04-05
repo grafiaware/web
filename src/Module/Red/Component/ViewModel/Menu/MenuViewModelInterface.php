@@ -55,6 +55,8 @@ interface MenuViewModelInterface extends ViewModelInterface {
     
     public function getPostCommand($key);
 
+    public function presentedLanguageLangCode();
+    public function getPresentedMenuItem();
     /**
      * Vrací prezentovanou položku hierarchie, pokud je položkou tohoto modelu menu. Řídí se hodnotami status presentation.
      *

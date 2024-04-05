@@ -17,12 +17,16 @@ use Red\Model\Entity\MenuItemInterface;
  */
 interface DriverViewModelInterface extends ViewModelInterface {
     public function withMenuItem(MenuItemInterface $menuItem): DriverViewModelInterface;
-    
+    public function setEditable(bool $editable);
+    public function setItemType($itemType);
+    public function getItemType();
     public function isActive();
-    public function isPresented();    
-    public function presentEditableMenu(): bool;
+    public function isPresented();
+    public function presentEditableMenu(): bool;    
     public function isPasteMode(): bool;    
+    
     public function getUid();
+    public function getId();
     public function getPageHref();
     public function getRedApiUri();
     public function getTitle();    

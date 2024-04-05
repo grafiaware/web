@@ -12,6 +12,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Red\Middleware\Redactor\Controler\ComponentControler;
 use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
+use Red\Middleware\Redactor\Controler\HierarchyControler; // jen konstanty třídy
 
 // configuration
 use Configuration\ComponentConfiguration;
@@ -285,49 +286,12 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var DriverViewModel $viewModel */
                 $viewModel = $c->get(DriverViewModel::class);
                 $component->setData($viewModel);
-                if ($viewModel->presentEditableMenu()) {
-                    $component->setRendererName(DriverRendererEditable::class);
-//                    if($viewModel->isPresented()) {
-//                        $driverButtons = $this->createDriverButtonsComponent();
-//                        $component->appendComponentView($driverButtons, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
-//                    }
-                } else {
-                    $component->setRendererName(DriverRenderer::class);                    
-                }
                 $component->setRendererContainer($c->get('rendererContainer'));   
                 return $component;
             },
-//            DriverButtonsComponent::class => function(ContainerInterface $c) {
-//                $driverButtons = new DriverButtonsComponent($c->get(ComponentConfiguration::class));  // typu InheritData - dědí DriverViewModel
-//                $cut = $this->contextData->getPostCommand('cut') ? true : false;
-//                $copy = $this->contextData->getPostCommand('copy') ? true :false;
-//                $pasteMode = ($cut OR $copy);
-//
-//                #### buttons ####
-//                $buttonComponents = [];
-//                switch ((new ItemTypeEnum())($this->contextData->getItemType())) {
-//                    // ButtonsXXX komponenty jsou typu InheritData - dědí ItemViewModel
-//                    case ItemTypeEnum::MULTILEVEL:
-//                        $buttonComponents[] = $this->createItemManipulationButtons();
-//                        $buttonComponents[] = $this->createAddOrPasteMultilevelButtons($pasteMode);
-//                        $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
-//                        break;
-//                    case ItemTypeEnum::ONELEVEL:
-//                        $buttonComponents[] = $this->createItemManipulationButtons();
-//                        $buttonComponents[] = $this->createAddOrPasteOnelevelButtons($pasteMode);
-//                        $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
-//                        break;
-//                    case ItemTypeEnum::TRASH:
-//                        $buttonComponents[] = $this->createCutCopyButtons($pasteMode);
-//                        $buttonComponents[] = $this->createDeleteButtons();
-//                        break;
-//                    default:
-//                        throw new LogicException("Nerozpoznán typ položek menu (hodnota vrácená metodou viewModel->getItemType())");
-//                        break;
-//                }
-//                $driverButtons->appendComponentViewCollection($buttonComponents);
-//                return $driverButtons;                
-//            },
+            DriverButtonsComponent::class => function(ContainerInterface $c) {
+                return new DriverButtonsComponent($c->get(ComponentConfiguration::class));
+            },
         ####
         # MenuViewModel
         # - stavový objekt, je třeba více kusů

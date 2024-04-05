@@ -12,7 +12,7 @@ use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModel;
 use Red\Service\ItemApi\ItemApiServiceInterface;
 use Red\Model\Entity\MenuItemInterface;
-
+use Red\Middleware\Redactor\Controler\HierarchyControler;  //konstanty
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Component\View\ComponentInterface;
 
@@ -29,6 +29,8 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     private $statusViewModel;
     private $itemApiService;
     private $menuItem;
+    private $editable = false;
+    private $itemType;
 
     public function __construct(StatusViewModel $status, ItemApiServiceInterface $itemApiService) {
         $this->statusViewModel = $status;
@@ -40,8 +42,24 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
         return $this;
     }
     
+    public function setEditable(bool $editable) {
+        $this->editable = $editable;
+    }
+    
+    public function setItemType($itemType) {
+        $this->itemType = $itemType;
+    }
+    
+    public function getItemType() {
+        return $this->itemType;
+    }
+    
     public function getUid() {
         return $this->menuItem->getUidFk();
+    }
+    
+    public function getId() {
+        return $this->menuItem->getId();
     }
     
     public function getPageHref() {
@@ -59,7 +77,7 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     public function isActive() {
         return $this->menuItem->getActive();
     }
-
+    
     public function isPresented() {
         $presentedItem = $this->statusViewModel->getPresentedMenuItem();   
         return isset($presentedItem) ? ($presentedItem->getId() == $this->menuItem->getId()) : FALSE;        
@@ -70,8 +88,8 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     }
     
     public function isPasteMode(): bool {
-        $cut = $this->statusViewModel->getFlashPostCommand('cut') ? true : false;
-        $copy = $this->statusViewModel->getFlashPostCommand('copy') ? true :false;
+        $cut = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
+        $copy = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_COPY);
         return ($cut OR $copy);        
     }
 }

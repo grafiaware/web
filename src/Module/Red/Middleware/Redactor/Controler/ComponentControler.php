@@ -19,6 +19,12 @@ use Psr\Http\Message\ServerRequestInterface;
 // konfigurace
 use Site\ConfigurationCache;
 
+// dao + repo (driver)
+use Red\Model\Dao\Hierarchy\HierarchyDao;
+use Red\Model\Repository\MenuItemRepo;
+use Red\Model\Repository\MenuRootRepo;
+use Red\Model\Entity\MenuRootInterface;
+
 // enum
 use Red\Model\Enum\AuthoredTypeEnum;
 //TODO: oprávnění pro routy
@@ -32,6 +38,8 @@ use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
 use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
 // komponenty
+use Red\Component\View\Menu\MenuComponent;
+
 use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
 use Red\Component\View\Content\Authored\Paper\PaperComponentInterface;
@@ -85,6 +93,41 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
     
+    public function driver(ServerRequestInterface $request, $uid) {
+        /** @var HierarchyDao $hierarchyDao */
+        $hierarchyDao =  $this->container->get(HierarchyDao::class);
+        $hierarchyRow = $hierarchyDao->get(['uid'=>$uid]);
+        
+        $menuItemRepo = $this->container->get(MenuItemRepo::class);
+        $menuItem = $menuItemRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $uid);
+
+        /** @var MenuComponent $menuComponent */
+        $menuComponent = $this->container->get(MenuComponent::class);  // dočasně - metoda komponentu
+        
+        $menuConfigs = $this->container->get('menu.services');
+        $menuRootRepo = $this->container->get(MenuRootRepo::class);
+        /** @var MenuRootRepo $menuRootRepo */
+        foreach ($menuConfigs as $menuServiceName => $menuConfig) {
+            $menuRoot = $menuRootRepo->get($menuConfig['rootName']);
+            /** @var MenuRootInterface $menuRoot */
+            $menurootHierarchyRow = $hierarchyDao->get(['uid'=>$menuRoot->getUidFk()]);
+            if ($menurootHierarchyRow['left_node']<$hierarchyRow['left_node'] AND $menurootHierarchyRow['right_node']>$hierarchyRow['right_node']) {
+//                $menuService = $menuServiceName;
+                $itemType = $menuConfig['itemtype'];
+                break;
+            }
+        }
+        
+//        $menuRoots = $menuRootRepo->findAll();
+//        foreach ($menuRoots as $menuRoot) {
+//
+//        }
+        
+        
+        $driver = $menuComponent->createDriverComponent($menuItem, $itemType);
+        return $this->createResponseFromView($request, $driver);
+    }
+        
     public function empty(ServerRequestInterface $request, $menuItemId) {
         return $this->createResponseFromString($request, '');
     }

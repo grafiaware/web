@@ -101,6 +101,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->serviceComponent($request, $name);
             });
+        $this->routeGenerator->addRouteForAction('GET', '/red/v1/driver/:uid', function(ServerRequestInterface $request, $uid) {
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
+            return $ctrl->driver($request, $uid);
+            });            
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
             /** @var StaticControler $ctrl */
             $ctrl = $this->container->get(StaticControler::class);
