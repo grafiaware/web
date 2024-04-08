@@ -217,13 +217,13 @@ class DatabaseController extends BuildControllerAbstract {
                             'menu_root_title'=>$rootDef[3],
                         ]);
                 }
-        };            
+        };                  
         $p_2_2_insertIntoMenuItemNewMenuRoot_make_zacatekMenu = function() {
                 // [type, list, title]
                 $rootsListNames1 = $this->container->get('build.config.menuroots');
                 foreach ($rootsListNames1 as $rootName1) {
                     if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
-                        $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql",                                                    //                                                   
+                        $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql",
                                                     [
                                                     'menu_root_api_module' => 'red', 
                                                     'menu_root_api_generator' => 'select',
@@ -233,6 +233,21 @@ class DatabaseController extends BuildControllerAbstract {
                     }    
                 }                       
         };
+        $p_2_2_I_insertIntoStranky_innodbNewMenuRoot_make_zacatekMenu = function() {
+                // [type, list, title]
+                $rootsListNames1 = $this->container->get('build.config.menuroots');
+                foreach ($rootsListNames1 as $rootName1) {
+                    if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
+                        $this->executeFromTemplate("makeAndConvert/page2_2_I_insertIntoStranky_innodbNewMenuRoot.sql",  
+                                                    [
+                                                    'menu_root_api_module' => 'red', 
+                                                    'menu_root_api_generator' => 'select',
+                                                    'menu_root_list'=> $rootName1 . self::LIST_POSTFIX ,
+                                                    'menu_root_title'=> 'Tady začni...',
+                                                    ]);
+                    }    
+                }                       
+        };       
         $build_config_convert_copy = function()  {  // convert // kopie tabulky stranky ze staré do nové db
                 $convertConfig = $this->container->get('build.config.convert.copy');
                 return $this->manipulator->copyTable($convertConfig['source'], $convertConfig['target']);
@@ -547,10 +562,13 @@ $p_2_3a_insertIntoMenuItemPOMFromStranky = function() {  // stranky `lang_code_f
                
                 $conversionSteps[] = $p_2_1_updateStranky;  //
                 $conversionSteps[] = $p_0_createStrankyInnoDbcopy_stranky;    //nahradi obsah tab stranky_innodb novymidaty
+                $conversionSteps[] =  $p_2_2_I_insertIntoStranky_innodbNewMenuRoot_make_zacatekMenu;
                 
                 $conversionSteps[] = $p_3_0;
                 $conversionSteps[] = $p_3_1_p_3_2_selectIntoAdjList_I;
                 $conversionSteps[] = $p_3_3_p_3_4_selectIntoAdjList_I;
+                
+                                      
                 
                 $conversionSteps[] = $p_3_5_I_selectNodesFromAjdlist_Hierarchy;              
                 
