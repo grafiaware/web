@@ -27,6 +27,6 @@ INSERT INTO menu_adjlist (child, parent, poradi, level)
 	FROM stranky_innodb ) AS childrens    
         WHERE (
                 parents.list= {{menu_root}} AND
-                SUBSTRING(childrens.list,1,1)='s' AND 
+                SUBSTRING(childrens.list,1,1)= {{prefix}} AND 
                 LENGTH(childrens.list) BETWEEN 2 AND 3
         )
