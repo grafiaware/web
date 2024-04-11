@@ -444,7 +444,7 @@ class DatabaseController extends BuildControllerAbstract {
             $adjList = $stmt->fetchAll(\PDO::FETCH_ASSOC);                  
                 if (is_array($adjList) AND count($adjList)) {
                     $this->reportMessage[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
-                    $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
+                    $hierachy = $this->container->get('HierarchyAggregateEditDaoImport');
                     // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
                     
                     //$rootUid = $hierachy->newNestedSet();
@@ -463,6 +463,7 @@ class DatabaseController extends BuildControllerAbstract {
                                         //$childUid = $hierachy->addChildNodeAsLast($parentItems[0]['uid_fk']);  //jen jeden parent
                                         
                                         $newUid = $hierachy->addChildNodeAsLast($childUid[$adjRow['parent']]);  //jen jeden parent
+//INSERT INTO `menu_item` ( `lang_code_fk`, `list`, `order`,  `title`, `active`, `auto_generated`)
 //                                        // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
 //                                        $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$childUid'
 //                                           WHERE menu_item.list='{$adjRow['child']}'");
@@ -471,11 +472,13 @@ class DatabaseController extends BuildControllerAbstract {
                                     $newUid = $hierachy->addChildNodeAsLast($rootUid);   // ???
                                 }
                                 $childUid[$adjRow['child']] = $newUid; // $rootUid
+                                $this->manipulator->exec( "INSERT INTO `list_uid` (`list`, `uid` ) VALUES ('{$adjRow['child']}','$newUid')"  );
                             } else {  // rodič je root
                                 // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
 //                                $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$rootUid'
 //                                WHERE menu_item.list='{$adjRow['child']}'");
-                                 $childUid[$adjRow['child']] = $newUid; // $rootUid
+                                $childUid[$adjRow['child']] = $newUid; // $rootUid
+                                $this->manipulator->exec( "INSERT INTO `list_uid` (`list`, `uid` ) VALUES ('{$adjRow['child']}','$newUid')"  );
                             }
                         }
                     } catch (\Exception $e) {

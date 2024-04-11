@@ -61,7 +61,8 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getParams(): iterable {
         return array_merge(
                 ConfigurationCache::build(),
-                ConfigurationCache::login()
+                ConfigurationCache::login(),
+                ConfigurationCache::hierarchy()
                 );
     }
 
@@ -201,17 +202,25 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(Sql::class),
                         PdoRowData::class);
             },                    
-
             HierarchyAggregateEditDao::class => function(ContainerInterface $c) : HierarchyAggregateEditDao {
-                return new HierarchyAggregateEditDao(
+                $dao = new HierarchyAggregateEditDao(
                         $c->get('handler_for_convert'),
                         $c->get(Sql::class),
                         PdoRowData::class);
+                return $dao;
+            },
+            'HierarchyAggregateEditDaoImport' => function(ContainerInterface $c) : HierarchyAggregateEditDao {
+                $dao = new HierarchyAggregateEditDao(
+                        $c->get('handler_for_convert'),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+                $dao->registerHookedActor($c->get(HookedMenuItemActor::class));
+                return $dao;
             },
 
-//            HookedMenuItemActor::class => function(ContainerInterface $c) {
-//                return new HookedMenuItemActor('cs', 'Nová položka');
-//            },
+            HookedMenuItemActor::class => function(ContainerInterface $c) {
+                return new HookedMenuItemActor($c->get('hierarchy.menu_item_table'), '');
+            },
 
             ArticleTitleUpdater::class => function(ContainerInterface $c) {
                 return new ArticleTitleUpdater($c->get('handler_for_convert'));
