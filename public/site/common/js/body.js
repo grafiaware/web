@@ -78,12 +78,12 @@ function initJqueryEvents() {
 }
 
 /**
- * Funkce scrolluje stránku na pozici kotvy, pokud je v adrese uveden "fragment", tedy část url za znakem #, tedy v javascriptu window.location.hash
+ * Funkce scrolluje stránku na pozici kotvy, pokud je v adrese uveden "fragment", tedy část url za znakem #.
  * Používá jQuery animaci, tu lze nastavit.
  * @returns {undefined}
  */
 function scrollToAnchorPosition() {
-    if(window.location.hash) {
+    if(window.location.hash) {   // window.location.hash je fragment
         $('html, body').animate({
             scrollTop: $(window.location.hash).offset().top, // - 20
             opacity: 'o.4'
@@ -140,7 +140,7 @@ document.onreadystatechange = function () {
         const init = async () => {
             console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
             let resultComponents = await loadSubsequentElements(document, navConfig.cascadeClass);
-            console.log(resultComponents);
+            console.debug(resultComponents);
             console.log("body: load elements fullfilled");
             initLoadedElements();
             console.log("body: initLoaded elements");
@@ -170,7 +170,7 @@ document.onreadystatechange = function () {
 //=== init loaded TinyMce editors ===
 
 /**
- * HACK! Závisí na tinymce. Tato proměnná je definována v editačním reřimu - pokud bylo načteno TinyMce  (viz konfigurace a Layout kontroler)
+ * HACK! Závisí na tinymce. Tato proměnná je definována v editačním režimu - pokud bylo načteno TinyMce  (viz konfigurace a Layout kontroler)
  *
  * @returns {undefined}
  */

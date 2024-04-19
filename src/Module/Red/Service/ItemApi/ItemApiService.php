@@ -27,7 +27,25 @@ class ItemApiService implements ItemApiServiceInterface {
     public function getPageApiUri(MenuItemInterface $menuItem) {
 //        return 'vypnuto_v_ItemApiService';//
         return "web/v1/page/item/{$menuItem->getUidFk()}";        
-//        return "web/v1/menu/driver/{$menuItem->getUidFk()}";
+    }
+    /**
+     * {@inheritDoc}
+     * 
+     * @param MenuItemInterface $menuItem
+     * @return string
+     */
+    public function getPresentedDriverApiUri(MenuItemInterface $menuItem) {      
+        return "red/v1/presenteddriver/{$menuItem->getUidFk()}";
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @param MenuItemInterface $menuItem
+     * @return string
+     */
+    public function getDriverApiUri(MenuItemInterface $menuItem) {      
+        return "red/v1/driver/{$menuItem->getUidFk()}";
     }
     
     /**

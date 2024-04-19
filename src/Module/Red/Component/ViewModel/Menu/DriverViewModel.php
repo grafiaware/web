@@ -62,12 +62,20 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
         return $this->menuItem->getId();
     }
     
-    public function getPageHref() {
+    public function getPageApi() {
         return $this->itemApiService->getPageApiUri($this->menuItem);
     }
     
-    public function getRedApiUri() {
+    public function getRedContentApi() {
         return $this->itemApiService->getContentApiUri($this->menuItem);
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getRedDriverApi() {
+        return $this->isPresented() ? $this->itemApiService->getDriverApiUri($this->menuItem) : $this->itemApiService->getPresentedDriverApiUri($this->menuItem);
     }
     
     public function getTitle() {

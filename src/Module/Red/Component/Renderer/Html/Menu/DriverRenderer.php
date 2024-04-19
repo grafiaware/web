@@ -37,9 +37,9 @@ class DriverRenderer extends HtmlRendererAbstract {
                         $this->classMap->get('Item', 'li a'),
                         $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),   
                         ],
-                    'href'=> $viewModel->getPageHref(),
-                    'data-red-content-api-uri'=> $viewModel->getRedApiUri()
-                ],
+                    'href'=>$viewModel->getPageApi(),                    
+                ]
+                +$this->dataRedAttributes($viewModel),                
                 Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                     $viewModel->getTitle()
                 )
@@ -47,14 +47,11 @@ class DriverRenderer extends HtmlRendererAbstract {
 
         return $anchorHtml;
     }
-
-    private function redLiEditableStyle($viewModel) {
+    
+    private function dataRedAttributes(DriverViewModelInterface $viewModel) {
         return [
-            $viewModel->isLeaf() ? "leaf " : "",
-            $viewModel->isOnPath() ? "onpath " : "",
-            "realDepth:".$viewModel->getRealDepth()." ",
-            ($viewModel->getRealDepth() == 1) ? "dropdown " : "",
-            $viewModel->isPresented() ? "presented " : "",
+            'data-red-content'=>$viewModel->getRedContentApi(),
+            'data-red-driver'=>$viewModel->getRedDriverApi(),            
         ];
     }
 }

@@ -37,8 +37,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
             $response = $response->withHeader('Cache-Control', 'public, max-age=0');  
         }
         $cls = (new \ReflectionClass($this))->getShortName();
-        $response = $response->withHeader('X-RED-Controlled', "$cls");
-        return $response;
+        return $response->withHeader('X-RED-Controlled', "$cls");
     }
 
     ### response ###

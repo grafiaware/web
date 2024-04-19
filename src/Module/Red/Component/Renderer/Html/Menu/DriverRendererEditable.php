@@ -34,32 +34,35 @@ class DriverRendererEditable extends HtmlRendererAbstract {
         if ($viewModel->isPresented()) {
             $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::DRIVER_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::DRIVER_BUTTONS) : "";
 
-            $itemHtml =
-                Html::tag('form', [],
-                    Html::tag('p',
-                        [
-                        'class'=>[
-                            $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
-                            $this->classMap->get('Item', 'li.presented'),
-                            ],
-                        'data-red-style'=> $this->redDriverEditableStyle($viewModel),
-                        'data-href'=>$viewModel->getPageHref(),
-                        'data-red-content-api-uri'=> $viewModel->getRedApiUri(),
-                        'tabindex'=>0,
+            $itemHtml =  // W3 specifications, <p> is only allowed to contain text or 'inline' (not 'block') tags
+                Html::tag('div',
+                    [
+                    'class'=>[
+                        $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
+                        $this->classMap->get('Item', 'li.presented'),
                         ],
+                    'tabindex'=>0,
+                    ]
+                    +$this->dataRedAttributes($viewModel),
 
-                        // POZOR: závislost na edit.js
-                        // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
-                        // t.j. selektor vybírá <span>, který má rodiče <p>
-                        Html::tag('span', ['contenteditable'=> "true", 'data-original-title'=>$viewModel->getTitle()],
-                            $viewModel->getTitle()
-                        )
-                        . $this->semafor($viewModel)
+                    // POZOR: závislost na edit.js
+                    // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
+                    // t.j. selektor vybírá <span>, který má rodiče <p>
+                    Html::tag('p', ['contenteditable'=> "true", 'data-original-title'=>$viewModel->getTitle()],
+                        $viewModel->getTitle()
                     )
-                    .Html::tag('div',
-                        ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
-                        $buttonsHtml)
-                );
+                    .
+                    $this->semafor($viewModel) 
+                    .
+                    Html::tag('form', 
+                        [
+                        ],
+                        Html::tag('div',
+                            ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
+                            $buttonsHtml)
+                    )
+                )
+;
         } else {
             $itemHtml = Html::tag('a',
                 [
@@ -67,10 +70,9 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                         $this->classMap->get('Item', 'li a'),
                         $this->classMap->get('Item', 'li'),
                         ],
-                    'data-red-style'=> $this->redDriverEditableStyle($viewModel),
-                    'href'=>$viewModel->getPageHref(),
-                    'data-red-content-api-uri'=> $viewModel->getRedApiUri(),
-                ],
+                    'href'=>$viewModel->getPageApi(),
+                ]
+                +$this->dataRedAttributes($viewModel),
                 Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                     $viewModel->getTitle()
                 )
@@ -80,11 +82,11 @@ class DriverRendererEditable extends HtmlRendererAbstract {
 
         return $itemHtml;
     }
-
-    private function redDriverEditableStyle(DriverViewModelInterface $viewModel) {
+    
+    private function dataRedAttributes(DriverViewModelInterface $viewModel) {
         return [
-            $viewModel->isActive() ? "active " : "",
-            $viewModel->isPresented() ? "presented " : "",
+            'data-red-content'=>$viewModel->getRedContentApi(),
+            'data-red-driver'=>$viewModel->getRedDriverApi(),            
         ];
     }
 

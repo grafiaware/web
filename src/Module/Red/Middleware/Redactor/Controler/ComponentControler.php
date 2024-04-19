@@ -93,14 +93,15 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
     
-    public function driver(ServerRequestInterface $request, $uid) {
+    public function presenteddriver(ServerRequestInterface $request, $uid) {
         /** @var HierarchyDao $hierarchyDao */
         $hierarchyDao =  $this->container->get(HierarchyDao::class);
         $hierarchyRow = $hierarchyDao->get(['uid'=>$uid]);
         
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
         $menuItem = $menuItemRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $uid);
-
+        $this->setPresentationMenuItem($menuItem);
+        
         /** @var MenuComponent $menuComponent */
         $menuComponent = $this->container->get(MenuComponent::class);  // dočasně - metoda komponentu
         
@@ -112,18 +113,37 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             /** @var MenuRootInterface $menuRoot */
             $menurootHierarchyRow = $hierarchyDao->get(['uid'=>$menuRoot->getUidFk()]);
             if ($menurootHierarchyRow['left_node']<$hierarchyRow['left_node'] AND $menurootHierarchyRow['right_node']>$hierarchyRow['right_node']) {
-//                $menuService = $menuServiceName;
                 $itemType = $menuConfig['itemtype'];
                 break;
             }
         }
+        $driver = $menuComponent->createDriverComponent($menuItem, $itemType);
+        return $this->createResponseFromView($request, $driver);
+    }
+    
+    public function driver(ServerRequestInterface $request, $uid) {
+        /** @var HierarchyDao $hierarchyDao */
+        $hierarchyDao =  $this->container->get(HierarchyDao::class);
+        $hierarchyRow = $hierarchyDao->get(['uid'=>$uid]);
         
-//        $menuRoots = $menuRootRepo->findAll();
-//        foreach ($menuRoots as $menuRoot) {
-//
-//        }
+        $menuItemRepo = $this->container->get(MenuItemRepo::class);
+        $menuItem = $menuItemRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $uid);
         
+        /** @var MenuComponent $menuComponent */
+        $menuComponent = $this->container->get(MenuComponent::class);  // dočasně - metoda komponentu
         
+        $menuConfigs = $this->container->get('menu.services');
+        $menuRootRepo = $this->container->get(MenuRootRepo::class);
+        /** @var MenuRootRepo $menuRootRepo */
+        foreach ($menuConfigs as $menuServiceName => $menuConfig) {
+            $menuRoot = $menuRootRepo->get($menuConfig['rootName']);
+            /** @var MenuRootInterface $menuRoot */
+            $menurootHierarchyRow = $hierarchyDao->get(['uid'=>$menuRoot->getUidFk()]);
+            if ($menurootHierarchyRow['left_node']<$hierarchyRow['left_node'] AND $menurootHierarchyRow['right_node']>$hierarchyRow['right_node']) {
+                $itemType = $menuConfig['itemtype'];
+                break;
+            }
+        }
         $driver = $menuComponent->createDriverComponent($menuItem, $itemType);
         return $this->createResponseFromView($request, $driver);
     }

@@ -80,12 +80,11 @@ function fetchCascadeContent(parentElement){
     })
     .then(textPromise => {
         console.log(`cascade: Loading content from ${apiUri}.`);
-        let element = replaceChildren(parentElement, textPromise);  // vrací původní parent element
-        listenLinks(element);
-        return element;
+        return replaceChildren(parentElement, textPromise);  // vrací původní parent element
     })
-    .then(targetWithNewContent => {
-        return loadSubsequentElements(targetWithNewContent, "cascade");
+    .then(parentWithNewContent => {
+        listenLinks(parentWithNewContent);
+        return loadSubsequentElements(parentWithNewContent, "cascade");
     })
     .catch(e => {
         throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
@@ -178,46 +177,23 @@ function replaceChildren(parentElement, newHtmlTextContent) {
     return parentElement;
 };
 
-function fetchNewContent(parentElement, apiUri, cacheControl){
-
-    /// fetch ///
-    // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
-    // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
-    return fetch(apiUri, {
-        method: "GET",      //default
-          cache: cacheControl,
-          headers: {
-            "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
-          },
-        })
-    .then(response => {
-      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
-          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
-          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
-      } else {
-          throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
-      }
-    })
-    .then(textPromise => {
-        let element = replaceChildren(parentElement, textPromise);  // vrací původní parent element
-        return element;
-    })
-    .catch(e => {
-        throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
-    });
-}
-
 /////////////// menu
 // proměnné společné pro všechna menu - klik do jiného menu musí skrýt položky z předtím používaného menu
     var previousItem = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
 
 /**
+ * Volá se v funkci fetchCascadeContent() po načtení "kaskádního" obsahu. Připojí event listenery pro click event na elementech items.
+ * 
+ * Může se volat rekurzivně, pokud načtený obsah bude obsahovat element(y), definované zde jako navs. Pak po kliknutí na položku menu vznikne event, 
+ * načtou se nové drivery a nový obsah pomocí funkce fetchCascadeContent(). Ve funkci fetchCascadeContent() se znovu volá listenLinks().
  * 
  * @param {Element} loaderElement
  * @returns {undefined}
  */
 function listenLinks(loaderElement) {  
     let contentTarget = null;
+    let cacheControl = getCacheControl(loaderElement);
+    
     if (hasTargetId(loaderElement)) {
         contentTarget = document.getElementById(getTargetId(loaderElement));
     }    
@@ -229,37 +205,33 @@ function listenLinks(loaderElement) {
         let items = navigation.querySelectorAll("li");
         console.log(`cascade: Listen links match `+items.length+' items.');
         for (const item of [...items]) {
-            // když event listener z nějakého důvodu nepracuje, pro vede se dafault akce elementu anchor -> volá se načtení celé stránky
+            // když event listener z nějakého důvodu nepracuje, provede se dafault akce elementu anchor -> volá se načtení celé stránky
             item.addEventListener("click", event => {
-                if(contentTarget===null) {
-                    return true;
-                } else {
-                    let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
-                    // item
-                    if (previousItem) {
-                        styleAsNotPresented(previousItem);                        
-                        shrinkChildrenOnPath(previousItem);
+                    if(contentTarget===null) {
+                        return true;
+                    } else {
+                        let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
+                        // item
+                        fetchDrivers(previousItem, currentItem);                        
+                        shrinkAndExpandChildrenOnPath(previousItem, currentItem);
+                        // aktuální item uložen pro příští klik
+                        previousItem = currentItem;
+
+                        // content
+                        // příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
+                        contentTarget.setAttribute('data-red-apiuri', itemDriver(currentItem).getAttribute('data-red-content'));
+                        // získání a výměna nového obsahu v cílovém elementu
+                        fetchCascadeContent(contentTarget);
+
+                        // event
+                        // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
+                        event.preventDefault();
+                        // konec šírení eventu
+                        event.stopPropagation();
                     }
-                    styleAsPresented(currentItem);
-                    expandChildrenOnPath(currentItem);
-                    // aktuální item uložen pro příští klik
-                    previousItem = currentItem;
-                    
-                    // content
-                    // příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
-                    contentTarget.setAttribute('data-red-apiuri', itemAnchor(currentItem).getAttribute('data-red-content-api-uri'));
-                    // získání a výměna nového obsahu v cílovém elementu
-                    fetchCascadeContent(contentTarget);
-                                        
-                    // event
-                    // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
-                    event.preventDefault();
-                    // konec šírení eventu
-                    event.stopPropagation();
                 }
-            }
             );
-            if (itemAnchor(item).classList.contains("presented")) {
+            if (itemDriver(item).classList.contains("presented")) {  // první previousItem po načtení menu - závisí va class "presented" - ŠPATNĚ
                 previousItem = item;
             }
         }        
@@ -296,17 +268,60 @@ function listenLinks(loaderElement) {
  * @param {type} itemElement
  * @returns {unresolved}
  */
-function itemAnchor(itemElement) {
+function itemDriver(itemElement) {
     return itemElement.children[0];
 }
 
-function styleAsPresented(element){
-    itemAnchor(element).classList.add("presented");
+function fetchDrivers(previousItem, currentItem){
+    let presentedDriverApi = itemDriver(currentItem).getAttribute('data-red-driver');
+    fetchNewDriver(currentItem, presentedDriverApi, 'default');
+    if (previousItem) {
+        let driverApi = itemDriver(previousItem).getAttribute('data-red-driver');
+        fetchNewDriver(previousItem, driverApi, 'default');
+    }
 }
 
-function styleAsNotPresented(element){
-    itemAnchor(element).classList.remove("presented");    
+function fetchNewDriver(item, apiUri, cacheControl){
+
+    /// fetch ///
+    // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
+    // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
+    return fetch(apiUri, {
+        method: "GET",      //default
+          cache: cacheControl,
+          headers: {
+            "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
+          },
+        })
+    .then(response => {
+      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
+      } else {
+          throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+      }
+    })
+    .then(textPromise => {
+        let element = replaceItemDriver(item, textPromise);  // vrací původní parent element
+        return element;
+    })
+    .catch(e => {
+        throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
+    });
 }
+
+function replaceItemDriver(itemElement, newHtmlTextContent) {
+    var newElements = htmlToElements(newHtmlTextContent);
+    var cnt = newElements.length;
+    if (cnt>1) {
+        console.warn("cascade: New driver as children of element "+itemElement.tagName+" data-red-apiuri: "+itemElement.getAttribute('data-red-apiuri')+" has "+cnt+" element(s).");        
+    } else {
+//        itemElement.replaceChild(newElements[0], itemDriver(itemElement));  // odstraní staré a přidá nové elementy
+        itemDriver(itemElement).replaceWith(newElements[0]);
+        console.log("cascade: New driver as children of element "+itemElement.tagName+" data-red-apiuri: "+itemElement.getAttribute('data-red-apiuri')+" has "+cnt+" element(s).");
+    }
+    return itemElement;
+};
 
 /**
  * Vybere všechny elemnty typu LI na cestě k zadanému elementu, zadaný element JE ve výsledku zahrnut.
@@ -320,7 +335,7 @@ function getOnPathItemElements(element) {
         if (element.tagName === "LI") { 
             pathElements.push(element);
         }
-    // if no parent, return no elements
+    // if no parent, return no parent elements
     if(!element.parentElement) {
         return pathElements;
     }
@@ -337,29 +352,23 @@ function getOnPathItemElements(element) {
 }
 
 /**
- * Slouží pro stylování - pro skrytí potomků v menu
- * Odstraní třídu "parent" všem elementům na cestě (viz getOnPathElements()).
- * 
- * @param {Element} previousAnchor
- * @returns {undefined}
- */
-function shrinkChildrenOnPath(previousAnchor) {
-    let parentElements = getOnPathItemElements(previousAnchor);
-    parentElements.forEach(element => {element.classList.remove("parent")})
-}
-
-/**
- * Slouží pro stylování - pro zviditelnění potomků v menu.
+ * Slouží pro stylování - pro skrytí potomků previousItem a zviditelnění potomků currentAnchor v menu
+ * Odstraní třídu "parent" všem elementům na cestě k položce previousItem (viz getOnPathElements()).
  * Přidá do všech elementů na cestě (viz getOnPathElements()), které neobsahují třídu "leaf" (tedy nejsou listy=mají potomky) třídu "parent".
  * 
- * @param {Element} currentAnchor
- * @returns {undefined}
- */
-function expandChildrenOnPath(currentAnchor) {
-    let parentElements = getOnPathItemElements(currentAnchor);    
+ * @param {type} previousItem
+ * @param {type} currentItem
+ * @returns {undefined} */
+function shrinkAndExpandChildrenOnPath(previousItem, currentItem) {
+    if (previousItem) {    
+        let parentElements = getOnPathItemElements(previousItem);
+        parentElements.forEach(element => {element.classList.remove("parent")});
+    }
+    let parentElements = getOnPathItemElements(currentItem);    
     parentElements.forEach(element => {
         if(!element.classList.contains("leaf")) {
             element.classList.add("parent");
         }
-    });
+    }
+    );
 }
