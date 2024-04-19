@@ -9,19 +9,25 @@ SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan1 AS headline, IF(
 FROM
   stranky_innodb
     INNER JOIN
-  `menu_item` ON  (menu_item.lang_code_fk='cs' AND stranky_innodb.list=menu_item.list)
-UNION ALL
+  `menu_item`
+     INNER JOIN 
+   list_uid ON  (menu_item.lang_code_fk='cs' AND stranky_innodb.list=list_uid.list AND menu_item.uid_fk=list_uid.uid)
+   UNION ALL
 SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan2 AS headline, IF((aktiv_lan2start IS NULL AND aktiv_lan2stop IS NULL) OR aktiv_lan2start=aktiv_lan2stop, obsah_lan2, '')  AS perex, keywords_lan2 AS keywords, editor, zmena  AS updated
 FROM
   stranky_innodb
     INNER JOIN
-  `menu_item`  ON  (menu_item.lang_code_fk='en' AND stranky_innodb.list=menu_item.list)
-UNION ALL
+  `menu_item`
+     INNER JOIN 
+   list_uid ON  (menu_item.lang_code_fk='en' AND stranky_innodb.list=list_uid.list AND menu_item.uid_fk=list_uid.uid)
+   UNION ALL
 SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan3 AS headline, IF((aktiv_lan3start IS NULL AND aktiv_lan3stop IS NULL) OR aktiv_lan3start=aktiv_lan3stop, obsah_lan3, '')  AS perex, keywords_lan3 AS keywords, editor, zmena  AS updated
 FROM
   stranky_innodb
     INNER JOIN
-  `menu_item`  ON  (menu_item.lang_code_fk='de' AND stranky_innodb.list=menu_item.list)
+  `menu_item`
+     INNER JOIN 
+   list_uid ON  (menu_item.lang_code_fk='de' AND stranky_innodb.list=list_uid.list AND menu_item.uid_fk=list_uid.uid)
 ORDER BY list ASC;
 
 
@@ -33,25 +39,33 @@ SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan1 AS content, akti
 FROM
   stranky_innodb
     INNER JOIN
-  `menu_item`  ON  (menu_item.lang_code_fk='cs' AND stranky_innodb.list=menu_item.list)
+  `menu_item`
+       INNER JOIN 
+	list_uid ON  (menu_item.lang_code_fk='cs' AND stranky_innodb.list=list_uid.list AND menu_item.uid_fk=list_uid.uid)
     INNER JOIN
   paper ON (menu_item.id=paper.menu_item_id_fk)
   WHERE ((aktiv_lan1start IS NOT NULL OR aktiv_lan1stop IS NOT NULL) AND aktiv_lan1start<>aktiv_lan1stop)
 UNION ALL
+
 SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan2 AS content, aktiv_lan2 AS active, aktiv_lan2start AS show_time, aktiv_lan2stop AS hide_time, stranky_innodb.editor AS editor, zmena  AS updated
 FROM
   stranky_innodb
     INNER JOIN
-  `menu_item`  ON  (menu_item.lang_code_fk='en' AND stranky_innodb.list=menu_item.list)
+  `menu_item`       
+    INNER JOIN 
+   list_uid ON  (menu_item.lang_code_fk='en' AND stranky_innodb.list=list_uid.list AND menu_item.uid_fk=list_uid.uid)
     INNER JOIN
   paper ON (menu_item.id=paper.menu_item_id_fk)
   WHERE ((aktiv_lan2start IS NOT NULL OR aktiv_lan2stop IS NOT NULL) AND aktiv_lan2start<>aktiv_lan2stop)
 UNION ALL
+
 SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan3 AS content, aktiv_lan3 AS active, aktiv_lan3start AS show_time, aktiv_lan3stop AS hide_time, stranky_innodb.editor AS editor, zmena  AS updated
 FROM
   stranky_innodb
     INNER JOIN
-  `menu_item`  ON  (menu_item.lang_code_fk='de' AND stranky_innodb.list=menu_item.list)
+  `menu_item` 
+       INNER JOIN 
+   list_uid ON  (menu_item.lang_code_fk='de' AND stranky_innodb.list=list_uid.list AND menu_item.uid_fk=list_uid.uid)
     INNER JOIN
   paper ON (menu_item.id=paper.menu_item_id_fk)
   WHERE ((aktiv_lan3start IS NOT NULL OR aktiv_lan3stop IS NOT NULL) AND aktiv_lan3start<>aktiv_lan3stop)
