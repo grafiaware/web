@@ -31,6 +31,7 @@ class DriverRenderer extends HtmlRendererAbstract {
     }
 
     private function renderNoneditableItem(DriverViewModelInterface $viewModel) {
+        $pp = $viewModel->isPresented();
         $anchorHtml = Html::tag('a',
                 [
                     'class'=>[

@@ -29,6 +29,7 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     private $statusViewModel;
     private $itemApiService;
     private $menuItem;
+    private $presented;
     private $editable = false;
     private $itemType;
 
@@ -40,6 +41,10 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     public function withMenuItem(MenuItemInterface $menuItem): DriverViewModelInterface {
         $this->menuItem = $menuItem;
         return $this;
+    }
+    
+    public function setPresented(bool $presented) {
+        $this->presented = $presented;
     }
     
     public function setEditable(bool $editable) {
@@ -82,13 +87,12 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
         return $this->menuItem->getTitle();
     }
     
-    public function isActive() {
+    public function isActive(): bool {
         return $this->menuItem->getActive();
     }
     
-    public function isPresented() {
-        $presentedItem = $this->statusViewModel->getPresentedMenuItem();   
-        return isset($presentedItem) ? ($presentedItem->getId() == $this->menuItem->getId()) : FALSE;        
+    public function isPresented(): bool {
+        return $this->presented ?? false;        
     }
     
     public function presentEditableMenu(): bool {

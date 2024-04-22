@@ -19,9 +19,10 @@ interface DriverViewModelInterface extends ViewModelInterface {
     public function withMenuItem(MenuItemInterface $menuItem): DriverViewModelInterface;
     public function setEditable(bool $editable);
     public function setItemType($itemType);
+    public function setPresented(bool $presented);
     public function getItemType();
-    public function isActive();
-    public function isPresented();
+    public function isActive(): bool;
+    public function isPresented(): bool;
     public function presentEditableMenu(): bool;    
     public function isPasteMode(): bool;    
     

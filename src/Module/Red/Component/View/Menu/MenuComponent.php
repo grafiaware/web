@@ -218,14 +218,14 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         // před přidáním DriverButtonsComponent a button komponentů musí DriverViewModel mít nastaven menuItem a itemType
         $driverViewModel->withMenuItem($menuItem);
         $driverViewModel->setItemType($itemType);
-
+        $presentedItem = $this->contextData->getPresentedMenuItem();
+        $isPresented = isset($presentedItem) && ($presentedItem->getId() == $menuItem->getId());
+        $driverViewModel->setPresented($isPresented);
         if($driverViewModel->presentEditableMenu()) {
             $driver->setRendererName(DriverRendererEditable::class);
-            if ($driverViewModel->isPresented()) {
-                $this->appendDriverButtonsComponent($driver, $driverViewModel->isPasteMode(), $driverViewModel->getItemType());
-            }
+            $this->appendDriverButtonsComponent($driver, $driverViewModel->isPasteMode(), $driverViewModel->getItemType());
         } else {
-            $driver->setRendererName(DriverRenderer::class);                    
+            $driver->setRendererName(DriverRenderer::class);                                    
         }
         return $driver;
     }
