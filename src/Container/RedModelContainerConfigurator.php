@@ -166,7 +166,6 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuRootRepo::class => function(ContainerInterface $c) {
                 return new MenuRootRepo($c->get(MenuRootDao::class), $c->get(MenuRootHydrator::class));
             },
-
             HierarchyAggregateReadonlyDao::class => function(ContainerInterface $c) : HierarchyAggregateReadonlyDao {
                 return new HierarchyAggregateReadonlyDao(
                         $c->get(Handler::class),

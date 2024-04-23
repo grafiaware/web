@@ -50,6 +50,10 @@ use Red\Component\View\Content\Authored\Article\ArticleComponentInterface;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponentInterface;
 
+// service (menu)
+use Red\Service\Menu\DriverService;
+use Red\Service\Menu\DriverServiceInterface;
+
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;
 use Red\Component\Renderer\Html\Menu\DriverRenderer;
@@ -99,19 +103,24 @@ class ComponentControler extends PresentationFrontControlerAbstract {
     }
     
     public function presenteddriver(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->getMenuItem($uid);
-        $this->setPresentationMenuItem($menuItem);
 
-        $itemType = $this->getItemType($uid);
-        $driver = $this->createDriverComponent($menuItem, $itemType);
+        /** @var DriverComponent $driver */
+        $driver = $this->container->get(DriverComponent::class);
+        /** @var DriverServiceInterface $driverService */
+        $driverService = $this->container->get(DriverService::class);
+        $driverService->completeDriverComponent($driver, $uid);
+        $this->setPresentationMenuItem($driver->getData()->getMenuItem());  // driver po kompletaci už má data
+        
         return $this->createResponseFromView($request, $driver);
     }
     
     public function driver(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->getMenuItem($uid);
 
-        $itemType = $this->getItemType($uid);
-        $driver = $this->createDriverComponent($menuItem, $itemType);
+        /** @var DriverComponent $driver */
+        $driver = $this->container->get(DriverComponent::class);
+        /** @var DriverServiceInterface $driverService */
+        $driverService = $this->container->get(DriverService::class);
+        $driverService->completeDriverComponent($driver, $uid);
         return $this->createResponseFromView($request, $driver);
     }
 

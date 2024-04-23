@@ -17,6 +17,8 @@ use Red\Component\Renderer\Html\Menu\ItemRenderer;
 use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
 use Red\Component\Renderer\Html\Menu\DriverRenderer;
 use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
+use Red\Component\Renderer\Html\Menu\DriverPresentedRenderer;
+use Red\Component\Renderer\Html\Menu\DriverPresentedRendererEditable;
 
 use Red\Component\Renderer\Html\Content\Authored\Paper\ButtonsRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
@@ -162,6 +164,12 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             DriverRendererEditable::class => function(ContainerInterface $c) {
                 return new DriverRendererEditable($c->get('menu.item.classmap.editable'));
+            },
+            DriverPresentedRenderer::class => function(ContainerInterface $c) {
+                return new DriverPresentedRenderer($c->get('menu.item.classmap'));
+            },
+            DriverPresentedRendererEditable::class => function(ContainerInterface $c) {
+                return new DriverPresentedRendererEditable($c->get('menu.item.classmap.editable'));
             },
         ###########################
         # select template renderer

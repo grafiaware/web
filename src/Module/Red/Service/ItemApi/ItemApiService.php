@@ -34,7 +34,7 @@ class ItemApiService implements ItemApiServiceInterface {
      * @param MenuItemInterface $menuItem
      * @return string
      */
-    public function getPresentedDriverApiUri(MenuItemInterface $menuItem) {      
+    public function getPresentedDriverApiUri(MenuItemInterface $menuItem) {
         return "red/v1/presenteddriver/{$menuItem->getUidFk()}";
     }
     

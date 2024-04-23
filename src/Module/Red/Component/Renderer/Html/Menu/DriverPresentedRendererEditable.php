@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class DriverRendererEditable extends HtmlRendererAbstract {
+class DriverPresentedRendererEditable extends HtmlRendererAbstract {
 
     /**
      *
@@ -31,21 +31,37 @@ class DriverRendererEditable extends HtmlRendererAbstract {
     }
 
     protected function renderEditableItem(DriverViewModelInterface $viewModel) {
-        $itemHtml = Html::tag('a',
-            [
-                'class'=>[
-                    $this->classMap->get('Item', 'li a'),
-                    $this->classMap->get('Item', 'li'),
-                    ],
-                'href'=>$viewModel->getPageApi(),
-            ]
-            +$this->dataRedAttributes($viewModel),
-            Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
-                $viewModel->getTitle()
-            )
-            . $this->semafor($viewModel)
-        );
+        $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::DRIVER_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::DRIVER_BUTTONS) : "";
 
+        $itemHtml =  // W3 specifications, <p> is only allowed to contain text or 'inline' (not 'block') tags
+            Html::tag('div',
+                [
+                'class'=>[
+                    $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
+                    $this->classMap->get('Item', 'li.presented'),
+                    ],
+                'tabindex'=>0,
+                ]
+                +$this->dataRedAttributes($viewModel),
+
+                // POZOR: závislost na edit.js
+                // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
+                // t.j. selektor vybírá <span>, který má rodiče <p>
+                Html::tag('p', ['contenteditable'=> "true", 'data-original-title'=>$viewModel->getTitle()],
+                    $viewModel->getTitle()
+                )
+                .
+                $this->semafor($viewModel) 
+                .
+                Html::tag('form', 
+                    [
+                    ],
+                    Html::tag('div',
+                        ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
+                        $buttonsHtml)
+                )
+            );
+        
         return $itemHtml;
     }
     

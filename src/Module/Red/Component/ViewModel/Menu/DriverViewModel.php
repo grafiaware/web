@@ -59,20 +59,31 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
         return $this->itemType;
     }
     
+    public function getMenuItem(): MenuItemInterface {
+        if (!isset($this->menuItem)) {
+            throw new \LogicException("není nastaven menuItem metodou withMenuItem(\$menuItem)");
+        }
+        return $this->menuItem;
+    }
+        
     public function getUid() {
-        return $this->menuItem->getUidFk();
+        return $this->getMenuItem()->getUidFk();
     }
     
     public function getId() {
-        return $this->menuItem->getId();
+        return $this->getMenuItem()->getId();
+    }
+    
+    public function getTitle() {
+        return $this->getMenuItem()->getTitle();
     }
     
     public function getPageApi() {
-        return $this->itemApiService->getPageApiUri($this->menuItem);
+        return $this->itemApiService->getPageApiUri($this->getMenuItem());
     }
     
     public function getRedContentApi() {
-        return $this->itemApiService->getContentApiUri($this->menuItem);
+        return $this->itemApiService->getContentApiUri($this->getMenuItem());
     }
     
     /**
@@ -80,28 +91,24 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
      * @return type
      */
     public function getRedDriverApi() {
-        return $this->isPresented() ? $this->itemApiService->getDriverApiUri($this->menuItem) : $this->itemApiService->getPresentedDriverApiUri($this->menuItem);
-    }
-    
-    public function getTitle() {
-        return $this->menuItem->getTitle();
+        return $this->isPresented() ? $this->itemApiService->getDriverApiUri($this->getMenuItem()) : $this->itemApiService->getPresentedDriverApiUri($this->getMenuItem());
     }
     
     public function isActive(): bool {
-        return $this->menuItem->getActive();
+        return $this->getMenuItem()->getActive();
     }
     
     public function isPresented(): bool {
         return $this->presented ?? false;        
     }
     
-    public function presentEditableMenu(): bool {
-        return $this->statusViewModel->presentEditableMenu();
-    }
-    
-    public function isPasteMode(): bool {
-        $cut = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
-        $copy = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_COPY);
-        return ($cut OR $copy);        
-    }
+//    public function presentEditableMenu(): bool {
+//        return $this->statusViewModel->presentEditableMenu();
+//    }
+//    
+//    public function isPasteMode(): bool {
+//        $cut = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
+//        $copy = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_COPY);
+//        return ($cut OR $copy);        
+//    }
 }

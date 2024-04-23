@@ -23,13 +23,15 @@ interface DriverViewModelInterface extends ViewModelInterface {
     public function getItemType();
     public function isActive(): bool;
     public function isPresented(): bool;
-    public function presentEditableMenu(): bool;    
-    public function isPasteMode(): bool;    
+//    public function presentEditableMenu(): bool;    
+//    public function isPasteMode(): bool;    
     
+    public function getMenuItem(): MenuItemInterface;
     public function getUid();
     public function getId();
+    public function getTitle();    
+
     public function getPageApi();
     public function getRedContentApi();
     public function getRedDriverApi();
-    public function getTitle();    
 }

@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class DriverRenderer extends HtmlRendererAbstract {
+class DriverPresentedRenderer extends HtmlRendererAbstract {
 
     /**
      *
@@ -35,7 +35,7 @@ class DriverRenderer extends HtmlRendererAbstract {
                 [
                     'class'=>[
                         $this->classMap->get('Item', 'li a'),
-                        $this->classMap->get('Item', 'li'),   
+                        $this->classMap->get('Item', 'li.presented'),   
                         ],
                     'href'=>$viewModel->getPageApi(),                    
                 ]

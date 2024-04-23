@@ -47,6 +47,7 @@ use \Pes\View\ViewFactory;
 // service
 use Red\Service\ItemApi\ItemApiService;
 use Red\Service\CascadeLoader\CascadeLoaderFactory;
+use Red\Service\Menu\DriverService;
 
 //component
 use Component\View\ComponentInterface;
@@ -111,8 +112,7 @@ use Red\Component\View\Manage\EditContentSwitchComponent;
 
 // viewModel
 use Component\ViewModel\StatusViewModel;  // pro službu delegáta - app kontejner
-// enum pro typ položek menu
-use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;  // enum pro typ položek menu
 use Red\Component\ViewModel\Menu\MenuViewModel;
 use Red\Component\ViewModel\Menu\LevelViewModel;
 use Red\Component\ViewModel\Menu\ItemViewModel;
@@ -189,6 +189,9 @@ use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Repository\MultipageRepo;
 
+// DAO (pro volání služeb)
+use Red\Model\Dao\Hierarchy\HierarchyDao;
+
 // template service
 use Template\Seeker\TemplateSeeker;
 use Template\Compiler\TemplateCompiler;
@@ -257,7 +260,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         #
             MenuComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
+//                $accessPresentation = $c->get(AccessPresentation::class);
                 $component = new MenuComponent($c->get(ComponentConfiguration::class), $c);  // kontejner
                 $component->setRendererName(MenuRenderer::class);                
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -958,7 +961,17 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ItemApiService::class => function(ContainerInterface $c) {
                 return new ItemApiService();
-            },                    
+            },
+            DriverService::class => function(ContainerInterface $c) {
+                return new DriverService(
+                        $c->get(StatusViewModel::class), 
+                        $c->get(MenuItemRepo::class), 
+                        $c->get(MenuRootRepo::class), 
+                        $c->get(HierarchyDao::class), 
+                        $c->get('menu.services'),
+                        $c
+                        );
+            },
         ####
         # view factory - je to služba kontejneru
         #
