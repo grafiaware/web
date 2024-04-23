@@ -45,7 +45,7 @@ interface HierarchyJoinMenuItemRepoInterface extends RepoAssotiatingOneInterface
      * @param string $langCode Identifikátor language
      * @return HierarchyAggregateInterface array of
      */
-    public function getFullTree($langCode);
+    public function findFullTree($langCode);
 
     /**
      *
@@ -54,6 +54,6 @@ interface HierarchyJoinMenuItemRepoInterface extends RepoAssotiatingOneInterface
      * @param int $maxDepth int or NULL
      * @return HierarchyAggregateInterface array of
      */
-    public function getSubTree($langCode, $rootUid, $maxDepth=NULL);
+    public function findSubTree($langCode, $rootUid, $maxDepth=NULL);
 
 }

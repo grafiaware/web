@@ -105,7 +105,8 @@ function sendOnEnter(event) {
     var escPressed = event.which === 27,
     nlPressed = event.which === 13,
     targetElement = event.target,
-    acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
+//    acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
+    acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
     url,
     data = {};
 
@@ -117,7 +118,7 @@ function sendOnEnter(event) {
         } else if (nlPressed) {
             //hack - odstranění <br/> - innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
             // FF do obsahu elementu v modu contenteditable="true" vždy při uložení přidá na začátel tag <br/> (kvůli možnosti "kliknout" na element)
-            // <br/> tag je odstraněn po změně na conteneditable="false" -> po dobu editace obsahu elementu je na žačátku obsahu vždy <br/> - skrýváme ho pomocí css
+            // <br/> tag je odstraněn po změně na contenteditable="false" -> po dobu editace obsahu elementu je na žačátku obsahu vždy <br/> - skrýváme ho pomocí css
             targetElement.innerHTML = targetElement.innerText;
             // data title z innerText, ostatní z data- atributů - zde musí být shoda jmen s html šablonou pro item!
             data['title'] = targetElement.innerText; // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy

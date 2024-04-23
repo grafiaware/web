@@ -2,7 +2,7 @@
 namespace Red\Component\Renderer\Html\Manage;
 
 use Red\Component\Renderer\Html\Manage\ButtonsMenuRendererAbstract;
-use Red\Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 use Pes\Text\Html;
@@ -14,14 +14,12 @@ use Pes\Text\Html;
  */
 class ButtonsItemManipulationRenderer extends ButtonsMenuRendererAbstract {
     public function render(iterable $viewModel = NULL) {
-        /** @var ItemViewModelInterface $viewModel */
-        $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
-        return $this->renderButtons($menuItem);
+        return $this->renderButtons($viewModel);
     }
 
-    protected function renderButtons(MenuItemInterface $menuItem) {
-        $buttons[] = $this->getButtonActive($menuItem);
-        $buttons[] = $this->getButtonTrash($menuItem);
+    protected function renderButtons(DriverViewModelInterface $viewModel) {
+        $buttons[] = $this->getButtonActive($viewModel);
+        $buttons[] = $this->getButtonTrash($viewModel);
         return $buttons;
     }
 }

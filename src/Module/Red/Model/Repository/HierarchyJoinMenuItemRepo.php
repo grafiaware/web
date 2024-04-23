@@ -30,7 +30,9 @@ use Red\Model\Hydrator\HierarchyChildHydrator;
  */
 class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMenuItemRepoInterface {  // HierarchyAggregateMenuItemRepo nemá skutečné rodičovské repo
 
-    public function __construct(HierarchyAggregateReadonlyDaoInterface $editHirerarchy, HierarchyHydrator $hierarchyNodeHydrator
+    public function __construct(
+            HierarchyAggregateReadonlyDaoInterface $editHirerarchy, 
+            HierarchyHydrator $hierarchyNodeHydrator
             ) {
 
 
@@ -45,9 +47,9 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMen
     }
 
     /**
-     *
-     * @param type $langCode
-     * @param type $uid
+     * 
+     * @param type $langCodeFk
+     * @param type $uidFk
      * @return HierarchyAggregateInterface|null
      */
     public function get($langCodeFk, $uidFk): ?HierarchyAggregateInterface {
@@ -86,7 +88,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMen
      * @param string $langCode Identifikátor language
      * @return HierarchyAggregateInterface array of
      */
-    public function getFullTree($langCode) {
+    public function findFullTree($langCode) {
         return $this->recreateEntitiesByRowDataArray($this->dataManager->getFullTree($langCode));
     }
 
@@ -97,7 +99,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMen
      * @param int $maxDepth int or NULL
      * @return HierarchyAggregateInterface array of
      */
-    public function getSubTree($langCode, $rootUid, $maxDepth=NULL) {
+    public function findSubTree($langCode, $rootUid, $maxDepth=NULL) {
         return $this->recreateEntitiesByRowDataArray($this->dataManager->getSubTree($langCode, $rootUid, $maxDepth));
     }
 

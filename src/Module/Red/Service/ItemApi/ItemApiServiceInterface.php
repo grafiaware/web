@@ -11,10 +11,32 @@ use Red\Model\Entity\MenuItemInterface;
 interface ItemApiServiceInterface {
     
     /**
+     * Generuje uri pro GET request požadující v API obsah celé stránky, která v části pro content obsahuje obsah odpovídající položce menu.
      * 
      * @param MenuItemInterface $menuItem
      */
-    public function getLoaderApiUri(MenuItemInterface $menuItem);
+    public function getPageApiUri(MenuItemInterface $menuItem);
+    
+    /**
+     * Generuje uri pro GET request požadující v API obsah driveru presentované (aktuální) položky menu.
+     * 
+     * @param MenuItemInterface $menuItem
+     */
+    public function getPresentedDriverApiUri(MenuItemInterface $menuItem);
+
+    /**
+     * Generuje uri pro GET request požadující v API obsah driveru položky menu.
+     * 
+     * @param MenuItemInterface $menuItem
+     */
+    public function getDriverApiUri(MenuItemInterface $menuItem);
+    
+    /**
+     * Generuje uri pro GET request požadující v API obsah odpovídající položce menu.
+     * 
+     * @param MenuItemInterface $menuItem
+     */
+    public function getContentApiUri(MenuItemInterface $menuItem);
             
             
 }

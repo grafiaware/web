@@ -16,15 +16,46 @@ use UnexpectedValueException;
 class ItemApiService implements ItemApiServiceInterface {
     
     const DEFAULT_MODULE = 'red';
-    const DEFAULT_GENERATOR = 'select';
+    const DEFAULT_GENERATOR = ApiGeneratorEnum::SELECT_GENERATOR;
     
     /**
+     * {@inheritDoc}
      * 
      * @param MenuItemInterface $menuItem
      * @return string
+     */
+    public function getPageApiUri(MenuItemInterface $menuItem) {
+//        return 'vypnuto_v_ItemApiService';//
+        return "web/v1/page/item/{$menuItem->getUidFk()}";        
+    }
+    /**
+     * {@inheritDoc}
+     * 
+     * @param MenuItemInterface $menuItem
+     * @return string
+     */
+    public function getPresentedDriverApiUri(MenuItemInterface $menuItem) {
+        return "red/v1/presenteddriver/{$menuItem->getUidFk()}";
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @param MenuItemInterface $menuItem
+     * @return string
+     */
+    public function getDriverApiUri(MenuItemInterface $menuItem) {      
+        return "red/v1/driver/{$menuItem->getUidFk()}";
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @param MenuItemInterface $menuItem Objekt položky menu
+     * @return string
      * @throws UnexpectedValueException
      */
-    public function getLoaderApiUri(MenuItemInterface $menuItem) {
+    public function getContentApiUri(MenuItemInterface $menuItem) {
         $apiModule = $menuItem->getApiModuleFk();
         $apiGenerator = $menuItem->getApiGeneratorFk();
         //TODO: Sv - hierarchy hooked actor - metoda add - použij konstatnty této třídy pri insert apimodule a apigenerator

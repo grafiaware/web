@@ -61,6 +61,8 @@ class ApiRegistrator {
         #### ComponentController ####
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/flash'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/service/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/driver/:uid'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/presenteddriver/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/static/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/select/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/empty/:menuItemId'));

@@ -21,7 +21,7 @@ use Pes\Text\Html;
 class LevelRenderer extends HtmlRendererAbstract {
 
     public function render(iterable $contextData=NULL) {
-        // LevelComponent nedostává zádný view model - view předá fo rendereru jen ContextData, který obsahuje vyrenderované komponentní view (tedy html)
+        // LevelComponent nedostává žádný view model - view předá do rendereru jen ContextData, který obsahuje vyrenderované komponentní view (tedy html)
             $levelItemsHtml = "";
             /** @var LevelViewModelInterface $contextData */
             foreach ($contextData as $itemComponentHtml) {

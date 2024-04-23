@@ -78,12 +78,12 @@ function initJqueryEvents() {
 }
 
 /**
- * Funkce scrolluje stránku na pozici kotvy, pokud je v adrese uveden "fragment", tedy část url za znakem #, tedy v javascriptu window.location.hash
+ * Funkce scrolluje stránku na pozici kotvy, pokud je v adrese uveden "fragment", tedy část url za znakem #.
  * Používá jQuery animaci, tu lze nastavit.
  * @returns {undefined}
  */
 function scrollToAnchorPosition() {
-    if(window.location.hash) {
+    if(window.location.hash) {   // window.location.hash je fragment
         $('html, body').animate({
             scrollTop: $(window.location.hash).offset().top, // - 20
             opacity: 'o.4'
@@ -125,6 +125,8 @@ function scrollToAnchorPosition() {
 //
 //=== cascade load of components ===
 
+import {loadSubsequentElements} from "./cascade/cascade.js";
+
 /**
  * po onreadystatechange volá funkci loadSubsequentElements() (z cascade.js)
  * loadSubsequentElements() kaskádně načte obsahy z API nahradí jimi elementy v dokumentu. Nahrazuje elementy nalezené podle třídy (class) "cascade"
@@ -138,17 +140,17 @@ document.onreadystatechange = function () {
         const init = async () => {
             console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
             let resultComponents = await loadSubsequentElements(document, navConfig.cascadeClass);
-            console.log(resultComponents);
+            console.debug(resultComponents);
             console.log("body: load elements fullfilled");
             initLoadedElements();
             console.log("body: initLoaded elements");
             if (isTinyMCEDefined()) {
-                await import("./TinyInit.js")
+                await import("./tinyinit/TinyInit.js")  // lazy import TinyInit
                     .then((tinyInitModule) => {
                         tinyInitModule.initEditors();
                     })
                     .catch((err) => {
-                        console.error = err.message;
+                        console.error(err.fileName + ":" + err.message);
                     });
                 
                 initLoadedEditableElements();
@@ -159,6 +161,7 @@ document.onreadystatechange = function () {
             console.log("body: run initJqueryEvents for jQuery events on loaded elements");
             initJqueryEvents();
             console.log("body: initJqueryEvents finished");
+//            listenLinks();
         }
         init(); // async - volá initLoaded()
     }
@@ -167,7 +170,7 @@ document.onreadystatechange = function () {
 //=== init loaded TinyMce editors ===
 
 /**
- * HACK! Závisí na tinymce. Tato proměnná je definována v editačním reřimu - pokud bylo načteno TinyMce  (viz konfigurace a Layout kontroler)
+ * HACK! Závisí na tinymce. Tato proměnná je definována v editačním režimu - pokud bylo načteno TinyMce  (viz konfigurace a Layout kontroler)
  *
  * @returns {undefined}
  */
@@ -373,3 +376,6 @@ function initLoadedElements() {
         })(jQuery);
     }
 }
+
+
+

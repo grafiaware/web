@@ -63,7 +63,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
                             'formmethod'=>'post',
                             'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                             ],
-                    Html::tag('i', ['class'=>$this->classMap->resolve($menuNode->getHierarchy()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
+                    Html::tag('i', ['class'=>$this->classMap->resolve($menuNode->getHierarchy()->isActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
                 )
                 .Html::tag('div',
                             ['class'=>$this->classMap->get('Buttons', 'div div'),

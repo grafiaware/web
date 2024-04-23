@@ -55,6 +55,8 @@ interface MenuViewModelInterface extends ViewModelInterface {
     
     public function getPostCommand($key);
 
+    public function presentedLanguageLangCode();
+    public function getPresentedMenuItem();
     /**
      * Vrací prezentovanou položku hierarchie, pokud je položkou tohoto modelu menu. Řídí se hodnotami status presentation.
      *
@@ -62,7 +64,7 @@ interface MenuViewModelInterface extends ViewModelInterface {
      */
     public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface;
 
-    public function getItemModels(): array;
+    public function getNodeModels(): array;
 
     /**
      *
@@ -93,7 +95,7 @@ interface MenuViewModelInterface extends ViewModelInterface {
      */
     public function getSubTreeNodes();
 
-    public function setSubTreeItemViews($itemViews);
-
-    public function getSubTreeItemViews();
+//    public function setSubTreeItemViews($itemViews);
+//
+//    public function getSubTreeItemViews();
 }

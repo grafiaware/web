@@ -18,7 +18,7 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
-use Red\Component\ViewModel\Menu\Enum\ItemRenderTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
 use Pes\Logger\FileLogger;
 
@@ -138,7 +138,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
 
             // title
-            'title' => "Veletrh práce online",
+            'title' => "Grafia s.r.o.",
 
             // folders
             'linksCommon' => self::WEB_LINKS_COMMON,
@@ -149,7 +149,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'templates.layout' => self::WEB_TEMPLATES_SITE.'layout/layout.php',
             'templates.redScripts' => self::RED_TEMPLATES_COMMON.'layout/head/redScripts.php',
             // js templates
-            'templates.navConfig' => self::WEB_TEMPLATES_COMMON.'js/navConfig.js',
+            'templates.navConfig' => self::WEB_TEMPLATES_COMMON.'js/navConfig.js',  //???
             'templates.tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
 
             // linksEditorJs links
@@ -164,8 +164,8 @@ class ConfigurationWeb extends ConfigurationConstants {
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlRedConfig' => self::WEB_LINKS_COMMON.'js/redConfig.js',
-            'urltinyConfig' => self::WEB_LINKS_COMMON.'js/tinyConfig.js',
+//            'urlRedConfig' => self::WEB_LINKS_COMMON.'js/redConfig.js',  //???
+//            'urltinyConfig' => self::WEB_LINKS_COMMON.'js/tinyConfig.js',  //???
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
 
@@ -190,13 +190,16 @@ class ConfigurationWeb extends ConfigurationConstants {
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
             
-            // mapování komponenr na proměnné kontextu v šablonách
+            // mapování komponent na proměnné kontextu v šablonách
             // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
             // contextServiceMap - mapy komponent, které budou v editačním modu načítány vždy znovu novým requestem - viz parametr 'cascade.cacheReloadOnNav'
             // parametry kontext - service/layout mapy jsou:
-            //'context_name' => 'service_name'
-            //      'context_name' - jméno proměnné v šabloně (bez znaku $),
-            //      'service_name' => jméno služby component kontejneru,
+            //'contextName' => 'service_name'
+            //      'contextName' - jméno proměnné v šabloně (bez znaku $), bude současně použit jako část URL (API path)
+            //      'service_name' => jméno služby component kontejneru
+            // Pro 'contextName' použijte jako bezpečné jméno v camel case notaci začínající písmenem, složené z písmen a číslic. 
+            // Toto jméno odpovídá jménu proměnné v šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
+            // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
             'contextServiceMap' => [
                     'flash' => FlashComponent::class,
                     'modalLogin' => LoginComponent::class,
@@ -215,6 +218,18 @@ class ConfigurationWeb extends ConfigurationConstants {
             'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
+                ],
+            'contextTargetMap' => [
+                    'content'=>['id'=>'menutarget_content'],
+                ],
+            'contextMenuMap' => [
+                    'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
+                    'menuVodorovne' => ['service'=>'menu.vodorovne', 'targetId'=>'menutarget_content'],
+                    'menuPresmerovani' => ['service'=>'menu.presmerovani', 'targetId'=>'menutarget_content'],
+                ],
+            'contextMenuEditableMap' => [
+                    'bloky' => ['service'=>'menu.bloky', 'targetId'=>'menutarget_content'],
+                    'kos' => ['service'=>'menu.kos', 'targetId'=>'menutarget_content'],
                 ],
             'contextBlocksMap' => [
                 'aktuality'=>'a1',
@@ -235,35 +250,35 @@ class ConfigurationWeb extends ConfigurationConstants {
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
-            'menu.componentsServices' => [
+            'menu.services' => [
                     'menu.presmerovani' => [
                         'rootName' => 'menu_redirect',
                         'withRootItem' => false,
-                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.presmerovani.levelRenderer',
                         ],
                     'menu.vodorovne' => [
                         'rootName' => 'menu_horizontal',
                         'withRootItem' => false,
-                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.vodorovne.levelRenderer',
                         ],
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
                         'withRootItem' => false,
-                        'itemtype' => ItemRenderTypeEnum::MULTILEVEL,
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menu.svisle.levelRenderer',
                         ],
                     'menu.bloky' => [
                         'rootName' => 'blocks',
                         'withRootItem' => true,
-                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.bloky.levelRenderer',
                         ],
                     'menu.kos' => [
                         'rootName' => 'trash',
                         'withRootItem' => true,
-                        'itemtype' => ItemRenderTypeEnum::TRASH,
+                        'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],

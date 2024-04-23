@@ -12,7 +12,7 @@ $(window).scroll(function(){
       // Get number of pixels of scroll.
       var pixel = $(window).scrollTop();
       var header = document.getElementById("header").offsetHeight;
-      console.log(pixel);
+      //console.log(pixel);
       // When the scroll exceeds 300px, give the [fixed-menu] class.
       if(pixel > header){
         $('.mobile-menu-bar').addClass('fixed-menu');

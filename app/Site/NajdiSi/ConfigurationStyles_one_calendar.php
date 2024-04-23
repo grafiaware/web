@@ -10,7 +10,7 @@ namespace Site\NajdiSi;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
 use  Red\Component\Renderer\Html\Menu\{
-    LevelRenderer, MenuWrapEditableRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
+    LevelRenderer, MenuWrapEditableRenderer, ItemRenderer, ItemEditableRenderer, ItemRenderer, ItemRenderer
 };
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -166,9 +166,9 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
             'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
             },
-            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemBlockRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
-            },
+//            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
+//                return new NodeBlockRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+//            },
             //kos
             'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
@@ -176,9 +176,9 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
             'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
             },
-            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemTrashRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
-            },
+//            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
+//                return new NodeTrashRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+//            },
 
 
         ###########################

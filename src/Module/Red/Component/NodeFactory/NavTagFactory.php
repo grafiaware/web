@@ -78,7 +78,7 @@ class NavTagFactory implements NavTagFactoryInterface {
     public function createTag(): NodeInterface {
         $this->itemView = (new View())->setRenderer($this->rendererContainer->get($this->itemRendererName));
 
-        $flattenedTree = $this->viewModel->getItemModels($rootUid, $maxDepth);
+        $flattenedTree = $this->viewModel->getNodeModels($rootUid, $maxDepth);
         $tagUlWithMenu = $this->createUlTag($flattenedTree);
 
         // skript pro editaci názvu položky (editable)

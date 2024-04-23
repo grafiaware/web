@@ -209,7 +209,6 @@ abstract class RepoAbstract {
     private function createReferenceKey($referenceName, array $referenceParams): array {
         /** @var DaoWithReferenceInterface $this->dataManager */
         $refAttribute = $this->dataManager->getReferenceAttributes($referenceName);
-//        $key = array_combine(array_keys($refAttribute), $referenceParams);
         $key = array_combine(array_keys($refAttribute), $referenceParams);
         if ($key===false) {
             $daoCls = $daoCls($this->dataManager);
