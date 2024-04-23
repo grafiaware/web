@@ -18,7 +18,7 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
-use Red\Component\ViewModel\Menu\Enum\ItemRenderTypeEnum;
+use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
 use Pes\Logger\FileLogger;
 
@@ -56,14 +56,14 @@ class ConfigurationWeb extends ConfigurationConstants {
             # Konfigurace adresáře logů
             #
             'app.logs.directory' => 'Logs/App',
-            'app.logs.type' => FileLogger::APPEND_TO_LOG,
+            'app.logs.type' => FileLogger::REWRITE_LOG,
             #
             #################################
 
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_g2_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
@@ -133,12 +133,12 @@ class ConfigurationWeb extends ConfigurationConstants {
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
                     'cs' => 'cs',
-//                    'de' => 'de',
-//                    'en' => 'en_US'
+                    'de' => 'de',
+                    'en' => 'en_US'
                 ],
 
             // title
-            'title' => "Otevřené ateliery",
+            'title' => "G2 test",
 
             // folders
             'linksCommon' => self::WEB_LINKS_COMMON,
@@ -176,7 +176,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'urlMediaCss' => self::WEB_LINKS_COMMON."css/media.css",
             // home page
             'home_page' => ['block', 'home'],
-//           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+//           'home_page' => ['item', '659500ffe765e'],  // přednášky - pro test
 
             'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
@@ -190,29 +190,53 @@ class ConfigurationWeb extends ConfigurationConstants {
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
             
-            // mapování komponenr na proměnné kontextu v šablonách
+            // mapování komponent na proměnné kontextu v šablonách
             // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
             // contextServiceMap - mapy komponent, které budou v editačním modu načítány vždy znovu novým requestem - viz parametr 'cascade.cacheReloadOnNav'
             // parametry kontext - service/layout mapy jsou:
-            //'context_name' => 'service_name'
-            //      'context_name' - jméno proměnné v šabloně (bez znaku $),
-            //      'service_name' => jméno služby component kontejneru,
+            //'contextName' => 'service_name'
+            //      'contextName' - jméno proměnné v šabloně (bez znaku $), bude současně použit jako část URL (API path)
+            //      'service_name' => jméno služby component kontejneru
+            // Pro 'contextName' použijte jako bezpečné jméno v camel case notaci začínající písmenem, složené z písmen a číslic. 
+            // Toto jméno odpovídá jménu proměnné v šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
+            // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
             'contextServiceMap' => [
                     'flash' => FlashComponent::class,
                     'modalLogin' => LoginComponent::class,
                     'modalLogout' => LogoutComponent::class,
-//                    'modalRegister' => RegisterComponent::class,
+                    'modalRegister' => RegisterComponent::class,
                     'modalUserAction' => UserActionComponent::class,
                     'info' => InfoBoardComponent::class,
+                    'languageSelect'=> LanguageSelectComponent::class,
+                'searchPhrase'=> SearchPhraseComponent::class,
                 ],
             'contextLayoutMap' => [
                     'menuSvisle' => 'menu.svisle',
+                    'menuVodorovne' => 'menu.vodorovne',
+                    'menuPresmerovani' => 'menu.presmerovani',
                 ],
             'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
                 ],
+            'contextTargetMap' => [
+                    'content'=>['id'=>'menutarget_content'],
+                ],
+            'contextMenuMap' => [
+                    'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
+                    'menuVodorovne' => ['service'=>'menu.vodorovne', 'targetId'=>'menutarget_content'],
+                    'menuPresmerovani' => ['service'=>'menu.presmerovani', 'targetId'=>'menutarget_content'],
+                ],
+            'contextMenuEditableMap' => [
+                    'bloky' => ['service'=>'menu.bloky', 'targetId'=>'menutarget_content'],
+                    'kos' => ['service'=>'menu.kos', 'targetId'=>'menutarget_content'],
+                ],
             'contextBlocksMap' => [
+                'aktuality'=>'a1',
+                'nejblizsiAkce'=>'a2',
+                'rychleOdkazy'=>'a3',
+                'razitko'=>'a4',
+                'socialniSite'=>'a5',
                 ],            
             ];
     }
@@ -226,23 +250,35 @@ class ConfigurationWeb extends ConfigurationConstants {
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
-            'menu.componentsServices' => [
+            'menu.services' => [
+                    'menu.presmerovani' => [
+                        'rootName' => 'menu_redirect',
+                        'withRootItem' => false,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
+                        'levelRenderer' => 'menu.presmerovani.levelRenderer',
+                        ],
+                    'menu.vodorovne' => [
+                        'rootName' => 'menu_horizontal',
+                        'withRootItem' => false,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
+                        'levelRenderer' => 'menu.vodorovne.levelRenderer',
+                        ],
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
                         'withRootItem' => false,
-                        'itemtype' => ItemRenderTypeEnum::MULTILEVEL,
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menu.svisle.levelRenderer',
                         ],
                     'menu.bloky' => [
                         'rootName' => 'blocks',
                         'withRootItem' => true,
-                        'itemtype' => ItemRenderTypeEnum::ONELEVEL,
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.bloky.levelRenderer',
                         ],
                     'menu.kos' => [
                         'rootName' => 'trash',
                         'withRootItem' => true,
-                        'itemtype' => ItemRenderTypeEnum::TRASH,
+                        'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],
