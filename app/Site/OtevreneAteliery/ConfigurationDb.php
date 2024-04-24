@@ -116,7 +116,7 @@ class ConfigurationDb {
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
             'build.config.import.rootuid' => [
-                '661910fb93312'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
+                '6628dcb1cff05'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
             ],
             
             'build.config.convert.root' => [
