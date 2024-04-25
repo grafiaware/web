@@ -230,7 +230,7 @@ class DatabaseController extends BuildControllerAbstract {
         
         $p_3_5_1_updateMenuItemMenuRootsFromConfiguration =  function( $type ) {
                 // [type, list, title]
-                $rootsDefinitions = $this->container->get('build.config.convert.items');
+                $rootsDefinitions = $this->container->get("build.config.$type.items");
                 foreach ($rootsDefinitions as $rootDef) {
                     $this->executeFromTemplate("makeAndConvert/page3_5_1_updateMenuItemMenuRootsFromConfiguration.sql", 
                         [
@@ -242,11 +242,11 @@ class DatabaseController extends BuildControllerAbstract {
                 }
         };                    
        $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_convert = 
-               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('build.config.convert.items'); };
+               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('convert'); };
        $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_make = 
-               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('build.config.make.items'); };
+               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('make'); };
        $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_import = 
-               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('build.config.import.items'); };
+               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('import'); };
 
         
         

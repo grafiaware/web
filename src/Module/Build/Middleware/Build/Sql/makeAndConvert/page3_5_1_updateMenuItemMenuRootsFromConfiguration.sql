@@ -1,23 +1,18 @@
 /* page3_5_1_updateMenuItemMenuRootsFromConfiguration */
 
-update menu_item
+update 
+menu_item as m
 
-SET 
-    menu_item.api_module_fk =   {{menu_root_api_module}},
-    menu_item.api_generator_fk =  {{menu_root_api_generator}},
-    menu_item.title =   {{menu_root_title}}
-
-WHERE 	menu_item.list =  {{menu_root_list}}  and 
-		 ( menu_item.lang_code_fk = 'cs' or
-		   menu_item.lang_code_fk = 'en' or
-		   menu_item.lang_code_fk = 'de' )
-
-
-
-/*
-INSERT INTO `menu_item` ( `lang_code_fk`, `api_module_fk`, `api_generator_fk`, `list`, `order`,  `title`, `active`, `auto_generated`)
-VALUES  ('en', {{menu_root_api_module}}, {{menu_root_api_generator}}, {{menu_root_list}}, 0, {{menu_root_title}}, 1, 0);
-INSERT INTO `menu_item` ( `lang_code_fk`, `api_module_fk`, `api_generator_fk`, `list`, `order`,  `title`, `active`, `auto_generated`)
-VALUES  ('de', {{menu_root_api_module}}, {{menu_root_api_generator}}, {{menu_root_list}}, 0, {{menu_root_title}}, 1, 0);
-*/
+INNER JOIN 
+list_uid AS l 
+ON (m.uid_fk=l.uid )
+ 
+ SET 
+        m.api_module_fk =  {{menu_root_api_module}},
+        m.api_generator_fk =  {{menu_root_api_generator}},
+        m.title =  {{menu_root_title}}
+    WHERE l.list = {{menu_root_list}} AND 
+     ( m.lang_code_fk = 'cs' OR
+       m.lang_code_fk = 'en' OR
+       m.lang_code_fk = 'de' );
 
