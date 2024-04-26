@@ -558,8 +558,16 @@ class DatabaseController extends BuildControllerAbstract {
 
         
         
-        $p_3_6_updateIntoMenuItemFromStranky = function() {            
-            $this->executeFromFile("makeAndConvert/page3_6_updateIntoMenuItemFromStranky.sql");
+        $p_3_6_updateIntoMenuItemFromStranky = function() {         
+            
+//            $rootsDefinitions = $this->container->get('build.config.convert.items');            
+//            foreach ($rootsDefinitions as $rootDef) {
+//                    $this->executeFromTemplate( "makeAndConvert/page3_6_updateIntoMenuItemFromStranky.sql", 
+//                        [   'menu_root_list'=>$rootDef[2]
+//                        ]);            
+//            };
+            
+           $this->executeFromFile("makeAndConvert/page3_6_updateIntoMenuItemFromStranky.sql");
         };         
         
         $page3_7_updateMenuItemTypesAndActive=function() {    // úprava api_module, api_geherator a active v menu_item

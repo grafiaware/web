@@ -27,9 +27,15 @@ CREATE TABLE `stranky_innodb` (
   `aut_gen` varchar(6)NOT NULL DEFAULT '0',
   `editor` varchar(20)DEFAULT NULL,
   `zmena` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  
   PRIMARY KEY (`list`),
   UNIQUE KEY `list` (`list`),
   FULLTEXT KEY `vyhledavani` (`nazev_lan1`,`obsah_lan1`,`nazev_lan2`,`obsah_lan2`,`nazev_lan3`,`obsah_lan3`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT `stranky_innodb` SELECT * FROM `stranky`;
+
+INSERT `stranky_innodb`
+SELECT * FROM `stranky`;
+
+ALTER TABLE `stranky_innodb`
+ADD `flag_new` tinyint(1) unsigned NOT NULL DEFAULT '0'; 
