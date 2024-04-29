@@ -23,6 +23,7 @@ interface DriverViewModelInterface extends ViewModelInterface {
     public function getItemType();
     public function isActive(): bool;
     public function isPresented(): bool;
+    public function isEditable(): bool;
 //    public function presentEditableMenu(): bool;    
 //    public function isPasteMode(): bool;    
     

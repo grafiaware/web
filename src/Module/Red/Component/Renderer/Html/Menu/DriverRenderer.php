@@ -35,7 +35,7 @@ class DriverRenderer extends HtmlRendererAbstract {
                 [
                     'class'=>[
                         $this->classMap->get('Item', 'li a'),
-                        $this->classMap->get('Item', 'li'),   
+                        $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),   
                         ],
                     'href'=>$viewModel->getPageApi(),                    
                 ]

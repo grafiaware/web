@@ -9,22 +9,11 @@
 namespace Red\Middleware\Redactor\Controler;
 
 use FrontControler\PresentationFrontControlerAbstract;
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Template\Compiler\TemplateCompilerInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
 
 // konfigurace
 use Site\ConfigurationCache;
-
-// dao + repo (driver) + entity
-use Red\Model\Dao\Hierarchy\HierarchyDao;
-use Red\Model\Repository\MenuItemRepo;
-use Red\Model\Repository\MenuRootRepo;
-use Red\Model\Entity\MenuRootInterface;
-use Red\Model\Entity\MenuItemInterface;
 
 // enum
 use Red\Model\Enum\AuthoredTypeEnum;
@@ -37,10 +26,6 @@ use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModel;
 use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModel;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
 use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
-
-// komponenty
-use Red\Component\View\Menu\DriverComponent;
 
 use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
@@ -50,14 +35,8 @@ use Red\Component\View\Content\Authored\Article\ArticleComponentInterface;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponentInterface;
 
-// service (menu)
-use Red\Service\Menu\DriverService;
-use Red\Service\Menu\DriverServiceInterface;
-
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;
-use Red\Component\Renderer\Html\Menu\DriverRenderer;
-use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 
 ####################
 
@@ -101,29 +80,6 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }
         return $this->createResponseFromView($request, $view);
     }
-    
-    public function presenteddriver(ServerRequestInterface $request, $uid) {
-
-        /** @var DriverComponent $driver */
-        $driver = $this->container->get(DriverComponent::class);
-        /** @var DriverServiceInterface $driverService */
-        $driverService = $this->container->get(DriverService::class);
-        $driverService->completeDriverComponent($driver, $uid);
-        $this->setPresentationMenuItem($driver->getData()->getMenuItem());  // driver po kompletaci už má data
-        
-        return $this->createResponseFromView($request, $driver);
-    }
-    
-    public function driver(ServerRequestInterface $request, $uid) {
-
-        /** @var DriverComponent $driver */
-        $driver = $this->container->get(DriverComponent::class);
-        /** @var DriverServiceInterface $driverService */
-        $driverService = $this->container->get(DriverService::class);
-        $driverService->completeDriverComponent($driver, $uid);
-        return $this->createResponseFromView($request, $driver);
-    }
-
     
     public function empty(ServerRequestInterface $request, $menuItemId) {
         return $this->createResponseFromString($request, '');

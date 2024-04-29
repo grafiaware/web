@@ -12,6 +12,8 @@ use Red\Component\View\Menu\DriverButtonsComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
+use Red\Component\ViewModel\Menu\DriverViewModelInterface;
+
 use Red\Component\Renderer\Html\Menu\DriverRenderer;
 use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 use Red\Component\Renderer\Html\Menu\DriverPresentedRenderer;
@@ -25,10 +27,10 @@ use Red\Component\View\Manage\ButtonsMenuCutCopyEscapeComponent;
 use Red\Component\View\Manage\ButtonsMenuDeleteComponent;
 
 use Red\Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
-use Red\Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuAddRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuPasteOnelevelRenderer;
-use Red\Component\Renderer\Html\Manage\ButtonsMenuPasteMultilevelRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuPasteRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
@@ -75,15 +77,20 @@ class DriverService implements DriverServiceInterface{
     
     private function getItemType($uid) {
         $hierarchyRow = $this->hierarchyDao->get(['uid'=>$uid]);
-        
+        if(!$hierarchyRow) {
+            throw new \UnexpectedValueException("Neexistuje položka v db tabulce hierarchy se zadaným uid: '$uid'.");
+        }        
         foreach ($this->menuConfigs as $menuConfig) {
             $menuRoot = $this->menuRootRepo->get($menuConfig['rootName']);
             /** @var MenuRootInterface $menuRoot */
             $menurootHierarchyRow = $this->hierarchyDao->get(['uid'=>$menuRoot->getUidFk()]);
-            if ($menurootHierarchyRow['left_node']<$hierarchyRow['left_node'] AND $menurootHierarchyRow['right_node']>$hierarchyRow['right_node']) {
+            if ($menurootHierarchyRow['left_node']<=$hierarchyRow['left_node'] AND $menurootHierarchyRow['right_node']>=$hierarchyRow['right_node']) {  // do menu patří i jeho kořen
                 $itemType = $menuConfig['itemtype'];
                 break;
             }
+        }
+        if(!isset($itemType)) {
+            throw new \UnexpectedValueException("Nenalezen typ položek menu itemType pro zadanou hodnotu menu item uid: '$uid'.");
         }
         return $itemType;
     }
@@ -101,7 +108,7 @@ class DriverService implements DriverServiceInterface{
 
     ### buttons ###
 
-    private function appendDriverButtonsComponent(DriverComponentInterface $driver, $pasteMode, $itemType): DriverButtonsComponent {
+    private function appendDriverButtonsComponent($driverButtons, $pasteMode, $itemType): DriverButtonsComponent {
                $setRenderingByAccess = function (ViewInterface $component, $rendererName) {
                     /** @var AccessPresentationInterface $accessPresentation */
                     $accessPresentation = $this->container->get(AccessPresentation::class);
@@ -135,15 +142,13 @@ class DriverService implements DriverServiceInterface{
                 };
                 $createAddOrPasteMultilevelButtons = function ($setRenderingByAccess, $pasteMode) {
                     if ($pasteMode) {
-                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteMultilevelRenderer::class);
+                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteRenderer::class);
                     } else {
-                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddMultilevelRenderer::class);
+                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddRenderer::class);
                     }
                 };
                 ####         
         
-        $driverButtons = $this->container->get(DriverButtonsComponent::class);
-        $driver->appendComponentView($driverButtons, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
         #### buttons ####
         $buttonComponents = [];
         switch ($itemType) {
@@ -166,7 +171,6 @@ class DriverService implements DriverServiceInterface{
                 throw new LogicException("Nerozpoznán typ položek menu (hodnota vrácená metodou viewModel->getItemType())");
         }
         $driverButtons->appendComponentViewCollection($buttonComponents);  // tady button komponenty dědí DriverViewModel
-        return $driverButtons;
     }
     
     public function completeDriverComponent(DriverComponentInterface $driver, $uid){
@@ -174,19 +178,19 @@ class DriverService implements DriverServiceInterface{
         $driver->getData()->withMenuItem($menuItem);
         $presentedItem = $this->statusViewModel->getPresentedMenuItem();
         $isPresented = isset($presentedItem) && ($presentedItem->getId() == $menuItem->getId());
-        if($this->presentEditableMenu()) {   // renderery!! -> nemusíš znát presented v rendereru a pak tady nemusíš znát driverViewModel
-            if($isPresented) {
-                $driver->setRendererName(DriverPresentedRendererEditable::class);
-//                $this->appendDriverButtonsComponent($driver, $this->isPasteMode(), $this->getItemType($uid));
-            } else {
-                $driver->setRendererName(DriverRendererEditable::class);
-            }
+        /** @var DriverViewModelInterface $driverViewModel */
+        $driverViewModel = $driver->getData();
+        $driverViewModel->setPresented($isPresented);
+        $driverViewModel->setItemType($this->getItemType($uid));
+        if($this->presentEditableMenu()) {
+            if ($driverViewModel->isPresented()) {
+                $driverButtons = $this->container->get(DriverButtonsComponent::class);
+                $driver->appendComponentView($driverButtons, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
+            }            
+            $this->appendDriverButtonsComponent($driver, $this->isPasteMode(), $this->getItemType($uid));
+            $driver->setRendererName(DriverRendererEditable::class);
         } else {
-            if($isPresented) {
-                $driver->setRendererName(DriverPresentedRenderer::class);                                    
-            } else {
-                $driver->setRendererName(DriverRenderer::class);                                    
-            }
+            $driver->setRendererName(DriverRenderer::class);                                    
         }        
         return $driver;
     }    

@@ -43,9 +43,9 @@ use Red\Component\Renderer\Html\Manage\EditContentSwitchOffRenderer;
 use Red\Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
 
 use Red\Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
-use Red\Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuAddRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
-use Red\Component\Renderer\Html\Manage\ButtonsMenuPasteMultilevelRenderer;
+use Red\Component\Renderer\Html\Manage\ButtonsMenuPasteRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuPasteOnelevelRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
@@ -107,14 +107,14 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ButtonsItemManipulationRenderer::class => function(ContainerInterface $c) {
             return new ButtonsItemManipulationRenderer($c->get('menu.itembuttons.classmap'));
         },
-        ButtonsMenuAddMultilevelRenderer::class => function(ContainerInterface $c) {
-            return new ButtonsMenuAddMultilevelRenderer($c->get('menu.itembuttons.classmap'));
+        ButtonsMenuAddRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuAddRenderer($c->get('menu.itembuttons.classmap'));
         },
         ButtonsMenuAddOnelevelRenderer::class => function(ContainerInterface $c) {
             return new ButtonsMenuAddOnelevelRenderer($c->get('menu.itembuttons.classmap'));
         },
-        ButtonsMenuPasteMultilevelRenderer::class => function(ContainerInterface $c) {
-            return new ButtonsMenuPasteMultilevelRenderer($c->get('menu.itembuttons.classmap'));
+        ButtonsMenuPasteRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuPasteRenderer($c->get('menu.itembuttons.classmap'));
         },
         ButtonsMenuPasteOnelevelRenderer::class => function(ContainerInterface $c) {
             return new ButtonsMenuPasteOnelevelRenderer($c->get('menu.itembuttons.classmap'));

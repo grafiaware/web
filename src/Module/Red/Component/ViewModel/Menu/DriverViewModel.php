@@ -30,7 +30,8 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     private $itemApiService;
     private $menuItem;
     private $presented;
-    private $editable = false;
+    private $editable;
+    private $pasteMode;
     private $itemType;
 
     public function __construct(StatusViewModel $status, ItemApiServiceInterface $itemApiService) {
@@ -61,7 +62,7 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     
     public function getMenuItem(): MenuItemInterface {
         if (!isset($this->menuItem)) {
-            throw new \LogicException("není nastaven menuItem metodou withMenuItem(\$menuItem)");
+            throw new \LogicException("Není nastaven menuItem metodou withMenuItem(\$menuItem)");
         }
         return $this->menuItem;
     }
@@ -102,13 +103,7 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
         return $this->presented ?? false;        
     }
     
-//    public function presentEditableMenu(): bool {
-//        return $this->statusViewModel->presentEditableMenu();
-//    }
-//    
-//    public function isPasteMode(): bool {
-//        $cut = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
-//        $copy = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_COPY);
-//        return ($cut OR $copy);        
-//    }
+    public function isEditable(): bool {
+        return $this->editable ?? false;
+    }
 }
