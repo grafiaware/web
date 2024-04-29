@@ -29,6 +29,7 @@ class ControlPanelController  extends BuildControllerAbstract {
         $prikazy['Smaž tabulky z databáze'] = 'build/droptables';
         $prikazy['Převeď starou databázi na novou'] = 'build/convert';
         $prikazy['Naplň novou databázi základními daty'] = 'build/make';
+        $prikazy['Importuj starou databázi do položky menu (do db v nové struktuře)'] = 'build/import';
         
         $html[] = "<h3>Panel</h3>";
         $html[] =  "<div>";

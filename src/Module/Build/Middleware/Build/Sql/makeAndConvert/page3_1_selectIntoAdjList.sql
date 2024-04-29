@@ -6,4 +6,4 @@
 -- root
 INSERT INTO menu_adjlist (child, parent, poradi, level)
 
-		SELECT {{root}} AS child, NULL AS parent, 0 AS poradi, 1 AS level    
+		SELECT {{root}} AS child, NULL AS parent, 0 AS poradi, 0 AS level    

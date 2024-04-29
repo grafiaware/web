@@ -212,6 +212,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                         'div.templateMultipage' => 'template-multipage',
                         'div.templatePaper' => 'template-paper',
                         'div.templateArticle' => 'template-article',
+                        'templateItemType' => 'item-type'
                         ],
                      'Headline' => [
                         'headline'=>'',

@@ -103,7 +103,17 @@ class ConfigurationDb {
                 ['red', 'empty', 'blocks', 'Blocks'],
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
                 ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
-                ['red', 'empty', 'menu_redirect', 'Menu redirect'],            ],
+                ['red', 'empty', 'menu_redirect', 'Menu redirect'], 
+            ],    
+            'build.config.convert.items' => [
+                ['red', 'empty', 'root', 'ROOT'],
+                ['red', 'empty', 'trash', 'Trash'],
+                ['red', 'empty', 'blocks', 'Blocks'],
+                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+                ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
+                ['red', 'empty', 'menu_redirect', 'Menu redirect'], 
+                
+            ],
             'build.config.make.root' => [
                 'root',
                 ],
@@ -117,7 +127,7 @@ class ConfigurationDb {
             'build.config.convert.copy' =>
                 [
                     'source' => 'wwwgrafia.stranky',
-                    'target' => 'g2_upgrade.stranky'
+                    'target' => 'gr_upgrade.stranky'
                 ],
             'build.config.convert.repairs' => [
                 // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah

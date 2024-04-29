@@ -230,5 +230,6 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/build/droptables'));
         $registry->register($this->postPrototype->withUrlPattern('/build/convert'));
         $registry->register($this->postPrototype->withUrlPattern('/build/make'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/import'));
     }
 }
