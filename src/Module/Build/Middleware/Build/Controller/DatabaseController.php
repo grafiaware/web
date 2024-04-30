@@ -183,7 +183,10 @@ class DatabaseController extends BuildControllerAbstract {
     private function makeAndConvert($convert) {
 
         $this->manipulator = $this->container->get('manipulator_for_convert');
-
+             
+        $p_0_createStrankyInnoDbcopy_stranky = function() { // convert  // kopie tabulky stranky do stranky typu InnoDb INNODB
+                $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
+        };  
         
         $p_1_v2_createTables = function() {
 //            $this->executeFromFile("makeAndConvert/page1_createTables.sql");
@@ -193,13 +196,47 @@ class DatabaseController extends BuildControllerAbstract {
             $this->executeFromFile("makeAndConvert/page2_0_insertIntoLanguage&MenuItemApi.sql");
         };
         
+        
+        
         $p_createListUidTemporaryTable = function() {
             $this->executeFromFile("makeAndConvert/createTemporaryListUidTable.sql");
         };
         
         
         
-//        
+        $build_config_convert_copy = function()  {  // convert // kopie tabulky stranky ze staré do nové db
+                $convertConfig = $this->container->get('build.config.convert.copy');
+                return $this->manipulator->copyTable($convertConfig['source'], $convertConfig['target']);
+        };
+        $build_config_import_copy = function()  {   // import //kopie tabulky stranky ze staré do nové db
+                $convertConfig = $this->container->get('build.config.import.copy');                             
+                return $this->manipulator->replaceTable($convertConfig['source'], $convertConfig['target']);                               
+        };
+     
+        $build_config_convert_repairs = function() { // convert  // prostor pro úpravy obsahu tabulky stranky v nove db
+                $convertRepairs = $this->container->get('build.config.convert.repairs');
+                foreach ($convertRepairs as $repair) {
+                    $this->executeFromString($repair);
+                }
+        };
+        $build_config_import_repairs = function() {   //  import prostor pro úpravy obsahu tabulky stranky v nove db
+                $convertRepairs = $this->container->get('build.config.import.repairs');
+                foreach ($convertRepairs as $repair) {
+                    $this->executeFromString($repair);
+                }
+        };
+           
+        
+        
+        
+        $p_2_1_updateStranky  = function() {   // convert - pro případ, kdy kořen menu je některá ze stránek označených aXX ve staré db
+                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert.updatestranky');
+                foreach ($oldRootsUpdateDefinitions as $oldDef) {
+                    $this->executeFromTemplate("makeAndConvert/page2_1_updateStranky.sql",
+                                    [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
+                }
+        };     
+        
 //        $p_2_2_insertIntoMenuItemNewMenuRoot_convert = function() { // convert
 //                // [type, list, title]
 //                $rootsDefinitions = $this->container->get('build.config.convert.items');
@@ -225,32 +262,7 @@ class DatabaseController extends BuildControllerAbstract {
                             'menu_root_title'=>$rootDef[3],
                         ]);
                 }
-        };            
-        
-        
-        $p_3_5_1_updateMenuItemMenuRootsFromConfiguration =  function( $type ) {
-                // [type, list, title]
-                $rootsDefinitions = $this->container->get("build.config.$type.items");
-                foreach ($rootsDefinitions as $rootDef) {
-                    $this->executeFromTemplate("makeAndConvert/page3_5_1_updateMenuItemMenuRootsFromConfiguration.sql", 
-                        [
-                            'menu_root_api_module' => $rootDef[0], 
-                            'menu_root_api_generator' => $rootDef[1],
-                            'menu_root_list'=>$rootDef[2],
-                            'menu_root_title'=>$rootDef[3],
-                        ]);
-                }
-        };                    
-       $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_convert = 
-               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('convert'); };
-       $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_make = 
-               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('make'); };
-       $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_import = 
-               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('import'); };
-
-        
-        
-        
+        };      
         
         
         $p_2_2_insertIntoMenuItemNewMenuRoot_make_zacatekMenu = function() {
@@ -303,79 +315,30 @@ class DatabaseController extends BuildControllerAbstract {
         
         
         
-        
-//        $p_2_2_I_insertIntoStranky_innodbNewRoot = function() {
-//            $rootName = $this->container->get('build.config.import.root')[0];   
-//            $this->executeFromTemplate("makeAndConvert/page2_2_I_insertIntoStranky_innodbNewMenuRoot.sql", 
-//                                        ['menu_root_list'=>$rootName,
-//                                         'menu_root_title'=>  'T'
-//                                        ] );                                             
-//        };       
-//        $p_2_2_insertIntoStranky_innodbNewRoot_convert = function() {
-//            $rootName = $this->container->get('build.config.convert.root')[0];   
-//            $this->executeFromTemplate("makeAndConvert/page2_2_I_insertIntoStranky_innodbNewMenuRoot.sql", 
-//                                        ['menu_root_list'=>$rootName,
-//                                         'menu_root_title'=>  'T'
-//                                        ] );                                             
-//        };       
-        
-        
-  
-        
-        
-        
-        
-        
-        $build_config_convert_copy = function()  {  // convert // kopie tabulky stranky ze staré do nové db
-                $convertConfig = $this->container->get('build.config.convert.copy');
-                return $this->manipulator->copyTable($convertConfig['source'], $convertConfig['target']);
-        };
-        $build_config_import_copy = function()  {   // import //kopie tabulky stranky ze staré do nové db
-                $convertConfig = $this->container->get('build.config.import.copy');                             
-                return $this->manipulator->replaceTable($convertConfig['source'], $convertConfig['target']);                               
-        };
-        
-        
-        
-        
-        
-        $build_config_convert_repairs = function() { // convert  // prostor pro úpravy obsahu tabulky stranky v nove db
-                $convertRepairs = $this->container->get('build.config.convert.repairs');
-                foreach ($convertRepairs as $repair) {
-                    $this->executeFromString($repair);
+        $p_3_5_1_updateMenuItemMenuRootsFromConfiguration =  function( $type ) {
+                // [type, list, title]
+                $rootsDefinitions = $this->container->get("build.config.$type.items");
+                foreach ($rootsDefinitions as $rootDef) {
+                    $this->executeFromTemplate("makeAndConvert/page3_5_1_updateMenuItemMenuRootsFromConfiguration.sql", 
+                        [
+                            'menu_root_api_module' => $rootDef[0], 
+                            'menu_root_api_generator' => $rootDef[1],
+                            'menu_root_list'=>$rootDef[2],
+                            'menu_root_title'=>$rootDef[3],
+                        ]);
                 }
-        };
-        $build_config_import_repairs = function() {   //  import prostor pro úpravy obsahu tabulky stranky v nove db
-                $convertRepairs = $this->container->get('build.config.import.repairs');
-                foreach ($convertRepairs as $repair) {
-                    $this->executeFromString($repair);
-                }
-        };
+        };                    
+       $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_convert = 
+               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('convert'); };
+       $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_make = 
+               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('make'); };
+       $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_import = 
+               function() use ($p_3_5_1_updateMenuItemMenuRootsFromConfiguration) {$p_3_5_1_updateMenuItemMenuRootsFromConfiguration ('import'); };
+                                                                
         
-        
-        
-        
-        $p_2_1_updateStranky  = function() {   // convert - pro případ, kdy kořen menu je některá ze stránek označených aXX ve staré db
-                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert.updatestranky');
-                foreach ($oldRootsUpdateDefinitions as $oldDef) {
-                    $this->executeFromTemplate("makeAndConvert/page2_1_updateStranky.sql",
-                                    [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
-                }
-        };               
-        $p_0_createStrankyInnoDbcopy_stranky = function() { // convert  // kopie tabulky stranky do stranky typu InnoDb INNODB
-                $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
-        };    
-        
-        
-//        $p_2_3_insertIntoMenuItemFromStranky = function() { // convert  // stranky `lang_code_fk`, `list`, `order`,  `title`, `active`, `auto_generated` do isert into menu_item
-//                $this->executeFromFile("makeAndConvert/page2_3_insertIntoMenuItemFromStranky.sql", );
-//        };
-//            
-        
-        
-        
-
-        
+                 
+                
+        // create menu_adjlist
         $p_3_0 = function() {  
                 $this->executeFromFile("makeAndConvert/page3_0.sql", );
         };
@@ -386,9 +349,7 @@ class DatabaseController extends BuildControllerAbstract {
 //                $this->executeFromFile("makeAndConvert/page2_4_updateMenuItemTypes&Active.sql", );
 //        };  //2_ 4 nebude, bude presunuto do   3_7 
         
-        
-        
-        
+ 
         
         
         $p_3_1_p_3_2_selectIntoAdjList = function() {  // convert   root  a menuroots do adjlist
@@ -405,12 +366,7 @@ class DatabaseController extends BuildControllerAbstract {
             $this->executeFromTemplate("makeAndConvert/page3_1_selectIntoAdjList.sql", ['root'=>$rootName]);
             $this->executeFromTemplate("makeAndConvert/page3_2_I_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
         };
-        
-        
- 
-        
-        
-        
+           
         
         $p_3_3_p_3_4_selectIntoAdjList = function() { // convert  prvni uroven  a bezne do adjlist
                 $rootName = $this->container->get('build.config.convert.root')[0];
@@ -437,9 +393,7 @@ class DatabaseController extends BuildControllerAbstract {
                                 ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);                
         };             
         
-                
-        
-        
+    
         
         
         $p_3_2a_selectIntoAdjList =  function() { //make zacatky menu (child) do adjlist
@@ -499,7 +453,6 @@ class DatabaseController extends BuildControllerAbstract {
 //        };
         
        $p_3_5_selectNodesFromAjdlist_Hierarchy = function( $type) { 
-//                $adjList = $this->manipulator->findAllRows('menu_adjlist');
             $stmt = $this->queryFromFile("makeAndConvert/page3_5_selectNodesFromAjdlist.sql");
             $adjList = $stmt->fetchAll(\PDO::FETCH_ASSOC);                  
                 if (is_array($adjList) AND count($adjList)) {
@@ -562,20 +515,17 @@ class DatabaseController extends BuildControllerAbstract {
            $this->executeFromFile("makeAndConvert/page3_6_updateIntoMenuItemFromStranky.sql");
         };         
         
-        $page3_7_updateMenuItemTypesAndActive=function() {    // úprava api_module, api_geherator a active v menu_item
+        $p_3_7_updateMenuItemTypesAndActive=function() {    // úprava api_module, api_geherator a active v menu_item
             $this->executeFromFile("makeAndConvert/page3_7_updateMenuItemTypes&Active.sql");  // 3_7 je byvale 2_4
         };         
-        
-        
-        
-        
-        
-        
+                      
         
         $p_4_alterMenuItem_fk = function() {
             $fileName = "makeAndConvert/page4_alterMenuItem_fk.sql";
             $this->executeFromFile($fileName);
         };
+        
+        
         $p_5_1_insertIntoMenuRootTable = function() {
             // [type, list, title]
             $rootsListNames = $this->container->get('build.config.convert.menuroots');
@@ -646,10 +596,7 @@ class DatabaseController extends BuildControllerAbstract {
                 //------------------------------------------------------
                 
                 $conversionSteps[] = $p_1_v2_createTables ;  
-                $conversionSteps[] = $p_2_0_insertIntoLanguageMenuItemApi;  
-               // $conversionSteps[] = $p_2_2_insertIntoMenuItemNewMenuRoot_convert;                        
-
-                
+                $conversionSteps[] = $p_2_0_insertIntoLanguageMenuItemApi;                  
                      ### copy old table stranky ###
                 $conversionSteps[] = $build_config_convert_copy ; //nahradi tab. stranky a zkopiruje do ni stranky ze source db                  
                 $conversionSteps[] = $build_config_convert_repairs ;               
@@ -657,8 +604,6 @@ class DatabaseController extends BuildControllerAbstract {
                 $conversionSteps[] = $p_0_createStrankyInnoDbcopy_stranky;    //nahradi obsah tab stranky_innodb novymi daty
                 
                 $conversionSteps[] = $p_2_2_insertIntoStranky_innodbNewMenuRoot_convert;
-//                $conversionSteps[] = $p_2_2_insertIntoStranky_innodbNewRoot_convert;
-
                 
                 //$conversionSteps[] = $p_3_0; // create table`menu_adjlist` 
                 $conversionSteps[] = $p_3_1_p_3_2_selectIntoAdjList;
@@ -667,12 +612,11 @@ class DatabaseController extends BuildControllerAbstract {
                 $conversionSteps[] = $p_createListUidTemporaryTable;
                 //$conversionSteps[] = $p_3_5_selectNodesFromAjdlist_Hierarchy;   //potrebuje menu_item
                      
-                $conversionSteps[] = $p_3_5_selectNodesFromAjdlist_Hierarchy_convert;   
-                
+                $conversionSteps[] = $p_3_5_selectNodesFromAjdlist_Hierarchy_convert;                   
                 $conversionSteps[] = $p_3_5_1_updateMenuItemMenuRootsFromConfiguration_convert;                
-                $conversionSteps[] = $p_3_6_updateIntoMenuItemFromStranky;
+                $conversionSteps[] = $p_3_6_updateIntoMenuItemFromStranky;                
+                $conversionSteps[] = $p_3_7_updateMenuItemTypesAndActive;
                 
-                $conversionSteps[] = $page3_7_updateMenuItemTypesAndActive;
                 $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;                
                 $conversionSteps[] = $p_5_2_insertHomeIntoBlockTable_convert;
                 $conversionSteps[] = $p_5_3_insertIntoBlockTable;
@@ -696,12 +640,13 @@ class DatabaseController extends BuildControllerAbstract {
                 $conversionSteps[] = $p_2_2_insertIntoMenuItemNewMenuRoot_make_zacatekMenu; 
                 
                 $conversionSteps[] = $p_3_1_p_3_2_selectIntoAdjList;    
-                $conversionSteps[] = $p_3_2a_selectIntoAdjList;
+                $conversionSteps[] = $p_3_2a_selectIntoAdjList; 
                 
                 $conversionSteps[] = $p_3_5_selectNodesFromAjdlist_Hierarchy_make;              
-                $conversionSteps[] = $p_4_alterMenuItem_fk;        
-                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;
                
+                $conversionSteps[] = $p_4_alterMenuItem_fk;        
+                
+                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;               
                 $conversionSteps[] = $p_5_2_insertHomeIntoBlockTable_make;   
                 
                 $conversionSteps[] = $p_6_createHierarchy_view;                       
@@ -721,8 +666,7 @@ class DatabaseController extends BuildControllerAbstract {
                 $conversionSteps[] = $p_3_0; // create table`menu_adjlist` 
                 $conversionSteps[] = $p_3_1_p_3_2_selectIntoAdjList_I;
                 $conversionSteps[] = $p_3_3_p_3_4_selectIntoAdjList_I;
-                              
-                
+                                             
                 
                 $conversionSteps[] = $p_createListUidTemporaryTable;
                 $conversionSteps[] = $p_3_5_selectNodesFromAjdlist_Hierarchy_import;     
