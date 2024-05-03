@@ -180,12 +180,15 @@ class DatabaseController extends BuildControllerAbstract {
     }
     
 
-    private function makeAndConvert($convert) {
+    private function makeAndConvert($mark) {
 
         $this->manipulator = $this->container->get('manipulator_for_convert');
              
         $p_0_createStrankyInnoDbcopy_stranky = function() { // convert  // kopie tabulky stranky do stranky typu InnoDb INNODB
                 $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
+        };          
+        $p_0_createStrankyInnoDb = function() { // make
+                $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb.sql");
         };  
         
         $p_1_v2_createTables = function() {
@@ -250,36 +253,36 @@ class DatabaseController extends BuildControllerAbstract {
 //                        ]);
 //                }
 //        };
-        $p_2_2_insertIntoMenuItemNewMenuRoot_make =  function() {
-                // [type, list, title]
-                $rootsDefinitions = $this->container->get('build.config.make.items');
-                foreach ($rootsDefinitions as $rootDef) {
-                    $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql", 
-                        [
-                            'menu_root_api_module' => $rootDef[0], 
-                            'menu_root_api_generator' => $rootDef[1],
-                            'menu_root_list'=>$rootDef[2],
-                            'menu_root_title'=>$rootDef[3],
-                        ]);
-                }
-        };      
         
         
-        $p_2_2_insertIntoMenuItemNewMenuRoot_make_zacatekMenu = function() {
-                // [list, title]
-                $rootsListNames1 = $this->container->get('build.config.make.menuroots');
-                foreach ($rootsListNames1 as $rootName1) {
-                    if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
-                        $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql",
-                                                    [
-                                                    'menu_root_api_module' => 'red', 
-                                                    'menu_root_api_generator' => 'select',
-                                                    'menu_root_list'=> $rootName1 . self::LIST_POSTFIX ,
-                                                    'menu_root_title'=> 'Tady začni...',
-                                                    ]);
-                    }    
-                }                       
-        };
+//        $p_2_2_insertIntoMenuItemNewMenuRoot_make =  function() {
+//                // [type, list, title]
+//                $rootsDefinitions = $this->container->get('build.config.make.items');
+//                foreach ($rootsDefinitions as $rootDef) {
+//                    $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql", 
+//                        [
+//                            'menu_root_api_module' => $rootDef[0], 
+//                            'menu_root_api_generator' => $rootDef[1],
+//                            'menu_root_list'=>$rootDef[2],
+//                            'menu_root_title'=>$rootDef[3],
+//                        ]);
+//                }
+//        };                      
+//        $p_2_2_insertIntoMenuItemNewMenuRoot_make_zacatekMenu = function() {
+//                // [list, title]
+//                $rootsListNames1 = $this->container->get('build.config.make.menuroots');
+//                foreach ($rootsListNames1 as $rootName1) {
+//                    if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
+//                        $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoMenuItemNewMenuRoot.sql",
+//                                                    [
+//                                                    'menu_root_api_module' => 'red', 
+//                                                    'menu_root_api_generator' => 'select',
+//                                                    'menu_root_list'=> $rootName1 . self::LIST_POSTFIX ,
+//                                                    'menu_root_title'=> 'Tady začni...',
+//                                                    ]);
+//                    }    
+//                }                       
+//        };
         
         
         $p_2_2_I_insertIntoStranky_innodbNewMenuRoot_import = function() {
@@ -310,6 +313,40 @@ class DatabaseController extends BuildControllerAbstract {
                                                     ]);
                 }                       
         };       
+        
+         $p_2_2_insertIntoStranky_innodbNewMenuRoot_make =  function() {
+                // [type, list, title]
+                $rootsListNames1 = array_merge(
+                        $this->container->get('build.config.make.root'), 
+                        $this->container->get('build.config.make.menuroots'));
+                foreach ($rootsListNames1 as $rootName1) {
+                    $this->executeFromTemplate("makeAndConvert/page2_2_I_insertIntoStranky_innodbNewMenuRoot.sql", 
+                        [                            
+                            'menu_root_list'=>$rootName1,
+                            'menu_root_title'=>'Tady začni...',
+                        ]);
+                }
+        };                      
+        $p_2_2_insertIntoStranky_innodbNewMenuRoot_make_zacatekMenu = function() {
+                // [list, title]
+                $rootsListNames1 = $this->container->get('build.config.make.menuroots');
+                foreach ($rootsListNames1 as $rootName1) {
+                    if ( ($rootName1 != 'root' ) and ($rootName1 != 'trash' ) ) {
+                        $this->executeFromTemplate("makeAndConvert/page2_2_I_insertIntoStranky_innodbNewMenuRoot.sql",
+                                                    [                                                    
+                                                    'menu_root_list'=> $rootName1 . self::LIST_POSTFIX ,
+                                                    'menu_root_title'=> 'Tady začni...',
+                                                    ]);
+                    }    
+                }                       
+        };
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -515,9 +552,9 @@ class DatabaseController extends BuildControllerAbstract {
            $this->executeFromFile("makeAndConvert/page3_6_updateIntoMenuItemFromStranky.sql");
         };         
         
-        $p_3_7_updateMenuItemTypesAndActive=function() {    // úprava api_module, api_geherator a active v menu_item
-            $this->executeFromFile("makeAndConvert/page3_7_updateMenuItemTypes&Active.sql");  // 3_7 je byvale 2_4
-        };         
+//        $p_3_7_updateMenuItemTypesAndActive=function() {    // úprava api_module, api_geherator a active v menu_item
+//            $this->executeFromFile("makeAndConvert/page3_7_updateMenuItemTypes&Active.sql");  // 3_7 je byvale 2_4
+//        };         
                       
         
         $p_4_alterMenuItem_fk = function() {
@@ -541,10 +578,13 @@ class DatabaseController extends BuildControllerAbstract {
                 $fileName = "makeAndConvert/page5_3_insertIntoBlockTable.sql";
                 $this->executeFromFile($fileName);
         };
+        
         $p_5_2_insertHomeIntoBlockTable_make =  function() { 
                 $homeList = $this->container->get('build.config.make.home');
                 $this->executeFromTemplate("makeAndConvert/page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1] . self::LIST_POSTFIX]);
         }; 
+        
+        
         $p_6_createHierarchy_view = function() {
             $fileName = "makeAndConvert/page6_createHierarchy_view.sql";
             $this->executeFromFile($fileName);
@@ -564,7 +604,7 @@ class DatabaseController extends BuildControllerAbstract {
         //-------------------------------------------------
         //if ($convert) {$mark ='convert';} else { $mark ='make';}
         
-        switch ($convert) {                
+        switch ($mark) {                
             case 'convert':     
 //                $conversionSteps[] = $p_1_v2_createTables ;      
 //                $conversionSteps[] = $p_2_0_insertIntoLanguageMenuItemApi;     
@@ -634,13 +674,18 @@ class DatabaseController extends BuildControllerAbstract {
             case 'make':
                 $conversionSteps[] = $p_1_v2_createTables ;      
                 $conversionSteps[] = $p_2_0_insertIntoLanguageMenuItemApi;  
+                $conversionSteps[] = $p_0_createStrankyInnoDb;    //nahradi obsah tab stranky_innodb novymi daty
                 
-                $conversionSteps[] = $p_2_2_insertIntoMenuItemNewMenuRoot_make;                                                    
+                //$conversionSteps[] = $p_2_2_insertIntoMenuItemNewMenuRoot_make;      
+                $conversionSteps[] = $p_2_2_insertIntoStranky_innodbNewMenuRoot_make;
                     // zacatky menu, kdyz nedela convert
-                $conversionSteps[] = $p_2_2_insertIntoMenuItemNewMenuRoot_make_zacatekMenu; 
+                // $conversionSteps[] = $p_2_2_insertIntoMenuItemNewMenuRoot_make_zacatekMenu; 
+                $conversionSteps[] = $p_2_2_insertIntoStranky_innodbNewMenuRoot_make_zacatekMenu;
                 
                 $conversionSteps[] = $p_3_1_p_3_2_selectIntoAdjList;    
                 $conversionSteps[] = $p_3_2a_selectIntoAdjList; 
+                
+                $conversionSteps[] = $p_createListUidTemporaryTable;
                 
                 $conversionSteps[] = $p_3_5_selectNodesFromAjdlist_Hierarchy_make;              
                
@@ -648,6 +693,7 @@ class DatabaseController extends BuildControllerAbstract {
                 
                 $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;               
                 $conversionSteps[] = $p_5_2_insertHomeIntoBlockTable_make;   
+                $conversionSteps[] = $p_5_3_insertIntoBlockTable;
                 
                 $conversionSteps[] = $p_6_createHierarchy_view;                       
                 break;
@@ -661,7 +707,6 @@ class DatabaseController extends BuildControllerAbstract {
                 $conversionSteps[] = $p_0_createStrankyInnoDbcopy_stranky;    //nahradi obsah tab stranky_innodb novymi daty
                                 
                 $conversionSteps[] = $p_2_2_I_insertIntoStranky_innodbNewMenuRoot_import;
-//                $conversionSteps[] = $p_2_2_I_insertIntoStranky_innodbNewRoot;                        
                 
                 $conversionSteps[] = $p_3_0; // create table`menu_adjlist` 
                 $conversionSteps[] = $p_3_1_p_3_2_selectIntoAdjList_I;
@@ -672,7 +717,7 @@ class DatabaseController extends BuildControllerAbstract {
                 $conversionSteps[] = $p_3_5_selectNodesFromAjdlist_Hierarchy_import;     
                 $conversionSteps[] = $p_3_6_updateIntoMenuItemFromStranky;
                 
-                $conversionSteps[] = $page3_7_updateMenuItemTypesAndActive;
+               // $conversionSteps[] = $page3_7_updateMenuItemTypesAndActive;
                                                              
                 
                 $conversionSteps[] = $p_6_createHierarchy_view;   
@@ -741,7 +786,7 @@ class DatabaseController extends BuildControllerAbstract {
         
         
         $this->setTimeLimit();
-        $this->reportMessage[] = "Záznam o vytvoření a konverzi databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s"). ' '. $convert;
+        $this->reportMessage[] = "Záznam o vytvoření a konverzi databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s"). ' '. $mark;
         
         
         $this->executeSteps($conversionSteps);
