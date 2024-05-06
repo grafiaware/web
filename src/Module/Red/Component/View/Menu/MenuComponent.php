@@ -214,7 +214,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      */
     private function createChildrenComponents($currDepth, $targetDepth, &$itemComponentStack) {
         for ($i=$currDepth; $i>$targetDepth; $i--) {
-            $levelComponent = $this->createLevelComponent($targetDepth, $itemComponentStack[$i]);
+            $levelComponent = $this->createLevelComponent($itemComponentStack[$i]);
             unset($itemComponentStack[$i]);
             if (isset($itemComponentStack[$i-1])) {
                 $parentItemComponent = end($itemComponentStack[$i-1]);
@@ -231,11 +231,10 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     /**
      * Vytvoří LevelComponent a připojí mu kolekci vnořených ItemComponent
      * 
-     * @param type $targetDepth
      * @param type $itemComponents
      * @return LevelComponentInterface
      */
-    private function createLevelComponent($targetDepth, $itemComponents): LevelComponentInterface {
+    private function createLevelComponent($itemComponents): LevelComponentInterface {
         /** @var LevelComponentInterface $levelComponent */
         $levelComponent = $this->container->get(LevelComponent::class);
         $levelComponent->setRendererName($this->levelRendererName);
