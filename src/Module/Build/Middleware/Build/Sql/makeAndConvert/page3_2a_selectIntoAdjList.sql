@@ -6,25 +6,21 @@
 -- menu roots
 INSERT INTO menu_adjlist (child, parent, poradi, level)
 
-		SELECT DISTINCT
-
-
-        childrens.list AS child, parents.list AS parent,
-        if(childrens.order<0, 0, childrens.order ) AS poradi,
+    SELECT DISTINCT
+        childrens.list AS child, 
+        parents.list AS parent,
+        if(childrens.poradi<0, 0, childrens.poradi ) AS poradi,
         parents.level AS level
-        FROM
-
-        (SELECT menu_item.list, menu_item.lang_code_fk,
-			if(menu_item.list={{root}}, 1,
-				if(menu_item.list IN ({{in_menu_roots}}), 2,
-                    LENGTH(menu_item.list)/3+2 )) AS level
-			FROM menu_item) AS parents
+    FROM
+        (SELECT stranky_innodb.list,
+                if(stranky_innodb.list={{root}}, 1,
+                    if(stranky_innodb.list IN ({{in_menu_roots}}), 2,
+                    LENGTH(stranky_innodb.list)/3+2 )) AS level
+        FROM stranky_innodb) AS parents   
         CROSS JOIN
-        (SELECT lang_code_fk, list, menu_item.order
-			FROM menu_item) AS childrens
-        WHERE parents.lang_code_fk='cs' AND childrens.lang_code_fk='cs' AND
-            (
-                parents.list IN ({{in_menu_roots}}) AND
-                childrens.list = concat( parents.list, {{child}})
-            )
-
+        (SELECT  list,  
+                 poradi         
+        FROM stranky_innodb ) AS childrens	
+    WHERE 
+        parents.list IN ({{in_menu_roots}}) AND
+        childrens.list = concat( parents.list, {{child}})

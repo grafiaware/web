@@ -31,8 +31,9 @@ select
 `menu_item`.`list` AS `list`,
 `menu_item`.`order` AS `order`,
 `menu_item`.`title` AS `title`,
+        `menu_item`.`prettyuri`  AS `prettyuri`,
 `menu_item`.`active` AS `active`,
-`menu_item`.`auto_generated` AS `auto_generated` 
+`menu_item`.`auto_generated` AS `auto_generated`
 from (`hierarchy` left join `menu_item` on((`hierarchy`.`uid` = `menu_item`.`uid_fk`)));
 
 
