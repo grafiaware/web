@@ -131,22 +131,30 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
                 $currDepth = $itemDepth;
                 $first = false;
             }
+//            if ($itemDepth>$currDepth) {
+//                $itemComponentStack[$itemDepth][] = $this->createItemComponent($treeNodeModel);
+//                $currDepth = $itemDepth;
+//            } elseif ($itemDepth<$currDepth) {
+//                $this->createChildrenComponents($currDepth, $itemDepth, $itemComponentStack);
+//                $itemComponentStack[$itemDepth][] = $this->createItemComponent($treeNodeModel);
+//                $currDepth = $itemDepth;
+//            } else {
+//                $itemComponentStack[$currDepth][] = $this->createItemComponent($treeNodeModel);
+//            }
             if ($itemDepth>$currDepth) {
-                $itemComponentStack[$itemDepth][] = $this->newNodeComponents($treeNodeModel);
                 $currDepth = $itemDepth;
             } elseif ($itemDepth<$currDepth) {
                 $this->createChildrenComponents($currDepth, $itemDepth, $itemComponentStack);
-                $itemComponentStack[$itemDepth][] = $this->newNodeComponents($treeNodeModel);
                 $currDepth = $itemDepth;
-            } else {
-                $itemComponentStack[$currDepth][] = $this->newNodeComponents($treeNodeModel);
             }
+            $itemComponentStack[$currDepth][] = $this->createItemComponent($treeNodeModel);
         }
-        return $this->createLevelComponent($this->rootRealDepth, $itemComponentStack[$this->rootRealDepth]);
+        return $this->createChildrenComponents($currDepth, $this->rootRealDepth-1, $itemComponentStack);
+//        return $this->createLevelComponent($this->rootRealDepth, $itemComponentStack[$this->rootRealDepth]);
     }
     
     private function newNodeComponents($treeNodeModel) {
-        $item = $this->newItemComponent($treeNodeModel);
+        $item = $this->createItemComponent($treeNodeModel);
         $driver = $this->newDriverComponent($treeNodeModel['menuItem']);
         $item->appendComponentView($driver, ItemComponentInterface::DRIVER);
         return $item;
@@ -158,14 +166,15 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * @param ItemViewModelInterface $itemViewModel
      * @return ItemComponent
      */
-    private function newItemComponent($treeNodeModel) {
+    private function createItemComponent($treeNodeModel) {
         /** @var ItemComponent $item */
         $item = $this->container->get(ItemComponent::class);
         $itemViewModel = $item->getData();
         $itemViewModel->setRealDepth($treeNodeModel['realDepth']);
         $itemViewModel->setOnPath($treeNodeModel['isOnPath']);
         $itemViewModel->setLeaf($treeNodeModel['isLeaf']);
-        
+        $driver = $this->createDriverComponent($treeNodeModel['menuItem']);
+        $item->appendComponentView($driver, ItemComponentInterface::DRIVER);        
         return $item;
     }
     
@@ -210,6 +219,11 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             if (isset($itemComponentStack[$i-1])) {
                 $parentItemComponent = end($itemComponentStack[$i-1]);
                 $parentItemComponent->appendComponentView($levelComponent, ItemComponentInterface::LEVEL);
+            } else {
+                $levelViewModel = $levelComponent->getData();
+                /** @var LevelViewModelInterface $levelViewModel */
+                $levelViewModel->setLastLevel(true);                
+                return $levelComponent;
             }
         }
     }
@@ -224,9 +238,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     private function createLevelComponent($targetDepth, $itemComponents): LevelComponentInterface {
         /** @var LevelComponentInterface $levelComponent */
         $levelComponent = $this->container->get(LevelComponent::class);
-        $levelViewModel = $levelComponent->getData();
-        /** @var LevelViewModelInterface $levelViewModel */
-        $levelViewModel->setLastLevel($targetDepth==$this->rootRealDepth);
         $levelComponent->setRendererName($this->levelRendererName);
         $levelComponent->appendComponentViewCollection($itemComponents);
         return $levelComponent;

@@ -82,6 +82,9 @@ class DriverService implements DriverServiceInterface{
         }        
         foreach ($this->menuConfigs as $menuConfig) {
             $menuRoot = $this->menuRootRepo->get($menuConfig['rootName']);
+            if(!$menuRoot) {
+                throw new \UnexpectedValueException("Neexistuje kořen menu s názvem {$menuConfig['rootName']} v db tabulce menu root.");
+            }   
             /** @var MenuRootInterface $menuRoot */
             $menurootHierarchyRow = $this->hierarchyDao->get(['uid'=>$menuRoot->getUidFk()]);
             if ($menurootHierarchyRow['left_node']<=$hierarchyRow['left_node'] AND $menurootHierarchyRow['right_node']>=$hierarchyRow['right_node']) {  // do menu patří i jeho kořen
@@ -108,7 +111,7 @@ class DriverService implements DriverServiceInterface{
 
     ### buttons ###
 
-    private function appendDriverButtonsComponent($driverButtons, $pasteMode, $itemType): DriverButtonsComponent {
+    private function getDriverButtonComponents($itemType) {
                $setRenderingByAccess = function (ViewInterface $component, $rendererName) {
                     /** @var AccessPresentationInterface $accessPresentation */
                     $accessPresentation = $this->container->get(AccessPresentation::class);
@@ -154,23 +157,31 @@ class DriverService implements DriverServiceInterface{
         switch ($itemType) {
             // ButtonsXXX komponenty jsou typu InheritData - dědí DriverViewModel
             case ItemTypeEnum::MULTILEVEL:
-                $buttonComponents[] = $createItemManipulationButtons($setRenderingByAccess);
-                $buttonComponents[] = $createAddOrPasteMultilevelButtons($setRenderingByAccess, $pasteMode);
-                $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
+//                $buttonComponents[] = $createItemManipulationButtons($setRenderingByAccess);
+                $buttonComponents[] = $this->container->get(ButtonsMenuItemManipulationComponent::class);
+//                $buttonComponents[] = $createAddOrPasteMultilevelButtons($setRenderingByAccess, $pasteMode);
+                $buttonComponents[] = $this->container->get(ButtonsMenuAddComponent::class);
+//                $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
+                $buttonComponents[] = $this->container->get(ButtonsMenuCutCopyComponent::class);
                 break;
             case ItemTypeEnum::ONELEVEL:
-                $buttonComponents[] = $createItemManipulationButtons($setRenderingByAccess);
-                $buttonComponents[] = $createAddOrPasteOnelevelButtons($setRenderingByAccess, $pasteMode);
-                $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
+//                $buttonComponents[] = $createItemManipulationButtons($setRenderingByAccess);
+                $buttonComponents[] = $this->container->get(ButtonsMenuItemManipulationComponent::class);
+//                $buttonComponents[] = $createAddOrPasteOnelevelButtons($setRenderingByAccess, $pasteMode);
+                $buttonComponents[] = $this->container->get(ButtonsMenuAddComponent::class);
+//                $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
+                $buttonComponents[] = $this->container->get(ButtonsMenuCutCopyComponent::class);
                 break;
             case ItemTypeEnum::TRASH:
-                $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
-                $buttonComponents[] = $createDeleteButtons($setRenderingByAccess);
+//                $buttonComponents[] = $createCutCopyButtons($setRenderingByAccess, $pasteMode);
+                $buttonComponents[] = $this->container->get(ButtonsMenuCutCopyComponent::class);
+//                $buttonComponents[] = $createDeleteButtons($setRenderingByAccess);
+                $buttonComponents[] = $this->container->get(ButtonsMenuDeleteComponent::class);
                 break;
             default:
                 throw new LogicException("Nerozpoznán typ položek menu (hodnota vrácená metodou viewModel->getItemType())");
         }
-        $driverButtons->appendComponentViewCollection($buttonComponents);  // tady button komponenty dědí DriverViewModel
+        return $buttonComponents;
     }
     
     public function completeDriverComponent(DriverComponentInterface $driver, $uid){
@@ -184,10 +195,11 @@ class DriverService implements DriverServiceInterface{
         $driverViewModel->setItemType($this->getItemType($uid));
         if($this->presentEditableMenu()) {
             if ($driverViewModel->isPresented()) {
-                $driverButtons = $this->container->get(DriverButtonsComponent::class);
-                $driver->appendComponentView($driverButtons, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
+                $buttonsComponent = $this->container->get(DriverButtonsComponent::class);
+                $driver->appendComponentView($buttonsComponent, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
+                $buttons = $this->getDriverButtonComponents($this->getItemType($uid));
+                $buttonsComponent->appendComponentViewCollection($buttons);  // tady button komponenty dědí DriverViewModel
             }            
-            $this->appendDriverButtonsComponent($driver, $this->isPasteMode(), $this->getItemType($uid));
             $driver->setRendererName(DriverRendererEditable::class);
         } else {
             $driver->setRendererName(DriverRenderer::class);                                    

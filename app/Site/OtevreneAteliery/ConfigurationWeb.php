@@ -212,8 +212,6 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             'contextLayoutMap' => [
                     'menuSvisle' => 'menu.svisle',
-                    'menuVodorovne' => 'menu.vodorovne',
-                    'menuPresmerovani' => 'menu.presmerovani',
                 ],
             'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
@@ -224,8 +222,6 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             'contextMenuMap' => [
                     'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
-                    'menuVodorovne' => ['service'=>'menu.vodorovne', 'targetId'=>'menutarget_content'],
-                    'menuPresmerovani' => ['service'=>'menu.presmerovani', 'targetId'=>'menutarget_content'],
                 ],
             'contextMenuEditableMap' => [
                     'bloky' => ['service'=>'menu.bloky', 'targetId'=>'menutarget_content'],
@@ -251,18 +247,6 @@ class ConfigurationWeb extends ConfigurationConstants {
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
             'menu.services' => [
-                    'menu.presmerovani' => [
-                        'rootName' => 'menu_redirect',
-                        'withRootItem' => false,
-                        'itemtype' => ItemTypeEnum::ONELEVEL,
-                        'levelRenderer' => 'menu.presmerovani.levelRenderer',
-                        ],
-                    'menu.vodorovne' => [
-                        'rootName' => 'menu_horizontal',
-                        'withRootItem' => false,
-                        'itemtype' => ItemTypeEnum::ONELEVEL,
-                        'levelRenderer' => 'menu.vodorovne.levelRenderer',
-                        ],
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
                         'withRootItem' => false,

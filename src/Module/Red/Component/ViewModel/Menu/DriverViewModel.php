@@ -76,7 +76,7 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
     }
     
     public function getTitle() {
-        return $this->getMenuItem()->getTitle();
+        return $this->getMenuItem()->getTitle() ?? 'NULL';
     }
     
     public function getPageApi() {
