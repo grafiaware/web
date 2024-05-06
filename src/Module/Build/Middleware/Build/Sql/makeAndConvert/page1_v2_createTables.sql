@@ -85,6 +85,7 @@ CREATE TABLE `language` (
 --   PRIMARY KEY (`id`),
 --   UNIQUE KEY `child` (`child`)
 -- ) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `menu_adjlist`;
 CREATE TABLE `menu_adjlist` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `child` varchar(45) NOT NULL,
@@ -98,6 +99,7 @@ CREATE TABLE `menu_adjlist` (
 -- ----------------------------
 -- Table structure for menu_item_api
 -- ----------------------------
+DROP TABLE IF EXISTS `menu_item_api`;
 CREATE TABLE `menu_item_api` (
   `module` varchar(20) NOT NULL,
   `generator` varchar(20) NOT NULL,
@@ -261,6 +263,7 @@ CREATE TABLE `paper_section` (
   CONSTRAINT `paper_id_fk2` FOREIGN KEY (`paper_id_fk`) REFERENCES `paper` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `static`;
 CREATE TABLE `static` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menu_item_id_fk` int(11) unsigned NOT NULL,

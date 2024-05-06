@@ -101,7 +101,7 @@ class ConfigurationDb {
                 ['red', 'empty', 'root', 'ROOT'],
                 ['red', 'empty', 'trash', 'Trash'],
                 ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'select', 'menu_vertical', 'Menu vertical'],
+                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
             'build.config.convert.items' => [
                 ['red', 'empty', 'root', 'ROOT'],
@@ -116,9 +116,8 @@ class ConfigurationDb {
                 ['red', 'empty', 'menu_vertical', 'Menu vertical'],
             ],
             'build.config.import.rootuid' => [
-                '6628dcb1cff05'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
+                '6638a166aecee'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
             ],
-            
             'build.config.convert.root' => [
                 'root',
                 ],
@@ -173,9 +172,6 @@ class ConfigurationDb {
             ],       
             'build.config.convert.home' => [
                 'home', 's00',        // titulní stránka s00 (změněná a0) je home page
-            ],
-            'build.config.make.home' => [
-                'home', 'menu_vertical',        // menu_vertical  je home page
             ],
 
             'build.config.convert.final' => [
