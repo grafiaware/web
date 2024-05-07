@@ -246,38 +246,32 @@ class ConfigurationWeb extends ConfigurationConstants {
             // 'jméno služby kontejneru' - jmébo služby kontejneru, která vrací příslušný menu komponent
             // parametry menu jsou:
             //      'rootName' => jméno kořene menu v db tabulce root_name,
-            //      'withRootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
             'menu.services' => [
                     'menu.presmerovani' => [
                         'rootName' => 'menu_redirect',
-                        'withRootItem' => false,
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.presmerovani.levelRenderer',
                         ],
                     'menu.vodorovne' => [
                         'rootName' => 'menu_horizontal',
-                        'withRootItem' => false,
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.vodorovne.levelRenderer',
                         ],
                     'menu.svisle' => [
                         'rootName' => 'menu_vertical',
-                        'withRootItem' => false,
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menu.svisle.levelRenderer',
                         ],
                     'menu.bloky' => [
                         'rootName' => 'blocks',
-                        'withRootItem' => true,
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.bloky.levelRenderer',
                         ],
                     'menu.kos' => [
                         'rootName' => 'trash',
-                        'withRootItem' => true,
                         'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menu.kos.levelRenderer',
                         ],

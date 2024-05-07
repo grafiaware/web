@@ -88,16 +88,6 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         $this->maxDepth = $maxDepth;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param type $withRootItem
-     * @return void
-     */
-    public function withRootItem($withRootItem = false): void {
-        $this->withRootItem = $withRootItem;
-    }
-
     public function setItemType($itemType) {
         $typeEnum = new ItemTypeEnum();
         $this->itemType = $typeEnum($itemType);
@@ -180,11 +170,6 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         if (isset($presentedNode)) {
             $presentedItemLeftNode = $presentedNode->getLeftNode();
             $presentedItemRightNode = $presentedNode->getRightNode();
-        }
-        // remove root
-//        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
-        if (!$this->withRootItem) {
-            array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
         }
 
         // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné),

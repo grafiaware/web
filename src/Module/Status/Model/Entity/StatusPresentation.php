@@ -38,6 +38,8 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
     private $lastResourcePath;
 
     private $lastTemplateName;
+    
+    private $info = [];
 
     ### resource path
 
@@ -132,32 +134,14 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
         return $this;
     }
 
-    ## item action
-
-    /**
-     * Vrací item action pro zadaný typ a id obsahu nebo null.
-     *
-     * @param type $contentType
-     * @param type $menuItemId
-     * @return ItemActionInterface|null
-     */
-//    public function getItemAction($contentType, $menuItemId): ?ItemActionInterface {
-//        $key = $contentType.$menuItemId;
-//        return array_key_exists($key, $this->itemActions) ? $this->itemActions[$key] : null;
-//    }
-
-    /**
-     * Přidá item action do vnitřní kolekce pro typ a id obsahu.
-     * @param ItemActionInterface $itemAction
-     * @return StatusPresentationInterface
-     */
-//    public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
-//        $this->itemActions[$itemAction->getTypeFk().$itemAction->getItemId()] = $itemAction;
-//        return $this;
-//    }
-
-//    public function removeItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
-//        unset($this->itemActions[$itemAction->getTypeFk().$itemAction->getItemId()]);
-//        return $this;
-//    }
+    
+    public function setInfo($name, $value) {
+        $this->info[$name] = $value;
+    }
+    public function getInfo($name) {
+        return $this->info[$name] ?? null;
+    }
+    public function getInfos(): array {
+        return $this->info;
+    }    
 }

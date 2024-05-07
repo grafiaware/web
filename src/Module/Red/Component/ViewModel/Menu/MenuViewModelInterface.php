@@ -41,14 +41,6 @@ interface MenuViewModelInterface extends ViewModelInterface {
      */
     public function setMaxDepth($maxDepth): void;
 
-    /**
-     * Položka menu (menu subtree nodes a views) bodou henerovány včetně kořenového prvku menu. První úrovwň menu pak obsahuje právě tuto jednu kořenovou položku.
-     *
-     * @param type $withRootItem
-     * @return void
-     */
-    public function withRootItem($withRootItem=false): void ;
-
     public function setItemType($itemType);
 
     public function getItemType();
