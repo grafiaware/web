@@ -1,4 +1,4 @@
-/* page3_3_I_selectIntoAdjList */
+/* page3_3_selectIntoAdjList */
 /**
  * Author: 
  * Created:
