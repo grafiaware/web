@@ -36,7 +36,12 @@ class PageController extends LayoutControllerAbstract {
      * @throws \UnexpectedValueException
      */
     public function home(ServerRequestInterface $request) {
-        $menuItem = $this->getHomeMenuItem();
+        try {
+            $menuItem = $this->getHomeMenuItem();
+        } catch (Exception $exc) {
+            $trace = $exc->getTraceAsString();
+            return $this->createResponseFromString($request, $trace);
+        }
         return $this->createResponseWithItem($request, $menuItem);
     }
 

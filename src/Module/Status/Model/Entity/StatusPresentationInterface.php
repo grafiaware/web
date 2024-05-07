@@ -86,17 +86,11 @@ interface StatusPresentationInterface extends PersistableEntityInterface {
      */
     public function setLastTemplateName($templateName): StatusPresentationInterface;
 
-    /**
-     * Vrací item action pro zadaný typ a id obsahu nebo null.
-     *
-     * @param type $contentType
-     * @param type $itemId
-     * @return ItemActionInterface|null
-     */
-//    public function getItemAction($contentType, $itemId): ?ItemActionInterface;
-//
-//    public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
-//
-//    public function removeItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
+    
+    public function setInfo($name, $value);
+    
+    public function getInfo($name);
+
+    public function getInfos(): array;      
 
 }

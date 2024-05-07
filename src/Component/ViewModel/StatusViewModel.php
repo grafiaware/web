@@ -112,7 +112,12 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         return $this->statusPresentationRepo->get()->getMenuItem();
     }
     
-    public function getInfos(): array {
+    public function getSecurityInfos(): array {
         return $this->statusSecurityRepo->get()->getInfos();
     }
+    
+    public function getPresentationInfos(): array {
+        return $this->statusPresentationRepo->get()->getInfos();
+    }
+    
 }

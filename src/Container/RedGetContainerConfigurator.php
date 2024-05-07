@@ -335,7 +335,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->withRootItem($menuConfig['withRootItem']);
                     $viewModel->setItemType($menuConfig['itemtype']);
                     $component->setData($viewModel);
                 } else {
@@ -356,7 +355,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->withRootItem($menuConfig['withRootItem']);
                     $viewModel->setItemType($menuConfig['itemtype']);
                     $component->setData($viewModel);
                 } else {
@@ -377,7 +375,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->withRootItem($menuConfig['withRootItem']);
                     $viewModel->setItemType($menuConfig['itemtype']);
 
 //                    $viewModel->setMaxDepth(2);
@@ -402,7 +399,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->withRootItem($menuConfig['withRootItem']);
                     $viewModel->setItemType($menuConfig['itemtype']);
                     $component->setData($viewModel);
                 } else {
@@ -423,7 +419,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->withRootItem($menuConfig['withRootItem']);
                     $viewModel->setItemType($menuConfig['itemtype']);
                     $component->setData($viewModel);
                 } else {

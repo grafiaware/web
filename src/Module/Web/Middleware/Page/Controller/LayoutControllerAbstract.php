@@ -38,6 +38,7 @@ use Pes\View\CompositeViewInterface;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 
+use Exception;
 use UnexpectedValueException;
 
 /**
@@ -79,21 +80,29 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         $homePage = ConfigurationCache::layoutController()['home_page'];
         switch ($homePage[0]) {
             case 'block':
-                $menuItem = $this->getMenuItemForBlock($homePage[1]);
+                try {
+                    $menuItem = $this->getMenuItemForBlock($homePage[1]);
+                } catch (UnexpectedValueException $exc) {                    
+//                    echo $exc->getMessage();
+                    $this->statusPresentationRepo->get()->setInfo('home', $exc->getMessage());
+                }
                 if (!isset($menuItem)) {
-                    throw new UnexpectedValueException("Undefined menu item for default page (home page) defined in configuration as block with name '$homePage[1]'.");
+//                    throw new UnexpectedValueException("Undefined menu item for default page (home page) defined in configuration as block with name '$homePage[1]'.");
+                    $this->statusPresentationRepo->get()->setInfo('home', "Undefined menu item for default page (home page) defined in configuration as block with name '$homePage[1]'.");
                 }
                 break;
             case 'item':
                 $menuItem = $this->getMenuItem($homePage[1]);
                 if (!isset($menuItem)) {
-                    throw new UnexpectedValueException("Undefined default page (home page) defined in configuration as item with uid '$homePage[1]'.");
+//                    throw new UnexpectedValueException("Default page (home page) defined in configuration as item with uid '$homePage[1]' not exists or is not published (active).");
+                    $this->statusPresentationRepo->get()->setInfo('home', "Default page (home page) defined in configuration as item with uid '$homePage[1]' not exists or is not published (active).");
                 }
                 break;
             default:
-                throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
+//                throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
+                    $this->statusPresentationRepo->get()->setInfo('home', "Unknown home page type in configuration. Type: '$homePage[0]'.");
         }
-        return $menuItem;
+        return $menuItem ?? null;
     }
     
     /**
@@ -105,25 +114,28 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     protected function getMenuItem($uid): ?MenuItemInterface {
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        return $menuItemRepo->get($this->getPresentationLangCode(), $uid);
+        $menuItem = $menuItemRepo->get($this->getPresentationLangCode(), $uid);
+        return $menuItem ?? null;  // neexistuje nebo není aktivní
     }
 
     /**
-     * Podle jména bloku a aktuálního jazyka prezentace vrací menuItem nebo null
-     *
-     * @param string $name
+     * Podle jména bloku načte uid odpovídajícího menu item.
+     * Pokud blok se zadaným jménem není v databázi definován vyhodí výjimku.
+     * Pro uid zjištěného z bloku a aktuálního jazyka prezentace vrací menuItem nebo null, pkud menuitem není definován nebo není publikován (active).
+     * 
+     * @param type $name
      * @return MenuItemInterface|null
+     * @throws UnexpectedValueException
      */
     protected function getMenuItemForBlock($name): ?MenuItemInterface {
         /** @var BlockRepo $blockRepo */
         $blockRepo = $this->container->get(BlockRepo::class);
         $block = $blockRepo->get($name);
-
-        // log!
-//        if (!isset($block)) {
-//            throw new \UnexpectedValueException("Undefined block defined as component with name '$name'.");
-//        }
-        return isset($block) ? $this->getMenuItem($block->getUidFk()) : null;  // není blok nebo není publikovaný&aktivní item
+        if (!isset($block)) {
+            throw new UnexpectedValueException("Block with name '$name' not exists in database.");
+        }
+        $blockItem = $this->getMenuItem($block->getUidFk());
+        return $blockItem ?? null;  // není blok nebo není publikovaný&aktivní item
     }
 
 #
@@ -140,12 +152,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         if ($menuItem) {
             $this->setPresentationMenuItem($menuItem);
+        }
             $view = $this->composeLayoutView($request, $menuItem);
             $response = $this->createResponseFromView($request, $view);
-        } else {
-            // neexistující stránka
-            $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
-        }
+//        } else {
+//            // neexistující stránka
+//            $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
+//        }
         return $response;
     }
 
@@ -162,7 +175,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     private function composeLayoutView(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         $layoutView = $this->getLayoutView($request);
-        return $layoutView->appendComponentViews($this->getComponentViews($request, $menuItem));        
+        if (isset($menuItem)) {
+            $layoutView->appendComponentViews($this->getContentViews($menuItem));
+        } else {
+            $layoutView->appendComponentView($this->getNoContentView('no item'), 'content');            
+        }
+        return $layoutView->appendComponentViews($this->getComponentViews($request));        
     }
 
     /**
@@ -206,19 +224,15 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param MenuItemInterface $menuItem
      * @return CompositeView[]
      */
-    protected function getComponentViews(ServerRequestInterface $request, MenuItemInterface $menuItem) {
+    protected function getComponentViews(ServerRequestInterface $request) {
         // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
         // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
         // Příklad: - bloky v editovatelném modu a současně editovatelné menu bloky - v menu bloky vybraný blok je zobrazen editovatelný duplicitně s blokem v layoutu
-        //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
+        //          - dva stejné bloky v layoutu - mapa, kontakt v hlavičce i v patičce
 
         $views = array_merge(
-//                [
-//                    'content' => $this->getMenuItemLoader($menuItem),
-//                ],
                 $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
-//                $this->getLayoutViews(),
-                $this->getMenuViews($menuItem),
+                $this->getMenuViews(),
                 $this->getBlockLoaders(),
                 $this->getCascadeViews(),
                 // for debug
@@ -281,6 +295,18 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         return $views;
     }
     
+    private function getContentViews(MenuItemInterface $menuItem) {
+        //TODO:  !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)
+        $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
+        $views = [];
+        foreach (ConfigurationCache::layoutController()['contextTargetMap'] as $contextName=>$targetSettings) {
+            // 'content'=>['id'=>'menutarget_content'],
+            $id = $targetSettings['id'];
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedTargetElement($id, $dataRedApiUri, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);            
+        }
+        return $views;
+    }
+    
     private function getCascadeViews() {
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
@@ -289,16 +315,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         return $views;
     }
     
-    private function getMenuViews(MenuItemInterface $menuItem) {
-        //TODO:  !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)
-        $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
-
+    private function getMenuViews() {
         $views = [];
-        foreach (ConfigurationCache::layoutController()['contextTargetMap'] as $contextName=>$targetSettings) {
-            // 'content'=>['id'=>'menutarget_content'],
-            $id = $targetSettings['id'];
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedTargetElement($id, $dataRedApiUri, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);            
-        }
         foreach (ConfigurationCache::layoutController()['contextMenuMap'] as $contextName=>$menuSettings) {
             // 'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
             $targetId = $menuSettings['targetId'];
@@ -335,11 +353,15 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
         // pro neexistující bloky nedělá nic
         foreach ($map as $variableName => $blockName) {
-            $menuItem = $this->getMenuItemForBlock($blockName);
+            try {
+                $menuItem = $this->getMenuItemForBlock($blockName);                
+            } catch (UnexpectedValueException $exc) {  // neexistuje block
+                $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);
+            }
             if (isset($menuItem)) {
                 $componets[$variableName] = $this->getMenuItemLoader($menuItem);
             } else {
-                $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);
+                $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);  // neex nebo neaktivní item
             }
         }
         return $componets;
@@ -363,14 +385,17 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         }
     }
     
-    private function getUnknownBlockView($blockName, $variableName) {
-        $message = "Unknown block $blockName configured for layout variable $variableName.";
-
+    private function getNoContentView($message) {
         /** @var View $view */
         $view = $this->container->get(View::class);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.unknownContent']))
                 ->setData(['message'=>$message]);
         return $view;
+    }
+    
+    private function getUnknownBlockView($blockName, $variableName) {
+        $message = "Unknown block $blockName configured for layout variable $variableName.";
+        return $this->getNoContentView($message);
     }
 
     private function isPartInEditableMode() {

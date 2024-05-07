@@ -42,7 +42,11 @@ class InfoBoardViewModel extends ViewModelAbstract implements InfoBoardViewModel
     }
     
     private function getSecurityInfos() {
-        return ['infos' => $this->statusViewModel->getInfos()];
+        return ['security info:' => $this->statusViewModel->getSecurityInfos()];
+    }
+    
+    private function getPresentationInfos() {
+        return ['presentation info:' => $this->statusViewModel->getPresentationInfos()];
     }
     
     public function getIterator(): \Traversable {
@@ -52,6 +56,8 @@ class InfoBoardViewModel extends ViewModelAbstract implements InfoBoardViewModel
         $boardInfo[] = $this->prettyDump($this->getUserInfo());
         if ($role==RoleEnum::SUPERVISOR) {
             $boardInfo[] = $this->prettyDump($this->statusViewModel->getUserActions());
+            $boardInfo[] = $this->prettyDump($this->getSecurityInfos());            
+            $boardInfo[] = $this->prettyDump($this->getPresentationInfos());            
 //              $this->prettyDump($this->status->presentEditableContent()),
 //              $this->prettyDump($this->status->presentEditableMenu()),
         }
