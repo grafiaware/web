@@ -174,6 +174,32 @@ class DatabaseController extends BuildControllerAbstract {
     }
     
 
+    
+    private function menuRootsFromItemsWithRoot($type) {
+        $rootsNamesListWith = [];
+        $koreny = $this->container->get("build.config.$type.items");
+        foreach ($koreny as $koren ) {
+            $rootsNamesListWith[] = $koren [0];
+        }        
+        return $rootsNamesListWith;
+    }
+    
+    private function menuRootsFromItemsWithoutRoot($type) {
+        $rootName = $this->container->get("build.config.cmi.root")[0];
+    
+        $rootsNamesListWithout = [];
+        $koreny = $this->container->get("build.config.$type.items");
+        foreach ($koreny as $koren ) {
+            if ($koren[0] !== $rootName) {
+                $rootsNamesListWithout[] = $koren [0];
+            }    
+        }        
+        return $rootsNamesListWithout;  
+    }
+    
+    
+    
+    
     private function makeAndConvert($mark) {
 
         $this->manipulator = $this->container->get('manipulator_for_convert');
@@ -236,29 +262,51 @@ class DatabaseController extends BuildControllerAbstract {
         
         $p_2_2_insertIntoStranky_innodbNewMenuRoot_import = function() {
                 // [list, title]
-                $rootsListNames1 = array_merge(
-                        $this->container->get('build.config.import.root'),
-                        $this->container->get('build.config.import.menuroots'));
-                foreach ($rootsListNames1 as $rootName1) {
-                    if (($rootName1 != 'trash' )) {
+                                $rootsListNames1 = array_merge(
+                                        $this->container->get('build.config.cmi.root'),
+                                        $this->container->get('build.config.import.menuroots'));
+                
+                
+                $rootsNamesList = $this->menuRootsFromItemsWithRoot('import');
+                
+//                 /* CCC  - v items jsou  vsechny, vcetne root*/
+//                $rootsListNames1a = [];
+//                $koreny = $this->container->get("build.config.import.items");
+//                foreach ($koreny as $koren ) {
+//                    $rootsListNames1a[] = $koren [0];
+//                }
+                
+                
+                foreach ($rootsNamesList as $rootName) {
+                    if (($rootName != 'trash' )) {
                         $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoStranky_innodbNewMenuRoot.sql",  
                                                     [                                                   
-                                                    'menu_root_list'=> $rootName1,
+                                                    'menu_root_list'=> $rootName,
                                                     'menu_root_title'=> 'Tady začni...',
                                                     ]);
                     }    
                 }                       
-        };                              
-        
+        };                                      
          $p_2_2_insertIntoStranky_innodbNewMenuRoot =  function( $type ) {
                 // [type, list, title]
-                $rootsListNames1 = array_merge(
-                        $this->container->get("build.config.$type.root"), 
-                        $this->container->get("build.config.$type.menuroots"));
-                foreach ($rootsListNames1 as $rootName1) {
+                                $rootsListNames1 = array_merge(
+                                        $this->container->get("build.config.cmi.root"), 
+                                        $this->container->get("build.config.$type.menuroots"));
+
+                $rootsNamesList = $this->menuRootsFromItemsWithRoot($type);
+                
+//                /* CCC  - v items jsou  vsechny, vcetne root*/
+//                $rootsListNames1a = [];
+//                $koreny = $this->container->get("build.config.$type.items");
+//                foreach ($koreny as $koren ) {
+//                    $rootsListNames1a[] = $koren [0];
+//                }
+
+                
+                foreach ($rootsNamesList as $rootName) {
                     $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoStranky_innodbNewMenuRoot.sql", 
                         [                            
-                            'menu_root_list'=>$rootName1,
+                            'menu_root_list'=>$rootName,
                             'menu_root_title'=>'Tady začni...',
                         ]);
                 }
@@ -280,14 +328,17 @@ class DatabaseController extends BuildControllerAbstract {
         
         $p_3_5_1_updateMenuItemMenuRootsFromConfiguration =  function( $type ) {
                 // [type, list, title]
-                $rootsDefinitions = $this->container->get("build.config.$type.items");
+                $api = $this->container->get('build.config.items.api.red_empty'); //nahrada vynechanych sloupecku
+               
+                $rootsDefinitions = $this->container->get("build.config.$type.items");   //tydle tu chceme --obshuji root                                                 
+                
                 foreach ($rootsDefinitions as $rootDef) {
                     $this->executeFromTemplate("makeAndConvert/page3_5_1_updateMenuItemMenuRootsFromConfiguration.sql", 
                         [
-                            'menu_root_api_module' => $rootDef[0], 
-                            'menu_root_api_generator' => $rootDef[1],
-                            'menu_root_list'=>$rootDef[2],
-                            'menu_root_title'=>$rootDef[3],
+                            'menu_root_api_module' => $api[0], 
+                            'menu_root_api_generator' => $api[1],
+                            'menu_root_list'=>$rootDef[0],
+                            'menu_root_title'=>$rootDef[1],
                         ]);
                 }
         };                    
@@ -303,9 +354,27 @@ class DatabaseController extends BuildControllerAbstract {
         
         
         $p_3_1_p_3_2_selectIntoAdjList = function( $type ) {  //  root  a menuroots do adjlist
-            $rootName = $this->container->get("build.config.$type.root")[0];
-            $menuRoots = $this->container->get("build.config.$type.menuroots");
-            $inMenuRoots = implode("', '", $menuRoots);
+            $rootName = $this->container->get("build.config.cmi.root")[0];
+           
+                        $menuRoots = $this->container->get("build.config.$type.menuroots"); //bez root
+                        $inMenuRoots_old = implode("', '", $menuRoots);
+                        
+            
+            
+            /* CCC  - v items jsou  vsechny, vcetne root*/
+//                $rootsListNames = [];
+//                $koreny = $this->container->get("build.config.$type.items");
+//                foreach ($koreny as $koren ) {
+//                    if ($koren[0] !== $rootName) {
+//                        $rootsListNames[] = $koren [0];
+//                    }
+//                }
+//                $inMenuRootsa = implode("', '", $rootsListNames);
+                        
+            $inMenuRootsArr = $this->menuRootsFromItemsWithOutRoot($type);
+            $inMenuRoots = implode("', '", $inMenuRootsArr);
+            
+            
             $this->executeFromTemplate("makeAndConvert/page3_1_selectIntoAdjList.sql", ['root'=>$rootName]);
             $this->executeFromTemplate("makeAndConvert/page3_2_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
         };               
@@ -320,9 +389,17 @@ class DatabaseController extends BuildControllerAbstract {
        
  
         $p_3_3_p_3_4_selectIntoAdjList_convert  = function() { // convert  prvni uroven  a bezne do adjlist
-                $rootName = $this->container->get('build.config.convert.root')[0];
-                $menuRoots = $this->container->get('build.config.convert.menuroots');
-                $inMenuRoots = implode("', '", $menuRoots);                
+                $rootName = $this->container->get('build.config.cmi.root')[0];
+                
+                                $menuRoots = $this->container->get('build.config.convert.menuroots');
+                                $inMenuRoots_old = implode("', '", $menuRoots);                
+                                
+                $inMenuRootsArr = $this->menuRootsFromItemsWithoutRoot('convert');
+                $inMenuRoots = implode("', '", $inMenuRootsArr);                
+                
+                
+                
+                
                 $map = $this->container->get('build.config.convert.prefixmap');
                 foreach ($map as $prefix=>$menuRoot) {
                     $this->executeFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql",
@@ -334,8 +411,14 @@ class DatabaseController extends BuildControllerAbstract {
 
         $p_3_3_p_3_4_selectIntoAdjList_import  = function() {    // import  prvni uroven   a bezne do adjlist
                 $rootName = $this->container->get('build.config.import.rootuid')[0];
-                $menuRoots = $this->container->get('build.config.import.menuroots');
-                $inMenuRoots = implode("', '", $menuRoots);                
+                
+                            $menuRoots = $this->container->get('build.config.import.menuroots');                     
+                            $inMenuRoots_old = implode("', '", $menuRoots); 
+                
+                  
+                $inMenuRootsArr = $this->menuRootsFromItemsWithoutRoot('import');
+                $inMenuRoots = implode("', '", $inMenuRootsArr);                                     
+                          
                 $map = $this->container->get('build.config.import.prefixmap');
                 foreach ($map as $prefix=>$menuRoot) {
                     $this->executeFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql",
@@ -421,8 +504,12 @@ class DatabaseController extends BuildControllerAbstract {
         
         $p_5_1_insertIntoMenuRootTable = function() {
             // [type, list, title]
-            $rootsListNames = $this->container->get('build.config.convert.menuroots');
-            foreach ($rootsListNames as $rootName) {
+            // $rootsListNames = $this->container->get('build.config.convert.menuroots');                       
+            /*  CCC */
+          
+            $rootsNamesList = $this->menuRootsFromItemsWithoutRoot('convert');
+            
+            foreach ($rootsNamesList as $rootName) {
                 $this->executeFromTemplate("makeAndConvert/page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
             }
         };

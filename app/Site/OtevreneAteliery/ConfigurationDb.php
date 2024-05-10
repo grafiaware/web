@@ -97,36 +97,45 @@ class ConfigurationDb {
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
             # pole build.config.make.items: [api_module, api_generator, list, title]
+            
+            'build.config.items.api.red_empty' => ['red', 'empty'],
+            
             'build.config.make.items' => [
-                ['red', 'empty', 'root', 'ROOT'],
-                ['red', 'empty', 'trash', 'Trash'],
-                ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+                [/*'red', 'empty',*/ 'root', 'ROOT'],
+                [/*'red', 'empty',*/ 'trash', 'Trash'],
+                [/*'red', 'empty',*/ 'blocks', 'Blocks'],
+                [/*'red', 'empty',*/ 'menu_vertical', 'Menu vertical'],
             ],
             'build.config.convert.items' => [
-                ['red', 'empty', 'root', 'ROOT'],
-                ['red', 'empty', 'trash', 'Trash'],
-                ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+                [/*'red', 'empty',*/ 'root', 'ROOT'],
+                [/*'red', 'empty',*/ 'trash', 'Trash'],
+                [/*'red', 'empty',*/ 'blocks', 'Blocks'],
+                [/*'red', 'empty',*/ 'menu_vertical', 'Menu vertical'],
             ],
             'build.config.import.items' => [
                 
-                ['red', 'empty', 'trash', 'Trash'],
-                ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+                [/*'red', 'empty',*/ 'trash', 'Trash'],
+                [/*'red', 'empty',*/ 'blocks', 'Blocks'],
+                [/*'red', 'empty',*/ 'menu_vertical', 'Menu vertical'],
             ],
+            
             'build.config.import.rootuid' => [
-                '663a17133a13e'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
+                '663e2b161212b'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
             ],
-            'build.config.convert.root' => [
+            
+//            'build.config.convert.root' => [
+//                'root',
+//                ],
+//            'build.config.make.root' => [
+//                'root',
+//                ],
+//             'build.config.import.root' => [
+//                'rootImport',
+//                ],            
+             'build.config.cmi.root' => [
                 'root',
                 ],
-            'build.config.make.root' => [
-                'root',
-                ],
-             'build.config.import.root' => [
-                'rootImport',
-                ],
+            
             
             'build.config.convert.menuroots' => [
                 'trash',
