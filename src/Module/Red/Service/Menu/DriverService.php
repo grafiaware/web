@@ -112,44 +112,44 @@ class DriverService implements DriverServiceInterface{
     ### buttons ###
 
     private function getDriverButtonComponents($itemType) {
-               $setRenderingByAccess = function (ViewInterface $component, $rendererName) {
-                    /** @var AccessPresentationInterface $accessPresentation */
-                    $accessPresentation = $this->container->get(AccessPresentation::class);
-                    if($accessPresentation->isAllowed(get_class($component), AccessPresentationEnum::EDIT)) {
-                        $component->setRendererName($rendererName);
-                    } else {
-                        $component->setRendererName(NoPermittedContentRenderer::class);
-                    }
-                    $component->setRendererContainer($this->rendererContainer);
-                    return $component;
-                }; 
-                $createItemManipulationButtons = function ($setRenderingByAccess) {
-                    return $setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
-                };
-                $createDeleteButtons = function ($setRenderingByAccess) {
-                    return $setRenderingByAccess(new ButtonsMenuDeleteComponent($this->configuration), ButtonsMenuDeleteRenderer::class);
-                };
-                $createCutCopyButtons = function ($setRenderingByAccess, $pasteMode) {
-                    if ($pasteMode) {
-                        return $setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyEscapeRenderer::class);
-                    } else {
-                        return $setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
-                    }
-                };
-                $createAddOrPasteOnelevelButtons = function ($setRenderingByAccess, $pasteMode) {
-                    if ($pasteMode) {
-                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteOnelevelRenderer::class);
-                    } else {
-                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddOnelevelRenderer::class);
-                    }
-                };
-                $createAddOrPasteMultilevelButtons = function ($setRenderingByAccess, $pasteMode) {
-                    if ($pasteMode) {
-                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteRenderer::class);
-                    } else {
-                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddRenderer::class);
-                    }
-                };
+//               $setRenderingByAccess = function (ViewInterface $component, $rendererName) {
+//                    /** @var AccessPresentationInterface $accessPresentation */
+//                    $accessPresentation = $this->container->get(AccessPresentation::class);
+//                    if($accessPresentation->isAllowed(get_class($component), AccessPresentationEnum::EDIT)) {
+//                        $component->setRendererName($rendererName);
+//                    } else {
+//                        $component->setRendererName(NoPermittedContentRenderer::class);
+//                    }
+//                    $component->setRendererContainer($this->rendererContainer);
+//                    return $component;
+//                }; 
+//                $createItemManipulationButtons = function ($setRenderingByAccess) {
+//                    return $setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
+//                };
+//                $createDeleteButtons = function ($setRenderingByAccess) {
+//                    return $setRenderingByAccess(new ButtonsMenuDeleteComponent($this->configuration), ButtonsMenuDeleteRenderer::class);
+//                };
+//                $createCutCopyButtons = function ($setRenderingByAccess, $pasteMode) {
+//                    if ($pasteMode) {
+//                        return $setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyEscapeRenderer::class);
+//                    } else {
+//                        return $setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+//                    }
+//                };
+//                $createAddOrPasteOnelevelButtons = function ($setRenderingByAccess, $pasteMode) {
+//                    if ($pasteMode) {
+//                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteOnelevelRenderer::class);
+//                    } else {
+//                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddOnelevelRenderer::class);
+//                    }
+//                };
+//                $createAddOrPasteMultilevelButtons = function ($setRenderingByAccess, $pasteMode) {
+//                    if ($pasteMode) {
+//                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuPasteRenderer::class);
+//                    } else {
+//                        return $setRenderingByAccess(new ButtonsMenuAddComponent($this->configuration), ButtonsMenuAddRenderer::class);
+//                    }
+//                };
                 ####         
         
         #### buttons ####
