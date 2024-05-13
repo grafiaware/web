@@ -87,12 +87,12 @@ class DriverViewModel extends ViewModelAbstract implements DriverViewModelInterf
         return $this->itemApiService->getContentApiUri($this->getMenuItem());
     }
     
-    /**
-     * 
-     * @return type
-     */
     public function getRedDriverApi() {
         return $this->isPresented() ? $this->itemApiService->getDriverApiUri($this->getMenuItem()) : $this->itemApiService->getPresentedDriverApiUri($this->getMenuItem());
+    }
+    
+    public function getRedItemTitleApi() {
+        return $this->itemApiService->getItemTitleApiUri($this->getMenuItem());
     }
     
     public function isActive(): bool {

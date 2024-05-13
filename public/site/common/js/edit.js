@@ -105,7 +105,6 @@ function sendOnEnter(event) {
     var escPressed = event.which === 27,
     nlPressed = event.which === 13,
     targetElement = event.target,
-//    acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
     acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
     url,
     data = {};
@@ -122,8 +121,9 @@ function sendOnEnter(event) {
             targetElement.innerHTML = targetElement.innerText;
             // data title z innerText, ostatní z data- atributů - zde musí být shoda jmen s html šablonou pro item!
             data['title'] = targetElement.innerText; // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
-            data['original-title'] = targetElement.getAttribute('data-originaltitle');
-            url = targetElement.baseURI + '/red/v1/menu/' + targetElement.getAttribute('data-uid') + '/title';
+            data['original-title'] = targetElement.getAttribute('data-original-title');
+//            url = targetElement.baseURI + targetElement.getAttribute('data-red-item-title-uri');
+            url = targetElement.getAttribute('data-red-item-title-uri');
             // odeslání ajax requestu
             // .ajax vrací Deferred Object - .done a .fail jsou metody Deferred Objectu (a samy vracejí Deferred Object)
             $.ajax({
@@ -137,8 +137,32 @@ function sendOnEnter(event) {
                     .fail(function(jqXHR, textStatus, errorThrown){
                     alert( "Selhalo: " + errorThrown );
                 });
-
-            log(JSON.stringify(data));
+//    fetch(url, {
+//    method: "POST",
+//    cache: "no-cache",
+//    credentials: "same-origin",
+//    headers: {
+//      //"Content-Type": "application/json",
+//       'Content-Type': 'application/x-www-form-urlencoded'
+//    },
+//    body: data // body data type must match "Content-Type" header        
+//    })
+//    .then(response => {
+//      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+//          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+//          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
+//      } else {
+//          throw new Error(`edit: HTTP error in sendOnEnter! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+//      }
+//    })
+//    .then(textPromise => {
+//        console.log(`edit: Set title by ${url}.`);
+//        alert( "Provedeno: " + textPromise );
+//    })
+//    .catch(e => {
+//        throw new Error(`edit: There has been a problem with fetch post to ${url}. Reason:` + e.message);
+//    });            
+            console.log(JSON.stringify(data));
 
             targetElement.blur();
             event.preventDefault();

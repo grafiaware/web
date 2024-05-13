@@ -201,7 +201,9 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         $driver = $this->container->get(DriverComponent::class);
         /** @var DriverServiceInterface $driverService */
         $driverService = $this->container->get(DriverService::class);
-        $driverService->completeDriverComponent($driver, $menuItem->getUidFk());
+        $presentedItem = $this->contextData->getPresentedMenuItem();
+        $isPresented = isset($presentedItem) && ($presentedItem->getId() == $menuItem->getId());        
+        $driverService->completeDriverComponent($driver, $menuItem->getUidFk(), $isPresented);
         return $driver;
     }
     

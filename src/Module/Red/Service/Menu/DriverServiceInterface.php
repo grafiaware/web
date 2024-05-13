@@ -9,5 +9,5 @@ use Red\Component\View\Menu\DriverComponentInterface;
  */
 interface DriverServiceInterface {
     
-    public function completeDriverComponent(DriverComponentInterface $driver, $uid);
+    public function completeDriverComponent(DriverComponentInterface $driver, $uid, $isPresented);
 }

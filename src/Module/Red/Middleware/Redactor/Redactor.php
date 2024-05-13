@@ -24,6 +24,7 @@ use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\UserActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
+use Red\Middleware\Redactor\Controler\MenuControler;
 use Red\Middleware\Redactor\Controler\ItemEditControler;
 use Red\Middleware\Redactor\Controler\ItemActionControler;
 use Red\Middleware\Redactor\Controler\PaperControler;
@@ -104,7 +105,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/presenteddriver/:uid', function(ServerRequestInterface $request, $uid) {
             /** @var MenuControler $ctrl */
             $ctrl = $this->container->get(MenuControler::class);
-            return $ctrl->presenteddriver($request, $uid);
+            return $ctrl->presentedDriver($request, $uid);
             });    
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/driver/:uid', function(ServerRequestInterface $request, $uid) {
             /** @var MenuControler $ctrl */

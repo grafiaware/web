@@ -38,5 +38,11 @@ interface ItemApiServiceInterface {
      */
     public function getContentApiUri(MenuItemInterface $menuItem);
             
-            
+    /**
+     * Generuje uri pro GET request požadující v API nastavení titulku položky menu.
+     * 
+     * @param MenuItemInterface $menuItem
+     */
+    public function getItemTitleApiUri(MenuItemInterface $menuItem);
+
 }

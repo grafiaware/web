@@ -13,6 +13,7 @@ use Red\Middleware\Redactor\Controler\ComponentControler;
 use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler; // jen konstanty třídy
+use Red\Middleware\Redactor\Controler\MenuControler;
 
 // configuration
 use Configuration\ComponentConfiguration;
@@ -201,7 +202,7 @@ use Replace\Replace;
 
 // login aggregate ze session - přihlášený uživatel
 use Auth\Model\Entity\LoginAggregateFullInterface; // pro app kontejner
-//
+
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -477,7 +478,15 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $accessPresentation = $c->get(AccessPresentation::class);
                     if($accessPresentation->isAllowed(ButtonsMenuCutCopyComponent::class, AccessPresentationEnum::EDIT)) {
                         $component = new ButtonsMenuCutCopyComponent($c->get(ComponentConfiguration::class)); 
-                        $component->setRendererName(ButtonsMenuCutCopyEscapeRenderer::class);
+                        $statusViewModel = $c->get(StatusViewModel::class);
+                        $cut = $statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
+                        $copy = $statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_COPY);
+                        $pasteMode = ($cut OR $copy);
+                        if ($pasteMode) {
+                            $component->setRendererName(ButtonsMenuCutCopyEscapeRenderer::class);
+                        } else {
+                            $component->setRendererName(ButtonsMenuCutCopyRenderer::class);
+                        }
                     } else {
                         $component = $c->get(ElementComponent::class);
                         $component->setRendererName(NoPermittedContentRenderer::class);

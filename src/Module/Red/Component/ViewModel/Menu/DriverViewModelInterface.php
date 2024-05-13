@@ -35,4 +35,5 @@ interface DriverViewModelInterface extends ViewModelInterface {
     public function getPageApi();
     public function getRedContentApi();
     public function getRedDriverApi();
+    public function getRedItemTitleApi();
 }

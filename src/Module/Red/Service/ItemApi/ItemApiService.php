@@ -73,6 +73,10 @@ class ItemApiService implements ItemApiServiceInterface {
         return "$apiModule/v1/$apiGenerator/$id";
     }
     
+    public function getItemTitleApiUri(MenuItemInterface $menuItem) {
+        return "red/v1/menu/{$menuItem->getUidFk()}/title";
+    }
+    
     private function getNameForStaticPage(MenuItemInterface $menuItem) {
         $menuItemPrettyUri = $menuItem->getPrettyuri();
         if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93

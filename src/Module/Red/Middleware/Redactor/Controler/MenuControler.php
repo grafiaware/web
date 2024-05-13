@@ -58,32 +58,23 @@ class MenuControler extends PresentationFrontControlerAbstract {
     
     ### action metody ###############
     
-    public function presenteddriver(ServerRequestInterface $request, $uid) {
-
-        /** @var DriverComponent $driver */
-        $driver = $this->container->get(DriverComponent::class);
-        /** @var DriverServiceInterface $driverService */
-        $driverService = $this->container->get(DriverService::class);
-        $driverService->completeDriverComponent($driver, $uid);
-        /** @var DriverViewModelInterface $driverViewModel */
-        $driverViewModel = $driver->getData();
-        if ($driverViewModel->isPresented()) {
-            $driverButtons = $this->container->get(DriverButtonsComponent::class);
-            $driver->appendComponentView($driverButtons, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
-        }
-        
+    public function presentedDriver(ServerRequestInterface $request, $uid) {
+        $driver = $this->createDriver($uid, true);
         $this->setPresentationMenuItem($driver->getData()->getMenuItem());  // driver po kompletaci už má data
-        
         return $this->createResponseFromView($request, $driver);
     }
     
     public function driver(ServerRequestInterface $request, $uid) {
-
+        $driver = $this->createDriver($uid, false);
+        return $this->createResponseFromView($request, $driver);
+    }
+    
+    private function createDriver($uid, $isPresented): DriverComponent {
         /** @var DriverComponent $driver */
         $driver = $this->container->get(DriverComponent::class);
         /** @var DriverServiceInterface $driverService */
         $driverService = $this->container->get(DriverService::class);
-        $driverService->completeDriverComponent($driver, $uid);
-        return $this->createResponseFromView($request, $driver);
+        $driverService->completeDriverComponent($driver, $uid, $isPresented);
+        return $driver;
     }
 }

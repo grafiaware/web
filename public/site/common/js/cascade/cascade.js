@@ -205,24 +205,25 @@ function listenLinks(loaderElement) {
         let items = navigation.querySelectorAll("li");
         console.log(`cascade: Listen links match `+items.length+' items.');
         for (const item of [...items]) {
-            // když event listener z nějakého důvodu nepracuje, provede se dafault akce elementu anchor -> volá se načtení celé stránky
+            // když event listener z nějakého důvodu nepracuje, provede se default akce elementu anchor -> volá se načtení celé stránky
             item.addEventListener("click", event => {
                     if(contentTarget===null) {
                         return true;
                     } else {
                         let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
                         // item
-                        fetchDrivers(previousItem, currentItem);                        
-                        shrinkAndExpandChildrenOnPath(previousItem, currentItem);
-                        // aktuální item uložen pro příští klik
-                        previousItem = currentItem;
+                        if (previousItem !== currentItem) {
+                            fetchDrivers(previousItem, currentItem);                        
+                            shrinkAndExpandChildrenOnPath(previousItem, currentItem);
+                            // aktuální item uložen pro příští klik
+                            previousItem = currentItem;
 
-                        // content
-                        // příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
-                        contentTarget.setAttribute('data-red-apiuri', itemDriver(currentItem).getAttribute('data-red-content'));
-                        // získání a výměna nového obsahu v cílovém elementu
-                        fetchCascadeContent(contentTarget);
-
+                            // content
+                            // příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
+                            contentTarget.setAttribute('data-red-apiuri', itemDriver(currentItem).getAttribute('data-red-content'));
+                            // získání a výměna nového obsahu v cílovém elementu
+                            fetchCascadeContent(contentTarget);
+                        }
                         // event
                         // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
                         event.preventDefault();
@@ -310,6 +311,10 @@ function fetchNewDriver(item, apiUri, cacheControl){
     });
 }
 
+function formButtonClick(event) {
+    event.stopPropagation();
+}
+
 function replaceItemDriver(itemElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;
@@ -319,6 +324,10 @@ function replaceItemDriver(itemElement, newHtmlTextContent) {
 //        itemElement.replaceChild(newElements[0], itemDriver(itemElement));  // odstraní staré a přidá nové elementy
         itemDriver(itemElement).replaceWith(newElements[0]);
         console.log("cascade: New driver as children of element "+itemElement.tagName+" data-red-apiuri: "+itemElement.getAttribute('data-red-apiuri')+" has "+cnt+" element(s).");
+    }
+    const forms = itemElement.getElementsByTagName("form");
+    for (const form of forms) {    
+        form.addEventListener("click", formButtonClick);    
     }
     return itemElement;
 };

@@ -184,13 +184,12 @@ class DriverService implements DriverServiceInterface{
         return $buttonComponents;
     }
     
-    public function completeDriverComponent(DriverComponentInterface $driver, $uid){
-        $menuItem = $this->getMenuItem($uid);
-        $driver->getData()->withMenuItem($menuItem);
-        $presentedItem = $this->statusViewModel->getPresentedMenuItem();
-        $isPresented = isset($presentedItem) && ($presentedItem->getId() == $menuItem->getId());
+    public function completeDriverComponent(DriverComponentInterface $driver, $uid, $isPresented){
         /** @var DriverViewModelInterface $driverViewModel */
         $driverViewModel = $driver->getData();
+
+        $menuItem = $this->getMenuItem($uid);
+        $driverViewModel->withMenuItem($menuItem);
         $driverViewModel->setPresented($isPresented);
         $driverViewModel->setItemType($this->getItemType($uid));
         if($this->presentEditableMenu()) {
