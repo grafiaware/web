@@ -97,51 +97,33 @@ class ConfigurationDb {
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
             # pole build.config.make.items: [api_module, api_generator, list, title]
-            'build.config.make.items' => [
-                ['red', 'empty', 'root', 'ROOT'],
-                ['red', 'empty', 'trash', 'Trash'],
-                ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+            
+            'build.config.items.api.red_empty' => ['red', 'empty'],
+            
+            'build.config.make.items' => [               
+                [ 'trash', 'Trash'],
+                [ 'blocks', 'Blocks'],
+                [ 'menu_vertical', 'Menu vertical'],
             ],
-            'build.config.convert.items' => [
-                ['red', 'empty', 'root', 'ROOT'],
-                ['red', 'empty', 'trash', 'Trash'],
-                ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+            'build.config.convert.items' => [               
+                [ 'trash', 'Trash'],
+                [ 'blocks', 'Blocks'],
+                [ 'menu_vertical', 'Menu vertical'],
             ],
-            'build.config.import.items' => [
-                
-                ['red', 'empty', 'trash', 'Trash'],
-                ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
+            'build.config.import.items' => [                
+                [ 'trash', 'Trash'],
+                [ 'blocks', 'Blocks'],
+                [ 'menu_vertical', 'Menu vertical'],
             ],
+            
             'build.config.import.rootuid' => [
-                '663a17133a13e'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
+                '66422be5178a9'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
             ],
-            'build.config.convert.root' => [
-                'root',
-                ],
-            'build.config.make.root' => [
-                'root',
-                ],
-             'build.config.import.root' => [
-                'rootImport',
+                 
+            'build.config.root' => [
+                'root', 'NAS_ROOT'
                 ],
             
-            'build.config.convert.menuroots' => [
-                'trash',
-                'blocks',
-                'menu_vertical',
-            ],
-            'build.config.make.menuroots' => [
-                'trash',
-                'blocks',
-                'menu_vertical',
-            ],
-            'build.config.import.menuroots' => [
-                'blocks',
-                'menu_vertical',
-            ],
            
             
             'build.config.convert.copy' => [
