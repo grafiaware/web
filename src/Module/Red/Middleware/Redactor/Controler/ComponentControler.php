@@ -80,6 +80,10 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }
         return $this->createResponseFromView($request, $view);
     }
+
+    public function root(ServerRequestInterface $request, $menuItemId) {
+        return $this->createResponseFromString($request, '');
+    }
     
     public function empty(ServerRequestInterface $request, $menuItemId) {
         return $this->createResponseFromString($request, '');

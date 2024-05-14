@@ -31,9 +31,24 @@ class DriverRendererEditable extends HtmlRendererAbstract {
     }
 
     protected function renderEditableItem(DriverViewModelInterface $viewModel) {
-        if ($viewModel->isPresented()) {
+        $isPresented = $viewModel->isPresented();
+        $isRoot = $viewModel->getMenuItem()->getApiGeneratorFk()=='root';
+        if ($isPresented) {
             $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::DRIVER_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::DRIVER_BUTTONS) : "";
-
+            if ($isRoot) {
+                $pAtttributes = [];                
+            } else {
+                $pAtttributes = [
+                        'contenteditable'=> "true", 
+                        'data-original-title'=>$viewModel->getTitle(),  // odesílá edit.js v datech POST request pro info
+                        'data-red-item-title-uri'=>$viewModel->getRedItemTitleApi()
+                        ];
+            }
+            $pHtml = Html::tag('p', 
+                        $pAtttributes,
+                        $viewModel->getTitle()
+                    );
+            
             $itemHtml =  // W3 specifications, <p> is only allowed to contain text or 'inline' (not 'block') tags
                 Html::tag('div',
                     [
@@ -49,14 +64,7 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                     // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem):
                     //  acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
                     // t.j. selektor vybírá <p>, který má rodiče <div>
-                    Html::tag('p', 
-                        [
-                        'contenteditable'=> "true", 
-                        'data-original-title'=>$viewModel->getTitle(),  // odesílá edit.js v datech POST request pro info
-                        'data-red-item-title-uri'=>$viewModel->getRedItemTitleApi()
-                        ],
-                        $viewModel->getTitle()
-                    )
+                    $pHtml
                     .
                     $this->semafor($viewModel) 
                     .
@@ -70,20 +78,20 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                 )
 ;
         } else {
-            $itemHtml = Html::tag('a',
-                [
-                    'class'=>[
-                        $this->classMap->get('Item', 'li a'),
-                        $this->classMap->get('Item', 'li'),
-                        ],
-                    'href'=>$viewModel->getPageApi(),
-                ]
-                +$this->dataRedAttributes($viewModel),
-                Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
-                    $viewModel->getTitle()
-                )
-                . $this->semafor($viewModel)
-            );
+                $itemHtml = Html::tag('a',
+                    [
+                        'class'=>[
+                            $this->classMap->get('Item', 'li a'),
+                            $this->classMap->get('Item', 'li'),
+                            ],
+                        'href'=>$viewModel->getPageApi(),
+                    ]
+                    +$this->dataRedAttributes($viewModel),
+                    Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
+                        $viewModel->getTitle()
+                    )
+                    . $this->semafor($viewModel)
+                );
         }
 
         return $itemHtml;

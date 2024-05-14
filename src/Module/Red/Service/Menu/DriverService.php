@@ -192,8 +192,8 @@ class DriverService implements DriverServiceInterface{
         $driverViewModel->withMenuItem($menuItem);
         $driverViewModel->setPresented($isPresented);
         $driverViewModel->setItemType($this->getItemType($uid));
-        if($this->presentEditableMenu() && $menuItem->getApiGeneratorFk()!='root') {
-            if ($driverViewModel->isPresented()) {
+        if($this->presentEditableMenu()) {
+            if ($driverViewModel->isPresented() && $menuItem->getApiGeneratorFk()!='root') {
                 $buttonsComponent = $this->container->get(DriverButtonsComponent::class);
                 $driver->appendComponentView($buttonsComponent, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
                 $buttons = $this->getDriverButtonComponents($this->getItemType($uid));
