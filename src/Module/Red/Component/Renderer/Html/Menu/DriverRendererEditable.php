@@ -69,8 +69,7 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                     $this->semafor($viewModel) 
                     .
                     $this->form($viewModel)
-                )
-;
+                );
         } else {
                 $itemHtml = Html::tag('a',
                     [

@@ -119,8 +119,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     private function buildMenuComponentsTree(array $subtreeNodeModels): LevelComponentInterface {
         // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), 
         // u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale $subtreeNodeModels pak obsahuje jen kořenový prvek
-        $level = '';
-        $itemTags = [];
         $itemComponentStack = [];
         $first = true;
         foreach ($subtreeNodeModels as $treeNodeModel) {
