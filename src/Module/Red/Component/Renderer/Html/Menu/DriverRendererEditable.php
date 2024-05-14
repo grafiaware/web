@@ -34,7 +34,6 @@ class DriverRendererEditable extends HtmlRendererAbstract {
         $isPresented = $viewModel->isPresented();
         $isRoot = $viewModel->getMenuItem()->getApiGeneratorFk()=='root';
         if ($isPresented) {
-            $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::DRIVER_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::DRIVER_BUTTONS) : "";
             if ($isRoot) {
                 $pAtttributes = [];                
             } else {
@@ -64,17 +63,12 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                     // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem):
                     //  acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
                     // t.j. selektor vybírá <p>, který má rodiče <div>
+                        
                     $pHtml
                     .
                     $this->semafor($viewModel) 
                     .
-                    Html::tag('form', 
-                        [
-                        ],
-                        Html::tag('div',
-                            ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
-                            $buttonsHtml)
-                    )
+
                 )
 ;
         } else {
@@ -113,5 +107,16 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                         ])
                 );
         return $html;
+    }
+    
+    private function form(DriverViewModelInterface $viewModel) {
+        $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::DRIVER_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::DRIVER_BUTTONS) : "";
+        return Html::tag('form', 
+            [
+            ],
+            Html::tag('div',
+                ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
+                $buttonsHtml)
+        );    
     }
 }
