@@ -14,6 +14,7 @@ INSERT INTO `language` (`lang_code`, `name`, `locale`, `collation`, `state`) VAL
 
 
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('rs', 'generated');
+INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'root');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'empty');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'select');
 INSERT INTO `menu_item_api` (`module`, `generator`) VALUES ('red', 'article');

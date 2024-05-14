@@ -287,7 +287,7 @@ class DatabaseController extends BuildControllerAbstract {
         
         $p_3_5_1_updateMenuItemMenuRootsFromConfiguration =  function( $type ) {
                 // [type, list, title]
-                $api = $this->container->get('build.config.items.api.red_empty'); //nahrada vynechanych sloupecku               
+                $api = $this->container->get('build.config.items.menurootsapi'); //nahrada vynechanych sloupecku               
                 $rootsDefinitions = array_merge(                                            
                                             [$this->container->get("build.config.root")],
                                             $this->container->get("build.config.$type.items") );                               

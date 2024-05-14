@@ -65,7 +65,7 @@ class MenuItemManipulator implements MenuItemManipulatorInterface {
         } else {
             $parent = $this->hierarchyDao->getParent($langCode, $uid);
             $parentMenuItem = $this->menuItemRepo->get($langCode, $parent['uid']);
-            if (isset($parentMenuItem)AND $parentMenuItem->getActive()) {
+            if (isset($parentMenuItem) AND $parentMenuItem->getActive()) {
                 $menuItem->setActive(1);  //active je integer
                 $msg = MenuItemToggleResultEnum::ACTIVATE_ONE;
             } else {

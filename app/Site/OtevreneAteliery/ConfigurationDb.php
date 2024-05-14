@@ -98,7 +98,7 @@ class ConfigurationDb {
             # Konfigurace make - ostatní parametry přidá kontejner
             # pole build.config.make.items: [api_module, api_generator, list, title]
             
-            'build.config.items.api.red_empty' => ['red', 'empty'],
+            'build.config.items.menurootsapi' => ['red', 'root'],
             
             'build.config.make.items' => [               
                 [ 'trash', 'Trash'],
