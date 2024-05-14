@@ -121,27 +121,26 @@ class ConfigurationDb {
             ],
                 
             'build.config.import.rootuid' => [
-                '66422be5178a9'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
+                '6643463aef1dc'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
             ],
                  
             'build.config.root' => [
                 'root', 'NAS_ROOT'
-                ],
+            ],
          
             
-            'build.config.convert.copy' =>
-                [
+            'build.config.convert.copy' => [
                     'source' => 'wwwgrafia.stranky',
                     'target' => 'gr_upgrade.stranky'
-                ],
+            ],
             'build.config.import.copy' => [
                     'source' => 'otevreneatelierycz_20230905.stranky',
-                    'gr_upgrade.stranky'
+                    'target' => 'gr_upgrade.stranky'
             ],
             'build.config.convert.repairs' => [
                 // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
                 "DELETE FROM stranky WHERE list = 's_01'",
-                ],
+            ],
             'build.config.import.repairs' => [
             ],
             'build.config.convert.updatestranky' => [
