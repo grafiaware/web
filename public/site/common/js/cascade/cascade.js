@@ -213,6 +213,9 @@ function listenLinks(loaderElement) {
                         let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
                         // item
                         if (previousItem !== currentItem) {
+                            // href pro history.pushState, získá se z href atributu elementu <a> v driveru, v tuto chvíli je ještě 
+                            let currentHref = itemDriver(currentItem).getAttribute('href');
+                            
                             fetchDrivers(previousItem, currentItem);                        
                             shrinkAndExpandChildrenOnPath(previousItem, currentItem);
                             // aktuální item uložen pro příští klik
@@ -220,9 +223,11 @@ function listenLinks(loaderElement) {
 
                             // content
                             // příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
-                            contentTarget.setAttribute('data-red-apiuri', itemDriver(currentItem).getAttribute('data-red-content'));
+                            let newContentApiUri = itemDriver(currentItem).getAttribute('data-red-content');
+                            contentTarget.setAttribute('data-red-apiuri', newContentApiUri);
                             // získání a výměna nového obsahu v cílovém elementu
                             fetchCascadeContent(contentTarget);
+                            history.pushState({}, "", currentHref);
                         }
                         // event
                         // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
@@ -265,7 +270,7 @@ function listenLinks(loaderElement) {
 //}
 
 /**
- * Vrací anchor element obsažený v item elementu
+ * Vrací anchor element obsažený v item elementu - funguje jen pro item v needitovatelném stavu
  * @param {type} itemElement
  * @returns {unresolved}
  */

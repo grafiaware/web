@@ -129,7 +129,7 @@ class Replace implements ReplaceInterface {
                         $newUrl = $sub.trim("$lastGetResourcePath#$anchor", "/");
                         $transform .= $newUrl;
                     } else {
-                        $transform .= $url;                        
+                        $transform .= $url;
                     }
                 } else {
                     $text = $transform;

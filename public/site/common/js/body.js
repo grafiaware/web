@@ -142,6 +142,10 @@ document.onreadystatechange = function () {
             let resultComponents = await loadSubsequentElements(document, navConfig.cascadeClass);
             console.debug(resultComponents);
             console.log("body: load elements fullfilled");
+            
+            listenPopState();
+            
+            
             initLoadedElements();
             console.log("body: initLoaded elements");
             if (isTinyMCEDefined()) {
@@ -176,6 +180,19 @@ document.onreadystatechange = function () {
  */
 function isTinyMCEDefined() {
     return typeof tinymce!=='undefined';
+}
+/**
+ * Vyvolá reload stránek s url uložených metodou pushState (používá se v cascade.js po načtení nového obsahu)
+ * 
+ * To znamená, ne při stisku back nečtu (reload) celou stránku a do pushState se musí ukládat url s api pro načtení celé stránky - např web/v1/page/item/664230b979ccd
+ * @returns {undefined}
+ */
+function listenPopState() {
+    window.onpopstate = function(event) {    
+        if(event && event.state) {
+            location.reload(); 
+        }
+    }
 }
 
 /**
