@@ -58,17 +58,15 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                     'tabindex'=>0,
                     ]
                     +$this->dataRedAttributes($viewModel),
-
+                    $this->form($viewModel)
+                    .
                     // POZOR: závislost na edit.js
                     // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem):
                     //  acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
                     // t.j. selektor vybírá <p>, který má rodiče <div>
-                        
                     $pHtml
                     .
                     $this->semafor($viewModel) 
-                    .
-                    $this->form($viewModel)
                 );
         } else {
                 $itemHtml = Html::tag('a',
