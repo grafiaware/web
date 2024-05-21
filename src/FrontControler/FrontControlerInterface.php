@@ -25,7 +25,7 @@ interface FrontControlerInterface {
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface;
+    public function addHeaders(ResponseInterface $response): ResponseInterface;
 
     /**
      *
@@ -33,7 +33,7 @@ interface FrontControlerInterface {
      * @param \Controller\ViewInterface $view
      * @return ResponseInterface
      */
-    public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface;
+    public function createResponseFromView(ViewInterface $view): ResponseInterface;
 
     /**
      *
@@ -41,8 +41,16 @@ interface FrontControlerInterface {
      * @param ViewInterface $view
      * @return ResponseInterface
      */
-    public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface;
-
+    public function createResponseFromString($stringContent): ResponseInterface;
+    
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param string $json
+     * @return ResponseInterface
+     */
+    public function createJsonResponse($json): ResponseInterface ;
+    
     /**
      * Generuje response s přesměrováním na zadanou adresu.
      *

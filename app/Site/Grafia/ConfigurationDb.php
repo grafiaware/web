@@ -97,44 +97,57 @@ class ConfigurationDb {
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
             # pole build.config.make.items: [api_module, api_generator, list, title]
+            
+            'build.config.items.menurootsapi' => ['red', 'root'],
+            
             'build.config.make.items' => [
-                ['red', 'empty', 'root', 'ROOT'],
-                ['red', 'empty', 'trash', 'Trash'],
-                ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
-                ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
-                ['red', 'empty', 'menu_redirect', 'Menu redirect'], 
+                [ 'trash', 'Trash'],
+                [ 'blocks', 'Blocks'],
+                ['menu_vertical', 'Menu vertical'],
+                ['menu_horizontal', 'Menu horizontal'],
+                ['menu_redirect', 'Menu redirect'], 
             ],    
             'build.config.convert.items' => [
-                ['red', 'empty', 'root', 'ROOT'],
-                ['red', 'empty', 'trash', 'Trash'],
-                ['red', 'empty', 'blocks', 'Blocks'],
-                ['red', 'empty', 'menu_vertical', 'Menu vertical'],
-                ['red', 'empty', 'menu_horizontal', 'Menu horizontal'],
-                ['red', 'empty', 'menu_redirect', 'Menu redirect'], 
+                [ 'trash', 'Trash'],
+                [ 'blocks', 'Blocks'],
+                ['menu_vertical', 'Menu vertical'],
+                ['menu_horizontal', 'Menu horizontal'],
+                ['menu_redirect', 'Menu redirect'],                 
+            ],
+            'build.config.import.items' => [                
+                [ 'trash', 'Trash'],
+                [ 'blocks', 'Blocks'],
+                [ 'menu_vertical', 'Menu vertical'],                
+            ],
                 
+            'build.config.import.rootuid' => [
+                '6643463aef1dc'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
             ],
-            'build.config.make.root' => [
-                'root',
-                ],
-            'build.config.make.menuroots' => [
-                'trash',
-                'blocks',
-                'menu_vertical',
-                'menu_horizontal',
-                'menu_redirect',
+                 
+            'build.config.root' => [
+                'root', 'NAS_ROOT'
             ],
-            'build.config.convert.copy' =>
-                [
+         
+            
+            'build.config.convert.copy' => [
                     'source' => 'wwwgrafia.stranky',
                     'target' => 'gr_upgrade.stranky'
-                ],
+            ],
+            'build.config.import.copy' => [
+                    'source' => 'otevreneatelierycz_20230905.stranky',
+                    'target' => 'gr_upgrade.stranky'
+            ],
             'build.config.convert.repairs' => [
                 // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
                 "DELETE FROM stranky WHERE list = 's_01'",
-                ],
+            ],
+            'build.config.import.repairs' => [
+            ],
             'build.config.convert.updatestranky' => [
                 ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+            ],
+            'build.config.import.updatestranky' => [
+                ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='l00', poradi=0
             ],
             'build.config.convert.prefixmap' => [
                 's'=>'menu_vertical',
@@ -142,13 +155,19 @@ class ConfigurationDb {
                 'l'=>'menu_redirect',
                 'a'=>'blocks'
             ],
-            'build.config.convert.importrootuid' => [
-                '658db850b8018'     // hierarchy uid položky menu, do které se provede konverze staré databáze 
+            'build.config.import.prefixmap' => [
+                's'=>'menu_vertical',
+                'a'=>'blocks'
             ],
             'build.config.convert.home' => [
                 'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
-            'build.config.convert.final' => [],
+
+            'build.config.convert.final' => [
+                ],
+            'build.config.import.final' => [
+                ],
+
             #
             ###################################
 

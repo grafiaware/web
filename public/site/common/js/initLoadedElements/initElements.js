@@ -1,10 +1,46 @@
+
+
+export function initElements() {
+    console.log("initElements: run initLoadedElements for init loaded elements");
+    initLoadedElements();
+    if (isTinyMCEDefined()) {
+        console.log("initElements: run loadAndInitTiny for TinyMce load and init loaded editable elements");
+        loadAndInitTiny();    
+    }
+    console.log("initElements: run initJqueryEvents for jQuery events on loaded elements");
+    initJqueryEvents();
+    console.log("initElements: finished");        
+}
+
+const loadAndInitTiny = async () => {
+        await import("../tinyinit/TinyInit.js")  // lazy import TinyInit
+            .then((tinyInitModule) => {
+                tinyInitModule.initEditors();
+            })
+            .catch((err) => {
+                console.error(err.fileName + ":" + err.message);
+            });
+
+        initLoadedEditableElements();
+        console.log("body: initLoaded elements for editable mode");
+};
+
+/**
+ * HACK! Závisí na tinymce. Tato proměnná je definována v editačním režimu - pokud bylo načteno TinyMce  (viz konfigurace a Layout kontroler)
+ *
+ * @returns {undefined}
+ */
+function isTinyMCEDefined() {
+    return typeof tinymce!=='undefined';
+}
+
 /**
  * Volá funkce, které mají být volány po událostech na elementech DOM načtených dynamicky.
  * Tato sada funkcí je určena pro elementy používané k editaci obsahu.
  *
  * @returns {undefined}
  */
-export function initLoadedEditableElements() {
+function initLoadedEditableElements() {
     //semantic-ui dropdown (použitý např. pro přihlašování)
     //$('.ui.dropdown').dropdown();
     //menu semantic-ui dropdown reaguje na událost hover
@@ -37,7 +73,7 @@ export function initLoadedEditableElements() {
  *
  * @returns {undefined}
  */
-export function initLoadedElements() {
+function initLoadedElements() {
 //=== ui elementy ===
     
     //semantic-ui dropdown (použitý např. pro přihlašování)
@@ -317,4 +353,82 @@ export function scrollToAnchorPosition() {
 //    } // End if
 //  });
     
+}
+
+function initJqueryEvents() {
+    
+    //semantic-ui dropdown (použitý např. pro přihlašování)
+    $('.ui.dropdown')
+      .dropdown()
+    ;
+    //prihlaseni (otevreni/zavreni pres ikonu)
+    $('.btn-login').click(function(){
+        $(this).siblings('.menu-login').toggle();
+    });
+    //modalni okno pro prihlaseni
+    $('.btn-login').click(function(){
+        $('.page.modal.login').modal({
+            closable: false,
+            useCSS   : true,
+        })
+        .modal('show');
+    });
+    //modalni okno pro registraci
+    $('.btn-register').click(function(){
+        $('.page.modal.register').modal({
+            closable: false,
+            useCSS   : true,
+        })
+        .modal('show');
+    });
+    $('.ui.hide.button').click(function(){
+       $('.page.modal').modal('hide');
+    });
+
+
+    //flash message
+    $('.flashtoast')
+        .toast({
+            displayTime: 5000
+        })
+    ;
+
+    $('.btn-poznamky').on("click",
+        function(){
+            $(this).siblings('.poznamky').toggle("slow");
+    });
+
+    //menu semantic-ui dropdown reaguje na událost hover
+    $('.svisle-menu .ui.dropdown').dropdown({
+       on: 'hover'
+    });
+
+
+    //odeslani prihlasovaciho formulare pri stisku klavesy Enter
+//    $('.loginEnterKey').keyup(function(event){
+//        if(event.keyCode === 13){
+//            $('.positive.button').click();
+//        }
+//    });
+
+    //veletrh online
+    //checkbox v registraci (zastupuji vystavovatele)
+    $('.exhibitor.checkbox')
+        .checkbox()
+        .first().checkbox({
+            onChecked: function() {
+                $('.input-company').addClass('show'); //objeví se input pro vyplnění názvu společnosti
+                $('.input-company').attr("required", true); //pole s názvem musí být vyplněno
+            },
+            onUnchecked: function() {
+                $('.input-company').removeClass('show');
+                $('.input-company').attr("required", false);
+              ;
+            }
+        });
+
+    //odebrání atributu required u hesla, pokud uživatel klikne na "zapomněl jsem heslo"
+    $('.tertiary.button').on('click', function(){
+        $('.notRequired').attr("required", false);
+    }); 
 }

@@ -115,7 +115,7 @@ class MailController extends PresentationFrontControlerAbstract {
             }
         }
 
-        return $this->createResponseFromString($request, "Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
+        return $this->createResponseFromString("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
     }
 
 }

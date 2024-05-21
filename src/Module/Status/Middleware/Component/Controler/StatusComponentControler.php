@@ -28,7 +28,7 @@ class StatusComponentControler extends FrontControlerAbstract {
 
     public function flash(ServerRequestInterface $request) {
         $view = $this->container->get(FlashComponent::class);
-        return $this->createResponseFromView($request, $view);
+        return $this->createResponseFromView($view);
     }
 
 }

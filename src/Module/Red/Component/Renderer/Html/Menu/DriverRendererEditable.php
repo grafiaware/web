@@ -109,8 +109,7 @@ class DriverRendererEditable extends HtmlRendererAbstract {
     private function form(DriverViewModelInterface $viewModel) {
         $buttonsHtml = $viewModel->offsetExists(DriverComponentInterface::DRIVER_BUTTONS) ? $viewModel->offsetGet(DriverComponentInterface::DRIVER_BUTTONS) : "";
         return Html::tag('form', 
-            [
-            ],
+            ['class'=>'apiAction'],
             Html::tag('div',
                 ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
                 $buttonsHtml)
