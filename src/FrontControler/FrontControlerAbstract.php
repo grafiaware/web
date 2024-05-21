@@ -80,19 +80,6 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $this->statusPresentationRepo = $statusPresentationRepo;
     }
 
-    /**
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @return ResponseInterface
-     */
-    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-//        $response = $response->withHeader('Cache-Control', 'no-cache');
-        $response = $response->withHeader('Cache-Control', 'max-age=100, must-revalidate');
-
-        return $response;
-    }
-
     public function injectContainer(ContainerInterface $componentContainer): FrontControlerInterface {
         $this->container = $componentContainer;
         return $this;
@@ -100,6 +87,18 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     public function setConfiguration($configuration): FrontControlerInterface {
         throw new LogicException("Implementace kontroleru musí implementovat vlastní metodu setConfiguration.");
+    }
+    
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    public function addHeaders(ResponseInterface $response): ResponseInterface {
+//        $response = $response->withHeader('Cache-Control', 'no-cache');
+        $response = $response->withHeader('Cache-Control', 'max-age=100, must-revalidate');
+        return $response;
     }
 
     ### public methods ###
@@ -118,13 +117,13 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param ViewInterface $view
      * @return ResponseInterface
      */
-    public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface {
+    public function createResponseFromView(ViewInterface $view): ResponseInterface {
         $stringContent = $view->getString();
         if(is_null($stringContent)) {
             $cls = get_class($view);
             $stringContent = "No string content returned by $cls method getString().";
         }
-        return $this->createResponseFromString($request, $stringContent);
+        return $this->createResponseFromString($stringContent);
     }
 
     /**
@@ -133,18 +132,23 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param ViewInterface $view
      * @return ResponseInterface
      */
-    public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface {
+    public function createResponseFromString($stringContent): ResponseInterface {
 
         $response = (new ResponseFactory())->createResponse();
 
         ####  hlavičky  ####
-        $response = $this->addHeaders($request, $response);
+        $response = $this->addHeaders($response);
 
         ####  body  ####
         $size = $response->getBody()->write($stringContent);
         $response->getBody()->rewind();
         return $response;
     }
+    
+    public function createJsonResponse($json): ResponseInterface {
+        $response = $this->createResponseFromString($json);
+        return $response->withHeader('Content-Type', 'application/json');
+    }    
 
     /**
      * Generuje response s přesměrováním na zadanou adresu.
@@ -207,16 +211,38 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     /**
      * Generuje response jako přímou odpověď na POST request.
      *
+     * @param string $messageText
+     * @return Response
+     */
+    protected function createPutOkMessageResponse($messageText=null) {
+        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpokládá, že NoContent znamená NoContent
+        $response = new Response();
+        $response->withStatus(204);
+        $response = $this->addHeaders($response);
+        if (isset($messageText)) {
+            $response->getBody()->write($messageText);        
+            $response->getBody()->rewind();
+        }
+        return $response;        
+    }
+    
+    /**
+     * Generuje response jako přímou odpověď na POST request.
+     *
      * @param type $messageText
      * @return Response
      */
-    protected function okMessageResponse($messageText) {
-        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpokládá, že NoContent znamená NoContent
+    protected function createPostOkMessageResponse($messageText=null) {
+        // vracím 201 Created
         $response = new Response();
-        $response->getBody()->write($messageText);
-        return $response;
+        $response = $this->addHeaders($response)->withHeader('Location', (string) $this->getRedirectPath($request))->withStatus(201);
+        if (isset($messageText)) {
+            $response->getBody()->write($messageText);        
+            $response->getBody()->rewind();
+        }
+        return $response;        
     }
-
+    
     ####
     # request params
     ####

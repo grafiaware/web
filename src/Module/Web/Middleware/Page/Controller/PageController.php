@@ -40,9 +40,10 @@ class PageController extends LayoutControllerAbstract {
             $menuItem = $this->getHomeMenuItem();
         } catch (Exception $exc) {
             $trace = $exc->getTraceAsString();
-            return $this->createResponseFromString($request, $trace);
+            return $this->createResponseFromString($trace);
         }
-        return $this->createResponseWithItem($request, $menuItem);
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/{$menuItem->getUidFk()}");
+//        return $this->createResponseWithItem($request, $menuItem);
     }
 
     public function item(ServerRequestInterface $request, $uid) {
@@ -63,7 +64,7 @@ class PageController extends LayoutControllerAbstract {
         $component = $this->container->get(SearchResultComponent::class);
         $key = $request->getQueryParams()['klic'];
         $actionComponents = ["content" => $component->setSearch($key)];
-        return $this->createResponseFromView($request, $this->composeLayoutView($request, $this->getComponentViews($actionComponents)));
+        return $this->createResponseFromView($this->composeLayoutView($request, $this->getComponentViews($actionComponents)));
     }
 
 

@@ -752,7 +752,7 @@ body{
             border-color: @pink;
         }
     }
-    .zapnout_editaci{  //male tlacitko v rohu
+    .item_action{  //male tlacitko v rohu
         position: absolute;
         text-align: @zapnoutEditaciTextAlign;
         padding: @zapnoutEditaciPadding;
@@ -760,7 +760,7 @@ body{
         top: @zapnoutEditaciPositionTop;
         right: @zapnoutEditaciPositionRight;
     }
-    .template-article > .zapnout_editaci{
+    .template-article > .item_action{
         right: @zapnoutEditaciArticlePositionRight;
     }
     .template-multipage, .template-multipageedit{ //[data-red-renderer="MultipageRenderer"]
@@ -769,10 +769,10 @@ body{
         border-radius: @rendererBorderRadius;
         padding: @rendererPadding; 
         padding-top: @rendererPaddingTop;
-        .zapnout_editaci{
+        .item_action{
             //display: none;  
         }
-        > .zapnout_editaci .button.teal{
+        > .item_action .button.teal{
             color: @rendererMultipageZapnoutEditaciColor;
             box-shadow: @rendererMultipageZapnoutEditaciBoxShadow;
         }

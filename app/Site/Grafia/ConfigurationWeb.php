@@ -63,7 +63,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_vp_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_gr_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
