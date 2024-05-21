@@ -40,7 +40,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                             'button.paste' => 'ui button paste',
                             'div.buttonsWrap' => 'contentButtons page-edit',
                             'div.ribbon-article' => 'ui right ribbon basic label cornerWithTools page-edit',
-                            'div.editMode' => 'zapnout_editaci',
+                            'div.itemAction' => 'item_action',
                             'button.editMode' => 'ui editingButtons icon button',
                             'button.editMode.disabled' => 'ui editingButtons icon button disabled',
                             'button.offEditMode' => 'ui editingButtons basic icon button',

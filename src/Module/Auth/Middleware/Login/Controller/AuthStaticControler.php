@@ -46,9 +46,9 @@ class AuthStaticControler extends PresentationFrontControlerAbstract {
             $realName = str_replace('_', '/', $staticName);
             $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
             $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
-            return $this->createResponseFromString($request, $compiledContent);
+            return $this->createResponseFromString($compiledContent);
         } else {
-            return $this->createResponseFromView($request, $this->getNonPermittedContentView());
+            return $this->createResponseFromView($this->getNonPermittedContentView());
         }
     }
 

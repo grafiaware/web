@@ -29,7 +29,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function addHeaders(ResponseInterface $response): ResponseInterface {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         if ($userActions AND $userActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-cache');
@@ -50,19 +50,19 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @param type $stringContent
      * @return ResponseInterface
      */
-    public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface {
+    public function createResponseFromString($stringContent): ResponseInterface {
 
-        $response = parent::createResponseFromString($request, $stringContent);
+        $response = parent::createResponseFromString($stringContent);
         
-        $statusPresentation = $this->statusPresentationRepo->get();
-        if ($request->getMethod()=='GET') {
-            /** @var UriInfoInterface $uriInfo */
-            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
-            if (!$request->hasHeader("X-Cascade")) {
-                $restUri = $uriInfo->getRestUri();
-                $statusPresentation->setLastGetResourcePath($restUri);
-            }
-        }
+//        $statusPresentation = $this->statusPresentationRepo->get();
+//        if ($request->getMethod()=='GET') {
+//            /** @var UriInfoInterface $uriInfo */
+//            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+//            if (!$request->hasHeader("X-Cascade")) {
+//                $restUri = $uriInfo->getRestUri();
+//                $statusPresentation->setLastGetResourcePath($restUri);
+//            }
+//        }
         return $response;
     }
 

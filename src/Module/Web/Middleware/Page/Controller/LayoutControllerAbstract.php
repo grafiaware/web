@@ -154,7 +154,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             $this->setPresentationMenuItem($menuItem);
         }
             $view = $this->composeLayoutView($request, $menuItem);
-            $response = $this->createResponseFromView($request, $view);
+            $response = $this->createResponseFromView($view);
 //        } else {
 //            // neexistující stránka
 //            $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
@@ -193,7 +193,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 ->setData([
                     // pro navConfig.js
                     'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
-                    'cascadeClass' => ConfigurationCache::layoutController()['cascade.class']
+                    'cascadeClass' => ConfigurationCache::layoutController()['cascade.class'],
+                    'apiActionClass' => ConfigurationCache::layoutController()['apiaction.class'],
                 ]);
         
         /** @var CompositeViewInterface $view */

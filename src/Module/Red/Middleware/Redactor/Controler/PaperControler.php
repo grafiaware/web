@@ -75,7 +75,15 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
             }
         }
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->createResponseFromString("");
+//        $json = json_encode(['saved'=>$headlinePost]);  //
+//        if (false!==$json) {
+//            return $this->createJsonResponse($request, $json);
+//        } else {
+//            $this->addFlashMessage('ERROR Chyba serveru - Headline nelze uložit.', FlashSeverityEnum::WARNING);            
+//            return $this->redirectSeeLastGet($request); // 303 See Other - pro zobrazení flash
+//        }
+//        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     /**

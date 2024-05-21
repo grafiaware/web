@@ -63,7 +63,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_g2_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
@@ -138,7 +138,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
 
             // title
-            'title' => "G2 test",
+            'title' => "Otevřené ateliéry",
 
             // folders
             'linksCommon' => self::WEB_LINKS_COMMON,
@@ -161,11 +161,6 @@ class ConfigurationWeb extends ConfigurationConstants {
 //            'urlJqueryTinyMCE' => self::WEB_ASSETS.'tinymce-jquery.js',         // pro tinyMce 6.6.1   
 //            'urlTinyMCE' => "https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js",
 
-//    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-//            'urlRedConfig' => self::WEB_LINKS_COMMON.'js/redConfig.js',  //???
-//            'urltinyConfig' => self::WEB_LINKS_COMMON.'js/tinyConfig.js',  //???
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
 
@@ -189,16 +184,17 @@ class ConfigurationWeb extends ConfigurationConstants {
             'cascade.cacheReloadOnNav' => 'reload',
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
+            'apiaction.class' => 'apiaction',
             
             // mapování komponent na proměnné kontextu v šablonách
             // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
             // contextServiceMap - mapy komponent, které budou v editačním modu načítány vždy znovu novým requestem - viz parametr 'cascade.cacheReloadOnNav'
             // parametry kontext - service/layout mapy jsou:
             //'contextName' => 'service_name'
-            //      'contextName' - jméno proměnné v šabloně (bez znaku $), bude současně použit jako část URL (API path)
-            //      'service_name' => jméno služby component kontejneru
+            //      'contextName' = jméno proměnné v šabloně (bez znaku $, jméno kontextu abcd odpovídá proměnné v PHP šabloně $abcd), bude současně použit jako část URL (API path)
+            //      'service_name' = jméno služby component kontejneru
             // Pro 'contextName' použijte jako bezpečné jméno v camel case notaci začínající písmenem, složené z písmen a číslic. 
-            // Toto jméno odpovídá jménu proměnné v šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
+            // Toto jméno odpovídá jménu proměnné v PHP šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
             // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
             'contextServiceMap' => [
                     'flash' => FlashComponent::class,

@@ -78,15 +78,15 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         } else {
             $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
-        return $this->createResponseFromView($request, $view);
+        return $this->createResponseFromView($view);
     }
 
     public function root(ServerRequestInterface $request, $menuItemId) {
-        return $this->createResponseFromString($request, '');
+        return $this->createResponseFromString('');
     }
     
     public function empty(ServerRequestInterface $request, $menuItemId) {
-        return $this->createResponseFromString($request, '');
+        return $this->createResponseFromString('');
     }
     
     public function select(ServerRequestInterface $request, $menuItemId) {
@@ -98,7 +98,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         } else {
             $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
-        return $this->createResponseFromView($request, $view);
+        return $this->createResponseFromView($view);
     }
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
@@ -111,7 +111,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         } else {
             $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
-        return $this->createResponseFromView($request, $view);
+        return $this->createResponseFromView($view);
     }
 
     public function article(ServerRequestInterface $request, $menuItemId) {
@@ -120,7 +120,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         $viewModel->setMenuItemId($menuItemId);
         /** @var ArticleComponentInterface $view */
         $view = $this->container->get(ArticleComponent::class);
-        return $this->createResponseFromView($request, $view);
+        return $this->createResponseFromView($view);
     }
 
     public function multipage(ServerRequestInterface $request, $menuItemId) {
@@ -129,7 +129,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         $viewModel->setMenuItemId($menuItemId);
         /** @var MultipageComponentInterface $view */
         $view = $this->container->get(MultipageComponent::class);
-        return $this->createResponseFromView($request, $view);
+        return $this->createResponseFromView($view);
     }
 ###################
     private function errorView(ServerRequestInterface $request, $message = '') {

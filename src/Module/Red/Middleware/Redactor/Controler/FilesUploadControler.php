@@ -103,7 +103,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
             $editedItemId = $this->getEditedItemId($request);
             $editor = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
             $targetFilepath = $this->assetService->storeAsset($uploadedFile, $editedItemId, $editor);
-            $response = $this->okJsonResponse($request, $targetFilepath);
+            $response = $this->okTinyJsonResponse($targetFilepath);
         }
 
         return $response;
@@ -118,18 +118,18 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         }    
     }
     
-    private function errorResponse(ServerRequestInterface $request, $httpError, $httpStatus=null) {
-        return $this->addHeaders(
-                $request, 
-                (new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $httpError)
-            );
+    private function errorResponse($httpError, $httpStatus=null) {
+        return $this->addHeaders((new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $httpError));
     }
     
-    private function okJsonResponse(ServerRequestInterface $request, $targetFilepath) {
+    private function okTinyJsonResponse($targetFilepath) {
         // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
         $json = json_encode(['location' => $targetFilepath]);  //
-        $response = $this->createResponseFromString($request, $json);
+        
+//        $this->createPostOkMessageResponse($json);
+        
+        $response = $this->createResponseFromString($json);
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -160,7 +160,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         $targetFilename = ConfigurationCache::eventsUploads()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
         $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
-        return $this->createResponseFromString($request, $json);
+        return $this->createResponseFromString($json);
 
     }
 
