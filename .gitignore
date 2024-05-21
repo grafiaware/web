@@ -7,5 +7,4 @@
 /tests/.phpunit.result.cache
 /_files/
 /_docs/
-/composer.lock/
 /uri.log
