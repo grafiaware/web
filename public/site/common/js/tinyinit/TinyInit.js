@@ -59,7 +59,7 @@ var editCommonPlugins = [
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
        'quickbars',
-       'visualchars',  adds the ability to see invisible characters like &nbsp; displayed in the editable area
+       'visualchars',  // adds the ability to see invisible characters like &nbsp; displayed in the editable area
 //       'visualblocks',
        'attachment'
     ];
