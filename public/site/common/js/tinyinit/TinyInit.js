@@ -60,7 +60,7 @@ var editCommonPlugins = [
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
        'quickbars',
        'visualchars',  // adds the ability to see invisible characters like &nbsp; displayed in the editable area
-//       'visualblocks',
+       'visualblocks',  // allows a user to see block level elements in the editable area
        'attachment'
     ];
 
@@ -69,7 +69,7 @@ var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | s
 
 var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
 var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
-var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | template | code | visualchars | attachment';
+var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | template | code visualchars visualblocks | attachment';
 
 var linkClassList = [
         {title: 'Vyberte styl odkazu', value: ''},
