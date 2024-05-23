@@ -68,7 +68,7 @@ var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | s
 
 var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
 var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
-var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | template | code | visualblocks | attachment';
+var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | template | code | visualchars | attachment';
 
 var linkClassList = [
         {title: 'Vyberte styl odkazu', value: ''},
