@@ -64,6 +64,8 @@ var editCommonPlugins = [
        'attachment'
     ];
 
+var menubarfull = 'file edit view insert format tools table help';
+var toolbarfull = "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl";
 
 var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | styles';
 
@@ -172,6 +174,7 @@ var editHtmlConfig = {
 
     plugins: editCommonPlugins,
     templates: 'red/v1/templateslist/author',
+//    toolbar: toolbarfull,
     toolbar1: toolbarHtmlRow1,
     toolbar2: toolbarHtmlRow2,
     editimage_toolbar: editimage_toolbar,

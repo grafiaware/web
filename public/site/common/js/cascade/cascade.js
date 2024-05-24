@@ -85,7 +85,7 @@ function fetchCascadeContent(parentElement){
         return replaceChildren(parentElement, textPromise);  // vrací původní parent element
     }).then(parentWithNewContent => {
         listenLinks(parentWithNewContent);
-        listenFormsWitjApiAction(parentWithNewContent);
+        listenFormsWithApiAction(parentWithNewContent);
         return fetchCascadeContents(parentWithNewContent, "cascade");  // TODO: hodnotu z konfigurace navConfig.cascadeClass
     }).then(allSettledPromise => {
         initElements();
@@ -181,7 +181,7 @@ function replaceChildren(parentElement, newHtmlTextContent) {
 };
 
 /////////////// form s apiAction
-function listenFormsWitjApiAction(loaderElement) {
+function listenFormsWithApiAction(loaderElement) {
 
     let formsWithApiAction = loaderElement.querySelectorAll('.apiAction');
 
@@ -368,7 +368,7 @@ function replaceItemDriver(itemElement, newHtmlTextContent) {
         itemDriver(itemElement).replaceWith(newElements[0]);
         console.log("cascade: New driver as children of element "+itemElement.tagName+" data-red-apiuri: "+itemElement.getAttribute('data-red-apiuri')+" has "+cnt+" element(s).");
     }
-    listenFormsWitjApiAction(itemElement);
+    listenFormsWithApiAction(itemElement);
 //    const forms = itemElement.getElementsByTagName("form");
 //    for (const form of forms) {    
 //        form.addEventListener("click", formButtonClick);    
