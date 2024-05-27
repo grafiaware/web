@@ -1,5 +1,18 @@
 import {initElements} from "../initLoadedElements/initElements.js";
 
+const conf = {
+    "apiUri": "data-red-apiuri",
+    "content": "data-red-content",
+    "cacheControl": "data-red-cache-control",
+    "targetId": "data-red-target-id",
+    "apiAction": "apiAction",
+    "navigationClass": "navigation",
+    "itemLeafClass": "leaf",
+    "itemParentClass": "parent"
+};
+
+var cascadeClassName = 'cascade';
+
 /**
  * 
  * @param {Document} document Document
@@ -7,22 +20,22 @@ import {initElements} from "../initLoadedElements/initElements.js";
  * @returns {Promise}
  */
 export function loadSubsequentElements(document, className) {
+    cascadeClassName = className;
     history.replaceState({}, "", document.URL);  // https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API#using_replacestate
-    return fetchCascadeContents(document, className);
+    return fetchCascadeContents(document);
 }
 
 /**
  * Načte pomocí funkce fetchElement() nové obsahy všech elementů, které jsou potomky zadaného elementu nebo dokumentu a mají třídu zadaného jména.
  * Nalezené potomky nahradí za nově načtené elementy.
- * Z každého nalezeného potomka použije hodnotu atributu data-red-apiuri jako URI požadavku, pomocí kterého získá nový obsah - HTML text.
+ * Z každého nalezeného potomka použije hodnotu atributu conf.apiUri jako URI požadavku, pomocí kterého získá nový obsah - HTML text.
  * Volání probíhá rekurzivně. Na nově načtený element (a jeho potomky) je znovu volána tato funkce a pokud jsou v nové načteném elementu nalezeny elementy se zadaným jménem třídy,
  * jsou rekurzivně nahrazeny nově načtenými obsahy.
  * 
  * @param {Element} element Element nebo Document
- * @param {String} className
  * @returns {Promise}
  */
-function fetchCascadeContents(element, className) { 
+function fetchCascadeContents(element) { 
     if (element.nodeName==='#document') {
         console.log(`cascade: Run loadSubsequentElements() for document.`);
     } else {
@@ -31,8 +44,8 @@ function fetchCascadeContents(element, className) {
 
     // elements is a live HTMLCollection of found elements
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
-    var cascadeElements = element.getElementsByClassName(className);
-    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${className}".`);    
+    var cascadeElements = element.getElementsByClassName(cascadeClassName);
+    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${cascadeClassName}".`);    
     var cascadeElementsArray = Array.from(cascadeElements);  // kopie z HTMLCollection, která je live collection
     let loadSubPromises = cascadeElementsArray.map(elementToCascade => fetchCascadeContent(elementToCascade));
 
@@ -47,8 +60,8 @@ function fetchCascadeContents(element, className) {
 /**
  * Získá HTML řetězec pomocí HTTP GET requestu na adresu (url) s hlavičkou Cache-Control a přidanou hlavičkou X-Cascade.
  * 
- * - adresu url získá z atributu rodičovského HTML elementu "data-red-apiuri"
- * - hlavičku Cache-Control získá z atributu rodičovského HTML elementu "data-red-cache-control" - slouží k požadavku na reload obsahu pro případ, 
+ * - adresu url získá z atributu rodičovského HTML elementu conf.apiUri
+ * - hlavičku Cache-Control získá z atributu rodičovského HTML elementu conf.cacheControl - slouží k požadavku na reload obsahu pro případ, 
  *   kdy obsah je v editačním režimu, jinak je nastavena tak, že se obsah načte jen jednou a používá se z cache 
  * - hlavičku X-Cascade odesílá s hodnotou "Do not store request" - tato hlavička je signál, aby PresentationFrontControlerAbstract neukládal tento 
  *   cascade request jako "last GET"
@@ -86,7 +99,7 @@ function fetchCascadeContent(parentElement){
     }).then(parentWithNewContent => {
         listenLinks(parentWithNewContent);
         listenFormsWithApiAction(parentWithNewContent);
-        return fetchCascadeContents(parentWithNewContent, "cascade");  // TODO: hodnotu z konfigurace navConfig.cascadeClass
+        return fetchCascadeContents(parentWithNewContent);
     }).then(allSettledPromise => {
         initElements();
     }).catch(e => {
@@ -94,60 +107,60 @@ function fetchCascadeContent(parentElement){
     });
 }
 
-function selectTarget(cascadeElement) {
+function getTargetElement(cascadeElement) {
     let targetId = getTargetId(cascadeElement);
     return document.getElementById(targetId);
 }
 
 /**
- * Vrací hodnotu atributu "data-red-apiuri".
+ * Vrací hodnotu atributu conf.apiUri.
  *
  * @param {Element} element
  * @returns {String}
  */
 function getApiUri(element) {
-    if (element.hasAttribute("data-red-apiuri")) {
-        return element.getAttribute("data-red-apiuri"); // element.attributes.getNamedItem("data-red-apiuri").nodeValue;
+    if (element.hasAttribute(conf.apiUri)) {
+        return element.getAttribute(conf.apiUri); // element.attributes.getNamedItem(conf.apiUri).nodeValue;
     } else {
-        console.error(`Cascade: element nemá povinný atribut "data-red-apiuri" ${element}`);
+        console.error(`Cascade: element nemá povinný atribut conf.apiUri ${element}`);
     }
 }
 
 function setApiUri(element, apiUri) {
-    return element.setAttribute("data-red-apiuri", apiUri); // element.attributes.getNamedItem("data-red-apiuri").nodeValue;
+    return element.setAttribute(conf.apiUri, apiUri); // element.attributes.getNamedItem(conf.apiUri).nodeValue;
 }
 
 /**
- * Vrací hodnotu atributu "data-red-cache-control".
+ * Vrací hodnotu atributu conf.cacheControl.
  *
  * @param {Element} element
  * @returns {String}
  */
 function getCacheControl(element) {
-    return element.hasAttribute("data-red-cache-control") ? element.getAttribute("data-red-cache-control") : 'default'; // element.attributes.getNamedItem("data-red-cache-control").nodeValue : 'default';
+    return element.hasAttribute(conf.cacheControl) ? element.getAttribute(conf.cacheControl) : 'default'; // element.attributes.getNamedItem(conf.cacheControl).nodeValue : 'default';
 }
 
 /**
- * Testuje existenci atributu "data-red-target-id".
+ * Testuje existenci atributu conf.targetId.
  *
  * @param {Element} element
  * @returns {String}
  */
 function hasTargetId(element) {
-    return  element.hasAttribute("data-red-target-id");
+    return  element.hasAttribute(conf.targetId);
 }
 
 /**
- * Vrací hodnotu atributu "data-red-target-id".
+ * Vrací hodnotu atributu conf.targetId.
  *
  * @param {Element} element
  * @returns {String}
  */
 function getTargetId(element) {
     if (hasTargetId(element)) {
-        return element.getAttribute("data-red-target-id"); // element.attributes.getNamedItem("data-red-target-id").nodeValue;
+        return element.getAttribute(conf.targetId); // element.attributes.getNamedItem(conf.targetId).nodeValue;
     } else {
-        console.error(`Cascade: element nemá povinný atribut "data-red-target-id" ${element}`);
+        console.error(`Cascade: element nemá povinný atribut conf.targetId ${element}`);
     }
 }
 
@@ -176,14 +189,14 @@ function replaceChildren(parentElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;  // live collection - v replaceChildren se "spotřebuje", length se musí zjistit před použitím
     parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové elementy
-    console.log("cascade: Replaced children of element "+parentElement.tagName+" data-red-apiuri: "+parentElement.getAttribute('data-red-apiuri')+" with collection of "+cnt+".");
+    console.log("cascade: Replaced children of element "+parentElement.tagName+" with api uri attribute: "+parentElement.getAttribute(conf.apiUri)+" with collection of "+cnt+".");
     return parentElement;
 };
 
 /////////////// form s apiAction
 function listenFormsWithApiAction(loaderElement) {
 
-    let formsWithApiAction = loaderElement.querySelectorAll('.apiAction');
+    let formsWithApiAction = loaderElement.querySelectorAll("."+conf.apiAction);
 
     formsWithApiAction.forEach((form) => {form.addEventListener('click', (event) => {
         event.preventDefault();
@@ -205,8 +218,7 @@ function listenFormsWithApiAction(loaderElement) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
         }).then(textPromise => {
-            let loaderElemeent = formElement.closest(".cascade");
-            fetchCascadeContent(loaderElemeent);
+            fetchClosestCascadeContent(formElement);
         }).catch(e => {
             throw new Error(`cascade: There has been a problem with fetch with POST ${actionUri}. Reason:` + event.message);
         });
@@ -214,10 +226,14 @@ function listenFormsWithApiAction(loaderElement) {
     })
 }
 
+function fetchClosestCascadeContent(formElement) {
+    let loaderElemeent = formElement.closest("."+cascadeClassName);
+    fetchCascadeContent(loaderElemeent);    
+}
 
 /////////////// menu
 // proměnné společné pro všechna menu - klik do jiného menu musí skrýt položky z předtím používaného menu
-    var previousItem = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
+var previousItem = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
 
 /**
  * Volá se v funkci fetchCascadeContent() po načtení "kaskádního" obsahu. Připojí event listenery pro click event na elementech items.
@@ -229,58 +245,62 @@ function listenFormsWithApiAction(loaderElement) {
  * @returns {undefined}
  */
 function listenLinks(loaderElement) {  
-    let contentTarget = null;
     let cacheControl = getCacheControl(loaderElement);
     
     if (hasTargetId(loaderElement)) {
-        contentTarget = document.getElementById(getTargetId(loaderElement));
-    }    
-    // na všechny <li> v elementu s třídou 'navigation' přidá event listener
-    let navs = loaderElement.getElementsByClassName('navigation');  // CascadeLoaderFactory
-    let navsCnt = navs.length;
-    console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute('data-red-apiuri') + ' - ' + navsCnt + ' navs found.');
-    for (const navigation of [...navs]) {
-        let items = navigation.querySelectorAll("li");
-        console.log(`cascade: Listen links match `+items.length+' items.');
-        for (const item of [...items]) {
-            // když event listener z nějakého důvodu nepracuje, provede se default akce elementu anchor -> volá se načtení celé stránky
-            item.addEventListener("click", event => {
-                    if(contentTarget===null) {
-                        return true;
-                    } else {
-                        let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
-                        // item
-                        if (previousItem !== currentItem) {
-                            // href pro history.pushState, získá se z href atributu elementu <a> v driveru, v tuto chvíli je ještě 
-                            let currentHref = itemDriver(currentItem).getAttribute('href');
-                            
-                            fetchDrivers(previousItem, currentItem);                        
-                            shrinkAndExpandChildrenOnPath(previousItem, currentItem);
-                            // aktuální item uložen pro příští klik
-                            previousItem = currentItem;
-
-                            // content
-                            // příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
-                            let newContentApiUri = itemDriver(currentItem).getAttribute('data-red-content');
-                            contentTarget.setAttribute('data-red-apiuri', newContentApiUri);
-                            // získání a výměna nového obsahu v cílovém elementu
-                            fetchCascadeContent(contentTarget);
-                            history.pushState({}, "", currentHref);
-                        }
-                        // event
-                        // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
-                        event.preventDefault();
-                        // konec šírení eventu
-                        event.stopPropagation();
-                    }
+        const contentTarget = document.getElementById(getTargetId(loaderElement));
+        // na všechny <li> v elementu s třídou conf.navigationClass přidá event listener
+        let navs = loaderElement.getElementsByClassName(conf.navigationClass);
+        let navsCnt = navs.length;
+        console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute(conf.apiUri) + ' - ' + navsCnt + ' navs found.');
+        for (const navigation of [...navs]) {
+            let items = navigation.querySelectorAll("li");
+            console.log(`cascade: Listen links match `+items.length+' items.');
+            for (const item of [...items]) {
+                // když event listener z nějakého důvodu nepracuje, provede se default akce elementu anchor -> volá se načtení celé stránky
+                item.addEventListener("click", linkListener.bind(contentTarget));
+                if (itemDriver(item).classList.contains("presented")) {  // první previousItem po načtení menu - závisí va class "presented" - ŠPATNĚ
+                    previousItem = item;
                 }
-            );
-            if (itemDriver(item).classList.contains("presented")) {  // první previousItem po načtení menu - závisí va class "presented" - ŠPATNĚ
-                previousItem = item;
-            }
+            }        
         }        
+    } else {
+        console.warn(`cascade: Loader element s api uri: ${loaderElement.getAttribute(conf.apiUri)} nemá atribut ${conf.targetId}.`);
     }
 }
+
+/**
+ * 
+ * @param {Event} event
+ * @returns {unresolved}
+ */
+function linkListener(event) {
+    let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
+    // item
+    if (previousItem !== currentItem) {
+        // href pro history.pushState, získá se z href atributu elementu <a> v driveru, v tuto chvíli je ještě 
+        let currentHref = itemDriver(currentItem).getAttribute('href');
+        // toggle drivers
+        getNewDrivers(previousItem, currentItem);                        
+        shrinkAndExpandChildrenOnPath(previousItem, currentItem);
+        // aktuální item uložen pro příští klik
+        previousItem = currentItem;
+
+        // content
+        // použije hodnotu atributu 'data-red-content' z driveru a nastaví atribut conf.apiUri cílového elementu na API path pro nový obsah
+        let newContentApiUri = itemDriver(currentItem).getAttribute('data-red-content');
+        let contentTarget = this;  // bind
+        contentTarget.setAttribute(conf.apiUri, newContentApiUri);
+        // získání a výměna nového obsahu v cílovém elementu
+        fetchCascadeContent(contentTarget);
+        history.pushState({}, "", currentHref);
+    }
+    // event
+    // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
+    event.preventDefault();
+    // konec šírení eventu
+    event.stopPropagation();
+};
 
 /**
  * Vrací pole elementů sousedících se zadaným elementem, zadaný element není ve výsledku zahrnut. Jedná se tedy o HTML sourozence s vynecháním zadaného elementu.
@@ -316,16 +336,16 @@ function itemDriver(itemElement) {
     return itemElement.children[0];
 }
 
-function fetchDrivers(previousItem, currentItem){
+function getNewDrivers(previousItem, currentItem){
     let presentedDriverApi = itemDriver(currentItem).getAttribute('data-red-driver');
-    fetchNewDriver(currentItem, presentedDriverApi, 'default');
+    getDriver(currentItem, presentedDriverApi, 'default');
     if (previousItem) {
         let driverApi = itemDriver(previousItem).getAttribute('data-red-driver');
-        fetchNewDriver(previousItem, driverApi, 'default');
+        getDriver(previousItem, driverApi, 'default');
     }
 }
 
-function fetchNewDriver(item, apiUri, cacheControl){
+function getDriver(item, apiUri, cacheControl){
 
     /// fetch ///
     // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
@@ -346,7 +366,7 @@ function fetchNewDriver(item, apiUri, cacheControl){
       }
     })
     .then(textPromise => {
-        let element = replaceItemDriver(item, textPromise);  // vrací původní parent element
+        let element = replaceDriver(item, textPromise);  // vrací původní parent element
         return element;
     })
     .catch(e => {
@@ -358,15 +378,15 @@ function formButtonClick(event) {
     event.stopPropagation();
 }
 
-function replaceItemDriver(itemElement, newHtmlTextContent) {
+function replaceDriver(itemElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;
     if (cnt>1) {
-        console.warn("cascade: New driver as children of element "+itemElement.tagName+" data-red-apiuri: "+itemElement.getAttribute('data-red-apiuri')+" has "+cnt+" element(s).");        
+        console.warn("cascade: New driver as children of element "+itemElement.tagName+" conf.apiUri: "+itemElement.getAttribute(conf.apiUri)+" has "+cnt+" element(s).");        
     } else {
 //        itemElement.replaceChild(newElements[0], itemDriver(itemElement));  // odstraní staré a přidá nové elementy
         itemDriver(itemElement).replaceWith(newElements[0]);
-        console.log("cascade: New driver as children of element "+itemElement.tagName+" data-red-apiuri: "+itemElement.getAttribute('data-red-apiuri')+" has "+cnt+" element(s).");
+        console.log("cascade: New driver as children of element "+itemElement.tagName+" conf.apiUri: "+itemElement.getAttribute(conf.apiUri)+" has "+cnt+" element(s).");
     }
     listenFormsWithApiAction(itemElement);
 //    const forms = itemElement.getElementsByTagName("form");
@@ -406,8 +426,8 @@ function getOnPathItemElements(element) {
 
 /**
  * Slouží pro stylování - pro skrytí potomků previousItem a zviditelnění potomků currentAnchor v menu
- * Odstraní třídu "parent" všem elementům na cestě k položce previousItem (viz getOnPathElements()).
- * Přidá do všech elementů na cestě (viz getOnPathElements()), které neobsahují třídu "leaf" (tedy nejsou listy=mají potomky) třídu "parent".
+ * Odstraní třídu conf.itemParentClass všem elementům na cestě k položce previousItem (viz getOnPathElements()).
+ * Přidá do všech elementů na cestě (viz getOnPathElements()), které neobsahují třídu conf.itemLeafClass (tedy nejsou listy=mají potomky) třídu "parent".
  * 
  * @param {type} previousItem
  * @param {type} currentItem
@@ -415,12 +435,12 @@ function getOnPathItemElements(element) {
 function shrinkAndExpandChildrenOnPath(previousItem, currentItem) {
     if (previousItem) {    
         let parentElements = getOnPathItemElements(previousItem);
-        parentElements.forEach(element => {element.classList.remove("parent")});
+        parentElements.forEach(element => {element.classList.remove(conf.itemParentClass)});
     }
     let parentElements = getOnPathItemElements(currentItem);    
     parentElements.forEach(element => {
-        if(!element.classList.contains("leaf")) {
-            element.classList.add("parent");
+        if(!element.classList.contains(conf.itemLeafClass)) {
+            element.classList.add(conf.itemParentClass);
         }
     }
     );

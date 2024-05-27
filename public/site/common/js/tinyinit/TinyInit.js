@@ -169,7 +169,8 @@ var editHtmlConfig = {
 
     content_css: tinyConfig.contentCss,
 
-    menubar: false,
+//    menubar: false,
+    menubar: menubarfull,
 //menubar: 'file edit insert view format table tools help': 'file edit insert view format table tools help',
 
     plugins: editCommonPlugins,
@@ -307,12 +308,12 @@ var selectTemplateMultipageConfig = {
 import {setupUserInputEditor, initInstanceUserInputEditor, pastePreprocessUserInput} from "./tinyfunctions/editorSetup.js";
 
 var editUserInputConfig = {
+    selector: '.edit-userinput',
     schema : 'html5',
     promotion: false,   // vypíná tlačítko upgrade - Premium upgrade promotion option
     relative_urls : true,
     hidden_input: true,
     inline: true,
-    selector: '.edit-userinput',
 
     menubar: false,
     plugins: [

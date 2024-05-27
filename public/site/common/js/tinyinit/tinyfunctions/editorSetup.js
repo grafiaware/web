@@ -22,12 +22,12 @@ export const redEditorSetup = (editor) => {
         if (editor.isDirty()) {
             if (confirm("Uložit změny?")) {
                 editor.save();  // vloží obsah do příslušného hidden inputu
-                removeItemAction(editor);  // post request - ukončení editace
+//                removeItemAction(editor);  // post request - ukončení editace
                 form.submit();
             } else {
-                if (confirm("Zahodit změny?")) {
-                    removeItemAction(editor);  // post request - ukončení editace, nerefreshne se stránka, není vidět odhlášení
-                    editor.resetContent();
+                if (confirm("Opravdu chcete ukončit editaci a zahodit změny?")) {
+//                    removeItemAction(editor);  // post request - ukončení editace, nerefreshne se stránka, není vidět odhlášení
+//                    editor.resetContent();
                     // nadbytečný submit - posílá původní obsah, slouží pouze pro vyncené refreshe obsahu 
                     // (post redirect get) a tím zajistí správné zobrazení tlačítka Zapnout/Vypnout editaci
                     form.submit();
@@ -42,24 +42,38 @@ export const redEditorSetup = (editor) => {
     });
 }; 
 
-const removeItemAction = (editor) => {
-    const editedElement = editor.getElement();
-    const editedMenuItemId =  editedElement.getAttribute('data-red-menuitemid');
-    fetch("red/v1/itemaction/"+editedMenuItemId+"/remove", {
-    method: "POST", body: ""})  // request je typi text/plain - Pes http body parser vrací obsah body jakoStream
-  .then(response => {
-    //handle response            
-    console.log(response);
-  })
-  .then(data => {
-    //handle data
-    console.log(data);
-    }
-  )
-  .catch(error => {
-    //handle error
-  });
-}
+//const removeItemAction = (editor) => {
+//    const editedElement = editor.getElement();
+//    const editedMenuItemId =  editedElement.getAttribute('data-red-menuitemid');
+//    fetch("red/v1/itemaction/"+editedMenuItemId+"/remove", {
+//    method: "POST", body: ""})  // request je typi text/plain - Pes http body parser vrací obsah body jakoStream
+//  .then((response) => {
+//            if (response.ok) {
+//                console.log(`editorSetup: Remove item action after editor blur.`);
+//                return response.text();
+//            } else {
+//                throw new Error(`HTTP error! Status: ${response.status}`);
+//            }
+//  })
+//  .then(data => {
+//    //handle data
+//    console.log(data);
+//    }
+//  )
+//  .catch(error => {
+//    //handle error
+//  });
+//}
+
+/**
+ * KOPIE z cascade.js
+ * @param {type} formElement
+ * @returns {undefined}
+ */
+//function fetchClosestCascadeContent(formElement) {
+//    let loaderElemeent = formElement.closest(".cascade");
+//    fetchCascadeContent(loaderElemeent);    
+//}
 
 /**
  * Callback funkce volaná před inicializací TinyMce - použito v editWorkDataConfig.

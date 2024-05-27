@@ -112,7 +112,8 @@ class ItemEditControler extends FrontControlerAbstract {
                     $this->addFlashMessage("Parent item is not active.", FlashSeverityEnum::INFO);
                     break;
             }
-            return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->createPutOkMessageResponse("");
+//            return $this->redirectSeeLastGet($request); // 303 See Other
 
         } catch (ValueNotInEnumException $notInEnumExc) {
             throw new ValueNotInEnumException(" Neznámý výsledek operace menuItemxManipulator->toggleItems()!");
@@ -173,7 +174,9 @@ class ItemEditControler extends FrontControlerAbstract {
             $contentGenerator->initialize($langMenuItem);
         }
         $this->addFlashMessage("menuItem type($postedModule, $postedGenerator)", FlashSeverityEnum::SUCCESS);
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->createPutOkMessageResponse("");
+        
+//        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     private function getMenuItem($uid) {
