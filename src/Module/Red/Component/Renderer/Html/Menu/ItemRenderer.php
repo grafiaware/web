@@ -33,7 +33,8 @@ class ItemRenderer extends HtmlRendererAbstract {
         $driverHtml = ($viewModel->offsetExists(ItemComponentInterface::DRIVER)) ? $viewModel->offsetGet(ItemComponentInterface::DRIVER) : "";
 
         $liHtml = Html::tag('li',
-                ['class'=>[
+                ['id'=>'item_'.$viewModel->getUid(),
+                'class'=>[
                     $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
                     $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
                     ],

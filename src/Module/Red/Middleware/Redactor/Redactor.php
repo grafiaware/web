@@ -51,9 +51,9 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         if ($request->getMethod()=="GET") {
             $this->prepareProcessGet();
-        } elseif ($request->getMethod()=="POST") {
+        } elseif ($request->getMethod()=="POST" || $request->getMethod()=="PUT") {
             $this->prepareProcessPost();
-        } else {
+         } else {
             throw new UnexpectedRequestMethodException("Neznámá metoda HTTP request '{$request->getMethod()}'.");
         }
 
@@ -224,12 +224,12 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         #### ItemActionControler ####
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/add', function(ServerRequestInterface $request, $itemId) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/itemaction/:itemId/add', function(ServerRequestInterface $request, $itemId) {
                 /** @var ItemActionControler $ctrl */
                 $ctrl = $this->container->get(ItemActionControler::class);
                 return $ctrl->addUserItemAction($request, $itemId);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/remove', function(ServerRequestInterface $request, $itemId) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/itemaction/:itemId/remove', function(ServerRequestInterface $request, $itemId) {
                 /** @var ItemActionControler $ctrl */
                 $ctrl = $this->container->get(ItemActionControler::class);
                 return $ctrl->removeUserItemAction($request, $itemId);
@@ -345,7 +345,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         #### EditItemController ####
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/menu/:menuItemUidFk/toggle', function(ServerRequestInterface $request, $menuItemId) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/menu/:menuItemUidFk/toggle', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var ItemEditControler $ctrl */
                 $ctrl = $this->container->get(ItemEditControler::class);
                 return $ctrl->toggle($request, $menuItemId);
@@ -362,47 +362,47 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         #### HierarchyController ####
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/add', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/add', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->add($request, $uid);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/addchild', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/addchild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->addchild($request, $uid);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/cut', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/cut', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->cut($request, $uid);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/copy', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/copy', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->copy($request, $uid);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/cutcopyescape', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/cutcopyescape', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->cutEscape($request, $uid);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/paste', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/paste', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->paste($request, $uid);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/pastechild', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/pastechild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->pastechild($request, $uid);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->delete($request, $uid);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/trash', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/trash', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->trash($request, $uid);

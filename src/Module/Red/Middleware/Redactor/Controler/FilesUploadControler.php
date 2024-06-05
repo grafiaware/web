@@ -127,8 +127,6 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
         $json = json_encode(['location' => $targetFilepath]);  //
         
-//        $this->createPostOkMessageResponse($json);
-        
         $response = $this->createResponseFromString($json);
         return $response->withHeader('Content-Type', 'application/json');
     }

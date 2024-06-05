@@ -13,6 +13,8 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Enum\FlashSeverityEnum;
 
+use FrontControler\StatusEnum;
+
 use Access\Enum\RoleEnum;
 use Access\Enum\AllowedActionEnum;
 
@@ -36,6 +38,7 @@ use Pes\View\Renderer\ImplodeRenderer;
 use Pes\Text\Html;
 
 use LogicException;
+use UnexpectedValueException;
 
 /**
  * Description of ControllerAbstract
@@ -95,20 +98,22 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function addHeaders(ResponseInterface $response): ResponseInterface {
-//        $response = $response->withHeader('Cache-Control', 'no-cache');
-        $response = $response->withHeader('Cache-Control', 'max-age=100, must-revalidate');
-        return $response;
+    protected function addHeaders(ResponseInterface $response): ResponseInterface {
+//        return $response->withHeader('Cache-Control', 'no-cache');
+        return $response->withHeader('Cache-Control', 'max-age=100, must-revalidate');
     }
 
-    ### public methods ###
+    ### protected methods ###
 
     /// status control ///
 
-    public function addFlashMessage($message, $severity = FlashSeverityEnum::INFO): void {
+    protected function addFlashMessage($message, $severity = FlashSeverityEnum::INFO): void {
         $this->statusFlashRepo->get()->setMessage($message, $severity);
     }
 
+    private function statusCode($statusEnumValue) {
+        return (new StatusEnum())($statusEnumValue);
+    }
     /// create response helpers ///
 
     /**
@@ -117,13 +122,14 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param ViewInterface $view
      * @return ResponseInterface
      */
-    public function createResponseFromView(ViewInterface $view): ResponseInterface {
+    protected function createResponseFromView(ViewInterface $view, $status = StatusEnum::_200_OK): ResponseInterface {
+        $statusEnumValue = $this->statusCode($status);
         $stringContent = $view->getString();
         if(is_null($stringContent)) {
             $cls = get_class($view);
             $stringContent = "No string content returned by $cls method getString().";
         }
-        return $this->createResponseFromString($stringContent);
+        return $this->createResponseFromString($stringContent, $statusEnumValue);
     }
 
     /**
@@ -132,9 +138,9 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param ViewInterface $view
      * @return ResponseInterface
      */
-    public function createResponseFromString($stringContent): ResponseInterface {
-
-        $response = (new ResponseFactory())->createResponse();
+    protected function createResponseFromString($stringContent, $status = StatusEnum::_200_OK): ResponseInterface {
+        $statusEnumValue = $this->statusCode($status);
+        $response = (new ResponseFactory())->createResponse($statusEnumValue);
 
         ####  hlavičky  ####
         $response = $this->addHeaders($response);
@@ -145,18 +151,42 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $response;
     }
     
-    public function createJsonResponse($json): ResponseInterface {
-        $response = $this->createResponseFromString($json);
+    protected function createJsonPutNoContentResponse($array, $status = StatusEnum::_204_NoContent): ResponseInterface {
+        $statusEnumValue = $this->statusCode($status);
+        $json = $this->jsonEncode($array);
+        $response = $this->createResponseFromString($json)->withStatus($statusEnumValue);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    
+    protected function createJsonPostCreatedResponse($array, $status = StatusEnum::_201_Created): ResponseInterface {
+        $statusEnumValue = $this->statusCode($status);
+        $json = $this->jsonEncode($array);
+        $response = $this->createResponseFromString($json)->withStatus($statusEnumValue);
         return $response->withHeader('Content-Type', 'application/json');
     }    
-
+    
+    protected function createJsonPutOKResponse($array, $status = StatusEnum::_200_OK): ResponseInterface {
+        $statusEnumValue = $this->statusCode($status);
+        $json = $this->jsonEncode($array);
+        $response = $this->createResponseFromString($json)->withStatus($statusEnumValue);
+        return $response->withHeader('Content-Type', 'application/json');
+    }    
+    
+    private function jsonEncode($array) {
+        $json = json_encode($array);
+        if ($json===false) {
+            throw new UnexpectedValueException("invalid value foe creating json.");
+        }
+        return $json;
+    }
+    
     /**
      * Generuje response s přesměrováním na zadanou adresu.
      *
      * @param string $restUri Relativní adresa - resource uri
      * @return Response
      */
-    public function createResponseRedirectSeeOther(ServerRequestInterface $request, $restUri): ResponseInterface {
+    protected function createResponseRedirectSeeOther(ServerRequestInterface $request, $restUri): ResponseInterface {
         $newPath = $this->getUriInfo($request)->getRootAbsolutePath().ltrim($restUri, '/');
         return RedirectResponse::withPostRedirectGet(new Response(), $newPath); // 303 See Other
     }
@@ -206,41 +236,6 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     protected function redirectSeeLastGet(ServerRequestInterface $request) {
         $lastGet = $this->statusPresentationRepo->get();
         return $this->createResponseRedirectSeeOther($request, isset($lastGet) ? $lastGet->getLastGetResourcePath() : '/'); // 303 See Other
-    }
-
-    /**
-     * Generuje response jako přímou odpověď na POST request.
-     *
-     * @param string $messageText
-     * @return Response
-     */
-    protected function createPutOkMessageResponse($messageText=null) {
-        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpokládá, že NoContent znamená NoContent
-        $response = new Response();
-        $response->withStatus(204);
-        $response = $this->addHeaders($response);
-        if (isset($messageText)) {
-            $response->getBody()->write($messageText);        
-            $response->getBody()->rewind();
-        }
-        return $response;        
-    }
-    
-    /**
-     * Generuje response jako přímou odpověď na POST request.
-     *
-     * @param type $messageText
-     * @return Response
-     */
-    protected function createPostOkMessageResponse($messageText=null) {
-        // vracím 201 Created
-        $response = new Response();
-        $response = $this->addHeaders($response)->withHeader('Location', (string) $this->getRedirectPath($request))->withStatus(201);
-        if (isset($messageText)) {
-            $response->getBody()->write($messageText);        
-            $response->getBody()->rewind();
-        }
-        return $response;        
     }
     
     ####

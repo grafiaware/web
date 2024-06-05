@@ -20,9 +20,14 @@ use Component\ViewModel\ViewModelInterface;
  */
 class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
     
+    private $uid;
     private $realDepth;
     private $isOnPath;
     private $isLeaf;
+    
+    public function setUid($uid) {
+        $this->uid = $uid;
+    }
     
     public function setOnPath($isOnPath) {
         $this->isOnPath = $isOnPath;
@@ -36,6 +41,10 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         $this->realDepth = $realDepth;
     }
 
+    public function getUid() {
+        return $this->uid;
+    }
+    
     public function getRealDepth() {
         return $this->realDepth;
     }

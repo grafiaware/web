@@ -151,13 +151,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 //        return $this->createLevelComponent($this->rootRealDepth, $itemComponentStack[$this->rootRealDepth]);
     }
     
-    private function newNodeComponents($treeNodeModel) {
-        $item = $this->createItemComponent($treeNodeModel);
-        $driver = $this->newDriverComponent($treeNodeModel['menuItem']);
-        $item->appendComponentView($driver, ItemComponentInterface::DRIVER);
-        return $item;
-    }  
-    
     /**
      * Nový ItemComponent
      * 
@@ -168,6 +161,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         /** @var ItemComponent $item */
         $item = $this->container->get(ItemComponent::class);
         $itemViewModel = $item->getData();
+        $itemViewModel->setUid($treeNodeModel['menuItem']->getUidFk());
         $itemViewModel->setRealDepth($treeNodeModel['realDepth']);
         $itemViewModel->setOnPath($treeNodeModel['isOnPath']);
         $itemViewModel->setLeaf($treeNodeModel['isLeaf']);

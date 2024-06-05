@@ -112,7 +112,7 @@ class ItemEditControler extends FrontControlerAbstract {
                     $this->addFlashMessage("Parent item is not active.", FlashSeverityEnum::INFO);
                     break;
             }
-        return $this->createPutOkMessageResponse("");
+        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
 //            return $this->redirectSeeLastGet($request); // 303 See Other
 
         } catch (ValueNotInEnumException $notInEnumExc) {
@@ -135,7 +135,7 @@ class ItemEditControler extends FrontControlerAbstract {
         // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž HierarchyAggregateEditDao)
         $menuItem->setPrettyuri($menuItem->getLangCodeFk().$menuItem->getUidFk().'-'.FriendlyUrl::friendlyUrlText($postTitle, 80));
         $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
-        return $this->createPutOkMessageResponse("Uložen nový titulek položky menu:".PHP_EOL.$postTitle);
+        return $this->createJsonPutOKResponse(["refresh"=>"norefresh", "message"=>"Uložen nový titulek položky menu:".PHP_EOL.$postTitle]);
     }
 
     /**
@@ -169,12 +169,12 @@ class ItemEditControler extends FrontControlerAbstract {
             if ($folded) {
                 $langMenuItem->setPrettyuri('folded:'.$folded);   //TODO:  dočasně pro static path!!!!
             } else {
-                $langMenuItem->setPrettyuri($langMenuItem->getLangCodeFk().$langMenuItem->getUidFk());
+                $langMenuItem->setPrettyuri($langMenuItem->getLangCodeFk().$langMenuItem->getUidFk());   //TODO: service propretty uri
             }
             $contentGenerator->initialize($langMenuItem);
         }
         $this->addFlashMessage("menuItem type($postedModule, $postedGenerator)", FlashSeverityEnum::SUCCESS);
-        return $this->createPutOkMessageResponse("");
+        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
         
 //        return $this->redirectSeeLastGet($request); // 303 See Other
     }
