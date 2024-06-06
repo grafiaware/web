@@ -52,7 +52,7 @@ class ItemEditControler extends FrontControlerAbstract {
     /**
      * @var ItemCreatorRegistryInterface
      */
-    private $contentGeneratorRegistry;
+    private $itemCreatorRegistry;
 
     /**
      * @var HierarchyAggregateReadonlyDao
@@ -73,7 +73,7 @@ class ItemEditControler extends FrontControlerAbstract {
         $this->menuItemRepo = $menuItemRepo;
         $this->hierarchyDao = $hierarchyDao;
         $this->menuItemManipulator = $menuItemManipulator;
-        $this->contentGeneratorRegistry = $contentGeneratorFactory;
+        $this->itemCreatorRegistry = $contentGeneratorFactory;
     }
 
     /**
@@ -162,7 +162,7 @@ class ItemEditControler extends FrontControlerAbstract {
                         . "Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' má nastaven api modul {$langMenuItem->getApiModuleFk()} a api generátor {$langMenuItem->getApiGeneratorFk()}.");
             }
         }
-        $contentGenerator = $this->contentGeneratorRegistry->getGenerator($postedModule, $postedGenerator);
+        $contentGenerator = $this->itemCreatorRegistry->getGenerator($postedModule, $postedGenerator);
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
             $langMenuItem->setApiModuleFk($postedModule);
             $langMenuItem->setApiGeneratorFk($postedGenerator);

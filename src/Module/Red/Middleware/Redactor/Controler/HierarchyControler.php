@@ -189,7 +189,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);
         $redirectUid = $parentNode['uid'];   // kořen trash
-            return $this->createJsonPutOKResponse(["refresh"=>"item", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
+            return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
 //        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$redirectUid");
     }
 
@@ -208,7 +208,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $redirectUid = isset($parentNode) ? $parentNode['uid'] : $uid;
         // ještě přepnout item (switchItem) - 
         // <a href="web/v1/page/item/664230b8de0c0" data-red-content="red/v1/paper/28" data-red-driver="red/v1/presenteddriver/664230b8de0c0"><span>Katalog umělců a institucí 2023</span><span class="semafor"><i class="circle icon green" title="published"></i></span></a>
-        return $this->createJsonPutOKResponse(["refresh"=>"document"]);
+                       return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
 //        return $this->createJsonPutOKResponse(["refresh"=>"item", "targeturi"=> $this->getContentApiUri($uid), "newitemuid"=>$redirectUid]);
         
 //        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$redirectUid");
