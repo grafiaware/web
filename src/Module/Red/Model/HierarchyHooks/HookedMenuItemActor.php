@@ -74,9 +74,12 @@ class HookedMenuItemActor extends HookedActorAbstract {
         // default title zadané jako instanční proměnná, prettyuri zřetězení z lang_code_fk a nového uid
         // ostatní sloupce mají default hodnoty dané definicí tabulky.
         // select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk - standartně verze pro všechny jazyky
+        $defaultModule = $this->defaultModule ? "'$this->defaultModule'" : "NULL";
+        $defaultGenerator = $this->defaultGenerator ? "'$this->defaultGenerator'" : "NULL";
+        $newTitle = $this->newTitle ? "'$this->newTitle'" : "''";
         $stmt = $transactionHandler->prepare(
                 " INSERT INTO $this->menuItemTableName (lang_code_fk, uid_fk, api_module_fk, api_generator_fk, title, prettyuri)
-                    SELECT lang_code_fk, '$uid', '$this->defaultModule', '$this->defaultGenerator', '$this->newTitle', CONCAT(lang_code_fk, '$uid')
+                    SELECT lang_code_fk, '$uid', $defaultModule, $defaultGenerator, $newTitle, CONCAT(lang_code_fk, '$uid')
                     FROM $this->menuItemTableName
                     WHERE uid_fk=:predecessorUid
                     ");

@@ -214,12 +214,12 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('handler_for_convert'),
                         $c->get(Sql::class),
                         PdoRowData::class);
-                $dao->registerHookedActor($c->get(HookedMenuItemActor::class));
+                $dao->registerHookedActor($c->get('HookedMenuItemActorImport'));
                 return $dao;
             },
 
-            HookedMenuItemActor::class => function(ContainerInterface $c) {
-                return new HookedMenuItemActor($c->get('hierarchy.menu_item_table'), '');
+            'HookedMenuItemActorImport' => function(ContainerInterface $c) {
+                return new HookedMenuItemActor($c->get('hierarchy.menu_item_table'), '', null, null);  // hodnoty api_generator a module musí být null - viz sql skript (3_7)
             },
 
             ArticleTitleUpdater::class => function(ContainerInterface $c) {
