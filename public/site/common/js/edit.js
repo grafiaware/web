@@ -166,6 +166,7 @@ function sendOnEnter(event) {
 
             targetElement.blur();
             event.preventDefault();
+            event.stopPropagation();
         }
     }
 }

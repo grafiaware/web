@@ -345,10 +345,6 @@ function linkListener(event) {
     event.stopPropagation();
 };
 
-function contentChange(loaderElement, json) {
-
-}
-
 function itemAndContentChange(loaderElement, json) {
         if (hasTargetId(loaderElement)) {        
             // loader element má definovaný target -> změna stavu po POSTu se může projevit změnou obsahu target elementu
@@ -412,6 +408,36 @@ function itemDriver(itemElement) {
 }
 
 function getNewDrivers(previousItem, currentItem){
+    function fetchDriver(item, apiUri, cacheControl){
+
+        /// fetch ///
+        // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
+        // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
+        return fetch(apiUri, {
+            method: "GET",      //default
+              cache: cacheControl,
+              headers: {
+                "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
+              },
+            })
+        .then(response => {
+          if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+              // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+              return response.text(); //vrací Promise, která resolvuje na text až když je celý response přijat ze serveru
+          } else {
+              throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+          }
+        })
+        .then(textPromise => {
+            let element = replaceDriverContent(item, textPromise);  // vrací původní parent element
+            console.log(`cascade: Fetched and replaced driver ${apiUri}`);
+            return element;
+        })
+        .catch(e => {
+            throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
+        });
+    }
+    
     if (previousItem) {
         let driverApi = itemDriver(previousItem).getAttribute('data-red-driver');
         fetchDriver(previousItem, driverApi, 'default');
@@ -421,48 +447,13 @@ function getNewDrivers(previousItem, currentItem){
 
 }
 
-function fetchDriver(item, apiUri, cacheControl){
-
-    /// fetch ///
-    // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
-    // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
-    return fetch(apiUri, {
-        method: "GET",      //default
-          cache: cacheControl,
-          headers: {
-            "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
-          },
-        })
-    .then(response => {
-      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
-          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
-          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
-      } else {
-          throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
-      }
-    })
-    .then(textPromise => {
-        let element = replaceDriverContent(item, textPromise);  // vrací původní parent element
-        console.log(`cascade: Fetched and replaced driver ${apiUri}`);
-        return element;
-    })
-    .catch(e => {
-        throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
-    });
-}
-
-function formButtonClick(event) {
-    event.stopPropagation();
-}
-
 function replaceDriverContent(itemElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;
     if (cnt>1) {
-        console.warn(`cascade: New driver as children of element "+itemElement.tagName+" with attribute ${conf.apiUri}: "+itemElement.getAttribute(conf.apiUri)+" has "+cnt+" element(s).`);        
+        console.warn(`cascade: New driver as children of element "+itemElement.tagName+" with attribute ${conf.apiUri}: ${itemElement.getAttribute(conf.apiUri)} has ${cnt} element(s).`);        
     } else {
         itemDriver(itemElement).replaceWith(newElements[0]);
-        console.log(`cascade: New driver as children of element "+itemElement.tagName+" with attribute ${conf.apiUri}: "+itemElement.getAttribute(conf.apiUri)+" has "+cnt+" element(s).`);
     }
     listenFormsWithApiAction(itemElement);
     return itemElement;
