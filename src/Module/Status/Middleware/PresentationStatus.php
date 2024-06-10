@@ -54,6 +54,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         $statusPresentation = $this->getOrCreateStatusIfNotExists();
         $this->presetPresentationStatus($statusPresentation, $request);
         $response = $handler->handle($request);
+        $this->saveLastGetResourcePath($statusPresentation, $request);        
         $response = $this->addResponseHeaders($response);
         return $response;
     }
@@ -87,6 +88,17 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         }
     }
 
+    private function saveLastGetResourcePath($statusPresentation, $request) {
+        if ($request->getMethod()=='GET') {
+            /** @var UriInfoInterface $uriInfo */
+            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+            if (!$request->hasHeader("X-Cascade")) {
+                $restUri = $uriInfo->getRestUri();
+                $statusPresentation->setLastGetResourcePath($restUri);
+            }
+        }
+    }
+    
     /**
      * Default LanguageInterface objekt podle kódu jazyka požadovaného v requestu (z hlavičky Accept-Language) apokud takový jazyk aplikace není
      * v databázi, pak podle konstanty třídy DEFAULT_LANG_CODE
