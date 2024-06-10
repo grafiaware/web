@@ -90,7 +90,9 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_menu'));
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/itemaction/:itemId/add'));
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/itemaction/:itemId/remove'));
-
+        //TODO: POST version
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:itemId/add'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:itemId/remove'));
         #### PaperController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId'));
@@ -123,6 +125,8 @@ class ApiRegistrator {
 
         #### EditItemController ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
+        //TODO: POST version
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/title'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/type'));
 
@@ -136,7 +140,17 @@ class ApiRegistrator {
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/hierarchy/:uid/pastechild'));
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/hierarchy/:uid/delete'));
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/hierarchy/:uid/trash'));
-
+        //TODO: POST version
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/add'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/addchild'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/cut'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/copy'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/cutcopyescape'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/paste'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/pastechild'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/delete'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/trash'));
+        
         #### TinyUploadImagesController
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/image'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/attachment'));

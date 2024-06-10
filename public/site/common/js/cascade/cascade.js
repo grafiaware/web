@@ -5,8 +5,13 @@ const conf = {
     content: "data-red-content",
     cacheControl: "data-red-cache-control",
     targetId: "data-red-target-id",
-    apiAction: "apiAction",
-    navigationClass: "navigation",
+    
+//    apiAction: "apiAction",
+//    navigationClass: "navigation",
+
+    apiAction: "QQQapiAction",
+    navigationClass: "QQQnavigation",
+    
     itemLeafClass: "leaf",
     itemParentClass: "parent",
     itemIdPrefix: "item_"
