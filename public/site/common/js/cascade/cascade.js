@@ -430,6 +430,7 @@ function getNewDrivers(previousItem, currentItem){
         })
         .then(textPromise => {
             let element = replaceDriverContent(item, textPromise);  // vrací původní parent element
+            listenFormsWithApiAction(item);
             console.log(`cascade: Fetched and replaced driver ${apiUri}`);
             return element;
         })
@@ -455,7 +456,6 @@ function replaceDriverContent(itemElement, newHtmlTextContent) {
     } else {
         itemDriver(itemElement).replaceWith(newElements[0]);
     }
-    listenFormsWithApiAction(itemElement);
     return itemElement;
 };
 

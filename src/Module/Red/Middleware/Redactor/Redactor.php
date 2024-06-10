@@ -17,7 +17,6 @@ use Container\RedGetContainerConfigurator;
 use Container\RedPostContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
-use Container\MailContainerConfigurator;
 
 use Red\Middleware\Redactor\Controler\ComponentControler;
 use Red\Middleware\Redactor\Controler\StaticControler;

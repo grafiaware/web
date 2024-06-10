@@ -45,7 +45,6 @@ class HookedMenuItemActor extends HookedActorAbstract {
     }
 
     /**
-
      * Metoda add
      *
      * {@inheritdoc}
