@@ -52,6 +52,8 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
                 )
             );
         $statusPresentation = $this->getOrCreateStatusIfNotExists();
+        //TODO: POST version
+        // možná není potřeba ukládat - nebude fungoba seeLastGet
         $this->presetPresentationStatus($statusPresentation, $request);
         $response = $handler->handle($request);
         $this->saveLastGetResourcePath($statusPresentation, $request);        
