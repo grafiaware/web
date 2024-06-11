@@ -111,11 +111,12 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             $presentedMenuItem = $this->getPresentedMenuItem();
             if (isset($presentedMenuItem)) {
                 $presented = $this->getMenuNode($presentedMenuItem);
-                if ($presented->getLeftNode() >= $rootNode->getLeftNode() AND $presented->getLeftNode() < $rootNode->getRightNode()) {
+                if (isset($presented) AND $presented->getLeftNode() >= $rootNode->getLeftNode() AND $presented->getLeftNode() < $rootNode->getRightNode()) {
                     $this->presentedMenuNode = $presented;
                 }
             }
         }
+        //TODO: po ukončení editace nepublikované stránky je $this->presentedMenuNode i $presentedMenuItem null -> nezobrazí se žádný obsah (pokud nedošlo v ctrl k přesměrování
         return $this->presentedMenuNode;
     }
 
