@@ -25,7 +25,7 @@ use Container\PresentationStatusComfigurator;
 use Status\Model\Entity\StatusPresentation;
 use Status\Model\Repository\StatusPresentationRepo;
 use Red\Model\Repository\LanguageRepo;
-
+use Status\Model\Entity\StatusPresentationInterface;
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\UserActions;
 
@@ -78,7 +78,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      *
      * @param type $statusPresentation
      */
-    private function presetPresentationStatus(StatusPresentation $statusPresentation, ServerRequestInterface $request) {
+    private function presetPresentationStatus(StatusPresentationInterface $statusPresentation, ServerRequestInterface $request) {
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguage())) {
             $langCode = $this->getRequestedLangCode($request);
@@ -90,7 +90,17 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         }
     }
 
-    private function saveLastGetResourcePath($statusPresentation, $request) {
+    /**
+     * Pro GET request uloží uri do StatusPresentation. 
+     * - Neukládá uri pokud request obsahuje hlavičku "X-Cascade", to je využito při kaskádním načítání, 
+     *   kdy adresy GET requestů, kterými jsou načítání vložené komponenty stránky se neuládají. 
+     * 
+     * Poznámka: Použito pro přesměrování redirectLastGet a pro Transform!
+     * 
+     * @param type $statusPresentation
+     * @param type $request
+     */
+    private function saveLastGetResourcePath(StatusPresentationInterface $statusPresentation, $request) {
         if ($request->getMethod()=='GET') {
             /** @var UriInfoInterface $uriInfo */
             $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
