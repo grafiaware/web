@@ -697,7 +697,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 $this->bindParams($insertTargetItemStmt, [
                     'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 
                     'api_module_fk'=>$sourceItem['api_module_fk'], 'api_generator_fk'=>$sourceItem['api_generator_fk'],
-                    'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
+                    'list'=>($sourceItem['list'] ? 'copy_'.$sourceItem['list'] : ''), 
+                    'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
                     // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž EditItemControler)
                     'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title'], 80),
                     'active'=> ($deactivate ? 0 : $sourceItem['active']),
