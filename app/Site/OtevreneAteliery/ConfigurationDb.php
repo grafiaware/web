@@ -127,11 +127,11 @@ class ConfigurationDb {
            
             
             'build.config.convert.copy' => [
-                    'source' => 'otevreneatelierycz_20230905.stranky',
+                    'source' => 'otevreneatelierycz_20240514.stranky',
                     'target' => 'oa_upgrade.stranky'
             ],
             'build.config.import.copy' => [
-                    'source' => 'otevreneatelierycz_20230905.stranky',
+                    'source' => 'otevreneatelierycz_20240514.stranky',
                     'target' => 'oa_upgrade.stranky'
             ],
             'build.config.convert.repairs' => [

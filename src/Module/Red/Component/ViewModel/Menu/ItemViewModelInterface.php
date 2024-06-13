@@ -17,10 +17,11 @@ use Component\View\ComponentInterface;
  * @author pes2704
  */
 interface ItemViewModelInterface extends ViewModelInterface {
-    
+    public function setUid($uid);
     public function setOnPath($isOnPath);
     public function setLeaf($isLeaf);
     public function setRealDepth($realDepth);
+    public function getUid();
     public function isOnPath();
     public function isLeaf();
     public function getRealDepth();

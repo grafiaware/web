@@ -491,6 +491,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      *
      * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
+     * Vrací pole kde indexy jsou uid zdrojových položek menu_item a hodnoty uid cílových položek menu_item.
+     * 
      * @param type $sourceUid
      * @param type $targetUid
      * @param type $deactivate
@@ -548,6 +550,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      *
      * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu.
      *
+     * Vrací pole kde indexy jsou uid zdrojových položek menu_item a hodnoty uid cílových položek menu_item.
+     * 
      * @param type $sourceUid
      * @param type $targetUid
      * @return array
@@ -604,11 +608,13 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      *
      * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu. To musí být splněno ve všech jazykových verzích.
      *
-     *
+     * Vrací pole kde indexy jsou uid zdrojových položek menu_item a hodnoty uid cílových položek menu_item.
+     *  
      * @param type $dbhTransact transact handler
      * @param array $preparedNodeData pole dat připravených cílových uzlů nested set (hierarchy nodes)
      *  - data obsahují: zdrojové uid, cílový left node, cílový right node 
      * @param bool $deactivate
+     * @return array
      */
     private function copySourceContentIntoTarget($dbhTransact, $preparedNodeData, $deactivate=true) {
         $insertToTargetStmt = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
@@ -691,7 +697,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 $this->bindParams($insertTargetItemStmt, [
                     'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 
                     'api_module_fk'=>$sourceItem['api_module_fk'], 'api_generator_fk'=>$sourceItem['api_generator_fk'],
-                    'list'=>'', 'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
+                    'list'=>($sourceItem['list'] ? 'copy_'.$sourceItem['list'] : ''), 
+                    'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
                     // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž EditItemControler)
                     'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title'], 80),
                     'active'=> ($deactivate ? 0 : $sourceItem['active']),

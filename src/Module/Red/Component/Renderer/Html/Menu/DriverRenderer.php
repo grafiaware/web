@@ -52,6 +52,7 @@ class DriverRenderer extends HtmlRendererAbstract {
         return [
             'data-red-content'=>$viewModel->getRedContentApi(),
             'data-red-driver'=>$viewModel->getRedDriverApi(),            
+            'data-red-presenteddriver'=>$viewModel->getRedPresenterDriverApi()           
         ];
     }
 }

@@ -59,16 +59,19 @@ var editCommonPlugins = [
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
        'quickbars',
-       'visualblocks',
+       'visualchars',  // adds the ability to see invisible characters like &nbsp; displayed in the editable area
+       'visualblocks',  // allows a user to see block level elements in the editable area
        'attachment'
     ];
 
+var menubarfull = 'file edit view insert format tools table help';
+var toolbarfull = "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl";
 
 var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | styles';
 
 var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
-var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
-var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | template | code | visualblocks | attachment';
+var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link | image media';
+var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | template | code visualchars visualblocks | attachment';
 
 var linkClassList = [
         {title: 'Vyberte styl odkazu', value: ''},
@@ -166,11 +169,13 @@ var editHtmlConfig = {
 
     content_css: tinyConfig.contentCss,
 
-    menubar: false,
+//    menubar: false,
+    menubar: menubarfull,
 //menubar: 'file edit insert view format table tools help': 'file edit insert view format table tools help',
 
     plugins: editCommonPlugins,
     templates: 'red/v1/templateslist/author',
+//    toolbar: toolbarfull,
     toolbar1: toolbarHtmlRow1,
     toolbar2: toolbarHtmlRow2,
     editimage_toolbar: editimage_toolbar,
@@ -303,12 +308,12 @@ var selectTemplateMultipageConfig = {
 import {setupUserInputEditor, initInstanceUserInputEditor, pastePreprocessUserInput} from "./tinyfunctions/editorSetup.js";
 
 var editUserInputConfig = {
+    selector: '.edit-userinput',
     schema : 'html5',
     promotion: false,   // vypíná tlačítko upgrade - Premium upgrade promotion option
     relative_urls : true,
     hidden_input: true,
     inline: true,
-    selector: '.edit-userinput',
 
     menubar: false,
     plugins: [

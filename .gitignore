@@ -4,7 +4,6 @@
 /tests/Logs/
 /tests/TestLogs/
 /tests/Test_reports/
-/tests/.phpunit.result.cache
 /_files/
 /_docs/
 /uri.log

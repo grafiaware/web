@@ -1,5 +1,31 @@
 import {initElements} from "../initLoadedElements/initElements.js";
 
+const conf = {
+    apiUri: "data-red-apiuri",
+    content: "data-red-content",
+    cacheControl: "data-red-cache-control",
+    targetId: "data-red-target-id",
+    
+//    apiAction: "apiAction",
+//    navigationClass: "navigation",
+
+    apiAction: "QQQapiAction",
+    navigationClass: "QQQnavigation",
+    
+    itemLeafClass: "leaf",
+    itemParentClass: "parent",
+    itemIdPrefix: "item_"
+};
+
+var cascadeClassName = 'cascade';
+var itemElmName = 'li';
+
+var apiPrefix = "red/v1/";
+var api = {
+    driver: "red/v1/driver/",
+    presenteddriver: "red/v1/presenteddriver/",
+};
+
 /**
  * 
  * @param {Document} document Document
@@ -7,22 +33,22 @@ import {initElements} from "../initLoadedElements/initElements.js";
  * @returns {Promise}
  */
 export function loadSubsequentElements(document, className) {
+    cascadeClassName = className;
     history.replaceState({}, "", document.URL);  // https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API#using_replacestate
-    return fetchCascadeContents(document, className);
+    return fetchCascadeContents(document);
 }
 
 /**
  * Načte pomocí funkce fetchElement() nové obsahy všech elementů, které jsou potomky zadaného elementu nebo dokumentu a mají třídu zadaného jména.
  * Nalezené potomky nahradí za nově načtené elementy.
- * Z každého nalezeného potomka použije hodnotu atributu data-red-apiuri jako URI požadavku, pomocí kterého získá nový obsah - HTML text.
+ * Z každého nalezeného potomka použije hodnotu atributu conf.apiUri jako URI požadavku, pomocí kterého získá nový obsah - HTML text.
  * Volání probíhá rekurzivně. Na nově načtený element (a jeho potomky) je znovu volána tato funkce a pokud jsou v nové načteném elementu nalezeny elementy se zadaným jménem třídy,
  * jsou rekurzivně nahrazeny nově načtenými obsahy.
  * 
  * @param {Element} element Element nebo Document
- * @param {String} className
  * @returns {Promise}
  */
-function fetchCascadeContents(element, className) { 
+function fetchCascadeContents(element) { 
     if (element.nodeName==='#document') {
         console.log(`cascade: Run loadSubsequentElements() for document.`);
     } else {
@@ -31,8 +57,8 @@ function fetchCascadeContents(element, className) {
 
     // elements is a live HTMLCollection of found elements
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
-    var cascadeElements = element.getElementsByClassName(className);
-    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${className}".`);    
+    var cascadeElements = element.getElementsByClassName(cascadeClassName);
+    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${cascadeClassName}".`);    
     var cascadeElementsArray = Array.from(cascadeElements);  // kopie z HTMLCollection, která je live collection
     let loadSubPromises = cascadeElementsArray.map(elementToCascade => fetchCascadeContent(elementToCascade));
 
@@ -47,8 +73,8 @@ function fetchCascadeContents(element, className) {
 /**
  * Získá HTML řetězec pomocí HTTP GET requestu na adresu (url) s hlavičkou Cache-Control a přidanou hlavičkou X-Cascade.
  * 
- * - adresu url získá z atributu rodičovského HTML elementu "data-red-apiuri"
- * - hlavičku Cache-Control získá z atributu rodičovského HTML elementu "data-red-cache-control" - slouží k požadavku na reload obsahu pro případ, 
+ * - adresu url získá z atributu rodičovského HTML elementu conf.apiUri
+ * - hlavičku Cache-Control získá z atributu rodičovského HTML elementu conf.cacheControl - slouží k požadavku na reload obsahu pro případ, 
  *   kdy obsah je v editačním režimu, jinak je nastavena tak, že se obsah načte jen jednou a používá se z cache 
  * - hlavičku X-Cascade odesílá s hodnotou "Do not store request" - tato hlavička je signál, aby PresentationFrontControlerAbstract neukládal tento 
  *   cascade request jako "last GET"
@@ -71,7 +97,7 @@ function fetchCascadeContent(parentElement){
         method: "GET",      //default
           cache: cacheControl,
           headers: {
-            "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
+            "X-Cascade": "Do not store request",   // příznak pro PresentationStatus - neukládej request jako last GET
           },
         }).then(response => {
       if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
@@ -85,69 +111,69 @@ function fetchCascadeContent(parentElement){
         return replaceChildren(parentElement, textPromise);  // vrací původní parent element
     }).then(parentWithNewContent => {
         listenLinks(parentWithNewContent);
-        listenFormsWitjApiAction(parentWithNewContent);
-        return fetchCascadeContents(parentWithNewContent, "cascade");  // TODO: hodnotu z konfigurace navConfig.cascadeClass
+        listenFormsWithApiAction(parentWithNewContent);
+        return fetchCascadeContents(parentWithNewContent);
     }).then(allSettledPromise => {
-        initElements();
+        initElements();  // import z initElements.js
     }).catch(e => {
         throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
 }
 
-function selectTarget(cascadeElement) {
+function getTargetElement(cascadeElement) {
     let targetId = getTargetId(cascadeElement);
     return document.getElementById(targetId);
 }
 
 /**
- * Vrací hodnotu atributu "data-red-apiuri".
+ * Vrací hodnotu atributu conf.apiUri.
  *
  * @param {Element} element
  * @returns {String}
  */
 function getApiUri(element) {
-    if (element.hasAttribute("data-red-apiuri")) {
-        return element.getAttribute("data-red-apiuri"); // element.attributes.getNamedItem("data-red-apiuri").nodeValue;
+    if (element.hasAttribute(conf.apiUri)) {
+        return element.getAttribute(conf.apiUri); // element.attributes.getNamedItem(conf.apiUri).nodeValue;
     } else {
-        console.error(`Cascade: element nemá povinný atribut "data-red-apiuri" ${element}`);
+        console.error(`Cascade: element nemá povinný atribut conf.apiUri ${element}`);
     }
 }
 
 function setApiUri(element, apiUri) {
-    return element.setAttribute("data-red-apiuri", apiUri); // element.attributes.getNamedItem("data-red-apiuri").nodeValue;
+    return element.setAttribute(conf.apiUri, apiUri); // element.attributes.getNamedItem(conf.apiUri).nodeValue;
 }
 
 /**
- * Vrací hodnotu atributu "data-red-cache-control".
+ * Vrací hodnotu atributu conf.cacheControl.
  *
  * @param {Element} element
  * @returns {String}
  */
 function getCacheControl(element) {
-    return element.hasAttribute("data-red-cache-control") ? element.getAttribute("data-red-cache-control") : 'default'; // element.attributes.getNamedItem("data-red-cache-control").nodeValue : 'default';
+    return element.hasAttribute(conf.cacheControl) ? element.getAttribute(conf.cacheControl) : 'default'; // element.attributes.getNamedItem(conf.cacheControl).nodeValue : 'default';
 }
 
 /**
- * Testuje existenci atributu "data-red-target-id".
+ * Testuje existenci atributu conf.targetId.
  *
  * @param {Element} element
  * @returns {String}
  */
 function hasTargetId(element) {
-    return  element.hasAttribute("data-red-target-id");
+    return  element.hasAttribute(conf.targetId);
 }
 
 /**
- * Vrací hodnotu atributu "data-red-target-id".
+ * Vrací hodnotu atributu conf.targetId.
  *
  * @param {Element} element
  * @returns {String}
  */
 function getTargetId(element) {
     if (hasTargetId(element)) {
-        return element.getAttribute("data-red-target-id"); // element.attributes.getNamedItem("data-red-target-id").nodeValue;
+        return element.getAttribute(conf.targetId); // element.attributes.getNamedItem(conf.targetId).nodeValue;
     } else {
-        console.error(`Cascade: element nemá povinný atribut "data-red-target-id" ${element}`);
+        console.error(`Cascade: element nemá povinný atribut conf.targetId ${element}`);
     }
 }
 
@@ -176,48 +202,102 @@ function replaceChildren(parentElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;  // live collection - v replaceChildren se "spotřebuje", length se musí zjistit před použitím
     parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové elementy
-    console.log("cascade: Replaced children of element "+parentElement.tagName+" data-red-apiuri: "+parentElement.getAttribute('data-red-apiuri')+" with collection of "+cnt+".");
+    console.log(`cascade: Replaced children of element ${parentElement.tagName} with api uri attribute: ${parentElement.getAttribute(conf.apiUri)} with collection of ${cnt}.`);
     return parentElement;
 };
-
-/////////////// form s apiAction
-function listenFormsWitjApiAction(loaderElement) {
-
-    let formsWithApiAction = loaderElement.querySelectorAll('.apiAction');
-
-    formsWithApiAction.forEach((form) => {form.addEventListener('click', (event) => {
-        event.preventDefault();
-        // TODO do something here to show user that form is being submitted
-        var formElement = event.currentTarget;
-        var but = event.target.closest("button")
-        var actionUri = but.getAttribute("formaction");   // button formaction - klik by na elem uvnitř buttonu - např. i
-        if (actionUri === null) {
-            var actionUri = formElement.getAttribute("action");     // form action
-        }
-        fetch(actionUri, {
-            method: 'POST',
-            body: new URLSearchParams(new FormData(formElement))
-        }).then((response) => {
-            if (response.ok) {
-                console.log(`cascade: Send content to ${actionUri}.`);
-                return response.text(); // or response.json() or whatever the server sends
-            } else {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-        }).then(textPromise => {
-            let loaderElemeent = formElement.closest(".cascade");
-            fetchCascadeContent(loaderElemeent);
-        }).catch(e => {
-            throw new Error(`cascade: There has been a problem with fetch with POST ${actionUri}. Reason:` + event.message);
-        });
-    })
-    })
-}
 
 
 /////////////// menu
 // proměnné společné pro všechna menu - klik do jiného menu musí skrýt položky z předtím používaného menu
-    var previousItem = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
+var previousItem = null;  // proměnná pro uložení event.currentTarget musí být mimo tělo event handleru
+
+/////////////// form s apiAction
+function listenFormsWithApiAction(loaderElement) {
+
+    let formsWithApiAction = loaderElement.querySelectorAll("."+conf.apiAction);
+
+    formsWithApiAction.forEach((form) => {
+        form.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();  // nutné - jinak dojde k probublání eventu refresh stránky (response status je (200 OK)
+            // TODO do something here to show user that form is being submitted
+            var formElement = event.currentTarget;
+            var but = event.target.closest("button");
+            if (but !== null) {
+                var actionUri = but.getAttribute("formaction");   // button formaction - klik by na elem uvnitř buttonu - např. i
+            }
+            if (actionUri === null) {
+                var actionUri = formElement.getAttribute("action");     // form action
+            }
+//                    formElement.addEventListener('submit', function(event) {  
+//            event.preventDefault(); // Prevents the default form submission
+//        });
+            fetch(actionUri, {
+                method: 'PUT',
+                body: new URLSearchParams(new FormData(formElement))
+            }).then((response) => {           
+                if (response.ok) {
+                    return response.json().then(json => {
+                        console.log(`cascade: Content to ${actionUri} sent.`);
+                        console.log(`cascade: Response status was ok and the body could be parsed.`);
+                        fetchFreshContent(formElement, json);
+                    }).catch(err => {
+                        console.log(`cascade: Response status was ok but the body was empty or not JSON. ${err}`);
+    //                    return { response };
+                    });
+
+                } else {
+                    return response.json().catch(err => {
+                        console.log(`cascade: Response status was not ok and the body was not JSON. ${err}`);
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+    //                    throw new Error(response.statusText);
+                    }).then(parsedValue => {
+                        console.log(`cascade: Response status was not ok and the body was JSON.`);
+                        throw new Error(parsedValue.error); // assuming our API returns an object with an error property
+                    });
+                }            
+            }).catch(e => {
+                throw new Error(`cascade: There has been a problem with fetch with POST ${actionUri}. Reason:` + event.message);
+            });
+        });
+
+    });
+}
+
+function fetchFreshContent(formElement, json) {
+    let refresh = json.refresh;
+    
+    if (refresh==="norefresh") {  // pro tinyMce
+        return;
+    } else if (refresh==="closest") {  // formulář v elementu mimo menu (např. article
+        // loader element nemá definovaný target, formulář je potomkem loader elementu -> změna stavu po POSTu se může projevit změnou obsahu loader elemntu
+        let loaderElement = closestCascadeElement(formElement);
+        fetchCascadeContent(loaderElement);        
+    } else if (refresh==="item") {  // formulář v item menu, který ovlivňuje content (např. toggle)
+        let loaderElement = closestCascadeElement(formElement);
+        itemAndContentChange(loaderElement, json);
+    } else if (refresh==="navigation") {    // formulář v item menu, který ovlivňuje strukturu menu a případně content
+        let loaderElement = closestCascadeElement(formElement);
+        let navs = document.getElementsByClassName(conf.navigationClass);
+        for (const navigation of [...navs]) {
+            let navElement = closestCascadeElement(navigation);
+            fetchCascadeContent(navElement);        
+        }
+        itemAndContentChange(loaderElement, json);        
+    } else if (refresh==="document") {  // formulář, který ovlivňuje kdeco
+        window.location.reload();                
+    } else {
+        window.location.reload();                        
+    }
+}
+
+function closestCascadeElement(element) {
+    let closest = element.closest("."+cascadeClassName);
+    if (closest === null) {
+      throw new Error(`cascade: No closest element with cascade class for : ${element}`);
+    }
+    return closest;
+}
 
 /**
  * Volá se v funkci fetchCascadeContent() po načtení "kaskádního" obsahu. Připojí event listenery pro click event na elementech items.
@@ -229,83 +309,99 @@ function listenFormsWitjApiAction(loaderElement) {
  * @returns {undefined}
  */
 function listenLinks(loaderElement) {  
-    let contentTarget = null;
     let cacheControl = getCacheControl(loaderElement);
     
     if (hasTargetId(loaderElement)) {
-        contentTarget = document.getElementById(getTargetId(loaderElement));
-    }    
-    // na všechny <li> v elementu s třídou 'navigation' přidá event listener
-    let navs = loaderElement.getElementsByClassName('navigation');  // CascadeLoaderFactory
-    let navsCnt = navs.length;
-    console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute('data-red-apiuri') + ' - ' + navsCnt + ' navs found.');
-    for (const navigation of [...navs]) {
-        let items = navigation.querySelectorAll("li");
-        console.log(`cascade: Listen links match `+items.length+' items.');
-        for (const item of [...items]) {
-            // když event listener z nějakého důvodu nepracuje, provede se default akce elementu anchor -> volá se načtení celé stránky
-            item.addEventListener("click", event => {
-                    if(contentTarget===null) {
-                        return true;
-                    } else {
-                        let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
-                        // item
-                        if (previousItem !== currentItem) {
-                            // href pro history.pushState, získá se z href atributu elementu <a> v driveru, v tuto chvíli je ještě 
-                            let currentHref = itemDriver(currentItem).getAttribute('href');
-                            
-                            fetchDrivers(previousItem, currentItem);                        
-                            shrinkAndExpandChildrenOnPath(previousItem, currentItem);
-                            // aktuální item uložen pro příští klik
-                            previousItem = currentItem;
-
-                            // content
-                            // příprava elementu pro obsah - nastavím 'data-red-apiuri' na API path pro nový obsah
-                            let newContentApiUri = itemDriver(currentItem).getAttribute('data-red-content');
-                            contentTarget.setAttribute('data-red-apiuri', newContentApiUri);
-                            // získání a výměna nového obsahu v cílovém elementu
-                            fetchCascadeContent(contentTarget);
-                            history.pushState({}, "", currentHref);
-                        }
-                        // event
-                        // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
-                        event.preventDefault();
-                        // konec šírení eventu
-                        event.stopPropagation();
-                    }
+        const contentTarget = document.getElementById(getTargetId(loaderElement));
+        // na všechny <li> v elementu s třídou conf.navigationClass přidá event listener
+        let navs = loaderElement.getElementsByClassName(conf.navigationClass);
+        let navsCnt = navs.length;
+        console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute(conf.apiUri) + ' - ' + navsCnt + ' navs found.');
+        for (const navigation of [...navs]) {
+            let items = navigation.querySelectorAll(itemElmName);
+            console.log(`cascade: Listen links match `+items.length+' items.');
+            for (const item of [...items]) {
+                // když event listener z nějakého důvodu nepracuje, provede se default akce elementu anchor -> volá se načtení celé stránky
+                item.addEventListener("click", linkListener.bind(contentTarget));
+                if (itemDriver(item).classList.contains("presented")) {  // první previousItem po načtení menu - závisí va class "presented" - ŠPATNĚ
+                    previousItem = item;
                 }
-            );
-            if (itemDriver(item).classList.contains("presented")) {  // první previousItem po načtení menu - závisí va class "presented" - ŠPATNĚ
-                previousItem = item;
-            }
+            }        
         }        
+    } else {
+        console.warn(`cascade: Loader element s api uri: ${loaderElement.getAttribute(conf.apiUri)} nemá atribut ${conf.targetId}.`);
     }
 }
 
 /**
- * Vrací pole elementů sousedících se zadaným elementem, zadaný element není ve výsledku zahrnut. Jedná se tedy o HTML sourozence s vynecháním zadaného elementu.
  * 
- * @param {Element} element
- * @returns {Array|getNeighbors.siblings}
+ * @param {Event} event
+ * @returns {unresolved}
  */
-//function getNeighbors(element) {
-//    // for collecting siblings
-//    let siblings = []; 
-//    // if no parent, return no sibling
-//    if(!element.parentNode) {
-//        return siblings;
-//    }
-//    // first child of the parent node
-//    let sibling  = element.parentNode.firstChild;
-//    // collecting siblings
-//    while (sibling) {
-//        if (sibling.nodeType === 1 && sibling !== element) {  // type 1 = Element node
-//            siblings.push(sibling);
-//        }
-//        sibling = sibling.nextSibling;
-//    }
-//    return siblings;
-//}
+function linkListener(event) {
+    let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
+    let contentTarget = this;  // bind
+    menuAction(currentItem, contentTarget);
+    switchContent(currentItem, contentTarget);    
+    // event
+    // vypnutí default akce eventu - default akce eventu je volání href uvedené v anchor elementu - načte se  celá stránka
+    event.preventDefault();
+    // konec šírení eventu
+    event.stopPropagation();
+};
+
+function itemAndContentChange(loaderElement, json) {
+        if (hasTargetId(loaderElement)) {        
+            // loader element má definovaný target -> změna stavu po POSTu se může projevit změnou obsahu target elementu
+            const contentTarget = document.getElementById(getTargetId(loaderElement));
+            if (json.targeturi !== undefined) {  // response obsahuje nové uri pro získání nového contentu
+                contentTarget.setAttribute(conf.apiUri, json.targeturi);
+            }
+//            fetchCascadeContent(contentTarget); // načtení je v menuaction    // znovunačtení obsahu - bez změny api uri, jen pro refresh obsahu, který může být změněn postem nebo s novým uri pro nový (zaměněný) obsah
+            if (json.newitemuid !== undefined) {  // response obsahuje newitemuid nového item pro záměnu obsahu předešlého a nového driveru
+                let currentItem = document.getElementById(conf.itemIdPrefix + json.newitemuid);
+                menuAction(currentItem, contentTarget);
+                switchContent(currentItem, contentTarget);               
+            } else {
+                menuAction(previousItem, contentTarget);                
+                switchContent(previousItem, contentTarget);               
+            }
+        } else {
+            console.warn("cascade: No target defined in loader element");
+            window.location.reload();        
+        }    
+}
+
+function menuAction(currentItem, contentTarget) {
+    if (previousItem !== currentItem) {
+        // href pro history.pushState, získá se z href atributu elementu <a> v driveru, v tuto chvíli je currentItem ještě starý
+        let currentHref = itemDriver(currentItem).getAttribute('href');        
+        history.pushState({}, "", currentHref);        
+    }
+    // item
+    switchItem(currentItem);
+    // listenery - click na item (<li>) a <form>
+    currentItem.addEventListener("click", linkListener.bind(contentTarget)); // přidávám listener na nový element, bind contentTarget - jedna globální proměnná?
+    listenFormsWithApiAction(currentItem);
+}
+
+
+function switchItem(currentItem) {
+        // toggle drivers
+        getNewDrivers(previousItem, currentItem);                        
+        shrinkAndExpandChildrenOnPath(previousItem, currentItem);
+        // aktuální item uložen pro příští klik
+        previousItem = currentItem;
+}
+
+function switchContent(currentItem, contentTarget) {
+        // content
+        // použije hodnotu atributu conf.content z driveru a nastaví atribut conf.apiUri cílového elementu na API path pro nový obsah
+        let newContentApiUri = itemDriver(currentItem).getAttribute(conf.content);
+        contentTarget.setAttribute(conf.apiUri, newContentApiUri);
+        // získání a výměna nového obsahu v cílovém elementu
+        fetchCascadeContent(contentTarget);    
+}
 
 /**
  * Vrací anchor element obsažený v item elementu - funguje jen pro item v needitovatelném stavu
@@ -316,63 +412,55 @@ function itemDriver(itemElement) {
     return itemElement.children[0];
 }
 
-function fetchDrivers(previousItem, currentItem){
-    let presentedDriverApi = itemDriver(currentItem).getAttribute('data-red-driver');
-    fetchNewDriver(currentItem, presentedDriverApi, 'default');
+function getNewDrivers(previousItem, currentItem){
+    function fetchDriver(item, apiUri, cacheControl){
+
+        /// fetch ///
+        // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
+        // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
+        return fetch(apiUri, {
+            method: "GET",      //default
+              cache: cacheControl,
+              headers: {
+                "X-Cascade": "Do not store request",   // příznak pro PresentationStatus - neukládej request jako last GET
+              },
+            })
+        .then(response => {
+          if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+              // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+              return response.text(); //vrací Promise, která resolvuje na text až když je celý response přijat ze serveru
+          } else {
+              throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+          }
+        })
+        .then(textPromise => {
+            let element = replaceDriverContent(item, textPromise);  // vrací původní parent element
+            listenFormsWithApiAction(item);
+            console.log(`cascade: Fetched and replaced driver ${apiUri}`);
+            return element;
+        })
+        .catch(e => {
+            throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
+        });
+    }
+    
     if (previousItem) {
         let driverApi = itemDriver(previousItem).getAttribute('data-red-driver');
-        fetchNewDriver(previousItem, driverApi, 'default');
+        fetchDriver(previousItem, driverApi, 'default');
     }
+    let presentedDriverApi = itemDriver(currentItem).getAttribute('data-red-presenteddriver');
+    fetchDriver(currentItem, presentedDriverApi, 'default');
+
 }
 
-function fetchNewDriver(item, apiUri, cacheControl){
-
-    /// fetch ///
-    // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
-    // tento return je klíčový - vrací jako návratovou hodnotu hodnotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
-    return fetch(apiUri, {
-        method: "GET",      //default
-          cache: cacheControl,
-          headers: {
-            "X-Cascade": "Do not store request",   // příznak pro PresentationFrontControlerAbstract - neukládej request jako last GET
-          },
-        })
-    .then(response => {
-      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
-          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
-          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
-      } else {
-          throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
-      }
-    })
-    .then(textPromise => {
-        let element = replaceItemDriver(item, textPromise);  // vrací původní parent element
-        return element;
-    })
-    .catch(e => {
-        throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
-    });
-}
-
-function formButtonClick(event) {
-    event.stopPropagation();
-}
-
-function replaceItemDriver(itemElement, newHtmlTextContent) {
+function replaceDriverContent(itemElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;
     if (cnt>1) {
-        console.warn("cascade: New driver as children of element "+itemElement.tagName+" data-red-apiuri: "+itemElement.getAttribute('data-red-apiuri')+" has "+cnt+" element(s).");        
+        console.warn(`cascade: New driver as children of element "+itemElement.tagName+" with attribute ${conf.apiUri}: ${itemElement.getAttribute(conf.apiUri)} has ${cnt} element(s).`);        
     } else {
-//        itemElement.replaceChild(newElements[0], itemDriver(itemElement));  // odstraní staré a přidá nové elementy
         itemDriver(itemElement).replaceWith(newElements[0]);
-        console.log("cascade: New driver as children of element "+itemElement.tagName+" data-red-apiuri: "+itemElement.getAttribute('data-red-apiuri')+" has "+cnt+" element(s).");
     }
-    listenFormsWitjApiAction(itemElement);
-//    const forms = itemElement.getElementsByTagName("form");
-//    for (const form of forms) {    
-//        form.addEventListener("click", formButtonClick);    
-//    }
     return itemElement;
 };
 
@@ -385,7 +473,7 @@ function replaceItemDriver(itemElement, newHtmlTextContent) {
 function getOnPathItemElements(element) {
     // for collecting elements
     let pathElements = []; 
-        if (element.tagName === "LI") { 
+        if (element.tagName.toLowerCase() === itemElmName) { 
             pathElements.push(element);
         }
     // if no parent, return no parent elements
@@ -395,8 +483,8 @@ function getOnPathItemElements(element) {
     // first child of the parent node
     let parent  = element.parentElement;
     // collecting parents
-    while (parent) {   // ?? closest("li")
-        if (parent.tagName === "LI") { 
+    while (parent) {   // ?? closest(itemElmName)
+        if (parent.tagName.toLowerCase() === itemElmName) { 
             pathElements.push(parent);
         }
         parent = parent.parentElement;
@@ -406,8 +494,8 @@ function getOnPathItemElements(element) {
 
 /**
  * Slouží pro stylování - pro skrytí potomků previousItem a zviditelnění potomků currentAnchor v menu
- * Odstraní třídu "parent" všem elementům na cestě k položce previousItem (viz getOnPathElements()).
- * Přidá do všech elementů na cestě (viz getOnPathElements()), které neobsahují třídu "leaf" (tedy nejsou listy=mají potomky) třídu "parent".
+ * Odstraní třídu conf.itemParentClass všem elementům na cestě k položce previousItem (viz getOnPathElements()).
+ * Přidá do všech elementů na cestě (viz getOnPathElements()), které neobsahují třídu conf.itemLeafClass (tedy nejsou listy=mají potomky) třídu "parent".
  * 
  * @param {type} previousItem
  * @param {type} currentItem
@@ -415,12 +503,12 @@ function getOnPathItemElements(element) {
 function shrinkAndExpandChildrenOnPath(previousItem, currentItem) {
     if (previousItem) {    
         let parentElements = getOnPathItemElements(previousItem);
-        parentElements.forEach(element => {element.classList.remove("parent")});
+        parentElements.forEach(element => {element.classList.remove(conf.itemParentClass)});
     }
     let parentElements = getOnPathItemElements(currentItem);    
     parentElements.forEach(element => {
-        if(!element.classList.contains("leaf")) {
-            element.classList.add("parent");
+        if(!element.classList.contains(conf.itemLeafClass)) {
+            element.classList.add(conf.itemParentClass);
         }
     }
     );

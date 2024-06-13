@@ -62,7 +62,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
     }
 
     protected function renderArticleButtonsForm(AuthoredViewModelInterface $viewModel) {
-        return Html::tag('form', ['method'=>'POST', 'action'=>""],
+        return Html::tag('form', ['class'=>'apiAction', 'method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsWrap')],
                 [
                     $this->renderItemControlButtons($viewModel),

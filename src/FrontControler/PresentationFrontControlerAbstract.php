@@ -29,7 +29,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function addHeaders(ResponseInterface $response): ResponseInterface {
+    protected function addHeaders(ResponseInterface $response): ResponseInterface {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         if ($userActions AND $userActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-cache');
@@ -50,9 +50,8 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @param type $stringContent
      * @return ResponseInterface
      */
-    public function createResponseFromString($stringContent): ResponseInterface {
-
-        $response = parent::createResponseFromString($stringContent);
+//    protected function createResponseFromString($stringContent, $status = StatusEnum::_200_OK): ResponseInterface {
+//        $response = parent::createResponseFromString($stringContent, $status);
         
 //        $statusPresentation = $this->statusPresentationRepo->get();
 //        if ($request->getMethod()=='GET') {
@@ -63,8 +62,8 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
 //                $statusPresentation->setLastGetResourcePath($restUri);
 //            }
 //        }
-        return $response;
-    }
+//        return $response;
+//    }
 
     ### status control methods ###
 

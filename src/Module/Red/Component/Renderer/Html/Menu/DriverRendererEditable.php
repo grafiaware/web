@@ -91,7 +91,8 @@ class DriverRendererEditable extends HtmlRendererAbstract {
     private function dataRedAttributes(DriverViewModelInterface $viewModel) {
         return [
             'data-red-content'=>$viewModel->getRedContentApi(),
-            'data-red-driver'=>$viewModel->getRedDriverApi(),            
+            'data-red-driver'=>$viewModel->getRedDriverApi(),          
+            'data-red-presenteddriver'=>$viewModel->getRedPresenterDriverApi()            
         ];
     }
 

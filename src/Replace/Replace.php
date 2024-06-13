@@ -75,13 +75,14 @@ class Replace implements ReplaceInterface {
 
     
     public function replaceSlots(&$text): void {
+        $repl = $text;
         $slots = [
           '/(--%VLOZVIDEOFLV_)(.*)(%--)/'=>  '<video width="600px" controls  poster="'.ConfigurationCache::files()['@sitemovies'].'$2.jpg"'
             . '<source src="'.ConfigurationCache::files()['@sitemovies'].'$2.mp4" type="video/mp4">'
                 . 'Váš prohlížeč nepodporuje element video.</video>' 
         ];
         foreach ($slots as $slot => $value) {
-            $repl = preg_replace($slot, $value, $text);
+            $repl = preg_replace($slot, $value, $repl);
         }
 
 //        --%VLOZVIDEOFLV_200127 Studio Z_Grafia_Veletrh_prace_2020%--

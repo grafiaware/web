@@ -25,7 +25,7 @@ interface FrontControlerInterface {
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function addHeaders(ResponseInterface $response): ResponseInterface;
+//    public function addHeaders(ResponseInterface $response): ResponseInterface;
 
     /**
      *
@@ -33,7 +33,7 @@ interface FrontControlerInterface {
      * @param \Controller\ViewInterface $view
      * @return ResponseInterface
      */
-    public function createResponseFromView(ViewInterface $view): ResponseInterface;
+//    public function createResponseFromView(ViewInterface $view): ResponseInterface;
 
     /**
      *
@@ -41,7 +41,7 @@ interface FrontControlerInterface {
      * @param ViewInterface $view
      * @return ResponseInterface
      */
-    public function createResponseFromString($stringContent): ResponseInterface;
+//    public function createResponseFromString($stringContent): ResponseInterface;
     
     /**
      * 
@@ -49,7 +49,7 @@ interface FrontControlerInterface {
      * @param string $json
      * @return ResponseInterface
      */
-    public function createJsonResponse($json): ResponseInterface ;
+//    public function createJsonResponse($json): ResponseInterface ;
     
     /**
      * Generuje response s přesměrováním na zadanou adresu.
@@ -57,9 +57,9 @@ interface FrontControlerInterface {
      * @param string $restUri Relativní adresa - resource uri
      * @return Response
      */
-    public function createResponseRedirectSeeOther(ServerRequestInterface $request, $restUri): ResponseInterface;
+//    public function createResponseRedirectSeeOther(ServerRequestInterface $request, $restUri): ResponseInterface;
 
-    public function addFlashMessage($message): void;
+//    public function addFlashMessage($message): void;
 
     public function injectContainer(ContainerInterface $componentContainer): FrontControlerInterface;
 

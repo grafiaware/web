@@ -10,6 +10,7 @@ namespace Red\Model\HierarchyHooks;
 
 use Pes\Database\Handler\HandlerInterface;
 use Red\Model\Dao\Hierarchy\HookedActorAbstract;
+use Red\Service\ItemCreator\Enum\ApiGeneratorEnum;
 
 /**
  * Description of HookedArticleActions
@@ -19,9 +20,14 @@ use Red\Model\Dao\Hierarchy\HookedActorAbstract;
 class HookedMenuItemActor extends HookedActorAbstract {
 
     const NEW_TITLE = 'Title';
-
+    
+    const DEFAULT_MODULE = 'red';
+    const DEFAULT_GENERATOR = ApiGeneratorEnum::SELECT_GENERATOR;
+    
     private $menuItemTableName;
     private $newTitle;
+    private $defaultModule;
+    private $defaultGenerator;
     private $trashItemTypeFk;
 
     /**
@@ -30,14 +36,15 @@ class HookedMenuItemActor extends HookedActorAbstract {
      * @param type $newItemTypeFk Typ nově vytvořené položky. Default hodnota zadána konstantou třídy.
      * @param type $trashItemTypeFk Typ položky, která je v koši. Default hodnota zadána konstantou třídy.
      */
-    public function __construct($menuItemTableName, $newTitle = self::NEW_TITLE) {
+    public function __construct($menuItemTableName, $newTitle = self::NEW_TITLE, $defaultModule = self::DEFAULT_MODULE, $defaultGenerator = self::DEFAULT_GENERATOR) {
         $this->menuItemTableName = $menuItemTableName;
         //TODO: Svoboda Message
         $this->newTitle = $newTitle;
+        $this->defaultModule = $defaultModule;
+        $this->defaultGenerator = $defaultGenerator;
     }
 
     /**
-
      * Metoda add
      *
      * {@inheritdoc}
@@ -66,9 +73,12 @@ class HookedMenuItemActor extends HookedActorAbstract {
         // default title zadané jako instanční proměnná, prettyuri zřetězení z lang_code_fk a nového uid
         // ostatní sloupce mají default hodnoty dané definicí tabulky.
         // select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk - standartně verze pro všechny jazyky
+        $defaultModule = $this->defaultModule ? "'$this->defaultModule'" : "NULL";
+        $defaultGenerator = $this->defaultGenerator ? "'$this->defaultGenerator'" : "NULL";
+        $newTitle = $this->newTitle ? "'$this->newTitle'" : "''";
         $stmt = $transactionHandler->prepare(
-                " INSERT INTO $this->menuItemTableName (lang_code_fk, uid_fk, title, prettyuri)
-                    SELECT lang_code_fk, '$uid', '$this->newTitle', CONCAT(lang_code_fk, '$uid')
+                " INSERT INTO $this->menuItemTableName (lang_code_fk, uid_fk, api_module_fk, api_generator_fk, title, prettyuri)
+                    SELECT lang_code_fk, '$uid', $defaultModule, $defaultGenerator, $newTitle, CONCAT(lang_code_fk, '$uid')
                     FROM $this->menuItemTableName
                     WHERE uid_fk=:predecessorUid
                     ");

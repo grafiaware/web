@@ -498,18 +498,16 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var AccessPresentationInterface $accessPresentation */
                     $accessPresentation = $c->get(AccessPresentation::class);
                     if($accessPresentation->isAllowed(ButtonsMenuAddComponent::class, AccessPresentationEnum::EDIT)) {
+                        $component = new ButtonsMenuAddComponent($c->get(ComponentConfiguration::class));
                         $statusViewModel = $c->get(StatusViewModel::class);
                         $cut = $statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
                         $copy = $statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_COPY);
                         $pasteMode = ($cut OR $copy);
                         if ($pasteMode) {
-                            $component = new ButtonsMenuAddComponent($c->get(ComponentConfiguration::class));
                             $component->setRendererName(ButtonsMenuPasteRenderer::class);
                         } else {
-                            $component = new ButtonsMenuAddComponent($c->get(ComponentConfiguration::class)); 
                             $component->setRendererName(ButtonsMenuAddRenderer::class);
                         }
-                        $component->setRendererName(ButtonsMenuAddRenderer::class);
                     } else {
                         $component = $c->get(ElementComponent::class);
                         $component->setRendererName(NoPermittedContentRenderer::class);

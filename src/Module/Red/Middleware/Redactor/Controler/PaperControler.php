@@ -75,7 +75,9 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
             }
         }
-        return $this->createResponseFromString("");
+//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+        //TODO: POST version                
+        
 //        $json = json_encode(['saved'=>$headlinePost]);  //
 //        if (false!==$json) {
 //            return $this->createJsonResponse($request, $json);
@@ -83,7 +85,7 @@ class PaperControler extends AuthoredControlerAbstract {
 //            $this->addFlashMessage('ERROR Chyba serveru - Headline nelze uložit.', FlashSeverityEnum::WARNING);            
 //            return $this->redirectSeeLastGet($request); // 303 See Other - pro zobrazení flash
 //        }
-//        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     /**
@@ -109,6 +111,8 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
             }
         }
+//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+        //TODO: POST version                
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -131,6 +135,8 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage("Set paper template: $templateName", FlashSeverityEnum::SUCCESS);
             }
         }
+//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+        //TODO: POST version                
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -149,6 +155,8 @@ class PaperControler extends AuthoredControlerAbstract {
             $paper->setTemplate('');
             $this->addFlashMessage("Removed paper template $oldTemplate.", FlashSeverityEnum::SUCCESS);
         }
+//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+        //TODO: POST version                
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 

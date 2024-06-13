@@ -135,7 +135,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
             $this->storedFlashCommand = $this->preparedFlashCommand;
             $this->preparedFlashCommand = null;
         }
-        if ($request->getMethod() == 'POST') {
+        if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
             $this->storedPostFlashCommand = null;
             if (isset($this->preparedPostFlashCommand)) {
                 $this->storedPostFlashCommand = $this->preparedPostFlashCommand;

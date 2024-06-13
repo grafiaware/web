@@ -132,7 +132,7 @@ function sendOnEnter(event) {
                     type: 'post'
                     })
                     .done(function(data, textStatus, jqXHR) {
-                    alert( "Provedeno: " + data );
+                    console.log( "edit: Title: " + data.message);
                     })
                     .fail(function(jqXHR, textStatus, errorThrown){
                     alert( "Selhalo: " + errorThrown );
@@ -166,6 +166,7 @@ function sendOnEnter(event) {
 
             targetElement.blur();
             event.preventDefault();
+            event.stopPropagation();
         }
     }
 }
