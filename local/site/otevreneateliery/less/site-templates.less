@@ -1,4 +1,5 @@
 .sekundarni-barva{
+    color: @secondaryColor;
     &.podklad{
         color: @invertedTextColor;
         background-color: @secondaryColor;
@@ -9,6 +10,7 @@
     }
 }
 .primarni-barva{
+    color: @primaryColor;
     &.podklad{
         color: @invertedTextColor;
         background-color: @primaryColor;
@@ -64,7 +66,7 @@
     }*/
     &.nastred{
         text-align: center;
-        margin-bottom: 85px;
+        margin-bottom: 50px;
     }
     &.podtrzeny::after{
         content: "";
@@ -81,13 +83,16 @@
     }
 }
 .podnadpis{
-    font-size: @h4;
+    font-size: @h4; 
     line-height: 1;
     &.primarni-barva{
         color: @primaryColor;
     }
     &.nastred{
         text-align: center;
+    }
+    &.tucne{
+        font-weight: @bold;
     }
 }
 .text{
@@ -145,5 +150,24 @@
 }
 .column.padding-vertical{
     padding: 2em 1rem !important;
+}
+/*změna template pro site*/
+[data-template="bordered_rows"]{
+    [data-template="two_blocks_styled"]{
+        .segment{
+            border: 0;
+            border-radius: 0;
+            background: @lightGrey;
+        }
+    }       
+}
+[data-template="divided_rows"]{
+    [data-template="two_blocks_styled"]{
+        .segment{
+            border: 2px solid @primaryColor;
+            border-radius: 0;
+            box-shadow: none;
+        }
+    }       
 }
 

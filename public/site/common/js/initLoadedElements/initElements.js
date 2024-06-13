@@ -387,11 +387,11 @@ function initJqueryEvents() {
 
 
     //flash message
-    $('.flashtoast')
-        .toast({
-            displayTime: 5000
-        })
-    ;
+//    $('.flashtoast')
+//        .toast({
+//            displayTime: 5000
+//        })
+//    ;
 
     $('.btn-poznamky').on("click",
         function(){

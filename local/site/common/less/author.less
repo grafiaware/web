@@ -11,7 +11,7 @@
 @borderRadius: 5px;
 @fontBold: bold;
 @mediumGrey: darken(@lightGrey, 15);    
-@barvaEditButtony: #FBFBE7;   
+@barvaEditButtony: #FFFFD6;   
 @barvaEditButtonyTmava: #FFF1D5; 
 @barvaKos: #F8F3FF;
 @barvaButtonSablony: #EDF7FF;
@@ -349,6 +349,9 @@ body{
             }
             .nested{
                 &:hover{
+                    cursor: default;
+                    color: darken(@lightGrey, 10) !important;
+                    background-color: lighten(@lightGrey,3) !important;
                     .buttons{
                         display: flex;
                     }
@@ -550,11 +553,11 @@ body{
             }
         }
         //ke smazání, až bude .semafor i v <p>
-/*        .presented .semafor{
-            top: 4px;
+        .presented .semafor{
+            top: 4px; 
             height: 28px;
             margin-left: 5px;
-        }*/
+        }
     }
     /*SVISLÉ MENU*/ //ke smazání, až bude .semafor i v <p>
     .svisle-menu.kos .semafor .circle.icon{
@@ -984,7 +987,7 @@ body{
     /*výběr šablony paperu, articlu tiny_select_template má jiné ohraničení*/
     .mce-content-body{
         padding: @mceBodyPadding;
-        margin: @mceBodyMargin;
+        margin: @mceBodyMargin; 
         .mceEditable{
             outline: @mceBodyOutline;
         }

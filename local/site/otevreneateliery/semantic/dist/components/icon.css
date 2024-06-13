@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - Icon
+ * # Fomantic-UI 2.9.2 - Icon
  * https://github.com/fomantic/Fomantic-UI/
  *
  *
@@ -79,8 +79,7 @@ i.loading.icon {
 }
 i.loading.icon,
 i.loading.icons {
-  -webkit-animation: loader 2s linear infinite;
-          animation: loader 2s linear infinite;
+  animation: loader 2s linear infinite;
 }
 
 
@@ -125,7 +124,6 @@ i.link.icon:not(.disabled),
 i.link.icons:not(.disabled) {
   cursor: pointer;
   opacity: 0.8;
-  -webkit-transition: opacity 0.1s ease;
   transition: opacity 0.1s ease;
 }
 i.link.icon:hover,
@@ -140,19 +138,16 @@ i.circular.icon {
   border-radius: 500em !important;
   line-height: 1 !important;
   padding: 0.5em 0 !important;
-  -webkit-box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
-          box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
   width: 2em !important;
   height: 2em !important;
 }
 i.circular.icon.colored {
-  -webkit-box-shadow: 0 0 0 0.1em currentColor inset;
-          box-shadow: 0 0 0 0.1em currentColor inset;
+  box-shadow: 0 0 0 0.1em currentColor inset;
 }
 i.circular.inverted.icon {
   border: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 /* -------------------
@@ -160,21 +155,17 @@ i.circular.inverted.icon {
     -------------------- */
 i.flipped.icon,
 i.horizontally.flipped.icon {
-  -webkit-transform: scale(-1, 1);
-          transform: scale(-1, 1);
+  transform: scale(-1, 1);
 }
 i.vertically.flipped.icon {
-  -webkit-transform: scale(1, -1);
-          transform: scale(1, -1);
+  transform: scale(1, -1);
 }
 .icons i.flipped.icon:not(.corner):not(:first-child),
 .icons i.horizontally.flipped.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(-1, 1);
-          transform: translateX(-50%) translateY(-50%) scale(-1, 1);
+  transform: translateX(-50%) translateY(-50%) scale(-1, 1);
 }
 .icons i.vertically.flipped.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(1, -1);
-          transform: translateX(-50%) translateY(-50%) scale(1, -1);
+  transform: translateX(-50%) translateY(-50%) scale(1, -1);
 }
 
 /* -------------------
@@ -183,32 +174,26 @@ i.vertically.flipped.icon {
 i.rotated.icon,
 i.right.rotated.icon,
 i.clockwise.rotated.icon {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 i.left.rotated.icon,
 i.counterclockwise.rotated.icon {
-  -webkit-transform: rotate(-90deg);
-          transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 i.halfway.rotated.icon {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 .icons i.rotated.rotated.icon:not(.corner):not(:first-child),
 .icons i.right.rotated.icon:not(.corner):not(:first-child),
 .icons i.clockwise.rotated.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(90deg);
-          transform: translateX(-50%) translateY(-50%) rotate(90deg);
+  transform: translateX(-50%) translateY(-50%) rotate(90deg);
 }
 .icons i.left.rotated.icon:not(.corner):not(:first-child),
 .icons i.counterclockwise.rotated.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
-          transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+  transform: translateX(-50%) translateY(-50%) rotate(-90deg);
 }
 .icons i.halfway.rotated.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) rotate(180deg);
-          transform: translateX(-50%) translateY(-50%) rotate(180deg);
+  transform: translateX(-50%) translateY(-50%) rotate(180deg);
 }
 
 /* --------------------------
@@ -217,62 +202,50 @@ i.halfway.rotated.icon {
 i.rotated.flipped.icon,
 i.right.rotated.flipped.icon,
 i.clockwise.rotated.flipped.icon {
-  -webkit-transform: scale(-1, 1) rotate(90deg);
-          transform: scale(-1, 1) rotate(90deg);
+  transform: scale(-1, 1) rotate(90deg);
 }
 i.left.rotated.flipped.icon,
 i.counterclockwise.rotated.flipped.icon {
-  -webkit-transform: scale(-1, 1) rotate(-90deg);
-          transform: scale(-1, 1) rotate(-90deg);
+  transform: scale(-1, 1) rotate(-90deg);
 }
 i.halfway.rotated.flipped.icon {
-  -webkit-transform: scale(-1, 1) rotate(180deg);
-          transform: scale(-1, 1) rotate(180deg);
+  transform: scale(-1, 1) rotate(180deg);
 }
 i.rotated.vertically.flipped.icon,
 i.right.rotated.vertically.flipped.icon,
 i.clockwise.rotated.vertically.flipped.icon {
-  -webkit-transform: scale(1, -1) rotate(90deg);
-          transform: scale(1, -1) rotate(90deg);
+  transform: scale(1, -1) rotate(90deg);
 }
 i.left.rotated.vertically.flipped.icon,
 i.counterclockwise.rotated.vertically.flipped.icon {
-  -webkit-transform: scale(1, -1) rotate(-90deg);
-          transform: scale(1, -1) rotate(-90deg);
+  transform: scale(1, -1) rotate(-90deg);
 }
 i.halfway.rotated.vertically.flipped.icon {
-  -webkit-transform: scale(1, -1) rotate(180deg);
-          transform: scale(1, -1) rotate(180deg);
+  transform: scale(1, -1) rotate(180deg);
 }
 .icons i.rotated.flipped.icon:not(.corner):not(:first-child),
 .icons i.right.rotated.flipped.icon:not(.corner):not(:first-child),
 .icons i.clockwise.rotated.flipped.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(90deg);
-          transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(90deg);
+  transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(90deg);
 }
 .icons i.left.rotated.flipped.icon:not(.corner):not(:first-child),
 .icons i.counterclockwise.rotated.flipped.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(-90deg);
-          transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(-90deg);
+  transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(-90deg);
 }
 .icons i.halfway.rotated.flipped.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(180deg);
-          transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(180deg);
+  transform: translateX(-50%) translateY(-50%) scale(-1, 1) rotate(180deg);
 }
 .icons i.rotated.vertically.flipped.icon:not(.corner):not(:first-child),
 .icons i.right.rotated.vertically.flipped.icon:not(.corner):not(:first-child),
 .icons i.clockwise.rotated.vertically.flipped.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(90deg);
-          transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(90deg);
+  transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(90deg);
 }
 .icons i.left.rotated.vertically.flipped.icon:not(.corner):not(:first-child),
 .icons i.counterclockwise.rotated.vertically.flipped.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(-90deg);
-          transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(-90deg);
+  transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(-90deg);
 }
 .icons i.halfway.rotated.vertically.flipped.icon:not(.corner):not(:first-child) {
-  -webkit-transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(180deg);
-          transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(180deg);
+  transform: translateX(-50%) translateY(-50%) scale(1, -1) rotate(180deg);
 }
 
 /* -------------------
@@ -284,17 +257,14 @@ i.bordered.icon {
   width: 2em;
   height: 2em;
   padding: 0.5em 0 !important;
-  -webkit-box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
-          box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
 }
 i.bordered.icon.colored {
-  -webkit-box-shadow: 0 0 0 0.1em currentColor inset;
-          box-shadow: 0 0 0 0.1em currentColor inset;
+  box-shadow: 0 0 0 0.1em currentColor inset;
 }
 i.bordered.inverted.icon {
   border: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 /* -------------------
@@ -328,7 +298,7 @@ i.inverted.circular.primary.icons {
   color: #fff;
 }
 i.secondary.icon.icon.icon.icon.icon {
-  color: #97BF0D;
+  color: #807E7E;
 }
 i.inverted.secondary.icon.icon.icon.icon.icon {
   color: #545454;
@@ -337,7 +307,7 @@ i.inverted.bordered.secondary.icon.icon.icon.icon.icon,
 i.inverted.circular.secondary.icon.icon.icon.icon.icon,
 i.inverted.bordered.secondary.icons,
 i.inverted.circular.secondary.icons {
-  background-color: #97BF0D;
+  background-color: #807E7E;
   color: #fff;
 }
 i.red.icon.icon.icon.icon.icon {
@@ -576,8 +546,7 @@ i.icons .icon {
   margin: 0;
 }
 i.icons .icon:not(.corner):not(.rotated):not(.flipped) {
-  -webkit-transform: translateX(-50%) translateY(-50%);
-          transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
 }
 i.icons .icon:first-child {
   position: static;
@@ -586,8 +555,7 @@ i.icons .icon:first-child {
   vertical-align: top;
 }
 i.icons:not(.bordered):not(.circular) .icon:first-child:not(.rotated):not(.flipped) {
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 
 /* Corner Icon */
@@ -600,8 +568,7 @@ i.icons .corner.icon {
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
 }
 i.icons .corner.icon:not(.rotated):not(.flipped) {
-  -webkit-transform: none;
-          transform: none;
+  transform: none;
 }
 i.icons .icon.corner[class*="top right"] {
   top: 0;
@@ -640,14 +607,12 @@ i.bordered.icons,
 i.circular.icons {
   width: 2em;
   height: 2em;
-  -webkit-box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
-          box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 0.1) inset;
   vertical-align: middle;
 }
 i.bordered.icons.colored,
 i.circular.icons.colored {
-  -webkit-box-shadow: 0 0 0 0.1em currentColor inset;
-          box-shadow: 0 0 0 0.1em currentColor inset;
+  box-shadow: 0 0 0 0.1em currentColor inset;
 }
 i.circular.icons {
   border-radius: 500em;
@@ -655,16 +620,14 @@ i.circular.icons {
 i.bordered.icons i.icon:first-child,
 i.circular.icons i.icon:first-child {
   position: absolute;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-          transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
 }
 
 /* Inverted Icon */
 i.bordered.inverted.icons,
 i.circular.inverted.icons {
   border: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   background-color: #1b1c1d;
   color: #fff;
 }
@@ -7101,3 +7064,6 @@ i.icon.youtube.play::before {
          Site Overrides
 *******************************/
 
+.fix-bar .prihlaseni i.icon {
+  font-size: 1.4em;
+}

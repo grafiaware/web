@@ -1,14 +1,10 @@
-                <div class="ui six column stackable centered grid">
-                    <div class="fifteen wide mobile five wide tablet four wide computer three wide large screen column"> 
-                        <p><b>&copy; GRAFIA, s.r.o. 2020</b></p>
-                        <p>Budilova 4, 301 00 Plzeň</p>
-                    </div>
-                    <div class="fifteen wide mobile five wide tablet four wide computer three wide large screen column">
-                        <p>Tel./fax: +420 377 227 701</p>
-                        <p>E-mail: <a href="mailto:info@grafia.cz">info@grafia.cz</a></p>
-                    </div>
-                    <div class="fifteen wide mobile five wide tablet four wide computer three wide large screen column left floated">
-                        <p>Facebook: <a href="https://facebook.com/grafia/" target="_blank">@grafia</a></p>
-                        <p>Web: <a href="http://www.grafia.cz" target="_blank">www.grafia.cz</a></p>
+                <div class="ui grid">
+                    <div class="fifteen wide column">
+                        <div class="loga-paticka">
+                            <div class="blok-menu-paticka">
+                                <p class="text velky tucne primarni-barva">Organizátor otevřených ateliérů</p>
+                                <a href="https://www.grafia.cz/" class="" target="_blank"><img class="organizator" src="layout-images/Grafia_logo.jpg" width="" height="" alt="Logo Grafia, organizátor"/></a>
+                            </div>
+                        </div>
                     </div>
                 </div>

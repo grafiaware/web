@@ -1,2 +1,2 @@
-    <link rel="icon" href="<?= $linksSite.'favicon/veletrh_online02.ico'?>" type="image/x-icon">
+    <link rel="icon" href="<?= $linksSite.'favicon/favicon.ico'?>" type="image/x-icon">
 

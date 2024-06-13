@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - Container
+ * # Fomantic-UI 2.9.2 - Container
  * https://github.com/fomantic/Fomantic-UI/
  *
  *
@@ -41,54 +41,54 @@
 /* Tablet */
 @media only screen and (min-width: 1000px) and (max-width: 1199.98px) {
   .ui.ui.ui.container:not(.fluid) {
-    width: 955px;
+    width: 959px;
     margin-left: auto;
     margin-right: auto;
   }
   .ui.ui.ui.grid.container {
-    width: calc(955px + 2rem);
+    width: calc(959px + 2rem);
   }
   .ui.ui.ui.relaxed.grid.container {
-    width: calc(955px + 3rem);
+    width: calc(959px + 3rem);
   }
   .ui.ui.ui.very.relaxed.grid.container {
-    width: calc(955px + 5rem);
+    width: calc(959px + 5rem);
   }
 }
 
 /* Small Monitor */
 @media only screen and (min-width: 1200px) and (max-width: 1599.98px) {
   .ui.ui.ui.container:not(.fluid) {
-    width: 1141px;
+    width: 1147px;
     margin-left: auto;
     margin-right: auto;
   }
   .ui.ui.ui.grid.container {
-    width: calc(1141px + 2rem);
+    width: calc(1147px + 2rem);
   }
   .ui.ui.ui.relaxed.grid.container {
-    width: calc(1141px + 3rem);
+    width: calc(1147px + 3rem);
   }
   .ui.ui.ui.very.relaxed.grid.container {
-    width: calc(1141px + 5rem);
+    width: calc(1147px + 5rem);
   }
 }
 
 /* Large Monitor */
 @media only screen and (min-width: 1600px) {
   .ui.ui.ui.container:not(.fluid) {
-    width: 1527px;
+    width: 1535px;
     margin-left: auto;
     margin-right: auto;
   }
   .ui.ui.ui.grid.container {
-    width: calc(1527px + 2rem);
+    width: calc(1535px + 2rem);
   }
   .ui.ui.ui.relaxed.grid.container {
-    width: calc(1527px + 3rem);
+    width: calc(1535px + 3rem);
   }
   .ui.ui.ui.very.relaxed.grid.container {
-    width: calc(1527px + 5rem);
+    width: calc(1535px + 5rem);
   }
 }
 
@@ -103,23 +103,23 @@
   font-family: 'Rubik';
   max-width: 700px;
   line-height: 1.5;
-  font-size: 1.14285714rem;
+  font-size: 1.25rem;
 }
 
 /* Wide Container */
 @media only screen and (min-width: 1000px) and (max-width: 1199.98px) {
   .ui.ui.ui.wide.container {
-    width: 1146px;
+    width: 1150.8px;
   }
 }
 @media only screen and (min-width: 1200px) and (max-width: 1599.98px) {
   .ui.ui.ui.wide.container {
-    width: 1369.2px;
+    width: 1376.4px;
   }
 }
 @media only screen and (min-width: 1600px) {
   .ui.ui.ui.wide.container {
-    width: 1832.4px;
+    width: 1842px;
   }
 }
 

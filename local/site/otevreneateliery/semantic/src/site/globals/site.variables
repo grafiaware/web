@@ -11,14 +11,14 @@
 @bold              : 500;
 @normal            : 300;
 
-/* This is the single variable that controls them all */
-@emSize   : 14px;
+/* This is the single variable that controls them all */ 
+@emSize   : 12px;  
 
 
-/* The size of page text  */
-@fontSize : 27px;
-@smallFontSize : 20px;
-@bigFontSize: 37px; 
+/* The size of page text  */ 
+@fontSize :        17px; 
+@smallFontSize:    13px;
+@bigFontSize:      20px;
 
 /*-------------------
     Border Radius
@@ -27,14 +27,14 @@
 @relativeBorderRadius: @relative6px;
 @absoluteBorderRadius: @6px;
 
-@defaultBorderRadius: @absoluteBorderRadius; 
+@defaultBorderRadius: @absoluteBorderRadius;
 
 /*-------------------
     Brand Colors
 --------------------*/
 
 @primaryColor        : #CB0A1F;
-@secondaryColor      : #97BF0D;
+@secondaryColor      : #807E7E;
 
 @textColor           : #000;
 @invertedTextColor   : #fff;
@@ -43,32 +43,32 @@
        Links
 --------------------*/
 
-@linkColor           : #3e9aec; 
+@linkColor          : #CB0A1F;
 
 /*--------------
-  Page Heading
+  Page Heading 
 ---------------*/
 
-@h1 : unit((58 / 14), rem);
-@h2 : unit((58 / 14), rem);
-@h3 : unit((55 / 14), rem);
-@h4 : unit((48 / 14), rem);
-@h5 : unit((45 / 14), rem); 
-@h6 : unit((38 / 14), rem);
+@h1 : unit((35 / 14), rem);
+@h2 : unit((35 / 14), rem);
+@h3 : unit((32 / 14), rem); 
+@h4 : unit((30 / 14), rem);
+@h5 : unit((27 / 14), rem); 
+@h6 : unit((25 / 14), rem); 
 
 /*-------------------
         Sizes
 --------------------*/ 
 /*
   Sizes are all expressed in terms of 14px/em (default em)
-  This ensures these "ratios" remain constant despite changes in EM
+  This ensures these "ratios" remain constant despite changes in EM 
 */
 
-@miniSize        : (11 / 14);
-@tinySize        : (12 / 14);
-@smallSize       : (13 / 14);
-@mediumSize      : (24 / 14);
-@largeSize       : (16 / 14);
+@miniSize        : (10 / 14);
+@tinySize        : (11 / 14);
+@smallSize       : (12 / 14); 
+@mediumSize      : (15 / 14);
+@largeSize       : (17 / 14);
 @bigSize         : (18 / 14);  
 @hugeSize        : (20 / 14);
 @massiveSize     : (24 / 14);

@@ -8,5 +8,7 @@ use Pes\Text\Text;
 /** @var PaperAggregatePaperSectionInterface $paperAggregate */
 ?>
 
-            <h1><?= Text::mono('Otevřené ateliery')?>
-            </h1>
+            <a href="index.php" class="header-pc"><img class="logo-najdisi" src="layout-images/voaLogo.jpg" width="100%" /></a>
+            <a href="index.php" class="header-mobile"><img class="logo-najdisi-mobile" src="layout-images/voaLogo.jpg" width="auto" /></a>
+            
+            <div class="mobile-menu-bar" onclick="hamburger_open()"> <div class="nav-mobile active"><i class="bars big icon"></i><p>Menu</p></div></div>
