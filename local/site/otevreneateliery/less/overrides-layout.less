@@ -373,20 +373,30 @@
             color: @invertedTextColor;
             backface-visibility: hidden;
         }
-        .item a.presented, .item p.presented{
-            color: darken(@primaryColor, 15);
+        .item .presented{
+            position: relative;
+            color: darken(@primaryColor, 75);
             > .chevron-icon::before{
                     color: darken(@primaryColor, 15);
                 }
         }
         .onpath{
             position: relative;
-            a:not(.presented){
+            a{
                 color: @invertedTextColor;
             }
-            a.presented{
+            .presented{
                 color: darken(@primaryColor, 15);
             }
+        }
+        .presented .dropdown{
+              display: flex;
+              flex-direction: column;
+              position: absolute;
+              top: 0;
+              justify-content: center;
+              height: 100%;
+              right: -25px;
         }
     }
     .hidden-submenu{

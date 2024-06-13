@@ -98,7 +98,7 @@ body{
         .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/
     /*PRO VSECHNA MENU*/
     .menu.edit{
-        p.presented{ 
+       .presented p{ 
             margin-bottom: @menuParagraphMarginBottom;
             /*vybraná položka menu má editovatelný název - přizpůsobený kurzor myši*/
             span{
@@ -138,7 +138,7 @@ body{
                 > a.presented{ //pro lepší čitelnost položek menu vzhledem k dalším editačním prvkům pložky (semafor)
                     padding: @svisleMenuLiPadding; //není zvětšený padding pro <a>, protože to zajišťuje semantic  
                 }
-                > p.presented{
+                > .presented p{
                     //stejný padding, jako mají <a> od semantic-ui
                         padding: @svisleMenuParagraphPadding;
                 } 

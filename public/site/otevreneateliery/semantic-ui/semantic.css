@@ -30865,8 +30865,7 @@ Floated Menu / Item
   transform: translateX(-100%);
 }
 
-.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented),
-.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) p:not(.presented) {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a {
   color: #fff;
 }
 
@@ -30911,8 +30910,7 @@ Floated Menu / Item
   padding: 0.2em 1.3em;
 }
 
-.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a.presented,
-.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p.presented {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu .presented p {
   padding: 20px 1.3em 15px;
   margin-top: 10px;
 }
@@ -31009,7 +31007,7 @@ Floated Menu / Item
   position: relative;
 }
 
-.column.editMenu .fix-bar .ui.vertical.menu.edit li:not(.cut) p.presented {
+.column.editMenu .fix-bar .ui.vertical.menu.edit li:not(.cut) .presented p {
   margin-top: 0.7em;
 }
 

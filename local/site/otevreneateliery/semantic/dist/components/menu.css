@@ -2270,8 +2270,7 @@ Floated Menu / Item
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
-.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented),
-.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) p:not(.presented) {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a {
   color: #fff;
 }
 .column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented) {
@@ -2307,8 +2306,7 @@ Floated Menu / Item
   font-size: 2rem !important;
   padding: 0.2em 1.3em;
 }
-.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a.presented,
-.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p.presented {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu .presented p {
   padding: 20px 1.3em 15px;
   margin-top: 10px;
 }
@@ -2390,7 +2388,7 @@ Floated Menu / Item
   font-weight: 500;
   position: relative;
 }
-.column.editMenu .fix-bar .ui.vertical.menu.edit li:not(.cut) p.presented {
+.column.editMenu .fix-bar .ui.vertical.menu.edit li:not(.cut) .presented p {
   margin-top: 0.7em;
 }
 .column.editMenu .fix-bar .kos .ui.vertical.menu a,
