@@ -34,12 +34,12 @@ class ConfigurationDb {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'red.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_everyone',
-            'red.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_heslo_nastavit' : 'oa_everyone',
-            'red.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_auth',
-            'red.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_heslo_nastavit' : 'oa_auth',
-            'red.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg003' : 'oa_admin',
-            'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_databaze_heslo_nastavit' : 'oa_admin',
+            'red.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_everyone',
+            'red.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_everyone',
+            'red.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_auth',
+            'red.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_auth',
+            'red.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_admin',
+            'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_admin',
             #
             ###################################
             # Konfigurace logu databáze
@@ -193,7 +193,7 @@ class ConfigurationDb {
             'auth.db.charset' => 'utf8',
             'auth.db.collation' => 'utf8_general_ci',
             'auth.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
-            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'revoluceorg04' : 'single_login',  // 'revoluceorg04' : 'single_login',
+            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneatelierycz01' : 'single_login',  // 'revoluceorg04' : 'single_login',
             #
             ###################################
             # Konfigurace logu databáze
@@ -221,8 +221,8 @@ class ConfigurationDb {
             'red.db.port' => '3306',
             'red.db.charset' => 'utf8',
             'red.db.collation' => 'utf8_general_ci',
-            'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
-            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'oa_upgrade',
+            'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
+            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneatelierycz02' : 'oa_upgrade',
             #
             ###################################
             # Konfigurace logu databáze
@@ -271,8 +271,8 @@ class ConfigurationDb {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'auth.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'auth.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_login' : 'single_login',
+            'auth.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli002' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'auth.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli002' : 'single_login',
 
             'auth.logs.database.directory' => 'Logs/Auth',
             'auth.logs.database.file' => 'Database.log',
@@ -321,12 +321,12 @@ class ConfigurationDb {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_jmeno_nastavit' : 'oa_everyone',
-            'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_heslo_nastavit' : 'oa_everyone',
-            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_jmeno_nastavit' : 'oa_auth',
-            'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_heslo_nastavit' : 'oa_auth',
-            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_jmeno_nastavit' : 'oa_admin',
-            'web.db.account.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_uzivatel_heslo_nastavit' : 'oa_admin',
+            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_everyone',
+            'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_everyone',
+            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_auth',
+            'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_auth',
+            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_admin',
+            'web.db.account.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli003' : 'oa_admin',
             #
             ###################################
         ];

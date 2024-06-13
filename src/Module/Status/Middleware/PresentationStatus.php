@@ -93,7 +93,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     /**
      * Pro GET request uloží uri do StatusPresentation. 
      * - Neukládá uri pokud request obsahuje hlavičku "X-Cascade", to je využito při kaskádním načítání, 
-     *   kdy adresy GET requestů, kterými jsou načítání vložené komponenty stránky se neuládají. 
+     *   kdy se neuládají adresy GET requestů, kterými jsou načítány vložené komponenty stránky. 
      * 
      * Poznámka: Použito pro přesměrování redirectLastGet a pro Transform!
      * 
@@ -112,8 +112,8 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     }
     
     /**
-     * Default LanguageInterface objekt podle kódu jazyka požadovaného v requestu (z hlavičky Accept-Language) apokud takový jazyk aplikace není
-     * v databázi, pak podle konstanty třídy DEFAULT_LANG_CODE
+     * Vrací kód jazyka podle kódu jazyka požadovaného v requestu (z hlavičky Accept-Language), pokud takový jazyk existuje v seznamu akceptovaných jazyků v konfiguraci. 
+     * Pokud takový jazyk aplikace není v konfiguraci, pak vrací defaultní hodnotu jazyka aplikace, také uvedenou v konfiguraci.
      *
      * @param ServerRequestInterface $request
      * @return LanguageInterface

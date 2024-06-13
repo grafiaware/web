@@ -32,5 +32,5 @@ class ConfigurationConstants {
     const WEB_BOOTSTRAP_LOGS = '/_www_oa_logs/';
 
     // production host
-    const WEB_BOOTSTRAP_PRODUCTION_HOST =  'WEB_BOOTSTRAP_PRODUCTION_HOST_doplnit';  //vp
+    const WEB_BOOTSTRAP_PRODUCTION_HOST =  'replikant2871';
 }
