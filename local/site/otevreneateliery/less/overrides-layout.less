@@ -1,9 +1,10 @@
-.layout{
+body{
     font-weight: @normal;
     /* VLASTNÍ HTML TAGY */
     headline, content, block, div[class=""], perex{
         display: block;
         position: relative;
+        line-height: 1.4em; 
         span[class=""]{
             display: inline-block;
         }
@@ -11,9 +12,23 @@
     img{
         max-width: 100%; //aby se obrázek "vešel" do semantických obalů
         max-height: 100%; //aby šel obrázek deformovat při nastavení vlastní výšky a šířky v Tiny  
-    }
+    } 
     header{ 
-        display: flex;
+        .header-mobile{
+            display: none;
+            .logo-najdisi-mobile{
+                display: none;
+            }
+        }
+        .header-pc{
+            display: block;
+        }
+        img{
+            object-fit: contain;
+            position: relative;
+            z-index: -1;
+        }
+/*        display: flex;
         align-items: start;
         flex-direction: column;
         margin: 50px 0;
@@ -27,193 +42,76 @@
                 font-weight: 500;
                 margin: auto 20px;
             }
+        }*/
+        .prihlaseni{
+            position: absolute;
+            top: 10px;
+            left: 12px;;
+            display: flex;
+            .ui.button{
+                background-color: white;
+                color: @primaryColor;
+                border: 1px solid @primaryColor;
+                border-radius: 5px;
+                &.dropdown, &.page{
+                    font-size: 1rem;
+                }
+            }
         }
     }
     
     /***FIXNÍ LIŠTA fix-bar***/
-    .column:not(.editMenu) > .fix-bar{
-        width: 10%;
+    .fix-bar{
+        width: 88px;
         height: 100%;
         position: fixed;
         color: @invertedTextColor;
-        background-color: @primaryColor;
-        z-index: 2;
-        .prihlaseni{ 
-            top: 17%;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 3;
-            .icon.button:not(.labeled){
-                background-color: transparent;
-                > .user.icon, .address.card.icon{
-                    color: @invertedTextColor;
-                    //font-size: 1.45em;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                        transition: 0.2s all;
-                    }
-                }
-            }
-            .dropdown{
-                .header.item{
-                    background-color: @white;
-                    cursor: default;
-                    text-align: center;
-                    &:hover{
-                        background-color: @white;
-                    }
-                    .icon{ 
-                        opacity: 1;
-                    }
-                }
-                .menu{
-                    padding: 0 12px 20px 12px;
-                }
-                input{
-                    border: 1px solid @lightGrey !important;
-                    //font-size: 0.8em;
-                }
-                button.fluid{
-                    margin: 5px 0;
-                   // font-size: 0.8em;
-                    &.tertiary{
-                        //font-size: 0.62em;
-                        &:hover{
-                            box-shadow: 0 0;
-                            text-decoration: underline;
-                        }
-                    }
-                }
-                .ui.labeled.icon.button > .icon::before{
-                    top: -10px;
-                }
-            }
-            .ui.left.pointing.dropdown:not(.top) > .menu{
-                //top: -145px;
-            }
-            .ui.left.pointing.dropdown:not(.top) > .menu::after{
-                //top: 175px;
-            }
-            .logout{
-                i.sign.out.icon{
-                    color: @invertedTextColor;
-                    //font-size: 2em;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                    }
-                }
-                i.user.circle.icon{
-                    color: @invertedTextColor;
-                    //font-size: 1.2em;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                    }
-                }
-                .profil-ikona{
-                    text-align: center;
-                }
-                .dropdown .header.item{
-                    //font-size: 1.3em;
-                }
-            }
-            > form{ //v tomhle formu je tlacitko Akce
-                > div.icon{
-                    color: @invertedTextColor;
-                    //font-size: 1.8em ;
-                    opacity: 1;
-                    padding: 7px;
-
-                }
-                label{
-                    color: @textColor !important;
-                    //font-size: 0.7em;
-                    font-weight: 400;
-                }
-            }
-            button:not(.fluid){
-                position: relative;
-                left: 10%;
-                //font-size: 1.2em;
-                &.positive{
-                    left: 6%;
-                    //font-size: 0.92em;
-                    padding-top: 0.6em;
-                    padding-bottom: 0.6em;
-                }
-            }
-            .input-company{
-                display: none;
-                &.show{
-                    display: block;
-                    margin: 10px 0;
-                }
-            }
-        }
-        //hamburger menu
-        #mySidenav{
+        background-color: @secondaryColor;
+        z-index: 0;
+    }
+    .klic-img{
+        max-width: 212px !important;
+        width: 212px;
+        position: absolute;
+        left: -82px;
+        top: 35px;
+        z-index: 0;
+    }
+    .no-fix{ //.fix-bar:has(#mySidenav.editMenu)
+        > .icon-menu{
             display: none;
-            height: 100%;
-            width: 33%;
-            background-color: @primaryColor;
-            position: fixed!important;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            overflow: auto;
-            -webkit-animation: animateleft 0.4s;
-            animation: animateleft 0.4s;
-            padding: 40px 20px 20px ;
-            &.open{
-                display: block !important;
-            }
         }
-        #myOverlay{
-            position: fixed;
+        > .nav-mobile{
             display: none;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
-            z-index: 1;
         }
-        .svisle-menu .vertical.menu{
-            margin-left: 20px;
-/*            span > .icon{
-                position: absolute;
-                right: 0;
-            }*/
-        }
-        .svisle-menu .menu .onpath{
-            left: 7%;
+        > .prihlaseni{
+            display: none;
         }
     }
-    .column.editMenu > .fix-bar{
-        width: 400px;
-        height: 102%;
-        position: relative;
+    
+    
+    /***MENU***/
+    #mySidenav.editMenu{
+        width: 320px;
+        height: auto;
         color: @invertedTextColor;
         background-color: @primaryColor;
-        #mySidenav{
-            display: block;
-            width: 100%;
-            background-color: @primaryColor;
-            position: relative;
-            overflow: hidden;
-            padding: 0 0 20px 10px;
-            .prihlaseni{
-                margin-bottom: 10px;
-                right: 15px;
-                top: -50px;
+        display: block;
+        position: relative;
+        //overflow: hidden scroll;
+        padding: 0 0 20px 10px;
+        z-index: 100;
+        margin-bottom: 30px;
+        .svisle-menu{   
+            padding-left: 0;
+            li i.dropdown{
                 position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: -1;
+            }
+            li form ~ i.dropdown{
+                z-index: 0;
             }
         }
         .svisle-menu .menu .onpath{
@@ -222,125 +120,25 @@
         .close-item .close.slim-icon{
             display: none;
         }
-        > .icon-menu{
-            display: none;
-        }
-        > .nav-mobile{
-            display: none;
-        }
-        > .prihlaseni{
-            width: 100%;
-            display: flex;
-            flex-direction: row-reverse;
-            align-items: center;
+        .presented{
             position: relative;
-            z-index: 3;
-            .icon.button:not(.labeled){
-                background-color: transparent;
-                > .user.icon, .address.card.icon{
-                    color: @invertedTextColor;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                        transition: 0.2s all;
-                    }
-                }
-            }
-            .dropdown{
-                .header.item{
-                    background-color: @white;
-                    cursor: default;
-                    text-align: center;
-                    &:hover{
-                        background-color: @white;
-                    }
-                    .icon{
-                        opacity: 1;
-                    }
-                }
-                .menu{
-                    padding: 0 12px 20px 12px;
-                    .ui.button{
-                        font-size: 1.3rem;
-                    }
-                }
-                input{
-                    border: 1px solid @lightGrey !important;
-                }
-                button.fluid{
-                    margin: 5px 0;
-                    &.tertiary{
-                        &:hover{
-                            box-shadow: 0 0;
-                            text-decoration: underline;
-                        }
-                    }
-                }
-                .ui.labeled.icon.button > .icon::before{
-                    top: -10px;
-                }
-            }
-            .ui.left.pointing.dropdown:not(.top) > .menu{
-                top: -145px;
-            }
-            .ui.left.pointing.dropdown:not(.top) > .menu::after{
-                top: 175px;
-            }
-            .logout{
-                i.sign.out.icon{
-                    color: @invertedTextColor;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                    }
-                }
-                i.user.circle.icon{
-                    color: @invertedTextColor;
-                    opacity: 1;
-                    &:hover{
-                        opacity: 0.8 ;
-                    }
-                }
-                .profil-ikona{
-                    text-align: center;
-                }
-                .dropdown .header.item{
-                    font-size: 1.3rem;
-                }
-            }
-            > form{  //v tomhle formu je tlacitko Akce
-                > div.icon{
-                    color: @invertedTextColor;
-                    //font-size: 1.8em;
-                    opacity: 1;
-                    padding: 7px;
-
-                }
-                label{
-                    color: @textColor !important;
-                    //font-size: 0.7em;
-                    font-weight: 400;
-                }
-            }
-            button:not(.fluid){
-                position: relative;
-                left: 10%;
-                //font-size: 1.2em;
-                &.positive{
-                    left: 6%;
-                    //font-size: 0.92em;
-                    padding-top: 0.6em;
-                    padding-bottom: 0.6em;
-                }
-            }
-            .input-company{
-                display: none;
-                &.show{
-                    display: block;
-                    margin: 10px 0;
-                }
-            }
         }
+        .vertical.menu .item .presented, .item .presented{
+            background-color: @secondaryColor;
+            padding: 10px;
+            margin: 0 -5px;
+            width: 106.5%;
+        }
+        .vertical.menu .item > .vertical.menu .item .presented, .item .presented{
+            padding: 10px 10px 10px 20px;
+            margin: 0 -22px;
+        }
+        .vertical.menu .item > .vertical.menu .item > .menu .item .presented, .item .presented{
+            padding: 10px 10px 10px 30px;
+            margin: 0 -34px;
+            width: 111%;
+        }
+         
     }
     .form.huge input[type="checkbox"]{
         vertical-align: middle;
@@ -382,30 +180,22 @@
         }
         .onpath{
             position: relative;
-            a{
+            a:not(.presented){
                 color: @invertedTextColor;
             }
             .presented{
-                color: darken(@primaryColor, 15);
+                color: darken(@primaryColor, 75);
             }
         }
-        .presented .dropdown{
-              display: flex;
-              flex-direction: column;
-              position: absolute;
-              top: 0;
-              justify-content: center;
-              height: 100%;
-              right: -25px;
-        }
     }
-    .hidden-submenu{
+    div > .ui.vertical.hidden-submenu{
         ul{
             display: none; 
         }
         .parent{
             > ul{
                 display: block;
+                margin-left: 12px;
             }
         }
     }
@@ -439,66 +229,31 @@
     article div[data-template]{
         margin: 14px;
     }
+    div.editMenu-article{
+        margin-left: auto;
+        margin-right: 80px; 
+    }
+    .row > .right.floated{
+        margin-right: 100px; 
+    }
     
     /***/
     form{
         position: relative;
     }
     .close-item{
-        font-size: @hugeSize * @emSize;
-        border-bottom: 3px solid @invertedTextColor;
-        margin: 50px 0 15px;
-        padding: 40px 20px 40px 0;
+        display: none;
+        font-size: @massiveSize * @emSize;
+        margin: 0px 0px 15px -10px;
+        padding: 20px;
         position: relative;
-        .hamburger-icon{
-            position: absolute;
-            top: -45px;
-            left: 20px;
+        background-color: #045ba6;
+        border: 2px solid @invertedTextColor;
+        border-radius: 6px;
+        a{
+            color: @invertedTextColor;
             display: flex;
-            flex-direction: column;
-            text-align: center;
-            align-items: center;
-            cursor: auto;
-        }
-        img{
-            position: absolute;
-            top: -45px;
-            left: 120px;
-        }
-        .close.slim-icon{
-            content: "";
-            position: absolute;
-            width: 63px;
-            height: 63px;
-            right: 20px;
-            top: -45px;
-            display: block;
-            &:hover{
-                opacity: 0.8;
-                transition: 0.2s all;
-            }
-            &::before, &::after{
-                position: absolute;
-                left: 30px;
-                top: -4px;
-                content: ' ';
-                height: 70px;
-                width: 3px;
-                background-color: @invertedTextColor
-                
-            }
-            &::before{
-                transform: rotate(45deg);
-            }
-            &::after{
-                transform: rotate(-45deg);
-            }
-            &.none{
-                display: none;
-            }
-            &:not(.none){
-                display: block;
-            }
+            justify-content: center;
         }
     }
     .svisle-menu.kos{
@@ -537,11 +292,11 @@
         align-items: center;
         position: relative;
         padding: 5px;
-        height: 70px;
+        height: 100%;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        top: 15%;
+        display: none;
+        flex-direction: row;
+        color: @invertedTextColor;
         &:hover{
             transition: 0.2s all;
         }
@@ -555,18 +310,86 @@
     main{
         min-height: 1000px;
         padding: 0 10px;
+        z-index: 1;
+        position: relative;
     }
     headline{
-        font-size: @h2;
-        font-weight: 500;
+        font-size: 19px;
+        font-weight: 300;
+        margin-top: 0;
+        color: @primaryColor;
     }
     perex{
-        margin-top: 30px !important;
-        margin-bottom: 30px !important;
+        margin-top: 15px !important;
+        margin-bottom: 10px !important;
+    }
+    .blok-menu-paticka{
+        margin-left: 13px;
+    }
+    .loga-paticka{
+        display: none;
+    }
+    /***PATIČKA***/
+    footer{
+        border-top: 5px solid @primaryColor;
+        position: relative;
+        z-index: -1;
+        margin-right: 20px;
     }
     
-    /***PATIČKA***/
-    > .ui.grid > .row{
+    
+    
+    
+    
+    
+    
+    
+    
+    /*************stare menu hamburger*******/
+    /*
+    //hamburger menu
+        #mySidenav:not(.editMenu){ 
+            display: none;
+            height: 100%;
+            width: 33%;
+            background-color: @primaryColor;
+            position: fixed!important;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            overflow: auto;
+            -webkit-animation: animateleft 0.4s;
+            animation: animateleft 0.4s;
+            padding: 40px 20px 20px ;
+            &.open{
+                display: block !important;
+            }
+        }
+        #mySidenav:not(.editMenu) + #myOverlay{
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+            z-index: 1;
+        }
+        .svisle-menu .vertical.menu{
+            margin-left: 20px;
+/*            span > .icon{
+                position: absolute;
+                right: 0;
+            }*/
+      /*  }*/
+       /* .svisle-menu .menu .onpath{
+            left: 7%; 
+        }*/
+    
+    /***STARAAAAA    PATIČKA***/
+/*    > .ui.grid > .row{
         padding-bottom: 0;
     }
     footer{
@@ -574,6 +397,8 @@
         background-color: @primaryColor;
         padding: 50px 10px 50px 13% ;
         font-size: @smallFontSize ; 
+        position: relative;
+        bottom: -14px;
         footer a{ 
             color: @invertedTextColor !important; 
             &:hover{
@@ -581,7 +406,7 @@
             }
         }
     }
-    /*flash message*/
+    flash message
     .small.toast{ 
        // font-size: 1.3rem;
     }
@@ -597,7 +422,7 @@
                 transition: 0.3s all;
             }
         }
-    }
+    }*/
 /*    article{
         padding-left: 1rem;
         padding-right: 1.4rem;
@@ -609,6 +434,7 @@
         padding: 0;
     }*/
 }
+
 body#tinymce{
    // font-size: 24px;
     font-weight: 400;
@@ -623,7 +449,30 @@ body#tinymce{
     right: 15px;
 }
 .editMenu .button-edit-menu{
-    top: -40px;
+    top: -35px;
+}
+.register{
+    .checkbox.exhibitor{
+        label{
+            font-size: @fontSize;
+            padding-left: 1.1em;
+        }
+    }
+    .input-company{
+        display: none;
+        &.show{
+            display: block;
+            margin: 10px 0;
+        }
+        .field{
+            label{
+                font-size: 0.87em; 
+            }
+            input{
+                font-size: 0.75em;
+            }
+        }
+    }
 }
 
 //Poznamky a flash

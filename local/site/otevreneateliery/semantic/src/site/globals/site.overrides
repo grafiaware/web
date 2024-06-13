@@ -14,21 +14,14 @@
 p{
     margin: 0 0 0.55em;
 }
-footer a{
-    color: @invertedTextColor !important; 
-    &:hover{
-        color: @invertedTextColor !important;
-    }
-}
 main a:not(.item):not(.button):not(.link-img):not(.image), 
-footer a:not(.item):not(.button):not(.link-img):not(.image){
     overflow: hidden;
     position: relative;
     display: inline-block;
     vertical-align: top;
     &:hover::after{
         transform: scaleX(1);
-        background-color: @linkColor; 
+        background-color:  @linkColor; 
     }
     &::after{
         background: none; 
@@ -43,13 +36,5 @@ footer a:not(.item):not(.button):not(.link-img):not(.image){
         transition: linear 0.2s;
         backface-visibility: hidden;
         transform: translateX(-100%);
-    }
-}
-footer a{
-    &::after{
-        background-color: @invertedTextColor !important;
-    }
-    &:hover::after{
-        background-color: @invertedTextColor !important;
     }
 }

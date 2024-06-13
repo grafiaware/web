@@ -1,490 +1,3 @@
-/*@media screen and (min-width: 5000px){
-    body{
-        font-size: 7rem !important;
-    }
-    header .logo{
-        width: auto;
-        height: 200px; 
-    }
-    .nadpis{
-        font-size: 13rem;
-        &.vlevo{ 
-            width: 52%;
-            transform: translateX(-20%) translateY(-150px); 
-        }
-        &.nastred{
-            margin-bottom: 200px;
-        }
-    }
-    .podnadpis{
-        font-size: 6rem;
-    }
-    .primarni-barva.podklad{
-        padding: 80px;
-    }
-    .text{
-        font-size: 7rem;
-        &.velky{
-            font-size: 10rem;
-        }
-        &.okraje-horizontal{
-            padding: 0 200px;
-        }
-    }
-    .icon-menu .huge.icon .big.icon{
-        font-size: 7em;
-        margin-bottom: 30px !important;
-    }
-    .ui.massive.button{
-        font-size: 6rem !important;
-    }
-    .fix-bar .svisle-menu .ui.massive.vertical.menu:not(.icon){
-        width: 150rem !important;
-        li .item {
-            font-size: 6rem !important;
-        }
-    }
-    .ui.vertical.menu.massive.edit .onpath ul{
-        width: 110rem !important
-    }
-    main .paper content{
-        margin: 450px 0;
-    }
-    .nadpis.uvod{
-        font-size: 12rem;
-        margin-top: 0;
-        .text.maly{
-            font-size: 100px;
-        }
-    }
-    .obr-upoutavka{
-        margin-top: 100px;
-        margin-bottom: 300px;
-        img{
-            margin-bottom: 15px;
-        }
-        .column:first-of-type{
-            img{
-                width: 100%;
-                height: auto;
-            }
-        }
-        .column:nth-of-type(2){
-            img{
-                width: 100%;
-                height: auto;
-            }
-        }
-        .nadpis.primarni-barva.presah{
-            bottom: 30px;
-        }
-        .blok.podnadpis{
-            transform: translateY(30%);
-            height: 25%;
-            width: 35%;
-            float: right;
-            margin-right: 250px; 
-            font-size: 10rem;
-        }
-    }
-    .blok-sedy-nadpis-obr-text{
-        .blok-sedy-nahore{
-            height: 1400px;
-            padding-right: 50%;
-            p{
-                top: 20%;
-            }
-        }
-        .blokEL-dolni-img{
-            width: 2000px;
-            margin-top: 75px;
-            margin-right: 100px;
-            &::before{
-                bottom: -64px;
-                right: -100px;
-                width: 100px;
-                height: 1100px;
-            }
-            &::after{
-                height: 100px;
-                bottom: -64px;
-            }
-        }
-    } 
-    .blok-sedy-obr-text{
-        .blok-sedy-dole{
-            height: 1400px;
-            margin-top: 150px;
-            padding-left: 60%;
-            p{
-                top: 20%;
-            }
-        }
-        .blokEL-horni-img{
-            width: 2000px;
-            margin-top: -60px;
-            margin-left: 100px;
-            &::before{
-                top: -100px;
-                left: -100px;
-                width: 100px;
-                height: 1100px;
-            }
-            &::after{
-                height: 100px;
-                top: -100px;
-            }
-        }
-    } 
-    .pozadi-img{
-        margin-bottom: 100px;
-        height: 1000px;
-        background-size: contain;
-    }
-    .blok-nadpis-loga .partneri-pozadi{
-        .logo-siroke{
-            height: 220px;
-        }
-        .logo-ctverec{
-            height: 350px;
-        }
-        .logo-obdelnik{
-            height: 300px;
-        }
-        .logo-vysoke{
-            height: 430px;
-        }
-    }
-    .dva-sloupce-nadpis{
-        .link-img > img{
-            height: 650px;
-            width: auto;
-        }
-    }
-}
-@media screen and (max-width: 4999px) and (min-width: 3800px){
-    body{
-        font-size: 3.9rem !important;
-    }
-    header .logo{
-        width: auto;
-        height: 130px;
-    }
-    .nadpis{
-        font-size: 8rem;
-        &.vlevo{
-            width: 52%;
-            transform: translateX(-20%) translateY(-150px); 
-        }
-    }
-    .podnadpis{
-        font-size: 6rem;
-    }
-    .text{
-        font-size: 3.9rem;
-        &.velky{
-            font-size: 5.4rem;
-        }
-    }
-    .icon-menu .huge.icon .big.icon{
-        font-size: 4em;
-    }
-    .ui.massive.button{
-        font-size: 3.5rem !important;
-    }
-    .fix-bar .svisle-menu .ui.massive.vertical.menu:not(.icon){
-        width: 80rem !important;
-        li .item {
-            font-size: 4rem !important;
-        }
-    }
-    .ui.vertical.menu.massive.edit .onpath ul{
-        width: 65rem !important
-    }
-    main .paper content{
-        margin: 250px 0;
-    }
-    .nadpis.uvod{
-        font-size: 7rem;
-        margin-top: 0;
-        .text.maly{
-            font-size: 60px;
-        }
-    }
-    .obr-upoutavka{
-        margin-top: 100px;
-        margin-bottom: 300px;
-        .ui.grid > .sixteen.wide.column{
-            width: 60% ;
-        }
-        .ui.grid > .ten.wide.column{
-            width: 40% ;
-        }
-        .ui.grid > .six.wide.column{
-            width: 100% ;
-        }
-        .column:first-of-type{
-            img{
-                width: 100%;
-                height: auto;
-            }
-        }
-        .column:nth-of-type(2){
-            img{
-                width: 100%;
-                height: auto;
-            }
-        }
-        .nadpis.primarni-barva.vpravo{
-            width: 40%;
-            display: inline-flex;
-            height: 120%;
-            text-align: center;
-            align-items: center;
-            transform: translateX(0) translateY(20px);
-        }
-        .blok.podnadpis{
-            transform: translateY(30%);
-            height: 25%;
-            width: 35%;
-            float: right;
-            margin-right: 160px; 
-            font-size: 5.4rem;
-        }
-    }
-    .blok-sedy-nadpis-obr-text{
-        .blok-sedy-nahore{
-            height: 770px;
-            p{
-                top: 20%;
-            }
-        }
-        .blokEL-dolni-img{
-            width: 1200px;
-            margin-top: 45px;
-            margin-right: 80px;
-            &::before{
-                bottom: -71px;
-                right: -80px;
-                width: 80px;
-                height: 800px;
-            }
-            &::after{
-                height: 80px;
-                bottom: -71px;
-            }
-        }
-    } 
-    .blok-sedy-obr-text{
-        .blok-sedy-dole{
-            height: 770px;
-            margin-top: 170px;
-            p{
-                top: 20%;
-            }
-        }
-        .blokEL-horni-img{
-            width: 1200px;
-            margin-top: -20px;
-            margin-left: 80px;
-            &::before{
-                top: -80px;
-                left: -80px;
-                width: 80px;
-                height: 800px;
-            }
-            &::after{
-                height: 80px;
-                top: -80px;
-            }
-        }
-    } 
-    .pozadi-img{
-        height: 600px;
-        background-size: contain;
-        margin-bottom: 70px;
-    }
-    .blok-nadpis-loga .partneri-pozadi{
-        .logo-siroke{
-            height: 140px;
-        }
-        .logo-ctverec{
-            height: 200px;
-        }
-        .logo-obdelnik{
-            height: 165px;
-        }
-        .logo-vysoke{
-            height: 250px;
-        }
-    }
-    .dva-sloupce-nadpis{
-        .link-img > img{
-            height: 400px;
-            width: auto;
-        }
-    }
-    
-}
-@media screen and (max-width: 3799px) and (min-width: 2800px){
-    body{
-        font-size: 2.5rem !important;
-    }
-    header .logo{
-        width: auto;
-        height: 100px;
-    }
-    .nadpis{
-        font-size: 6rem;
-        &.vlevo{
-            width: 52%;
-            transform: translateX(-20%) translateY(-150px); 
-        }
-    }
-    .text{
-        font-size: 2.5rem;
-        &.velky{
-            font-size: 4rem;
-        }
-        &.okraje-horizontal{
-            padding: 0 80px;
-        }
-    }
-    .icon-menu .huge.icon .big.icon{
-        font-size: 3.4em;
-    }
-    .ui.massive.button{
-        font-size: 2.3rem !important;
-    }
-    .fix-bar .svisle-menu .ui.massive.vertical.menu:not(.icon){
-        width: 60rem !important;
-        li .item {
-            font-size: 2.8rem !important;
-        }
-    }
-    .ui.vertical.menu.massive.edit .onpath ul{
-        width: 50rem !important
-    }
-    main .paper content{
-        margin: 200px 0;
-    }
-    .nadpis.uvod{
-        font-size: 5rem;
-        margin-top: -10px;
-        .text.maly{
-            font-size: 60px;
-        }
-    }
-    .obr-upoutavka{
-        margin-top: 50px;
-        margin-bottom: 100px;
-        .ui.grid > .sixteen.wide.column{
-            width: 60% ;
-        }
-        .ui.grid > .ten.wide.column{
-            width: 40% ;
-        }
-        .ui.grid > .six.wide.column{
-            width: 100% ;
-        }
-        .column:first-of-type{
-            img{
-                width: 100%;
-                height: auto;
-            }
-        }
-        .column:nth-of-type(2){
-            img{
-                width: 100%;
-                height: auto;
-            }
-        }
-        .blok.podnadpis{
-            transform: translateY(30%);
-            height: 25%;
-            width: 35%;
-            float: right;
-            margin-right: 160px; 
-            font-size: 4rem;
-        }
-    }
-    .blok-sedy-nadpis-obr-text{
-        .blok-sedy-nahore{
-            height: 570px;
-            padding-left: 100px;
-            margin-top: -20px;
-            p{
-                top: 20%;
-            }
-        }
-        .blokEL-dolni-img{
-            width: 900px;
-            margin-top: 45px;
-            margin-right: 60px;
-            &::before{
-                bottom: -50px;
-                right: -60px;
-                width: 60px;
-                height: 550px;
-            }
-            &::after{
-                height: 60px;
-                bottom: -50px;
-            }
-        }
-    } 
-    .blok-sedy-obr-text{
-        .blok-sedy-dole{
-            height: 570px;
-            margin-top: 135px;
-            padding-right: 70px;
-            p{
-                top: 20%;
-            }
-        }
-        .blokEL-horni-img{
-            width: 900px;
-            margin-top: -20px;
-            margin-left: 60px;
-            &::before{
-                top: -60px;
-                left: -60px;
-                width: 60px;
-                height: 550px;
-            }
-            &::after{
-                height: 60px;
-                top: -60px;
-            }
-        }
-    } 
-    .pozadi-img{
-        height: 450px;
-        background-size: contain;
-        margin-bottom: 55px;
-    }
-    .blok-nadpis-loga .partneri-pozadi{
-        .logo-siroke{
-            height: 90px;
-        }
-        .logo-ctverec{
-            height: 150px;
-        }
-        .logo-obdelnik{
-            height: 120px;
-        }
-        .logo-vysoke{
-            height: 190px;
-        }
-    }
-    .dva-sloupce-nadpis{
-        .link-img > img{
-            height: 300px;
-            width: auto;
-        }
-    }
-    
-}*/
 @media screen and (max-width: 1910px){
     .obr-upoutavka{
         .nadpis.primarni-barva.presah{
@@ -503,16 +16,13 @@
 @media screen and (max-width: 1750px){
     .nadpis.uvod{
         padding: 0;
-        font-size: 3rem;
     }
     .obr-upoutavka{
         .nadpis.primarni-barva.presah{
-            font-size: 3.6rem;
         }
         .column:nth-of-type(2){
             .blok.podnadpis{
                 padding: 20px 20px !important;
-                font-size: 2.6rem;
             }
         }
     }
@@ -559,26 +69,21 @@
         }
     }
     .text{
-        font-size: 1.8rem;
     }
     .velky.text{
-        font-size: 2.6rem;
     }
     .jmeno-stanku{
         width: 630px !important;
-        font-size: 1.8em;
     }
     
 }    
 @media screen and (max-width: 1600px){
     .obr-upoutavka{
         .nadpis.primarni-barva.presah{
-            font-size: 3rem;
         }
         .column:nth-of-type(2){
             .blok.podnadpis{
                 width: 45%;
-                font-size: 2.3rem;
             }
         }
     }
@@ -599,9 +104,6 @@
     .blok-nadpis-loga .partneri-pozadi{
         padding: 80px 10%;
         margin: 80px -10% 0 -16%;
-    }
-    .velky.text{
-        font-size: 2.3rem;
     }
     .video-na-stanku{
         margin-right: 0;
@@ -635,18 +137,15 @@
 }
 @media screen and (max-width: 1340px){
     .nadpis.uvod{
-        font-size: 2.5rem;
         margin-left: -5px;
     }
     .obr-upoutavka{
         .nadpis.primarni-barva.presah{
             bottom: 16px;
             padding: 20px;
-            font-size: 2.8rem;
         }
         .column:nth-of-type(2){
             .blok.podnadpis{
-                font-size: 2rem;
             }
         }
     }
@@ -693,18 +192,6 @@
             width: 350px;
         }
     }
-    .text{
-        font-size: 1.6rem;
-    }
-    .nadpis{
-        font-size: 3rem;
-    }
-    .text.velky{
-        font-size: 2rem;
-    }
-    .ui.massive.button{
-        font-size: 1.5rem !important;
-    }
     timeline boxes
     .timeline{
         .box-title, .box-content{
@@ -729,12 +216,10 @@
     }
     .jmeno-stanku{
         width: 500px !important;
-        font-size: 1.8em;
     }
 }
 @media screen and (max-width: 1200px){
     body{
-        font-size: 24px;
     }
     .obr-upoutavka{
         img{
@@ -743,7 +228,6 @@
         .nadpis.primarni-barva.presah{
             bottom: 21px;
             padding: 15px;
-            font-size: 2.2rem;
         }
         .column:nth-of-type(2){
             .blok.podnadpis{
@@ -854,8 +338,7 @@
     }
     .jmeno-stanku{
         width: auto !important;
-        font-size: 1.5em;
-    }
+    } 
 
 }
 @media screen and (max-width: 1000px) and (min-width: 769px){ 
@@ -890,7 +373,6 @@
             bottom: auto;
             top: 7px;
             width: 96%;
-            font-size: 2rem;
         }
         .column:nth-of-type(2){
             img{
@@ -907,9 +389,6 @@
                 top: 83%;
                 right: 2%;
                 background-color: #DDDDDD96;
-            }
-            .text.velky{
-                font-size: 2rem;
             }
         }
     }
@@ -981,9 +460,6 @@
         padding: 80px 6%;
         margin: 80px -6% 0 -5%;
     }
-    .text{
-        font-size: 1.4rem;
-    }
     .dva-sloupce-nadpis{
         img{
             width: 35%;
@@ -1040,13 +516,6 @@
                 height: 33px;
                 padding: 6px 2px;
                 top: calc(50% - 15px);
-                font-size: 17px;
-            }
-            h2{
-                font-size: 18px;
-            }
-            p{
-                font-size: 16px;
             }
         }
         .timeline-date{
@@ -1114,14 +583,12 @@
         max-width: 100% !important;
     }
     .nadpis{
-        font-size: 2.3rem;
         margin-bottom: 2px;
         &.nastred{
             margin-bottom: 50px;
         }
     }
     .text{
-        font-size: 1.4rem;
         &:not(okraje-vertical){
              padding: 26px 17px;  
         }
@@ -1129,7 +596,6 @@
             padding: 20px 0px;
         }
         &.velky{
-            font-size: 20px; 
         }
         &.vpravo, &.vlevo{
             width: 100%
@@ -1149,7 +615,6 @@
             top: 7px;
             width: 93%;
             right: 2.5%;
-            font-size: 1.8rem;
             padding: 15px 7px;
         }
         .column:nth-of-type(2){
@@ -1168,10 +633,6 @@
                 top: auto;
                 bottom: -40px;
                 background-color: #DDDDDD96;
-                font-size: 1.7rem;
-            }
-            .text-velky{
-                font-size: 1.7rem;
             }
         }
     }
@@ -1317,13 +778,6 @@
         margin: -1.3em 0 0 0;
     }
     .vypis-prac-pozic{
-        font-size: 1.3rem;
-        .podnadpis{
-            font-size: 1.6rem;
-            .big.label.tag{
-                font-size: 1.15rem;
-            }
-        }
         .row > .column{
             padding: 0.5rem 0.5rem !important;
         }
@@ -1345,13 +799,6 @@
                 height: 33px;
                 padding: 6px 2px;
                 top: calc(50% - 15px);
-                font-size: 17px;
-            }
-            h2{
-                font-size: 18px;
-            }
-            p{
-                font-size: 16px;
             }
         }
         .timeline-date{
@@ -1416,10 +863,7 @@
     }
 }
 
-@media screen and (max-width: 600px){ 
-    .nadpis.uvod{
-        font-size: 2rem;
-    }
+@media screen and (max-width: 600px){
     .blok-sedy-nadpis-obr-text{
         .blokEL-dolni-img{
             width: 220px; 
@@ -1477,45 +921,5 @@
         .logo-vystavovatele img{
             max-height: 70px;
         }
-    }
-    
-}
-
-@media screen and (min-height: 431px) and (max-width: 530px){
-    .logo-ke-stazeni{
-        .column:first-child{
-            img{
-                height: 100px;
-                width: auto;
-            }
-        }
-        .column:last-child{
-            img{
-                height: 145px;
-                width: auto;
-            }
-        }
-    }
-    .kupony{
-        .kupon-img{
-            height: 180px;
-            width: 270px;
-        }
-        .kupon-siroky-img{
-            height: 115px;
-            width: 270px;
-        }
-    }
-}
-@media only screen and (max-height: 630px) {
-    
-}
-@media only screen and (max-height: 430px) and (min-width: 1600px) {
-    
-}
-@media only screen and (max-height: 430px) and (max-width: 1599px) {
-    
-}
-@media only screen and (max-height: 430px) and (max-width: 768px) {
-
+    }   
 }

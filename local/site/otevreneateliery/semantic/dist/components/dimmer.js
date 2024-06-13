@@ -1,5 +1,5 @@
 /*!
- * # Fomantic-UI - Dimmer
+ * # Fomantic-UI 2.9.2 - Dimmer
  * https://github.com/fomantic/Fomantic-UI/
  *
  *

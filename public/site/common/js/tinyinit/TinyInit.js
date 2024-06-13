@@ -253,7 +253,7 @@ let selectTemplateCommonConfig = {
     body_class: "layout preview",
 //    menubar: false,
     plugins: [
-    'template', 'save', 'stylZobrazeniStranky'
+    'template', 'save' 
     ],
     
   menu: {
@@ -265,12 +265,6 @@ let selectTemplateCommonConfig = {
       text: 'My Custom Menu Item',
       onAction: () => alert('Menu item clicked')
     });
-    editor.ui.registry.addButton('stylZobrazeniStranky', {
-          /*text: 'Styl zobrazení stránky',*/
-          icon: 'ai-prompt', /*table-classes,*/
-          tooltip: 'Styl zobrazení stránky',
-          onAction: () => tinymce.activeEditor.execCommand('mceTemplate')
-    });
   }    
 };
 
@@ -278,7 +272,7 @@ var selectTemplateArticleConfig = {
     ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_article',
     placeholder: 'Výběr stylu zobrazení pro article',
-    toolbar: 'stylZobrazeniStranky template | save',
+    toolbar: 'template | save',
     templates: 'red/v1/templateslist/article'
 };
 
@@ -291,7 +285,7 @@ var selectTemplatePaperConfig = {
         { title: 'Horizontálně prohodit perex a contents', selector: 'div.horizontalne-prohodit', styles: { 'flex-direction': 'row-reverse' } },
     ],
     style_formats_autohide: true,
-    toolbar: 'stylZobrazeniStranky template | save cancel | styles',
+    toolbar: 'template | save cancel | styles',
     templates: 'red/v1/templateslist/paper'
 };
 
@@ -299,7 +293,7 @@ var selectTemplateMultipageConfig = {
     ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_multipage',
     placeholder: 'Výběr stylu zobrazení pro multipage',
-    toolbar: 'stylZobrazeniStranky template | save',
+    toolbar: 'template | save', 
     templates: 'red/v1/templateslist/multipage'
 };
 

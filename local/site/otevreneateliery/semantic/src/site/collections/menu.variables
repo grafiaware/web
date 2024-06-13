@@ -19,7 +19,7 @@
 @hoverItemTextColor: @invertedTextColor;
 
 /* Resize large sizes */
-@huge: @18px;
+@huge: @14px;
 
-@massiveWidth: 30rem;
+@massiveWidth: 25rem; 
 
