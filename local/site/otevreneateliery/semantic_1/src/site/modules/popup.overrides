@@ -1,6 +1,0 @@
-/*******************************
-        User Overrides
-*******************************/
-[data-tooltip]::before{
-    font-size: @tooltipFontSize;
-}
