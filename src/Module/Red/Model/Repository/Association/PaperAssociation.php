@@ -1,8 +1,10 @@
 <?php
 namespace Red\Model\Repository\Association;
 
-use Model\Repository\Association\AssociationWithJoinOneToOneAbstract;
+//use Model\Repository\Association\AssociationWithJoinOneToOneAbstract;
+use Model\Repository\Association\AssociationOneToOneAbstract;
 use Model\Repository\Association\AssociationOneToOneInterface;
+
 
 use Red\Model\Entity\MenuItemAggregatePaper;
 use Model\Entity\PersistableEntityInterface;
@@ -15,7 +17,7 @@ use Red\Model\Dao\PaperDao;
  *
  * @author pes2704
  */
-class PaperAssociation extends AssociationWithJoinOneToOneAbstract implements AssociationOneToOneInterface {
+class PaperAssociation extends AssociationOneToOneAbstract implements AssociationOneToOneInterface {
 
     public function getReferenceName() {
         return PaperDao::REFERENCE_MENU_ITEM;

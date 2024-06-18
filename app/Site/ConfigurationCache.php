@@ -28,8 +28,6 @@ const SITE_PATH = 'app/Site/OtevreneAteliery/';
 #
 ###########################################################################
 
-
-//include SITE_PATH.'ConfigurationConstants.php';
 include SITE_PATH.'ConfigurationConstants.php';
 include SITE_PATH.'ConfigurationDb.php';
 include SITE_PATH.'ConfigurationWeb.php';

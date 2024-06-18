@@ -18,6 +18,9 @@ use Pes\Container\Container;
 
 use Container\DbUpgradeContainerConfigurator;
 use Container\RedModelContainerConfigurator;
+
+use Test\AppRunner\AppRunner;
+
 use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
@@ -43,11 +46,10 @@ use Red\Model\Entity\PaperAggregatePaperSectionInterface;
  *
  * @author pes2704
  */
-class MenuitemAggPaperContentManipulationTest extends TestCase {
+class MenuitemAggPaperContentManipulationTest  extends AppRunner {
 
-    private static $inputStream;
+    private $container;
 
-    private $app;
 
     private $langCode;
     private $uid;
@@ -62,77 +64,29 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
      */
     private $menuItemAgg;
     private $paper;
-
-    public static function mock(array $userData = []) {
-        //Validates if default protocol is HTTPS to set default port 443
-        if ((isset($userData['HTTPS']) && $userData['HTTPS'] !== 'off') ||
-            ((isset($userData['REQUEST_SCHEME']) && $userData['REQUEST_SCHEME'] === 'https'))) {
-            $defscheme = 'https';
-            $defport = 443;
-        } else {
-            $defscheme = 'http';
-            $defport = 80;
-        }
-
-        $data = array_merge([
-            'SERVER_PROTOCOL'      => 'HTTP/1.1',
-            'REQUEST_METHOD'       => 'GET',
-            'REQUEST_SCHEME'       => $defscheme,
-            'SCRIPT_NAME'          => '',
-            'REQUEST_URI'          => '',
-            'QUERY_STRING'         => '',
-            'SERVER_NAME'          => 'localhost',
-            'SERVER_PORT'          => $defport,
-            'HTTP_HOST'            => 'localhost',
-            'HTTP_ACCEPT'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8',
-            'HTTP_ACCEPT_CHARSET'  => 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-            'HTTP_USER_AGENT'      => 'PES',
-            'REMOTE_ADDR'          => '127.0.0.1',
-            'REQUEST_TIME'         => time(),
-            'REQUEST_TIME_FLOAT'   => microtime(true),
-        ], $userData);
-
-         return (new EnvironmentFactory())->create($data, self::$inputStream);
-    }
+    
+    // pomocná proměnná pro add
+    private static $oldContentCount;
 
     public static function setUpBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
-
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
-
-        // input stream je možné otevřít jen jednou
-        self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.
+        self::bootstrapBeforeClass();
     }
 
     protected function setUp(): void {
-        $environment = $this->mock(
-                ['HTTP_USER_AGENT'=>'AppRunner']
-
-                );
-        $this->app = (new WebAppFactory())->createFromEnvironment($environment);
-
-        $container =
+        $this->container =
                 (new TestHierarchyContainerConfigurator())->configure(
                            (new TestDbUpgradeContainerConfigurator())->configure(new Container())
                         );
-
-
-        $this->menuItemAggRepo = $container->get(MenuItemAggregatePaperRepo::class);
+        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
 
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
-        $hierarchyDao = $container->get(HierarchyAggregateReadonlyDao::class);
+        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'Tests Integration';
         $node = $hierarchyDao->getByTitleHelper(['lang_code_fk'=>$this->langCode, 'title'=>$this->title]);
         if (!isset($node)) {
-            throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
+            
+            throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi '{$hierarchyDao->getSchemaName()}' není publikovaná položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }
 
         //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
@@ -141,55 +95,50 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
         if (!$this->paper instanceof PaperAggregatePaperSectionInterface) {
-            throw new \LogicException("Error in setUp: Nelze spustit integrační test - v setup() metodě nevznikl paper.");
+            throw new \LogicException("Error in setUp: Nelze spustit integrační test - v setup() metodě nelze číst publikovaný paper.");
         }
-
+    }
+    
+    protected function tearDown(): void {
+        $this->menuItemAggRepo->flush();
+    }
+    
+    public function testPaperHasSections() {
+        $sections = $this->paper->getPaperSectionsArray();
+        $this->assertIsArray($sections);
     }
 
-    public function testPaperHasContents() {
-        $this->assertIsArray($this->paper->getPaperSectionsArray());
-    }
-
-    public function testPaperContentType() {
-        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperSectionsArray()[0]);
-    }
 
     public function testAdd() {
         $oldContentsArray = $this->paper->getPaperSectionsArray();
-        $oldContent = $oldContentsArray[0];
-        $oldContentCount = count($oldContentsArray);
-
+        static::$oldContentCount = count($oldContentsArray);
         $paperIdFk = $this->paper->getId();
-        $this->paper->setPaperSectionsArray($this->addContent($this->createContent($paperIdFk), $oldContentsArray));
-        /** @var PaperSectionRepo $paperContentRepo */
-//        $paperContentRepo = $this->container->get(PaperContentRepo::class);
-//        $paperContentRepo->add($newContent);
+        $this->paper->setPaperSectionsArray($this->addSection($this->createSection($paperIdFk), $oldContentsArray));
+        $this->assertTrue(count($this->paper->getPaperSectionsArray()) == static::$oldContentCount+1, "Není o jeden obsah více po testAdd.");
+    }
 
-//        $paperContentRepo->flush();  // unset nevyvolá zavolání destruktoru
-$this->menuItemAggRepo->flush();
-        // reset odstraní repo - voláním container->get() pak vznikne nové repo
-        // nestačí resetovat MenuItemAggregateRepo - to se sice vygeneruje znovu, ale v něm obsažené PaperAggregateRepo se zachová a použije
-        // a obdobně PaperContentRepo obsažené v PaperAggregateRepo
-        $this->container->reset(MenuItemAggregatePaperRepo::class);
-        $this->container->reset(PaperAggregateSectionsRepo::class);
-        $this->container->reset(PaperSectionRepo::class);
-        /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
-        $this->menuItemAggRepo = $container->get(MenuItemAggregatePaperRepo::class);
+    public function testCheckAdded() {
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
         $newContentsArray = $this->paper->getPaperSectionsArray();
 
-        $this->assertTrue(count($newContentsArray) == $oldContentCount+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
+        $this->assertTrue(count($newContentsArray) == static::$oldContentCount+1, "Není o jeden obsah více po testAdd.");
 
         // tohle nefunguje!
 //        $this->assertTrue(count($newContentsArray) == count($oldContentsArray)+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
 
     }
 
-    private function createContent($paperIdFk) {
+    public function testPaperContentType() {
+        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperSectionsArray()[0]);
+    }
+    
+    private function createSection($paperIdFk) {
         $newContent = new PaperSection();
+        // paper_id_fk, active, priority, editor - jsou NOT NULL -> musí mít nastaveny hodnoty
         $newContent->setContent(file_get_contents('http://loripsum.net/api/3/short/headers'));
         $newContent->setPaperIdFk($paperIdFk);
+        $newContent->setActive(1);
         $newContent->setShowTime((new \DateTime("now"))->modify("-1 week"));
         $newContent->setHideTime((new \DateTime("now"))->modify("+1 week"));
         $newContent->setEventStartTime(new \DateTime("now"));
@@ -199,9 +148,9 @@ $this->menuItemAggRepo->flush();
         return $newContent;
     }
 
-    private function addContent(PaperSectionInterface $newContent, $oldContentsArray) {
-        $newContent->setPriority(count($oldContentsArray)+1);
-        $oldContentsArray[] = $newContent;
+    private function addSection(PaperSectionInterface $newSectionContent, $oldContentsArray) {
+        $newSectionContent->setPriority(count($oldContentsArray)+1);
+        $oldContentsArray[] = $newSectionContent;
         return $oldContentsArray;
     }
 

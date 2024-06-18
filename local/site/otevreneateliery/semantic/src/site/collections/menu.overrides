@@ -1,27 +1,18 @@
 /*******************************
          Site Overrides
 *******************************/
-.column:not(.editMenu) .fix-bar{
-    .ui.vertical.icon.menu{
-        background-color: transparent;
-        width: 100%;
-        position: absolute;
-        bottom: 20%; 
-        .item > i.icon:not(.dropdown):hover{
-            opacity: 0.8;
-        }
-    }
+#mySidenav:not(.editMenu){
     .ui.menu .item::before{ 
         display: none;
     }
     .ui.vertical.menu:not(.icon){
-            width: 30rem;
+            width: 25rem;
             padding: 0.7em 0;
             a, p{
                 display: block;
                 width: 98%;
                 font-weight: 500;
-                font-size: 2rem;
+                font-size: 1.9rem;
                 text-transform: uppercase;
                 line-height: 1.2;
                 position: relative;
@@ -39,7 +30,7 @@
                     transform: translateX(-100%);
                 }
             }
-            a:not(.presented), p:not(.presented){
+            a:not(.presented){
                 color: @invertedTextColor;
             }
             a:not(.presented){
@@ -71,22 +62,22 @@
             }
         .kos .ui.vertical.menu{
             a, p{
-                font-size: 2rem !important;
+                font-size: 1.9rem !important;
                 padding: 0.2em 1.3em; 
-                &.presented{
-                    padding: 20px 1.3em 15px;
-                    margin-top: 10px; 
-                }
+            }
+            .presented{
+                padding: 20px 1.3em 15px;
+                margin-top: 10px; 
             }
         }
     }
 }
-.column.editMenu .fix-bar{
+#mySidenav.editMenu{
     .ui.menu .item::before{ 
         display: none;
     }
     .ui.vertical.menu:not(.icon){
-        width: 26rem; 
+        width: 25rem; 
     }
     .ui.vertical.menu:not(.icon){
         a:not(.presented){
@@ -120,49 +111,34 @@
                 transform: none;
             }
         }
-    } 
+    }
+    .button-edit-menu + .ui.vertical.menu{
+            margin-top: 3.5em;
+    }
     .ui.vertical.menu{
         padding: 0.7em 0;
+        .semafor{
+            font-size: 1.4rem;
+        }
         a, p{
             display: block;
             width: 98%;
             font-weight: 500;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             text-transform: uppercase;
             line-height: 1.4;
             position: relative;
             color: @invertedTextColor;
         }
-        p{
-            padding-left: 25px;
-        }
-        &.edit{ 
-            width: 27rem;
-            .onpath{
-                width: 35rem;
-            }
-            a{
-                display: block;
-                width: 98%;
-                font-size: 1.8rem !important;
-                position: relative;
-            }
-            p{
-                padding: 0.6em 1.1em;
-                font-size: 1.5rem !important;
-                font-weight: 500;
-                position: relative;
-            }
-            li:not(.cut) p.presented{
-                margin-top: 0.7em;  
-            } 
-        }
-        
     }
     .kos .ui.vertical.menu{
         a, p{
-            font-size: 1.5rem !important; 
+            font-size: 1.4rem !important; 
             padding: 0 1.3em; 
         }
     }
+}
+.ui.vertical.menu .item > .menu{
+    margin-top: 0;  
+    margin-left: 12px;
 }

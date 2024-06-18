@@ -10,7 +10,7 @@ use Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\PaperHydrator;
 
 use \Model\Repository\RepoAssotiatedOneTrait;
-
+//use \Model\Repository\RepoAssociatedWithJoinOneTrait;
 /**
  * Description of Menu
  *
@@ -29,7 +29,7 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
     }
 
     use RepoAssotiatedOneTrait;
-
+//    use RepoAssociatedWithJoinOneTrait;
     /**
      *
      * @param type $id

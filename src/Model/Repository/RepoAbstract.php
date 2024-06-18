@@ -10,6 +10,7 @@ namespace Model\Repository;
 
 use Model\Dao\DaoEditKeyDbVerifiedInterface;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Model\Repository\RepoReadonlyInterface;
 
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use UnexpectedValueException;
@@ -308,7 +309,7 @@ abstract class RepoAbstract {
             } elseif($association instanceof AssociationOneToOneInterface) {
                 /** @var AssociationOneToOneInterface $association */
                 $association->recreateChildEntity($parentEntity, $parentRowData);
-            } elseif($association instanceof JoinOneToOneInterface) {
+            } elseif($association instanceof JoinOneToOneInterface) {              //TODO: nnexistuje typ JoinOneToOneInterface asociace!!
                 /** @var JoinOneToOneInterface $association */
                 $association->recreateChildEntity($parentEntity, $parentRowData);
             } else {
@@ -330,7 +331,7 @@ abstract class RepoAbstract {
             throw new OperationWithLockedEntityException("Nelze přidávat přidanou nebo smazanou entitu.");
         }
         if ($entity->isPersisted()) {
-            $this->collection[$this->callIndexFromEntity($entity)] = $entity;
+            $this->collection[$this->callIndexFromEntity($entity)] = $entity;   //TODO: pravděpodobně nadbytečná operace - persisted entita už je c collection
         } else {
             if ($this->dataManager instanceof DaoEditAutoincrementKeyInterface) {
                 // okamžité uložaní a zpetné načtení z databáze
@@ -517,6 +518,8 @@ abstract class RepoAbstract {
             $this->removed = [];
 
         } else {
+            // $this je reaonly, ale child repo nemusí být
+            $this->flushChildRepos();
             if ($this->new OR $this->removed) {
                 $cls = get_called_class();
                 throw new \LogicException("Repostory $cls je read only a byly do něj přidány nebo z něj smazány entity.");

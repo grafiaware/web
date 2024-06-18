@@ -200,7 +200,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'flash' => FlashComponent::class,
                     'modalLogin' => LoginComponent::class,
                     'modalLogout' => LogoutComponent::class,
-                    'modalRegister' => RegisterComponent::class,
+//                    'modalRegister' => RegisterComponent::class,
                     'modalUserAction' => UserActionComponent::class,
                     'info' => InfoBoardComponent::class,
                     'languageSelect'=> LanguageSelectComponent::class,

@@ -78,7 +78,9 @@ class ArticleControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
             }
         }
-        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+        //TODO: POST version                
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     /**
@@ -101,7 +103,8 @@ class ArticleControler extends AuthoredControlerAbstract {
             $article->setContent($postTemplateContent);
             $this->addFlashMessage("Set content with template: $lastTemplateName", FlashSeverityEnum::SUCCESS);
         }
-        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
-//        return $this->redirectSeeLastGet($request); // 303 See Other
+//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+        //TODO: POST version                
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }

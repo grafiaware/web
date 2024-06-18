@@ -9,7 +9,7 @@
 namespace Red\Model\Repository;
 
 use Model\Repository\RepoAssotiatedOneInterface;
-
+//use Model\Repository\RepoAssociatedWithJoinOneInterface;
 use Red\Model\Entity\PaperInterface;
 
 /**
@@ -17,6 +17,7 @@ use Red\Model\Entity\PaperInterface;
  * @author pes2704
  */
 interface PaperRepoInterface extends RepoAssotiatedOneInterface {
+//interface PaperRepoInterface extends RepoAssociatedWithJoinOneInterface {
     public function get($id): ?PaperInterface;
     public function getByMenuItemId($menuItemId): ?PaperInterface;
     public function add(PaperInterface $paper);

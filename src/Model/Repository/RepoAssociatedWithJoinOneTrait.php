@@ -17,7 +17,8 @@ use UnexpectedValueException;
 trait RepoAssociatedWithJoinOneTrait {
 
     /**
-     * Metoda vytvoří entitu v potomkovské repository be čtšní dat z úložiště. Potomkovskou entitu vytvoří z rodičovských dat.
+     * Předpokladem použití je, že rodičovská data jsou v dao načítána pomocí JOIN současně z rodičovské i potomkovské tabulky.
+     * Metoda vytvoří entitu v potomkovské repository bez čtení dat z úložiště. Potomkovskou entitu vytvoří z rodičovských dat.
      *
      * @param RowDataInterface $parentRowData Rodičovská data pro získání všech hodnot potomka
      * @return PersistableEntityInterface|null

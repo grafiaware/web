@@ -58,9 +58,9 @@ class ItemActionControler extends FrontControlerAbstract {
             $activeEditor = $this->itemActionService->getActiveEditor($itemId);
             $this->addFlashMessage("Položku (item) $itemId upravuje $activeEditor.", FlashSeverityEnum::WARNING);
         }
-        return $this->createJsonPutNoContentResponse(["refresh"=>"closest"], 200);
-        
-//        return $this->redirectSeeLastGet($request); // 303 See Other
+//        return $this->createJsonPutNoContentResponse(["refresh"=>"closest"], 200);
+        //TODO: POST version        
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function removeUserItemAction(ServerRequestInterface $request, $itemId) {
@@ -69,8 +69,8 @@ class ItemActionControler extends FrontControlerAbstract {
         $this->itemActionService->remove($itemId, $loginName);  // odstranění z repo
         $statusSecurity->getUserActions()->removeItemAction($itemId);
         $this->addFlashMessage("Ukončena úprava položky (item $itemId)", FlashSeverityEnum::INFO);
-        return $this->createJsonPutNoContentResponse(["refresh"=>"closest"], 200);
-        
-//        return $this->redirectSeeLastGet($request); // 303 See Other
+//        return $this->createJsonPutNoContentResponse(["refresh"=>"closest"], 200);
+        //TODO: POST version        
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }

@@ -19,7 +19,7 @@ trait RepoAssotiatedOneTrait {
     /** @var RepoAbstract $this */
 
     /**
-     * Metoda získá potomkovskou entoty z potomkovského repository pomocí reference. Hodnoty polí reference naplní z rodičovských dat.
+     * Metoda získá potomkovskou entity z potomkovského repository pomocí reference. Hodnoty polí reference naplní z rodičovských dat.
      *
      * @param string $referenceName Jméno refernce z DAO
      * @param RowDataInterface $parentRowData Rodičovská data pro získání hodnot polí reference.

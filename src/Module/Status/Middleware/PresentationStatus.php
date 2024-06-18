@@ -25,7 +25,7 @@ use Container\PresentationStatusComfigurator;
 use Status\Model\Entity\StatusPresentation;
 use Status\Model\Repository\StatusPresentationRepo;
 use Red\Model\Repository\LanguageRepo;
-
+use Status\Model\Entity\StatusPresentationInterface;
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\UserActions;
 
@@ -52,8 +52,11 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
                 )
             );
         $statusPresentation = $this->getOrCreateStatusIfNotExists();
+        //TODO: POST version
+        // možná není potřeba ukládat - nebude fungoba seeLastGet
         $this->presetPresentationStatus($statusPresentation, $request);
         $response = $handler->handle($request);
+        $this->saveLastGetResourcePath($statusPresentation, $request);        
         $response = $this->addResponseHeaders($response);
         return $response;
     }
@@ -75,7 +78,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      *
      * @param type $statusPresentation
      */
-    private function presetPresentationStatus(StatusPresentation $statusPresentation, ServerRequestInterface $request) {
+    private function presetPresentationStatus(StatusPresentationInterface $statusPresentation, ServerRequestInterface $request) {
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguage())) {
             $langCode = $this->getRequestedLangCode($request);
@@ -88,8 +91,29 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     }
 
     /**
-     * Default LanguageInterface objekt podle kódu jazyka požadovaného v requestu (z hlavičky Accept-Language) apokud takový jazyk aplikace není
-     * v databázi, pak podle konstanty třídy DEFAULT_LANG_CODE
+     * Pro GET request uloží uri do StatusPresentation. 
+     * - Neukládá uri pokud request obsahuje hlavičku "X-Cascade", to je využito při kaskádním načítání, 
+     *   kdy se neuládají adresy GET requestů, kterými jsou načítány vložené komponenty stránky. 
+     * 
+     * Poznámka: Použito pro přesměrování redirectLastGet a pro Transform!
+     * 
+     * @param type $statusPresentation
+     * @param type $request
+     */
+    private function saveLastGetResourcePath(StatusPresentationInterface $statusPresentation, $request) {
+        if ($request->getMethod()=='GET') {
+            /** @var UriInfoInterface $uriInfo */
+            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+            if (!$request->hasHeader("X-Cascade")) {
+                $restUri = $uriInfo->getRestUri();
+                $statusPresentation->setLastGetResourcePath($restUri);
+            }
+        }
+    }
+    
+    /**
+     * Vrací kód jazyka podle kódu jazyka požadovaného v requestu (z hlavičky Accept-Language), pokud takový jazyk existuje v seznamu akceptovaných jazyků v konfiguraci. 
+     * Pokud takový jazyk aplikace není v konfiguraci, pak vrací defaultní hodnotu jazyka aplikace, také uvedenou v konfiguraci.
      *
      * @param ServerRequestInterface $request
      * @return LanguageInterface

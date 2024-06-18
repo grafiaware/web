@@ -4,10 +4,10 @@
 
 .prihlaseni .dropdown{
     .tertiary.button{
-        font-size: @relative6px; 
+        font-size: @relative4px; 
     }
 } 
-.editSize.buttons, .editingButtons_size.buttons{
+.editSize.buttons, .editingButtons.buttons{
     .button{
         font-size: @small;
         .icon{
@@ -15,7 +15,7 @@
         } 
     }
 } 
-.editSize.button, .editingButtons_size.button{
+.editSize.button, .editingButtons.button{
     font-size: @small;
     .icon{
         font-size: @huge; 
