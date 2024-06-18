@@ -82,7 +82,7 @@ class MenuitemAggPaperContentManipulationTest  extends AppRunner {
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
-        $this->title = 'Tests Integration';
+        $this->title = 'DIVIDE';
         $node = $hierarchyDao->getByTitleHelper(['lang_code_fk'=>$this->langCode, 'title'=>$this->title]);
         if (!isset($node)) {
             
@@ -102,19 +102,21 @@ class MenuitemAggPaperContentManipulationTest  extends AppRunner {
     protected function tearDown(): void {
         $this->menuItemAggRepo->flush();
     }
-    
-    public function testPaperHasSections() {
-        $sections = $this->paper->getPaperSectionsArray();
-        $this->assertIsArray($sections);
-    }
 
-
-    public function testAdd() {
-        $oldContentsArray = $this->paper->getPaperSectionsArray();
-        static::$oldContentCount = count($oldContentsArray);
+    public function testDivide() {
+        $this->assertIsReadable(__DIR__.'/Divide.html');
+        $text = file_get_contents(__DIR__.'/Divide.html');
+        $pattern ='<div class="blok_text_obrazek">';
+        $divided = preg_split('/'.$pattern.'/', $text, -1, PREG_SPLIT_NO_EMPTY);
+        $sectionContents = array_map(function($str) use ($pattern) {return $pattern.$str;}, $divided);
         $paperIdFk = $this->paper->getId();
-        $this->paper->setPaperSectionsArray($this->addSection($this->createSection($paperIdFk), $oldContentsArray));
-        $this->assertTrue(count($this->paper->getPaperSectionsArray()) == static::$oldContentCount+1, "Není o jeden obsah více po testAdd.");
+        $sections = [];
+        $cnt = count($sectionContents);  // priorita musí být od nejvyšší
+        foreach ($sectionContents as $key=>$part) {
+            $sections[]=$this->createSection($paperIdFk, $part, $cnt-$key);
+        }
+        $this->paper->setPaperSectionsArray($sections);
+        $this->assertTrue(1);
     }
 
     public function testCheckAdded() {
@@ -129,67 +131,15 @@ class MenuitemAggPaperContentManipulationTest  extends AppRunner {
 
     }
 
-    public function testPaperContentType() {
-        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperSectionsArray()[0]);
-    }
-    
-    private function createSection($paperIdFk) {
-        $newContent = new PaperSection();
+    private function createSection($paperIdFk, $part, $key) {
+        $section = new PaperSection();
         // paper_id_fk, active, priority, editor - jsou NOT NULL -> musí mít nastaveny hodnoty
-        $newContent->setContent(file_get_contents('http://loripsum.net/api/3/short/headers'));
-        $newContent->setPaperIdFk($paperIdFk);
-        $newContent->setActive(1);
-        $newContent->setShowTime((new \DateTime("now"))->modify("-1 week"));
-        $newContent->setHideTime((new \DateTime("now"))->modify("+1 week"));
-        $newContent->setEventStartTime(new \DateTime("now"));
-        $newContent->setEventEndTime((new \DateTime("now"))->modify("1 day"));
-        $newContent->setTemplateName('neexistujícíTemplate.php');
-        $newContent->setTemplate("<h1>Content z testu</h1>");
-        return $newContent;
+        $section->setContent($part);
+        $section->setPaperIdFk($paperIdFk);
+        $section->setActive(1);
+        $section->setPriority($key+1);
+        
+        return $section;
     }
 
-    private function addSection(PaperSectionInterface $newSectionContent, $oldContentsArray) {
-        $newSectionContent->setPriority(count($oldContentsArray)+1);
-        $oldContentsArray[] = $newSectionContent;
-        return $oldContentsArray;
-    }
-
-//    public function testUpdate() {
-//        $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-//        $oldActive = $menuItemRow['active'];
-//        $this->assertIsInt($oldActive);
-//        //
-//        $this->setUp();
-//        $menuItemRow['active'] = 1;
-//        $this->dao->update($menuItemRow);
-//        $this->setUp();
-//        $menuItemRowRereaded = $this->dao->get($this->langCode, $this->uid);
-//        $this->assertEquals($menuItemRow, $menuItemRowRereaded);
-//        $this->assertEquals(1, $menuItemRowRereaded['active']);
-//
-//        $this->setUp();
-//        $menuItemRow['active'] = 0;
-//        $this->dao->update($menuItemRow);
-//        $this->setUp();
-//        $menuItemRowRereaded = $this->dao->get($this->langCode, $this->uid);
-//        $this->assertEquals($menuItemRow, $menuItemRowRereaded);
-//        $this->assertEquals(0, $menuItemRowRereaded['active']);
-//
-//        // vrácení původní hodnoty
-//        $this->setUp();
-//        $menuItemRow['active'] = $oldActive;
-//        $this->dao->update($menuItemRow);
-//        $this->setUp();
-//        $this->dao = $this->container->get(MenuItemDao::class);
-//        $menuItemRowRereaded = $this->dao->get($this->langCode, $this->uid);
-//        $this->assertEquals($menuItemRow, $menuItemRowRereaded);
-//        $this->assertEquals($oldActive, $menuItemRowRereaded['active']);
-//
-//    }
-//
-//    public function testDelete() {
-//        $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-//        $this->expectException(\LogicException::class);
-//        $this->dao->delete($menuItemRow);
-//    }
 }

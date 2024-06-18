@@ -15,7 +15,13 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface DaoInterface {
-
+    // abstract dao
+    
+    /**
+     * Vrací jméno databázového schematu (jméno databáze).
+     */
+    public function getSchemaName();
+    
     // metody musí implemtovat jednotlivá Dao
 
     /**

@@ -60,7 +60,13 @@ abstract class DaoAbstract implements DaoInterface {
 
 #### public ##########################################
 
-
+    /**
+     * {@inheritDoc}
+     * Vrací jeméno schematu, které získá z aktuální db handleru.
+     */
+    public function getSchemaName() {
+        return $this->dbHandler->getSchemaName();
+    }
     //TODO: ? protected - getPrimaryKey je použito jen v testech - mění se hodnota primárního klíče a zpětně se získává ?? je to use case?
     /**
      * {@inheritDoc}

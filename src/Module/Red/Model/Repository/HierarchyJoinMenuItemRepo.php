@@ -24,7 +24,7 @@ use Red\Model\Hydrator\HierarchyChildHydrator;
 /**
  * Description of HierarchyJoinMenuItemRepo
  *
- * Používá Dao, které pracuje nas hierarchy (nested set) JOIN menuItem
+ * Používá Dao, které pracuje nad hierarchy JOIN menuItem
  *
  * @author pes2704
  */

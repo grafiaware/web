@@ -311,7 +311,7 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemDao::class),
                         $c->get(MenuItemHydrator::class)
                         );
-                $assotiation = new PaperAssociation($c->get(PaperRepo::class));
+                $assotiation = new PaperAssociation($c->get(PaperAggregateSectionsRepo::class));
                 $repo->registerOneToOneAssociation($assotiation);
                 return $repo;
 

@@ -40,9 +40,10 @@ abstract class AssociationOneToOneAbstract extends AssociationAbstract implement
      * Hodnoty referenčního klíče pro potomkovské repository->getByReference() bere z rodičovských dat.
      *
      * Poznámka: Pokud potomkovská entita neexistuje hydratuje hodnotou null.
-     * @param string $referenceName
+     * 
+     * @param PersistableEntityInterface $parentEntity
      * @param RowDataInterface $parentRowData
-     * @return PersistableEntityInterface|null
+     * @return void
      */
     public function recreateChildEntity(PersistableEntityInterface $parentEntity, RowDataInterface $parentRowData): void {
         $childEntity = $this->childRepo->getByParentData($this->getReferenceName(), $parentRowData);

@@ -18,13 +18,15 @@ use Red\Model\Hydrator\PaperHydrator;
 
 use Model\Repository\RepoAssotiatedOneTrait;
 use Model\Repository\RepoAssotiatingManyTrait;
+use Model\Repository\RepoAssotiatedOneInterface;
+use Model\Repository\RepoAssotiatingManyInterface;
 
 /**
  * Description of Menu
  *
  * @author pes2704
  */
-class PaperAggregateSectionsRepo extends RepoAbstract implements PaperAggregateSectionsRepoInterface {
+class PaperAggregateSectionsRepo extends RepoAbstract implements RepoAssotiatedOneInterface, RepoAssotiatingManyInterface, PaperAggregateSectionsRepoInterface {
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator) {
         $this->dataManager = $paperDao;
