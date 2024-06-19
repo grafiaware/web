@@ -125,9 +125,11 @@ body{
         }
         .vertical.menu .item .presented, .item .presented{
             background-color: @secondaryColor;
-            padding: 10px;
-            margin: 0 -5px;
-            width: 106.5%;
+            padding: 10px 20px;
+            width: 111.6%;
+            box-shadow: 1px 1px 2px 1px @lightGrey;
+            transform: translateX(50%);
+            right: 50%;
         }
         .vertical.menu .item > .vertical.menu .item .presented, .item .presented{
             padding: 10px 10px 10px 20px;
@@ -309,9 +311,11 @@ body{
     }
     main{
         min-height: 1000px;
-        padding: 0 10px;
+        padding: 10px 15px;
         z-index: 1;
         position: relative;
+        background-color: #EFEFEF;
+        border-radius: 5px;
     }
     headline{
         font-size: 19px;

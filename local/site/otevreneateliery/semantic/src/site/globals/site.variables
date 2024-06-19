@@ -43,7 +43,7 @@
        Links
 --------------------*/
 
-@linkColor          : #CB0A1F;
+@linkColor          : #CB0A1F ;
 
 /*--------------
   Page Heading 
