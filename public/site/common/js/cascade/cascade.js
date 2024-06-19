@@ -114,7 +114,8 @@ function fetchCascadeContent(parentElement){
         listenFormsWithApiAction(parentWithNewContent);
         return fetchCascadeContents(parentWithNewContent);
     }).then(allSettledPromise => {
-        initElements();  // import z initElements.js
+        console.log(`cascade: Loaded content from ${apiUri}.`);
+//        initElements();  // import z initElements.js
     }).catch(e => {
         throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
