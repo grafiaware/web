@@ -26,17 +26,9 @@ use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
-use Red\Model\Repository\PaperAggregateSectionsRepo;
 
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 
-// pro contents repo
-use Pes\Database\Handler\HandlerInterface;
-use Red\Model\Dao\PaperSectionDao;
-use Red\Model\Hydrator\PaperSectionHydrator;
-use Red\Model\Repository\PaperSectionRepo;
-
-use Red\Model\Entity\PaperSectionInterface;
 use Red\Model\Entity\PaperSection;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
@@ -46,7 +38,7 @@ use Red\Model\Entity\PaperAggregatePaperSectionInterface;
  *
  * @author pes2704
  */
-class MenuitemAggPaperContentManipulationTest  extends AppRunner {
+class PaperDivideToSectionsTest  extends AppRunner {
 
     private $container;
 

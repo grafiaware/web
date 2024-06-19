@@ -5,7 +5,7 @@ const conf = {
     content: "data-red-content",
     cacheControl: "data-red-cache-control",
     targetId: "data-red-target-id",
-    
+    //TODO: touto změnou je vypnuto OFF -> cascade off
 //    apiAction: "apiAction",
 //    navigationClass: "navigation",
 

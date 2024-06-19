@@ -71,7 +71,7 @@ document.onreadystatechange = function () {
             
             initElements();
             console.log("body: init loaded elements finished");
-            console.log("Initiate scrolling onto anchor position.");
+            console.log("body: Scroll onto anchor position.");
             scrollToAnchorPosition();
 
 //            listenLinks();

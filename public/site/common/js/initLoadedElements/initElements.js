@@ -1,14 +1,14 @@
 
 
 export function initElements() {
-    console.log("initElements: run initLoadedElements for init loaded elements");
     initLoadedElements();
+    console.log("initElements: init loaded elements");
     if (isTinyMCEDefined()) {
-        console.log("initElements: run loadAndInitTiny for TinyMce load and init loaded editable elements");
         loadAndInitTiny();    
+        console.log("initElements: init loaded editable elements");
     }
-    console.log("initElements: run initJqueryEvents for jQuery events on loaded elements");
     initJqueryEvents();
+    console.log("initElements: set jQuery events on loaded elements");
     console.log("initElements: finished");        
 }
 
@@ -16,13 +16,13 @@ const loadAndInitTiny = async () => {
         await import("../tinyinit/TinyInit.js")  // lazy import TinyInit
             .then((tinyInitModule) => {
                 tinyInitModule.initEditors();
+        console.log('initElements: Load tiny init module.')
             })
             .catch((err) => {
                 console.error(err.fileName + ":" + err.message);
             });
 
         initLoadedEditableElements();
-        console.log("body: initLoaded elements for editable mode");
 };
 
 /**
@@ -197,8 +197,6 @@ function initLoadedElements() {
         scroll(loop);
     }
 
-    // Call the loop for the first time
-    loop();
 
     // Helper function from: http://stackoverflow.com/a/7557433/274826
     function isElementInViewport(el) {
@@ -218,6 +216,10 @@ function initLoadedElements() {
             rect.bottom <= (window.innerHeight || document.documentElement.clientHeight))
         );
     }
+
+    // Call the loop for the first time
+//    loop();
+    
 
     ////////////////////////////////
     var ram = document.getElementById("googleform");
