@@ -211,6 +211,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     // na mnoha místech - cesty k souborům zadané v konfiguraci
                     'linksCommon' => ConfigurationCache::layoutController()['linksCommon'],
                     'linksSite' => ConfigurationCache::layoutController()['linksSite'],
+                    'version' => ConfigurationCache::layoutController()['version'] ?? '',
                     // js proměnná navConfig - pro volání cascade v body.js
                     'navConfigView' => $navConfigView,
                 ]);
