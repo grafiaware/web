@@ -143,7 +143,10 @@ class ConfigurationWeb extends ConfigurationConstants {
             // folders
             'linksCommon' => self::WEB_LINKS_COMMON,
             'linksSite' => self::WEB_LINKS_SITE,
-
+            
+            // version - postfix ke jménům souborů typu css, jss pro zablokování cachování ve fázi vývoje
+            'version' => '',  //?version='.time(), //
+            
             // local templates paths
             // php templates
             'templates.layout' => self::WEB_TEMPLATES_SITE.'layout/layout.php',

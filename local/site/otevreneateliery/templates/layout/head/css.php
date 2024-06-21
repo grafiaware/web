@@ -3,8 +3,8 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
 /** @var PhpTemplateFunctionsInterface $this */
 ?>
 <link rel="stylesheet" type="text/css" href="<?= $linksSite ?>semantic-ui/semantic.min.css" />
-    <link rel="stylesheet" type="text/css" href="<?= $linksCommon ?>css/layout.css" />
-    <link rel="stylesheet" type="text/css" href="<?= $linksCommon ?>css/templates.css" />
+    <link rel="stylesheet" type="text/css" href="<?= $linksCommon ?>css/layout<?=$version ?>.css" />
+    <link rel="stylesheet" type="text/css" href="<?= $linksCommon ?>css/templates<?=$version ?>.css" />
     <!--<link rel="stylesheet" type="text/css" href="<?php/* echo $linksCommon.'css/old/styles.css' */?>" />-->
     <link rel="stylesheet" type="text/css" href="<?= $linksCommon.'css/media.css'?>" />
 
