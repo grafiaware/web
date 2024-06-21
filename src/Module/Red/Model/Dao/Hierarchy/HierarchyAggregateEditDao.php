@@ -558,7 +558,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      * @throws Exception
      */
     public function copySubTreeAsSiebling($sourceUid, $targetUid, $deactivate=true): array {
-        $dbhTransact = $this->dbHandler;
+         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             
@@ -594,6 +594,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
             // kopíruj obsahy - metoda kopíruje položky menu_item
             $transform = $this->copySourceContentIntoTarget($dbhTransact, $preparedNodeData, $deactivate);
 
+            $this->replaceInternalLinks($transform);
+            
             $dbhTransact->commit();
         } catch(Exception $e) {
             $dbhTransact->rollBack();
@@ -602,6 +604,62 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
         return $transform;
     }
 
+    
+    private function replaceInternalLinks( $transform ){   //  $transform [uidStrankyKterouHledam] ->  $uidStrankyKDEHledam ()
+        
+        foreach ($transform as $uidStrankyKterouHledam => $uidStrankyKDEHledam) {
+            //zjistit id pro zadane uid
+            $selectSourceItemsStmt = $this->getPreparedStatement("
+                    SELECT * FROM 
+                        $this->itemTableName 
+                        WHERE
+                        ($this->itemTableName.uid_fk=:source_uid AND
+                         $this->itemTableName.lang_code_fk = 'cs')
+                ");
+            $this->bindParams($selectSourceItemsStmt, ['source_uid'=>  $uidStrankyKDEHledam  ]);
+                $selectSourceItemsStmt->execute();
+                $sourceItems = $selectSourceItemsStmt->fetchAll(\PDO::FETCH_ASSOC);  
+
+            //  precist texty z tabulek podle $sourceId
+            $sourceId = $sourceItems[0]['id'];               
+           
+            $selectArticleArticle = $this->getPreparedStatement("
+                    SELECT *
+                        FROM article
+                        WHERE
+                        article.id=:source_id
+            ");
+            $this->bindParams($selectArticleArticle, ['source_id'=>$sourceId]);
+            $selectArticleArticle->execute();
+            $sourceArticle = $selectArticleArticle->fetchAll(\PDO::FETCH_ASSOC);  
+            
+            $articleArticle =  $sourceArticle[0]['article'];
+            //
+            $selectPaperPerex= $this->getPreparedStatement("                
+                    SELECT *
+                        FROM  paper
+                        WHERE
+                        paper.menu_item_id_fk=:source_id
+            ");
+            $this->bindParams($selectPaperPerex, ['source_id'=>$sourceId] );
+            $selectPaperPerex ->execute();
+            $sourcePaper =  $selectPaperPerex->fetchAll(\PDO::FETCH_ASSOC);
+            
+            $paperPerex = $sourcePaper[0]['perex'];
+            $paperHeadLine = $sourcePaper['headline'];
+            
+        
+       
+        } 
+         
+    }
+    
+    
+    
+    
+    
+    
+    
     /**
      * Metoda kopíruje položky menu_item podle pole nodů zadaného jako parametr. Kopíruje položky všech jazykových verzí.
      * Defaultně zkopírované položky nastaví jako neaktivní (nepublikované).
