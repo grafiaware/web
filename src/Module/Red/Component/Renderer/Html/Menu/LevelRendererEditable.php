@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class LevelRenderer extends HtmlRendererAbstract {
+class LevelRendererEditable extends HtmlRendererAbstract {
 
     public function render(iterable $contextData=NULL) {
         // LevelComponent nedostává žádný view model - view předá do rendereru jen ContextData, který obsahuje vyrenderované komponentní view (tedy html)

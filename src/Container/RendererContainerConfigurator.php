@@ -12,9 +12,9 @@ use Pes\View\Renderer\PhpTemplateRenderer;
 
 use Red\Component\Renderer\Html\Menu\MenuRenderer;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
+use Red\Component\Renderer\Html\Menu\LevelRendererEditable;
 
 use Red\Component\Renderer\Html\Menu\ItemRenderer;
-use Red\Component\Renderer\Html\Menu\ItemRendererEditable;
 use Red\Component\Renderer\Html\Menu\DriverRenderer;
 use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 use Red\Component\Renderer\Html\Menu\DriverPresentedRenderer;
@@ -132,9 +132,36 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         MenuRenderer::class => function(ContainerInterface $c) {
             return new MenuRenderer();
         },
-        LevelRenderer::class => function(ContainerInterface $c) {
-            return new LevelRenderer($classMap);
-        },
+        ###########################
+        # menu renderer
+        ###########################
+            'menu.svisle.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
+            },
+            'menu.svisle.levelRenderer.editable' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.svisle.classmap.editable'));
+            },
+            'menu.presmerovani.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.presmerovani.classmap'));
+            },
+
+            'menu.vodorovne.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.vodorovne.classmap'));
+            },                    
+            //bloky
+            'menu.bloky.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.bloky.classmap'));
+            },
+            'menu.bloky.levelRenderer.editable' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.bloky.classmap.editable'));
+            },
+            //kos
+            'menu.kos.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.kos.classmap'));
+            },
+            'menu.kos.levelRenderer.editable' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.kos.classmap.editable'));
+            },                          
         ###########################
         # menu item renderer
         ###########################

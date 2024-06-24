@@ -126,30 +126,13 @@ class ConfigurationStyles extends ConfigurationConstants {
     public static function renderer() {
         return [
         ###########################
-        # menu renderer
-        ###########################
-            'menu.svisle.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-
-            //bloky
-            'menu.bloky.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-
-            //kos
-            'menu.kos.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-
-        ###########################
         # menu classmap
         ###########################
             'menu.svisle.classmap' => function() {
                 return new ClassMap (
                     [
                         'Level' => [
-                            'ul.lastLevel' => 'ui vertical menu', //hidden-submenu pro rozbalení submenu po kliknutí //ui text menu left floated vodorovne_menu
+                            'ul.lastLevel' => 'ui vertical menu hidden-submenu', //'ui vertical menu', //hidden-submenu pro rozbalení submenu po kliknutí //ui text menu left floated vodorovne_menu
                             'ul' => 'menu onpath',
                             ],
                     ]);

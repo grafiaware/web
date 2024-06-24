@@ -320,6 +320,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             ItemTypeEnum::class => function(ContainerInterface $c) {
                 return new ItemTypeEnum();
             },
+          
         ####
         # jednotlivé menu komponenty
         # (jsou jen jedna na stránku, pro přehlednost jsou zde)
@@ -332,11 +333,10 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->setItemType($menuConfig['itemtype']);
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -352,11 +352,10 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->setItemType($menuConfig['itemtype']);
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -372,12 +371,11 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->setItemType($menuConfig['itemtype']);
-
+                    
 //                    $viewModel->setMaxDepth(2);
 
                     $component->setData($viewModel);
@@ -396,11 +394,10 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->setItemType($menuConfig['itemtype']);
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -416,11 +413,10 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var MenuComponent $component */
                     $component = $c->get(MenuComponent::class);
-                    $component->setRenderersNames($menuConfig['levelRenderer']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
-                    $viewModel->setItemType($menuConfig['itemtype']);
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);

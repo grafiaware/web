@@ -88,15 +88,6 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         $this->maxDepth = $maxDepth;
     }
 
-    public function setItemType($itemType) {
-        $typeEnum = new ItemTypeEnum();
-        $this->itemType = $typeEnum($itemType);
-    }
-
-    public function getItemType() {
-        return $this->itemType;
-    }
-
     public function getPostCommand($key) {
         return $this->statusViewModel->getFlashPostCommand($key);
     }

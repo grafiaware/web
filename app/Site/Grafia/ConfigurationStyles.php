@@ -126,31 +126,6 @@ class ConfigurationStyles extends ConfigurationConstants {
     public static function renderer() {
         return [
         ###########################
-        # menu renderer
-        ###########################
-            'menu.presmerovani.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.presmerovani.classmap'));
-            },
-
-            'menu.vodorovne.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.vodorovne.classmap'));
-            },
-
-            'menu.svisle.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-
-            //bloky
-            'menu.bloky.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-
-            //kos
-            'menu.kos.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-
-        ###########################
         # menu classmap
         ###########################
             'menu.presmerovani.classmap' => function() {

@@ -249,16 +249,19 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'rootName' => 'menu_vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menu.svisle.levelRenderer',
+                        'levelRendererEditable' => 'menu.svisle.levelRenderer.editable',
                         ],
                     'menu.bloky' => [
                         'rootName' => 'blocks',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.bloky.levelRenderer',
+                        'levelRendererEditable' => 'menu.svisle.levelRenderer.editable',
                         ],
                     'menu.kos' => [
                         'rootName' => 'trash',
                         'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menu.kos.levelRenderer',
+                        'levelRendererEditable' => 'menu.svisle.levelRenderer.editable',
                         ],
                 ],
 

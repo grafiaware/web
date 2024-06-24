@@ -86,7 +86,7 @@ class TemplatedComponent extends AuthoredComponentAbstract implements InheritDat
             try {
                 $templatesType = (new AuthoredTypeEnum())($itemType);
             } catch (ValueNotInEnumException $exc) {
-                throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getItemType() není přípustný.", 0, $exc);
+                throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getAuthoredContentType() není přípustný.", 0, $exc);
             }
             try {
                 $templateFileName = $this->templateSeeker->seekTemplate($templatesType, $templateName);

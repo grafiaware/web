@@ -19,5 +19,5 @@ interface MenuComponentInterface extends ComponentCompositeInterface {
     const TOGGLE_EDIT_MENU_BUTTON = 'toggleEditMenuButton';
     const MENU = 'menu';
 
-    public function setRenderersNames($levelRendererName): MenuComponentInterface;    
+    public function setRenderersNames($levelRendererName, $levelRendererEditableName): MenuComponentInterface;    
 }

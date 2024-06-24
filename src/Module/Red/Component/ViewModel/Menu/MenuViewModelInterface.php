@@ -40,10 +40,6 @@ interface MenuViewModelInterface extends ViewModelInterface {
      * @return void
      */
     public function setMaxDepth($maxDepth): void;
-
-    public function setItemType($itemType);
-
-    public function getItemType();
     
     public function getPostCommand($key);
 

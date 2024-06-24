@@ -47,6 +47,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     protected $contextData;
 
     private $levelRendererName;
+    private $levelRendererEditableName;
     
     private $rootRealDepth;
 
@@ -75,8 +76,9 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * @param $levelRendererName
      * @return MenuComponentInterface
      */
-    public function setRenderersNames($levelRendererName): MenuComponentInterface {
+    public function setRenderersNames($levelRendererName, $levelRendererEditableName): MenuComponentInterface {
         $this->levelRendererName = $levelRendererName;
+        $this->levelRendererEditableName = $levelRendererEditableName;
         return $this;
     }
 
@@ -177,17 +179,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * @param type $editableMode
      * @return DriverComponent
      */
-    private function newDriverComponent(MenuItemInterface $menuItem) {
-        return $this->createDriverComponent($menuItem);
-    }
-    
-    /**
-     * Nový DriverComponent
-     * 
-     * @param MenuItemInterface $menuItem
-     * @param type $editableMode
-     * @return DriverComponent
-     */
     public function createDriverComponent(MenuItemInterface $menuItem) {   // PUBLIC pro volání z ComponentControler
         /** @var DriverComponent $driver */
         $driver = $this->container->get(DriverComponent::class);
@@ -231,7 +222,10 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     private function createLevelComponent($itemComponents): LevelComponentInterface {
         /** @var LevelComponentInterface $levelComponent */
         $levelComponent = $this->container->get(LevelComponent::class);
-        $levelComponent->setRendererName($this->levelRendererName);
+        $levelComponent->setRendererName($this->contextData->presentEditableMenu() ? $this->levelRendererEditableName : $this->levelRendererName);  
+//        tady přepínat!  level renderer musí být jiný v editable režimu - chci mír rozbalovací menu v needit režimu a rozbalené menu v edit režimu - to je class na level
+//        setRenderersNames() musí dostávat z kontejneru 2 jména: LevelRenderer a LevelRendererEditable
+//        část #menu renderer ze configurationStyles -> do RendererContainerConfigurator - přidej definici LevelRendererEditable s classmap:'menu.svisle.classmap.editable'
         $levelComponent->appendComponentViewCollection($itemComponents);
         return $levelComponent;
     }
