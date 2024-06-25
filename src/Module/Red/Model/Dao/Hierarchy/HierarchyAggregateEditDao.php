@@ -613,7 +613,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
     private function replaceInternalLinks( $transform ){   //  $transform [uidStrankyKterouHledam] ->  $uidStrankyKDEHledam ()
         
         foreach ($transform as $uidStrankyKterouHledam => $uidStrankyKDEHledam) {
-            //zjistit id pro zadane uid
+            //zjistit id pro zadane uid z tab. menu_item
             $selectSourceItemsStmt = $this->getPreparedStatement("
                     SELECT id FROM 
                         $this->itemTableName 
@@ -626,29 +626,32 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
             $sourceItems = $selectSourceItemsStmt->fetchAll(\PDO::FETCH_ASSOC);  
 
             //  precist texty z tabulek podle $sourceId
-            $sourceId = $sourceItems[0]['id'];   
+            $menuItemIdKDEHledam = $sourceItems[0]['id'];   //menu_item.id
             
             //article
             $selectArticleStm = $this->getPreparedStatement("
-                    SELECT article
+                    SELECT id, article
                         FROM article
                         WHERE
-                        article.id=:source_id
+                        article.menu_item_id_fk=:source_id
             ");
-            $this->bindParams($selectArticleStm, ['source_id'=>$sourceId]);
+            $this->bindParams($selectArticleStm, ['source_id'=>$menuItemIdKDEHledam]);
             $selectArticleStm->execute();
-            $sourceArticle = $selectArticleStm->fetchAll(\PDO::FETCH_ASSOC);              
-            $articleArticle =  $sourceArticle[0]['article'];
-            if  ($articleArticle) {
-                $articleArticleNew = str_replace( array_keys($transform), array_values ($transform), $articleArticle);   
-                
-                $updadteArticlerStm= $this->getPreparedStatement("       
-                    UPDATE article
-                        SET article = :article,                           
-                        article.id = :source_id                   
-                    ");
-                $this->bindParams($updadteArticlerStm, ['article'=>$articleArticleNew, 'source_id'=>$sourceId, ] );
-                $updadteArticlerStm -> execute();
+            $sourceArticle = $selectArticleStm->fetchAll(\PDO::FETCH_ASSOC);      
+            if ($selectArticleStm->rowCount()>0) { //dycky 1
+                $articleArticle =  $sourceArticle[0]['article'];
+                $articleId =  $sourceArticle[0]['id'];
+                if  ($articleArticle) {
+                    $articleArticleNew = str_replace( array_keys($transform), array_values ($transform), $articleArticle);   
+                    //kontrola stejnossti stareho a noveho - update jen pri <>
+                    $updadteArticlerStm = $this->getPreparedStatement("       
+                        UPDATE article
+                            SET article = :article                           
+                            WHERE id = :id                   
+                        ");
+                    $this->bindParams($updadteArticlerStm, ['article'=>$articleArticleNew, 'id'=>$articleId ] );
+                    $updadteArticlerStm -> execute();
+                }
             }
             
             //paper            
@@ -658,53 +661,67 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                         WHERE
                         paper.menu_item_id_fk=:source_id
             ");
-            $this->bindParams($selectPaperStm, ['source_id'=>$sourceId] );
-            $selectPaperStm ->execute();
-            $sourcePaper =  $selectPaperStm->fetchAll(\PDO::FETCH_ASSOC);            
-            $paperPerex = $sourcePaper[0]['perex'];
-            $paperHeadLine = $sourcePaper[0]['headline'];
-            $paperId = $sourcePaper[0]['id'];
-            
-            if  ($paperPerex or $paperHeadLine) { 
-                $paperPerexNew = str_replace( array_keys($transform), array_values ($transform), $paperPerex);
-                $paperHeadlineNew = str_replace( array_keys($transform), array_values ($transform), $paperHeadLine);   
-                
-                
-                $updadtePaperStm= $this->getPreparedStatement("       
-                    UPDATE paper
-                        SET perex = :perex, 
-                            headline = :headline
-                        paper.menu_item_id_fk=:source_id                   
-                    ");
-                $this->bindParams($updadtePaperStm, ['perex'=>$paperPerexNew, 'headline'=>$paperHeadlineNew, 
-                                                     'source_id'=>$sourceId] );
-                $updadtePaperStm -> execute();
-                
-            }   
+            $this->bindParams($selectPaperStm, ['source_id'=>$menuItemIdKDEHledam] );
+            $selectPaperStm -> execute();
+            $sourcePaper =  $selectPaperStm->fetchAll(\PDO::FETCH_ASSOC);     
+            if ($selectPaperStm->rowCount()>0) { //dycky 1
+                $paperPerex = $sourcePaper[0]['perex'];
+                $paperHeadLine = $sourcePaper[0]['headline'];
+                $paperId = $sourcePaper[0]['id'];
+
+                if  ($paperPerex) { 
+                    $paperPerexNew = str_replace( array_keys($transform), array_values ($transform), $paperPerex, $countPerex);                       
+                } else {
+                    $countPerex = 0;
+                }
+                if  ($paperHeadLine) { 
+                    $paperHeadlineNew = str_replace( array_keys($transform), array_values ($transform), $paperHeadLine, $countHeadline);   
+                } else {
+                    $countHeadline = 0;
+                }
+                //kontrola stejnosti stareho a noveho - update jen pri <>   ???
+                if ($countHeadline OR $countPerex) {
+                    $updadtePaperStm= $this->getPreparedStatement("       
+                        UPDATE paper
+                            SET perex = :perex, 
+                                headline = :headline
+                            WHERE id = :id                   
+                        ");
+                    $this->bindParams($updadtePaperStm, ['perex'=>$paperPerexNew, 'headline'=>$paperHeadlineNew, 
+                                                         'id'=>$paperId] );
+                    $updadtePaperStm -> execute();
+                }
         
-            //paper_section
-            $selectPaperSectionStm = $this->getPreparedStatement("                
-                    SELECT id, content
-                        FROM  paper_section
-                        WHERE
-                        paper_section.paper_id_fk=:source_id
-            ");
-            $this->bindParams($selectPaperSectionStm, ['source_id'=>$paperId] );
-            $selectPaperSectionStm ->execute();
-            $sourcePaperSection =  $selectPaperSectionStm->fetchAll(\PDO::FETCH_ASSOC);       //array s vice nez jednim prvkem     
-            //$paperSectionContentA = $sourcePaperSection[0]['content']; 
-            foreach ($sourcePaperSection as $radek) {                
-                $radekNew = str_replace( array_keys($transform), array_values ($transform), $radek);                                
-                //update
-                $updadtePaperSectionStm= $this->getPreparedStatement("       
-                    UPDATE paper_section
-                        SET content= :content,                             
-                        WHERE paper_section.id=:source_id                   
-                    ");
-                $this->bindParams($updadtePaperSectionStm, ['content'=>$radekNew['content'], 'source_id'=>$radekNew['id'] ] ); 
-                $updadtePaperSectionStm ->execute();                                
-            }
-            
+                //paper_section
+                $selectPaperSectionStm = $this->getPreparedStatement("                
+                        SELECT id, content
+                            FROM  paper_section
+                            WHERE
+                            paper_id_fk=:source_id
+                ");
+                $this->bindParams($selectPaperSectionStm, ['source_id'=> $paperId ] );
+                $selectPaperSectionStm -> execute();
+                $sourcePaperSection =  $selectPaperSectionStm->fetchAll(\PDO::FETCH_ASSOC);       //array s vice nez jednim prvkem     
+                if ($selectPaperSectionStm->rowCount()>0) {
+                    foreach ($sourcePaperSection as $sekce) { 
+                        if ($sekce['content']) {
+                            $contentNew = str_replace( array_keys($transform), array_values ($transform), $sekce['content']);    
+                        } else {
+                            $contentNew = '';                             
+                        }
+                         //kontrola stejnosti stareho a noveho - update jen pri <>   ???
+
+                        $updadtePaperSectionStm= $this->getPreparedStatement("       
+                            UPDATE paper_section
+                                SET content= :content,                             
+                                WHERE id=:id                   
+                            ");
+                        $this->bindParams($updadtePaperSectionStm, ['content'=>$contentNew, 'id'=>$sekce['id'] ] ); 
+                        $updadtePaperSectionStm -> execute();             
+                    }
+
+                }    
+            } 
             
             //multipage-nic                          
         } 
