@@ -32,9 +32,10 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     protected function addHeaders(ResponseInterface $response): ResponseInterface {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         if ($userActions AND $userActions->presentEditableContent()) {
-            $response = $response->withHeader('Cache-Control', 'no-cache');
+            $response = $response->withHeader('Cache-Control', 'no-store, no-cache');
         } else {
-            $response = $response->withHeader('Cache-Control', 'public, max-age=0');  
+            $response = $response->withHeader('Cache-Control', 'no-store, no-cache');
+//            $response = $response->withHeader('Cache-Control', 'public, max-age=0');  
         }
         $cls = (new \ReflectionClass($this))->getShortName();
         return $response->withHeader('X-RED-Controlled', "$cls");

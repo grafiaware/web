@@ -42,8 +42,26 @@ interface ItemActionServiceInterface {
      * NEMAŽE záznamy zadaného uživatele i když jsou starší, přihlášený uživatel tak může editovat v jedné session a stále, déle než je požadovaný timeout interval.
      * Metoda čistí item actions při zpracování každého requestu, který chce přidat item action. 
      * 
-     * @param DateInterval $interval Interval, po který budou item actions zachovány
-     * @param type $exceptLoginName Jméno uživatele, pro kterého se item actions nemají mazat
+     * @param DateInterval $interval 4asový interval po jehož uplynutí jsou položky editované jiným uživatelem uvolněny pro další editaci.
+     * @param string $itemId id položky menu
+     * @param string $loginName Jméno uživatele, pro kterého se item actions nemají mazat
+     * @return ItemActionInterface
      */
     public function refreshItemActionsAndCreateNew(DateInterval $interval, $itemId, $loginName): ItemActionInterface ;
+    
+    /**
+     * Vyčistí item actions a pokud po vyčištění item se zadaným item id needituje jiný uživatel než zadaný uživatel
+     * přidá item action ze zadaným item id a login name.
+     * 
+     * Smaže z repository všechny ItemActions jiných uživatelů, které jsou starší než zadaný interval. 
+     * NEMAŽE záznamy zadaného uživatele i když jsou starší, přihlášený uživatel tak může editovat v jedné session a stále, déle než je požadovaný timeout interval.
+     * Metoda čistí item actions při zpracování každého requestu, který chce přidat item action. 
+     * 
+     *  
+     * @param DateInterval $interval 4asový interval po jehož uplynutí jsou položky editované jiným uživatelem uvolněny pro další editaci.
+     * @param string $itemId id položky menu
+     * @param string $loginName Jméno uživatele, pro kterého se item actions nemají mazat
+     * @return string|null Jméno uživatele, který položku edituje
+     */
+    public function refreshItemActionsAndGetLockedBy(DateInterval $interval, $itemId, $loginName): ?string;    
 }
