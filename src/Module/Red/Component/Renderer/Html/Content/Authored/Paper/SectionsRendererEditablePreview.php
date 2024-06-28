@@ -22,7 +22,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class SectionsRendererEditable extends HtmlRendererAbstract {
+class SectionsRendererEditablePreview extends HtmlRendererAbstract {
 
     /**
      * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři
@@ -50,5 +50,4 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         }
         return $sections;
     }
-
 }
