@@ -11,7 +11,7 @@ Options +FollowSymLinks
 
 RewriteEngine On
 
-RewriteBase "/"
+RewriteBase "/web/"
 
 #RewriteRule ^(.*) indexunderreconstuction.html [QSA,L]
 
@@ -27,32 +27,3 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
 
 # RewriteRule ^((?s).*)$ index.php?_uri=/$1 [QSA,L]
-
-ExpiresActive On
-ExpiresDefault "access plus 30 seconds"
-ExpiresByType text/css "access plus 10 seconds"
-ExpiresByType text/html "access plus 30 seconds"
-ExpiresByType text/rtf "access plus 48 hours"
-ExpiresByType text/plain "access plus 48 hours"
-ExpiresByType image/gif "modification plus 2 days"
-ExpiresByType image/bmp "modification plus 2 days"
-ExpiresByType image/jpeg "modification plus 2 days"
-ExpiresByType image/png "modification plus 2 days"
-ExpiresByType image/webp "modification plus 2 days"
-ExpiresByType image/avif "modification plus 2 days"
-ExpiresByType image/x-icon "access plus 2 days"
-ExpiresByType audio/x-wav "access plus 2 days"
-ExpiresByType audio/mpeg "modification plus 2 days"
-ExpiresByType video/mpeg "modification plus 2 days"
-ExpiresByType video/quicktime "modification plus 2 days"
-ExpiresByType video/x-msvideo "modification plus 2 days"
-ExpiresByType application/zip "modification plus 2 days"
-ExpiresByType application/x-tar "access plus 2 days"
-ExpiresByType application/msword "modification  plus 2 days"
-ExpiresByType application/pdf "modification plus 2 days"
-ExpiresByType application/ogg "modification plus 2 days"
-ExpiresByType text/javascript "access plus 1 minutes"
-ExpiresByType text/x-javascript "access plus 1 minutes"
-ExpiresByType application/javascript "access plus 1 minutes"
-ExpiresByType application/x-javascript "access plus 1 minutes"
-ExpiresByType application/json "access plus 1 minutes"
