@@ -7,14 +7,17 @@
  */
 function scrollToAnchorPosition() {
     if(window.location.hash) {   // window.location.hash je fragment
-        $('html, body').animate({
-            scrollTop: $(window.location.hash).offset().top, // - 20
-            opacity: 'o.4'
-        }, 150);
-        $('html, body').animate({
-            scrollTop: $(window.location.hash).offset().top, // - 20
-            opacity: '1'
-        }, 1000);        
+        var locHash = window.location.hash.substring(1);
+        var element_to_scroll_to = document.getElementById(locHash);
+        element_to_scroll_to.scrollIntoView();        
+//        $('html, body').animate({
+//            scrollTop: $(window.location.hash).offset().top, // - 20
+//            opacity: 'o.4'
+//        }, 150);
+//        $('html, body').animate({
+//            scrollTop: $(window.location.hash).offset().top, // - 20
+//            opacity: '1'
+//        }, 1000);        
     }
     // Příklad w3schools
 //      // Add smooth scrolling to all links
@@ -72,7 +75,7 @@ document.onreadystatechange = function () {
             initElements();
             console.log("body: init loaded elements finished");
 //            console.log("body: Scroll onto anchor position.");
-//            scrollToAnchorPosition();
+            scrollToAnchorPosition();
 
 //            listenLinks();
         };

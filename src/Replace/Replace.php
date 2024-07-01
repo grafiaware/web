@@ -127,9 +127,14 @@ class Replace implements ReplaceInterface {
                             }
                         }
                         // tato část ničila absolutní odkazy s anchorem, myslím, že není třeba, není třeba transformovat href="#A"
-//                    } elseif(isset ($anchor)) {  // odkaz na kotvu na téže stránce - např. href="#A"                        
-//                        $newUrl = $sub.trim("$lastGetResourcePath#$anchor", "/");
-//                        $transform .= $newUrl;
+                    } elseif(isset ($anchor)) {  // odkaz na kotvu na téže stránce - např. href="#A"                        
+                        $path = parse_url($url, PHP_URL_PATH);
+                        if ($path) {  // relativní neboi absolutní odkaz s path
+                            $newUrl = $sub.trim("$path#$anchor", "/");                            
+                        } else {      // relativní adkaz bez path -> má jen anchor (href="#Adam") nebo nic  
+                            $newUrl = $sub.trim("$lastGetResourcePath#$anchor", "/");   
+                        }
+                        $transform .= $newUrl;
                     } else {
                         $transform .= $url;
                     }
