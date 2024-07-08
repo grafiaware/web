@@ -8,7 +8,8 @@
 
 namespace Red\Component\Renderer\Html\Content\Authored\Paper;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Red\Component\Renderer\Html\Content\Authored\Paper\SectionRendererAbstract;
+
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
@@ -22,7 +23,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class SectionsRendererEditablePreview extends HtmlRendererAbstract {
+class SectionsRendererEditablePreview extends SectionRendererAbstract {
 
     /**
      * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři

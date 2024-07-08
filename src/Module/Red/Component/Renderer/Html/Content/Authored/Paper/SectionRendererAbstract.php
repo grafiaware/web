@@ -1,14 +1,23 @@
 <?php
 namespace Red\Component\Renderer\Html\Content\Authored\Paper;
 
+use Component\Renderer\Html\HtmlRendererAbstract;
+use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
+
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
+use Red\Model\Entity\PaperSectionInterface;
+use Red\Middleware\Redactor\Controler\SectionsControler;
+
+use Pes\Text\Html;
+
 /**
  * Description of SectionRendererAbstract
  *
  * @author pes2704
  */
-class SectionRendererAbstract {
+abstract class SectionRendererAbstract extends HtmlRendererAbstract {
 
-    private function getContent(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
+    protected function getContent(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
         return Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
                         $this->getRibbonContent($paperSection)
@@ -40,7 +49,7 @@ class SectionRendererAbstract {
             );
     }
 
-    private function getTrashContent(PaperSectionInterface $paperContent) {
+    protected function getTrashContent(PaperSectionInterface $paperContent) {
         return
         Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
             Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter

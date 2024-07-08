@@ -9,7 +9,32 @@ function scrollToAnchorPosition() {
     if(window.location.hash) {   // window.location.hash je fragment
         var locHash = window.location.hash.substring(1);
         var element_to_scroll_to = document.getElementById(locHash);
-        element_to_scroll_to.scrollIntoView();        
+        element_to_scroll_to.scrollIntoView();    
+//        element_to_scroll_to.scrollIntoView({
+//            behavior: 'smooth',
+//            block: 'start'
+//        });
+        
+//[id^='someId'] will match all ids starting with someId.
+//[id$='someId'] will match all ids ending with someId.
+//[id*='someId'] will match all ids containing someId.     
+   
+//https://stackoverflow.com/questions/3163615/how-to-scroll-an-html-page-to-a-given-anchor
+//let anchorlinks = document.querySelectorAll('a[href^="#"]')
+// 
+//for (let item of anchorlinks) { // relitere 
+//    item.addEventListener('click', (e)=> {
+//        let hashval = item.getAttribute('href')
+//        let target = document.querySelector(hashval)
+//        target.scrollIntoView({
+//            behavior: 'smooth',
+//            block: 'start'
+//        })
+//        history.pushState(null, null, hashval)
+//        e.preventDefault()
+//    })
+//}        
+        
 //        $('html, body').animate({
 //            scrollTop: $(window.location.hash).offset().top, // - 20
 //            opacity: 'o.4'
