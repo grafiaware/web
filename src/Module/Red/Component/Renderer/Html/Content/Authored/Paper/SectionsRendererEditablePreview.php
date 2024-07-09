@@ -14,9 +14,6 @@ use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Entity\PaperSectionInterface;
-use Red\Middleware\Redactor\Controler\SectionsControler;
-
-use Pes\Text\Html;
 
 /**
  * Description of ContentsRenderer
