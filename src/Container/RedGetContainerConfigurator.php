@@ -154,7 +154,7 @@ use Red\Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
 use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
 use Red\Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
 use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
-
+use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditablePreview;
 use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
 
@@ -726,7 +726,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $component->setRendererName(PaperRenderer::class);
                             $headline->setRendererName(HeadlineRenderer::class);
                             $perex->setRendererName(PerexRenderer::class);
-                            $sections->setRendererName(SectionsRenderer::class);
+                            $sections->setRendererName(SectionsRendererEditablePreview::class);
                         }
                     } else {
                             $component->setRendererName(PaperRenderer::class);

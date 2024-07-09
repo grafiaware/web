@@ -40,10 +40,21 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
         // With an empty <code>prefix</code>, the returned string will be 13 characters long.
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * Identifikátor je generován v konstruktoru pomocí uniquid().
+     * @return type
+     */
     public function getComponentUid() {
         return $this->uid;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @return StatusViewModelInterface
+     */
     public function getStatusViewModel(): StatusViewModelInterface {
         return $this->statusViewModel;
     }

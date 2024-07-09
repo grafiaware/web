@@ -10,10 +10,33 @@ use Red\Model\Entity\MenuItemInterface;
  * @author pes2704
  */
 interface MenuItemViewModelInterface {
+    /**
+     * Vrací StatusViewModel
+     * @return StatusViewModelInterface
+     */
     public function getStatusViewModel(): StatusViewModelInterface;
+    
+    /**
+     * Nastaví id objektu MenuItemInterface, který bude vracet metoda getMenuItem().
+     * 
+     * @param type $menuItemId
+     */
     public function setMenuItemId($menuItemId);
-    public function getMenuItemId();    
+    
+    /**
+     * Vrací id objektu MenuItemInterface nastavené metodou setMenuItemId($menuItemId).
+     */
+    public function getMenuItemId();
+    
+    /**
+     * Vrací entitu MenuItemInterface s id zadaným metodou setMenuItemId($menuItemId).
+     * @return MenuItemInterface
+     */
     public function getMenuItem(): MenuItemInterface;
+    
+    /**
+     * Vrací náhodně generovaný identifikátor objektu komponenty. 
+     */
     public function getComponentUid();
 
 }

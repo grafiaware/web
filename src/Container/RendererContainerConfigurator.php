@@ -31,6 +31,7 @@ use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
 use Red\Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
 use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
+use Red\Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditablePreview;
 
 use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
@@ -234,6 +235,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             SectionsRendererEditable::class => function(ContainerInterface $c) {
                 return new SectionsRendererEditable($c->get('authored.editable.classmap'));
+            },
+            SectionsRendererEditablePreview::class => function(ContainerInterface $c) {
+                return new SectionsRendererEditablePreview($c->get('authored.editable.classmap'));
             },
         ###########################
         #  edit content renderer

@@ -17,44 +17,70 @@ use Pes\Text\Html;
  */
 abstract class SectionRendererAbstract extends HtmlRendererAbstract {
 
-    protected function getContent(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
+    protected function getSection(PaperSectionInterface $paperSection) {
+        $html =
+                Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],$this->getContent($paperSection));
+        return $html;
+    }
+    
+    protected function getEditableSectionPreview(PaperSectionInterface $paperSection) {
         return Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                        $this->getRibbonContent($paperSection)
+                        $this->getRibbon($paperSection)
                 )
-                .$this->getContentForm($viewModel, $paperSection)
+                .$this->getContent($paperSection)
             );
     }
     
-    private function getContentForm(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
-        return
-            Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                        [
-                        $this->getRibbonContent($paperSection),
-                        $this->getSectionButtons($paperSection)
-                        ]
+    protected function getEditableSection(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
+        return 
+            Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
+                Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
+                    Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                            [
+                            $this->getRibbon($paperSection),
+                            $this->getSectionButtons($paperSection)
+                            ]
+                    )
                 )
-            )
-            .
-            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/section/{$paperSection->getId()}"],
-                Html::tag('content',
-                    [
-                        'id'=> implode("_", [SectionsControler::SECTION_CONTENT, $paperSection->getId(), $viewModel->getComponentUid()]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
-                        'data-red-menuitemid'=>$viewModel->getMenuItemId(),
-                        'class'=>$this->classMap->get('Content', 'content.edit-html')
-                    ],
-                    $paperSection->getContent() ?? ""
+                .
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/section/{$paperSection->getId()}"],
+                    Html::tag('content',
+                        [
+                            'id'=> implode("_", [SectionsControler::SECTION_CONTENT, $paperSection->getId(), $viewModel->getComponentUid()]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                            'data-red-menuitemid'=>$viewModel->getMenuItemId(),
+                            'class'=>$this->classMap->get('Content', 'content.edit-html')
+                        ],
+                        $paperSection->getContent() ?? ""
+                    )
                 )
             );
     }
 
-    protected function getTrashContent(PaperSectionInterface $paperContent) {
+    protected function getTrashSectionPrewiew(PaperSectionInterface $paperSection) {
         return
         Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
             Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                    $this->getTrashButtons($paperContent)
+                    Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
+                )
+            )
+            .Html::tag('div',
+                [
+                    'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
+                    'class'=>$this->classMap->get('Content', 'div.trash_content')
+                ],
+                $paperSection->getContent() ?? ""
+            )
+        );
+    }
+    
+    protected function getTrashSection(PaperSectionInterface $paperSection) {
+        return
+        Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
+            Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
+                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                    $this->getTrashButtons($paperSection)
                     .Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
                 )
             )
@@ -63,15 +89,27 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
 //            )
             .Html::tag('div',
                 [
-                    'id' => "content_{$paperContent->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
+                    'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
                     'class'=>$this->classMap->get('Content', 'div.trash_content')
                 ],
-                $paperContent->getContent() ?? ""
+                $paperSection->getContent() ?? ""
             )
         );
     }
-
-    private function getRibbonContent(PaperSectionInterface $paperContent) {
+    
+    private function getContent(PaperSectionInterface $paperSection) {
+        $html =
+            Html::tag('content', [
+                        'id' => "content_{$paperSection->getId()}",
+                        'class'=>$this->classMap->get('Content', 'content'),
+                        'data-owner'=>$paperSection->getEditor()
+                    ],
+                $paperSection->getContent()
+            );
+        return $html;
+    }
+    
+    private function getRibbon(PaperSectionInterface $paperContent) {
         $priority = $paperContent->getPriority();
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
