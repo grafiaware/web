@@ -705,10 +705,10 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $perex = $c->get(PaperComponent::PEREX);
                     $sections = $c->get(PaperComponent::SECTIONS);
                     // přidání komponent do paper
-                    $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);  // dědí data PaperComponent                   
-                    $templatedComponent->appendComponentView($headline, PaperComponent::HEADLINE);  // dědí data TemplatedComponent
-                    $templatedComponent->appendComponentView($perex, PaperComponent::PEREX);  // dědí data TemplatedComponent
-                    $templatedComponent->appendComponentView($sections, PaperComponent::SECTIONS);  // dědí data TemplatedComponent
+                    $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);  // TemplatedComponent dědí data PaperComponent                   
+                    $templatedComponent->appendComponentView($headline, PaperComponent::HEADLINE);  // HEADLINE dědí data TemplatedComponent
+                    $templatedComponent->appendComponentView($perex, PaperComponent::PEREX);  // PEREX dědí data TemplatedComponent
+                    $templatedComponent->appendComponentView($sections, PaperComponent::SECTIONS);  // SECTIONS dědí data TemplatedComponent
 
 
                     if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(PaperComponent::class, AccessPresentationEnum::EDIT)) {

@@ -7,7 +7,7 @@ use Red\Model\Entity\MenuItemInterface;
 use Component\ViewModel\StatusViewModelInterface;
 
 use LogicException;
-
+use Exception;
 /**
  * Description of MenuItemViewModel
  *
@@ -60,8 +60,8 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
     }
     
     /**
-     * Nastaví id položky MenuItem, podle kterého bude načítáná příslušná entita s obsahem (např. Paper, Article, Multipage) a ItemAction
-     * Obvykle je metoda volána z metody Front kontroleru.
+     * {@inheritDoc}
+     * 
      *
      * @param type $menuItemId
      * @throws LogicException
@@ -70,6 +70,12 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
         $this->menuItemId = $menuItemId;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @return string
+     * @throws LogicException
+     */
     public function getMenuItemId() {
         if (!isset($this->menuItemId)) {
             throw new LogicException("Modelu ". static::class ." nebyla nastavena hodnota menu item id. Hodnotu je nutné nastavit voláním metody setItemId().");
@@ -77,7 +83,22 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
         return $this->menuItemId;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * Metoda čte entitu MenuItem z databáze (pomocí repository) podle id zadaného setMenuItemId($menuItemId). 
+     * Pokud id nebylo zadáno, metoda vyhodí výjimku.
+     * 
+     * @return MenuItemInterface
+     * @throws LogicException
+     */
     public function getMenuItem(): MenuItemInterface {
-        return $this->menuItemRepo->getById($this->getMenuItemId());
+        try {
+            $id = $this->getMenuItemId();
+        } catch (Exception $exc) {
+            throw new LogicException($exc->getMessage());
+        }
+
+        return $this->menuItemRepo->getById();
     }
 }
