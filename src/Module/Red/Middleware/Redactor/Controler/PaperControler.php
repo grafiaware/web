@@ -72,6 +72,7 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
             } else {    
                 $paperAggregate->setHeadline($headlinePost);
+                $paperAggregate->setEditor($this->getLoginUserName());
                 $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
             }
         }
@@ -108,6 +109,7 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage($errorMessage, FlashSeverityEnum::WARNING);
             } else {            
                 $paperAggregate->setPerex($perexPost);
+                $paperAggregate->setEditor($this->getLoginUserName());                
                 $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
             }
         }
@@ -123,15 +125,16 @@ class PaperControler extends AuthoredControlerAbstract {
      * @return ResponseInterface
      */
     public function template(ServerRequestInterface $request, $paperId): ResponseInterface {
-        $paper = $this->paperAggregateRepo->get($paperId);
-        if (!isset($paper)) {
+        $paperAggregate = $this->paperAggregateRepo->get($paperId);
+        if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id $paperId");
         } else {
             $statusPresentation = $this->statusPresentationRepo->get();
             $templateName = $statusPresentation->getLastTemplateName();
             if (isset($templateName) AND $templateName) {
                 $statusPresentation->setLastTemplateName('');
-                $paper->setTemplate($templateName);
+                $paperAggregate->setTemplate($templateName);
+                $paperAggregate->setEditor($this->getLoginUserName());
                 $this->addFlashMessage("Set paper template: $templateName", FlashSeverityEnum::SUCCESS);
             }
         }
@@ -147,12 +150,13 @@ class PaperControler extends AuthoredControlerAbstract {
      * @return ResponseInterface
      */
     public function templateRemove(ServerRequestInterface $request, $paperId): ResponseInterface {
-        $paper = $this->paperAggregateRepo->get($paperId);
-        if (!isset($paper)) {
+        $paperAggregate = $this->paperAggregateRepo->get($paperId);
+        if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id $paperId");
         } else {
-            $oldTemplate = $paper->getTemplate();
-            $paper->setTemplate('');
+            $oldTemplate = $paperAggregate->getTemplate();
+            $paperAggregate->setTemplate('');
+            $paperAggregate->setEditor($this->getLoginUserName());
             $this->addFlashMessage("Removed paper template $oldTemplate.", FlashSeverityEnum::SUCCESS);
         }
 //        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);

@@ -65,6 +65,7 @@ class SectionsControler extends FrontControlerAbstract {
             $namePrefix = implode("_", [self::SECTION_CONTENT, $sectionId]);
             $sectionPost = $this->paramValue($request, $namePrefix);
             $section->setContent($sectionPost);
+            $section->setEditor($this->getLoginUserName());
             $this->addFlashMessage('Section updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

@@ -75,6 +75,7 @@ class ArticleControler extends AuthoredControlerAbstract {
                 $statusPresentation = $this->statusPresentationRepo->get();
                 $statusPresentation->setLastTemplateName('');
                 $article->setContent($articlePost);
+                $article->setEditor($this->getLoginUserName());
                 $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
             }
         }

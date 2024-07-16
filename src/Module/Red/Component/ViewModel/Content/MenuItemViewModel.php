@@ -99,6 +99,6 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
             throw new LogicException($exc->getMessage());
         }
 
-        return $this->menuItemRepo->getById();
+        return $this->menuItemRepo->getById($id);
     }
 }

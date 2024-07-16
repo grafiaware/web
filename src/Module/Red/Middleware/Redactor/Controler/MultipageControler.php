@@ -67,6 +67,7 @@ class MultipageControler extends AuthoredControlerAbstract {
             $statusPresentation->setLastTemplateName('');
             //TODO: -template je nutné nastavit ve všech jazykových verzích ?? možná ne
             $multipage->setTemplate($lastTemplateName);
+            $multipage->setEditor($this->getLoginUserName());            
             $this->addFlashMessage("Set multipage template: $lastTemplateName", FlashSeverityEnum::SUCCESS);
         }
 //        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
@@ -87,6 +88,7 @@ class MultipageControler extends AuthoredControlerAbstract {
         } else {
             $oldTemplate = $multipage->getTemplate();
             $multipage->setTemplate('');
+            $multipage->setEditor($this->getLoginUserName());            
             $this->addFlashMessage("Removed multipage template $oldTemplate.", FlashSeverityEnum::SUCCESS);
         }
 //        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);

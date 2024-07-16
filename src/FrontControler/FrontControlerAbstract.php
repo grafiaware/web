@@ -111,6 +111,10 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $this->statusFlashRepo->get()->setMessage($message, $severity);
     }
 
+    protected function getLoginUserName() {
+        return $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
+    }
+    
     private function statusCode($statusEnumValue) {
         return (new StatusEnum())($statusEnumValue);
     }
