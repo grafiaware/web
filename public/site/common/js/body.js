@@ -1,5 +1,7 @@
 //=== ui elementy ===
 
+window.onhashchange = scrollToAnchorPosition;
+
 /**
  * Funkce scrolluje stránku na pozici kotvy, pokud je v adrese uveden "fragment", tedy část url za znakem #.
  * Používá jQuery animaci, tu lze nastavit.
@@ -14,60 +16,8 @@ function scrollToAnchorPosition() {
 //            behavior: 'smooth',
 //            block: 'start'
 //        });
-        
-//[id^='someId'] will match all ids starting with someId.
-//[id$='someId'] will match all ids ending with someId.
-//[id*='someId'] will match all ids containing someId.     
-   
-//https://stackoverflow.com/questions/3163615/how-to-scroll-an-html-page-to-a-given-anchor
-//let anchorlinks = document.querySelectorAll('a[href^="#"]')
-// 
-//for (let item of anchorlinks) { // relitere 
-//    item.addEventListener('click', (e)=> {
-//        let hashval = item.getAttribute('href')
-//        let target = document.querySelector(hashval)
-//        target.scrollIntoView({
-//            behavior: 'smooth',
-//            block: 'start'
-//        })
-//        history.pushState(null, null, hashval)
-//        e.preventDefault()
-//    })
-//}        
-        
-//        $('html, body').animate({
-//            scrollTop: $(window.location.hash).offset().top, // - 20
-//            opacity: 'o.4'
-//        }, 150);
-//        $('html, body').animate({
-//            scrollTop: $(window.location.hash).offset().top, // - 20
-//            opacity: '1'
-//        }, 1000);        
+            
     }
-    // Příklad w3schools
-//      // Add smooth scrolling to all links
-//  $("a").on('click', function(event) {
-//
-//    // Make sure this.hash has a value before overriding default behavior
-//    if (this.hash !== "") {
-//      // Prevent default anchor click behavior
-//      event.preventDefault();
-//
-//      // Store hash
-//      var hash = this.hash;
-//
-//      // Using jQuery's animate() method to add smooth page scroll
-//      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-//      $('html, body').animate({
-//        scrollTop: $(hash).offset().top
-//      }, 800, function(){
-//   
-//        // Add hash (#) to URL when done scrolling (default click behavior)
-//        window.location.hash = hash;
-//      });
-//    } // End if
-//  });
-    
 }
 
 //
@@ -99,10 +49,7 @@ document.onreadystatechange = function () {
             
             initElements();
             console.log("body: init loaded elements finished");
-//            console.log("body: Scroll onto anchor position.");
             scrollToAnchorPosition();
-
-//            listenLinks();
         };
         init(); 
     }
