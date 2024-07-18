@@ -46,7 +46,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         return
             Html::tag('div', ['class'=>$class], //lepítko s buttony
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
-                    Html::tag('div', ['class'=> 'ikona-popis', 'data-tooltip'=> $menuItem->getActive() ? "published" : "not published"],
+                    Html::tag('div', ['class'=> 'ikona-popis', 'data-tooltip'=> $menuItem->getActive() ? "published" : "not published", 'data-position'=>'bottom center'],
                         Html::tag('i', ['class'=> $this->classMap->resolve($menuItem->getActive(), 'Icons','semafor.published', 'semafor.notpublished')])
                     )
                 )
@@ -82,7 +82,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         $buttons[] = Html::tag('button',
                 ['class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/menu/$uid/toggle",
@@ -93,7 +93,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Odstranit položku',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/$uid/trash",

@@ -142,6 +142,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                [
                'class'=> 'ikona-popis',
                'data-tooltip'=> $active ? "published" : "not published",
+               'data-position'=>'bottom center',
                ],
                 Html::tag('i',
                    [
@@ -153,6 +154,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                [
                'class'=> 'ikona-popis',
                'data-tooltip'=> $actual ? "actual" : "not actual",
+               'data-position'=>'bottom center',
                ],
                 Html::tag('i',
                    [
@@ -179,12 +181,12 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
 
             ]
         )
-        .Html::tag('div', ['class'=>$this->classMap->get('Content', 'ribbon.priority'), 'data-tooltip'=>'priority'],
-            Html::tag('i', [ 'class'=>$this->classMap->get('Icons', 'icon.clipboard')],
+        .Html::tag('div', ['class'=>$this->classMap->get('Content', 'ribbon.priority'), 'data-tooltip'=>'priority', 'data-position'=>'bottom center',],
+//            Html::tag('i', [ 'class'=>$this->classMap->get('Icons', 'icon.clipboard')],
                 Html::tag('span', [ 'class'=>''],
                     $priority
                 )
-            )
+//            )
         );
     }
 
@@ -326,6 +328,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $btnAktivni = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Aktivní/neaktivní obsah',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'toggle',
@@ -337,6 +340,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $btnDoKose = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Do koše',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -348,7 +352,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $btnDatumyZobrazeni = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.showDate'),
                     'data-tooltip'=> $this->textDatumyZobrazeni($paperSection),
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>'event.preventDefault();'
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changedisplaydate')])
@@ -357,7 +361,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             $btnZobrazeniTrvale = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Trvale',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'permanent',
@@ -369,7 +373,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             $btnZobrazeniUlozit = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Uložit',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'calendar',
@@ -381,7 +385,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             $btnZobrazeniZrusitUpravy = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.content'),
                     'data-tooltip'=>'Zrušit úpravy',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>"event.preventDefault(); this.form.reset();"
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cancel')])
@@ -389,7 +393,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $btnDatumyUdalosti = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.eventDate'),
                     'data-tooltip'=> $this->textDatumyUdalosti($paperSection),
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>'event.preventDefault();'
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changeeventdate')])
@@ -398,7 +402,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             $btnUdalostTrvale = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Trvale',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'permanent',
@@ -410,7 +414,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             $btnUdalostUlozit = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Uložit',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'calendar',
@@ -422,7 +426,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             $btnUdalostZrusitUpravy = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.content'),
                     'data-tooltip'=>'Zrušit úpravy',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>"event.preventDefault(); this.form.reset();"
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cancel')])
@@ -430,6 +434,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $btnOJednuVys = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Posunout o jednu výš',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -444,6 +449,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $btnOJednuNiz = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Posunout o jednu níž',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -458,6 +464,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $btnPridatObsahPred = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Přidat další sekci před',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -472,6 +479,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $btnPridatObsahZa = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Přidat další sekci za',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -552,6 +560,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     Html::tag('button',
                         ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Obnovit',
+                        'data-position'=>'bottom center',
                         'type'=>'submit',
                         'name'=>'button',
                         'value' => '',
@@ -565,6 +574,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     Html::tag('button',
                         ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Smazat',
+                        'data-position'=>'bottom center',
                         'type'=>'submit',
                         'name'=>'button',
                         'value' => '',

@@ -47,7 +47,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Vybrat styl zobrazení stránky',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
                 'formaction'=>"",
@@ -58,7 +58,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Odstranit styl zobrazení stránky',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/multipage/$authoredId/templateremove",

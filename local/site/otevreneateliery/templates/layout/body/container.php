@@ -18,6 +18,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                     <footer>
                         <span id="kontakty"></span>
                         <?php include "container/paticka.php"; ?>
+                        <?php include "container/telo/prihlaseni.php"; ?>
                     </footer>
                 </div>
             </div>

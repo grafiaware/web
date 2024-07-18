@@ -32,6 +32,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return Html::tag('button',
                 ['class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/menu/{$viewModel->getUid()}/toggle",
@@ -44,7 +45,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Odstranit položku',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/trash",
@@ -58,6 +59,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat sourozence',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/add",
@@ -70,6 +72,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat potomka',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/addchild",
@@ -82,7 +85,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit vybrané jako sourozence',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/paste",
@@ -95,7 +98,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit vybrané jako potomka',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/pastechild",
@@ -108,7 +111,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/cut",
@@ -121,7 +124,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat ke zkopírování',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/copy",
@@ -134,7 +137,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Zrušit přesunutí nebo kopírování',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/cutcopyescape",
@@ -148,7 +151,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Trvale odstranit',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$viewModel->getUid()}/delete",

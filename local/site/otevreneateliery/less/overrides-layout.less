@@ -45,21 +45,7 @@ body{
                 margin: auto 20px;
             }
         }*/
-        .prihlaseni{
-            position: absolute;
-            top: 10px;
-            left: 12px;;
-            display: flex;
-            .ui.button{
-                background-color: white;
-                color: @primaryColor;
-                border: 1px solid @primaryColor;
-                border-radius: 5px;
-                &.dropdown, &.page{
-                    font-size: 1rem;
-                }
-            }
-        }
+        //prihlaseni
     }
     
     /***FIXNÍ LIŠTA fix-bar***/
@@ -352,8 +338,22 @@ body{
     footer{
         border-top: 5px solid @primaryColor;
         position: relative;
-        z-index: -1;
         margin-right: 20px;
+        .prihlaseni{
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            display: flex;
+            .ui.button{
+                background-color: white;
+                color: @primaryColor;
+                border: 1px solid @primaryColor;
+                border-radius: 5px;
+                &.dropdown, &.page{
+                    font-size: 1rem;
+                }
+            }
+        }
     }
     
     

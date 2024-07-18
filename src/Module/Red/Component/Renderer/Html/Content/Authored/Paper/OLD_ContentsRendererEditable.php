@@ -336,7 +336,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $btnDatumyZobrazeni = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.showDate'),
                     'data-tooltip'=> $this->textDatumyZobrazeni($paperContent),
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>'event.preventDefault();'
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changedisplaydate')])
@@ -345,7 +345,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             $btnZobrazeniTrvale = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Trvale',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'permanent',
@@ -357,7 +357,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             $btnZobrazeniUlozit = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Uložit',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'calendar',
@@ -369,7 +369,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             $btnZobrazeniZrusitUpravy = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.content'),
                     'data-tooltip'=>'Zrušit úpravy',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>"event.preventDefault(); this.form.reset();"
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cancel')])
@@ -377,7 +377,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $btnDatumyUdalosti = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.eventDate'),
                     'data-tooltip'=> $this->textDatumyUdalosti($paperContent),
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>'event.preventDefault();'
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changeeventdate')])
@@ -386,7 +386,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             $btnUdalostTrvale = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Trvale',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'permanent',
@@ -398,7 +398,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             $btnUdalostUlozit = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Uložit',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'calendar',
@@ -410,7 +410,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             $btnUdalostZrusitUpravy = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.content'),
                     'data-tooltip'=>'Zrušit úpravy',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>"event.preventDefault(); this.form.reset();"
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cancel')])

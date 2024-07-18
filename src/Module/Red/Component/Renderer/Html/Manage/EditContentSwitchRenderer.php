@@ -39,6 +39,7 @@ class EditContentSwitchRenderer extends HtmlRendererAbstract {
                         Html::tag('button', [
                             'class'=>$this->classMap->resolve($userPerformActionWithContent, 'Buttons', 'button.offEditMode',  $disabled ? 'button.editMode.disabled':'button.editMode'),
                             'data-tooltip' => $tooltip,
+                            'data-position' => 'bottom center',
                             'type' => $disabled ? 'submit':'submit',  // $disabled ? 'button':'submit', 
                             'formtarget' => '_self',
                             ],

@@ -78,6 +78,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                 Html::tag('button',
                             ['class'=>$this->classMap->get('Buttons', 'div button'),
                             'data-tooltip'=>'Aktivní/neaktivní stránka',
+                            'data-position'=>'bottom center',
                             'type'=>'submit',
                             'name'=>'toggle',
                             'formmethod'=>'post',
@@ -87,7 +88,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                 )
                 .Html::tag('div',
                             ['class'=>$this->classMap->get('Buttons', 'div div'),
-                            'data-tooltip'=>'Změnit od '.$menuNode->getHierarchy()->getShowTime().' do '.$menuNode->getHierarchy()->getHideTime(), 'data-position'=>'top right',
+                            'data-tooltip'=>'Změnit od '.$menuNode->getHierarchy()->getShowTime().' do '.$menuNode->getHierarchy()->getHideTime(), 'data-position'=>'bottom center',
                             ],
                     Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'div div i')])
                     .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div div div')],

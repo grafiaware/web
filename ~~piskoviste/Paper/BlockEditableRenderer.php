@@ -58,6 +58,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
                 Html::tag('button',
                             ['class'=>$this->classMap->get('Buttons', 'div button'),
                             'data-tooltip'=>'Aktivní/neaktivní stránka',
+                            'data-position'=>'bottom center',
                             'type'=>'submit',
                             'name'=>'toggle',
                             'formmethod'=>'post',

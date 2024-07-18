@@ -78,7 +78,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', $disabled ? 'button.disabled':'button'),
                 'data-tooltip'=> $tooltip,
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
                 'formaction'=>"",

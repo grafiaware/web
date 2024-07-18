@@ -59,7 +59,7 @@ class SelectPaperTemplateRendererSelectVersion extends HtmlRendererAbstract {
         }
         return
             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
+                Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky', 'data-position'=>'bottom center',],
                     Html::tag('i', ['class'=>$this->classMapEditable->get('PaperTemplateButtons', 'button.templateSelect')])
                     .Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'div.menu')],
                         Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'div.header')], 'Vyberte šablonu stránky')

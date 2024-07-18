@@ -43,7 +43,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
         $buttons1[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Vybrat styl zobrazení stránky',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
                 'formaction'=>"",
@@ -54,7 +54,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
         $buttons1[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Odstranit styl zobrazení stránky',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/paper/$authoredId/templateremove",
@@ -70,7 +70,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
             $buttons2[] = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=> 'Seřadit podle data',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'formmethod'=>'post',
                     'formaction'=>"",
                     ],
@@ -80,6 +80,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
             $buttons2[] =  Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Přidat sekci',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -128,7 +129,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 //        $btnAktivni = Html::tag('button',
 //                ['class'=>$this->classMap->get('CommonButtons', 'button'),
 //                'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
-//                'data-position'=>'top right',
+//                'data-position'=>'bottom center',
 //                'formmethod'=>'post',
 //                'formaction'=>"red/v1/menu/{$menuItem->getUidFk()}/toggle",
 //                ],
@@ -137,7 +138,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 //        $btnDoKose = Html::tag('button', [
 //                    'class'=>$this->classMap->get('PaperButtons', 'button'),
 //                    'data-tooltip'=> 'Odstranit položku',
-//                    'data-position'=>'top right',
+//                    'data-position'=>'bottom center',
 //                    'formtarget'=>'_self',
 //                    'formmethod'=>'post',
 //                    'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
@@ -148,7 +149,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 //        $buttons[] =  Html::tag('button', [
 //                    'class'=>$this->classMap->get('PaperButtons', 'button.template'),
 //                    'data-tooltip'=> 'Vybrat šablonu stránky',
-//                    'data-position'=>'top right',
+//                    'data-position'=>'bottom center',
 //                    'formtarget'=>'_self',
 //                    'formmethod'=>'post',
 //                    'formaction'=>"",
@@ -160,7 +161,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 //            $buttons[] = Html::tag('button', [
 //                    'class'=>$this->classMap->get('PaperButtons', 'button'),
 //                    'data-tooltip'=> 'Seřadit podle data',
-//                    'data-position'=>'top right',
+//                    'data-position'=>'bottom center',
 //                    'formmethod'=>'post',
 //                    'formaction'=>"",
 //                    ],

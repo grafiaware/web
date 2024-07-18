@@ -154,6 +154,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Aktivní/neaktivní obsah',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'toggle',
@@ -165,7 +166,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 .Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.date'),
                     'data-tooltip'=> $textZobrazeni,
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>'event.preventDefault();'
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changedate')])
@@ -175,6 +176,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Posunout o jednu výš',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -189,6 +191,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 .Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Posunout o jednu níž',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -205,6 +208,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Přidat další sekci před',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -219,6 +223,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 .Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Přidat další sekci za',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -235,6 +240,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Do koše',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
@@ -249,7 +255,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Trvale',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'name'=>'button',
                 'value' => 'permanent',
@@ -261,7 +267,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             .Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Uložit',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'type'=>'submit',
                 'name'=>'button',
                 'value' => 'calendar',
@@ -273,7 +279,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             .Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button.content'),
                 'data-tooltip'=>'Zrušit úpravy',
-                'data-position'=>'top right',
+                'data-position'=>'bottom center',
                 'onclick'=>"event.preventDefault(); this.form.reset();"
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cancel')])
@@ -336,6 +342,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     Html::tag('button',
                         ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Obnovit',
+                        'data-position'=>'bottom center',
                         'type'=>'submit',
                         'name'=>'button',
                         'value' => '',
@@ -349,6 +356,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     Html::tag('button',
                         ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Smazat',
+                        'data-position'=>'bottom center',
                         'type'=>'submit',
                         'name'=>'button',
                         'value' => '',

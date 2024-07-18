@@ -229,7 +229,7 @@ class ElementEditableWrapper {
                     .Html::tag('button', [
                         'class'=>$this->classMap->get('Buttons', 'button.date'),
                         'data-tooltip'=> $textZobrazeni,
-                        'data-position'=>'top right',
+                        'data-position'=>'bottom center',
                         'onclick'=>'event.preventDefault();'
                         ],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changedate')])
@@ -313,7 +313,7 @@ class ElementEditableWrapper {
                 Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Trvale',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'permanent',
@@ -325,7 +325,7 @@ class ElementEditableWrapper {
                 .Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Uložit',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => 'calendar',
@@ -337,14 +337,14 @@ class ElementEditableWrapper {
                 .Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button.content'),
                     'data-tooltip'=>'Zrušit úpravy',
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     'onclick'=>"event.preventDefault(); this.form.reset();"
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cancel')])
                 )
                 .Html::tag('div', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
-                    'data-position'=>'top right',
+                    'data-position'=>'bottom center',
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changedate')])
                 )
