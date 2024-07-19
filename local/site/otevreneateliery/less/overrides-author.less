@@ -23,6 +23,26 @@
     padding-top: 15px;
     padding-bottom: 15px; 
 }
+.item_action, .ribbon.cornerWithTools.page-edit{ 
+    position: sticky;
+    right: auto;
+    z-index: 1;
+    .editingButtons.basic.button{
+        background-color: @white;
+        &:hover{
+            background-color: whitesmoke;
+        }
+    }
+}
+.item_action{
+    transform: translateX(32px) translateY(-20px);
+    z-index: 5;
+}
+.ui.ribbon.cornerWithTools.page-edit{ 
+    top: 450px;
+    transform: translateX(32px) translateY(-10px);
+    z-index: 3;
+}
 .template-multipage{
     .item_action{
         //display: none; 
