@@ -106,7 +106,7 @@ foreach ($katalog as $client) {
 </div>
 
 <div>
-    <?=        $this->repeat(__DIR__.'/katalog-blockset.php', chBlock) ?>
+    <?=        $this->repeat(__DIR__.'/katalog-blockset.php', $chBlock) ?>
 </div>
 
 
