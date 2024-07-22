@@ -49,40 +49,41 @@ $katalog[]= array ( 'prijmeni' => '', 'jmeno' => '', 'nazev-instituce' => '', 'i
 $volume  = array_column($katalog, 'prijmeni');
 array_multisort($volume, SORT_ASC, $katalog);
 
-$s=1;
-
-$first=''; $chSet = [];
-                        $institutions = [];$persons = [];
+$first='';
+$chSet = [];
 $chBlock = [];
+                        //$institutions = [];$persons = [];
+
+
+
 foreach ($katalog as $client) {
-    if ($client['nazev-instituce']) {
-        if (substr($client['nazev-instituce'],0,1) != $first) {   //str_starts_with
-            $first = substr($client['nazev-instituce'],0,1);                
-            $chSet[] =  [ 'chNazev' => substr($client['nazev-instituce'],0,1), 'thisSite' => $thisSite  ] ;
+    if (($client['nazev-instituce'])  or ($client['prijmeni']) ) {
+        
+        if ($client['nazev-instituce'] ) {
             
-            $chBlock [$first] =  $client;
-            
-            $chBlo[$first]['clients'] = $client;
-            $chBlo[$first]['char'] = $first;
-            ///??????
-            $chBlo[]['clients'] = $client;
-            $chBlo[]['char'] = $first;
-            
-        } else {
-            $chBlock [$first] =  $client;
+            if ( (substr($client['nazev-instituce'],0,1) != $first) ) {   //str_starts_with             
+               $first = substr($client['nazev-instituce'],0,1);                
+               $chSet[] =  [ 'chNazev' => substr($client['nazev-instituce'],0,1), 'thisSite' => $thisSite  ];   
+               
+               $chBlock [$first]['pismeno'] = $first; 
+               $chBlock [$first]['klienti'][] = $client;
+            } else {
+                $chBlock [$first]['klienti'][] = $client;              
+            }
         }
-    } else {    
-        if (substr($client['prijmeni'],0,1) != $first) {   //str_starts_with
-            $first = substr($client['prijmeni'],0,1);                
-            $chSet[] =  [ 'chNazev' => substr($client['prijmeni'],0,1), 'thisSite' => $thisSite  ] ;
-            
-            $chBlock [$first] =  $client;
-        } else {
-            $chBlock [$first] =  $client;
+        else {        
+            if ( (substr($client['prijmeni'],0,1) != $first)   )  {   //str_starts_with             
+               $first = substr($client['prijmeni'],0,1);                
+               $chSet[] =  [ 'chNazev' => substr($client['prijmeni'],0,1), 'thisSite' => $thisSite  ]; 
+
+               $chBlock [$first]['pismeno'] = $first; 
+               $chBlock [$first]['klienti'][] = $client;              
+            } else {
+               $chBlock [$first]['klienti'][] = $client;            
+            }
         }
         
     } //nazev-instituce / prijmeni
-
 //                        //---------------- // na nic
 //                        if ($client['instituce']) {
 //                            $institutions[] = $client;
@@ -98,14 +99,14 @@ foreach ($katalog as $client) {
 
 
 
-<h2 style="text-align: center; margin-bottom: 30px;">*Umělci, kteří Vám představí svoji tvorbu.*</h2>
+<h2 style="text-align: center; margin-bottom: 30px;">*Umělci, kteří Vám představí svoji tvorbu.*</h2> 
 
 <div>
-    <?= $this->repeat(__DIR__.'/katalog-chset.php', $chSet) ?>
+    <?=  "|" . $this->repeat(__DIR__.'/katalog-chset.php', $chSet) ?>
 </div>
 
 <div>
-    <?= $this->repeat(__DIR__.'/katalog-blockset.php', ) ?>
+    <?=        $this->repeat(__DIR__.'/katalog-blockset.php', chBlock) ?>
 </div>
 
 
@@ -117,7 +118,7 @@ foreach ($katalog as $client) {
 
 
 
----------------------------
+---------------------------  puvodni
 <h2 style="text-align: center; margin-bottom: 30px;">Umělci, kteř&iacute; V&aacute;m představ&iacute; svoji tvorbu.</h2>
 <p>Mapa Plzně a okol&iacute; se zapln&iacute; zast&aacute;vkami, kde to 28. - 29. z&aacute;ř&iacute; 2024 ožije uměn&iacute;m. Pojďme se pod&iacute;vat, kdo otevře sv&eacute; ateli&eacute;ry! Přin&aacute;&scaron;&iacute;me V&aacute;m malou ochutn&aacute;vku jejich děl. Pokud zde nenajdete profily v&scaron;ech umělců, je to proto, že někter&yacute;m jejich boh&eacute;msk&aacute; du&scaron;e dosud nedopř&aacute;la čas k odesl&aacute;n&iacute; podkladů pro tento web. ;-)</p>
 
