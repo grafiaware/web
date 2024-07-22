@@ -146,7 +146,7 @@ class OAKatalogGeneratorTest  extends AppRunner {
         }
     }
 
-    public function testAnchorsAndTexts() {
+    public function testCheckAdded() {
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
         $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->uid);
@@ -162,19 +162,12 @@ class OAKatalogGeneratorTest  extends AppRunner {
                 $content = $section->getContent();
 //                $pattern = "/<aid=\"*\"/";
                 $anchorPattern = "/id=\"([^']*?)\"/";
-                $anchorMatches = [];
                 preg_match($anchorPattern, preg_replace('/\s+/', '', $content), $anchorMatches);
                 $textPattern = "$<\/a>([^<]+)<\/$";
-                $textMatches = [];
                 preg_match($textPattern, $content, $textMatches);
-                if (isset($anchorMatches[1]) && isset($textMatches[1])) {
-                    $list[] = [$menuItemAgg->getUidFk(), $anchorMatches[1], $textMatches[1], html_entity_decode($textMatches[1], ENT_HTML5)];
-                } else {
-                    $log[] = substr($content, 0, 200);
-                }
+                $list[] = [$anchorMatches[1], $textMatches[1]];
             }
         }
-        $this->assertIsArray($list);
     }
 
     public function testPaperContentType() {
