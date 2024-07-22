@@ -10,21 +10,30 @@ $thisSite = '6697cf115d654';
 
 
 $katalog=[]; // podle nazev-instituce rozpoznavat instituce/osoba
-$katalog[]= array ( 'prijmeni' => 'Ateliér s duší', 'jmeno' => '', 'nazev-instituce' => 'Ateli&eacute;r s du&scaron;&iacute; ', 'instituce' => '1', 
-                    'web-anchor' => 'atelier-s-dusi'  );
-$katalog[]= array ( 'prijmeni' => 'Arteterapie Plzeň', 'jmeno' => '', 'nazev-instituce' => 'Arteterapie Plzeň', 'instituce' => '1',
-                    'web-anchor' => 'arteterapie-plzen'  );
-$katalog[]= array ( 'prijmeni' => 'Ateliér Dorido - Petra Fenclová', 'jmeno' => 'Ateli&eacute;r Dorido - Petra Fenclov&aacute;', 'nazev-instituce' => '', 'instituce' => '1',
-                    'web-anchor' => 'atelier-dorido-petra-fenclova'  );
+$katalog[]= array ( 'prijmeni' => 'Ateliér s duší', 'jmeno' => '', 
+                    'nazevInstituce' => 'Ateli&eacute;r s du&scaron;&iacute; ',  
+                    'webAnchor' => 'atelier-s-dusi',
+                    'site'  =>  $institutionsSite );
+$katalog[]= array ( 'prijmeni' => 'Arteterapie Plzeň', 'jmeno' => '', 
+                    'nazevInstituce' => 'Arteterapie Plzeň',
+                    'webAnchor' => 'arteterapie-plzen',
+                    'site'  =>  $institutionsSite );
+$katalog[]= array ( 'prijmeni' => 'Ateliér Dorido - Petra Fenclová', 'jmeno' => 'Ateli&eacute;r Dorido - Petra Fenclov&aacute;', 
+                    'nazevInstituce' => '',
+                    'webAnchor' => 'atelier-dorido-petra-fenclova',
+                    'site'  =>  $institutionsSite );
 
-$katalog[]= array ( 'prijmeni' => 'Pankrác', 'jmeno' => 'Marketa  ',  'nazev-instituce' => '', 'instituce' => '0',
-                    'web-anchor' => ''  );
-$katalog[]= array ( 'prijmeni' => 'Lišková Mašková', 'jmeno' => 'Jaroslava','nazev-instituce' => '', 'instituce' => '0',
-                    'web-anchor' => 'Li&scaron;kov&aacute; Ma&scaron;kov&aacute; Jaroslava'  );
-$katalog[]= array ( 'prijmeni' => 'Liska Nordlinder', 'jmeno' => 'Magdalena',  'nazev-instituce' => '', 'instituce' => '0',
-                    'web-anchor' => 'Liska Nordlinder Magdalena'  );
+$katalog[]= array ( 'prijmeni' => 'Pankrác', 'jmeno' => 'Marketa  ', 'nazevInstituce' => '',
+                    'webAnchor' => '',
+                    'site'  =>  $personsSite );
+$katalog[]= array ( 'prijmeni' => 'Lišková Mašková', 'jmeno' => 'Jaroslava', 'nazevInstituce' => '',
+                    'webAnchor' => 'Li&scaron;kov&aacute; Ma&scaron;kov&aacute; Jaroslava',
+                    'site'  =>  $personsSite );
+$katalog[]= array ( 'prijmeni' => 'Liska Nordlinder', 'jmeno' => 'Magdalena', 'nazevInstituce' => '',
+                    'webAnchor' => 'Liska Nordlinder Magdalena',
+                    'site'  =>  $personsSite );
 
-$katalog[]= array ( 'prijmeni' => '', 'jmeno' => '', 'nazev-instituce' => '', 'instituce' => '0','web-anchor' => ''  );
+$katalog[]= array ( 'prijmeni' => '', 'jmeno' => '', 'nazevInstituce' => '', 'webAnchor' => '' ,  'site'  => ''  );
 
 
 //Arteterapie Plzeň
@@ -52,61 +61,47 @@ array_multisort($volume, SORT_ASC, $katalog);
 $first='';
 $chSet = [];
 $chBlock = [];
+$chBlocks = [];
                         //$institutions = [];$persons = [];
-
 
 
 foreach ($katalog as $client) {
     if (($client['nazev-instituce'])  or ($client['prijmeni']) ) {
-        
-        if ($client['nazev-instituce'] ) {
-            
-            if ( (substr($client['nazev-instituce'],0,1) != $first) ) {   //str_starts_with             
-               $first = substr($client['nazev-instituce'],0,1);                
-               $chSet[] =  [ 'chNazev' => substr($client['nazev-instituce'],0,1), 'thisSite' => $thisSite  ];   
-               
-               $chBlock [$first]['pismeno'] = $first; 
-               $chBlock [$first]['klienti'][] = $client;
-            } else {
-                $chBlock [$first]['klienti'][] = $client;              
-            }
-        }
-        else {        
-            if ( (substr($client['prijmeni'],0,1) != $first)   )  {   //str_starts_with             
+           
+            if ( (substr($client['prijmeni'],0,1) != $first)   )  {   //str_starts_with    
+                //nove pismeno tj. zmena pismena
+               if  (count($chBlock)) {
+                   $chBlocks[] =  $chBlock ;
+               }
+               $chBlock = [];
+                
                $first = substr($client['prijmeni'],0,1);                
                $chSet[] =  [ 'chNazev' => substr($client['prijmeni'],0,1), 'thisSite' => $thisSite  ]; 
 
-               $chBlock [$first]['pismeno'] = $first; 
-               $chBlock [$first]['klienti'][] = $client;              
-            } else {
-               $chBlock [$first]['klienti'][] = $client;            
-            }
-        }
-        
-    } //nazev-instituce / prijmeni
-//                        //---------------- // na nic
-//                        if ($client['instituce']) {
-//                            $institutions[] = $client;
-//                        } else {
-//                            $persons [] = $client;           
-//                        }              
-//                        //-------------------------
-}
- $s=1; 
+//               $chBlock ['pismeno'] = $first; 
+//               $chBlock ['klienti'][] = $client;
+            } else {                                 
+//               $chBlock ['pismeno'] = $first; 
+//               $chBlock ['klienti'][] = $client;              
+            }   
+            $chBlock ['pismeno'] = $first; 
+            $chBlock ['klienti'][] = $client;
+    } //if
 
- 
+}//FOREACH
+if  (count($chBlock)) {
+    $chBlocks[] =  $chBlock;
+}  
 ?>
 
 
 
-<h2 style="text-align: center; margin-bottom: 30px;">*Umělci, kteří Vám představí svoji tvorbu.*</h2> 
-
-<div>
+<h2 style="text-align: center; margin-bottom: 30px;">*Umělci, kteří Vám představí svoji tvorbu.*</h2> <div>
     <?=  "|" . $this->repeat(__DIR__.'/katalog-chset.php', $chSet) ?>
 </div>
 
 <div>
-    <?=        $this->repeat(__DIR__.'/katalog-blockset.php', $chBlock) ?>
+    <?=        $this->repeat(__DIR__.'/katalog-blockset.php', $chBlocks) ?>
 </div>
 
 

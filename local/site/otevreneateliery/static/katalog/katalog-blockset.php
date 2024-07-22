@@ -8,11 +8,8 @@ use Pes\Text\Html;
 ?>
 
       
-<?=  $pismeno   ?>
+<?=  "<p id=\"$pismeno\"> $pismeno </p>"  ?>
 
 <?= 
      $this->repeat(__DIR__.'/katalog-blockset-row.php',  $klienti) 
-?>
-   
-<!--<p id="A" style="margin-top: 30px;"><strong>A</strong></p>
-<p style="margin-top: 5px;"><a href="web/v1/page/item/6671583cb7df7#ambasador-atelier-markety-pangrac">Ambasador atelier Mark&eacute;ty Pangr&aacute;c</a></p>-->
+?>  
