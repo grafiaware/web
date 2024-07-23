@@ -25,6 +25,9 @@ class Katalog {
     private $langCode;
     private $uid;
     
+    private $lastKatalogUid;
+
+
     public function __construct($container) {
         $this->container = $container;
     }
@@ -91,7 +94,13 @@ class Katalog {
             }
         }
     }
-
+    
+    public function getLastKatalogUid() {
+        if (!isset($this->lastKatalogUid)) {  // prázdné pole
+            throw new LogicException("Lasr katalog uid je generováno při generování katalogu. Je třeba nejprve volat metodu getKatalog().");            
+        }
+    }
+    
     public function getKatalog() {
         $this->setUp();
         $this->testHasSubtree();
@@ -100,7 +109,7 @@ class Katalog {
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
         $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->uid);
-        array_shift($subTreeNodes);
+        $this->lastKatalogUid = array_shift($subTreeNodes);
         /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
         $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);                
         $list = [];
@@ -118,7 +127,7 @@ class Katalog {
                 $textMatches = [];
                 preg_match($textPattern, $content, $textMatches);
                 if (isset($anchorMatches[1]) && isset($textMatches[1])) {
-                    $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'anchor'=>$anchorMatches[1], 'nazev'=>$textMatches[1], 'nazevCs'=>html_entity_decode($textMatches[1], ENT_HTML5)];
+                    $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'anchor'=>$anchorMatches[1], 'nazev'=>$textMatches[1], 'nazevCs'=>html_entity_decode($textMatches[1], ENT_HTML5), 'active'=>$section->getActive()];
                 } else {
                     $log[] = substr($content, 0, 200);
                 }
