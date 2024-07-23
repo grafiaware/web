@@ -1,119 +1,66 @@
 <?php
-declare(strict_types=1);
-namespace Test\Integration\Repository;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
 
-use PHPUnit\Framework\TestCase;
-
-use Pes\Http\Factory\EnvironmentFactory;
-
-use Application\WebAppFactory;
-
 use Pes\Container\Container;
-
-use Container\DbUpgradeContainerConfigurator;
-use Container\RedModelContainerConfigurator;
-
-use Test\AppRunner\AppRunner;
 
 use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
-use Red\Model\Repository\PaperAggregateSectionsRepo;
 
-use Red\Model\Entity\MenuItemAggregatePaperInterface;
-
-// pro contents repo
-use Pes\Database\Handler\HandlerInterface;
-use Red\Model\Dao\PaperSectionDao;
-use Red\Model\Hydrator\PaperSectionHydrator;
-use Red\Model\Repository\PaperSectionRepo;
-
-use Red\Model\Entity\PaperSectionInterface;
-use Red\Model\Entity\PaperSection;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 use LogicException, UnexpectedValueException;
 use TypeError;
 
-/**
- * Description of PaperContentDaoTest
- *
- * @author pes2704
- */
-class OAKatalogGeneratorTest  extends AppRunner {
-
+class Katalog {
+    
     private $container;
-
 
     private $langCode;
     private $uid;
-
     
-    private $hierarchyDao;
-    
-    /**
-     *  @var MenuItemAggregatePaperRepo
-     */
-    private $menuItemAggRepo;
-
-
-    private $paper;
-    
-    // pomocná proměnná pro add
-    private static $oldContentCount;
-
-    public static function setUpBeforeClass(): void {
-        self::bootstrapBeforeClass();
+    public function __construct($container) {
+        $this->container = $container;
     }
-
-    protected function setUp(): void {
-        $this->container =
-                (new TestHierarchyContainerConfigurator())->configure(
-                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
-                        );
-
+    
+    private function setUp(): void {
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
-        $this->title = 'TEST KATALOG';
+        $this->title = 'KATALOG';
         $node = $hierarchyDao->getByTitleHelper(['lang_code_fk'=>$this->langCode, 'title'=>$this->title]);
         if (!isset($node)) {
-            throw new LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi '{$this->hierarchyDao->getSchemaName()}' není ACTIVE položka menu v jazyce '$this->langCode' s názvem '$this->title'");
+            throw new LogicException("V databázi '{$hierarchyDao->getSchemaName()}' není ACTIVE položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }
         if (!$node['api_generator_fk']=='static') {
-            throw new LogicException("Položka {$this->title} nemá hodnotu 'api_generator_fk'=='static',  není typu static.");            
+            throw new LogicException("Položka {$this->title} nemá hodnotu 'api_generator_fk'=='static', není typu static.");            
         }        
         if (!$node['api_module_fk']=='red') {
-            throw new LogicException("Položka {$this->title} nemá hodnotu 'api_module_fk'=='red',  není určena pro modul red.");            
+            throw new LogicException("Položka {$this->title} nemá hodnotu 'api_module_fk'=='red', není určena pro modul red.");            
         }
 
         $this->uid = $node['uid'];
 
     }
     
-    protected function tearDown(): void {
-        $this->menuItemAggRepo->flush();
-    }
-    
-    public function testHasSubtree() {
+    private function testHasSubtree() {
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
         $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->uid);
         array_shift($subTreeNodes);
-
-        $this->assertIsArray($subTreeNodes);
+        if (!$subTreeNodes) {  // prázdné pole
+            throw new LogicException("Položka s katalogem nemá publikované (aktivní) potomky.");            
+        }
     }
 
 
-    public function testHasPapersInSubtree() {
+    private function testHasPapersInSubtree() {
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
         $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->uid);
@@ -136,14 +83,20 @@ class OAKatalogGeneratorTest  extends AppRunner {
             $paper = $menuItemAgg->getPaper();
 
             if (!$paper instanceof PaperAggregatePaperSectionInterface) {
-                throw new LogicException("Paper není publikovaný (active) paper.");
+                throw new LogicException("Paper '{$paper->getHeadline()}' není publikovaný (active) paper.");
             }
             $sections = $paper->getPaperSectionsArray();
-            $this->assertIsArray($sections);  !! vždy pole -> assert neprázdné
+            if (!$sections) {  // prázdné pole
+                throw new LogicException("Paper '{$paper->getHeadline()}' nemá publikované (aktivní) sekce.");            
+            }
         }
     }
 
-    public function testCheckAdded() {
+    public function getKatalog() {
+        $this->setUp();
+        $this->testHasSubtree();
+        $this->testHasPapersInSubtree();            
+        
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
         $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->uid);
@@ -159,8 +112,10 @@ class OAKatalogGeneratorTest  extends AppRunner {
                 $content = $section->getContent();
 //                $pattern = "/<aid=\"*\"/";
                 $anchorPattern = "/id=\"([^']*?)\"/";
+                $anchorMatches = [];
                 preg_match($anchorPattern, preg_replace('/\s+/', '', $content), $anchorMatches);
                 $textPattern = "$<\/a>([^<]+)<\/$";
+                $textMatches = [];
                 preg_match($textPattern, $content, $textMatches);
                 if (isset($anchorMatches[1]) && isset($textMatches[1])) {
                     $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'anchor'=>$anchorMatches[1], 'nazev'=>$textMatches[1], 'nazevCs'=>html_entity_decode($textMatches[1], ENT_HTML5)];
@@ -169,10 +124,6 @@ class OAKatalogGeneratorTest  extends AppRunner {
                 }
             }
         }
-    }
-
-    public function testPaperContentType() {
-        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperSectionsArray()[0]);
-    }
-    
+        return $list;
+    }    
 }
