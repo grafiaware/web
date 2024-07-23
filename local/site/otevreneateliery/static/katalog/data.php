@@ -128,7 +128,7 @@ class Katalog {
                 $textMatches = [];
                 preg_match($textPattern, $content, $textMatches);
                 if (isset($anchorMatches[1]) && isset($textMatches[1])) {
-                    $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'anchor'=>$anchorMatches[1], 'nazev'=>$textMatches[1], 'nazevCs'=>html_entity_decode($textMatches[1], ENT_HTML5), 'active'=>$section->getActive()];
+                    $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'firstLetter'=> strtoupper($anchorMatches[1][0]), 'anchor'=>$anchorMatches[1], 'nazev'=>$textMatches[1], 'nazevCs'=>html_entity_decode($textMatches[1], ENT_HTML5), 'active'=>$section->getActive()];
                 } else {
                     $log[] = substr($content, 0, 200);
                 }
