@@ -13,21 +13,26 @@ try {
     echo $exc->getMessage();
 }
 
+$volume  = array_column($katalog, 'firstLetter');
+array_multisort($volume, SORT_ASC, $katalog);
+
+//$katalogUid = $katalogGenerator->getLastKatalogUid();
+
 $first='';
 $chSet = [];
 $chBlock = [];
 $chBlocks = [];
 
 foreach ($katalog as $client) {
-    if (($client['nazev-instituce'])  or ($client['prijmeni']) ) {           
-            if ( (substr($client['prijmeni'],0,1) != $first)   )  {   //str_starts_with    
+    if (($client['uid'])  or ($client['nazev']) ) {           
+            if (  $client['firstLetter'] != $first   )  {   //str_starts_with    
                 //nove pismeno tj. zmena pismena
                if  (count($chBlock)) {
                    $chBlocks[] =  $chBlock ;
                }
                $chBlock = [];                
-               $first = substr($client['prijmeni'],0,1);                
-               $chSet[] =  [ 'chNazev' => substr($client['prijmeni'],0,1), 'thisSite' => $thisSite  ]; 
+               $first = $client['firstLetter']; //strtoupper( substr($client['anchor'],0,1) );                
+               $chSet[] =  [ 'chNazev' => $first , 'katalogUid' => $katalogUid  ]; 
             }
             $chBlock ['pismeno'] = $first; 
             $chBlock ['klienti'][] = $client;
