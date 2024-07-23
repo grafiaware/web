@@ -7,8 +7,8 @@
 
 use Pes\Container\Container;
 
-use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
-use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
+
+use Status\Model\Repository\StatusPresentationRepo;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
@@ -23,21 +23,24 @@ class Katalog {
     private $container;
 
     private $langCode;
-    private $uid;
+    private $katalogUid;
     
     private $lastKatalogUid;
 
 
     public function __construct($container) {
         $this->container = $container;
+        $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
+        /** @var StatusPresentationRepo $statusPresentationRepo */
+        $statusPresentation = $statusPresentationRepo->get();
+        $this->langCode = $statusPresentation->getLanguage()->getLangCode();
+        $this->katalogUid = $statusPresentation->getMenuItem()->getUidFk();
     }
     
     private function setUp(): void {
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
-        $this->langCode = 'cs';
-        $this->title = 'KATALOG';
-        $node = $hierarchyDao->getByTitleHelper(['lang_code_fk'=>$this->langCode, 'title'=>$this->title]);
+        $node = $hierarchyDao->get(['lang_code_fk'=>$this->langCode, 'uid_fk'=>$this->katalogUid]);
         if (!isset($node)) {
             throw new LogicException("V databázi '{$hierarchyDao->getSchemaName()}' není ACTIVE položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }
@@ -46,28 +49,12 @@ class Katalog {
         }        
         if (!$node['api_module_fk']=='red') {
             throw new LogicException("Položka {$this->title} nemá hodnotu 'api_module_fk'=='red', není určena pro modul red.");            
-        }
-
-        $this->uid = $node['uid'];
-
-    }
-    
-    private function testHasSubtree() {
-        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
-        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
-        $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->uid);
+        }      
+        $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->katalogUid);
         array_shift($subTreeNodes);
         if (!$subTreeNodes) {  // prázdné pole
             throw new LogicException("Položka s katalogem nemá publikované (aktivní) potomky.");            
         }
-    }
-
-
-    private function testHasPapersInSubtree() {
-        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
-        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
-        $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->uid);
-        array_shift($subTreeNodes);
         $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);                
 
         foreach ($subTreeNodes as $node) {
@@ -84,7 +71,7 @@ class Katalog {
             }
 
             $paper = $menuItemAgg->getPaper();
-
+            // flash (notifikace)
             if (!$paper instanceof PaperAggregatePaperSectionInterface) {
                 throw new LogicException("Paper '{$paper->getHeadline()}' není publikovaný (active) paper.");
             }
@@ -97,19 +84,17 @@ class Katalog {
     
     public function getLastKatalogUid() {
         if (!isset($this->lastKatalogUid)) {  // prázdné pole
-            throw new LogicException("Lasr katalog uid je generováno při generování katalogu. Je třeba nejprve volat metodu getKatalog().");            
+            throw new LogicException("Last katalog uid je generováno při generování katalogu. Je třeba nejprve volat metodu getKatalog().");            
         }
         return $this->lastKatalogUid;
     }
     
     public function getKatalog() {
         $this->setUp();
-        $this->testHasSubtree();
-        $this->testHasPapersInSubtree();            
         
         /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
         $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
-        $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->uid);
+        $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->katalogUid);
         $this->lastKatalogUid = array_shift($subTreeNodes);
         /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
         $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);                
