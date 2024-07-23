@@ -99,6 +99,7 @@ class Katalog {
         if (!isset($this->lastKatalogUid)) {  // prázdné pole
             throw new LogicException("Lasr katalog uid je generováno při generování katalogu. Je třeba nejprve volat metodu getKatalog().");            
         }
+        return $this->lastKatalogUid;
     }
     
     public function getKatalog() {
