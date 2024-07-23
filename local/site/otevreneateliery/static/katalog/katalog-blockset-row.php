@@ -8,10 +8,10 @@ use Pes\Text\Html;
 
 <div>     
     <?=         
-            $webAnchor ?
-                "<a href=\"web/v1/page/item/$site#$webAnchor\">$prijmeni $jmeno</a>"
+            $active ?
+                "<a href=\"web/v1/page/item/$uid#$anchor\">$nazev</a>"
             :
-                "$prijmeni $jmeno "
+                "$nazev"
     ?> 
  </div> 
 
