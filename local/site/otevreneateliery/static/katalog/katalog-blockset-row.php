@@ -6,12 +6,11 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 ?>
 
-<div>     
+<p>     
     <?=         
             $active ?
                 "<a href=\"web/v1/page/item/$uid#$anchor\">$nazev</a>"
             :
                 "$nazev"
     ?> 
- </div> 
-
+</p> 

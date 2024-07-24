@@ -7,7 +7,7 @@ use Pes\Text\Html;
 ?>
 
 <?=
-        "<a href=\"#$chNazev\">$chNazev</a>|"              
+        "<a href=\"#$chNazev\">$chNazev</a> |"              
 ?>
  
 
