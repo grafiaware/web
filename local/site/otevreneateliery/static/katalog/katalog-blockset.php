@@ -6,5 +6,5 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 ?>
      
-<?=  "<p> <a id=\"$pismeno\">$pismeno</p>"  ?>
+<?=  "<p> <a id=\"$pismeno\"></a>$pismeno</p>"  ?>
 <?=  $this->repeat(__DIR__.'/katalog-blockset-row.php', $klienti) ?>  
