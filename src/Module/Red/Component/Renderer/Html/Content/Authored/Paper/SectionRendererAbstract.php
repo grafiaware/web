@@ -17,29 +17,29 @@ use Pes\Text\Html;
  */
 abstract class SectionRendererAbstract extends HtmlRendererAbstract {
 
-    protected function getSection(PaperSectionInterface $paperSection) {
+    protected function renderSection(PaperSectionInterface $paperSection) {
         $html =
-                Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],$this->getContent($paperSection));
+                Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],$this->renderContent($paperSection));
         return $html;
     }
     
-    protected function getEditableSectionPreview(PaperSectionInterface $paperSection) {
+    protected function renderEditableSectionPreview(PaperSectionInterface $paperSection) {
         return Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                        $this->getRibbon($paperSection)
+                        $this->renderRibbon($paperSection)
                 )
-                .$this->getContent($paperSection)
+                .$this->renderContent($paperSection)
             );
     }
     
-    protected function getEditableSection(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
+    protected function renderEditableSection(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
         return 
             Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
                 Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
                     Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
                             [
-                            $this->getRibbon($paperSection),
-                            $this->getSectionButtons($paperSection)
+                            $this->renderRibbon($paperSection),
+                            $this->renderSectionButtons($paperSection)
                             ]
                     )
                 )
@@ -57,7 +57,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             );
     }
 
-    protected function getTrashSectionPrewiew(PaperSectionInterface $paperSection) {
+    protected function renderTrashSectionPrewiew(PaperSectionInterface $paperSection) {
         return
         Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
             Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
@@ -75,12 +75,12 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         );
     }
     
-    protected function getTrashSection(PaperSectionInterface $paperSection) {
+    protected function renderTrashSection(PaperSectionInterface $paperSection) {
         return
         Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
             Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                    $this->getTrashButtons($paperSection)
+                    $this->renderTrashButtons($paperSection)
                     .Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
                 )
             )
@@ -97,7 +97,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         );
     }
     
-    private function getContent(PaperSectionInterface $paperSection) {
+    private function renderContent(PaperSectionInterface $paperSection) {
         $html =
             Html::tag('content', [
                         'id' => "content_{$paperSection->getId()}",
@@ -109,7 +109,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         return $html;
     }
     
-    private function getRibbon(PaperSectionInterface $paperContent) {
+    private function renderRibbon(PaperSectionInterface $paperContent) {
         $priority = $paperContent->getPriority();
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
@@ -231,39 +231,6 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         }
         return $right;
     }
-    
-    private function getRibbonTagOld(PaperSectionInterface $paperContent) {
-//       return Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
-//                    Html::tag('div',
-//                       [
-//                       'class'=> 'ikona-popis',
-//                       'data-tooltip'=> $active ? "published" : "not published",
-//                       ],
-//                        Html::tag('i',
-//                           [
-//                           'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
-//                           ]
-//                        )
-//                    )
-//                        'i2.published' => 'calendar check icon green',
-//                        'i2.notactive' => 'calendar plus icon yellow',
-//                        'i2.notactual' => 'calendar minus icon orange',
-//                        'i2.notactivenotactual' => 'calendar times icon red',
-//                    .Html::tag('i',
-//                        [
-//                        'class'=> $this->classMap->resolve($actual, 'Content',
-//                                'i2.actual',
-//                                $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
-//                            ),
-//                        'role'=>"presentation",
-//                        'title'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
-//                        ])
-//                    .Html::tag('span', ['class'=>''],
-//                        $paperContent->getPriority()
-//                    )
-//                )
-//                )
-    }
 
     private function getShowTimeText(PaperSectionInterface $paperContent) {
         $showTime = $paperContent->getShowTime();
@@ -319,7 +286,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         return $textDatumyUdalosti;
     }
 
-    private function getSectionButtons(PaperSectionInterface $paperSection) {
+    private function renderSectionButtons(PaperSectionInterface $paperSection) {
 
         $sectionId = $paperSection->getId();
         $active = $paperSection->getActive();
@@ -517,8 +484,8 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.wholeRow')],
                     Html::tag('p', ['class'=>''], 'Uveřejnit obsah')
                 )
-                .$this->calendar('datum od', "show_$sectionId", 'Klikněte pro výběr', $this->getShowTimeText($paperSection))
-                .$this->calendar('datum do', "hide_$sectionId", 'Klikněte pro výběr', $this->getHideTimeText($paperSection))
+                .$this->renderCalendar('datum od', "show_$sectionId", 'Klikněte pro výběr', $this->getShowTimeText($paperSection))
+                .$this->renderCalendar('datum do', "hide_$sectionId", 'Klikněte pro výběr', $this->getHideTimeText($paperSection))
 
             )
         )
@@ -531,14 +498,14 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.wholeRow')],
                     Html::tag('p', ['class'=>''], 'Nastavit datum události')
                 )
-                .$this->calendar('datum od', "start_$sectionId", 'Klikněte pro výběr', $this->getEventStartTimeText($paperSection))
-                .$this->calendar('datum do', "end_$sectionId", 'Klikněte pro výběr', $this->getEventEndTimeText($paperSection))
+                .$this->renderCalendar('datum od', "start_$sectionId", 'Klikněte pro výběr', $this->getEventStartTimeText($paperSection))
+                .$this->renderCalendar('datum do', "end_$sectionId", 'Klikněte pro výběr', $this->getEventEndTimeText($paperSection))
 
             )
         );
     }
 
-    private function calendar($title, $name, $placeholder, $value) {
+    private function renderCalendar($title, $name, $placeholder, $value) {
         return Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.halfRow')],
                 Html::tag('p', ['class'=>''], $title)
                 .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.calendar')],  //pro výběr kalendáře od-do přidat sem ID, pak změnit loaderOnload.js podle semantic ui  // použito pro $('.ui.calendar').calendar() -kalendář semanticu
@@ -549,7 +516,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             );
     }
 
-    private function getTrashButtons(PaperSectionInterface $paperContent) {
+    private function renderTrashButtons(PaperSectionInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();

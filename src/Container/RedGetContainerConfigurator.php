@@ -670,7 +670,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-
+                    
+            // komponenty headline, perex, sections - jsou všechny typu ElementInheritDataComponent, mají různé názvy dané konstantou v třídě komponentu PaperComponent
             PaperComponent::HEADLINE => function(ContainerInterface $c) {
                 $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(HeadlineRenderer::class);
                 $component->setRendererContainer($c->get('rendererContainer'));

@@ -38,7 +38,7 @@ class SectionsRenderer extends SectionRendererAbstract {
             $innerHtml = [];
             foreach ($sections as $paperSection) {
                 /** @var PaperSectionInterface $paperSection */
-                $innerHtml[] = $this->getSection($paperSection);
+                $innerHtml[] = $this->renderSection($paperSection);
             }
         } else {
             $innerHtml[] = '';

@@ -18,6 +18,10 @@ use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use LogicException, UnexpectedValueException;
 use TypeError;
 
+
+// context
+use Model\Context\ContextProviderInterface;
+
 class Katalog {
     
     private $container;
@@ -27,6 +31,7 @@ class Katalog {
     
     private $lastKatalogUid;
 
+    private $hierarchyDao;
 
     public function __construct($container) {
         $this->container = $container;
@@ -38,11 +43,12 @@ class Katalog {
     }
     
     private function setUp(): void {
-        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
-        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
-        $node = $hierarchyDao->get(['lang_code_fk'=>$this->langCode, 'uid_fk'=>$this->katalogUid]);
+        /** @var HierarchyAggregateReadonlyDao $this->hierarchyDao */
+        $this->hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
+        
+        $node = $this->hierarchyDao->get(['lang_code_fk'=>$this->langCode, 'uid_fk'=>$this->katalogUid]);
         if (!isset($node)) {
-            throw new LogicException("V databázi '{$hierarchyDao->getSchemaName()}' není ACTIVE položka menu v jazyce '$this->langCode' s názvem '$this->title'");
+            throw new LogicException("V databázi '{$this->hierarchyDao->getSchemaName()}' není ACTIVE položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }
         if (!$node['api_generator_fk']=='static') {
             throw new LogicException("Položka {$this->title} nemá hodnotu 'api_generator_fk'=='static', není typu static.");            
@@ -50,13 +56,18 @@ class Katalog {
         if (!$node['api_module_fk']=='red') {
             throw new LogicException("Položka {$this->title} nemá hodnotu 'api_module_fk'=='red', není určena pro modul red.");            
         }      
-        $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->katalogUid);
+        $subTreeNodes = $this->hierarchyDao->getSubTree($this->langCode, $this->katalogUid);
         array_shift($subTreeNodes);
         if (!$subTreeNodes) {  // prázdné pole
             throw new LogicException("Položka s katalogem nemá publikované (aktivní) potomky.");            
         }
         $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);                
-
+        
+        /** @var ContextProviderInterface $contextProvider */
+        $contextProvider = $this->container->get(ContextProviderInterface::class);
+        // kontext pro čtení pomocí hierarchy - čte v editovatelném modu - načte i neaktivní node
+        $contextProvider->forceContext(false);
+        
         foreach ($subTreeNodes as $node) {
             if (!$node['api_generator_fk']=='paper') {
                 throw new LogicException("Položka {$this->title} nemá hodnotu 'api_generator_fk'=='paper',  není typu paper.");            
@@ -92,12 +103,15 @@ class Katalog {
     public function getKatalog() {
         $this->setUp();
         
-        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
-        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);        
-        $subTreeNodes = $hierarchyDao->getSubTree($this->langCode, $this->katalogUid);
+        /** @var HierarchyAggregateReadonlyDao $this->hierarchyDao */
+        $this->hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class); 
+        
+        $subTreeNodes = $this->hierarchyDao->getSubTree($this->langCode, $this->katalogUid);
         $this->lastKatalogUid = array_shift($subTreeNodes);
         /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
-        $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);                
+        $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
+
+        
         $list = [];
         foreach ($subTreeNodes as $node) {
             $menuItemAgg = $menuItemAggRepo->get($this->langCode, $node['uid']);            

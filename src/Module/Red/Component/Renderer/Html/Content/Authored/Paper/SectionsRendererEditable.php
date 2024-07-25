@@ -37,9 +37,9 @@ class SectionsRendererEditable extends SectionRendererAbstract {
             foreach ($contents as $paperContent) {
                 /** @var PaperSectionInterface $paperContent */
                 if ($paperContent->getPriority() > 0) {  // není v koši
-                    $sections[] = $this->getEditableSection($viewModel, $paperContent);
+                    $sections[] = $this->renderEditableSection($viewModel, $paperContent);
                 } else {  // je v koši
-                    $sections[] = $this->getTrashSection($paperContent);
+                    $sections[] = $this->renderTrashSection($paperContent);
                 }
             }
         } else {
