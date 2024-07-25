@@ -48,13 +48,18 @@ if  (count($chBlock)) {
 
 <p>Mapa Plzně a okolí se zaplní zastávkami, kde to 28. - 29. září 2024 ožije uměním. Pojďme se podívat, kdo otevře své ateliéry! Přinášíme Vám malou ochutnávku jejich děl. Pokud zde nenajdete profily všech umělců, je to proto, že některým jejich bohémská duše dosud nedopřála čas k odeslání podkladů pro tento web. ;-) </p>
 
-
 <p class="nastred">
     <?=  "|" . $this->repeat(__DIR__.'/katalog-chset.php', $chSet) ?>
 </p>
 
-<img class="kolaz-umelcu" src="@siteimages/kolaz.jpg" alt="koláž" />
+<div class="ui stackable grid">
+    <div class="six wide column">
+        <?=        $this->repeat(__DIR__.'/katalog-blockset.php', $chBlocks) ?>
+    </div>
+    <div class="ten wide column">
+        <img class="" src="@siteimages/kolaz.jpg" alt="koláž" />
+    </div>
+</div>
 
-    <?=        $this->repeat(__DIR__.'/katalog-blockset.php', $chBlocks) ?>
 
 
