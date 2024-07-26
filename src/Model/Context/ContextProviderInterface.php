@@ -14,5 +14,5 @@ namespace Model\Context;
  */
 interface ContextProviderInterface {
     public function showOnlyPublished(): bool;
-    public function forceContext($forceShowOnlyPublished=null): void;    
+    public function forceShowOnlyPublished($forceShowOnlyPublished=null): void;    
 }

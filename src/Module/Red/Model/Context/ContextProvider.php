@@ -53,7 +53,7 @@ class ContextProvider implements ContextProviderInterface {
      * 
      * @param bool $forceShowOnlyPublished
      */
-    public function forceContext($forceShowOnlyPublished=null): void {
+    public function forceShowOnlyPublished($forceShowOnlyPublished=null): void {
         $this->forceShowOnlyPublished = $forceShowOnlyPublished;
     }
     

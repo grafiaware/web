@@ -10,7 +10,7 @@ $katalogGenerator = new Katalog($container);
 try {
     $katalog = $katalogGenerator->getKatalog();         
 } catch (Exception $exc) {
-    echo $exc->getMessage();
+    echo "<p style=\"background-color:yellow;\">{$exc->getMessage()}</p>";
 }
 
 $volume  = array_column($katalog, 'firstLetter');
