@@ -137,7 +137,7 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => 'Lorem ipsum', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/lorem_ipsum'],
             ];
 
-        return $this->createJsonResponse(json_encode($templates[$templatesType]));
+        return $this->createJsonGetResponse($templates[$templatesType]);
     }
 
     /**

@@ -155,6 +155,13 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $response;
     }
     
+    protected function createJsonGetResponse($array, $status = StatusEnum::_200_OK): ResponseInterface {
+        $statusEnumValue = $this->statusCode($status);
+        $json = $this->jsonEncode($array);
+        $response = $this->createResponseFromString($json)->withStatus($statusEnumValue);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+    
     protected function createJsonPutNoContentResponse($array, $status = StatusEnum::_204_NoContent): ResponseInterface {
         $statusEnumValue = $this->statusCode($status);
         $json = $this->jsonEncode($array);
