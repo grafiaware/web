@@ -110,20 +110,21 @@ class Katalog {
             $paper = $menuItemAgg->getPaper();
             $sections = $paper->getPaperSectionsArray();
             foreach ($sections as $section) {
-                $content = $section->getContent();
-//                $pattern = "/<aid=\"*\"/";
-                $anchorPattern = "/id=\"([^']*?)\"/";
-                $anchorMatches = [];
-                preg_match_all($anchorPattern, preg_replace('/\s+/', '', $content), $anchorMatches);
-                $textPattern = "$<\/a>([^<]+)<\/$";
-                $textMatches = [];
-                preg_match_all($textPattern, $content, $textMatches);
-                if ($anchorMatches[1] && $textMatches[1]) {
-                    foreach ($anchorMatches[1] as $key => $anchorMatch) {
-                        $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'firstLetter'=> strtoupper($anchorMatch[0]), 'anchor'=>$anchorMatch, 'nazev'=>$textMatches[1][$key], 'nazevCs'=>html_entity_decode($textMatches[1][$key], ENT_HTML5), 'active'=>$section->getActive()];                        
+                if ($section->getPriority()>0) {  // mimo sekcí v koši
+                    $content = $section->getContent();
+                    $anchorPattern = "/id=\"([^']*?)\"/";
+                    $anchorMatches = [];
+                    preg_match_all($anchorPattern, preg_replace('/\s+/', '', $content), $anchorMatches);
+                    $textPattern = "$<\/a>([^<]+)<\/$";
+                    $textMatches = [];
+                    preg_match_all($textPattern, $content, $textMatches);
+                    if ($anchorMatches[1] && $textMatches[1]) {
+                        foreach ($anchorMatches[1] as $key => $anchorMatch) {
+                            $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'firstLetter'=> strtoupper($anchorMatch[0]), 'anchor'=>$anchorMatch, 'nazev'=>$textMatches[1][$key], 'nazevCs'=>html_entity_decode($textMatches[1][$key], ENT_HTML5), 'active'=>$section->getActive()];                        
+                        }
+                    } else {
+                        $log[] = substr($content, 0, 200);
                     }
-                } else {
-                    $log[] = substr($content, 0, 200);
                 }
             }
         }

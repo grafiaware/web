@@ -35,7 +35,9 @@ class TemplateCompiler implements TemplateCompilerInterface {
         $templateFilename = $templatePath."/template.php";
         $compiledPath = ConfigurationCache::componentController()['compiled'];
         $compiledFileName = $compiledPath.$staticName.".html";
-
+//TODO: Compiled - souboru s šablonou a souboru se zkompilovaným obsahem pomocí touch() nastavit stejný čas poslední změny -> pak pokud je šablona novější, překlad
+// info: $datetime = DateTime::createFromFormat("n/d/Y h:i A T", $date); touch($filename, $datetime->getTimestamp()) ....
+//
 //        if (is_readable($compiledFileName)) {
 //            $compiledFileTimestamp = filemtime($compiledFileName);  // Unix timestamp -> date ("d. F Y H:i:s.", $compiledFileTimestamp);
 //            $templateFolderTimestamp = $this->templateFolderModificationTime($templatePath);  // 7ms

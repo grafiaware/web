@@ -141,7 +141,7 @@ class TemplateControler extends FrontControlerAbstract {
     }
 
     /**
-     * Uloží jméno požadované šablony do presentatin statusu a vrací obsah šablony (pro zobrazení v náhledu šablony).
+     * Uloží jméno požadované šablony do presentation statusu a vrací obsah šablony (pro zobrazení v náhledu šablony).
      * Připraveno pro TinyMce dialog pro výběr šablony. Teto dialog posílá GET request při každé změně výběru v selectoru šablon a ještě jednou po kliku na tlačítko 'Uložit'.
      *
      * @param ServerRequestInterface $request
