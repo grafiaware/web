@@ -328,6 +328,34 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->down($request, $sectionId);
         });
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/cut', function(ServerRequestInterface $request, $sectionId) {
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
+                return $ctrl->cut($request, $sectionId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/copy', function(ServerRequestInterface $request, $sectionId) {
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
+                return $ctrl->copy($request, $sectionId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/cutescape', function(ServerRequestInterface $request, $sectionId) {
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
+                return $ctrl->cutEscape($request, $sectionId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/paste', function(ServerRequestInterface $request, $sectionId) {
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
+                return $ctrl->paste($request, $sectionId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/pastechild', function(ServerRequestInterface $request, $sectionId) {
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
+                return $ctrl->pasteChild($request, $sectionId);
+        });
+
+
+
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/add_above', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
@@ -386,7 +414,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/addchild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
-            return $ctrl->addchild($request, $uid);
+            return $ctrl->addChild($request, $uid);
         });
         $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/cut', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
@@ -411,7 +439,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/pastechild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
-            return $ctrl->pastechild($request, $uid);
+            return $ctrl->pasteChild($request, $uid);
         });
         $this->routeGenerator->addRouteForAction('PUT', '/red/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
@@ -432,7 +460,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/addchild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
-            return $ctrl->addchild($request, $uid);
+            return $ctrl->addChild($request, $uid);
         });
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/cut', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
@@ -457,7 +485,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/pastechild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
             $ctrl = $this->container->get(HierarchyControler::class);
-            return $ctrl->pastechild($request, $uid);
+            return $ctrl->pasteChild($request, $uid);
         });
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyControler $ctrl */
