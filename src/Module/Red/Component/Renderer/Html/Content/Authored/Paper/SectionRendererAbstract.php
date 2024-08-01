@@ -25,75 +25,82 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
     
     protected function renderEditableSectionPreview(PaperSectionInterface $paperSection) {
         return Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                        $this->renderRibbon($paperSection)
-                )
-                .$this->renderContent($paperSection)
+                [
+                    Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                            $this->renderRibbon($paperSection)
+                    ),
+                    $this->renderContent($paperSection)
+                ]
             );
     }
     
     protected function renderEditableSection(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
         return 
             Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
-                Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
-                    Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                [
+                    Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
+                        Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                                [
+                                $this->renderRibbon($paperSection),
+                                $this->renderSectionButtons($paperSection)
+                                ]
+                        )
+                    ),
+                    Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/section/{$paperSection->getId()}"],
+                        Html::tag('content',
                             [
-                            $this->renderRibbon($paperSection),
-                            $this->renderSectionButtons($paperSection)
-                            ]
+                                'id'=> implode("_", [SectionsControler::SECTION_CONTENT, $paperSection->getId(), $viewModel->getComponentUid()]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                                'data-red-menuitemid'=>$viewModel->getMenuItemId(),
+                                'class'=>$this->classMap->get('Content', 'content.edit-html')
+                            ],
+                            $paperSection->getContent() ?? ""
+                        )
                     )
-                )
-                .
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/section/{$paperSection->getId()}"],
-                    Html::tag('content',
-                        [
-                            'id'=> implode("_", [SectionsControler::SECTION_CONTENT, $paperSection->getId(), $viewModel->getComponentUid()]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
-                            'data-red-menuitemid'=>$viewModel->getMenuItemId(),
-                            'class'=>$this->classMap->get('Content', 'content.edit-html')
-                        ],
-                        $paperSection->getContent() ?? ""
-                    )
-                )
+                ]
             );
     }
 
     protected function renderTrashSectionPrewiew(PaperSectionInterface $paperSection) {
         return
         Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
-            Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                    Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
+            [
+                Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
+                    Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                        Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
+                    )
+                ),
+                Html::tag('div',
+                    [
+                        'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
+                        'class'=>$this->classMap->get('Content', 'div.trash_content')
+                    ],
+                    $paperSection->getContent() ?? ""
                 )
-            )
-            .Html::tag('div',
-                [
-                    'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
-                    'class'=>$this->classMap->get('Content', 'div.trash_content')
-                ],
-                $paperSection->getContent() ?? ""
-            )
+            ]
         );
     }
     
     protected function renderTrashSection(PaperSectionInterface $paperSection) {
         return
         Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
-            Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                    $this->renderTrashButtons($paperSection)
-                    .Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
+            [
+                Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
+                    Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                        $this->renderTrashButtons($paperSection)
+                        .Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
+                    )
+                ),
+//                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
+//                        Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
+//                ),
+                Html::tag('div',
+                    [
+                        'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
+                        'class'=>$this->classMap->get('Content', 'div.trash_content')
+                    ],
+                    $paperSection->getContent() ?? ""
                 )
-            )
-//            .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
-//                    Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
-//            )
-            .Html::tag('div',
-                [
-                    'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
-                    'class'=>$this->classMap->get('Content', 'div.trash_content')
-                ],
-                $paperSection->getContent() ?? ""
-            )
+            ]
         );
     }
     
@@ -109,23 +116,23 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         return $html;
     }
     
-    private function renderRibbon(PaperSectionInterface $paperContent) {
-        $priority = $paperContent->getPriority();
-        $active = $paperContent->getActive();
-        $actual = $paperContent->getActual();
+    private function renderRibbon(PaperSectionInterface $paperSection) {
+        $priority = $paperSection->getPriority();
+        $active = $paperSection->getActive();
+        $actual = $paperSection->getActual();
 
         $styleLine ="fill:none; stroke:#ae00ff; stroke-width:2";
         $styleRectShow =  $actual ? "fill:purple; stroke:#333333; stroke-width:2" : "fill:lightgrey; stroke:#222222; stroke-width:1";
-        $styleRectEvent =  ($paperContent->getEventStartTime() OR $paperContent->getEventEndTime())
+        $styleRectEvent =  ($paperSection->getEventStartTime() OR $paperSection->getEventEndTime())
                 ? "fill:gold; stroke:#333333; stroke-width:1"
                 : "fill:#cccccc; fill-opacity:0.5; stroke:#333333; stroke-width:1";
         $styleCircle = $active ? "fill:#21ba45; stroke:#000000; stroke-width:0" : "fill:#ffffff; stroke:#db2828; stroke-width:2";
         $clockStroke = $actual ? "lime" : "red";
 
-        $sLeft = $this->left($paperContent->getShowTime());
-        $sRight = $this->right($paperContent->getHideTime());
-        $eLeft = $this->left($paperContent->getEventStartTime());
-        $eRight = $this->right($paperContent->getEventEndTime());
+        $sLeft = $this->left($paperSection->getShowTime());
+        $sRight = $this->right($paperSection->getHideTime());
+        $eLeft = $this->left($paperSection->getEventStartTime());
+        $eRight = $this->right($paperSection->getEventEndTime());
 
         $svgWidth=100;
 
@@ -138,30 +145,32 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         return
 
         Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor-radek')], //aktivní/neaktivní content
-            Html::tag('div',
-               [
-               'class'=> 'ikona-popis',
-               'data-tooltip'=> $active ? "published" : "not published",
-               'data-position'=>'bottom center',
-               ],
-                Html::tag('i',
-                   [
-                   'class'=> $this->classMap->resolve($active, 'Icons','semafor.published', 'semafor.notpublished'),
-                   ]
+            [
+                Html::tag('div',
+                    [
+                    'class'=> 'ikona-popis',
+                    'data-tooltip'=> $active ? "published" : "not published",
+                    'data-position'=>'bottom center',
+                    ],
+                    Html::tag('i',
+                       [
+                       'class'=> $this->classMap->resolve($active, 'Icons','semafor.published', 'semafor.notpublished'),
+                       ]
+                    )
+                ),
+                Html::tag('div',
+                    [
+                    'class'=> 'ikona-popis',
+                    'data-tooltip'=> $actual ? "actual" : "not actual",
+                    'data-position'=>'bottom center',
+                    ],
+                    Html::tag('i',
+                       [
+                       'class'=> $this->classMap->resolve($actual, 'Icons','semafor.actual', 'semafor.notactual'),
+                       ]
+                    )
                 )
-            )
-            .Html::tag('div',
-               [
-               'class'=> 'ikona-popis',
-               'data-tooltip'=> $actual ? "actual" : "not actual",
-               'data-position'=>'bottom center',
-               ],
-                Html::tag('i',
-                   [
-                   'class'=> $this->classMap->resolve($actual, 'Icons','semafor.actual', 'semafor.notactual'),
-                   ]
-                )
-            )
+            ]
         )
     //SVG
 //        Html::tag('svg', ["width"=>"25", "height"=>"30", 'class'=>$this->classMap->get('Content', 'ribbon.svg')],
@@ -232,29 +241,29 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         return $right;
     }
 
-    private function getShowTimeText(PaperSectionInterface $paperContent) {
-        $showTime = $paperContent->getShowTime();
+    private function getShowTimeText(PaperSectionInterface $paperSection) {
+        $showTime = $paperSection->getShowTime();
         return isset($showTime) ? $showTime->format("d.m.Y") : '';
     }
 
-    private function getHideTimeText(PaperSectionInterface $paperContent) {
-        $hideTime = $paperContent->getHideTime();
+    private function getHideTimeText(PaperSectionInterface $paperSection) {
+        $hideTime = $paperSection->getHideTime();
         return isset($hideTime) ? $hideTime->format("d.m.Y") : '';
     }
 
-    private function getEventStartTimeText(PaperSectionInterface $paperContent) {
-        $eventStartTime = $paperContent->getEventStartTime();
+    private function getEventStartTimeText(PaperSectionInterface $paperSection) {
+        $eventStartTime = $paperSection->getEventStartTime();
         return isset($eventStartTime) ? $eventStartTime->format("d.m.Y") : '';
     }
 
-    private function getEventEndTimeText(PaperSectionInterface $paperContent) {
-        $eventEndTime = $paperContent->getEventEndTime();
+    private function getEventEndTimeText(PaperSectionInterface $paperSection) {
+        $eventEndTime = $paperSection->getEventEndTime();
         return isset($eventEndTime) ? $eventEndTime->format("d.m.Y") : '';
     }
 
-    private function textDatumyZobrazeni(PaperSectionInterface $paperContent) {
-        $showTimeText = $this->getShowTimeText($paperContent);
-        $hideTimeText = $this->getHideTimeText($paperContent);
+    private function textDatumyZobrazeni(PaperSectionInterface $paperSection) {
+        $showTimeText = $this->getShowTimeText($paperSection);
+        $hideTimeText = $this->getHideTimeText($paperSection);
         if ($showTimeText) {
             if ($hideTimeText) {
                 $textDatumyZobrazeni = "Zobrazeno od $showTimeText  do $hideTimeText";
@@ -269,9 +278,9 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         return $textDatumyZobrazeni;
     }
 
-    private function textDatumyUdalosti(PaperSectionInterface $paperContent) {
-        $eventStartTimeText = $this->getEventStartTimeText($paperContent);
-        $eventEndTimeText = $this->getEventEndTimeText($paperContent);
+    private function textDatumyUdalosti(PaperSectionInterface $paperSection) {
+        $eventStartTimeText = $this->getEventStartTimeText($paperSection);
+        $eventEndTimeText = $this->getEventEndTimeText($paperSection);
         if ($eventStartTimeText) {
             if ($eventEndTimeText) {
                 $textDatumyUdalosti = "Událost se koná od $eventStartTimeText  do $eventEndTimeText";
@@ -436,7 +445,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/section/$sectionId/addabove",
+                    'formaction'=>"red/v1/section/$sectionId/add_above",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
@@ -451,7 +460,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/section/$sectionId/addbelow",
+                    'formaction'=>"red/v1/section/$sectionId/add_below",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
@@ -516,41 +525,57 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             );
     }
 
-    private function renderTrashButtons(PaperSectionInterface $paperContent) {
+    private function renderTrashButtons(PaperSectionInterface $paperSection) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-        $paperIdFk = $paperContent->getPaperIdFk();
-        $paperContentId = $paperContent->getId();
+        $paperIdFk = $paperSection->getPaperIdFk();
+        $sectionId = $paperSection->getId();
 
         return
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapTrash')],
-                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
-                    Html::tag('button',
-                        ['class'=>$this->classMap->get('Buttons', 'button'),
-                        'data-tooltip'=>'Obnovit',
-                        'data-position'=>'bottom center',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"red/v1/section/$paperContentId/restore",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
+                [
+                    Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+                        Html::tag('button',
+                            ['class'=>$this->classMap->get('Buttons', 'button'),
+                            'data-tooltip'=>'Obnovit',
+                            'data-position'=>'bottom center',
+                            'type'=>'submit',
+                            'name'=>'button',
+                            'value' => '',
+                            'formmethod'=>'post',
+                            'formaction'=>"red/v1/section/$sectionId/restore",
+                            ],
+                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
+                        )
+                    ),
+                    Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+                        Html::tag('button',
+                            ['class'=>$this->classMap->get('Buttons', 'button'),
+                            'data-tooltip'=>'Vybrat k obnovení',
+                            'data-position'=>'bottom center',
+                            'type'=>'submit',
+                            'name'=>'button',
+                            'value' => '',
+                            'formmethod'=>'post',
+                            'formaction'=>"red/v1/section/$sectionId/cut",
+                            ],
+                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
+                        )
+                    ),
+                    Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+                        Html::tag('button',
+                            ['class'=>$this->classMap->get('Buttons', 'button'),
+                            'data-tooltip'=>'Smazat',
+                            'data-position'=>'bottom center',
+                            'type'=>'submit',
+                            'name'=>'button',
+                            'value' => '',
+                            'formmethod'=>'post',
+                            'formaction'=>"red/v1/section/$sectionId/delete",
+                            ],
+                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.delete')])
+                        )
                     )
-                )
-                .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
-                    Html::tag('button',
-                        ['class'=>$this->classMap->get('Buttons', 'button'),
-                        'data-tooltip'=>'Smazat',
-                        'data-position'=>'bottom center',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"red/v1/section/$paperContentId/delete",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.delete')])
-                    )
-                )
+                ]
             );
 
     }
