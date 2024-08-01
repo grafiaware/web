@@ -59,7 +59,7 @@ class HierarchyControler extends FrontControlerAbstract {
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$siblingUid");
     }
 
-    public function addchild(ServerRequestInterface $request, $uid): ResponseInterface {
+    public function addChild(ServerRequestInterface $request, $uid): ResponseInterface {
         $childUid = $this->editHierarchyDao->addChildNode($uid);
         $this->addFlashMessage('add item as child', FlashSeverityEnum::SUCCESS);
 //        return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($childUid), "newitemuid"=>$childUid]);
@@ -156,7 +156,7 @@ class HierarchyControler extends FrontControlerAbstract {
      * @param type $uid
      * @return type
      */
-    public function pastechild(ServerRequestInterface $request, $uid): ResponseInterface {
+    public function pasteChild(ServerRequestInterface $request, $uid): ResponseInterface {
         $statusFlash = $this->statusFlashRepo->get();
         $success = false;
         $postCommand = $statusFlash->getPostCommand();

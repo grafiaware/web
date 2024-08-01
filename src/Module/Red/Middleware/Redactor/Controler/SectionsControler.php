@@ -197,7 +197,27 @@ class SectionsControler extends FrontControlerAbstract {
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
-
+    
+    public function cut(ServerRequestInterface $request, $sectionId) {
+        
+    }
+    
+    public function copy(ServerRequestInterface $request, $sectionId) {
+        
+    }
+    
+    public function paste(ServerRequestInterface $request, $sectionId) {
+        
+    }
+            
+    public function pasteChild(ServerRequestInterface $request, $sectionId) {
+        
+    }
+    
+    public function cutEscape(ServerRequestInterface $request, $sectionId) {
+        
+    }    
+    
     /**
      * Metoda přidí novou, první sekci. POZOR! Jako parametr má id paper.
      * @param ServerRequestInterface $request
