@@ -213,7 +213,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/add_above",
+                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/addabove",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
@@ -228,7 +228,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/add_below",
+                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/addbelow",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])

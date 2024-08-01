@@ -120,10 +120,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/cut'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/copy'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/cutescape'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/paste'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/pastechild'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/add_above'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/add_below'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/pasteabove'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/pastebelow'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/addabove'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/addbelow'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/trash'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/restore'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/delete'));

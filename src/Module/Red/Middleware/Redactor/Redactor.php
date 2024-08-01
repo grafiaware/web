@@ -343,25 +343,25 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->cutEscape($request, $sectionId);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/paste', function(ServerRequestInterface $request, $sectionId) {
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/pasteabove', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->paste($request, $sectionId);
+                return $ctrl->pasteAbove($request, $sectionId);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/pastechild', function(ServerRequestInterface $request, $sectionId) {
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/pastebelow', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
-                return $ctrl->pasteChild($request, $sectionId);
+                return $ctrl->pasteBelow($request, $sectionId);
         });
 
 
 
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/add_above', function(ServerRequestInterface $request, $sectionId) {
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/addabove', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->addAbove($request, $sectionId);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/add_below', function(ServerRequestInterface $request, $sectionId) {
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/section/:sectionId/addbelow', function(ServerRequestInterface $request, $sectionId) {
                 /** @var SectionsControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->addBelow($request, $sectionId);

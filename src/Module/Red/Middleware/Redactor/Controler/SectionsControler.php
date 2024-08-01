@@ -206,11 +206,11 @@ class SectionsControler extends FrontControlerAbstract {
         
     }
     
-    public function paste(ServerRequestInterface $request, $sectionId) {
+    public function pasteAbove(ServerRequestInterface $request, $sectionId) {
         
     }
             
-    public function pasteChild(ServerRequestInterface $request, $sectionId) {
+    public function pasteBelow(ServerRequestInterface $request, $sectionId) {
         
     }
     
