@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,16 +17,9 @@ use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
 use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Red\Model\Repository\PaperSectionRepoInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 use Model\Context\ContextProviderInterface;
-
-//use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-//use Red\Model\Repository\MenuItemAggregatePaperRepo;
-//
-//use Red\Model\Entity\MenuItemAggregatePaperInterface;
-//
-//use Red\Model\Entity\PaperSection;
-//use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 
 /**
@@ -39,26 +31,11 @@ class NENI_TEST_MoveSectionTest  extends AppRunner {
 
     private $container;
 
-
-    private $langCode;
-    private $sectionId;
-
     /**
      *  @var  PaperSectionRepoInterface
      */
-    private $paperSectionRepo;
+    private $paperSectionRepo;         
     
-    
-    
-
-//    /**
-//     * @var MenuItemAggregatePaperInterface
-//     */
-//    private $menuItemAgg;
-//    private $paper;
-    
-    // pomocná proměnná pro add
-   // private static $oldContentCount;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -74,92 +51,119 @@ class NENI_TEST_MoveSectionTest  extends AppRunner {
         /** @var ContextProviderInterface $contextProvider */
         $contextProvider = $this->container->get(ContextProviderInterface::class);
         $contextProvider->forceShowOnlyPublished(false);
-        $this->paperSectionRepo = $this->container->get(PaperSectionRepo::class);
         
-                /** @var PaperSectionInterface $section */
-        $section = $this->paperSectionRepo->get(560);
-        $sections = $this->paperSectionRepo->findByPaperIdFk($section->getPaperIdFk());
-        //$selectedSectionPriority = $section->getPriority();
+        $this->paperSectionRepo = $this->container->get(PaperSectionRepo::class);                      
         
-        
-        
-        
-        
-        
-        
-
-//        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
-//        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
-//        $this->langCode = 'cs';
-//        $this->title = 'DIVIDE';
-//        $node = $hierarchyDao->getByTitleHelper(['lang_code_fk'=>$this->langCode, 'title'=>$this->title]);
-//        if (!isset($node)) {
-//            
-//            throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi '{$hierarchyDao->getSchemaName()}' není publikovaná položka menu v jazyce '$this->langCode' s názvem '$this->title'");
-//        }
-//
-//        //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
-//        $this->uid = $node['uid'];
-//
-//        $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
-//        $this->paper = $this->menuItemAgg->getPaper();
-//        if (!$this->paper instanceof PaperAggregatePaperSectionInterface) {
-//            throw new \LogicException("Error in setUp: Nelze spustit integrační test - v setup() metodě nelze číst publikovaný paper.");
-//        }
     }
     
-    protected function tearDown(): void {
-        $this->paperSectionRepo->flush();
-    }
+    
+    
+    
+    public function testMoveBelow() {
+        
+        $sectionToId = 459;
+        //$paperToId = 1279;
+        $sectionFromId = 463;
+        //$paperFromId = 1279;
+                
+        /** @var PaperSectionInterface $sectionTo */
+        $sectionTo = $this->paperSectionRepo->get($sectionToId);        
+        $paperToId = $sectionTo->getPaperIdFk();        
+        /** @var PaperSectionInterface $sectionFrom */
+        $sectionFrom = $this->paperSectionRepo->get($sectionFromId);
+        $paperFromId = $sectionFrom->getPaperIdFk();
+        
+   
+        $sectionToPriority = $sectionTo->getPriority();
+        $sectionFromPriority = $sectionFrom->getPriority();
+        
+        
+        //-----------------------------------
+        if ($paperToId == $paperFromId) { // je to jeden paper , priority jsou v jednom paperu
+            $sections = $this->paperSectionRepo->findByPaperIdFk($sectionTo->getPaperIdFk()); //vsechny sekce v paperu
+            $shifted = false;   
+                          /** @var PaperSectionInterface $sectionItem */
+          
+//  foreach ($sections as $sectionItem) {
+            
+//tady jseou NESMYSLY            
 
-    
-    
-    public function test() {
-        
-        
+                if ($sectionToPriority > $sectionFromPriority) { //nahoru
+          
+                    foreach ($sections as $sectionItem) {
+                        $sectionItemPriorityCur = $sectionItem->getPriority();                   
+                   
+                        if  ( ($sectionItemPriorityCur < $sectionToPriority ) AND
+                              ($sectionItemPriorityCur > $sectionFromPriority) ) {
+                            $sectionItem->setPriority($sectionItemPriorityCur-1);
+                            $shifted = true;
+                        }   
+                        
+                    }                                                            
+                    
+                    $sectionFrom->setPriority($sectionToPriority-1);
+
+                                                                                             
+                }
+                else { //dolu
+                    
+                    foreach ($sections as $sectionItem) {
+                      
+                        if  ( ($sectionItemPriorityCur > $sectionToPriority) AND
+                            ($sectionItemPriorityCur < $sectionFromPriority) ) {
+                            $sectionItem->setPriority($sectionItemPriorityCur+1);
+                            $shifted = true;
+                        }                                                                                                
+                    }  
+
+                    $sectionFrom->setPriority($sectionToPriority-1);
+
+                }
+
+           
+        } else {   // jsou to 2 papery , priority nejsou  v jednom paperu
+            
+//tady jseou NESMYSLY
+            $sectionsTo = $this->paperSectionRepo->findByPaperIdFk($sectionTo->getPaperIdFk()); //vsechny sekce v paperu  
+            $sectionsFrom = $this->paperSectionRepo->findByPaperIdFk($sectionFrom->getPaperIdFk()); //vsechny sekce v paperu
+            $shifted = false;   
+
+            $sectionFrom->setPaperIdFk($paperToId) ;
+            $sectionFrom->setPriority($sectionToPriority-1);
+            
+            foreach ($sectionsTo as $sectionItem) {
+                $sectionItemPriorityCur = $sectionItem->getPriority();                   
+                             
+                if   ($sectionItemPriorityCur < $sectionToPriority)  {
+                        $sectionItem->setPriority($sectionItemPriorityCur-1);
+                        $shifted = true;
+                }                                                                                    
+            } //foreach     
+                      
+            foreach ($sectionsFrom as $sectionItem) {
+                $sectionItemPriorityCur = $sectionItem->getPriority();     
+                
+                if ($sectionItemPriorityCur > $sectionFromPriority) {
+
+                    $sectionFrom->setPriority($sectionItemPriorityCur-1);
+                    $shifted = true;                                    
+                }                                                
+            } //foreach     
+            
         
             
+        }
+                                                      
+        
+        $this->assertTrue(1);
     }
     
     
     
-//    public function testDivide() {
-//        $this->assertIsReadable(__DIR__.'/Divide.html');
-//        $text = file_get_contents(__DIR__.'/Divide.html');
-//        $pattern ='<div class="blok_text_obrazek">';
-//        $divided = preg_split('/'.$pattern.'/', $text, -1, PREG_SPLIT_NO_EMPTY);
-//        $sectionContents = array_map(function($str) use ($pattern) {return $pattern.$str;}, $divided);
-//        $paperIdFk = $this->paper->getId();
-//        $sections = [];
-//        $cnt = count($sectionContents);  // priorita musí být od nejvyšší
-//        foreach ($sectionContents as $key=>$part) {
-//            $sections[]=$this->createSection($paperIdFk, $part, $cnt-$key);
-//        }
-//        $this->paper->setPaperSectionsArray($sections);
-//        $this->assertTrue(1);
-//    }
-//
-//    public function testCheckAdded() {
-//        $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
-//        $this->paper = $this->menuItemAgg->getPaper();
-//        $newContentsArray = $this->paper->getPaperSectionsArray();
-//
-//        $this->assertTrue(count($newContentsArray) == static::$oldContentCount+1, "Není o jeden obsah více po testAdd.");
-//
-//        // tohle nefunguje!
-////        $this->assertTrue(count($newContentsArray) == count($oldContentsArray)+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
-//
-//    }
-//
-//    private function createSection($paperIdFk, $part, $key) {
-//        $section = new PaperSection();
-//        // paper_id_fk, active, priority, editor - jsou NOT NULL -> musí mít nastaveny hodnoty
-//        $section->setContent($part);
-//        $section->setPaperIdFk($paperIdFk);
-//        $section->setActive(1);
-//        $section->setPriority($key+1);
-//        
-//        return $section;
-//    }
+    public function testHavarie() {
+        throw new Exception;        
+    }
+    
+    
 
 }
