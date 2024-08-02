@@ -30,6 +30,8 @@ use Red\Model\Entity\PaperSection;
 
 use Pes\Text\Message;
 
+use DateTime;
+
 /**
  * Description of PostControler
  *
@@ -38,7 +40,10 @@ use Pes\Text\Message;
 class SectionsControler extends FrontControlerAbstract {
 
     const SECTION_CONTENT = 'section-content';
-
+    
+    const POST_COMMAND_CUT = 'post_coomand_cut';
+    const POST_COMMAND_COPY = 'post_coomand_copy';
+    
     private $paperSectionRepo;
 
     public function __construct(
@@ -148,13 +153,13 @@ class SectionsControler extends FrontControlerAbstract {
     }
 
     /**
-     * Najde parametr a vytvoří DateTime. Pokud to selže, vrací null (\DateTime::createFromFormat() vrací při neúspěchu false)
+     * Najde parametr a vytvoří DateTime. Pokud to selže, vrací null (DateTime::createFromFormat() vrací při neúspěchu false)
      * @param type $name
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    private function timeFromParam(ServerRequestInterface $request, $name): ?\DateTime {
+    private function timeFromParam(ServerRequestInterface $request, $name): ?DateTime {
         $time = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, $name));
-        $dateTime = \DateTime::createFromFormat('d.m.Y', $time);
+        $dateTime = DateTime::createFromFormat('d.m.Y', $time);
         return $dateTime ? $dateTime : null;
 
     }
@@ -199,23 +204,36 @@ class SectionsControler extends FrontControlerAbstract {
     }
     
     public function cut(ServerRequestInterface $request, $sectionId) {
-        
+        $statusFlash = $this->statusFlashRepo->get();
+        $statusFlash->setPostCommand([self::POST_COMMAND_CUT=>$sectionId]);  // command s životností do dalšího POST requestu
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $statusFlash->setMessage("Section cut - item: $langCode/$sectionId selected for cut&paste operation", FlashSeverityEnum::INFO);        
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
     public function copy(ServerRequestInterface $request, $sectionId) {
-        
+        $statusFlash = $this->statusFlashRepo->get();
+        $statusFlash->setPostCommand([self::POST_COMMAND_COPY=>$sectionId]);  // command s životností do dalšího POST requestu
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $statusFlash->setMessage("Section copy - item: $langCode/$sectionId selected for copy&paste operation", FlashSeverityEnum::INFO);  
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
     public function pasteAbove(ServerRequestInterface $request, $sectionId) {
-        
+        $this->addFlashMessage("Section pasteAbove $sectionId", FlashSeverityEnum::SUCCESS);
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
             
     public function pasteBelow(ServerRequestInterface $request, $sectionId) {
-        
+        $this->addFlashMessage("Section pasteBelow $sectionId", FlashSeverityEnum::SUCCESS);
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
     public function cutEscape(ServerRequestInterface $request, $sectionId) {
-        
+        $statusFlash = $this->statusFlashRepo->get();
+        $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut" nebo "copy"
+        $statusFlash->setMessage("cut escape - operation cut&paste aborted", FlashSeverityEnum::WARNING);
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }    
     
     /**

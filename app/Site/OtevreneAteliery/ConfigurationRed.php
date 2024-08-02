@@ -45,7 +45,7 @@ class ConfigurationRed extends ConfigurationConstants {
 
     public static function itemActionControler() {
         return [
-            'timeout' => 'PT1H'   // 1 hodina
+            'timeout' => 'PT30M'   // 'PT1H' 1 hodina
         ];
     }
 

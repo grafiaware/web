@@ -467,8 +467,69 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                         .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
                     )
                 );
-
-
+        $btnVybratKpresunuti = Html::tag('button',
+                    ['class'=>$this->classMap->get('Buttons', 'button'),
+                    'data-tooltip'=>'Vybrat k přesunutí',
+                    'data-position'=>'bottom center',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/section/$sectionId/cut",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
+                    )
+                );
+        $btnVybratKeZkopirovani = Html::tag('button',
+                    ['class'=>$this->classMap->get('Buttons', 'button'),
+                    'data-tooltip'=>'Vybrat ke zkopírování',
+                    'data-position'=>'bottom center',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/section/$sectionId/copy",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
+                    )
+                );   
+        $btnVlozitPred = Html::tag('button',
+                    ['class'=>$this->classMap->get('Buttons', 'button'),
+                    'data-tooltip'=>'Vložit před',
+                    'data-position'=>'bottom center',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/section/$sectionId/pasteabove",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
+                    )
+                );
+        $btnVlozitZa = Html::tag('button',
+                    ['class'=>$this->classMap->get('Buttons', 'button'),
+                    'data-tooltip'=>'Vložit za',
+                    'data-position'=>'bottom center',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/section/$sectionId/pastebottom",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
+                    )
+                );   
+        
+        #############
+        
         return
         Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapContent')],
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
@@ -480,6 +541,9 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     $btnOJednuVys.$btnOJednuNiz
                     )
+            .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+                    $btnPridatObsahPred.$btnPridatObsahZa
+            )
             .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     $btnPridatObsahPred.$btnPridatObsahZa
             )
