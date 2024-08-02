@@ -20,4 +20,5 @@ interface PaperSectionRepoInterface extends RepoAssotiatedManyInterface {
     public function get($id): ?PaperSectionInterface;
     public function add(PaperSectionInterface $paper);
     public function remove(PaperSectionInterface $paper);
+    public function findByPaperIdFk($paperIdFk): iterable;
 }
