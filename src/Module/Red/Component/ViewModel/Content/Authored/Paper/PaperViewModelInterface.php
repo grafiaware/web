@@ -24,5 +24,5 @@ interface PaperViewModelInterface extends AuthoredViewModelInterface {
      * @return PaperAggregatePaperSectionInterface|null
      */
     public function getPaper(): ?PaperAggregatePaperSectionInterface;
-
+    public function isSectionPasteMode(): bool;
 }

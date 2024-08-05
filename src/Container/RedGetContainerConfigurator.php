@@ -508,23 +508,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $component = $c->get(ElementComponent::class);
                         $component->setRendererName(NoPermittedContentRenderer::class);
                     }
-                    $component->setRendererContainer($c->get('rendererContainer'));
-        
-                    
-//                    $createAddOrPasteOnelevelButtons = function ($setRenderingByAccess, $pasteMode) {
-//                        if ($pasteMode) {
-//                            return $setRenderingByAccess(, ButtonsMenuPasteOnelevelRenderer::class);
-//                        } else {
-//                            return $setRenderingByAccess(new ButtonsMenuAddComponent($c->get(ComponentConfiguration::class)), ButtonsMenuAddOnelevelRenderer::class);
-//                        }
-//                    };
-//                    $createAddOrPasteMultilevelButtons = function ($setRenderingByAccess, $pasteMode) {
-//                        if ($pasteMode) {
-//                            return $setRenderingByAccess(new ButtonsMenuAddComponent($c->get(ComponentConfiguration::class)), ButtonsMenuPasteRenderer::class);
-//                        } else {
-//                            return $setRenderingByAccess(new ButtonsMenuAddComponent($c->get(ComponentConfiguration::class)), ButtonsMenuAddRenderer::class);
-//                        }
-//                    };             
+                    $component->setRendererContainer($c->get('rendererContainer'));  
                     return $component;
                 },
                     
@@ -673,17 +657,17 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     
             // komponenty headline, perex, sections - jsou všechny typu ElementInheritDataComponent, mají různé názvy dané konstantou v třídě komponentu PaperComponent
             PaperComponent::HEADLINE => function(ContainerInterface $c) {
-                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(HeadlineRenderer::class);
+                $component = $c->get(ElementInheritDataComponent::class);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             PaperComponent::PEREX => function(ContainerInterface $c) {
-                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(PerexRenderer::class);
+                $component = $c->get(ElementInheritDataComponent::class);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             PaperComponent::SECTIONS => function(ContainerInterface $c) {
-                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(SectionsRenderer::class);
+                $component = $c->get(ElementInheritDataComponent::class);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
