@@ -58,22 +58,18 @@ class NENI_TEST_MoveSectionTest  extends AppRunner {
     
     
     
-    
-    public function testMoveBelow() {
-        
-        $sectionToId = 459;
-        //$paperToId = 1279;
-        $sectionFromId = 463;
-        //$paperFromId = 1279;
+    public function testMoveAbove() {      
+        $sectionFromId = 460;
+        $sectionToId = 526;
+        //$paperFromId = 1279;  //$paperToId = 1279;       
                 
+         /** @var PaperSectionInterface $sectionFrom */
+        $sectionFrom = $this->paperSectionRepo->get($sectionFromId);
+        $paperFromId = $sectionFrom->getPaperIdFk();
         /** @var PaperSectionInterface $sectionTo */
         $sectionTo = $this->paperSectionRepo->get($sectionToId);        
         $paperToId = $sectionTo->getPaperIdFk();        
-        /** @var PaperSectionInterface $sectionFrom */
-        $sectionFrom = $this->paperSectionRepo->get($sectionFromId);
-        $paperFromId = $sectionFrom->getPaperIdFk();
-        
-   
+          
         $sectionToPriority = $sectionTo->getPriority();
         $sectionFromPriority = $sectionFrom->getPriority();
         
@@ -82,12 +78,67 @@ class NENI_TEST_MoveSectionTest  extends AppRunner {
         if ($paperToId == $paperFromId) { // je to jeden paper , priority jsou v jednom paperu
             $sections = $this->paperSectionRepo->findByPaperIdFk($paperFromId); //vsechny sekce v paperu odkud = vsechny sekce v paperu kam
             $shifted = false;   
-                          /** @var PaperSectionInterface $sectionItem */          
-//  foreach ($sections as $sectionItem) {            
-//tady jseou NESMYSLY            
-
-                if ($sectionToPriority > $sectionFromPriority) { //nahoru
-          
+                          /** @var PaperSectionInterface $sectionItem */                            
+                if ($sectionToPriority > $sectionFromPriority) { //nahoru        
+                    foreach ($sections as $sectionItem) {
+                        $sectionItemPriorityCur = $sectionItem->getPriority();                                      
+                        if  ( ($sectionItemPriorityCur <= $sectionToPriority ) AND
+                              ($sectionItemPriorityCur > $sectionFromPriority) ) {
+                            $sectionItem->setPriority($sectionItemPriorityCur-1);
+                            $shifted = true;
+                        }                           
+                    }     
+                    $sectionFrom->setPriority($sectionToPriority);  
+                }
+                else { //dolu                    
+                    foreach ($sections as $sectionItem) {                      
+                        $sectionItemPriorityCur = $sectionItem->getPriority();                                      
+                       if  ( ($sectionItemPriorityCur > $sectionToPriority) AND
+                              ($sectionItemPriorityCur < $sectionFromPriority) ) {
+                            $sectionItem->setPriority($sectionItemPriorityCur+1);
+                            $shifted = true;
+                        }                                                                                                
+                    }
+                    $sectionFrom->setPriority($sectionToPriority+1);  
+                }     
+        } 
+        
+        
+        
+ //TOTO NENI ODLADENO ---- ASI ZATIM NESMYSLY   
+        else {   // jsou to 2 papery , priority nejsou  v jednom paperu            
+        }
+      
+        $this->assertTrue(1);
+    
+            throw new Exception();
+    }
+    
+    
+    
+    //--------------------------------------------------------------------------
+    public function MoveBelow() {      
+        $sectionFromId = 457;
+        $sectionToId = 458;
+        //$paperFromId = 1279;  //$paperToId = 1279;       
+                
+         /** @var PaperSectionInterface $sectionFrom */
+        $sectionFrom = $this->paperSectionRepo->get($sectionFromId);
+        $paperFromId = $sectionFrom->getPaperIdFk();
+        /** @var PaperSectionInterface $sectionTo */
+        $sectionTo = $this->paperSectionRepo->get($sectionToId);        
+        $paperToId = $sectionTo->getPaperIdFk();        
+       
+        $sectionToPriority = $sectionTo->getPriority();
+        $sectionFromPriority = $sectionFrom->getPriority();
+        
+        
+        //-----------------------------------
+        if ($paperToId == $paperFromId) { // je to jeden paper , priority jsou v jednom paperu
+            $sections = $this->paperSectionRepo->findByPaperIdFk($paperFromId); //vsechny sekce v paperu odkud = vsechny sekce v paperu kam
+            $shifted = false;   
+                          /** @var PaperSectionInterface $sectionItem */                            
+                if ($sectionToPriority > $sectionFromPriority) { //nahoru     
                     foreach ($sections as $sectionItem) {
                         $sectionItemPriorityCur = $sectionItem->getPriority();                                      
                         if  ( ($sectionItemPriorityCur < $sectionToPriority ) AND
@@ -95,62 +146,61 @@ class NENI_TEST_MoveSectionTest  extends AppRunner {
                             $sectionItem->setPriority($sectionItemPriorityCur-1);
                             $shifted = true;
                         }                           
-                    }                                                                                
-                    $sectionFrom->setPriority($sectionToPriority-1);                                                                                             
+                    }     
+                    $sectionFrom->setPriority($sectionToPriority-1);  
                 }
                 else { //dolu                    
                     foreach ($sections as $sectionItem) {                      
-                        if  ( ($sectionItemPriorityCur > $sectionToPriority) AND
+                        $sectionItemPriorityCur = $sectionItem->getPriority();                                      
+                       if  ( ($sectionItemPriorityCur >= $sectionToPriority) AND
                               ($sectionItemPriorityCur < $sectionFromPriority) ) {
                             $sectionItem->setPriority($sectionItemPriorityCur+1);
                             $shifted = true;
                         }                                                                                                
-                    }  
-                    $sectionFrom->setPriority($sectionToPriority-1);
-                }
-
-           
-        } else {   // jsou to 2 papery , priority nejsou  v jednom paperu
+                    }
+                    $sectionFrom->setPriority($sectionToPriority);  
+                }         
+        }
+        
             
-//tady jseou NESMYSLY
-            $sectionsTo = $this->paperSectionRepo->findByPaperIdFk($sectionTo->getPaperIdFk()); //vsechny sekce v paperu  
-            $sectionsFrom = $this->paperSectionRepo->findByPaperIdFk($sectionFrom->getPaperIdFk()); //vsechny sekce v paperu
-            $shifted = false;   
-
-            $sectionFrom->setPaperIdFk($paperToId) ;
-            $sectionFrom->setPriority($sectionToPriority-1);
+        
+//TOTO NENI ODLADENO ---- ASI ZATIM NESMYSLY       
+        else {   // jsou to 2 papery , priority nejsou  v jednom paperu            
+//tady jsou asi  NESMYSLY
+            $sectionsTo = $this->paperSectionRepo->findByPaperIdFk($sectionTo->getPaperIdFk()); //vsechny sekce v paperu kam
+            $sectionsFrom = $this->paperSectionRepo->findByPaperIdFk($sectionFrom->getPaperIdFk()); //vsechny sekce v paperu odkud
+            $shifted = false;             
             
             foreach ($sectionsTo as $sectionItem) {
-                $sectionItemPriorityCur = $sectionItem->getPriority();                   
-                             
-                if   ($sectionItemPriorityCur < $sectionToPriority)  {
-                        $sectionItem->setPriority($sectionItemPriorityCur-1);
-                        $shifted = true;
+                $sectionItemPriorityCur = $sectionItem->getPriority();                                                
+                if  ($sectionItemPriorityCur >= $sectionToPriority)  {
+                    $sectionItem->setPriority($sectionItemPriorityCur+1);
+                    $shifted = true;
                 }                                                                                    
-            } //foreach     
-                      
+            }  
+            
             foreach ($sectionsFrom as $sectionItem) {
-                $sectionItemPriorityCur = $sectionItem->getPriority();     
-                
+                $sectionItemPriorityCur = $sectionItem->getPriority();                     
                 if ($sectionItemPriorityCur > $sectionFromPriority) {
-
                     $sectionFrom->setPriority($sectionItemPriorityCur-1);
                     $shifted = true;                                    
                 }                                                
-            } //foreach     
-            
-        
-            
+            }            
+            $sectionFrom->setPaperIdFk($paperToId) ;
+            $sectionFrom->setPriority($sectionToPriority-1);            
         }
                                                       
         
         $this->assertTrue(1);
+        
+            throw new Exception();
+
     }
     
     
     
     public function testHavarie() {
-        throw new Exception;        
+            throw new Exception();
     }
     
     
