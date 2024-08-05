@@ -220,13 +220,13 @@ class SectionsControler extends FrontControlerAbstract {
     }
     
     public function pasteAbove(ServerRequestInterface $request, $sectionId) {
-        $this->pasteAbove($request, $sectionId);
+        $this->pasteSection($sectionId, true);
         $this->addFlashMessage("Section pasteAbove $sectionId", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
             
     public function pasteBelow(ServerRequestInterface $request, $sectionId) {
-        $this->pasteBelow($request, $sectionId);
+        $this->pasteSection($sectionId, false);
         $this->addFlashMessage("Section pasteAbove $sectionId", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -247,9 +247,9 @@ class SectionsControler extends FrontControlerAbstract {
                 switch ($command) {
                     case self::POST_COMMAND_CUT:
                         if ($above) {
-                            $this->moveSectionAboveTarget($sourcePaperId, $targetPaperId);
+                            $this->moveSectionAboveTarget($sourceSection, $targetSection, $targetPaperId);
                         } else {
-                            $this->moveSectionBelowTarget($sourcePaperId, $targetPaperId);
+                            $this->moveSectionBelowTarget($sourceSection, $targetSection, $targetPaperId);
                         }
                         break;
                     case self::POST_COMMAND_COPY:
@@ -267,14 +267,63 @@ class SectionsControler extends FrontControlerAbstract {
         }        
     }
     
-    private function moveSectionAboveTarget($sourcePaperId, $targetPaperId) {
-        $paperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);            
-        
+    private function moveSectionAboveTarget(PaperSectionInterface $sourceSection, PaperSectionInterface $targetSection, $targetPaperId) {
+        assert(true);
+        $paperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);
+        $sectionFromPriority = $sourceSection->getPriority();
+        $sectionToPriority = $targetSection->getPriority();
+        /** @var PaperSectionInterface $sectionItem */                            
+        if ($sectionToPriority > $sectionFromPriority) { //nahoru     
+            foreach ($paperSections as $sectionItem) {
+                $sectionItemPriorityCur = $sectionItem->getPriority();                                      
+                if  ( ($sectionItemPriorityCur < $sectionToPriority ) AND
+                      ($sectionItemPriorityCur > $sectionFromPriority) ) {
+                    $sectionItem->setPriority($sectionItemPriorityCur-1);
+                    $shifted = true;
+                }                           
+            }     
+            $sourceSection->setPriority($sectionToPriority-1);  
+        }
+        else { //dolu                    
+            foreach ($paperSections as $sectionItem) {                      
+                $sectionItemPriorityCur = $sectionItem->getPriority();                                      
+               if  ( ($sectionItemPriorityCur >= $sectionToPriority) AND
+                      ($sectionItemPriorityCur < $sectionFromPriority) ) {
+                    $sectionItem->setPriority($sectionItemPriorityCur+1);
+                    $shifted = true;
+                }                                                                                                
+            }
+            $sourceSection->setPriority($sectionToPriority);  
+        }
     }
     
-    private function moveSectionBelowTarget($sourcePaperId, $targetPaperId) {
-        $paperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);            
-        
+    private function moveSectionBelowTarget(PaperSectionInterface $sourceSection, PaperSectionInterface $targetSection, $targetPaperId) {
+        $paperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);
+        $sectionFromPriority = $sourceSection->getPriority();
+        $sectionToPriority = $targetSection->getPriority();
+        /** @var PaperSectionInterface $sectionItem */                            
+        if ($sectionToPriority > $sectionFromPriority) { //nahoru     
+            foreach ($paperSections as $sectionItem) {
+                $sectionItemPriorityCur = $sectionItem->getPriority();                                      
+                if  ( ($sectionItemPriorityCur < $sectionToPriority ) AND
+                      ($sectionItemPriorityCur > $sectionFromPriority) ) {
+                    $sectionItem->setPriority($sectionItemPriorityCur-1);
+                    $shifted = true;
+                }                           
+            }     
+            $sourceSection->setPriority($sectionToPriority-1);  
+        }
+        else { //dolu                    
+            foreach ($paperSections as $sectionItem) {                      
+                $sectionItemPriorityCur = $sectionItem->getPriority();                                      
+               if  ( ($sectionItemPriorityCur >= $sectionToPriority) AND
+                      ($sectionItemPriorityCur < $sectionFromPriority) ) {
+                    $sectionItem->setPriority($sectionItemPriorityCur+1);
+                    $shifted = true;
+                }                                                                                                
+            }
+            $sourceSection->setPriority($sectionToPriority);  
+        }        
     }
     
     public function cutEscape(ServerRequestInterface $request, $sectionId) {

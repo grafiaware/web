@@ -159,7 +159,7 @@ class NENI_TEST_MoveSectionTest  extends AppRunner {
                         }                                                                                                
                     }
                     $sectionFrom->setPriority($sectionToPriority);  
-                }         
+                }
         }
         
             

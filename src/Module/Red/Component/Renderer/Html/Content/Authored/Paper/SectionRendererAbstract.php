@@ -529,7 +529,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/section/$sectionId/pastebottom",
+                    'formaction'=>"red/v1/section/$sectionId/pastebelow",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
