@@ -80,44 +80,33 @@ class NENI_TEST_MoveSectionTest  extends AppRunner {
         
         //-----------------------------------
         if ($paperToId == $paperFromId) { // je to jeden paper , priority jsou v jednom paperu
-            $sections = $this->paperSectionRepo->findByPaperIdFk($sectionTo->getPaperIdFk()); //vsechny sekce v paperu
+            $sections = $this->paperSectionRepo->findByPaperIdFk($paperFromId); //vsechny sekce v paperu odkud = vsechny sekce v paperu kam
             $shifted = false;   
-                          /** @var PaperSectionInterface $sectionItem */
-          
-//  foreach ($sections as $sectionItem) {
-            
+                          /** @var PaperSectionInterface $sectionItem */          
+//  foreach ($sections as $sectionItem) {            
 //tady jseou NESMYSLY            
 
                 if ($sectionToPriority > $sectionFromPriority) { //nahoru
           
                     foreach ($sections as $sectionItem) {
-                        $sectionItemPriorityCur = $sectionItem->getPriority();                   
-                   
+                        $sectionItemPriorityCur = $sectionItem->getPriority();                                      
                         if  ( ($sectionItemPriorityCur < $sectionToPriority ) AND
                               ($sectionItemPriorityCur > $sectionFromPriority) ) {
                             $sectionItem->setPriority($sectionItemPriorityCur-1);
                             $shifted = true;
-                        }   
-                        
-                    }                                                            
-                    
-                    $sectionFrom->setPriority($sectionToPriority-1);
-
-                                                                                             
+                        }                           
+                    }                                                                                
+                    $sectionFrom->setPriority($sectionToPriority-1);                                                                                             
                 }
-                else { //dolu
-                    
-                    foreach ($sections as $sectionItem) {
-                      
+                else { //dolu                    
+                    foreach ($sections as $sectionItem) {                      
                         if  ( ($sectionItemPriorityCur > $sectionToPriority) AND
-                            ($sectionItemPriorityCur < $sectionFromPriority) ) {
+                              ($sectionItemPriorityCur < $sectionFromPriority) ) {
                             $sectionItem->setPriority($sectionItemPriorityCur+1);
                             $shifted = true;
                         }                                                                                                
                     }  
-
                     $sectionFrom->setPriority($sectionToPriority-1);
-
                 }
 
            
