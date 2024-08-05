@@ -220,46 +220,61 @@ class SectionsControler extends FrontControlerAbstract {
     }
     
     public function pasteAbove(ServerRequestInterface $request, $sectionId) {
-        /** @var PaperSectionInterface $sourceSection */
-        $sourceSection = $this->paperSectionRepo->get($sectionId);
-        $sourcePaperSections = $this->paperSectionRepo->findByPaperIdFk($sourceSection->getPaperIdFk());
-        $statusFlash = $this->statusFlashRepo->get();        
-        $postCommand = $statusFlash->getPostCommand();
-        if (is_array($postCommand) ) {  // command existuje
-            $command = array_key_first($postCommand);
-            $sourceSectionId = $postCommand[$command];
-            switch ($command) {
-                case self::POST_COMMAND_CUT:
-                    /** @var PaperSectionInterface $sourceSection */
-                    $sourceSection = $this->paperSectionRepo->get($sourceSectionId);
-                    $sourcePaperSections = $this->paperSectionRepo->findByPaperIdFk($sourceSection->getPaperIdFk());
-                    // přesun sekce a přerovnání sekcí
-                    $success = true;
-                    break;
-                case self::POST_COMMAND_COPY:
-
-                    $success = true;
-                    break;
-                default:
-                    $this->addFlashMessage("Paste - unknown post command.", FlashSeverityEnum::WARNING);
-                    break;
-            }
-        }else {
-            $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
-        }
-  
-        
-        
-        
-        
-        
+        $this->pasteAbove($request, $sectionId);
         $this->addFlashMessage("Section pasteAbove $sectionId", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
             
     public function pasteBelow(ServerRequestInterface $request, $sectionId) {
-        $this->addFlashMessage("Section pasteBelow $sectionId", FlashSeverityEnum::SUCCESS);
+        $this->pasteBelow($request, $sectionId);
+        $this->addFlashMessage("Section pasteAbove $sectionId", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
+    }
+    
+    private function pasteSection($targetSectionId, bool $above) {
+        $statusFlash = $this->statusFlashRepo->get();        
+        $postCommand = $statusFlash->getPostCommand();
+        if (is_array($postCommand) ) {  // command existuje
+            $command = array_key_first($postCommand);
+            $sourceSectionId = $postCommand[$command];
+            /** @var PaperSectionInterface $sourceSection */
+            $sourceSection = $this->paperSectionRepo->get($sourceSectionId);
+            /** @var PaperSectionInterface $targetSection */
+            $targetSection = $this->paperSectionRepo->get($targetSectionId);
+            $sourcePaperId = $sourceSection->getPaperIdFk();
+            $targetPaperId = $targetSection->getPaperIdFk();
+            if ($sourcePaperId===$targetPaperId) {
+                switch ($command) {
+                    case self::POST_COMMAND_CUT:
+                        if ($above) {
+                            $this->moveSectionAboveTarget($sourcePaperId, $targetPaperId);
+                        } else {
+                            $this->moveSectionBelowTarget($sourcePaperId, $targetPaperId);
+                        }
+                        break;
+                    case self::POST_COMMAND_COPY:
+                        $this->addFlashMessage("Paste - není implementováno copy", FlashSeverityEnum::WARNING);
+                        break;
+                    default:
+                        $this->addFlashMessage("Paste - unknown post command.", FlashSeverityEnum::WARNING);
+                        break;
+                }
+            } else {
+                $this->addFlashMessage("Paste z jiného paper není implementováno.", FlashSeverityEnum::WARNING);                
+            }
+        }else {
+            $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
+        }        
+    }
+    
+    private function moveSectionAboveTarget($sourcePaperId, $targetPaperId) {
+        $paperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);            
+        
+    }
+    
+    private function moveSectionBelowTarget($sourcePaperId, $targetPaperId) {
+        $paperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);            
+        
     }
     
     public function cutEscape(ServerRequestInterface $request, $sectionId) {
@@ -271,6 +286,7 @@ class SectionsControler extends FrontControlerAbstract {
     
     /**
      * Metoda přidí novou, první sekci. POZOR! Jako parametr má id paper.
+     * 
      * @param ServerRequestInterface $request
      * @param type $paperId
      * @return type
@@ -288,6 +304,13 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    /**
+     * Metoda přidá prázdnou novou sekci nad sekci, ve které uživatelel klikl na tlačítko.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $contentId
+     * @return type
+     */
     public function addAbove(ServerRequestInterface $request, $contentId) {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($contentId);
@@ -306,6 +329,13 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    /**
+     * Metoda přidá prázdnou novou sekci pod sekci, ve které uživatelel klikl na tlačítko.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function addBelow(ServerRequestInterface $request, $sectionId) {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
@@ -332,6 +362,13 @@ class SectionsControler extends FrontControlerAbstract {
         return $newContent;
     }
 
+    /**
+     * Metoda přesune sekci do koše. Sekce v koši se liší pouze tím, že mají prioritu rovnu nula. Mtoda tedy nastaví prioritu = 0.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function trash(ServerRequestInterface $request, $sectionId) {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);

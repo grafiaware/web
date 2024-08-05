@@ -475,8 +475,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     'formaction'=>"red/v1/section/$sectionId/cut",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
-                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
-                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cut')])
                     )
                 );
         $btnVybratKeZkopirovani = Html::tag('button',
@@ -490,12 +489,25 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     'formaction'=>"red/v1/section/$sectionId/copy",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
-                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
-                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.copy')])
                     )
                 );   
-        $btnVlozitPred = Html::tag('button',
+        $btnZrusitVyber = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
+                    'data-tooltip'=>'Zrušit výběr k přesunutí/kopírování',
+                    'data-position'=>'bottom center',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/section/$sectionId/cutescape",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cutted')])
+                    )
+                );
+        $btnVlozitPred = Html::tag('button',
+                    ['class'=>$this->classMap->get('Buttons', 'button.paste'),
                     'data-tooltip'=>'Vložit vybranou sekci před',
                     'data-position'=>'bottom center',
                     'type'=>'submit',
@@ -506,11 +518,11 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
-                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
+                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowup')])
                     )
-                );
+                );  
         $btnVlozitZa = Html::tag('button',
-                    ['class'=>$this->classMap->get('Buttons', 'button'),
+                    ['class'=>$this->classMap->get('Buttons', 'button.paste'),
                     'data-tooltip'=>'Vložit vybranou sekci za',
                     'data-position'=>'bottom center',
                     'type'=>'submit',
@@ -540,7 +552,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
             $sectionButtons2 = 
                     [
                         Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
-                        $btnVlozitPred.$btnVlozitZa
+                        $btnVlozitPred.$btnVlozitZa.$btnZrusitVyber
                         ),
                     ];
         } else {
