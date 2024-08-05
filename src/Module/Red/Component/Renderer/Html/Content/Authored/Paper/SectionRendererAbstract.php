@@ -18,9 +18,7 @@ use Pes\Text\Html;
 abstract class SectionRendererAbstract extends HtmlRendererAbstract {
 
     protected function renderSection(PaperSectionInterface $paperSection) {
-        $html =
-                Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],$this->renderContent($paperSection));
-        return $html;
+        return Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],$this->renderContent($paperSection));
     }
     
     protected function renderEditableSectionPreview(PaperSectionInterface $paperSection) {
@@ -42,20 +40,11 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                         Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
                                 [
                                 $this->renderRibbon($paperSection),
-                                $this->renderSectionButtons($paperSection)
+                                $this->renderSectionButtons($viewModel, $paperSection)  
                                 ]
                         )
                     ),
-                    Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/section/{$paperSection->getId()}"],
-                        Html::tag('content',
-                            [
-                                'id'=> implode("_", [SectionsControler::SECTION_CONTENT, $paperSection->getId(), $viewModel->getComponentUid()]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
-                                'data-red-menuitemid'=>$viewModel->getMenuItemId(),
-                                'class'=>$this->classMap->get('Content', 'content.edit-html')
-                            ],
-                            $paperSection->getContent() ?? ""
-                        )
-                    )
+                    $this->renderContentEditable($viewModel, $paperSection)
                 ]
             );
     }
@@ -69,13 +58,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                         Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
                     )
                 ),
-                Html::tag('div',
-                    [
-                        'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
-                        'class'=>$this->classMap->get('Content', 'div.trash_content')
-                    ],
-                    $paperSection->getContent() ?? ""
-                )
+                $this->renderTrashContent($paperSection)
             ]
         );
     }
@@ -90,16 +73,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                         .Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
                     )
                 ),
-//                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
-//                        Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
-//                ),
-                Html::tag('div',
-                    [
-                        'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
-                        'class'=>$this->classMap->get('Content', 'div.trash_content')
-                    ],
-                    $paperSection->getContent() ?? ""
-                )
+                $this->renderTrashContent($paperSection)
             ]
         );
     }
@@ -114,6 +88,29 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                 $paperSection->getContent()
             );
         return $html;
+    }
+    
+    private function renderContentEditable(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
+        return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/section/{$paperSection->getId()}"],
+            Html::tag('content',
+                [
+                    'id'=> implode("_", [SectionsControler::SECTION_CONTENT, $paperSection->getId(), $viewModel->getComponentUid()]),           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                    'data-red-menuitemid'=>$viewModel->getMenuItemId(),
+                    'class'=>$this->classMap->get('Content', 'content.edit-html')
+                ],
+                $paperSection->getContent() ?? ""
+            )
+        );
+    }
+    
+    private function renderTrashContent(PaperSectionInterface $paperSection) {
+        return Html::tag('div',
+            [
+                'id' => "content_{$paperSection->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
+                'class'=>$this->classMap->get('Content', 'div.trash_content')
+            ],
+            $paperSection->getContent() ?? ""
+        );
     }
     
     private function renderRibbon(PaperSectionInterface $paperSection) {
@@ -295,7 +292,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         return $textDatumyUdalosti;
     }
 
-    private function renderSectionButtons(PaperSectionInterface $paperSection) {
+    private function renderSectionButtons(PaperViewModelInterface $viewModel, PaperSectionInterface $paperSection) {
 
         $sectionId = $paperSection->getId();
         $active = $paperSection->getActive();
@@ -499,7 +496,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                 );   
         $btnVlozitPred = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
-                    'data-tooltip'=>'Vložit před',
+                    'data-tooltip'=>'Vložit vybranou sekci před',
                     'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
@@ -514,7 +511,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                 );
         $btnVlozitZa = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
-                    'data-tooltip'=>'Vložit za',
+                    'data-tooltip'=>'Vložit vybranou sekci za',
                     'data-position'=>'bottom center',
                     'type'=>'submit',
                     'name'=>'button',
@@ -530,51 +527,71 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         
         #############
         
-        return
-        Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapContent')],
-            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+        $sectionButtons1 = 
+            [
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     $btnAktivni.$btnDoKose
-                    )
-            .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+                    ),
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     $btnDatumyZobrazeni.$btnDatumyUdalosti
                     )
-            .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+            ];
+        if($viewModel->isSectionPasteMode()) {
+            $sectionButtons2 = 
+                    [
+                        Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+                        $btnVlozitPred.$btnVlozitZa
+                        ),
+                    ];
+        } else {
+            $sectionButtons2 = 
+                [
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     $btnOJednuVys.$btnOJednuNiz
+                    ),
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+                    $btnPridatObsahPred.$btnPridatObsahZa
+                    ),
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+                    $btnVybratKpresunuti.$btnVybratKeZkopirovani
+                    ),
+                ];
+        }
+        $sectionButtons3 = 
+            [
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapShowDate')],
+                    Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsEditDate')],
+                        $btnZobrazeniTrvale.$btnZobrazeniUlozit.$btnZobrazeniZrusitUpravy
+                     )
+                    .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.grid')],
+
+                        Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.wholeRow')],
+                            Html::tag('p', ['class'=>''], 'Uveřejnit obsah')
+                        )
+                        .$this->renderCalendar('datum od', "show_$sectionId", 'Klikněte pro výběr', $this->getShowTimeText($paperSection))
+                        .$this->renderCalendar('datum do', "hide_$sectionId", 'Klikněte pro výběr', $this->getHideTimeText($paperSection))
+
                     )
-            .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
-                    $btnPridatObsahPred.$btnPridatObsahZa
-            )
-            .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
-                    $btnPridatObsahPred.$btnPridatObsahZa
-            )
-        )
-        .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapShowDate')],
-            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsEditDate')],
-                $btnZobrazeniTrvale.$btnZobrazeniUlozit.$btnZobrazeniZrusitUpravy
-             )
-            .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.grid')],
+                ),
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapEventDate')],       // display none <-> display flex
+                    Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsEditDate')],
+                        $btnUdalostTrvale.$btnUdalostUlozit.$btnUdalostZrusitUpravy
+                    )
+                    .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.grid')],
 
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.wholeRow')],
-                    Html::tag('p', ['class'=>''], 'Uveřejnit obsah')
+                        Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.wholeRow')],
+                            Html::tag('p', ['class'=>''], 'Nastavit datum události')
+                        )
+                        .$this->renderCalendar('datum od', "start_$sectionId", 'Klikněte pro výběr', $this->getEventStartTimeText($paperSection))
+                        .$this->renderCalendar('datum do', "end_$sectionId", 'Klikněte pro výběr', $this->getEventEndTimeText($paperSection))
+
+                    )
                 )
-                .$this->renderCalendar('datum od', "show_$sectionId", 'Klikněte pro výběr', $this->getShowTimeText($paperSection))
-                .$this->renderCalendar('datum do', "hide_$sectionId", 'Klikněte pro výběr', $this->getHideTimeText($paperSection))
-
-            )
-        )
-        .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapEventDate')],       // display none <-> display flex
-            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsEditDate')],
-                $btnUdalostTrvale.$btnUdalostUlozit.$btnUdalostZrusitUpravy
-            )
-            .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.grid')],
-
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.wholeRow')],
-                    Html::tag('p', ['class'=>''], 'Nastavit datum události')
-                )
-                .$this->renderCalendar('datum od', "start_$sectionId", 'Klikněte pro výběr', $this->getEventStartTimeText($paperSection))
-                .$this->renderCalendar('datum do', "end_$sectionId", 'Klikněte pro výběr', $this->getEventEndTimeText($paperSection))
-
-            )
+            ];
+        
+        return
+        Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapContent')],
+                array_merge($sectionButtons1, $sectionButtons2, $sectionButtons3)
         );
     }
 

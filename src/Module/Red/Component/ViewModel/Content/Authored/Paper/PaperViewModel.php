@@ -20,6 +20,7 @@ use Red\Model\Repository\ItemActionRepoInterface;
 use Red\Model\Repository\PaperAggregateSectionsRepo;
 
 use Red\Model\Enum\AuthoredTypeEnum;
+use Red\Middleware\Redactor\Controler\SectionsControler;
 
 /**
  * Description of PaperViewModelAnstract
@@ -84,4 +85,10 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
         return $this->paper ?? null;
     }
 
+    
+    public function isSectionPasteMode(): bool {
+        $cut = $this->statusViewModel->getFlashPostCommand(SectionsControler::POST_COMMAND_CUT);
+        $copy = $this->statusViewModel->getFlashPostCommand(SectionsControler::POST_COMMAND_COPY);
+        return ($cut OR $copy);
+    }
 }

@@ -13,7 +13,8 @@ use Pes\Text\Html;
 class ButtonsMenuPasteRenderer extends ButtonsMenuRendererAbstract {
 
     protected function renderButtons(DriverViewModelInterface $viewModel) {
-        switch ($viewModel->getItemType()) {
+        $itemType = $viewModel->getItemType();
+        switch ($itemType) {
             // ButtonsXXX komponenty jsou typu InheritData - dědí DriverViewModel
             case ItemTypeEnum::MULTILEVEL:
                 $buttons[] = $this->expandButtons([$this->getButtonPaste($viewModel), $this->getButtonPasteChild($viewModel)], $this->classMap->get('Icons', 'icon.plus'));

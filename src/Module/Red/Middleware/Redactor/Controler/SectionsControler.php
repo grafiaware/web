@@ -41,8 +41,8 @@ class SectionsControler extends FrontControlerAbstract {
 
     const SECTION_CONTENT = 'section-content';
     
-    const POST_COMMAND_CUT = 'post_coomand_cut';
-    const POST_COMMAND_COPY = 'post_coomand_copy';
+    const POST_COMMAND_CUT = 'post_command_section_cut';
+    const POST_COMMAND_COPY = 'post_command_section_copy';
     
     private $paperSectionRepo;
 
@@ -220,6 +220,39 @@ class SectionsControler extends FrontControlerAbstract {
     }
     
     public function pasteAbove(ServerRequestInterface $request, $sectionId) {
+        /** @var PaperSectionInterface $sourceSection */
+        $sourceSection = $this->paperSectionRepo->get($sectionId);
+        $sourcePaperSections = $this->paperSectionRepo->findByPaperIdFk($sourceSection->getPaperIdFk());
+        $statusFlash = $this->statusFlashRepo->get();        
+        $postCommand = $statusFlash->getPostCommand();
+        if (is_array($postCommand) ) {  // command existuje
+            $command = array_key_first($postCommand);
+            $sourceSectionId = $postCommand[$command];
+            switch ($command) {
+                case self::POST_COMMAND_CUT:
+                    /** @var PaperSectionInterface $sourceSection */
+                    $sourceSection = $this->paperSectionRepo->get($sourceSectionId);
+                    $sourcePaperSections = $this->paperSectionRepo->findByPaperIdFk($sourceSection->getPaperIdFk());
+                    // přesun sekce a přerovnání sekcí
+                    $success = true;
+                    break;
+                case self::POST_COMMAND_COPY:
+
+                    $success = true;
+                    break;
+                default:
+                    $this->addFlashMessage("Paste - unknown post command.", FlashSeverityEnum::WARNING);
+                    break;
+            }
+        }else {
+            $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
+        }
+  
+        
+        
+        
+        
+        
         $this->addFlashMessage("Section pasteAbove $sectionId", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
