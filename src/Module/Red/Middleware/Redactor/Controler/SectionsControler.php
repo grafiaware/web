@@ -273,28 +273,29 @@ class SectionsControler extends FrontControlerAbstract {
         $sectionFromPriority = $sourceSection->getPriority();
         $sectionToPriority = $targetSection->getPriority();
         /** @var PaperSectionInterface $sectionItem */                            
-        if ($sectionToPriority > $sectionFromPriority) { //nahoru     
+        if ($sectionToPriority > $sectionFromPriority) { //nahoru        
             foreach ($paperSections as $sectionItem) {
                 $sectionItemPriorityCur = $sectionItem->getPriority();                                      
-                if  ( ($sectionItemPriorityCur < $sectionToPriority ) AND
+                if  ( ($sectionItemPriorityCur <= $sectionToPriority ) AND
                       ($sectionItemPriorityCur > $sectionFromPriority) ) {
                     $sectionItem->setPriority($sectionItemPriorityCur-1);
                     $shifted = true;
                 }                           
             }     
-            $sourceSection->setPriority($sectionToPriority-1);  
+            $sourceSection->setPriority($sectionToPriority);  
         }
         else { //dolu                    
             foreach ($paperSections as $sectionItem) {                      
                 $sectionItemPriorityCur = $sectionItem->getPriority();                                      
-               if  ( ($sectionItemPriorityCur >= $sectionToPriority) AND
+               if  ( ($sectionItemPriorityCur > $sectionToPriority) AND
                       ($sectionItemPriorityCur < $sectionFromPriority) ) {
                     $sectionItem->setPriority($sectionItemPriorityCur+1);
                     $shifted = true;
                 }                                                                                                
             }
-            $sourceSection->setPriority($sectionToPriority);  
-        }
+            $sourceSection->setPriority($sectionToPriority+1);  
+        }             
+        
     }
     
     private function moveSectionBelowTarget(PaperSectionInterface $sourceSection, PaperSectionInterface $targetSection, $targetPaperId) {

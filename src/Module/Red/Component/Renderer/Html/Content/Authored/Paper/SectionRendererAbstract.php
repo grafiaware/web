@@ -640,20 +640,33 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                             Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
                         )
                     ),
-                    Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
-                        Html::tag('button',
-                            ['class'=>$this->classMap->get('Buttons', 'button'),
-                            'data-tooltip'=>'Vybrat k obnovení',
-                            'data-position'=>'bottom center',
-                            'type'=>'submit',
-                            'name'=>'button',
-                            'value' => '',
-                            'formmethod'=>'post',
-                            'formaction'=>"red/v1/section/$sectionId/cut",
-                            ],
-                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
-                        )
-                    ),
+//                    Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],'div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
+//                        Html::tag('button',
+//                            ['class'=>$this->classMap->get('Buttons', 'button'),
+//                            'data-tooltip'=>'Vybrat k obnovení',
+//                            'data-position'=>'bottom center',
+//                            'type'=>'submit',
+//                            'name'=>'button',
+//                            'value' => '',
+//                            'formmethod'=>'post',
+//                            'formaction'=>"red/v1/section/$sectionId/cut",
+//                            ],
+//                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
+//                        )
+//                    ),
+//                        Html::tag('button',
+//                            ['class'=>$this->classMap->get('Buttons', 'button'),
+//                            'data-tooltip'=>'Vybrat k obnovení',
+//                            'data-position'=>'bottom center',
+//                            'type'=>'submit',
+//                            'name'=>'button',
+//                            'value' => '',
+//                            'formmethod'=>'post',
+//                            'formaction'=>"red/v1/section/$sectionId/cut",
+//                            ],
+//                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
+//                        )
+//                    ),
                     Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                         Html::tag('button',
                             ['class'=>$this->classMap->get('Buttons', 'button'),
