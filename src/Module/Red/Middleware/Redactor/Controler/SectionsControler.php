@@ -56,7 +56,8 @@ class SectionsControler extends FrontControlerAbstract {
     }
 
     /**
-     *
+     * Updatuje obsah sekce.
+     * 
      * @param ServerRequestInterface $request
      * @param string $sectionId
      * @return type
@@ -76,6 +77,13 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    /**
+     * Přepne zveřejnění (active) sekce.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function toggle(ServerRequestInterface $request, $sectionId) {
         $section = $this->paperSectionRepo->get($sectionId);
         $active = $section->getActive() ? 0 : 1;  //active je integer
@@ -84,6 +92,18 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    /**
+     * Nastaví datumy odkdy a dokdy je sekce aktuální, tedy považovaná za zveřejněnou. 
+     * Sekce musí být zveřejněná (active). Pokud sekce vůbec není zvěřejněna, nemá nastavení actual žádny vliv.
+     * 
+     * Pokud má sekce nastaveny jeden nebo oba datumy actual, je reálně považována za zveřejněnou pouze v rozmezí datumů od-do (včetně). 
+     * Pokud má jen datum do je považována za zveřejněnou kdykoli před datem do (včetnš), pokud má sekce nastaven pouze datum od, 
+     * je považována za zveřejněnou od daného data (včetně) dále.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function actual(ServerRequestInterface $request, $sectionId) {
         $content = $this->paperSectionRepo->get($sectionId);
         $button = (new RequestParams())->getParam($request, 'button');
@@ -163,6 +183,14 @@ class SectionsControler extends FrontControlerAbstract {
         return $dateTime ? $dateTime : null;
 
     }
+    
+    /**
+     * Zvětší prioritu sekce o jednotku. Pokud jsou sekce řazeny podle priority (výchozí stav), posune sekci na stránce o pozici nahoru.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function up(ServerRequestInterface $request, $sectionId) {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
@@ -183,6 +211,13 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+    /**
+     * Zmenší prioritu sekce o jednotku. Pokud jsou sekce řazeny podle priority (výchozí stav), posune sekci na stránce o pozici dolů.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function down(ServerRequestInterface $request, $sectionId) {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
@@ -203,6 +238,13 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
+    /**
+     * Vybere sekci k přesunutí. Přesunutí reálně proběhne až příkazem paste.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function cut(ServerRequestInterface $request, $sectionId) {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand([self::POST_COMMAND_CUT=>$sectionId]);  // command s životností do dalšího POST requestu
@@ -211,6 +253,13 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
+    /**
+     * Vybere sekci ke zkopírování. Zkopírování reálně proběhne až příkazem paste.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function copy(ServerRequestInterface $request, $sectionId) {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand([self::POST_COMMAND_COPY=>$sectionId]);  // command s životností do dalšího POST requestu
@@ -219,6 +268,12 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $sectionId
+     * @return type
+     */
     public function pasteAbove(ServerRequestInterface $request, $sectionId) {
         $this->pasteSection($sectionId, true);
         $this->addFlashMessage("Section pasteAbove $sectionId", FlashSeverityEnum::SUCCESS);
@@ -231,12 +286,18 @@ class SectionsControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
+    /**
+     * Vloží tj.přesune přetím vybranou sekci príkazem cut nad nebo pod cílovou sekci.
+     * 
+     * @param type $targetSectionId id cílové sekce
+     * @param bool $above true - přesune vybranou sekci nad cílovou sekci, false, přesune předtím vybranou sekci pod cílovou sekci
+     */
     private function pasteSection($targetSectionId, bool $above) {
         $statusFlash = $this->statusFlashRepo->get();        
-        $postCommand = $statusFlash->getPostCommand();
-        if (is_array($postCommand) ) {  // command existuje
-            $command = array_key_first($postCommand);
-            $sourceSectionId = $postCommand[$command];
+        $flashCommand = $statusFlash->getPostCommand();
+        if (is_array($flashCommand) ) {  // command existuje
+            $command = array_key_first($flashCommand);
+            $sourceSectionId = $flashCommand[$command];
             /** @var PaperSectionInterface $sourceSection */
             $sourceSection = $this->paperSectionRepo->get($sourceSectionId);
             /** @var PaperSectionInterface $targetSection */
@@ -253,10 +314,10 @@ class SectionsControler extends FrontControlerAbstract {
                         }
                         break;
                     case self::POST_COMMAND_COPY:
-                        $this->addFlashMessage("Paste - není implementováno copy", FlashSeverityEnum::WARNING);
+                        $this->addFlashMessage("copy - není implementováno", FlashSeverityEnum::WARNING);
                         break;
                     default:
-                        $this->addFlashMessage("Paste - unknown post command.", FlashSeverityEnum::WARNING);
+                        $this->addFlashMessage("Unknown post command $command.", FlashSeverityEnum::WARNING);
                         break;
                 }
             } else {
@@ -267,63 +328,67 @@ class SectionsControler extends FrontControlerAbstract {
         }        
     }
     
+    /**
+     * Přesune zdrojovou sekci nad cílovou
+     * Pozn. předpokládá priority od 1, nefunguje pro přesun z koše
+     * 
+     * @param PaperSectionInterface $sourceSection
+     * @param PaperSectionInterface $targetSection
+     * @param type $targetPaperId
+     */
     private function moveSectionAboveTarget(PaperSectionInterface $sourceSection, PaperSectionInterface $targetSection, $targetPaperId) {
-        assert(true);
         $paperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);
-        $sectionFromPriority = $sourceSection->getPriority();
-        $sectionToPriority = $targetSection->getPriority();
-        /** @var PaperSectionInterface $sectionItem */                            
-        if ($sectionToPriority > $sectionFromPriority) { //nahoru        
-            foreach ($paperSections as $sectionItem) {
-                $sectionItemPriorityCur = $sectionItem->getPriority();                                      
-                if  ( ($sectionItemPriorityCur <= $sectionToPriority ) AND
-                      ($sectionItemPriorityCur > $sectionFromPriority) ) {
-                    $sectionItem->setPriority($sectionItemPriorityCur-1);
-                    $shifted = true;
-                }                           
-            }     
-            $sourceSection->setPriority($sectionToPriority);  
+        $sourceSectionPriority = $sourceSection->getPriority();
+        $targetSectionPriority = $targetSection->getPriority();
+        if ($targetSectionPriority > $sourceSectionPriority) { //nahoru            
+            $this->shiftPriority($paperSections, $sourceSectionPriority+1, $targetSectionPriority, -1);
+            $sourceSection->setPriority($targetSectionPriority);  
         }
         else { //dolu                    
-            foreach ($paperSections as $sectionItem) {                      
-                $sectionItemPriorityCur = $sectionItem->getPriority();                                      
-               if  ( ($sectionItemPriorityCur > $sectionToPriority) AND
-                      ($sectionItemPriorityCur < $sectionFromPriority) ) {
-                    $sectionItem->setPriority($sectionItemPriorityCur+1);
-                    $shifted = true;
-                }                                                                                                
-            }
-            $sourceSection->setPriority($sectionToPriority+1);  
+            $this->shiftPriority($paperSections, $targetSectionPriority+1, $sourceSectionPriority-1, 1);            
+            $sourceSection->setPriority($targetSectionPriority+1);  
         }             
         
     }
     
+    /**
+     * Přesune zdrojovou sekci pod cílovou
+     * Pozn. předpokládá priority od 1, nefunguje pro přesun z koše
+     * 
+     * @param PaperSectionInterface $sourceSection
+     * @param PaperSectionInterface $targetSection
+     * @param type $targetPaperId
+     */
     private function moveSectionBelowTarget(PaperSectionInterface $sourceSection, PaperSectionInterface $targetSection, $targetPaperId) {
         $paperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);
-        $sectionFromPriority = $sourceSection->getPriority();
-        $sectionToPriority = $targetSection->getPriority();
-        /** @var PaperSectionInterface $sectionItem */                            
-        if ($sectionToPriority > $sectionFromPriority) { //nahoru     
-            foreach ($paperSections as $sectionItem) {
-                $sectionItemPriorityCur = $sectionItem->getPriority();                                      
-                if  ( ($sectionItemPriorityCur < $sectionToPriority ) AND
-                      ($sectionItemPriorityCur > $sectionFromPriority) ) {
-                    $sectionItem->setPriority($sectionItemPriorityCur-1);
-                    $shifted = true;
-                }                           
-            }     
-            $sourceSection->setPriority($sectionToPriority-1);  
+        $sourceSectionPriority = $sourceSection->getPriority();
+        $targetSectionPriority = $targetSection->getPriority();
+        if ($targetSectionPriority > $sourceSectionPriority) { //nahoru     
+            $this->shiftPriority($paperSections, $sourceSectionPriority+1, $targetSectionPriority-1, -1);            
+            $sourceSection->setPriority($targetSectionPriority-1);  
         }
         else { //dolu                    
-            foreach ($paperSections as $sectionItem) {                      
-                $sectionItemPriorityCur = $sectionItem->getPriority();                                      
-               if  ( ($sectionItemPriorityCur >= $sectionToPriority) AND
-                      ($sectionItemPriorityCur < $sectionFromPriority) ) {
-                    $sectionItem->setPriority($sectionItemPriorityCur+1);
-                    $shifted = true;
-                }                                                                                                
-            }
-            $sourceSection->setPriority($sectionToPriority);  
+            $this->shiftPriority($paperSections, $targetSectionPriority, $sourceSectionPriority-1, 1);
+            $sourceSection->setPriority($targetSectionPriority);  
+        }        
+    }
+    
+    /**
+     * Změní priority sekcí s prioritou větší nebo rovnou minimu a mensí nebo rovnou maximu (tj. min a max 
+     * udává uzavřený interval). Priority změní o zadanou hodnotu $shiftValue.
+     * 
+     * @param array $paperSections
+     * @param int $minPriority
+     * @param int $maxPriority
+     * @param int $shiftValue Změna priority
+     */
+    private function shiftPriority( array &$paperSections, int $minPriority, int $maxPriority, int $shiftValue = 0) {
+        /** @var PaperSectionInterface $section */                            
+        foreach ($paperSections as $section) {                      
+            $currentPriority = $section->getPriority();                                      
+            if  ( ($currentPriority >= $minPriority) AND ($currentPriority <= $maxPriority) ) {
+                $section->setPriority($currentPriority+$shiftValue);
+            }                                                                                                
         }        
     }
     
