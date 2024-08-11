@@ -154,7 +154,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             $this->setPresentationMenuItem($menuItem);
         }
             $view = $this->composeLayoutView($request, $menuItem);
-            $response = $this->createResponseFromView($view);
+            $response = $this->createStringOKResponseFromView($view);
 //        } else {
 //            // neexistující stránka
 //            $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home

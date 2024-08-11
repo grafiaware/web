@@ -66,7 +66,7 @@ class SectionsControler extends FrontControlerAbstract {
         /** @var PaperSectionInterface $section */
         $section = $this->paperSectionRepo->get($sectionId);
         if (!isset($section)) {
-            user_error("Neexistuje sekce se zadaným id.$sectionId");
+            user_error("Neexistuje sekce se zadaným id: $sectionId");
         } else {
             $namePrefix = implode("_", [self::SECTION_CONTENT, $sectionId]);
             $sectionPost = $this->paramValue($request, $namePrefix);
@@ -74,7 +74,7 @@ class SectionsControler extends FrontControlerAbstract {
             $section->setEditor($this->getLoginUserName());
             $this->addFlashMessage('Section updated', FlashSeverityEnum::SUCCESS);
         }
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->createPutNoContentResponse(); // 204 No Content
     }
 
     /**
@@ -445,7 +445,7 @@ class SectionsControler extends FrontControlerAbstract {
     }
 
     /**
-     * Metoda přidá prázdnou novou sekci pod sekci, ve které uživatelel klikl na tlačítko.
+     * Metoda přidá prázdnou novou sekci pod sekci, ve které uživatel klikl na tlačítko.
      * 
      * @param ServerRequestInterface $request
      * @param type $sectionId

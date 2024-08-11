@@ -136,7 +136,7 @@ class ItemEditControler extends FrontControlerAbstract {
         // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž HierarchyAggregateEditDao)
         $menuItem->setPrettyuri($menuItem->getLangCodeFk().$menuItem->getUidFk().'-'.FriendlyUrl::friendlyUrlText($postTitle, 80));
         $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
-        return $this->createJsonPutOKResponse(["refresh"=>"norefresh", "message"=>"Uložen nový titulek položky menu:".PHP_EOL.$postTitle]);
+        return $this->createJsonOKResponse(["refresh"=>"norefresh", "message"=>"Uložen nový titulek položky menu:".PHP_EOL.$postTitle]);
     }
 
     /**

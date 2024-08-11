@@ -34,6 +34,6 @@ class StaticControler extends PresentationFrontControlerAbstract {
         $realName = str_replace('_', '/', $staticName);
         $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
         $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
-        return $this->createResponseFromString($compiledContent);
+        return $this->createStringOKResponse($compiledContent);
     }
 }

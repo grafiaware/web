@@ -98,7 +98,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    protected function addHeaders(ResponseInterface $response): ResponseInterface {
+    protected function addCacheHeaders(ResponseInterface $response): ResponseInterface {
 //        return $response->withHeader('Cache-Control', 'no-cache');
         return $response->withHeader('Cache-Control', 'max-age=100, must-revalidate');
     }
@@ -121,33 +121,33 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     /// create response helpers ///
 
     /**
-     *
-     * @param ServerRequestInterface $request
+     * 
      * @param ViewInterface $view
+     * @param type $status
      * @return ResponseInterface
      */
-    protected function createResponseFromView(ViewInterface $view, $status = StatusEnum::_200_OK): ResponseInterface {
+    protected function createStringOKResponseFromView(ViewInterface $view, $status = StatusEnum::_200_OK): ResponseInterface {
         $statusEnumValue = $this->statusCode($status);
         $stringContent = $view->getString();
         if(is_null($stringContent)) {
             $cls = get_class($view);
             $stringContent = "No string content returned by $cls method getString().";
         }
-        return $this->createResponseFromString($stringContent, $statusEnumValue);
+        return $this->createStringOKResponse($stringContent, $statusEnumValue);
     }
 
     /**
-     *
-     * @param ServerRequestInterface $request
-     * @param ViewInterface $view
+     * 
+     * @param type $stringContent
+     * @param type $status
      * @return ResponseInterface
      */
-    protected function createResponseFromString($stringContent, $status = StatusEnum::_200_OK): ResponseInterface {
+    protected function createStringOKResponse($stringContent, $status = StatusEnum::_200_OK): ResponseInterface {
         $statusEnumValue = $this->statusCode($status);
         $response = (new ResponseFactory())->createResponse($statusEnumValue);
 
         ####  hlavičky  ####
-        $response = $this->addHeaders($response);
+        $response = $this->addCacheHeaders($response);
 
         ####  body  ####
         $size = $response->getBody()->write($stringContent);
@@ -155,31 +155,24 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $response;
     }
     
-    protected function createJsonGetResponse($array, $status = StatusEnum::_200_OK): ResponseInterface {
+    protected function createJsonOKResponse($array, $status = StatusEnum::_200_OK): ResponseInterface {
         $statusEnumValue = $this->statusCode($status);
         $json = $this->jsonEncode($array);
-        $response = $this->createResponseFromString($json)->withStatus($statusEnumValue);
+        $response = $this->createStringOKResponse($json)->withStatus($statusEnumValue);
         return $response->withHeader('Content-Type', 'application/json');
     }
     
-    protected function createJsonPutNoContentResponse($array, $status = StatusEnum::_204_NoContent): ResponseInterface {
+    protected function createPutNoContentResponse($status = StatusEnum::_204_NoContent): ResponseInterface {
         $statusEnumValue = $this->statusCode($status);
-        $json = $this->jsonEncode($array);
-        $response = $this->createResponseFromString($json)->withStatus($statusEnumValue);
-        return $response->withHeader('Content-Type', 'application/json');
+        $response = (new ResponseFactory())->createResponse($statusEnumValue);
+        ####  hlavičky  ####
+        return $this->addCacheHeaders($response);  // 204 respnse je cacheable        
     }
     
     protected function createJsonPostCreatedResponse($array, $status = StatusEnum::_201_Created): ResponseInterface {
         $statusEnumValue = $this->statusCode($status);
         $json = $this->jsonEncode($array);
-        $response = $this->createResponseFromString($json)->withStatus($statusEnumValue);
-        return $response->withHeader('Content-Type', 'application/json');
-    }    
-    
-    protected function createJsonPutOKResponse($array, $status = StatusEnum::_200_OK): ResponseInterface {
-        $statusEnumValue = $this->statusCode($status);
-        $json = $this->jsonEncode($array);
-        $response = $this->createResponseFromString($json)->withStatus($statusEnumValue);
+        $response = $this->createStringOKResponse($json)->withStatus($statusEnumValue);
         return $response->withHeader('Content-Type', 'application/json');
     }    
     

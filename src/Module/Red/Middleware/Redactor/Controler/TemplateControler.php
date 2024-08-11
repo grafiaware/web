@@ -137,7 +137,7 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => 'Lorem ipsum', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/lorem_ipsum'],
             ];
 
-        return $this->createJsonGetResponse($templates[$templatesType]);
+        return $this->createJsonOKResponse($templates[$templatesType]);
     }
 
     /**
@@ -158,7 +158,7 @@ class TemplateControler extends FrontControlerAbstract {
             $this->statusPresentationRepo->get()->setLastTemplateName('');
             $str = '';
         }
-        return $this->createResponseFromString($str);
+        return $this->createStringOKResponse($str);
     }
 
     /**
@@ -195,7 +195,7 @@ class TemplateControler extends FrontControlerAbstract {
                                         'paperAggregate' => $paperAggregate,
                                     ]);
         }
-        return $this->createResponseFromView($view);
+        return $this->createStringOKResponseFromView($view);
     }
 
     public function multipagetemplate(ServerRequestInterface $request, $templateName) {
@@ -219,7 +219,7 @@ class TemplateControler extends FrontControlerAbstract {
                                         'Neumím to, multipage jsou ee.',
                                     ]);
         }
-        return $this->createResponseFromView($view);
+        return $this->createStringOKResponseFromView($view);
     }
 
     /**
@@ -233,7 +233,7 @@ class TemplateControler extends FrontControlerAbstract {
         $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::AUTHOR, $templateName);
         $view = $this->container->get(View::class);
         $view->setTemplate(new PhpTemplate($filename));  // exception
-        return $this->createResponseFromView($view);
+        return $this->createStringOKResponseFromView($view);
     }
 
     #### private ######################

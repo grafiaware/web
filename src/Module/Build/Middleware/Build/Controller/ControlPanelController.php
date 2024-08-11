@@ -37,7 +37,7 @@ class ControlPanelController  extends BuildControllerAbstract {
             $html[] = $this->form($title, $uri);
         }
         $html[] = "</div>" ;
-        return $this->createResponseFromString($this->page($html));
+        return $this->createStringOKResponse($this->page($html));
     }
     
     private function page($formsHtmlArray) {

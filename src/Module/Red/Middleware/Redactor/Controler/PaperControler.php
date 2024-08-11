@@ -77,16 +77,7 @@ class PaperControler extends AuthoredControlerAbstract {
             }
         }
 //        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
-        //TODO: POST version                
-        
-//        $json = json_encode(['saved'=>$headlinePost]);  //
-//        if (false!==$json) {
-//            return $this->createJsonResponse($request, $json);
-//        } else {
-//            $this->addFlashMessage('ERROR Chyba serveru - Headline nelze uložit.', FlashSeverityEnum::WARNING);            
-//            return $this->redirectSeeLastGet($request); // 303 See Other - pro zobrazení flash
-//        }
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->createPutNoContentResponse(); // 204 No Content
     }
 
     /**
@@ -114,8 +105,7 @@ class PaperControler extends AuthoredControlerAbstract {
             }
         }
 //        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
-        //TODO: POST version                
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->createPutNoContentResponse(); // 204 No Content
     }
 
     /**

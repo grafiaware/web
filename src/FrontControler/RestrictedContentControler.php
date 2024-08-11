@@ -26,7 +26,7 @@ class RestrictedContentController extends PresentationFrontControlerAbstract {
         $view = $this->container->get(View::class);
         /* @var $view View */
         $view->setData("<div style='display:none'>not permitted</div>");
-        return $this->createResponseFromView($view);
+        return $this->createStringOKResponseFromView($view);
     }
 
     public function notPermitted(ServerRequestInterface $request) {

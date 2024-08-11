@@ -61,12 +61,12 @@ class MenuControler extends PresentationFrontControlerAbstract {
     public function presentedDriver(ServerRequestInterface $request, $uid) {
         $driver = $this->createDriver($uid, true);
         $this->setPresentationMenuItem($driver->getData()->getMenuItem());  // driver po kompletaci už má data
-        return $this->createResponseFromView($driver);
+        return $this->createStringOKResponseFromView($driver);
     }
     
     public function driver(ServerRequestInterface $request, $uid) {
         $driver = $this->createDriver($uid, false);
-        return $this->createResponseFromView($driver);
+        return $this->createStringOKResponseFromView($driver);
     }
     
     private function createDriver($uid, $isPresented): DriverComponent {

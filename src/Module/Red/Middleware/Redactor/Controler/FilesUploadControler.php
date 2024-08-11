@@ -119,7 +119,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
     }
     
     private function errorResponse($httpError, $httpStatus=null) {
-        return $this->addHeaders((new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $httpError));
+        return $this->addCacheHeaders((new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $httpError));
     }
     
     private function okTinyJsonResponse($targetFilepath) {
@@ -127,7 +127,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
         $json = json_encode(['location' => $targetFilepath]);  //
         
-        $response = $this->createResponseFromString($json);
+        $response = $this->createStringOKResponse($json);
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -158,7 +158,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         $targetFilename = ConfigurationCache::eventsUploads()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
         $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
-        return $this->createResponseFromString($json);
+        return $this->createStringOKResponse($json);
 
     }
 
