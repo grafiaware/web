@@ -15,7 +15,6 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Enum\FlashSeverityEnum;
 
-use LogicException;
 /**
  * Description of Controler
  *
