@@ -171,7 +171,7 @@ let editRedConfig = {
 };
 
 let editFullConfig = {
-  fixed_toolbar_container: '.ribbon',                  
+  fixed_toolbar_container: '.item_action', //'.ribbon',                  
     link_class_list: linkClassList,
     image_class_list: imageClassList,  
     smart_paste: true,   // Detect text that resembles a URL and change the text to a hyperlink.
