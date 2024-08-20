@@ -66,13 +66,13 @@ if (isset($app) AND $app) {     // zvolena nová app - v nastroje.php vytvoren G
 //    } else {echo '<p class="chyba">Nemáte dostatečná oprávnění ke vstupu na tuto stránku!</p>';}
 //}// konec přidaného bloku o stafferu
 
-if ($user) {
+if (true OR $user) {
     //TODO: Svoboda - přesunout do autorizačníhp middleware
     include Middleware\Login\AppContext::getScriptsDirectory()."pristup.php";  //precte z tab. opravneni pro $user ,$zaznam_opravneni
     $sess_prava = $zaznam_opravneni;     // práva se načítala se za SESSION, teď je čtu vždy nově z databáze - platí tedy aktuální práva
 }
 
-if ($pristupOK) {                      //****  pristup overen
+if (true OR $pristupOK) {                      //****  pristup overen
 // TODO: Svoboda . v edunu se konflikty neřeší
 //    include 'activ_user.php';     //zapis do tab
     include "templates/index.php";

@@ -129,6 +129,7 @@ class ItemEditControler extends FrontControlerAbstract {
       * @return type
       */
     public function title(ServerRequestInterface $request, $uid) {
+        //TODO: NEUKLÁDAT  když postTitle je null nebo prázdný řetězec -> error response
         $menuItem = $this->getMenuItem($uid);
         $postTitle = (new RequestParams())->getParam($request, 'title');
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
@@ -136,6 +137,7 @@ class ItemEditControler extends FrontControlerAbstract {
         // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž HierarchyAggregateEditDao)
         $menuItem->setPrettyuri($menuItem->getLangCodeFk().$menuItem->getUidFk().'-'.FriendlyUrl::friendlyUrlText($postTitle, 80));
         $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
+        //TODO: v editačním režimu -> refresh kvůli ribbon
         return $this->createJsonOKResponse(["refresh"=>"norefresh", "message"=>"Uložen nový titulek položky menu:".PHP_EOL.$postTitle]);
     }
 

@@ -125,10 +125,12 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
     private function okTinyJsonResponse($targetFilepath) {
         // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-        $json = json_encode(['location' => $targetFilepath]);  //
+//        $json = json_encode(['location' => $targetFilepath]);  //
+//        
+//        $response = $this->createStringOKResponse($json);
+//        return $response->withHeader('Content-Type', 'application/json');
         
-        $response = $this->createStringOKResponse($json);
-        return $response->withHeader('Content-Type', 'application/json');
+        return $this->createJsonOKResponse(['location' => $targetFilepath]);
     }
 
     /**

@@ -67,6 +67,11 @@ $("body").on("click", ".borderDance",
 $('.accordion.border')
     .accordion()
 ;
+  
+//rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
+$('.profil-visible').on('click', function(){
+        $('.profil.hidden').css('display', 'block');
+    });
 
 //Vyuziti lokalniho uloziste pro menu
 //Menu v editacnim rezimu obsahuje moznost Nezavirat menu. Pri kliknuti na tuto volbu se prepina ikona u textu Nezavirat menu, aby bylo poznat, jestli je volba aktivni
@@ -91,6 +96,7 @@ $('.hamburger_dontclose').click(function(){
     localStorage.setItem('hamburgerCloseIcon', hamburgerCloseIcon);
     localStorage.setItem('hamburgerSlimIcon', hamburgerSlimIcon);
 });
+
 $(document).ready(function(){
     //po nacteni stranky se pridaji k menu tridy, ktere byly ulozeny
     $('#mySidenav').addClass(localStorage.getItem('hamburgerClose'));
@@ -115,54 +121,59 @@ function sendOnEnter(event) {
             document.execCommand('undo');
             targetElement.blur();
         } else if (nlPressed) {
+//            url = targetElement.baseURI + targetElement.getAttribute('data-red-item-title-uri');
+            url = targetElement.getAttribute('data-red-item-title-uri');
             //hack - odstranění <br/> - innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
             // FF do obsahu elementu v modu contenteditable="true" vždy při uložení přidá na začátel tag <br/> (kvůli možnosti "kliknout" na element)
             // <br/> tag je odstraněn po změně na contenteditable="false" -> po dobu editace obsahu elementu je na žačátku obsahu vždy <br/> - skrýváme ho pomocí css
             targetElement.innerHTML = targetElement.innerText;
             // data title z innerText, ostatní z data- atributů - zde musí být shoda jmen s html šablonou pro item!
-            data['title'] = targetElement.innerText; // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
-            data['original-title'] = targetElement.getAttribute('data-original-title');
-//            url = targetElement.baseURI + targetElement.getAttribute('data-red-item-title-uri');
-            url = targetElement.getAttribute('data-red-item-title-uri');
+//            data['title'] = targetElement.innerText; // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
+//            data['original-title'] = targetElement.getAttribute('data-original-title');
+
             // odeslání ajax requestu
             // .ajax vrací Deferred Object - .done a .fail jsou metody Deferred Objectu (a samy vracejí Deferred Object)
-            $.ajax({
-                    url: url,
-                    data: data,
-                    type: 'post'
-                    })
-                    .done(function(data, textStatus, jqXHR) {
-                    console.log( "edit: Title: " + data.message);
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown){
-                    alert( "Selhalo: " + errorThrown );
-                });
-//    fetch(url, {
-//    method: "POST",
-//    cache: "no-cache",
-//    credentials: "same-origin",
-//    headers: {
-//      //"Content-Type": "application/json",
-//       'Content-Type': 'application/x-www-form-urlencoded'
-//    },
-//    body: data // body data type must match "Content-Type" header        
-//    })
-//    .then(response => {
-//      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
-//          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
-//          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
-//      } else {
-//          throw new Error(`edit: HTTP error in sendOnEnter! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
-//      }
-//    })
-//    .then(textPromise => {
-//        console.log(`edit: Set title by ${url}.`);
-//        alert( "Provedeno: " + textPromise );
-//    })
-//    .catch(e => {
-//        throw new Error(`edit: There has been a problem with fetch post to ${url}. Reason:` + e.message);
-//    });            
-            console.log(JSON.stringify(data));
+//            $.ajax({
+//                    url: url,
+//                    data: data,
+//                    type: 'post'
+//                    })
+//                    .done(function(data, textStatus, jqXHR) {
+//                    console.log( "edit: Title: " + data.message);
+//                    })
+//                    .fail(function(jqXHR, textStatus, errorThrown){
+//                    alert( "Selhalo: " + errorThrown );
+//                });
+    const formData = new FormData();
+    formData.append("title", targetElement.innerText);  // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
+    formData.append("original-title", targetElement.getAttribute('data-original-title'));
+  
+    fetch(url, 
+        {
+        method: "POST",
+        cache: "no-cache",
+        credentials: "same-origin",
+        body: formData // body data type must match "Content-Type" header        
+        }
+    )
+    .then(response => {
+      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
+      } else {
+          alert( `Selhalo: ${response.status}`);
+          throw new Error(`edit: HTTP error in sendOnEnter! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+      }
+    })
+    .then(textPromise => {
+        console.log(`edit: Set title by ${url}.`);
+        console.log(JSON.stringify(textPromise));
+
+        alert( "Provedeno: " + JSON.parse(textPromise).message );
+    })
+    .catch(e => {
+        throw new Error(`edit: There has been a problem with fetch post to ${url}. Reason:` + e.message);
+    });            
 
             targetElement.blur();
             event.preventDefault();
@@ -175,4 +186,3 @@ var navigations = document.getElementsByTagName('nav');
 for (var i = 0, len = navigations.length; i < len; i++) {
     navigations[i].addEventListener('keydown', sendOnEnter, true);;
 }
-//document.addEventListener('keydown', sendOnEnter, true);
