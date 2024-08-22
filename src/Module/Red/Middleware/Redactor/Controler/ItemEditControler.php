@@ -27,7 +27,7 @@ use Red\Service\HierarchyManipulator\MenuItemToggleResultEnum;
 use Red\Service\ItemApi\ItemApiService;
 
 use Pes\Type\Exception\ValueNotInEnumException;
-use LogicException;
+use LogicException, UnexpectedValueException;
 
 /**
  * Description of Controler
@@ -133,6 +133,9 @@ class ItemEditControler extends FrontControlerAbstract {
         $menuItem = $this->getMenuItem($uid);
         $postTitle = (new RequestParams())->getParam($request, 'title');
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
+        if (!$postTitle) {
+            throw new UnexpectedValueException("Nelze uložit titulek položky menu. Titulek položky menu je null nebo prázdný.");
+        }
         $menuItem->setTitle($postTitle);
         // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž HierarchyAggregateEditDao)
         $menuItem->setPrettyuri($menuItem->getLangCodeFk().$menuItem->getUidFk().'-'.FriendlyUrl::friendlyUrlText($postTitle, 80));
