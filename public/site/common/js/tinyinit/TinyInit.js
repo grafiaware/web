@@ -94,7 +94,7 @@ var editCommonPlugins = [
 var menubarfull = 'file edit view insert format tools table help';  //TODO: help
 var toolbarfull = "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl";
 
-var toolbarText = 'save cancel | undo redo | styles '; //| fontstyle fontweight | aligment ';
+var toolbarText = 'save cancel | undo redo | styles | anchor'; //| fontstyle fontweight | aligment ';
 
 var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
 var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link | image media';
@@ -211,9 +211,11 @@ var editHtmlConfig = {
     menubar: menubarfull, //    menubar: false,
     plugins: editCommonPlugins,
     templates: 'red/v1/templateslist/author',
+  toolbar_mode: 'floating',    
+    toolbar: toolbar_groups,
 //    toolbar: toolbarfull,
-    toolbar1: toolbarHtmlRow1,
-    toolbar2: toolbarHtmlRow2,
+//    toolbar1: toolbarHtmlRow1,
+//    toolbar2: toolbarHtmlRow2,
     editimage_toolbar: editimage_toolbar,
 
     /* přidá do dialogového okna obrázku záložku „Upřesnit“, která umožňuje přidat k obrázkům vlastní styly, mezery a okraje */

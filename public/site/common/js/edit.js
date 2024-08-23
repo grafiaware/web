@@ -107,19 +107,53 @@ $(document).ready(function(){
 
 // EDIT MENU
 
+/**
+ * Vrací zpět změny položky menu. Target element musí mít atribut 'data-original-title'.
+ * 
+ * @param {Element} targetElement
+ * @returns {undefined}
+ */
+function restoreItemState(targetElement) {
+    targetElement.innerHTML = targetElement.getAttribute('data-original-title');
+    targetElement.blur();
+}
+
+/**
+ * Funkce vrací true pokud targetElement je P a jeho rodičem je DIV
+ * 
+ * @param {Element} targetElement
+ * @returns {Boolean}
+ */
+function acceptedElement(targetElement) {
+    return targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV';
+}
+
+/**
+ * Funkce odešle textový obsah elementu, na kterém nastala událost stisku klávesy Enter (LF = kód 13).
+ * 
+ * Element, na kterém nastávají události:
+ * - na elementu musí být tato funkce přidána jako event listener pro událost "keydown"
+ * - element je touto funkcí akceptován pokud funkce acceptedElement(targetElement) vrací true
+ * - element musí mít nastaveny atributy:
+ *   - 'data-red-item-title-uri' - atribut musí obsahovat relativní URL odpovídající API pro update hodnoty menu item title (REST příkaz)
+ *   - 'data-original-title' - atribut musí obsahovat text titulku před změnou - tato hodnota se použije pro obnovení obsahu titulku pro stisku klávesy escape nebo po pokusu uložit prázný titulek (bez textu)
+ *   
+ * Po stisku klávesy escape (Esc) funkce ukončí editaci a obnoví původní obsah titulku  (z atributu 'data-original-title').
+ * Po pokusu odeslat prázdný titulek (po stisku Enter v okamžiku, kdy je původní text smazán - častá chyba uživatele) funkce oznámí alert, ukončí editaci a obnoví původní obsah titulku  (z atributu 'data-original-title').
+ * 
+ * @param {Event} event
+ * @returns {undefined}
+ */
 function sendOnEnter(event) {
     var escPressed = event.which === 27,
     nlPressed = event.which === 13,
     targetElement = event.target,
-    acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
     url,
     data = {};
 
-    if (acceptedElement) {
+    if (acceptedElement(targetElement)) {
         if (escPressed) {
-            // restore state
-            document.execCommand('undo');
-            targetElement.blur();
+            restoreItemState(targetElement);
         } else if (nlPressed) {
 //            url = targetElement.baseURI + targetElement.getAttribute('data-red-item-title-uri');
             url = targetElement.getAttribute('data-red-item-title-uri');
@@ -130,7 +164,12 @@ function sendOnEnter(event) {
             // data title z innerText, ostatní z data- atributů - zde musí být shoda jmen s html šablonou pro item!
 //            data['title'] = targetElement.innerText; // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
 //            data['original-title'] = targetElement.getAttribute('data-original-title');
-
+            
+            if (!targetElement.innerText || !targetElement.innerText.trim()) {
+                restoreItemState(targetElement);                
+                alert( `Nelze odeslat titulek, titulek je prázdný nebo obsahuje jen mezery nebo neviditelné znaky.`);
+//                targetElement.focus();
+            } else {
             // odeslání ajax requestu
             // .ajax vrací Deferred Object - .done a .fail jsou metody Deferred Objectu (a samy vracejí Deferred Object)
 //            $.ajax({
@@ -144,40 +183,41 @@ function sendOnEnter(event) {
 //                    .fail(function(jqXHR, textStatus, errorThrown){
 //                    alert( "Selhalo: " + errorThrown );
 //                });
-    const formData = new FormData();
-    formData.append("title", targetElement.innerText);  // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
-    formData.append("original-title", targetElement.getAttribute('data-original-title'));
-  
-    fetch(url, 
-        {
-        method: "POST",
-        cache: "no-cache",
-        credentials: "same-origin",
-        body: formData // body data type must match "Content-Type" header        
-        }
-    )
-    .then(response => {
-      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
-          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
-          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
-      } else {
-          alert( `Selhalo: ${response.status}`);
-          throw new Error(`edit: HTTP error in sendOnEnter! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
-      }
-    })
-    .then(textPromise => {
-        console.log(`edit: Set title by ${url}.`);
-        console.log(JSON.stringify(textPromise));
+                const formData = new FormData();  // pro FormData odeslaný pomocí fetch je vždy nastavena hlavička Content-Type: multipart/form-data
+                formData.append("title", targetElement.innerText);  // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
+                formData.append("original-title", targetElement.getAttribute('data-original-title'));
 
-        alert( "Provedeno: " + JSON.parse(textPromise).message );
-    })
-    .catch(e => {
-        throw new Error(`edit: There has been a problem with fetch post to ${url}. Reason:` + e.message);
-    });            
+                fetch(url, 
+                    {
+                    method: "POST",
+                    cache: "no-cache",
+                    credentials: "same-origin",
+                    body: formData // body data type must match "Content-Type" header        
+                    }
+                )
+                .then(response => {
+                  if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+                      // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+                      return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
+                  } else {
+                      alert( `Selhalo: ${response.status}`);
+                      throw new Error(`edit: HTTP error in sendOnEnter! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+                  }
+                })
+                .then(textPromise => {
+                    console.log(`edit: Set title by ${url}.`);
+                    console.log(JSON.stringify(textPromise));
 
-            targetElement.blur();
-            event.preventDefault();
-            event.stopPropagation();
+                    alert( "Provedeno: " + JSON.parse(textPromise).message );
+                })
+                .catch(e => {
+                    throw new Error(`edit: There has been a problem with fetch post to ${url}. Reason:` + e.message);
+                });            
+
+                targetElement.blur();
+                event.preventDefault();
+                event.stopPropagation();
+            }
         }
     }
 }

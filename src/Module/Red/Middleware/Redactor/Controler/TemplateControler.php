@@ -135,6 +135,8 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => 'template img & text styled', 'description' => 'popis',       'url' => 'red/v1/authortemplate/img_text_styled'],
         [ 'title' => 'template job', 'description' => 'popis',       'url' => 'red/v1/authortemplate/job'],
         [ 'title' => 'Lorem ipsum', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/lorem_ipsum'],
+        [ 'title' => 'Profil OA', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/umelec'],
+        [ 'title' => 'Podprofil OA', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/umelec_vnoreny'],
             ];
 
         return $this->createJsonOKResponse($templates[$templatesType]);
