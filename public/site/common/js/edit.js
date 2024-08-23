@@ -108,7 +108,7 @@ $(document).ready(function(){
 // EDIT MENU
 
 /**
- * Vrací zpět změny položky menu.
+ * Vrací zpět změny položky menu. Target element musí mít atribut 'data-original-title'.
  * 
  * @param {Element} targetElement
  * @returns {undefined}
@@ -118,15 +118,40 @@ function restoreItemState(targetElement) {
     targetElement.blur();
 }
 
+/**
+ * Funkce vrací true pokud targetElement je P a jeho rodičem je DIV
+ * 
+ * @param {Element} targetElement
+ * @returns {Boolean}
+ */
+function acceptedElement(targetElement) {
+    return targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV';
+}
+
+/**
+ * Funkce odešle textový obsah elementu, na kterém nastala událost stisku klávesy Enter (LF = kód 13).
+ * 
+ * Element, na kterém nastávají události:
+ * - na elementu musí být tato funkce přidána jako event listener pro událost "keydown"
+ * - element je touto funkcí akceptován pokud funkce acceptedElement(targetElement) vrací true
+ * - element musí mít nastaveny atributy:
+ *   - 'data-red-item-title-uri' - atribut musí obsahovat relativní URL odpovídající API pro update hodnoty menu item title (REST příkaz)
+ *   - 'data-original-title' - atribut musí obsahovat text titulku před změnou - tato hodnota se použije pro obnovení obsahu titulku pro stisku klávesy escape nebo po pokusu uložit prázný titulek (bez textu)
+ *   
+ * Po stisku klávesy escape (Esc) funkce ukončí editaci a obnoví původní obsah titulku  (z atributu 'data-original-title').
+ * Po pokusu odeslat prázdný titulek (po stisku Enter v okamžiku, kdy je původní text smazán - častá chyba uživatele) funkce oznámí alert, ukončí editaci a obnoví původní obsah titulku  (z atributu 'data-original-title').
+ * 
+ * @param {Event} event
+ * @returns {undefined}
+ */
 function sendOnEnter(event) {
     var escPressed = event.which === 27,
     nlPressed = event.which === 13,
     targetElement = event.target,
-    acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
     url,
     data = {};
 
-    if (acceptedElement) {
+    if (acceptedElement(targetElement)) {
         if (escPressed) {
             restoreItemState(targetElement);
         } else if (nlPressed) {
@@ -143,6 +168,7 @@ function sendOnEnter(event) {
             if (!targetElement.innerText || !targetElement.innerText.trim()) {
                 restoreItemState(targetElement);                
                 alert( `Nelze odeslat titulek, titulek je prázdný nebo obsahuje jen mezery nebo neviditelné znaky.`);
+//                targetElement.focus();
             } else {
             // odeslání ajax requestu
             // .ajax vrací Deferred Object - .done a .fail jsou metody Deferred Objectu (a samy vracejí Deferred Object)
@@ -157,7 +183,7 @@ function sendOnEnter(event) {
 //                    .fail(function(jqXHR, textStatus, errorThrown){
 //                    alert( "Selhalo: " + errorThrown );
 //                });
-                const formData = new FormData();
+                const formData = new FormData();  // pro FormData odeslaný pomocí fetch je vždy nastavena hlavička Content-Type: multipart/form-data
                 formData.append("title", targetElement.innerText);  // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
                 formData.append("original-title", targetElement.getAttribute('data-original-title'));
 
