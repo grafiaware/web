@@ -11,5 +11,7 @@ interface TemplateControlerConfigurationInterface {
     public function getDefaultExtension();
 
     public function getFolders();
+    
+    public function getList();
 
 }

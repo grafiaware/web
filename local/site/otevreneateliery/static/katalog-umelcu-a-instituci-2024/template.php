@@ -32,7 +32,7 @@ foreach ($katalog as $client) {
                }
                $chBlock = [];                
                $first = $client['firstLetter']; //strtoupper( substr($client['anchor'],0,1) );                
-               $chSet[] =  [ 'chNazev' => $first , 'katalogUid' => $katalogUid  ]; 
+               $chSet[] =  [ 'chNazev' => $first ]; 
             }
             $chBlock ['pismeno'] = $first; 
             $chBlock ['klienti'][] = $client;

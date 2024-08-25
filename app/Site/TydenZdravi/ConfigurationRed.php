@@ -8,22 +8,14 @@
 
 namespace Site\TydenZdravi;
 
-use Application\WebAppFactory;
-use Red\Component\View\Generated\LanguageSelectComponent;
-use Red\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\UserActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
+use Pes\Logger\FileLogger;
 
 /**
  * Description of Configuration
  *
  * @author pes2704
  */
-class ConfigurationRed extends ConfigurationDb {
+class ConfigurationRed extends ConfigurationConstants {
 
     /**
      * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
@@ -36,6 +28,7 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'redcomponent.logs.directory' => 'Logs/Red',
             'redcomponent.logs.render' => 'Render.log',
+            'redcomponent.logs.type' => FileLogger::REWRITE_LOG,
             'redcomponent.templates' => [
                 'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
@@ -50,7 +43,7 @@ class ConfigurationRed extends ConfigurationDb {
 
     public static function itemActionControler() {
         return [
-            'timeout' => 'PT1H'   // 1 hodina
+            'timeout' => 'PT30M'   // 'PT1H' 1 hodina
         ];
     }
 
@@ -97,11 +90,61 @@ class ConfigurationRed extends ConfigurationDb {
                 'templates.defaultExtension' => '.php',
                 // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného typu
                 'templates.folders' => [
-                    'author'=>[self::WEB_TEMPLATES_COMMON.'red/author/'],   //jen v common
+                'author'=>[self::WEB_TEMPLATES_SITE.'red/author/', self::WEB_TEMPLATES_COMMON.'red/author/'], 
                     'paper' => [self::WEB_TEMPLATES_SITE.'red/paper/', self::WEB_TEMPLATES_COMMON.'red/paper/'],
                     'article' => [self::WEB_TEMPLATES_SITE.'red/article/', self::WEB_TEMPLATES_COMMON.'red/article/'],
                     'multipage' => [self::WEB_TEMPLATES_SITE.'red/multipage/', self::WEB_TEMPLATES_COMMON.'red/multipage/'],
                     ],
+            'templates.list' => [
+                'multipage' => [
+                    [ 'title' => 'template multipage test', 'description' => 'popis',       'url' => 'red/v1/multipagetemplate/test'],
+                    [ 'title' => 'template multipage carousel', 'description' => 'popis',       'url' => 'red/v1/multipagetemplate/carousel'],
+                ],
+                'article' => [
+                    [ 'title' => 'Šablona pro příspěvek', 'description' => 'Jednoduchá šablona pro vložení textu a obrázku.',       'url' => 'red/v1/articletemplate/web_post'],
+                    [ 'title' => 'Šablona pro popis knihy', 'description' => 'Popis knihy i autora, obrázky a důležité informace.',       'url' => 'red/v1/articletemplate/book_description'],
+                    [ 'title' => 'Kousíčková šablona *', 'description' => 'Popis knihy i autora, obrázky a důležité informace.',       'url' => 'red/v1/articletemplate/book_description_Lebenhart'],
+                    [ 'title' => 'Šablona pro kurz', 'description' => 'Hlavní stránka kurzu. Napište lidem základní informace i recenze od účastníků.',       'url' => 'red/v1/articletemplate/retraining_course'],
+                    [ 'title' => 'Šablona pro produkt / službu', 'description' => 'Zviditelněte svůj produkt či službu.',       'url' => 'red/v1/articletemplate/product_page'],
+                    [ 'title' => 'Šablona pro produkt / službu 2', 'description' => 'Zviditelněte svůj produkt či službu.',       'url' => 'red/v1/articletemplate/introduce_subject'],
+                 ],
+                'paper' => [
+                    [ 'title' => 'template paper default', 'description' => 'popis',       'url' => 'red/v1/papertemplate/default'],
+                    [ 'title' => 'template paper columns perex and contents', 'description' => 'popis',       'url' => 'red/v1/papertemplate/columns_perex_contents'],
+                    [ 'title' => 'template paper columns in circle with js', 'description' => 'popis',       'url' => 'red/v1/papertemplate/contents_in_circle_js'],
+                    [ 'title' => 'template paper with images', 'description' => 'popis',       'url' => 'red/v1/papertemplate/images_paper'],
+                    [ 'title' => 'template paper column cards', 'description' => 'popis',       'url' => 'red/v1/papertemplate/column_cards'],
+                    [ 'title' => 'template paper columns', 'description' => 'popis',       'url' => 'red/v1/papertemplate/columns'],
+                    [ 'title' => 'template paper divided_rows *', 'description' => 'popis',       'url' => 'red/v1/papertemplate/divided_rows'],
+                    [ 'title' => 'template paper bordered_rows *', 'description' => 'popis',       'url' => 'red/v1/papertemplate/bordered_rows'],
+                    [ 'title' => 'template paper rows', 'description' => 'popis',       'url' => 'red/v1/papertemplate/rows'],
+                    [ 'title' => 'template paper carousel', 'description' => 'popis',       'url' => 'red/v1/papertemplate/carouselForPaper'],
+                ],
+                'author' => [
+                    [ 'title' => 'Profil OA', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/umelec'],
+                    [ 'title' => 'Podprofil OA', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/umelec_vnoreny'],
+                    [ 'title' => 'Kontakt', 'description' => 'Grafia web - kontakt',       'url' => 'red/v1/authortemplate/contact'],
+                    [ 'title' => 'Publikace - novinka', 'description' => 'Grafia web - publikace',   'url' => 'red/v1/authortemplate/eshop_new'],
+                    [ 'title' => 'Publikace - 2', 'description' => 'Vložení publikací na stránku', 'url' => 'red/v1/authortemplate/eshop_row'],
+                    [ 'title' => 'Obrázek vlevo a text', 'description' => 'Bez obtékání. Dva sloupce', 'url' => 'red/v1/authortemplate/imgleft_block'],
+                    [ 'title' => 'Obrázek vpravo a text', 'description' => 'Bez obtékání. Dva sloupce', 'url' => 'red/v1/authortemplate/imgright_block'],
+                    [ 'title' => 'Blok pro citaci', 'description' => 'Bez obtékání. Dva sloupce', 'url' => 'red/v1/authortemplate/citation'],
+                    [ 'title' => 'Vnitřní ohraničení bloků', 'description' => 'Bez obtékání. Dva sloupce', 'url' => 'red/v1/authortemplate/celled_blocks'],
+                    [ 'title' => 'Ohraničený obsah s odkazem - 1 položka', 'description' => 'Vložení ohraničené položky na stránku. Položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', 'url' => 'red/v1/authortemplate/menu_1polozka_2'],
+                    [ 'title' => 'Ohraničený obsah s odkazem - 1 položka rozdělená na sloupce', 'description' => 'Vložení ohraničené položky na stránku. Položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', 'url' => 'red/v1/authortemplate/menu_1polozka'],
+                    [ 'title' => 'Ohraničený obsah s odkazem - 2 položky', 'description' => 'Vložení 2 položek na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', 'url' => 'red/v1/authortemplate/menu_2polozky'],
+                    [ 'title' => 'Ohraničený obsah s odkazem - 3 položky', 'description' => 'Vložení 3 položek menu na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', 'url' => 'red/v1/authortemplate/menu_3polozky'],
+                    [ 'title' => 'Upoutávka na kurz', 'description' => 'popis',       'url' => 'red/v1/authortemplate/teaser_about_item'],
+                    [ 'title' => '3 stejně vysoké obrázky  v řádce', 'description' => 'popis',       'url' => 'red/v1/authortemplate/stretched_images'],
+                    [ 'title' => '3 stejně vysoké obsahy v řádce', 'description' => 'popis',       'url' => 'red/v1/authortemplate/stretched_blocks'],
+                    [ 'title' => 'template two columns divided', 'description' => 'popis',       'url' => 'red/v1/authortemplate/two_columns_divided'],
+                    [ 'title' => 'template two blocks styled *', 'description' => 'popis',       'url' => 'red/v1/authortemplate/two_blocks_styled'],
+                    [ 'title' => 'template img & text styled', 'description' => 'popis',       'url' => 'red/v1/authortemplate/img_text_styled'],
+                    [ 'title' => 'template job', 'description' => 'popis',       'url' => 'red/v1/authortemplate/job'],
+                    [ 'title' => 'Lorem ipsum', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/lorem_ipsum'],
+
+                ],
+            ]
             ];
     }
 

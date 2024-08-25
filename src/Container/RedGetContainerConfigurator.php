@@ -1001,17 +1001,20 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             TemplateControlerConfiguration::class => function(ContainerInterface $c) {
                 return new TemplateControlerConfiguration(
                         $c->get('templates.defaultExtension'),
-                        $c->get('templates.folders')
+                        $c->get('templates.folders'),
+                        $c->get('templates.list')
                         );
             },
 
             TemplateControler::class => function(ContainerInterface $c) {
-                return (new TemplateControler(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class),
-                            $c->get(TemplateSeeker::class))
-                        )->injectContainer($c);  // inject component kontejner
+                $co = new TemplateControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(TemplateSeeker::class),
+                        $c->get(TemplateControlerConfiguration::class)
+                        );                            
+                return $co->injectContainer($c);  // inject component kontejner
             },
             TemplateSeeker::class => function(ContainerInterface $c) {
                 return new TemplateSeeker($c->get(TemplateControlerConfiguration::class));
