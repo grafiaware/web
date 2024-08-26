@@ -38,6 +38,8 @@ use DateTime;
  * @author pes2704
  */
 class SectionsControler extends FrontControlerAbstract {
+    
+    const MANY = 30000;
 
     const SECTION_CONTENT = 'section-content';
     
@@ -314,16 +316,30 @@ class SectionsControler extends FrontControlerAbstract {
                         }
                         break;
                     case self::POST_COMMAND_COPY:
-                        $this->addFlashMessage("copy - není implementováno", FlashSeverityEnum::WARNING);
+                        $this->addFlashMessage("Operaci nelze provést - copy není implementováno", FlashSeverityEnum::WARNING);
                         break;
                     default:
                         $this->addFlashMessage("Unknown post command $command.", FlashSeverityEnum::WARNING);
                         break;
                 }
             } else {
-                $this->addFlashMessage("Paste z jiného paper není implementováno.", FlashSeverityEnum::WARNING);                
+                switch ($command) {
+                    case self::POST_COMMAND_CUT:
+                        if ($above) {
+                            $this->flipSectionAboveTarget($sourceSection, $targetSection, $sourcePaperId, $targetPaperId);
+                        } else {
+                            $this->flipSectionBelowTarget($sourceSection, $targetSection, $sourcePaperId, $targetPaperId);
+                        }
+                        break;
+                    case self::POST_COMMAND_COPY:
+                        $this->addFlashMessage("Operaci nelze provést - copy není implementováno.", FlashSeverityEnum::WARNING);
+                        break;
+                    default:
+                        $this->addFlashMessage("Unknown post command $command.", FlashSeverityEnum::WARNING);
+                        break;
+                }                
             }
-        }else {
+        } else {
             $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
         }        
     }
@@ -343,8 +359,7 @@ class SectionsControler extends FrontControlerAbstract {
         if ($targetSectionPriority > $sourceSectionPriority) { //nahoru            
             $this->shiftPriority($paperSections, $sourceSectionPriority+1, $targetSectionPriority, -1);
             $sourceSection->setPriority($targetSectionPriority);  
-        }
-        else { //dolu                    
+        } else { //dolu                    
             $this->shiftPriority($paperSections, $targetSectionPriority+1, $sourceSectionPriority-1, 1);            
             $sourceSection->setPriority($targetSectionPriority+1);  
         }             
@@ -366,11 +381,32 @@ class SectionsControler extends FrontControlerAbstract {
         if ($targetSectionPriority > $sourceSectionPriority) { //nahoru     
             $this->shiftPriority($paperSections, $sourceSectionPriority+1, $targetSectionPriority-1, -1);            
             $sourceSection->setPriority($targetSectionPriority-1);  
-        }
-        else { //dolu                    
+        } else { //dolu                    
             $this->shiftPriority($paperSections, $targetSectionPriority, $sourceSectionPriority-1, 1);
             $sourceSection->setPriority($targetSectionPriority);  
         }        
+    }
+    
+    private function flipSectionAboveTarget(PaperSectionInterface $sourceSection, PaperSectionInterface $targetSection, $sourcePaperId, $targetPaperId) {
+        $sourcePaperSections = $this->paperSectionRepo->findByPaperIdFk($sourcePaperId);
+        $targetPaperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);
+        $sourceSectionPriority = $sourceSection->getPriority();
+        $targetSectionPriority = $targetSection->getPriority();
+        $this->shiftPriority($sourcePaperSections, $sourceSectionPriority+1, self::MANY, -1);
+        $this->shiftPriority($targetPaperSections, $targetSectionPriority+1, self::MANY, 1);             
+        $sourceSection->setPaperIdFk($targetPaperId);
+        $sourceSection->setPriority($targetSectionPriority+1);          
+    }
+
+    private function flipSectionBelowTarget(PaperSectionInterface $sourceSection, PaperSectionInterface $targetSection, $sourcePaperId, $targetPaperId) {
+        $sourcePaperSections = $this->paperSectionRepo->findByPaperIdFk($sourcePaperId);
+        $targetPaperSections = $this->paperSectionRepo->findByPaperIdFk($targetPaperId);
+        $sourceSectionPriority = $sourceSection->getPriority();
+        $targetSectionPriority = $targetSection->getPriority();
+        $this->shiftPriority($sourcePaperSections, $sourceSectionPriority+1, self::MANY, -1);
+        $this->shiftPriority($targetPaperSections, $targetSectionPriority, self::MANY, 1);             
+        $sourceSection->setPaperIdFk($targetPaperId);
+        $sourceSection->setPriority($targetSectionPriority);          
     }
     
     /**
@@ -383,7 +419,8 @@ class SectionsControler extends FrontControlerAbstract {
      * @param int $shiftValue Změna priority
      */
     private function shiftPriority( array &$paperSections, int $minPriority, int $maxPriority, int $shiftValue = 0) {
-        /** @var PaperSectionInterface $section */                            
+        /** @var PaperSectionInterface $section */
+        // prochází všechny sekce - sekce nejsou seřazeny podle priority
         foreach ($paperSections as $section) {                      
             $currentPriority = $section->getPriority();                                      
             if  ( ($currentPriority >= $minPriority) AND ($currentPriority <= $maxPriority) ) {
@@ -397,7 +434,7 @@ class SectionsControler extends FrontControlerAbstract {
         $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut" nebo "copy"
         $statusFlash->setMessage("cut escape - operation cut&paste aborted", FlashSeverityEnum::WARNING);
         return $this->redirectSeeLastGet($request); // 303 See Other
-    }    
+    }
     
     /**
      * Metoda přidí novou, první sekci. POZOR! Jako parametr má id paper.
