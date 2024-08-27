@@ -110,18 +110,20 @@ body{
     /* definujte body jako časovou osu animace s názvem --nejakyNazev */
     //view-timeline-name: --nejakyNazev; /* experimentální vlastnost - není podporování*/
     header{
-        width: 25%;
+        //width: 25%;
         position: sticky; 
         top: 0;
-        animation: zmenaObr 2s both; 
+        //animation: zmenaObr 2s both; 
         img{
+            margin: 10px auto;
+            height: 250px;
             //animation-timeline: --nejakyNazev;
 /*            animation-range-start: 10%;
             animation-range-end: 40%;*/
-            object-fit: contain;
+            //object-fit: contain;
         }
     }
-    @keyframes zmenaObr {
+/*    @keyframes zmenaObr {
             from {
                 position: relative;
                 top:0 ;
@@ -137,7 +139,7 @@ body{
                 left: 0;
                 //top: 0;
             }
-    }
+    }*/
     
     /***MENU***/
     #mySidenav.editMenu{
