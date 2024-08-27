@@ -145,6 +145,9 @@
         z-index: 20;
     }
     body{
+        header{
+            position: relative;
+        }
         .nav-mobile{
             display: flex;
         }
@@ -232,12 +235,13 @@
 }
 @media screen and (max-width: 768px){
     body{
+        header{
+            position: relative;
+        }
         .header-mobile{
             display: block !important;
             //max-height: 300px;
-            .logo-najdisi-mobile{
-                display: block !important;
-            }
+            
         }
         .header-pc{
             display: none !important;
@@ -424,10 +428,7 @@
 }
 @media screen and (max-width: 600px){
     body{
-        .logo-najdisi-mobile{
-            top: -9px;
-            position: relative;
-        }
+        
         .klic-img{
             width: 83px;
             top: 24px;
@@ -476,10 +477,7 @@
             height: 235px;
             margin-bottom: 10px;
         }
-        .logo-najdisi-mobile{
-            top: -9px;
-            position: relative;
-        }
+        
         .klic-img{
             width: 69px;
             top: 41px;
@@ -493,14 +491,10 @@
     }*/
     body{
         header{
-            height: 235px;
+            //height: 235px;
             margin-bottom: 10px;
         }
-        .logo-najdisi-mobile{
-            top: -9px;
-            position: relative;
-            height: 220px;
-        }
+        
         .klic-img{
             width: 61px;
             top: 22px;
