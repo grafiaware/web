@@ -29,11 +29,6 @@ export const initEditors = () => {
 
     //pro editaci pracovního popisu pro přihlášené uživatele
     tinymce.init(editUserInputConfig);
-    
-    //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
-    $('.profil-visible').on('click', function(){
-            $('.profil.hidden').css('display', 'block');
-        });
 }
     
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +36,38 @@ export const initEditors = () => {
 import {redEditorSetup} from "./tinyfunctions/editorSetup.js";
 import {filePickerCallback} from "./tinyfunctions/fileupload.js";
 import {redImageUploadHandler} from "./tinyfunctions/fileupload.js";
+
+//open source plugins:
+//    Accordion
+//    Anchor
+//    Autolink
+//    Autoresize
+//    Autosave
+//    Character Map
+//    Code
+//    Code Sample
+//    Directionality
+//    Emoticons
+//    Full Screen
+//    Help
+//    Image
+//    Import CSS
+//    Insert Date/Time
+//    Link
+//    Lists
+//    List Styles
+//    Media
+//    Nonbreaking Space
+//    Page Break
+//    Preview
+//    Quick Toolbars
+//    Save
+//    Search and Replace
+//    Table
+//    Visual Blocks
+//    Visual Characters
+//    Word Count
+
 
 var editCommonPlugins = [
        'lists',    // lists - add numbered and bulleted lists, 
@@ -50,7 +77,7 @@ var editCommonPlugins = [
        'autosave', // gives the user a warning if they have unsaved changes in the editor and add a menu item, “Restore last draft” and an optional toolbar button
        'code', //
        'image', // enables the user to insert an image, also adds a toolbar button and an Insert/edit image menu item under the Insert menu
-       //'editimage', // adds a contextual editing toolbar to the images in the editor
+//       'editimage', // není obsažen v aktuální verzi timy // adds a contextual editing toolbar to the images in the editor
        'link', // allows a user to link external resources, adds two toolbar buttons called link and unlink and three menu items called link, unlink and openlink
        'media ', // adds the ability for users to be able to add HTML5 video and audio elements
        'nonbreaking', // adds a button for inserting nonbreaking space entities &nbsp; , also adds a menu item and a toolbar button
@@ -58,16 +85,16 @@ var editCommonPlugins = [
        'searchreplace', // adds search/replace dialogs, also adds a toolbar button and the menu item
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
-       'quickbars',
+//       'quickbars',
        'visualchars',  // adds the ability to see invisible characters like &nbsp; displayed in the editable area
        'visualblocks',  // allows a user to see block level elements in the editable area
        'attachment'
     ];
 
-var menubarfull = 'file edit view insert format tools table help';
+var menubarfull = 'file edit view insert format tools table help';  //TODO: help
 var toolbarfull = "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl";
 
-var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | styles';
+var toolbarText = 'save cancel | undo redo | styles | anchor'; //| fontstyle fontweight | aligment ';
 
 var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
 var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link | image media';
@@ -125,93 +152,97 @@ let editCommonConfig = {
     schema : 'html5',
     promotion: false,   // vypíná tlačítko upgrade - Premium upgrade promotion option
     relative_urls : true,  // true — All URLs created in TinyMCE will be converted to a link relative to the document_base_url (false - absolute url's)
-    //hidden_input: true,  // dafault true - By default all inline editors have a hidden input element in which content gets saved 
     inline: true, // Inline editing mode does not replace the selected element with an iframe, but instead edits the element’s content in-place
                   // Sticky toolbars are always enabled in inline mode and cannot be disabled.
-//    toolbar_sticky: true,
-    editable_class: 'mceEditable',   // 
-    noneditable_class: 'mceNonEditable',   // 
-    //paste_as_text: false,  // default false, true - převede vkládaný obsah na holý text
-    smart_paste: true,   // Detect text that resembles a URL and change the text to a hyperlink.
-                         //Detect text that resembles the URL for an image and will try to replace the text with the image.    
+                  // By default all inline editors have a hidden input element in which content gets saved 
+                  // This option is not supported on mobile devices. 
+    editable_class: 'mceEditable',
+    noneditable_class: 'mceNonEditable',
+ 
     language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,    
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,    
+};
+
+let editRedConfig = {
+    extended_valid_elements : 'headline[*],perex[*],content[*],i[*]',
+    custom_elements: 'headline,perex,content',
+    valid_children: '+a[div]',
+    fixed_toolbar_container: '.item_action', //'.ribbon',                  
+};
+
+let editFullConfig = {
+    link_class_list: linkClassList,
+    image_class_list: imageClassList,  
+    smart_paste: true,   // Detect text that resembles a URL and change the text to a hyperlink.
+                         //Detect text that resembles the URL for an image and will try to replace the text with the image.       
 };
 
 var editTextConfig = {
     ...editCommonConfig,
+    ...editRedConfig,
     selector: 'form .edit-text',
     placeholder: 'Nadpis',
     extended_valid_elements : 'i[*],headline',
     custom_elements: 'headline',
-    content_css: tinyConfig.contentCss,    
-    menubar: false,
-    plugins: editCommonPlugins,
-    toolbar: toolbarText,
-    quickbars_insert_toolbar: '',
-    quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
-
-    setup: redEditorSetup,  // callback that will be executed before the TinyMCE editor instance is rendered
+    paste_as_text: true,  // default false, true - převede vkládaný obsah na holý text
     
+    menubar: false,  // bez vypnutí se zobeazí default menu
+    plugins: editCommonPlugins,  
+    toolbar: toolbarText,
+//    quickbars_insert_toolbar: false,
+//    quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',    
     style_formats: [
-        {title: 'Styly nadpisu'},
+        {title: 'Styly nadpisu'},  // group
+        {title: 'Výchozí styl nadpisu webu', selector: 'p', classes: 'nadpis'},
         {title: 'Animovaný, podtržený zap/vyp', selector: 'p', classes: 'nadpis podtrzeny nastred nadpis-scroll show-on-scroll is-visible'}
-    ]
+    ],
+    /* callback that will be executed before the TinyMCE editor instance is rendered */
+    setup: redEditorSetup    
 };
 
 var editHtmlConfig = {
     ...editCommonConfig,
+    ...editRedConfig,
+    ...editFullConfig,
     selector: 'form .edit-html',
     placeholder: 'Nový obsah',
-    extended_valid_elements : 'headline[*],perex[*],content[*],i[*]',
-    custom_elements: 'headline,perex,content',
-    valid_children: '+a[div]',
-
-    content_css: tinyConfig.contentCss,
-
-//    menubar: false,
-    menubar: menubarfull,
-//menubar: 'file edit insert view format table tools help': 'file edit insert view format table tools help',
-
+    
+    menubar: menubarfull, //    menubar: false,
     plugins: editCommonPlugins,
     templates: 'red/v1/templateslist/author',
+  toolbar_mode: 'floating',    
+    toolbar: toolbar_groups,
 //    toolbar: toolbarfull,
-    toolbar1: toolbarHtmlRow1,
-    toolbar2: toolbarHtmlRow2,
+//    toolbar1: toolbarHtmlRow1,
+//    toolbar2: toolbarHtmlRow2,
     editimage_toolbar: editimage_toolbar,
-    link_class_list: linkClassList,
-    image_class_list: imageClassList,
-    image_advtab: true, //přidá do dialogového okna obrázku záložku „Upřesnit“, která umožňuje přidat k obrázkům vlastní styly, mezery a okraje
+
+    /* přidá do dialogového okna obrázku záložku „Upřesnit“, která umožňuje přidat k obrázkům vlastní styly, mezery a okraje */
+    image_advtab: true,
     /* enable title field in the Image dialog*/
     image_title: true,
-    /* enable automatic uploads of images represented by blob or data URIs*/
+    /* enable automatic uploads of images represented by blob or data URIs */
     automatic_uploads: true, // default true
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
-// odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
+//    odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
 //    images_upload_url: 'red/v1/upload/image',
     images_reuse_filename: true,
     file_picker_types: 'image media file', // tiny bude volat file_picker_callback v dialogu Přidat/upravit obrázek, media, link
-    /* and here's our custom image picker*/
+    /* and here's our custom image picker */
     file_picker_callback: filePickerCallback,
     images_upload_handler: redImageUploadHandler,
-    setup: redEditorSetup,  // callback that will be executed before the TinyMCE editor instance is rendered
-
-    /**/
-    text_patterns: [
-        { start: '*', end: '*', format: 'italic' },
-        { start: '**', end: '**', format: 'bold' },
-    ],
+    /* callback that will be executed before the TinyMCE editor instance is rendered */
+    setup: redEditorSetup
 };
+
 var editMceEditableConfig = {
     ...editCommonConfig,
+    ...editFullConfig,
     selector: 'form .edit-mceeditable',
     placeholder: 'Nový obsah',
     valid_children: '+a[div]',
-    editable_class: 'mceEditable',   // 
-    noneditable_class: 'mceNonEditable',   // 
-
-    content_css: tinyConfig.contentCss,
 
     menubar: false,
 
@@ -220,7 +251,6 @@ var editMceEditableConfig = {
     toolbar1: toolbarHtmlRow1,
     toolbar2: toolbarHtmlRow2,
     editimage_toolbar: editimage_toolbar,
-    link_class_list: linkClassList,
     /* enable title field in the Image dialog*/
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs*/
@@ -234,38 +264,29 @@ var editMceEditableConfig = {
     /* and here's our custom image picker*/
     file_picker_callback: filePickerCallback,
     images_upload_handler: redImageUploadHandler,
-    setup: redEditorSetup  // callback that will be executed before the TinyMCE editor instance is rendered
+    /* callback that will be executed before the TinyMCE editor instance is rendered */
+    setup: redEditorSetup
 };
 
-///////////////////////////////////////////
 let selectTemplateCommonConfig = {
-    schema : 'html5',
-    promotion: false,
-    extended_valid_elements : 'headline[*],perex[*],content[*],i[*]',
-    custom_elements: 'headline,perex,content',
-    valid_children: '+a[div] ',
-    relative_urls : true,
-    editable_class: 'mceEditable',
-    noneditable_class: 'mceNonEditable',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
+    ...editCommonConfig,
+    ...editRedConfig,
     body_class: "layout preview",
 //    menubar: false,
     plugins: [
     'template', 'save' 
     ],
     
-  menu: {
-    custom: { title: 'Custom Menu', items: 'undo redo myCustomMenuItem' }
-  },
-  menubar: 'file edit custom',
-  setup: (editor) => {
-    editor.ui.registry.addMenuItem('myCustomMenuItem', {
-      text: 'My Custom Menu Item',
-      onAction: () => alert('Menu item clicked')
-    });
-  }    
+//  menu: {
+//    custom: { title: 'Custom Menu', items: 'undo redo myCustomMenuItem' }
+//  },
+//  menubar: 'file edit custom',
+//  setup: (editor) => {
+//    editor.ui.registry.addMenuItem('myCustomMenuItem', {
+//      text: 'My Custom Menu Item',
+//      onAction: () => alert('Menu item clicked')
+//    });
+//  }    
 };
 
 var selectTemplateArticleConfig = {
@@ -307,7 +328,8 @@ var editUserInputConfig = {
     promotion: false,   // vypíná tlačítko upgrade - Premium upgrade promotion option
     relative_urls : true,
     hidden_input: true,
-    inline: true,
+//    inline: true,
+    paste_as_text: true,  // default false, true - převede vkládaný obsah na holý text
 
     menubar: false,
     plugins: [
