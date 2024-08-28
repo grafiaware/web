@@ -67,7 +67,17 @@ class Replace implements ReplaceInterface {
             'font-size: x-small;' => '',
             'font-size: small;' => '',
             'font-size: medium;' => '',
-        );
+//            '<span style="font-size: 10pt;' => '<span style="font-size: 12pt;',
+//            '<span style="font-size: 12pt;' => '<span style="font-size: 14pt;',
+            'font-size: 8pt;' => '',
+            'font-size: 9pt;' => '',
+            'font-size: 10pt;' => '',
+            'font-size: 11pt;' => '',
+            'font-size: 12pt;' => '',
+            'font-size: 14pt;' => '',
+            'font-size: 17pt;' => '',
+            'font-size: 18pt;' => '',
+);
 
         // <a href="index.php?list=download&amp;file=1197476.txt" target="_blank">Obchodní podmínky e-shop Grafia ke stažení</a>
         $text = str_replace(array_keys($transform), array_values($transform), $text);
