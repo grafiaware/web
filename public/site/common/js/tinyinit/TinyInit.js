@@ -98,7 +98,7 @@ var toolbarText = 'save cancel | undo redo | styles | anchor'; //| fontstyle fon
 
 var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
 var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline nonbreaking | alignleft aligncenter alignright alignjustify | link';
-var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | code visualchars visualblocks | template | image media attachment';
+var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | code visualchars visualblocks | template | image media attachment | stickytoolbar';
 
 var linkClassList = [
         {title: 'Vyberte styl odkazu', value: ''},
@@ -156,6 +156,8 @@ let editCommonConfig = {
                   // Sticky toolbars are always enabled in inline mode and cannot be disabled.
                   // By default all inline editors have a hidden input element in which content gets saved 
                   // This option is not supported on mobile devices. 
+                  
+//event_root: 'main',                  
     editable_class: 'mceEditable',
     noneditable_class: 'mceNonEditable',
  
@@ -168,7 +170,7 @@ let editRedConfig = {
     extended_valid_elements : 'headline[*],perex[*],content[*],i[*]',
     custom_elements: 'headline,perex,content',
     valid_children: '+a[div]',
-    fixed_toolbar_container: '.item_action', //'.ribbon'
+//    fixed_toolbar_container: '.item_action', //'.ribbon'
 };
 
 let editFullConfig = {
@@ -211,7 +213,7 @@ var editHtmlConfig = {
     menubar: menubarfull, //    menubar: false,
     plugins: editCommonPlugins,
     templates: 'red/v1/templateslist/author',
-  toolbar_mode: 'wrap',    
+  toolbar_mode: 'sliding',    
 //    toolbar: toolbar_groups,
 //    toolbar: toolbarfull,
     toolbar1: toolbarHtmlRow1,
@@ -343,6 +345,103 @@ var editUserInputConfig = {
     init_instance_callback: initInstanceUserInputEditor,
     paste_preprocess: pastePreprocessUserInput
 };
+
+////////////////////////////////////////
+
+// https://codepen.io/maibaduy/pen/KrGPve
+var editStickyConfig = {
+  selector: 'textarea',
+  height: 1100,
+  menubar: false,
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table contextmenu paste code',
+    'stickytoolbar autoresize'
+  ],
+  toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+  toolbar2: 'link image',
+  content_css: [
+    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+    '//www.tinymce.com/css/codepen.min.css']
+};
+
+tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
+  editor.on('init', function() {
+    setSticky();
+  });
+  
+  $(window).on('scroll', function() {
+    setSticky();
+  });
+  
+  function setSticky() {
+    var container = editor.editorContainer;
+    var toolbars = $(container).find('.mce-toolbar-grp');
+    var statusbar = $(container).find('.mce-statusbar');
+    
+    if (isSticky()) {
+      $(container).css({
+        paddingTop: toolbars.outerHeight()
+      });
+      
+      if (isAtBottom()) {
+        toolbars.css({
+          top: 'auto',
+          bottom: statusbar.outerHeight(),
+          position: 'absolute',
+          width: '100%',
+          borderBottom: 'none'
+        }); 
+      } else {
+        toolbars.css({
+          top: 0,
+          bottom: 'auto',
+          position: 'fixed',
+          width: $(container).width(),
+          borderBottom: '1px solid rgba(0,0,0,0.2)'
+        });       
+      }
+    } else {
+      $(container).css({
+        paddingTop: 0
+      });
+      
+      toolbars.css({
+        position: 'relative',
+        width: 'auto',
+        borderBottom: 'none'
+      });
+    }
+  }
+  
+  function isSticky() {
+    var container = editor.editorContainer,
+      editorTop = container.getBoundingClientRect().top;
+    
+    if (editorTop < 0) {
+      return true;
+    }
+    
+    return false;
+  }
+  
+  function isAtBottom() {
+    var container = editor.editorContainer,
+      editorTop = container.getBoundingClientRect().top;
+    
+    var toolbarHeight = $(container).find('.mce-toolbar-grp').outerHeight();
+    var footerHeight = $(container).find('.mce-statusbar').outerHeight();
+    
+    var hiddenHeight = -($(container).outerHeight() - toolbarHeight - footerHeight);
+    
+    if (editorTop < hiddenHeight) {
+      return true;
+    }
+    
+    return false;
+  }
+});
 
 import {attachmentPlugin} from "./tinyplugins/plugins.js";
 tinymce.PluginManager.add('attachment', attachmentPlugin);
