@@ -437,22 +437,25 @@ class SectionsControler extends FrontControlerAbstract {
     }
     
     /**
-     * Metoda přidí novou, první sekci. POZOR! Jako parametr má id paper.
+     * Metoda přidí novou sekci. POZOR! Jako parametr má id paper.
      * 
      * @param ServerRequestInterface $request
      * @param type $paperId
      * @return type
      */
     public function add(ServerRequestInterface $request, $paperId) {
-        $priority = 1;
+        $max = 0;
         // pro případ volání add i v situaci, kdy již existuje obsah
         $sections = $this->paperSectionRepo->findByPaperIdFk($paperId);
         foreach ($sections as $sectionsItem) {
             /** @var PaperSectionInterface $sectionsItem */
-            $sectionsItem->setPriority($sectionsItem->getPriority()+1);
+            $sectionPriority = $sectionsItem->getPriority();
+            if ($sectionPriority>$max) {
+                $max = $sectionPriority;
+            }
         }
-        $this->paperSectionRepo->add($this->createNewContent($paperId, $priority));
-        $this->addFlashMessage("Section add - Nová sekce, priorita $priority", FlashSeverityEnum::SUCCESS);
+        $this->paperSectionRepo->add($this->createNewContent($paperId, $max+1));
+        $this->addFlashMessage("Section add - Nová sekce, priorita $max+1", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -460,12 +463,12 @@ class SectionsControler extends FrontControlerAbstract {
      * Metoda přidá prázdnou novou sekci nad sekci, ve které uživatelel klikl na tlačítko.
      * 
      * @param ServerRequestInterface $request
-     * @param type $contentId
+     * @param type $sectionId
      * @return type
      */
-    public function addAbove(ServerRequestInterface $request, $contentId) {
+    public function addAbove(ServerRequestInterface $request, $sectionId) {
         /** @var PaperSectionInterface $section */
-        $section = $this->paperSectionRepo->get($contentId);
+        $section = $this->paperSectionRepo->get($sectionId);
         $paperId = $section->getPaperIdFk();
         $sections = $this->paperSectionRepo->findByPaperIdFk($paperId);
         $priority = $section->getPriority();

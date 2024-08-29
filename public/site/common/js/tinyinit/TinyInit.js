@@ -168,7 +168,7 @@ let editRedConfig = {
     extended_valid_elements : 'headline[*],perex[*],content[*],i[*]',
     custom_elements: 'headline,perex,content',
     valid_children: '+a[div]',
-    fixed_toolbar_container: '.item_action', //'.ribbon',                  
+    fixed_toolbar_container: '.item_action', //'.ribbon'
 };
 
 let editFullConfig = {
