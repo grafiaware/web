@@ -211,7 +211,7 @@ var editHtmlConfig = {
     menubar: menubarfull, //    menubar: false,
     plugins: editCommonPlugins,
     templates: 'red/v1/templateslist/author',
-  toolbar_mode: 'floating',    
+  toolbar_mode: 'wrap',    
 //    toolbar: toolbar_groups,
 //    toolbar: toolbarfull,
     toolbar1: toolbarHtmlRow1,
