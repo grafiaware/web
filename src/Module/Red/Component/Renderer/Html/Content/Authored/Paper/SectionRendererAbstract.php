@@ -565,7 +565,7 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
                     $btnPridatObsahPred.$btnPridatObsahZa
                     ),
                 Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
-                    $btnVybratKpresunuti.$btnVybratKeZkopirovani
+                    $btnVybratKpresunuti  //.$btnVybratKeZkopirovani   - kopírování není implementováno - viz sections kontroler
                     ),
                 ];
         }

@@ -178,7 +178,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         if (isset($menuItem)) {
             $layoutView->appendComponentViews($this->getContentViews($menuItem));
         } else {
-            $layoutView->appendComponentView($this->getNoContentView('no item'), 'content');            
+            $layoutView->appendComponentView($this->getNoContentView('Error: No item.'), 'content');            
         }
         return $layoutView->appendComponentViews($this->getComponentViews($request));        
     }

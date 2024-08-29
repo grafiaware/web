@@ -97,8 +97,8 @@ var toolbarfull = "undo redo | accordion accordionremove | blocks fontfamily fon
 var toolbarText = 'save cancel | undo redo | styles | anchor'; //| fontstyle fontweight | aligment ';
 
 var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
-var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link | image media';
-var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | template | code visualchars visualblocks | attachment';
+var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline nonbreaking | alignleft aligncenter alignright alignjustify | link';
+var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | code visualchars visualblocks | template | image media attachment';
 
 var linkClassList = [
         {title: 'Vyberte styl odkazu', value: ''},
@@ -212,10 +212,10 @@ var editHtmlConfig = {
     plugins: editCommonPlugins,
     templates: 'red/v1/templateslist/author',
   toolbar_mode: 'floating',    
-    toolbar: toolbar_groups,
+//    toolbar: toolbar_groups,
 //    toolbar: toolbarfull,
-//    toolbar1: toolbarHtmlRow1,
-//    toolbar2: toolbarHtmlRow2,
+    toolbar1: toolbarHtmlRow1,
+    toolbar2: toolbarHtmlRow2,
     editimage_toolbar: editimage_toolbar,
 
     /* přidá do dialogového okna obrázku záložku „Upřesnit“, která umožňuje přidat k obrázkům vlastní styly, mezery a okraje */
