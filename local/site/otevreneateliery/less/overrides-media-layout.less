@@ -43,7 +43,7 @@
             width: 21rem;
         }
         header img{
-            height: auto;
+            //height: auto;
         }
     } 
 }
@@ -56,7 +56,7 @@
         display: block;
         //position: fixed;
         align-self: flex-start;
-        top: 152px; 
+        top: 250px; 
         overflow: hidden scroll;
         padding: 0 0 20px 10px;
         z-index: 0;
@@ -147,6 +147,11 @@
     body{
         header{
             position: relative;
+            img{
+                height: auto;
+                max-height: auto; 
+                width: 100%;
+            }
         }
         .nav-mobile{
             display: flex;
@@ -237,6 +242,10 @@
     body{
         header{
             position: relative;
+            img{
+                height: auto;
+                width: 100%;
+            }
         }
         .header-mobile{
             display: block !important;
@@ -348,7 +357,7 @@
         margin-left: 0 !important;
     }
 /*    body header{
-        h1{
+        h1{ 
             font-size: 2.5rem;
             position: relative;
             span{
@@ -494,7 +503,9 @@
             //height: 235px;
             margin-bottom: 10px;
         }
-        
+        .vlajky-obal{
+           top: -70px;
+        }
         .klic-img{
             width: 61px;
             top: 22px;

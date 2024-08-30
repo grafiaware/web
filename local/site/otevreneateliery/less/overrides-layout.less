@@ -78,6 +78,15 @@ body{
             display: none;
         }
     }
+    .vlajky-obal{
+        position: absolute;
+        right: -5px;
+        top: -40px;
+        .vlajky-img{
+            display: flex;
+            flex-direction: column;
+        }
+    }
     .blok_text_obrazek {
       margin-bottom: 5px;
       padding-bottom: 30px;
@@ -117,6 +126,7 @@ body{
         img{
             margin: 10px auto;
             height: 250px;
+            max-height: 250px;
             //animation-timeline: --nejakyNazev;
 /*            animation-range-start: 10%;
             animation-range-end: 40%;*/
@@ -280,7 +290,7 @@ body{
         margin-bottom: 35px;
     }
     article div[data-template]{
-        margin: 14px;
+        //margin: 14px;
     }
     div.editMenu-article{
         margin-left: auto;
