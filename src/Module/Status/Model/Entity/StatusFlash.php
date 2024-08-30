@@ -95,7 +95,10 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Nastaví command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
+     * Nastaví command se životností do nastavení příštího command v POST nebo PUT requestu. 
+     * Command je přepsán jen tehdy, když nastaven (připraven) command a jedná se o POST nebo PUT request. Pokud není takto přepsán nebo aktivně nastaven 
+     * voláním setPostCommand($command) přetrvá do konce session.
+     * Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      *
      * @param type $command
      * @return StatusFlashInterface
@@ -136,7 +139,6 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
             $this->preparedFlashCommand = null;
         }
         if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
-            $this->storedPostFlashCommand = null;
             if (isset($this->preparedPostFlashCommand)) {
                 $this->storedPostFlashCommand = $this->preparedPostFlashCommand;
                 $this->preparedPostFlashCommand = null;
