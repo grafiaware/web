@@ -61,10 +61,12 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Vrací command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
+     * Vrací "post" command Viz setPostCommand.
      */
     public function getPostCommand() {
-        return $this->storedPostFlashCommand;
+        $command = $this->storedPostFlashCommand;
+        $this->storedPostFlashCommand = null;
+        return $command;
     }
 
     /**
