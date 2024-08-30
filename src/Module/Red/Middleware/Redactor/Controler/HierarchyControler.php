@@ -88,7 +88,7 @@ class HierarchyControler extends FrontControlerAbstract {
 
     public function cutEscape(ServerRequestInterface $request, $uid): ResponseInterface {
         $statusFlash = $this->statusFlashRepo->get();
-        $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut"
+        $statusFlash->getPostCommand();  // zrušení výběru položky "cut"
         $statusFlash->setMessage("cut escape - operation cut&paste aborted", FlashSeverityEnum::WARNING);
 //        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
         //TODO: POST version
@@ -191,6 +191,7 @@ class HierarchyControler extends FrontControlerAbstract {
 
     public function delete(ServerRequestInterface $request, $uid): ResponseInterface {
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
+        // maže hierarchy, menu_item (menu_item_asset má fk CASCADE) a asset - nemaže soubory "assets"
         $this->editHierarchyDao->deleteSubTree($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);

@@ -65,45 +65,18 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         return Html::tag('form', ['class'=>'apiAction', 'method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsWrap')],
                 [
-                    $this->renderItemControlButtons($viewModel),
                     $this->renderEditControlButtons($viewModel),
                 ]
             )
         );
     }
 
-    protected function renderItemControlButtons(AuthoredViewModelInterface $viewModel): string {
-        $menuItem = $viewModel->getMenuItem();
-        $uid = $menuItem->getUidFk();
-        $active = $menuItem->getActive();
-        $type = $viewModel->getAuthoredContentType();
-
-        $buttons = [];
-        $buttons[] = Html::tag('button',
-                ['class'=>$this->classMap->get('Buttons', 'button'),
-                'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
-                'data-position'=>'bottom center',
-                'type'=>'submit',
-                'formmethod'=>'post',
-                'formaction'=>"red/v1/menu/$uid/toggle",
-                ],
-                Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
-            );
-
-        $buttons[] = Html::tag('button', [
-                'class'=>$this->classMap->get('Buttons', 'button'),
-                'data-tooltip'=> 'Odstranit položku',
-                'data-position'=>'bottom center',
-                'formtarget'=>'_self',
-                'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/$uid/trash",
-                'onclick'=>"return confirm('Jste si jisti?');"
-                ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
-            );
-        return $this->renderButtonsDiv($buttons);
-    }
-
+    /**
+     * Metoda přetížena metodami jednotlivých authored potomků.
+     * 
+     * @param AuthoredViewModelInterface $viewModel
+     * @return string
+     */
     protected function renderEditControlButtons(AuthoredViewModelInterface $viewModel): string {
         return '';
     }

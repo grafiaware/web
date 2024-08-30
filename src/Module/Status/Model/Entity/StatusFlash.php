@@ -41,7 +41,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Vrací pole flash message.
+     * Vrací pole flash message. Všechny flash messages smaže.
      *
      * @return array Array Flash messages.
      */
@@ -52,7 +52,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Vrací command se životností do příštího requestu (standartní "flash" životnost).
+     * Vrací command se životností do příštího requestu (standartní "flash" životnost). Command vždy smaže.
      */
     public function getCommand() {
         $command = $this->storedFlashCommand;
@@ -61,9 +61,24 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Vrací command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
+     * Vrací "post" command Viz setPostCommand. Command vždy smaže.
+     * Typické použití je volání v metodě kontroleru při POST/PUT requestu, v takovém případě chci command smazat, příkaz nastavený pomocí command byl v kontroleru vykonán.
+     * 
      */
     public function getPostCommand() {
+        $command = $this->storedPostFlashCommand;
+        $this->storedPostFlashCommand = null;
+        return $command;
+    }
+    
+    /**
+     * Vrací "post" command Viz setPostCommand. Command nemaže, ponechá hodnotu nastavenou.
+     * Typické použití je při vytváření zobrazeného obsahu při GET requestu. Pak se jen dotazuji na obsah commad (například pro renderování buttonů a ovládacích prvků), 
+     * ale nechci command mazat. Ke smazání pak dojde voláním getPostCommand() v POST metodě kontroléru.
+     * 
+     * @return type
+     */
+    public function readPostCommand() {
         return $this->storedPostFlashCommand;
     }
 
@@ -95,7 +110,10 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Nastaví command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
+     * Nastaví command se životností do nastavení příštího command v POST nebo PUT requestu. 
+     * Command je přepsán jen tehdy, když nastaven (připraven) command a jedná se o POST nebo PUT request. Pokud není takto přepsán nebo aktivně nastaven 
+     * voláním setPostCommand($command) přetrvá do konce session.
+     * Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      *
      * @param type $command
      * @return StatusFlashInterface
@@ -122,7 +140,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     /**
      * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus po zpracování requestu v dalších middleware.
      *
-     * Je určens k volání po návratu z middleware metody handle(). Připraví StatusFlash pro uložení do session.
+     * Je určen k volání po návratu z middleware metody handle(). Připraví StatusFlash pro uložení do session.
      * Po návratu z této metody múže být StatusFlash uložen, například serializován do session.
      *
      * @param ServerRequestInterface $request
@@ -136,7 +154,6 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
             $this->preparedFlashCommand = null;
         }
         if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
-            $this->storedPostFlashCommand = null;
             if (isset($this->preparedPostFlashCommand)) {
                 $this->storedPostFlashCommand = $this->preparedPostFlashCommand;
                 $this->preparedPostFlashCommand = null;

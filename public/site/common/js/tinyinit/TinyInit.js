@@ -156,6 +156,8 @@ let editCommonConfig = {
                   // Sticky toolbars are always enabled in inline mode and cannot be disabled.
                   // By default all inline editors have a hidden input element in which content gets saved 
                   // This option is not supported on mobile devices. 
+//  toolbar_mode: 'sliding',    
+//event_root: 'main',                  
     editable_class: 'mceEditable',
     noneditable_class: 'mceNonEditable',
  
@@ -211,7 +213,7 @@ var editHtmlConfig = {
     menubar: menubarfull, //    menubar: false,
     plugins: editCommonPlugins,
     templates: 'red/v1/templateslist/author',
-  toolbar_mode: 'wrap',    
+
 //    toolbar: toolbar_groups,
 //    toolbar: toolbarfull,
     toolbar1: toolbarHtmlRow1,
@@ -342,6 +344,26 @@ var editUserInputConfig = {
     setup: setupUserInputEditor,
     init_instance_callback: initInstanceUserInputEditor,
     paste_preprocess: pastePreprocessUserInput
+};
+
+////////////////////////////////////////
+
+// https://codepen.io/maibaduy/pen/KrGPve
+var editStickyConfig = {
+  selector: 'textarea',
+  height: 1100,
+  menubar: false,
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table contextmenu paste code',
+    'stickytoolbar autoresize'
+  ],
+  toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
+  toolbar2: 'link image',
+  content_css: [
+    '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+    '//www.tinymce.com/css/codepen.min.css']
 };
 
 import {attachmentPlugin} from "./tinyplugins/plugins.js";

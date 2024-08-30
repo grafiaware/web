@@ -59,7 +59,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     }
 
     public function getFlashPostCommand($key) {
-        $flashCommand = $this->statusFlashRepo->get()->getPostCommand();
+        $flashCommand = $this->statusFlashRepo->get()->readPostCommand();
         return $flashCommand[$key] ?? '';
     }
 

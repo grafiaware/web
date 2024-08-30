@@ -20,21 +20,28 @@ use Psr\Http\Message\ServerRequestInterface;
 interface StatusFlashInterface extends PersistableEntityInterface {
 
     /**
-     * Vrací pole messages
+     * Vrací pole flash message. Všechny flash messages smaže.
      * @return array
      */
     public function getMessages(): array;
 
     /**
-     * Vrací command se životností do příštího requestu (standartní "flash" životnost).
+     * Vrací command se životností do příštího requestu (standartní "flash" životnost). Command vždy smaže.
      */
     public function getCommand();
 
     /**
-     * Vrací command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
+     * Vrací "post" command Viz setPostCommand. Command vždy smaže.
+     * Typické použití je volání v metodě kontroleru při POST/PUT requestu, v takovém případě chci command smazat, příkaz nastavený pomocí command byl v kontroleru vykonán.
      */
     public function getPostCommand();
-
+    
+    /**
+     * Vrací "post" command Viz setPostCommand. Command nemaže, ponechá hodnotu nastavenou.
+     * Typické použití je při vytváření zobrazeného obsahu při GET requestu. Pak se jen dotazuji na obsah commad (například pro renderování buttonů a ovládacích prvků), 
+     * ale nechci command mazat. Ke smazání pak dojde voláním getPostCommand() v POST metodě kontroléru.
+     */
+    public function readPostCommand();
     /**
      * Nastaví message a severity
      *
@@ -53,8 +60,11 @@ interface StatusFlashInterface extends PersistableEntityInterface {
     public function setCommand($command): StatusFlashInterface;
 
     /**
-     * Nastaví command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
-     *
+     * Nastaví command se životností do nastavení příštího command v POST nebo PUT requestu. 
+     * Command je přepsán jen tehdy, když nastaven (připraven) command a jedná se o POST nebo PUT request. Pokud není takto přepsán nebo aktivně nastaven 
+     * voláním setPostCommand($command) přetrvá do konce session.
+     * Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
+     * 
      * @param type $command
      * @return \Status\Model\Entity\StatusFlashInterface
      */
