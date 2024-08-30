@@ -88,7 +88,7 @@ class HierarchyControler extends FrontControlerAbstract {
 
     public function cutEscape(ServerRequestInterface $request, $uid): ResponseInterface {
         $statusFlash = $this->statusFlashRepo->get();
-        $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut"
+        $statusFlash->getPostCommand();  // zrušení výběru položky "cut"
         $statusFlash->setMessage("cut escape - operation cut&paste aborted", FlashSeverityEnum::WARNING);
 //        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
         //TODO: POST version

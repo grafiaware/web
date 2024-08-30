@@ -431,7 +431,7 @@ class SectionsControler extends FrontControlerAbstract {
     
     public function cutEscape(ServerRequestInterface $request, $sectionId) {
         $statusFlash = $this->statusFlashRepo->get();
-        $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut" nebo "copy"
+        $statusFlash->getPostCommand();  // zrušení výběru položky "cut" nebo "copy"
         $statusFlash->setMessage("cut escape - operation cut&paste aborted", FlashSeverityEnum::WARNING);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

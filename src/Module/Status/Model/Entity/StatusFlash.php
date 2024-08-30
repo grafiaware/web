@@ -41,7 +41,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Vrací pole flash message.
+     * Vrací pole flash message. Všechny flash messages smaže.
      *
      * @return array Array Flash messages.
      */
@@ -52,7 +52,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Vrací command se životností do příštího requestu (standartní "flash" životnost).
+     * Vrací command se životností do příštího requestu (standartní "flash" životnost). Command vždy smaže.
      */
     public function getCommand() {
         $command = $this->storedFlashCommand;
@@ -61,12 +61,25 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     }
 
     /**
-     * Vrací "post" command Viz setPostCommand.
+     * Vrací "post" command Viz setPostCommand. Command vždy smaže.
+     * Typické použití je volání v metodě kontroleru při POST/PUT requestu, v takovém případě chci command smazat, příkaz nastavený pomocí command byl v kontroleru vykonán.
+     * 
      */
     public function getPostCommand() {
         $command = $this->storedPostFlashCommand;
         $this->storedPostFlashCommand = null;
         return $command;
+    }
+    
+    /**
+     * Vrací "post" command Viz setPostCommand. Command nemaže, ponechá hodnotu nastavenou.
+     * Typické použití je při vytváření zobrazeného obsahu při GET requestu. Pak se jen dotazuji na obsah commad (například pro renderování buttonů a ovládacích prvků), 
+     * ale nechci command mazat. Ke smazání pak dojde voláním getPostCommand() v POST metodě kontroléru.
+     * 
+     * @return type
+     */
+    public function readPostCommand() {
+        return $this->storedPostFlashCommand;
     }
 
     /**
@@ -127,7 +140,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     /**
      * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus po zpracování requestu v dalších middleware.
      *
-     * Je určens k volání po návratu z middleware metody handle(). Připraví StatusFlash pro uložení do session.
+     * Je určen k volání po návratu z middleware metody handle(). Připraví StatusFlash pro uložení do session.
      * Po návratu z této metody múže být StatusFlash uložen, například serializován do session.
      *
      * @param ServerRequestInterface $request
