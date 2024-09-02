@@ -25,8 +25,9 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
         
         .spinnertext {
             color: black;
-            position: absolute;            
-            left:-5px;
+            position: absolute;   
+            top:10px;
+            left:-30px;
         }
 
         @keyframes spin {
