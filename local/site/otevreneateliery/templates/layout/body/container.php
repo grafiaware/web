@@ -8,7 +8,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
         #loader {
             border: 12px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 12px solid #444444;
+            border-top: 12px solid darkred;
             width: 70px;
             height: 70px;
             animation: spin 1s linear infinite;
@@ -24,9 +24,10 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
         }
         
         .spinnertext {
-            color: red;
-            position: absolute;            
-            left:-5px;
+            color: black;
+            position: absolute;   
+            top:10px;
+            left:-30px;
         }
 
         @keyframes spin {
