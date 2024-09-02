@@ -39,8 +39,8 @@ class DriverRendererEditable extends HtmlRendererAbstract {
             } else {
                 $pAtttributes = [
                         'contenteditable'=> "true", 
-                        'data-original-title'=>$viewModel->getTitle(),  // odesílá edit.js v datech POST request pro info
-                        'data-red-item-title-uri'=>$viewModel->getRedItemTitleApi()
+                        'data-original-title'=>$viewModel->getTitle(),  // hodnota se vrací do titulku při escape z editace titulku 
+                        'data-red-item-title-uri'=>$viewModel->getRedItemTitleApi()  // uri pro update titulku
                         ];
             }
             $pHtml = Html::tag('p', 
@@ -75,9 +75,9 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                             $this->classMap->get('Item', 'li a'),
                             $this->classMap->get('Item', 'li'),
                             ],
-                        'href'=>$viewModel->getPageApi(),
+                        'href'=>$viewModel->getPageApi(),  // uri pro načtení celé stránky - pokud nefunguje js, použije se
                     ]
-                    +$this->dataRedAttributes($viewModel),
+                    +$this->dataRedAttributes($viewModel),  // atrinuty pro cascade načtení driverů a nového contentu
                     Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                         $viewModel->getTitle()
                     )

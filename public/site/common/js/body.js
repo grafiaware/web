@@ -29,6 +29,9 @@ function scrollToAnchorPosition() {
 import {loadSubsequentElements} from "./cascade/cascade.js";
 import {initElements} from "./initLoadedElements/initElements.js";
 
+showLoader();        
+//            showLoaded();            
+
 /**
  * po onreadystatechange volá funkci loadSubsequentElements() (z cascade.js)
  * loadSubsequentElements() kaskádně načte obsahy z API nahradí jimi elementy v dokumentu. Nahrazuje elementy nalezené podle třídy (class) "cascade"
@@ -36,8 +39,9 @@ import {initElements} from "./initLoadedElements/initElements.js";
  * @returns {undefined}
  */
 document.onreadystatechange = function () {
-//    if (event.target.readyState === 'interactive') {   // Alternative to DOMContentLoaded event
-    if (document.readyState === 'complete') {  // Alternative to load event
+//    if (event.target.readyState === 'interactive') { 
+
+if (document.readyState === 'complete') {
         // https://stackoverflow.com/questions/10777684/how-to-use-queryselectorall-only-for-elements-that-have-a-specific-attribute-set
         const init = async () => {
             console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
@@ -48,12 +52,25 @@ document.onreadystatechange = function () {
             listenPopState();
             
             initElements();
+            showLoaded();            
             console.log("body: init loaded elements finished");
             scrollToAnchorPosition();
         };
         init(); 
+    } else {
+        showLoader();        
     }
 };
+
+function showLoader() {
+         document.getElementById('loaded').style.visibility="hidden";
+         document.getElementById('loader').style.visibility="visible";    
+}
+
+function showLoaded() {
+         document.getElementById('loaded').style.visibility="visible";
+         document.getElementById('loader').style.visibility="hidden";        
+}
 
 /**
  * Vyvolá reload stránek s url uložených metodou pushState (používá se v cascade.js po načtení nového obsahu)
