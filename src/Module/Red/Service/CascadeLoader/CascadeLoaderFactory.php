@@ -23,7 +23,7 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
     public function getRedLoaderElement(string $dataRedApiUri, string $httpCacheControl, string $targetId='') {
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $uniquid = uniqid();
-        $id = "red_loaded_$uniquid";
+        $id = "red_loader_$uniquid";
         return $this->getLoader($id, $dataRedApiUri, $httpCacheControl, $targetId);
     }
     
