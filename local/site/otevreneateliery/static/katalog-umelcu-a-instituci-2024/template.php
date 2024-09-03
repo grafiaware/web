@@ -1,6 +1,10 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 
+
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Entity\StatusSecurityInterface;
+
 /** @var PhpTemplateRendererInterface $this */
 
 include 'data.php';
@@ -41,8 +45,24 @@ foreach ($katalog as $client) {
 if  (count($chBlock)) {
     $chBlocks[] =  $chBlock;
 }  
+
+/** @var StatusPresentationRepo $statuSecurityRepo */
+$statuSecurityRepo = $container->get(StatusSecurityRepo::class);
+/** @var StatusSecurityInterface $statusSecurity */
+$statusSecurity = $statuSecurityRepo->get();
+if ($statusSecurity->getUserActions()->presentEditableContent()) {
+    $errorLog = $katalogGenerator->getLog();
+    if ($errorLog) {
+        $message = 
+            "<div style=\"color: red;\">"
+            ."<h2>V těchno sekcích nebyla nalezena kotva a nadpis:</h2>"
+            .array_reduce($errorLog, function($message, $logItem) {$message .="<section>$logItem...</section>"; return $message;}, "")
+            ."</div>";
+    }
+}
 ?>
 
+<?= $message ?? ""; ?>
 
 <p class="nadpis nastred">Umělci, kteří Vám představí svoji tvorbu</p >
 

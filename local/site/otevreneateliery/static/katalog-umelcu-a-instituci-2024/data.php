@@ -32,7 +32,9 @@ class Katalog {
     private $lastKatalogUid;
 
     private $hierarchyDao;
-
+    
+    private $log;
+    
     public function __construct($container) {
         $this->container = $container;
         $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
@@ -105,6 +107,7 @@ class Katalog {
         }        
         
         $list = [];
+        $this->log = [];
         foreach ($subTreeNodes as $node) {
             $menuItemAgg = $menuItemAggRepo->get($this->langCode, $node['uid']);            
             $paper = $menuItemAgg->getPaper();
@@ -123,11 +126,21 @@ class Katalog {
                             $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'firstLetter'=> strtoupper($anchorMatch[0]), 'anchor'=>$anchorMatch, 'nazev'=>$textMatches[1][$key], 'nazevCs'=>html_entity_decode($textMatches[1][$key], ENT_HTML5), 'active'=>$section->getActive()];                        
                         }
                     } else {
-                        $log[] = substr($content, 0, 200);
+                        if ($content) {  // ignoruje zcela prázdné sekce
+                            $this->log[$section->getId()] = substr($content, 0, 200);
+                        }
                     }
                 }
             }
         }
         return $list;
+    }
+    
+    /**
+     * Vrací pole, ve kterém jsou zapsány počátky obsahů sekcí, vekterých metoda getKatalog() nenašla právě jednu kontu a jeden text.
+     * @return type
+     */
+    public function getLog() {
+        return $this->log;
     }
 }
