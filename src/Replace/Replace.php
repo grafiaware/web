@@ -135,6 +135,8 @@ class Replace implements ReplaceInterface {
                                 $notFound[] = $url;
                                 $transform .= $url;
                             }
+                        } else {
+                            $transform .= $url;                            
                         }
                         // tato část ničila absolutní odkazy s anchorem, myslím, že není třeba, není třeba transformovat href="#A"
                     } elseif(isset ($anchor)) {  // odkaz na kotvu na téže stránce - např. href="#A"                        
