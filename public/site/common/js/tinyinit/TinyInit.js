@@ -21,7 +21,7 @@
 //
 export const initEditors = () => {
     tinymce.remove();
-    tinymce.init(editTextConfig);
+    let tinyMcePromise= tinymce.init(editTextConfig);
     tinymce.init(editHtmlConfig);
     tinymce.init(editMceEditableConfig);
     tinymce.init(selectTemplateArticleConfig);
@@ -370,9 +370,16 @@ var editStickyConfig = {
 import {attachmentPlugin} from "./tinyplugins/plugins.js";
 tinymce.PluginManager.add('attachment', attachmentPlugin);
 
-tinymce.on('AddEditor', function (e) {
-  console.log('Added editor with id: ' + e.editor.id);
+tinymce.on('AddEditor', function(e) {
+    e.editor.on('NodeChange', function(e) {  // now that we know the editor set a callback at "NodeChange."
+        e.target.fire("focusin");       // NodeChange is at the end of editor create. Fire focusin to render and show it
+        console.log('Focused editor with id: ' + e.target.id);
+        
+    });
+    console.log('Added editor with id: ' + e.editor.id);
+    
 });
+
 
 tinymce.on('RemoveEditor', function (e) {
   console.log('Removed editor with id: ' + e.editor.id);
