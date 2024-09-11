@@ -90,31 +90,37 @@ body{
             flex-direction: column;
         }
     }
-    .blok_text_obrazek {
-      //margin-bottom: 5px;
-      //padding-bottom: 30px;
-      &.vnor{
-          margin-left: 40px;
-          > h4::before{
-                /*content: "\f3bf"; //šipka*/
-                content: "\f53f"; //paletka
+    .podprofil-oa{
+        margin-left: 40px;
+    }
+    .profil-oa, .podprofil-oa{ //.blok_text_obrazek, //.blok_text_obrazek.vnor 
+        &.i-umelec, &.i-instituce, &.i-misto{
+            > :first-child::before{
                 font-family: Icons;
                 font-weight: 400;
                 font-style: normal;    
                 margin-right: 7px;
             }
         }
-    
+        &.i-umelec > :first-child::before{
+            content: "\f53f";
+        }
+        &.i-instituce > :first-child::before{
+            content: "\f66f";
+        }
+        &.i-misto > :first-child::before{
+            content: "\f3c5";
+        }
          
-      .obrazky_inline {
-        display: flex;
-        img{
-            height: 300px;
+        .obrazky_inline {
+            display: flex;
+            img{
+                height: 300px;
+            }
+            p{
+                margin: 0 3px 0 3px;
+            }
         }
-        p{
-            margin: 0 3px 0 3px;
-        }
-      }
     }
     
     //article pro umělce

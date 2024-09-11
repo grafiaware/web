@@ -1,4 +1,4 @@
-<div class="blok_text_obrazek vnor" style="margin-left: 40px;" data-template="<?= "umelec_vnoreny" ?>">
+<div class="podprofil-oa i-instituce" data-template="<?= "podprofil-instituce" ?>">
     <h4><a id="zmente-kotvu"></a>Příjmení jméno, nezapomeňte na kotvu!</h4>
     <p>text</p>
     <div class="obrazky_inline">
