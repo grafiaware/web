@@ -52,7 +52,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
             </div>
             <div class="row">
                 <div class="fourteen wide mobile fourteen wide tablet eleven wide computer eleven wide large screen eleven wide widescreen column">
-                    <footer>
+                    <footer id="footer">
                         <span id="kontakty"></span>
                         <?php include "container/paticka.php"; ?>
                         <?php include "container/telo/prihlaseni.php"; ?>
