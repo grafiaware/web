@@ -414,9 +414,6 @@ body{
         max-width: 100%;
         height: auto;
     }
-    .blok-menu-paticka{
-        margin-left: 13px;
-    }
     .loga-paticka{
         display: none;
     }
@@ -424,19 +421,31 @@ body{
     footer{
         border-top: 5px solid @primaryColor;
         position: relative;
+        .ui.button{
+            margin: 3px 0;
+        }
         .prihlaseni{
-            position: absolute;
+            position: relative;
             top: 10px;
-            right: 12px;
-            display: flex;
+            right: 0;
+            display: block;
             .ui.button{
                 background-color: white;
                 color: @primaryColor;
                 border: 1px solid @primaryColor;
                 border-radius: 5px;
+                
                 &.dropdown, &.page{
                     font-size: 1rem;
                 }
+            }
+        }
+        .blok-menu-paticka{
+            display: flex;
+            flex-wrap: wrap;
+            .kontaktni-udaje{
+                font-size: @medium;
+                margin-left: 10px;
             }
         }
     }

@@ -43,19 +43,19 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
     </div>
     <div id="loaded">
         <div class="ui grid centered">
-            <div class="row">
-                <?php $isMenuEditableMode=false; ?>
-                <?= $this->insertIf( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', $context); ?>
-                <?= $this->insertIf( !$isMenuEditableMode, __DIR__.'/container/teloNoneditableMode.php', $context); ?>
-                <?= $flash ?? '' ?>
-                <?= $info ?? '' ?>
-            </div>
-            <div class="row">
-                <div class="fourteen wide mobile fourteen wide tablet eleven wide computer eleven wide large screen eleven wide widescreen column">
+            <div class="sixteen wide mobile fourteen wide tablet eleven wide computer eleven wide large screen eleven wide widescreen column">
+                <div class="row">
+                    <?php $isMenuEditableMode=false; ?>
+                    <?= $this->insertIf( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', $context); ?>
+                    <?= $this->insertIf( !$isMenuEditableMode, __DIR__.'/container/teloNoneditableMode.php', $context); ?>
+                    <?= $flash ?? '' ?>
+                    <?= $info ?? '' ?>
+                </div>
+                <div class="row">
                     <footer id="footer">
                         <span id="kontakty"></span>
                         <?php include "container/paticka.php"; ?>
-                        <?php include "container/telo/prihlaseni.php"; ?>
+                        
                     </footer>
                 </div>
             </div>
