@@ -15,9 +15,6 @@ use Red\Model\Repository\MenuItemAggregatePaperRepo;
 
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
-use LogicException, UnexpectedValueException;
-use TypeError;
-
 
 // context
 use Model\Context\ContextProviderInterface;

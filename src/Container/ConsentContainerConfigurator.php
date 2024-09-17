@@ -32,10 +32,11 @@ class ConsentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return FileLogger::getInstance($c->get('consent.logs.directory'), $c->get('consent.logs.file'), $c->get('consent.logs.type')); //new NullLogger();
             },            
             LogControler::class => function(ContainerInterface $c) {
-                return new LogControler(
+                return (new LogControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class));
+                        $c->get(StatusPresentationRepo::class)
+                        ))->injectContainer($c);
             }
         ];
         

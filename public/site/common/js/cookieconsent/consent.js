@@ -77,10 +77,7 @@ CookieConsent.run({
                     },
                     {
                         name: '_gid',   // string: exact cookie name
-                    },
-                    {
-                        name: /^www_/,   // regex: match all cookies starting with 'www_'
-                    },                    
+                    },             
                 ]
             },
 
@@ -112,10 +109,10 @@ CookieConsent.run({
                     acceptNecessaryBtn: 'Reject all',
                     showPreferencesBtn: 'Manage Individual preferences',
                     // closeIconLabel: 'Reject all and close modal',
-                    footer: `
-                        <a href="#path-to-impressum.html" target="_blank">Impressum</a>
-                        <a href="#path-to-privacy-policy.html" target="_blank">Privacy Policy</a>
-                    `,
+//                    footer: `
+//                        <a href="#path-to-impressum.html" target="_blank">Impressum</a>
+//                        <a href="#path-to-privacy-policy.html" target="_blank">Privacy Policy</a>
+//                    `,
                 },
                 preferencesModal: {
                     title: 'Manage cookie preferences',
@@ -181,10 +178,10 @@ CookieConsent.run({
                     acceptNecessaryBtn: 'Odmítnout všechny',
                     showPreferencesBtn: 'Podrobné nastavení',
                     // closeIconLabel: 'Reject all and close modal',
-                    footer: `
-                        <a href="#path-to-impressum.html" target="_blank">Impressum</a>
-                        <a href="#path-to-privacy-policy.html" target="_blank">Zásady ochrany osobních údajů</a>
-                    `,
+//                    footer: `
+//                        <a href="#path-to-impressum.html" target="_blank">Impressum</a>
+//                        <a href="#path-to-privacy-policy.html" target="_blank">Zásady ochrany osobních údajů</a>
+//                    `,
                 },
                 // zásady ochrany ou: https://commission.europa.eu/resources-partners/europa-web-guide_en
                 preferencesModal: {
@@ -258,7 +255,8 @@ function getBaseUrl() {
 }
 
 function logConsent(){
-    var base_url = getBaseUrl();   //window.location.origin;
+    const base_url = getBaseUrl();   //window.location.origin;
+    const uri = base_url+'/consent/v1/log';
     // Retrieve all the fields
     const cookie = CookieConsent.getCookie();
     const preferences = CookieConsent.getUserPreferences();
@@ -276,8 +274,7 @@ function logConsent(){
     };
 
     // Send the data to your backend
-    // replace "/your-endpoint-url" with your API
-    fetch('/'+base_url+'/consent/v1/log', {
+    fetch(uri, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
