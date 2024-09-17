@@ -32,6 +32,7 @@ include SITE_PATH.'ConfigurationConstants.php';
 include SITE_PATH.'ConfigurationDb.php';
 include SITE_PATH.'ConfigurationWeb.php';
 include SITE_PATH.'ConfigurationRed.php';
+include SITE_PATH.'ConfigurationConsent.php';
 include SITE_PATH.'ConfigurationStyles.php';
 
 
@@ -134,7 +135,13 @@ class ConfigurationCache {
                 case 'rs':
                     self::$cache[$name] = Siteconfig\ConfigurationDb::rs();
                     break;
-
+                ###############################
+                # configutation consent
+                #
+                case 'consent':
+                    self::$cache[$name] = Siteconfig\ConfigurationConsent::consent();
+                    break;
+                
                 ###############################
                 # configutation styles
                 #
@@ -273,4 +280,12 @@ class ConfigurationCache {
     public static function eventTemplates() {
         return self::getConfigModule('eventTemplates');
     }
+    
+    
+    
+    ### consent ###
+    #
+        public static function consent() {
+        return self::getConfigModule('consent');
+    }    
 }

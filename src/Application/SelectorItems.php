@@ -25,6 +25,7 @@ use Sendmail\Middleware\Sendmail\Sendmail;
 
 use Build\Middleware\Build\Build;
 use ResponseTime\Middleware\ResponseTime;
+use Consent\Middleware\ConsentLogger\ConsentLogger;
 
 use Status\Middleware\FlashStatus;
 use Status\Middleware\PresentationStatus;
@@ -128,7 +129,12 @@ class SelectorItems {
 //                    new LoggedAccess(new LoggedAccessor($this->app)),
                     new Build()
                 ];},
-
+            '/consent'=>
+            function() {
+                return [
+                    new ConsentLogger(),
+                ];},
+                        
             '/' => $default,
 
             '/rs'=>

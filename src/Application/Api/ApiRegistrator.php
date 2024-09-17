@@ -93,6 +93,7 @@ class ApiRegistrator {
         //TODO: POST version
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:itemId/add'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:itemId/remove'));
+        
         #### PaperController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId'));
@@ -241,7 +242,7 @@ class ApiRegistrator {
 
     ### build module ###
     #
-        #### BuildController #### '/build/listconfig'
+        #### BuildController ####
         $registry->register($this->getPrototype->withUrlPattern('/build'));
         $registry->register($this->postPrototype->withUrlPattern('/build/listconfig'));
         $registry->register($this->postPrototype->withUrlPattern('/build/createdb'));
@@ -252,5 +253,14 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/build/convert'));
         $registry->register($this->postPrototype->withUrlPattern('/build/make'));
         $registry->register($this->postPrototype->withUrlPattern('/build/import'));
+
+    ### consent module ###
+    #
+        #### LogController ####    
+        $registry->register($this->postPrototype->withUrlPattern('/consent/v1/log'));
+    #
     }
+    
+
+    
 }

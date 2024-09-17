@@ -12,7 +12,9 @@ CookieConsent.run({
     // hideFromBots: true,
     // mode: 'opt-in',
     // revision: 0,
-
+    
+    
+    revision: 0,
     cookie: {
         name: 'cc_cookie',
         // domain: location.hostname,
@@ -38,7 +40,7 @@ CookieConsent.run({
 
     onFirstConsent: ({cookie}) => {
         console.log('onFirstConsent fired',cookie);
-//        logConsent();
+        logConsent();
     },
 
     onConsent: ({cookie}) => {
@@ -47,7 +49,7 @@ CookieConsent.run({
 
     onChange: ({changedCategories, changedServices}) => {
         console.log('onChange fired!', changedCategories, changedServices);
-//        logConsent();
+        logConsent();
     },
 
     onModalReady: ({modalName}) => {
@@ -89,11 +91,11 @@ CookieConsent.run({
                     onAccept: () => {},
                     onReject: () => {}
                 },
-                youtube: {
-                    label: 'Youtube Embed',
-                    onAccept: () => {},
-                    onReject: () => {}
-                },
+//                youtube: {
+//                    label: 'Youtube Embed',
+//                    onAccept: () => {},
+//                    onReject: () => {}
+//                },
             }
         },
         ads: {}
@@ -213,18 +215,18 @@ CookieConsent.run({
                                 headers: {
                                     name: 'Cookie',
                                     domain: 'Domain',
-                                    desc: 'Description'
+                                    desc: 'Popis'
                                 },
                                 body: [
                                     {
                                         name: '_ga',
                                         domain: location.hostname,
-                                        desc: 'Tyto cookie se používají pro Google Analytics k rozlišení jedinečných uživatelů přiřazením náhodně vygenerovaného čísla jako identifikátoru klienta a ke snížení počtu požadavků.',
+                                        desc: 'Tyto cookie se používají pro Google Analytics k rozlišení jedinečných uživatelů přiřazením náhodně vygenerovaného čísla jako identifikátoru klienta a ke snížení počtu požadavků.'
                                     },
                                     {
                                         name: '_gid',
                                         domain: location.hostname,
-                                        desc: 'Tato cookie se používá ve službě Google Analytics k ukládání a aktualizaci jedinečné hodnoty pro každou navštívenou stránku.',
+                                        desc: 'Tato cookie se používá ve službě Google Analytics k ukládání a aktualizaci jedinečné hodnoty pro každou navštívenou stránku.'
                                     }
                                 ]
                             }
@@ -232,11 +234,11 @@ CookieConsent.run({
                         {
                             title: 'Cílení a reklama',
                             description: 'Tyto soubory cookie se používají k tomu, aby reklamní sdělení byla relevantnější pro vás a vaše zájmy. Záměrem je zobrazovat reklamy, které jsou relevantní a zajímavé pro jednotlivé uživatele, a tím hodnotnější pro vydavatele a inzerenty třetích stran.',
-                            linkedCategory: 'ads',
+                            linkedCategory: 'ads'
                         },
                         {
                             title: 'Více informací',
-                            description: 'V případě jakýchkoli dotazů týkajících se mých zásad ohledně souborů cookie a vašich voleb, prosím <a href="#footer">kontaktujte nás</a>.'
+                            description: 'V případě jakýchkoli dotazů týkajících se našich zásad ohledně souborů cookie a vašich voleb, prosím <a href="#footer">kontaktujte nás</a>.'
                         }
                     ]
                 }
@@ -244,16 +246,28 @@ CookieConsent.run({
         }
     }
 });
+// base url
+function getBaseUrl() {
+    var pathparts = window.location.pathname.split('/');
+    if (window.location.host === 'localhost') {
+        var url = window.location.origin+'/'+pathparts[1].trim('/')+'/'; // http://localhost/myproject/
+    }else{
+        var url = window.location.origin;
+    }
+    return url;
+}
 
 function logConsent(){
-
+    var base_url = getBaseUrl();   //window.location.origin;
     // Retrieve all the fields
     const cookie = CookieConsent.getCookie();
     const preferences = CookieConsent.getUserPreferences();
 
-    // In this example we're saving only 4 fields
     const userConsent = {
+        revision: cookie.revision,
         consentId: cookie.consentId,
+        consentTimestamp: cookie.consentTimestamp,
+        lastConsentTimestamp: cookie.lastConsentTimestamp,
         acceptType: preferences.acceptType,
         acceptedCategories: preferences.acceptedCategories,
         rejectedCategories: preferences.rejectedCategories,
@@ -263,7 +277,7 @@ function logConsent(){
 
     // Send the data to your backend
     // replace "/your-endpoint-url" with your API
-    fetch('/your-endpoint-url', {
+    fetch('/'+base_url+'/consent/v1/log', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -271,22 +285,3 @@ function logConsent(){
         body: JSON.stringify(userConsent)
     });
 }
-
-//function logConsent() {
-//
-//	const cookie = cc.getCookie();
-//	const preferences = cc.getUserPreferences();
-//
-//	let formData = new FormData();
-//	formData.append('consentId', cookie.consentId);
-//	formData.append('acceptType', preferences.acceptType);
-//	formData.append('acceptedCategories', preferences.acceptedCategories);
-//	formData.append('rejectedCategories', preferences.rejectedCategories);
-//	formData.append('acceptedServices', preferences.acceptedServices);
-//	formData.append('rejectedServices', preferences.rejectedServices);
-//
-//	fetch('/?api-call=cc&action=log', {
-//		method: 'POST',
-//		body: formData
-//	});
-//}
