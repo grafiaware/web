@@ -103,6 +103,8 @@ function initLoadedElements() {
     $('.ui.hide.button').click(function(){
        $('.page.modal').modal('hide');
     });
+    
+    //flyout pro zasady ochrany osobnich udaju
 
 
     //flash message

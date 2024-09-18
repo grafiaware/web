@@ -3,43 +3,43 @@ use Pes\Text\Html;
 use Pes\View\Renderer\PhpTemplateFunctionsInterface;
 /** @var PhpTemplateFunctionsInterface $this */
 ?>
-
 <style>
-        #loader {
+    /*Loader načítání stránky*/
+    #loader{
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        top: 50%;
+        left: 50%; 
+        transform: translate(-50%, -50%);
+        &::after{
+            content: '';
+            position: absolute;
             border: 12px solid #f3f3f3;
             border-radius: 50%;
             border-top: 12px solid darkred;
-            width: 70px;
-            height: 70px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
             animation: spin 1s linear infinite;
         }
-
-        .center {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
+    }
+    .spinnertext{
+        color: black;
+        position: absolute;   
+        top: 50%;
+        left: 50%; 
+        transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
         }
-        
-        .spinnertext {
-            color: black;
-            position: absolute;   
-            top:10px;
-            left:-30px;
-        }
-
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    }
+</style>
     
-    <div id="loader"  class="center">
-
-        <p class="spinnertext">waiting..</p>.
+    <div id="loader">
+        <p class="spinnertext">Načítání...</p>
     </div>
     <div id="loaded">
         <div class="ui grid centered">
