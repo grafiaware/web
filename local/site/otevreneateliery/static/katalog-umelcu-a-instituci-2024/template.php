@@ -17,7 +17,7 @@ try {
     echo "<p style=\"background-color:yellow;\">{$exc->getMessage()}</p>";
 }
 
-$volume  = array_column($katalog, 'firstLetter');
+$volume  = array_column($katalog, 'anchor');  // $volume  = array_column($katalog, 'firstLetter');
 array_multisort($volume, SORT_ASC, $katalog);
 
 //$katalogUid = $katalogGenerator->getLastKatalogUid();

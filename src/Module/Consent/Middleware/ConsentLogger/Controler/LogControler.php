@@ -21,7 +21,6 @@ class LogControler extends FrontControlerAbstract {
         $consentTimestamp = $requestParams->getParsedBodyParam($request, 'consentTimestamp', false);        
         $lastConsentTimestamp = $requestParams->getParsedBodyParam($request, 'lastConsentTimestamp', false);
         $consentLogger = $this->container->get('ConsentLogger');
-//        $consentLogger = FileLogger::getInstance('PersistentLogs', 'ConsentLogger.log', FileLogger::APPEND_TO_LOG);
         $consentLogger->info("$revison|$consentTimestamp|$lastConsentTimestamp|$consentId|$bodyContent");
         return $this->createJsonPostCreatedResponse([]);
     }
