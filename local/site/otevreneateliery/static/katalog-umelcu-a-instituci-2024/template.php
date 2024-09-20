@@ -77,7 +77,7 @@ if ($statusSecurity->getUserActions() && $statusSecurity->getUserActions()->pres
         <?=        $this->repeat(__DIR__.'/katalog-blockset.php', $chBlocks) ?>
     </div>
     <div class="ten wide column">
-        <img class="" src="@siteimages/kolaz.jpg" alt="Koláž obrazů a fotografií z akce Víkend otevřených atelierů Plzeň tvořivá" />
+        <img class="" src="@siteimages/kolaz2.jpg" alt="Koláž obrazů a fotografií z akce Víkend otevřených atelierů Plzeň tvořivá" />
     </div>
 </div>
 
