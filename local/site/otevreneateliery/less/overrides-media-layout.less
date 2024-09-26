@@ -287,11 +287,13 @@
                 display: none;
             }
         }
-        .blok_text_obrazek .obrazky_inline {
-            img{
-                height: auto !important;
+        .profil-oa, .podprofil-oa{
+            .obrazky_inline {
+                img{
+                    height: auto !important;
+                }
             }
-        }
+        } 
     } 
     body #mySidenav.editMenu{
         display: none;
@@ -442,15 +444,17 @@
 }
 @media screen and (max-width: 600px){
     body{
-        .blok_text_obrazek .obrazky_inline {
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            img{
-                height: auto !important;
-                width: 80%;
+        .profil-oa, .podprofil-oa{
+            .obrazky_inline {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                img{
+                    height: auto !important;
+                    width: 80%;
+                }
             }
-        }
+        } 
         .klic-img{
             width: 83px;
             top: 24px;
