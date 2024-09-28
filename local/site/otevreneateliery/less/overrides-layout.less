@@ -141,7 +141,10 @@ body{
         //width: 25%;
         position: sticky; 
         top: 0;
-        background-image: url('@{imgForSite}voaPozadi.jpg');
+/*        background-image: url('@{imgForSite}voaPozadi.jpg');*/
+        background-repeat: round;
+        background: url('@{imgForSite}voaPozadi.jpg'), radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.99) 59%, rgba(0, 0, 0, 0.13) 75%);
+        background-blend-mode: lighten;
         //animation: zmenaObr 2s both; 
         img{
             margin: 10px auto;
