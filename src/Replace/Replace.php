@@ -36,6 +36,8 @@ class Replace implements ReplaceInterface {
             '@commonmovies/'           => ConfigurationCache::files()['@commonmovies'],
             '@siteimages/'             => ConfigurationCache::files()['@siteimages'],
             '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
+            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
+            '@sitereduploads/'             => ConfigurationCache::files()['@sitereduploads'],
             '@presenter'               => ConfigurationCache::files()['@presenter'],
         );
 
