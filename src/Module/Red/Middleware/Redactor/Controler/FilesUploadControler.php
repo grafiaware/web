@@ -17,6 +17,7 @@ use Pes\Http\Factory\ResponseFactory;
 
 use Exception;
 use Pes\Utils\Exception\CreateDirectoryFailedException;
+use Pes\Http\Exception\UploadException;
 use FrontControler\Exception\UploadFileException;
 
 /**

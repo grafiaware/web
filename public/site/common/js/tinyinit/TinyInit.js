@@ -236,6 +236,15 @@ var editHtmlConfig = {
     /* and here's our custom image picker */
     file_picker_callback: filePickerCallback,
     images_upload_handler: redImageUploadHandler,
+    
+    video_template_callback: (data) =>
+    `<video width="${data.width}" height="${data.height}"${data.poster ? ` poster="${data.poster}"` : ''} controls="controls">\n` +
+    `<source src="${data.source}"${data.sourcemime ? ` type="${data.sourcemime}"` : ''} />\n` +
+    (data.altsource ? `<source src="${data.altsource}"${data.altsourcemime ? ` type="${data.altsourcemime}"` : ''} />\n` : '') +
+    '</video>',
+    
+    
+    
     /* callback that will be executed before the TinyMCE editor instance is rendered */
     setup: redEditorSetup
 };

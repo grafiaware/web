@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/deployphp/deployer.git",
-                "reference": "15ce6fed793c021fb2db0c87c8b8c4646b543503"
+                "reference": "70e27b4219655f55b6f81cf17582dac13a54647f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/deployphp/deployer/zipball/15ce6fed793c021fb2db0c87c8b8c4646b543503",
-                "reference": "15ce6fed793c021fb2db0c87c8b8c4646b543503",
+                "url": "https://api.github.com/repos/deployphp/deployer/zipball/70e27b4219655f55b6f81cf17582dac13a54647f",
+                "reference": "70e27b4219655f55b6f81cf17582dac13a54647f",
                 "shasum": ""
             },
             "require": {
@@ -77,7 +77,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-17T08:54:36+00:00"
+            "time": "2024-10-03T15:41:03+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -439,12 +439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "f2d1467c73ac6dd967bafb8693224bd865cf7635"
+                "reference": "fc4b74b0f005b0754e195b849f4e52e2e9dd199f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/f2d1467c73ac6dd967bafb8693224bd865cf7635",
-                "reference": "f2d1467c73ac6dd967bafb8693224bd865cf7635",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/fc4b74b0f005b0754e195b849f4e52e2e9dd199f",
+                "reference": "fc4b74b0f005b0754e195b849f4e52e2e9dd199f",
                 "shasum": ""
             },
             "require": {
@@ -489,7 +489,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master"
             },
-            "time": "2024-10-03T09:19:31+00:00"
+            "time": "2024-10-08T08:53:26+00:00"
         },
         {
             "name": "phar-io/manifest",
