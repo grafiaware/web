@@ -25,6 +25,6 @@
                 </div>
 
                 <div class="one wide mobile two wide tablet two wide computer two wide large screen two wide widescreen column">
-                    <div class="fix-bar no-fix"></div>
+                    <div class="fix-bar"></div>
                     <img class="klic-img" src="layout-images/klicPrilezitosti2.png" alt="Klíč k příležitostem" height="504" width="212" />
                 </div>

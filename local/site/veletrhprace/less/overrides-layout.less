@@ -53,7 +53,6 @@
                 background-color: transparent;
                 > .user.icon, .address.card.icon{
                     color: @invertedTextColor;
-                    //font-size: 1.45em;
                     opacity: 1;
                     &:hover{
                         opacity: 0.8 ;
@@ -78,13 +77,9 @@
                 }
                 input{
                     border: 1px solid @lightGrey !important;
-                    //font-size: 0.8em;
                 }
                 button.fluid{
-                    //margin: 5px 0;
-                   // font-size: 0.8em;
                     &.tertiary{
-                        //font-size: 0.62em;
                         &:hover{
                             box-shadow: 0 0;
                             text-decoration: underline;
@@ -95,16 +90,9 @@
                     top: -15px;
                 }
             }
-            .ui.left.pointing.dropdown:not(.top) > .menu{
-                //top: -145px;
-            }
-            .ui.left.pointing.dropdown:not(.top) > .menu::after{
-                //top: 175px;
-            }
             .logout{
                 i.sign.out.icon{
                     color: @invertedTextColor;
-                    //font-size: 2em;
                     opacity: 1;
                     &:hover{
                         opacity: 0.8 ;
@@ -112,7 +100,6 @@
                 }
                 i.user.circle.icon{
                     color: @invertedTextColor;
-                    //font-size: 1.2em;
                     opacity: 1;
                     &:hover{
                         opacity: 0.8 ;
@@ -121,31 +108,23 @@
                 .profil-ikona{
                     text-align: center;
                 }
-                .dropdown .header.item{
-                    //font-size: 1.3em;
-                }
             }
             > form{ //v tomhle formu je tlacitko Akce
                 > div.icon{
                     color: @invertedTextColor;
-                    //font-size: 1.8em ;
                     opacity: 1;
                     padding: 7px;
 
                 }
                 label{
                     color: @textColor !important;
-                    //font-size: 0.7em;
                     font-weight: 400;
                 }
             }
             button:not(.fluid){
                 position: relative;
-                //left: 10%;
-                //font-size: 1.2em;
                 &.positive{
                     left: 6%;
-                    //font-size: 0.92em;
                     padding-top: 0.6em;
                     padding-bottom: 0.6em;
                 }
@@ -251,12 +230,9 @@
     .column .fix-bar .svisle-menu .menu{
         li:not(.leaf) > a > .chevron-icon::before{
             content: "\f078";
-          //  height: 1em;
-          //  width: 1.18em;
             font-family: Icons;
             font-weight: 400;
             font-style: normal;
-           // font-size: 1em;
             text-align: center;
             margin: 0 0 0 .5em;
             position: absolute;
@@ -362,7 +338,7 @@
                 position: absolute;
                 left: 30px;
                 top: -4px;
-                content: ' ';
+                content: "";
                 height: 70px;
                 width: 3px;
                 background-color: @invertedTextColor
@@ -387,10 +363,6 @@
             position: relative; 
         }
     }
-    .svisle-menu:first-child {
-       // display: none;
-    }
-    
     @-webkit-keyframes animateleft {
       from {
         left: -300px;
@@ -464,10 +436,6 @@
             }
         }
     }
-    /*flash message*/
-    .small.toast{ 
-       // font-size: 1.3rem;
-    }
     //smazat až bude accordion v menu jen v editacnim rezimu
     .accordion.border{
         border: 1px solid #FFFFFF96;
@@ -481,19 +449,8 @@
             }
         }
     }
-/*    article{
-        padding-left: 1rem;
-        padding-right: 1.4rem;
-        margin: 10px 10px 30px;
-    }*/
-/*    .editable article.mce-content-body:not(.mce-edit-focus), 
-    .editable article .mce-content-body:not(.mce-edit-focus){
-        margin: 3rem;
-        padding: 0;
-    }*/
 }
 body#tinymce{
-   // font-size: 24px;
     font-weight: 400;
 }
 
@@ -501,7 +458,6 @@ body#tinymce{
 .button-edit-menu{
     top: 0;
     position: relative;
-    //left: 94%;
     float:right;
     right: 15px;
 }
