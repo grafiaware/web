@@ -16,14 +16,14 @@ namespace Site;
 //use Site\NajdiSi as Siteconfig;
 //const SITE_PATH = 'app/Site/NajdiSi/';
 
-use Site\OtevreneAteliery as Siteconfig;
-const SITE_PATH = 'app/Site/OtevreneAteliery/';
+//use Site\OtevreneAteliery as Siteconfig;
+//const SITE_PATH = 'app/Site/OtevreneAteliery/';
 
 //use Site\TydenZdravi as Siteconfig;
 //const SITE_PATH = 'app/Site/TydenZdravi/';
 
-//use Site\VeletrhPrace as Siteconfig;
-//const SITE_PATH = 'app/Site/VeletrhPrace/';
+use Site\VeletrhPrace as Siteconfig;
+const SITE_PATH = 'app/Site/VeletrhPrace/';
 
 #
 ###########################################################################
