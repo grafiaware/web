@@ -7,10 +7,10 @@
         <?php include "head/icon.php"; ?>
         <?php include "head/css.php"; ?>
         <?php include "head/scripts.php"; ?>
-    </head>
+    </head> 
     <body class="layout">
         <?php include "body/container.php"; ?>
         <?php include "body/scripts.php"; ?>
-    </body>
+    </body>   
 </html>
 

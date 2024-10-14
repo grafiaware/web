@@ -38,3 +38,4 @@ main a:not(.item):not(.button):not(.link-img):not(.image),
         transform: translateX(-100%);
     }
 }
+
