@@ -126,7 +126,7 @@ class SelectorItems {
                     //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
                     new SecurityStatus(),
                     new Login(),
-//                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new LoggedAccess(new LoggedAccessor($this->app)),
                     new Build()
                 ];},
             '/consent'=>

@@ -123,8 +123,11 @@ class ConfigurationRed extends ConfigurationConstants {
                     [ 'title' => 'template paper carousel', 'description' => 'popis',       'url' => 'red/v1/papertemplate/carouselForPaper'],
                 ],
                 'author' => [
-                    [ 'title' => 'Profil OA', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/umelec'],
-                    [ 'title' => 'Podprofil OA', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/umelec_vnoreny'],
+                    [ 'title' => 'Profil umělce', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/profil_umelce'],
+                    [ 'title' => 'Profil instituce', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/profil_instituce'],
+                    [ 'title' => 'Profil místa', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/profil_mista'],
+                    [ 'title' => 'Podprofil umělec', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/podprofil_umelec'],
+                    [ 'title' => 'Podprofil instituce', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/podprofil_instituce'],
                     [ 'title' => 'Kontakt', 'description' => 'Grafia web - kontakt',       'url' => 'red/v1/authortemplate/contact'],
                     [ 'title' => 'Publikace - novinka', 'description' => 'Grafia web - publikace',   'url' => 'red/v1/authortemplate/eshop_new'],
                     [ 'title' => 'Publikace - 2', 'description' => 'Vložení publikací na stránku', 'url' => 'red/v1/authortemplate/eshop_row'],
