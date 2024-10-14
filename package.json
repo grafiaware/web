@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "fomantic-ui": "^2.9.2",
+    "fomantic-ui": "^2.9.3",
     "vanilla-cookieconsent": "^3.0.1"
   }
 }
