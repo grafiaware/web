@@ -25,7 +25,6 @@ use Events\Model\Repository\LoginRepo;
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Hydrator\RepresentativeHydrator;
 use Events\Model\Repository\RepresentativeRepo;
-use Events\Model\Entity\Representative;
 
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
@@ -38,32 +37,26 @@ use Events\Model\Repository\EventRepo;
 use Events\Model\Dao\EventContentTypeDao;
 use Events\Model\Hydrator\EventContentTypeHydrator;
 use Events\Model\Repository\EventContentTypeRepo;
-use Events\Model\Entity\EventContentType;
 
 use Events\Model\Dao\EventContentDao;
 use Events\Model\Hydrator\EventContentHydrator;
 use Events\Model\Repository\EventContentRepo;
-use Events\Model\Entity\EventContent;
 
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Hydrator\EventLinkPhaseHydrator;
 use Events\Model\Repository\EventLinkPhaseRepo;
-use Events\Model\Entity\EventLinkPhase;
 
 use Events\Model\Dao\EventLinkDao;
 use Events\Model\Hydrator\EventLinkHydrator;
 use Events\Model\Repository\EventLinkRepo;
-use Events\Model\Entity\EventLink;
 
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Hydrator\InstitutionHydrator;
 use Events\Model\Repository\InstitutionRepo;
-use Events\Model\Entity\Institution;
 
 use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
-use Events\Model\Entity\InstitutionType;
 
 use Events\Model\Hydrator\InstitutionTypeChildHydrator;
 use Events\Model\Repository\Association\InstitutionsAssociation;
@@ -72,44 +65,34 @@ use Events\Model\Repository\InstitutionTypeAggregateInstitutionRepo;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Hydrator\CompanyHydrator;
 use Events\Model\Repository\CompanyRepo;
-use Events\Model\Entity\Company;
-
 
 use Events\Model\Dao\CompanyAddressDao;
 use Events\Model\Hydrator\CompanyAddressHydrator;
 use Events\Model\Repository\CompanyAddressRepo;
-use Events\Model\Entity\CompanyAddress;
-
 
 use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Hydrator\CompanyContactHydrator;
 use Events\Model\Repository\CompanyContactRepo;
-use Events\Model\Entity\CompanyContact;
 
 use Events\Model\Dao\JobDao;
 use Events\Model\Hydrator\JobHydrator;
 use Events\Model\Repository\JobRepo;
-use Events\Model\Entity\Job;
 
 use Events\Model\Dao\JobToTagDao;
 use Events\Model\Hydrator\JobToTagHydrator;
 use Events\Model\Repository\JobToTagRepo;
-use Events\Model\Entity\JobToTag;
 
 use Events\Model\Dao\JobTagDao;
 use Events\Model\Hydrator\JobTagHydrator;
 use Events\Model\Repository\JobTagRepo;
-use Events\Model\Entity\JobTag;
 
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Hydrator\PozadovaneVzdelaniHydrator;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
-use Events\Model\Entity\PozadovaneVzdelani;
 
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
 use Events\Model\Repository\VisitorJobRequestRepo;
-use Events\Model\Entity\VisitorJobRequest;
 
 use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Hydrator\VisitorProfileHydrator;
@@ -118,7 +101,6 @@ use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepo;
-use Events\Model\Entity\Document;
 
 use Events\Middleware\Events\ViewModel\JobViewModel;
 use Events\Middleware\Events\ViewModel\RepresentativeViewModel;

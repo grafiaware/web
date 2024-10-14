@@ -362,7 +362,7 @@ class JobControler extends PresentationFrontControlerAbstract {
 
                 
                 /** @var JobTagInterface $tag */
-                $tag = $this->container->get(JobTag::class); //new       
+                $tag = new JobTag(); //new       
 
                 $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );              
                 $this->jobTagRepo->add($tag);             
@@ -488,8 +488,9 @@ class JobControler extends PresentationFrontControlerAbstract {
 
                 
                 /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
-                $pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
-                //$pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
+                //$pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
+                
+                $pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
 
                 $pozadovaneVzdelani->setStupen((new RequestParams())->getParsedBodyParam($request, 'stupen') );
                 $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
