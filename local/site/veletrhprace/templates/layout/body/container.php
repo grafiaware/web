@@ -43,7 +43,6 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
     </div>
     <div id="loaded">
         <div class="ui grid">
-            <div class="sixteen wide mobile fourteen wide tablet eleven wide computer eleven wide large screen eleven wide widescreen column">
             <div class="row">
                 <?php $isMenuEditableMode=false; ?>
                 <?= $this->insertIf( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', $context); ?>
@@ -56,7 +55,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                     <footer>
                         <span id="kontakty"></span>
                         <?php include "container/paticka.php"; ?>
-                        
+
                     </footer>
                 </div>
             </div>
