@@ -79,7 +79,7 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     <div class="ui styled fluid accordion">   
         
         Vyžaduje přihlášení representanta. <br/>
-            Vystavovatel (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
+            Firma (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Nabízené pracovní pozice 

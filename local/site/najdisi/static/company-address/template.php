@@ -56,11 +56,10 @@ use Events\Model\Entity\CompanyAddressInterface;
     <div class="ui styled fluid accordion">
         
         Vyžaduje přihlášení. <br/>        
-            Vystavovatel (company): |* <?= $company->getName(); ?> *|                   
+            Firma (company): |* <?= $company->getName(); ?> *|                   
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Adresa vystavovatele
-            </div>                        
+                Adresa firmy     
             <div class="active content">      
                 <?= $this->insert(__DIR__.'/company-address.php',  $companyAddress)  ?>          
             </div>                

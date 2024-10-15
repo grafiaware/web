@@ -17,7 +17,7 @@ use Pes\Text\Html;
 
             <div class="two fields ">                        
                 <div class="field">
-                <label>Jméno vystavovatele v adrese</label>
+                <label>Jméno firmy (pro adresu)</label>
                     <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="100" minlength="1" required value="<?= isset($name)?  $name : '' ?>">
                  </div>  
                 <div class="field">

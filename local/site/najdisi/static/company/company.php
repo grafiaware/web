@@ -17,13 +17,14 @@ use Pes\Text\Html;
 
             <div class="two fields">                        
                 <div class="field">
-                <label>Jméno vystavovatele</label>
+                <label>Název firmy</label>
                     <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="250" value="<?= isset($name)?  $name : '' ?>">
                  </div>  
-                <div class="field">
+<!--                <div class="field">
                     <label>E-eventInstitutionName30</label>
-                    <input <?= $readonly ?> type="text" name="eventInstitutionName30" placeholder="" maxlength="30" value="<?= isset($eventInstitutionName30)?  $eventInstitutionName30 : ''  ?>">
-                </div>
+                    <input $readonly  type="text" name="eventInstitutionName30" placeholder="" maxlength="30" 
+                                            value=" isset($eventInstitutionName30)?  $eventInstitutionName30 : ''   ">
+                </div>-->
             </div>                
 
                 <?php
@@ -37,7 +38,7 @@ use Pes\Text\Html;
                      ?>                                                                                                                             
                     <?=
                     isset($companyId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/remove' > Odstranit vystavovatele </button>" :
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/remove' > Odstranit firmu </button>" :
                     "" ;
                     ?>                                                                                                         
                 </div>

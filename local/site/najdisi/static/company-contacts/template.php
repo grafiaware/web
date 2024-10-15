@@ -58,17 +58,17 @@ use Events\Model\Repository\RepresentativeRepo;
     <div class="ui styled fluid accordion">   
             
         Vyžaduje přihlášení. <br/>
-            Vystavovatel (company): |* <?= $company->getName(); ?> *|
+            Firma (company): |* <?= $company->getName(); ?> *|
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Kontakty vystavovatele 
+                Kontakty firmy
             </div>                        
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/company-contact.php',  $companyContacts)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další kontakt vystavovatele
+                    Přidej další kontakt firmy
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company-contact.php', ['companyId' => $idCompany] ) ?>                                                                                 
