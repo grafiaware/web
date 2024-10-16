@@ -23,8 +23,7 @@ use Pes\Text\Html;
                     <div class="two fields">
                         <div class="field">
                             <label>Přihlašovací jméno</label>
-                            <input <?= $readonly ?> type="text" name="logNameRepresentative" placeholder="" maxlength="90" 
-                                                                value="<?= $logNameRepresentative ?>">
+                            <input <?= $readonly ?> type="text" name="logNameRepresentative" placeholder="" maxlength="90" value="<?= $logNameRepresentative ?>">
                         </div>
                         <div class="field">
                             <label>Zastupuje</label>

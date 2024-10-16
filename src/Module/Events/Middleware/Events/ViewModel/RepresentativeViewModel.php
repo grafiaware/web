@@ -38,18 +38,18 @@ class RepresentativeViewModel {
      * @param type $idCompany
      * @return RepresentativeInterface|null
      */
-    public function getRepresentative($loginName, $companyName): ?RepresentativeInterface {
+    public function isRepresentative($loginName, $companyName): ?RepresentativeInterface {
         $company = $this->companyRepo->getByName($companyName);
         return isset($company) ? $this->representativeRepo->get($loginName, $company->getId()) : null;
     }
     
     /**
      * 
-     * @param RepresentativeInterface $representative
+     * @param string $idCompany
      * @return CompanyInterface|null
      */
-    public function getRepresentativeCompany(RepresentativeInterface $representative): ?CompanyInterface {
-        return $this->companyRepo->get($representative->getCompanyId());      
+    public function getRepresentativeCompany($idCompany): ?CompanyInterface {
+        return $this->companyRepo->get($idCompany);      
     }
     
     /**
@@ -62,7 +62,7 @@ class RepresentativeViewModel {
         foreach  ($allCompanyObjects as $company) {
             $allCompanyArr [$company->getName()] =  ['id' => $company->getId(),
                                                      'name' => $company->getName(),
-                                                     'eventInstitutionName30' => $company->getEventInstitutionName30() ];
+                                                    ];
         }
         //return  $allCompanyArr;
         return $allCompanyObjects;

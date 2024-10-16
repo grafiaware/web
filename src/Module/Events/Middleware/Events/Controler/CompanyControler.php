@@ -133,9 +133,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 /** @var CompanyInterface $company */
                 $company = $this->container->get(Company::class); //new $company                             
                 // POST formularovadata
-                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $company->setEventInstitutionName30( (new RequestParams())->getParsedBodyParam($request, 'eventInstitutionName30') );              
-                
+                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
                 $this->companyRepo->add($company);
                 
 //            } else {
@@ -179,9 +177,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 /** @var CompanyInterface $company */
                 $company = $this->companyRepo->get( $idCompany );                
                 // POST formularovadata
-                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $company->setEventInstitutionName30( (new RequestParams())->getParsedBodyParam($request, 'eventInstitutionName30') );                                                     
-                
+                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
 //            } else {
 //                $this->addFlashMessage("Údaje o ... smí editovat pouze representant vystavovatele.");
 //            }            

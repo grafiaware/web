@@ -50,7 +50,7 @@ if (isset($loginAggregate)) {
         /** @var RepresentativeViewModel $representativeViewModel */
         $representativeViewModel = $container->get(RepresentativeViewModel::class );
         $companyEntity = $representativeViewModel->getRepresentativeCompany($representativeEntity);
-        $representativeEntity = $representativeViewModel->getRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
+        $representativeEntity = $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
         if (isset($representativeEntity)) {  
             $isRepresentative = true;
         }
@@ -82,7 +82,6 @@ if (isset($loginAggregate)) {
             'logNameRepresentative' =>  $representativeEntity->getLoginLoginName(),
             'idCompany' =>  $companyEntity->getId(),
             'nameCompany' =>  $companyEntity->getName(),
-            'eventInstitutionNameCompany' =>  $companyEntity->getEventInstitutionName30(),                        
             ];            
         $representativeContext ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail                            
         $companyNameZPresenterPerson = $representativeContext['nameCompany'];                    
@@ -91,28 +90,28 @@ if (isset($loginAggregate)) {
         //----------------------------pro company z PresenterPerson vypsat vsechny companyContact -----------------
         $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany' => $idCompanyZPresenterPerson ] );
         $companyContacts=[];
-        foreach ($companyContactEntities as $cntct) {
-            /** @var CompanyContactInterface $cntct */
+        foreach ($companyContactEntities as $companyContact) {
+            /** @var CompanyContactInterface $companyContact */
             $companyContacts[] = [
-                'companyContactId' => $cntct->getId(),
-                'companyId' => $cntct->getCompanyId(),
-                'name' =>  $cntct->getName(),
-                'phones' =>  $cntct->getPhones(),
-                'mobiles' =>  $cntct->getMobiles(),
-                'emails' =>  $cntct->getEmails()
+                'companyContactId' => $companyContact->getId(),
+                'companyId' => $companyContact->getCompanyId(),
+                'name' =>  $companyContact->getName(),
+                'phones' =>  $companyContact->getPhones(),
+                'mobiles' =>  $companyContact->getMobiles(),
+                'emails' =>  $companyContact->getEmails()
                 ];
         }
         //----------------------- pro tuto company vypsat companyAddress
         $companyAddress=[];
-        /** @var CompanyAddressInterface $companyAddressEntity */
-        $companyAddressEntity = $companyAddressRepo->get( $idCompanyZPresenterPerson );
-        if ($companyAddressEntity) {
+        /** @var CompanyAddressInterface $companyAddress */
+        $companyAddress = $companyAddressRepo->get( $idCompanyZPresenterPerson );
+        if ($companyAddress) {
             $companyAddress = [
-                'companyId'=> $companyAddressEntity->getCompanyId(),
-                'name'   => $companyAddressEntity->getName(),
-                'lokace' => $companyAddressEntity->getLokace(),
-                'psc'    => $companyAddressEntity->getPsc(),
-                'obec'   => $companyAddressEntity->getObec()
+                'companyId'=> $companyAddress->getCompanyId(),
+                'name'   => $companyAddress->getName(),
+                'lokace' => $companyAddress->getLokace(),
+                'psc'    => $companyAddress->getPsc(),
+                'obec'   => $companyAddress->getObec()
                 ];                                                                                                                                                                                                                                                                                                                                                                                                                                      
         }
         else {

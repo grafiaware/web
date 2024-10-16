@@ -32,15 +32,15 @@ use Events\Model\Entity\CompanyAddressInterface;
     if ( isset($company) ) {       
             
         $companyAddress=[];
-        /** @var CompanyAddressInterface $companyAddressEntity */
-        $companyAddressEntity = $companyAddressRepo->get($idCompany);
-        if ($companyAddressEntity) {           
+        /** @var CompanyAddressInterface $companyAddress */
+        $companyAddress = $companyAddressRepo->get($idCompany);
+        if ($companyAddress) {           
             $companyAddress = [
                 'companyId'=> $idCompany,
-                'name'   => $companyAddressEntity->getName(),
-                'lokace' => $companyAddressEntity->getLokace(),
-                'psc'    => $companyAddressEntity->getPsc(),
-                'obec'   => $companyAddressEntity->getObec()
+                'name'   => $companyAddress->getName(),
+                'lokace' => $companyAddress->getLokace(),
+                'psc'    => $companyAddress->getPsc(),
+                'obec'   => $companyAddress->getObec()
                 ];
         }    
         else {
