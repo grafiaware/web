@@ -43,6 +43,7 @@ use Status\Model\Repository\StatusFlashRepo;
 
 // viewmodel
 use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface; //alias
 
 // login aggregate ze session - přihlášený uživatel
 use Auth\Model\Entity\LoginAggregateFullInterface;
@@ -79,6 +80,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             CredentialsInterface::class => Credentials::class,
             RouterInterface::class => Router::class,
             ResourceRegistryInterface::class => ResourceRegistry::class,
+            StatusViewModelInterface::class => StatusViewModel::class,
         ];
     }
 

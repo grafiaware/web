@@ -1,6 +1,8 @@
 <?php
 namespace Events\Middleware\Events\ViewModel;
 
+use Component\ViewModel\StatusViewModelInterface;
+
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\JobToTagRepoInterface;
@@ -189,7 +191,12 @@ class JobViewModel {
     6 => 'VOŠ / Bc.',
     7 => 'VŠ',
 ];
-  
+    /**
+     * 
+     * @var StatusViewModelInterface
+     */
+    private $statusViewModel;
+    
     /**
      * @var JobRepoInterface
      */
@@ -212,12 +219,16 @@ class JobViewModel {
 
     
     public function __construct(
+            StatusViewModelInterface $statusViewModel,
+            
 //            CompanyRepoInterface $companyRepo,
             JobRepoInterface $jobRepo,
             JobToTagRepoInterface $jobToTagRepo,
             JobTagRepoInterface $jobTagRepo,
             PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
         ) {
+        $this->statusViewModel = $statusViewModel;
+        
 //        $this->companyRepo = $companyRepo;
         $this->jobRepo = $jobRepo;
         $this->jobToTagRepo = $jobToTagRepo;

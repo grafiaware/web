@@ -49,7 +49,7 @@ if (isset($loginAggregate)) {
     if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']))  {
         /** @var RepresentativeViewModel $representativeViewModel */
         $representativeViewModel = $container->get(RepresentativeViewModel::class );
-        $companyEntity = $representativeViewModel->getRepresentativeCompany($representativeEntity);
+        $companyEntity = $representativeViewModel->getRepresentativesList($representativeEntity);
         $representativeEntity = $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
         if (isset($representativeEntity)) {  
             $isRepresentative = true;

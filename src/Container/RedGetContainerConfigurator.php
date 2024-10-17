@@ -112,7 +112,7 @@ use Red\Component\View\Generated\SearchResultComponent;
 use Red\Component\View\Manage\EditContentSwitchComponent;
 
 // viewModel
-use Component\ViewModel\StatusViewModel;  // pro službu delegáta - app kontejner
+use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - StatusViewModel definován v app kontejneru
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;  // enum pro typ položek menu
 use Red\Component\ViewModel\Menu\MenuViewModel;
 use Red\Component\ViewModel\Menu\LevelViewModel;

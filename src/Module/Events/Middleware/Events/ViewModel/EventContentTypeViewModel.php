@@ -1,6 +1,7 @@
 <?php
 namespace Events\Middleware\Events\ViewModel;
 
+use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\EventContentTypeRepoInterface;
 
 /**
@@ -10,9 +11,19 @@ use Events\Model\Repository\EventContentTypeRepoInterface;
  */
 class EventContentTypeViewModel {
     
+    /**
+     * 
+     * @var StatusViewModelInterface
+     */
+    private $statusViewModel;
+    
     private $eventContentTypeRepo;
 
-    public function __construct(EventContentTypeRepoInterface $eventContentTypeRepo) {
+    public function __construct(
+            StatusViewModelInterface $statusViewModel,
+            EventContentTypeRepoInterface $eventContentTypeRepo) {
+        $this->statusViewModel = $statusViewModel;
+        
         $this->eventContentTypeRepo = $eventContentTypeRepo;
     }
 

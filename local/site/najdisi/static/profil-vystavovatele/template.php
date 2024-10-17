@@ -6,6 +6,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\ConfigurationCache;
 
+use Component\ViewModel\StatusViewModelInterface;
+
 use Status\Model\Repository\StatusSecurityRepo;
 
 use Status\Model\Entity\StatusSecurity;
@@ -27,6 +29,9 @@ use Pes\Text\Text;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModelInterface::class);
+
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurity $statusSecurity */
@@ -42,14 +47,23 @@ $isRepresentative = false;
 //######################     natvrdo zvoleny vystavovatel
 $idCompanyVystavovatele = 10;       // tato stranka musi byt dostupna jen z odkazu na strance firmy (vystavovatele), součástí odkazu pak musí být company name (nebo id)
 //######################
-    
+    if ($statusViewModel->isUserLoggedIn() AND $statusViewModel->getUserRole()==ConfigurationCache::loginLogoutController()['roleRepresentative']) {
+        /** @var RepresentativeViewModel $representativeViewModel */
+        $representativeViewModel = $container->get(RepresentativeViewModel::class );
+        $representativeViewModel->
+        
+        $representativeEntity = $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
+        if (isset($representativeEntity)) {  
+            $isRepresentative = true;
+        }        
+    }
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
+    $role = $loginAggregate->getCredentials()->getRoleFk();
     if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']))  {
         /** @var RepresentativeViewModel $representativeViewModel */
         $representativeViewModel = $container->get(RepresentativeViewModel::class );
-        $companyEntity = $representativeViewModel->getRepresentativeCompany($idCompanyVystavovatele);
+        $companyEntity = $representativeViewModel->getRepresentativesList($idCompanyVystavovatele);
         $representativeEntity = $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
         if (isset($representativeEntity)) {  
             $isRepresentative = true;
