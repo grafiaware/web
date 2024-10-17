@@ -52,6 +52,17 @@ use Pes\Text\Html;
                     ?>                                                                                                         
                 </div>
             
+                <div>
+                    <?=
+                     isset($companyId   proAddress) ?
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyId. "' > Uložit </button>" :
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress' > Přidat adresu </button>" ;
+                    ?>                                                                                                                             
+                      
+                  
+                </div>
+            
+            
                 
                 <?php
                 }

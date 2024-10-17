@@ -134,7 +134,6 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $company = new Company();//new $company 
                 // POST formularovadata
                 $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $company->setEventInstitutionName30( (new RequestParams())->getParsedBodyParam($request, 'eventInstitutionName30') );              
                 
                 $this->companyRepo->add($company);
                 
@@ -180,7 +179,6 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $company = $this->companyRepo->get( $idCompany );                
                 // POST formularovadata
                 $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $company->setEventInstitutionName30( (new RequestParams())->getParsedBodyParam($request, 'eventInstitutionName30') );                                                     
                 
 //            } else {
 //                $this->addFlashMessage("Údaje o ... smí editovat pouze representant vystavovatele.");
@@ -263,7 +261,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                         
             if ($isRepresentative) {
                 /** @var CompanyContactInterface $companyContact */
-                $companyContact = $this->container->get(CompanyContact::class); //new $companyContact
+                $companyContact = new CompanyContact(); //new $companyContact
                 
                 // POST formularova data
                 $companyContact->setCompanyId($idCompany);
@@ -394,7 +392,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
             return $response->withStatus(401);  // Unaathorized
         } else {  
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk(); 
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
                             AND  $this->representativeRepo->get($loginName, $idCompany) )  {

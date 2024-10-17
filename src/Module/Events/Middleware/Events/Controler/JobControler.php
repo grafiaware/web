@@ -324,7 +324,7 @@ class JobControler extends PresentationFrontControlerAbstract {
                 }                                                                
                 
             } else {
-                $this->addFlashMessage("Údaje o typech nabízených pozic smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o typech nabízených pozic smí editovat pouze representant firmy.");
             }
             
         }
