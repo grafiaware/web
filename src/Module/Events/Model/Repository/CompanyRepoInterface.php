@@ -25,9 +25,10 @@ interface CompanyRepoInterface  extends RepoInterface  {
     public function getByName($name): ?CompanyInterface;    
     
     /**
+     *
+     * @param string $whereClause Příkaz where v SQL syntaxi vhodné pro PDO, s placeholdery
+     * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkazu where
      * 
-     * @param type $whereClause
-     * @param type $touplesToBind
      * @return CompanyInterface[]
      */
     public function find($whereClause="", $touplesToBind=[]): array;

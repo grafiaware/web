@@ -52,7 +52,7 @@ class ItemActionControler extends FrontControlerAbstract {
         $interval = new DateInterval(ConfigurationCache::itemActionControler()['timeout']);
         try {
             $newItemAction = $this->itemActionService->refreshItemActionsAndCreateNew($interval, $itemId, $loginName);  // uložení do repo, vyhodí výjimku, pokud jiný editor upravuje item
-            $statusSecurity->getUserActions()->addItemAction($newItemAction);
+            $statusSecurity->getEditorActions()->addItemAction($newItemAction);
             $this->addFlashMessage("Zahájena úprava položky (item) $itemId.", FlashSeverityEnum::INFO);
         } catch (UnableToAddItemActionForItemException $e) {
             $activeEditor = $this->itemActionService->getActiveEditor($itemId);
@@ -67,7 +67,7 @@ class ItemActionControler extends FrontControlerAbstract {
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginName = $statusSecurity->getLoginAggregate()->getLoginName();
         $this->itemActionService->remove($itemId, $loginName);  // odstranění z repo
-        $statusSecurity->getUserActions()->removeItemAction($itemId);
+        $statusSecurity->getEditorActions()->removeItemAction($itemId);
         $this->addFlashMessage("Ukončena úprava položky (item $itemId)", FlashSeverityEnum::INFO);
 //        return $this->createJsonPutNoContentResponse(["refresh"=>"closest"], 200);
         //TODO: POST version        

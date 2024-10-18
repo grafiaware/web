@@ -14,8 +14,6 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
     private $id; //NOT NULL
     
     private $name;
-    private $eventInstitutionName30;
-
    
     public function getId()  {
         return $this->id;
@@ -27,13 +25,7 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
     public function getName()  {
         return $this->name;
     }
-    /**
-     *
-     * @return string|null
-     */
-    public function getEventInstitutionName30()  {
-        return $this->eventInstitutionName30;
-    }
+
     /**
      *
      * @param type $id
@@ -52,15 +44,5 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
         $this->name = $name;
         return $this;
     }
-    /**
-     *
-     * @param string $eventInstitutionName30
-     * @return CompanyInterface
-     */
-    public function setEventInstitutionName30(  $eventInstitutionName30 ) :CompanyInterface {
-        $this->eventInstitutionName30 = $eventInstitutionName30;
-        return $this;
-    }
-
 }
 

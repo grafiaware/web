@@ -190,9 +190,16 @@ abstract class RepoAbstract {
         return $this->recreateEntityByRowData($rowData);
     }
 
-    protected function findEntities($whereClause="", $touplesToBind=[]) {
+    /**
+     * 
+     * @param string $whereClause Příkaz where v SQL syntaxi vhodné pro PDO, s placeholdery
+     * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkazu where
+     * 
+     * @return array
+     */
+    protected function findEntities($whereClause="", $touplesToBind=[]): array {
         return $this->recreateEntitiesByRowDataArray($this->dataManager->find($whereClause, $touplesToBind));
-   }
+    }
 
     /**
      * Pro konkrétní metodu konkrétního repository

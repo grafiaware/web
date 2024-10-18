@@ -33,6 +33,21 @@ interface RepresentativeRepoInterface  extends RepoInterface  {
      * @return RepresentativeInterface[]
      */
     public function find($whereClause="", $touplesToBind=[]): array;
+
+    /**
+     *
+     * @param string $companyId
+     * @return RepresentativeInterface[]
+     */
+    public function findByCompany($companyId) : array;
+
+    /**
+     * 
+     * @param string $loginName
+     * @return RepresentativeInterface[]
+     */
+    public function findByLoginName($loginName) : array;
+
     
     /**
      * 

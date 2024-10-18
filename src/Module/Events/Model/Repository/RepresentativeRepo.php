@@ -36,8 +36,9 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
 
     /**
      *
-     * @param type $whereClause
-     * @param type $touplesToBind
+     * @param string $whereClause Příkaz where v SQL syntaxi vhodné pro PDO, s placeholdery
+     * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkazu where
+     * 
      * @return RepresentativeInterface[]
      */
     public function find($whereClause="", $touplesToBind=[]): array {
@@ -55,13 +56,21 @@ class RepresentativeRepo  extends RepoAbstract implements RepresentativeRepoInte
 
     /**
      *
-     * @param type $companyId
-     * @return Company[]
+     * @param string $companyId
+     * @return RepresentativeInterface[]
      */
-    public function findByCompany($companyId) : array{
+    public function findByCompany($companyId) : array {
         return $this->findEntities("company_id = :company_id", [":company_id"=>$companyId] );
     }
 
+    /**
+     * 
+     * @param string $loginName
+     * @return RepresentativeInterface[]
+     */
+    public function findByLoginName($loginName) : array {
+        return $this->findEntities("login_login_name = :login_login_name", [":login_login_name"=>$loginName] );
+    }    
 
    /**
      *

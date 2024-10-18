@@ -32,9 +32,9 @@ use Events\Model\Entity\CompanyAddressInterface;
     if ( isset($company) ) {       
             
         $companyAddress=[];
-        /** @var CompanyAddressInterface $companyAddressEntity */
-        $companyAddressEntity = $companyAddressRepo->get($idCompany);
-        if ($companyAddressEntity) {           
+        /** @var CompanyAddressInterface $companyAddress */
+        $companyAddress = $companyAddressRepo->get($idCompany);
+        if ($companyAddress) {           
             $companyAddress = [
                 'companyId'=> $idCompany,
                 'companyId_proAdress'=> $idCompany,

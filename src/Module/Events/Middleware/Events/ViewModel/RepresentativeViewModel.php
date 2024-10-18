@@ -1,6 +1,7 @@
 <?php
 namespace Events\Middleware\Events\ViewModel;
 
+use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\RepresentativeRepoInterface;
 
@@ -13,6 +14,13 @@ use Events\Model\Entity\CompanyInterface;
  * @author pes"daikin"7"na""mdelektronik"
  */
 class RepresentativeViewModel {
+    
+    /**
+     * 
+     * @var StatusViewModelInterface
+     */
+    private $statusViewModel;
+    
     /**
      * @var CompanyRepoInterface
      */
@@ -25,32 +33,41 @@ class RepresentativeViewModel {
     
 
     public function __construct(
+            StatusViewModelInterface $statusViewModel,
             CompanyRepoInterface $companyRepo,
             RepresentativeRepoInterface $representativeRepo
         ) {
+        $this->statusViewModel = $statusViewModel;
         $this->companyRepo = $companyRepo;
         $this->representativeRepo = $representativeRepo;
     }
-
+    
+    public function getSelectedCompany() {
+        $this->statusViewModel->getSecurityInfos();
+    }
+    
+    /**
+     * 
+     * @param string $loginName Přihlašovací jméno reprezentanta
+     * @return RepresentativeInterface[] Pole entit RepresentativeInterface
+     */
+    public function getRepresentativesList($loginName): array {
+        return $this->representativeRepo->findByLoginName($loginName);
+    }
+    
+    #########
+    
     /**
      * 
      * @param type $loginName
      * @param type $idCompany
      * @return RepresentativeInterface|null
      */
-    public function getRepresentative($loginName, $companyName): ?RepresentativeInterface {
+    public function isRepresentative($loginName, $companyName): ?RepresentativeInterface {
         $company = $this->companyRepo->getByName($companyName);
         return isset($company) ? $this->representativeRepo->get($loginName, $company->getId()) : null;
     }
-    
-    /**
-     * 
-     * @param RepresentativeInterface $representative
-     * @return CompanyInterface|null
-     */
-    public function getRepresentativeCompany(RepresentativeInterface $representative): ?CompanyInterface {
-        return $this->companyRepo->get($representative->getCompanyId());      
-    }
+
     
     /**
      * Z DB
@@ -62,7 +79,7 @@ class RepresentativeViewModel {
         foreach  ($allCompanyObjects as $company) {
             $allCompanyArr [$company->getName()] =  ['id' => $company->getId(),
                                                      'name' => $company->getName(),
-                                                     'eventInstitutionName30' => $company->getEventInstitutionName30() ];
+                                                    ];
         }
         //return  $allCompanyArr;
         return $allCompanyObjects;

@@ -133,8 +133,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 /** @var CompanyInterface $company */                        
                 $company = new Company();//new $company 
                 // POST formularovadata
-                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                
+                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
                 $this->companyRepo->add($company);
                 
 //            } else {
@@ -178,8 +177,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 /** @var CompanyInterface $company */
                 $company = $this->companyRepo->get( $idCompany );                
                 // POST formularovadata
-                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                
+                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
 //            } else {
 //                $this->addFlashMessage("Údaje o ... smí editovat pouze representant vystavovatele.");
 //            }            

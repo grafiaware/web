@@ -27,7 +27,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Red\Model\Repository\LanguageRepo;
 use Status\Model\Entity\StatusPresentationInterface;
 use Red\Model\Entity\LanguageInterface;
-use Red\Model\Entity\UserActions;
+use Red\Model\Entity\EditorActions;
 
 use UnexpectedValueException;
 

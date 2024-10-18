@@ -16,7 +16,7 @@ use Pes\Middleware\AppMiddlewareAbstract;
 
 use Status\Model\Entity\StatusSecurity;
 use Status\Model\Repository\StatusSecurityRepo;
-use Red\Model\Entity\UserActions;
+use Red\Model\Entity\EditorActions;
 
 /**
  * Description of Status

@@ -11,37 +11,28 @@ use Model\Entity\PersistableEntityInterface;
  */
 interface CompanyInterface   extends PersistableEntityInterface {
     
+    /**
+     * 
+     */
+    public function getId();   
     
-    public function getId() ;    
     /**
      * 
      * @return string|null
      */
-    public function getName()  ;       
-    /**
-     * 
-     * @return string|null
-     */ 
-    public function getEventInstitutionName30()  ;    
+    public function getName();       
+ 
     /**
      * 
      * @param type $id
      * @return CompanyInterface
      */
-    public function setId($id) :CompanyInterface ;
+    public function setId($id) :CompanyInterface;
+    
     /**
      * 
      * @param string $name
      * @return CompanyInterface
      */  
-    public function setName(  $name ) :CompanyInterface ;          
-    /**
-     * 
-     * @param string $eventInstitutionName30
-     * @return CompanyInterface
-     */
-    public function setEventInstitutionName30( $eventInstitutionName30) :CompanyInterface ;    
-      
-    
-    
+    public function setName(  $name ) :CompanyInterface;
 }

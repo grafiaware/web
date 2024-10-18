@@ -51,7 +51,6 @@ use Events\Model\Entity\LoginInterface;
                 $companies[] = [
                     'companyId' => $cEntity->getId(),
                     'name' =>  $cEntity->getName(),
-                    'eventInstitutionName30' =>  $cEntity->getEventInstitutionName30()                  
                     ];
             }   
         }             

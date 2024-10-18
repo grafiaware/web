@@ -102,6 +102,7 @@ use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepo;
 
+use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - StatusViewModel definován v app kontejneru
 use Events\Middleware\Events\ViewModel\JobViewModel;
 use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 use Events\Middleware\Events\ViewModel\EventContentTypeViewModel;
@@ -414,7 +415,8 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobViewModel::class => function(ContainerInterface $c) {
                 return new JobViewModel(
-                        $c->get(CompanyRepo::class),
+                        $c->get(StatusViewModel::class),                        
+//                        $c->get(CompanyRepo::class),
                         $c->get(JobRepo::class), 
                         $c->get(JobToTagRepo::class),
                         $c->get(JobTagRepo::class),
@@ -423,10 +425,17 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             RepresentativeViewModel::class => function(ContainerInterface $c) {
-                return new RepresentativeViewModel($c->get(CompanyRepo::class), $c->get(RepresentativeRepo::class)  );
+                return new RepresentativeViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class), 
+                        $c->get(RepresentativeRepo::class)
+                        );
             },
             EventContentTypeViewModel::class => function(ContainerInterface $c) {
-                return new EventContentTypeViewModel($c->get(EventContentTypeRepo::class));
+                return new EventContentTypeViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(EventContentTypeRepo::class)
+                        );
             }
         ];
     }

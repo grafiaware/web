@@ -139,7 +139,7 @@ abstract class DaoAbstract implements DaoInterface {
      * {@inheritDoc}
      *
      * @param string $whereClause Příkaz where v SQL syntaxi vhodné pro PDO, s placeholdery
-     * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkatu where
+     * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkazu where
      * @return iterable<RowDataInterface>
      */
     public function find($whereClause="", array $touplesToBind=[]): iterable {

@@ -30,7 +30,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @return ResponseInterface
      */
     protected function addCacheHeaders(ResponseInterface $response): ResponseInterface {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getEditorActions();
         if ($userActions AND $userActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-store, no-cache');
         } else {

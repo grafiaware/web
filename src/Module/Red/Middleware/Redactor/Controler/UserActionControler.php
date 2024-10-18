@@ -79,7 +79,7 @@ class UserActionControler extends FrontControlerAbstract {
             $this->itemActionService->removeUserItemActions($loginName);
         }
         // nastavení aktuálního editačního režimu ve statusu
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableContent($edit);
+        $this->statusSecurityRepo->get()->getEditorActions()->setEditableContent($edit);
         $this->addFlashMessage("set editable content $edit", FlashSeverityEnum::INFO);
 
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
@@ -97,7 +97,7 @@ class UserActionControler extends FrontControlerAbstract {
     public function setEditMenu(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MENU);
         $this->addFlashMessage("set editable menu $edit", FlashSeverityEnum::INFO);
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableMenu($edit);
+        $this->statusSecurityRepo->get()->getEditorActions()->setEditableMenu($edit);
 //        if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
 //        } else {
