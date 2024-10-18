@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Model\Entity\SecurityPersistableEntityInterface;
 use Red\Model\Entity\ItemActionInterface;
 use Auth\Model\Entity\LoginInterface;
 
@@ -16,7 +16,7 @@ use Auth\Model\Entity\LoginInterface;
  *
  * @author pes2704
  */
-interface UserActionsInterface extends PersistableEntityInterface {
+interface EditorActionsInterface extends SecurityPersistableEntityInterface {
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace článku.
@@ -46,17 +46,17 @@ interface UserActionsInterface extends PersistableEntityInterface {
      * Nastaví informaci, že prezentace je přepnuta do modu editace článku
      *
      * @param type $editablePaper
-     * @return UserActionsInterface
+     * @return EditorActionsInterface
      */
-    public function setEditableContent($editablePaper): UserActionsInterface;
+    public function setEditableContent($editablePaper): EditorActionsInterface;
 
     /**
      * Nastaví informaci, že pretentace je přepnuta do modu editace menu
      *
      * @param type $editableMenu
-     * @return UserActionsInterface
+     * @return EditorActionsInterface
      */
-    public function setEditableMenu($editableMenu): UserActionsInterface;
+    public function setEditableMenu($editableMenu): EditorActionsInterface;
     
     /**
      * Metoda provede ptřebná nastavení UserAction v situaci ztráty security kontextu (typicky při odhlášení uživatele). 

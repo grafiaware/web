@@ -9,7 +9,7 @@
 namespace Component\ViewModel;
 
 use Red\Model\Entity\LanguageInterface;
-use Red\Model\Entity\UserActionsInterface;
+use Red\Model\Entity\EditorActionsInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 /**
@@ -32,7 +32,7 @@ interface StatusViewModelInterface extends ViewModelInterface {
     public function presentEditableContent(): bool;
     public function presentEditableMenu(): bool;
     public function getPresentedLanguage(): ?LanguageInterface;
-    public function getUserActions(): ?UserActionsInterface;
+    public function getUserActions(): ?EditorActionsInterface;
     public function getPresentedMenuItem(): ?MenuItemInterface;
     public function getSecurityInfos(): array;
     public function getPresentationInfos(): array;

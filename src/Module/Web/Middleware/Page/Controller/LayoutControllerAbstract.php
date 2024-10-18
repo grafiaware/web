@@ -401,7 +401,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     }
 
     private function isPartInEditableMode() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getEditorActions();
         return isset($userActions) ? $userActions->presentEditableContent() : false;
     }
 

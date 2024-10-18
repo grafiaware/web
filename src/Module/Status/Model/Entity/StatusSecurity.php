@@ -11,9 +11,9 @@ namespace Status\Model\Entity;
 use Model\Entity\PersistableEntityAbstract;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
-use Red\Model\Entity\UserActions;
+use Red\Model\Entity\EditorActions;
 
-use Red\Model\Entity\UserActionsInterface;
+use Red\Model\Entity\EditorActionsInterface;
 
 /**
  * Description of Login
@@ -28,9 +28,9 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     private $loginAggregate;
 
     /**
-     * @var UserActionsInterface
+     * @var EditorActionsInterface
      */
-    private $userActions;
+    private $editorActions;
     
     private $info = [];
 
@@ -41,7 +41,9 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
      */
     public function removeContext(): StatusSecurityInterface {
         if (isset($this->loginAggregate)) {
-            $this->userActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
+            if (isset($this->editorActions)) {
+               $this->editorActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
+            }            
             $this->loginAggregate = null;
         }
         return $this;
@@ -55,7 +57,7 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
      */
     public function new(LoginAggregateFullInterface $loginAggregate): StatusSecurityInterface {
         $this->loginAggregate = $loginAggregate;
-        $this->userActions = new UserActions();
+        $this->editorActions = new EditorActions();
         return $this;
     }
 
@@ -81,10 +83,10 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
 
     /**
      *
-     * @return UserActionsInterface|null
+     * @return EditorActionsInterface|null
      */
-    public function getUserActions(): ?UserActionsInterface {
-        return $this->userActions;
+    public function getEditorActions(): ?EditorActionsInterface {
+        return $this->editorActions;
     }
     
     public function setInfo($name, $value) {

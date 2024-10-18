@@ -19,7 +19,7 @@ use Auth\Model\Entity\LoginInterface;
  *
  * @author pes2704
  */
-class UserActions extends PersistableEntityAbstract implements UserActionsInterface {
+class EditorActions extends PersistableEntityAbstract implements EditorActionsInterface {
 
     private $editableContent = false;
     private $editableMenu = false;
@@ -61,9 +61,9 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
      * Nastaví informaci, že prezentace je přepnuta do modu editace článku
      *
      * @param mixed $editPaper Metoda převede zadanou hodnotu na boolen hodnotu.
-     * @return UserActionsInterface
+     * @return EditorActionsInterface
      */
-    public function setEditableContent($editPaper): UserActionsInterface {
+    public function setEditableContent($editPaper): EditorActionsInterface {
         $this->editableContent = boolval($editPaper);
         return $this;
     }
@@ -72,9 +72,9 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
      * Nastaví informaci, že pretentace je přepnuta do modu editace menu
      *
      * @param mixed $editableMenu Metoda převede zadanou hodnotu na boolen hodnotu.
-     * @return UserActionsInterface
+     * @return EditorActionsInterface
      */
-    public function setEditableMenu($editableMenu): UserActionsInterface {
+    public function setEditableMenu($editableMenu): EditorActionsInterface {
         $this->editableMenu = boolval($editableMenu);
         return $this;
     }
@@ -94,9 +94,10 @@ class UserActions extends PersistableEntityAbstract implements UserActionsInterf
     }
     
     /**
-     * {@inheritDoc}
+     * Vrací POUZE JEDNOU login name uložené metodou processActionsForLossOfSecurityContext. Uložený login name smaže.
+     * Metoda použita pro smazání ItemAction v RED databázi - to proběhne až při příštím GET requestu.
      * 
-     * @return string|null
+     * @return LoginInterface
      */
     public function lastLoggedOffUsername(): ?string {
         $lo = $this->loggedOffUserName;
