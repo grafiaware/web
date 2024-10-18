@@ -18,7 +18,7 @@ use Pes\Text\Html;
             <div class="two fields">                        
                 <div class="field">
                 <label>Název firmy</label>
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="250" value="<?= isset($name)?  $name : '' ?>">
+                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="250" value="<?= isset($name)?  $name : '' ?>" required >
                  </div>  
 <!--                <div class="field">
                     <label>E-eventInstitutionName30</label>

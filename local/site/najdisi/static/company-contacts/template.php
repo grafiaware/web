@@ -59,16 +59,17 @@ use Events\Model\Repository\RepresentativeRepo;
             
         Vyžaduje přihlášení. <br/>
             Firma (company): |* <?= $company->getName(); ?> *|
+            
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Kontakty firmy
+                Kontakty firmy <?= $company->getName(); ?>
             </div>                        
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/company-contact.php',  $companyContacts)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další kontakt firmy
+                    Přidej kontakt firmy
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company-contact.php', ['companyId' => $idCompany] ) ?>                                                                                 

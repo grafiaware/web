@@ -72,7 +72,7 @@ use Events\Model\Entity\LoginInterface;
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další firmu
+                    Přidej firmu
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company.php') ?>                                                                                 

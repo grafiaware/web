@@ -46,7 +46,7 @@ use Events\Model\Entity\CompanyAddressInterface;
         }    
         else {
             $companyAddress = [
-                'companyId_proAdress'=> '',   //$idCompany
+                'companyId'=> $idCompany,
                 ];
         }   
             
@@ -57,14 +57,17 @@ use Events\Model\Entity\CompanyAddressInterface;
     <div class="ui styled fluid accordion">
         
         Vyžaduje přihlášení. <br/>        
-            Firma (company): |* <?= $company->getName(); ?> *|                   
+            Firma (company): |* <?= $company->getName(); ?> *|           
+            
+            
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Adresa firmy     
+                Adresa firmy  <?= $company->getName(); ?>    
+            </div> 
+            
             <div class="active content">      
-                <?= $this->insert(__DIR__.'/company-address.php',  $companyAddress)  ?>          
-            </div>                
-        
+                <?= $this->insert(__DIR__.'/company-address.php',  $companyAddress)  ?>                               
+            </div>
     </div>
     </div>
 

@@ -138,7 +138,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $this->companyRepo->add($company);
                 
 //            } else {
-//                $this->addFlashMessage("Údaje o kontaktech vyvstavovatele smí editovat pouze representant vystavovatele.");
+//                $this->addFlashMessage("Údaje o ...e smí editovat pouze representant vystavovatele.");
 //            }           
 //        }
                 

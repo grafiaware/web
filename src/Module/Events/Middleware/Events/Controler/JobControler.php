@@ -140,7 +140,7 @@ class JobControler extends PresentationFrontControlerAbstract {
                         
             if ($isRepresentative) {
                 /** @var JobInterface $job */
-                $job = $this->container->get(Job::class); //new $job
+                $job =  new Job(); //new $job
                 
                 $job->setCompanyId($idCompany);
                 // POST formularovadata       

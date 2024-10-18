@@ -80,16 +80,17 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
         
         Vyžaduje přihlášení representanta. <br/>
             Firma (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
+           
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Nabízené pracovní pozice 
+                Nabízené pracovní pozice ve firmě  <?= $company->getName()  ?>
             </div>                        
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/company-job.php',  $companyJobs)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další pracovní pozici
+                    Přidej pracovní pozici
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company-job.php', ['companyId' => $idCompany, 
