@@ -98,8 +98,10 @@ use Events\Model\Entity\LoginInterface;
         <br/><br/>
     <div class="ui styled fluid accordion">
 
-        
-            Přiřaďte typy k nabízeným pozicím
+            <div class="active title">
+                 <i class="dropdown icon"></i>
+                 Přiřaďte typy k nabízeným pozicím firmy <?= $company->getName(); ?>
+            </div>
             <div class="content">
                 <?= $this->repeat(__DIR__.'/content/job-to-tag.php',  $jobToTagies  )  ?>
             </div>

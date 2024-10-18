@@ -38,10 +38,10 @@ use Events\Model\Entity\CompanyAddressInterface;
             $companyAddress = [
                 'companyId'=> $idCompany,
                 'companyId_proAdress'=> $idCompany,
-                'name'   => $companyAddressEntity->getName(),
-                'lokace' => $companyAddressEntity->getLokace(),
-                'psc'    => $companyAddressEntity->getPsc(),
-                'obec'   => $companyAddressEntity->getObec()
+                'name'   => $companyAddress->getName(),
+                'lokace' => $companyAddress->getLokace(),
+                'psc'    => $companyAddress->getPsc(),
+                'obec'   => $companyAddress->getObec()
                 ];
         }    
         else {

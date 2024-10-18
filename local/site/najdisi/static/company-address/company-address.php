@@ -28,8 +28,8 @@ use Pes\Text\Html;
             <div class="two fields">
                 <div class="field">
                     <label>PSČ</label>
-                    <input <?= $readonly ?> type="text" name="psc" placeholder="" maxlength="5" 
-                                            pattern="[0-9]{5}" title="Zadejte 5 číslic." placeholder="123 45"
+                    <input <?= $readonly ?> type="text" name="psc" maxlength="5" 
+                                            pattern="[0-9]{5}" title="Zadejte 5 číslic." placeholder="12345"
                                             value="<?= isset($psc)?  $psc : '' ?>">
                 </div>
                 <div class="field">

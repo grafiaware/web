@@ -308,7 +308,7 @@ class JobControler extends PresentationFrontControlerAbstract {
                         //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
                         if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            
                             /** @var JobToTag $newJobToTag */
-                            $newJobToTag = $this->container->get(JobToTag::class); //new 
+                            $newJobToTag = new JobToTag(); //new 
                             $newJobToTag->setJobId($idJob); 
                             $newJobToTag->setJobTagId($postTagId);
                             $this->jobToTagRepo->add($newJobToTag);
