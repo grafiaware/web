@@ -51,14 +51,15 @@ use Events\Model\Entity\LoginInterface;
     $jobToTagRepo = $container->get(JobToTagRepo::class );
 
 //    ------------------------------------------------
-        $idCompany = 10 ;
+        //$idCompany = 10 ;
+        $idCompany = 25 ;
 //    ------------------------------------------------
 
         $allTags=[];
         $jobTagEntitiesAll = $jobTagRepo->findAll();
         /** @var JobTagInterface  $jobTagEntity */
         foreach ( $jobTagEntitiesAll as $jobTagEntity) {
-            $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getId()] ;
+            $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
             //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
         }
 
@@ -74,19 +75,19 @@ use Events\Model\Entity\LoginInterface;
                     /** @var JobInterface $jobEntity */
                     $jobToTagEntities_proJob = $jobToTagRepo->findByJobId( $jobEntity->getId() );
 
-                    $checkTags=[];   //nalepky pro 1 job
+                    $checkedTags=[];   //nalepky pro 1 job
                     foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
                        /** @var JobToTagInterface $jobToTagEntity */
                       $idDoTag = $jobToTagEntity->getJobTagId();
                        /** @var JobTagInterface $tagE */
                       $tagE = $jobTagRepo->get($idDoTag);
-                      $checkTags[$tagE->getTag()] = $tagE->getId()  ;
+                      $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
                     }
                     $jobToTagies[] = [
                             'jobId' => $jobEntity->getId(),
                             'jobNazev' => $jobEntity->getNazev(),
                             'allTags'=>$allTags,
-                            'checkTags'=>$checkTags
+                            'checkedTags'=>$checkedTags
                     ];
                 }//$jobEntity
             }

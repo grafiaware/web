@@ -295,15 +295,14 @@ class JobControler extends PresentationFrontControlerAbstract {
                 $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($idJob);
                 /** @var JobToTagInterface $jobToTag */
                 foreach ($allJobToTags_ForJob as $jobToTag) {   
-                    //$arrayForJob[]= $jobToTag->getJobTagTag();
-                    $arrayJobTagIds_ForJob /*[ $idJob ]*/  [] = $jobToTag->getJobTagId() ; 
+                    $arrayJobTagIds_ForJob[] = $jobToTag->getJobTagId() ; 
                 }                                
                 $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
-                
+                $data = (new RequestParams())->getParsedBodyParam($request, "data" );
                 /** @var JobTagInterface $tag */
                 foreach ($allTags as $tagEntity) {
                     // $postTag - tento tag je zaskrtnut ve form
-                    $postTagId = (new RequestParams())->getParsedBodyParam($request, $tagEntity->getTag() );                                        
+                    $postTagId = $data[$tagEntity->getTag()];                                        
                     if (isset ($postTagId) ) { // je zaskrtnut ve form
                         //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
                         if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            

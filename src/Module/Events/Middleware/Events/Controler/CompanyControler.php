@@ -549,7 +549,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
                 
                 /** @var RepresentativeInterface $representative */
-                $representative = $this->container->get(Representative::class); //new              
+                $representative = new Representative(); //new              
                 $representative->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'selectCompany') ) ;
                 $representative->setLoginLoginName( (new RequestParams())->getParsedBodyParam($request, 'selectLogin') );
                                 

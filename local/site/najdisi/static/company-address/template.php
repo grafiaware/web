@@ -20,6 +20,7 @@ use Events\Model\Entity\CompanyAddressInterface;
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
 
+    //$idCompany = 10;
     $idCompany = 25 ;
     
     //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem

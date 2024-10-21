@@ -31,7 +31,7 @@ use Events\Model\Repository\JobTagRepo;
                                                 value="<?= isset($jobNazev)?  $jobNazev : '' ?>" >                      
                         
                         <div class="field">
-                            <?= Html::checkbox( $allTags , $checkTags ); ?>
+                            <?= Html::checkbox( $allTags , $checkedTags ); ?>
                         </div>
                     
                         <button class='ui primary button' type='submit' formaction='events/v1/jobtotag/<?= $jobId ?>' > Uložit </button>
