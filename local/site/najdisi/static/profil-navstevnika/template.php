@@ -107,7 +107,10 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
     </article>
 
     <?php
-} else {
+} // jen pro visitor roli
+
+
+else {
     $headline = "Profil návštěvníka";
     $perex = 'I když online veletrh s živou účastí skončil, stále zde návštěvníci naleznou odkazy k záznamům přednášek a prezentací, které chtějí zhlédnout.';
     $zprava =

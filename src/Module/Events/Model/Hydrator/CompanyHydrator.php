@@ -23,9 +23,6 @@ class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface 
     public function hydrate( EntityInterface $company, ArrayAccess $rowData) {
         /** @var CompanyInterface $company */
         $company
-                //`company`.`id`,
-                //`company`.`name`,
-                //`company`.`eventInstitutionName30`
             ->setId( $this->getPhpValue ( $rowData, 'id') )   
             ->setName( $this->getPhpValue( $rowData, 'name' ) );                        
     } 

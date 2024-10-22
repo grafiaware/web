@@ -51,8 +51,9 @@ use Events\Model\Entity\LoginInterface;
     $jobToTagRepo = $container->get(JobToTagRepo::class );
 
 //    ------------------------------------------------
-        //$idCompany = 10 ;
-        $idCompany = 25 ;
+       // $idCompany = 10 ;
+       // $idCompany = 25 ;
+        $idCompany = 42 ;
 //    ------------------------------------------------
 
         $allTags=[];
@@ -94,20 +95,18 @@ use Events\Model\Entity\LoginInterface;
 
   ?>
     <div>
-        Nutné přihlášení <br/>
-        Vystavovatel (company): |* <?= $company->getName(); ?> *|
-        <br/><br/>
+        
     <div class="ui styled fluid accordion">
-
+            Nutné přihlášení <br/>
+            Vystavovatel (company): |* <?= $company->getName(); ?> *|
+            
             <div class="active title">
                  <i class="dropdown icon"></i>
                  Přiřaďte typy k nabízeným pozicím firmy <?= $company->getName(); ?>
             </div>
             <div class="content">
                 <?= $this->repeat(__DIR__.'/content/job-to-tag.php',  $jobToTagies  )  ?>
-            </div>
-            <p></p>
-        
+            </div>                    
 
 
     </div>

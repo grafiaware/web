@@ -20,11 +20,6 @@ use Pes\Text\Html;
                 <label>Název firmy</label>
                     <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="250" value="<?= isset($name)?  $name : '' ?>" required >
                  </div>  
-<!--                <div class="field">
-                    <label>E-eventInstitutionName30</label>
-                    <input $readonly  type="text" name="eventInstitutionName30" placeholder="" maxlength="30" 
-                                            value=" isset($eventInstitutionName30)?  $eventInstitutionName30 : ''   ">
-                </div>-->
             </div>                
 
                 <?php

@@ -7,4 +7,5 @@ use Pes\Text\Text;
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
 
-<p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll"><?= Text::mono($headline ?? '') ?></p>
+<!--class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll"-->
+<p><?= Text::mono($headline ?? '') ?></p>

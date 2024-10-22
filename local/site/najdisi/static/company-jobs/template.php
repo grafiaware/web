@@ -27,12 +27,12 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     $jobRepo = $container->get(JobRepo::class );
     /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
-    
-    
-    
+  
     //------------------------------------------------------------------
-    //$idCompany = 10;
-    $idCompany = 25;
+     //$idCompany = 10; // akka
+    //$idCompany = 25 ;  //dzk
+    $idCompany = 42 ; 
+    
     //------------------------------------------------------------------
     
     $selectEducations = [];
