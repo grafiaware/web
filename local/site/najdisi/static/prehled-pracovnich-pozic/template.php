@@ -32,19 +32,28 @@ $jobModel = $container->get( JobViewModel::class );
 // SVOBODA - čeká na Red databázi - slouží pro generování odkazů na stránku firmy
 
 
+
+    $C = $representativeViewModel->getCompanyList();
     foreach ($representativeViewModel->getCompanyList() as $company ) {
+        $companyJobs = $jobModel->getCompanyJobList($company->getId());
+        
+        if ($companyJobs) {
+            //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
+            
+            $jobsArray[] - [];
+            foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
 
-        //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
-        foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
-            $jobsArray[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
+                $jobsArray[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
+            }
+
+            /** @var CompanyInterface $company */
+            $allJobs[] = [
+                    'block' => null,
+                    'presenterName' => $company->getName(),
+                    'presenterJobs' => ['jobs' => $jobsArray],
+                    ];
+        
         }
-
-        /** @var CompanyInterface $company */
-        $allJobs[] = [
-                'block' => null,
-                'presenterName' => $company->getName(),
-                'presenterJobs' => ['jobs' => $jobsArray],
-                ];
     }
 ?>
 <article class="paper">

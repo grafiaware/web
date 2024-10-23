@@ -17,7 +17,7 @@ use Events\Model\Entity\JobTagInterface;
 use Template\Compiler\TemplateCompilerInterface;
 
 
-class JobViewModel {
+class JobViewModel_1 {
 
     private     $jobList = [
         'akka' => [

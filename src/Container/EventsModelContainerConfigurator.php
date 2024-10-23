@@ -415,8 +415,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             JobViewModel::class => function(ContainerInterface $c) {
                 return new JobViewModel(
-                        $c->get(StatusViewModel::class),                        
-//                        $c->get(CompanyRepo::class),
+                        $c->get(CompanyRepo::class),
                         $c->get(JobRepo::class), 
                         $c->get(JobToTagRepo::class),
                         $c->get(JobTagRepo::class),
