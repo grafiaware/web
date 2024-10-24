@@ -6,7 +6,7 @@ use Site\ConfigurationCache;
 
 ?>
             <div>
-                <p class="velky text primarni-barva tucne"><?= $presenterName ?></p>
+                <p class="velky text primarni-barva tucne"><?= $companyName ?></p>
                 <?=  $this->insertIf(isset($block), __DIR__.'/content/presenter-link.php', ['block'=>$block]);  ?>
-                <?= $this->insert( ConfigurationCache::eventTemplates()['templates']."presenter-job/content/job-list.php", $presenterJobs  ); ?>
+                <?= $this->insert( ConfigurationCache::eventTemplates()['templates']."presenter-job/content/job-list.php", $companyJobs  ); ?>
             </div>
