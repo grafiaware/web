@@ -68,10 +68,6 @@ $('.accordion.border')
     .accordion()
 ;
   
-//rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
-$('.profil-visible').on('click', function(){
-        $('.profil.hidden').css('display', 'block');
-    });
 
 //Vyuziti lokalniho uloziste pro menu
 //Menu v editacnim rezimu obsahuje moznost Nezavirat menu. Pri kliknuti na tuto volbu se prepina ikona u textu Nezavirat menu, aby bylo poznat, jestli je volba aktivni

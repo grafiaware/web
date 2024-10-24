@@ -146,10 +146,7 @@ function initLoadedElements() {
                 $('.input-company').attr("required", false);
             }
         });
-    //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
-    $('.profil-visible').on('click', function(){
-        $('.profil.hidden').css('display', 'block');
-    });
+
     //odebrání atributu required u hesla, pokud uživatel klikne na "zapomněl jsem heslo"
     $('.tertiary.button').on('click', function(){
         $('.notRequired').attr("required", false);
