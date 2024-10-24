@@ -18,6 +18,8 @@ use Auth\Model\Entity\LoginInterface;
  */
 interface EditorActionsInterface extends SecurityPersistableEntityInterface {
 
+    const STATUS_INFO_KEY = "editor_actions";
+    
     /**
      * Informuje, zda prezentace je přepnuta do modu editace článku.
      *
@@ -50,14 +52,6 @@ interface EditorActionsInterface extends SecurityPersistableEntityInterface {
      */
     public function setEditableContent($editablePaper): EditorActionsInterface;
 
-    /**
-     * Nastaví informaci, že pretentace je přepnuta do modu editace menu
-     *
-     * @param type $editableMenu
-     * @return EditorActionsInterface
-     */
-    public function setEditableMenu($editableMenu): EditorActionsInterface;
-    
     /**
      * Metoda provede ptřebná nastavení UserAction v situaci ztráty security kontextu (typicky při odhlášení uživatele). 
      * Metoda přijímá login jméno uživatele, který se právě odhlásil. Nastavení této informace lze pak použít v následném requestu, 

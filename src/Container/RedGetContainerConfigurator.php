@@ -1101,7 +1101,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class)
                     );
             },
-        ####
+        ####;
         # view modely pro komponenty
         #
             PaperViewModel::class => function(ContainerInterface $c) {

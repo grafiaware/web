@@ -1,5 +1,5 @@
 <?php
-namespace Red\Component\ViewModel\Manage;
+namespace Events\Component\ViewModel\Manage;
 
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
@@ -7,11 +7,11 @@ use Component\ViewModel\StatusViewModelInterface;
 use ArrayIterator;
 
 /**
- * Description of UserActionViewModel
+ * Description of RepresentativeActionViewModel
  *
  * @author pes2704
  */
-class UserActionViewModel extends ViewModelAbstract {
+class RepresentativeActionViewModel extends ViewModelAbstract {
 
     private $status;
 
@@ -23,6 +23,7 @@ class UserActionViewModel extends ViewModelAbstract {
     public function getIterator() {
         return new ArrayIterator([
                         'editContent' => $this->status->presentEditableContent(),
+                        'editMenu' => $this->status->presentEditableMenu(),
                         'userName' => $this->status->getUserLoginName()
         ]);
     }

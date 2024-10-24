@@ -11,6 +11,19 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 // logger
 use Pes\Logger\FileLogger;
 
+//component
+use Configuration\ComponentConfiguration;
+use Access\AccessPresentation;
+use Access\Enum\AccessPresentationEnum;
+use Pes\View\Template\PhpTemplate;
+use Red\Component\View\Element\ElementComponent;
+use Component\Renderer\Html\NoPermittedContentRenderer;
+use Events\Component\View\Manage\RepresentativeActionComponent;
+
+// component view model
+use Component\ViewModel\StatusViewModel;
+use Events\Component\ViewModel\Manage\RepresentativeActionViewModel;
+
 // controler
 use Events\Middleware\Events\Controler\EventStaticControler;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
@@ -63,7 +76,24 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getFactoriesDefinitions(): iterable {
-        return [];
+        return [
+            RepresentativeActionComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+
+                if($accessPresentation->isAllowed(RepresentativeActionComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new RepresentativeActionComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(RepresentativeActionViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('useraction')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },            
+        ];
     }
 
     public function getAliases(): iterable {
@@ -83,7 +113,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
-
             VisitorProfileControler::class => function(ContainerInterface $c) {
                 return (new VisitorProfileControler(
                         $c->get(StatusSecurityRepo::class),
@@ -97,8 +126,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },
-
-
             VisitorJobRequestControler::class => function(ContainerInterface $c) {
                 return (new VisitorJobRequestControler(
                         $c->get(StatusSecurityRepo::class),
@@ -156,10 +183,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },
-
-
-
-
             DocumentControler::class => function(ContainerInterface $c) {
                 return (new DocumentControler(
                         $c->get(StatusSecurityRepo::class),
@@ -169,18 +192,19 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },
+            // component view model
+            RepresentativeActionViewModel::class => function(ContainerInterface $c) {
+                return new RepresentativeActionViewModel(
+                        $c->get(StatusViewModel::class)
+                    );
+            },
+                    
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();
             },
             View::class => function(ContainerInterface $c) {
                 return new View();
             },                           
-        ];
-    }
-
-    public function getServicesOverrideDefinitions(): iterable {
-        return [
-
         ];
     }
 }

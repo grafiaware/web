@@ -13,8 +13,8 @@ use Model\Repository\StatusRepositoryAbstract;
 use Status\Model\Entity\StatusSecurityInterface;
 
 /**
- * Description of StausLoginRepo
- * Repository obsahuje vždy jen jednu entitu StatusLogin.
+ * Description of StatusSecurityRepo
+ * Repository obsahuje vždy jen jednu entitu StatusSecurity.
  *
  * @author pes2704
  */

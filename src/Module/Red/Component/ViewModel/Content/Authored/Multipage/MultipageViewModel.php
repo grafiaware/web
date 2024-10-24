@@ -104,7 +104,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     }
 
     public function isPartInEditableMode() {
-        $userActions = $this->getStatusViewModel()->getUserActions();
+        $userActions = $this->getStatusViewModel()->getEditorActions();
         return isset($userActions) ? $userActions->presentEditableContent() : false;
     }
     

@@ -211,16 +211,6 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(UserActionControler::class);
                 return $ctrl->setEditMode($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_content', function(ServerRequestInterface $request) {
-                /** @var UserActionControler $ctrl */
-                $ctrl = $this->container->get(UserActionControler::class);
-                return $ctrl->setEditContent($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_menu', function(ServerRequestInterface $request) {
-                /** @var UserActionControler $ctrl */
-                $ctrl = $this->container->get(UserActionControler::class);
-                return $ctrl->setEditMenu($request);
-        });
 
         #### ItemActionControler ####
         $this->routeGenerator->addRouteForAction('PUT', '/red/v1/itemaction/:itemId/add', function(ServerRequestInterface $request, $itemId) {

@@ -55,7 +55,7 @@ class InfoBoardViewModel extends ViewModelAbstract implements InfoBoardViewModel
         $boardInfo[] = $this->prettyDump($this->getLanguageInfo());
         $boardInfo[] = $this->prettyDump($this->getUserInfo());
         if ($role==RoleEnum::SUPERVISOR) {
-            $boardInfo[] = $this->prettyDump($this->statusViewModel->getUserActions());
+            $boardInfo[] = $this->prettyDump($this->statusViewModel->getEditorActions());
             $boardInfo[] = $this->prettyDump($this->getSecurityInfos());            
             $boardInfo[] = $this->prettyDump($this->getPresentationInfos());            
 //              $this->prettyDump($this->status->presentEditableContent()),

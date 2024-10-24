@@ -34,6 +34,6 @@ define('PES_PRODUCTION_MACHINE_HOST_NAME', ConfigurationCache::bootstrap()['boot
  * Vynutí nastevení prostředí na produkční nebo vývojové bez ohledu na nastavení proměnných prostředí
  * Hodnota konstanty se vyhodnocuje jako bool, tedy jestli je TRUE nebo FALSE.
  */
-//define('PES_FORCE_DEVELOPMENT', 'force_development');
+define('PES_FORCE_DEVELOPMENT', 'force_development');
 //// nebo
 //define('PES_FORCE_PRODUCTION', 'force_production');

@@ -8,7 +8,6 @@ use Site\ConfigurationCache;
                 <div class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></div>
                 <a href=""><img src="layout-images/klic_na_hlavicku_bily.png" width="" height="50" /></a>
                 <a onclick="hamburger_close()" href="javascript:void(0)"><i class="close slim-icon"></i></a>
-                <?= $controlEditMenu ?? ''?>
 
                 <?php include "svislemenu/ovladaci-prvky-menu.php"; ?>
 
