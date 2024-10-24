@@ -74,19 +74,19 @@ use Events\Model\Entity\LoginInterface;
                     /** @var JobInterface $jobEntity */
                     $jobToTagEntities_proJob = $jobToTagRepo->findByJobId( $jobEntity->getId() );
 
-                    $checkTags=[];   //nalepky pro 1 job
+                    $checkedTags=[];   //nalepky pro 1 job
                     foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
                        /** @var JobToTagInterface $jobToTagEntity */
                       $idDoTag = $jobToTagEntity->getJobTagId();
                        /** @var JobTagInterface $tagE */
                       $tagE = $jobTagRepo->get($idDoTag);
-                      $checkTags[$tagE->getTag()] = $tagE->getId()  ;
+                      $checkedTags[$tagE->getTag()] = $tagE->getId()  ;
                     }
                     $jobToTagies[] = [
                             'jobId' => $jobEntity->getId(),
                             'jobNazev' => $jobEntity->getNazev(),
                             'allTags'=>$allTags,
-                            'checkTags'=>$checkTags
+                            'checkTags'=>$checkedTags
                     ];
                 }//$jobEntity
             }

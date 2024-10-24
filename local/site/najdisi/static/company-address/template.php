@@ -20,7 +20,9 @@ use Events\Model\Entity\CompanyAddressInterface;
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
 
-    $idCompany = 25 ;
+    //$idCompany = 10; // akka
+    //$idCompany = 25 ;  //dzk
+    $idCompany = 42 ; 
     
     //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem
     //        if ( $representativeRepo->findByLogin($loginName) )  --neni metoda 
@@ -37,6 +39,7 @@ use Events\Model\Entity\CompanyAddressInterface;
         if ($companyAddress) {           
             $companyAddress = [
                 'companyId'=> $idCompany,
+                'companyId_proAdress'=> $idCompany,
                 'name'   => $companyAddress->getName(),
                 'lokace' => $companyAddress->getLokace(),
                 'psc'    => $companyAddress->getPsc(),
@@ -45,7 +48,7 @@ use Events\Model\Entity\CompanyAddressInterface;
         }    
         else {
             $companyAddress = [
-                'companyId' => $idCompany
+                'companyId'=> $idCompany,
                 ];
         }   
             
@@ -56,15 +59,17 @@ use Events\Model\Entity\CompanyAddressInterface;
     <div class="ui styled fluid accordion">
         
         Vyžaduje přihlášení. <br/>        
-            Vystavovatel (company): |* <?= $company->getName(); ?> *|                   
+            Firma (company): |* <?= $company->getName(); ?> *|           
+            
+            
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Adresa vystavovatele
-            </div>                        
+                Adresa firmy  <?= $company->getName(); ?>    
+            </div> 
+            
             <div class="active content">      
-                <?= $this->insert(__DIR__.'/company-address.php',  $companyAddress)  ?>          
-            </div>                
-        
+                <?= $this->insert(__DIR__.'/company-address.php',  $companyAddress)  ?>                               
+            </div>
     </div>
     </div>
 

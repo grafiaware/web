@@ -17,7 +17,7 @@ use Pes\Text\Html;
 
             <div class="two fields ">                        
                 <div class="field">
-                <label>Jméno vystavovatele v adrese</label>
+                <label>Jméno firmy (pro adresu)</label>
                     <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="100" minlength="1" required value="<?= isset($name)?  $name : '' ?>">
                  </div>  
                 <div class="field">
@@ -28,7 +28,9 @@ use Pes\Text\Html;
             <div class="two fields">
                 <div class="field">
                     <label>PSČ</label>
-                    <input <?= $readonly ?> type="text" name="psc" placeholder="" maxlength="5" value="<?= isset($psc)?  $psc : '' ?>">
+                    <input <?= $readonly ?> type="text" name="psc" maxlength="5" 
+                                            pattern="[0-9]{5}" title="Zadejte 5 číslic." placeholder="12345"
+                                            value="<?= isset($psc)?  $psc : '' ?>">
                 </div>
                 <div class="field">
                     <label>Obec</label>
@@ -36,25 +38,20 @@ use Pes\Text\Html;
                 </div>
             </div>                 
 
-                <?php
-                if($readonly === '') {
-                ?>
-                <div>
-                    <?=
-                     isset($companyId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyId. "' > Uložit </button>" :
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress' > Uložit </button>" ;
-                    ?>                                                                                                                             
-                    <?=
-                     isset($companyId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyId. "/remove' > Odstranit adresu </button>" :
-                    "" ;
-                    ?>                                                                                                         
-                </div>
-            
-                
-                <?php
-                }
-                ?>
+            <?php
+            if($readonly === '') {
+            ?>
+                            
+            <div>
+                <?=
+                 isset($companyId_proAdress) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyId_proAdress. "' > Uložit </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress' > Přidat adresu </button>" ;
+                ?>                                                                                                                                             
+            </div>
+
+            <?php
+            }
+            ?>
 
         </form>           

@@ -18,7 +18,7 @@ use Pes\Text\Html;
             <div class="two fields">                        
                 <div class="field">
                 <label>Název pozice</label>
-                    <input <?= $readonly ?> type="text" name="nazev" placeholder="" maxlength="45" value="<?= isset($nazev)?  $nazev : '' ?>">
+                    <input <?= $readonly ?> type="text" name="nazev" placeholder="" maxlength="120" value="<?= isset($nazev)?  $nazev : '' ?>" required>
                  </div>                 
                 
                 <div class="field">

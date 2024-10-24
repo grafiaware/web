@@ -140,7 +140,7 @@ class JobControler extends PresentationFrontControlerAbstract {
                         
             if ($isRepresentative) {
                 /** @var JobInterface $job */
-                $job = $this->container->get(Job::class); //new $job
+                $job =  new Job(); //new $job
                 
                 $job->setCompanyId($idCompany);
                 // POST formularovadata       
@@ -295,20 +295,19 @@ class JobControler extends PresentationFrontControlerAbstract {
                 $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($idJob);
                 /** @var JobToTagInterface $jobToTag */
                 foreach ($allJobToTags_ForJob as $jobToTag) {   
-                    //$arrayForJob[]= $jobToTag->getJobTagTag();
-                    $arrayJobTagIds_ForJob /*[ $idJob ]*/  [] = $jobToTag->getJobTagId() ; 
+                    $arrayJobTagIds_ForJob[] = $jobToTag->getJobTagId() ; 
                 }                                
                 $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
-                
+                $data = (new RequestParams())->getParsedBodyParam($request, "data" );
                 /** @var JobTagInterface $tag */
                 foreach ($allTags as $tagEntity) {
                     // $postTag - tento tag je zaskrtnut ve form
-                    $postTagId = (new RequestParams())->getParsedBodyParam($request, $tagEntity->getTag() );                                        
+                    $postTagId = $data[$tagEntity->getTag()];                                        
                     if (isset ($postTagId) ) { // je zaskrtnut ve form
                         //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
                         if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            
                             /** @var JobToTag $newJobToTag */
-                            $newJobToTag = $this->container->get(JobToTag::class); //new 
+                            $newJobToTag = new JobToTag(); //new 
                             $newJobToTag->setJobId($idJob); 
                             $newJobToTag->setJobTagId($postTagId);
                             $this->jobToTagRepo->add($newJobToTag);
@@ -324,7 +323,7 @@ class JobControler extends PresentationFrontControlerAbstract {
                 }                                                                
                 
             } else {
-                $this->addFlashMessage("Údaje o typech nabízených pozic smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o typech nabízených pozic smí editovat pouze representant firmy.");
             }
             
         }
@@ -362,7 +361,7 @@ class JobControler extends PresentationFrontControlerAbstract {
 
                 
                 /** @var JobTagInterface $tag */
-                $tag = $this->container->get(JobTag::class); //new       
+                $tag = new JobTag(); //new       
 
                 $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );              
                 $this->jobTagRepo->add($tag);             
@@ -488,8 +487,9 @@ class JobControler extends PresentationFrontControlerAbstract {
 
                 
                 /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
-                $pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
-                //$pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
+                //$pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
+                
+                $pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
 
                 $pozadovaneVzdelani->setStupen((new RequestParams())->getParsedBodyParam($request, 'stupen') );
                 $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              

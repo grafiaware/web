@@ -32,19 +32,23 @@ $jobModel = $container->get( JobViewModel::class );
 // SVOBODA - čeká na Red databázi - slouží pro generování odkazů na stránku firmy
 
 
-    foreach ($representativeViewModel->getCompanyList() as $company ) {
-
-        //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php
-        foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
-            $jobsArray[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
+    $allJobs  = [];
+    $companiesList = $representativeViewModel->getCompanyList();
+    /** @var CompanyInterface $company */
+    foreach ($companiesList as $company ) {
+        $companyJobs = $jobModel->getCompanyJobList($company->getId());        
+        if ($companyJobs) {
+                     //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php            
+            $jobsArray = [];
+            foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
+                $jobsArray[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
+            }
+            $allJobs[] = [
+                    'block' => null,
+                    'companyName' => $company->getName(),
+                    'companyJobs' => ['jobs' => $jobsArray],
+                    ];        
         }
-
-        /** @var CompanyInterface $company */
-        $allJobs[] = [
-                'block' => null,
-                'presenterName' => $company->getName(),
-                'presenterJobs' => ['jobs' => $jobsArray],
-                ];
     }
 ?>
 <article class="paper">
@@ -59,7 +63,6 @@ $jobModel = $container->get( JobViewModel::class );
     <section>
         <content class='prehled-pozic'>
             <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobs);  ?>
-
         </content>
     </section>
 </article>

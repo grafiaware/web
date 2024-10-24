@@ -23,12 +23,13 @@ use Events\Model\Repository\RepresentativeRepo;
     $representativeRepo = $container->get(RepresentativeRepo::class );
     //------------------------------------------------------------------
 
-    $idCompany = 25;         
-                                           
+    //$idCompany = 10; // akka
+    //$idCompany = 25 ;  //dzk
+    $idCompany = 42 ; 
+    
     //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem
     //        if ( $representativeRepo->findByLogin($loginName) )   --neni metoda 
-                               
-    
+                                   
     //------------------------------------------------------------------
     
     /** @var CompanyInterface $company */ 
@@ -58,17 +59,18 @@ use Events\Model\Repository\RepresentativeRepo;
     <div class="ui styled fluid accordion">   
             
         Vyžaduje přihlášení. <br/>
-            Vystavovatel (company): |* <?= $company->getName(); ?> *|
+            Firma (company): |* <?= $company->getName(); ?> *|
+            
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Kontakty vystavovatele 
+                Kontakty firmy <?= $company->getName(); ?>
             </div>                        
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/company-contact.php',  $companyContacts)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další kontakt vystavovatele
+                    Přidej kontakt firmy
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company-contact.php', ['companyId' => $idCompany] ) ?>                                                                                 

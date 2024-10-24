@@ -27,12 +27,12 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     $jobRepo = $container->get(JobRepo::class );
     /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
-    
-    
-    
+  
     //------------------------------------------------------------------
-
-    $idCompany = 25;
+     //$idCompany = 10; // akka
+    //$idCompany = 25 ;  //dzk
+    $idCompany = 42 ; 
+    
     //------------------------------------------------------------------
     
     $selectEducations = [];
@@ -79,17 +79,18 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     <div class="ui styled fluid accordion">   
         
         Vyžaduje přihlášení representanta. <br/>
-            Vystavovatel (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
+            Firma (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
+           
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Nabízené pracovní pozice 
+                Nabízené pracovní pozice ve firmě  <?= $company->getName()  ?>
             </div>                        
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/company-job.php',  $companyJobs)  ?>
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej další pracovní pozici
+                    Přidej pracovní pozici
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company-job.php', ['companyId' => $idCompany, 

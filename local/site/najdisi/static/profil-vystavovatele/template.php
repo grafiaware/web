@@ -45,7 +45,13 @@ $disabled = 'disabled="1"';
 $isRepresentative = false;
 
 //######################     natvrdo zvoleny vystavovatel
-$idCompanyVystavovatele = 10;       // tato stranka musi byt dostupna jen z odkazu na strance firmy (vystavovatele), součástí odkazu pak musí být company name (nebo id)
+//$idCompanyVystavovatele = 10; 
+$idCompanyVystavovatele = 25; 
+//$idCompanyVystavovatele = 35; 
+
+
+
+// tato stranka musi byt dostupna jen z odkazu na strance firmy (vystavovatele), součástí odkazu pak musí být company name (nebo id)
 //######################
     if ($statusViewModel->isUserLoggedIn() AND $statusViewModel->getUserRole()==ConfigurationCache::loginLogoutController()['roleRepresentative']) {
         /** @var RepresentativeViewModel $representativeViewModel */

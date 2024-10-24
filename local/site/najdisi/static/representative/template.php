@@ -82,7 +82,7 @@ use Events\Model\Entity\LoginInterface;
  
  
         <div >
-            Representanti vystavovatelů             
+            Representanti firem             
             <div class="ui styled fluid accordion">      
                 <?= $this->repeat(__DIR__.'/content/representative.php', $representatives  )  ?>
             </div>

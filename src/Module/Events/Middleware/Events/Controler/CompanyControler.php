@@ -130,14 +130,14 @@ class CompanyControler extends PresentationFrontControlerAbstract {
 //                        
 //            if ($isRepresentative) {
             
-                /** @var CompanyInterface $company */
-                $company = $this->container->get(Company::class); //new $company                             
+                /** @var CompanyInterface $company */                        
+                $company = new Company();//new $company 
                 // POST formularovadata
                 $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
                 $this->companyRepo->add($company);
                 
 //            } else {
-//                $this->addFlashMessage("Údaje o kontaktech vyvstavovatele smí editovat pouze representant vystavovatele.");
+//                $this->addFlashMessage("Údaje o ...e smí editovat pouze representant vystavovatele.");
 //            }           
 //        }
                 
@@ -259,7 +259,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                         
             if ($isRepresentative) {
                 /** @var CompanyContactInterface $companyContact */
-                $companyContact = $this->container->get(CompanyContact::class); //new $companyContact
+                $companyContact = new CompanyContact(); //new $companyContact
                 
                 // POST formularova data
                 $companyContact->setCompanyId($idCompany);
@@ -271,7 +271,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $this->companyContactRepo->add($companyContact);
                 
             } else {
-                $this->addFlashMessage("Údaje o kontaktech vyvstavovatele smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o kontaktech firmy smí editovat pouze representant firmy.");
             }
             
         }
@@ -317,7 +317,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 
                 
             } else {
-                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o kontaktech firmy smí editovat pouze representant firmy.");
             }
             
         }
@@ -361,7 +361,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $this->companyContactRepo->remove( $companyContact ); 
                                 
             } else {
-                $this->addFlashMessage("Údaje o kontaktech vystavovatele smí mazat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o kontaktech firmy smí mazat pouze representant firmy.");
             }
             
         }
@@ -390,7 +390,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
             return $response->withStatus(401);  // Unaathorized
         } else {  
             $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk(); 
             
             if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
                             AND  $this->representativeRepo->get($loginName, $idCompany) )  {
@@ -406,7 +406,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
 //                $obec = (new RequestParams())->getParsedBodyParam($request, "obec");
                 
                 /** @var CompanyAddressInterface $companyAddress */
-                $companyAddress = $this->container->get(CompanyAddress::class); //new 
+                $companyAddress =  new CompanyAddress(); //new 
                 
                 $companyAddress->setCompanyId($idCompany);
                 $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
@@ -417,7 +417,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $this->companyAddressRepo->add($companyAddress);
                 
             } else {
-                $this->addFlashMessage("Údaje o adrese vyvstavovatele smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o adrese firmy smí editovat pouze representant firmy.");
             }
             
         }
@@ -457,7 +457,10 @@ class CompanyControler extends PresentationFrontControlerAbstract {
             if ($isRepresentative) {                
                 /** @var CompanyAddressInterface $companyAddress */
                 $companyAddress = $this->companyAddressRepo->get( $idCompany );  
-                
+                if (!isset($companyAddress)) {
+                    $companyAddress = new CompanyAddress();
+                    $this->companyAddressRepo->add($companyAddress);
+                }
                 $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
                 $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
                 $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
@@ -465,7 +468,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 
                 
             } else {
-                $this->addFlashMessage("Údaje o adrese vystavovatele smí editovat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o adrese firmy smí editovat pouze representant firmy.");
             }
             
         }
@@ -509,7 +512,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $this->companyAddressRepo->remove( $companyAddress ); 
                                 
             } else {
-                $this->addFlashMessage("Údaje o adrese vystavovatele smí mazat pouze representant vystavovatele.");
+                $this->addFlashMessage("Údaje o adrese firmy smí mazat pouze representant firmy.");
             }
             
         }
@@ -546,7 +549,7 @@ class CompanyControler extends PresentationFrontControlerAbstract {
                 $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
                 
                 /** @var RepresentativeInterface $representative */
-                $representative = $this->container->get(Representative::class); //new              
+                $representative = new Representative(); //new              
                 $representative->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'selectCompany') ) ;
                 $representative->setLoginLoginName( (new RequestParams())->getParsedBodyParam($request, 'selectLogin') );
                                 

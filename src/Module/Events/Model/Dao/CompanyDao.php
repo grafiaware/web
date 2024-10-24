@@ -24,7 +24,7 @@ class CompanyDao  extends DaoEditAbstract implements  DaoEditAutoincrementKeyInt
     }
 
     public function getAttributes(): array {
-        return ['id', 'name', 'eventInstitutionName30'];
+        return ['id', 'name'];
     }
 
     public function getTableName(): string {

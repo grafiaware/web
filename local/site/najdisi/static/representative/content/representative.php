@@ -23,10 +23,10 @@ use Pes\Text\Html;
                 
                 <div class="field">
                     <?php if (isset($companyName) ){ ?>
-                            <label>Vystavovatel - CompanyName</label>
+                            <label>Firma - CompanyName</label>
                             <input <?= $readonly ?> type="text" name="company-name" placeholder="" maxlength="250" value="<?= $companyName ?>">
                     <?php } else { ?>
-                            <?= Html::select("selectCompany", "Vystavovatel - Company name:",
+                            <?= Html::select("selectCompany", "Firma - Company name:",
                                             [ ],
                                             $selectCompanies, 
                                             ['required' => true ],

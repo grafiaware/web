@@ -283,7 +283,9 @@ class VisitorProfileControler extends PresentationFrontControlerAbstract {
                     $visitorProfileData->setLoginName($loginName);
                     $this->visitorProfileRepo->add($visitorProfileData);
                 }
-                                      
+                
+                 /** @var DocumentInterface $documentCv */           
+                 /** @var DocumentInterface $documentLettter */     
                 $documentCvId = $visitorProfileData->getCvDocument();
                 $documentLettterId = $visitorProfileData->getLetterDocument();            
                 switch ($type) {
@@ -297,8 +299,8 @@ class VisitorProfileControler extends PresentationFrontControlerAbstract {
                         else {        
                              $documentCv = $this->documentRepo->get($documentCvId);  
                         }                 
-                        $documentCv->setDocument(file_get_contents($uploadedFileTemp));
-                        $documentCv->setDocumentMimetype($clientMime);
+                        $documentCv->getContent(file_get_contents($uploadedFileTemp));
+                        $documentCv->getDocumentMimetype($clientMime);
                         $documentCv->setDocumentFilename($clientFileName);                        
                         
                         $this->addFlashMessage("Uložen váš životopis.", FlashSeverityEnum::SUCCESS);
@@ -314,7 +316,7 @@ class VisitorProfileControler extends PresentationFrontControlerAbstract {
                          else {   
                             $documentLetter = $this->documentRepo->get($documentLettterId);     
                         }     
-                        $documentLetter->setDocument(file_get_contents($uploadedFileTemp));
+                        $documentLetter->setContent(file_get_contents($uploadedFileTemp));
                         $documentLetter->setDocumentMimetype($clientMime);
                         $documentLetter->setDocumentFilename($clientFileName);
                         

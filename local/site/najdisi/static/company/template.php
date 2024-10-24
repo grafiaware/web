@@ -50,7 +50,7 @@ use Events\Model\Entity\LoginInterface;
                 /** @var CompanyInterface $cEntity */
                 $companies[] = [
                     'companyId' => $cEntity->getId(),
-                    'name' =>  $cEntity->getName(),
+                    'name' =>  $cEntity->getName()
                     ];
             }   
         }             
@@ -63,7 +63,7 @@ use Events\Model\Entity\LoginInterface;
 
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Vystavovatelé (companies)
+                Firmy (companies)
             </div>     
         
             <div class="active content">      
@@ -71,7 +71,7 @@ use Events\Model\Entity\LoginInterface;
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej dalšího  vystavovatele
+                    Přidej firmu
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company.php') ?>                                                                                 

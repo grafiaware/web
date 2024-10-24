@@ -51,14 +51,16 @@ use Events\Model\Entity\LoginInterface;
     $jobToTagRepo = $container->get(JobToTagRepo::class );
 
 //    ------------------------------------------------
-        $idCompany = 10 ;
+       // $idCompany = 10 ;
+       // $idCompany = 25 ;
+        $idCompany = 42 ;
 //    ------------------------------------------------
 
         $allTags=[];
         $jobTagEntitiesAll = $jobTagRepo->findAll();
         /** @var JobTagInterface  $jobTagEntity */
         foreach ( $jobTagEntitiesAll as $jobTagEntity) {
-            $allTags[$jobTagEntity->getTag()] = [$jobTagEntity->getTag() => $jobTagEntity->getId()] ;
+            $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
             //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
         }
 
@@ -74,37 +76,37 @@ use Events\Model\Entity\LoginInterface;
                     /** @var JobInterface $jobEntity */
                     $jobToTagEntities_proJob = $jobToTagRepo->findByJobId( $jobEntity->getId() );
 
-                    $checkTags=[];   //nalepky pro 1 job
+                    $checkedTags=[];   //nalepky pro 1 job
                     foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
                        /** @var JobToTagInterface $jobToTagEntity */
                       $idDoTag = $jobToTagEntity->getJobTagId();
                        /** @var JobTagInterface $tagE */
                       $tagE = $jobTagRepo->get($idDoTag);
-                      $checkTags[$tagE->getTag()] = $tagE->getId()  ;
+                      $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
                     }
                     $jobToTagies[] = [
                             'jobId' => $jobEntity->getId(),
                             'jobNazev' => $jobEntity->getNazev(),
                             'allTags'=>$allTags,
-                            'checkTags'=>$checkTags
+                            'checkedTags'=>$checkedTags
                     ];
                 }//$jobEntity
             }
 
   ?>
     <div>
-        Nutné přihlášení <br/>
-        Vystavovatel (company): |* <?= $company->getName(); ?> *|
-        <br/><br/>
-    <div class="ui styled fluid accordion">
-
         
-            Přiřaďte typy k nabízeným pozicím
+    <div class="ui styled fluid accordion">
+            Nutné přihlášení <br/>
+            Vystavovatel (company): |* <?= $company->getName(); ?> *|
+            
+            <div class="active title">
+                 <i class="dropdown icon"></i>
+                 Přiřaďte typy k nabízeným pozicím firmy <?= $company->getName(); ?>
+            </div>
             <div class="content">
                 <?= $this->repeat(__DIR__.'/content/job-to-tag.php',  $jobToTagies  )  ?>
-            </div>
-            <p></p>
-        
+            </div>                    
 
 
     </div>
