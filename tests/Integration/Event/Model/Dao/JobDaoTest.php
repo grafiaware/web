@@ -54,7 +54,7 @@ class JobDaoTest  extends AppRunner {
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
         $companyData = new RowData();
-        $companyData->import(['eventInstitutionName30' => "chacha", 'name' => "CompanyName pro JobDaoTest" ]);
+        $companyData->import(['name' => "CompanyName pro JobDaoTest" ]);
         $companyDao->insert($companyData);
         self::$companyPrimaryKey = $companyDao->getLastInsertedPrimaryKey();
 

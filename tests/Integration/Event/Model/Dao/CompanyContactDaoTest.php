@@ -42,7 +42,6 @@ class CompanyContactDaoTest extends AppRunner {
 
         $rowData = new RowData();
         $rowData->offsetSet('name', "CompanyName");
-        $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
         self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
     }

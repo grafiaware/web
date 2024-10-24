@@ -222,7 +222,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             //  název proměnné v šabloně => hodnota targetId příslušná k menu z položky 'contextMenuMap'
             'contextTargetMap' => [
-                    'content'=>['id'=>'menutarget_content'],  
+                    'content'=>['id'=>'menusvisle_target'],  
                 ],
             'contextMenuMap' => [
                     'menuSvisle' => ['service'=>'menu.svisle', 'targetContext'=>'content'],

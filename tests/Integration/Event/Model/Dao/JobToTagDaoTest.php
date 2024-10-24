@@ -51,7 +51,6 @@ class JobToTagDaoTest extends AppRunner {
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
         $companyData = new RowData();
-        $companyData->import(['eventInstitutionName30' => "chacha" ]);
         $companyData->import(['name' => "CompanyName pro JobToTagDaoTest" ]);
         $companyDao->insert($companyData);
         self::$company_id = $companyDao->getLastInsertedPrimaryKey()[$companyDao->getAutoincrementFieldName()];
