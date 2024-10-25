@@ -93,9 +93,13 @@
                             ?>
                         </p>
                     </div>
+                    
+                    
+                    
                     <?php
                     if($readonly === '') {
                     ?>
+                    <label><b>LLLLLLLLLLLLLL</b></label>
                     <div class="field">
                         <label><?= $cvDocumentFilename ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
                         <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">

@@ -57,7 +57,9 @@ if (isset($loginAggregate)) {
     
     $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
                                        AND  $representativeRepo->get($loginName, $companyId) );
-
+//------------------------------------------------------------------------------------------------------------------------
+    
+    
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorProfileRepo */
         $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
@@ -65,7 +67,7 @@ if (isset($loginAggregate)) {
         $visitorProfileEntity = $visitorProfileRepo->get($loginName);
 
         /** @var VisitorJobRequestInterface $visitorJobRequestEntity */
-        $visitorJobRequestEntity = $visitorJobRequestRepo->get($loginName, $jobId) ;                        
+        $visitorJobRequestEntity = $visitorJobRequestRepo->get($loginName, $jobId) ;         // jen 1               
 
         // formulář
         // unikátní jména souborů pro upload
@@ -82,18 +84,19 @@ if (isset($loginAggregate)) {
         // hodnoty do formuláře z visitorDataPost (odeslaná data - zájem o pozici), pokud ještě nevznikl z visitorData (z profilu)
         if (isset($visitorJobRequestEntity)) {
             $isVisitorDataPost = true;
-            $readonly = 'readonly="1"';
-            $disabled = 'disabled="1"';
-            $prefix = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getPrefix() : '';
-            $email = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getEmail() : '';
-            $readonlyEmail = $email ? 'readonly="1"' : '';  // proměnná pro input email
+           
+                    $visitorFormData ['readonly']  = 'readonly="1"';
+                    $visitorFormData ['disabled'] = 'disabled="1"';
+                    $visitorFormData ['prefix'] = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getPrefix() : '';
+                    $visitorFormData ['email'] = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getEmail() : '';
+                    $visitorFormData ['readonlyEmail'] = $email ? 'readonly="1"' : '';  // proměnná pro input email
 
-            $firstName = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getName() : '';
-            $surname = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getSurname() : '';
-            $postfix = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getPostfix() : '';
-            $phone = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getPhone() : '';
-            $cvEducationText = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getCvEducationText() : '';
-            $cvSkillsText = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getCvSkillsText() : '';
+                    $visitorFormData ['firstName'] = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getName() : '';
+                    $visitorFormData ['surname'] = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getSurname() : '';
+                    $visitorFormData ['postfix'] = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getPostfix() : '';
+                    $visitorFormData ['phone'] = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getPhone() : '';
+                    $visitorFormData ['cvEducationText'] = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getCvEducationText() : '';
+                    $visitorFormData ['cvSkillsText'] = isset($visitorJobRequestEntity) ? $visitorJobRequestEntity->getCvSkillsText() : '';
                         
             $cvId = $visitorJobRequestEntity->getCvDocument();
             if (isset($cvId)) {
@@ -109,23 +112,24 @@ if (isset($loginAggregate)) {
             }
             
             
-            
+                // nema ulozene zadosti  - bere z profilu
         } else {
             $isVisitorDataPost = false;
-            $readonly = '';
-            $disabled = '';
-            // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
-            // - předvyplňuje se z $visitorData
-            $email = isset($visitorProfileEntity) ? $visitorProfileEntity->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
-            $readonlyEmail = $email ? 'readonly="1"' : '';  // proměnná pro input email
+           
+                    $visitorFormData ['$readonly'] = '';
+                    $visitorFormData ['$disabled'] = '';
+                    // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
+                    // - předvyplňuje se z $visitorData
+                    $visitorFormData ['$email'] = isset($visitorProfileEntity) ? $visitorProfileEntity->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
+                    $visitorFormData ['$readonlyEmail'] = $email ? 'readonly="1"' : '';  // proměnná pro input email
 
-            $prefix = isset($visitorProfileEntity) ? $visitorProfileEntity->getPrefix() : '';
-            $firstName = isset($visitorProfileEntity) ? $visitorProfileEntity->getName() : '';
-            $surname = isset($visitorProfileEntity) ? $visitorProfileEntity->getSurname() : '';
-            $postfix = isset($visitorProfileEntity) ? $visitorProfileEntity->getPostfix() : '';
-            $phone = isset($visitorProfileEntity) ? $visitorProfileEntity->getPhone() : '';
-            $cvEducationText = isset($visitorProfileEntity) ? $visitorProfileEntity->getCvEducationText() : '';
-            $cvSkillsText = isset($visitorProfileEntity) ? $visitorProfileEntity->getCvSkillsText(): '';
+                    $visitorFormData ['$prefix'] = isset($visitorProfileEntity) ? $visitorProfileEntity->getPrefix() : '';
+                    $visitorFormData ['$firstName'] = isset($visitorProfileEntity) ? $visitorProfileEntity->getName() : '';
+                    $visitorFormData ['$surname'] = isset($visitorProfileEntity) ? $visitorProfileEntity->getSurname() : '';
+                    $visitorFormData ['$postfix'] = isset($visitorProfileEntity) ? $visitorProfileEntity->getPostfix() : '';
+                    $visitorFormData ['$phone'] = isset($visitorProfileEntity) ? $visitorProfileEntity->getPhone() : '';
+                    $visitorFormData ['$cvEducationText'] = isset($visitorProfileEntity) ? $visitorProfileEntity->getCvEducationText() : '';
+                    $visitorFormData ['$cvSkillsText'] = isset($visitorProfileEntity) ? $visitorProfileEntity->getCvSkillsText(): '';
                         
             $cvId = $visitorProfileEntity->getCvDocument();
             if (isset($cvId)) {
@@ -186,7 +190,8 @@ if (isset($loginAggregate)) {
                     /** @var DocumentInterface $documentLetter */
                     $documentLetter = $documentRepo->get($letterId);
                     $visitorFormData['letterDocumentFilename'] = $documentLetter->getDocumentFilename();  
-                }                
+                }              
+                
                 $allFormVisitorDataPost[] = $visitorFormData;               
             }
             //$allFormVisitorDataPostMerge = array_merge ($allFormVisitorDataPost, ['loginName' => $loginName  ]);
@@ -200,11 +205,13 @@ if (isset($loginAggregate)) {
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazevPozice ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag.php', $jobTags, 'tag') ?>
                 <?php
+    //----------
                 if($isVisitor AND $isVisitorDataPost) {
                     ?>
                     <span class="ui big green label">Pracovní údaje odeslány</span>
                     <?php
                 }
+    //----------                
                 if($isRepresentative) {
                     if ($visitorJobRequestCount>0) {
                     ?>
@@ -216,6 +223,7 @@ if (isset($loginAggregate)) {
                     <?php
                     }
                 }
+//----------
                 ?>
             </p>
         </div>
@@ -254,6 +262,7 @@ if (isset($loginAggregate)) {
                         <div  class="navazat-kontakt">
                             <div class="ui grid">
                                 <?php
+//----------                               
                                 if ($isVisitor) {
                                     ?>
                                     <div class="sixteen wide column center aligned">
@@ -281,10 +290,15 @@ if (isset($loginAggregate)) {
                                         <div class="profil hidden">
                                             <?php
                                                 // pokud je $visitorDataPosted je nastaveno readonly  ?????
-                                                include ConfigurationCache::eventTemplates()['templates'].'visitor-data/osobni-udaje.php'; ?>
+//                                                include ConfigurationCache::eventTemplates()['templates'].'visitor-data/osobni-udaje.php'; 
+                                            ?>
+                                            <?= $this->insert( ConfigurationCache::eventTemplates()['templates'].'visitor-data/osobni-udaje.php',
+                                                                                                                  $visitorFormData  ); ?>
                                         </div>
                                     </div>
+                               
                                     <?php
+    //----------                                     
                                 } elseif ($isRepresentative) {
                                     if($isVisitorDataPost) {
                                         ?>
@@ -299,11 +313,12 @@ if (isset($loginAggregate)) {
                                         <div class="sixteen wide column">
                                             <div class="profil hidden">
                                                 <?= $this->repeat(ConfigurationCache::eventTemplates()['templates'].'visitor-data/osobni-udaje.php',
-                                                                  $allFormVisitorDataPost) ?>
+                                                                                                                    $allFormVisitorDataPost) ?>
                                             </div>
                                         </div>
                                         <?php
                                     }
+//----------                                   
                                 } else {
                                     ?>
                                     <div class="sixteen wide column center aligned">
