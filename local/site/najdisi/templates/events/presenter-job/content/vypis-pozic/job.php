@@ -5,6 +5,9 @@ use Pes\Text\Html;
 
 use Site\ConfigurationCache;
 use Status\Model\Repository\StatusSecurityRepo;
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface;
+
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Middleware\Events\Controler\VisitorProfileControler;
@@ -16,8 +19,6 @@ use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Repository\RepresentativeRepo;
-
-use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -38,8 +39,10 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
-/** @var RepresentativeViewModel $representativeViewModel */
-$representativeViewModel = $container->get( RepresentativeViewModel::class );
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
+
 
 /** @var VisitorJobRequestRepo $visitorJobRequestRepo */
 $visitorJobRequestRepo = $container->get(VisitorJobRequestRepo::class);
@@ -51,14 +54,13 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    $ee = $loginAggregate->getRegistration()->getEmail();
+    //$loginEmailFromRegistration = $loginAggregate->getRegistration()->getEmail();
     
     $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
     //*--------------------------------
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
     
-    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
-                                       AND  $representativeRepo->get($loginName, $companyId) );
+    $isRepresentative = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId);
 //------------------------------------------------------------------------------------------------------------------------
     
     
