@@ -17,31 +17,6 @@ use Pes\Logger\FileLogger;
  */
 class ConfigurationRed extends ConfigurationConstants {
 
-    /**
-     * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
-     *
-     * Konfiguruje logování a šablony pro komponenty, které renderují šablony
-     *
-     * @return array
-     */
-    public static function redComponent() {
-        return [
-            'redcomponent.logs.directory' => 'Logs/Red',
-            'redcomponent.logs.render' => 'Render.log',
-            'redcomponent.logs.type' => FileLogger::REWRITE_LOG,
-            'redcomponent.templates' => [
-                'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
-                'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
-//                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
-                'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
-                'useraction' => self::WEB_TEMPLATES_COMMON.'layout/status/userAction.php',
-                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-                // site layout templates
-                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
-            ]
-        ];
-    }
-
     public static function itemActionControler() {
         return [
             'timeout' => 'PT30M'   // 'PT1H' 1 hodina

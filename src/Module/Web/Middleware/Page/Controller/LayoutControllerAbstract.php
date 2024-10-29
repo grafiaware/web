@@ -305,8 +305,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     
     private function getCascadeViews() {
         $views = [];
-        foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);             
+        foreach (ConfigurationCache::layoutController()['contextServiceMap'] as $contextName=>$route) {
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement(array_key_first($route), ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);             
         }
         return $views;
     }

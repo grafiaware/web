@@ -1,4 +1,3 @@
-<!--data generuje: StatusViewModel-->
 <?php
 use Red\Middleware\Redactor\Controler\UserActionControler;
 ?>
@@ -8,7 +7,7 @@ use Red\Middleware\Redactor\Controler\UserActionControler;
         Akce
         <div class="menu">
             <div class="text nastred">
-                <p><i class="user icon"></i><?= $userName ?></p>
+                <p><i class="user icon"></i><?= $loginName ?></p>
             </div>
             <!--
             <button class="fluid ui primary labeled icon button" type="submit" name="app" value="rs" formtarget="_blank"
@@ -45,8 +44,8 @@ use Red\Middleware\Redactor\Controler\UserActionControler;
                 </div>
             </div>
         </div>
-</div>
-
+    </div>
+</form>
 
 
 

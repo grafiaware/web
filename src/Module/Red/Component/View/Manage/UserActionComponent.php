@@ -32,6 +32,7 @@ class UserActionComponent extends ComponentCompositeAbstract {
         return [
             RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
             RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            
         ];
     }
 }

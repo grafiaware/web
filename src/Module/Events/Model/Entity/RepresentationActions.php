@@ -9,7 +9,7 @@ use Events\Model\Entity\RepresentativeInterface;
  *
  * @author pes2704
  */
-class RepresentativeActions extends PersistableEntityAbstract implements RepresentativeActionsInterface {
+class RepresentationActions extends PersistableEntityAbstract implements RepresentationActionsInterface {
     
     /**
      * 
@@ -28,7 +28,7 @@ class RepresentativeActions extends PersistableEntityAbstract implements Represe
         $this->representative = $representative;
     }
     
-    public function getRepresentative(): RepresentativeInterface {
+    public function getRepresentative(): ?RepresentativeInterface {
         return $this->representative;
     }
 }

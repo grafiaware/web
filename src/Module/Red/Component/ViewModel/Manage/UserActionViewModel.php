@@ -23,7 +23,7 @@ class UserActionViewModel extends ViewModelAbstract {
     public function getIterator() {
         return new ArrayIterator([
                         'editContent' => $this->status->presentEditableContent(),
-                        'userName' => $this->status->getUserLoginName()
+                        'loginName' => $this->status->getUserLoginName()
         ]);
     }
 

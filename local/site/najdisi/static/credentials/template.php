@@ -26,7 +26,7 @@ use Auth\Middleware\Login\Controller\AuthController;
     
     $roles = $roleRepo->findAll();
     $selectRoles = [];
-    $selectRoles [AuthController::NULL_VALUE_nahradni] =  "" ;
+    $selectRoles [AuthController::NULL_VALUE] =  "" ;
     /** @var RoleInterface $role */ 
     foreach ( $roles as $role ) {
         $selectRoles [$role->getRole()] = $role->getRole() ;
@@ -41,7 +41,7 @@ use Auth\Middleware\Login\Controller\AuthController;
                 'loginNameFk' =>  $credential->getLoginNameFk(),
                 'passwordHash' => $credential->getPasswordHash(),
                 'selectRoles' =>  $selectRoles,
-                "selected" => ["selectRole"=>$credential->getRoleFk() ?? AuthController::NULL_VALUE_nahradni],
+                "selected" => ["selectRole"=>$credential->getRoleFk() ?? AuthController::NULL_VALUE],
             ];
     }                                       
   ?>

@@ -68,20 +68,12 @@ class RepresentativeViewModel {
         return isset($company) ? $this->representativeRepo->get($loginName, $company->getId()) : null;
     }
 
-    
     /**
      * Z DB
      * @return array
      */
     public function getCompanyList() {
         $allCompanyObjects = $this->companyRepo->findAll();
-
-        foreach  ($allCompanyObjects as $company) {
-            $allCompanyArr [$company->getName()] =  ['id' => $company->getId(),
-                                                     'name' => $company->getName(),
-                                                    ];
-        }
-        //return  $allCompanyArr;
         return $allCompanyObjects;
     }
 

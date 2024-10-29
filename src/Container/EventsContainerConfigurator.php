@@ -6,6 +6,7 @@ use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
+use Pes\Container\Container;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // logger
@@ -16,16 +17,18 @@ use Configuration\ComponentConfiguration;
 use Access\AccessPresentation;
 use Access\Enum\AccessPresentationEnum;
 use Pes\View\Template\PhpTemplate;
-use Red\Component\View\Element\ElementComponent;
+use Component\View\ElementComponent;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
-use Events\Component\ViewModel\Manage\RepresentativeActionViewModel;
+use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
 
 // controler
+use Events\Middleware\Events\Controler\ComponentControler;
 use Events\Middleware\Events\Controler\EventStaticControler;
+use Events\Middleware\Events\Controler\RepresentationControler;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\DocumentControler;
@@ -56,6 +59,11 @@ use Events\Model\Repository\EventContentTypeRepo;
 use Events\Model\Repository\EventLinkPhaseRepo;
 use Events\Model\Repository\EventLinkRepo;
 
+// renderer kontejner
+use Container\RendererContainerConfigurator;
+
+// template renderer container
+use Pes\View\Renderer\Container\TemplateRendererContainer;
 
 // service
 use Template\Compiler\TemplateCompiler;
@@ -70,9 +78,11 @@ use Pes\View\View;
 class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return [
-
-        ];
+        return array_merge(
+                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
+//                Configuration::renderer(),
+                ConfigurationCache::redTemplates()
+                );
     }
 
     public function getFactoriesDefinitions(): iterable {
@@ -83,16 +93,32 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 if($accessPresentation->isAllowed(RepresentativeActionComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new RepresentativeActionComponent($c->get(ComponentConfiguration::class));
-                    $component->setData($c->get(RepresentativeActionViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('useraction')));
+                    $component = new RepresentativeActionComponent(
+                            $c->get(ComponentConfiguration::class),
+                        );
+                    $component->setData($c->get(RepresentationActionViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('representativeaction')));
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
-            },            
+            },
+        ####
+        # Element komponenty - vždy zobrazeny
+        #
+        #
+            ElementComponent::class => function(ContainerInterface $c) {
+                $component = new ElementComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            ElementInheritDataComponent::class => function(ContainerInterface $c) {
+                $component = new ElementInheritDataComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                    
         ];
     }
 
@@ -104,6 +130,23 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions(): iterable {
         return [
+            // configuration - používá parametry nastavené metodou getParams()
+            ComponentConfiguration::class => function(ContainerInterface $c) {
+                return new ComponentConfiguration(
+                        $c->get('webcomponent.logs.directory'),
+                        $c->get('webcomponent.logs.render'),
+                        $c->get('webcomponent.logs.type'),
+                        $c->get('webcomponent.templates')
+                    );
+            },            
+            ComponentControler::class => function(ContainerInterface $c) {
+                return (new ComponentControler(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusFlashRepo::class),
+                            $c->get(StatusPresentationRepo::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },            
             EventStaticControler::class => function(ContainerInterface $c) {
                 return (new EventStaticControler(
                         $c->get(StatusSecurityRepo::class),
@@ -113,6 +156,15 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
+            RepresentationControler::class => function(ContainerInterface $c) {
+                return (new RepresentationControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(RepresentativeRepo::class)
+                        )
+                       )->injectContainer($c);
+            },                    
             VisitorProfileControler::class => function(ContainerInterface $c) {
                 return (new VisitorProfileControler(
                         $c->get(StatusSecurityRepo::class),
@@ -192,10 +244,29 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },
+                    
+        ####
+        # renderer container
+        #
+            'rendererContainer' => function(ContainerInterface $c) {
+                // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
+                // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
+                return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
+            },
+
+        ####
+        # Access
+        #
+            AccessPresentation::class => function(ContainerInterface $c) {
+                return new AccessPresentation($c->get(StatusViewModel::class));
+            },
+                    
             // component view model
-            RepresentativeActionViewModel::class => function(ContainerInterface $c) {
-                return new RepresentativeActionViewModel(
-                        $c->get(StatusViewModel::class)
+            RepresentationActionViewModel::class => function(ContainerInterface $c) {
+                return new RepresentationActionViewModel(
+                        $c->get(StatusViewModel::class),
+                            $c->get(RepresentativeRepo::class),
+                            $c->get(CompanyRepo::class),                        
                     );
             },
                     

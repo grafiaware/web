@@ -63,9 +63,6 @@ class ConfigurationCache {
                 case 'webComponent':
                     self::$cache[$name] = Siteconfig\ConfigurationWeb::webComponent();
                     break;
-                case 'redComponent':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::redComponent();
-                    break;
                 case 'presentationStatus':
                     self::$cache[$name] = Siteconfig\ConfigurationWeb::presentationStatus();
                     break;
@@ -181,10 +178,6 @@ class ConfigurationCache {
 
     public static function webComponent() {
         return self::getConfigModule('webComponent');
-    }
-
-    public static function redComponent() {
-        return self::getConfigModule('redComponent');
     }
 
     public static function dbOld() {

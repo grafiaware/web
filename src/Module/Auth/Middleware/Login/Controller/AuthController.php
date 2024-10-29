@@ -29,7 +29,7 @@ use Status\Model\Enum\FlashSeverityEnum;
  */
 class AuthController extends PresentationFrontControlerAbstract {
         
-    const NULL_VALUE_nahradni = "Toto je speciální hodnota představující NULL";        
+    const NULL_VALUE = "Toto je speciální hodnota představující NULL";        
     
     /**
      * 
@@ -167,7 +167,7 @@ class AuthController extends PresentationFrontControlerAbstract {
         if($this->isAllowed(AllowedActionEnum::POST)) {            
                 /** @var CredentialsInterface $credentials */
                 $credentials = $this->credentialsRepo->get($loginNameFk);             
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectRole') != self::NULL_VALUE_nahradni )   {
+                if ( (new RequestParams())->getParsedBodyParam($request, 'selectRole') != self::NULL_VALUE )   {
                       $credentials->setRoleFk ((new RequestParams())->getParsedBodyParam($request, 'selectRole') );
                 }    
                  else {

@@ -12,7 +12,7 @@ use Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\EditorActionsInterface;
-use Events\Model\Entity\RepresentativeActionsInterface;
+use Events\Model\Entity\RepresentationActionsInterface;
 
 /**
  * Třída nemá metodu getUser(), nikdy nevrací celý objekt User. Tak nelze měnit vlastnosti objektu User získaného z StatusSecurity.
@@ -74,9 +74,9 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
     
     /**
      * 
-     * @return RepresentativeActionsInterface|null
+     * @return RepresentationActionsInterface|null
      */
-    public function getRepresentativeActions(): ?RepresentativeActionsInterface; 
+    public function getRepresentativeActions(): ?RepresentationActionsInterface; 
     
     public function setInfo($name, $value);
     

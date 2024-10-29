@@ -15,8 +15,8 @@ use Model\Entity\SecurityPersistableEntityInterface;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\EditorActions;
 use Red\Model\Entity\EditorActionsInterface;
-use Events\Model\Entity\RepresentativeActions;
-use Events\Model\Entity\RepresentativeActionsInterface;
+use Events\Model\Entity\RepresentationActions;
+use Events\Model\Entity\RepresentationActionsInterface;
 
 /**
  * Description of Login
@@ -37,7 +37,7 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     
     /**
      * 
-     * @var RepresentativeActionsInterface
+     * @var RepresentationActionsInterface
      */
     private $represantativeActions;
     
@@ -71,7 +71,7 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     public function new(LoginAggregateFullInterface $loginAggregate): StatusSecurityInterface {
         $this->loginAggregate = $loginAggregate;
         $this->editorActions = new EditorActions();
-        $this->represantativeActions = new RepresentativeActions();
+        $this->represantativeActions = new RepresentationActions();
         return $this;
     }
     
@@ -104,7 +104,7 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     public function getEditorActions(): ?EditorActionsInterface {
         return $this->editorActions;
     }
-    public function getRepresentativeActions(): ?\Events\Model\Entity\RepresentativeActionsInterface {
+    public function getRepresentativeActions(): ?\Events\Model\Entity\RepresentationActionsInterface {
         return $this->represantativeActions;
     }
     public function setInfo($name, $value) {

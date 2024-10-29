@@ -3,7 +3,7 @@
 namespace Component\ViewModel;
 
 use Red\Model\Entity\EditorActionsInterface;
-use Events\Model\Entity\RepresentativeActionsInterface;
+use Events\Model\Entity\RepresentationActionsInterface;
 use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
@@ -103,8 +103,9 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     public function getEditorActions(): ?EditorActionsInterface {
         return $this->statusSecurityRepo->get()->getEditorActions();
     }
-    public function getRepresentativeActions(): ?RepresentativeActionsInterface {
-//        return $this->statusSecurityRepo->get()->        
+    
+    public function getRepresentativeActions(): ?RepresentationActionsInterface {
+        return $this->statusSecurityRepo->get()->getRepresentativeActions();   
     }
 
     public function getPresentedMenuItem(): ?MenuItemInterface {

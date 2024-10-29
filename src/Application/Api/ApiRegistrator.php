@@ -161,6 +161,16 @@ class ApiRegistrator {
         
     ### events module ###
     #
+        
+        #### EventsStaticControler ####
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/:staticName'));
+
+        #### ComponentController ####
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/service/:name'));
+        
+        #### RepesentationControler ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/representation'));
+        
         #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         
@@ -226,9 +236,6 @@ class ApiRegistrator {
         #### VisitorJobRequestControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/:jobId/jobrequest'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
-        
-        #### EventsStaticControler ####
-        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/:staticName'));
        
         #### DocumentControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/document/:id/remove'));

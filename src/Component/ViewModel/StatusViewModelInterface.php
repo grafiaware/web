@@ -10,7 +10,7 @@ namespace Component\ViewModel;
 
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\EditorActionsInterface;
-use Events\Model\Entity\RepresentativeActionsInterface;
+use Events\Model\Entity\RepresentationActionsInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 
@@ -36,7 +36,7 @@ interface StatusViewModelInterface extends ViewModelInterface {
     public function getPresentedMenuItem(): ?MenuItemInterface;
 
     public function getEditorActions(): ?EditorActionsInterface;
-    public function getRepresentativeActions(): ?RepresentativeActionsInterface;
+    public function getRepresentativeActions(): ?RepresentationActionsInterface;
     // pro InfoBoard
     public function getSecurityInfos(): array;
     public function getPresentationInfos(): array;

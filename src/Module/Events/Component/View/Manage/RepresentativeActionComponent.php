@@ -31,7 +31,7 @@ class RepresentativeActionComponent extends ComponentCompositeAbstract {
     public static function getComponentPermissions(): array {
         return [
             RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-            RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
         ];
     }
 }
