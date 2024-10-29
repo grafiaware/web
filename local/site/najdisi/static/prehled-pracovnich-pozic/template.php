@@ -10,6 +10,8 @@ use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 use Red\Model\Repository\BlockRepo;
 
 use Events\Model\Entity\CompanyInterface;
+use Events\Model\Repository\CompanyRepo;
+use Events\Model\Repository\CompanyRepoInterface;
 
 $headline = 'Pracovní pozice';
 $perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
@@ -18,9 +20,12 @@ $perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
 
 
 /** @var RepresentativeViewModel $representativeViewModel */
-$representativeViewModel = $container->get( RepresentativeViewModel::class );
+//$representativeViewModel = $container->get( RepresentativeViewModel::class );
+
+
 /** @var JobViewModel $jobModel */
 $jobModel = $container->get( JobViewModel::class );
+
 
 //TODO: prezentace - link na prezentaci (místo block)
 // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
@@ -32,8 +37,12 @@ $jobModel = $container->get( JobViewModel::class );
 // SVOBODA - čeká na Red databázi - slouží pro generování odkazů na stránku firmy
 
 
+     /** @var CompanyRepoInterface $companyRepo */
+    $companyRepo = $container->get(CompanyRepo::class);
+    $companiesList = $companyRepo->findAll();   
+    //$companiesList = $representativeViewModel->getCompanyList();
+    
     $allJobs  = [];
-    $companiesList = $representativeViewModel->getCompanyList();
     /** @var CompanyInterface $company */
     foreach ($companiesList as $company ) {
         $companyJobs = $jobModel->getCompanyJobList($company->getId());        

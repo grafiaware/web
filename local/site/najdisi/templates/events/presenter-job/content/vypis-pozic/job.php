@@ -5,6 +5,8 @@ use Pes\Text\Html;
 
 use Site\ConfigurationCache;
 use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Entity\StatusSecurityInterface;
+
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;
 
@@ -32,8 +34,9 @@ $isVisitorDataPost = false;
 
 
 ####
-$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
+$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+/** @var StatusSecurityInterface $statusSecurity */
 $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
@@ -48,15 +51,18 @@ $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRep
 $visitorJobRequestRepo = $container->get(VisitorJobRequestRepo::class);
 /** @var DocumentRepo $documentRepo */
 $documentRepo = $container->get(DocumentRepo::class);
-/** @var RepresentativeRepo $representativeRepo */
-$representativeRepo = $container->get(RepresentativeRepo::class );
+
+//
+///** @var RepresentativeRepo $representativeRepo */
+//$representativeRepo = $container->get(RepresentativeRepo::class );
 
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    //$loginEmailFromRegistration = $loginAggregate->getRegistration()->getEmail();
+    $loginEmailFromRegistration = $loginAggregate->getRegistration()->getEmail();  // promenou nepotrebuji, ale email ano cca radek 180
     
     $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
+
     //*--------------------------------
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
     
@@ -168,7 +174,13 @@ if (isset($loginAggregate)) {
             
             $visitorFormData['isRepresentative'] = $isRepresentative;
             $visitorFormData['isVisitor'] = $isVisitor;
-            $visitorFormData['presenterEmail'] = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : 'Nezadána mail adresa!';
+            
+            //doufam ze nepotebny email v osobni-udaje.php ... presenter neni, presenter je  company  
+            $visitorFormData['presenterEmail'] = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : 'Nezadána mail adresa presentera!';
+            //potrebny email v osobni-udaje.php   
+            $visitorFormData['loginEmailFromRegistration'] = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() :
+                                                                                              'Nezadána mail.adresa representanta!';
+ 
             /** @var VisitorJobRequestInterface $visitorJobRequestEntity */
             foreach ($visitorJobRequests as $visitorJobRequestEntity) {
                 $visitorFormData['visitorLoginName'] = $visitorJobRequestEntity->getLoginLoginName();  // pro hidden pole
@@ -283,7 +295,7 @@ if (isset($loginAggregate)) {
                                         ?>
                                         <div class="ui large button blue profil-visible">
                                             <i class="play icon"></i>
-                                            <span>Mám zájem o tuto pozici &nbsp;</span>
+                                            <span>Mám zájem o tuto pozici  296 &nbsp;</span>
                                             <i class="play flipped icon"></i>
                                         </div>
                                         <?php
@@ -328,7 +340,7 @@ if (isset($loginAggregate)) {
                                     <div class="sixteen wide column center aligned">
                                         <div class="ui large button blue profil-visible">
                                             <i class="play icon"></i>
-                                            <span>Mám zájem o tuto pozici &nbsp;</span>
+                                            <span>Mám zájem o tuto pozici 341 &nbsp;</span>
                                             <i class="play flipped icon"></i>
                                         </div>
                                         <div class="profil hidden">

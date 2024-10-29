@@ -122,7 +122,7 @@
                             <div class="field margin"></div>
 
                             <div class="field">
-                                <button class="ui primary button" type="submit" formaction="event/v1/sendvisitorpost">Odeslat mailem na <?= $presenterEmail ?></button>
+                                <button class="ui primary button" type="submit" formaction="event/v1/sendvisitorpost">Odeslat mailem na <?= $loginEmailFromRegistration ?></button>
                             </div>
                         </div>
                         <?php
