@@ -51,6 +51,8 @@ $representativeRepo = $container->get(RepresentativeRepo::class );
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
+    $ee = $loginAggregate->getRegistration()->getEmail();
+    
     $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
     //*--------------------------------
     $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   

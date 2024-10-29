@@ -40,8 +40,9 @@ $jobModel = $container->get( JobViewModel::class );
         if ($companyJobs) {
                      //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php            
             $jobsArray = [];
-            foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
-                $jobsArray[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
+            foreach ( $companyJobs /*$jobModel->getCompanyJobList($company->getId())*/  as $job) {
+                $jobsArray[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}], 
+                                                 ['companyId' => $company->getId() ]   );
             }
             $allJobs[] = [
                     'block' => null,
