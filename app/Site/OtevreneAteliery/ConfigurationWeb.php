@@ -16,6 +16,7 @@ use Auth\Component\View\LoginComponent;
 use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
+use Events\Component\View\Manage\RepresentativeActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
@@ -199,6 +200,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             // Pro 'contextName' použijte jako bezpečné jméno v camel case notaci začínající písmenem, složené z písmen a číslic. 
             // Toto jméno odpovídá jménu proměnné v PHP šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
             // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
+            
+            //  název proměnné v šabloně => název služby v konteneru (obvykle název třídy komponentu)
             'contextServiceMap' => [
                     'flash' => FlashComponent::class,
                     'modalLogin' => LoginComponent::class,
@@ -209,18 +212,21 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'languageSelect'=> LanguageSelectComponent::class,
                     'searchPhrase'=> SearchPhraseComponent::class,
                 ],
+            //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutMap' => [
                     'menuSvisle' => 'menu.svisle',
                 ],
+            //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
                 ],
+            //  název proměnné v šabloně => hodnota targetId příslušná k menu z položky 'contextMenuMap'
             'contextTargetMap' => [
-                    'content'=>['id'=>'menutarget_content'],
+                    'content'=>['id'=>'menusvisle_target'],  
                 ],
             'contextMenuMap' => [
-                    'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
+                    'menuSvisle' => ['service'=>'menu.svisle', 'targetContext'=>'content'],
                 ],
             'contextMenuEditableMap' => [
                     'bloky' => ['service'=>'menu.bloky', 'targetId'=>'menutarget_content'],

@@ -58,7 +58,6 @@ class LoginDaoTest extends AppRunner {
         $companyDao = $container->get(CompanyDao::class);
         $rowData = new RowData();
         $rowData->offsetSet('name', self::COMPANY_NAME_PREFIX."Company1");
-        $rowData->offsetSet('eventInstitutionName30', 'ShortyCo.');
         $companyDao->insert($rowData);
         self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
 

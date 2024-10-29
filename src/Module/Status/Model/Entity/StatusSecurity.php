@@ -10,10 +10,13 @@ namespace Status\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
 
+use Model\Entity\SecurityPersistableEntityInterface;
+
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\EditorActions;
-
 use Red\Model\Entity\EditorActionsInterface;
+use Events\Model\Entity\RepresentationActions;
+use Events\Model\Entity\RepresentationActionsInterface;
 
 /**
  * Description of Login
@@ -32,6 +35,12 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
      */
     private $editorActions;
     
+    /**
+     * 
+     * @var RepresentationActionsInterface
+     */
+    private $represantativeActions;
+    
     private $info = [];
 
     /**
@@ -44,8 +53,12 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
             if (isset($this->editorActions)) {
                $this->editorActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
             }            
+            if (isset($this->represantativeActions)) {
+               $this->represantativeActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
+            }
             $this->loginAggregate = null;
         }
+        $this->info = [];
         return $this;
     }
 
@@ -58,8 +71,11 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     public function new(LoginAggregateFullInterface $loginAggregate): StatusSecurityInterface {
         $this->loginAggregate = $loginAggregate;
         $this->editorActions = new EditorActions();
+        $this->represantativeActions = new RepresentationActions();
         return $this;
     }
+    
+    
 
     /**
      * {@inheritdoc}
@@ -88,7 +104,9 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     public function getEditorActions(): ?EditorActionsInterface {
         return $this->editorActions;
     }
-    
+    public function getRepresentativeActions(): ?\Events\Model\Entity\RepresentationActionsInterface {
+        return $this->represantativeActions;
+    }
     public function setInfo($name, $value) {
         $this->info[$name] = $value;
     }

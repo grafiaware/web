@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Component\View\Manage;
+namespace Events\Component\View\Manage;
 
 use Component\View\ComponentCompositeAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
@@ -17,11 +17,11 @@ use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
 
 /**
- * Description of UserActionComponent
+ * Description of RepresentativeActionComponent
  *
  * @author pes2704
  */
-class UserActionComponent extends ComponentCompositeAbstract {
+class RepresentativeActionComponent extends ComponentCompositeAbstract {
 
     /**
      * @var StatusViewModelInterface
@@ -31,8 +31,7 @@ class UserActionComponent extends ComponentCompositeAbstract {
     public static function getComponentPermissions(): array {
         return [
             RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-            
+            RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
         ];
     }
 }

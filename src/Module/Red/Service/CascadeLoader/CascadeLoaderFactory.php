@@ -20,20 +20,47 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
         $this->viewFactory = $viewFactory;
     }    
     
-    public function getRedLoaderElement(string $dataRedApiUri, string $httpCacheControl, string $targetId='') {
+    /**
+     * Připraví view s PHP šablonou definovanou v layoutController()['templates.loaderElement'].
+     * Předá mu data, která budou použita pro atributy v loader elementu - informace pro cascade.js.
+     * Hodnota pro atribut id loader elementu je generována jako unikátní, na stránce se hodnota id nesmí opakovat.
+     * Ostatní data jsou vytvořena z parametrů a konfigurace - např. class a data-red-xxx .
+     *  
+     * @param string $dataRedApiUri
+     * @param bool $httpCacheReloadOnNav
+     * @param string $dataRedTargetId
+     * @return type
+     */
+    public function getRedLoaderElement(string $dataRedApiUri, bool $httpCacheReloadOnNav, string $dataRedTargetId='') {
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $uniquid = uniqid();
         $id = "red_loader_$uniquid";
-        return $this->getLoader($id, $dataRedApiUri, $httpCacheControl, $targetId);
+        return $this->getLoader($id, $dataRedApiUri, $httpCacheReloadOnNav, $dataRedTargetId);
+    }
+    /**
+     * 
+     * @param string $id
+     * @param string $dataRedApiUri
+     * @param bool $httpCacheReloadOnNav
+     * @return type
+     */
+    public function getRedTargetElement(string $id, string $dataRedApiUri, bool $httpCacheReloadOnNav) {
+        return $this->getLoader($id, $dataRedApiUri, $httpCacheReloadOnNav);
     }
     
-    public function getRedTargetElement(string $id, string $dataRedApiUri, string $httpCacheControl) {
-        return $this->getLoader($id, $dataRedApiUri, $httpCacheControl);
-    }
-    
-    private function getLoader(string $id, string $dataRedApiUri, string $httpCacheControl, string $targetId='') {
+    /**
+     * Připraví view s PHP šablonou definovanou v layoutController()['templates.loaderElement'].
+     * Předá mu data vytvořená z parametrů a konfigurace - např. id, class a data-red-xxx atributy pro loader element.
+     * 
+     * @param string $id
+     * @param string $dataRedApiUri
+     * @param bool $httpCacheReloadOnNav nastaví hodnotu pro atribut data-red-cache-control podle konfigurace pro reload obsahu při navigaci nebo jednorázové načtení obsahu
+     * @param string $dataRedTargetId
+     * @return type
+     */
+    private function getLoader(string $id, string $dataRedApiUri, bool $httpCacheReloadOnNav, string $dataRedTargetId='') {
         $view = $this->viewFactory->phpTemplateCompositeView(ConfigurationCache::layoutController()['templates.loaderElement']);
-        if ($httpCacheControl) {
+        if ($httpCacheReloadOnNav) {
             $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
         } else {
             $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheLoadOnce'];
@@ -43,7 +70,7 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
                         'dataRedCacheControl' => $dataRedCacheControl,
                         'id' => $id,
                         'dataRedApiUri' => $dataRedApiUri,
-                        'dataRedTargetId'=> ($targetId ? $targetId : '')
+                        'dataRedTargetId'=> ($dataRedTargetId ? $dataRedTargetId : '')
                         ]);
         return $view;
         

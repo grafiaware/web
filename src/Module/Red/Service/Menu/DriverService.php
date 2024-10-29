@@ -84,10 +84,6 @@ class DriverService implements DriverServiceInterface{
         }
         return $itemType;
     }
-        
-    private function presentEditableMenu(): bool {
-        return $this->statusViewModel->presentEditableMenu();
-    }
     
     private function isPasteMode(): bool {
         $cut = $this->statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
@@ -127,7 +123,7 @@ class DriverService implements DriverServiceInterface{
         $driverViewModel->withMenuItem($menuItem);
         $driverViewModel->setPresented($isPresented);
         $driverViewModel->setItemType($this->getItemType($uid));
-        if($this->presentEditableMenu()) {
+        if($this->statusViewModel->presentEditableContent()) {
             if ($driverViewModel->isPresented() && $menuItem->getApiGeneratorFk()!='root') {
                 $buttonsComponent = $this->container->get(DriverButtonsComponent::class);
                 $driver->appendComponentView($buttonsComponent, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel

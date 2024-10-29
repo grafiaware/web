@@ -56,8 +56,8 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         $this->menuRootRepo = $menuRootRepo;
     }
 
-    public function presentEditableMenu(): bool {
-        return $this->statusViewModel->presentEditableMenu();
+    public function presentEditableContent(): bool {
+        return $this->statusViewModel->presentEditableContent();
     }
 
     /**
@@ -165,7 +165,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         }
         // remove root v needitačním režimu (v needitačním režimu se nikdy nezobrazuje menu root, v editačním režimu se vždy zobrazuje menu root)
 //        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
-        if (!$this->presentEditableMenu()) {
+        if (!$this->presentEditableContent()) {
             array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
         }
 

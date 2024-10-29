@@ -41,7 +41,7 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         // obnoví security status s tím, že login aggregate je null - pro případny privátní obsah musí být vnořen Login middleware
         if (!isset($statusSecurity)) {
             $statusSecurity = new StatusSecurity();
-            $statusSecurityRepo->add($statusSecurity);    // obnoví status bez login
+            $statusSecurityRepo->add($statusSecurity); 
         }
         if ( !$statusSecurity->hasValidSecurityContext()) {
             $statusSecurity->removeContext();
@@ -50,7 +50,3 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         return $handler->handle($request);
     }
 }
-
-//        if (is_null($statusPresentation->getUserActions())) {
-//            $statusPresentation->setUserActions(new UserActions());  // má default hodnoty
-//        }

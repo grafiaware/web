@@ -222,7 +222,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     private function createLevelComponent($itemComponents): LevelComponentInterface {
         /** @var LevelComponentInterface $levelComponent */
         $levelComponent = $this->container->get(LevelComponent::class);
-        $levelComponent->setRendererName($this->contextData->presentEditableMenu() ? $this->levelRendererEditableName : $this->levelRendererName);  
+        $levelComponent->setRendererName($this->contextData->presentEditableContent() ? $this->levelRendererEditableName : $this->levelRendererName);  
 //        tady přepínat!  level renderer musí být jiný v editable režimu - chci mír rozbalovací menu v needit režimu a rozbalené menu v edit režimu - to je class na level
 //        setRenderersNames() musí dostávat z kontejneru 2 jména: LevelRenderer a LevelRendererEditable
 //        část #menu renderer ze configurationStyles -> do RendererContainerConfigurator - přidej definici LevelRendererEditable s classmap:'menu.svisle.classmap.editable'

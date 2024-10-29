@@ -3,6 +3,7 @@
 namespace Component\ViewModel;
 
 use Red\Model\Entity\EditorActionsInterface;
+use Events\Model\Entity\RepresentationActionsInterface;
 use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
@@ -91,21 +92,20 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      * @return bool
      */
     public function presentEditableContent(): bool {
-        $userActions = $this->statusSecurityRepo->get()->getEditorActions();
-        return $userActions ? $userActions->presentEditableContent() : false;
-    }
-
-    public function presentEditableMenu(): bool {
-        $userActions = $this->statusSecurityRepo->get()->getEditorActions();
-        return $userActions ? $userActions->presentEditableContent() : false;
+        $editorActions = $this->statusSecurityRepo->get()->getEditorActions();
+        return $editorActions ? $editorActions->presentEditableContent() : false;
     }
 
     public function getPresentedLanguage(): ?LanguageInterface {
         return $this->statusPresentationRepo->get()->getLanguage();
     }
 
-    public function getUserActions(): ?EditorActionsInterface {
+    public function getEditorActions(): ?EditorActionsInterface {
         return $this->statusSecurityRepo->get()->getEditorActions();
+    }
+    
+    public function getRepresentativeActions(): ?RepresentationActionsInterface {
+        return $this->statusSecurityRepo->get()->getRepresentativeActions();   
     }
 
     public function getPresentedMenuItem(): ?MenuItemInterface {

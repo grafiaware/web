@@ -16,6 +16,7 @@ use Auth\Component\View\LoginComponent;
 use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\UserActionComponent;
+use Events\Component\View\Manage\RepresentativeActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
@@ -96,13 +97,20 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function webComponent() {
         return [
-            'webcomponent.logs.directory' => 'Logs/Web',
+            'webcomponent.logs.directory' => 'Logs/Components',
             'webcomponent.logs.render' => 'Render.log',
             'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
-            'webcomponent.templates' =>
-                [
-
-                ]
+            'webcomponent.templates' => [
+                'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
+//                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
+                'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+                'useraction' => self::WEB_TEMPLATES_COMMON.'layout/status/userAction.php',
+                'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
+                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+                // site layout templates
+                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+            ]
         ];
     }
 
@@ -199,26 +207,32 @@ class ConfigurationWeb extends ConfigurationConstants {
             // Pro 'contextName' použijte jako bezpečné jméno v camel case notaci začínající písmenem, složené z písmen a číslic. 
             // Toto jméno odpovídá jménu proměnné v PHP šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
             // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
+            
+            //  název proměnné v šabloně => [routa => název služby v konteneru (obvykle název třídy komponentu)]
             'contextServiceMap' => [
-                    'flash' => FlashComponent::class,
-                    'modalLogin' => LoginComponent::class,
-                    'modalLogout' => LogoutComponent::class,
-//                    'modalRegister' => RegisterComponent::class,
-                    'modalUserAction' => UserActionComponent::class,
-                    'info' => InfoBoardComponent::class,
+                    'flash' => ["red/v1/service/flash"=>FlashComponent::class],
+                    'modalLogin' => ["red/v1/service/modalLogin"=>LoginComponent::class],
+                    'modalLogout' => ["red/v1/service/modalLogout"=>LogoutComponent::class],
+                    'modalRegister' => ["red/v1/service/modalRegister"=>RegisterComponent::class],
+                    'modalUserAction' => ["red/v1/service/modalUserAction"=>UserActionComponent::class],
+                    'modalRepresentativeAction' => ["events/v1/service/modalRepresentativeAction"=>RepresentativeActionComponent::class],  // CHYBA volá "/web/red/v1/service/modalRepresentativeAction"
+                    'info' => ["red/v1/service/info"=>InfoBoardComponent::class],
                 ],
+            //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutMap' => [
                     'menuSvisle' => 'menu.svisle',
                 ],
+            //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutEditableMap' => [
                     'bloky' => 'menu.bloky',
                     'kos' => 'menu.kos',
                 ],
+            //  název proměnné v šabloně => hodnota targetId příslušná k menu z položky 'contextMenuMap'
             'contextTargetMap' => [
-                    'content'=>['id'=>'menutarget_content'],
+                    'content'=>['id'=>'menusvisle_target'],  
                 ],
             'contextMenuMap' => [
-                    'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
+                    'menuSvisle' => ['service'=>'menu.svisle', 'targetContext'=>'content'],
                 ],
             'contextMenuEditableMap' => [
                     'bloky' => ['service'=>'menu.bloky', 'targetId'=>'menutarget_content'],

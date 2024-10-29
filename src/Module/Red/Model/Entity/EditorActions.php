@@ -67,17 +67,6 @@ class EditorActions extends PersistableEntityAbstract implements EditorActionsIn
         $this->editableContent = boolval($editPaper);
         return $this;
     }
-
-    /**
-     * Nastaví informaci, že pretentace je přepnuta do modu editace menu
-     *
-     * @param mixed $editableMenu Metoda převede zadanou hodnotu na boolen hodnotu.
-     * @return EditorActionsInterface
-     */
-    public function setEditableMenu($editableMenu): EditorActionsInterface {
-        $this->editableMenu = boolval($editableMenu);
-        return $this;
-    }
     
     /**
      * Uloží Login entitu pro použití v jiném middleware a příštím requestu, odstraní stav editable content a editable menu.
@@ -89,7 +78,6 @@ class EditorActions extends PersistableEntityAbstract implements EditorActionsIn
     public function processActionsForLossOfSecurityContext($loggedOffUserName) {
         $this->loggedOffUserName = $loggedOffUserName;
         $this->setEditableContent(false);
-        $this->setEditableMenu(false);
         unset($this->userItemActions);
     }
     

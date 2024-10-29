@@ -227,11 +227,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return CompositeView[]
      */
     protected function getComponentViews(ServerRequestInterface $request) {
-        // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
-        // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
-        // Příklad: - bloky v editovatelném modu a současně editovatelné menu bloky - v menu bloky vybraný blok je zobrazen editovatelný duplicitně s blokem v layoutu
-        //          - dva stejné bloky v layoutu - mapa, kontakt v hlavičce i v patičce
-
         $views = array_merge(
                 $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
                 $this->getMenuViews(),
@@ -239,7 +234,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 $this->getCascadeViews(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
-                // cascade
             );
         return $views;
     }
@@ -311,8 +305,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     
     private function getCascadeViews() {
         $views = [];
-        foreach (array_keys(ConfigurationCache::layoutController()['contextServiceMap']) as $contextName) {
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);             
+        foreach (ConfigurationCache::layoutController()['contextServiceMap'] as $contextName=>$route) {
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement(array_key_first($route), ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);             
         }
         return $views;
     }
@@ -320,8 +314,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getMenuViews() {
         $views = [];
         foreach (ConfigurationCache::layoutController()['contextMenuMap'] as $contextName=>$menuSettings) {
-            // 'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
-            $targetId = $menuSettings['targetId'];
+            //'menuSvisle' => ['service'=>'menu.svisle', 'targetContext'=>'content'],
+            //'contextTargetMap' => [
+            //        'content'=>['id'=>'menutarget_content'],  
+            //    ]
+            $targetId = ConfigurationCache::layoutController()['contextTargetMap'][$menuSettings['targetContext']]['id'];
             $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce'], $targetId);
         }
         return $views;

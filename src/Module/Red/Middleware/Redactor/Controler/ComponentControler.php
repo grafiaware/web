@@ -55,8 +55,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
-            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class],
+            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class],
             RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
             RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
         ];
@@ -66,14 +66,21 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     public function serviceComponent(ServerRequestInterface $request, $name) {
         if($this->isAllowed(AllowedActionEnum::GET)) {
-            $service = ConfigurationCache::layoutController()['contextServiceMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? null;
-            if (!isset($service)) {
-                $service = ConfigurationCache::layoutController()['contextLayoutEditableMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? null;
+            if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
+                $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
+            } else {
+                $view = $this->errorView($request, "Component $name undefined in configuration of context service map.");
             }
-            if (isset($service) AND $this->container->has($service)) {
+            if (!isset($service)) {
+                $service = ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutEditableMap'][$name] ?? null;
+                if (!isset($service)) {
+                    $view = $this->errorView($request, "Component $name undefined in configuration of context layout maps.");
+                }
+            }
+            if($this->container->has($service)) {
                 $view = $this->container->get($service);
             } else {
-                $view = $this->errorView($request, 'Component is not in controler configuration of context map.');
+                $view = $this->errorView($request, "Component $service is not defined (configured) in container.");                    
             }
         } else {
             $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
@@ -115,22 +122,31 @@ class ComponentControler extends PresentationFrontControlerAbstract {
     }
 
     public function article(ServerRequestInterface $request, $menuItemId) {
-        /** @var ArticleViewModel $viewModel */
-        $viewModel = $this->container->get(ArticleViewModel::class);
-        $viewModel->setMenuItemId($menuItemId);
-        /** @var ArticleComponentInterface $view */
-        $view = $this->container->get(ArticleComponent::class);
+        if($this->isAllowed(AllowedActionEnum::GET)) {
+            /** @var ArticleViewModel $viewModel */
+            $viewModel = $this->container->get(ArticleViewModel::class);
+            $viewModel->setMenuItemId($menuItemId);
+            /** @var ArticleComponentInterface $view */
+            $view = $this->container->get(ArticleComponent::class);
+        } else {
+            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+        }
         return $this->createStringOKResponseFromView($view);
     }
 
     public function multipage(ServerRequestInterface $request, $menuItemId) {
-        /** @var MultipageViewModel $viewModel */
-        $viewModel = $this->container->get(MultipageViewModel::class);
-        $viewModel->setMenuItemId($menuItemId);
-        /** @var MultipageComponentInterface $view */
-        $view = $this->container->get(MultipageComponent::class);
+        if($this->isAllowed(AllowedActionEnum::GET)) {
+            /** @var MultipageViewModel $viewModel */
+            $viewModel = $this->container->get(MultipageViewModel::class);
+            $viewModel->setMenuItemId($menuItemId);
+            /** @var MultipageComponentInterface $view */
+            $view = $this->container->get(MultipageComponent::class);
+        } else {
+            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+        }
         return $this->createStringOKResponseFromView($view);
     }
+    
 ###################
     private function errorView(ServerRequestInterface $request, $message = '') {
         $view = $this->container->get(View::class);

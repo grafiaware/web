@@ -12,6 +12,7 @@ use Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\EditorActionsInterface;
+use Events\Model\Entity\RepresentationActionsInterface;
 
 /**
  * Třída nemá metodu getUser(), nikdy nevrací celý objekt User. Tak nelze měnit vlastnosti objektu User získaného z StatusSecurity.
@@ -42,7 +43,7 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
      * @return StatusSecurityInterface
      */
     public function new(LoginAggregateFullInterface $loginAggregate): StatusSecurityInterface;
-
+        
     /**
      * Informuje, zda security kontext existuje a zda je platný.
      * 
@@ -56,11 +57,26 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
      */
     public function getLoginAggregate(): ?LoginAggregateFullInterface;
 
+    //TODO: getEditorActions() a getRepresentativeActions() pryč -> nový StatusSecurityEditor (+repo, dao) do modulu RED a nový StatusSecurityRepresentative do modulu EVENTS, obě repo 
+    // budou repliky StatusSecurityRepo s const FRAGMENT_NAME = 'security.editor'; a const FRAGMENT_NAME = 'security.representative'; => entity se budou ukládat do $_SESSION
+    // jako fragmenty pod fragment security - viz Pes\Session\SessionStatusHandler
+    // a) smazáním StatusSecurity se (snad!!) smaže celý secirity fragment ze session a tím automaticky i security.editor a security.representative fragmenty
+    // b) StatusSecurityEditorRepo->get() vrací typově správně StatusSecurityEditor a StatusSecurityRepresentativeRepo->get() vrací typově správně StatusSecurityRepresentative atd.
+    // podmínka: nový StatusSecurityEditor (+repo, dao) do modulu RED a nový StatusSecurityRepresentative do modulu EVENTS => nedá se používat v jiném modulu -> statusSecurity musíš vymýtit
+    // z modulu WEB /např. PresentationFrontControlerAbstract, Prepare (????!!), LayoutControllerAbstract
+    
+    
     /**
      *
      * @return EditorActionsInterface|null
      */
     public function getEditorActions(): ?EditorActionsInterface;
+    
+    /**
+     * 
+     * @return RepresentationActionsInterface|null
+     */
+    public function getRepresentativeActions(): ?RepresentationActionsInterface; 
     
     public function setInfo($name, $value);
     

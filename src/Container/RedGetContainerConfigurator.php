@@ -102,8 +102,8 @@ use Red\Component\View\Content\Authored\PaperTemplate\PaperTemplateComponent;
 
 use Red\Component\View\Manage\SelectTemplateComponent;
 
-use Red\Component\View\Element\ElementComponent;
-use Red\Component\View\Element\ElementInheritDataComponent;
+use Component\View\ElementComponent;
+use Component\View\ElementInheritDataComponent;
 
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
@@ -217,7 +217,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getParams(): iterable {
         return array_merge(
                 ConfigurationCache::web(),  //db
-                ConfigurationCache::redComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
+                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
                 ConfigurationCache::menu(),
 //                Configuration::renderer(),
                 ConfigurationCache::redTemplates()
@@ -965,10 +965,10 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             // configuration - používá parametry nastavené metodou getParams()
             ComponentConfiguration::class => function(ContainerInterface $c) {
                 return new ComponentConfiguration(
-                        $c->get('redcomponent.logs.directory'),
-                        $c->get('redcomponent.logs.render'),
-                        $c->get('redcomponent.logs.type'),
-                        $c->get('redcomponent.templates')
+                        $c->get('webcomponent.logs.directory'),
+                        $c->get('webcomponent.logs.render'),
+                        $c->get('webcomponent.logs.type'),
+                        $c->get('webcomponent.templates')
                     );
             },
 
@@ -1101,7 +1101,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class)
                     );
             },
-        ####
+        ####;
         # view modely pro komponenty
         #
             PaperViewModel::class => function(ContainerInterface $c) {

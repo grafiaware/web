@@ -1,5 +1,5 @@
 <?php
-namespace Red\Component\View\Element;
+namespace Component\View;
 
 use Component\View\ComponentCompositeAbstract;
 use Pes\View\InheritDataViewInterface;

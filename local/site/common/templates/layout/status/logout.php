@@ -10,7 +10,7 @@
                     <span class="item"></span>
                 </div>
                 <button class="ui button" type="submit" name="logout" value="1"
-                       formtarget="_self"formaction='auth/v1/logout'>
+                       formtarget="_self" formaction='auth/v1/logout'>
                     Odhlásit
                 </button>
               </div>

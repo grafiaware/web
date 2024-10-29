@@ -51,9 +51,7 @@ use Events\Model\Entity\LoginInterface;
     $jobToTagRepo = $container->get(JobToTagRepo::class );
 
 //    ------------------------------------------------
-       // $idCompany = 10 ;
-       // $idCompany = 25 ;
-        $idCompany = 42 ;
+        $idCompany = 10 ;
 //    ------------------------------------------------
 
         $allTags=[];

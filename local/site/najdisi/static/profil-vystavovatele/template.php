@@ -58,10 +58,7 @@ $idCompanyVystavovatele = 25;
         $representativeViewModel = $container->get(RepresentativeViewModel::class );
         $representativeViewModel->
         
-        $representativeEntity = $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
-        if (isset($representativeEntity)) {  
-            $isRepresentative = true;
-        }        
+        $isRepresentative =  $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company  
     }
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
@@ -70,10 +67,7 @@ if (isset($loginAggregate)) {
         /** @var RepresentativeViewModel $representativeViewModel */
         $representativeViewModel = $container->get(RepresentativeViewModel::class );
         $companyEntity = $representativeViewModel->getRepresentativesList($idCompanyVystavovatele);
-        $representativeEntity = $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company
-        if (isset($representativeEntity)) {  
-            $isRepresentative = true;
-        }
+        $isRepresentative =  $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company  
     }
 }
 

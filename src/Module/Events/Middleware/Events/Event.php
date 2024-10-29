@@ -18,6 +18,8 @@ use Container\EventsDbContainerConfigurator;
 use Container\AuthContainerConfigurator;
 use Container\MailContainerConfigurator;
 
+use Events\Middleware\Events\Controler\ComponentControler;
+use Events\Middleware\Events\Controler\RepresentationControler;
 use Events\Middleware\Events\Controler\EventStaticControler;
 use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\EventControler_2;
@@ -86,11 +88,17 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
-        #### ComponentController ####
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
             /** @var EventStaticControler $ctrl */
             $ctrl = $this->container->get(EventStaticControler::class);
             return $ctrl->static($request, $staticName);
+            });
+
+        #### ComponentController ####
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/service/:name', function(ServerRequestInterface $request, $name) {
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
+            return $ctrl->serviceComponent($request, $name);
             });
     }
 
@@ -124,20 +132,23 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         ####################################
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
-
+        $this->routeGenerator->addRouteForAction('POST', "/events/v1/representation", function(ServerRequestInterface $request) {
+            /** @var RepresentationControler $ctrl */
+            $ctrl = $this->container->get(RepresentationControler::class);
+            return $ctrl->setRepresentation($request);
+        });
+        
         $this->routeGenerator->addRouteForAction('POST', "/events/v1/enroll", function(ServerRequestInterface $request) {
             /** @var EventControler $ctrl */
             $ctrl = $this->container->get(EventControler::class);
             return $ctrl->enroll($request);
         });
         
-        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->visitor($request);
         });
-        
         
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/company', function(ServerRequestInterface $request) {
             /** @var CompanyControler $ctrl */
@@ -154,11 +165,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(CompanyControler::class);
             return $ctrl->removeCompany($request, $idCompany);
         });
-        
-        
-        
-        
-        
+
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companycontact', function(ServerRequestInterface $request, $idCompany) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
@@ -174,7 +181,6 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(CompanyControler::class);
             return $ctrl->removeCompanyContact($request, $idCompany, $idCompanyContact);
         });
-        
         
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress', function(ServerRequestInterface $request, $idCompany) {
             /** @var CompanyControler $ctrl */
@@ -192,7 +198,6 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeCompanyAddress($request,  $idCompany,  $idCompanyA);
         });
         
-                        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/representative', function(ServerRequestInterface $request) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
@@ -204,7 +209,6 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(CompanyControler::class);
             return $ctrl->removeRepresentative($request, $loginLoginName, $companyId);
         });
-        
         
         ###################        
         # EventControler_2

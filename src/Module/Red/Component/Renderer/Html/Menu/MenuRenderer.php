@@ -29,7 +29,7 @@ class MenuRenderer extends HtmlRendererAbstract {
         if ($viewModel->offsetExists(MenuComponentInterface::MENU)) {
             $innerHtml[] = $viewModel->offsetGet(MenuComponentInterface::MENU);
         }
-        if ($viewModel->presentEditableMenu()) {
+        if ($viewModel->presentEditableContent()) {
 //            $class[] = 'hierarchy';   // class hierarchy - nutná pro cascade.js, event listener pro výměny DriverComponent v editačním menu
             $class[] = 'navigation';   // class navigation - nutná pro cascade.js, event listener pro skrytí a zobrazení položek menu v needitačním režimu
         } else {

@@ -43,7 +43,6 @@ class CompanyAddressDaoTest  extends AppRunner {
 
         $rowData = new RowData();
         $rowData->offsetSet('name', self::$prefix."Company1");
-        $rowData->offsetSet('eventInstitutionName30', 'ShortyCo.');
         $companyDao->insert($rowData);
         self::$companyPrimaryKey =  $companyDao->getLastInsertedPrimaryKey();
     }

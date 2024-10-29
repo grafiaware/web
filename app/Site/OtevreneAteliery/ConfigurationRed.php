@@ -36,7 +36,6 @@ class ConfigurationRed extends ConfigurationConstants {
                 'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
                 'useraction' => self::WEB_TEMPLATES_COMMON.'layout/status/userAction.php',
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-                'controleditmenu' => self::WEB_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
             ]

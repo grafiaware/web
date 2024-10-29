@@ -19,7 +19,7 @@ use Red\Model\Entity\MenuRootInterface;
  */
 interface MenuViewModelInterface extends ViewModelInterface {
 
-    public function presentEditableMenu(): bool;
+    public function presentEditableContent(): bool;
 
     /**
      * Prezentuj pouze publikované položky
