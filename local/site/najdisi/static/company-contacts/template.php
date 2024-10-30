@@ -7,40 +7,39 @@ use Pes\Text\Html;
 
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Repository\CompanyContactRepoInterface;
 
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\CompanyContactInterface;
+use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModel;
 
-use Events\Model\Repository\RepresentativeRepo;
 
 /** @var PhpTemplateRendererInterface $this */
 
-    /** @var CompanyRepo $companyRepo */ 
+    /** @var CompanyRepoInterface $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
-    /** @var CompanyContactRepo $companyContactRepo */
+    /** @var CompanyContactRepoInterface $companyContactRepo */
     $companyContactRepo = $container->get(CompanyContactRepo::class );
-    /** @var RepresentativeRepo $representativeRepo */
-    $representativeRepo = $container->get(RepresentativeRepo::class );
-    //------------------------------------------------------------------
 
-    //$idCompany = 10; // akka
-    //$idCompany = 25 ;  //dzk
-    $idCompany = 42 ; 
-    
-    //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem
-    //        if ( $representativeRepo->findByLogin($loginName) )   --neni metoda 
-                                   
     //------------------------------------------------------------------
+    /** @var StatusViewModelInterface $statusViewModel */
+    $statusViewModel = $container->get(StatusViewModel::class);
+    $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
+    $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
+    $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
+    //---------------------------------------------
     
-    /** @var CompanyInterface $company */ 
-    $company = $companyRepo->get($idCompany);
-    if (isset ($company)) {       
-            
+     if ( isset($idCompany) ) {                     
+        /** @var CompanyInterface $company */ 
+        $company = $companyRepo->get($idCompany);
+                 
         $companyContacts=[];
         $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
         if ($companyContactEntities) {         
-            foreach ($companyContactEntities as $cCEntity) {
-                /** @var CompanyContactInterface $cCEntity */
+             /** @var CompanyContactInterface $cCEntity */
+            foreach ($companyContactEntities as $cCEntity) {               
                 $companyContacts[] = [
                     'companyContactId' => $cCEntity->getId(),
                     'companyId' => $cCEntity->getCompanyId(),
@@ -58,8 +57,8 @@ use Events\Model\Repository\RepresentativeRepo;
     <div>
     <div class="ui styled fluid accordion">   
             
-        Vyžaduje přihlášení. <br/>
-            Firma (company): |* <?= $company->getName(); ?> *|
+        Vyžaduje přihlášení.    <?= isset($loginName)? " - přihlášen $loginName " : "" ; ?>   <br/>        
+        Firma (company): |*     <?= isset($company)? $company->getName() : "" ; ?> *|       
             
             <div class="active title">
                 <i class="dropdown icon"></i>
@@ -82,6 +81,8 @@ use Events\Model\Repository\RepresentativeRepo;
   <?php     
     } else { ?>
           <div>
+            Vyžaduje přihlášení.    <?= isset($loginName)? " - přihlášen $loginName " : ""  ; ?>   <br/>        
+            Firma (company): |*     <?= isset($company)? $company->getName() : "" ;  ?> *|        
           </div>   
   <?php 
    }

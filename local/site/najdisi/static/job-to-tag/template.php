@@ -18,6 +18,7 @@ use Events\Model\Repository\JobTagRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 
+use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\JobToTag;
 use Events\Model\Entity\JobToTagInterface;
 use Events\Model\Entity\JobTag;
@@ -28,32 +29,30 @@ use Events\Model\Entity\JobInterface;
 use Events\Model\Repository\LoginRepo;
 use Events\Model\Entity\LoginInterface;
 
+use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModel;
+
 /** @var PhpTemplateRendererInterface $this */
-
-   $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-    /** @var StatusSecurityRepo $statusSecurityRepo */
-    $statusSecurity = $statusSecurityRepo->get();
-    $loginAggregate = $statusSecurity->getLoginAggregate();
-    if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginName();
-        $cred = $loginAggregate->getCredentials();
-
-        $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
-    }
-
+    
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );
     /** @var JobRepoInterface $jobRepo */
     $jobRepo = $container->get(JobRepo::class );
     /** @var JobTagRepoInterface $jobTagRepo */
     $jobTagRepo = $container->get(JobTagRepo::class );
-    /** @var JobToTagRepo $jobToTagRepo */
+    /** @var JobToTagRepoInterface $jobToTagRepo */
     $jobToTagRepo = $container->get(JobToTagRepo::class );
 
-//    ------------------------------------------------
-        $idCompany = 10 ;
-//    ------------------------------------------------
-
+//------------------------------------------------------------------
+    /** @var StatusViewModelInterface $statusViewModel */
+    $statusViewModel = $container->get(StatusViewModel::class);
+    $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
+    $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
+    $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
+    //---------------------------------------------        
+        
+     if ( isset($idCompany) ) {
+     
         $allTags=[];
         $jobTagEntitiesAll = $jobTagRepo->findAll();
         /** @var JobTagInterface  $jobTagEntity */
@@ -64,7 +63,7 @@ use Events\Model\Entity\LoginInterface;
 
         /** @var CompanyInterface $company */
         $company = $companyRepo->get($idCompany);
-        if (isset ($company)) {
+        //if (isset ($company)) {
             // pro company - $idCompany najit vsechny jeji joby
             $jobCompanyEntities = $jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
             if ($jobCompanyEntities) {
@@ -90,13 +89,12 @@ use Events\Model\Entity\LoginInterface;
                     ];
                 }//$jobEntity
             }
-
   ?>
     <div>
         
-    <div class="ui styled fluid accordion">
-            Nutné přihlášení <br/>
-            Vystavovatel (company): |* <?= $company->getName(); ?> *|
+    <div class="ui styled fluid accordion">                 
+            Vyžaduje přihlášení.    <?= isset($loginName)? " - přihlášen $loginName " : "" ; ?>   <br/>        
+            Firma (company): |*     <?= isset($company)? $company->getName() : "" ; ?> *|             
             
             <div class="active title">
                  <i class="dropdown icon"></i>
@@ -105,14 +103,15 @@ use Events\Model\Entity\LoginInterface;
             <div class="content">
                 <?= $this->repeat(__DIR__.'/content/job-to-tag.php',  $jobToTagies  )  ?>
             </div>                    
-
-
     </div>
     </div>
 
-
-
-  <?php
-        }
+  <?php     
+    } else { ?>
+          <div>
+            Vyžaduje přihlášení.    <?= isset($loginName)? " - přihlášen $loginName " : "" ; ?>   <br/>        
+            Firma (company): |*     <?= isset($company)? $company->getName() : "" ; ?> *|                         
+          </div>   
+  <?php 
+   }
   ?>
-

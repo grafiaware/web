@@ -295,7 +295,7 @@ if (isset($loginAggregate)) {
                                         ?>
                                         <div class="ui large button blue profil-visible">
                                             <i class="play icon"></i>
-                                            <span>Mám zájem o tuto pozici  296 &nbsp;</span>
+                                            <span>Mám zájem o tuto pozici &nbsp;</span>
                                             <i class="play flipped icon"></i>
                                         </div>
                                         <?php
@@ -335,7 +335,7 @@ if (isset($loginAggregate)) {
                                         <?php
                                     }
 //----------                                   
-                                } else {
+                                } elseif (!isset($loginAggregate)) {
                                     ?>
                                     <div class="sixteen wide column center aligned">
                                         <div class="ui large button blue profil-visible">

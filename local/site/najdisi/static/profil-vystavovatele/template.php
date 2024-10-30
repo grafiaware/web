@@ -6,9 +6,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\ConfigurationCache;
 
-use Component\ViewModel\StatusViewModelInterface;
-
-use Status\Model\Repository\StatusSecurityRepo;
 
 use Status\Model\Entity\StatusSecurity;
 use Events\Model\Repository\EnrollRepo;
@@ -26,9 +23,16 @@ use Events\Model\Entity\CompanyContactInterface;
 use Pes\Text\Html;
 use Pes\Text\Text;
 
+
+use Status\Model\Repository\StatusSecurityRepo;
+
+use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModel;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 
+
+//________________?????????????????????????????????
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModelInterface::class);
 
@@ -38,9 +42,12 @@ $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
+//___________
+
 
 $readonly = 'readonly="1"';
 $disabled = 'disabled="1"';
+
 
 $isRepresentative = false;
 
@@ -48,15 +55,26 @@ $isRepresentative = false;
 //$idCompanyVystavovatele = 10; 
 $idCompanyVystavovatele = 25; 
 //$idCompanyVystavovatele = 35; 
-
-
-
 // tato stranka musi byt dostupna jen z odkazu na strance firmy (vystavovatele), součástí odkazu pak musí být company name (nebo id)
+
+ //------------------------------------------------------------------
+    /** @var StatusViewModelInterface $statusViewModel */
+    $statusViewModel = $container->get(StatusViewModel::class);
+    $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
+    $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
+    $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
+    //---------------------------------------------
+    $isRepresentative = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId); //$idCompanyVystavovatele
+
+//________________?????????????????????????????????
+
+
+
 //######################
     if ($statusViewModel->isUserLoggedIn() AND $statusViewModel->getUserRole()==ConfigurationCache::loginLogoutController()['roleRepresentative']) {
         /** @var RepresentativeViewModel $representativeViewModel */
         $representativeViewModel = $container->get(RepresentativeViewModel::class );
-        $representativeViewModel->
+        //$representativeViewModel->
         
         $isRepresentative =  $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company  
     }
@@ -64,6 +82,10 @@ if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRoleFk();
     if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']))  {
+        
+        
+        //$representativeViewMode  NECHCEME
+        
         /** @var RepresentativeViewModel $representativeViewModel */
         $representativeViewModel = $container->get(RepresentativeViewModel::class );
         $companyEntity = $representativeViewModel->getRepresentativesList($idCompanyVystavovatele);

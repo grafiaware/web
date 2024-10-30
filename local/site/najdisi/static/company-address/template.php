@@ -10,45 +10,41 @@ use Events\Model\Repository\CompanyAddressRepo;
 
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\CompanyAddressInterface;
+use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModel;
 
 /** @var PhpTemplateRendererInterface $this */
-   
     
     /** @var CompanyRepo $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
     /** @var CompanyAddressRepo $companyAddressRepo */ 
     $companyAddressRepo = $container->get(CompanyAddressRepo::class );
     //------------------------------------------------------------------
+    /** @var StatusViewModelInterface $statusViewModel */
+    $statusViewModel = $container->get(StatusViewModel::class);
+    $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
+    $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
+    $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
+    //---------------------------------------------
 
-    //$idCompany = 10; // akka
-    //$idCompany = 25 ;  //dzk
-    $idCompany = 42 ; 
-    
-    //dalo by se zjistit vsechny  company, kde je prihlaseny representatntem
-    //        if ( $representativeRepo->findByLogin($loginName) )  --neni metoda 
-            
-    //------------------------------------------------------------------
-    
-    /** @var CompanyInterface $company */ 
-    $company = $companyRepo->get($idCompany);
-    if ( isset($company) ) {       
-            
-        $companyAddress=[];
-        /** @var CompanyAddressInterface $companyAddress */
-        $companyAddress = $companyAddressRepo->get($idCompany);
-        if ($companyAddress) {           
+    if ( isset($idCompany) ) {       
+        /** @var CompanyInterface $company */ 
+        $company = $companyRepo->get($idCompany);            
+        /** @var CompanyAddressInterface $companyAddressEntity */
+        $companyAddressEntity = $companyAddressRepo->get($idCompany);
+        if (isset($companyAddressEntity)) {           
             $companyAddress = [
                 'companyId'=> $idCompany,
                 'companyId_proAdress'=> $idCompany,
-                'name'   => $companyAddress->getName(),
-                'lokace' => $companyAddress->getLokace(),
-                'psc'    => $companyAddress->getPsc(),
-                'obec'   => $companyAddress->getObec()
+                'name'   => $companyAddressEntity->getName(),
+                'lokace' => $companyAddressEntity->getLokace(),
+                'psc'    => $companyAddressEntity->getPsc(),
+                'obec'   => $companyAddressEntity->getObec()
                 ];
         }    
         else {
             $companyAddress = [
-                'companyId'=> $idCompany,
+                'companyId'=> $idCompany,  // id potřebné pro insert nové adresy
                 ];
         }   
             
@@ -58,10 +54,9 @@ use Events\Model\Entity\CompanyAddressInterface;
     <div>
     <div class="ui styled fluid accordion">
         
-        Vyžaduje přihlášení. <br/>        
-            Firma (company): |* <?= $company->getName(); ?> *|           
-            
-            
+        Vyžaduje přihlášení.    <?= isset($loginName)? " - přihlášen $loginName " : "" ; ?>   <br/>        
+        Firma (company): |*     <?= isset($company)? $company->getName() : "" ; ?> *|           
+                        
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Adresa firmy  <?= $company->getName(); ?>    
@@ -76,6 +71,8 @@ use Events\Model\Entity\CompanyAddressInterface;
    <?php     
     } else { ?>
           <div>
+          Vyžaduje přihlášení.    <?= isset($loginName)? " - přihlášen $loginName " : ""  ; ?>   <br/>        
+          Firma (company): |*     <?= isset($company)? $company->getName() : "" ;  ?>     *|      
           </div>   
   <?php 
    }

@@ -6,55 +6,57 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Events\Model\Repository\CompanyRepo;
-//use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
+use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 
 use Events\Model\Entity\CompanyInterface;
-//use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\Job;
+use Events\Model\Entity\JobInterface;
 use Events\Model\Entity\PozadovaneVzdelani;
 use Events\Model\Entity\PozadovaneVzdelaniInterface;
-
+use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModel;
 
 /** @var PhpTemplateRendererInterface $this */
 
 
-
-    /** @var CompanyRepo $companyRepo */ 
+    /** @var CompanyRepoInterface $companyRepo */ 
     $companyRepo = $container->get(CompanyRepo::class );
-    /** @var JobRepo $jobRepo */
+    /** @var JobRepoInterface $jobRepo */
     $jobRepo = $container->get(JobRepo::class );
-    /** @var PozadovaneVzdelaniRepo $pozadovaneVzdelaniRepo */
+    /** @var PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo */
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
   
-    //------------------------------------------------------------------
-     //$idCompany = 10; // akka
-    //$idCompany = 25 ;  //dzk
-    $idCompany = 42 ; 
+   //------------------------------------------------------------------
+    /** @var StatusViewModelInterface $statusViewModel */
+    $statusViewModel = $container->get(StatusViewModel::class);
+    $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
+    $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
+    $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
+    //---------------------------------------------
+          
     
-    //------------------------------------------------------------------
-    
-    $selectEducations = [];
-    $selectEducations [''] =  "vyber - povinné pole" ;
-    $vzdelaniEntities = $pozadovaneVzdelaniRepo->findAll();
-    /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */ 
-    foreach ( $vzdelaniEntities as $vzdelaniEntity ) {
-        $selectEducations [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
-    }
-
-       
-    
-    
-    /** @var CompanyInterface $company */ 
-    $company = $companyRepo->get($idCompany);
-    if (isset ($company)) {       
+    if ( isset($idCompany) ) {
+                 
+            $selectEducations = [];
+            $selectEducations [''] =  "vyber - povinné pole" ;
+            $vzdelaniEntities = $pozadovaneVzdelaniRepo->findAll();
+            /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */ 
+            foreach ( $vzdelaniEntities as $vzdelaniEntity ) {
+                $selectEducations [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
+            }  
+        
+        /** @var CompanyInterface $company */ 
+        $company = $companyRepo->get($idCompany);     
             
         $companyJobEntities = $jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
         $companyJobs=[];
-        foreach ($companyJobEntities as $jEntity) {
-            /** @var JobInterface $jEntity */     
-            /** @var PozadovaneVzdelani $vzdelaniEntity */
+                 /** @var JobInterface $jEntity */ 
+        foreach ($companyJobEntities as $jEntity) {               
+            /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */
             $vzdelaniEntity = $pozadovaneVzdelaniRepo->get( $jEntity->getPozadovaneVzdelaniStupen() );
             $vzdelani = $vzdelaniEntity->getVzdelani();
                                                                         
@@ -78,8 +80,8 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
     <div>
     <div class="ui styled fluid accordion">   
         
-        Vyžaduje přihlášení representanta. <br/>
-            Firma (company): |* <?= $company->getName(). ' - ' .  $company->getId();  ?> *| 
+        Vyžaduje přihlášení.    <?= isset($loginName)? " - přihlášen $loginName " : "" ; ?>   <br/>        
+        Firma (company): |*     <?= isset($company)? $company->getName() : "" ; ?> *|     
            
             <div class="active title">
                 <i class="dropdown icon"></i>
@@ -103,6 +105,8 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
   <?php     
     } else { ?>
           <div>
+            Vyžaduje přihlášení.    <?= isset($loginName)? " - přihlášen $loginName " : "" ; ?>   <br/>        
+            Firma (company): |*     <?= isset($company)? $company->getName() : "" ; ?> *|         
           </div>   
   <?php 
    }
