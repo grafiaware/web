@@ -13,7 +13,7 @@ use Events\Middleware\Events\Controler\RepresentationControler;
                 <?= Html::select(
                         RepresentationControler::FORM_REPRESENTATION_COMPANY_ID, 
                         "Zastupovaná firma", 
-                        [RepresentationControler::FORM_REPRESENTATION_COMPANY_ID=> $selectedCompanyId ?? ''],  
+                        [RepresentationControler::FORM_REPRESENTATION_COMPANY_ID=> $selectedCompanyId],  
                         $idCompanyArray, 
                         ['required' => true ],
                         $placeholderValue) ?>  

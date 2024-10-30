@@ -36,13 +36,14 @@ class RepresentationActionViewModel extends ViewModelAbstract {
 
     public function getIterator() {
         $representative = $this->status->getRepresentativeActions()->getRepresentative();
-        $placeholderValue = 'placeholder';
-        return new ArrayIterator([
+        $placeholderValue = '';
+        $array = [
             'loginName' => $this->status->getUserLoginName(),
             'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderValue),
-            'selectedCompanyId' => isset($representative) ? $representative->getCompanyId() : '', // hodnota první položky $idCompanyArray pro zajištění funkčnosti required select
+            'selectedCompanyId' => isset($representative) ? $representative->getCompanyId() : null,
             'placeholderValue' => $placeholderValue
-        ]);
+        ];
+        return new ArrayIterator($array);
     }
 
     /**
