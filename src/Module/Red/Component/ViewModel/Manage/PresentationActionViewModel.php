@@ -11,7 +11,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class UserActionViewModel extends ViewModelAbstract {
+class PresentationActionViewModel extends ViewModelAbstract implements PresentationActionViewModelInterface {
 
     private $status;
 

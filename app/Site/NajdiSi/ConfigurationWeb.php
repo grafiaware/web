@@ -15,7 +15,7 @@ use Web\Component\View\Flash\FlashComponent;
 use Auth\Component\View\LoginComponent;
 use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\UserActionComponent;
+use Red\Component\View\Manage\PresentationActionComponent;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
@@ -214,7 +214,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'modalLogin' => ["red/v1/service/modalLogin"=>LoginComponent::class],
                     'modalLogout' => ["red/v1/service/modalLogout"=>LogoutComponent::class],
                     'modalRegister' => ["red/v1/service/modalRegister"=>RegisterComponent::class],
-                    'modalUserAction' => ["red/v1/service/modalUserAction"=>UserActionComponent::class],
+                    'modalUserAction' => ["red/v1/service/modalUserAction"=>PresentationActionComponent::class],
                     'modalRepresentativeAction' => ["events/v1/service/modalRepresentativeAction"=>RepresentativeActionComponent::class],  // CHYBA volá "/web/red/v1/service/modalRepresentativeAction"
                     'info' => ["red/v1/service/info"=>InfoBoardComponent::class],
                 ],

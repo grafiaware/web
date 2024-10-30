@@ -86,7 +86,7 @@ use Auth\Component\View\RegisterComponent;
 
 use Web\Component\View\Flash\FlashComponent;
 
-use Red\Component\View\Manage\UserActionComponent;
+use Red\Component\View\Manage\PresentationActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
@@ -121,7 +121,7 @@ use Red\Component\ViewModel\Menu\DriverViewModel;
 use Auth\Component\ViewModel\LoginViewModel;
 use Auth\Component\ViewModel\LogoutViewModel;
 use Red\Component\ViewModel\Manage\InfoBoardViewModel;
-use Red\Component\ViewModel\Manage\UserActionViewModel;
+use Red\Component\ViewModel\Manage\PresentationActionViewModel;
 
 use Web\Component\ViewModel\Flash\FlashViewModel;
 
@@ -545,14 +545,14 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            UserActionComponent::class => function(ContainerInterface $c) {
+            PresentationActionComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                if($accessPresentation->isAllowed(UserActionComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new UserActionComponent($c->get(ComponentConfiguration::class));
-                    $component->setData($c->get(UserActionViewModel::class));
+                if($accessPresentation->isAllowed(PresentationActionComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new PresentationActionComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(PresentationActionViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('useraction')));
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -1096,8 +1096,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class)
                     );
             },
-            UserActionViewModel::class => function(ContainerInterface $c) {
-                return new UserActionViewModel(
+            PresentationActionViewModel::class => function(ContainerInterface $c) {
+                return new PresentationActionViewModel(
                         $c->get(StatusViewModel::class)
                     );
             },
