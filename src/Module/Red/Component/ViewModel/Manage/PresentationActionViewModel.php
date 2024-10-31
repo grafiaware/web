@@ -3,6 +3,7 @@ namespace Red\Component\ViewModel\Manage;
 
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
+use Events\Component\ViewModel\Manage\RepresentationActionViewModelInterface;
 
 use ArrayIterator;
 
@@ -11,19 +12,19 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class PresentationActionViewModel extends ViewModelAbstract implements PresentationActionViewModelInterface {
+class PresentationActionViewModel extends ViewModelAbstract implements RepresentationActionViewModelInterface {
 
-    private $status;
+    private $statusViewModel;
 
     public function __construct(
             StatusViewModelInterface $status) {
-        $this->status = $status;
+        $this->statusViewModel = $status;
     }
 
     public function getIterator() {
         return new ArrayIterator([
-                        'editContent' => $this->status->presentEditableContent(),
-                        'loginName' => $this->status->getUserLoginName()
+                        'editContent' => $this->statusViewModel->presentEditableContent(),
+                        'loginName' => $this->statusViewModel->getUserLoginName()
         ]);
     }
 

@@ -104,7 +104,7 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     public function getEditorActions(): ?EditorActionsInterface {
         return $this->editorActions;
     }
-    public function getRepresentativeActions(): ?\Events\Model\Entity\RepresentationActionsInterface {
+    public function getRepresentativeActions(): ?RepresentationActionsInterface {
         return $this->represantativeActions;
     }
     public function setInfo($name, $value) {

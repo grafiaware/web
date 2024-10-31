@@ -7,12 +7,12 @@
 
 namespace Events\Component\ViewModel\Manage;
 
-use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\ViewModelInterface;
 
 /**
  *
  * @author pes2704
  */
-interface RepresenttiveActionViewModelInterface extends StatusViewModelInterface {
+interface RepresentationActionViewModelInterface extends ViewModelInterface {
     //put your code here
 }
