@@ -113,7 +113,16 @@ class ConfigurationWeb extends ConfigurationConstants {
             ]
         ];
     }
+    /**
+     * Konfigurace - parametry common templates
+     * @return array
+     */
+    public static function commonTemplates() {
 
+        return [
+            'templates' => self::WEB_TEMPLATES_COMMON,
+        ];
+    }
     ### presentation ###
     #
 

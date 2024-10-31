@@ -8,16 +8,30 @@ use Site\ConfigurationCache;
 //use Red\Model\Entity\LoginAggregateFullInterface;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-
 use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\Document;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Entity\StatusSecurity;
+use Status\Model\Entity\StatusSecurityInterface;
+
+
 
 /** @var PhpTemplateRendererInterface $this */
+
 /** @var VisitorProfile $visitorProfile */
-/** @var LoginAggregateFullInterface $loginAggregate */
 /** @var Document $visitorDocumentCv */
 /** @var Document $visitorDocumentLetter */
+
+//----------- ------------------
+    /** @var StatusSecurityRepo $statusSecurityRepo */
+$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+    /** @var StatusSecurityInterface $statusSecurity */
+$statusSecurity = $statusSecurityRepo->get();
+    /** @var LoginAggregateFullInterface $loginAggregate */
+$loginAggregate = $statusSecurity->getLoginAggregate();   
+//------------------------------------------------------------------
+
 
 
 $userHash = $loginAggregate->getLoginNameHash();
@@ -27,7 +41,7 @@ $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash
 
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
-// - předvyplňuje se z $visitorData
+
 $email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
 ?>
             <div class="active title">
