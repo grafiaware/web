@@ -63,6 +63,9 @@ class ConfigurationCache {
                 case 'webComponent':
                     self::$cache[$name] = Siteconfig\ConfigurationWeb::webComponent();
                     break;
+                case 'commonTemplates':
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::commonTemplates();
+                    break;                
                 case 'presentationStatus':
                     self::$cache[$name] = Siteconfig\ConfigurationWeb::presentationStatus();
                     break;
@@ -218,10 +221,12 @@ class ConfigurationCache {
 
     ### presentation ###
     #
+    public static function commonTemplates() {
+        return self::getConfigModule('commonTemplates');
+    }
     public static function presentationStatus() {
         return self::getConfigModule('presentationStatus');
     }
-
     public static function layoutController() {
         return self::getConfigModule('layoutController');
     }

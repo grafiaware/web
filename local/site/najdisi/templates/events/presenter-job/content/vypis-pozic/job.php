@@ -44,7 +44,8 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
-$representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
+$representativeActions = $statusViewModel->getRepresentativeActions();
+$representativeFromStatus = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
 
 
 /** @var VisitorJobRequestRepo $visitorJobRequestRepo */

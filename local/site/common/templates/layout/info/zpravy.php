@@ -8,6 +8,6 @@ use Pes\Text\Html;
 
 <div class="pro-media">
     <div class="ui grid">
-        <?= $this->repeat(__DIR__.'/content/zprava.php', $context) ?>
+        <?= $this->repeat(__DIR__.'/zpravy/zprava.php', $context) ?>
     </div>
 </div>

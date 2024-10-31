@@ -8,6 +8,8 @@ use Site\ConfigurationCache;
 
 
 use Status\Model\Entity\StatusSecurity;
+use Status\Model\Repository\StatusSecurityRepo;
+
 use Events\Model\Repository\EnrollRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\CompanyRepo;
@@ -30,12 +32,25 @@ use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
+use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModel;
+
+
+
+
+ //------------------------------------------------------------------
+    /** @var StatusViewModelInterface $statusViewModel */
+    $statusViewModel = $container->get(StatusViewModel::class);
+    $role = $statusViewModel->getUserRole();
+    //$loginName = $statusViewModel->getUserLoginName();
+    
+    $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
+    $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
+    //---------- $idCompany je company prihlaseneho representanta
+//------------------------------------------------------------------
 
 
 //________________?????????????????????????????????
-/** @var StatusViewModelInterface $statusViewModel */
-$statusViewModel = $container->get(StatusViewModelInterface::class);
-
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurity $statusSecurity */

@@ -63,14 +63,14 @@ class ConfigurationRed extends ConfigurationConstants {
     public static function redTemplates() {
 
         return [
-                'templates.defaultExtension' => '.php',
-                // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného typu
-                'templates.folders' => [
+            'templates.defaultExtension' => '.php',
+            // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného typu
+            'templates.folders' => [
                 'author'=>[self::WEB_TEMPLATES_SITE.'red/author/', self::WEB_TEMPLATES_COMMON.'red/author/'], 
                     'paper' => [self::WEB_TEMPLATES_SITE.'red/paper/', self::WEB_TEMPLATES_COMMON.'red/paper/'],
                     'article' => [self::WEB_TEMPLATES_SITE.'red/article/', self::WEB_TEMPLATES_COMMON.'red/article/'],
                     'multipage' => [self::WEB_TEMPLATES_SITE.'red/multipage/', self::WEB_TEMPLATES_COMMON.'red/multipage/'],
-                    ],
+                ],
             'templates.list' => [
                 'multipage' => [
                     [ 'title' => 'template multipage test', 'description' => 'popis',       'url' => 'red/v1/multipagetemplate/test'],

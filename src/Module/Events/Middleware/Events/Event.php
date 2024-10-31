@@ -72,13 +72,8 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             (new EventsContainerConfigurator())->configure(
                 (new EventsModelContainerConfigurator())->configure(
                     (new EventsDbContainerConfigurator())->configure(
-                        (new Container(
-//                                (new LoginContainerConfigurator())->configure(
-                                    (new MailContainerConfigurator())->configure(
-                                        new Container($this->getApp()->getAppContainer())
-                                    )
-//                                )
-                            )
+                        (new MailContainerConfigurator())->configure(
+                            new Container($this->getApp()->getAppContainer())
                         )
                     )
                 )

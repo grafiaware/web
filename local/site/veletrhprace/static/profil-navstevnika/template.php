@@ -62,7 +62,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
 
     $headline = "Můj profil";
     $perex = "Vítejte návštěvníku $loginName ! " ;
-    $zprava =
+    $zpravy =
         [
             [
                 'idZpravy' => '',
@@ -110,7 +110,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
 } else {
     $headline = "Profil návštěvníka";
     $perex = 'I když online veletrh s živou účastí skončil, stále zde návštěvníci naleznou odkazy k záznamům přednášek a prezentací, které chtějí zhlédnout.';
-    $zprava =
+    $zpravy =
         [
             [
                 'idZpravy' => '',
@@ -136,7 +136,7 @@ if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVi
                 <?php include "perex.php" ?>
             </perex>
             <content>             
-                <?= $this->insert(ConfigurationCache::eventTemplates()['templates']."zprava"."/template.php", $zprava) ?>
+                <?= $this->insert(ConfigurationCache::commonTemplates()['templates']."layout/info/zpravy.php", $zpravy) ?>
             </content>
         </section>
     </article>
