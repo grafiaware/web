@@ -5,14 +5,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPInterface.php to edit this template
  */
 
-namespace Red\Component\ViewModel\Manage;
+namespace Events\Component\ViewModel\Manage;
 
-use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\ViewModelInterface;
 
 /**
  *
  * @author pes2704
  */
-interface UserActionViewModelInterface extends StatusViewModelInterface {
+interface RepresentationActionViewModelInterface extends ViewModelInterface {
     //put your code here
 }
