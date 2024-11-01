@@ -48,7 +48,7 @@ class AuthStaticControler extends PresentationFrontControlerAbstract {
             $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
             return $this->createStringOKResponse($compiledContent);
         } else {
-            return $this->createStringOKResponseFromView($this->getNonPermittedContentView());
+            return $this->getNonPermittedContentView(AllowedActionEnum::GET);
         }
     }
 

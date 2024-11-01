@@ -69,13 +69,10 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
                 $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
             } else {
-                $view = $this->errorView($request, "Component $name undefined in configuration of context service map.");
+                $service = ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutEditableMap'][$name] ?? null;
             }
             if (!isset($service)) {
-                $service = ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutEditableMap'][$name] ?? null;
-                if (!isset($service)) {
-                    $view = $this->errorView($request, "Component $name undefined in configuration of context layout maps.");
-                }
+                $view = $this->errorView($request, "Component $name undefined in configuration of context layout maps or context service map.");
             }
             if($this->container->has($service)) {
                 $view = $this->container->get($service);

@@ -9,9 +9,6 @@
 namespace Events\Component\View\Manage;
 
 use Component\View\ComponentCompositeAbstract;
-use Component\Renderer\Html\NoPermittedContentRenderer;
-use Component\ViewModel\StatusViewModelInterface;
-use Pes\View\Template\PhpTemplate;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -22,11 +19,6 @@ use Access\Enum\AccessPresentationEnum;
  * @author pes2704
  */
 class RepresentativeActionComponent extends ComponentCompositeAbstract {
-
-    /**
-     * @var StatusViewModelInterface
-     */
-    protected $contextData;
 
     public static function getComponentPermissions(): array {
         return [

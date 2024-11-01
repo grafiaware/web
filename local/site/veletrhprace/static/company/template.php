@@ -41,29 +41,22 @@ use Events\Model\Entity\LoginInterface;
     /** @var LoginRepo $loginRepo */ 
     $loginRepo = $container->get(LoginRepo::class );
     
-               
             
-        $companies=[];
-        $companyEntities = $companyRepo->findAll();
-        if ($companyEntities) {         
-            foreach ($companyEntities as $cEntity) {
-                /** @var CompanyInterface $cEntity */
-                $companies[] = [
-                    'companyId' => $cEntity->getId(),
-                    'name' =>  $cEntity->getName(),
-                    ];
-            }   
-        }             
-        
+    $companies=[];     
+    foreach ($companyRepo->findAll() as $company) {
+        /** @var CompanyInterface $company */
+        $companies[] = [
+            'companyId' => $company->getId(),
+            'name' =>  $company->getName()
+            ];
+    }   
   ?>
 
-
-    <div>
     <div class="ui styled fluid accordion">   
 
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Vystavovatelé (companies)
+                Firmy (companies)
             </div>     
         
             <div class="active content">      
@@ -71,13 +64,12 @@ use Events\Model\Entity\LoginInterface;
 
                 <div class="active title">
                     <i class="dropdown icon"></i>
-                    Přidej dalšího  vystavovatele
+                    Přidej firmu
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/company.php') ?>                                                                                 
                 </div>                  
             </div>            
-    </div>
     </div>
 
   

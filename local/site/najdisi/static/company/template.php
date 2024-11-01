@@ -27,10 +27,8 @@ use Events\Model\Entity\LoginInterface;
     $loginAggregate = $statusSecurity->getLoginAggregate();
 
     if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginName();
-        $cred = $loginAggregate->getCredentials();
-        
-        $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
+        $loginName = $loginAggregate->getLoginName();        
+        $role = $loginAggregate->getCredentials()->getRoleFk();
     }
 // ------------------------------------------------
    
@@ -41,24 +39,17 @@ use Events\Model\Entity\LoginInterface;
     /** @var LoginRepo $loginRepo */ 
     $loginRepo = $container->get(LoginRepo::class );
     
-               
             
-        $companies=[];
-        $companyEntities = $companyRepo->findAll();
-        if ($companyEntities) {         
-            foreach ($companyEntities as $cEntity) {
-                /** @var CompanyInterface $cEntity */
-                $companies[] = [
-                    'companyId' => $cEntity->getId(),
-                    'name' =>  $cEntity->getName()
-                    ];
-            }   
-        }             
-        
+    $companies=[];     
+    foreach ($companyRepo->findAll() as $company) {
+        /** @var CompanyInterface $company */
+        $companies[] = [
+            'companyId' => $company->getId(),
+            'name' =>  $company->getName()
+            ];
+    }   
   ?>
 
-
-    <div>
     <div class="ui styled fluid accordion">   
 
             <div class="active title">
@@ -77,7 +68,6 @@ use Events\Model\Entity\LoginInterface;
                     <?= $this->insert( __DIR__.'/company.php') ?>                                                                                 
                 </div>                  
             </div>            
-    </div>
     </div>
 
   
