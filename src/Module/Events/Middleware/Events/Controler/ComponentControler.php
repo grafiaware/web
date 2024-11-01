@@ -18,7 +18,7 @@ use Site\ConfigurationCache;
 use Red\Model\Enum\AuthoredTypeEnum;
 //TODO: oprávnění pro routy
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedActionEnum;
+use Access\Enum\AccessActionEnum;
 
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;
@@ -42,17 +42,17 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         
         // je jen jeden ConponentControler, proto mají VISITOR i REPRESENTATIVE stejná oprávnění ke všem komponentům
         return [
-            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class],
-            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class],
-            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class],
+            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class],
+            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
+            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
     }
     
     ### action metody ###############
 
     public function serviceComponent(ServerRequestInterface $request, $name) {
-        if($this->isAllowed(AllowedActionEnum::GET)) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
             if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
                 $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
             } else {
@@ -64,7 +64,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 $view = $this->errorView($request, "Component $service is not defined (configured) in container.");                    
             }
         } else {
-            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createStringOKResponseFromView($view);
     }

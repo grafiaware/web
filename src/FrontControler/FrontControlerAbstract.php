@@ -16,7 +16,7 @@ use Status\Model\Enum\FlashSeverityEnum;
 use FrontControler\StatusEnum;
 
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedActionEnum;
+use Access\Enum\AccessActionEnum;
 
 use Component\View\ComponentInterface;
 
@@ -322,9 +322,9 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
-            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
+            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
+            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
     }
 

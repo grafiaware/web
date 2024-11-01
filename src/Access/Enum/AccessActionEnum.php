@@ -15,7 +15,7 @@ use Pes\Type\Enum;
  *
  * @author pes2704
  */
-class AllowedActionEnum extends Enum {
+class AccessActionEnum extends Enum {
     const GET = 'get';
     const POST = 'post';
 

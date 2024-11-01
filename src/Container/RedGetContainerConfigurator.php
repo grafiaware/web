@@ -266,7 +266,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererName(MenuRenderer::class);                
                 $component->setRendererContainer($c->get('rendererContainer'));
                 // VYPNUTO - tlačítko editace menu
-//                if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(EditMenuSwitchComponent::class, AccessPresentationEnum::EDIT)) {
+//                    $status = $c->get(StatusViewModel::class);
+//                    if ($status->presentEditableContent() AND $accessPresentation->isAllowed(EditMenuSwitchComponent::class, AccessPresentationEnum::EDIT)) {
 //                    $component->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponentInterface::TOGGLE_EDIT_MENU_BUTTON);
 //                }
                 return $component;
@@ -695,8 +696,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $templatedComponent->appendComponentView($perex, PaperComponent::PEREX);  // PEREX dědí data TemplatedComponent
                     $templatedComponent->appendComponentView($sections, PaperComponent::SECTIONS);  // SECTIONS dědí data TemplatedComponent
 
-
-                    if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(PaperComponent::class, AccessPresentationEnum::EDIT)) {
+                    $status = $c->get(StatusViewModel::class);
+                    if ($status->presentEditableContent() AND $accessPresentation->isAllowed(PaperComponent::class, AccessPresentationEnum::EDIT)) {
                         $editContentSwithComponent = $c->get(EditContentSwitchComponent::class); // komponent - view s buttonem zapni/vypni editaci (tužtička)
                         $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);  // dědí data PaperComponent
                         if ($viewModel->userPerformItemAction()) {   // v této chvíli musí mít komponent nastaveno setMenuItemId() - v kontroleru
@@ -770,7 +771,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(ArticleViewModel::class);
                     $component->setData($viewModel);
 
-                    if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(ArticleComponent::class, AccessPresentationEnum::EDIT)) {
+                    $status = $c->get(StatusViewModel::class);
+                    if ($status->presentEditableContent() AND $accessPresentation->isAllowed(ArticleComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
                         if($viewModel->userPerformItemAction()) {
                             $component->setRendererName(ArticleRendererEditable::class);
@@ -810,7 +812,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $component->appendComponentView($templatedComponent, MultipageComponent::CONTENT);
 
             // zvolí MultipageRenderer nebo MultipageRendererEditable
-                    if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed(MultipageComponent::class, AccessPresentationEnum::EDIT)) {
+                    $status = $c->get(StatusViewModel::class);
+                    if ($status->presentEditableContent() AND $accessPresentation->isAllowed(MultipageComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), MultipageComponent::BUTTON_EDIT_CONTENT);
 
                         if($viewModel->userPerformItemAction()) {

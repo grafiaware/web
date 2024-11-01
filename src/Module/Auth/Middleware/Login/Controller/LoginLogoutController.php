@@ -60,8 +60,8 @@ class LoginLogoutController extends FrontControlerAbstract {
 
         if ($login) {
             // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
-            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
-            $fieldNameHeslo = ConfigurationCache::loginLogoutController()['fieldNameHeslo'];
+            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
 

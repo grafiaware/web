@@ -28,12 +28,9 @@ const SITE_PATH = 'app/Site/NajdiSi/';
 #
 ###########################################################################
 
+// konfigurace bootstrap se používá před nastavením autoloaderu
 include SITE_PATH.'ConfigurationConstants.php';
-include SITE_PATH.'ConfigurationDb.php';
-include SITE_PATH.'ConfigurationWeb.php';
-include SITE_PATH.'ConfigurationRed.php';
-include SITE_PATH.'ConfigurationConsent.php';
-include SITE_PATH.'ConfigurationStyles.php';
+include SITE_PATH.'ConfigurationBootstrap.php';
 
 
 /**
@@ -55,7 +52,7 @@ class ConfigurationCache {
                 # configutation red
                 #
                 case 'bootstrap':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::bootstrap();
+                    self::$cache[$name] = Siteconfig\ConfigurationBootstrap::bootstrap();
                     break;
                 case 'app':
                     self::$cache[$name] = Siteconfig\ConfigurationWeb::app();
@@ -78,8 +75,8 @@ class ConfigurationCache {
                 case 'itemActionControler':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::itemActionControler();
                     break;
-                case 'loginLogoutController':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::loginLogoutController();
+                case 'auth':
+                    self::$cache[$name] = Siteconfig\ConfigurationAuth::auth();
                     break;
                 case 'componentController':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::componentController();
@@ -239,8 +236,8 @@ class ConfigurationCache {
         return self::getConfigModule('itemActionControler');
     }
     
-    public static function loginLogoutController() {
-        return self::getConfigModule('loginLogoutController');
+    public static function auth() {
+        return self::getConfigModule('auth');
     }
 
     public static function componentController() {

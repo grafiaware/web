@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Red\Model\Enum\AuthoredTypeEnum;
 //TODO: oprávnění pro routy
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedActionEnum;
+use Access\Enum\AccessActionEnum;
 
 // komponenty
 use Red\Component\View\Menu\DriverComponent;
@@ -49,10 +49,10 @@ class MenuControler extends PresentationFrontControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
-            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
-            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
+            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
+            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
+            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
     }
     

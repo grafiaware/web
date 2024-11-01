@@ -13,7 +13,7 @@ use DateTime;
 abstract class TypeHydratorAbstract implements HydratorInterface {
 
     /**
-     * Získá z objektu RowData hodnotu přečtenou tesloupce typu DATETIME nebo TIMESTAMP.
+     * Získá z objektu RowData hodnotu přečtenou ze sloupce typu DATETIME nebo TIMESTAMP.
      * Z hodnoty sql typu datetime nebo timestamp vytvoří PHP objekt typu DateTime nebo null.
      *
      * Poradí si jen se vtupními hodnotami bez desetinné části udáje o sekundách, tedy např. 1970-01-01 00:00:01 nebo 1970-01-01, neumí 1970-01-01 00:00:01.123456

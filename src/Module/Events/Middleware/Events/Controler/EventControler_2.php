@@ -122,7 +122,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -164,7 +164,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -204,7 +204,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
 //                            $isRepresentative = true; 
 //                }
@@ -244,7 +244,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -295,7 +295,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -343,7 +343,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
 //                            $isRepresentative = true; 
 //                }
@@ -385,7 +385,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -428,7 +428,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -470,7 +470,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
 //                            $isRepresentative = true; 
 //                }
@@ -511,7 +511,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -568,7 +568,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -625,7 +625,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
 //                            $isRepresentative = true; 
 //                }
@@ -668,7 +668,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -710,7 +710,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -750,7 +750,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
 //                            $isRepresentative = true; 
 //                }
@@ -790,7 +790,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -835,7 +835,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
 //                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
 //                $isRepresentative = true; 
 //            }                        
@@ -874,7 +874,7 @@ class EventControler_2 extends PresentationFrontControlerAbstract {
 //            $loginName = $loginAggregateCredentials->getLoginName();            
 //            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
 //            
-//            if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) ) {               
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
 //                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
 //                            $isRepresentative = true; 
 //                }

@@ -65,7 +65,7 @@ if (isset($loginAggregate)) {
     $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
 
     //*--------------------------------
-    $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
+    $isVisitor = $role==ConfigurationCache::auth()['roleVisitor'];   
     
     $isRepresentative = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId);
 //------------------------------------------------------------------------------------------------------------------------

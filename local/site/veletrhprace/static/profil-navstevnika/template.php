@@ -29,7 +29,7 @@ if (isset($loginAggregate)) {
 }
 
 // pouze pro default roli 'visitor' ????
-if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
+if (isset($role) AND $role==(ConfigurationCache::auth()['roleVisitor'])) {
     /** @var VisitorProfileRepo $visitorProfileRepo */
     $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
     $visitorProfile = $visitorProfileRepo->get($loginName);    //$visitorData jsou z visitor_profile repository

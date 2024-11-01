@@ -23,26 +23,6 @@ class ConfigurationRed extends ConfigurationConstants {
         ];
     }
 
-    public static function loginLogoutController() {
-        ## HESLO - malé velké písmeno, číslice, min. 5 znaků
-        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}";
-        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 5 znaků.";
-
-        ## HESLO - malé velké písmeno, číslice, min. 3 znaky
-//        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,}";
-//        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 3 znaky.";
-
-        $siteSpecificToken = str_replace('/', '', self::WEB_SITE);
-        return [
-                'fieldNameJmeno' => 'jmeno'.$siteSpecificToken,
-                'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
-                'passwordPattern' => $passwordPattern,
-                'passwordInfo' => $passwordInfo,
-                'roleVisitor' => 'visitor',
-                'roleRepresentative' => 'representative',
-        ];
-    }
-
     /**
      * Konfigurace prezentace - vrací parametry pro ComponentController
      * @return array

@@ -343,7 +343,7 @@ class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
             $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
             //$companyId = (new RequestParams())->getParsedBodyParam($request, "company-id");   //z POST  ---zjistit z jpbId
             
-            if (isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative'])   ) {                
+            if (isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative'])   ) {                
                 /**  @var  Job $job  */
                 $job = $this->jobRepo->get($jobId);
                 if ( $this->representativeRepo->get($loginName, $job->getCompanyId()) )  {                                          

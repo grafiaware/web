@@ -10,10 +10,10 @@ use Site\ConfigurationCache;
 
                 <div class="item header"><p><i class="user icon"></i>Přihlásit se</p></div>
                 <div class="ui input">
-                    <input type="text" name="<?=ConfigurationCache::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                    <input type="text" name="<?=ConfigurationCache::auth()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>
                 <div class="ui input">
-                    <input class="notRequired" type="password" name="<?=ConfigurationCache::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo" required>
+                    <input class="notRequired" type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Heslo" required>
                 </div>
                 <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>
                 <button class="ui fluid tertiary button" type="submit" name="forgottenpassword" value=1 formaction="auth/v1/forgottenpassword">Zapomněl jsem<br/>heslo</button>
@@ -27,10 +27,10 @@ use Site\ConfigurationCache;
             <div class="menu-login ">
                 <div class="item header"><p><i class="user icon"></i>Přihlásit se</p></div>
                 <div class="ui input">
-                    <input class="loginEnterKey" type="text" name="<?= ConfigurationCache::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                    <input class="loginEnterKey" type="text" name="<?= ConfigurationCache::auth()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>
                 <div class="ui input">
-                    <input class="notRequired" type="password" name="<?=ConfigurationCache::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo" required>
+                    <input class="notRequired" type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Heslo" required>
                 </div>
                 <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>
                 <button class="ui fluid tertiary button" type="submit" name="forgottenpassword" value=1 formaction="auth/v1/forgottenpassword">Zapomněl jsem<br/>heslo</button>
@@ -49,11 +49,11 @@ use Site\ConfigurationCache;
             <form class="ui form centered" method="POST" action="auth/v1/login">
                 <div class="field">
                     <label>Přihlašovací jméno</label>
-                    <input type="text" name="<?=ConfigurationCache::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                    <input type="text" name="<?=ConfigurationCache::auth()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>
                 <div class="field">
                     <label>Heslo</label>
-                    <input class="notRequired" type="password" name="<?=ConfigurationCache::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo" required>
+                    <input class="notRequired" type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Heslo" required>
                 </div>
                 <div class="ui fluid large buttons">
                     <a class="ui hide button" href="javascript:void(0)">Zavřít</a>

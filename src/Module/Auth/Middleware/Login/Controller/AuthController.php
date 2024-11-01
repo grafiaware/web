@@ -2,7 +2,7 @@
 namespace Auth\Middleware\Login\Controller;
 
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedActionEnum;
+use Access\Enum\AccessActionEnum;
 
 use FrontControler\PresentationFrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
@@ -63,7 +63,7 @@ class AuthController extends PresentationFrontControlerAbstract {
     
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
 //            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
 //            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
 //            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
@@ -77,7 +77,7 @@ class AuthController extends PresentationFrontControlerAbstract {
      */
     public function addRole (ServerRequestInterface $request) {                 
         
-        if($this->isAllowed(AllowedActionEnum::POST)) {            
+        if($this->isAllowed(AccessActionEnum::POST)) {            
 
                 /** @var RoleInterface $roleE*/
                 $roleE = new Role(); //new                
@@ -109,7 +109,7 @@ class AuthController extends PresentationFrontControlerAbstract {
      */
     public function updateRole (ServerRequestInterface $request, $role) {                    
         
-        if($this->isAllowed(AllowedActionEnum::POST)) {            
+        if($this->isAllowed(AccessActionEnum::POST)) {            
                 /** @var Role $roleE */
                 $roleE = $this->roleRepo->get($role);             
                 $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                        
@@ -130,7 +130,7 @@ class AuthController extends PresentationFrontControlerAbstract {
      */
     public function removeRole (ServerRequestInterface $request, $role ) {                                    
         
-        if($this->isAllowed(AllowedActionEnum::POST)) {                    
+        if($this->isAllowed(AccessActionEnum::POST)) {                    
             
             //KDYZ je pouzite tak NE
             //-------------------------------------------------
@@ -164,7 +164,7 @@ class AuthController extends PresentationFrontControlerAbstract {
      */
     public function updateCredentials (ServerRequestInterface $request, $loginNameFk) {                    
         
-        if($this->isAllowed(AllowedActionEnum::POST)) {            
+        if($this->isAllowed(AccessActionEnum::POST)) {            
                 /** @var CredentialsInterface $credentials */
                 $credentials = $this->credentialsRepo->get($loginNameFk);             
                 if ( (new RequestParams())->getParsedBodyParam($request, 'selectRole') != self::NULL_VALUE )   {

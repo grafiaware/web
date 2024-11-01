@@ -10,12 +10,12 @@ use Site\ConfigurationCache;
             <div class="item header"><p><i class="user icon"></i>Registrovat se</p></div>
 
                 <div class="ui input">
-                    <input type="text" name="<?=ConfigurationCache::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                    <input type="text" name="<?=ConfigurationCache::auth()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>
                 <div class="ui input">
-                    <input type="password" name="<?=ConfigurationCache::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo"
-                           pattern="<?=ConfigurationCache::loginLogoutController()['passwordPattern']?>"
-                           title ="<?=ConfigurationCache::loginLogoutController()['passwordInfo']?>"
+                    <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Heslo"
+                           pattern="<?=ConfigurationCache::auth()['passwordPattern']?>"
+                           title ="<?=ConfigurationCache::auth()['passwordInfo']?>"
                            required >
                 </div>
                 <div class="ui input">

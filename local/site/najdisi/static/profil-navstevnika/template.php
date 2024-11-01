@@ -40,7 +40,7 @@ use Component\ViewModel\StatusViewModel;
 //    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';    
 //------------------------------------------------------------------
 
-$isVisitor = isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor']);
+$isVisitor = isset($role) AND $role==(ConfigurationCache::auth()['roleVisitor']);
 
 // pouze pro  roli 'visitor' , tj. prihlaseneho navstevnika
 if ($isVisitor) {

@@ -40,7 +40,7 @@ use Red\Model\Repository\VisitorDataRepo;
     }
 
     // poue pro default roli 'visitor'
-    if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
+    if (isset($role) AND $role==(ConfigurationCache::auth()['roleVisitor'])) {
         $visitorDataRepo = $container->get(VisitorDataRepo::class);
         $visitorData = $visitorDataRepo->get($loginName);
     }

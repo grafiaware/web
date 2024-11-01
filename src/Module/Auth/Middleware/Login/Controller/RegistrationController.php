@@ -59,8 +59,8 @@ class RegistrationController extends LoginControllerAbstract
         $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
 
         if ($register) {
-            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
-            $fieldNameHeslo = ConfigurationCache::loginLogoutController()['fieldNameHeslo'];
+            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
 
             $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
@@ -225,9 +225,9 @@ class RegistrationController extends LoginControllerAbstract
         $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
 
         if ($register) {
-            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
-            $fieldNameHeslo = ConfigurationCache::loginLogoutController()['fieldNameHeslo'];
-            $fieldNameEmail = ConfigurationCache::loginLogoutController()['fieldNameEmail'];
+            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
+            $fieldNameEmail = ConfigurationCache::auth()['fieldNameEmail'];
 
             $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);

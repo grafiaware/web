@@ -2,7 +2,7 @@
 namespace Auth\Middleware\Login\Controller;
 
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedActionEnum;
+use Access\Enum\AccessActionEnum;
 use FrontControler\PresentationFrontControlerAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -32,23 +32,23 @@ class AuthStaticControler extends PresentationFrontControlerAbstract {
     
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
-            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
-            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
+            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
+            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
+            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
     }
     
     ### action metody ###############
 
     public function static(ServerRequestInterface $request, $staticName) {
-        if($this->isAllowed(AllowedActionEnum::GET)) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
             $realName = str_replace('_', '/', $staticName);
             $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
             $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
             return $this->createStringOKResponse($compiledContent);
         } else {
-            return $this->getNonPermittedContentView(AllowedActionEnum::GET);
+            return $this->getNonPermittedContentView(AccessActionEnum::GET);
         }
     }
 

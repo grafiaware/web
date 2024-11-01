@@ -54,7 +54,7 @@ class PasswordController extends LoginControllerAbstract {
 
         if ($forgottenpassword) {
             // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
-            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
+            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
 
             if ($loginJmeno ) {
@@ -147,8 +147,8 @@ class PasswordController extends LoginControllerAbstract {
         $changedPassword = $requestParams->getParsedBodyParam($request, 'changepassword', FALSE);
 
         if ($changedPassword ) {
-            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
-            $fieldNameHeslo = ConfigurationCache::loginLogoutController()['fieldNameHeslo'];
+            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $changeHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
 

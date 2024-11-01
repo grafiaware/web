@@ -53,9 +53,9 @@ if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
     //*--------------------------------
-    $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];   
+    $isVisitor = $role==ConfigurationCache::auth()['roleVisitor'];   
     
-    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']) 
+    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
                                        AND  $representativeRepo->get($loginName, $companyId) );
 
     if ($isVisitor) {

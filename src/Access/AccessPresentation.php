@@ -9,6 +9,8 @@ namespace Access;
 
 use Component\View\ComponentInterface;
 use Component\ViewModel\StatusViewModelInterface;
+
+use Access\Enum\AccessPresentationEnum;
 use Access\Enum\RoleEnum;
 
 use Access\Exception\ClassNotExistsException;
@@ -29,26 +31,27 @@ class AccessPresentation implements AccessPresentationInterface {
         $this->statusViewModel = $statusViewModel;
     }
 
-    public function getStatus(): StatusViewModelInterface {
-        return $this->statusViewModel;
-    }
+//    public function getStatus(): StatusViewModelInterface {
+//        return $this->statusViewModel;
+//    }
 
     /**
-     *
+     * Vrací informaci, jestli přihlášený uživatel má oprávnění zobrazit komponent v zadaném prezentační režimu.
+     * 
      * @param string $resourceClassname FQDN třídy (například view nebo komponent), pro kterou zjišťuji oprávnění k akci
-     * @param type $action Akce
+     * @param type $presentationMode Prezentační režim. Hodnota z AccessPresentationEnum.
      * @return bool
      */
-    public function isAllowed($resourceClassname, $action): bool {
-
+    public function isAllowed($resourceClassname, $presentationMode): bool {
+        $mode = (new AccessPresentationEnum())($presentationMode);
         $isAllowed = false;
         $role = $this->statusViewModel->getUserRole();
-        $logged = $this->statusViewModel->getUserLoginName() ? true : false;
+        $logged = $this->statusViewModel->isUserLoggedIn();
         $permissions = $resourceClassname::getComponentPermissions();
         $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
         foreach ($activeRoles as $activeRole) {
-            if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
-                $permission = $permissions[$activeRole][$action];
+            if (array_key_exists($activeRole, $permissions) AND array_key_exists($mode, $permissions[$activeRole])) {
+                $permission = $permissions[$activeRole][$mode];
                 if (is_string($permission)) {
                     $permittedResource = $permission;
                 } elseif($permission instanceof \Closure) {

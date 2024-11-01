@@ -34,15 +34,6 @@ class ConfigurationWeb extends ConfigurationConstants {
     const RED_TEMPLATES_COMMON = 'local/site/common/templates/red/';
     const RED_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/red/';
     const RED_STATIC = 'local/site/'.self::WEB_SITE.'static/';
-    
-    ### bootstrap ###
-    #
-    public static function bootstrap() {
-        return [
-            'bootstrap.logs.basepath' => self::WEB_BOOTSTRAP_LOGS,
-            'bootstrap.productionhost' => self::WEB_BOOTSTRAP_PRODUCTION_HOST,
-        ];
-    }
 
     ### kontejner ###
     #

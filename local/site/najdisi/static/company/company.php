@@ -6,14 +6,13 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
-if ($editable??false) {
+if ($editable) {
         $readonly = '';
         $disabled = '';
     } else {
         $readonly = 'readonly';
         $disabled = 'disabled';
     }
-
 
 ?>
 
@@ -27,12 +26,12 @@ if ($editable??false) {
             </div>                
 
                 <?php
-                if($readonly === '') {
+                if($editable) {
                 ?>
                 <div>
                     <?=
                      isset($companyId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId . "' > Uložit </button>" :
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId . "' > Uložit změny </button>" :
                     "<button class='ui primary button' type='submit' formaction='events/v1/company' > Uložit </button>" ;                                   
                      ?>                                                                                                                             
                     <?=

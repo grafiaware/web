@@ -86,7 +86,7 @@ $idCompanyVystavovatele = 25;
 
 
 //######################
-    if ($statusViewModel->isUserLoggedIn() AND $statusViewModel->getUserRole()==ConfigurationCache::loginLogoutController()['roleRepresentative']) {
+    if ($statusViewModel->isUserLoggedIn() AND $statusViewModel->getUserRole()==ConfigurationCache::auth()['roleRepresentative']) {
         /** @var RepresentativeViewModel $representativeViewModel */
         $representativeViewModel = $container->get(RepresentativeViewModel::class );
         //$representativeViewModel->
@@ -96,7 +96,7 @@ $idCompanyVystavovatele = 25;
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRoleFk();
-    if(isset($role) AND ($role==ConfigurationCache::loginLogoutController()['roleRepresentative']))  {
+    if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']))  {
         
         
         //$representativeViewMode  NECHCEME

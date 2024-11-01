@@ -12,13 +12,13 @@ use Site\ConfigurationCache;
             <form class="ui form centered" method="POST" action="auth/v1/register">
                 <div class="field">
                     <label>Přihlašovací jméno</label>
-                    <input type="text" name="<?=ConfigurationCache::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                    <input type="text" name="<?=ConfigurationCache::auth()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>
                 <div class="field">
                     <label>Heslo</label>
-                    <input type="password" name="<?=ConfigurationCache::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo"
-                           pattern="<?=ConfigurationCache::loginLogoutController()['passwordPattern']?>"
-                           title ="<?=ConfigurationCache::loginLogoutController()['passwordInfo']?>"
+                    <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Heslo"
+                           pattern="<?=ConfigurationCache::auth()['passwordPattern']?>"
+                           title ="<?=ConfigurationCache::auth()['passwordInfo']?>"
                            required >
                 </div>
                 <div class="field">
@@ -59,12 +59,12 @@ use Site\ConfigurationCache;
             <div class="item header"><p><i class="user icon"></i>Registrovat se</p></div>
 
                 <div class="ui input">
-                    <input type="text" name="<?php /*=ConfigurationCache::loginLogoutController()['fieldNameJmeno']*/?>" placeholder="Jméno" required>
+                    <input type="text" name="<?php /*=ConfigurationCache::auth()['fieldNameJmeno']*/?>" placeholder="Jméno" required>
                 </div>
                 <div class="ui input">
-                    <input type="password" name="<?php /*=ConfigurationCache::loginLogoutController()['fieldNameHeslo']*/?>" placeholder="Heslo"
-                           pattern="<?php /*=ConfigurationCache::loginLogoutController()['passwordPattern']*/?>"
-                           title ="<?php /*=ConfigurationCache::loginLogoutController()['passwordInfo']*/?>"
+                    <input type="password" name="<?php /*=ConfigurationCache::auth()['fieldNameHeslo']*/?>" placeholder="Heslo"
+                           pattern="<?php /*=ConfigurationCache::auth()['passwordPattern']*/?>"
+                           title ="<?php /*=ConfigurationCache::auth()['passwordInfo']*/?>"
                            required >
                 </div>
                 <div class="ui input">

@@ -19,7 +19,7 @@ use Site\ConfigurationCache;
 use Red\Model\Enum\AuthoredTypeEnum;
 //TODO: oprávnění pro routy
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedActionEnum;
+use Access\Enum\AccessActionEnum;
 
 // view model
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModel;
@@ -55,17 +55,17 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AllowedActionEnum::GET => self::class],
-            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class],
-            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class],
+            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class],
+            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
+            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
     }
     
     ### action metody ###############
 
     public function serviceComponent(ServerRequestInterface $request, $name) {
-        if($this->isAllowed(AllowedActionEnum::GET)) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
             if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
                 $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
             } else {
@@ -80,7 +80,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 $view = $this->errorView($request, "Component $service is not defined (configured) in container.");                    
             }
         } else {
-            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createStringOKResponseFromView($view);
     }
@@ -94,52 +94,52 @@ class ComponentControler extends PresentationFrontControlerAbstract {
     }
     
     public function select(ServerRequestInterface $request, $menuItemId) {
-        if($this->isAllowed(AllowedActionEnum::GET)) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
             /** @var ItemTypeSelectViewModel $itemTypeSelectViewModel */
             $itemTypeSelectViewModel = $this->container->get(ItemTypeSelectViewModel::class);
             $itemTypeSelectViewModel->setMenuItemId($menuItemId);
             $view = $this->container->get(ItemTypeSelectComponent::class);
         } else {
-            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createStringOKResponseFromView($view);
     }
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
-        if($this->isAllowed(AllowedActionEnum::GET)) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
             /** @var PaperViewModel $paperViewModel */
             $paperViewModel = $this->container->get(PaperViewModel::class);
             $paperViewModel->setMenuItemId($menuItemId);
             /** @var PaperComponentInterface $view */
             $view = $this->container->get(PaperComponent::class);
         } else {
-            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createStringOKResponseFromView($view);
     }
 
     public function article(ServerRequestInterface $request, $menuItemId) {
-        if($this->isAllowed(AllowedActionEnum::GET)) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
             /** @var ArticleViewModel $viewModel */
             $viewModel = $this->container->get(ArticleViewModel::class);
             $viewModel->setMenuItemId($menuItemId);
             /** @var ArticleComponentInterface $view */
             $view = $this->container->get(ArticleComponent::class);
         } else {
-            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createStringOKResponseFromView($view);
     }
 
     public function multipage(ServerRequestInterface $request, $menuItemId) {
-        if($this->isAllowed(AllowedActionEnum::GET)) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
             /** @var MultipageViewModel $viewModel */
             $viewModel = $this->container->get(MultipageViewModel::class);
             $viewModel->setMenuItemId($menuItemId);
             /** @var MultipageComponentInterface $view */
             $view = $this->container->get(MultipageComponent::class);
         } else {
-            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createStringOKResponseFromView($view);
     }
