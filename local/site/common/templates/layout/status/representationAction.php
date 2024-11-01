@@ -3,31 +3,29 @@ use Pes\Text\Html;
 use Events\Middleware\Events\Controler\RepresentationControler;
 ?>
 
-    <div class="ui icon left pointing dropdown button">
-        výběr firmy
-        <div class="menu">
-            <div class="text nastred">
-                <p><i class="user icon"></i><?= $loginName ?></p>
-            </div>
-            <form class="ui form" method="POST" action="">
-                <?= Html::select(
-                        RepresentationControler::FORM_REPRESENTATION_COMPANY_ID, 
-                        "Zastupovaná firma", 
-                        [RepresentationControler::FORM_REPRESENTATION_COMPANY_ID=> $selectedCompanyId],  
-                        $idCompanyArray, 
-                        ['required' => true ],
-                        $placeholderValue) ?>  
-                <button class="fluid ui olive labeled icon button" type="submit"
-                        formtarget="_self"
-                    formaction="events/v1/representation">
-                    <i class="pencil alternate icon"></i>
-                    Odeslat
-                </button>            
-            </form>        
-            <span class="item">
-        
-            </span>
 
+<!--vyber firmy je modalni okno, jde zavrit pouze pri stisku buttonu 'odeslat' v js initElements-->
+    <button class="ui page icon button btn-vyberFirmy">
+        Výběr firmy
+    </button>
+
+    <div class="ui mini page modal transition hidden vyberFirmy">
+        <div class="content">
+                <p class="text velky zadne-okraje"><i class="user icon"></i><?= $loginName ?></p>
+                <form class="ui form centered" method="POST" action="">
+                    <div class="text okraje-vertical">
+                    <?= Html::select(
+                            RepresentationControler::FORM_REPRESENTATION_COMPANY_ID, 
+                            "Zastupovaná firma", 
+                            [RepresentationControler::FORM_REPRESENTATION_COMPANY_ID=> $selectedCompanyId],  
+                            $idCompanyArray, 
+                            ['required' => true ],
+                            $placeholderValue) ?>  
+                    </div> 
+                    <div class="ui fluid large buttons">
+                        <button class="ui positive button" type="submit" formtarget="_self" formaction="events/v1/representation">Odeslat</button>
+                    </div>
+                </form>
         </div>
     </div>
 
