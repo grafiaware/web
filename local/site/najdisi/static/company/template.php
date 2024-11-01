@@ -5,6 +5,9 @@ use Site\ConfigurationCache;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface;
+
 use Pes\Text\Text;
 use Pes\Text\Html;
 
@@ -19,36 +22,27 @@ use Events\Model\Entity\LoginInterface;
 
 /** @var PhpTemplateRendererInterface $this */
 
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$representativeActions = $statusViewModel->getRepresentativeActions();
+$representativeFromStatus = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
 
-   $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-    /** @var StatusSecurityRepo $statusSecurityRepo */
-    $statusSecurity = $statusSecurityRepo->get();
-    /** @var LoginAggregateFullInterface $loginAggregate */
-    $loginAggregate = $statusSecurity->getLoginAggregate();
+$isRepresentative = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId);
 
-    if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginName();        
-        $role = $loginAggregate->getCredentials()->getRoleFk();
-    }
-// ------------------------------------------------
-   
-    /** @var CompanyRepo $companyRepo */ 
-    $companyRepo = $container->get(CompanyRepo::class );
-    /** @var RepresentativeRepo $representativeRepo */ 
-    $representativeRepo = $container->get(RepresentativeRepo::class );
-    /** @var LoginRepo $loginRepo */ 
-    $loginRepo = $container->get(LoginRepo::class );
-    
-            
-    $companies=[];     
-    foreach ($companyRepo->findAll() as $company) {
-        /** @var CompanyInterface $company */
-        $companies[] = [
-            'companyId' => $company->getId(),
-            'name' =>  $company->getName()
-            ];
-    }   
-  ?>
+/** @var CompanyRepo $companyRepo */ 
+$companyRepo = $container->get(CompanyRepo::class );
+
+$companies=[];     
+foreach ($companyRepo->findAll() as $company) {
+    /** @var CompanyInterface $company */
+    $companies[] = [
+        'editable' => $isRepresentative,
+        'companyId' => $company->getId(),
+        'name' =>  $company->getName()
+        ];
+}
+
+?>
 
     <div class="ui styled fluid accordion">   
 
