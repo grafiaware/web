@@ -21,10 +21,12 @@ use Component\View\ElementComponent;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 use Events\Component\View\Manage\RepresentativeActionComponent;
+use Events\Component\View\Data\CompanyComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
 use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
+use Events\Component\ViewModel\Data\CompanyViewModel;
 
 // controler
 use Events\Middleware\Events\Controler\ComponentControler;
@@ -96,11 +98,15 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(RepresentativeActionComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var RepresentationActionViewModel $viewModel */
                     $viewModel = $c->get(RepresentationActionViewModel::class);
-                    if ($viewModel->isMultiRepresentative())
-                    $component = new RepresentativeActionComponent(
+                    if ($viewModel->isMultiRepresentative()) {
+                        $component = new RepresentativeActionComponent(
                             $c->get(ComponentConfiguration::class),
                         );
-                    $component->setData();
+                        $component->setData($viewModel);
+                    } else {
+                        $component = $c->get(ElementComponent::class);
+                        $component->setRendererName(NoContentForStatusRenderer::class);
+                    }
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('representativeaction')));
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -109,6 +115,25 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
+            #### Data komponenty
+            CompanyComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+
+                if($accessPresentation->isAllowed(CompanyComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    /** @var CompanyViewModel $viewModel */
+                    $component = new CompanyComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('representativeaction')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },            
+
         ####
         # Element komponenty - vždy zobrazeny
         #

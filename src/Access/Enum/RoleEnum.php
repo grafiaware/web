@@ -22,5 +22,5 @@ class RoleEnum  extends Enum {
     const SUPERVISOR = 'supervisor';
     const VISITOR = 'visitor';
     const REPRESENTATIVE = 'representative';
-
+    const EVENTS_ADMINISTRATOR = 'events_administrator';
 }

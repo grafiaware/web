@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Site\NajdiSi;
+namespace Site\VeletrhPrace;
 
 use Access\Enum\RoleEnum;
 

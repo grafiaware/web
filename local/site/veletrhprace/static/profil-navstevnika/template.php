@@ -3,6 +3,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 use Site\ConfigurationCache;
+use Access\Enum\RoleEnum;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Events\Model\Repository\EnrollRepo;
@@ -29,7 +30,7 @@ if (isset($loginAggregate)) {
 }
 
 // pouze pro default roli 'visitor' ????
-if (isset($role) AND $role==(ConfigurationCache::auth()['roleVisitor'])) {
+if (isset($role) AND $role==(RoleEnum::VISITOR)) {
     /** @var VisitorProfileRepo $visitorProfileRepo */
     $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
     $visitorProfile = $visitorProfileRepo->get($loginName);    //$visitorData jsou z visitor_profile repository

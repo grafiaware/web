@@ -6,6 +6,7 @@ use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 
 use Site\ConfigurationCache;
+use Access\Enum\RoleEnum;
 
 // visitor
 use Auth\Model\Entity\LoginAggregateFullInterface;
@@ -40,7 +41,7 @@ use Red\Model\Repository\VisitorDataRepo;
     }
 
     // poue pro default roli 'visitor'
-    if (isset($role) AND $role==(ConfigurationCache::auth()['roleVisitor'])) {
+    if (isset($role) AND $role==(RoleEnum::VISITOR)) {
         $visitorDataRepo = $container->get(VisitorDataRepo::class);
         $visitorData = $visitorDataRepo->get($loginName);
     }

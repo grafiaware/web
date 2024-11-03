@@ -3,6 +3,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 use Site\ConfigurationCache;
+use Access\Enum\RoleEnum;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Events\Model\Repository\EnrollRepo;
@@ -40,7 +41,7 @@ use Component\ViewModel\StatusViewModel;
 //    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';    
 //------------------------------------------------------------------
 
-$isVisitor = isset($role) AND $role==(ConfigurationCache::auth()['roleVisitor']);
+$isVisitor = isset($role) AND $role==(RoleEnum::VISITOR);
 
 // pouze pro  roli 'visitor' , tj. prihlaseneho navstevnika
 if ($isVisitor) {

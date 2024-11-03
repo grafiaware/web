@@ -4,6 +4,8 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Site\ConfigurationCache;
+use Access\Enum\RoleEnum;
+
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
@@ -53,9 +55,9 @@ if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
     //*--------------------------------
-    $isVisitor = $role==ConfigurationCache::auth()['roleVisitor'];   
+    $isVisitor = $role==RoleEnum::VISITOR;   
     
-    $isRepresentative = ( isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
+    $isRepresentative = ( isset($role) AND ($role==RoleEnum::REPRESENTATIVE) 
                                        AND  $representativeRepo->get($loginName, $companyId) );
 
     if ($isVisitor) {

@@ -2,6 +2,7 @@
 namespace Auth\Middleware\Login\Controller;
 
 use Site\ConfigurationCache;
+use Access\Enum\RoleEnum;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
@@ -76,7 +77,7 @@ class ConfirmController extends LoginControllerAbstract
                         $credentials = new Credentials();
                         $credentials->setPasswordHash( (new Password())->getPasswordHash($password) );
                         $credentials->setLoginNameFk($loginNameFk);
-                        $credentials->setRoleFk(ConfigurationCache::auth()['roleVisitor']);
+                        $credentials->setRoleFk(RoleEnum::VISITOR);
                         $loginAggregateCredentialsEntity->setCredentials($credentials);
 
                         // vymazání hesla z registrace
