@@ -14,5 +14,5 @@ use Component\ViewModel\ViewModelInterface;
  * @author pes2704
  */
 interface RepresentationActionViewModelInterface extends ViewModelInterface {
-    //put your code here
+    public function isMultiRepresentative(): bool;
 }

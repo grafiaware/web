@@ -28,14 +28,14 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
      *  
      * @param string $dataRedApiUri
      * @param bool $httpCacheReloadOnNav
-     * @param string $dataRedTargetId
+     * @param string $dataNavTargetId
      * @return type
      */
-    public function getRedLoaderElement(string $dataRedApiUri, bool $httpCacheReloadOnNav, string $dataRedTargetId='') {
+    public function getRedLoaderElement(string $dataRedApiUri, bool $httpCacheReloadOnNav, string $dataNavTargetId='') {
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $uniquid = uniqid();
         $id = "red_loader_$uniquid";
-        return $this->getLoader($id, $dataRedApiUri, $httpCacheReloadOnNav, $dataRedTargetId);
+        return $this->getLoader($id, $dataRedApiUri, $httpCacheReloadOnNav, $dataNavTargetId);
     }
     /**
      * 
@@ -55,10 +55,10 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
      * @param string $id
      * @param string $dataRedApiUri
      * @param bool $httpCacheReloadOnNav nastaví hodnotu pro atribut data-red-cache-control podle konfigurace pro reload obsahu při navigaci nebo jednorázové načtení obsahu
-     * @param string $dataRedTargetId
+     * @param string $dataNavTargetId
      * @return type
      */
-    private function getLoader(string $id, string $dataRedApiUri, bool $httpCacheReloadOnNav, string $dataRedTargetId='') {
+    private function getLoader(string $id, string $dataRedApiUri, bool $httpCacheReloadOnNav, string $dataNavTargetId='') {
         $view = $this->viewFactory->phpTemplateCompositeView(ConfigurationCache::layoutController()['templates.loaderElement']);
         if ($httpCacheReloadOnNav) {
             $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
@@ -70,7 +70,7 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
                         'dataRedCacheControl' => $dataRedCacheControl,
                         'id' => $id,
                         'dataRedApiUri' => $dataRedApiUri,
-                        'dataRedTargetId'=> ($dataRedTargetId ? $dataRedTargetId : '')
+                        'dataNavTargetId'=> ($dataNavTargetId ? $dataNavTargetId : '')
                         ]);
         return $view;
         

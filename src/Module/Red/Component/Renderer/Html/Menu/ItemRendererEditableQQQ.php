@@ -33,7 +33,7 @@ class ItemRendererEditableQQQ extends HtmlRendererAbstract {
                     $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
                     $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
                     ],
-                 'data-red-styleinfo'=> $this->redLiEditableStyle($viewModel)
+                 'data-nav-styleinfo'=> $this->redLiEditableStyle($viewModel)
                 ],
                 [
                     $driverHtml,

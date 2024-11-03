@@ -3,7 +3,7 @@ namespace Red\Component\ViewModel\Manage;
 
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
-use Events\Component\ViewModel\Manage\RepresentationActionViewModelInterface;
+use Red\Component\ViewModel\Manage\PresentationActionViewModelInterface;
 
 use ArrayIterator;
 
@@ -12,7 +12,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class PresentationActionViewModel extends ViewModelAbstract implements RepresentationActionViewModelInterface {
+class PresentationActionViewModel extends ViewModelAbstract implements PresentationActionViewModelInterface {
 
     private $statusViewModel;
 

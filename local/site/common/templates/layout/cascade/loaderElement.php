@@ -6,11 +6,11 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 echo Html::tag('div', 
         [
-            'id'=>$id,
+//            'id'=>$id,
             'class'=>$class,
             'data-red-apiuri'=>$dataRedApiUri,
-            'data-red-cache-control'=>$dataRedCacheControl,
-            'data-red-target-id'=>$dataRedTargetId
+//            'data-red-cache-control'=>$dataRedCacheControl,
+            'data-nav-target-id'=>$dataNavTargetId
         ]
     );
 

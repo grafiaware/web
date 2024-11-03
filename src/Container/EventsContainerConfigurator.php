@@ -19,6 +19,7 @@ use Access\Enum\AccessPresentationEnum;
 use Pes\View\Template\PhpTemplate;
 use Component\View\ElementComponent;
 use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoContentForStatusRenderer;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 
 // component view model
@@ -93,10 +94,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 if($accessPresentation->isAllowed(RepresentativeActionComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    /** @var RepresentationActionViewModel $viewModel */
+                    $viewModel = $c->get(RepresentationActionViewModel::class);
+                    if ($viewModel->isMultiRepresentative())
                     $component = new RepresentativeActionComponent(
                             $c->get(ComponentConfiguration::class),
                         );
-                    $component->setData($c->get(RepresentationActionViewModel::class));
+                    $component->setData();
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('representativeaction')));
                 } else {
                     $component = $c->get(ElementComponent::class);

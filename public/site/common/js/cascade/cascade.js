@@ -1,25 +1,25 @@
 import {initElements} from "../initLoadedElements/initElements.js";
 
 const conf = {
-    apiUri: "data-red-apiuri",
-    content: "data-red-content",
+    cascadeClass: 'cascade',
+    elementApiUri: "data-red-apiuri",
+    contentApiUri: "data-red-content",
     cacheControl: "data-red-cache-control",
-    targetId: "data-red-target-id",
+    targetId: "data-nav-target-id",
     //TODO: touto změnou je vypnuto OFF -> cascade off
 //    apiAction: "apiAction",
 //    navigationClass: "navigation",
 
     apiAction: "QQQapiAction",
     navigationClass: "QQQnavigation",
-    
+    itemElementName: 'li',
     itemLeafClass: "leaf",
     itemParentClass: "parent",
     itemIdPrefix: "item_"
 };
 
-var cascadeClassName = 'cascade';
-var itemElmName = 'li';
 
+// cache control vypnuto na řádku 162
 var apiPrefix = "red/v1/";
 var api = {
     driver: "red/v1/driver/",
@@ -33,7 +33,7 @@ var api = {
  * @returns {Promise}
  */
 export function loadSubsequentElements(document, className) {
-    cascadeClassName = className;
+    conf.cascadeClass = className;
     history.replaceState({}, "", document.URL);  // https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API#using_replacestate
     return fetchCascadeContents(document);
 }
@@ -57,8 +57,8 @@ function fetchCascadeContents(element) {
 
     // elements is a live HTMLCollection of found elements
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
-    var cascadeElements = element.getElementsByClassName(cascadeClassName);
-    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${cascadeClassName}".`);    
+    var cascadeElements = element.getElementsByClassName(conf.cascadeClass);
+    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${conf.cascadeClass}".`);    
     var cascadeElementsArray = Array.from(cascadeElements);  // kopie z HTMLCollection, která je live collection
     let loadSubPromises = cascadeElementsArray.map(elementToCascade => fetchCascadeContent(elementToCascade));
 
@@ -99,13 +99,13 @@ function fetchCascadeContent(parentElement){
           headers: {
             "X-Cascade": "Do not store request",   // příznak pro PresentationStatus - neukládej request jako last GET
           },
-        }).then(response => {
-      if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
-          // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
-          return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
-      } else {
-          throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
-      }
+    }).then(response => {
+        if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
+            // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
+            return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
+        } else {
+            throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+        }
     }).then(textPromise => {
         console.log(`cascade: Loading content from ${apiUri}.`);
         return replaceChildren(parentElement, textPromise);  // vrací původní parent element
@@ -133,15 +133,15 @@ function getTargetElement(cascadeElement) {
  * @returns {String}
  */
 function getApiUri(element) {
-    if (element.hasAttribute(conf.apiUri)) {
-        return element.getAttribute(conf.apiUri); // element.attributes.getNamedItem(conf.apiUri).nodeValue;
+    if (element.hasAttribute(conf.elementApiUri)) {
+        return element.getAttribute(conf.elementApiUri); // element.attributes.getNamedItem(conf.apiUri).nodeValue;
     } else {
         console.error(`Cascade: element nemá povinný atribut conf.apiUri ${element}`);
     }
 }
 
 function setApiUri(element, apiUri) {
-    return element.setAttribute(conf.apiUri, apiUri); // element.attributes.getNamedItem(conf.apiUri).nodeValue;
+    return element.setAttribute(conf.elementApiUri, apiUri); // element.attributes.getNamedItem(conf.apiUri).nodeValue;
 }
 
 /**
@@ -151,7 +151,7 @@ function setApiUri(element, apiUri) {
  * @returns {String}
  */
 function getCacheControl(element) {
-    return element.hasAttribute(conf.cacheControl) ? element.getAttribute(conf.cacheControl) : 'default'; // element.attributes.getNamedItem(conf.cacheControl).nodeValue : 'default';
+    return 'default'; //element.hasAttribute(conf.cacheControl) ? element.getAttribute(conf.cacheControl) : 'default'; // element.attributes.getNamedItem(conf.cacheControl).nodeValue : 'default';
 }
 
 /**
@@ -203,7 +203,7 @@ function replaceChildren(parentElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;  // live collection - v replaceChildren se "spotřebuje", length se musí zjistit před použitím
     parentElement.replaceChildren(...newElements);  // odstraní staré a přidá nové elementy
-    console.log(`cascade: Replaced children of element ${parentElement.tagName} with api uri attribute: ${parentElement.getAttribute(conf.apiUri)} with collection of ${cnt}.`);
+    console.log(`cascade: Replaced children of element ${parentElement.tagName} with api uri attribute: ${parentElement.getAttribute(conf.elementApiUri)} with collection of ${cnt}.`);
     return parentElement;
 };
 
@@ -293,9 +293,9 @@ function fetchFreshContent(formElement, json) {
 }
 
 function closestCascadeElement(element) {
-    let closest = element.closest("."+cascadeClassName);
+    let closest = element.closest("."+conf.cascadeClass);
     if (closest === null) {
-      throw new Error(`cascade: No closest element with cascade class for : ${element}`);
+        throw new Error(`cascade: No closest element with cascade class for : ${element}`);
     }
     return closest;
 }
@@ -317,9 +317,9 @@ function listenLinks(loaderElement) {
         // na všechny <li> v elementu s třídou conf.navigationClass přidá event listener
         let navs = loaderElement.getElementsByClassName(conf.navigationClass);
         let navsCnt = navs.length;
-        console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute(conf.apiUri) + ' - ' + navsCnt + ' navs found.');
+        console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute(conf.elementApiUri) + ' - ' + navsCnt + ' navs found.');
         for (const navigation of [...navs]) {
-            let items = navigation.querySelectorAll(itemElmName);
+            let items = navigation.querySelectorAll(conf.itemElementName);
             console.log(`cascade: Listen links match `+items.length+' items.');
             for (const item of [...items]) {
                 // když event listener z nějakého důvodu nepracuje, provede se default akce elementu anchor -> volá se načtení celé stránky
@@ -330,7 +330,7 @@ function listenLinks(loaderElement) {
             }        
         }        
     } else {
-        console.warn(`cascade: Loader element s api uri: ${loaderElement.getAttribute(conf.apiUri)} nemá atribut ${conf.targetId}.`);
+        console.warn(`cascade: Loader element s api uri: ${loaderElement.getAttribute(conf.elementApiUri)} nemá atribut ${conf.targetId}.`);
     }
 }
 
@@ -352,25 +352,25 @@ function linkListener(event) {
 };
 
 function itemAndContentChange(loaderElement, json) {
-        if (hasTargetId(loaderElement)) {        
-            // loader element má definovaný target -> změna stavu po POSTu se může projevit změnou obsahu target elementu
-            const contentTarget = document.getElementById(getTargetId(loaderElement));
-            if (json.targeturi !== undefined) {  // response obsahuje nové uri pro získání nového contentu
-                contentTarget.setAttribute(conf.apiUri, json.targeturi);
-            }
+    if (hasTargetId(loaderElement)) {        
+        // loader element má definovaný target -> změna stavu po POSTu se může projevit změnou obsahu target elementu
+        const contentTarget = document.getElementById(getTargetId(loaderElement));
+        if (json.targeturi !== undefined) {  // response obsahuje nové uri pro získání nového contentu
+            contentTarget.setAttribute(conf.elementApiUri, json.targeturi);
+        }
 //            fetchCascadeContent(contentTarget); // načtení je v menuaction    // znovunačtení obsahu - bez změny api uri, jen pro refresh obsahu, který může být změněn postem nebo s novým uri pro nový (zaměněný) obsah
-            if (json.newitemuid !== undefined) {  // response obsahuje newitemuid nového item pro záměnu obsahu předešlého a nového driveru
-                let currentItem = document.getElementById(conf.itemIdPrefix + json.newitemuid);
-                menuAction(currentItem, contentTarget);
-                switchContent(currentItem, contentTarget);               
-            } else {
-                menuAction(previousItem, contentTarget);                
-                switchContent(previousItem, contentTarget);               
-            }
+        if (json.newitemuid !== undefined) {  // response obsahuje newitemuid nového item pro záměnu obsahu předešlého a nového driveru
+            let currentItem = document.getElementById(conf.itemIdPrefix + json.newitemuid);
+            menuAction(currentItem, contentTarget);
+            switchContent(currentItem, contentTarget);               
         } else {
-            console.warn("cascade: No target defined in loader element");
-            window.location.reload();        
-        }    
+            menuAction(previousItem, contentTarget);                
+            switchContent(previousItem, contentTarget);               
+        }
+    } else {
+        console.warn("cascade: No target defined in loader element");
+        window.location.reload();        
+    }    
 }
 
 function menuAction(currentItem, contentTarget) {
@@ -388,20 +388,20 @@ function menuAction(currentItem, contentTarget) {
 
 
 function switchItem(currentItem) {
-        // toggle drivers
-        getNewDrivers(previousItem, currentItem);                        
-        shrinkAndExpandChildrenOnPath(previousItem, currentItem);
-        // aktuální item uložen pro příští klik
-        previousItem = currentItem;
+    // toggle drivers
+    getNewDrivers(previousItem, currentItem);                        
+    shrinkAndExpandChildrenOnPath(previousItem, currentItem);
+    // aktuální item uložen pro příští klik
+    previousItem = currentItem;
 }
 
 function switchContent(currentItem, contentTarget) {
-        // content
-        // použije hodnotu atributu conf.content z driveru a nastaví atribut conf.apiUri cílového elementu na API path pro nový obsah
-        let newContentApiUri = itemDriver(currentItem).getAttribute(conf.content);
-        contentTarget.setAttribute(conf.apiUri, newContentApiUri);
-        // získání a výměna nového obsahu v cílovém elementu
-        fetchCascadeContent(contentTarget);    
+    // content
+    // použije hodnotu atributu conf.content z driveru a nastaví atribut conf.apiUri cílového elementu na API path pro nový obsah
+    let newContentApiUri = itemDriver(currentItem).getAttribute(conf.contentApiUri);
+    contentTarget.setAttribute(conf.elementApiUri, newContentApiUri);
+    // získání a výměna nového obsahu v cílovém elementu
+    fetchCascadeContent(contentTarget);    
 }
 
 /**
@@ -458,7 +458,7 @@ function replaceDriverContent(itemElement, newHtmlTextContent) {
     var newElements = htmlToElements(newHtmlTextContent);
     var cnt = newElements.length;
     if (cnt>1) {
-        console.warn(`cascade: New driver as children of element "+itemElement.tagName+" with attribute ${conf.apiUri}: ${itemElement.getAttribute(conf.apiUri)} has ${cnt} element(s).`);        
+        console.warn(`cascade: New driver as children of element "+itemElement.tagName+" with attribute ${conf.elementApiUri}: ${itemElement.getAttribute(conf.elementApiUri)} has ${cnt} element(s).`);        
     } else {
         itemDriver(itemElement).replaceWith(newElements[0]);
     }
@@ -474,7 +474,7 @@ function replaceDriverContent(itemElement, newHtmlTextContent) {
 function getOnPathItemElements(element) {
     // for collecting elements
     let pathElements = []; 
-        if (element.tagName.toLowerCase() === itemElmName) { 
+        if (element.tagName.toLowerCase() === conf.itemElementName) { 
             pathElements.push(element);
         }
     // if no parent, return no parent elements
@@ -485,7 +485,7 @@ function getOnPathItemElements(element) {
     let parent  = element.parentElement;
     // collecting parents
     while (parent) {   // ?? closest(itemElmName)
-        if (parent.tagName.toLowerCase() === itemElmName) { 
+        if (parent.tagName.toLowerCase() === conf.itemElementName) { 
             pathElements.push(parent);
         }
         parent = parent.parentElement;

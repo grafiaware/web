@@ -46,7 +46,9 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         ];
         return new ArrayIterator($array);
     }
-
+    public function isMultiRepresentative(): bool {
+        return (count($this->getRepresentativesByLoginName($loginName)))>1 ? true : false;
+    }
     /**
      * Generuje pole company id=>name, první položku vytvoří práznou (''=>'') pro select element required
      * @param type $loginName
@@ -55,11 +57,15 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
     private function createIdCompanyArray($loginName, $placeholder) {
         $a = [];
         $a[$placeholder] = 'Vyberte zastupovanou firmu';  // klíč = hodnota první položky $idCompanyArray pro zajištění funkčnosti required select
-        $representatives = $this->representativeRepo->findByLoginName($loginName);
+        $representatives = $this->getRepresentativesByLoginName($loginName);
         foreach ($representatives as $representative) {
             /** @var RepresentativeInterface $representative */
             $a[$representative->getCompanyId()] = $this->companyRepo->get($representative->getCompanyId())->getName();
         }
         return $a;
+    }
+    
+    private function getRepresentativesByLoginName($loginName): array {
+        return $this->representativeRepo->findByLoginName($loginName);
     }
 }

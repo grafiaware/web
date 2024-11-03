@@ -100,6 +100,19 @@ function initLoadedElements() {
         })
         .modal('show');
     });
+    //modalni okno pro vyberFirmy
+    $('.btn-vyberFirmy').click(function(){
+        $('.page.modal.vyberFirmy').modal({
+            closable: false,
+            useCSS   : true,
+        })
+        .modal('show');
+    });
+    $('.page.modal.vyberFirmyVynuceny').modal({   // komponent representationAction pro representanta více firem
+        closable: false,
+        useCSS   : true,
+    })
+    .modal('show');    
     $('.ui.hide.button').click(function(){
        $('.page.modal').modal('hide');
     });
