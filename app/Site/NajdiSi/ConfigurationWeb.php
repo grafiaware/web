@@ -18,6 +18,7 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\PresentationActionComponent;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
+use Events\Component\View\Data\CompanyComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -88,10 +89,10 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function webComponent() {
         return [
-            'webcomponent.logs.directory' => 'Logs/Components',
-            'webcomponent.logs.render' => 'Render.log',
-            'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
-            'webcomponent.templates' => [
+            'logs.directory' => 'Logs/Components',
+            'logs.render' => 'Render.log',
+            'logs.type' => FileLogger::REWRITE_LOG,
+            'templates' => [
                 'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
 //                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
@@ -101,6 +102,17 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+                'company' => self::WEB_TEMPLATES_SITE.'events/company.php'
+            ],
+            'services' => [
+                'flash' => FlashComponent::class,
+                'login' => LoginComponent::class,
+                'logout' => LogoutComponent::class,
+                'register' => RegisterComponent::class,
+                'presentationAction' => PresentationActionComponent::class,
+                'representativeAction' => RepresentativeActionComponent::class,
+                'infoBoard' => InfoBoardComponent::class,
+                'company' => CompanyComponent::class
             ]
         ];
     }

@@ -4,7 +4,6 @@ namespace Events\Component\ViewModel\Data;
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
-use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Entity\CompanyInterface;
 
 use Access\Enum\RoleEnum;

@@ -47,7 +47,7 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         return new ArrayIterator($array);
     }
     public function isMultiRepresentative(): bool {
-        return (count($this->getRepresentativesByLoginName($loginName)))>1 ? true : false;
+        return (count($this->getRepresentativesByLoginName($this->status->getUserLoginName())))>1 ? true : false;
     }
     /**
      * Generuje pole company id=>name, první položku vytvoří práznou (''=>'') pro select element required

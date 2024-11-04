@@ -968,10 +968,10 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             // configuration - používá parametry nastavené metodou getParams()
             ComponentConfiguration::class => function(ContainerInterface $c) {
                 return new ComponentConfiguration(
-                        $c->get('webcomponent.logs.directory'),
-                        $c->get('webcomponent.logs.render'),
-                        $c->get('webcomponent.logs.type'),
-                        $c->get('webcomponent.templates')
+                        $c->get('logs.directory'),
+                        $c->get('logs.render'),
+                        $c->get('logs.type'),
+                        $c->get('templates')
                     );
             },
 

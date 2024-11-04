@@ -42,7 +42,7 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
 
     public function getTemplate($name): string {
         if (!array_key_exists($name, $this->templates)) {
-            throw new NoTemplateException("V konfiguraci komponenty není definována template '$name'.");
+            throw new NoTemplateException("V konfiguraci komponent není definována template '$name'.");
         }
         return $this->templates[$name] ?? null;
     }

@@ -20,6 +20,9 @@ use Red\Model\Enum\AuthoredTypeEnum;
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
 
+// komponenty
+use Events\Component\View\Data\CompanyComponent;
+
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;
 
@@ -55,16 +58,29 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
                 $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
+                if($this->container->has($service)) {
+                    $view = $this->container->get($service);
+                } else {
+                    $view = $this->errorView($request, "Component $service is not defined (configured) in container.");                    
+                }
             } else {
                 $view = $this->errorView($request, "Component $name undefined in configuration of context service map.");
             }
-            if($this->container->has($service)) {
-                $view = $this->container->get($service);
+        } else {
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }
+        return $this->createStringOKResponseFromView($view);
+    }
+
+    public function component(ServerRequestInterface $request, $name) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            if($this->container->has($name)) {   // musí být definován alias
+                $view = $this->container->get($name);
             } else {
-                $view = $this->errorView($request, "Component $service is not defined (configured) in container.");                    
+                $view = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
             }
         } else {
-            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET);
         }
         return $this->createStringOKResponseFromView($view);
     }

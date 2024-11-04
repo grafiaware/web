@@ -125,7 +125,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var CompanyViewModel $viewModel */
                     $component = new CompanyComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(CompanyViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('representativeaction')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('company')));
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -153,7 +153,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases(): iterable {
         return [
-
+            'company' => CompanyComponent::class
         ];
     }
 
@@ -162,10 +162,10 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             // configuration - používá parametry nastavené metodou getParams()
             ComponentConfiguration::class => function(ContainerInterface $c) {
                 return new ComponentConfiguration(
-                        $c->get('webcomponent.logs.directory'),
-                        $c->get('webcomponent.logs.render'),
-                        $c->get('webcomponent.logs.type'),
-                        $c->get('webcomponent.templates')
+                        $c->get('logs.directory'),
+                        $c->get('logs.render'),
+                        $c->get('logs.type'),
+                        $c->get('templates')
                     );
             },            
             ComponentControler::class => function(ContainerInterface $c) {
@@ -294,8 +294,14 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             RepresentationActionViewModel::class => function(ContainerInterface $c) {
                 return new RepresentationActionViewModel(
                         $c->get(StatusViewModel::class),
-                            $c->get(RepresentativeRepo::class),
-                            $c->get(CompanyRepo::class),                        
+                        $c->get(RepresentativeRepo::class),
+                        $c->get(CompanyRepo::class),                        
+                    );
+            },
+            CompanyViewModel::class => function(ContainerInterface $c) {
+                return new CompanyViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class),                        
                     );
             },
                     
