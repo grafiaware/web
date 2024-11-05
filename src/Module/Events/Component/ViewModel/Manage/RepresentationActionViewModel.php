@@ -32,31 +32,35 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         $this->status = $status;
         $this->representativeRepo = $representativeRepo;
         $this->companyRepo = $companyRepo;
+        $this->appendData($this->data());
     }
 
-    public function getIterator() {
+    private function data() {
         $representativeActions = $this->status->getRepresentativeActions();
         $repsesentative = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
-        $placeholderValue = '';
+        $placeholderKey = '';
+        $placeholderText = 'Vyberte zastupovanou firmu';
         $array = [
             'loginName' => $this->status->getUserLoginName(),
-            'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderValue),
+            'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderKey, $placeholderText),
             'selectedCompanyId' => isset($repsesentative) ? $repsesentative->getCompanyId() : null,
-            'placeholderValue' => $placeholderValue
+            'placeholderValue' => $placeholderKey
         ];
-        return new ArrayIterator($array);
+        return $array;
     }
+    
     public function isMultiRepresentative(): bool {
         return (count($this->getRepresentativesByLoginName($this->status->getUserLoginName())))>1 ? true : false;
     }
+    
     /**
      * Generuje pole company id=>name, první položku vytvoří práznou (''=>'') pro select element required
      * @param type $loginName
      * @return type
      */
-    private function createIdCompanyArray($loginName, $placeholder) {
+    private function createIdCompanyArray($loginName, $placeholderKey, $placeholderText) {
         $a = [];
-        $a[$placeholder] = 'Vyberte zastupovanou firmu';  // klíč = hodnota první položky $idCompanyArray pro zajištění funkčnosti required select
+        $a[$placeholderKey] = $placeholderText;  // klíč = hodnota první položky $idCompanyArray pro zajištění funkčnosti required select
         $representatives = $this->getRepresentativesByLoginName($loginName);
         foreach ($representatives as $representative) {
             /** @var RepresentativeInterface $representative */

@@ -14,7 +14,7 @@ use Pes\Text\Html;
             </div>     
         
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/company/company-row.php',  $companies)  ?>
+                <?= $this->repeat(__DIR__.'/company/company.php',  $companies)  ?>
                 <?php
                 if($editable) {
                 ?>
@@ -23,7 +23,7 @@ use Pes\Text\Html;
                     Přidej firmu
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/company/company-row.php') ?>                                                                                 
+                    <?= $this->insert( __DIR__.'/company/company.php') ?>                                                                                 
                 </div> 
                 <?php
                 }

@@ -21,7 +21,7 @@ use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
 
 // komponenty
-use Events\Component\View\Data\CompanyComponent;
+use Events\Component\View\Data\CompanyListComponent;
 
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;

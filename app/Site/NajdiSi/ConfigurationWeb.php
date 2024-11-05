@@ -18,7 +18,7 @@ use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\PresentationActionComponent;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
-use Events\Component\View\Data\CompanyComponent;
+use Events\Component\View\Data\CompanyListComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -102,7 +102,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
-                'company' => self::WEB_TEMPLATES_SITE.'events/company.php'
+                'companyList' => self::WEB_TEMPLATES_SITE.'events/company-list.php'
             ],
             'services' => [
                 'flash' => FlashComponent::class,
@@ -112,7 +112,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'presentationAction' => PresentationActionComponent::class,
                 'representativeAction' => RepresentativeActionComponent::class,
                 'infoBoard' => InfoBoardComponent::class,
-                'company' => CompanyComponent::class
+                'companyList' => CompanyListComponent::class
             ]
         ];
     }

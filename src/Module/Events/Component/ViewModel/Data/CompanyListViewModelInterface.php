@@ -13,5 +13,5 @@ use Component\ViewModel\ViewModelInterface;
  *
  * @author pes2704
  */
-interface CompanyViewModelInterface extends ViewModelInterface {
+interface CompanyListViewModelInterface extends ViewModelInterface {
 }

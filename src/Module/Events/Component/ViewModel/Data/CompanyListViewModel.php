@@ -15,7 +15,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyViewModel extends ViewModelAbstract implements CompanyViewModelInterface {
+class CompanyListViewModel extends ViewModelAbstract implements CompanyListViewModelInterface {
 
     private $status;
     
@@ -29,9 +29,10 @@ class CompanyViewModel extends ViewModelAbstract implements CompanyViewModelInte
             ) {
         $this->status = $status;
         $this->companyRepo = $companyRepo;
+        $this->appendData($this->data());
     }
 
-    public function getIterator() {
+    private function data() {
         $editable = $this->status->getUserRole()===RoleEnum::EVENTS_ADMINISTRATOR;
 
         $companies=[];     
@@ -48,6 +49,6 @@ class CompanyViewModel extends ViewModelAbstract implements CompanyViewModelInte
             'editable' => $editable,
             'companies' => $companies
         ];
-        return new ArrayIterator($array);
+        return $array;
     }
 }

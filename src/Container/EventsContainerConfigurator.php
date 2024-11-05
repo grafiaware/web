@@ -21,12 +21,12 @@ use Component\View\ElementComponent;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 use Events\Component\View\Manage\RepresentativeActionComponent;
-use Events\Component\View\Data\CompanyComponent;
+use Events\Component\View\Data\CompanyListComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
 use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
-use Events\Component\ViewModel\Data\CompanyViewModel;
+use Events\Component\ViewModel\Data\CompanyListViewModel;
 
 // controler
 use Events\Middleware\Events\Controler\ComponentControler;
@@ -116,16 +116,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             #### Data komponenty
-            CompanyComponent::class => function(ContainerInterface $c) {
+            CompanyListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                if($accessPresentation->isAllowed(CompanyComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var CompanyViewModel $viewModel */
-                    $component = new CompanyComponent($c->get(ComponentConfiguration::class));
-                    $component->setData($c->get(CompanyViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('company')));
+                if($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    /** @var CompanyListViewModel $viewModel */
+                    $component = new CompanyListComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyList')));
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -153,7 +153,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases(): iterable {
         return [
-            'company' => CompanyComponent::class
+            'companyList' => CompanyListComponent::class
         ];
     }
 
@@ -298,8 +298,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),                        
                     );
             },
-            CompanyViewModel::class => function(ContainerInterface $c) {
-                return new CompanyViewModel(
+            CompanyListViewModel::class => function(ContainerInterface $c) {
+                return new CompanyListViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(CompanyRepo::class),                        
                     );
