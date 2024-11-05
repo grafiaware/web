@@ -36,7 +36,7 @@ use Component\ViewModel\StatusViewModel;
     $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
     $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
     $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
-    //---------- $idCompany je company prihlaseneho representanta
+   //---------- $idCompany je company prihlaseneho representanta
           
     
     if ( isset($idCompany) ) {

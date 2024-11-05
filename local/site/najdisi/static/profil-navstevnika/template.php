@@ -27,21 +27,8 @@ use Component\ViewModel\StatusViewModel;
     $statusViewModel = $container->get(StatusViewModel::class);
     $role = $statusViewModel->getUserRole();
     $loginName = $statusViewModel->getUserLoginName();
-//------------ $role $loginName prihlaseneho ---------------------------
 
-//----------- alternativni ziskani udaju ------------------
-///** @var StatusSecurityRepo $statusSecurityRepo */
-//$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-///** @var StatusSecurityInterface $statusSecurity */
-//$statusSecurity = $statusSecurityRepo->get();
-///** @var LoginAggregateFullInterface $loginAggregate */
-//$loginAggregate = $statusSecurity->getLoginAggregate();
-//if (isset($loginAggregate)) {
-//    $loginName = $loginAggregate->getLoginName();
-//    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';    
-//------------------------------------------------------------------
-
-$isVisitor = isset($role) AND $role==(RoleEnum::VISITOR);
+$isVisitor = (isset($role) AND $role==RoleEnum::VISITOR);
 
 // pouze pro  roli 'visitor' , tj. prihlaseneho navstevnika
 if ($isVisitor) {

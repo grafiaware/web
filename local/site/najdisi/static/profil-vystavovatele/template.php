@@ -5,7 +5,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 use Site\ConfigurationCache;
-
+use Access\Enum\RoleEnum;
 
 use Status\Model\Entity\StatusSecurity;
 use Status\Model\Repository\StatusSecurityRepo;
@@ -15,9 +15,13 @@ use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
+use Events\Model\Repository\RepresentativeRepoInterface;
+use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Repository\CompanyContactRepoInterface;
+use Events\Model\Repository\CompanyAddressRepoInterface;
 
 use Events\Middleware\Events\ViewModel\JobViewModel;
-use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
+//use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyContactInterface;
@@ -25,32 +29,106 @@ use Events\Model\Entity\CompanyContactInterface;
 use Pes\Text\Html;
 use Pes\Text\Text;
 
-
-use Status\Model\Repository\StatusSecurityRepo;
-
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Component\ViewModel\StatusViewModelInterface;
-use Component\ViewModel\StatusViewModel;
 
-
-
-
- //------------------------------------------------------------------
     /** @var StatusViewModelInterface $statusViewModel */
     $statusViewModel = $container->get(StatusViewModel::class);
     $role = $statusViewModel->getUserRole();
-    //$loginName = $statusViewModel->getUserLoginName();
+    $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
     
+    //$loginName = $statusViewModel->getUserLoginName();    
     $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
     $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
     //---------- $idCompany je company prihlaseneho representanta
-//------------------------------------------------------------------
+    
+    $isRepresentative = (isset($role) AND $role==RoleEnum::REPRESENTATIVE);
 
 
-//________________?????????????????????????????????
+
+
+
+//$readonly = 'readonly="1"';
+//$disabled = 'disabled="1"';
+if ($editable) {
+        $readonly = '';
+        $disabled = '';
+    } else {
+        $readonly = 'readonly';
+        $disabled = 'disabled';
+    }
+
+
+//$isRepresentative = false;
+//
+////######################     natvrdo zvoleny vystavovatel
+////$idCompanyVystavovatele = 10; 
+//$idCompanyVystavovatele = 25; 
+////$idCompanyVystavovatele = 35; 
+//// tato stranka musi byt dostupna jen z odkazu na strance firmy (vystavovatele), součástí odkazu pak musí být company name (nebo id)
+// //------------------------------------------------------------------
+//    /** @var StatusViewModelInterface $statusViewModel */
+//    $statusViewModel = $container->get(StatusViewModel::class);
+//    $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
+//    $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
+//    $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
+//    //---------------------------------------------
+//    $isRepresentative = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId); //$idCompanyVystavovatele
+//
+////________________?????????????????????????????????
+
+////######################
+//    if ($statusViewModel->isUserLoggedIn() AND $statusViewModel->getUserRole()==ConfigurationCache::auth()['roleRepresentative']) {
+//        /** @var RepresentativeViewModel $representativeViewModel */
+//        $representativeViewModel = $container->get(RepresentativeViewModel::class );
+//        //$representativeViewModel->
+//        
+//        $isRepresentative =  $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company  
+//    }
+
+
+
+//if (isset($loginAggregate)) {
+//    $loginName = $loginAggregate->getLoginName();
+//    $role = $loginAggregate->getCredentials()->getRoleFk();
+//    if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']))  {
+//        
+//        
+//        //$representativeViewMode  NECHCEME
+//        
+//        /** @var RepresentativeViewModel $representativeViewModel */
+//        $representativeViewModel = $container->get(RepresentativeViewModel::class );
+//        $companyEntity = $representativeViewModel->getRepresentativesList($idCompanyVystavovatele);
+//        $isRepresentative =  $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company  
+//    }
+//}
+
+
+/** @var RepresentativeRepoInterface $representativeRepo */
+$representativeRepo = $container->get(RepresentativeRepo::class );
+/** @var CompanyRepoInterface $companyRepo */
+$companyRepo = $container->get(CompanyRepo::class );
+/** @var CompanyContactRepoInterface $companyContactRepo */
+$companyContactRepo = $container->get(CompanyContactRepo::class );
+/** @var CompanyAddressRepoInterface $companyAddressRepo */
+$companyAddressRepo = $container->get(CompanyAddressRepo::class );
+//------------------------------------------------------------------        
+          
+        
+        $companyE = $companyRepo->get($idCompany);
+ 
+        
+// v job.php je toto   
+//        $isRepresentative = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId);
+////------------------------------------------------------------------------------------------------------------------------
+
+    //###################### ----------------- jen reprezentant vystavovatele (konkretni firmy)  ----------------------------------
+    if  ( $isRepresentative ) { 
+        
+        
+//________________
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurity $statusSecurity */
@@ -60,86 +138,27 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 //___________
 
 
-$readonly = 'readonly="1"';
-$disabled = 'disabled="1"';
+/** @var JobViewModel $jobModel */
+$jobModel = $container->get( JobViewModel::class );
 
 
-$isRepresentative = false;
-
-//######################     natvrdo zvoleny vystavovatel
-//$idCompanyVystavovatele = 10; 
-$idCompanyVystavovatele = 25; 
-//$idCompanyVystavovatele = 35; 
-// tato stranka musi byt dostupna jen z odkazu na strance firmy (vystavovatele), součástí odkazu pak musí být company name (nebo id)
-
- //------------------------------------------------------------------
-    /** @var StatusViewModelInterface $statusViewModel */
-    $statusViewModel = $container->get(StatusViewModel::class);
-    $representativeFromStatus = $statusViewModel->getRepresentativeActions()->getRepresentative();
-    $loginName = isset($representativeFromStatus) ? $representativeFromStatus->getLoginLoginName() : null;
-    $idCompany = isset($representativeFromStatus) ? $representativeFromStatus->getCompanyId() : null ; 
-    //---------------------------------------------
-    $isRepresentative = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId); //$idCompanyVystavovatele
-
-//________________?????????????????????????????????
-
-
-
-//######################
-    if ($statusViewModel->isUserLoggedIn() AND $statusViewModel->getUserRole()==ConfigurationCache::auth()['roleRepresentative']) {
-        /** @var RepresentativeViewModel $representativeViewModel */
-        $representativeViewModel = $container->get(RepresentativeViewModel::class );
-        //$representativeViewModel->
+   
         
-        $isRepresentative =  $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company  
-    }
-if (isset($loginAggregate)) {
-    $loginName = $loginAggregate->getLoginName();
-    $role = $loginAggregate->getCredentials()->getRoleFk();
-    if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']))  {
-        
-        
-        //$representativeViewMode  NECHCEME
-        
-        /** @var RepresentativeViewModel $representativeViewModel */
-        $representativeViewModel = $container->get(RepresentativeViewModel::class );
-        $companyEntity = $representativeViewModel->getRepresentativesList($idCompanyVystavovatele);
-        $isRepresentative =  $representativeViewModel->isRepresentative($loginName, $idCompanyVystavovatele);  // z representative a company  
-    }
-}
-
-
-    /** @var JobViewModel $jobModel */
-    $jobModel = $container->get( JobViewModel::class );
-
-
-    
-    /** @var RepresentativeRepo $representativeRepo */
-    $representativeRepo = $container->get(RepresentativeRepo::class );
-    /** @var CompanyRepo $companyRepo */
-    $companyRepo = $container->get(CompanyRepo::class );
-    /** @var CompanyContactRepo $companyContactRepo */
-    $companyContactRepo = $container->get(CompanyContactRepo::class );
-    /** @var CompanyAddressRepo $companyAddressRepo */
-    $companyAddressRepo = $container->get(CompanyAddressRepo::class );
-    //------------------------------------------------------------------
-    
-        
-    
-    
-    //###################### ----------------- jen reprezentant vystavovatele  ----------------------------------
-    if ($isRepresentative) {
+        //pro  profil.php
         $representativeContext =  [  //representative a company
-            'logNameRepresentative' =>  $representativeEntity->getLoginLoginName(),
-            'idCompany' =>  $companyEntity->getId(),
-            'nameCompany' =>  $companyEntity->getName(),
+            'logNameRepresentative' =>   $loginName,       //$representativeEntity->getLoginLoginName(),
+            'idCompany' =>  $companyE->getId(),
+            'nameCompany' =>  $companyE->getName(),
             ];            
-        $representativeContext ['regmail'] = $loginAggregate->getRegistration()->getEmail(); //BERU Z REGISTRACE doplnen mail                            
-        $companyNameZPresenterPerson = $representativeContext['nameCompany'];                    
-        $idCompanyZPresenterPerson = $representativeContext['idCompany'];
+        $representativeContext ['regmail'] = $loginAggregate->getRegistration()->getEmail();       //BERU Z REGISTRACE doplnen mail                            
+//        $companyNameZPresenterPerson = $representativeContext['nameCompany'];                    
+//        $idCompanyZPresenterPerson = $representativeContext['idCompany'];
 
-        //----------------------------pro company z PresenterPerson vypsat vsechny companyContact -----------------
-        $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany' => $idCompanyZPresenterPerson ] );
+        
+        
+        //----------------pro company  vypsat vsechny companyContact -----------------
+        // $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany' => $idCompanyZPresenterPerson ] );
+        $companyContactEntities = $companyContactRepo->find( " company_id = :idCompany ",  ['idCompany' => $idCompany ] );
         $companyContacts=[];
         foreach ($companyContactEntities as $companyContact) {
             /** @var CompanyContactInterface $companyContact */
@@ -152,29 +171,34 @@ if (isset($loginAggregate)) {
                 'emails' =>  $companyContact->getEmails()
                 ];
         }
-        //----------------------- pro tuto company vypsat companyAddress
+        //-------------- pro tuto company vypsat companyAddress
         $companyAddress=[];
         /** @var CompanyAddressInterface $companyAddress */
-        $companyAddress = $companyAddressRepo->get( $idCompanyZPresenterPerson );
-        if ($companyAddress) {
+        //$companyAddress = $companyAddressRepo->get( $idCompanyZPresenterPerson );
+        $companyAddressE = $companyAddressRepo->get( $idCompany );
+        if ($companyAddressE) {
             $companyAddress = [
-                'companyId'=> $companyAddress->getCompanyId(),
-                'name'   => $companyAddress->getName(),
-                'lokace' => $companyAddress->getLokace(),
-                'psc'    => $companyAddress->getPsc(),
-                'obec'   => $companyAddress->getObec()
+                'companyId'=> $companyAddressE->getCompanyId(),
+                'name'   => $companyAddressE->getName(),
+                'lokace' => $companyAddressE->getLokace(),
+                'psc'    => $companyAddressE->getPsc(),
+                'obec'   => $companyAddressE->getObec()
                 ];                                                                                                                                                                                                                                                                                                                                                                                                                                      
         }
         else {
-            $companyAddress = ['companyId' =>   $idCompanyZPresenterPerson ];
+            $companyAddress = ['companyId' =>   $idCompany]  ;    //  $idCompanyZPresenterPerson ];
         }
 
+        
+        
         //-------------- jobsy pro company tohoto representative
         //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php   
-        foreach ($jobModel->getCompanyJobList($idCompanyZPresenterPerson) as $job) {
+        foreach ($jobModel->getCompanyJobList($idCompany  /*$idCompanyZPresenterPerson*/ ) as $job) {
             $jobs[] = array_merge( $job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER} /*, 
                                           'nameCompanyZPrezentera' => $companyNameZPresenterPerson */ ] ); 
         }
+        
+        
     }
     //###################### -------- konec - reprezentant vystavovatele  ----------------------------------
 
@@ -196,7 +220,12 @@ foreach ($enrolls as $enroll) {
 //--------------------------------------------------------
 
 
-if($isRepresentative) {
+
+
+
+
+
+if  ( $isRepresentative ) {
     $headline = "Profil vystavovatele";
     $perex = '';
     ?>
@@ -239,7 +268,8 @@ if($isRepresentative) {
                                 Přidejte další kontakt vystavovatele
                             </div>
                             <div class="active content">
-                                <?= $this->insert( __DIR__.'/../company-contacts/company-contact.php', [ 'companyId' => $idCompanyZPresenterPerson ] ) ?>
+                                <?= $this->insert( __DIR__.'/../company-contacts/company-contact.php', 
+                                                                [ 'companyId' => $idCompany /*$idCompanyZPresenterPerson*/ ] ) ?>
                             </div>
                        </div>
 
