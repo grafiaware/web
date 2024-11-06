@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Web\Middleware\Page\Controller;
+namespace Web\Middleware\Page\Controler;
 
 use Site\ConfigurationCache;
 
@@ -42,11 +42,11 @@ use Exception;
 use UnexpectedValueException;
 
 /**
- * Description of GetController
+ * Description of GetControler
  *
  * @author pes2704
  */
-abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstract {
+abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstract {
 
     protected $componentViews = [];
     
@@ -77,7 +77,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @throws UnexpectedValueException
      */
     protected function getHomeMenuItem(): ?MenuItemInterface {
-        $homePage = ConfigurationCache::layoutController()['home_page'];
+        $homePage = ConfigurationCache::layoutControler()['home_page'];
         switch ($homePage[0]) {
             case 'block':
                 try {
@@ -189,29 +189,29 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     private function getLayoutView(ServerRequestInterface $request): CompositeViewInterface {
         $navConfigView = $this->container->get(View::class)
-                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['templates.navConfig']))
+                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutControler()['templates.navConfig']))
                 ->setData([
                     // pro navConfig.js
                     'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
-                    'cascadeClass' => ConfigurationCache::layoutController()['cascade.class'],
-                    'apiActionClass' => ConfigurationCache::layoutController()['apiaction.class'],
+                    'cascadeClass' => ConfigurationCache::layoutControler()['cascade.class'],
+                    'apiActionClass' => ConfigurationCache::layoutControler()['apiaction.class'],
                 ]);
         
         /** @var CompositeViewInterface $view */
         $view = $this->container->get(CompositeView::class);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.layout']));
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutControler()['templates.layout']));
         $view->setData(
                 [
                     // v layout.php
                     'basePath' => $this->getBasePath($request),  // stejná metoda dává base path i do tinyConfig.js
                     'langCode' => $this->getPresentationLangCode(),
-                    'title' => ConfigurationCache::layoutController()['title'],
+                    'title' => ConfigurationCache::layoutControler()['title'],
                     // podmínění insert css souborů v head/css.php
                     'isEditableMode' => $this->isPartInEditableMode(),
                     // na mnoha místech - cesty k souborům zadané v konfiguraci
-                    'linksCommon' => ConfigurationCache::layoutController()['linksCommon'],
-                    'linksSite' => ConfigurationCache::layoutController()['linksSite'],
-                    'version' => ConfigurationCache::layoutController()['version'] ?? '',
+                    'linksCommon' => ConfigurationCache::layoutControler()['linksCommon'],
+                    'linksSite' => ConfigurationCache::layoutControler()['linksSite'],
+                    'version' => ConfigurationCache::layoutControler()['version'] ?? '',
                     // js proměnná navConfig - pro volání cascade v body.js
                     'navConfigView' => $navConfigView,
                 ]);
@@ -244,30 +244,30 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return array
      */
     private function getEditableModeViews($request) {
-        $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
+        $tinyLanguage = ConfigurationCache::layoutControler()['tinyLanguage'];
         $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
         $tinyConfigView =  $this->container->get(View::class)
-                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['templates.tinyConfig']))
+                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutControler()['templates.tinyConfig']))
                 ->setData([
                     // pro tinyConfig.js
                     'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
                     'toolbarsLang' => $tinyToolsbarsLang,
                     // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
-                    'urlStylesCss' => ConfigurationCache::layoutController()['urlStylesCss'],
-                    'urlSemanticCss' => ConfigurationCache::layoutController()['urlSemanticCss'],
-                    'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss'],
-                    'urlMediaCss' => ConfigurationCache::layoutController()['urlMediaCss']
+                    'urlStylesCss' => ConfigurationCache::layoutControler()['urlStylesCss'],
+                    'urlSemanticCss' => ConfigurationCache::layoutControler()['urlSemanticCss'],
+                    'urlContentTemplatesCss' => ConfigurationCache::layoutControler()['urlContentTemplatesCss'],
+                    'urlMediaCss' => ConfigurationCache::layoutControler()['urlMediaCss']
                 ]);        
         $views = [];                    
         $redScriptsView = $this->container->get(View::class)
-                ->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.redScripts']))
+                ->setTemplate(new PhpTemplate(ConfigurationCache::layoutControler()['templates.redScripts']))
                 ->setData([
                     'tinyConfigView' => $tinyConfigView,
-                    'urlTinyMCE' => ConfigurationCache::layoutController()['urlTinyMCE'],
-    //                    'urlJqueryTinyMCE' => ConfigurationCache::layoutController()['urlJqueryTinyMCE'],
-                    'urlTinyInit' => ConfigurationCache::layoutController()['urlTinyInit'],
-                    'urlEditScript' => ConfigurationCache::layoutController()['urlEditScript'],
+                    'urlTinyMCE' => ConfigurationCache::layoutControler()['urlTinyMCE'],
+    //                    'urlJqueryTinyMCE' => ConfigurationCache::layoutControler()['urlJqueryTinyMCE'],
+                    'urlTinyInit' => ConfigurationCache::layoutControler()['urlTinyInit'],
+                    'urlEditScript' => ConfigurationCache::layoutControler()['urlEditScript'],
                     ]);
         $views ['redScripts'] = $redScriptsView;
 //        $views += $this->getLayoutEditableViews();
@@ -277,16 +277,16 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     
     private function getLayoutViews() {
         $views = [];
-        foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutMap']) as $contextName) {
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);             
+        foreach (array_keys(ConfigurationCache::layoutControler()['contextLayoutMap']) as $contextName) {
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutControler()['cascade.cacheLoadOnce']);             
         }
         return $views;
     }
     
     private function getLayoutEditableViews() {
         $views = [];
-        foreach (array_keys(ConfigurationCache::layoutController()['contextLayoutEditableMap']) as $contextName) {
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);             
+        foreach (array_keys(ConfigurationCache::layoutControler()['contextLayoutEditableMap']) as $contextName) {
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutControler()['cascade.cacheLoadOnce']);             
         }
         return $views;
     }
@@ -295,41 +295,41 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         //TODO:  !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)
         $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
         $views = [];
-        foreach (ConfigurationCache::layoutController()['contextTargetMap'] as $contextName=>$targetSettings) {
+        foreach (ConfigurationCache::layoutControler()['contextTargetMap'] as $contextName=>$targetSettings) {
             // 'content'=>['id'=>'menutarget_content'],
             $id = $targetSettings['id'];
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedTargetElement($id, $dataRedApiUri, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']);            
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedTargetElement($id, $dataRedApiUri, ConfigurationCache::layoutControler()['cascade.cacheLoadOnce']);            
         }
         return $views;
     }
     
     private function getCascadeViews() {
         $views = [];
-        foreach (ConfigurationCache::layoutController()['contextServiceMap'] as $contextName=>$route) {
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement(array_key_first($route), ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);             
+        foreach (ConfigurationCache::layoutControler()['contextServiceMap'] as $contextName=>$route) {
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement(array_key_first($route), ConfigurationCache::layoutControler()['cascade.cacheReloadOnNav']);             
         }
         return $views;
     }
     
     private function getMenuViews() {
         $views = [];
-        foreach (ConfigurationCache::layoutController()['contextMenuMap'] as $contextName=>$menuSettings) {
-            //'menuSvisle' => ['service'=>'menu.svisle', 'targetContext'=>'content'],
+        foreach (ConfigurationCache::layoutControler()['contextMenuMap'] as $contextName=>$menuSettings) {
+            //'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
             //'contextTargetMap' => [
             //        'content'=>['id'=>'menutarget_content'],  
             //    ]
-            $targetId = ConfigurationCache::layoutController()['contextTargetMap'][$menuSettings['targetContext']]['id'];
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce'], $targetId);
+            $targetId = ConfigurationCache::layoutControler()['contextTargetMap'][$menuSettings['targetContext']]['id'];
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutControler()['cascade.cacheLoadOnce'], $targetId);
         }
         return $views;
     }
     
     private function getMenuEditableViews() {
         $views = [];
-        foreach (ConfigurationCache::layoutController()['contextMenuEditableMap'] as $contextName=>$menuSettings) {
-            // 'menuSvisle' => ['service'=>'menu.svisle', 'targetId'=>'menutarget_content'],
+        foreach (ConfigurationCache::layoutControler()['contextMenuEditableMap'] as $contextName=>$menuSettings) {
+            // 'menuSvisle' => ['service'=>'menuVertical', 'targetId'=>'menutarget_content'],
             $targetId = $menuSettings['targetId'];
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutController()['cascade.cacheLoadOnce'], $targetId);
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutControler()['cascade.cacheLoadOnce'], $targetId);
         }
         return $views;
     }    
@@ -347,7 +347,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return View[]
      */
     private function getBlockLoaders() {
-        $map = ConfigurationCache::layoutController()['contextBlocksMap'];
+        $map = ConfigurationCache::layoutControler()['contextBlocksMap'];
         $componets = [];
 
         // pro neexistující bloky nedělá nic
@@ -378,16 +378,16 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
         $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
         if($this->isPartInEditableMode()) {
-            return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, ConfigurationCache::layoutController()['cascade.cacheLoadOnce']); 
+            return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, ConfigurationCache::layoutControler()['cascade.cacheLoadOnce']); 
         } else {
-            return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, ConfigurationCache::layoutController()['cascade.cacheReloadOnNav']);             
+            return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, ConfigurationCache::layoutControler()['cascade.cacheReloadOnNav']);             
         }
     }
     
     private function getNoContentView($message) {
         /** @var View $view */
         $view = $this->container->get(View::class);
-        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.unknownContent']))
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutControler()['templates.unknownContent']))
                 ->setData(['message'=>$message]);
         return $view;
     }

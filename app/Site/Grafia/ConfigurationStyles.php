@@ -128,7 +128,7 @@ class ConfigurationStyles extends ConfigurationConstants {
         ###########################
         # menu classmap
         ###########################
-            'menu.presmerovani.classmap' => function() {
+            'menuRedirect.classmap' => function() {
                 return new ClassMap (
                     [
                         'Level' => [
@@ -137,7 +137,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                         ],
                     ]);
             },
-            'menu.presmerovani.classmap.editable' => function() {
+            'menuRedirect.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'Level' => [
@@ -148,7 +148,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                 );
             },
 
-            'menu.vodorovne.classmap' => function() {
+            'menuHorizontal.classmap' => function() {
                 return new ClassMap (
                     [
                         'Level' => [
@@ -157,7 +157,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                         ],
                     ]);
             },
-            'menu.vodorovne.classmap.editable' => function() {
+            'menuHorizontal.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'Level' => [
@@ -171,7 +171,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                     ]
                 );
             },
-            'menu.svisle.classmap' => function() {
+            'menuVertical.classmap' => function() {
                 return new ClassMap (
                     [
                         'Level' => [
@@ -180,7 +180,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                             ],
                     ]);
             },
-            'menu.svisle.classmap.editable' => function() {
+            'menuVertical.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'Level' => [

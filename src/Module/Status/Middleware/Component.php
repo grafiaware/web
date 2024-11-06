@@ -16,7 +16,7 @@ use Container\{
     ComponentContainerConfigurator, RedModelContainerConfigurator, DbUpgradeContainerConfigurator, AuthContainerConfigurator
 };
 
-use \Status\Middleware\Component\Controler\StatusComponentControler;
+use \Status\Middleware\Component\Controler\FlashControler;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -55,10 +55,10 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
-        #### ComponentController ####
+        #### ComponentControler ####
         $routeGenerator->addRouteForAction('GET', '/web/v1/flash', function(ServerRequestInterface $request) {
-            /** @var StatusComponentControler $ctrl */
-            $ctrl = $this->container->get(StatusComponentControler::class);
+            /** @var FlashControler $ctrl */
+            $ctrl = $this->container->get(FlashControler::class);
             return $ctrl->flash($request);
             });
 

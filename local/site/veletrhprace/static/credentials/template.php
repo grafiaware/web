@@ -15,7 +15,7 @@ use Auth\Model\Repository\LoginRepoInterface;
 use Auth\Model\Entity\RoleInterface;
 use Auth\Model\Entity\CredentialsInterface;
 
-use Auth\Middleware\Login\Controller\AuthController;
+use Auth\Middleware\Login\Controler\AuthControler;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -26,7 +26,7 @@ use Auth\Middleware\Login\Controller\AuthController;
     
     $roles = $roleRepo->findAll();
     $selectRoles = [];
-    $selectRoles [AuthController::NULL_VALUE] =  "" ;
+    $selectRoles [AuthControler::NULL_VALUE] =  "" ;
     /** @var RoleInterface $role */ 
     foreach ( $roles as $role ) {
         $selectRoles [$role->getRole()] = $role->getRole() ;
@@ -41,7 +41,7 @@ use Auth\Middleware\Login\Controller\AuthController;
                 'loginNameFk' =>  $credential->getLoginNameFk(),
                 'passwordHash' => $credential->getPasswordHash(),
                 'selectRoles' =>  $selectRoles,
-                "selected" => ["selectRole"=>$credential->getRoleFk() ?? AuthController::NULL_VALUE],
+                "selected" => ["selectRole"=>$credential->getRoleFk() ?? AuthControler::NULL_VALUE],
             ];
     }                                       
   ?>

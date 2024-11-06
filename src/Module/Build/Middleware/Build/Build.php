@@ -15,8 +15,8 @@ use Container\{
     BuildContainerConfigurator, DbUpgradeContainerConfigurator, AuthContainerConfigurator, AuthDbContainerConfigurator
 };
 
-use Build\Middleware\Build\Controller\ControlPanelController;
-use Build\Middleware\Build\Controller\DatabaseController;
+use Build\Middleware\Build\Controler\ControlPanelControler;
+use Build\Middleware\Build\Controler\DatabaseControler;
 
 /**
  * Description of MenuApplication
@@ -52,58 +52,58 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         
-        #### ControlPanelController ####
+        #### ControlPanelControler ####
         $routeGenerator->addRouteForAction('GET', '/build', function(ServerRequestInterface $request) {
-            /** @var ControlPanelController $ctrl */
-            $ctrl = $this->container->get(ControlPanelController::class);
+            /** @var ControlPanelControler $ctrl */
+            $ctrl = $this->container->get(ControlPanelControler::class);
             return $ctrl->panel($request);
             });
             
-        #### DatabaseController ####
+        #### DatabaseControler ####
         $routeGenerator->addRouteForAction('POST', '/build/listconfig', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->listConfig($request);
             });
 
         $routeGenerator->addRouteForAction('POST', '/build/createdb', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->createDb();
             });
         $routeGenerator->addRouteForAction('POST', '/build/dropdb', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->dropDb();
             });
         $routeGenerator->addRouteForAction('POST', '/build/createusers', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->createUsers();
             });
         $routeGenerator->addRouteForAction('POST', '/build/dropusers', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->dropUsers();
             });
         $routeGenerator->addRouteForAction('POST', '/build/droptables', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->dropTables();
             });
         $routeGenerator->addRouteForAction('POST', '/build/make', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->make();
             });        
         $routeGenerator->addRouteForAction('POST', '/build/convert', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->convert();
             });
         $routeGenerator->addRouteForAction('POST', '/build/import', function(ServerRequestInterface $request) {
-            /** @var DatabaseController $ctrl */
-            $ctrl = $this->container->get(DatabaseController::class);
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->import();
             });        
 ####################################

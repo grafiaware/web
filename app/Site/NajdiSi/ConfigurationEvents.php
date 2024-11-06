@@ -19,7 +19,7 @@ class ConfigurationEvents extends ConfigurationConstants {
     const EVENTS_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/events/';
 
     /**
-     * Konfigurace prezentace - vrací parametry pro ComponentController
+     * Konfigurace prezentace - vrací parametry pro ComponentControler
      * @return array
      */
     public static function eventTemplates() {
@@ -31,7 +31,7 @@ class ConfigurationEvents extends ConfigurationConstants {
     
 
     /**
-     * Konfigurace upload files - vrací parametry pro FilesUploadController a VisitorProfileControler
+     * Konfigurace upload files - vrací parametry pro FilesUploadControler a VisitorProfileControler
      * @return array
      */
     public static function eventsUploads() {

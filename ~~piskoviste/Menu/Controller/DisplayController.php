@@ -1,8 +1,8 @@
 <?php
 
-namespace Menu\Middleware\Menu\Controller;
+namespace Menu\Middleware\Menu\Controler;
 
-use Menu\Middleware\Controller\FrontControlerAbstract;
+use Menu\Middleware\Controler\FrontControlerAbstract;
 
 use Menu\Helper\TestHelper;
 
@@ -36,18 +36,18 @@ use Pes\View\Template\NodeTemplate;
 use Pes\Http\Response;
 
 /**
- * Description of Controller
+ * Description of Controler
  *
  * @author pes2704
  */
-class DisplayController extends FrontControlerAbstract {
+class DisplayControler extends FrontControlerAbstract {
 
     public function content($id=NULL) {
 
 ## html
 //        $styles = $this->container->get(MenuListStyles::class);
         /* @var $classMap Red\Component\Renderer\Html\ClassMap\ClassMap */
-        $classMap = $this->container->get('menu.svisle.classmap');
+        $classMap = $this->container->get('menuVertical.classmap');
         /* @var $menuViewModel MenuViewModel */
         $menuViewModel = $this->container->get(MenuViewModel::class);
         // vazba na jQuery:

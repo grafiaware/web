@@ -56,12 +56,27 @@ use Pes\Database\Handler\DsnProvider\DsnProviderSqliteFile;
 use Pes\Database\Handler\OptionsProvider\OptionsProviderNull;
 
 // controller
-use Web\Middleware\Page\Controller\PageController;
+use Web\Middleware\Page\Controler\ComponentControler;
+use Web\Middleware\Page\Controler\PageControler;
 
+// Access
+use Access\AccessPresentation;
+use Access\AccessPresentationInterface;
+use Access\Enum\AccessPresentationEnum;
+
+//components
+use Web\Component\View\Flash\FlashComponent;
+use Red\Component\View\Manage\InfoBoardComponent;
 
 // configuration
 use Configuration\ComponentConfiguration;
 use Configuration\ComponentConfigurationInterface;
+
+// view model
+use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - StatusViewModel definován v app kontejneru
+
+use Web\Component\ViewModel\Flash\FlashViewModel;
+use Red\Component\ViewModel\Manage\InfoBoardViewModel;
 
 // logger
 use Pes\Logger\FileLogger;
@@ -71,6 +86,9 @@ use Container\RendererContainerConfigurator;
 
 // template renderer container
 use Pes\View\Renderer\Container\TemplateRendererContainer;
+
+// template
+use Pes\View\Template\PhpTemplate;
 
 // service
 use Red\Service\ItemAction\ItemActionService;
@@ -118,13 +136,50 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             ContextProviderInterface::class => ContextProvider::class,
             AccountInterface::class => Account::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
+            //komponenty
+            'flash' => FlashComponent::class,
+            'infoBoard' => InfoBoardComponent::class,
         ];
     }
 
     public function getFactoriesDefinitions(): iterable {
         return [
         // components
+            // FlashComponent s vlastním rendererem
+//            FlashComponent::class => function(ContainerInterface $c) {
+//                $viewModel = new FlashViewModelForRenderer($c->get(StatusFlashRepo::class));
+//                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
+//            },
 
+            // komponenty s PHP template
+            // - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
+            FlashComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new FlashComponent($c->get(ComponentConfiguration::class));
+                $component->setData($c->get(FlashViewModel::class));
+                $component->setTemplate(new PhpTemplate($configuration->getTemplate('flash')));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            InfoBoardComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                if($accessPresentation->isAllowed(InfoBoardComponent::class, AccessPresentationEnum::DISPLAY)) {
+                /** @var ComponentConfigurationInterface $configuration */
+                    $configuration = $c->get(ComponentConfiguration::class);
+                    $component = new InfoBoardComponent($configuration);
+                    $component->setData($c->get(InfoBoardViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('statusboard')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                    
         ####
         # view
         #
@@ -362,15 +417,23 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             // configuration - používá parametry nastavené metodou getParams()
             ComponentConfiguration::class => function(ContainerInterface $c) {
                 return new ComponentConfiguration(
-                        $c->get('webcomponent.logs.directory'),
-                        $c->get('webcomponent.logs.render'),
-                        $c->get('webcomponent.templates')
+                        $c->get('logs.directory'),
+                        $c->get('logs.render'),
+                        $c->get('logs.type'),
+                        $c->get('templates')
                     );
             },
-
+            ComponentControler::class => function(ContainerInterface $c) {
+                return (new ComponentControler(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusFlashRepo::class),
+                            $c->get(StatusPresentationRepo::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            }, 
             // front kontrolery
-            PageController::class => function(ContainerInterface $c) {
-                return (new PageController(
+            PageControler::class => function(ContainerInterface $c) {
+                return (new PageControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
@@ -381,7 +444,17 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             ItemApiService::class => function(ContainerInterface $c) {
                 return new ItemApiService();
             },
-                    
+        ## modely pro komponenty s template
+            InfoBoardViewModel::class => function(ContainerInterface $c) {
+                return new InfoBoardViewModel(
+                        $c->get(StatusViewModel::class)
+                    );
+            },
+            FlashViewModel::class => function(ContainerInterface $c) {
+                return new FlashViewModel(
+                        $c->get(StatusViewModel::class)
+                    );
+            },                    
         ####
         # view factory
         #
@@ -440,7 +513,12 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
                 return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
             },
-
+        ####
+        # Access
+        #
+            AccessPresentation::class => function(ContainerInterface $c) {
+                return new AccessPresentation($c->get(StatusViewModel::class));
+            },
         ];
     }
 }

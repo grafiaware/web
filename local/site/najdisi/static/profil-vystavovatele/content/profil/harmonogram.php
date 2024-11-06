@@ -30,7 +30,7 @@ $event = $eventList->getEventList(null, $eventInstitutionName, [], false);   // 
 </div>
 <div class="content">
     <?php include ConfigurationCache::eventTemplates()['templates']."timeline-leafs/content/timeline.php";
-//include Configuration::componentController()['templates']."timecolumn/template.php";
-//include Configuration::componentController()['templates']."timeline-boxes/template.php";
+//include Configuration::componentControler()['templates']."timecolumn/template.php";
+//include Configuration::componentControler()['templates']."timeline-boxes/template.php";
     ?>
 </div>

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Web\Middleware\Page\Controller;
+namespace Web\Middleware\Page\Controler;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -17,11 +17,11 @@ use Red\Component\View\Generated\SearchResultComponent;
 use UnexpectedValueException;
 
 /**
- * Description of GetController
+ * Description of GetControler
  *
  * @author pes2704
  */
-class PageController extends LayoutControllerAbstract {
+class PageControler extends LayoutControlerAbstract {
 
     const HEADER = 'X-WEB-PageCtrl-Time';
 

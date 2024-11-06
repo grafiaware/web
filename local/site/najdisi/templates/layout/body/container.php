@@ -47,8 +47,8 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                 <?php $isMenuEditableMode=false; ?>
                 <?= $this->insertIf( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', $context); ?>
                 <?= $this->insertIf( !$isMenuEditableMode, __DIR__.'/container/teloNoneditableMode.php', $context); ?>
-                <?= $flash ?? '' ?>
-                <?= $info ?? '' ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"web/v1/component/flash",])  ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"web/v1/component/infoBoard",])  ?>
             </div>
             <div class="row">
                 <div class="fifteen wide mobile fifteen wide tablet nine wide computer ten wide large screen eleven wide widescreen column">

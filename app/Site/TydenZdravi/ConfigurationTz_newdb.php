@@ -455,7 +455,7 @@ class ConfigurationTz_newdb {
         ###########################
         # menu classmap
         ###########################
-            'menu.presmerovani.classmap' => function() {
+            'menuRedirect.classmap' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -472,7 +472,7 @@ class ConfigurationTz_newdb {
                             ]),
                     ]);
             },
-            'menu.presmerovani.classmap.editable' => function() {
+            'menuRedirect.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -492,7 +492,7 @@ class ConfigurationTz_newdb {
                 );
             },
 
-            'menu.vodorovne.classmap' => function() {
+            'menuHorizontal.classmap' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -508,7 +508,7 @@ class ConfigurationTz_newdb {
                             ]
                     ]);
             },
-            'menu.vodorovne.classmap.editable' => function() {
+            'menuHorizontal.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -528,7 +528,7 @@ class ConfigurationTz_newdb {
                     ]
                 );
             },
-            'menu.svisle.classmap' => function() {
+            'menuVertical.classmap' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -540,7 +540,7 @@ class ConfigurationTz_newdb {
                         'Item' => ConfigurationCache::rendererDefaults()['menu_edit_items'],
                     ]);
             },
-            'menu.svisle.classmap.editable' => function() {
+            'menuVertical.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -778,10 +778,10 @@ class ConfigurationTz_newdb {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro layoutController
+     * Konfigurace prezentace - vrací parametry pro layoutControler
      * @return array
      */
-    public static function layoutController() {
+    public static function layoutControler() {
         return [
            // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
@@ -820,20 +820,20 @@ class ConfigurationTz_newdb {
             'urlSemanticCss' => self::WEB_LINKS_SITE."semantic-ui/semantic.min.css",
             'urlContentTemplatesCss' => self::WEB_LINKS_COMMON."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  self::WEB_LINKS_SITE."templates/paper/",  // URI pro Template Controller
+            'paperTemplatesUri' =>  self::WEB_LINKS_SITE."templates/paper/",  // URI pro Template Controler
             'authorTemplatesPath' => self::WEB_LINKS_COMMON."templates/author/",
 
         ];
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro pageController
+     * Konfigurace prezentace - vrací parametry pro pageControler
      *
      * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
      *
      * @return array
      */
-    public static function pageController() {
+    public static function pageControler() {
 
         return [
                'home_page' => ['component', 'home'],
@@ -847,10 +847,10 @@ class ConfigurationTz_newdb {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro ComponentController
+     * Konfigurace prezentace - vrací parametry pro ComponentControler
      * @return array
      */
-    public static function componentController() {
+    public static function componentControler() {
 
         return [
                'static' => self::WEB_TEMPLATES_SITE.'static/',
@@ -859,7 +859,7 @@ class ConfigurationTz_newdb {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro templateController
+     * Konfigurace prezentace - vrací parametry pro templateControler
      * @return array
      */
     public static function redTemplates() {
@@ -873,7 +873,7 @@ class ConfigurationTz_newdb {
     }
 
     /**
-     * Konfigurace upload files - vrací parametry pro FilesUploadController
+     * Konfigurace upload files - vrací parametry pro FilesUploadControler
      * @return array
      */
     public static function redUpload() {

@@ -33,11 +33,6 @@ use Pes\View\Renderer\Container\TemplateRendererContainer;
 // template
 use Pes\View\Template\PhpTemplate;
 
-// Access
-use Access\AccessPresentation;
-use Access\AccessPresentationInterface;
-use Access\Enum\AccessPresentationEnum;
-
 // view
 use Pes\View\View;
 use Pes\View\CompositeView;
@@ -49,6 +44,11 @@ use \Pes\View\ViewFactory;
 use Red\Service\ItemApi\ItemApiService;
 use Red\Service\CascadeLoader\CascadeLoaderFactory;
 use Red\Service\Menu\DriverService;
+
+// Access
+use Access\AccessPresentation;
+use Access\AccessPresentationInterface;
+use Access\Enum\AccessPresentationEnum;
 
 //component
 use Component\View\ComponentInterface;
@@ -80,14 +80,7 @@ use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-
-use Web\Component\View\Flash\FlashComponent;
-
 use Red\Component\View\Manage\PresentationActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
@@ -118,9 +111,7 @@ use Red\Component\ViewModel\Menu\MenuViewModel;
 use Red\Component\ViewModel\Menu\LevelViewModel;
 use Red\Component\ViewModel\Menu\ItemViewModel;
 use Red\Component\ViewModel\Menu\DriverViewModel;
-use Auth\Component\ViewModel\LoginViewModel;
-use Auth\Component\ViewModel\LogoutViewModel;
-use Red\Component\ViewModel\Manage\InfoBoardViewModel;
+
 use Red\Component\ViewModel\Manage\PresentationActionViewModel;
 
 use Web\Component\ViewModel\Flash\FlashViewModel;
@@ -227,6 +218,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases(): iterable {
         return [
             AccountInterface::class => Account::class,
+            'presentationAction' => PresentationActionComponent::class,
         ];
     }
 
@@ -326,8 +318,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         # jednotlivé menu komponenty
         # (jsou jen jedna na stránku, pro přehlednost jsou zde)
         #
-            'menu.presmerovani' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.services')['menu.presmerovani'];
+            'menuRedirect' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.services')['menuRedirect'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -345,8 +337,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
-            'menu.vodorovne' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.services')['menu.vodorovne'];
+            'menuHorizontal' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.services')['menuHorizontal'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -364,8 +356,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
-            'menu.svisle' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.services')['menu.svisle'];
+            'menuSvisle' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.services')['menuVertical'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -387,7 +379,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             //bloky
-            'menu.bloky' => function(ContainerInterface $c) {
+            'menuBlocks' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menu.bloky'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
@@ -407,7 +399,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             //kos
-            'menu.kos' => function(ContainerInterface $c) {
+            'menuTrash' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menu.kos'];
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -530,22 +522,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 ## layout komponenty
 #
-            InfoBoardComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(InfoBoardComponent::class, AccessPresentationEnum::DISPLAY)) {
-                /** @var ComponentConfigurationInterface $configuration */
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new InfoBoardComponent($configuration);
-                    $component->setData($c->get(InfoBoardViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('statusboard')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoPermittedContentRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
+
             PresentationActionComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -562,71 +539,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            // FlashComponent s vlastním rendererem
-//            FlashComponent::class => function(ContainerInterface $c) {
-//                $viewModel = new FlashViewModelForRenderer($c->get(StatusFlashRepo::class));
-//                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
-//            },
 
-            // komponenty s PHP template
-            // - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
-            FlashComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
-                $component = new FlashComponent($c->get(ComponentConfiguration::class));
-                $component->setData($c->get(FlashViewModel::class));
-                $component->setTemplate(new PhpTemplate($configuration->getTemplate('flash')));
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            LoginComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(LoginComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new LoginComponent($configuration);
-                    $component->setData($c->get(LoginViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('login')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoContentForStatusRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            LogoutComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(LogoutComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new LogoutComponent($configuration);
-                    $component->setData($c->get(LogoutViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('logout')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoContentForStatusRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            RegisterComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-
-                if($accessPresentation->isAllowed(RegisterComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var ComponentConfigurationInterface $configuration */
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new RegisterComponent($configuration);
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('register')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoContentForStatusRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
 
         ####
         # authored komponenty
@@ -1077,27 +990,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         #
             AccessPresentation::class => function(ContainerInterface $c) {
                 return new AccessPresentation($c->get(StatusViewModel::class));
-            },
-        ## modely pro komponenty s template
-            InfoBoardViewModel::class => function(ContainerInterface $c) {
-                return new InfoBoardViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
-            },
-            FlashViewModel::class => function(ContainerInterface $c) {
-                return new FlashViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
-            },
-            LoginViewModel::class => function(ContainerInterface $c) {
-                return new LoginViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
-            },
-            LogoutViewModel::class => function(ContainerInterface $c) {
-                return new LogoutViewModel(
-                        $c->get(StatusViewModel::class)
-                    );
             },
             PresentationActionViewModel::class => function(ContainerInterface $c) {
                 return new PresentationActionViewModel(

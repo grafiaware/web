@@ -1,5 +1,5 @@
 <?php
-namespace Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controler;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
@@ -12,7 +12,7 @@ use Template\Compiler\TemplateCompilerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Description of ComponentController
+ * Description of ComponentControler
  *
  * @author pes2704
  */

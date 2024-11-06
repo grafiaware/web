@@ -66,8 +66,8 @@ class ConfigurationCache {
                 case 'presentationStatus':
                     self::$cache[$name] = Siteconfig\ConfigurationWeb::presentationStatus();
                     break;
-                case 'layoutController':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::layoutController();
+                case 'layoutControler':
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::layoutControler();
                     break;
                 case 'menu':
                     self::$cache[$name] = Siteconfig\ConfigurationWeb::menu();
@@ -78,8 +78,8 @@ class ConfigurationCache {
                 case 'auth':
                     self::$cache[$name] = Siteconfig\ConfigurationAuth::auth();
                     break;
-                case 'componentController':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::componentController();
+                case 'componentControler':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::componentControler();
                     break;
                 case 'redTemplates':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::redTemplates();
@@ -224,8 +224,8 @@ class ConfigurationCache {
     public static function presentationStatus() {
         return self::getConfigModule('presentationStatus');
     }
-    public static function layoutController() {
-        return self::getConfigModule('layoutController');
+    public static function layoutControler() {
+        return self::getConfigModule('layoutControler');
     }
 
     public static function menu() {
@@ -240,8 +240,8 @@ class ConfigurationCache {
         return self::getConfigModule('auth');
     }
 
-    public static function componentController() {
-        return self::getConfigModule('componentController');
+    public static function componentControler() {
+        return self::getConfigModule('componentControler');
     }
 
     public static function redTemplates() {

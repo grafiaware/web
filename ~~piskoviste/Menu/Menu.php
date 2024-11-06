@@ -5,8 +5,8 @@ use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Router\RouterInterface;
 use Pes\Container\Container;
 
-use Menu\Middleware\Menu\Controller\EditMenuController;
-use Menu\Middleware\Menu\Controller\DisplayController;
+use Menu\Middleware\Menu\Controler\EditMenuControler;
+use Menu\Middleware\Menu\Controler\DisplayControler;
 
 use Menu\Psr\Http\Message\ServerRequestInterface;
 use Menu\Psr\Http\Server\RequestHandlerInterface;
@@ -39,16 +39,16 @@ class Menu extends AppMiddlewareAbstract {
         /* @var $router RouterInterface */
         $router = $container->get(RouterInterface::class);
 
-        $router->addRoute('GET', '/menu/nav/', function() {return (new DisplayController($this->app))->content(); });
+        $router->addRoute('GET', '/menu/nav/', function() {return (new DisplayControler($this->app))->content(); });
         $router->addRoute('GET', '/menu/nav/:id/', function() {});   // subtree
-        $router->addRoute('GET', '/menu/', function() {return (new DisplayController($this->app))->content(); });
-        $router->addRoute('GET', '/menu/item/:id/', function($id) {return (new DisplayController($this->app))->content($id); });   // detail
+        $router->addRoute('GET', '/menu/', function() {return (new DisplayControler($this->app))->content(); });
+        $router->addRoute('GET', '/menu/item/:id/', function($id) {return (new DisplayControler($this->app))->content($id); });   // detail
 
-        $router->addRoute('POST', '/menu/nodes/:id/', function($id) {return (new EditMenuController($this->app))->post($id); });
+        $router->addRoute('POST', '/menu/nodes/:id/', function($id) {return (new EditMenuControler($this->app))->post($id); });
         /* non REST editační volání */
-        $router->addRoute('POST', '/menu/add/:id/', function($id) {return (new EditMenuController($this->app))->add($id); });
-        $router->addRoute('POST', '/menu/addchild/:id/', function($id) {return (new EditMenuController($this->app))->addchild($id); });
-        $router->addRoute('POST', '/menu/delete/:id/', function($id) {return (new EditMenuController($this->app))->delete($id); });
+        $router->addRoute('POST', '/menu/add/:id/', function($id) {return (new EditMenuControler($this->app))->add($id); });
+        $router->addRoute('POST', '/menu/addchild/:id/', function($id) {return (new EditMenuControler($this->app))->addchild($id); });
+        $router->addRoute('POST', '/menu/delete/:id/', function($id) {return (new EditMenuControler($this->app))->delete($id); });
         $router->addRoute('POST', '/menu/move/:id/parent/:parentid/', function() {});
 
 

@@ -1,11 +1,13 @@
 <?php
-namespace Events\Middleware\Events\Controler;
+namespace Web\Middleware\Page\Controler;
 
 use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-// enum
+// konfigurace
+use Site\ConfigurationCache;
+
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
 

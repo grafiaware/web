@@ -24,10 +24,10 @@ class ConfigurationRed extends ConfigurationConstants {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro ComponentController
+     * Konfigurace prezentace - vrací parametry pro ComponentControler
      * @return array
      */
-    public static function componentController() {
+    public static function componentControler() {
 
         return [
                 'templates' => self::WEB_TEMPLATES_SITE,
@@ -37,7 +37,7 @@ class ConfigurationRed extends ConfigurationConstants {
     }
 
     /**
-     * Konfigurace - parametry pro templateController
+     * Konfigurace - parametry pro templateControler
      * @return array
      */
     public static function redTemplates() {
@@ -108,7 +108,7 @@ class ConfigurationRed extends ConfigurationConstants {
     }
 
     /**
-     * Konfigurace upload files - vrací parametry pro FilesUploadController
+     * Konfigurace upload files - vrací parametry pro FilesUploadControler
      * @return array
      */
     public static function redUpload() {

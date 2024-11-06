@@ -41,7 +41,7 @@ use LogicException;
 use UnexpectedValueException;
 
 /**
- * Description of ControllerAbstract
+ * Description of ControlerAbstract
  *
  * @author pes2704
  */
@@ -280,15 +280,26 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $role = isset($loginAggregate) ? $loginAggregate->getCredentials()->getRoleFk() : null;
         $logged = isset($loginAggregate) ? true : false;
         $permissions = $this->getActionPermissions();
-        $activeRole = $this->getActiveRole($logged, $role, $permissions);
-        if (isset($activeRole)) {
+        $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
+        $isAllowed =false;
+        do {
+            $activeRole = array_pop($activeRoles);
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
                 $resource = $permissions[$activeRole][$action];
                 $isAllowed = ($this instanceof $resource) ? true : false;
-            } else {
-                $isAllowed =false;
-            }
-        }
+            }            
+        } while (!$isAllowed);
+        
+        
+//        foreach ($activeRoles as $activeRole) {
+//            if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
+//                $resource = $permissions[$activeRole][$action];
+//                $isAllowed = ($this instanceof $resource) ? true : false;
+//            } else {
+//                $isAllowed =false;
+//            }
+//        }
+        
 //            $componentClass = get_class($component);
 //            $m = $logged ? "Uživatel je přihlášen s rolí '$role'." : "Uživatel není přihlášen.";
 //            $message = "Neznámá oprávnění pro komponentu '$componentClass' a přidělenou aktivní roli uživatele '$activeRole'. $m";
@@ -307,24 +318,24 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param type $permissions
      * @return type
      */
-    private function getActiveRole($logged, $role, $permissions) {
+    private function getActiveRoles($logged, $role, $permissions) {
+        $ret = [];
         if($logged){
+            $ret[] = RoleEnum::AUTHENTICATED;
             if (isset($role) AND array_key_exists($role, $permissions)){
-                $ret = $role;
-            } else {
-                $ret = RoleEnum::AUTHENTICATED;
+                $ret[] = $role;
             }
         } else {
-            $ret = RoleEnum::ANONYMOUS;
+            $ret[] = RoleEnum::ANONYMOUS;
         }
         return $ret;
     }
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
-            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
+//            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
+//            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
+//            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
     }
 

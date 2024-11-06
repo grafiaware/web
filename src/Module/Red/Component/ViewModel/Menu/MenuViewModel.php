@@ -129,7 +129,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         return $this->statusViewModel->getPresentedMenuItem();
     }
     /**
-     * Původní metoda getSubtreeItemModel pro Menu Display Controller. Načte podstrom uzlů menu, potomkků
+     * Původní metoda getSubtreeItemModel pro Menu Display Controler. Načte podstrom uzlů menu, potomkků
      *
      * @return array
      */

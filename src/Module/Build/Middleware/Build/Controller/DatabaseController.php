@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Build\Middleware\Build\Controller;
+namespace Build\Middleware\Build\Controler;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -14,11 +14,11 @@ use Build\Middleware\Build\Exception\HierarchyStepFailedException;
 use Container\BuildContainerConfigurator;
 
 /**
- * Description of DatabaseController
+ * Description of DatabaseControler
  *
  * @author pes2704
  */
-class DatabaseController extends BuildControllerAbstract {
+class DatabaseControler extends BuildControlerAbstract {
     
     public function listConfig(ServerRequestInterface $request) {
         $configurator = new BuildContainerConfigurator();

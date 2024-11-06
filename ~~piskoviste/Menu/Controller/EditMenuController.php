@@ -1,6 +1,6 @@
 <?php
 
-namespace Menu\Middleware\Menu\Controller;
+namespace Menu\Middleware\Menu\Controler;
 
 use Menu\Psr\Http\Message\RequestInterface;
 
@@ -13,11 +13,11 @@ use Menu\Model\HierarchyHooks\HookedMenuItemActor;
 use Menu\Model\HierarchyHooks\ArticleTitleUpdater;
 
 /**
- * Description of Controller
+ * Description of Controler
  *
  * @author pes2704
  */
-class EditMenuController extends FrontControlerAbstract {
+class EditMenuControler extends FrontControlerAbstract {
 
 /* non REST metody */
     public function add($id) {

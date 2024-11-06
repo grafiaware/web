@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controler;
 
 use Site\ConfigurationCache;
 
@@ -26,11 +26,11 @@ use Red\Model\Entity\LoginAggregateRegistration;
 
 
 /**
- * Description of passwordController
+ * Description of passwordControler
  *
  * @author vlse2610
  */
-class PasswordController extends LoginControllerAbstract {
+class PasswordControler extends LoginControlerAbstract {
     private $loginAggregateCredentialsRepo;
     private $loginAggregateRegistrationRepo;
 

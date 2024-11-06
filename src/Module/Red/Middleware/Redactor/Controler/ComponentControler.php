@@ -47,7 +47,7 @@ use Pes\Text\Html;
 use Pes\View\View;
 
 /**
- * Description of ComponentController
+ * Description of ComponentControler
  *
  * @author pes2704
  */
@@ -55,8 +55,6 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class],
-            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class],
             RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
             RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
@@ -66,10 +64,10 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     public function serviceComponent(ServerRequestInterface $request, $name) {
         if($this->isAllowed(AccessActionEnum::GET)) {
-            if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
-                $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
+            if (array_key_exists($name, ConfigurationCache::layoutControler()['contextServiceMap'])) {
+                $service = reset(ConfigurationCache::layoutControler()['contextServiceMap'][$name]) ?? null;
             } else {
-                $service = ConfigurationCache::layoutController()['contextLayoutMap'][$name] ?? ConfigurationCache::layoutController()['contextLayoutEditableMap'][$name] ?? null;
+                $service = ConfigurationCache::layoutControler()['contextLayoutMap'][$name] ?? ConfigurationCache::layoutControler()['contextLayoutEditableMap'][$name] ?? null;
             }
             if (!isset($service)) {
                 $view = $this->errorView($request, "Component $name undefined in configuration of context layout maps or context service map.");
@@ -84,7 +82,20 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }
         return $this->createStringOKResponseFromView($view);
     }
-
+    
+    public function component(ServerRequestInterface $request, $name) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            if($this->container->has($name)) {   // musí být definován alias
+                $view = $this->container->get($name);
+            } else {
+                $view = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
+            }
+        } else {
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }
+        return $this->createStringOKResponseFromView($view);
+    }
+    
     public function root(ServerRequestInterface $request, $menuItemId) {
         return $this->createStringOKResponse('');
     }

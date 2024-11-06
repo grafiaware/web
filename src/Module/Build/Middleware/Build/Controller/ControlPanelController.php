@@ -5,7 +5,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
  */
 
-namespace Build\Middleware\Build\Controller;
+namespace Build\Middleware\Build\Controler;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ControlPanelController  extends BuildControllerAbstract {
+class ControlPanelControler  extends BuildControlerAbstract {
     public function panel(ServerRequestInterface $request) {
         $configurator = new BuildContainerConfigurator();
         $prikazy['Vypiš konfiguraci'] = 'build/listconfig';

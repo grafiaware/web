@@ -53,7 +53,7 @@ use \View\Includer;
 use Pes\View\Template\ImplodeTemplate;
 
 /**
- * Description of GetController
+ * Description of GetControler
  *
  * @author pes2704
  */

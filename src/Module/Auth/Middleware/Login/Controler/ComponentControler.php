@@ -1,5 +1,5 @@
 <?php
-namespace Events\Middleware\Events\Controler;
+namespace Auth\Middleware\Login\Controler;
 
 use FrontControler\PresentationFrontControlerAbstract;
 
@@ -29,7 +29,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     protected function getActionPermissions(): array {
         
-        // je jen jeden ConponentControler, proto mají VISITOR i REPRESENTATIVE stejná oprávnění ke všem komponentům
+        // prakticky má oprávnění každý - "GET" controler 
         return [
             RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
             RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]

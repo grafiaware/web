@@ -132,7 +132,7 @@ class ConfigurationStyles extends ConfigurationConstants {
         ###########################
         # menu classmap
         ###########################
-            'menu.svisle.classmap' => function() {
+            'menuVertical.classmap' => function() {
                 return new ClassMap (
                     [
                         'Level' => [
@@ -142,7 +142,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                             ],
                     ]);
             },
-            'menu.svisle.classmap.editable' => function() {
+            'menuVertical.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'Level' => [

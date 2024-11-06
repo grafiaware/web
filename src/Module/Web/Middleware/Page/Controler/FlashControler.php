@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Status\Middleware\Component\Controler;
+namespace Web\Middleware\Page\Controler;
 
 use Site\ConfigurationCache;
 
@@ -18,11 +18,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Web\Component\View\Flash\FlashComponent;
 
 /**
- * Description of ComponentController
+ * Description of ComponentControler
  *
  * @author pes2704
  */
-class StatusComponentControler extends FrontControlerAbstract {
+class FlashControler extends FrontControlerAbstract {
 
     ### action metody ###############
 

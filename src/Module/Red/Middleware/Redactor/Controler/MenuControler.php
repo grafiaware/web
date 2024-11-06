@@ -41,7 +41,7 @@ use Pes\Text\Html;
 use Pes\View\View;
 
 /**
- * Description of ComponentController
+ * Description of ComponentControler
  *
  * @author pes2704
  */

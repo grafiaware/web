@@ -1,5 +1,5 @@
 <?php
-namespace Build\Middleware\Build\Controller;
+namespace Build\Middleware\Build\Controler;
 
 use FrontControler\FrontControlerAbstract;
 
@@ -22,11 +22,11 @@ use Pes\Http\Response;
 use Exception;
 
 /**
- * Description of InstallationControllerAbstract
+ * Description of InstallationControlerAbstract
  *
  * @author pes2704
  */
-class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildControllerInterface {
+class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildControlerInterface {
 
     const RELATIVE_SQLFILE_PATH = "src/Module/Build/Middleware/Build/Sql/";
 
@@ -55,7 +55,7 @@ class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildC
         #### speed test ####
         $this->timer->start();
         register_shutdown_function(function(){
-            BuildControllerAbstract::timeout();
+            BuildControlerAbstract::timeout();
         });
 
         ### create ###

@@ -46,22 +46,24 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:role'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:role/remove'));
-        
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/component/:name'));        
         
 
     ### web module ###
     #
-        #### PageController ####
+        #### PageControler ####
         $registry->register($this->getPrototype->withUrlPattern('/'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/item/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/searchresult'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/component/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
 
     ### red module ###
     #
-        #### ComponentController ####
-        $registry->register($this->getPrototype->withUrlPattern('/red/v1/flash'));
+        #### ComponentControler ####
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/service/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/component/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/driver/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/presenteddriver/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/root/:menuItemId'));
@@ -73,7 +75,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/multipage/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/unknown'));
 
-        #### TemplateController ####
+        #### TemplateControler ####
 
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/templateslist/:type'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/papertemplate/:folder'));
@@ -81,7 +83,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/multipagetemplate/:folder'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/authortemplate/:name'));
 
-        #### UserActionController ####
+        #### UserActionControler ####
 
         #### PresentationActionControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/language'));
@@ -92,7 +94,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:itemId/add'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:itemId/remove'));
         
-        #### PaperController ####
+        #### PaperControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/headline'));
@@ -100,7 +102,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/template'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/templateremove'));
 
-        #### ArticleController ####
+        #### ArticleControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/article/:articleId'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/article/:articleId/template'));
 
@@ -108,7 +110,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/multipage/:multipageId/template'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/multipage/:multipageId/templateremove'));
 
-        #### SectionController ####
+        #### SectionControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/section'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/toggle'));
@@ -127,14 +129,14 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/restore'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/delete'));
 
-        #### EditItemController ####
+        #### EditItemControler ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
         //TODO: POST version
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/title'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/type'));
 
-        #### HierarchyController ####
+        #### HierarchyControler ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/hierarchy/:uid/add'));
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/hierarchy/:uid/addchild'));
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/hierarchy/:uid/cut'));
@@ -155,24 +157,22 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/delete'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/trash'));
         
-        #### TinyUploadImagesController
+        #### TinyUploadImagesControler
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/image'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/attachment'));
         
     ### events module ###
     #
-        
         #### EventsStaticControler ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/:staticName'));
 
-        #### ComponentController ####
-        $registry->register($this->getPrototype->withUrlPattern('/events/v1/service/:name'));
+        #### ComponentControler ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/component/:name'));
         
         #### RepesentationControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representation'));
         
-        #### EventController ####
+        #### EventControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         
         #### VisitorProfileControler ####
@@ -195,7 +195,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
 
-        #### EventController_2 ####
+        #### EventControler_2 ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId/remove'));
@@ -243,12 +243,12 @@ class ApiRegistrator {
 
     ### mail module ###
     #
-        #### MailController ######
+        #### MailControler ######
         $registry->register($this->getPrototype->withUrlPattern('/sendmail/v1/sendmail/:campaign'));
 
     ### build module ###
     #
-        #### BuildController ####
+        #### BuildControler ####
         $registry->register($this->getPrototype->withUrlPattern('/build'));
         $registry->register($this->postPrototype->withUrlPattern('/build/listconfig'));
         $registry->register($this->postPrototype->withUrlPattern('/build/createdb'));
@@ -262,7 +262,7 @@ class ApiRegistrator {
 
     ### consent module ###
     #
-        #### LogController ####    
+        #### LogControler ####    
         $registry->register($this->postPrototype->withUrlPattern('/consent/v1/log'));
     #
     }
