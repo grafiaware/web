@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <?php
-                    } elseif($isRepresentative) {
+                    } elseif($isRepresentativeOfCompany) {
                         ?>
                         <div class="two fields">
                             <div class="field margin"></div>
