@@ -1,5 +1,5 @@
 /**
- * JavaScript ClientSide Controller for multiselect
+ * JavaScript ClientSide Controler for multiselect
  * Its call and add to page by php class c_webform_cselect_multi
  *
  * @name cselect_multi.js

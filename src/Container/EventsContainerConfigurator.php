@@ -12,10 +12,13 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 // logger
 use Pes\Logger\FileLogger;
 
+// Access
+use Access\AccessPresentation;
+use Access\AccessPresentationInterface;
+use Access\Enum\AccessPresentationEnum;
+
 //component
 use Configuration\ComponentConfiguration;
-use Access\AccessPresentation;
-use Access\Enum\AccessPresentationEnum;
 use Pes\View\Template\PhpTemplate;
 use Component\View\ElementComponent;
 use Component\Renderer\Html\NoPermittedContentRenderer;
@@ -92,6 +95,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 );
     }
 
+    public function getAliases(): iterable {
+        return [
+            'companyList' => CompanyListComponent::class,
+            'representativeAction' => RepresentativeActionComponent::class,
+        ];
+    }
+    
     public function getFactoriesDefinitions(): iterable {
         return [
             RepresentativeActionComponent::class => function(ContainerInterface $c) {
@@ -197,14 +207,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },                    
-        ];
-    }
-
-    public function getAliases(): iterable {
-        return [
-            'companyList' => CompanyListComponent::class,
-            'representativeCompanyAddress'=> RepresentativeCompanyAddressComponent::class,
-            'companyContactList' => CompanyContactListComponent::class
         ];
     }
 

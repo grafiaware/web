@@ -31,9 +31,9 @@ class TemplateCompiler implements TemplateCompilerInterface {
      * @return string
      */
     public function getCompiledContent(ServerRequestInterface $request, $staticName): string {
-        $templatePath = ConfigurationCache::componentController()['static'].$staticName;
+        $templatePath = ConfigurationCache::componentControler()['static'].$staticName;
         $templateFilename = $templatePath."/template.php";
-        $compiledPath = ConfigurationCache::componentController()['compiled'];
+        $compiledPath = ConfigurationCache::componentControler()['compiled'];
         $compiledFileName = $compiledPath.$staticName.".html";
 //TODO: Compiled - souboru s šablonou a souboru se zkompilovaným obsahem pomocí touch() nastavit stejný čas poslední změny -> pak pokud je šablona novější, překlad
 // info: $datetime = DateTime::createFromFormat("n/d/Y h:i A T", $date); touch($filename, $datetime->getTimestamp()) ....

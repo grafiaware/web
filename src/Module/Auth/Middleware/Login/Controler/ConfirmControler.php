@@ -1,5 +1,5 @@
 <?php
-namespace Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controler;
 
 use Site\ConfigurationCache;
 use Access\Enum\RoleEnum;
@@ -26,11 +26,11 @@ use Auth\Model\Entity\LoginAggregateCredentials;
 use Auth\Model\Entity\Registration;
 
 /**
- * Description of ConfirmController
+ * Description of ConfirmControler
  *
  * @author pes2704
  */
-class ConfirmController extends LoginControllerAbstract
+class ConfirmControler extends LoginControlerAbstract
 {
     /**
      *

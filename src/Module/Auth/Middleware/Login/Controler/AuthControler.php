@@ -1,5 +1,5 @@
 <?php
-namespace Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controler;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
@@ -23,11 +23,11 @@ use Status\Model\Enum\FlashSeverityEnum;
 
 
 /**
- * Description of AuthController
+ * Description of AuthControler
  *
  * @author vlse2610
  */
-class AuthController extends PresentationFrontControlerAbstract {
+class AuthControler extends PresentationFrontControlerAbstract {
         
     const NULL_VALUE = "Toto je speciální hodnota představující NULL";        
     

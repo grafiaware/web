@@ -136,18 +136,18 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         # menu renderer
         ###########################
-            'menu.svisle.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
+            'menuVertical.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'));
             },
-            'menu.svisle.levelRenderer.editable' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap.editable'));
+            'menuVertical.levelRenderer.editable' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap.editable'));
             },
-            'menu.presmerovani.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.presmerovani.classmap'));
+            'menuRedirect.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuRedirect.classmap'));
             },
 
-            'menu.vodorovne.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.vodorovne.classmap'));
+            'menuHorizontal.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuHorizontal.classmap'));
             },                    
             //bloky
             'menu.bloky.levelRenderer' => function(ContainerInterface $c) {

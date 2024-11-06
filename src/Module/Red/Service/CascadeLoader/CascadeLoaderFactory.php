@@ -21,7 +21,7 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
     }    
     
     /**
-     * Připraví view s PHP šablonou definovanou v layoutController()['templates.loaderElement'].
+     * Připraví view s PHP šablonou definovanou v layoutControler()['templates.loaderElement'].
      * Předá mu data, která budou použita pro atributy v loader elementu - informace pro cascade.js.
      * Hodnota pro atribut id loader elementu je generována jako unikátní, na stránce se hodnota id nesmí opakovat.
      * Ostatní data jsou vytvořena z parametrů a konfigurace - např. class a data-red-xxx .
@@ -49,7 +49,7 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
     }
     
     /**
-     * Připraví view s PHP šablonou definovanou v layoutController()['templates.loaderElement'].
+     * Připraví view s PHP šablonou definovanou v layoutControler()['templates.loaderElement'].
      * Předá mu data vytvořená z parametrů a konfigurace - např. id, class a data-red-xxx atributy pro loader element.
      * 
      * @param string $id
@@ -59,14 +59,14 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
      * @return type
      */
     private function getLoader(string $id, string $dataRedApiUri, bool $httpCacheReloadOnNav, string $dataNavTargetId='') {
-        $view = $this->viewFactory->phpTemplateCompositeView(ConfigurationCache::layoutController()['templates.loaderElement']);
+        $view = $this->viewFactory->phpTemplateCompositeView(ConfigurationCache::layoutControler()['templates.loaderElement']);
         if ($httpCacheReloadOnNav) {
-            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheReloadOnNav'];
+            $dataRedCacheControl = ConfigurationCache::layoutControler()['cascade.cacheReloadOnNav'];
         } else {
-            $dataRedCacheControl = ConfigurationCache::layoutController()['cascade.cacheLoadOnce'];
+            $dataRedCacheControl = ConfigurationCache::layoutControler()['cascade.cacheLoadOnce'];
         }
         $view->setData([
-                        'class' => ConfigurationCache::layoutController()['cascade.class'],   // cascade.js 
+                        'class' => ConfigurationCache::layoutControler()['cascade.class'],   // cascade.js 
                         'dataRedCacheControl' => $dataRedCacheControl,
                         'id' => $id,
                         'dataRedApiUri' => $dataRedApiUri,

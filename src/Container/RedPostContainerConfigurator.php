@@ -166,7 +166,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // generator service
 
-            // volání nastavených služeb Red\Service\ItemCreator ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
+            // volání nastavených služeb Red\Service\ItemCreator ->initialize() probíhá při nastevení typu menuItem - teď v Controler/EditItemControler->type()
 
             ItemCreatorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ItemCreatorRegistry(

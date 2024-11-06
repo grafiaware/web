@@ -45,8 +45,8 @@ use Red\Model\HierarchyHooks\HookedMenuItemActor;
 use Red\Model\HierarchyHooks\ArticleTitleUpdater;
 use Red\Model\HierarchyHooks\MenuListStyles;
 
-use Build\Middleware\Build\Controller\ControlPanelController;
-use Build\Middleware\Build\Controller\DatabaseController;
+use Build\Middleware\Build\Controler\ControlPanelControler;
+use Build\Middleware\Build\Controler\DatabaseControler;
 
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
@@ -225,14 +225,14 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
             ArticleTitleUpdater::class => function(ContainerInterface $c) {
                 return new ArticleTitleUpdater($c->get('handler_for_convert'));
             },
-            ControlPanelController::class => function(ContainerInterface $c) {
-                return (new ControlPanelController(
+            ControlPanelControler::class => function(ContainerInterface $c) {
+                return (new ControlPanelControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class)))->injectContainer($c);
             },
-            DatabaseController::class => function(ContainerInterface $c) {
-                return (new DatabaseController(
+            DatabaseControler::class => function(ContainerInterface $c) {
+                return (new DatabaseControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class)))->injectContainer($c);

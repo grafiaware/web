@@ -127,7 +127,6 @@ class ConfigurationWeb extends ConfigurationConstants {
      * @return array
      */
     public static function commonTemplates() {
-
         return [
             'templates' => self::WEB_TEMPLATES_COMMON,
         ];
@@ -150,10 +149,10 @@ class ConfigurationWeb extends ConfigurationConstants {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro layoutController
+     * Konfigurace prezentace - vrací parametry pro layoutControler
      * @return array
      */
-    public static function layoutController() {
+    public static function layoutControler() {
         return [
            // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
@@ -228,17 +227,11 @@ class ConfigurationWeb extends ConfigurationConstants {
             
             //  název proměnné v šabloně => [routa => název služby v konteneru (obvykle název třídy komponentu)]
             'contextServiceMap' => [
-                    'flash' => ["red/v1/service/flash"=>FlashComponent::class],
-                    'modalLogin' => ["red/v1/service/modalLogin"=>LoginComponent::class],
-                    'modalLogout' => ["red/v1/service/modalLogout"=>LogoutComponent::class],
-                    'modalRegister' => ["red/v1/service/modalRegister"=>RegisterComponent::class],
-                    'modalUserAction' => ["red/v1/service/modalUserAction"=>PresentationActionComponent::class],
-                    'modalRepresentativeAction' => ["events/v1/service/modalRepresentativeAction"=>RepresentativeActionComponent::class],  // CHYBA volá "/web/red/v1/service/modalRepresentativeAction"
-                    'info' => ["red/v1/service/info"=>InfoBoardComponent::class],
+//                    'info' => ["web/v1/service/info"=>InfoBoardComponent::class],
                 ],
-            //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
+            //  název proměnné v šabloně => název služby v kontejneru (obvykle název menu komponentu jako string)
             'contextLayoutMap' => [
-                    'menuSvisle' => 'menu.svisle',
+                    'menuSvisle' => 'menuVertical',
                 ],
             //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutEditableMap' => [
@@ -250,7 +243,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'content'=>['id'=>'menusvisle_target'],  
                 ],
             'contextMenuMap' => [
-                    'menuSvisle' => ['service'=>'menu.svisle', 'targetContext'=>'content'],
+                    'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
                 ],
             'contextMenuEditableMap' => [
                     'bloky' => ['service'=>'menu.bloky', 'targetId'=>'menutarget_content'],
@@ -270,23 +263,23 @@ class ConfigurationWeb extends ConfigurationConstants {
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
             'menu.services' => [
-                    'menu.svisle' => [
+                    'menuVertical' => [
                         'rootName' => 'menu_vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
-                        'levelRenderer' => 'menu.svisle.levelRenderer',
-                        'levelRendererEditable' => 'menu.svisle.levelRenderer.editable',
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menu.bloky' => [
                         'rootName' => 'blocks',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menu.bloky.levelRenderer',
-                        'levelRendererEditable' => 'menu.svisle.levelRenderer.editable',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menu.kos' => [
                         'rootName' => 'trash',
                         'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menu.kos.levelRenderer',
-                        'levelRendererEditable' => 'menu.svisle.levelRenderer.editable',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                 ],
 

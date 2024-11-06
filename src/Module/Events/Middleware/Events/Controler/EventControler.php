@@ -21,13 +21,13 @@ use Red\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, EnrollRepo
 };
 
-use Middleware\Api\Controller\Exception\UnexpectedLanguageException;
+use Middleware\Api\Controler\Exception\UnexpectedLanguageException;
 
 use \Events\Model\Arraymodel\EventViewModel;
 use \Model\Entity\Enroll;
 
 /**
- * Description of PostController
+ * Description of PostControler
  *
  * @author pes2704
  */

@@ -1,5 +1,5 @@
 <?php
-namespace Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controler;
 
 use Site\ConfigurationCache;
 
@@ -28,11 +28,11 @@ use Auth\Model\Entity\LoginAggregateCredentials;
 use Auth\Model\Entity\Registration;
 use Auth\Model\Entity\LoginAggregateRegistration;
 /**
- * Description of PostController
+ * Description of PostControler
  *
  * @author pes2704
  */
-class RegistrationController extends LoginControllerAbstract
+class RegistrationControler extends LoginControlerAbstract
 {
     /**
      *

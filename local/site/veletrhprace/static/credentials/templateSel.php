@@ -18,7 +18,7 @@ use Auth\Model\Entity\CredentialsInterface;
 use Auth\Model\Entity\LoginInterface;
 
 
-use Auth\Middleware\Login\Controller\AuthController;
+use Auth\Middleware\Login\Controler\AuthControler;
 
 
 
@@ -44,7 +44,7 @@ use Auth\Middleware\Login\Controller\AuthController;
   
     
     $selectRoles = [];
-    $selectRoles [AuthController::NULL_VALUE] =  "" ;
+    $selectRoles [AuthControler::NULL_VALUE] =  "" ;
     $roles = $roleRepo->findAll();
         /** @var RoleInterface $role */ 
     foreach ( $roles as $role ) {
@@ -66,7 +66,7 @@ use Auth\Middleware\Login\Controller\AuthController;
                 
                 $credential = $credentialsRepo->get( $entity->getRoleFk() ?? ''    ) ;               
                 $credentials[] = [
-                    'roleFk' => ($entity->getRoleFk()) ?? AuthController::NULL_VALUE , 
+                    'roleFk' => ($entity->getRoleFk()) ?? AuthControler::NULL_VALUE , 
                     'selectRoles' =>  $selectRoles,                     
                     'loginNameFk' =>  $entity->getLoginNameFk(),
                     'passwordHash' => $entity->getPasswordHash()                                               

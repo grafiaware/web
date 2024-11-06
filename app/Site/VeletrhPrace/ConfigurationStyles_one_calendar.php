@@ -150,41 +150,41 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
         ###########################
         # menu renderer
         ###########################
-            'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
+            'menuVertical.menuwraprenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menuVertical.classmap.editable'));
             },
-            'menu.svisle.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
+            'menuVertical.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menuVertical.classmap.editable'));
             },
-            'menu.svisle.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
+            'menuVertical.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemRenderer($c->get('menuVertical.classmap'), $c->get('menuVertical.classmap.editable'));
             },
             //bloky
             'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menu.bloky.classmap.editable'));
             },
             'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menu.bloky.classmap.editable'));
             },
 //            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
-//                return new NodeBlockRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+//                return new NodeBlockRenderer($c->get('menuVertical.classmap'), $c->get('menu.bloky.classmap.editable'));
 //            },
             //kos
             'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menu.kos.classmap.editable'));
             },
             'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menu.kos.classmap.editable'));
             },
 //            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
-//                return new NodeTrashRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+//                return new NodeTrashRenderer($c->get('menuVertical.classmap'), $c->get('menu.kos.classmap.editable'));
 //            },
 
 
         ###########################
         # menu classmap
         ###########################
-            'menu.svisle.classmap' => function() {
+            'menuVertical.classmap' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -197,7 +197,7 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
                         'Item' => self::rendererDefaults()['menu_items']
                     ]);
             },
-            'menu.svisle.classmap.editable' => function() {
+            'menuVertical.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [

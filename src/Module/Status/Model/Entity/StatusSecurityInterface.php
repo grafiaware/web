@@ -63,7 +63,7 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
     // a) smazáním StatusSecurity se (snad!!) smaže celý secirity fragment ze session a tím automaticky i security.editor a security.representative fragmenty
     // b) StatusSecurityEditorRepo->get() vrací typově správně StatusSecurityEditor a StatusSecurityRepresentativeRepo->get() vrací typově správně StatusSecurityRepresentative atd.
     // podmínka: nový StatusSecurityEditor (+repo, dao) do modulu RED a nový StatusSecurityRepresentative do modulu EVENTS => nedá se používat v jiném modulu -> statusSecurity musíš vymýtit
-    // z modulu WEB /např. PresentationFrontControlerAbstract, Prepare (????!!), LayoutControllerAbstract
+    // z modulu WEB /např. PresentationFrontControlerAbstract, Prepare (????!!), LayoutControlerAbstract
     
     
     /**

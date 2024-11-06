@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controler;
 
 // controller
 use FrontControler\FrontControlerAbstract;
@@ -16,11 +16,11 @@ use \Pes\View\ViewFactory;
 use \Pes\View\Renderer\PhpTemplateRenderer;
 
 /**
- * Description of LoginControllerAbstract
+ * Description of LoginControlerAbstract
  *
  * @author pes2704
  */
-class LoginControllerAbstract extends FrontControlerAbstract {
+class LoginControlerAbstract extends FrontControlerAbstract {
 
 
 

@@ -14,11 +14,11 @@ use FrontControler\PresentationFrontControlerAbstract;
 use Pes\View\View;
 
 /**
- * Description of RestrictedContentController
+ * Description of RestrictedContentControler
  *
  * @author pes2704
  */
-class RestrictedContentController extends PresentationFrontControlerAbstract {
+class RestrictedContentControler extends PresentationFrontControlerAbstract {
 
     ### action metody ###############
 

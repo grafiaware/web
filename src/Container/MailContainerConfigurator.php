@@ -15,7 +15,7 @@ use Mail\Mail;
 use Mail\ParamsTemplates;
 use Mail\MessageFactory\HtmlMessage;
 
-use Sendmail\Middleware\Sendmail\Controller\MailController;
+use Sendmail\Middleware\Sendmail\Controler\MailControler;
 
 // repo - z app kontejneru
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
@@ -55,8 +55,8 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
             HtmlMessage::class => function(ContainerInterface $c) {
                 return new HtmlMessage();
             },
-            MailController::class => function(ContainerInterface $c) {
-                return (new MailController(
+            MailControler::class => function(ContainerInterface $c) {
+                return (new MailControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),

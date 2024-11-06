@@ -10,7 +10,7 @@ use Template\Compiler\TemplateCompilerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Description of ComponentController
+ * Description of ComponentControler
  *
  * @author pes2704
  */

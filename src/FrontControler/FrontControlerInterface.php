@@ -21,7 +21,7 @@ interface FrontControlerInterface {
 
     /**
      *
-     * @param \Controller\ServerRequestInterface $request
+     * @param \Controler\ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
@@ -29,8 +29,8 @@ interface FrontControlerInterface {
 
     /**
      *
-     * @param \Controller\ServerRequestInterface $request
-     * @param \Controller\ViewInterface $view
+     * @param \Controler\ServerRequestInterface $request
+     * @param \Controler\ViewInterface $view
      * @return ResponseInterface
      */
 //    public function createResponseFromView(ViewInterface $view): ResponseInterface;

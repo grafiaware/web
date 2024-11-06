@@ -32,8 +32,8 @@ foreach ($enrolls as $enroll) {
 $event = $eventList->getEventList(null, $institutionName, $eventIds, false);   // enrolling = false
 
 
-//include Configuration::componentController()['templates']."timecolumn/template.php";
-//include Configuration::componentController()['templates']."timeline-boxes/template.php";
+//include Configuration::componentControler()['templates']."timecolumn/template.php";
+//include Configuration::componentControler()['templates']."timeline-boxes/template.php";
 
 
 ?>

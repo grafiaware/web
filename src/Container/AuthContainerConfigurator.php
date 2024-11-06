@@ -20,7 +20,6 @@ use Model\RowData\PdoRowData;
 use Model\Builder\Sql;
 
 //login & credentials - db
-
 use Auth\Model\Dao\CredentialsDao;
 use Auth\Model\Hydrator\CredentialsHydrator;
 use Auth\Model\Repository\CredentialsRepo;
@@ -64,12 +63,13 @@ use Pes\Database\Handler\HandlerInterface;
 
 
 // controller
-use Auth\Middleware\Login\Controller\LoginLogoutController;
-use Auth\Middleware\Login\Controller\RegistrationController;
-use Auth\Middleware\Login\Controller\ConfirmController;
-use Auth\Middleware\Login\Controller\PasswordController;
-use Auth\Middleware\Login\Controller\AuthController;
-use Auth\Middleware\Login\Controller\AuthStaticControler;
+use Auth\Middleware\Login\Controler\LoginLogoutControler;
+use Auth\Middleware\Login\Controler\RegistrationControler;
+use Auth\Middleware\Login\Controler\ConfirmControler;
+use Auth\Middleware\Login\Controler\PasswordControler;
+use Auth\Middleware\Login\Controler\AuthControler;
+use Auth\Middleware\Login\Controler\AuthStaticControler;
+use Auth\Middleware\Login\Controler\ComponentControler;
 
 // authenticator
 use Auth\Authenticator\AuthenticatorInterface;
@@ -79,6 +79,37 @@ use Auth\Authenticator\DbHashAuthenticator;
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
+// Access
+use Access\AccessPresentation;
+use Access\AccessPresentationInterface;
+use Access\Enum\AccessPresentationEnum;
+
+//components
+use Component\View\ElementComponent;
+use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoContentForStatusRenderer;
+
+use Auth\Component\View\LoginComponent;
+use Auth\Component\View\LogoutComponent;
+use Auth\Component\View\RegisterComponent;
+
+//view model
+use Component\ViewModel\StatusViewModel;
+use Auth\Component\ViewModel\LoginViewModel;
+use Auth\Component\ViewModel\LogoutViewModel;
+
+// configuration
+use Configuration\ComponentConfiguration;
+use Configuration\ComponentConfigurationInterface;
+
+// renderer kontejner
+use Pes\Container\Container;
+use Container\RendererContainerConfigurator;
+
+// template renderer container
+use Pes\View\Renderer\Container\TemplateRendererContainer;
+// template
+use Pes\View\Template\PhpTemplate;
 use Template\Compiler\TemplateCompiler;
 
 use Pes\View\View;
@@ -91,19 +122,21 @@ use Pes\View\View;
 class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return ConfigurationCache::login();
-    }
-
-    public function getFactoriesDefinitions(): iterable {
-        return [];
+        return array_merge(
+            ConfigurationCache::login(),
+            ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
+        );
     }
 
     public function getAliases(): iterable {
         return [
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
-
             AuthenticatorInterface::class => DbHashAuthenticator::class,
+            // components
+            'login' => LoginComponent::class,
+            'logout' => LogoutComponent::class,
+            'register' => RegisterComponent::class
         ];
     }
 
@@ -265,6 +298,14 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
 //---------------------------------------------------------------------------
+            ComponentControler::class => function(ContainerInterface $c) {
+                return (new ComponentControler(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusFlashRepo::class),
+                            $c->get(StatusPresentationRepo::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },
             EventStaticControler::class => function(ContainerInterface $c) {
                 return (new EventStaticControler(
                         $c->get(StatusSecurityRepo::class),
@@ -274,8 +315,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
-            LoginLogoutController::class => function(ContainerInterface $c) {
-                return (new LoginLogoutController(
+            LoginLogoutControler::class => function(ContainerInterface $c) {
+                return (new LoginLogoutControler(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
@@ -284,8 +325,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
-            RegistrationController::class => function(ContainerInterface $c) {
-                return (new RegistrationController(
+            RegistrationControler::class => function(ContainerInterface $c) {
+                return (new RegistrationControler(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
@@ -293,8 +334,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
-            ConfirmController::class => function(ContainerInterface $c) {
-                return (new ConfirmController(
+            ConfirmControler::class => function(ContainerInterface $c) {
+                return (new ConfirmControler(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
@@ -303,8 +344,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
-            PasswordController::class => function(ContainerInterface $c) {
-                return (new PasswordController(
+            PasswordControler::class => function(ContainerInterface $c) {
+                return (new PasswordControler(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
@@ -314,8 +355,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     ;
             },
                     
-            AuthController::class => function(ContainerInterface $c) {
-                return (new AuthController(
+            AuthControler::class => function(ContainerInterface $c) {
+                return (new AuthControler(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),                     
@@ -333,8 +374,38 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(TemplateCompiler::class)  )          
                     )->injectContainer($c);  // inject component kontejner
                     ;
-            },        
-                        
+            },
+                    
+            AccessPresentation::class => function(ContainerInterface $c) {
+                return new AccessPresentation($c->get(StatusViewModel::class));
+            },
+            // configuration - používá parametry nastavené metodou getParams()
+            ComponentConfiguration::class => function(ContainerInterface $c) {
+                return new ComponentConfiguration(
+                        $c->get('logs.directory'),
+                        $c->get('logs.render'),
+                        $c->get('logs.type'),
+                        $c->get('templates')
+                    );
+            },
+            LoginViewModel::class => function(ContainerInterface $c) {
+                return new LoginViewModel(
+                        $c->get(StatusViewModel::class)
+                    );
+            },
+            LogoutViewModel::class => function(ContainerInterface $c) {
+                return new LogoutViewModel(
+                        $c->get(StatusViewModel::class)
+                    );
+            },                    
+        ####
+        # renderer container
+        #
+            'rendererContainer' => function(ContainerInterface $c) {
+                // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
+                // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
+                return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
+            },                    
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();
             },                    
@@ -343,4 +414,71 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             },                        
         ];
     }
+    
+
+    public function getFactoriesDefinitions(): iterable {
+        return [
+
+            LoginComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                if($accessPresentation->isAllowed(LoginComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $configuration = $c->get(ComponentConfiguration::class);
+                    $component = new LoginComponent($configuration);
+                    $component->setData($c->get(LoginViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('login')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoContentForStatusRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            LogoutComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                if($accessPresentation->isAllowed(LogoutComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $configuration = $c->get(ComponentConfiguration::class);
+                    $component = new LogoutComponent($configuration);
+                    $component->setData($c->get(LogoutViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('logout')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoContentForStatusRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            RegisterComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+
+                if($accessPresentation->isAllowed(RegisterComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    /** @var ComponentConfigurationInterface $configuration */
+                    $configuration = $c->get(ComponentConfiguration::class);
+                    $component = new RegisterComponent($configuration);
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('register')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoContentForStatusRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },       
+        ####
+        # Element komponenty - vždy zobrazeny
+        #
+        #
+            ElementComponent::class => function(ContainerInterface $c) {
+                $component = new ElementComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            ElementInheritDataComponent::class => function(ContainerInterface $c) {
+                $component = new ElementInheritDataComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                                        
+        ];
+    }    
 }

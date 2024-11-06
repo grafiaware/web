@@ -19,7 +19,7 @@ use FrontControler\Exception\UploadFileException;
  *
  * @author pes2704
  */
-class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
+class FilesUploadControlerAbstract extends PresentationFrontControlerAbstract {
 
     const UPLOADED_KEY = "file";
     const MAX_FILE_SIZE = 0;

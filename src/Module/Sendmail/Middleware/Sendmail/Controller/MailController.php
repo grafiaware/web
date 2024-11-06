@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Sendmail\Middleware\Sendmail\Controller;
+namespace Sendmail\Middleware\Sendmail\Controler;
 
 use Site\ConfigurationCache;
 
@@ -26,11 +26,11 @@ use Model\Repository\{
 
 
 /**
- * Description of PostController
+ * Description of PostControler
  *
  * @author pes2704
  */
-class MailController extends PresentationFrontControlerAbstract {
+class MailControler extends PresentationFrontControlerAbstract {
 
     private $loginAggregateCredentialsRepo;
     private $registrationRepo;

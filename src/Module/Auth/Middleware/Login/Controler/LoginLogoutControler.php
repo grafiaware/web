@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controler;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
@@ -30,11 +30,11 @@ use Status\Model\Entity\StatusSecurityInterface;
 use Status\Model\Enum\FlashSeverityEnum;
 
 /**
- * Description of PostController
+ * Description of PostControler
  *
  * @author pes2704
  */
-class LoginLogoutController extends FrontControlerAbstract {
+class LoginLogoutControler extends FrontControlerAbstract {
 
     private $authenticator;
 

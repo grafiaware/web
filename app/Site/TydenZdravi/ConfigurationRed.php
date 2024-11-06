@@ -46,7 +46,7 @@ class ConfigurationRed extends ConfigurationConstants {
         ];
     }
 
-    public static function loginLogoutController() {
+    public static function loginLogoutControler() {
         ## HESLO - malé velké písmeno, číslice, min. 5 znaků
         $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}";
         $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 5 znaků.";
@@ -67,10 +67,10 @@ class ConfigurationRed extends ConfigurationConstants {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro ComponentController
+     * Konfigurace prezentace - vrací parametry pro ComponentControler
      * @return array
      */
-    public static function componentController() {
+    public static function componentControler() {
 
         return [
                 'templates' => self::WEB_TEMPLATES_SITE,
@@ -80,7 +80,7 @@ class ConfigurationRed extends ConfigurationConstants {
     }
 
     /**
-     * Konfigurace - parametry pro templateController
+     * Konfigurace - parametry pro templateControler
      * @return array
      */
     public static function redTemplates() {
@@ -148,7 +148,7 @@ class ConfigurationRed extends ConfigurationConstants {
     }
 
     /**
-     * Konfigurace upload files - vrací parametry pro FilesUploadController
+     * Konfigurace upload files - vrací parametry pro FilesUploadControler
      * @return array
      */
     public static function redUpload() {

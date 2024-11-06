@@ -58,7 +58,7 @@ define('PES_PRODUCTION_MACHINE_HOST_NAME', 'mcintyre');
 define('PES_PRODUCTION_MACHINE_HOST_NAME', 'replikant2871')
 - v SetBootstrap už řádek s include Configuration
 
-pageController
+pageControler
 - nefunguje home page static - není proměnná $homeMenuItem        $statusPresentation->setMenuItem($homeMenuItem);
 
 GET request vzniklý jinak, než kliknutím do menu - odkaz na jinou stránku, externí odkaz na stránku - musí nastavit aktivní položku i v menu

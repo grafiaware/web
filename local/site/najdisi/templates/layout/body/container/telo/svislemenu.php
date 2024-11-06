@@ -1,5 +1,5 @@
 <?php
-use Site\ConfigurationCache;
+use Pes\Text\Html;
 ?>
         <!-- #mySidenav s třídou .open se menu neskryje při kliknutí mimo oblast menu-->
         <!-- #mySidenav s třídou .editMenu vznikne nescrollovatelné svislé menu; k rodiči tohoto elementu - <div class="fix-bar"> se ještě musí přidat class .no-fix (než bude podpora :has())-->
@@ -7,13 +7,14 @@ use Site\ConfigurationCache;
             <div class="close-item" onclick="hamburger_close()"><a href="javascript:void(0)"><i class="times circle outline large icon"></i>Zavřít</a></div>
             
             <nav class="svisle-menu">
-                <?= $menuSvisle ?? ''; ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSvisle",])  ?>
             </nav>
             <nav class="svisle-menu kos">
-                <?= $kos ?? ''; ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuTrash",])  ?>
+            </nav>
             </nav>
             <nav class="svisle-menu bloky">
-                <?= $bloky ?? ''; ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuBlocks",])  ?>
             </nav>
         </div>
         <div id="myOverlay" onclick="hamburger_close()"></div>

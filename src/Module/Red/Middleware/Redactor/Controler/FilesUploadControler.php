@@ -4,7 +4,7 @@ namespace Red\Middleware\Redactor\Controler;
 
 use Site\ConfigurationCache;
 
-use FrontControler\FilesUploadControllerAbstract;
+use FrontControler\FilesUploadControlerAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -25,7 +25,7 @@ use FrontControler\Exception\UploadFileException;
  *
  * @author pes2704
  */
-class FilesUploadControler extends FilesUploadControllerAbstract {
+class FilesUploadControler extends FilesUploadControlerAbstract {
 
     private $assetService;
     
