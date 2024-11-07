@@ -217,8 +217,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutEditableMap' => [
-                    'bloky' => 'menu.bloky',
-                    'kos' => 'menu.kos',
+                    'bloky' => 'menuBlocks',
+                    'kos' => 'menuTrash',
                 ],
             //  název proměnné v šabloně => hodnota targetId příslušná k menu z položky 'contextMenuMap'
             'contextTargetMap' => [
@@ -228,8 +228,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
                 ],
             'contextMenuEditableMap' => [
-                    'bloky' => ['service'=>'menu.bloky', 'targetId'=>'menutarget_content'],
-                    'kos' => ['service'=>'menu.kos', 'targetId'=>'menutarget_content'],
+                    'bloky' => ['service'=>'menuBlocks', 'targetId'=>'menutarget_content'],
+                    'kos' => ['service'=>'menuTrash', 'targetId'=>'menutarget_content'],
                 ],
             'contextBlocksMap' => [
                 ],            
@@ -251,16 +251,16 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
-                    'menu.bloky' => [
+                    'menuBlocks' => [
                         'rootName' => 'blocks',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
-                        'levelRenderer' => 'menu.bloky.levelRenderer',
+                        'levelRenderer' => 'menuBlocks.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
-                    'menu.kos' => [
+                    'menuTrash' => [
                         'rootName' => 'trash',
                         'itemtype' => ItemTypeEnum::TRASH,
-                        'levelRenderer' => 'menu.kos.levelRenderer',
+                        'levelRenderer' => 'menuTrash.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                 ],

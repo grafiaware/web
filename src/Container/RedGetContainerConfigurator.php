@@ -380,7 +380,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             //bloky
             'menuBlocks' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.services')['menu.bloky'];
+                $menuConfig = $c->get('menu.services')['menuBlocks'];
 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -400,7 +400,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             //kos
             'menuTrash' => function(ContainerInterface $c) {
-                $menuConfig = $c->get('menu.services')['menu.kos'];
+                $menuConfig = $c->get('menu.services')['menuTrash'];
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {

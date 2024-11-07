@@ -123,9 +123,6 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new SecurityContextObjectsRemover();
             },
 
-            StatusPresentation::class => function(ContainerInterface $c) {
-                return new StatusPresentation();
-            },
             // model - pro data v session - dao používají všechny session repo v kontejnerech
             StatusDao::class => function(ContainerInterface $c) {
                 return new StatusDao($c->get(SessionStatusHandler::class));

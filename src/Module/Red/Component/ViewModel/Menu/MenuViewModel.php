@@ -128,6 +128,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     public function getPresentedMenuItem() {
         return $this->statusViewModel->getPresentedMenuItem();
     }
+    
     /**
      * Původní metoda getSubtreeItemModel pro Menu Display Controler. Načte podstrom uzlů menu, potomkků
      *
@@ -165,6 +166,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         }
         // remove root v needitačním režimu (v needitačním režimu se nikdy nezobrazuje menu root, v editačním režimu se vždy zobrazuje menu root)
 //        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
+        // v needitačním režimu nezobrazuje kořenovou položku menu
         if (!$this->presentEditableContent()) {
             array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
         }

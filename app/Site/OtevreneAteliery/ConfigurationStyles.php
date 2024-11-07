@@ -146,7 +146,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                         ],
                     ]);
             },
-            'menu.bloky.classmap.editable' => function() { //bloky
+            'menuBlocks.classmap.editable' => function() { //bloky
                 return new ClassMap (
                     [
                         'Level' => [
@@ -155,7 +155,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                         ],
                     ]);
             },
-            'menu.kos.classmap.editable' => function() { //kos
+            'menuTrash.classmap.editable' => function() { //kos
                 return new ClassMap (
                     [
                         'Level' => [
