@@ -553,7 +553,7 @@ class ConfigurationTz_newdb {
                         'Buttons' => ConfigurationCache::rendererDefaults()['menu_edit_buttons'],
                     ]);
             },
-            'menu.bloky.classmap.editable' => function() { //bloky
+            'menuBlocks.classmap.editable' => function() { //bloky
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -566,7 +566,7 @@ class ConfigurationTz_newdb {
                         'Buttons' => ConfigurationCache::rendererDefaults()['block_edit_buttons'],
                     ]);
             },
-            'menu.kos.classmap' => function() { //kos
+            'menuTrash.classmap' => function() { //kos
                 return new ClassMap (
                     [
                         'MenuWrap' => [

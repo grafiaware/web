@@ -36,7 +36,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
     }
 
     /**
-     * Repository obsahuje vždy jen jednu entitu StatusLogin. Metoda add přidá entitu do prázdného repository, pokud v repository již entita je, přepíše ji.
+     * Repository obsahuje vždy jen jednu entitu StatusPresentation. Metoda add přidá entitu do prázdného repository, pokud v repository již entita je, přepíše ji.
      *
      * @param StatusPresentationInterface $statusPresentation
      */

@@ -50,6 +50,8 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     private $levelRendererEditableName;
     
     private $rootRealDepth;
+    
+    private $presentedMenuItemId;
 
     public function __construct(ComponentConfigurationInterface $configuration, ContainerInterface $container) {
         parent::__construct($configuration);
@@ -61,8 +63,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
             RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
             RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
-            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class],
-            RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => static::class]
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
         ];
     }
     
@@ -89,11 +90,18 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * @throws \LogicException
      */
     public function beforeRenderingHook(): void {
+        $this->setPresentedMenuItemId();
         $subtreeNodeModels = $this->contextData->getNodeModels();
         $topLevelComponent = $this->buildMenuComponentsTree($subtreeNodeModels);
         $this->appendComponentView($topLevelComponent, MenuComponentInterface::MENU);        
     }
 
+    private function setPresentedMenuItemId(): void {
+        /** @var MenuItemInterface $ptesentedMenuItem */
+        $ptesentedMenuItem = $this->contextData->getPresentedMenuItem();
+        $this->presentedMenuItemId = isset($ptesentedMenuItem) ? $ptesentedMenuItem->getId() : null;
+    }
+    
     /**
      * Z pole dvojic ItemModel+DriverModel vygeneruje "strom" komponentů ve struktuře:
      * # Level komponenta obsahuje Item komponenty 
@@ -121,6 +129,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     private function buildMenuComponentsTree(array $subtreeNodeModels): LevelComponentInterface {
         // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), 
         // u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale $subtreeNodeModels pak obsahuje jen kořenový prvek
+        
         $itemComponentStack = [];
         $first = true;
         foreach ($subtreeNodeModels as $treeNodeModel) {
@@ -131,16 +140,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
                 $currDepth = $itemDepth;
                 $first = false;
             }
-//            if ($itemDepth>$currDepth) {
-//                $itemComponentStack[$itemDepth][] = $this->createItemComponent($treeNodeModel);
-//                $currDepth = $itemDepth;
-//            } elseif ($itemDepth<$currDepth) {
-//                $this->createChildrenComponents($currDepth, $itemDepth, $itemComponentStack);
-//                $itemComponentStack[$itemDepth][] = $this->createItemComponent($treeNodeModel);
-//                $currDepth = $itemDepth;
-//            } else {
-//                $itemComponentStack[$currDepth][] = $this->createItemComponent($treeNodeModel);
-//            }
             if ($itemDepth>$currDepth) {
                 $currDepth = $itemDepth;
             } elseif ($itemDepth<$currDepth) {
@@ -149,8 +148,12 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
             }
             $itemComponentStack[$currDepth][] = $this->createItemComponent($treeNodeModel);
         }
-        return $this->createChildrenComponents($currDepth, $this->rootRealDepth-1, $itemComponentStack);
-//        return $this->createLevelComponent($this->rootRealDepth, $itemComponentStack[$this->rootRealDepth]);
+        if ($itemComponentStack) {
+            $levelComponent = $this->createChildrenComponents($currDepth, $this->rootRealDepth-1, $itemComponentStack);
+        } else {
+            $levelComponent = $this->createLevelComponent([]);
+        }
+        return $levelComponent;
     }
     
     /**
@@ -184,8 +187,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         $driver = $this->container->get(DriverComponent::class);
         /** @var DriverServiceInterface $driverService */
         $driverService = $this->container->get(DriverService::class);
-        $presentedItem = $this->contextData->getPresentedMenuItem();
-        $isPresented = isset($presentedItem) && ($presentedItem->getId() == $menuItem->getId());        
+        $isPresented = $this->presentedMenuItemId == $menuItem->getId();        
         $driverService->completeDriverComponent($driver, $menuItem->getUidFk(), $isPresented);
         return $driver;
     }
@@ -219,7 +221,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * @param type $itemComponents
      * @return LevelComponentInterface
      */
-    private function createLevelComponent($itemComponents): LevelComponentInterface {
+    private function createLevelComponent(iterable $itemComponents): LevelComponentInterface {
         /** @var LevelComponentInterface $levelComponent */
         $levelComponent = $this->container->get(LevelComponent::class);
         $levelComponent->setRendererName($this->contextData->presentEditableContent() ? $this->levelRendererEditableName : $this->levelRendererName);  

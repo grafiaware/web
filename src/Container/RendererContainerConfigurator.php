@@ -150,18 +150,18 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LevelRenderer($c->get('menuHorizontal.classmap'));
             },                    
             //bloky
-            'menu.bloky.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.bloky.classmap'));
+            'menuBlocks.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'));
             },
-            'menu.bloky.levelRenderer.editable' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.bloky.classmap.editable'));
+            'menuBlocks.levelRenderer.editable' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuBlocks.classmap.editable'));
             },
             //kos
-            'menu.kos.levelRenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.kos.classmap'));
+            'menuTrash.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'));
             },
-            'menu.kos.levelRenderer.editable' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.kos.classmap.editable'));
+            'menuTrash.levelRenderer.editable' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuTrash.classmap.editable'));
             },                          
         ###########################
         # menu item renderer

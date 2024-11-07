@@ -160,24 +160,24 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
                 return new ItemRenderer($c->get('menuVertical.classmap'), $c->get('menuVertical.classmap.editable'));
             },
             //bloky
-            'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menu.bloky.classmap.editable'));
+            'menuBlocks.menuwraprenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menuBlocks.classmap.editable'));
             },
-            'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menu.bloky.classmap.editable'));
+            'menuBlocks.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menuBlocks.classmap.editable'));
             },
-//            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
-//                return new NodeBlockRenderer($c->get('menuVertical.classmap'), $c->get('menu.bloky.classmap.editable'));
+//            'menuBlocks.itemrenderer' => function(ContainerInterface $c) {
+//                return new NodeBlockRenderer($c->get('menuVertical.classmap'), $c->get('menuBlocks.classmap.editable'));
 //            },
             //kos
-            'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menu.kos.classmap.editable'));
+            'menuTrash.menuwraprenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menuTrash.classmap.editable'));
             },
-            'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menu.kos.classmap.editable'));
+            'menuTrash.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuVertical.classmap'), $c->get('menuTrash.classmap.editable'));
             },
-//            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
-//                return new NodeTrashRenderer($c->get('menuVertical.classmap'), $c->get('menu.kos.classmap.editable'));
+//            'menuTrash.itemrenderer' => function(ContainerInterface $c) {
+//                return new NodeTrashRenderer($c->get('menuVertical.classmap'), $c->get('menuTrash.classmap.editable'));
 //            },
 
 
@@ -211,7 +211,7 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
                     ]);
             },
-            'menu.bloky.classmap.editable' => function() { //bloky
+            'menuBlocks.classmap.editable' => function() { //bloky
                 return new ClassMap (
                     [
                         'MenuWrap' => [
@@ -225,7 +225,7 @@ class ConfigurationStyles_one_calendar extends ConfigurationRed {
                         'Buttons' => self::rendererDefaults()['block_edit_buttons'],
                     ]);
             },
-            'menu.kos.classmap.editable' => function() { //kos
+            'menuTrash.classmap.editable' => function() { //kos
                 return new ClassMap (
                     [
                         'MenuWrap' => [

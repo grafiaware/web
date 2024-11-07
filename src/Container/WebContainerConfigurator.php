@@ -65,6 +65,9 @@ use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
 //components
+use Component\View\ElementComponent;
+use Component\View\ElementInheritDataComponent;
+
 use Web\Component\View\Flash\FlashComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
@@ -77,6 +80,10 @@ use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - 
 
 use Web\Component\ViewModel\Flash\FlashViewModel;
 use Red\Component\ViewModel\Manage\InfoBoardViewModel;
+
+// renderer
+use Component\Renderer\Html\NoContentForStatusRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 
 // logger
 use Pes\Logger\FileLogger;
@@ -179,7 +186,21 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
-            },                    
+            },
+        ####
+        # Element komponenty - vždy zobrazeny
+        #
+        #
+            ElementComponent::class => function(ContainerInterface $c) {
+                $component = new ElementComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            ElementInheritDataComponent::class => function(ContainerInterface $c) {
+                $component = new ElementInheritDataComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
         ####
         # view
         #
