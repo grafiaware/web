@@ -102,7 +102,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
-                'companyList' => self::WEB_TEMPLATES_SITE.'events/company-list.php'
+                'companyList' => self::WEB_TEMPLATES_SITE.'events/company-list.php',
+                'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
             ],
             'services' => [
                 'flash' => FlashComponent::class,

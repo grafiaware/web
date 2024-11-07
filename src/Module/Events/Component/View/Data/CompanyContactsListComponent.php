@@ -1,0 +1,20 @@
+<?php
+
+namespace Events\Component\View\Data;
+
+use Component\View\ComponentCompositeAbstract;
+
+use Access\Enum\RoleEnum;
+use Access\Enum\AccessPresentationEnum;
+
+/** 
+ * 
+ */ 
+class CompanyContactsListComponent extends ComponentCompositeAbstract {
+
+    public static function getComponentPermissions(): array {
+        return [
+            RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+        ];
+    }
+}

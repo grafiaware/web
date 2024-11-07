@@ -5,12 +5,14 @@ use Site\ConfigurationCache;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-/** @var PhpTemplateRendererInterface $this */
-
-    //    $readonly = 'readonly="1"';
-    //    $disabled = 'disabled="1"';
+/** @var PhpTemplateRendererInterface $this */        
+if ($editable) {
         $readonly = '';
-        $disabled = ''; 
+        $disabled = '';
+    } else {
+        $readonly = 'readonly';
+        $disabled = 'disabled';
+    }        
 ?>
 
         <form class="ui huge form" action="" method="POST" >
@@ -39,14 +41,14 @@ use Pes\Text\Html;
             </div>                 
 
             <?php
-            if($readonly === '') {
+            if($editable) {
             ?>
                             
             <div>
                 <?=
-                 isset($companyId_proInsert) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/" .$companyId_proInsert. "' > Uložit </button>" :
-                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress' > Přidat adresu </button>" ;
+                 isset($companyId) ?
+                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/".$companyId."' > Uložit </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId_proInsert."/companyaddress' > Přidat adresu </button>" ;
                 ?>                                                                                                                                             
             </div>
 
