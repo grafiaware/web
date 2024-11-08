@@ -43,17 +43,7 @@ class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements
     
 
     private function data() {                        
-        $editable = true;
-                    
-
-//        /** @var CompanyRepo $companyRepo */ 
-//        $companyRepo = $container->get(CompanyRepo::class );
-//        /** @var CompanyAddressRepo $companyAddressRepo */ 
-//        $companyAddressRepo = $container->get(CompanyAddressRepo::class );
-//        //------------------------------------------------------------------
-//        /** @var StatusViewModelInterface $statusViewModel */
-//        $this->statusl = $container->get(StatusViewModel::class);
-        
+        $editable = true;                    
         
         $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
 
@@ -66,8 +56,7 @@ class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements
             $companyAddressEntity = $this->companyAddressRepo->get($representativeCompanyId);
             if (isset($companyAddressEntity)) {           
                 $companyAddress = [
-                'editable' => $editable,
-                    
+                'editable' => $editable,                    
                     'companyId'=> $companyAddressEntity->getCompanyId(),
                     'name'   => $companyAddressEntity->getName(),
                     'lokace' => $companyAddressEntity->getLokace(),
@@ -77,8 +66,7 @@ class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements
             }    
             else {
                 $companyAddress = [
-                'editable' => $editable,
-                    
+                'editable' => $editable,                    
                     'companyId_proInsert'=> $company->getId(),
                     ];
             }                   

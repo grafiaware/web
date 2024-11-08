@@ -12,7 +12,7 @@ use Pes\Text\Html;
                         
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Firma  <?= $name ?>    
+                Adresa firmy  <?= $name ?>    
             </div> 
             
             <div class="active content">      

@@ -4,6 +4,8 @@ namespace Events\Component\ViewModel\Data;
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Repository\CompanyContactRepoInterface;
+use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\CompanyInterface;
 
 use Access\Enum\RoleEnum;
@@ -16,37 +18,50 @@ use ArrayIterator;
  * @author pes2704
  */
 class CompanyContactsListViewModel extends ViewModelAbstract implements CompanyContactsListViewModelInterface {
-
-    private $status;  
-    
+    private $status;      
     private $companyRepo;
+    private $companyContactRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            CompanyRepoInterface $companyRepo
+            CompanyRepoInterface $companyRepo,
+            CompanyContactRepoInterface $companyContactRepo            
             ) {
         $this->status = $status;
         $this->companyRepo = $companyRepo;
-        $this->appendData($this->data());
+        $this->companyContactRepo = $companyContactRepo;
     }
 
-    private function data() {
-        $editable = $this->status->getUserRole()===RoleEnum::EVENTS_ADMINISTRATOR;
+    public function getIterator() {
+        $requestedId = $this->offsetGet('requestedId');
+        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
+        $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) : false;
+        /** @var CompanyInterface $company */ 
+        $company = $this->companyRepo->get($requestedId);            
 
-        $companies=[];     
-        foreach ($this->companyRepo->findAll() as $company) {
-            /** @var CompanyInterface $company */
-            $companies[] = [
-                'editable' => $editable,
-                'companyId' => $company->getId(),
-                'name' =>  $company->getName()
-                ];
-        }
+        $companyContacts=[];
+        $companyContactEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $requestedId ] );
 
+            /** @var CompanyContactInterface $cCEntity */
+            foreach ($companyContactEntities as $cCEntity) {               
+                $companyContacts[] = [
+                    'editable' => $editable,  
+
+                    'companyContactId' => $cCEntity->getId(),
+                    'companyId' => $cCEntity->getCompanyId(),
+                    'name' =>  $cCEntity->getName(),
+                    'phones' =>  $cCEntity->getPhones(),
+                    'mobiles' =>  $cCEntity->getMobiles(),
+                    'emails' =>  $cCEntity->getEmails()
+                    ];
+            }            
+     
         $array = [
-            'editable' => $editable,
-            'companies' => $companies
+            'idCompany' => $company->getId(),
+            'companyContacts' => $companyContacts,
+            'name' => $company->getName()
         ];
-        return $array;
+        return new ArrayIterator($array);
+        
     }
 }

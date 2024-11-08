@@ -6,10 +6,16 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
+if ($editable) {
+        $readonly = '';
+        $disabled = '';
+    } else {
+        $readonly = 'readonly';
+        $disabled = 'disabled';
+    }     
 ?>
 
         <form class="ui huge form" action="" method="POST" >
-
             <div class="two fields">                        
                 <div class="field">
                 <label>Jméno kontaktu</label>
@@ -29,5 +35,5 @@ use Pes\Text\Html;
                     <label>Mobily</label>
                     <input readonly type="text" name="mobiles" placeholder="" maxlength="60" value="<?= isset($mobiles)?  $mobiles : '' ?>">
                 </div>
-            </div>                 
+            </div>                
         </form>           

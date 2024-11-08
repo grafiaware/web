@@ -26,6 +26,9 @@ use Events\Component\View\Data\CompanyListComponent;
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;
 
+use Component\View\ComponentCompositeInterface;
+use Component\ViewModel\ViewModelInterface;
+
 ####################
 
 use Pes\Text\Html;
@@ -45,8 +48,6 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         
         // je jen jeden ConponentControler, proto mají VISITOR i REPRESENTATIVE stejná oprávnění ke všem komponentům
         return [
-            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class],
-            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class],
             RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
             RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
@@ -72,10 +73,14 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($view);
     }
 
-    public function component(ServerRequestInterface $request, $name) {
+    public function component(ServerRequestInterface $request, $name, $id=null) {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias
                 $view = $this->container->get($name);
+                /** @var ComponentCompositeInterface $view */
+                $viewModel = $view->getData();
+                /** @var ViewModelInterface $viewModel */
+                $viewModel->appendData(['requestedId' => $id]);
             } else {
                 $view = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
             }

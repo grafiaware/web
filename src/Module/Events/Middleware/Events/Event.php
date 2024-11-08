@@ -100,7 +100,12 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->component($request, $name);
             });
-        }
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/component/:name/:id', function(ServerRequestInterface $request, $name, $id) {
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
+            return $ctrl->component($request, $name, $id);
+            });
+    }
 
     ### POST #################################
 
