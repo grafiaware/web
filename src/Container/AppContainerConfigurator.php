@@ -70,10 +70,6 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
         return ConfigurationCache::app();
     }
 
-    public function getFactoriesDefinitions(): iterable {
-        return [];
-    }
-
     public function getAliases(): iterable {
         return [
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,

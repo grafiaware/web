@@ -97,9 +97,9 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     }
 
     private function setPresentedMenuItemId(): void {
-        /** @var MenuItemInterface $ptesentedMenuItem */
-        $ptesentedMenuItem = $this->contextData->getPresentedMenuItem();
-        $this->presentedMenuItemId = isset($ptesentedMenuItem) ? $ptesentedMenuItem->getId() : null;
+        /** @var MenuItemInterface $presentedMenuItem */
+        $presentedMenuItem = $this->contextData->getPresentedMenuItem();
+        $this->presentedMenuItemId = isset($presentedMenuItem) ? $presentedMenuItem->getId() : null;
     }
     
     /**

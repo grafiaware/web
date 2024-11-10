@@ -41,8 +41,14 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
     
     private $info = [];
 
+    private $uriLog = [];
+    
     ### resource path
 
+    public function addUri($uri) {
+        $this->uriLog[] = $uri;
+    }
+    
     /**
      *
      * @return string
