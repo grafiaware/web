@@ -51,17 +51,22 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
                         )
                 )
             );
-        $statusPresentation = $this->getOrCreateStatusIfNotExists();
         //TODO: POST version
         // možná není potřeba ukládat - nebude fungoba seeLastGet
-        $this->presetPresentationStatus($statusPresentation, $request);
+        
+        $statusPresentation = $this->createStatusBeforeHandle($request);
         $response = $handler->handle($request);
-        $this->saveLastGetResourcePath($statusPresentation, $request);        
+        $this->setStatusAfterHandle($statusPresentation, $request);        
         $response = $this->addResponseHeaders($response);
         return $response;
     }
-    
-    private function getOrCreateStatusIfNotExists() {
+
+    /**
+     * Nastaví jazyk prezentace pokud není nastaven. Pokud je již se statusu entita language, požadovaný jazyk v requestu nehraje roli.
+     * 
+     * @param ServerRequestInterface $request
+     */
+    private function createStatusBeforeHandle(ServerRequestInterface $request) {
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $this->statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
 
@@ -69,16 +74,11 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         if (!isset($statusPresentation)) {
             $statusPresentation = new StatusPresentation();
             $this->statusPresentationRepo->add($statusPresentation);
+        }        
+        $statusPresentation->addUri($this->getRestUri($request));
+        if(!$statusPresentation->getMenuItem()) {
+            $stop = true;
         }
-        return $statusPresentation;
-    }
-
-    /**
-     * Nastaví jazyk prezentace pokud není nastaven. Pokud je již se statusu entita language, požadovaný jazyk v requestu nehraje roli.
-     *
-     * @param type $statusPresentation
-     */
-    private function presetPresentationStatus(StatusPresentationInterface $statusPresentation, ServerRequestInterface $request) {
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguage())) {
             $langCode = $this->getRequestedLangCode($request);
@@ -88,6 +88,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
             $statusPresentation->setRequestedLangCode($langCode);
             $statusPresentation->setLanguage($language);
         }
+        return $statusPresentation;
     }
 
     /**
@@ -100,15 +101,21 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      * @param type $statusPresentation
      * @param type $request
      */
-    private function saveLastGetResourcePath(StatusPresentationInterface $statusPresentation, $request) {
+    private function setStatusAfterHandle(StatusPresentationInterface $statusPresentation, $request) {
+        if(!$statusPresentation->getMenuItem()) {
+            $uri = $this->getRestUri($request);
+        }
         if ($request->getMethod()=='GET') {
-            /** @var UriInfoInterface $uriInfo */
-            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
             if (!$request->hasHeader("X-Cascade")) {
-                $restUri = $uriInfo->getRestUri();
-                $statusPresentation->setLastGetResourcePath($restUri);
+                $statusPresentation->setLastGetResourcePath($this->getRestUri($request));
             }
         }
+    }
+    
+    private function getRestUri(ServerRequestInterface $request) {
+        /** @var UriInfoInterface $uriInfo */
+        $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+        return $uriInfo->getRestUri();    
     }
     
     /**

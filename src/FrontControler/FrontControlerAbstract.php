@@ -319,16 +319,15 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return type
      */
     private function getActiveRoles($logged, $role, $permissions) {
-        $ret = [];
+        if (isset($role) AND array_key_exists($role, $permissions)){
+            $ret[] = $role;
+        }
         if($logged){
             $ret[] = RoleEnum::AUTHENTICATED;
-            if (isset($role) AND array_key_exists($role, $permissions)){
-                $ret[] = $role;
-            }
         } else {
             $ret[] = RoleEnum::ANONYMOUS;
         }
-        return $ret;
+        return $ret;        
     }
 
     protected function getActionPermissions(): array {

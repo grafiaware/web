@@ -22,6 +22,8 @@ use Status\Model\Entity\StatusPresentationInterface;
  */
 interface StatusPresentationInterface extends PersistableEntityInterface {
 
+    public function addUri($uri);
+    
     /**
      *
      * @param type $lastResourcePath
