@@ -35,12 +35,14 @@ class CompanyContactsListViewModel extends ViewModelAbstract implements CompanyC
     public function getIterator() {
         $requestedId = $this->offsetGet('requestedId');
         $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
+        
         $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) : false;
-        /** @var CompanyInterface $company */ 
-        $company = $this->companyRepo->get($requestedId);            
+        if (isset($representativeFromStatus)) {   
+            /** @var CompanyInterface $company */ 
+            $company = $this->companyRepo->get($requestedId);            
 
-        $companyContacts=[];
-        $companyContactEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $requestedId ] );
+            $companyContacts=[];
+            $companyContactEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $requestedId ] );
 
             /** @var CompanyContactInterface $cCEntity */
             foreach ($companyContactEntities as $cCEntity) {               
@@ -55,12 +57,24 @@ class CompanyContactsListViewModel extends ViewModelAbstract implements CompanyC
                     'emails' =>  $cCEntity->getEmails()
                     ];
             }            
-     
-        $array = [
+            
+            $array = [
             'idCompany' => $company->getId(),
             'companyContacts' => $companyContacts,
-            'name' => $company->getName()
-        ];
+            'name' => $company->getName(),
+            'editable' => $editable,
+            ];
+         
+             
+             
+        }else {                    
+            $array = [
+                //'idCompany' => $company->getId(),
+                'companyContacts' =>[],
+                'name' => '',
+                'editable' => $editable,  
+            ];
+        }
         return new ArrayIterator($array);
         
     }

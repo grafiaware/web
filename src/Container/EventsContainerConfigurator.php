@@ -99,6 +99,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             'companyList' => CompanyListComponent::class,
             'representativeAction' => RepresentativeActionComponent::class,
+            'companyContactList' => CompanyContactsListComponent::class,
+            //'companyAddressList' => Company,
         ];
     }
     
@@ -135,13 +137,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                if($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::EDIT)) {
-                    /** @var CompanyListViewModel $viewModel */
+                if($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::EDIT)) {                   
                     $component = new CompanyListComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(CompanyListViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyListEditable')));
                 } elseif($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var CompanyListViewModel $viewModel */
                     $component = new CompanyListComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(CompanyListViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyList')));
@@ -158,7 +158,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 if($accessPresentation->isAllowed(RepresentativeCompanyAddressComponent::class, AccessPresentationEnum::EDIT)) {
-                    /** @var CompanyListViewModel $viewModel */
                     $component = new RepresentativeCompanyAddressComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(RepresentativeCompanyAddressViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('representativeCompanyAddress')));
@@ -169,18 +168,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },      
-             CompanyContactListComponent::class => function(ContainerInterface $c) {
+            CompanyContactsListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 if($accessPresentation->isAllowed(CompanyContactsListComponent::class, AccessPresentationEnum::EDIT)) {
-                    /** @var CompanyListViewModel $viewModel */
                     $component = new CompanyContactsListComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(CompanyContactsListViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactListEditable')));
                 } elseif($accessPresentation->isAllowed(CompanyContactsListComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var CompanyListViewModel $viewModel */
                     $component = new CompanyContactsListComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(CompanyContactsListViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactList')));

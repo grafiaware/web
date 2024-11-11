@@ -36,7 +36,8 @@ use Pes\Text\Html;
                     <label>Mobily</label>
                     <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="60" value="<?= isset($mobiles)?  $mobiles : '' ?>">
                 </div>
-            </div>                 
+            </div>   
+            <?php if ($editable) { ?>
                 <div>
                     <?=
                      isset($companyContactId) ?
@@ -49,5 +50,6 @@ use Pes\Text\Html;
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact/". $companyContactId ."/remove' > Odstranit kontakt </button>" :
                     "" ;
                     ?>                                                                                                         
-                </div>
+                </div>           
+            <?php  }  ?>
         </form>           

@@ -13,15 +13,19 @@ use Pes\Text\Html;
                  Kontakty firmy :  <?= $name ?>   
             </div>                        
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/company-contacts/company-contact-editable.php',  $companyContacts)  ?>
+                <?= $this->repeat(__DIR__.'/company-contacts/company-contact-editable.php', 
+                                  $companyContacts)  ?>
 
-                <div class="active title">
-                    <i class="dropdown icon"></i>
-                    Přidej kontakt firmy
-                </div>  
-                <div class="active content">     
-                    <?= $this->insert( __DIR__.'/company-contacts/company-contact-editable.php', ['companyId' => $idCompany] ) ?>                                                                                 
-                </div>                  
+                <?php if ($editable) { ?>                
+                    <div class="active title">
+                        <i class="dropdown icon"></i>
+                        Přidej kontakt firmy
+                    </div>  
+                    <div class="active content">     
+                        <?= $this->insert( __DIR__.'/company-contacts/company-contact-editable.php', 
+                                          ['companyId' => $idCompany, 'editable' => $editable] ) ?>                                                                                 
+                    </div>               
+                <?php  }  ?>    
             </div>            
     </div>
     </div>
