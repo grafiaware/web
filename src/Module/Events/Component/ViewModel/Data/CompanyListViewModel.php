@@ -27,10 +27,9 @@ class CompanyListViewModel extends ViewModelAbstract implements CompanyListViewM
             ) {
         $this->status = $status;
         $this->companyRepo = $companyRepo;
-        $this->appendData($this->data());
     }
 
-    private function data() {
+    public function getIterator() {
         $companies=[];     
         foreach ($this->companyRepo->findAll() as $company) {
             /** @var CompanyInterface $company */
@@ -43,6 +42,6 @@ class CompanyListViewModel extends ViewModelAbstract implements CompanyListViewM
         $array = [
             'companies' => $companies
         ];
-        return $array;
+        return new ArrayIterator($array);
     }
 }
