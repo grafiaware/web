@@ -12,6 +12,7 @@ use Pes\Text\Html;
                 . 
                 Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/presentationAction",]) 
                 .
-                Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"events/v1/component/representativeAction",]) ;
+                Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"events/v1/component/representativeAction",])
+        ;
             ?>
         </div>

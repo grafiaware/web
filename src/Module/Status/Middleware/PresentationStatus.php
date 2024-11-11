@@ -75,10 +75,6 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
             $statusPresentation = new StatusPresentation();
             $this->statusPresentationRepo->add($statusPresentation);
         }        
-        $statusPresentation->addUri($this->getRestUri($request));
-        if(!$statusPresentation->getMenuItem()) {
-            $stop = true;
-        }
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguage())) {
             $langCode = $this->getRequestedLangCode($request);
@@ -102,9 +98,6 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      * @param type $request
      */
     private function setStatusAfterHandle(StatusPresentationInterface $statusPresentation, $request) {
-        if(!$statusPresentation->getMenuItem()) {
-            $uri = $this->getRestUri($request);
-        }
         if ($request->getMethod()=='GET') {
             if (!$request->hasHeader("X-Cascade")) {
                 $statusPresentation->setLastGetResourcePath($this->getRestUri($request));

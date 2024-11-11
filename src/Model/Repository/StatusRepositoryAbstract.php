@@ -42,10 +42,12 @@ abstract class StatusRepositoryAbstract {
     }
 
     public function flush(): void {
-        if ($this->entity) {
-            $this->statusDao->set(static::FRAGMENT_NAME, [$this->entity]);
-        } else {
-            $this->statusDao->delete(static::FRAGMENT_NAME);
+        if ($this->loaded) {   // pokud není laded -> není entita
+            if ($this->entity) {
+                $this->statusDao->set(static::FRAGMENT_NAME, [$this->entity]);
+            } else {
+                $this->statusDao->delete(static::FRAGMENT_NAME);
+            }
         }
     }
 
