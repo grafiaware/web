@@ -25,11 +25,13 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Events\Component\View\Data\CompanyListComponent;
+use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
 use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
 use Events\Component\ViewModel\Data\CompanyListViewModel;
+use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
 
 // controler
 use Events\Middleware\Events\Controler\ComponentControler;
@@ -143,7 +145,24 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },            
+            RepresentativeCompanyAddressComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
 
+                if($accessPresentation->isAllowed(RepresentativeCompanyAddressComponent::class, AccessPresentationEnum::EDIT)) {
+                    /** @var CompanyListViewModel $viewModel */
+                    $component = new RepresentativeCompanyAddressComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(RepresentativeCompanyAddressViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('representativeCompanyAddress')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },        
+                    
         ####
         # Element komponenty - vždy zobrazeny
         #
@@ -306,6 +325,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new CompanyListViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(CompanyRepo::class),                        
+                    );
+            },
+            RepresentativeCompanyAddressViewModel::class => function(ContainerInterface $c) {
+                return new RepresentativeCompanyAddressViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class),       
+                        $c->get(CompanyAddressRepo::class),                       
                     );
             },
                     

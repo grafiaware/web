@@ -29,7 +29,7 @@ use Events\Model\Repository\RepresentativeRepo;
 ###### kontext #######
 // jobs expand -> jobId, companyId, $nazevPozice; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané $container
 
-$isRepresentative = false;
+$isRepresentativeOfCompany = false;
 $isVisitor = false;
 $isVisitorDataPost = false;
 
@@ -55,9 +55,7 @@ $visitorJobRequestRepo = $container->get(VisitorJobRequestRepo::class);
 /** @var DocumentRepo $documentRepo */
 $documentRepo = $container->get(DocumentRepo::class);
 
-//
-///** @var RepresentativeRepo $representativeRepo */
-//$representativeRepo = $container->get(RepresentativeRepo::class );
+
 
 
 if (isset($loginAggregate)) {
@@ -69,7 +67,7 @@ if (isset($loginAggregate)) {
     //*--------------------------------
     $isVisitor = $role==RoleEnum::VISITOR;   
     
-    $isRepresentative = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId);
+    $isRepresentativeOfCompany = (isset($representativeFromStatus) AND $representativeFromStatus->getCompanyId()==$companyId);
 //------------------------------------------------------------------------------------------------------------------------
     
     
@@ -161,7 +159,7 @@ if (isset($loginAggregate)) {
         }
     }
 
-    if ($isRepresentative) {        
+    if ($isRepresentativeOfCompany) {        
         //vsechny zadosti o práci $jobId
         $visitorJobRequests = $visitorJobRequestRepo->find(  ' job_Id = :jobId ',  [  'jobId' => $jobId  ] );
         $visitorJobRequestCount = count($visitorJobRequests);        
@@ -175,7 +173,7 @@ if (isset($loginAggregate)) {
             $visitorFormData['positionName'] = $nazevPozice;  //$nazev
             $visitorFormData['jobId'] = $jobId;
             
-            $visitorFormData['isRepresentative'] = $isRepresentative;
+            $visitorFormData['isRepresentativeOfCompany'] = $isRepresentativeOfCompany;
             $visitorFormData['isVisitor'] = $isVisitor;
             
             //doufam ze nepotebny email v osobni-udaje.php ... presenter neni, presenter je  company  
@@ -231,7 +229,7 @@ if (isset($loginAggregate)) {
                     <?php
                 }
     //----------                
-                if($isRepresentative) {
+                if($isRepresentativeOfCompany) {
                     if ($visitorJobRequestCount>0) {
                     ?>
                     <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorJobRequestCount ?></span>
@@ -318,7 +316,7 @@ if (isset($loginAggregate)) {
                                
                                     <?php
     //----------                                     
-                                } elseif ($isRepresentative) {
+                                } elseif ($isRepresentativeOfCompany) {
                                     if($isVisitorDataPost) {
                                         ?>
                                         <div class="sixteen wide column center aligned">

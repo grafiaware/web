@@ -50,7 +50,7 @@ foreach ($companyRepo->findAll() as $company) {
                     Přidej firmu
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/company.php') ?>                                                                                 
+                    <?= $this->insert( __DIR__.'/company.php', ['editable' => $editable]) ?>                                                                                 
                 </div> 
                 <?php
                 }

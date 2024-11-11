@@ -23,7 +23,7 @@ use Pes\Text\Html;
                     Přidej firmu
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/company/company.php') ?>                                                                                 
+                    <?= $this->insert( __DIR__.'/company/company.php',['editable' => $editable]) ?>                                                                                 
                 </div> 
                 <?php
                 }
