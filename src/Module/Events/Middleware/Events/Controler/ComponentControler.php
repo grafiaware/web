@@ -66,7 +66,9 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 /** @var ComponentCompositeInterface $view */
                 $viewModel = $view->getData();
                 /** @var ViewModelInterface $viewModel */
-                $viewModel->appendData(['requestedId' => $id]);
+                if (isset($id) AND isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
+                    $viewModel->appendData(['requestedId' => $id]);
+                }
             } else {
                 $view = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
             }
