@@ -21,8 +21,6 @@ use Status\Model\Entity\StatusPresentationInterface;
  * @author pes2704
  */
 interface StatusPresentationInterface extends PersistableEntityInterface {
-
-    public function addUri($uri);
     
     /**
      *

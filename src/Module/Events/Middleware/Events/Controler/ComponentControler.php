@@ -61,7 +61,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     public function component(ServerRequestInterface $request, $name, $id=null) {
         if($this->isAllowed(AccessActionEnum::GET)) {
-            if($this->container->has($name)) {   // musí být definován alias
+            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $view = $this->container->get($name);
                 /** @var ComponentCompositeInterface $view */
                 $viewModel = $view->getData();
