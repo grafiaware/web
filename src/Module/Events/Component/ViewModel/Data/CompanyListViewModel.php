@@ -31,20 +31,16 @@ class CompanyListViewModel extends ViewModelAbstract implements CompanyListViewM
     }
 
     private function data() {
-        $editable = $this->status->getUserRole()===RoleEnum::EVENTS_ADMINISTRATOR;
-
         $companies=[];     
         foreach ($this->companyRepo->findAll() as $company) {
             /** @var CompanyInterface $company */
             $companies[] = [
-                'editable' => $editable,
                 'companyId' => $company->getId(),
                 'name' =>  $company->getName()
                 ];
         }
 
         $array = [
-            'editable' => $editable,
             'companies' => $companies
         ];
         return $array;

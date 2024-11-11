@@ -19,6 +19,7 @@ use Red\Component\View\Manage\PresentationActionComponent;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 use Events\Component\View\Data\CompanyListComponent;
+use Events\Component\View\Data\CompanyContactsListComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -102,9 +103,23 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+                'companyListEditable' => self::WEB_TEMPLATES_SITE.'events/company-list-editable.php',
                 'companyList' => self::WEB_TEMPLATES_SITE.'events/company-list.php',
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
+                'companyContactList' => self::WEB_TEMPLATES_SITE.'events/company-contact-list.php',
+                'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/company-contact-list-editable.php',
             ],
+            'services' => [
+                'flash' => FlashComponent::class,
+                'login' => LoginComponent::class,
+                'logout' => LogoutComponent::class,
+                'register' => RegisterComponent::class,
+                'presentationAction' => PresentationActionComponent::class,
+                'representativeAction' => RepresentativeActionComponent::class,
+                'infoBoard' => InfoBoardComponent::class,
+                'companyList' => CompanyListComponent::class,
+                'companyContactList' => CompanyContactsListComponent::class,
+            ]
         ];
     }
     /**

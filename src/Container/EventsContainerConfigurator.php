@@ -26,12 +26,14 @@ use Component\Renderer\Html\NoContentForStatusRenderer;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
+use Events\Component\View\Data\CompanyContactsListComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
 use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
 use Events\Component\ViewModel\Data\CompanyListViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
+use Events\Component\ViewModel\Data\CompanyContactsListViewModel;
 
 // controler
 use Events\Middleware\Events\Controler\ComponentControler;
@@ -133,7 +135,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                if($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::DISPLAY)) {
+                if($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::EDIT)) {
+                    /** @var CompanyListViewModel $viewModel */
+                    $component = new CompanyListComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyListEditable')));
+                } elseif($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::DISPLAY)) {
                     /** @var CompanyListViewModel $viewModel */
                     $component = new CompanyListComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(CompanyListViewModel::class));
@@ -161,7 +168,30 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
-            },        
+            },      
+             CompanyContactListComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+
+                if($accessPresentation->isAllowed(CompanyContactsListComponent::class, AccessPresentationEnum::EDIT)) {
+                    /** @var CompanyListViewModel $viewModel */
+                    $component = new CompanyContactsListComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyContactsListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactListEditable')));
+                } elseif($accessPresentation->isAllowed(CompanyContactsListComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    /** @var CompanyListViewModel $viewModel */
+                    $component = new CompanyContactsListComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyContactsListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactList')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },              
+                    
                     
         ####
         # Element komponenty - vždy zobrazeny
@@ -334,6 +364,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyAddressRepo::class),                       
                     );
             },
+            CompanyContactsListViewModel::class => function(ContainerInterface $c) {
+                return new CompanyContactsListViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class),
+                        $c->get(CompanyContactRepo::class),                        
+                    );
+            },        
                     
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();

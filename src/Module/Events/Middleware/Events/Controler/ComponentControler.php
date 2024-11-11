@@ -12,6 +12,9 @@ use Access\Enum\AccessActionEnum;
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;
 
+use Component\View\ComponentCompositeInterface;
+use Component\ViewModel\ViewModelInterface;
+
 ####################
 
 use Pes\Text\Html;
@@ -38,10 +41,34 @@ class ComponentControler extends PresentationFrontControlerAbstract {
     
     ### action metody ###############
 
-    public function component(ServerRequestInterface $request, $name) {
+    public function serviceComponent(ServerRequestInterface $request, $name) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
+                $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
+                if($this->container->has($service)) {
+                    $view = $this->container->get($service);
+                } else {
+                    $view = $this->errorView($request, "Component $service is not defined (configured) in container.");                    
+                }
+            } else {
+                $view = $this->errorView($request, "Component $name undefined in configuration of context service map.");
+            }
+        } else {
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }
+        return $this->createStringOKResponseFromView($view);
+    }
+
+    public function component(ServerRequestInterface $request, $name, $id=null) {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $view = $this->container->get($name);
+                /** @var ComponentCompositeInterface $view */
+                $viewModel = $view->getData();
+                /** @var ViewModelInterface $viewModel */
+                if (isset($id) AND isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
+                    $viewModel->appendData(['requestedId' => $id]);
+                }
             } else {
                 $view = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
             }

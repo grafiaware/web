@@ -168,6 +168,7 @@ class ApiRegistrator {
 
         #### ComponentControler ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/component/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/component/:name/:id'));
         
         #### RepesentationControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representation'));

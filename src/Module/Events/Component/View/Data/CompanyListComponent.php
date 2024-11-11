@@ -23,8 +23,8 @@ class CompanyListComponent extends ComponentCompositeAbstract {
     public static function getComponentPermissions(): array {
         return [
             RoleEnum::EVENTS_ADMINISTRATOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-            RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => static::class],
-            RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class],
         ];
     }
 }

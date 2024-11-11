@@ -14,20 +14,7 @@ use Pes\Text\Html;
             </div>     
         
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/company/company.php',  $companies)  ?>
-                <?php
-                if($editable) {
-                ?>
-                <div class="active title">
-                    <i class="dropdown icon"></i>
-                    Přidej firmu
-                </div>  
-                <div class="active content">     
-                    <?= $this->insert( __DIR__.'/company/company.php',['editable' => $editable]) ?>                                                                                 
-                </div> 
-                <?php
-                }
-                ?>                
+                <?= $this->repeat(__DIR__.'/company/company.php',  $companies)  ?>               
             </div>            
     </div>
 
