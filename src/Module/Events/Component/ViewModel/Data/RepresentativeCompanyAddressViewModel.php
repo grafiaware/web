@@ -2,6 +2,8 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelInterface;
+
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
@@ -21,7 +23,7 @@ use ArrayIterator;
 /**
  * 
  */
-class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements RepresentativeCompanyAddressViewModellInterface {
+class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements ViewModelInterface {
 
     private $status;       
     private $companyRepo;

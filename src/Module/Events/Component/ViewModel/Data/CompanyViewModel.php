@@ -8,8 +8,6 @@ use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Entity\CompanyInterface;
 
-use Access\Enum\RoleEnum;
-
 use ArrayIterator;
 
 /**
@@ -17,7 +15,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyListViewModel extends ViewModelAbstract implements ViewModelInterface {
+class CompanyViewModel extends ViewModelAbstract implements ViewModelInterface {
 
     private $status;  
     
@@ -27,23 +25,23 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelInterfa
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo
             ) {
+        parent::__construct();
         $this->status = $status;
         $this->companyRepo = $companyRepo;
     }
 
-    public function getIterator() {
-        $companies=[];     
-        foreach ($this->companyRepo->findAll() as $company) {
-            /** @var CompanyInterface $company */
-            $companies[] = [
-                'companyId' => $company->getId(),
-                'name' =>  $company->getName()
-                ];
-        }
-
-        $array = [
-            'companies' => $companies
-        ];
-        return new ArrayIterator($array);
+    public function getIterator() {     
+        $companyArray = [];
+        if ($this->hasId()) {
+            $company = $this->companyRepo->get($this->getId());
+            if (isset($company)) {
+                /** @var CompanyInterface $company */
+                $companyArray = [
+                    'companyId' => $company->getId(),
+                    'name' =>  $company->getName()
+                    ];
+            }
+        } 
+        return new ArrayIterator($companyArray);
     }
 }

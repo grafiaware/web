@@ -18,7 +18,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class CompanyListComponent extends ComponentCollectionAbstract {
+class CompanyComponent extends ComponentCollectionAbstract {
 
     public static function getComponentPermissions(): array {
         return [

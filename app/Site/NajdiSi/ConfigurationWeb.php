@@ -19,6 +19,7 @@ use Red\Component\View\Manage\PresentationActionComponent;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 use Events\Component\View\Data\CompanyListComponent;
+use Events\Component\View\Data\CompanyComponent;
 use Events\Component\View\Data\CompanyContactsListComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
@@ -94,6 +95,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'logs.render' => 'Render.log',
             'logs.type' => FileLogger::REWRITE_LOG,
             'templates' => [
+                // common layout templates
                 'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
 //                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
@@ -105,21 +107,12 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
                 'companyListEditable' => self::WEB_TEMPLATES_SITE.'events/company-list-editable.php',
                 'companyList' => self::WEB_TEMPLATES_SITE.'events/company-list.php',
+                'companyEditable' => self::WEB_TEMPLATES_SITE.'events/company/company-editable.php',
+                'company' => self::WEB_TEMPLATES_SITE.'events/company/company.php',
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 'companyContactList' => self::WEB_TEMPLATES_SITE.'events/company-contact-list.php',
                 'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/company-contact-list-editable.php',
             ],
-            'services' => [
-                'flash' => FlashComponent::class,
-                'login' => LoginComponent::class,
-                'logout' => LogoutComponent::class,
-                'register' => RegisterComponent::class,
-                'presentationAction' => PresentationActionComponent::class,
-                'representativeAction' => RepresentativeActionComponent::class,
-                'infoBoard' => InfoBoardComponent::class,
-                'companyList' => CompanyListComponent::class,
-                'companyContactList' => CompanyContactsListComponent::class,
-            ]
         ];
     }
     /**

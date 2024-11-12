@@ -23,8 +23,10 @@ use Pes\View\Template\PhpTemplate;
 use Component\View\ElementComponent;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
+
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Events\Component\View\Data\CompanyListComponent;
+use Events\Component\View\Data\CompanyComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactsListComponent;
 
@@ -32,6 +34,7 @@ use Events\Component\View\Data\CompanyContactsListComponent;
 use Component\ViewModel\StatusViewModel;
 use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
 use Events\Component\ViewModel\Data\CompanyListViewModel;
+use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
 use Events\Component\ViewModel\Data\CompanyContactsListViewModel;
 
@@ -100,6 +103,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyList' => CompanyListComponent::class,
             'representativeAction' => RepresentativeActionComponent::class,
             'companyContactList' => CompanyContactsListComponent::class,
+            'company' => CompanyComponent::class,
             //'companyAddressList' => Company,
         ];
     }
@@ -132,7 +136,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             #### Data komponenty
-            CompanyListComponent::class => function(ContainerInterface $c) {
+            CompanyListComponent::class => function(ContainerInterface $c) {            
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
@@ -151,7 +155,28 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
-            },            
+            },
+            CompanyComponent::class => function(ContainerInterface $c) {
+                $component = new CompanyComponent($c->get(ComponentConfiguration::class));
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+
+                if($accessPresentation->isAllowed(CompanyComponent::class, AccessPresentationEnum::EDIT)) {                   
+                    $component = new CompanyComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyEditable')));
+                } elseif($accessPresentation->isAllowed(CompanyComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new CompanyComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('company')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
             RepresentativeCompanyAddressComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -354,6 +379,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),                        
                     );
             },
+            CompanyViewModel::class => function(ContainerInterface $c) {
+                return new CompanyViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class),                        
+                    );
+            },                    
             RepresentativeCompanyAddressViewModel::class => function(ContainerInterface $c) {
                 return new RepresentativeCompanyAddressViewModel(
                         $c->get(StatusViewModel::class),

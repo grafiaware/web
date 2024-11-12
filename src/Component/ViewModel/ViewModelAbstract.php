@@ -8,6 +8,8 @@
 
 namespace Component\ViewModel;
 
+use Component\ViewModel\ViewModelInterface;
+
 use Pes\Type\ContextData;
 
 /**
@@ -15,6 +17,34 @@ use Pes\Type\ContextData;
  *
  * @author pes2704
  */
-class ViewModelAbstract extends ContextData {
-    //put your code here
+class ViewModelAbstract extends ContextData implements ViewModelInterface {
+    
+    private $id;
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @param type $id
+     */
+    public function setId($id) {
+        $this->id = $id;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return bool
+     */
+    public function hasId(): bool {
+        return isset($this->id);
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return mixed
+     */
+    public function getId() {
+        return $this->id ?? null;
+    }
 }

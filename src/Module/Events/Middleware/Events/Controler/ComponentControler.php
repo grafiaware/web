@@ -5,6 +5,9 @@ use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+// access
+use Access\AccessPresentation;
+use Access\AccessPresentationInterface;
 // enum
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
@@ -13,7 +16,10 @@ use Access\Enum\AccessActionEnum;
 use Pes\View\Renderer\ImplodeRenderer;
 
 use Component\View\ComponentCompositeInterface;
+use Component\View\ComponentCollectionInterface;
 use Component\ViewModel\ViewModelInterface;
+
+
 
 ####################
 
@@ -30,6 +36,8 @@ use Pes\View\View;
  */
 class ComponentControler extends PresentationFrontControlerAbstract {
 
+    const LIST_COMPONENT_NAME_POSTFIX = 'List';
+    
     protected function getActionPermissions(): array {
         
         // je jen jeden ConponentControler, proto mají VISITOR i REPRESENTATIVE stejná oprávnění ke všem komponentům
@@ -59,16 +67,10 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($view);
     }
 
-    public function component(ServerRequestInterface $request, $name, $id=null) {
+    public function componentList(ServerRequestInterface $request, $name) {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $view = $this->container->get($name);
-                /** @var ComponentCompositeInterface $view */
-                $viewModel = $view->getData();
-                /** @var ViewModelInterface $viewModel */
-                if (isset($id) AND isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
-                    $viewModel->appendData(['requestedId' => $id]);
-                }
             } else {
                 $view = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
             }
@@ -76,6 +78,25 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             $view =  $this->getNonPermittedContentView(AccessActionEnum::GET);
         }
         return $this->createStringOKResponseFromView($view);
+    }
+
+    public function component(ServerRequestInterface $request, $name, $id) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($name);
+                /** @var ComponentCompositeInterface $component */
+                $viewModel = $component->getData();
+                /** @var ViewModelInterface $viewModel */
+                if (isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
+                    $viewModel->setId($id);
+                }
+            } else {
+                $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
+            }
+        } else {
+            $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }           
+        return $this->createStringOKResponseFromView($component);
     }
     
 ###################
