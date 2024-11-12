@@ -37,7 +37,7 @@ class CompanyContactsListViewModel extends ViewModelAbstract implements CompanyC
         $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
         
         $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) : false;
-        if (isset($representativeFromStatus)) {   
+       
             /** @var CompanyInterface $company */ 
             $company = $this->companyRepo->get($requestedId);            
 
@@ -64,17 +64,7 @@ class CompanyContactsListViewModel extends ViewModelAbstract implements CompanyC
             'name' => $company->getName(),
             'editable' => $editable,
             ];
-         
-             
-             
-        }else {                    
-            $array = [
-                //'idCompany' => $company->getId(),
-                'companyContacts' =>[],
-                'name' => '',
-                'editable' => $editable,  
-            ];
-        }
+                                       
         return new ArrayIterator($array);
         
     }

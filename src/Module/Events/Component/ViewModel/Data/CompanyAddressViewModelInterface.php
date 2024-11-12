@@ -13,5 +13,5 @@ use Component\ViewModel\ViewModelInterface;
  *
  * @author pes2704
  */
-interface RepresentativeCompanyAddressViewModellInterface extends ViewModelInterface {
+interface CompanyAddressViewModelInterface extends ViewModelInterface {
 }

@@ -8,11 +8,9 @@ use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\CompanyAddressRepoInterface;
 use Events\Model\Entity\CompanyAddressInterface;
-
-
 use Events\Model\Entity\CompanyInterface;
 
-use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModelInterface;
+use Events\Component\ViewModel\Data\CompanyAddressViewModelInterface;
 
 use Access\Enum\RoleEnum;
 
@@ -21,7 +19,7 @@ use ArrayIterator;
 /**
  * 
  */
-class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements RepresentativeCompanyAddressViewModelInterface {
+class CompanyAddressViewModel extends ViewModelAbstract implements CompanyAddressViewModelInterface {
 
     private $status;       
     private $companyRepo;
@@ -38,34 +36,37 @@ class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements
          
         $this->appendData($this->data());
     }
-       
-
-    private function data() {                                                         
+    
+    
+    private function data() {                        
+        // $editable = true;                            
+        $requestedId = $this->offsetGet('requestedId');
         $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
-
-        if (isset($representativeFromStatus)) {   
-            $editable = true;
-            $representativeCompanyId = $representativeFromStatus->getCompanyId();
+        
+        $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) : false;                            
+        
             /** @var CompanyInterface $company */ 
-            $company = $this->companyRepo->get($representativeCompanyId);            
+        $company = $this->companyRepo->get($requestedId);   
+                   
             /** @var CompanyAddressInterface $companyAddressEntity */
-            $companyAddressEntity = $this->companyAddressRepo->get($representativeCompanyId);
-            if (isset($companyAddressEntity)) {           
+        $companyAddressEntity = $this->companyAddressRepo->get($requestedId);
+        if (isset($companyAddressEntity)) {
                 $companyAddress = [
-                'editable' => $editable,                    
+                    'editable' => $editable,  
+                    
                     'companyId'=> $companyAddressEntity->getCompanyId(),
                     'name'   => $companyAddressEntity->getName(),
                     'lokace' => $companyAddressEntity->getLokace(),
                     'psc'    => $companyAddressEntity->getPsc(),
                     'obec'   => $companyAddressEntity->getObec()
                     ];
-            }else {
+        }else {
                 $companyAddress = [
-                'editable' => $editable,                    
+                    'editable' => $editable,                    
+                    
                     'companyId_proInsert'=> $company->getId(),
                     ];
             }                   
-        }
        
         $array = [
             'companyAddress' => $companyAddress,
