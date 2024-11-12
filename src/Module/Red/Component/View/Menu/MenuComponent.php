@@ -2,7 +2,6 @@
 
 namespace Red\Component\View\Menu;
 
-use Pes\View\CollectionViewInterface;
 use Psr\Container\ContainerInterface;
 
 use Component\View\ComponentCompositeAbstract;
@@ -12,10 +11,6 @@ use Configuration\ComponentConfigurationInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Component\ViewModel\Menu\MenuViewModelInterface;
 use Red\Component\ViewModel\Menu\LevelViewModelInterface;
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
-use Red\Component\ViewModel\Menu\ItemViewModel;
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
-use Red\Component\ViewModel\Menu\DriverViewModel;
 
 use Red\Component\View\Menu\LevelComponent;
 use Red\Component\View\Menu\LevelComponentInterface;
@@ -133,7 +128,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         $itemComponentStack = [];
         $first = true;
         foreach ($subtreeNodeModels as $treeNodeModel) {
-            /** @var ItemViewModelInterface $treeNodeModel */
             $itemDepth = $treeNodeModel['realDepth'];
             if ($first) {
                 $this->rootRealDepth = $itemDepth;
@@ -159,7 +153,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     /**
      * Nový ItemComponent
      * 
-     * @param ItemViewModelInterface $itemViewModel
+     * @param array $treeNodeModel
      * @return ItemComponent
      */
     private function createItemComponent($treeNodeModel) {
@@ -179,10 +173,9 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
      * Nový DriverComponent
      * 
      * @param MenuItemInterface $menuItem
-     * @param type $editableMode
-     * @return DriverComponent
+     * @return DriverComponentInterface
      */
-    public function createDriverComponent(MenuItemInterface $menuItem) {   // PUBLIC pro volání z ComponentControler
+    public function createDriverComponent(MenuItemInterface $menuItem): DriverComponentInterface {   // PUBLIC pro volání z ComponentControler
         /** @var DriverComponent $driver */
         $driver = $this->container->get(DriverComponent::class);
         /** @var DriverServiceInterface $driverService */

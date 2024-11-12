@@ -6,20 +6,10 @@ use Component\ViewModel\StatusViewModel;
 
 use Red\Model\Entity\MenuItemInterface;
 
-use Red\Model\Entity\HierarchyAggregate;
 use Red\Model\Entity\HierarchyAggregateInterface;
-use Red\Model\Entity\MenuRootInterface;
 
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
-
-use Red\Component\ViewModel\Menu\ItemViewModelInterface;
-use Red\Component\ViewModel\Menu\DriverViewModel;
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
-
-use Red\Service\ItemApi\ItemApiServiceInterface;
-
-use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
 /**
  * Description of MenuViewModel
