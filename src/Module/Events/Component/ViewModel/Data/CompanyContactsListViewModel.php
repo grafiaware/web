@@ -34,38 +34,43 @@ class CompanyContactsListViewModel extends ViewModelAbstract implements ViewMode
     }
 
     public function getIterator() {
-        $requestedId = $this->getId();
+        $requestedId = $this->getIdentity();
         $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
-        
-        $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) : false;
-       
+        $addContact = isset($requestedId) 
+                ? (isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) 
+                : false) : isset($representativeFromStatus);           
+
+        if (isset($requestedId)) {
             /** @var CompanyInterface $company */ 
-            $company = $this->companyRepo->get($requestedId);            
-
+            $companies[] = $this->companyRepo->get($requestedId); 
+        } else {
+            $companies = $this->companyRepo->findAll();
+        }
+        $companiesArray = [];
+        /** @var CompanyContactInterface $cCEntity */
+        foreach ($companies as $company) {      
+            $companyContactEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $company->getId() ] );
+            $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$company->getId()) : false;
             $companyContacts=[];
-            $companyContactEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $requestedId ] );
-
-            /** @var CompanyContactInterface $cCEntity */
-            foreach ($companyContactEntities as $cCEntity) {               
-                $companyContacts[] = [
-                    'editable' => $editable,  
-
+            foreach ($companyContactEntities as $cCEntity) {           
+                $companiesArray[] = [
+                    'idCompany' => $company->getId(),
                     'companyContactId' => $cCEntity->getId(),
                     'companyId' => $cCEntity->getCompanyId(),
                     'name' =>  $cCEntity->getName(),
                     'phones' =>  $cCEntity->getPhones(),
                     'mobiles' =>  $cCEntity->getMobiles(),
-                    'emails' =>  $cCEntity->getEmails()
-                    ];
-            }            
-            
-            $array = [
-            'idCompany' => $company->getId(),
-            'companyContacts' => $companyContacts,
-            'name' => $company->getName(),
-            'editable' => $editable,
-            ];
-                                       
+                    'emails' =>  $cCEntity->getEmails(),
+                    'name' => $company->getName(),
+                    'editable' => $editable,                  
+                ];
+            }
+
+        }            
+
+        $array['companies'] = $companiesArray;
+        $array['addContact'] = $addContact;
+
         return new ArrayIterator($array);
         
     }

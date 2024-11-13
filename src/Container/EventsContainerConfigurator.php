@@ -106,7 +106,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'representativeAction' => RepresentativeActionComponent::class,
             'companyContactList' => CompanyContactsListComponent::class,
             'company' => CompanyComponent::class,
-            //'companyAddressList' => Company,
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
            
             'companyAddress' => CompanyAddressComponent::class,

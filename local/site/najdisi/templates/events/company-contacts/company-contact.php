@@ -7,7 +7,10 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 ?>
-
+        <div class="active title">
+            <i class="dropdown icon"></i>
+             Kontakty firmy :  <?= $name ?>   
+        </div> 
         <form class="ui huge form" action="" method="POST" >
 
             <div class="two fields">                        

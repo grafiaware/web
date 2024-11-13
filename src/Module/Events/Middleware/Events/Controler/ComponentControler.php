@@ -88,7 +88,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
                 if (isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
-                    $viewModel->setId($id);
+                    $viewModel->setIdentity($id);
                 }
             } else {
                 $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
@@ -107,7 +107,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
                 if (isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
-                    $viewModel->setId($parentId);
+                    $viewModel->setIdentity($parentId);
                 }
             } else {
                 $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    

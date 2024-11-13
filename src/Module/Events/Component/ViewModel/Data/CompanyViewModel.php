@@ -32,8 +32,8 @@ class CompanyViewModel extends ViewModelAbstract implements ViewModelInterface {
 
     public function getIterator() {     
         $companyArray = [];
-        if ($this->hasId()) {
-            $company = $this->companyRepo->get($this->getId());
+        if ($this->hasIdentity()) {
+            $company = $this->companyRepo->get($this->getIdentity());
             if (isset($company)) {
                 /** @var CompanyInterface $company */
                 $companyArray = [
