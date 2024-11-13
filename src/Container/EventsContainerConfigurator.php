@@ -29,6 +29,7 @@ use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\CompanyComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactsListComponent;
+use Events\Component\View\Data\CompanyAddressComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
@@ -37,6 +38,7 @@ use Events\Component\ViewModel\Data\CompanyListViewModel;
 use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
 use Events\Component\ViewModel\Data\CompanyContactsListViewModel;
+use Events\Component\ViewModel\Data\CompanyAddressViewModel;
 
 // controler
 use Events\Middleware\Events\Controler\ComponentControler;
@@ -105,6 +107,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyContactList' => CompanyContactsListComponent::class,
             'company' => CompanyComponent::class,
             //'companyAddressList' => Company,
+            'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
+           
+            'companyAddress' => CompanyAddressComponent::class,
         ];
     }
     
@@ -193,6 +198,28 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },      
+                                        
+            CompanyAddressComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);              
+                                
+                if($accessPresentation->isAllowed(CompanyAddressComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component = new CompanyAddressComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyAddressViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyAddressEditable')));
+                } elseif($accessPresentation->isAllowed(CompanyAddressComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new CompanyAddressComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyAddressViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyAddress')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;           
+            },      
+                   
             CompanyContactsListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -398,7 +425,14 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),
                         $c->get(CompanyContactRepo::class),                        
                     );
-            },        
+            },    
+            CompanyAddressViewModel::class => function(ContainerInterface $c) {
+                return new CompanyAddressViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class),
+                        $c->get(CompanyAddressRepo::class),                        
+                    );
+            },            
                     
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();

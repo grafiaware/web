@@ -9,18 +9,6 @@
 namespace Site\NajdiSi;
 
 use Application\WebAppFactory;
-use Red\Component\View\Generated\LanguageSelectComponent;
-use Red\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\PresentationActionComponent;
-use Events\Component\View\Manage\RepresentativeActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
-use Events\Component\View\Data\CompanyListComponent;
-use Events\Component\View\Data\CompanyComponent;
-use Events\Component\View\Data\CompanyContactsListComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -106,12 +94,15 @@ class ConfigurationWeb extends ConfigurationConstants {
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
                 'companyListEditable' => self::WEB_TEMPLATES_SITE.'events/company-list-editable.php',
-                'companyList' => self::WEB_TEMPLATES_SITE.'events/company-list.php',
+                'companyList' => self::WEB_TEMPLATES_SITE.'events/company-list.php',                
                 'companyEditable' => self::WEB_TEMPLATES_SITE.'events/company/company-editable.php',
-                'company' => self::WEB_TEMPLATES_SITE.'events/company/company.php',
-                'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
+                'company' => self::WEB_TEMPLATES_SITE.'events/company/company.php',     
                 'companyContactList' => self::WEB_TEMPLATES_SITE.'events/company-contact-list.php',
-                'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/company-contact-list-editable.php',
+                'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/company-contact-list-editable.php',                
+                'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
+                
+                'companyAddress' => self::WEB_TEMPLATES_SITE.'events/company-address.php',
+                'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/company-address-editable.php',     
             ],
         ];
     }

@@ -98,6 +98,25 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }           
         return $this->createStringOKResponseFromView($component);
     }
+
+    public function subComponentList(ServerRequestInterface $request, $name, $parentId) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($name);
+                /** @var ComponentCompositeInterface $component */
+                $viewModel = $component->getData();
+                /** @var ViewModelInterface $viewModel */
+                if (isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
+                    $viewModel->setId($parentId);
+                }
+            } else {
+                $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
+            }
+        } else {
+            $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }           
+        return $this->createStringOKResponseFromView($component);
+    }
     
 ###################
     private function errorView(ServerRequestInterface $request, $message = '') {

@@ -16,3 +16,15 @@ echo Html::tag('div',
             'data-red-apiuri'=>"events/v1/component/company/10",
         ]
     );
+echo Html::tag('div', 
+        [
+            'class'=>'cascade',
+            'data-red-apiuri'=>"events/v1/component/companyAddress/10",
+        ]
+    );
+echo Html::tag('div', 
+        [
+            'class'=>'cascade',
+            'data-red-apiuri'=>"events/v1/subcomponent/companyContactList/10",
+        ]
+    );

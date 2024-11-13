@@ -8,12 +8,9 @@
 
 namespace Red\Component\ViewModel\Generated;
 
-use Red\Component\ViewModel\StatusViewModel;
+use Component\ViewModel\ViewModelAbstract;
 
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-
+use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemApiRepo;
 
 use Red\Model\Entity\MenuItemApiInterface;
@@ -23,7 +20,13 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class StaticItemViewModel extends StatusViewModel implements StaticItemViewModelInterface {
+class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewModelInterface {
+
+    /**
+     * 
+     * @var StatusViewModelInterface
+     */
+    private $status;
 
     /**
      * @var MenuItemApiRepo
@@ -31,12 +34,10 @@ class StaticItemViewModel extends StatusViewModel implements StaticItemViewModel
     private $menuItemTypeRepo;
 
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
+            StatusViewModelInterface $status,
             MenuItemApiRepo $menuItemTypeRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
+        $this->status = $status;
         $this->menuItemTypeRepo = $menuItemTypeRepo;
     }
 
@@ -46,7 +47,7 @@ class StaticItemViewModel extends StatusViewModel implements StaticItemViewModel
      * @return MenuItemInterface|null
      */
     public function getMenuItem(): ?MenuItemInterface {
-        return $this->statusPresentationRepo->get()->getMenuItem();
+        return $this->status->getPresentedMenuItem();
     }
 
     public function getIterator(): \Traversable {

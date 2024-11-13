@@ -17,13 +17,7 @@ use Pes\Text\Html;
             <div class="active content">      
                 <?= $this->repeat(__DIR__.'/company-contacts/company-contact.php',  $companyContacts)  ?>
 
-                <div class="active title">
-                    <i class="dropdown icon"></i>
-                    Přidej kontakt firmy
-                </div>  
-                <div class="active content">     
-                    <?= $this->insert( __DIR__.'/company-contacts/company-contact.php', ['companyId' => $idCompany] ) ?>                                                                                 
-                </div>                  
+                               
             </div>            
     </div>
     </div>
