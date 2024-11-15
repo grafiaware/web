@@ -87,7 +87,6 @@ function initLoadedElements() {
     //modalni okno pro prihlaseni
     $('.btn-login').click(function(){
         $('.page.modal.login').modal({
-            closable: false,
             useCSS   : true,
         })
         .modal('show');
@@ -95,7 +94,6 @@ function initLoadedElements() {
     //modalni okno pro registraci
     $('.btn-register').click(function(){
         $('.page.modal.register').modal({
-            closable: false,
             useCSS   : true,
         })
         .modal('show');
@@ -103,7 +101,6 @@ function initLoadedElements() {
     //modalni okno pro vyberFirmy
     $('.btn-vyberFirmy').click(function(){
         $('.page.modal.vyberFirmy').modal({
-            closable: false,
             useCSS   : true,
         })
         .modal('show');
