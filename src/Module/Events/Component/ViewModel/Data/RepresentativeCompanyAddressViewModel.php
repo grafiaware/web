@@ -13,7 +13,6 @@ use Events\Model\Entity\CompanyAddressInterface;
 
 
 use Events\Model\Entity\CompanyInterface;
-use Component\ViewModel\ViewModelInterface;
 
 use ArrayIterator;
 
