@@ -20,7 +20,7 @@ use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
 
 // controller
-use Red\Middleware\Redactor\Controler\UserActionControler;
+use Red\Middleware\Redactor\Controler\PresentationActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
 use Red\Middleware\Redactor\Controler\ItemEditControler;
 use Red\Middleware\Redactor\Controler\ItemActionControler;
@@ -95,8 +95,8 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions(): iterable {
         return [
-            UserActionControler::class => function(ContainerInterface $c) {
-                return new UserActionControler(
+            PresentationActionControler::class => function(ContainerInterface $c) {
+                return new PresentationActionControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),

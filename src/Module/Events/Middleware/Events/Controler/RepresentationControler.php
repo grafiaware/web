@@ -27,7 +27,7 @@ use Status\Model\Enum\FlashSeverityEnum;
 class RepresentationControler extends FrontControlerAbstract {
     
     const FORM_REPRESENTATION_COMPANY_ID = "form_representation_company_id";
-    
+    const FORM_REPRESENTATION_EDIT_DATA = "form_representation_edit_data";
     private $representativeRepo;
 
     public function __construct(
@@ -43,6 +43,7 @@ class RepresentationControler extends FrontControlerAbstract {
     public function setRepresentation(ServerRequestInterface $request) {
         $loginLoginName = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
         $companyId = (new RequestParams())->getParsedBodyParam($request, self::FORM_REPRESENTATION_COMPANY_ID);
+        $editData = (new RequestParams())->getParsedBodyParam($request, self::FORM_REPRESENTATION_EDIT_DATA);
         
         if (isset($loginLoginName) AND isset($companyId)) {
             $representative = $this->representativeRepo->get($loginLoginName, $companyId);
@@ -51,6 +52,7 @@ class RepresentationControler extends FrontControlerAbstract {
             // nastavení aktuálního repesentative ve statusu
             $repreActions = $this->statusSecurityRepo->get()->getRepresentativeActions();
             $repreActions->setRepresentative($representative);
+            $repreActions->setDataEditable($editData);
             $this->addFlashMessage("set repsentative company '$companyId'", FlashSeverityEnum::INFO);
         } else {
             $this->addFlashMessage("unable to set representation of company '$companyId'", FlashSeverityEnum::WARNING);            

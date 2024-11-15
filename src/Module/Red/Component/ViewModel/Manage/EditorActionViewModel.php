@@ -3,7 +3,7 @@ namespace Red\Component\ViewModel\Manage;
 
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
-use Red\Component\ViewModel\Manage\PresentationActionViewModelInterface;
+use Red\Component\ViewModel\Manage\EditorActionViewModelInterface;
 
 use ArrayIterator;
 
@@ -12,7 +12,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class PresentationActionViewModel extends ViewModelAbstract implements PresentationActionViewModelInterface {
+class EditorActionViewModel extends ViewModelAbstract implements EditorActionViewModelInterface {
 
     private $statusViewModel;
 
@@ -22,10 +22,11 @@ class PresentationActionViewModel extends ViewModelAbstract implements Presentat
     }
 
     public function getIterator() {
-        return new ArrayIterator([
+        $arr =[
                         'editContent' => $this->statusViewModel->presentEditableContent(),
                         'loginName' => $this->statusViewModel->getUserLoginName()
-        ]);
+        ];
+        return new ArrayIterator($arr);
     }
 
 }

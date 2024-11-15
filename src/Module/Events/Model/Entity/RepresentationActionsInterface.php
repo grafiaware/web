@@ -13,4 +13,11 @@ interface RepresentationActionsInterface extends SecurityPersistableEntityInterf
     
     public function setRepresentative(RepresentativeInterface $representative);
     public function getRepresentative(): ?RepresentativeInterface;
+    /**
+     * Nastaví informaci, že prezentace je přepnuta do modu editace článku
+     *
+     * @return void
+     */
+    public function setDataEditable($edit): void;    
+    public function getDataEditable(): bool;    
 }

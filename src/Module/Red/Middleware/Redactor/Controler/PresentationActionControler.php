@@ -30,10 +30,9 @@ use Red\Middleware\Redactor\Controler\Exception\UnexpectedLanguageException;
  *
  * @author pes2704
  */
-class UserActionControler extends FrontControlerAbstract {
+class PresentationActionControler extends FrontControlerAbstract {
 
-    const FORM_USER_ACTION_EDIT_MODE = 'edit_mode';
-    const FORM_USER_ACTION_EDIT_CONTENT = 'edit_content';
+    const FORM_PRESENTATION_EDIT_MODE = 'edit_mode';
 
     private $languageRepo;
     
@@ -62,16 +61,16 @@ class UserActionControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function setEditMode(ServerRequestInterface $request) {
-        $edit = (bool) (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MODE);
+    public function setEditorAction(ServerRequestInterface $request) {
+        $edit = (bool) (new RequestParams())->getParsedBodyParam($request, self::FORM_PRESENTATION_EDIT_MODE);
         // SMAZÁNÍ ItemActions přihlášeného uživatele z databáze při vypnutí editačního režimu
         if (!$edit) {
             $loginName = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
             $this->itemActionService->removeUserItemActions($loginName);
         }
         // nastavení aktuálního editačního režimu ve statusu
-        $actions = $this->statusSecurityRepo->get();
-        $actions->getEditorActions()->setEditableContent($edit);
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $statusSecurity->getEditorActions()->setEditableContent($edit);
         $this->addFlashMessage("set editable content $edit", FlashSeverityEnum::INFO);
 
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?

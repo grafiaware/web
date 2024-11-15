@@ -15,7 +15,7 @@ use Web\Component\View\Flash\FlashComponent;
 use Red\Component\View\Manage\{
     LoginComponent,
     LogoutComponent,
-    PresentationActionComponent
+    EditorActionComponent
 };
 use \Pes\View\Renderer\ClassMap\ClassMap;
 
