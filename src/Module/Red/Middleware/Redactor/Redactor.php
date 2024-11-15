@@ -21,7 +21,7 @@ use Container\DbUpgradeContainerConfigurator;
 use Red\Middleware\Redactor\Controler\ComponentControler;
 use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
-use Red\Middleware\Redactor\Controler\UserActionControler;
+use Red\Middleware\Redactor\Controler\PresentationActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
 use Red\Middleware\Redactor\Controler\MenuControler;
 use Red\Middleware\Redactor\Controler\ItemEditControler;
@@ -206,14 +206,14 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         #### UserActionControler ####
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/presentation/language', function(ServerRequestInterface $request) {
-                /** @var UserActionControler $ctrl */
-                $ctrl = $this->container->get(UserActionControler::class);
+                /** @var PresentationActionControler $ctrl */
+                $ctrl = $this->container->get(PresentationActionControler::class);
                 return $ctrl->setLangCode($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_mode', function(ServerRequestInterface $request) {
-                /** @var UserActionControler $ctrl */
-                $ctrl = $this->container->get(UserActionControler::class);
-                return $ctrl->setEditMode($request);
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/presentation/editoraction', function(ServerRequestInterface $request) {
+                /** @var PresentationActionControler $ctrl */
+                $ctrl = $this->container->get(PresentationActionControler::class);
+                return $ctrl->setEditorAction($request);
         });
 
         #### ItemActionControler ####

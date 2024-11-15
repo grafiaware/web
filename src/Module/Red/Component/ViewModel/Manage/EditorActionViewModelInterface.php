@@ -7,6 +7,6 @@ use Component\ViewModel\ViewModelInterface;
  *
  * @author pes2704
  */
-interface PresentationActionViewModelInterface extends ViewModelInterface {
+interface EditorActionViewModelInterface extends ViewModelInterface {
     //put your code here
 }

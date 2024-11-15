@@ -137,12 +137,13 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         ####################################
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
+
         $this->routeGenerator->addRouteForAction('POST', "/events/v1/representation", function(ServerRequestInterface $request) {
             /** @var RepresentationControler $ctrl */
             $ctrl = $this->container->get(RepresentationControler::class);
             return $ctrl->setRepresentation($request);
         });
-        
+       
         $this->routeGenerator->addRouteForAction('POST', "/events/v1/enroll", function(ServerRequestInterface $request) {
             /** @var EventControler $ctrl */
             $ctrl = $this->container->get(EventControler::class);

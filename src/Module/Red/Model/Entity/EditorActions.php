@@ -58,13 +58,13 @@ class EditorActions extends PersistableEntityAbstract implements EditorActionsIn
 //    }
 
     /**
-     * Nastaví informaci, že prezentace je přepnuta do modu editace článku
+     * Nastaví informaci, že prezentace je přepnuta do modu editace
      *
-     * @param mixed $editPaper Metoda převede zadanou hodnotu na boolen hodnotu.
+     * @param mixed $editContent Metoda převede zadanou hodnotu na boolean hodnotu.
      * @return EditorActionsInterface
      */
-    public function setEditableContent($editPaper): EditorActionsInterface {
-        $this->editableContent = boolval($editPaper);
+    public function setEditableContent($editContent): EditorActionsInterface {
+        $this->editableContent = boolval($editContent);
         return $this;
     }
     

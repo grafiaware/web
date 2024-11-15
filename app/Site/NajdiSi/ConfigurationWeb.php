@@ -88,7 +88,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
 //                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
                 'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
-                'useraction' => self::WEB_TEMPLATES_COMMON.'layout/status/userAction.php',
+                'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
                 'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 // site layout templates

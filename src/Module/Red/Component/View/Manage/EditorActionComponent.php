@@ -21,7 +21,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class PresentationActionComponent extends ComponentCompositeAbstract {
+class EditorActionComponent extends ComponentCompositeAbstract {
 
     /**
      * @var StatusViewModelInterface

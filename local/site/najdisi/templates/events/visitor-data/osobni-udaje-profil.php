@@ -123,7 +123,8 @@ $email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorDocumentCv) AND $visitorDocumentCv->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
-                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="10000000">
+                            <p>Akceptované typy souborů: <?= $accept ?> Max. velikost souboru: 10 MB.</p>
                         </div>
                         <div class="field margin">
                             <button class="ui primary button" type="submit">Uložit životopis</button>
@@ -134,7 +135,8 @@ $email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorDocumentLetter) AND $visitorDocumentLetter->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
-                            <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                            <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="10000000">
+                            <p>Akceptované typy souborů: <?= $accept ?> Max. velikost souboru: 10 MB.</p>
                         </div>
                         <div class="field margin">
                             <button class="ui primary button" type="submit">Uložit dopis</button>

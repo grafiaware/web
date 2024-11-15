@@ -80,7 +80,7 @@ use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuCutCopyEscapeRenderer;
 use Red\Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 
-use Red\Component\View\Manage\PresentationActionComponent;
+use Red\Component\View\Manage\EditorActionComponent;
 
 use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
@@ -112,7 +112,7 @@ use Red\Component\ViewModel\Menu\LevelViewModel;
 use Red\Component\ViewModel\Menu\ItemViewModel;
 use Red\Component\ViewModel\Menu\DriverViewModel;
 
-use Red\Component\ViewModel\Manage\PresentationActionViewModel;
+use Red\Component\ViewModel\Manage\EditorActionViewModel;
 
 use Web\Component\ViewModel\Flash\FlashViewModel;
 
@@ -218,7 +218,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases(): iterable {
         return [
             AccountInterface::class => Account::class,
-            'presentationAction' => PresentationActionComponent::class,
+            'presentationAction' => EditorActionComponent::class,
         ];
     }
 
@@ -503,12 +503,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     }
                     $component->setRendererContainer($c->get('rendererContainer'));  
                     return $component;
-                },
-                    
-                    
+                },                    
         ####
         # Element komponenty - vždy zobrazeny
-        #
         #
             ElementComponent::class => function(ContainerInterface $c) {
                 $component = new ElementComponent($c->get(ComponentConfiguration::class));
@@ -520,18 +517,18 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-## layout komponenty
-#
-
-            PresentationActionComponent::class => function(ContainerInterface $c) {
+        ## 
+        # layout komponenty
+        #
+            EditorActionComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                if($accessPresentation->isAllowed(PresentationActionComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new PresentationActionComponent($c->get(ComponentConfiguration::class));
-                    $component->setData($c->get(PresentationActionViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('useraction')));
+                if($accessPresentation->isAllowed(EditorActionComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new EditorActionComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(EditorActionViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('editoraction')));
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -543,7 +540,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
 
         ####
         # authored komponenty
-        #
         #
             // komponent (t.j. view) - před renderování beforeRenderingHook() vytvoří a připojí objekt template podle vlastností authored komponentu (Paper, Multipage)
             // data (viewModel) "zdědí" od komponentu, do kterého bude vložen - je typu InheritDataViewInterface
@@ -991,8 +987,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             AccessPresentation::class => function(ContainerInterface $c) {
                 return new AccessPresentation($c->get(StatusViewModel::class));
             },
-            PresentationActionViewModel::class => function(ContainerInterface $c) {
-                return new PresentationActionViewModel(
+            EditorActionViewModel::class => function(ContainerInterface $c) {
+                return new EditorActionViewModel(
                         $c->get(StatusViewModel::class)
                     );
             },

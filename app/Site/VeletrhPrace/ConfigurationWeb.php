@@ -15,7 +15,7 @@ use Web\Component\View\Flash\FlashComponent;
 use Auth\Component\View\LoginComponent;
 use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\PresentationActionComponent;
+use Red\Component\View\Manage\EditorActionComponent;
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
 
@@ -207,7 +207,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                     'modalLogin' => LoginComponent::class,
                     'modalLogout' => LogoutComponent::class,
                     'modalRegister' => RegisterComponent::class,
-                    'modalUserAction' => PresentationActionComponent::class,
+                    'modalUserAction' => EditorActionComponent::class,
                     'modalRepresentativeAction' => RepresentativeActionComponent::class,
                     'info' => InfoBoardComponent::class,
                 ],

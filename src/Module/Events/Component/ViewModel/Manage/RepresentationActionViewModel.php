@@ -37,14 +37,17 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
 
     private function data() {
         $representativeActions = $this->status->getRepresentativeActions();
-        $repsesentative = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
+        if (isset($representativeActions)) {
+            $repsesentative =  $representativeActions->getRepresentative();
+            $editData = $representativeActions->getDataEditable();
+        }
         $placeholderKey = '';
-        $placeholderText = 'Vyberte zastupovanou firmu';
         $array = [
             'loginName' => $this->status->getUserLoginName(),
-            'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderKey, $placeholderText),
+            'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderKey, 'Vyberte zastupovanou firmu'),
             'selectedCompanyId' => isset($repsesentative) ? $repsesentative->getCompanyId() : null,
-            'placeholderValue' => $placeholderKey
+            'placeholderValue' => $placeholderKey,
+            'editData' => $editData
         ];
         return $array;
     }
