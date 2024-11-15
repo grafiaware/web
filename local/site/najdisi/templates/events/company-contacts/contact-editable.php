@@ -13,11 +13,7 @@ use Pes\Text\Html;
         $readonly = 'readonly';
         $disabled = 'disabled';
     }   
-?>
-        <div class="active title">
-            <i class="dropdown icon"></i>
-             Kontakty firmy :  <?= $name ?>   
-        </div>   
+?> 
         <form class="ui huge form" action="" method="POST" >
 
             <div class="two fields">                        
@@ -45,7 +41,7 @@ use Pes\Text\Html;
                     <?=
                      isset($companyContactId) ?
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact/". $companyContactId ."' > Uložit </button>" :
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact' > Uložit </button>" ;              
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact' > Uložit (+) </button>" ;              
                      
                      ?>                                                                                                                             
                     <?=
