@@ -10,6 +10,7 @@ use Events\Middleware\Events\Controler\RepresentationControler;
     </button>
 
     <div class="ui mini page modal transition hidden vyberFirmy">
+        <i class="white close icon"></i>
         <div class="content">
                 <p class="text velky zadne-okraje"><i class="user icon"></i><?= $loginName ?></p>
                 <form class="ui form centered" method="POST" action="events/v1/representation">
@@ -33,8 +34,10 @@ use Events\Middleware\Events\Controler\RepresentationControler;
                         formaction="events/v1/representation/edit_mode">
                         <i class="pencil alternate icon"></i>
                         <?= empty($edit) ? "Zapnout editaci údajů" : "Vypnout editaci údajů" ?>
-                    </button>                    -->
+                    </button>    
+-->
                 </form>
+                
         </div>
     </div>
 

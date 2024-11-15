@@ -1975,7 +1975,7 @@ select.ui.dropdown {
 *******************************/
 
 .prihlaseni .dropdown label {
-  font-size: 0.41666667em;
+  font-size: 17px;
   padding-left: 1.3em;
 }
 .prihlaseni .dropdown .input {
