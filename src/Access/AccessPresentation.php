@@ -44,6 +44,10 @@ class AccessPresentation implements AccessPresentationInterface {
      */
     public function isAllowed($resourceClassname, $presentationMode): bool {
         $mode = (new AccessPresentationEnum())($presentationMode);
+        return $this->allowedByRole($resourceClassname, $mode);
+    }
+    
+    private function allowedByRole($resourceClassname, $mode) {
         $isAllowed = false;
         $role = $this->statusViewModel->getUserRole();
         $logged = $this->statusViewModel->isUserLoggedIn();
@@ -52,22 +56,21 @@ class AccessPresentation implements AccessPresentationInterface {
         foreach ($activeRoles as $activeRole) {
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($mode, $permissions[$activeRole])) {
                 $permission = $permissions[$activeRole][$mode];
-                if (is_string($permission)) {
-                    $permittedResource = $permission;
-                } elseif($permission instanceof \Closure) {
-                    $permittedResource = $permission();
-                }
-                // autoload proběhne již při použití XXX::class
-                if (!class_exists($permittedResource)) {
-                    throw new ClassNotExistsException("Třída '$permittedResource' neexistuje.");
-                }                
-                $isAllowed = ($resourceClassname === $permittedResource) ? true : false;
+                if($permission instanceof \Closure) {
+                    $isAllowed = (bool) $permission();
+                } else {
+                    $isAllowed = (bool) $permission;
+                } 
                 if ($isAllowed) {
                     break;
                 }
             }
         }
         return $isAllowed;
+    }
+    
+    private function allowedByStatus($resourceClassname) {
+        $resourceClassname::getStatusPermissions();
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-
-use Pes\Text\Text;
-use Pes\Text\Html;
-
+/** @var PhpTemplateRendererInterface $this */
 ?>
 
     <div class="ui styled fluid accordion">   
@@ -14,7 +11,7 @@ use Pes\Text\Html;
             </div>     
         
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/company/company.php',  $companies)  ?>               
+                <?= $this->repeat(__DIR__.'/company.php',  $companies)  ?>               
             </div>            
     </div>
 

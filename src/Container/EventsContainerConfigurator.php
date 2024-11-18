@@ -25,10 +25,11 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 
 use Events\Component\View\Manage\RepresentativeActionComponent;
-use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\CompanyComponent;
+use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
-use Events\Component\View\Data\CompanyContactsListComponent;
+use Events\Component\View\Data\CompanyContactComponent;
+use Events\Component\View\Data\CompanyContactListComponent;
 use Events\Component\View\Data\CompanyAddressComponent;
 
 // component view model
@@ -37,7 +38,7 @@ use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
 use Events\Component\ViewModel\Data\CompanyListViewModel;
 use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
-use Events\Component\ViewModel\Data\CompanyContactsListViewModel;
+use Events\Component\ViewModel\Data\CompanyContactListViewModel;
 use Events\Component\ViewModel\Data\CompanyAddressViewModel;
 
 // controler
@@ -104,7 +105,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             'companyList' => CompanyListComponent::class,
             'representativeAction' => RepresentativeActionComponent::class,
-            'companyContactList' => CompanyContactsListComponent::class,
+            'companyContactList' => CompanyContactComponent::class,
             'company' => CompanyComponent::class,
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
            
@@ -219,18 +220,18 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;           
             },      
                    
-            CompanyContactsListComponent::class => function(ContainerInterface $c) {
+            CompanyContactComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                if($accessPresentation->isAllowed(CompanyContactsListComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component = new CompanyContactsListComponent($c->get(ComponentConfiguration::class));
-                    $component->setData($c->get(CompanyContactsListViewModel::class));
+                if($accessPresentation->isAllowed(CompanyContactComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component = new CompanyContactComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyContactListViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactListEditable')));
-                } elseif($accessPresentation->isAllowed(CompanyContactsListComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new CompanyContactsListComponent($c->get(ComponentConfiguration::class));
-                    $component->setData($c->get(CompanyContactsListViewModel::class));
+                } elseif($accessPresentation->isAllowed(CompanyContactComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new CompanyContactComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyContactListViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactList')));
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -418,8 +419,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyAddressRepo::class),                       
                     );
             },
-            CompanyContactsListViewModel::class => function(ContainerInterface $c) {
-                return new CompanyContactsListViewModel(
+            CompanyContactListViewModel::class => function(ContainerInterface $c) {
+                return new CompanyContactListViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(CompanyRepo::class),
                         $c->get(CompanyContactRepo::class),                        
@@ -432,7 +433,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyAddressRepo::class),                        
                     );
             },            
-                    
+
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();
             },

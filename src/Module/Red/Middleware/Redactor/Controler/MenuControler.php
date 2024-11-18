@@ -12,8 +12,6 @@ use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-// enum
-use Red\Model\Enum\AuthoredTypeEnum;
 //TODO: oprávnění pro routy
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
@@ -21,16 +19,10 @@ use Access\Enum\AccessActionEnum;
 // komponenty
 use Red\Component\View\Menu\DriverComponent;
 use Red\Component\View\Menu\DriverComponentInterface;
-use Red\Component\ViewModel\Menu\DriverViewModelInterface;
-use Red\Component\View\Menu\DriverButtonsComponent;
 
 // service (menu)
 use Red\Service\Menu\DriverService;
 use Red\Service\Menu\DriverServiceInterface;
-
-// renderery
-use Red\Component\Renderer\Html\Menu\DriverRenderer;
-use Red\Component\Renderer\Html\Menu\DriverRendererEditable;
 
 ####################
 
@@ -69,7 +61,7 @@ class MenuControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($driver);
     }
     
-    private function createDriver($uid, $isPresented): DriverComponent {
+    private function createDriver($uid, $isPresented): DriverComponentInterface {
         /** @var DriverComponent $driver */
         $driver = $this->container->get(DriverComponent::class);
         /** @var DriverServiceInterface $driverService */

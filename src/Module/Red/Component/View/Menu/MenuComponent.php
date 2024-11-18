@@ -55,10 +55,10 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
-            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true]
         ];
     }
     
@@ -210,6 +210,7 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 
     /**
      * Vytvoří LevelComponent a připojí mu kolekci vnořených ItemComponent
+     * Nastaví level renderer podle podle prezentačního režimu editovatelný/needitovatelný
      * 
      * @param type $itemComponents
      * @return LevelComponentInterface
@@ -218,9 +219,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         /** @var LevelComponentInterface $levelComponent */
         $levelComponent = $this->container->get(LevelComponent::class);
         $levelComponent->setRendererName($this->contextData->presentEditableContent() ? $this->levelRendererEditableName : $this->levelRendererName);  
-//        tady přepínat!  level renderer musí být jiný v editable režimu - chci mír rozbalovací menu v needit režimu a rozbalené menu v edit režimu - to je class na level
-//        setRenderersNames() musí dostávat z kontejneru 2 jména: LevelRenderer a LevelRendererEditable
-//        část #menu renderer ze configurationStyles -> do RendererContainerConfigurator - přidej definici LevelRendererEditable s classmap:'menuVertical.classmap.editable'
         $levelComponent->appendComponentViewCollection($itemComponents);
         return $levelComponent;
     }

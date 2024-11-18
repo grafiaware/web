@@ -10,8 +10,9 @@ namespace Red\Component\View\Content\TypeSelect;
 
 use Component\View\ComponentCompositeAbstract;
 use Red\Component\ViewModel\Authored\TypeSelect\ItemTypeSelectViewModel;
-use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
-use Red\Component\Renderer\Html\Generated\EmptyItemRenderer;
+
+use Access\Enum\RoleEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of ItemTypeSelectComponent
@@ -24,5 +25,11 @@ class ItemTypeSelectComponent extends ComponentCompositeAbstract {
      * @var ItemTypeSelectViewModel
      */
     protected $contextData;
-
+    
+    public static function getComponentPermissions(): array {
+        return [
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+        ];
+    }
 }

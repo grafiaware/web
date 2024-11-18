@@ -42,7 +42,7 @@ class RegisterComponent extends ComponentCompositeAbstract {
     public static function getComponentPermissions(): array {
         // komponent vidí jen nepřihlášení
         return [
-            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true]
         ];
     }
 }

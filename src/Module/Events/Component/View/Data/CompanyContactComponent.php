@@ -10,13 +10,13 @@ use Access\Enum\AccessPresentationEnum;
 /** 
  * 
  */ 
-class CompanyAddressComponent extends ComponentCompositeAbstract {
+class CompanyContactComponent extends ComponentCompositeAbstract {
 
     public static function getComponentPermissions(): array {
         return [
             RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
             RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
             RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true],
-        ];
+            ];
     }
 }

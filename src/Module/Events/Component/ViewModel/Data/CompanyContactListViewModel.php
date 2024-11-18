@@ -18,7 +18,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyContactsListViewModel extends ViewModelAbstract implements ViewModelInterface {
+class CompanyContactListViewModel extends ViewModelAbstract implements ViewModelInterface {
     private $status;      
     private $companyRepo;
     private $companyContactRepo;
@@ -39,16 +39,12 @@ class CompanyContactsListViewModel extends ViewModelAbstract implements ViewMode
 
         if (isset($requestedId)) {
             /** @var CompanyInterface $company */ 
-            $companies[] = $this->companyRepo->get($requestedId); 
-        } else {
-            $companies = $this->companyRepo->findAll();
+            $company = $this->companyRepo->get($requestedId); 
         }
         $companyContactsArray = [];
         /** @var CompanyContactInterface $cCEntity */
-        foreach ($companies as $company) {      
             $companyContactEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $company->getId() ] );
             $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$company->getId()) : false;
-            $companyContactsArray=[];
             foreach ($companyContactEntities as $cCEntity) {           
                 $companyContactsArray[] = [
                     'idCompany' => $company->getId(),
@@ -61,14 +57,12 @@ class CompanyContactsListViewModel extends ViewModelAbstract implements ViewMode
                     'editable' => $editable,                  
                 ];
             }
-        $array[] = [
+        $array = [
                     'companyContacts' => $companyContactsArray,
                     'addContact' => $editable,
                     'companyId' => $company->getId(),
                     'companyName' => $company->getName()
                 ];
-        }            
-
 
         return new ArrayIterator($array);
         

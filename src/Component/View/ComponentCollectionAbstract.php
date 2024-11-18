@@ -35,11 +35,6 @@ abstract class ComponentCollectionAbstract extends CollectionView implements Com
     }
 
     public static function getComponentPermissions(): array {
-        return [
-            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
-            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
-        ];
+        return [];
     }
 }
