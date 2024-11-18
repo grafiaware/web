@@ -1,9 +1,6 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-
-use Pes\Text\Text;
-use Pes\Text\Html;
-
+/** @var PhpTemplateRendererInterface $this */
 ?>
 
     <div class="ui styled fluid accordion">   
@@ -14,13 +11,13 @@ use Pes\Text\Html;
             </div>     
         
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/company/company-editable.php',  $companies)  ?>
+                <?= $this->repeat(__DIR__.'/company-editable.php',  $companies)  ?>
                 <div class="active title">
                     <i class="dropdown icon"></i>
                     Přidej firmu
                 </div>  
                 <div class="active content">     
-                    <?= $this->insert( __DIR__.'/company/company-editable.php') ?>                                                                                 
+                    <?= $this->insert( __DIR__.'/company-editable.php') ?>                                                                                 
                 </div>                
             </div>            
     </div>

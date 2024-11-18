@@ -1,11 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Site\ConfigurationCache;
-
-use Pes\Text\Text;
-use Pes\Text\Html;
+/** @var PhpTemplateRendererInterface $this */
 ?>
-    <div>
+<div>
     <div class="ui styled fluid accordion">        
         <div class="active title">
             <i class="dropdown icon"></i>
@@ -16,4 +13,4 @@ use Pes\Text\Html;
                               $companyContacts)  ?> 
         </div>            
     </div>
-    </div>
+</div>

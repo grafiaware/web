@@ -40,9 +40,9 @@ class InfoBoardComponent extends ComponentCompositeAbstract {
 
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => static::class],
-            RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => static::class],
-            RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true],
+            RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => true],
+            RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => true],
         ];
     }
 }

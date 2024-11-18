@@ -8,7 +8,8 @@ use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 use Pes\View\Renderer\PhpTemplateRenderer;
-
+use Pes\View\Recorder\RecorderProvider;
+use Pes\View\Recorder\VariablesUsageRecorder;
 
 use Red\Component\Renderer\Html\Menu\MenuRenderer;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
@@ -288,8 +289,26 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         #  default template renderer
         ###########################
             PhpTemplateRenderer::class => function(ContainerInterface $c) {
-                return new PhpTemplateRenderer();
+                $renderer = new PhpTemplateRenderer();
+                $renderer->setRecorderProvider($c->get(RecorderProvider::class));
+                return $renderer;
             },
+            RecorderProvider::class => function(ContainerInterface $c) {
+                $provider = new RecorderProvider();  // nemá nasteven recorder v konstruktoru, generuje recorder s default hodnotami
+                return $provider;
+            },
+                    
+        ####
+        # components logger
+        #
+        #
+            // logger
+            'renderLogger' => function(ContainerInterface $c) {
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                return FileLogger::getInstance($configuration->getLogsDirectory(), $configuration->getLogsRender(), FileLogger::REWRITE_LOG);
+            },
+                    
         ]);
 
     }

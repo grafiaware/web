@@ -960,17 +960,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             Replace::class => function(ContainerInterface $c) {
                 return new Replace();
             },
-                    
-        ####
-        # components loggery
-        #
-        #
-            // logger
-            'redRenderLogger' => function(ContainerInterface $c) {
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
-                return FileLogger::getInstance($configuration->getLogsDirectory(), $configuration->getLogsRender(), FileLogger::REWRITE_LOG);
-            },
 
         ####
         # renderer container

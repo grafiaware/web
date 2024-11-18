@@ -13,8 +13,8 @@ class ButtonsMenuCutCopyComponent extends ButtonsMenuComponentAbstract {
 
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessPresentationEnum::EDIT => static::class],
-            RoleEnum::EDITOR => [AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::EDIT => true],
+            RoleEnum::EDITOR => [AccessPresentationEnum::EDIT => true],
         ];
     }
 }

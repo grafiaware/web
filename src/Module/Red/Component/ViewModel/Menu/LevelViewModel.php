@@ -10,8 +10,6 @@ namespace Red\Component\ViewModel\Menu;
 use Component\ViewModel\ViewModelAbstract;
 use Red\Component\ViewModel\Menu\LevelViewModelInterface;
 
-use LogicException;
-
 /**
  * Description of LevelViewModel
  *

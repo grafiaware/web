@@ -64,12 +64,7 @@ class CompanyAddressViewModel extends ViewModelAbstract implements ViewModelInte
                     'companyId_proInsert'=> $company->getId(),
                     ];
             }                   
-       
-        $array = [
-            'companyAddress' => $companyAddress,
-            'name' => $company->getName()
-        ];
-        return new ArrayIterator($array);        
+        return new ArrayIterator($companyAddress);        
     }
     
     

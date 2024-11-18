@@ -93,12 +93,14 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
-                'companyListEditable' => self::WEB_TEMPLATES_SITE.'events/company-list-editable.php',
-                'companyList' => self::WEB_TEMPLATES_SITE.'events/company-list.php',                
-                'companyEditable' => self::WEB_TEMPLATES_SITE.'events/company/company-editable.php',
-                'company' => self::WEB_TEMPLATES_SITE.'events/company/company.php',     
-                'companyContactList' => self::WEB_TEMPLATES_SITE.'events/company-contact-list.php',
-                'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/company-contact-list-editable.php',                
+                
+                'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
+                'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',
+                'companyList' => self::WEB_TEMPLATES_SITE.'events/data/company/company-list.php',                
+                'companyListEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-list-editable.php',
+
+                'companyContactList' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-list.php',
+                'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-list-editable.php',                
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
                 'companyAddress' => self::WEB_TEMPLATES_SITE.'events/company-address.php',

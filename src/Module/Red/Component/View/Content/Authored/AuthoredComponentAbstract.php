@@ -10,6 +10,10 @@ namespace Red\Component\View\Content\Authored;
 
 use Component\View\ComponentCompositeAbstract;
 use Configuration\ComponentConfigurationInterface;
+
+use Access\Enum\RoleEnum;
+use Access\Enum\AccessPresentationEnum;
+
 /**
  * Description of AuthoredComponentAbstract
  * Objekt je potomkem CompositeView.
@@ -21,7 +25,13 @@ abstract class AuthoredComponentAbstract extends ComponentCompositeAbstract impl
     const BUTTON_EDIT_CONTENT = 'buttonEditContent';
     const SELECT_TEMPLATE = 'selectTemplate';
 
-    public function __construct(ComponentConfigurationInterface $configuration) {
-        parent::__construct($configuration);
+    
+    public static function getComponentPermissions(): array {
+        return [
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true],
+        ];
     }
 }

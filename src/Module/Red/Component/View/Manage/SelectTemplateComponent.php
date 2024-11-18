@@ -2,9 +2,8 @@
 namespace Red\Component\View\Manage;
 
 use Component\View\ComponentCompositeAbstract;
-use Component\Renderer\Html\NoPermittedContentRenderer;
-use Red\Component\Renderer\Html\Manage\SelectTemplateRenderer;
 
+use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
 
 use Pes\View\InheritDataViewInterface;
@@ -25,4 +24,12 @@ class SelectTemplateComponent extends ComponentCompositeAbstract implements Inhe
     public function inheritData(iterable $data): ViewInterface {
         return $this->setData($data);
     }
+
+    public static function getComponentPermissions(): array {
+        return [
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+            
+        ];
+    }    
 }

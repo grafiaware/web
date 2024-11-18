@@ -1,11 +1,6 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-
-use Pes\Text\Text;
-use Pes\Text\Html;
-
 /** @var PhpTemplateRendererInterface $this */
-
 ?>
 
         <form class="ui huge form" action="" method="POST" >

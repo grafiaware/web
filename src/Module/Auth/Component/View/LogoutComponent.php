@@ -29,7 +29,7 @@ class LogoutComponent extends ComponentCompositeAbstract {
     public static function getComponentPermissions(): array {
         // komponent vidí jen příhlášení
         return [
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
         ];
     }
 }
