@@ -55,88 +55,60 @@ class JobToTagViewModel extends ViewModelAbstract implements ViewModelInterface 
     
     
     public function getIterator() {                        
-        // $editable = true;                            
         $requestedId = $this->getIdentity(); //id jobu                  
         /** @var JobInterface $jobEntity */ 
         $jobEntity = $this->jobRepo->get($requestedId);   
-        $jobCompanyId = $jobEntity->getCompanyId();
+        $jobCompanyId = $jobEntity->getCompanyId();        
+        /** @var CompanyInterface $company */
+        $company = $this->companyRepo->get($jobCompanyId);
         
-        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();        
-        $representativecompanyId = $representativeFromStatus->getCompanyId();        
-     
-        $editable = isset($representativeFromStatus) ? ($representativecompanyId == $jobCompanyId) : false;                            
-        //---------------------------                
-                        
+        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();  
         
-        $allTags=[];
-        $jobTagEntitiesAll = $this->jobTagRepo->findAll();
-        /** @var JobTagInterface  $jobTagEntity */
-        foreach ( $jobTagEntitiesAll as $jobTagEntity) {
-            $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
-            //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
+        $jobToTagies=[];
+        if (isset($representativeFromStatus)) {
+            $representativeCompanyId = $representativeFromStatus->getCompanyId();        
+
+            $editable = isset($representativeFromStatus) ? ($representativeCompanyId == $jobCompanyId) : false;                            
+            //---------------------------                                        
+           
+                    
+            $allTags=[];
+            $jobTagEntitiesAll = $this->jobTagRepo->findAll();
+            /** @var JobTagInterface  $jobTagEntity */
+            foreach ( $jobTagEntitiesAll as $jobTagEntity) {
+                $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
+                //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
+            }
+
+            $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $jobEntity->getId() );
+
+            $checkedTags=[];   //nalepky pro 1 job
+            $checkedTagsText=[]; 
+            foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
+               /** @var JobToTagInterface $jobToTagEntity */
+              $idDoTag = $jobToTagEntity->getJobTagId();
+               /** @var JobTagInterface $tagE */
+              $tagE = $this->jobTagRepo->get($idDoTag);
+              $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
+              $checkedTagsText["{$tagE->getTag()}"] = $tagE->getId()  ;
+            }
+            $jobToTagies[] = [
+                    'jobId'    => $jobEntity->getId(),
+                    'jobNazev' => $jobEntity->getNazev(),
+                    'allTags'  => $allTags,
+                    'checkedTags' => $checkedTags,
+
+                    'checkedTagsText' => $checkedTagsText,
+                    'editable' => $editable
+            ];
+                  
         }
         
-                    $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $jobEntity->getId() );
-
-                    $checkedTags=[];   //nalepky pro 1 job
-                    foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
-                       /** @var JobToTagInterface $jobToTagEntity */
-                      $idDoTag = $jobToTagEntity->getJobTagId();
-                       /** @var JobTagInterface $tagE */
-                      $tagE = $this->jobTagRepo->get($idDoTag);
-                      $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
-                    }
-                    $jobToTagies[] = [
-                            'jobId' => $jobEntity->getId(),
-                            'jobNazev' => $jobEntity->getNazev(),
-                            'allTags'=>$allTags,
-                            'checkedTags'=>$checkedTags
-                    ];
-        
-        
-        
-        
-        
-        
-//
-//        /** @var CompanyInterface $company */
-//        $company = $this->companyRepo->get($jobCompanyId);
-//       
-//            // pro company - $idCompany najit vsechny jeji joby
-//            $jobCompanyEntities = $this->jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $jobCompanyId ] );
-//            if ($jobCompanyEntities) {
-//
-//                $jobToTagies=[];
-//                foreach ($jobCompanyEntities as $jobEntity) {
-//                    /** @var JobInterface $jobEntity */
-//                    $jobToTagEntities_proJob = $jobToTagRepo->findByJobId( $jobEntity->getId() );
-//
-//                    $checkedTags=[];   //nalepky pro 1 job
-//                    foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
-//                       /** @var JobToTagInterface $jobToTagEntity */
-//                      $idDoTag = $jobToTagEntity->getJobTagId();
-//                       /** @var JobTagInterface $tagE */
-//                      $tagE = $jobTagRepo->get($idDoTag);
-//                      $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
-//                    }
-//                    $jobToTagies[] = [
-//                            'jobId' => $jobEntity->getId(),
-//                            'jobNazev' => $jobEntity->getNazev(),
-//                            'allTags'=>$allTags,
-//                            'checkedTags'=>$checkedTags
-//                    ];
-//                }//$jobEntity
-//            }
-       
-            
-            
-    $array = [
-            'jobToTagies' => $jobToTagies,
-            //'name' => $company->getName()
-        ];
+        $array = [
+                'jobToTagies' => $jobToTagies,
+                'companyName' => $company->getName()
+                 ];
         return new ArrayIterator($array);        
     }
-    
-
 
 }

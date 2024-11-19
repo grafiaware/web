@@ -26,12 +26,22 @@ if ($editable) {
                     <div class="active content">     
                    
                         <input <?= $readonly ?> type="text" name="job-nazev" placeholder="" maxlength="120"
-                                                value="<?= isset($jobNazev)?  $jobNazev : '' ?>" >     
-                       
-                            <div class="field">                                                                                               
+                                                value="<?= isset($jobNazev)?  $jobNazev : '' ?>" >                      
+                        
+                        
+                        <?php if ( $editable ) { ?>
+                            <div class="field">
+                                 <?= Html::checkbox( $allTags , $checkedTags ); ?>
+                            </div>    
+                            <button class='ui primary button' type='submit' formaction='events/v1/jobtotag/<?= $jobId ?>' > Uložit </button>
+
+                            <?php }else { ?>
+                                <div class="field">                                                                                               
                                         <?= implode(', ',array_keys($checkedTagsText) ); ?>                                 
-                            </div>
-                                                
+                                </div>                         
+                            <?php } ?>
+                       
+                    
                     </div>        
                 </div>
             </div>

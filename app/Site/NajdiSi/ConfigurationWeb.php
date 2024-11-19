@@ -105,6 +105,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/company-address-editable.php',   
                 'jobToTag' => self::WEB_TEMPLATES_SITE.'events/job-to-tag.php',
                 'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/job-to-tag-editable.php',
+                'job' => self::WEB_TEMPLATES_SITE.'events/job.php',
+                'jobEditable' => self::WEB_TEMPLATES_SITE.'events/job-editable.php',
             ],
         ];
     }
