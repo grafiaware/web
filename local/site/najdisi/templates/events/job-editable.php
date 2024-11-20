@@ -4,7 +4,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-
+/** @var PhpTemplateRendererInterface $this */
 
 ?>     
     <div>
@@ -12,11 +12,11 @@ use Pes\Text\Html;
                         
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Adresa firmy  <?= $name ?>    
+                - 1 pozice z firmy <?= $companyName ?>   
             </div> 
             
             <div class="active content">      
-                <?= $this->insert(__DIR__.'/job/job.php',  $compadress)  ?>                               
+                <?= $this->insert(__DIR__.'/job/job.php', $job)  ?>                               
             </div>
     </div>
     </div>

@@ -28,11 +28,22 @@ if ($editable) {
                     <!--  <label>Požadované vzdělání</label>
                     <input < ?= $readonly ?> type="text" name="pozadovane-vzdelani-stupen" placeholder="" maxlength="100" 
                                             value="< ?= isset($pozadovaneVzdelaniStupen)?  $pozadovaneVzdelaniStupen : ''  ?>">   -->                                     
-                    <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
+                    
+                    <?php
+                    if($editable) {
+                    ?>                       
+                        <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
                                       ["pozadovane-vzdelani-stupen"=> $pozadovaneVzdelaniStupen ?? '' ],  
                                       $selectEducations ??  [], 
                                       ['required' => true ],
                                       []) ?>  
+                     <?php                      
+                    }else{   ?> 
+                        <?=  "Požadované vzdělání: <br/>"  .  
+                             $selectEducations [$pozadovaneVzdelaniStupen] ?? ''   ?>
+                    <?php                      
+                     } 
+                     ?> 
                 </div>
             </div>
             <div class="two fields">
@@ -61,18 +72,14 @@ if ($editable) {
             </div>      
 
                 <?php
-                if($readonly === '') {
+                if($editable) {
                 ?>
                 <div>
                     <?=
                      isset($jobId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."' > Uložit </button>" :
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job' > Uložit </button>" ;
-                    ?>                                                                                                                             
-                    <?=
-                     isset($jobId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."/remove' > Odstranit job </button>" :
-                    "" ;
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."' > Uložit </button>" .
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."/remove' > Odstranit job </button>" 
+                    : "" ;
                     ?>                                                                                                         
                 </div>
                 <?php

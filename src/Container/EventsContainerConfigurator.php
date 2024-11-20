@@ -115,8 +115,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
            
             'companyAddress' => CompanyAddressComponent::class,
-            'companyJob' => CompanyJobComponent::class,
+            'job' => JobComponent::class,
             'jobToTag' => JobToTagComponent::class,
+            
         ];
     }
     
@@ -277,11 +278,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(JobComponent::class, AccessPresentationEnum::EDIT)) {
                     $component = new JobComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(JobViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyJobEditable')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('jobEditable')));
                 } elseif($accessPresentation->isAllowed(JobComponent::class, AccessPresentationEnum::DISPLAY)) {
                     $component = new JobComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(JobViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyJob')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('job')));
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -496,7 +497,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new JobViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(CompanyRepo::class),
-                        $c->get(JobRepo::class),                        
+                        $c->get(JobRepo::class),
+                        $c->get(PozadovaneVzdelaniRepo::class),                        
                     );
             },          
                     

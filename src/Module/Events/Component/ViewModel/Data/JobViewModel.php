@@ -6,6 +6,7 @@ use Component\ViewModel\StatusViewModelInterface;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\JobInterface;
@@ -23,117 +24,81 @@ class JobViewModel extends ViewModelAbstract implements ViewModelInterface {
     private $status;       
     private $companyRepo;
     private $jobRepo;
+    private $pozadovaneVzdelaniRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo,
-            JobRepoInterface $jobRepo
+            JobRepoInterface $jobRepo,
+            PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
             ) {
         $this->status = $status;
         $this->companyRepo = $companyRepo;
         $this->jobRepo = $jobRepo;
-    }
+        $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
+    }    
     
     
     public function getIterator() {                        
-        // $editable = true;                            
         $requestedId = $this->getIdentity(); // id jobu
          /** @var JobInterface $jobEntity */ 
         $jobEntity = $this->jobRepo->get($requestedId);   
-        $jobCompanyId = $jobEntity->getCompanyId();        
-        /** @var CompanyInterface $company */
-        $company = $this->companyRepo->get($jobCompanyId);
         
+        $selectEducations = [];
+        $selectEducations [''] =  "vyber - povinné pole" ;
+        $vzdelaniEntities = $this->pozadovaneVzdelaniRepo->findAll();
+        /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */ 
+        foreach ( $vzdelaniEntities as $vzdelaniEntity ) {
+            $selectEducations [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
+        }   
+//                $vzdelaniEntity = $this->pozadovaneVzdelaniRepo->get( $jobEntity->getPozadovaneVzdelaniStupen() );
+//                $vzdelani = $vzdelaniEntity->getVzdelani();
+      
         
-        
-        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
-        
+        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();       
+        $companyJob=[];
         if (isset($representativeFromStatus)) {
         
-            $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) : false;                            
+            if (isset($jobEntity)) {
+                $jobCompanyId = $jobEntity->getCompanyId();                
+                $representativeCompanyId = $representativeFromStatus->getCompanyId();                 
+                $editable = isset($representativeFromStatus) ? ($representativeCompanyId == $jobCompanyId) : false;                            
+                //--------------------------------------
 
-//                /** @var CompanyInterface $company */ 
-//            $company = $this->companyRepo->get($requestedId);   
+                      /** @var CompanyInterface $company */
+                $company = $this->companyRepo->get($jobCompanyId);
 
-//--------------------------------------------------
+                    $companyJob = [
+                        'jobId' => $jobEntity->getId(),
+                        'companyId' => $jobEntity->getCompanyId(),                
+                        'pozadovaneVzdelaniStupen' =>  $jobEntity->getPozadovaneVzdelaniStupen(),
+                        'nazev' =>  $jobEntity->getNazev(),                
+                        'mistoVykonu' =>  $jobEntity->getMistoVykonu(),
+                        'popisPozice' =>  $jobEntity->getPopisPozice(),
+                        'pozadujeme' =>  $jobEntity->getPozadujeme(),
+                        'nabizime' =>  $jobEntity->getNabizime(),                    
+                        'selectEducations' =>  $selectEducations,
 
-            $selectEducations = [];
-            $selectEducations [''] =  "vyber - povinné pole" ;
-            $vzdelaniEntities = $pozadovaneVzdelaniRepo->findAll();
-            /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */ 
-            foreach ( $vzdelaniEntities as $vzdelaniEntity ) {
-                $selectEducations [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
-            }  
-        
-        /** @var CompanyInterface $company */ 
-        $company = $companyRepo->get($idCompany);     
+                        'editable' => $editable
+                        ];                
+            }
             
-        $companyJobEntities = $jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $idCompany ] );
-        $companyJobs=[];
-                 /** @var JobInterface $jEntity */ 
-        foreach ($companyJobEntities as $jEntity) {               
-            /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */
-            $vzdelaniEntity = $pozadovaneVzdelaniRepo->get( $jEntity->getPozadovaneVzdelaniStupen() );
-            $vzdelani = $vzdelaniEntity->getVzdelani();
-                                                                        
-            $companyJobs[] = [
-                'jobId' => $jEntity->getId(),
-                'companyId' => $jEntity->getCompanyId(),                
-                'pozadovaneVzdelaniStupen' =>  $jEntity->getPozadovaneVzdelaniStupen(),
-                'nazev' =>  $jEntity->getNazev(),                
-                'mistoVykonu' =>  $jEntity->getMistoVykonu(),
-                'popisPozice' =>  $jEntity->getPopisPozice(),
-                'pozadujeme' =>  $jEntity->getPozadujeme(),
-                'nabizime' =>  $jEntity->getNabizime(),                    
-                'selectEducations' =>  $selectEducations 
-                ];
+            else {
+                    $companyJob = [ 
+                        'editable' => false,  
+                        'selectEducations' =>  $selectEducations,
+                        ];          
+            }
+  
         }   
+       
             
-        
-
-//------------------------------------------------------            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-//            
-//                /** @var CompanyAddressInterface $companyAddressEntity */
-//            $companyAddressEntity = $this->companyAddressRepo->get($requestedId);
-//            if (isset($companyAddressEntity)) {
-//                    $companyAddress = [
-//                        'editable' => $editable,  
-//
-//                        'companyId'=> $companyAddressEntity->getCompanyId(),
-//                        'name'   => $companyAddressEntity->getName(),
-//                        'lokace' => $companyAddressEntity->getLokace(),
-//                        'psc'    => $companyAddressEntity->getPsc(),
-//                        'obec'   => $companyAddressEntity->getObec()
-//                        ];
-//            }else {
-//                    $companyAddress = [
-//                        'editable' => $editable,                    
-//
-//                        'companyId_proInsert'=> $company->getId(),
-//                        ];
-//                }                   
-        }
-        
+       
+     
         $array = [
-            'companyAddress' => $companyAddress,
-            'name' => $company->getName()
-        ];
-        
-        
-        
-        
-        
-        
-        
+            'job' => $companyJob,
+            'companyName' => isset($company) ? $company->getName() : "" 
+        ];               
         return new ArrayIterator($array);        
     }
     
