@@ -4,10 +4,10 @@ use Pes\Text\Html;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
+
 echo Html::tag('div', 
         [
             'class'=>'cascade',
-            'data-red-apiuri'=>"events/v1/component/job/6",
+            'data-red-apiuri'=>"events/v1/subcomponent/companyJobList/10",
         ]
     );
-

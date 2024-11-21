@@ -51,9 +51,6 @@ class JobViewModel extends ViewModelAbstract implements ViewModelInterface {
         foreach ( $vzdelaniEntities as $vzdelaniEntity ) {
             $selectEducations [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
         }   
-//                $vzdelaniEntity = $this->pozadovaneVzdelaniRepo->get( $jobEntity->getPozadovaneVzdelaniStupen() );
-//                $vzdelani = $vzdelaniEntity->getVzdelani();
-      
         
         $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();       
         $companyJob=[];
@@ -64,37 +61,30 @@ class JobViewModel extends ViewModelAbstract implements ViewModelInterface {
                 $representativeCompanyId = $representativeFromStatus->getCompanyId();                 
                 $editable = isset($representativeFromStatus) ? ($representativeCompanyId == $jobCompanyId) : false;                            
                 //--------------------------------------
-
                       /** @var CompanyInterface $company */
                 $company = $this->companyRepo->get($jobCompanyId);
+                $companyJob = [
+                    'jobId' => $jobEntity->getId(),
+                    'companyId' => $jobEntity->getCompanyId(),                
+                    'pozadovaneVzdelaniStupen' =>  $jobEntity->getPozadovaneVzdelaniStupen(),
+                    'nazev' =>  $jobEntity->getNazev(),                
+                    'mistoVykonu' =>  $jobEntity->getMistoVykonu(),
+                    'popisPozice' =>  $jobEntity->getPopisPozice(),
+                    'pozadujeme' =>  $jobEntity->getPozadujeme(),
+                    'nabizime' =>  $jobEntity->getNabizime(),                    
+                    'selectEducations' =>  $selectEducations,
 
-                    $companyJob = [
-                        'jobId' => $jobEntity->getId(),
-                        'companyId' => $jobEntity->getCompanyId(),                
-                        'pozadovaneVzdelaniStupen' =>  $jobEntity->getPozadovaneVzdelaniStupen(),
-                        'nazev' =>  $jobEntity->getNazev(),                
-                        'mistoVykonu' =>  $jobEntity->getMistoVykonu(),
-                        'popisPozice' =>  $jobEntity->getPopisPozice(),
-                        'pozadujeme' =>  $jobEntity->getPozadujeme(),
-                        'nabizime' =>  $jobEntity->getNabizime(),                    
-                        'selectEducations' =>  $selectEducations,
-
-                        'editable' => $editable
-                        ];                
-            }
-            
+                    'editable' => $editable
+                    ];                
+            }            
             else {
                     $companyJob = [ 
                         'editable' => false,  
                         'selectEducations' =>  $selectEducations,
                         ];          
             }
-  
         }   
-       
-            
-       
-     
+      
         $array = [
             'job' => $companyJob,
             'companyName' => isset($company) ? $company->getName() : "" 
