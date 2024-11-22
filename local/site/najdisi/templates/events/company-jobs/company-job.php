@@ -6,7 +6,7 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */        
-    if ($editable) {
+    if ($editableData) {
         $readonly = '';
         $disabled = '';
     } else {
@@ -24,13 +24,9 @@ use Pes\Text\Html;
                     <input <?= $readonly ?> type="text" name="nazev" placeholder="" maxlength="120" value="<?= isset($nazev)?  $nazev : '' ?>" required>
                  </div>                 
                 
-                <div class="field">
-                    <!--  <label>Požadované vzdělání</label>
-                    <input < ?= $readonly ?> type="text" name="pozadovane-vzdelani-stupen" placeholder="" maxlength="100" 
-                                            value="< ?= isset($pozadovaneVzdelaniStupen)?  $pozadovaneVzdelaniStupen : ''  ?>">   -->                                     
-                    
+                <div class="field">                                       
                     <?php
-                    if($editable) {
+                    if($editableData) {
                     ?>                       
                         <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
                                       ["pozadovane-vzdelani-stupen"=> $pozadovaneVzdelaniStupen ?? '' ],  
@@ -73,14 +69,24 @@ use Pes\Text\Html;
                
             
                <?php
-                if(editable) {
+                if($editableData) {
                 ?>
                 <div>
                     <?=
                      isset($jobId) ?
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."' > Uložit </button>" :
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job' > Uložit </button>" ;
-                    ?>                                                                                                                             
+                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job' > Uložit (přidat) </button>" ;
+                    ?>   
+                </div>    
+                <?php
+                }
+                ?>    
+                    
+            
+                <?php
+                if($editableList) {
+                ?>   
+                <div>
                     <?=
                      isset($jobId) ?
                     "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/job/". $jobId ."/remove' > Odstranit job </button>" :
@@ -89,7 +95,7 @@ use Pes\Text\Html;
                 </div>
                 <?php
                 }
-                ?>
+                ?>    
 
         </form>           
 

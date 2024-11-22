@@ -57,7 +57,7 @@ class CompanyJobsListViewModel extends ViewModelAbstract implements ViewModelInt
         if (isset($representativeFromStatus)) {  
             
            $representativeCompanyId = $representativeFromStatus->getCompanyId();                 
-           $editable = isset($representativeFromStatus) ? ($representativeCompanyId == $requestedId) : false;                            
+           $isRepresentative = isset($representativeFromStatus) ? ($representativeCompanyId == $requestedId) : false;                            
   
            $companyJobEntities = $this->jobRepo->find( " company_id = :idCompany ",  ['idCompany'=> $requestedId ] );              
             //$companyJobs=[];        
@@ -80,13 +80,13 @@ class CompanyJobsListViewModel extends ViewModelAbstract implements ViewModelInt
                         'nabizime' =>  $jEntity->getNabizime(),                    
                         'selectEducations' =>  $selectEducations,
 
-                        'editable' => $editable
+                        'editableData' => $isRepresentative
                     ];                
                 }      
             }   
             else {
                     $companyJobs[] = [ 
-                        'editable' => $editable,  
+                        'editableData' => $isRepresentative,  
                         'selectEducations' =>  $selectEducations,
                         ];          
             }
@@ -98,7 +98,7 @@ class CompanyJobsListViewModel extends ViewModelAbstract implements ViewModelInt
             'companyName' => isset($company) ? $company->getName() : ""  ,
             'companyId' => $requestedId,
             'selectEducations' => $selectEducations,
-            'editable' => $editable
+            'editableList' => $isRepresentative
                 ];               
         return new ArrayIterator($array);    
   

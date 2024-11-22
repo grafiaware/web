@@ -17,6 +17,10 @@ use Pes\Text\Html;
                 <?= $this->repeat(__DIR__.'/company-jobs/company-job.php',  $jobs)  ?>
               
                 
+                <?php
+                    if($editableList) {
+                ?>  
+                
                 <div class="active title">
                     <i class="dropdown icon"></i>
                     Přidej pracovní pozici
@@ -26,10 +30,16 @@ use Pes\Text\Html;
                             [
                              'companyId' => $companyId, 
                              'selectEducations' =>  $selectEducations,
-                             'editable' => $editable
+                             'editableData' => true,
+                             'editableList' => true   
                             ] 
                             ) ?>                                                                                 
-                </div>   
+                </div> 
+                
+                <?php                      
+                 } 
+                ?> 
+                
                 
             </div>            
     </div>
