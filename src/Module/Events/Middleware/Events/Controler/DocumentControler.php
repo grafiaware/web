@@ -3,7 +3,7 @@ namespace Events\Middleware\Events\Controler;
 
 use Site\ConfigurationCache;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -46,7 +46,7 @@ use Mail\Params\Party;
  *
  * @author vlse2610
  */
-class DocumentControler extends PresentationFrontControlerAbstract {
+class DocumentControler extends FrontControlerAbstract {
 
     const UPLOADED_KEY_CV = "visitor-cv";
     const UPLOADED_KEY_LETTER = "visitor-letter";

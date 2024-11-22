@@ -47,17 +47,20 @@ class ItemActionControler extends FrontControlerAbstract {
 
     public function addUserItemAction(ServerRequestInterface $request, $itemId) {
         $statusSecurity = $this->statusSecurityRepo->get();
-        $loginName = $statusSecurity->getLoginAggregate()->getLoginName();
-        // vyčištění starých item action
-        $interval = new DateInterval(ConfigurationCache::itemActionControler()['timeout']);
-        try {
-            $newItemAction = $this->itemActionService->refreshItemActionsAndCreateNew($interval, $itemId, $loginName);  // uložení do repo, vyhodí výjimku, pokud jiný editor upravuje item
-            $statusSecurity->getEditorActions()->addItemAction($newItemAction);
-            $this->addFlashMessage("Zahájena úprava položky (item) $itemId.", FlashSeverityEnum::INFO);
-        } catch (UnableToAddItemActionForItemException $e) {
-            $activeEditor = $this->itemActionService->getActiveEditor($itemId);
-            $this->addFlashMessage("Položku (item) $itemId upravuje $activeEditor.", FlashSeverityEnum::WARNING);
-        }
+        $login = $statusSecurity->getLoginAggregate();
+        if (isset($login)) {
+            $loginName = $statusSecurity->getLoginAggregate()->getLoginName();
+            // vyčištění starých item action
+            $interval = new DateInterval(ConfigurationCache::itemActionControler()['timeout']);
+            try {
+                $newItemAction = $this->itemActionService->refreshItemActionsAndCreateNew($interval, $itemId, $loginName);  // uložení do repo, vyhodí výjimku, pokud jiný editor upravuje item
+                $statusSecurity->getEditorActions()->addItemAction($newItemAction);
+                $this->addFlashMessage("Zahájena úprava položky (item) $itemId.", FlashSeverityEnum::INFO);
+            } catch (UnableToAddItemActionForItemException $e) {
+                $activeEditor = $this->itemActionService->getActiveEditor($itemId);
+                $this->addFlashMessage("Položku (item) $itemId upravuje $activeEditor.", FlashSeverityEnum::WARNING);
+            }
+        }            
 //        return $this->createJsonPutNoContentResponse(["refresh"=>"closest"], 200);
         //TODO: POST version        
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -65,10 +68,13 @@ class ItemActionControler extends FrontControlerAbstract {
 
     public function removeUserItemAction(ServerRequestInterface $request, $itemId) {
         $statusSecurity = $this->statusSecurityRepo->get();
-        $loginName = $statusSecurity->getLoginAggregate()->getLoginName();
-        $this->itemActionService->remove($itemId, $loginName);  // odstranění z repo
-        $statusSecurity->getEditorActions()->removeItemAction($itemId);
-        $this->addFlashMessage("Ukončena úprava položky (item $itemId)", FlashSeverityEnum::INFO);
+        $login = $statusSecurity->getLoginAggregate();
+        if (isset($login)) {
+            $loginName = $login->getLoginName();
+            $this->itemActionService->remove($itemId, $loginName);  // odstranění z repo
+            $statusSecurity->getEditorActions()->removeItemAction($itemId);
+            $this->addFlashMessage("Ukončena úprava položky (item $itemId)", FlashSeverityEnum::INFO);
+        }
 //        return $this->createJsonPutNoContentResponse(["refresh"=>"closest"], 200);
         //TODO: POST version        
         return $this->redirectSeeLastGet($request); // 303 See Other

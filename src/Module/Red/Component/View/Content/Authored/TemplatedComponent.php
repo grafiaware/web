@@ -28,14 +28,14 @@ use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
 use Pes\View\Template\ImplodeTemplate;
 
 use Pes\View\ViewInterface;
-use Pes\View\InheritDataViewInterface;
+use Pes\View\InheritViewModelInterface;
 
 /**
  * Description of ArticleComponent
  *
  * @author pes2704
  */
-class TemplatedComponent extends AuthoredComponentAbstract implements InheritDataViewInterface {
+class TemplatedComponent extends AuthoredComponentAbstract implements InheritViewModelInterface {
 
     private $templateSeeker;
 
@@ -58,7 +58,7 @@ class TemplatedComponent extends AuthoredComponentAbstract implements InheritDat
      * @param iterable $data
      * @return ViewInterface
      */
-    public function inheritData(iterable $data): ViewInterface {
+    public function inheritViewModel(iterable $data): ViewInterface {
         return $this->setData($data);
     }
 

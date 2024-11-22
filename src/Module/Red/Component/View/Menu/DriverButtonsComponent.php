@@ -14,7 +14,7 @@ use Pes\View\ViewInterface;
  */
 class DriverButtonsComponent extends ComponentCollectionAbstract implements InheritDataViewInterface {
 
-    public function inheritData(iterable $data): ViewInterface {
+    public function inheritViewModel(iterable $data): ViewInterface {
         $this->setData($data);
         return $this;
     }

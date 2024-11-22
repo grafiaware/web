@@ -4,7 +4,7 @@ namespace Auth\Middleware\Login\Controler;
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 
@@ -27,7 +27,7 @@ use Status\Model\Enum\FlashSeverityEnum;
  *
  * @author vlse2610
  */
-class AuthControler extends PresentationFrontControlerAbstract {
+class AuthControler extends FrontControlerAbstract {
         
     const NULL_VALUE = "Toto je speciální hodnota představující NULL";        
     
@@ -63,10 +63,10 @@ class AuthControler extends PresentationFrontControlerAbstract {
     
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
-//            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
-//            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
-//            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => true],
+//            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => true],
+//            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => true],
+//            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => true]
         ];
     }    
      

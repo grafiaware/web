@@ -26,7 +26,7 @@ class ViewModelAbstract extends ContextData implements ViewModelInterface {
      * 
      * @param type $id
      */
-    public function setIdentity($id) {
+    public function setRequestedId($id) {
         $this->id = $id;
     }
     
@@ -35,7 +35,7 @@ class ViewModelAbstract extends ContextData implements ViewModelInterface {
      * 
      * @return bool
      */
-    public function hasIdentity(): bool {
+    public function hasRequestedId(): bool {
         return isset($this->id);
     }
     
@@ -44,7 +44,7 @@ class ViewModelAbstract extends ContextData implements ViewModelInterface {
      * 
      * @return mixed
      */
-    public function getIdentity() {
+    public function getRequestedId() {
         return $this->id ?? null;
     }
 }

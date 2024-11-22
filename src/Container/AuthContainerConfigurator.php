@@ -298,87 +298,84 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
 //---------------------------------------------------------------------------
-            ComponentControler::class => function(ContainerInterface $c) {
-                return (new ComponentControler(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class)
-                        )
-                    )->injectContainer($c);  // inject component kontejner
-            },
-            EventStaticControler::class => function(ContainerInterface $c) {
-                return (new EventStaticControler(
+            // PresentationFrontControler (GET)
+            AuthStaticControler::class => function(ContainerInterface $c) {
+                return (new AuthStaticControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(TemplateCompiler::class)
+                        $c->get(AccessPresentation::class),
+                        $c->get(TemplateCompiler::class)  )          
+                    )->injectContainer($c);  // inject component kontejner
+                    ;
+            },
+            ComponentControler::class => function(ContainerInterface $c) {
+                return (new ComponentControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
+
+            // FrontControler (POST)
             LoginLogoutControler::class => function(ContainerInterface $c) {
                 return (new LoginLogoutControler(
-                    $c->get(StatusSecurityRepo::class),
-                    $c->get(StatusFlashRepo::class),
-                    $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginAggregateFullRepo::class),
-                    $c->get(AuthenticatorInterface::class))
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
+                        $c->get(LoginAggregateFullRepo::class),
+                        $c->get(AuthenticatorInterface::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
             RegistrationControler::class => function(ContainerInterface $c) {
                 return (new RegistrationControler(
-                    $c->get(StatusSecurityRepo::class),
-                    $c->get(StatusFlashRepo::class),
-                    $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginAggregateRegistrationRepo::class))
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
+                        $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
             ConfirmControler::class => function(ContainerInterface $c) {
                 return (new ConfirmControler(
-                    $c->get(StatusSecurityRepo::class),
-                    $c->get(StatusFlashRepo::class),
-                    $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginAggregateCredentialsRepo::class),
-                    $c->get(RegistrationRepo::class))
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
+                        $c->get(LoginAggregateCredentialsRepo::class),
+                        $c->get(RegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
             PasswordControler::class => function(ContainerInterface $c) {
                 return (new PasswordControler(
-                    $c->get(StatusSecurityRepo::class),
-                    $c->get(StatusFlashRepo::class),
-                    $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginAggregateCredentialsRepo::class),
-                    $c->get(LoginAggregateRegistrationRepo::class))
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
+                        $c->get(LoginAggregateCredentialsRepo::class),
+                        $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
                     
             AuthControler::class => function(ContainerInterface $c) {
                 return (new AuthControler(
-                    $c->get(StatusSecurityRepo::class),
-                    $c->get(StatusFlashRepo::class),
-                    $c->get(StatusPresentationRepo::class),                     
-                    $c->get(RoleRepo::class ),                       
-                    $c->get(CredentialsRepo::class ))          
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),                     
+                        $c->get(RoleRepo::class ),                       
+                        $c->get(CredentialsRepo::class ))          
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },        
-                    
-            AuthStaticControler::class => function(ContainerInterface $c) {
-                return (new AuthStaticControler(
-                    $c->get(StatusSecurityRepo::class),
-                    $c->get(StatusFlashRepo::class),
-                    $c->get(StatusPresentationRepo::class),
-                    $c->get(TemplateCompiler::class)  )          
-                    )->injectContainer($c);  // inject component kontejner
-                    ;
-            },
-                    
-            AccessPresentation::class => function(ContainerInterface $c) {
-                return new AccessPresentation($c->get(StatusViewModel::class));
-            },
+
             // configuration - používá parametry nastavené metodou getParams()
             ComponentConfiguration::class => function(ContainerInterface $c) {
                 return new ComponentConfiguration(

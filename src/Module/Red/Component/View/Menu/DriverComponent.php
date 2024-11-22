@@ -13,5 +13,7 @@ use Red\Component\View\Menu\DriverComponentInterface;
  * @author pes2704
  */
 class DriverComponent extends ComponentCompositeAbstract implements DriverComponentInterface {
-
+    public static function getComponentPermissions(): array {
+        return [];
+    }
 }

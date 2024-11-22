@@ -8,7 +8,7 @@ echo Html::p("events/v1/component/company", $pStyle);
 echo Html::tag('div', 
         [
             'class'=>'cascade',
-            'data-red-apiuri'=>"events/v1/component/company",
+            'data-red-apiuri'=>"events/v1/component/companyList",
         ]
     );
 echo Html::p("events/v1/component/company/10", $pStyle);
@@ -29,7 +29,7 @@ echo Html::p("events/v1/component/companyContact", $pStyle);
 echo Html::tag('div', 
         [
             'class'=>'cascade',
-            'data-red-apiuri'=>"events/v1/component/companyContact",
+            'data-red-apiuri'=>"events/v1/component/companyContactList",
         ]
     );
 echo Html::p("events/v1/subcomponent/companyContact/10", $pStyle);
@@ -43,6 +43,6 @@ echo Html::p("events/v1/subcomponent/companyContact/25", $pStyle);
 echo Html::tag('div', 
         [
             'class'=>'cascade',
-            'data-red-apiuri'=>"events/v1/subcomponent/companyContact/25",
+            'data-red-apiuri'=>"events/v1/subcomponent/companyContactList/25",
         ]
     );

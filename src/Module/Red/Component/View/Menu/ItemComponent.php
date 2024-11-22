@@ -17,5 +17,8 @@ use Component\View\ComponentCompositeAbstract;
  * @author pes2704
  */
 class ItemComponent extends ComponentCompositeAbstract implements ItemComponentInterface {
+    public static function getComponentPermissions(): array {
+        return [];
+    }
 
 }

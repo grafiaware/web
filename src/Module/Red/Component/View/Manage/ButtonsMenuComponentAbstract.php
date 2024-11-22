@@ -16,7 +16,7 @@ use Pes\View\ViewInterface;
  */
 abstract class ButtonsMenuComponentAbstract extends ComponentCollectionAbstract implements InheritDataViewInterface {
 
-    public function inheritData(iterable $data): ViewInterface {
+    public function inheritViewModel(iterable $data): ViewInterface {
         $this->setData($data);
         return $this;
     }

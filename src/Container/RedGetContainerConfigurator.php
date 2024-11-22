@@ -96,7 +96,7 @@ use Red\Component\View\Content\Authored\PaperTemplate\PaperTemplateComponent;
 use Red\Component\View\Manage\SelectTemplateComponent;
 
 use Component\View\ElementComponent;
-use Component\View\ElementInheritDataComponent;
+use Component\View\ElementInheritViewModelComponent;
 
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
@@ -512,8 +512,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ElementInheritDataComponent::class => function(ContainerInterface $c) {
-                $component = new ElementInheritDataComponent($c->get(ComponentConfiguration::class));
+            ElementInheritViewModelComponent::class => function(ContainerInterface $c) {
+                $component = new ElementInheritViewModelComponent($c->get(ComponentConfiguration::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -567,30 +567,30 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     
             // komponenty headline, perex, sections - jsou všechny typu ElementInheritDataComponent, mají různé názvy dané konstantou v třídě komponentu PaperComponent
             PaperComponent::HEADLINE => function(ContainerInterface $c) {
-                $component = $c->get(ElementInheritDataComponent::class);
+                $component = $c->get(ElementInheritViewModelComponent::class);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             PaperComponent::PEREX => function(ContainerInterface $c) {
-                $component = $c->get(ElementInheritDataComponent::class);
+                $component = $c->get(ElementInheritViewModelComponent::class);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             PaperComponent::SECTIONS => function(ContainerInterface $c) {
-                $component = $c->get(ElementInheritDataComponent::class);
+                $component = $c->get(ElementInheritViewModelComponent::class);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
 
             PaperComponent::class => function(ContainerInterface $c) {
-                /** @var PaperViewModel $viewModel */
-                $viewModel = $c->get(PaperViewModel::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
 
                 if($accessPresentation->isAllowed(PaperComponent::class, AccessPresentationEnum::DISPLAY)) {
                     $component = new PaperComponent($c->get(ComponentConfiguration::class));
                     // komponent s obsahem
+                    /** @var PaperViewModel $viewModel */
+                    $viewModel = $c->get(PaperViewModel::class);                    
                     $component->setData($viewModel);
                     $component->setRendererContainer($c->get('rendererContainer'));
                     /** @var TemplatedComponent $templatedComponent */
@@ -887,26 +887,29 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             // front kontrolery
             ComponentControler::class => function(ContainerInterface $c) {
                 return (new ComponentControler(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class)
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
             MenuControler::class => function(ContainerInterface $c) {
                 return (new MenuControler(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class)
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
             StaticControler::class => function(ContainerInterface $c) {
                 return (new StaticControler(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class),
-                            $c->get(TemplateCompiler::class)
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
+                        $c->get(TemplateCompiler::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
@@ -923,6 +926,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
                         $c->get(TemplateSeeker::class),
                         $c->get(TemplateControlerConfiguration::class)
                         );                            
@@ -971,11 +975,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
         ####
-        # Access
-        #
-            AccessPresentation::class => function(ContainerInterface $c) {
-                return new AccessPresentation($c->get(StatusViewModel::class));
-            },
+
             EditorActionViewModel::class => function(ContainerInterface $c) {
                 return new EditorActionViewModel(
                         $c->get(StatusViewModel::class)

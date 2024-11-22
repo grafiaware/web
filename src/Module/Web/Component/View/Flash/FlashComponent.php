@@ -18,9 +18,10 @@ use Web\Component\ViewModel\Flash\FlashViewModelInterface;
  */
 class FlashComponent extends ComponentCompositeAbstract {
 
-    /**
-     * @var FlashViewModelInterface
-     */
-    protected $contextData;
-
+    public static function getComponentPermissions(): array {
+        return [
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true],
+        ];
+    }
 }

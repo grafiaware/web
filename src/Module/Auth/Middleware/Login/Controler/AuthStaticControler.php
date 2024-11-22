@@ -32,10 +32,10 @@ class AuthStaticControler extends PresentationFrontControlerAbstract {
     
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
-            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
-            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => true],
+            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => true],
+            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => true],
+            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => true]
         ];
     }
     

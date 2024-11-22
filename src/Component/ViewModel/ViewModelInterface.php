@@ -17,21 +17,21 @@ use Pes\Type\ContextDataInterface;
 interface ViewModelInterface extends ContextDataInterface {
     
     /**
-     * Metoda nastaví hodnotu identifikátoru entity, kterou viewModel čte z doménového modelu (z persistentních dat).
+     * Metoda nastaví hodnotu identifikátoru z requestu.
      * 
      * @param type $id
      */
-    public function setIdentity($id);
+    public function setRequestedId($id);
     
     /**
-     * Metoda nastaví hodnotu identifikátoru entity, kterou viewModel čte z doménového modelu (z persistentních dat).
+     * Informuje, že ViewModel má nastavenou hodnotu identifikátoru z requestu..
      * 
      * @return bool
      */
-    public function hasIdentity(): bool;
+    public function hasRequestedId(): bool;
     
     /**
-     * Metoda vrací hodnotu identifikátoru entity nastavenou metodou setId nebo null.
+     * Metoda vrací hodnotu identifikátoru z requestu nastavenou metodou setIdentity() nebo null.
      */
-    public function getIdentity();
+    public function getRequestedId();
 }

@@ -37,7 +37,7 @@ class CompanyAddressViewModel extends ViewModelAbstract implements ViewModelInte
     
     public function getIterator() {                        
         // $editable = true;                            
-        $requestedId = $this->getIdentity();
+        $requestedId = $this->getRequestedId();
         $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
         
         $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) : false;                            

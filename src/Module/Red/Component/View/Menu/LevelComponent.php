@@ -12,5 +12,7 @@ use Component\View\ComponentCollectionAbstract;
  */
 class LevelComponent extends ComponentCollectionAbstract implements LevelComponentInterface {
 
-
+    public static function getComponentPermissions(): array {
+        return [];
+    }
 }

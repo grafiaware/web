@@ -14,8 +14,8 @@ use Component\View\ComponentCompositeInterface;
 
 use Configuration\ComponentConfigurationInterface;
 
-use Access\Enum\RoleEnum;
-use Access\Enum\AccessPresentationEnum;
+//??
+use Component\ViewModel\StatusViewModelInterface;
 
 /**
  * Description of CompositeComponentAbstract
@@ -33,8 +33,15 @@ abstract class ComponentCompositeAbstract extends CompositeView implements Compo
     public function __construct(ComponentConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }
-
-    public static function getComponentPermissions(): array {
-        return [];
+    
+    public function beforeRenderingHook(): void {
+        // component (view) musí mít před renderování nastaven renderer nebo renderer name nebo template
+        $data = $this->getData();
+        if ($data instanceof StatusViewModelInterface) {
+            $representativeCompanyId = $data->getRepresentativeActions()->getRepresentative()->getCompanyId();
+            if ($data->getRequestedId()==$representativeCompanyId) {
+                $x;
+            }
+        }
     }
 }
