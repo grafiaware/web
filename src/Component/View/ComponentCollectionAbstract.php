@@ -14,9 +14,6 @@ use Component\View\ComponentCollectionInterface;
 
 use Configuration\ComponentConfigurationInterface;
 
-use Access\Enum\RoleEnum;
-use Access\Enum\AccessPresentationEnum;
-
 /**
  * Description of CompositeComponentAbstract
  *
@@ -33,8 +30,8 @@ abstract class ComponentCollectionAbstract extends CollectionView implements Com
     public function __construct(ComponentConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }
-
-    public static function getComponentPermissions(): array {
-        return [];
+    
+    public function beforeRenderingHook(): void {
+//        $this->getData()->hydrateChildViewModels();   // přidej interface ChildViewModelInterface
     }
 }

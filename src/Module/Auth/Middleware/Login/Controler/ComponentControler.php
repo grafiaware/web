@@ -31,8 +31,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         
         // prakticky má oprávnění každý - "GET" controler 
         return [
-            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
+            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => true],
+            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => true]
         ];
     }
     

@@ -16,6 +16,8 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
+use Access\AccessPresentationInterface;
+
 use Red\Service\ItemApi\ItemApiServiceInterface;
 use Red\Service\CascadeLoader\CascadeLoaderFactoryInterface;
 
@@ -64,9 +66,10 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
             StatusSecurityRepo $statusSecurityRepo, 
             StatusFlashRepo $statusFlashRepo, 
             StatusPresentationRepo $statusPresentationRepo,
+            AccessPresentationInterface $accessPresentation,
             ItemApiServiceInterface $itemApiService, 
             CascadeLoaderFactoryInterface $cascadeLoaderFactory ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
         $this->itemApiService = $itemApiService;
         $this->cascadeLoaderFactory = $cascadeLoaderFactory;              
     }

@@ -3,7 +3,7 @@
 namespace Events\Middleware\Events\Controler;
 
 use Site\ConfigurationCache;
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 //use Red\Model\Entity\LoginAggregateFullInterface;
@@ -59,7 +59,7 @@ use Mail\Params\Party;
 /**
  * 
  */
-class VisitorJobRequestControler extends PresentationFrontControlerAbstract {
+class VisitorJobRequestControler extends FrontControlerAbstract {
 
     const UPLOADED_KEY_CV = "visitor-cv";
     const UPLOADED_KEY_LETTER = "visitor-letter";

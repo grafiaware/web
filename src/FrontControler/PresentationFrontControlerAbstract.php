@@ -1,6 +1,10 @@
 <?php
 
 namespace FrontControler;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Access\AccessPresentationInterface;
 
 use \Pes\Router\Resource\ResourceRegistryInterface;
 
@@ -20,6 +24,23 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @var ResourceRegistryInterface
      */
     protected $resourceRegistry;
+    
+    /**
+     * 
+     * @var AccessPresentationInterface
+     */
+    protected $accessPresentation;
+
+
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            AccessPresentationInterface $accessPresentation
+            ) {
+            parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+            $this->accessPresentation = $accessPresentation;
+    }    
     
     ### headers ###
 

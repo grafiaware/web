@@ -3,7 +3,7 @@
 namespace Events\Middleware\Events\Controler;
 
 use Site\ConfigurationCache;
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -39,21 +39,13 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
 
-use Mail\Mail;
-use Mail\MessageFactory\HtmlMessage;
-use Mail\Params;
-use Mail\Params\Content;
-use Mail\Params\Attachment; 
-use Mail\Params\StringAttachment;
-use Mail\Params\Party;
-
 
 /**
  * Description of NestedFilesUpload
  *
  * @author pes2704
  */
-class CompanyControler extends PresentationFrontControlerAbstract {
+class CompanyControler extends FrontControlerAbstract {
 
     /**
      * @var CompanyContactRepoInterface

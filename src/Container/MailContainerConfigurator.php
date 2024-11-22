@@ -17,6 +17,9 @@ use Mail\MessageFactory\HtmlMessage;
 
 use Sendmail\Middleware\Sendmail\Controler\MailControler;
 
+// Access
+use Access\AccessPresentation;
+
 // repo - z app kontejneru
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
@@ -60,6 +63,7 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
                         $c->get(LoginAggregateCredentialsRepo::class),
                         $c->get(RegistrationRepo::class)
 

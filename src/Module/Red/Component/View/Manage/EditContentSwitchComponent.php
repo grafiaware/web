@@ -21,7 +21,7 @@ class EditContentSwitchComponent extends ComponentCompositeAbstract implements I
      * @param iterable $data
      * @return ViewInterface
      */
-    public function inheritData(iterable $data): ViewInterface {
+    public function inheritViewModel(iterable $data): ViewInterface {
         return $this->setData($data);
     }
 

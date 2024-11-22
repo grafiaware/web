@@ -2,7 +2,7 @@
 
 namespace Events\Middleware\Events\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 
@@ -39,7 +39,7 @@ use Events\Model\Repository\EventLinkRepoInterface;
 /**
  * 
  */
-class EventControler_2 extends PresentationFrontControlerAbstract {
+class EventControler_2 extends FrontControlerAbstract {
 
     const NULL_VALUE_nahradni = "Toto je speciální hodnota představující NULL";        
         

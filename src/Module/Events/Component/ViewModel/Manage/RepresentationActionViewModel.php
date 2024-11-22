@@ -32,10 +32,10 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         $this->status = $status;
         $this->representativeRepo = $representativeRepo;
         $this->companyRepo = $companyRepo;
-        $this->appendData($this->data());
+
     }
 
-    private function data() {
+    public function getIterator() {
         $representativeActions = $this->status->getRepresentativeActions();
         if (isset($representativeActions)) {
             $repsesentative =  $representativeActions->getRepresentative();
@@ -49,7 +49,7 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
             'placeholderValue' => $placeholderKey,
             'editData' => $editData
         ];
-        return $array;
+        return new ArrayIterator($array);        
     }
     
     public function isMultiRepresentative(): bool {

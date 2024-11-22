@@ -3,7 +3,7 @@
 namespace Events\Middleware\Events\Controler;
 
 use Site\ConfigurationCache;
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -41,7 +41,7 @@ use Pes\Http\Response;
 /**
  * 
  */
-class JobControler extends PresentationFrontControlerAbstract {        
+class JobControler extends FrontControlerAbstract {        
     /**
      * 
      * @var CompanyRepoInterface

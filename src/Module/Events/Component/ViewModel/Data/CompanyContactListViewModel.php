@@ -34,7 +34,7 @@ class CompanyContactListViewModel extends ViewModelAbstract implements ViewModel
     }
 
     public function getIterator() {
-        $requestedId = $this->getIdentity();
+        $requestedId = $this->getRequestedId();
         $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();        
 
         if (isset($requestedId)) {

@@ -35,7 +35,8 @@ class ConsentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new LogControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class)
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
                         ))->injectContainer($c);
             }
         ];

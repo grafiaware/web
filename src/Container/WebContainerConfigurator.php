@@ -66,7 +66,7 @@ use Access\Enum\AccessPresentationEnum;
 
 //components
 use Component\View\ElementComponent;
-use Component\View\ElementInheritDataComponent;
+use Component\View\ElementInheritViewModelComponent;
 
 use Web\Component\View\Flash\FlashComponent;
 use Red\Component\View\Manage\InfoBoardComponent;
@@ -196,8 +196,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ElementInheritDataComponent::class => function(ContainerInterface $c) {
-                $component = new ElementInheritDataComponent($c->get(ComponentConfiguration::class));
+            ElementInheritViewModelComponent::class => function(ContainerInterface $c) {
+                $component = new ElementInheritViewModelComponent($c->get(ComponentConfiguration::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -448,7 +448,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new ComponentControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class)
+                            $c->get(StatusPresentationRepo::class),
+                            $c->get(AccessPresentation::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             }, 
@@ -458,6 +459,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
+                            $c->get(AccessPresentation::class),
                             $c->get(ItemApiService::class), 
                             $c->get(CascadeLoaderFactory::class))
                         )->injectContainer($c);  // inject web kontejner
@@ -533,12 +535,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
                 // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
                 return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
-            },
-        ####
-        # Access
-        #
-            AccessPresentation::class => function(ContainerInterface $c) {
-                return new AccessPresentation($c->get(StatusViewModel::class));
             },
         ];
     }

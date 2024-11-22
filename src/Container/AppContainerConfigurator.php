@@ -33,6 +33,11 @@ use Model\Entity\CredentialsInterface;
 // entity
 use Status\Model\Entity\StatusPresentation;
 
+// Access
+use Access\AccessPresentation;
+use Access\AccessPresentationInterface;
+use Access\Enum\AccessPresentationEnum;
+
 // dao
 use Model\Dao\StatusDao;
 
@@ -146,6 +151,13 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
 //                            $c->get(ItemActionRepo::class)
                     );
             },
+        ####
+        # Access
+        #
+            AccessPresentation::class => function(ContainerInterface $c) {
+                return new AccessPresentation($c->get(StatusViewModel::class));
+            },
+                    
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             LoginAggregateFullInterface::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */

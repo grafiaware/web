@@ -17,6 +17,8 @@ use FrontControler\StatusEnum;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
+use Access\AccessPresentationInterface;
+
 
 use Component\View\ComponentInterface;
 
@@ -284,26 +286,19 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $isAllowed =false;
         do {
             $activeRole = array_pop($activeRoles);
-            if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
-                $resource = $permissions[$activeRole][$action];
-                $isAllowed = ($this instanceof $resource) ? true : false;
+            if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {               
+                $permission = $permissions[$activeRole][$action];
+                if($permission instanceof \Closure) {
+                    $isAllowed = (bool) $permission();
+                } else {
+                    $isAllowed = (bool) $permission;
+                } 
+                if ($isAllowed) {
+                    break;
+                }                
+                
             }            
         } while (!$isAllowed);
-        
-        
-//        foreach ($activeRoles as $activeRole) {
-//            if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
-//                $resource = $permissions[$activeRole][$action];
-//                $isAllowed = ($this instanceof $resource) ? true : false;
-//            } else {
-//                $isAllowed =false;
-//            }
-//        }
-        
-//            $componentClass = get_class($component);
-//            $m = $logged ? "Uživatel je přihlášen s rolí '$role'." : "Uživatel není přihlášen.";
-//            $message = "Neznámá oprávnění pro komponentu '$componentClass' a přidělenou aktivní roli uživatele '$activeRole'. $m";
-
         return $isAllowed;
     }
 
@@ -332,9 +327,6 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     protected function getActionPermissions(): array {
         return [
-//            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => self::class],
-//            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
-//            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
         ];
     }
 

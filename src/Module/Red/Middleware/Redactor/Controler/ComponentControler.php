@@ -55,8 +55,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => self::class],
-            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => self::class]
+            RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => true],
+            RoleEnum::ANONYMOUS => [AccessActionEnum::GET => true]
         ];
     }
     

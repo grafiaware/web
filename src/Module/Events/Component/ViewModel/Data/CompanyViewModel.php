@@ -5,6 +5,8 @@ use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\ViewModelInterface;
 
 use Component\ViewModel\StatusViewModelInterface;
+use Model\Entity\EntityInterface;
+
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Entity\CompanyInterface;
 
@@ -20,7 +22,13 @@ class CompanyViewModel extends ViewModelAbstract implements ViewModelInterface {
     private $status;  
     
     private $companyRepo;
-
+    
+    /**
+     * 
+     * @var CompanyInterface
+     */
+    private $company;
+    
     public function __construct(
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo
@@ -30,18 +38,24 @@ class CompanyViewModel extends ViewModelAbstract implements ViewModelInterface {
         $this->companyRepo = $companyRepo;
     }
 
+    public function setEntity($identityValue, EntityInterface $entity) {
+        $this->setRequestedId($identityValue);
+        $this->company = $entity;
+    }
+    
     public function getIterator() {     
-        $companyArray = [];
-        if ($this->hasIdentity()) {
-            $company = $this->companyRepo->get($this->getIdentity());
-            if (isset($company)) {
-                /** @var CompanyInterface $company */
-                $companyArray = [
-                    'companyId' => $company->getId(),
-                    'name' =>  $company->getName()
-                    ];
+        if (!isset($this->company)) {
+            if ($this->hasRequestedId()) {
+                $this->company = $this->companyRepo->get($this->getRequestedId());     
             }
+        }
+
+        if (isset($this->company)) {
+            /** @var CompanyInterface $company */
+            $array = [
+                'name' => $this->company->getName()
+                ];
         } 
-        return new ArrayIterator($companyArray);
+        return new ArrayIterator($array);
     }
 }
