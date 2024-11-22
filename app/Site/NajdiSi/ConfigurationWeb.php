@@ -14,6 +14,33 @@ use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
 use Pes\Logger\FileLogger;
 
+//component
+use Configuration\ComponentConfiguration;
+use Pes\View\Template\PhpTemplate;
+use Component\View\ElementComponent;
+use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoContentForStatusRenderer;
+
+use Events\Component\View\Manage\RepresentativeActionComponent;
+use Events\Component\View\Data\CompanyComponent;
+use Events\Component\View\Data\CompanyListComponent;
+use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
+use Events\Component\View\Data\CompanyContactComponent;
+use Events\Component\View\Data\CompanyContactListComponent;
+use Events\Component\View\Data\CompanyAddressComponent;
+use Events\Component\View\Data\JobToTagComponent;
+
+// component view model
+use Component\ViewModel\StatusViewModel;
+use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
+use Events\Component\ViewModel\Data\CompanyListViewModel;
+use Events\Component\ViewModel\Data\CompanyViewModel;
+use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
+use Events\Component\ViewModel\Data\CompanyContactListViewModel;
+use Events\Component\ViewModel\Data\CompanyAddressViewModel;
+use Events\Component\ViewModel\Data\JobToTagViewModel;
+
+
 /**
  * Description of Configuration
  *
@@ -101,10 +128,12 @@ class ConfigurationWeb extends ConfigurationConstants {
 
                 'companyContactList' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-list.php',
                 'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-list-editable.php',                
+
+                
+                'companyAddress' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address.php',
+                'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',   
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
-                'companyAddress' => self::WEB_TEMPLATES_SITE.'events/company-address.php',
-                'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/company-address-editable.php',   
                 'jobToTag' => self::WEB_TEMPLATES_SITE.'events/job-to-tag.php',
                 'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/job-to-tag-editable.php',
                 'job' => self::WEB_TEMPLATES_SITE.'events/job.php',
@@ -112,6 +141,23 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'companyJobList' => self::WEB_TEMPLATES_SITE.'events/company-job-list.php',
                 'companyJobListEditable' => self::WEB_TEMPLATES_SITE.'events/company-job-list-editable.php',
             ],
+//            'definition' => [
+//                'componentWithTemplate' => [
+//                        'list' => ['viewModel' => vm, 'templateName' => tn],
+//                        'item' => ['viewModel' => vm, 'templateName' => tn]
+//                    ],
+//                'componentWithRenderer' => [
+//                        'list' => ['viewModel' => vm, 'rendererName' => rn],
+//                        'item' => ['viewModel' => vm, 'rendererName' => rn]
+//                    ],
+//                'company' => [
+//                        'list' => ['viewModel' => vm, 'templateName' => tn],
+//                        'item' => ['viewModel' => vm, 'templateName' => tn]
+//                    ],                
+//                
+//                
+//                
+//                ]
         ];
     }
     /**

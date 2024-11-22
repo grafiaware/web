@@ -111,17 +111,20 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases(): iterable {
         return [
-            'companyList' => CompanyListComponent::class,
             'representativeAction' => RepresentativeActionComponent::class,
-            'companyContactList' => CompanyContactComponent::class,
+
             'company' => CompanyComponent::class,
-            'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
-           
+            'companyList' => CompanyListComponent::class,
+            'companyContact' => CompanyContactComponent::class,
+            'companyContactList' => CompanyContactListComponent::class,
             'companyAddress' => CompanyAddressComponent::class,
             'job' => JobComponent::class,
             'jobToTag' => JobToTagComponent::class,
             'companyJobList' => CompanyJobsListComponent::class,
             
+            'jobToTagList' => JobToTagComponent::class,
+            
+            'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
         ];
     }
     
@@ -365,12 +368,14 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('logs.type'),
                         $c->get('templates')
                     );
-            },            
+            },
+            // PresentationFrontControler (GET)
             ComponentControler::class => function(ContainerInterface $c) {
                 return (new ComponentControler(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class)
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },            
@@ -379,6 +384,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
                         $c->get(TemplateCompiler::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
@@ -388,10 +394,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
                         $c->get(RepresentativeRepo::class)
                         )
                        )->injectContainer($c);
-            },                    
+            },
+            // FrontControler (POST)
             VisitorProfileControler::class => function(ContainerInterface $c) {
                 return (new VisitorProfileControler(
                         $c->get(StatusSecurityRepo::class),
@@ -451,7 +459,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new EventControler_2(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),                        
+                        $c->get(StatusPresentationRepo::class),
                         $c->get(InstitutionRepo::class),
                         $c->get(InstitutionTypeRepo::class),                                               
                         $c->get(EventContentRepo::class),
@@ -479,13 +487,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
                 // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
                 return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
-            },
-
-        ####
-        # Access
-        #
-            AccessPresentation::class => function(ContainerInterface $c) {
-                return new AccessPresentation($c->get(StatusViewModel::class));
             },
                     
             // component view model

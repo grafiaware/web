@@ -54,8 +54,8 @@ class JobToTagViewModel extends ViewModelAbstract implements ViewModelInterface 
     }
     
     
-    public function getIterator() {                        
-        $requestedId = $this->getIdentity(); //id jobu                  
+    public function getIterator() {                                                    
+        $requestedId = $this->getRequestedId(); //id jobu                  
         /** @var JobInterface $jobEntity */ 
         $jobEntity = $this->jobRepo->get($requestedId);   
         $jobCompanyId = $jobEntity->getCompanyId();        
