@@ -31,6 +31,7 @@ use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactComponent;
 use Events\Component\View\Data\CompanyContactListComponent;
 use Events\Component\View\Data\CompanyAddressComponent;
+use Events\Component\View\Data\JobToTagComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
@@ -40,6 +41,7 @@ use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
 use Events\Component\ViewModel\Data\CompanyContactListViewModel;
 use Events\Component\ViewModel\Data\CompanyAddressViewModel;
+use Events\Component\ViewModel\Data\JobToTagViewModel;
 
 // controler
 use Events\Middleware\Events\Controler\ComponentControler;
@@ -103,13 +105,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases(): iterable {
         return [
-            'companyList' => CompanyListComponent::class,
             'representativeAction' => RepresentativeActionComponent::class,
-            'companyContactList' => CompanyContactComponent::class,
+            
             'company' => CompanyComponent::class,
-            'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
-           
+            'companyList' => CompanyListComponent::class,
+            'companyContact' => CompanyContactComponent::class,
+            'companyContactList' => CompanyContactListComponent::class,
             'companyAddress' => CompanyAddressComponent::class,
+            'jobToTagList' => JobToTagComponent::class,
+            
+            'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
         ];
     }
     
@@ -240,6 +245,28 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },              
+                   
+            JobToTagComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);              
+                                
+                if($accessPresentation->isAllowed(JobToTagComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component = new JobToTagComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(JobToTagViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('jobToTagEditable')));
+                } elseif($accessPresentation->isAllowed(JobToTagComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new JobToTagComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(JobToTagViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('jobToTag')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;           
+            },      
+                    
                     
                     
         ####
@@ -269,12 +296,14 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('logs.type'),
                         $c->get('templates')
                     );
-            },            
+            },
+            // PresentationFrontControler (GET)
             ComponentControler::class => function(ContainerInterface $c) {
                 return (new ComponentControler(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class)
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },            
@@ -283,6 +312,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
                         $c->get(TemplateCompiler::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
@@ -292,10 +322,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class),
                         $c->get(RepresentativeRepo::class)
                         )
                        )->injectContainer($c);
-            },                    
+            },
+            // FrontControler (POST)
             VisitorProfileControler::class => function(ContainerInterface $c) {
                 return (new VisitorProfileControler(
                         $c->get(StatusSecurityRepo::class),
@@ -355,7 +387,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new EventControler_2(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),                        
+                        $c->get(StatusPresentationRepo::class),
                         $c->get(InstitutionRepo::class),
                         $c->get(InstitutionTypeRepo::class),                                               
                         $c->get(EventContentRepo::class),
@@ -383,13 +415,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
                 // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
                 return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
-            },
-
-        ####
-        # Access
-        #
-            AccessPresentation::class => function(ContainerInterface $c) {
-                return new AccessPresentation($c->get(StatusViewModel::class));
             },
                     
             // component view model
@@ -432,8 +457,18 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),
                         $c->get(CompanyAddressRepo::class),                        
                     );
-            },            
-
+            },  
+            JobToTagViewModel::class => function(ContainerInterface $c) {
+                return new JobToTagViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(JobRepo::class),
+                        $c->get(JobToTagRepo::class),
+                        $c->get(JobTagRepo::class),       
+                        $c->get(CompanyRepo::class),       
+                    );
+            },          
+        
+        
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();
             },

@@ -2,7 +2,7 @@
 namespace Component\View;
 
 use Component\View\ComponentCompositeAbstract;
-use Pes\View\InheritDataViewInterface;
+use Pes\View\InheritViewModelInterface;
 use Pes\View\ViewInterface;
 
 /**
@@ -10,7 +10,7 @@ use Pes\View\ViewInterface;
  *
  * @author pes2704
  */
-class ElementInheritDataComponent extends ComponentCompositeAbstract implements InheritDataViewInterface {
+class ElementInheritViewModelComponent extends ElementComponent implements InheritViewModelInterface {
 
     /**
      * Předá data beze změny.
@@ -18,7 +18,7 @@ class ElementInheritDataComponent extends ComponentCompositeAbstract implements 
      * @param iterable $data
      * @return ViewInterface
      */
-    public function inheritData(iterable $data): ViewInterface {
+    public function inheritViewModel(iterable $data): ViewInterface {
         return $this->setData($data);
     }
 
