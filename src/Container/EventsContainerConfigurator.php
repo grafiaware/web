@@ -314,7 +314,28 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
-            },                              
+            },                
+                    
+             VisitorProfileComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+
+                if($accessPresentation->isAllowed(CompanyJobsListComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component = new CompanyJobsListComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyJobsListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyJobListEditable')));
+                } elseif($accessPresentation->isAllowed(CompanyJobsListComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new CompanyJobsListComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(CompanyJobsListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyJobList')));
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                         
                     
                     
         ####
