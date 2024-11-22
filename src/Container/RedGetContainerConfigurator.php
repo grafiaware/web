@@ -542,7 +542,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         # authored komponenty
         #
             // komponent (t.j. view) - před renderování beforeRenderingHook() vytvoří a připojí objekt template podle vlastností authored komponentu (Paper, Multipage)
-            // data (viewModel) "zdědí" od komponentu, do kterého bude vložen - je typu InheritDataViewInterface
+            // data (viewModel) "zdědí" od komponentu, do kterého bude vložen - je typu InheritViewModelInterface
             TemplatedComponent::class => function(ContainerInterface $c) {
                 $component = new TemplatedComponent(
                         $c->get(ComponentConfiguration::class),

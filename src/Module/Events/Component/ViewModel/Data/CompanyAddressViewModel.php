@@ -1,7 +1,9 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelInterface;
+use Events\Component\ViewModel\Data\RepresentativeViewModelAbstract;
+
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
@@ -10,17 +12,14 @@ use Events\Model\Repository\CompanyAddressRepoInterface;
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyInterface;
 
-use Component\ViewModel\ViewModelInterface;
-
 
 use ArrayIterator;
 
 /**
  * 
  */
-class CompanyAddressViewModel extends ViewModelAbstract implements ViewModelInterface {
+class CompanyAddressViewModel extends RepresentativeViewModelAbstract implements ViewModelInterface {
 
-    private $status;       
     private $companyRepo;
     private $companyAddressRepo;
 
@@ -29,16 +28,15 @@ class CompanyAddressViewModel extends ViewModelAbstract implements ViewModelInte
             CompanyRepoInterface $companyRepo,
             CompanyAddressRepoInterface $companyAddressRepo
             ) {
-        $this->status = $status;
+        parent::__construct($status);
         $this->companyRepo = $companyRepo;
         $this->companyAddressRepo = $companyAddressRepo;
     }
     
     
     public function getIterator() {                        
-        // $editable = true;                            
         $requestedId = $this->getRequestedId();
-        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
+        $representativeFromStatus = $this->getRepresentativeFromStatus();
         
         $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$requestedId) : false;                            
         
