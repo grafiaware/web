@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
+use Events\Component\ViewModel\Data\RepresentativeViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 
 use Events\Model\Repository\CompanyRepoInterface;
@@ -19,9 +19,8 @@ use ArrayIterator;
 /**
  * 
  */
-class JobViewModel extends ViewModelAbstract implements ViewModelInterface {
+class JobViewModel extends RepresentativeViewModelAbstract implements ViewModelInterface {
 
-    private $status;       
     private $companyRepo;
     private $jobRepo;
     private $pozadovaneVzdelaniRepo;
@@ -32,7 +31,7 @@ class JobViewModel extends ViewModelAbstract implements ViewModelInterface {
             JobRepoInterface $jobRepo,
             PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
             ) {
-        $this->status = $status;
+        parent::__construct($status);
         $this->companyRepo = $companyRepo;
         $this->jobRepo = $jobRepo;
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
@@ -52,14 +51,13 @@ class JobViewModel extends ViewModelAbstract implements ViewModelInterface {
             $selectEducations [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
         }   
         
-        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();       
+        $representativeFromStatus = $this->getRepresentativeFromStatus();
         $companyJob=[];
-        if (isset($representativeFromStatus)) {
+//        if (isset($representativeFromStatus)) {
         
             if (isset($jobEntity)) {
                 $jobCompanyId = $jobEntity->getCompanyId();                
-                $representativeCompanyId = $representativeFromStatus->getCompanyId();                 
-                $editable = isset($representativeFromStatus) ? ($representativeCompanyId == $jobCompanyId) : false;                            
+                $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId() == $jobCompanyId) : false;                            
                 //--------------------------------------
                       /** @var CompanyInterface $company */
                 $company = $this->companyRepo->get($jobCompanyId);
@@ -83,7 +81,7 @@ class JobViewModel extends ViewModelAbstract implements ViewModelInterface {
                         'selectEducations' =>  $selectEducations,
                         ];          
             }
-        }   
+//        }   
       
         $array = [
             'job' => $companyJob,

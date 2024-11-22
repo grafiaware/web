@@ -14,6 +14,7 @@ use Pes\Http\Request\RequestParams;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
+use Access\AccessPresentationInterface;
 
 use Events\Model\Repository\RepresentativeRepoInterface;
 
@@ -34,10 +35,11 @@ class RepresentationControler extends FrontControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            AccessPresentationInterface $accessPresentation,
             RepresentativeRepoInterface $representativeRepo
 
         ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
         $this->representativeRepo = $representativeRepo;
     }
     public function setRepresentation(ServerRequestInterface $request) {
