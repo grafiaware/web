@@ -1,8 +1,8 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\ViewModelInterface;
+use Events\Component\ViewModel\Data\RepresentativeViewModelAbstract;
 
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;
@@ -19,9 +19,8 @@ use ArrayIterator;
 /**
  * 
  */
-class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements ViewModelInterface {
+class RepresentativeCompanyAddressViewModel extends RepresentativeViewModelAbstract implements ViewModelInterface {
 
-    private $status;       
     private $companyRepo;
     private $companyAddressRepo;
 
@@ -30,14 +29,14 @@ class RepresentativeCompanyAddressViewModel extends ViewModelAbstract implements
             CompanyRepoInterface $companyRepo,
             CompanyAddressRepoInterface $companyAddressRepo
             ) {
-        $this->status = $status;
+        parent::__construct($status);
         $this->companyRepo = $companyRepo;
         $this->companyAddressRepo = $companyAddressRepo;
     }
        
 
     public function getIterator() {                                                         
-        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();
+        $representativeFromStatus = $this->getRepresentativeFromStatus();
 
         if (isset($representativeFromStatus)) {   
             $editable = true;

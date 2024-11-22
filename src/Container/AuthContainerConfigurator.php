@@ -325,7 +325,6 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),
                         $c->get(LoginAggregateFullRepo::class),
                         $c->get(AuthenticatorInterface::class))
                     )->injectContainer($c);  // inject component kontejner
@@ -336,7 +335,6 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),
                         $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
@@ -346,7 +344,6 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),
                         $c->get(LoginAggregateCredentialsRepo::class),
                         $c->get(RegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
@@ -357,7 +354,6 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),
                         $c->get(LoginAggregateCredentialsRepo::class),
                         $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
@@ -369,7 +365,6 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),                     
                         $c->get(RoleRepo::class ),                       
                         $c->get(CredentialsRepo::class ))          
                     )->injectContainer($c);  // inject component kontejner

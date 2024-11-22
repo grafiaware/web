@@ -7,14 +7,14 @@ use Access\Enum\AccessPresentationEnum;
 use Access\Enum\RoleEnum;
 
 use Pes\View\ViewInterface;
-use Pes\View\InheritDataViewInterface;
+use Pes\View\InheritViewModelInterface;
 
 /**
  * Description of ToggleEditButton
  *
  * @author pes2704
  */
-class EditContentSwitchComponent extends ComponentCompositeAbstract implements InheritDataViewInterface {
+class EditContentSwitchComponent extends ComponentCompositeAbstract implements InheritViewModelInterface {
 
     /**
      *

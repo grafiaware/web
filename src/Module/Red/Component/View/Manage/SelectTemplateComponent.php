@@ -6,7 +6,7 @@ use Component\View\ComponentCompositeAbstract;
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
 
-use Pes\View\InheritDataViewInterface;
+use Pes\View\InheritViewModelInterface;
 use Pes\View\ViewInterface;
 
 /**
@@ -14,7 +14,7 @@ use Pes\View\ViewInterface;
  *
  * @author pes2704
  */
-class SelectTemplateComponent extends ComponentCompositeAbstract implements InheritDataViewInterface {
+class SelectTemplateComponent extends ComponentCompositeAbstract implements InheritViewModelInterface {
 
     /**
      *

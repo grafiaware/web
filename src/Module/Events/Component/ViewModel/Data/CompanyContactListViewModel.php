@@ -1,8 +1,8 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\ViewModelInterface;
+use Events\Component\ViewModel\Data\RepresentativeViewModelAbstract;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
@@ -18,8 +18,8 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyContactListViewModel extends ViewModelAbstract implements ViewModelInterface {
-    private $status;      
+class CompanyContactListViewModel extends RepresentativeViewModelAbstract implements ViewModelInterface {
+    
     private $companyRepo;
     private $companyContactRepo;
 
@@ -28,14 +28,14 @@ class CompanyContactListViewModel extends ViewModelAbstract implements ViewModel
             CompanyRepoInterface $companyRepo,
             CompanyContactRepoInterface $companyContactRepo            
             ) {
-        $this->status = $status;
+        parent::__construct($status);
         $this->companyRepo = $companyRepo;
         $this->companyContactRepo = $companyContactRepo;
     }
 
     public function getIterator() {
         $requestedId = $this->getRequestedId();
-        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();        
+        $representativeFromStatus = $this->getRepresentativeFromStatus();
 
         if (isset($requestedId)) {
             /** @var CompanyInterface $company */ 
