@@ -28,16 +28,6 @@ class InfoBoardComponent extends ComponentCompositeAbstract {
      */
     protected $contextData;
 
-    //renderuje template nebo NonPermittedContentRenderer
-
-//    public function beforeRenderingHook(): void {
-//        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-//            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateStatusBoard()));
-//        } else {
-//            $this->setRendererName(NoPermittedContentRenderer::class);
-//        }
-//    }
-
     public static function getComponentPermissions(): array {
         return [
             RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true],
