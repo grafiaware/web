@@ -40,7 +40,7 @@ class JobViewModel extends ViewModelAbstract implements ViewModelInterface {
     
     
     public function getIterator() {                        
-        $requestedId = $this->getIdentity(); // id jobu
+        $requestedId = $this->getRequestedId(); // id jobu
          /** @var JobInterface $jobEntity */ 
         $jobEntity = $this->jobRepo->get($requestedId);   
         

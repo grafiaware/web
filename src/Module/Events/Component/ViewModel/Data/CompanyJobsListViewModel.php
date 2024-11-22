@@ -40,7 +40,7 @@ class CompanyJobsListViewModel extends ViewModelAbstract implements ViewModelInt
     
     
     public function getIterator() {                        
-        $requestedId = $this->getIdentity(); // id company
+        $requestedId = $this->getRequestedId(); // id company
          /** @var CompanyInterface $company */ 
         $company = $this->companyRepo->get($requestedId);   
         $companyJobs=[];
