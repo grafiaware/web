@@ -42,6 +42,10 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
             $editData = $representativeActions->getDataEditable();
         }
         $placeholderKey = '';
+        
+        //TODO: nastavit automatocky hodnotu a selected pro select, pokud user není multirepresentative                     if (!$this->isMultiRepresentative()) {
+
+        
         $array = [
             'loginName' => $this->status->getUserLoginName(),
             'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderKey, 'Vyberte zastupovanou firmu'),

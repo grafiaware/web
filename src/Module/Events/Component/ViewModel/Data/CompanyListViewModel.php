@@ -36,7 +36,6 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelInterfa
         foreach ($this->companyRepo->findAll() as $company) {
             /** @var CompanyInterface $company */
             $companies[] = [
-                'companyId' => $company->getId(),
                 'name' =>  $company->getName()
                 ];
         }

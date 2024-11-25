@@ -2,6 +2,9 @@
 namespace Red\Component\View\Menu;
 
 use Component\View\ComponentCompositeAbstract;
+use Red\Component\View\Menu\ItemComponentInterface;
+use Component\View\ComponentItemPrototypeInterface;
+
 
 /**
  * Description of ItemComponent
@@ -17,8 +20,12 @@ use Component\View\ComponentCompositeAbstract;
  * @author pes2704
  */
 class ItemComponent extends ComponentCompositeAbstract implements ItemComponentInterface {
+//class ItemComponent extends ComponentCompositeAbstract implements ComponentItemPrototypeInterface {
     public static function getComponentPermissions(): array {
         return [];
     }
 
+    public function __clone() {
+        ;
+    }
 }
