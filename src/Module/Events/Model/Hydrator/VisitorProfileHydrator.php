@@ -28,7 +28,6 @@ class VisitorProfileHydrator extends TypeHydratorAbstract implements HydratorInt
                 ->setName($this->getPhpValue    ($rowData, 'name'))
                 ->setSurname($this->getPhpValue ($rowData, 'surname'))
                 ->setPostfix($this->getPhpValue ($rowData, 'postfix'))
-                ->setEmail($this->getPhpValue   ($rowData, 'email'))
                 ->setPhone($this->getPhpValue   ($rowData, 'phone'))
                 ->setCvEducationText($this->getPhpValue ($rowData,'cv_education_text'))
                 ->setCvSkillsText($this->getPhpValue    ($rowData,'cv_skills_text'))
@@ -49,7 +48,6 @@ class VisitorProfileHydrator extends TypeHydratorAbstract implements HydratorInt
              $this->setSqlValue($rowData, 'name', $visitorProfile->getName());
              $this->setSqlValue($rowData, 'surname', $visitorProfile->getSurname());
              $this->setSqlValue($rowData, 'postfix', $visitorProfile->getPostfix());
-             $this->setSqlValue($rowData, 'email', $visitorProfile->getEmail());
              $this->setSqlValue($rowData, 'phone', $visitorProfile->getPhone());
              $this->setSqlValue($rowData, 'cv_education_text', $visitorProfile->getCvEducationText());
              $this->setSqlValue($rowData, 'cv_skills_text', $visitorProfile->getCvSkillsText());

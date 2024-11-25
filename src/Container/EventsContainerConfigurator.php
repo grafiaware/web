@@ -325,13 +325,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 if($accessPresentation->isAllowed(CompanyJobsListComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component = new CompanyJobsListComponent($c->get(ComponentConfiguration::class));
-                    $component->setData($c->get(CompanyJobsListViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyJobListEditable')));
+                    $component = new VisitorProfileComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(VisitorProfileViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('visitorProfileEditable')));
                 } elseif($accessPresentation->isAllowed(CompanyJobsListComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new CompanyJobsListComponent($c->get(ComponentConfiguration::class));
-                    $component->setData($c->get(CompanyJobsListViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyJobList')));
+                    $component = new VisitorProfileComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(VisitorProfileViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('visitorProfile')));
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -556,7 +556,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(JobRepo::class),
                         $c->get(PozadovaneVzdelaniRepo::class),                        
                     );
-            },               
+            },     
+
+            VisitorProfileViewModel::class => function(ContainerInterface $c) {
+                return new CompanyJobsListViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(VisitorProfileRepo::class),
+//                        $c->get(JobRepo::class),
+//                        $c->get(PozadovaneVzdelaniRepo::class),                        
+                    );
+            },     
                     
                     
         

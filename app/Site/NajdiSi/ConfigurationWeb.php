@@ -130,7 +130,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-list-editable.php',                
                 
                 'companyAddress' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address.php',
-                'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',   
+                'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',  
+                
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
                 'jobToTag' => self::WEB_TEMPLATES_SITE.'events/job-to-tag.php',
@@ -139,6 +140,10 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'jobEditable' => self::WEB_TEMPLATES_SITE.'events/job-editable.php',
                 'companyJobList' => self::WEB_TEMPLATES_SITE.'events/company-job-list.php',
                 'companyJobListEditable' => self::WEB_TEMPLATES_SITE.'events/company-job-list-editable.php',
+                
+                'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
+                'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
+                
             ],
 //            'definition' => [
 //                'componentWithTemplate' => [
