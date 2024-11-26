@@ -85,7 +85,7 @@ class ConfigurationCache {
                     self::$cache[$name] = Siteconfig\ConfigurationRed::redTemplates();
                     break;
                 case 'redUpload':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::redUpload();
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::redUploads();
                     break;
                 case 'transformator':
                     self::$cache[$name] = Siteconfig\ConfigurationWeb::transformator();
@@ -248,7 +248,7 @@ class ConfigurationCache {
         return self::getConfigModule('redTemplates');
     }
 
-    public static function redUpload() {
+    public static function redUploads() {
         return self::getConfigModule('redUpload');
     }
 

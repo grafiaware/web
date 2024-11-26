@@ -34,6 +34,7 @@ use Events\Component\View\Data\CompanyAddressComponent;
 use Events\Component\View\Data\JobToTagComponent;
 use Events\Component\View\Data\JobComponent;
 use Events\Component\View\Data\CompanyJobsListComponent;
+use Events\Component\View\Data\VisitorProfileComponent;
 
 
 // component view model
@@ -47,6 +48,7 @@ use Events\Component\ViewModel\Data\CompanyAddressViewModel;
 use Events\Component\ViewModel\Data\JobToTagViewModel;
 use Events\Component\ViewModel\Data\JobViewModel;
 use Events\Component\ViewModel\Data\CompanyJobsListViewModel;
+use Events\Component\ViewModel\Data\VisitorProfileViewModel;
 
 
 // controler
@@ -69,7 +71,6 @@ use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
-
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\JobRepo;
@@ -120,11 +121,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyAddress' => CompanyAddressComponent::class,
             'job' => JobComponent::class,
             'jobToTag' => JobToTagComponent::class,
-            'companyJobList' => CompanyJobsListComponent::class,
-            
             'jobToTagList' => JobToTagComponent::class,
-            
+            'companyJobList' => CompanyJobsListComponent::class,            
+           
+            'visitorProfile' => VisitorProfileComponent::class,
+      
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
+           
         ];
     }
     
@@ -319,7 +322,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },                
                     
-             VisitorProfileComponent::class => function(ContainerInterface $c) {
+            VisitorProfileComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
@@ -559,11 +562,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },     
 
             VisitorProfileViewModel::class => function(ContainerInterface $c) {
-                return new CompanyJobsListViewModel(
+                return new VisitorProfileViewModel(
                         $c->get(StatusViewModel::class),
+                        $c->get(StatusSecurityRepo::class),
                         $c->get(VisitorProfileRepo::class),
-//                        $c->get(JobRepo::class),
-//                        $c->get(PozadovaneVzdelaniRepo::class),                        
+                        $c->get(DocumentRepo::class),//                                           
                     );
             },     
                     

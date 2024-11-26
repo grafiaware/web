@@ -35,7 +35,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
 
 $userHash = $loginAggregate->getLoginNameHash();
-$accept = implode(", ", ConfigurationCache::redUpload()['upload.events.acceptedextensions']);
+$accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
 $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
 $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
 

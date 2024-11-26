@@ -14,7 +14,7 @@ use Events\Model\Entity\RepresentativeInterface;
  */
 class RepresentativeViewModelAbstract extends ViewModelAbstract implements ViewModelInterface {
     
-    private $status;
+    protected $status;
     
     public function __construct(
             StatusViewModelInterface $status

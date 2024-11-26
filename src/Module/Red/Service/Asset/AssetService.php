@@ -46,7 +46,7 @@ class AssetService implements AssetServiceInterface {
      */
     public function storeAsset(UploadedFileInterface $uploadedFile, $editedItemId, $editor) {
         // relativní cesta vzhledem k rootu
-        $baseFilepath = ConfigurationCache::redUpload()['upload.red'];
+        $baseFilepath = ConfigurationCache::redUploads()['upload.red'];
         $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
         $clientMime = $uploadedFile->getClientMediaType();
         $targetFilepath = $this->prepareAssetFilePath($baseFilepath, $clientFileName);

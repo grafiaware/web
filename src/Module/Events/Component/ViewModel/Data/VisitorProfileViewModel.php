@@ -1,18 +1,22 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Events\Component\ViewModel\Data\RepresentativeViewModelAbstract;
+use Site\ConfigurationCache;
+
+use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 
-//use Events\Model\Repository\CompanyRepoInterface;
-//use Events\Model\Repository\JobRepoInterface;
-use Events\Model\Repository\VisitorProfileRepoInterface;
+use Status\Model\Repository\StatusSecurityRepo;
+use Auth\Model\Entity\LoginAggregateFullInterface;
 
-//use Events\Model\Entity\CompanyInterface;
-//use Events\Model\Entity\JobInterface;
 use Events\Model\Repository\VisitorProfileRepoInterface;
+use Events\Model\Repository\DocumentRepoInterface;
+
+use Events\Model\Entity\VisitorProfileInterface;
+use Events\Model\Entity\DocumentInterface;
 
 use Component\ViewModel\ViewModelInterface;
+use Events\Middleware\Events\Controler\VisitorProfileControler;
 
 
 use ArrayIterator;
@@ -20,74 +24,101 @@ use ArrayIterator;
 /**
  * 
  */
-class VisitorProfileViewModel extends RepresentativeViewModelAbstract implements ViewModelInterface {
+class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInterface {
 
+    private $status;
+    private $secutityRepo;
     private $visitorProfileRepo;
-//    private $jobRepo;
-//    private $pozadovaneVzdelaniRepo;
+    private $documentRepo;
+
 
     public function __construct(
             StatusViewModelInterface $status,
-            VisitorProfileRepoInterface $visitorProfileRepo
-//            JobRepoInterface $jobRepo,
-//            PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
+            StatusSecurityRepo $secutityRepo,
+            VisitorProfileRepoInterface $visitorProfileRepo,
+            DocumentRepoInterface $documentRepo
+
             ) {
-        parent::__construct($status);
+        $this->status = $status;
+        $this->secutityRepo = $secutityRepo;
         $this->visitorProfileRepo = $visitorProfileRepo;
-//        $this->jobRepo = $jobRepo;
-//        $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
+        $this->documentRepo = $documentRepo;
     }    
     
     
-    public function getIterator() {                        
-        $requestedId = $this->getRequestedId(); // id jobu
-         /** @var JobInterface $jobEntity */ 
-        $jobEntity = $this->jobRepo->get($requestedId);   
-        
-        $selectEducations = [];
-        $selectEducations [''] =  "vyber - povinné pole" ;
-        $vzdelaniEntities = $this->pozadovaneVzdelaniRepo->findAll();
-        /** @var PozadovaneVzdelaniInterface $vzdelaniEntity */ 
-        foreach ( $vzdelaniEntities as $vzdelaniEntity ) {
-            $selectEducations [$vzdelaniEntity->getStupen()] =  $vzdelaniEntity->getVzdelani() ;
-        }   
-        
-        $representativeFromStatus = $this->getRepresentativeFromStatus();
-        $companyJob=[];
-//        if (isset($representativeFromStatus)) {
-        
-            if (isset($jobEntity)) {
-                $jobCompanyId = $jobEntity->getCompanyId();                
-                $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId() == $jobCompanyId) : false;                            
-                //--------------------------------------
-                      /** @var CompanyInterface $company */
-                $company = $this->companyRepo->get($jobCompanyId);
-                $companyJob = [
-                    'jobId' => $jobEntity->getId(),
-                    'companyId' => $jobEntity->getCompanyId(),                
-                    'pozadovaneVzdelaniStupen' =>  $jobEntity->getPozadovaneVzdelaniStupen(),
-                    'nazev' =>  $jobEntity->getNazev(),                
-                    'mistoVykonu' =>  $jobEntity->getMistoVykonu(),
-                    'popisPozice' =>  $jobEntity->getPopisPozice(),
-                    'pozadujeme' =>  $jobEntity->getPozadujeme(),
-                    'nabizime' =>  $jobEntity->getNabizime(),                    
-                    'selectEducations' =>  $selectEducations,
+    public function getIterator() {     
 
-                    'editable' => $editable
-                    ];                
-            }            
-            else {
-                    $companyJob = [ 
-                        'editable' => false,  
-                        'selectEducations' =>  $selectEducations,
-                        ];          
-            }
-//        }   
-      
+        /** @var StatusSecurityInterface $statusSecurity */
+        $statusSecurity = $this->secutityRepo->get();
+        /** @var LoginAggregateFullInterface $loginAggregate */
+        $loginAggregate = $statusSecurity->getLoginAggregate();   
+
+        $userHash = $loginAggregate->getLoginNameHash();
+        $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
+        $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+        $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
+
+        $visitorEmail = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '';
+    //------------------------------------------------------------------
+
+        /** @var StatusViewModelInterface $statusViewModel */
+        $role = $this->status->getUserRole();
+        $loginName =  $this->status->getUserLoginName();
+
+
+        /** @var VisitorProfileRepoInterface $visitorProfileRepo */
+        $visitorProfileRepo = $this->visitorProfileRepo;
+        /** @var VisitorProfileInterface $visitorProfile */
+        $visitorProfile = $visitorProfileRepo->get($loginName);   
+
+        if (isset($visitorProfile)) {
+            $documentCvId = $visitorProfile->getCvDocument();
+            $documentLettterId = $visitorProfile->getLetterDocument();        
+        }
+        /** @var DocumentInterface $visitorDocumentCv */
+        if (isset($documentCvId))  {
+            $visitorDocumentCv = $this->documentRepo->get($documentCvId);        
+        }
+
+        /** @var DocumentInterface $visitorDocumentLetter */
+        if (isset($documentLettterId)) {
+            $visitorDocumentLetter = $this->documentRepo->get($documentLettterId);         
+        }
+
+        $editable = true;
+
+        $documents = [];
+        $documents = [
+                'visitorDocumentCv' => ($visitorDocumentCv) ?? '',
+                'visitorDocumentLetter' => ($visitorDocumentLetter) ?? '',
+                'uploadedCvFilename' => ($uploadedCvFilename) ?? '',
+                'uploadedLetterFilename' => ($uploadedLetterFilename) ?? '',
+
+        ];
+
+        if (isset($visitorProfile)) {
+                $profileData  = [
+                    'editable' => $editable,  
+                    'visitorProfile' => $visitorProfile,
+                    'visitorEmail' => $visitorEmail,
+                    'documents' => $documents,
+                    'accept' => $accept
+
+                    ];
+        }else {
+                $profileData = [
+                    'editable' => $editable,                    
+
+                    'loginName_proInsert'=> $loginName,
+                    ];
+        }          
+            
+                                      
         $array = [
-            'job' => $companyJob,
-            'companyName' => isset($company) ? $company->getName() : "" 
-        ];               
+            'profileData' => $profileData,
+            
+        ];           
+        
         return new ArrayIterator($array);        
     }
     

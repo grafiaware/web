@@ -1,7 +1,34 @@
 <?php
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+/** @var PhpTemplateRendererInterface $this */
+ if ($editable) {
+        $readonly = '';
+        $disabled = '';
+    } else {
+        $readonly = 'readonly';
+        $disabled = 'disabled';
+    }   
+?> 
 
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
- */
+
+<div class="profil">
+        <div class="ui stackable centered grid">
+            <div class="column">
+                <div class="ui styled fluid accordion">
+                    <?php 
+                        include 'osobni-udaje-profil.php';
+                      
+                       //  $this->insert( 'osobni-udaje-profil.php',
+                       //                 ['visitorProfile' => $visitorProfile ]
+                       //                )
+                    ?>                     
+                        
+                    <?= '';//$this->insert(__DIR__.'/profil/igelitka.php', $igelitka); ?>
+                    <?php  /* include 'profil/harmonogram.php' */ ?>
+                </div>
+                <br/>
+            </div>
+        </div>
+
+    </div>
 

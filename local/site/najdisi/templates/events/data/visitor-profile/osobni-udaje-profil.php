@@ -5,30 +5,17 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Site\ConfigurationCache;
-//use Red\Model\Entity\LoginAggregateFullInterface;
-use Auth\Model\Entity\LoginAggregateFullInterface;
-
-
-use Events\Middleware\Events\Controler\VisitorProfileControler;
-use Events\Model\Entity\VisitorProfile;
-use Events\Model\Entity\Document;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var VisitorProfile $visitorProfile */
-/** @var LoginAggregateFullInterface $loginAggregate */
-/** @var Document $visitorDocumentCv */
-/** @var Document $visitorDocumentLetter */
+ if ($editable) {
+        $readonly = '';
+        $disabled = '';
+    } else {
+        $readonly = 'readonly';
+        $disabled = 'disabled';
+    }   
 
 
-$userHash = $loginAggregate->getLoginNameHash();
-$accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
-$uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
-$uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
-
-// formulář
-// - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
-// - předvyplňuje se z $visitorData
-$email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
 ?>
             <div class="active title">
                 <i class="dropdown icon"></i>
@@ -57,7 +44,7 @@ $email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate
                     <div class="two fields">
                         <div class="field">
                             <label>E-mail</label>
-                            <input <?= $email ? "readonly" : '' ?> type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= $email ?>">
+                            <input <?= $visitorEmail ? "readonly" : '' ?> type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= $visitorEmail ?>">
                         </div>
                         <div class="field">
                             <label>Telefon</label>
@@ -81,6 +68,11 @@ $email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate
                 </form>
          
 
+                <?= ''; 
+                    $this->insert(__DIR__.'osobni-soubory-profil.php', $documents ); ?>
+                
+                
+                
                 <label><b>Nahrané soubory</b></label>                    
                 <form class="ui huge form"  method="POST" >
                     <div class="two fields">
@@ -109,7 +101,8 @@ $email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorDocumentCv) AND $visitorDocumentCv->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
-                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="10000000">
+                            <p>Akceptované typy souborů: <?= $accept ?> Max. velikost souboru: 10 MB.</p>
                         </div>
                         <div class="field margin">
                             <button class="ui primary button" type="submit">Uložit životopis</button>
@@ -120,7 +113,8 @@ $email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorDocumentLetter) AND $visitorDocumentLetter->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
-                            <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                            <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="10000000">
+                            <p>Akceptované typy souborů: <?= $accept ?> Max. velikost souboru: 10 MB.</p>
                         </div>
                         <div class="field margin">
                             <button class="ui primary button" type="submit">Uložit dopis</button>
