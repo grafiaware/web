@@ -327,11 +327,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                if($accessPresentation->isAllowed(CompanyJobsListComponent::class, AccessPresentationEnum::EDIT)) {
+                if($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::EDIT)) {
                     $component = new VisitorProfileComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(VisitorProfileViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('visitorProfileEditable')));
-                } elseif($accessPresentation->isAllowed(CompanyJobsListComponent::class, AccessPresentationEnum::DISPLAY)) {
+                } elseif($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::DISPLAY)) {
                     $component = new VisitorProfileComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(VisitorProfileViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('visitorProfile')));

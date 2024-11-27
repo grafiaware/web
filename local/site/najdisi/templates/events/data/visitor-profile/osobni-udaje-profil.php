@@ -1,10 +1,6 @@
 <?php
-
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\Text;
-use Pes\Text\Html;
 
-use Site\ConfigurationCache;
 
 /** @var PhpTemplateRendererInterface $this */
  if ($editable) {
@@ -26,19 +22,19 @@ use Site\ConfigurationCache;
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
-                            <input type="text" name="prefix" placeholder="" maxlength="45" value="<?= isset($visitorProfile) ? $visitorProfile->getPrefix() : ''; ?>">
+                            <input type="text" name="prefix" placeholder="" maxlength="45" value="<?= isset($prefix) ? $prefix : ''; ?>">
                         </div>
                         <div class="five wide field">
                             <label>Jméno</label>
-                            <input type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($visitorProfile) ? $visitorProfile->getName() : ''; ?>">
+                            <input type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($name) ? $name : ''; ?>">
                         </div>
                         <div class="five wide field">
                             <label>Příjmení</label>
-                            <input type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($visitorProfile) ? $visitorProfile->getSurname() : ''; ?>">
+                            <input type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($surname) ? $surname : ''; ?>">
                         </div>
                         <div class="three wide field">
                             <label>Titul za jménem</label>
-                            <input type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($visitorProfile) ? $visitorProfile->getPostfix() : ''; ?>">
+                            <input type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($postfix) ? $postfix : ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
@@ -48,17 +44,17 @@ use Site\ConfigurationCache;
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input type="tel" name="phone" placeholder="+420 777 888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($visitorProfile) ? $visitorProfile->getPhone() : ''; ?>">
+                            <input type="tel" name="phone" placeholder="+420 777 888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($phone) ? $phone : ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>Vzdělání, kurzy</label>
-                            <textarea name="cv-education-text" class="edit-userinput"><?= isset($visitorProfile) ? $visitorProfile->getCvEducationText() : ''; ?></textarea>
+                            <textarea name="cv-education-text" class="edit-userinput"><?= isset($cvEducationText) ? $cvEducationText : ''; ?></textarea>
                         </div>
                         <div class="field margin">
                             <label>Pracovní zkušenosti, dovednosti</label>
-                            <textarea name="cv-skills-text" class="edit-userinput"><?= isset($visitorProfile) ? $visitorProfile->getCvSkillsText() : ''; ?></textarea>
+                            <textarea name="cv-skills-text" class="edit-userinput"><?= isset($cvSkillsText) ? $cvSkillsText : ''; ?></textarea>
                         </div>
                     </div>
                     <div class="field margin">
@@ -68,60 +64,4 @@ use Site\ConfigurationCache;
                 </form>
          
 
-                <?= ''; 
-                    $this->insert(__DIR__.'osobni-soubory-profil.php', $documents ); ?>
-                
-                
-                
-                <label><b>Nahrané soubory</b></label>                    
-                <form class="ui huge form"  method="POST" >
-                    <div class="two fields">
-                        <div class="field">
-                            <p>Životopis:<b> <?= isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : ''; ?></b></p>                                                        
-                             <?= isset($visitorDocumentCv) ?
-                                '<button type="submit" formaction="events/v1/document/' .$visitorDocumentCv->getId(). '/remove" >Odstranit životopis</button>'
-                                : '' ;   ?>
-                        </div>      
-                        <div class="field">
-                            <p>Motivační dopis:<b> <?= isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : ''; ?></b></p>                            
-                            <?= isset($visitorDocumentLetter) ?
-                                "<button type='submit' formaction='events/v1/document/" .$visitorDocumentLetter->getId(). "/remove' >Odstranit motivační dopis</button>"
-                                : "" ;   ?>
-                        </div>
-                    </div>
-                </form>                  
-                <br/>
-<!--    <div class="field">
-                                <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a></span>
-                                <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
-        </div>-->                   
-                                  
-                <!--odesílá k uložení do souboru-->
-                <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
-                     <div class="two fields">
-                        <div class="field margin">
-                            <label><?= (isset($visitorDocumentCv) AND $visitorDocumentCv->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
-                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="10000000">
-                            <p>Akceptované typy souborů: <?= $accept ?> Max. velikost souboru: 10 MB.</p>
-                        </div>
-                        <div class="field margin">
-                            <button class="ui primary button" type="submit">Uložit životopis</button>
-                        </div>
-                     </div>
-                </form>
-                <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
-                     <div class="two fields">
-                        <div class="field margin">
-                            <label><?= (isset($visitorDocumentLetter) AND $visitorDocumentLetter->getDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
-                            <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="10000000">
-                            <p>Akceptované typy souborů: <?= $accept ?> Max. velikost souboru: 10 MB.</p>
-                        </div>
-                        <div class="field margin">
-                            <button class="ui primary button" type="submit">Uložit dopis</button>
-                        </div>
-                     </div>
-                </form>
-             
-            </div>
-                
-            
+                <?= $this->insert(__DIR__.'/osobni-soubory-profil.php', $documents ); ?>                                                         

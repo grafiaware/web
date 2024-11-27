@@ -89,21 +89,33 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
 
         $documents = [];
         $documents = [
-                'visitorDocumentCv' => ($visitorDocumentCv) ?? '',
-                'visitorDocumentLetter' => ($visitorDocumentLetter) ?? '',
-                'uploadedCvFilename' => ($uploadedCvFilename) ?? '',
-                'uploadedLetterFilename' => ($uploadedLetterFilename) ?? '',
+            'visitorDocumentCvFilename' => isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : '',
+            'visitorDocumentLetterFilename' => isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : '',
+            'visitorDocumentCvId' => isset($visitorDocumentCv) ? $visitorDocumentCv->getId() : '',
+            'visitorDocumentLetterId' => isset($visitorDocumentLetter) ? $visitorDocumentLetter->getId() : '',
+
+            'editable' => $editable, 
+            'uploadedCvFilename' => ($uploadedCvFilename) ?? '',
+            'uploadedLetterFilename' => ($uploadedLetterFilename) ?? '',
+            'accept' => $accept ?? ''
 
         ];
 
         if (isset($visitorProfile)) {
                 $profileData  = [
                     'editable' => $editable,  
-                    'visitorProfile' => $visitorProfile,
+           //         'visitorProfile' => $visitorProfile,
+                    
+                    'cvEducationText' =>  $visitorProfile->getCvEducationText(),
+                    'cvSkillsText' =>     $visitorProfile->getCvSkillsText(),
+                    'name' =>     $visitorProfile->getName(),
+                    'phone' =>    $visitorProfile->getPhone(),
+                    'postfix' =>  $visitorProfile->getPostfix(),
+                    'prefix' =>   $visitorProfile->getPrefix(),
+                    'surname' =>  $visitorProfile->getSurname(),
+           
                     'visitorEmail' => $visitorEmail,
-                    'documents' => $documents,
-                    'accept' => $accept
-
+                    'documents' => $documents                   
                     ];
         }else {
                 $profileData = [
@@ -115,6 +127,8 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
             
                                       
         $array = [
+            'editable' => $editable,    
+            
             'profileData' => $profileData,
             
         ];           

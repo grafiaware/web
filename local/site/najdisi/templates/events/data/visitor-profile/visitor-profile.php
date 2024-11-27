@@ -15,8 +15,9 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
         <div class="ui stackable centered grid">
             <div class="column">
                 <div class="ui styled fluid accordion">
-                    <?php 
-                        include 'osobni-udaje-profil.php'; ?>
+                    <?=
+                        $this->insert( __DIR__.'/osobni-udaje-profil.php', $profileData  );                                      
+                    ?>
                     
                     <?= '';//$this->insert(__DIR__.'/profil/igelitka.php', $igelitka); ?>
                     <?php  /* include 'profil/harmonogram.php' */ ?>

@@ -73,20 +73,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         } else {
             $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
         }
-        return $this->createStringOKResponseFromView($component);
-        
-
-                if($this->accessPresentation->isAllowed(CompanyComponent::class, AccessPresentationEnum::EDIT)) {                   
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyEditable')));
-                } elseif($this->accessPresentation->isAllowed(CompanyComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('company')));
-                } else {
-                    $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoPermittedContentRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));        
-        
-        
+        return $this->createStringOKResponseFromView($component);      
     }
 
     public function component(ServerRequestInterface $request, $name, $id) {
