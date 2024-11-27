@@ -6,9 +6,12 @@ use Pes\View\ViewInterface;
 use Component\View\ComponentItemPrototypeInterface;
 
 use Component\View\ComponentListInterface;
-use Component\ViewModel\ViewModelCollectionInterface;
+use Component\ViewModel\ViewModelListInterface;
 
 use Configuration\ComponentConfigurationInterface;
+
+use LogicException;
+
 /**
  * Description of ComponentListAbstract
  *
@@ -24,15 +27,16 @@ abstract class ComponentListAbstract extends CollectionView implements Component
     
     private $viewPrototype;
     
-    private $collectionViewModel = [];
+    private $listViewModel;
 
     public function __construct(ComponentConfigurationInterface $configuration, ComponentItemPrototypeInterface $viewPrototype) {
         $this->configuration = $configuration;
         $this->viewPrototype = $viewPrototype;
     }
     
-    public function setCollectionViewModel(ViewModelCollectionInterface $collectionViewModel) {
-        $this->collectionViewModel = $collectionViewModel;
+    public function setListViewModel(ViewModelListInterface $listViewModel) {
+        $this->listViewModel = $listViewModel;
+        $this->setData($listViewModel);
     }
     
     /**
@@ -42,16 +46,18 @@ abstract class ComponentListAbstract extends CollectionView implements Component
      * @return void
      */
     public function beforeRenderingHook(): void {
-//        $this->getData()->hydrateChildViewModels();   // přidej interface ChildViewModelInterface
+        if(!isset($this->listViewModel)) {
+            throw new LogicException("Komponent list musí mít nastaven list view model metodou ->setListViewModel(ViewModelListInterface)");
+        }
         $componentViewCollection = [];
-        foreach ($this->collectionViewModel->provideDataCollection() as $componentData) {
+        foreach ($this->listViewModel->provideItemDataCollection() as $itemData) {
             /** @var ViewInterface $view */
             $view = clone ($this->viewPrototype);
-            $view->setData($componentData);
+            $view->setData($itemData);
             $componentViewCollection[] = $view;
         }
         
         $this->appendComponentViewCollection($componentViewCollection);
     }
-    
+
 }

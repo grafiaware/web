@@ -6,11 +6,12 @@
  */
 
 namespace Component\View;
-use Component\ViewModel\ViewModelCollectionInterface;
+use Component\ViewModel\ViewModelListInterface;
+
 /**
  *
  * @author pes2704
  */
 interface ComponentListInterface {
-    public function setCollectionViewModel(ViewModelCollectionInterface $collectionViewModel);
+    public function setListViewModel(ViewModelListInterface $collectionViewModel);
 }

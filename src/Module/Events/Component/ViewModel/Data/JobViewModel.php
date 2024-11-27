@@ -1,26 +1,27 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Events\Component\ViewModel\Data\RepresentativeViewModelAbstract;
+use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelItemInterface;
+
+use Events\Component\ViewModel\Data\RepresentativeTrait;
+
 use Component\ViewModel\StatusViewModelInterface;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
-
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\JobInterface;
-
-use Component\ViewModel\ViewModelInterface;
-
 
 use ArrayIterator;
 
 /**
  * 
  */
-class JobViewModel extends RepresentativeViewModelAbstract implements ViewModelInterface {
-
+class JobViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+    
+    private $status;
     private $companyRepo;
     private $jobRepo;
     private $pozadovaneVzdelaniRepo;
@@ -31,15 +32,16 @@ class JobViewModel extends RepresentativeViewModelAbstract implements ViewModelI
             JobRepoInterface $jobRepo,
             PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
             ) {
-        parent::__construct($status);
+        $this->status = $status;
         $this->companyRepo = $companyRepo;
         $this->jobRepo = $jobRepo;
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
     }    
     
+    use RepresentativeTrait;    
     
     public function getIterator() {                        
-        $requestedId = $this->getRequestedId(); // id jobu
+        $requestedId = $this->getItemId(); // id jobu
          /** @var JobInterface $jobEntity */ 
         $jobEntity = $this->jobRepo->get($requestedId);   
         

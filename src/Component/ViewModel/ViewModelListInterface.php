@@ -1,10 +1,12 @@
 <?php
 namespace Component\ViewModel;
 
+use Component\ViewModel\ViewModelInterface;
+
 /**
  *
  * @author pes2704
  */
-interface ViewModelListInterface {
-    public function provideDataCollection(): iterable;
+interface ViewModelListInterface extends ViewModelInterface {
+    public function provideItemDataCollection(): iterable;
 }

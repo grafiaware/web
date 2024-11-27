@@ -1,8 +1,9 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelInterface;
-use Events\Component\ViewModel\Data\RepresentativeViewModelAbstract;
+use Component\ViewModel\ViewModelChildListAbstract;
+use Component\ViewModel\ViewModelChildListInterface;
+use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
@@ -18,8 +19,9 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyContactListViewModel extends RepresentativeViewModelAbstract implements ViewModelInterface {
+class CompanyContactListViewModel extends ViewModelChildListAbstract implements ViewModelChildListInterface {
     
+    private $status;
     private $companyRepo;
     private $companyContactRepo;
 
@@ -28,13 +30,18 @@ class CompanyContactListViewModel extends RepresentativeViewModelAbstract implem
             CompanyRepoInterface $companyRepo,
             CompanyContactRepoInterface $companyContactRepo            
             ) {
-        parent::__construct($status);
+        $this->status = $status;
         $this->companyRepo = $companyRepo;
         $this->companyContactRepo = $companyContactRepo;
     }
 
+    use RepresentativeTrait;
+
+    public function provideDataCollection(): iterable {
+        ;
+    }
     public function getIterator() {
-        $requestedId = $this->getRequestedId();
+        $requestedId = $this->getParentId();
         $representativeFromStatus = $this->getRepresentativeFromStatus();
 
         if (isset($requestedId)) {

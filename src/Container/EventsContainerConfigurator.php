@@ -26,6 +26,7 @@ use Component\Renderer\Html\NoContentForStatusRenderer;
 
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Events\Component\View\Data\CompanyComponent;
+use Events\Component\View\Data\CompanyComponentPrototype;
 use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactComponent;
@@ -152,13 +153,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new CompanyListComponent($configuration);
-
-                if($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::EDIT)) {                   
-                    $component->setData($c->get(CompanyListViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyListEditable')));
-                } elseif($accessPresentation->isAllowed(CompanyListComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(CompanyListViewModel::class));
+                $component = new CompanyListComponent($configuration, $c->get(CompanyComponentPrototype::class));    //CompanyComponentPrototype
+                if($accessPresentation->hasAnyPermission(CompanyListComponent::class)) {
+                    $component->setListViewModel($c->get(CompanyListViewModel::class));                    
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyList')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -166,23 +163,31 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            CompanyComponent::class => function(ContainerInterface $c) {
-                $component = new CompanyComponent($c->get(ComponentConfiguration::class));
+            CompanyComponentPrototype::class => function(ContainerInterface $c) {  // komponent bez dat
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new CompanyComponent($configuration);
+                $component = new CompanyComponentPrototype($configuration);
 
-                if($accessPresentation->isAllowed(CompanyComponent::class, AccessPresentationEnum::EDIT)) {                   
-                    $component->setData($c->get(CompanyViewModel::class));
+                if($accessPresentation->isAllowed(CompanyComponentPrototype::class, AccessPresentationEnum::EDIT)) {                   
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyEditable')));
-                } elseif($accessPresentation->isAllowed(CompanyComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(CompanyViewModel::class));
+                } elseif($accessPresentation->isAllowed(CompanyComponentPrototype::class, AccessPresentationEnum::DISPLAY)) {
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('company')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            CompanyComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = $c->get(CompanyComponentPrototype::class);
+
+                if($accessPresentation->hasAnyPermission(CompanyComponent::class)) {                   
+                    $component->setData($c->get(CompanyViewModel::class));
+                }
                 return $component;
             },
             RepresentativeCompanyAddressComponent::class => function(ContainerInterface $c) {

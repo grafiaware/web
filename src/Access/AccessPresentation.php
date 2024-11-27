@@ -34,6 +34,20 @@ class AccessPresentation implements AccessPresentationInterface {
 //    public function getStatus(): StatusViewModelInterface {
 //        return $this->statusViewModel;
 //    }
+    public function hasAnyPermission($resourceClassname): bool {
+        $has = false;
+        $role = $this->statusViewModel->getUserRole();
+        $logged = $this->statusViewModel->isUserLoggedIn();
+        $permissions = $resourceClassname::getComponentPermissions();
+        $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
+        foreach ($activeRoles as $activeRole) {
+            if (array_key_exists($activeRole, $permissions)) {
+                $permission = $permissions[$activeRole];
+                $has = (bool) $permission;
+            }
+        }
+        return $has;
+    }
 
     /**
      * Vrací informaci, jestli přihlášený uživatel má oprávnění zobrazit komponent v zadaném prezentační režimu.

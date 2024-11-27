@@ -2,28 +2,24 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelAbstract;
-use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\ViewModelListInterface;
+
+use Events\Component\ViewModel\Data\RepresentativeTrait;
+
 use Component\ViewModel\StatusViewModelInterface;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Entity\CompanyInterface;
 
-use Events\Model\Repository\JobToTagRepo;
-use Events\Model\Repository\JobTagRepo;
-use Events\Model\Repository\JobRepo;
 use Events\Model\Repository\JobToTagRepoInterface;
 use Events\Model\Repository\JobTagRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
 
-use Events\Model\Entity\JobToTag;
 use Events\Model\Entity\JobToTagInterface;
-use Events\Model\Entity\JobTag;
 use Events\Model\Entity\JobTagInterface;
-use Events\Model\Entity\Job;
 use Events\Model\Entity\JobInterface;
 
 
-use Component\ViewModel\ViewModelInterface;
 
 
 use ArrayIterator;
@@ -31,7 +27,7 @@ use ArrayIterator;
 /**
  * 
  */
-class JobToTagViewModel extends ViewModelAbstract implements ViewModelInterface {
+class JobToTagViewModel extends ViewModelAbstract implements ViewModelListInterface {
 
     private $status;       
     private $jobRepo;
@@ -53,7 +49,8 @@ class JobToTagViewModel extends ViewModelAbstract implements ViewModelInterface 
         $this->companyRepo = $companyRepo;
     }
     
-    
+    use RepresentativeTrait;
+
     public function getIterator() {                        
         // $editable = true;                            
         $requestedId = $this->getRequestedId(); //id jobu                  

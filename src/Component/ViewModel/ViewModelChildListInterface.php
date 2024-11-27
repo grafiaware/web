@@ -10,12 +10,15 @@ namespace Component\ViewModel;
 
 use Component\ViewModel\ViewModelInterface;
 
-use Pes\Type\ContextData;
-
 /**
- * Description of ViewModelAbstract
  *
  * @author pes2704
  */
-class ViewModelAbstract extends ContextData implements ViewModelInterface {
+interface ViewModelChildListInterface extends ViewModelInterface {  
+    
+    public function setParentId($id);
+    
+    public function hasParentId(): bool;
+    
+    public function getParentId();
 }

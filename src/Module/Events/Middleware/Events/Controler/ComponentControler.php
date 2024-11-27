@@ -15,11 +15,12 @@ use Pes\View\Renderer\ImplodeRenderer;
 use Component\View\ComponentCompositeInterface;
 use Component\View\ComponentCollectionInterface;
 use Component\ViewModel\ViewModelInterface;
-
-
-####################
+use Component\ViewModel\ViewModelItemInterface;
+use Component\ViewModel\ViewModelChildListInterface;
 
 use Pes\Text\Html;
+
+use LogicException;
 
 ####################
 //use Pes\Debug\Timer;
@@ -83,8 +84,10 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 /** @var ComponentCompositeInterface $component */
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
-                if (isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
-                    $viewModel->setRequestedId($id);
+                if ($viewModel instanceof ViewModelItemInterface) {
+                    $viewModel->setItemId($id);
+                } else {
+                    throw new LogicException("ViewModel komponenty ". get_class()." není požadovaného typu ViewModelItemInterface");
                 }
             } else {
                 $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
@@ -102,8 +105,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 /** @var ComponentCompositeInterface $component */
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
-                if (isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
-                    $viewModel->setRequestedId($parentId);
+                if ($viewModel instanceof ViewModelChildListInterface) {
+                    $viewModel->setParentId($parentId);
                 }
             } else {
                 $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    

@@ -7,7 +7,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
             <div class="two fields">                        
                 <div class="field">
-                <label>Název firmy</label>
+                <label><?= $headline ?? "" ?></label>
                     <input readonly type="text" name="name" placeholder="" maxlength="250" value="<?= $name ?? '' ?>" required >
                  </div>  
             </div>                 

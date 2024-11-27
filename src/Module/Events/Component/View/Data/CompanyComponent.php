@@ -8,7 +8,9 @@
 
 namespace Events\Component\View\Data;
 
-use Component\View\ComponentCollectionAbstract;
+use Component\View\ComponentCompositeAbstract;
+use Component\View\ComponentCompositeInterface;
+use Component\View\ComponentItemPrototypeInterface;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -18,7 +20,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class CompanyComponent extends ComponentCollectionAbstract {
+class CompanyComponent extends ComponentCompositeAbstract implements ComponentItemPrototypeInterface {
 
     public static function getComponentPermissions(): array {
         return [
@@ -27,5 +29,9 @@ class CompanyComponent extends ComponentCollectionAbstract {
             RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
             RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true],
         ];
+    }
+    
+    public function __clone() {
+        ;
     }
 }

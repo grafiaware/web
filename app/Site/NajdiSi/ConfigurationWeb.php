@@ -123,8 +123,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 
                 'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
                 'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',
-                'companyList' => self::WEB_TEMPLATES_SITE.'events/data/company/company-list.php',                
-                'companyListEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-list-editable.php',
+                'companyList' => self::WEB_TEMPLATES_COMMON.'data/list.php',                
 
                 'companyContactList' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-list.php',
                 'companyContactListEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-list-editable.php',                
@@ -140,23 +139,6 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'companyJobList' => self::WEB_TEMPLATES_SITE.'events/company-job-list.php',
                 'companyJobListEditable' => self::WEB_TEMPLATES_SITE.'events/company-job-list-editable.php',
             ],
-//            'definition' => [
-//                'componentWithTemplate' => [
-//                        'list' => ['viewModel' => vm, 'templateName' => tn],
-//                        'item' => ['viewModel' => vm, 'templateName' => tn]
-//                    ],
-//                'componentWithRenderer' => [
-//                        'list' => ['viewModel' => vm, 'rendererName' => rn],
-//                        'item' => ['viewModel' => vm, 'rendererName' => rn]
-//                    ],
-//                'company' => [
-//                        'list' => ['viewModel' => vm, 'templateName' => tn],
-//                        'item' => ['viewModel' => vm, 'templateName' => tn]
-//                    ],                
-//                
-//                
-//                
-//                ]
         ];
     }
     /**
