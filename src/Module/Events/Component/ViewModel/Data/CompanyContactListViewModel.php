@@ -47,7 +47,7 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
     
     public function provideItemDataCollection(): iterable {
         $requestedId = $this->getParentId();
-        $componentRouteSegment = "events/v1/company/$requestedId/companyContact";
+        $componentRouteSegment = "events/v1/company/$requestedId/companycontact";
         $items = [];
         /** @var CompanyContactInterface $companyContact */
         $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $requestedId ] );

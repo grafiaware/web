@@ -47,7 +47,7 @@ class CompanyContactViewModel extends ViewModelItemAbstract implements ViewModel
     
     public function getIterator() {
         $requestedId = $this->getItemId();
-        $componentRouteSegment = "events/v1/companyContact";
+        $componentRouteSegment = "events/v1/companycontact";
 
         $companyContactArray = [];
         $companyContact = $this->companyContactRepo->get($requestedId);
