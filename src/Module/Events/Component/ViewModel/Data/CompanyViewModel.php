@@ -52,20 +52,23 @@ class CompanyViewModel extends ViewModelItemAbstract implements ViewModelItemInt
     public function getIterator() {     
         if ($this->hasItemId()) {
             $company = $this->companyRepo->get($this->getItemId());     
-        }  // exc
-
-        if (isset($company)) {
-            $editableItem = $this->isAdministrator() || $this->isCompanyRepresentative($company->getId());
-            /** @var CompanyInterface $company */
-            $item = [
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'headline' => 'Název firmy',
-                'id' => $company->getId(),
-                'name' =>  $company->getName()
-                ];
         } else {
-            $item = [];
+            throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
         }
+
+        $editableItem = $this->isAdministrator() || $this->isCompanyRepresentative($company->getId());
+        /** @var CompanyInterface $company */
+        $item = [
+            // conditions
+            'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+            // text
+            'headline' => 'Název firmy',
+            //route
+            'componentRouteSegment' => 'events/v1/company',
+            'id' => $company->getId(),
+            // data
+            'name' =>  $company->getName()                    
+            ];
         return new ArrayIterator($item);
     }
 }

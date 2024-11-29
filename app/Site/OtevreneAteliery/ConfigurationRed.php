@@ -111,7 +111,7 @@ class ConfigurationRed extends ConfigurationConstants {
      * Konfigurace upload files - vrací parametry pro FilesUploadControler
      * @return array
      */
-    public static function redUpload() {
+    public static function redUploads() {
 
         return [
             'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload/red/' : self::WEB_FILES_SITE.'upload/red/',

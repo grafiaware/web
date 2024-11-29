@@ -26,7 +26,7 @@ class ViewModelItemAbstract extends ContextData implements ViewModelItemInterfac
      * 
      * @param type $id
      */
-    public function setItemId($id) {
+    public function setItemId(string $id) {
         $this->id = $id;
     }
     
@@ -44,7 +44,7 @@ class ViewModelItemAbstract extends ContextData implements ViewModelItemInterfac
      * 
      * @return mixed
      */
-    public function getItemId() {
+    public function getItemId(): string {
         return $this->id ?? null;
     }
 }

@@ -26,6 +26,7 @@ interface StatusViewModelInterface extends ViewModelInterface {
 
     public function getUserRole(): ?string;
     public function getUserLoginName(): ?string;
+    public function getUserLoginHash(): ?string;
     public function isUserLoggedIn(): bool;
     /**
      * Prezentuj generovaný obsah v editovatelné podobě

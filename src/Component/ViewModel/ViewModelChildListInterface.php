@@ -8,17 +8,17 @@
 
 namespace Component\ViewModel;
 
-use Component\ViewModel\ViewModelInterface;
+use Component\ViewModel\ViewModelListInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ViewModelChildListInterface extends ViewModelInterface {  
+interface ViewModelChildListInterface extends ViewModelListInterface {  
     
-    public function setParentId($id);
+    public function setParentId(string $id);
     
     public function hasParentId(): bool;
     
-    public function getParentId();
+    public function getParentId(): string;
 }

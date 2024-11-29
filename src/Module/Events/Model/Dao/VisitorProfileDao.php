@@ -22,7 +22,6 @@ class VisitorProfileDao extends DaoEditAbstract {
             'name',
             'surname',
             'postfix',
-            'email',
             'phone',
             'cv_education_text',
             'cv_skills_text',

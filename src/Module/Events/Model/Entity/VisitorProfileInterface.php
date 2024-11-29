@@ -22,8 +22,6 @@ interface VisitorProfileInterface extends PersistableEntityInterface {
 
     public function getPostfix();
 
-    public function getEmail();
-
     public function getPhone();
 
     public function getCvEducationText();
@@ -42,9 +40,7 @@ interface VisitorProfileInterface extends PersistableEntityInterface {
 
     public function setSurname($surname): VisitorProfileInterface;
 
-    public function setPostfix($postfix): VisitorProfileInterface;
-
-    public function setEmail($email): VisitorProfileInterface;
+    public function setPostfix($postfix): VisitorProfileInterface; 
 
     public function setPhone($phone): VisitorProfileInterface;
 

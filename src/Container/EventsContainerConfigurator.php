@@ -30,11 +30,13 @@ use Events\Component\View\Data\CompanyComponentPrototype;
 use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactComponent;
+use Events\Component\View\Data\CompanyContactComponentPrototype;
 use Events\Component\View\Data\CompanyContactListComponent;
 use Events\Component\View\Data\CompanyAddressComponent;
 use Events\Component\View\Data\JobToTagComponent;
 use Events\Component\View\Data\JobComponent;
 use Events\Component\View\Data\CompanyJobsListComponent;
+use Events\Component\View\Data\VisitorProfileComponent;
 
 
 // component view model
@@ -44,10 +46,12 @@ use Events\Component\ViewModel\Data\CompanyListViewModel;
 use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
 use Events\Component\ViewModel\Data\CompanyContactListViewModel;
+use Events\Component\ViewModel\Data\CompanyContactViewModel;
 use Events\Component\ViewModel\Data\CompanyAddressViewModel;
 use Events\Component\ViewModel\Data\JobToTagViewModel;
 use Events\Component\ViewModel\Data\JobViewModel;
 use Events\Component\ViewModel\Data\CompanyJobsListViewModel;
+use Events\Component\ViewModel\Data\VisitorProfileViewModel;
 
 
 // controler
@@ -70,7 +74,6 @@ use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
-
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\JobRepo;
@@ -121,11 +124,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyAddress' => CompanyAddressComponent::class,
             'job' => JobComponent::class,
             'jobToTag' => JobToTagComponent::class,
-            'companyJobList' => CompanyJobsListComponent::class,
-            
             'jobToTagList' => JobToTagComponent::class,
-            
+            'companyJobList' => CompanyJobsListComponent::class,            
+           
+            'visitorProfile' => VisitorProfileComponent::class,
+      
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
+           
         ];
     }
     
@@ -180,12 +185,10 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             CompanyComponent::class => function(ContainerInterface $c) {
+                $component = $c->get(CompanyComponentPrototype::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                $configuration = $c->get(ComponentConfiguration::class);
-                $component = $c->get(CompanyComponentPrototype::class);
-
-                if($accessPresentation->hasAnyPermission(CompanyComponent::class)) {                   
+                if($accessPresentation->hasAnyPermission(CompanyComponent::class)) {
                     $component->setData($c->get(CompanyViewModel::class));
                 }
                 return $component;
@@ -223,24 +226,43 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;           
-            },      
-                   
-            CompanyContactComponent::class => function(ContainerInterface $c) {
+            },
+            CompanyContactListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new CompanyContactComponent($configuration);
-
-                if($accessPresentation->isAllowed(CompanyContactComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setData($c->get(CompanyContactListViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactListEditable')));
-                } elseif($accessPresentation->isAllowed(CompanyContactComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(CompanyContactListViewModel::class));
+                $component = new CompanyContactListComponent($configuration, $c->get(CompanyContactComponentPrototype::class));    //CompanyComponentPrototype
+                if($accessPresentation->hasAnyPermission(CompanyContactListComponent::class)) {
+                    $component->setListViewModel($c->get(CompanyContactListViewModel::class));                    
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactList')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;                
+            },
+            CompanyContactComponentPrototype::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new CompanyContactComponentPrototype($configuration);
+                if($accessPresentation->isAllowed(CompanyContactComponentPrototype::class, AccessPresentationEnum::EDIT)) {
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactEditable')));
+                } elseif($accessPresentation->isAllowed(CompanyContactComponentPrototype::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContact')));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;                
+            },
+            CompanyContactComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $component = $c->get(CompanyContactComponentPrototype::class);
+                if($accessPresentation->hasAnyPermission(CompanyContactComponent::class)) {
+                    $component->setData($c->get(CompanyContactViewModel::class));
+                }
                 return $component;
             },              
                    
@@ -301,18 +323,20 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },                
                     
-             VisitorProfileComponent::class => function(ContainerInterface $c) {
+            VisitorProfileComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
                     $component = new CompanyJobsListComponent($configuration);
 
-                if($accessPresentation->isAllowed(CompanyJobsListComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setData($c->get(CompanyJobsListViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyJobListEditable')));
-                } elseif($accessPresentation->isAllowed(CompanyJobsListComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(CompanyJobsListViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyJobList')));
+                if($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component = new VisitorProfileComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(VisitorProfileViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('visitorProfileEditable')));
+                } elseif($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component = new VisitorProfileComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(VisitorProfileViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('visitorProfile')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -503,6 +527,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyContactRepo::class),                        
                     );
             },    
+            CompanyContactViewModel::class => function(ContainerInterface $c) {
+                return new CompanyContactViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class),
+                        $c->get(CompanyContactRepo::class),                        
+                    );                
+            },
             CompanyAddressViewModel::class => function(ContainerInterface $c) {
                 return new CompanyAddressViewModel(
                         $c->get(StatusViewModel::class),
@@ -536,7 +567,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(JobRepo::class),
                         $c->get(PozadovaneVzdelaniRepo::class),                        
                     );
-            },               
+            },     
+
+            VisitorProfileViewModel::class => function(ContainerInterface $c) {
+                return new VisitorProfileViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(VisitorProfileRepo::class),
+                        $c->get(DocumentRepo::class),//                                           
+                    );
+            },     
                     
                     
         

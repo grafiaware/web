@@ -14,27 +14,33 @@ use Events\Model\Repository\CompanyRepoInterface;
 
     foreach ($companies as $company) {
         $companyId = $company->getId();
-        echo Html::p("events/v1/component/company/$companyId", $pStyle);
-        echo Html::tag('div', 
-            [
-                'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/component/company/$companyId",
-            ]
-        );
-        echo Html::p("events/v1/component/companyAddress/$companyId", $pStyle);
-        echo Html::tag('div', 
-            [
-                'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/component/companyAddress/$companyId",
-            ]
-        );
-
-        echo Html::p("events/v1/subcomponent/companyContact/$companyId", $pStyle);
-        echo Html::tag('div', 
-            [
-                'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/subcomponent/companyContact/$companyId",
-            ]
-        );
+echo Html::p("Všechny company: events/v1/component/company", $pStyle);
+echo Html::tag('div', 
+        [
+            'class'=>'cascade',
+            'data-red-apiuri'=>"events/v1/component/company",
+        ]
+    );
+echo Html::p("Jedna company s id company: events/v1/component/company/$companyId", $pStyle);
+echo Html::tag('div', 
+        [
+            'class'=>'cascade',
+            'data-red-apiuri'=>"events/v1/component/company/$companyId",
+        ]
+    );
+echo Html::p("Jedna adresa s id adresy: events/v1/component/companyAddress/$companyId", $pStyle);
+echo Html::tag('div', 
+        [
+            'class'=>'cascade',
+            'data-red-apiuri'=>"events/v1/component/companyAddress/$companyId",
+        ]
+    );
+echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/subcomponent/companyContact/$companyId", $pStyle);
+echo Html::tag('div', 
+        [
+            'class'=>'cascade',
+            'data-red-apiuri'=>"events/v1/subcomponent/companyContact/$companyId",
+        ]
+    );
 
 }

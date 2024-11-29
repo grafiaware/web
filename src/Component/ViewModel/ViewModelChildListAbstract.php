@@ -9,11 +9,11 @@ use Pes\Type\ContextData;
  *
  * @author pes2704
  */
-class ViewModelChildListAbstract extends ContextData implements ViewModelChildListInterface {
+abstract class ViewModelChildListAbstract extends ContextData implements ViewModelChildListInterface {
     
     private $id;
 
-    public function setParentId($id) {
+    public function setParentId(string $id) {
         $this->id = $id;
     }
     
@@ -21,7 +21,7 @@ class ViewModelChildListAbstract extends ContextData implements ViewModelChildLi
         return isset($this->id);
     }
     
-    public function getParentId() {
+    public function getParentId(): string {
         return $this->id ?? null;
     }
 }

@@ -22,7 +22,7 @@ trait RepresentativeTrait {
     
     protected function getStatusRepresentativeDataEditable(): bool {
         $actions = $this->status->getRepresentativeActions();
-        return isset($actions) ? $actions->getDataEditable() : null;
+        return isset($actions) ? $actions->getDataEditable() : false;
 
 }
     

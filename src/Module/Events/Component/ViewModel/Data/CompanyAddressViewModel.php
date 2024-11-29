@@ -48,8 +48,7 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         $requestedId = $this->getItemId();
         $editable = $this->isAdministrator() || $this->isCompanyEditor($requestedId);
 
-                   
-            /** @var CompanyAddressInterface $companyAddressEntity */
+        /** @var CompanyAddressInterface $companyAddressEntity */
         $companyAddressEntity = $this->companyAddressRepo->get($requestedId);
         if (isset($companyAddressEntity)) {
             $companyAddress = [
@@ -62,7 +61,7 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
                 ];
         }else {
             /** @var CompanyInterface $company */ 
-            if ($this->companyRepo->get($requestedId)) {
+            if ($this->companyRepo->get($requestedId)) {  // validace id rodiče
                 $companyAddress = [
                     'editable' => $editable,                    
                     'companyId_proInsert'=> $requestedId,

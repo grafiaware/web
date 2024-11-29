@@ -47,8 +47,8 @@ if ($editable) {
             <div>
                 <?=
                  isset($companyId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/".$companyId."' > Uložit </button>" :
-                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId_proInsert."/companyaddress' > Přidat adresu </button>" ;
+                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companyaddress/".$companyId."' > Uložit změny </button>" :
+                "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId_proInsert."/companyaddress' > Přidat </button>" ;
                 ?>                                                                                                                                             
             </div>
 

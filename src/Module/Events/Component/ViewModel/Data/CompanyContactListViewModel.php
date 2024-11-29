@@ -11,7 +11,7 @@ use Events\Model\Repository\CompanyContactRepoInterface;
 use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\CompanyInterface;
 
-
+use Access\Enum\RoleEnum;
 use ArrayIterator;
 
 /**
@@ -36,41 +36,57 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
     }
 
     use RepresentativeTrait;
+    
+    private function isAdministrator() {
+        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+    }
 
-    public function provideDataCollection(): iterable {
-        ;
+    private function isCompanyEditor($companyId) {
+        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
+    }
+    
+    public function provideItemDataCollection(): iterable {
+        $requestedId = $this->getParentId();
+        $componentRouteSegment = "events/v1/company/$requestedId/companyContact";
+        $items = [];
+        /** @var CompanyContactInterface $companyContact */
+        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $requestedId ] );
+        foreach ($companyContacts as $companyContact) {           
+            $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyContact->getCompanyId());
+            $items[] = [
+                // conditions
+                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                'remove'=> $editableItem,   // přidá tlačítko remove do item
+                // text
+                'headline' => 'Jméno kontaktu',
+                //route
+                'componentRouteSegment' => $componentRouteSegment,
+                'id' => $companyContact->getId(),
+                // data,
+                'name' =>  $companyContact->getName(),
+                'phones' =>  $companyContact->getPhones(),
+                'mobiles' =>  $companyContact->getMobiles(),
+                'emails' =>  $companyContact->getEmails(),                    
+            ];
+        }
+        if ($editableItem) {
+            $items[] = [
+                // conditions
+                'editable' => true,    // vstupní pole formuláře jsou editovatelná 
+                'add' => true,   // zobrazí se tlačítko Uložit
+                // text
+                'headline' => 'Přidej kontakt',                
+                //route
+                'componentRouteSegment' => $componentRouteSegment,
+            ];
+        }        
+        return $items;
     }
     public function getIterator() {
-        $requestedId = $this->getParentId();
-        $representativeFromStatus = $this->getRepresentativeFromStatus();
 
-        if (isset($requestedId)) {
-            /** @var CompanyInterface $company */ 
-            $company = $this->companyRepo->get($requestedId); 
-        }
-        $companyContactsArray = [];
-        /** @var CompanyContactInterface $cCEntity */
-            $companyContactEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $company->getId() ] );
-            $editable = isset($representativeFromStatus) ? ($representativeFromStatus->getCompanyId()==$company->getId()) : false;
-            foreach ($companyContactEntities as $cCEntity) {           
-                $companyContactsArray[] = [
-                    'idCompany' => $company->getId(),
-                    'companyContactId' => $cCEntity->getId(),
-                    'companyId' => $cCEntity->getCompanyId(),
-                    'name' =>  $cCEntity->getName(),
-                    'phones' =>  $cCEntity->getPhones(),
-                    'mobiles' =>  $cCEntity->getMobiles(),
-                    'emails' =>  $cCEntity->getEmails(),
-                    'editable' => $editable,                  
-                ];
-            }
-        $array = [
-                    'companyContacts' => $companyContactsArray,
-                    'addContact' => $editable,
-                    'companyId' => $company->getId(),
-                    'companyName' => $company->getName()
-                ];
-
+        $array = [         
+            'headline'=>'Kontakty', 'addText' => 'Přidej kontakt', 'removeText' => 'Smaž kontakt',
+            'items' => $this->getArrayCopy()];
         return new ArrayIterator($array);
         
     }

@@ -17,7 +17,6 @@ class VisitorProfile extends PersistableEntityAbstract implements VisitorProfile
     private $name;
     private $surname;
     private $postfix;
-    private $email;
     private $phone;
     private $cvEducationText;
     private $cvSkillsText;
@@ -42,11 +41,7 @@ class VisitorProfile extends PersistableEntityAbstract implements VisitorProfile
 
     public function getPostfix() {
         return $this->postfix;
-    }
-
-    public function getEmail() {
-        return $this->email;
-    }
+    }   
 
     public function getPhone() {
         return $this->phone;
@@ -90,11 +85,6 @@ class VisitorProfile extends PersistableEntityAbstract implements VisitorProfile
 
     public function setPostfix($postfix): VisitorProfileInterface {
         $this->postfix = $postfix;
-        return $this;
-    }
-
-    public function setEmail($email): VisitorProfileInterface {
-        $this->email = $email;
         return $this;
     }
 

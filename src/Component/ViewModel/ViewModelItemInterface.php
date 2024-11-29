@@ -21,7 +21,7 @@ interface ViewModelItemInterface extends ViewModelInterface {
      * 
      * @param type $id
      */
-    public function setItemId($id);
+    public function setItemId(string $id);
     
     /**
      * Informuje, že ViewModel má nastavenou hodnotu identifikátoru z requestu..
@@ -33,6 +33,6 @@ interface ViewModelItemInterface extends ViewModelInterface {
     /**
      * Metoda vrací hodnotu identifikátoru z requestu nastavenou metodou setIdentity() nebo null.
      */
-    public function getItemId();
+    public function getItemId(): string;
 //    
 }

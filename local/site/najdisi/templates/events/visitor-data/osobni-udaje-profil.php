@@ -35,14 +35,17 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
 
 $userHash = $loginAggregate->getLoginNameHash();
-$accept = implode(", ", ConfigurationCache::redUpload()['upload.events.acceptedextensions']);
+$accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
 $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
 $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
 
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
 
-$email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
+//$email = isset($visitorProfile) ? $visitorProfile->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
+
+$email = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '';
+
 ?>
             <div class="active title">
                 <i class="dropdown icon"></i>

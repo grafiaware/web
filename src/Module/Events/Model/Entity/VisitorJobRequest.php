@@ -19,7 +19,6 @@ class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobR
     private $name;
     private $surname;
     private $postfix;
-    private $email;
     private $phone;
     private $cvEducationText;
     private $cvSkillsText;
@@ -50,10 +49,6 @@ class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobR
 
     public function getPostfix() {
         return $this->postfix;
-    }
-
-    public function getEmail() {
-        return $this->email;
     }
 
     public function getPhone() {
@@ -108,11 +103,6 @@ class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobR
 
     public function setPostfix($postfix): VisitorJobRequestInterface {
         $this->postfix = $postfix;
-        return $this;
-    }
-
-    public function setEmail($email): VisitorJobRequestInterface {
-        $this->email = $email;
         return $this;
     }
 

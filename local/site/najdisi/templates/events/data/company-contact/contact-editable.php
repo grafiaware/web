@@ -31,19 +31,20 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                     <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="60" value="<?= isset($mobiles)?  $mobiles : '' ?>">
                 </div>
             </div>   
-            <?php if ($editable) { ?>
+                <!--buttons-->
                 <div>
                     <?=
-                     isset($companyContactId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact/". $companyContactId ."' > Uložit </button>" :
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact' > Uložit (+) </button>" ;              
-                     
-                     ?>                                                                                                                             
+                    $editable ?? false ? 
+                        (isset($id) 
+                        ?
+                            "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id' > Uložit změny </button>"
+                        :
+                            "<button class='ui primary button' type='submit' formaction='$componentRouteSegment' > Přidat </button>" 
+                        )        
+                    : "";
+                    ?>
                     <?=
-                    isset($companyContactId) ?
-                    "<button class='ui primary button' type='submit' formaction='events/v1/company/".$companyId."/companycontact/". $companyContactId ."/remove' > Odstranit kontakt </button>" :
-                    "" ;
-                    ?>                                                                                                         
-                </div>           
-            <?php  }  ?>
+                    $remove ?? false ? "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove' > Odstranit </button>" : "";
+                    ?>
+                </div>              
         </form>           

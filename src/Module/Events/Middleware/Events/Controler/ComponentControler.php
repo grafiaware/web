@@ -65,11 +65,12 @@ class ComponentControler extends PresentationFrontControlerAbstract {
     }
 
     public function componentList(ServerRequestInterface $request, $name) {
+        $listName = $name."List";
         if($this->isAllowed(AccessActionEnum::GET)) {
-            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
-                $component = $this->container->get($name);
+            if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($listName);
             } else {
-                $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
+                $component = $this->errorView($request, "Component $listName is not defined (configured) or have no alias in container.");                    
             }
         } else {
             $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
@@ -87,7 +88,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 if ($viewModel instanceof ViewModelItemInterface) {
                     $viewModel->setItemId($id);
                 } else {
-                    throw new LogicException("ViewModel komponenty ". get_class()." není požadovaného typu ViewModelItemInterface");
+                    throw new LogicException("ViewModel komponenty ". get_class($component)." není požadovaného typu ViewModelItemInterface");
                 }
             } else {
                 $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
@@ -99,9 +100,10 @@ class ComponentControler extends PresentationFrontControlerAbstract {
     }
 
     public function subComponentList(ServerRequestInterface $request, $name, $parentId) {
+        $listName = $name."List";
         if($this->isAllowed(AccessActionEnum::GET)) {
-            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
-                $component = $this->container->get($name);
+            if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($listName);
                 /** @var ComponentCompositeInterface $component */
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */

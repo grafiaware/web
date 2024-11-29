@@ -27,8 +27,6 @@ interface VisitorJobRequestInterface extends PersistableEntityInterface {
 
     public function getPostfix();
 
-    public function getEmail();
-
     public function getPhone();
 
     public function getCvEducationText();
@@ -52,8 +50,6 @@ interface VisitorJobRequestInterface extends PersistableEntityInterface {
     public function setSurname($surname): VisitorJobRequestInterface;
 
     public function setPostfix($postfix): VisitorJobRequestInterface;
-
-    public function setEmail($email): VisitorJobRequestInterface;
 
     public function setPhone($phone): VisitorJobRequestInterface;
 
