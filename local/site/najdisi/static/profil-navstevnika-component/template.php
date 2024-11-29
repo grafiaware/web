@@ -7,6 +7,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 echo Html::tag('div', 
         [
             'class'=>'cascade',
-            'data-red-apiuri'=>"events/v1/component/visitorProfile",
+            'data-red-apiuri'=>"events/v1/component/visitorProfile/vlse2610",
         ]
     );

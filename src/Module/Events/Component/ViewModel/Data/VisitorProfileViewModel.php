@@ -55,9 +55,11 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
         $loginAggregate = $statusSecurity->getLoginAggregate();
         
         $editable = false;
+        $visible = true;
         $documents = [];
         $profileData = [];
-        $profileData = ['documents' => $documents];
+        $profileData = [ 'editable' => $editable ]  ;
+        $documents = [ 'editable' => $editable ]  ;
         
         $requestedLogName = $this->getRequestedId();
 
@@ -65,8 +67,9 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
 
             $statusLoginName = $loginAggregate->getLoginName();
 
-            if ( $requestedLogName ==  $statusLoginName) {    //jen tetnto uzivatel
-                $editable = true;        
+            if ( $requestedLogName ==  $statusLoginName) {    //jen tento (prihlaseny) uzivatel
+                $editable = true;   
+                $visible = true;
 
                 $userHash = $loginAggregate->getLoginNameHash();
                 $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
@@ -117,7 +120,6 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
                 if (isset($visitorProfile)) {
                         $profileData  = [
                             'editable' => $editable,  
-                   //         'visitorProfile' => $visitorProfile,
 
                             'cvEducationText' =>  $visitorProfile->getCvEducationText(),
                             'cvSkillsText' =>     $visitorProfile->getCvSkillsText(),
@@ -126,9 +128,8 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
                             'postfix' =>  $visitorProfile->getPostfix(),
                             'prefix' =>   $visitorProfile->getPrefix(),
                             'surname' =>  $visitorProfile->getSurname(),
-
                             'visitorEmail' => $visitorEmail,
-                            'documents' => $documents                   
+                                           
                             ];
                 }else {
                         $profileData = [
@@ -138,14 +139,18 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
                             ];
                 }          
             
-        }
+            } else {
+                $visible = false;
+            }
         }
     
                                   
         $array = [
             'editable' => $editable,    
+            'visible' => $visible,            
             
             'profileData' => $profileData,
+            'documents' => $documents    
             
         ];           
         

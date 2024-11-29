@@ -152,7 +152,6 @@ class VisitorProfileControler extends FrontControlerAbstract {
             $visitorProfile->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
             $visitorProfile->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
             $visitorProfile->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
-            $visitorProfile->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
             $visitorProfile->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
             $visitorProfile->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
             $visitorProfile->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
