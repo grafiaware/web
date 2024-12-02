@@ -9,7 +9,6 @@ use Pes\Text\Html;
  
 ?>
 
-        <form class="ui huge form" action="" method="POST" >
             <div class="two fields ">                        
                 <div class="field">
                 <label>Jméno firmy (pro adresu)</label>
@@ -32,4 +31,3 @@ use Pes\Text\Html;
                     <input readonly type="text" name="obec" placeholder="" maxlength="60" value="<?= $obec ?? '' ?>">
                 </div>
             </div>                 
-        </form>           

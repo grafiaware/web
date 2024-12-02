@@ -2,7 +2,6 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 ?>
-        <form class="ui huge form" action="" method="POST" >
 
             <div class="two fields">                        
                 <div class="field">
@@ -24,4 +23,3 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                     <input readonly type="text" name="mobiles" placeholder="" maxlength="60" value="<?= $mobiles ?? '' ?>">
                 </div>
             </div>                 
-        </form>           

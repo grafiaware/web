@@ -9,7 +9,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
         $disabled = 'disabled';
     }   
 ?> 
-        <form class="ui huge form" action="" method="POST" >
             <div class="two fields">                        
                 <div class="field">
                 <label>Jméno kontaktu</label>
@@ -30,4 +29,3 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                     <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="60" value="<?= isset($mobiles)?  $mobiles : '' ?>">
                 </div>
             </div>               
-        </form>           
