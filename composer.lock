@@ -198,12 +198,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "58addd563fef6c5d23c0ea4d5616ad13321a715c"
+                "reference": "507a928e1ad5ecf13fb7d9184ace6c0cd2895d5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/58addd563fef6c5d23c0ea4d5616ad13321a715c",
-                "reference": "58addd563fef6c5d23c0ea4d5616ad13321a715c",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/507a928e1ad5ecf13fb7d9184ace6c0cd2895d5f",
+                "reference": "507a928e1ad5ecf13fb7d9184ace6c0cd2895d5f",
                 "shasum": ""
             },
             "require": {
@@ -248,7 +248,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master"
             },
-            "time": "2024-11-20T17:41:59+00:00"
+            "time": "2024-12-01T11:50:53+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -370,16 +370,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.9.2",
+            "version": "v6.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "a7b17b42fa4887c92146243f3d2f4ccb962af17c"
+                "reference": "2f5c94fe7493efc213f643c23b1b1c249d40f47e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a7b17b42fa4887c92146243f3d2f4ccb962af17c",
-                "reference": "a7b17b42fa4887c92146243f3d2f4ccb962af17c",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2f5c94fe7493efc213f643c23b1b1c249d40f47e",
+                "reference": "2f5c94fe7493efc213f643c23b1b1c249d40f47e",
                 "shasum": ""
             },
             "require": {
@@ -439,7 +439,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.9.2"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.9.3"
             },
             "funding": [
                 {
@@ -447,7 +447,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-09T10:07:50+00:00"
+            "time": "2024-11-24T18:04:13+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
