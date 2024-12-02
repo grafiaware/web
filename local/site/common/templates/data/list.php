@@ -8,7 +8,7 @@ use Pes\Text\Message;
 
             <div class="active title">
                 <i class="dropdown icon"></i>
-                <?= $headline ?>
+                <?= $listHeadline ?>
             </div>     
         
             <div class="active content">      

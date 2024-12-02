@@ -2,7 +2,7 @@
 namespace Red\Component\View\Menu;
 
 use Component\View\ComponentCompositeInterface;
-use Component\View\ComponentItemPrototypeInterface;
+use Component\View\ComponentPrototypeInterface;
 
 /**
  *

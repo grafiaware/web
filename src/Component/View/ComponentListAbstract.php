@@ -3,7 +3,7 @@ namespace Component\View;
 
 use Pes\View\CollectionView;
 use Pes\View\ViewInterface;
-use Component\View\ComponentItemPrototypeInterface;
+use Component\View\ComponentPrototypeInterface;
 
 use Component\View\ComponentListInterface;
 use Component\ViewModel\ViewModelListInterface;
@@ -29,7 +29,7 @@ abstract class ComponentListAbstract extends CollectionView implements Component
     
     private $listViewModel;
 
-    public function __construct(ComponentConfigurationInterface $configuration, ComponentItemPrototypeInterface $viewPrototype) {
+    public function __construct(ComponentConfigurationInterface $configuration, ComponentPrototypeInterface $viewPrototype) {
         $this->configuration = $configuration;
         $this->viewPrototype = $viewPrototype;
     }

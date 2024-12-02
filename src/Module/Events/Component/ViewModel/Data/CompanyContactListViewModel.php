@@ -63,21 +63,28 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyContact->getId(),
                 // data,
-                'name' =>  $companyContact->getName(),
-                'phones' =>  $companyContact->getPhones(),
-                'mobiles' =>  $companyContact->getMobiles(),
-                'emails' =>  $companyContact->getEmails(),                    
+                // data
+                'fields' => [
+                    'editable' => $editableItem,               
+                    'name' =>  $companyContact->getName(),
+                    'phones' =>  $companyContact->getPhones(),
+                    'mobiles' =>  $companyContact->getMobiles(),
+                    'emails' =>  $companyContact->getEmails(),      
+                    ], 
             ];
         }
         if ($editableItem) {
             $items[] = [
                 // conditions
                 'editable' => true,    // vstupní pole formuláře jsou editovatelná 
-                'add' => true,   // zobrazí se tlačítko Uložit
+                'add' => true,   // zobrazí se tlačítko Uložit      ?????????????
                 // text
-                'headline' => 'Přidej kontakt',                
+                'addHeadline' => 'Přidej kontakt',                 
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
+                // data
+                'fields' => [
+                    'editable' => $editableItem,]
             ];
         }        
         return $items;
@@ -85,9 +92,9 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
     public function getIterator() {
 
         $array = [         
-            'headline'=>'Kontakty', 'addText' => 'Přidej kontakt', 'removeText' => 'Smaž kontakt',
+            'listHeadline'=>'Kontakty', 
             'items' => $this->getArrayCopy()];
-        return new ArrayIterator($array);
-        
+        $this->appendData($array);
+        return parent::getIterator();        
     }
 }

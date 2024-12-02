@@ -89,7 +89,8 @@ class JobViewModel extends ViewModelItemAbstract implements ViewModelItemInterfa
             'job' => $companyJob,
             'companyName' => isset($company) ? $company->getName() : "" 
         ];               
-        return new ArrayIterator($array);        
+        $this->appendData($array);
+        return parent::getIterator();        
     }
     
     

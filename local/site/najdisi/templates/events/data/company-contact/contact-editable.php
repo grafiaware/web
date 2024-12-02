@@ -10,7 +10,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
     }   
 ?> 
         <form class="ui huge form" action="" method="POST" >
-
             <div class="two fields">                        
                 <div class="field">
                 <label>Jméno kontaktu</label>
@@ -30,21 +29,5 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                     <label>Mobily</label>
                     <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="60" value="<?= isset($mobiles)?  $mobiles : '' ?>">
                 </div>
-            </div>   
-                <!--buttons-->
-                <div>
-                    <?=
-                    $editable ?? false ? 
-                        (isset($id) 
-                        ?
-                            "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id' > Uložit změny </button>"
-                        :
-                            "<button class='ui primary button' type='submit' formaction='$componentRouteSegment' > Přidat </button>" 
-                        )        
-                    : "";
-                    ?>
-                    <?=
-                    $remove ?? false ? "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove' > Odstranit </button>" : "";
-                    ?>
-                </div>              
+            </div>               
         </form>           

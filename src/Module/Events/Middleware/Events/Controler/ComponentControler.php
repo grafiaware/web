@@ -63,8 +63,20 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }
         return $this->createStringOKResponseFromView($view);
     }
-
-    public function componentList(ServerRequestInterface $request, $name) {
+    public function component(ServerRequestInterface $request, $name) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($name);
+            } else {
+                $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
+            }
+        } else {
+            $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }
+        return $this->createStringOKResponseFromView($component);
+    }
+    
+    public function dataList(ServerRequestInterface $request, $name) {
         $listName = $name."List";
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
@@ -78,7 +90,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($component);
     }
 
-    public function component(ServerRequestInterface $request, $name, $id) {
+    public function data(ServerRequestInterface $request, $name, $id) {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($name);
@@ -99,7 +111,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($component);
     }
 
-    public function subComponentList(ServerRequestInterface $request, $name, $parentId) {
+    public function subDataList(ServerRequestInterface $request, $name, $parentId) {
         $listName = $name."List";
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu

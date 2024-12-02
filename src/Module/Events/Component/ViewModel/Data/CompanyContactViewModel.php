@@ -49,7 +49,6 @@ class CompanyContactViewModel extends ViewModelItemAbstract implements ViewModel
         $requestedId = $this->getItemId();
         $componentRouteSegment = "events/v1/companycontact";
 
-        $companyContactArray = [];
         $companyContact = $this->companyContactRepo->get($requestedId);
         
         $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyContact->getCompanyId());
@@ -63,14 +62,17 @@ class CompanyContactViewModel extends ViewModelItemAbstract implements ViewModel
             //route
             'componentRouteSegment' => $componentRouteSegment,
             'id' => $companyContact->getId(),
-            // data,
-            'name' =>  $companyContact->getName(),
-            'phones' =>  $companyContact->getPhones(),
-            'mobiles' =>  $companyContact->getMobiles(),
-            'emails' =>  $companyContact->getEmails(),                       
+            // data
+            'fields' => [
+                'editable' => $editableItem,
+                'name' =>  $companyContact->getName(),
+                'phones' =>  $companyContact->getPhones(),
+                'mobiles' =>  $companyContact->getMobiles(),
+                'emails' =>  $companyContact->getEmails(),
+                ],                      
             ];
 
-        return new ArrayIterator($companyContactArray);
-        
+        $this->appendData($companyContactArray);
+        return parent::getIterator();        
     }
 }

@@ -3,7 +3,7 @@ namespace Red\Component\View\Menu;
 
 use Component\View\ComponentCompositeAbstract;
 use Red\Component\View\Menu\ItemComponentInterface;
-use Component\View\ComponentItemPrototypeInterface;
+use Component\View\ComponentPrototypeInterface;
 
 
 /**

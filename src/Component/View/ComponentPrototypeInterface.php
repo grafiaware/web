@@ -7,6 +7,6 @@ use Pes\View\ViewInterface;
  *
  * @author pes2704
  */
-interface ComponentItemPrototypeInterface extends ViewInterface {
+interface ComponentPrototypeInterface extends ViewInterface {
     public function __clone();
 }

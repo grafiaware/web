@@ -28,7 +28,7 @@ use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactComponent;
 use Events\Component\View\Data\CompanyContactListComponent;
 use Events\Component\View\Data\CompanyAddressComponent;
-use Events\Component\View\Data\JobToTagComponent;
+use Events\Component\View\Data\JobToTagListComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
@@ -120,6 +120,9 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+
+                'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
+                'item' => self::WEB_TEMPLATES_COMMON.'data/item.php',
                 
                 'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
                 'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',

@@ -10,7 +10,7 @@ use Access\Enum\AccessPresentationEnum;
 /** 
  * 
  */ 
-class JobToTagComponent extends ComponentCompositeAbstract {
+class JobToTagListComponent extends ComponentCompositeAbstract {
 
     public static function getComponentPermissions(): array {
         return [

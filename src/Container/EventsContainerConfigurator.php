@@ -33,7 +33,7 @@ use Events\Component\View\Data\CompanyContactComponent;
 use Events\Component\View\Data\CompanyContactComponentPrototype;
 use Events\Component\View\Data\CompanyContactListComponent;
 use Events\Component\View\Data\CompanyAddressComponent;
-use Events\Component\View\Data\JobToTagComponent;
+use Events\Component\View\Data\JobToTagListComponent;
 use Events\Component\View\Data\JobComponent;
 use Events\Component\View\Data\CompanyJobsListComponent;
 use Events\Component\View\Data\VisitorProfileComponent;
@@ -123,8 +123,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyContactList' => CompanyContactListComponent::class,
             'companyAddress' => CompanyAddressComponent::class,
             'job' => JobComponent::class,
-            'jobToTag' => JobToTagComponent::class,
-            'jobToTagList' => JobToTagComponent::class,
+            'jobToTag' => JobToTagListComponent::class,
+            'jobToTagList' => JobToTagListComponent::class,
             'companyJobList' => CompanyJobsListComponent::class,            
            
             'visitorProfile' => VisitorProfileComponent::class,
@@ -161,7 +161,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = new CompanyListComponent($configuration, $c->get(CompanyComponentPrototype::class));    //CompanyComponentPrototype
                 if($accessPresentation->hasAnyPermission(CompanyListComponent::class)) {
                     $component->setListViewModel($c->get(CompanyListViewModel::class));                    
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyList')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -175,9 +175,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = new CompanyComponentPrototype($configuration);
 
                 if($accessPresentation->isAllowed(CompanyComponentPrototype::class, AccessPresentationEnum::EDIT)) {                   
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyEditable')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyEditable'));
                 } elseif($accessPresentation->isAllowed(CompanyComponentPrototype::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('company')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('company'));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -217,10 +219,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                                 
                 if($accessPresentation->isAllowed(CompanyAddressComponent::class, AccessPresentationEnum::EDIT)) {
                     $component->setData($c->get(CompanyAddressViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyAddressEditable')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyAddressEditable'));                    
                 } elseif($accessPresentation->isAllowed(CompanyAddressComponent::class, AccessPresentationEnum::DISPLAY)) {
                     $component->setData($c->get(CompanyAddressViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyAddress')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyAddress'));    
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -234,7 +238,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = new CompanyContactListComponent($configuration, $c->get(CompanyContactComponentPrototype::class));    //CompanyComponentPrototype
                 if($accessPresentation->hasAnyPermission(CompanyContactListComponent::class)) {
                     $component->setListViewModel($c->get(CompanyContactListViewModel::class));                    
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactList')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -247,9 +251,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
                 $component = new CompanyContactComponentPrototype($configuration);
                 if($accessPresentation->isAllowed(CompanyContactComponentPrototype::class, AccessPresentationEnum::EDIT)) {
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContactEditable')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyContactEditable'));
                 } elseif($accessPresentation->isAllowed(CompanyContactComponentPrototype::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('companyContact')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyContact'));                    
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -266,16 +272,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },              
                    
-            JobToTagComponent::class => function(ContainerInterface $c) {
+            JobToTagListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);              
-                $component = new JobToTagComponent($c->get(ComponentConfiguration::class)); 
+                $component = new JobToTagListComponent($c->get(ComponentConfiguration::class)); 
                                 
-                if($accessPresentation->isAllowed(JobToTagComponent::class, AccessPresentationEnum::EDIT)) {
+                if($accessPresentation->isAllowed(JobToTagListComponent::class, AccessPresentationEnum::EDIT)) {
                     $component->setData($c->get(JobToTagViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('jobToTagEditable')));
-                } elseif($accessPresentation->isAllowed(JobToTagComponent::class, AccessPresentationEnum::DISPLAY)) {
+                } elseif($accessPresentation->isAllowed(JobToTagListComponent::class, AccessPresentationEnum::DISPLAY)) {
                     $component->setData($c->get(JobToTagViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('jobToTag')));
                 } else {

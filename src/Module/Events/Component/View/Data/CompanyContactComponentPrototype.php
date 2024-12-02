@@ -9,14 +9,14 @@
 namespace Events\Component\View\Data;
 
 use Events\Component\View\Data\CompanyContactComponent;
-use Component\View\ComponentItemPrototypeInterface;
+use Component\View\ComponentPrototypeInterface;
 
 /**
  * Description of CompanyComponentPrototype
  *
  * @author pes2704
  */
-class CompanyContactComponentPrototype extends CompanyContactComponent implements ComponentItemPrototypeInterface {
+class CompanyContactComponentPrototype extends CompanyContactComponent implements ComponentPrototypeInterface {
     
     public function __clone() {
     }

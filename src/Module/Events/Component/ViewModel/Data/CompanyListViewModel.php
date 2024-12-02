@@ -60,23 +60,22 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $isAdministrator,   // přidá tlačítko remove do item
-                // text
-                'headline' => 'Název firmy',
                 //route
                 'componentRouteSegment' => 'events/v1/company',
                 'id' => $company->getId(),
                 // data
-                'name' =>  $company->getName()
+                'fields' => ['editable' => $editableItem, 'name' =>  $company->getName()],
                 ];
         }
-        if ($isAdministrator) {
+        if ($isAdministrator) {  // přidání item pro přidání společnosti
             $items[] = [
                 // conditions
                 'editable' => true,    // vstupní pole formuláře jsou editovatelná 
-                'add' => true,   // zobrazí se tlačítko Uložit
                 // text
-                'headline' => 'Přidej firmu',                
-            ];
+                'addHeadline' => 'Přidej firmu',                
+                // data
+                'fields' => ['editable' => $editableItem],
+                ];
         }
         return $items;
     }
@@ -87,7 +86,7 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      */
     public function getIterator() {
         $array = [         
-            'headline'=>'Firmy', 'addText' => 'Přidej firmu', 'removeText' => 'Smaž firmu',
+            'listHeadline'=>'Firmy', 
             'items' => $this->getArrayCopy()];
         return new ArrayIterator($array);
     }

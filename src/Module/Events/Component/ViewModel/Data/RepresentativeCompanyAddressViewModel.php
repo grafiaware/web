@@ -66,7 +66,8 @@ class RepresentativeCompanyAddressViewModel extends ViewModelItemAbstract implem
             'companyAddress' => $companyAddress,
             'name' => $company->getName()
         ];
-        return new ArrayIterator($array);                
+        $this->appendData($array);
+        return parent::getIterator();        
     }
     
     

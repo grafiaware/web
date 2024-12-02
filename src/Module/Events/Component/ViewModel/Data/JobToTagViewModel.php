@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelChildListAbstract;
 use Component\ViewModel\ViewModelListInterface;
 
 use Events\Component\ViewModel\Data\RepresentativeTrait;
@@ -27,7 +27,7 @@ use ArrayIterator;
 /**
  * 
  */
-class JobToTagViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelListInterface {
 
     private $status;       
     private $jobRepo;
@@ -50,13 +50,15 @@ class JobToTagViewModel extends ViewModelAbstract implements ViewModelListInterf
     }
     
     use RepresentativeTrait;
-
+    public function provideItemDataCollection(): iterable {
+        assert(false, "není implementováno!");
+    }
     public function getIterator() {                        
         // $editable = true;                            
-        $requestedId = $this->getRequestedId(); //id jobu                  
-        /** @var JobInterface $jobEntity */ 
-        $jobEntity = $this->jobRepo->get($requestedId);   
-        $jobCompanyId = $jobEntity->getCompanyId();        
+        $requestedId = $this->getParentId(); //id jobu                  
+        /** @var JobInterface $job */ 
+        $job = $this->jobRepo->get($requestedId);   
+        $jobCompanyId = $job->getCompanyId();        
         /** @var CompanyInterface $company */
         $company = $this->companyRepo->get($jobCompanyId);
         
@@ -78,7 +80,7 @@ class JobToTagViewModel extends ViewModelAbstract implements ViewModelListInterf
                 //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
             }
 
-            $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $jobEntity->getId() );
+            $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $job->getId() );
 
             $checkedTags=[];   //nalepky pro 1 job
             $checkedTagsText=[]; 
@@ -91,8 +93,8 @@ class JobToTagViewModel extends ViewModelAbstract implements ViewModelListInterf
               $checkedTagsText["{$tagE->getTag()}"] = $tagE->getId()  ;
             }
             $jobToTagies[] = [
-                    'jobId'    => $jobEntity->getId(),
-                    'jobNazev' => $jobEntity->getNazev(),
+                    'jobId'    => $job->getId(),
+                    'jobNazev' => $job->getNazev(),
                     'allTags'  => $allTags,
                     'checkedTags' => $checkedTags,
 
@@ -106,7 +108,8 @@ class JobToTagViewModel extends ViewModelAbstract implements ViewModelListInterf
                 'jobToTagies' => $jobToTagies,
                 'companyName' => $company->getName()
                  ];
-        return new ArrayIterator($array);        
+        $this->appendData($array);
+        return parent::getIterator();        
     }
 
 }
