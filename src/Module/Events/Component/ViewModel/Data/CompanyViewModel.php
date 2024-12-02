@@ -12,7 +12,7 @@ use Events\Model\Entity\CompanyInterface;
 
 use Access\Enum\RoleEnum;
 
-use ArrayIterator;
+use Exception;
 
 /**
  * Description of RepresentativeActionViewModel
@@ -54,6 +54,9 @@ class CompanyViewModel extends ViewModelItemAbstract implements ViewModelItemInt
             $company = $this->companyRepo->get($this->getItemId());     
         } else {
             throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+        }
+        if (!isset($company)) {
+            throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content            
         }
         $isAdministrator = $this->isAdministrator();
         $editableItem = $isAdministrator || $this->isCompanyRepresentative($company->getId());
