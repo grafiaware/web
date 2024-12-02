@@ -21,11 +21,6 @@ use Access\Enum\AccessPresentationEnum;
  */
 class LogoutComponent extends ComponentCompositeAbstract {
 
-    /**
-     * @var StatusViewModelInterface
-     */
-    protected $contextData;
-
     public static function getComponentPermissions(): array {
         // komponent vidí jen příhlášení
         return [

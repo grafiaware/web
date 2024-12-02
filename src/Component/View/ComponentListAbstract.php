@@ -1,0 +1,63 @@
+<?php
+namespace Component\View;
+
+use Pes\View\CollectionView;
+use Pes\View\ViewInterface;
+use Component\View\ComponentPrototypeInterface;
+
+use Component\View\ComponentListInterface;
+use Component\ViewModel\ViewModelListInterface;
+
+use Configuration\ComponentConfigurationInterface;
+
+use LogicException;
+
+/**
+ * Description of ComponentListAbstract
+ *
+ * @author pes2704
+ */
+abstract class ComponentListAbstract extends CollectionView implements ComponentListInterface {
+
+    /**
+     *
+     * @var ComponentConfigurationInterface
+     */
+    protected $configuration;
+    
+    private $viewPrototype;
+    
+    private $listViewModel;
+
+    public function __construct(ComponentConfigurationInterface $configuration, ComponentPrototypeInterface $viewPrototype) {
+        $this->configuration = $configuration;
+        $this->viewPrototype = $viewPrototype;
+    }
+    
+    public function setListViewModel(ViewModelListInterface $listViewModel) {
+        $this->listViewModel = $listViewModel;
+        $this->setData($listViewModel);
+    }
+    
+    /**
+     * Získá kolekci dat z view modelu collection komponentu metodou provideDataCollection(). 
+     * Tuto data kolekci iteruje (foreach) a pro každá v iteraci získaná data vytvoří nový view klonováním prototypu a tomuto view nastavi získaná data.
+     * 
+     * @return void
+     */
+    public function beforeRenderingHook(): void {
+        if(!isset($this->listViewModel)) {
+            throw new LogicException("Komponent list musí mít nastaven list view model metodou ->setListViewModel(ViewModelListInterface)");
+        }
+        $componentViewCollection = [];
+        foreach ($this->listViewModel->provideItemDataCollection() as $itemData) {
+            /** @var ViewInterface $view */
+            $view = clone ($this->viewPrototype);
+            $view->setData($itemData);
+            $componentViewCollection[] = $view;
+        }
+        
+        $this->appendComponentViewCollection($componentViewCollection);
+    }
+
+}

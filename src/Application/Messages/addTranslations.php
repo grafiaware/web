@@ -40,7 +40,7 @@ Message::addTranslations(
         [
             'cs' => 'Nadpis',
             'de' => 'Titel',
-            'en' => 'Zitle',
+            'en' => 'Title',
         ],
     'Perex' =>
         [
@@ -60,8 +60,13 @@ Message::addTranslations(
     "Není čitelný soubor statické stránky {file}." =>
         [
             'cs' => "Není čitelný soubor statické stránky {file}."
+        ],
+// templates
+        "Seznam je prázdný" => [
+            'cs' => "Seznam je prázdný",
+            'de' => "Die Liste ist leer",
+            'en' => "The list is empty",
         ]
-
 
     ]
 );

@@ -1,5 +1,6 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Pes\Text\Message;
 /** @var PhpTemplateRendererInterface $this */
 ?>
 
@@ -7,12 +8,13 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Firmy (companies)
+                <?= $listHeadline ?>
             </div>     
         
             <div class="active content">      
-                <?= $this->repeat(__DIR__.'/company.php',  $companies)  ?>               
+                <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>                           
             </div>            
     </div>
+
 
   

@@ -64,11 +64,11 @@ use Red\Component\View\Menu\DriverButtonsComponent;
 
 use Red\Component\View\Manage\EditMenuSwitchComponent;
 
+use Red\Component\View\Manage\ButtonsMenuComponent;
+
 use Red\Component\View\Manage\ButtonsMenuItemManipulationComponent;
 use Red\Component\View\Manage\ButtonsMenuAddComponent;
-use Red\Component\View\Manage\ButtonsMenuAddOnelevelComponent;
 use Red\Component\View\Manage\ButtonsMenuCutCopyComponent;
-use Red\Component\View\Manage\ButtonsMenuCutCopyEscapeComponent;
 use Red\Component\View\Manage\ButtonsMenuDeleteComponent;
 
 use Red\Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
@@ -320,50 +320,45 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         #
             'menuRedirect' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuRedirect'];
-
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var MenuComponent $component */
-                    $component = $c->get(MenuComponent::class);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $component->setData($viewModel);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 return $component;
             },
             'menuHorizontal' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuHorizontal'];
-
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var MenuComponent $component */
-                    $component = $c->get(MenuComponent::class);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $component->setData($viewModel);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 return $component;
             },
             'menuSvisle' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuVertical'];
-
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var MenuComponent $component */
-                    $component = $c->get(MenuComponent::class);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -373,7 +368,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
 
                     $component->setData($viewModel);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 return $component;
@@ -381,19 +375,17 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             //bloky
             'menuBlocks' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuBlocks'];
-
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var MenuComponent $component */
-                    $component = $c->get(MenuComponent::class);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $component->setData($viewModel);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 return $component;
@@ -401,33 +393,31 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             //kos
             'menuTrash' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuTrash'];
+                /** @var MenuComponent $component */
+                $component = $c->get(MenuComponent::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var MenuComponent $component */
-                    $component = $c->get(MenuComponent::class);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $component->setData($viewModel);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 return $component;
             },
 
             EditMenuSwitchComponent::class => function(ContainerInterface $c) {
+                $component = new EditMenuSwitchComponent($configuration);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
                 if($accessPresentation->isAllowed(EditMenuSwitchComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new EditMenuSwitchComponent($configuration);
                     $component->setData($c->get(EditMenuSwitchViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('controleditmenu')));
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -437,36 +427,34 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DriverButtonsComponent($c->get(ComponentConfiguration::class));
             },
                 ButtonsMenuItemManipulationComponent::class => function(ContainerInterface $c) {
+                    $component = new ButtonsMenuComponent($c->get(ComponentConfiguration::class));
                     /** @var AccessPresentationInterface $accessPresentation */
                     $accessPresentation = $c->get(AccessPresentation::class);
-                    if($accessPresentation->isAllowed(ButtonsMenuItemManipulationComponent::class, AccessPresentationEnum::EDIT)) {
-                        $component = new ButtonsMenuItemManipulationComponent($c->get(ComponentConfiguration::class));
+                    if($accessPresentation->isAllowed(ButtonsMenuComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->setRendererName(ButtonsItemManipulationRenderer::class);
                     } else {
-                        $component = $c->get(ElementComponent::class);
                         $component->setRendererName(NoPermittedContentRenderer::class);
                     }
                     $component->setRendererContainer($c->get('rendererContainer'));
                     return $component;
                 },
                 ButtonsMenuDeleteComponent::class => function(ContainerInterface $c) {
+                    $component = new ButtonsMenuComponent($c->get(ComponentConfiguration::class)); 
                     /** @var AccessPresentationInterface $accessPresentation */
                     $accessPresentation = $c->get(AccessPresentation::class);
-                    if($accessPresentation->isAllowed(ButtonsMenuDeleteComponent::class, AccessPresentationEnum::EDIT)) {
-                        $component = new ButtonsMenuDeleteComponent($c->get(ComponentConfiguration::class)); 
+                    if($accessPresentation->isAllowed(ButtonsMenuComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->setRendererName(ButtonsMenuDeleteRenderer::class);
                     } else {
-                        $component = $c->get(ElementComponent::class);
                         $component->setRendererName(NoPermittedContentRenderer::class);
                     }
                     $component->setRendererContainer($c->get('rendererContainer'));
                     return $component;
                 },
                 ButtonsMenuCutCopyComponent::class => function(ContainerInterface $c) {
+                    $component = new ButtonsMenuComponent($c->get(ComponentConfiguration::class)); 
                     /** @var AccessPresentationInterface $accessPresentation */
                     $accessPresentation = $c->get(AccessPresentation::class);
-                    if($accessPresentation->isAllowed(ButtonsMenuCutCopyComponent::class, AccessPresentationEnum::EDIT)) {
-                        $component = new ButtonsMenuCutCopyComponent($c->get(ComponentConfiguration::class)); 
+                    if($accessPresentation->isAllowed(ButtonsMenuComponent::class, AccessPresentationEnum::EDIT)) {
                         $statusViewModel = $c->get(StatusViewModel::class);
                         $cut = $statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
                         $copy = $statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_COPY);
@@ -477,17 +465,16 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $component->setRendererName(ButtonsMenuCutCopyRenderer::class);
                         }
                     } else {
-                        $component = $c->get(ElementComponent::class);
                         $component->setRendererName(NoPermittedContentRenderer::class);
                     }
                     $component->setRendererContainer($c->get('rendererContainer'));
                     return $component;
                 },
                 ButtonsMenuAddComponent::class => function(ContainerInterface $c) {
+                    $component = new ButtonsMenuComponent($c->get(ComponentConfiguration::class));
                     /** @var AccessPresentationInterface $accessPresentation */
                     $accessPresentation = $c->get(AccessPresentation::class);
-                    if($accessPresentation->isAllowed(ButtonsMenuAddComponent::class, AccessPresentationEnum::EDIT)) {
-                        $component = new ButtonsMenuAddComponent($c->get(ComponentConfiguration::class));
+                    if($accessPresentation->isAllowed(ButtonsMenuComponent::class, AccessPresentationEnum::EDIT)) {
                         $statusViewModel = $c->get(StatusViewModel::class);
                         $cut = $statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_CUT);
                         $copy = $statusViewModel->getFlashPostCommand(HierarchyControler::POST_COMMAND_COPY);
@@ -498,7 +485,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $component->setRendererName(ButtonsMenuAddRenderer::class);
                         }
                     } else {
-                        $component = $c->get(ElementComponent::class);
                         $component->setRendererName(NoPermittedContentRenderer::class);
                     }
                     $component->setRendererContainer($c->get('rendererContainer'));  
@@ -524,13 +510,11 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-
+                $component = new EditorActionComponent($c->get(ComponentConfiguration::class));
                 if($accessPresentation->isAllowed(EditorActionComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new EditorActionComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(EditorActionViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('editoraction')));
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -552,13 +536,12 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             EditContentSwitchComponent::class => function(ContainerInterface $c) {
+                $component = new EditContentSwitchComponent($c->get(ComponentConfiguration::class));
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(EditContentSwitchComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component = new EditContentSwitchComponent($c->get(ComponentConfiguration::class));
                     $component->setRendererName(EditContentSwitchRenderer::class);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -583,16 +566,15 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             PaperComponent::class => function(ContainerInterface $c) {
+                $component = new PaperComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer')); 
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-
                 if($accessPresentation->isAllowed(PaperComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new PaperComponent($c->get(ComponentConfiguration::class));
                     // komponent s obsahem
                     /** @var PaperViewModel $viewModel */
                     $viewModel = $c->get(PaperViewModel::class);                    
                     $component->setData($viewModel);
-                    $component->setRendererContainer($c->get('rendererContainer'));
                     /** @var TemplatedComponent $templatedComponent */
                     $templatedComponent = $c->get(TemplatedComponent::class);
                     $templatedComponent->setRendererContainer($c->get('rendererContainer'));
@@ -630,21 +612,19 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $sections->setRendererName(SectionsRenderer::class);
                     }
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                     $component->setRendererContainer($c->get('rendererContainer'));
                 }
                 return $component;
             },
             PaperTemplatePreviewComponent::class => function(ContainerInterface $c) {
-                /** @var PaperTemplatePreviewViewModel $viewModel */
-                $viewModel = $c->get(PaperTemplatePreviewViewModel::class);
+                $component = new PaperTemplatePreviewComponent($c->get(ComponentConfiguration::class));
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-
                 if($accessPresentation->isAllowed(PaperTemplatePreviewComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component = new PaperTemplatePreviewComponent($c->get(ComponentConfiguration::class));
                     // komponent s obsahem
+                    /** @var PaperTemplatePreviewViewModel $viewModel */
+                    $viewModel = $c->get(PaperTemplatePreviewViewModel::class);
                     $component->setData($viewModel);
                     $component->setRendererName(PaperRenderer::class);
                     /** @var TemplatedComponent $templatedComponent */
@@ -655,7 +635,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $templatedComponent->appendComponentView($c->get(PaperComponent::PEREX), PaperComponent::PEREX);
                     $templatedComponent->appendComponentView($c->get(PaperComponent::SECTIONS), PaperComponent::SECTIONS);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -670,16 +649,15 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             ArticleComponent::class => function(ContainerInterface $c)   {
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new ArticleComponent($configuration);                
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(ArticleComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var ComponentConfigurationInterface $configuration */
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new ArticleComponent($configuration);
                     /** @var ArticleViewModel $viewModel */
                     $viewModel = $c->get(ArticleViewModel::class);
                     $component->setData($viewModel);
-
                     $status = $c->get(StatusViewModel::class);
                     if ($status->presentEditableContent() AND $accessPresentation->isAllowed(ArticleComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
@@ -695,24 +673,23 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $component->setRendererName(ArticleRenderer::class);
                     }
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             MultipageComponent::class => function(ContainerInterface $c) {
+                $component = new MultipageComponent(
+                        $c->get(ComponentConfiguration::class), 
+                        $c->get(ItemApiService::class), 
+                        $c->get(CascadeLoaderFactory::class)
+                    );                
+                $component->setRendererContainer($c->get('rendererContainer'));
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MultipageComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new MultipageComponent(
-                            $c->get(ComponentConfiguration::class), 
-                            $c->get(ItemApiService::class), 
-                            $c->get(CascadeLoaderFactory::class)
-                        );
                     $viewModel = $c->get(MultipageViewModel::class);
                     $component->setData($viewModel);
-                    $component->setRendererContainer($c->get('rendererContainer'));
 
                     // komponent s obsahem
                     /** @var TemplatedComponent $templatedComponent */
@@ -724,7 +701,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $status = $c->get(StatusViewModel::class);
                     if ($status->presentEditableContent() AND $accessPresentation->isAllowed(MultipageComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), MultipageComponent::BUTTON_EDIT_CONTENT);
-
                         if($viewModel->userPerformItemAction()) {
                             $component->setRendererName(MultipageRendererEditable::class);
                             $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
@@ -736,34 +712,27 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $component->setRendererName(MultipageRenderer::class);
                     }
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
-                    $component->setRendererContainer($c->get('rendererContainer'));
                 }
                 return $component;
             },
             MultipageTemplatePreviewComponent::class => function(ContainerInterface $c) {
+                $component = new MultipageTemplatePreviewComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-
-                $viewModel = $c->get(MultipageTemplatePreviewViewModel::class);
-
                 if($accessPresentation->isAllowed(MultipageTemplatePreviewComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component = new MultipageTemplatePreviewComponent($c->get(ComponentConfiguration::class));
+                    $viewModel = $c->get(MultipageTemplatePreviewViewModel::class);
                     $component->setData($viewModel);
-                    $component->setRendererContainer($c->get('rendererContainer'));
 
                     // komponent s obsahem
                     /** @var TemplatedComponent $templatedComponent */
                     $templatedComponent = $c->get(TemplatedComponent::class);
                     // přidání komponent do article
                     $component->appendComponentView($templatedComponent, MultipageComponent::CONTENT);
-
                     $component->setRendererName(MultipageRenderer::class);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
-                    $component->setRendererContainer($c->get('rendererContainer'));
                 }
                 return $component;
             },
@@ -773,16 +742,14 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             #
             #
             SelectTemplateComponent::class  => function(ContainerInterface $c) {
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new SelectTemplateComponent($configuration);                
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-
                 if($accessPresentation->isAllowed(SelectTemplateComponent::class, AccessPresentationEnum::EDIT)) {
-                    /** @var ComponentConfigurationInterface $configuration */
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new SelectTemplateComponent($configuration);
                     $component->setRendererName(SelectTemplateRenderer::class);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -796,15 +763,13 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // generated komponenty
             LanguageSelectComponent::class => function(ContainerInterface $c) {
+                $component = new LanguageSelectComponent($c->get(ComponentConfiguration::class));                    
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-
                 if($accessPresentation->isAllowed(LanguageSelectComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new LanguageSelectComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(LanguageSelectViewModel::class));
                     $component->setRendererName(LanguageSelectRenderer::class);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -815,7 +780,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
                 /** @var ComponentConfigurationInterface $configuration */
                 $configuration = $c->get(ComponentConfiguration::class);
-
                 $component = new SearchResultComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(SearchResultViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -834,15 +798,14 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             ItemTypeSelectComponent::class => function(ContainerInterface $c) {
+                $component = new ItemTypeSelectComponent($c->get(ComponentConfiguration::class));                                                                                                                                                                                                                                                                                                         
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
 
                 if($accessPresentation->isAllowed(ItemTypeSelectComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component = new ItemTypeSelectComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(ItemTypeSelectViewModel::class));
                     $component->setRendererName(ItemTypeSelectRenderer::class);
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -852,8 +815,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             ButtonsItemManipulationComponent::class => function(ContainerInterface $c) {
                 $configuration = $c->get(ComponentConfiguration::class);
                 $component = new ButtonsItemManipulationComponent($configuration);
-                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
-                    $component = $c->get(ElementComponent::class);
+                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {     //TODO: ??
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -862,7 +824,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             ButtonsMenuManipulationComponent::class => function(ContainerInterface $c) {
                 $configuration = $c->get(ComponentConfiguration::class);
                 $component = new ButtonsMenuManipulationComponent($configuration);
-                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {     //TODO: ??
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }

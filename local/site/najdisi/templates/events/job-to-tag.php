@@ -17,7 +17,7 @@ use Pes\Text\Html;
                   Firma  <?= $companyName ?> 
             </div>
             <div class="content">
-                <?= $this->repeat(__DIR__.'/job-to-tag/job-to-tag.php',  $jobToTagies  )  ?>
+                <?= $this->repeat(__DIR__.'/data/job-tag/job-to-tag.php',  $jobToTagies  )  ?>
             </div>                    
     </div>
     </div>

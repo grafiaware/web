@@ -26,12 +26,9 @@ abstract class ComponentCollectionAbstract extends CollectionView implements Com
      * @var ComponentConfigurationInterface
      */
     protected $configuration;
-
+    
     public function __construct(ComponentConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }
-    
-    public function beforeRenderingHook(): void {
-//        $this->getData()->hydrateChildViewModels();   // přidej interface ChildViewModelInterface
-    }
+
 }

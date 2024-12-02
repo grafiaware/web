@@ -1,14 +1,16 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
-use Component\ViewModel\ViewModelInterface;
+use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelItemInterface;
 
 use Component\ViewModel\StatusViewModelInterface;
-use Model\Entity\EntityInterface;
+use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Entity\CompanyInterface;
+
+use Access\Enum\RoleEnum;
 
 use ArrayIterator;
 
@@ -17,7 +19,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyViewModel extends ViewModelAbstract implements ViewModelInterface {
+class CompanyViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
 
     private $status;  
     
@@ -33,29 +35,40 @@ class CompanyViewModel extends ViewModelAbstract implements ViewModelInterface {
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo
             ) {
-        parent::__construct();
         $this->status = $status;
         $this->companyRepo = $companyRepo;
     }
+    
+    use RepresentativeTrait;
+    
+    private function isAdministrator() {
+        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+    }
 
-    public function setEntity($identityValue, EntityInterface $entity) {
-        $this->setRequestedId($identityValue);
-        $this->company = $entity;
+    private function isCompanyRepresentative($companyId) {
+        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
     
-    public function getIterator() {     
-        if (!isset($this->company)) {
-            if ($this->hasRequestedId()) {
-                $this->company = $this->companyRepo->get($this->getRequestedId());     
-            }
+    public function getIterator() {
+        if ($this->hasItemId()) {
+            $company = $this->companyRepo->get($this->getItemId());     
+        } else {
+            throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
         }
-
-        if (isset($this->company)) {
-            /** @var CompanyInterface $company */
-            $array = [
-                'name' => $this->company->getName()
-                ];
-        } 
-        return new ArrayIterator($array);
+        $isAdministrator = $this->isAdministrator();
+        $editableItem = $isAdministrator || $this->isCompanyRepresentative($company->getId());
+        /** @var CompanyInterface $company */
+        $item = [
+            // conditions
+            'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+            'remove'=> $isAdministrator,   // přidá tlačítko remove do item
+            //route
+            'componentRouteSegment' => 'events/v1/company',
+            'id' => $company->getId(),
+            // data
+                'fields' => ['editable' => $editableItem, 'name' =>  $company->getName()],                
+            ];
+        $this->appendData($item);
+        return parent::getIterator();
     }
 }

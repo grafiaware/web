@@ -15,11 +15,12 @@ use Pes\View\Renderer\ImplodeRenderer;
 use Component\View\ComponentCompositeInterface;
 use Component\View\ComponentCollectionInterface;
 use Component\ViewModel\ViewModelInterface;
-
-
-####################
+use Component\ViewModel\ViewModelItemInterface;
+use Component\ViewModel\ViewModelChildListInterface;
 
 use Pes\Text\Html;
+
+use LogicException;
 
 ####################
 //use Pes\Debug\Timer;
@@ -62,8 +63,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }
         return $this->createStringOKResponseFromView($view);
     }
-
-    public function componentList(ServerRequestInterface $request, $name) {
+    public function component(ServerRequestInterface $request, $name) {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($name);
@@ -73,18 +73,34 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         } else {
             $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
         }
-        return $this->createStringOKResponseFromView($component);      
+        return $this->createStringOKResponseFromView($component);
+    }
+    
+    public function dataList(ServerRequestInterface $request, $name) {
+        $listName = $name."List";
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($listName);
+            } else {
+                $component = $this->errorView($request, "Component $listName is not defined (configured) or have no alias in container.");                    
+            }
+        } else {
+            $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }
+        return $this->createStringOKResponseFromView($component);
     }
 
-    public function component(ServerRequestInterface $request, $name, $id) {
+    public function data(ServerRequestInterface $request, $name, $id) {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($name);
                 /** @var ComponentCompositeInterface $component */
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
-                if (isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
-                    $viewModel->setRequestedId($id);
+                if ($viewModel instanceof ViewModelItemInterface) {
+                    $viewModel->setItemId($id);
+                } else {
+                    throw new LogicException("ViewModel komponenty ". get_class($component)." není požadovaného typu ViewModelItemInterface");
                 }
             } else {
                 $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
@@ -95,15 +111,16 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($component);
     }
 
-    public function subComponentList(ServerRequestInterface $request, $name, $parentId) {
+    public function subDataList(ServerRequestInterface $request, $name, $parentId) {
+        $listName = $name."List";
         if($this->isAllowed(AccessActionEnum::GET)) {
-            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
-                $component = $this->container->get($name);
+            if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($listName);
                 /** @var ComponentCompositeInterface $component */
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
-                if (isset($viewModel)) {    // ElementComponent (apod.) nemá ViewModel
-                    $viewModel->setRequestedId($parentId);
+                if ($viewModel instanceof ViewModelChildListInterface) {
+                    $viewModel->setParentId($parentId);
                 }
             } else {
                 $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    

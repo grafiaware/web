@@ -407,51 +407,48 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
     
-
     public function getFactoriesDefinitions(): iterable {
         return [
 
             LoginComponent::class => function(ContainerInterface $c) {
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new LoginComponent($configuration);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(LoginComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new LoginComponent($configuration);
                     $component->setData($c->get(LoginViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('login')));
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoContentForStatusRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             LogoutComponent::class => function(ContainerInterface $c) {
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new LogoutComponent($configuration);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(LogoutComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new LogoutComponent($configuration);
                     $component->setData($c->get(LogoutViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('logout')));
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoContentForStatusRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             RegisterComponent::class => function(ContainerInterface $c) {
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new RegisterComponent($configuration);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-
                 if($accessPresentation->isAllowed(RegisterComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    /** @var ComponentConfigurationInterface $configuration */
-                    $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new RegisterComponent($configuration);
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('register')));
                 } else {
-                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoContentForStatusRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));

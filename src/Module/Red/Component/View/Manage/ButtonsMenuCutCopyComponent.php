@@ -9,12 +9,5 @@ use Access\Enum\RoleEnum;
  *
  * @author pes2704
  */
-class ButtonsMenuCutCopyComponent extends ButtonsMenuComponentAbstract {
-
-    public static function getComponentPermissions(): array {
-        return [
-            RoleEnum::SUPERVISOR => [AccessPresentationEnum::EDIT => true],
-            RoleEnum::EDITOR => [AccessPresentationEnum::EDIT => true],
-        ];
-    }
+class ButtonsMenuCutCopyComponent extends ButtonsMenuComponent {
 }

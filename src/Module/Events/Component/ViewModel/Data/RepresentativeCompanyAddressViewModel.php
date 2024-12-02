@@ -1,16 +1,14 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelInterface;
-use Events\Component\ViewModel\Data\RepresentativeViewModelAbstract;
+use Component\ViewModel\ViewModelItemInterface;
+use Component\ViewModel\ViewModelItemAbstract;
+use Events\Component\ViewModel\Data\RepresentativeTrait;
 
-use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\CompanyAddressRepoInterface;
 use Events\Model\Entity\CompanyAddressInterface;
-
 
 use Events\Model\Entity\CompanyInterface;
 
@@ -19,8 +17,9 @@ use ArrayIterator;
 /**
  * 
  */
-class RepresentativeCompanyAddressViewModel extends RepresentativeViewModelAbstract implements ViewModelInterface {
+class RepresentativeCompanyAddressViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
 
+    private $status;
     private $companyRepo;
     private $companyAddressRepo;
 
@@ -29,12 +28,13 @@ class RepresentativeCompanyAddressViewModel extends RepresentativeViewModelAbstr
             CompanyRepoInterface $companyRepo,
             CompanyAddressRepoInterface $companyAddressRepo
             ) {
-        parent::__construct($status);
+        $this->status = $status;
         $this->companyRepo = $companyRepo;
         $this->companyAddressRepo = $companyAddressRepo;
     }
-       
 
+    use RepresentativeTrait;
+    
     public function getIterator() {                                                         
         $representativeFromStatus = $this->getRepresentativeFromStatus();
 
@@ -66,7 +66,8 @@ class RepresentativeCompanyAddressViewModel extends RepresentativeViewModelAbstr
             'companyAddress' => $companyAddress,
             'name' => $company->getName()
         ];
-        return new ArrayIterator($array);                
+        $this->appendData($array);
+        return parent::getIterator();        
     }
     
     

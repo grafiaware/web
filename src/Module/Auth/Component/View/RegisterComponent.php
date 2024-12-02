@@ -23,11 +23,6 @@ use Access\Enum\AccessPresentationEnum;
  */
 class RegisterComponent extends ComponentCompositeAbstract {
 
-    /**
-     * @var StatusViewModelInterface
-     */
-    protected $contextData;
-
     //renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
 
 //  template nastevena v kontejneru, pokud není user přihlášen (není role) nahrazuji renderer - není to ideální řešení, v kontejneru vytvářím celý objekt template, jen ho nepoužiju

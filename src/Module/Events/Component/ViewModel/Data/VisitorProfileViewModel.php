@@ -156,8 +156,8 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
         
         
    
-    
-        return new ArrayIterator($array);        
+        $this->appendData($array);
+        return parent::getIterator();    
     }
     
     

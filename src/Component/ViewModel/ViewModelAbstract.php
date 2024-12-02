@@ -18,33 +18,4 @@ use Pes\Type\ContextData;
  * @author pes2704
  */
 class ViewModelAbstract extends ContextData implements ViewModelInterface {
-    
-    private $id;
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @param type $id
-     */
-    public function setRequestedId($id) {
-        $this->id = $id;
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @return bool
-     */
-    public function hasRequestedId(): bool {
-        return isset($this->id);
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @return mixed
-     */
-    public function getRequestedId() {
-        return $this->id ?? null;
-    }
 }
