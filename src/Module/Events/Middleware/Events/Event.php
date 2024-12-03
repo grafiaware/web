@@ -193,6 +193,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeCompanyContact($request, $idCompany, $idCompanyContact);
         });
         
+        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress', function(ServerRequestInterface $request, $idCompany) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);

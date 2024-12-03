@@ -48,8 +48,8 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         $requestedId = $this->getItemId();
         $isAdministrator = $this->isAdministrator();
         
-        $editableItem = $isAdministrator|| $this->isCompanyEditor($requestedId);
-
+        $editableItem = $isAdministrator || $this->isCompanyEditor($requestedId);
+        $componentRouteSegment = "events/v1/company/$requestedId/companyaddress";
         /** @var CompanyAddressInterface $companyAddress */
         $companyAddress = $this->companyAddressRepo->get($requestedId);
         if (isset($companyAddress)) {
@@ -61,12 +61,12 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
 //                'psc'    => $companyAddress->getPsc(),
 //                'obec'   => $companyAddress->getObec()
 //                ];
-            $companyAddress = [
+            $companyAddrArray = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $isAdministrator,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => 'events/v1/companyAddress',
+                'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyAddress->getCompanyId(),
                 // data
                 'fields' => [
@@ -80,7 +80,7 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         } elseif ($editableItem) {
             /** @var CompanyInterface $company */ 
             if ($this->companyRepo->get($requestedId)) {  // validace id rodiče
-                $companyAddress = [
+                $companyAddrArray = [
                 // conditions
                     'editable' => true,
                     'add' => true,   // zobrazí se tlačítko Uložit   ????
@@ -97,9 +97,9 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
                 throw new UnexpectedValueException("Neexistuje firma s požadovaným id.");
             }
         } else {
-            $companyAddress = [];
+            $companyAddrArray = [];
         }
-        $this->appendData($companyAddress);
+        $this->appendData($companyAddrArray);
         return parent::getIterator();        
     }
     

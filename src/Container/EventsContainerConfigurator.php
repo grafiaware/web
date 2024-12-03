@@ -357,22 +357,26 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                    $component = new CompanyJobsListComponent($configuration);
+                $component = new VisitorProfileComponent($configuration);
 
                 if($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component = new VisitorProfileComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(VisitorProfileViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('visitorProfileEditable')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('visitorProfileEditable'));                    
+                    
                 } elseif($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component = new VisitorProfileComponent($c->get(ComponentConfiguration::class));
                     $component->setData($c->get(VisitorProfileViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('visitorProfile')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('visitorProfile'));                    
+                    
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
-            },                         
+            },          
+                    
+            
                     
                     
         ####
