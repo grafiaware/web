@@ -50,6 +50,10 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         
         $editableItem = $isAdministrator || $this->isCompanyEditor($requestedId);
         $componentRouteSegment = "events/v1/company/$requestedId/companyaddress";
+        
+        $company = $this->companyRepo->get($requestedId);
+        $addHeadline = "ADRESA pro firmu - " . $company->getName() ;
+                
         /** @var CompanyAddressInterface $companyAddress */
         $companyAddress = $this->companyAddressRepo->get($requestedId);
         if (isset($companyAddress)) {
@@ -61,6 +65,8 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyAddress->getCompanyId(),
                 // data
+                'addHeadline' => $addHeadline,
+            
                 'fields' => [
                     'editable' => $editableItem,
                     'name'   => $companyAddress->getName(),
@@ -82,6 +88,8 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
                     //route
                     'componentRouteSegment' => $componentRouteSegment,
                     // data
+                    'addHeadline' => $addHeadline,
+
                     'fields' => [
                         'editable' => $editableItem,]                    
                     ];

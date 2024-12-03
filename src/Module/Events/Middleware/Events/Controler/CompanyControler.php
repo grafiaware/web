@@ -440,13 +440,13 @@ class CompanyControler extends FrontControlerAbstract {
             $loginName = $loginAggregateCredentials->getLoginName();            
             $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
             
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {              
+            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative'] ) ) {              
                 if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
                             $isRepresentative = true; 
                 }
             }                   
   
-            if ($isRepresentative) {                
+            if ( ($isRepresentative) OR ( $role ==  ConfigurationCache::auth()[ 'roleEventsAdministrator' ] ) )   {                
                 /** @var CompanyAddressInterface $companyAddress */
                 $companyAddress = $this->companyAddressRepo->get( $idCompany );  
                 if (!isset($companyAddress)) {
