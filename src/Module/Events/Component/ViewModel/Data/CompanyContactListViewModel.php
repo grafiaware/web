@@ -46,11 +46,11 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
     }
     
     public function provideItemDataCollection(): iterable {
-        $requestedId = $this->getParentId();
-        $componentRouteSegment = "events/v1/company/$requestedId/companycontact";
+        $parentId = $this->getParentId();
+        $componentRouteSegment = "events/v1/company/$parentId/companycontact";
         $items = [];
         /** @var CompanyContactInterface $companyContact */
-        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $requestedId ] );
+        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $parentId ] );
         foreach ($companyContacts as $companyContact) {           
             $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyContact->getCompanyId());
             $items[] = [

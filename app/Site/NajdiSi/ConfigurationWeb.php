@@ -126,23 +126,22 @@ class ConfigurationWeb extends ConfigurationConstants {
                 
                 'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
                 'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',
-                'companyList' => self::WEB_TEMPLATES_COMMON.'data/list.php',
 
                 'companyContact' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact.php',
                 'companyContactEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-editable.php',
-                'companyContactList' => self::WEB_TEMPLATES_COMMON.'data/list.php',
                 
                 'companyAddress' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address.php',
                 'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',  
+                
+                'companyJobEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-job/job-editable.php',  // jen editable verze
                 
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
                 'jobToTag' => self::WEB_TEMPLATES_SITE.'events/job-to-tag.php',
                 'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/job-to-tag-editable.php',
-                'job' => self::WEB_TEMPLATES_SITE.'events/job.php',
+                'job' => self::WEB_TEMPLATES_SITE.'events/data/job/job.php',
                 'jobEditable' => self::WEB_TEMPLATES_SITE.'events/job-editable.php',
-                'companyJobList' => self::WEB_TEMPLATES_SITE.'events/company-job-list.php',
-                'companyJobListEditable' => self::WEB_TEMPLATES_SITE.'events/company-job-list-editable.php',
+
                 
                 'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
                 'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
