@@ -36,6 +36,7 @@ class ConfigurationAuth extends ConfigurationConstants {
                 'passwordInfo' => $passwordInfo,
                 'roleVisitor' => RoleEnum::VISITOR,
                 'roleRepresentative' => RoleEnum::REPRESENTATIVE,
+                'roleEventsAdministrator' => RoleEnum::EVENTS_ADMINISTRATOR,
         ];
     }
 }
