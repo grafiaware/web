@@ -15,8 +15,6 @@ if ($editable) {
     }        
 ?>
 
-        <form class="ui huge form" action="" method="POST" >
-            <?= $addHeadline ?? false ? "<p>$addHeadline</p>" : "" ?>
             <div class="two fields ">                        
                 <div class="field">
                 <label>Jméno firmy (pro adresu)</label>
@@ -39,4 +37,3 @@ if ($editable) {
                     <input <?= $readonly ?> type="text" name="obec" placeholder="" maxlength="60" value="<?= $obec ?? '' ?>">
                 </div>
             </div>                 
-        </form>           

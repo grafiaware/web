@@ -4,8 +4,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 ?>
                       
                 <div class="field">
-                <label>Název firmy</label>
+                    <label>Název firmy</label>
                     <input readonly type="text" name="name" placeholder="" maxlength="250" value="<?= $name ?? '' ?>" required >
-                 </div>  
-            </div>                 
-        </form>           
+                 </div>         

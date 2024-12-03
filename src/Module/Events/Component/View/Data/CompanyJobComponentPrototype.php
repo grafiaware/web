@@ -7,10 +7,12 @@ use Component\View\ComponentItemInterface;
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
 
+use Events\Component\View\Data\CompanyJobComponent;
+use Component\View\ComponentPrototypeInterface;
 /** 
  * 
  */ 
-class JobComponent extends ComponentItemAbstract implements ComponentItemInterface {
+class CompanyJobComponentPrototype extends CompanyJobComponent implements ComponentPrototypeInterface {
 
     public static function getComponentPermissions(): array {
         return [
@@ -18,5 +20,9 @@ class JobComponent extends ComponentItemAbstract implements ComponentItemInterfa
             RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
             RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class],
         ];
+    }
+    
+    public function __clone() {
+        ;
     }
 }
