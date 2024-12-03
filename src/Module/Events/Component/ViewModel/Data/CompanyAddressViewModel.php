@@ -53,14 +53,6 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         /** @var CompanyAddressInterface $companyAddress */
         $companyAddress = $this->companyAddressRepo->get($requestedId);
         if (isset($companyAddress)) {
-//            $companyAddress = [
-//                'editable' => $editableItem,  
-//                'companyId'=> $companyAddress->getCompanyId(),
-//                'name'   => $companyAddress->getName(),
-//                'lokace' => $companyAddress->getLokace(),
-//                'psc'    => $companyAddress->getPsc(),
-//                'obec'   => $companyAddress->getObec()
-//                ];
             $companyAddrArray = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
