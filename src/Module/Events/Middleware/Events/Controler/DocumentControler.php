@@ -18,6 +18,7 @@ use Red\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\Document;
+use Events\Model\Entity\DocumentInterface;
 use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Entity\VisitorJobRequestInterface;
 
@@ -59,18 +60,19 @@ class DocumentControler extends FrontControlerAbstract {
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,           
-            
+            StatusPresentationRepo $statusPresentationRepo,                       
             DocumentRepo $documentRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);        
         $this->documentRepo = $documentRepo;
-
     }
 
     
-
+    
+    
+    
+    
+    
     
     public function remove(ServerRequestInterface $request, $id) {
              

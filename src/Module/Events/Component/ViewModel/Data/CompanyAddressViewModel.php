@@ -52,7 +52,7 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         $componentRouteSegment = "events/v1/company/$requestedId/companyaddress";
         
         $company = $this->companyRepo->get($requestedId);
-        $addHeadline = "ADRESA pro firmu - " . $company->getName() ;
+        $addHeadline = "Adresa pro firmu - " . $company->getName() ;
                 
         /** @var CompanyAddressInterface $companyAddress */
         $companyAddress = $this->companyAddressRepo->get($requestedId);

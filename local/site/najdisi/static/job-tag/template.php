@@ -30,7 +30,7 @@ use Events\Model\Entity\JobTagInterface;
 
     
     <div class="ui styled fluid accordion">   
-        
+
         <div>                
            <b>Typy nabízených pozic </b>
         </div>                   

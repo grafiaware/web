@@ -322,29 +322,9 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(EventControler_2::class);
             return $ctrl->removeEventLink($request, $eventLinkId);
         });
+                         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+  
         
         
         //--------------------------------------
@@ -356,6 +336,8 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(DocumentControler::class);
             return $ctrl->remove($request, $id);
         });
+        
+        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
