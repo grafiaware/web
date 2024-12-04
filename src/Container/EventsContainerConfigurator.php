@@ -37,8 +37,8 @@ use Events\Component\View\Data\JobToTagListComponent;
 use Events\Component\View\Data\CompanyJobComponent;
 use Events\Component\View\Data\CompanyJobComponentPrototype;
 use Events\Component\View\Data\CompanyJobListComponent;
-//use Events\Component\View\Data\CompanyJobsListComponent;
 use Events\Component\View\Data\VisitorProfileComponent;
+use Events\Component\View\Data\DocumentComponent;
 
 
 // component view model
@@ -128,6 +128,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyJob' => CompanyJobComponent::class,
             'companyJobList' => CompanyJobListComponent::class,            
             
+            'document' => DocumentComponent::class,
             'jobToTag' => JobToTagListComponent::class,
             'jobToTagList' => JobToTagListComponent::class,
            
@@ -351,7 +352,29 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
-            },                
+            },       
+                    
+            DocumentComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);              
+                $component = new DocumentComponent($configuration);
+                                
+                if($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component->setData($c->get(CompanyAddressViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyAddressEditable'));                    
+                } elseif($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setData($c->get(CompanyAddressViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyAddress'));    
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;           
+            },                    
+                    
                     
             VisitorProfileComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
