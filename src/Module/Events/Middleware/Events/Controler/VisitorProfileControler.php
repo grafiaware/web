@@ -164,6 +164,117 @@ class VisitorProfileControler extends FrontControlerAbstract {
  
     
     
+    
+     /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $idDocument
+     * @return type
+     */
+    public function addDocument (ServerRequestInterface $request, $idDocument) {                 
+//        $isRepresentative = false;
+//           
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unaathorized
+//        } else {  
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk(); 
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
+//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
+//                $isRepresentative = true; 
+//            }
+//     
+//            if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {
+                // POST data       
+        
+                /** @var DocumentInterface $document */
+                $document =  new Document(); //new 
+                
+                $document->setContent($content);  //  setCompanyId($idCompany)
+                $document->setDocumentFilename($document_filename) ; //  ( (new RequestParams())->getParsedBodyParam($request, 'name') );
+                $document->setDocumentMimetype($document_mimetype) ;//    kace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
+                      
+                $this->documentRepo->add($document);
+                
+//            } else {
+//                $this->addFlashMessage("Údaje o adrese firmy smí editovat pouze representant firmy (popř. administrator).");
+//            }          
+//        }                
+                
+        return $this->redirectSeeLastGet($request);
+    }
+
+    
+    
+    
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $idCompany
+     * @param type $idCompanyContact
+     * @return type
+     */
+    public function updateDocument (ServerRequestInterface $request, $idDocument) {                   
+//        $isRepresentative = false;
+//        
+//        /** @var StatusSecurityRepo $statusSecurityRepo */
+//        $statusSecurity = $this->statusSecurityRepo->get();
+//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+//        if (!isset($loginAggregateCredentials)) {
+//            $response = (new ResponseFactory())->createResponse();
+//            return $response->withStatus(401);  // Unauthorized
+//        } else {                                   
+//            $loginName = $loginAggregateCredentials->getLoginName();            
+//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
+//            
+//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
+//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
+//                            $isRepresentative = true; 
+//                }
+//            }            
+//        if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {  
+
+        
+                /** @var DocumentInterface $document */
+                $document = $this->documentRepo->get($idDocument);
+                                                                          
+                $document->setContent($content);//( (new RequestParams())->getParsedBodyParam($request, 'name') );
+                $document->setDocumentFilename($document_filename) ; ((new RequestParams())->getParsedBodyParam($request, 'phones'));
+                $document->setDocumentMimetype($document_mimetype) ; ((new RequestParams())->getParsedBodyParam($request, "mobiles"));
+//
+//                } else {
+//                $this->addFlashMessage("Údaje o kontaktech firmy smí editovat pouze representant firmy (popř. administrator).");
+//            }
+//        }
+                
+        return $this->redirectSeeLastGet($request);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //----------------------------------------------------------------------------------------------------------------
 
     /**
      * POST visitor data posted for presenter

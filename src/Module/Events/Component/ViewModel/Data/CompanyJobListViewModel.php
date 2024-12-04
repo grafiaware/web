@@ -68,7 +68,10 @@ class CompanyJobListViewModel extends ViewModelAbstract implements ViewModelList
      * 
      * @return iterable
      */
-    public function provideItemDataCollection(): iterable {       
+    public function provideItemDataCollection(): iterable {
+        
+        $companyId !!! nemám
+        $componentRouteSegment = "events/v1/company/$companyId/job";
         $selectEducations = $this->selectEducations();        
         
         $isAdministrator = $this->isAdministrator();
@@ -82,7 +85,7 @@ class CompanyJobListViewModel extends ViewModelAbstract implements ViewModelList
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $isAdministrator,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => "events/v1/company/$companyId/job",
+                'componentRouteSegment' => $componentRouteSegment,
                 'id' => $job->getId(),
                 // data
                 'fields' => [
@@ -101,11 +104,11 @@ class CompanyJobListViewModel extends ViewModelAbstract implements ViewModelList
         if ($isAdministrator) {  // přidání item pro přidání společnosti
             $items[] = [
                 // conditions
-                'editable' => true,    // vstupní pole formuláře jsou editovatelná 
+                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 // text
                 'addHeadline' => 'Přidej pozici',
                 //route
-                'componentRouteSegment' => 'events/v1/job',                
+                'componentRouteSegment' => $componentRouteSegment,                
                 // data
                 'fields' => [
                     'editable' => $editableItem,

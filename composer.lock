@@ -202,8 +202,13 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/2918d0d852e22d2cdf793a90403fd4edaad466b7",
+                "reference": "2918d0d852e22d2cdf793a90403fd4edaad466b7",
+=======
                 "url": "https://api.github.com/repos/box4pes/pes/zipball/7482265147c551213c4bbb316c58521c580c64de",
                 "reference": "7482265147c551213c4bbb316c58521c580c64de",
+>>>>>>> origin/najdisi_formulare
                 "shasum": ""
             },
             "require": {
@@ -248,7 +253,6 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master"
             },
-            "time": "2024-12-02T13:31:34+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -2216,3 +2220,8 @@
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
 }
+<<<<<<< HEAD
+            "time": "2024-12-02T11:24:20+00:00"
+=======
+            "time": "2024-12-02T13:31:34+00:00"
+>>>>>>> origin/najdisi_formulare

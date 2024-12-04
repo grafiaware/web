@@ -48,27 +48,25 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         $requestedId = $this->getItemId();
         $isAdministrator = $this->isAdministrator();
         
-        $editableItem = $isAdministrator|| $this->isCompanyEditor($requestedId);
-
+        $editableItem = $isAdministrator || $this->isCompanyEditor($requestedId);
+        $componentRouteSegment = "events/v1/company/$requestedId/companyaddress";
+        
+        $company = $this->companyRepo->get($requestedId);
+        $addHeadline = "Adresa pro firmu - " . $company->getName() ;
+                
         /** @var CompanyAddressInterface $companyAddress */
         $companyAddress = $this->companyAddressRepo->get($requestedId);
         if (isset($companyAddress)) {
-//            $companyAddress = [
-//                'editable' => $editableItem,  
-//                'companyId'=> $companyAddress->getCompanyId(),
-//                'name'   => $companyAddress->getName(),
-//                'lokace' => $companyAddress->getLokace(),
-//                'psc'    => $companyAddress->getPsc(),
-//                'obec'   => $companyAddress->getObec()
-//                ];
-            $companyAddress = [
+            $companyAddrArray = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $isAdministrator,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => 'events/v1/companyAddress',
+                'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyAddress->getCompanyId(),
                 // data
+                'addHeadline' => $addHeadline,
+            
                 'fields' => [
                     'editable' => $editableItem,
                     'name'   => $companyAddress->getName(),
@@ -80,16 +78,17 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         } elseif ($editableItem) {
             /** @var CompanyInterface $company */ 
             if ($this->companyRepo->get($requestedId)) {  // validace id rodiče
-                $companyAddress = [
+                $companyAddrArray = [
                 // conditions
-                    'editable' => true,
-                    'add' => true,   // zobrazí se tlačítko Uložit   ????
+                    'editable' => true,    // zobrazí tlačítko přidat 
                     // text
                     'addHeadline' => 'Přidej adresu',                      
                     'companyId'=> $requestedId,
                     //route
                     'componentRouteSegment' => $componentRouteSegment,
                     // data
+                    'addHeadline' => $addHeadline,
+
                     'fields' => [
                         'editable' => $editableItem,]                    
                     ];
@@ -97,9 +96,9 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
                 throw new UnexpectedValueException("Neexistuje firma s požadovaným id.");
             }
         } else {
-            $companyAddress = [];
+            $companyAddrArray = [];
         }
-        $this->appendData($companyAddress);
+        $this->appendData($companyAddrArray);
         return parent::getIterator();        
     }
     

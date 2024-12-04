@@ -193,6 +193,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeCompanyContact($request, $idCompany, $idCompanyContact);
         });
         
+        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress', function(ServerRequestInterface $request, $idCompany) {
             /** @var CompanyControler $ctrl */
             $ctrl = $this->container->get(CompanyControler::class);
@@ -321,31 +322,10 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(EventControler_2::class);
             return $ctrl->removeEventLink($request, $eventLinkId);
         });
+                         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+       
         //--------------------------------------
         
         
@@ -355,6 +335,8 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(DocumentControler::class);
             return $ctrl->remove($request, $id);
         });
+        
+        
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
@@ -399,7 +381,12 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->addJobTag($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:tagId/remove' , function(ServerRequestInterface $request, $tagId) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:jobTagId' , function(ServerRequestInterface $request, $tagId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->updateJobTag($request,  $tagId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:jobTagId/remove' , function(ServerRequestInterface $request, $tagId) {
             /** @var JobControler $ctrl */
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->removeJobTag($request,  $tagId);

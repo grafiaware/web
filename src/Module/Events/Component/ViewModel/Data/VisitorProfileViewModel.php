@@ -6,6 +6,9 @@ use Site\ConfigurationCache;
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 
+use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelItemInterface;
+
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Entity\StatusSecurityInterface;
@@ -19,13 +22,13 @@ use Events\Model\Entity\DocumentInterface;
 use Component\ViewModel\ViewModelInterface;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
 
-
+use Access\Enum\RoleEnum;
 use ArrayIterator;
 
 /**
  * 
  */
-class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInterface {
+class VisitorProfileViewModel extends  ViewModelItemAbstract implements ViewModelItemInterface {
 
     private $status;
     private $secutityRepo;
@@ -47,31 +50,87 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
     }    
     
     
-    public function getIterator() {     
+     private function isAdministrator() {
+        return ($this->status->getUserRole() == RoleEnum::EVENTS_ADMINISTRATOR);
+    }
 
+    private function isVisitor() {
+        return ($this->status->getUserRole() == RoleEnum::VISITOR);
+    }
+    
+    private function isCurrentVisitor($ItemId) {
+        $userLoginName = $this->status->getUserLoginName();
+        $requestedLogName = $this->getItemId();
+        return ($this->status->getUserRole() == RoleEnum::VISITOR and 
+                $this->status->getUserLoginName() == $ItemId )
+                ;
+    }
+    
+    
+    
+    
+    public function getIterator() {     
+        
+        if ($this->hasItemId()) {
+               /** @var VisitorProfileInterface $visitorProfile */
+            $visitorProfile = $this->visitorProfileRepo->get($this->getItemId());     
+        } else {
+            throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+        }
+    
+         //$requestedLogName = $this->getRequestedId();
+        $requestedLogName = $this->getItemId();
+        $isAdministrator = $this->isAdministrator();
+        $editable =  $this->isAdministrator() || $this->isCurrentVisitor($this->getItemId());
+        
+        
         /** @var StatusSecurityInterface $statusSecurity */
         $statusSecurity = $this->secutityRepo->get();
+        
+              
+         /*  ***********************************************************  */       
         /** @var LoginAggregateFullInterface $loginAggregate */
         $loginAggregate = $statusSecurity->getLoginAggregate();
-        
-        $editable = false;
-        $visible = true;
+//        $statusLoginName = $loginAggregate->getLoginName(); 
+        $statusLoginName =  $this->status->getUserLoginName();
+       
+       // $editable = false;
+       // $visible = true;
         $documents = [];
         $profileData = [];
         $profileData = [ 'editable' => $editable ]  ;
         $documents = [ 'editable' => $editable ]  ;
         
-        $requestedLogName = $this->getRequestedId();
+       
+        
 
-        if (isset( $loginAggregate))  {            
+//         /** @var VisitorProfileRepoInterface $visitorProfileRepo */
+//        $visitorProfileRepo = $this->visitorProfileRepo;
+//                /** @var VisitorProfileInterface $visitorProfile */
+//        $visitorProfile = $visitorProfileRepo->get($loginName);  
+        
+        
+        
+        
+        
+        
+//        if (isset( $loginAggregate))  {            
 
-            $statusLoginName = $loginAggregate->getLoginName();
+            //$statusLoginName = $loginAggregate->getLoginName();
 
-            if ( $requestedLogName ==  $statusLoginName) {    //jen tento (prihlaseny) uzivatel
-                $editable = true;   
-                $visible = true;
+        
+        
+        
+        
+        
+        
+        
+  //          if ( $requestedLogName ==  $statusLoginName) {    //jen tento (prihlaseny) uzivatel
+//                $editable = true;   
+//                $visible = true;
 
-                $userHash = $loginAggregate->getLoginNameHash();
+                //$userHash = $loginAggregate->getLoginNameHash();
+                $userHash =  $this->status->getUserLoginHash();
                 $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
                 $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
                 $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
@@ -118,7 +177,7 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
                 ];
 
                 if (isset($visitorProfile)) {
-                        $profileData  = [
+                        $item /*profileData*/  = [
                             'editable' => $editable,  
 
                             'cvEducationText' =>  $visitorProfile->getCvEducationText(),
@@ -132,17 +191,17 @@ class VisitorProfileViewModel extends ViewModelAbstract implements ViewModelInte
                                            
                             ];
                 }else {
-                        $profileData = [
+                        $item = [
                             'editable' => $editable,                    
 
                             'loginName_proInsert'=> $loginName,
                             ];
                 }          
             
-            } else {
-                $visible = false;
-            }
-        }
+//            } else {
+//                $visible = false;
+//            }
+//        }
     
                                   
         $array = [
