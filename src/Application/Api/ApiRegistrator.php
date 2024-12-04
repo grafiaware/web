@@ -178,9 +178,7 @@ class ApiRegistrator {
         #### EventControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));
         
-        #### VisitorProfileControler ####
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));        
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
+       
         
         #### CompanyControler  ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company'));
@@ -241,6 +239,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/:jobId/jobrequest'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
        
+        #### VisitorProfileControler ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
+        
         #### DocumentControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/document/:id/remove'));
 

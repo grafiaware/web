@@ -8,7 +8,7 @@ $pStyle = ['style'=>'color: blue;'];
 echo Html::tag('div', 
         [
             'class'=>'cascade',
-            'data-red-apiuri'=>"events/v1/data/document/xx",
+            'data-red-apiuri'=>"events/v1/data/document/90",
         ]
     );
 

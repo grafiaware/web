@@ -59,6 +59,7 @@ use Events\Component\ViewModel\Data\CompanyJobViewModel;
 use Events\Component\ViewModel\Data\CompanyJobListViewModel;
 use Events\Component\ViewModel\Data\CompanyJobsListViewModel;
 use Events\Component\ViewModel\Data\VisitorProfileViewModel;
+use Events\Component\ViewModel\Data\DocumentViewModel;
 
 
 // controler
@@ -133,6 +134,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyJobList' => CompanyJobListComponent::class,            
             
             'document' => DocumentComponent::class,
+            
             'tagList' => TagListComponent::class,
             'jobToTag' => JobToTagListComponent::class,
             'jobToTagList' => JobToTagListComponent::class,
@@ -398,13 +400,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = new DocumentComponent($configuration);
                                 
                 if($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setData($c->get(CompanyAddressViewModel::class));
+                    $component->setData($c->get(DocumentViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
-                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyAddressEditable'));                    
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('documentEditable'));                    
                 } elseif($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(CompanyAddressViewModel::class));
+                    $component->setData($c->get(DocumentViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
-                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('companyAddress'));    
+                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('document'));    
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -681,9 +683,18 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class),
                         $c->get(StatusSecurityRepo::class),
                         $c->get(VisitorProfileRepo::class),
-                        $c->get(DocumentRepo::class),//                                           
+                        $c->get(DocumentRepo::class),                                        
                     );
             },     
+                    
+           DocumentViewModel::class => function(ContainerInterface $c) {
+                return new DocumentViewModel(
+                        $c->get(StatusViewModel::class),
+//                        $c->get(StatusSecurityRepo::class),
+                        $c->get(DocumentRepo::class), 
+                        $c->get(VisitorProfileRepo::class),                                                                  
+                   );
+            },             
                     
                     
         
