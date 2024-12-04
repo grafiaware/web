@@ -79,8 +79,8 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
             /** @var CompanyInterface $company */ 
             if ($this->companyRepo->get($requestedId)) {  // validace id rodiče
                 $companyAddrArray = [
-                // conditions
-                    'editable' => true,    // zobrazí tlačítko přidat 
+                    // conditions
+                    'editable' => true,    // zobrazí formulář a tlačítko přidat 
                     // text
                     'addHeadline' => 'Přidej adresu',                      
                     'companyId'=> $requestedId,

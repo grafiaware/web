@@ -76,7 +76,7 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
         if ($editableItem) {
             $items[] = [
                 // conditions
-                'editable' => true,    // vstupní pole formuláře jsou editovatelná 
+                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 'add' => true,   // zobrazí se tlačítko Uložit      ?????????????
                 // text
                 'addHeadline' => 'Přidej kontakt',                 
