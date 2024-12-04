@@ -75,13 +75,13 @@ class CompanyJobViewModel extends ViewModelItemAbstract implements ViewModelItem
         
         $isAdministrator = $this->isAdministrator();
         $editableItem = $isAdministrator || $this->isCompanyRepresentative($job->getCompanyId());
-        
+        $companyId = $job->getCompanyId();        
         $companyJob = [
             // conditions
             'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
             'remove'=> $isAdministrator,   // přidá tlačítko remove do item
             //route
-            'componentRouteSegment' => 'events/v1/job',
+            'componentRouteSegment' => "events/v1/company/$companyId/job",
             'id' => $job->getId(),
             // data
                 'fields' => [

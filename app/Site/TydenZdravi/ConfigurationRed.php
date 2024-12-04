@@ -8,6 +8,8 @@
 
 namespace Site\TydenZdravi;
 
+use Access\Enum\RoleEnum;
+
 use Pes\Logger\FileLogger;
 
 /**
@@ -61,8 +63,9 @@ class ConfigurationRed extends ConfigurationConstants {
                 'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo,
-                'roleVisitor' => 'visitor',
-                'roleRepresentative' => 'representative',
+                'roleVisitor' => RoleEnum::VISITOR,
+                'roleRepresentative' => RoleEnum::REPRESENTATIVE,
+                'roleEventsAdministrator' => RoleEnum::EVENTS_ADMINISTRATOR,
         ];
     }
 

@@ -76,18 +76,19 @@ class CompanyJobListViewModel extends ViewModelAbstract implements ViewModelList
         foreach ($this->jobRepo->findAll() as $job) {
             /** @var JobInterface $job */
             $editableItem = $isAdministrator || $this->isCompanyEditor($job->getCompanyId());
+            $companyId = $job->getCompanyId();
             $items[] = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $isAdministrator,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => 'events/v1/job',
+                'componentRouteSegment' => "events/v1/company/$companyId/job",
                 'id' => $job->getId(),
                 // data
                 'fields' => [
                     'editable' => $editableItem,
                     'selectEducations' =>  $selectEducations,
-//                            'companyId' => $jobEntity->getCompanyId(),                
+//                            'companyId' => ,                
                     'pozadovaneVzdelaniStupen' =>  $job->getPozadovaneVzdelaniStupen(),
                     'nazev' =>  $job->getNazev(),                
                     'mistoVykonu' =>  $job->getMistoVykonu(),
