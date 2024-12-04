@@ -1,18 +1,17 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
-use Component\ViewModel\ViewModelListInterface;
+use Component\ViewModel\ViewModelChildListAbstract;
+use Component\ViewModel\ViewModelChildListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
-
 use Events\Model\Entity\CompanyContactInterface;
+use Events\Model\Entity\CompanyInterface;
 
 use Access\Enum\RoleEnum;
-
 use ArrayIterator;
 
 /**
@@ -20,7 +19,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyContactListViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class CompanyContactListViewModel extends ViewModelChildListAbstract implements ViewModelChildListInterface {
     
     private $status;
     private $companyRepo;
@@ -35,7 +34,7 @@ class CompanyContactListViewModel extends ViewModelAbstract implements ViewModel
         $this->companyRepo = $companyRepo;
         $this->companyContactRepo = $companyContactRepo;
     }
-    
+
     use RepresentativeTrait;
     
     private function isAdministrator() {
@@ -46,63 +45,56 @@ class CompanyContactListViewModel extends ViewModelAbstract implements ViewModel
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
     
-    /**
-     * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
-     * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
-     * a této komponentě bude vložena jako data pro renderování položka kolekce dat. 
-     * Pozn. To znamená, že jednotlívé item komponenty nepoužijí (a nepotřebují) vlastní view model.
-     * 
-     * @return iterable
-     */
     public function provideItemDataCollection(): iterable {
-        $isAdministrator = $this->isAdministrator();
-        $componentRouteSegment = "events/v1/companycontact";
-        $items=[];     
-        foreach ($this->companyContactRepo->findAll() as $companyContact) {
-            /** @var CompanyContactInterface $companyContact */
-            $editableItem = $isAdministrator || $this->isCompanyEditor($companyContact->getCompanyId());
-            $items = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $companyContact->getId(),
-                // data
-                'fields' => [
-                    'editable' => $editableItem,
-                    'name' =>  $companyContact->getName(),
-                    'phones' =>  $companyContact->getPhones(),
-                    'mobiles' =>  $companyContact->getMobiles(),
-                    'emails' =>  $companyContact->getEmails(),
-                    ],                      
-                ];            
-        }
-        if ($isAdministrator) {  // přidání item pro přidání společnosti
+        $parentId = $this->getParentId();
+        $componentRouteSegment = "events/v1/company/$parentId/companycontact";
+        $items = [];
+        /** @var CompanyContactInterface $companyContact */
+        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $parentId ] );
+        foreach ($companyContacts as $companyContact) {           
+            $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyContact->getCompanyId());
             $items[] = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
+                // text
+                'headline' => 'Jméno kontaktu',
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyContact->getId(),
+                // data,
                 // data
                 'fields' => [
-                    'editable' => $editableItem,
-                    ],                      
-                ];
+                    'editable' => $editableItem,               
+                    'name' =>  $companyContact->getName(),
+                    'phones' =>  $companyContact->getPhones(),
+                    'mobiles' =>  $companyContact->getMobiles(),
+                    'emails' =>  $companyContact->getEmails(),      
+                    ], 
+            ];
         }
+        if ($editableItem) {
+            $items[] = [
+                // conditions
+                'editable' => true,    // vstupní pole formuláře jsou editovatelná 
+                'add' => true,   // zobrazí se tlačítko Uložit      ?????????????
+                // text
+                'addHeadline' => 'Přidej kontakt',                 
+                //route
+                'componentRouteSegment' => $componentRouteSegment,
+                // data
+                'fields' => [
+                    'editable' => $editableItem,]
+            ];
+        }        
         return $items;
     }
-    
-    /**
-     * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky
-     * @return ArrayIterator
-     */
     public function getIterator() {
+
         $array = [         
-            'listHeadline'=>'Firmy', 
+            'listHeadline'=>'Kontakty', 
             'items' => $this->getArrayCopy()];
-        return new ArrayIterator($array);
+        $this->appendData($array);
+        return parent::getIterator();        
     }
 }
