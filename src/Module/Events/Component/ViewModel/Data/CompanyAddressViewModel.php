@@ -80,8 +80,7 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
             if ($this->companyRepo->get($requestedId)) {  // validace id rodiče
                 $companyAddrArray = [
                 // conditions
-                    'editable' => true,
-                    'add' => true,   // zobrazí se tlačítko Uložit   ????
+                    'editable' => true,    // zobrazí tlačítko přidat 
                     // text
                     'addHeadline' => 'Přidej adresu',                      
                     'companyId'=> $requestedId,

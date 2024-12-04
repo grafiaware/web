@@ -5,7 +5,18 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 $pStyle = ['style'=>'color: red;'];
-echo Html::p("Všechny joby pro company s id 25: events/v1/subdata/companyJob/25", $pStyle);
+
+echo Html::p("Všechny tagy: events/v1/data/tag", $pStyle);
+echo Html::tag('div', 
+        [
+            'class'=>'cascade',
+            'data-red-apiuri'=>"events/v1/data/tag",
+        ]
+    );
+
+
+
+echo Html::p("Všechny joby pro company s id 25: events/v1/staubdata/companyJob/25", $pStyle);
 echo Html::tag('div', 
         [
             'class'=>'cascade',

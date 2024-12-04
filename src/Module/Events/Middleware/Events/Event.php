@@ -324,9 +324,8 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
                          
         
-  
         
-        
+       
         //--------------------------------------
         
         
@@ -382,7 +381,12 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->addJobTag($request);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:tagId/remove' , function(ServerRequestInterface $request, $tagId) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:jobTagId' , function(ServerRequestInterface $request, $tagId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->updateJobTag($request,  $tagId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:jobTagId/remove' , function(ServerRequestInterface $request, $tagId) {
             /** @var JobControler $ctrl */
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->removeJobTag($request,  $tagId);

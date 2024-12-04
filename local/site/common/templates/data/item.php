@@ -8,7 +8,8 @@ use Pes\Text\Message;
 
         <form class="ui huge form" action="" method="POST" >
             <div class="two fields">   
-                <?= $this->insert($fieldsTemplate, $fields ?? [], __DIR__.'/noData.php') ?>
+                <?= $this->insertIf(!$editable, $fieldsTemplate, $fields  ?? [], __DIR__.'/noData.php') ?>
+                <?= $this->insertIf($editable, $fieldsTemplate, $fields  ?? []) ?>
             </div>                
             <!--buttons-->
             <div>
@@ -23,7 +24,7 @@ use Pes\Text\Message;
                 : "";
                 ?>
                 <?=
-                $remove ?? false ? "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove' > Odstranit </button>" : "";
+                ($editable ?? false) && ($remove ?? false) ? "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove' > Odstranit </button>" : "";
                 ?>
             </div>   
         </form>         

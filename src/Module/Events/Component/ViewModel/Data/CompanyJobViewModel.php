@@ -62,14 +62,16 @@ class CompanyJobViewModel extends ViewModelItemAbstract implements ViewModelItem
     
     public function getIterator() {                         
         if ($this->hasItemId()) {
+            $obI$this->getItemId();
              /** @var JobInterface $job */ 
-            $job = $this->jobRepo->get($this->getItemId());  // id jobu
+            $job = $this->jobRepo->get();  // id jobu
         } else {
             throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
         }
         if (!isset($job)) {
             throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content            
         }
+        $componentRouteSegment = "events/v1/company/$companyId/job";
         
         $selectEducations = $this->selectEducations();
         

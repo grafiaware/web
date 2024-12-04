@@ -3,11 +3,12 @@ namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\ViewModelListInterface;
-use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
-use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Entity\CompanyInterface;
+
+use Events\Model\Repository\JobTagRepoInterface;
+use Events\Model\Entity\JobTagInterface;
+
 
 use Access\Enum\RoleEnum;
 
@@ -18,28 +19,22 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class JobTagListViewModel extends ViewModelAbstract implements ViewModelListInterface {
 
     private $status;  
     
-    private $companyRepo;
+    private $jobTagRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            CompanyRepoInterface $companyRepo
+            JobTagRepoInterface $companyRepo
             ) {
         $this->status = $status;
-        $this->companyRepo = $companyRepo;
+        $this->jobTagRepo = $companyRepo;
     }
-    
-    use RepresentativeTrait;
     
     private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
-    }
-
-    private function isCompanyEditor($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
+        return $this->status->getUserRole()==RoleEnum::EVENTS_ADMINISTRATOR;
     }
     
     /**
@@ -51,35 +46,33 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      * @return iterable
      */
     public function provideItemDataCollection(): iterable {
-        $isAdministrator = $this->isAdministrator();
-        $componentRouteSegment = 'events/v1/company';
         $items=[];     
-        foreach ($this->companyRepo->findAll() as $company) {
-            /** @var CompanyInterface $company */
-            $editableItem = $isAdministrator || $this->isCompanyEditor($company->getId());
+        foreach ($this->jobTagRepo->findAll() as $jobTag) {
+
+            /** @var JobTagInterface $jobTag */
             $items[] = [
                 // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $isAdministrator,   // přidá tlačítko remove do item
+                'editable' => $this->isAdministrator(),
+                'remove'=> $this->isAdministrator(),   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $company->getId(),
+                'componentRouteSegment' => 'events/v1/jobtag',
+                'id' => $jobTag->getId(),
                 // data
-                'fields' => ['editable' => $editableItem, 'name' =>  $company->getName()],
+                'fields' => ['tag' =>  $jobTag->getTag()],
                 ];
-        }
-        if ($isAdministrator) {  // přidání item pro přidání společnosti
-            $items[] = [
+            }
+            if ($this->isAdministrator()) {
+                $items[] = [
                 // conditions
                 'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
+                'componentRouteSegment' => 'events/v1/jobtag',
                 // text
-                'addHeadline' => 'Přidej firmu',                
+                'addHeadline' => 'Přidej tag',                
                 // data
-                'fields' => ['editable' => $editableItem],
+
                 ];
-        }
+            }
         return $items;
     }
     
@@ -89,7 +82,7 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      */
     public function getIterator() {
         $array = [         
-            'listHeadline'=>'Firmy', 
+            'listHeadline'=>'Tagy pracovních pozic', 
             'items' => $this->getArrayCopy()];
         return new ArrayIterator($array);
     }

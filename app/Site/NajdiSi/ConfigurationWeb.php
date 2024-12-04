@@ -38,7 +38,7 @@ use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
 use Events\Component\ViewModel\Data\CompanyContactListViewModel;
 use Events\Component\ViewModel\Data\CompanyAddressViewModel;
-use Events\Component\ViewModel\Data\JobToTagViewModel;
+use Events\Component\ViewModel\Data\JobToTagListViewModel;
 
 
 /**
@@ -134,6 +134,9 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',  
                 
                 'companyJobEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-job/job-editable.php',  // jen editable verze
+                
+                'jobTag' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag.php',
+                'jobTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag-editable.php',
                 
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
