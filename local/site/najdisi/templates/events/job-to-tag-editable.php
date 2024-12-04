@@ -5,8 +5,6 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
-
-
 ?>  
     <div>
         

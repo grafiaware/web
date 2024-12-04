@@ -7,7 +7,9 @@ use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Entity\CompanyInterface;
+use Events\Model\Repository\CompanyContactRepoInterface;
+
+use Events\Model\Entity\CompanyContactInterface;
 
 use Access\Enum\RoleEnum;
 
@@ -18,18 +20,20 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInterface {
-
-    private $status;  
+class CompanyContactListViewModel extends ViewModelAbstract implements ViewModelListInterface {
     
+    private $status;
     private $companyRepo;
+    private $companyContactRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            CompanyRepoInterface $companyRepo
+            CompanyRepoInterface $companyRepo,
+            CompanyContactRepoInterface $companyContactRepo            
             ) {
         $this->status = $status;
         $this->companyRepo = $companyRepo;
+        $this->companyContactRepo = $companyContactRepo;
     }
     
     use RepresentativeTrait;
@@ -52,32 +56,40 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      */
     public function provideItemDataCollection(): iterable {
         $isAdministrator = $this->isAdministrator();
-        $componentRouteSegment = 'events/v1/company';
+        $componentRouteSegment = "events/v1/companycontact";
         $items=[];     
-        foreach ($this->companyRepo->findAll() as $company) {
-            /** @var CompanyInterface $company */
-            $editableItem = $isAdministrator || $this->isCompanyEditor($company->getId());
-            $items[] = [
+        foreach ($this->companyContactRepo->findAll() as $companyContact) {
+            /** @var CompanyContactInterface $companyContact */
+            $editableItem = $isAdministrator || $this->isCompanyEditor($companyContact->getCompanyId());
+            $items = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $isAdministrator,   // přidá tlačítko remove do item
+                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
-                'id' => $company->getId(),
+                'id' => $companyContact->getId(),
                 // data
-                'fields' => ['editable' => $editableItem, 'name' =>  $company->getName()],
-                ];
+                'fields' => [
+                    'editable' => $editableItem,
+                    'name' =>  $companyContact->getName(),
+                    'phones' =>  $companyContact->getPhones(),
+                    'mobiles' =>  $companyContact->getMobiles(),
+                    'emails' =>  $companyContact->getEmails(),
+                    ],                      
+                ];            
         }
         if ($isAdministrator) {  // přidání item pro přidání společnosti
             $items[] = [
                 // conditions
-                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
+                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
-                // text
-                'addHeadline' => 'Přidej firmu',                
+                'id' => $companyContact->getId(),
                 // data
-                'fields' => ['editable' => $editableItem],
+                'fields' => [
+                    'editable' => $editableItem,
+                    ],                      
                 ];
         }
         return $items;

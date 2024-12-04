@@ -20,7 +20,7 @@ use Events\Model\Entity\JobTagInterface;
 use Events\Model\Entity\JobInterface;
 
 
-
+use Access\Enum\RoleEnum;
 
 use ArrayIterator;
 
@@ -48,11 +48,21 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
         $this->jobTagRepo = $jobTagRepo;
         $this->companyRepo = $companyRepo;
     }
-    
+
     use RepresentativeTrait;
+    
+    private function isAdministrator() {
+        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+    }
+
+    private function isCompanyEditor($companyId) {
+        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
+    }
+    
     public function provideItemDataCollection(): iterable {
         assert(false, "není implementováno!");
     }
+    
     public function getIterator() {                        
         // $editable = true;                            
         $requestedId = $this->getParentId(); //id jobu                  
@@ -61,16 +71,11 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
         $jobCompanyId = $job->getCompanyId();        
         /** @var CompanyInterface $company */
         $company = $this->companyRepo->get($jobCompanyId);
-        
-        $representativeFromStatus = $this->status->getRepresentativeActions()->getRepresentative();  
-        
+                
         $jobToTagies=[];
-        if (isset($representativeFromStatus)) {
-            $representativeCompanyId = $representativeFromStatus->getCompanyId();        
 
-            $editable = isset($representativeFromStatus) ? ($representativeCompanyId == $jobCompanyId) : false;                            
-            //---------------------------                                        
-           
+            $editableItem = $this->isAdministrator() || $this->isCompanyEditor($company->getId());
+            $componentRouteSegment = "events/v1/company/$parentId/companycontact";           
                     
             $allTags=[];
             $jobTagEntitiesAll = $this->jobTagRepo->findAll();
@@ -99,16 +104,20 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
                     'checkedTags' => $checkedTags,
 
                     'checkedTagsText' => $checkedTagsText,
-                    'editable' => $editable
+                    
+                    
+                // conditions
+                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                'remove'=> $editableItem,   // přidá tlačítko remove do item
+                //route
+                'componentRouteSegment' => $componentRouteSegment,
+                'id' => $companyContact->getId(),
+                // data
+                'fields' => [                    ],
             ];
                   
-        }
-        
-        $array = [
-                'jobToTagies' => $jobToTagies,
-                'companyName' => $company->getName()
-                 ];
-        $this->appendData($array);
+       
+        $this->appendData($jobToTagies);
         return parent::getIterator();        
     }
 

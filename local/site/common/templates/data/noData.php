@@ -4,6 +4,6 @@ use Pes\Text\Message;
 /** @var PhpTemplateRendererInterface $this */
 ?>
 <p>
-<?= Message::t("Položka neosahuje data") ?>
+<?= "Položka neobsahuje data" ?>
 </p>
 

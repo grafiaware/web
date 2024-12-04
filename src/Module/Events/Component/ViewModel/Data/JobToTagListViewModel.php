@@ -57,8 +57,6 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
-                // text
-                'headline' => 'Jméno kontaktu',
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyContact->getId(),
@@ -76,8 +74,7 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
         if ($editableItem) {
             $items[] = [
                 // conditions
-                'editable' => true,    // vstupní pole formuláře jsou editovatelná 
-                'add' => true,   // zobrazí se tlačítko Uložit      ?????????????
+                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 // text
                 'addHeadline' => 'Přidej kontakt',                 
                 //route

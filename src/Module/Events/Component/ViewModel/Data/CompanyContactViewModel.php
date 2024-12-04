@@ -53,12 +53,9 @@ class CompanyContactViewModel extends ViewModelItemAbstract implements ViewModel
         
         $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyContact->getCompanyId());
         $companyContactArray = [
-
             // conditions
             'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
             'remove'=> $editableItem,   // přidá tlačítko remove do item
-            // text
-            'headline' => 'Kontakt firmy',
             //route
             'componentRouteSegment' => $componentRouteSegment,
             'id' => $companyContact->getId(),
