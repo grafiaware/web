@@ -1,8 +1,8 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
-use Component\ViewModel\ViewModelListInterface;
+use Component\ViewModel\ViewModelChildListAbstract;
+use Component\ViewModel\ViewModelChildListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 use Component\ViewModel\StatusViewModelInterface;
 
@@ -14,13 +14,14 @@ use Events\Model\Entity\JobInterface;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
+use Exception;
 
 /**
  * Description of RepresentativeActionViewModel
  *
  * @author pes2704
  */
-class CompanyJobListViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class CompanyJobListViewModel extends ViewModelChildListAbstract implements ViewModelChildListInterface {
     
     private $status;
     private $companyRepo;
@@ -69,9 +70,16 @@ class CompanyJobListViewModel extends ViewModelAbstract implements ViewModelList
      * @return iterable
      */
     public function provideItemDataCollection(): iterable {
-        
-        $companyId !!! nemám
-        $componentRouteSegment = "events/v1/company/$companyId/job";
+        if($this->hasParentId()) {
+            $parentId = $this->getParentId();
+        } else {
+            throw new Exception;
+        }
+
+        $componentRouteSegment = "events/v1/company/$parentId/companycontact";
+        $items = [];
+        /** @var CompanyContactInterface $companyContact */
+        $companyContacts = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $parentId ] );        $componentRouteSegment = "events/v1/company/$companyId/job";
         $selectEducations = $this->selectEducations();        
         
         $isAdministrator = $this->isAdministrator();

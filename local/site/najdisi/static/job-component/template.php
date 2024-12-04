@@ -16,7 +16,7 @@ echo Html::tag('div',
 
 
 
-echo Html::p("Všechny joby pro company s id 25: events/v1/staubdata/companyJob/25", $pStyle);
+echo Html::p("Všechny joby pro company s id 25: events/v1/stubdata/companyJob/25", $pStyle);
 echo Html::tag('div', 
         [
             'class'=>'cascade',
