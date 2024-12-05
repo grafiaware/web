@@ -110,6 +110,11 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->subDataList($request, $name, $parentId);
             });
+//        $this->routeGenerator->addRouteForAction('GET', '/events/v1/subdata/:name/:parentId', function(ServerRequestInterface $request, $name, $parentId) {
+//            /** @var ComponentControler $ctrl */
+//            $ctrl = $this->container->get(ComponentControler::class);
+//            return $ctrl->subDataList($request, $name, $parentId);
+//            });
         }
 
     ### POST #################################
@@ -218,109 +223,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeRepresentative($request, $loginLoginName, $companyId);
         });
         
-        ###################        
-        # EventControler_2
-        ###################
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institution', function(ServerRequestInterface $request) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->addInstitution($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institution/:institutionId', function(ServerRequestInterface $request, $institutionId) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateInstitution($request, $institutionId);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institution/:institutionId/remove', function(ServerRequestInterface $request, $institutionId ) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeInstitution($request, $institutionId);
-        });
-        
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institutiontype', function(ServerRequestInterface $request) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->addInstitutionType($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institutiontype/:institutionTypeId', function(ServerRequestInterface $request, $institutionTypeId) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateInstitutionType($request, $institutionTypeId);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institutiontype/:institutionTypeId/remove', function(ServerRequestInterface $request, $institutionTypeId ) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeInstitutionType($request, $institutionTypeId);
-        });
-        
-        
-        
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontenttype', function(ServerRequestInterface $request) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->addContentType($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontenttype/:id', function(ServerRequestInterface $request, $id) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateContentType($request, $id);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontenttype/:id/remove', function(ServerRequestInterface $request, $id ) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeContentType($request, $id);
-        });
-        
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent', function(ServerRequestInterface $request) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->addContent($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent/:idContent', function(ServerRequestInterface $request, $idContent) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateContent($request, $idContent);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent/:idContent/remove', function(ServerRequestInterface $request, $idContent ) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeContent($request, $idContent);
-        });
-        
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase', function(ServerRequestInterface $request) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->addEventLinkPhase($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId', function(ServerRequestInterface $request, $eventLinkPhaseId) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateEventLinkPhase($request, $eventLinkPhaseId);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId/remove', function(ServerRequestInterface $request, $eventLinkPhaseId ) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeEventLinkPhase($request, $eventLinkPhaseId);
-        });
-        
-         $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink', function(ServerRequestInterface $request) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->addEventLink($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink/:eventLinkId', function(ServerRequestInterface $request, $eventLinkId) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->updateEventLink($request, $eventLinkId);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink/:eventLinkId/remove', function(ServerRequestInterface $request, $eventLinkId ) {
-            /** @var EventControler_2 $ctrl */
-            $ctrl = $this->container->get(EventControler_2::class);
-            return $ctrl->removeEventLink($request, $eventLinkId);
-        });
-                         
-        
-        
+      
        
         //--------------------------------------
         
@@ -429,7 +332,109 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removePozadovaneVzdelani($request, $stupen);
         });                  
              
+        ###################        
+        # EventControler_2
+        ###################
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institution', function(ServerRequestInterface $request) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->addInstitution($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institution/:institutionId', function(ServerRequestInterface $request, $institutionId) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->updateInstitution($request, $institutionId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institution/:institutionId/remove', function(ServerRequestInterface $request, $institutionId ) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->removeInstitution($request, $institutionId);
+        });
         
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institutiontype', function(ServerRequestInterface $request) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->addInstitutionType($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institutiontype/:institutionTypeId', function(ServerRequestInterface $request, $institutionTypeId) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->updateInstitutionType($request, $institutionTypeId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/institutiontype/:institutionTypeId/remove', function(ServerRequestInterface $request, $institutionTypeId ) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->removeInstitutionType($request, $institutionTypeId);
+        });
+        
+        
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontenttype', function(ServerRequestInterface $request) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->addContentType($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontenttype/:id', function(ServerRequestInterface $request, $id) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->updateContentType($request, $id);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontenttype/:id/remove', function(ServerRequestInterface $request, $id ) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->removeContentType($request, $id);
+        });
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent', function(ServerRequestInterface $request) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->addContent($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent/:idContent', function(ServerRequestInterface $request, $idContent) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->updateContent($request, $idContent);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventcontent/:idContent/remove', function(ServerRequestInterface $request, $idContent ) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->removeContent($request, $idContent);
+        });
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase', function(ServerRequestInterface $request) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->addEventLinkPhase($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId', function(ServerRequestInterface $request, $eventLinkPhaseId) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->updateEventLinkPhase($request, $eventLinkPhaseId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId/remove', function(ServerRequestInterface $request, $eventLinkPhaseId ) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->removeEventLinkPhase($request, $eventLinkPhaseId);
+        });
+        
+         $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink', function(ServerRequestInterface $request) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->addEventLink($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink/:eventLinkId', function(ServerRequestInterface $request, $eventLinkId) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->updateEventLink($request, $eventLinkId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/eventlink/:eventLinkId/remove', function(ServerRequestInterface $request, $eventLinkId ) {
+            /** @var EventControler_2 $ctrl */
+            $ctrl = $this->container->get(EventControler_2::class);
+            return $ctrl->removeEventLink($request, $eventLinkId);
+        });
+                         
+        
+          
     }
 }
 

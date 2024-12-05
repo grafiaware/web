@@ -1,24 +1,18 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPInterface.php to edit this template
  */
 
 namespace Component\ViewModel;
 
+use Component\ViewModel\ViewModelChildInterface;
 use Component\ViewModel\ViewModelListInterface;
-
 /**
  *
  * @author pes2704
  */
-interface ViewModelChildListInterface extends ViewModelListInterface {  
-    
-    public function setParentId(string $id);
-    
-    public function hasParentId(): bool;
-    
-    public function getParentId(): string;
+interface ViewModelChildListInterface extends ViewModelChildInterface, ViewModelListInterface {
+    //put your code here
 }

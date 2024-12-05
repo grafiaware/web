@@ -2,15 +2,15 @@
 
 namespace Events\Component\View\Data;
 
-use Component\View\ComponentItemAbstract;
-use Component\View\ComponentItemInterface;
+use Component\View\ComponentCompositeAbstract;
+
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
 
 /** 
  * 
  */ 
-class CompanyJobComponent extends ComponentItemAbstract implements ComponentItemInterface {
+class QQQJobToTagComponent extends ComponentCompositeAbstract {
 
     public static function getComponentPermissions(): array {
         return [
@@ -20,3 +20,4 @@ class CompanyJobComponent extends ComponentItemAbstract implements ComponentItem
         ];
     }
 }
+

@@ -17,6 +17,7 @@ use Component\View\ComponentCollectionInterface;
 use Component\ViewModel\ViewModelInterface;
 use Component\ViewModel\ViewModelItemInterface;
 use Component\ViewModel\ViewModelChildListInterface;
+use Component\ViewModel\ViewModelChildInterface;
 
 use Pes\Text\Html;
 
@@ -97,8 +98,10 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 /** @var ComponentCompositeInterface $component */
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
-                if ($viewModel instanceof ViewModelItemInterface) {
+                if ($viewModel instanceof ViewModelItemInterface) {   // anta
                     $viewModel->setItemId($id);
+                } elseif($viewModel instanceof  ViewModelChildInterface) {
+                    $viewModel->setParentId($id);
                 } else {
                     throw new LogicException("ViewModel komponenty ". get_class($component)." není požadovaného typu ViewModelItemInterface");
                 }
@@ -110,7 +113,6 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }           
         return $this->createStringOKResponseFromView($component);
     }
-
     public function subDataList(ServerRequestInterface $request, $name, $parentId) {
         $listName = $name."List";
         if($this->isAllowed(AccessActionEnum::GET)) {
@@ -120,6 +122,25 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
                 if ($viewModel instanceof ViewModelChildListInterface) {
+                    $viewModel->setParentId($parentId);
+                }
+            } else {
+                $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
+            }
+        } else {
+            $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }           
+        return $this->createStringOKResponseFromView($component);
+    }
+    
+    public function subData(ServerRequestInterface $request, $name, $parentId) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($name);
+                /** @var ComponentCompositeInterface $component */
+                $viewModel = $component->getData();
+                /** @var ViewModelInterface $viewModel */
+                if ($viewModel instanceof ViewModelChildInterface) {
                     $viewModel->setParentId($parentId);
                 }
             } else {

@@ -7,12 +7,12 @@ use Component\View\ComponentItemInterface;
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
 
-use Events\Component\View\Data\CompanyJobComponent;
+use Events\Component\View\Data\JobComponent;
 use Component\View\ComponentPrototypeInterface;
 /** 
  * 
  */ 
-class CompanyJobComponentPrototype extends CompanyJobComponent implements ComponentPrototypeInterface {
+class JobComponentPrototype extends JobComponent implements ComponentPrototypeInterface {
 
     public static function getComponentPermissions(): array {
         return [

@@ -14,21 +14,14 @@ if ($editable) {
         $disabled = 'disabled';
     }   
 ?>
-
-<?php if ( (isset($jobNazev)) ) { ?>
-        <form class="ui huge form" action="" method="POST" >
             <div class="fields">
                 <div >
                     <div class="active title">
                         <i class="dropdown icon"></i>
-                        <label>Název pozice:</label>
+                        <label>Tagy:</label>
                     </div>
                     <div class="active content">     
                    
-                        <input <?= $readonly ?> type="text" name="job-nazev" placeholder="" maxlength="120"
-                                                value="<?= isset($jobNazev)?  $jobNazev : '' ?>" >                      
-                        
-                        
                         <?php if ( $editable ) { ?>
                             <div class="field">
                                  <?= Html::checkbox( $allTags , $checkedTags ); ?>
@@ -46,8 +39,4 @@ if ($editable) {
                 </div>
             </div>
 
-
-        </form>
-        <br/> <br/>
-<?php }
 ?>

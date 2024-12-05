@@ -91,6 +91,6 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
         $array = [         
             'listHeadline'=>'Firmy', 
             'items' => $this->getArrayCopy()];
-        return new ArrayIterator($array);
-    }
+        $this->appendData($array);
+        return parent::getIterator();     }
 }

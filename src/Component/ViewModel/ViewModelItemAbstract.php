@@ -10,14 +10,14 @@ namespace Component\ViewModel;
 
 use Component\ViewModel\ViewModelItemInterface;
 
-use Pes\Type\ContextData;
+use Component\ViewModel\ViewModelAbstract;
 
 /**
  * Description of ViewModelAbstract
  *
  * @author pes2704
  */
-class ViewModelItemAbstract extends ContextData implements ViewModelItemInterface {
+abstract class ViewModelItemAbstract extends ViewModelAbstract implements ViewModelItemInterface {
     
     private $id;
     

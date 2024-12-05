@@ -28,6 +28,13 @@ use Events\Model\Repository\CompanyRepo;
             ]
         );
     
+    echo Html::p("Jedna sada job to tag pro job s id: events/v1/subdata/jobtotag/8", $pStyle);
+    echo Html::tag('div', 
+            [
+                'class'=>'cascade',
+                'data-red-apiuri'=>"events/v1/subdata/jobtotag/8",
+            ]
+        );    
     echo Html::tag('h4', $pStyle, "Cyklus pro všechny company");
 
     foreach ($companies as $company) {

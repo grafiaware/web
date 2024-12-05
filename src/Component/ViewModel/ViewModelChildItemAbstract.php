@@ -1,7 +1,7 @@
 <?php
 namespace Component\ViewModel;
 
-use Component\ViewModel\ViewModelChildListInterface;
+use Component\ViewModel\ViewModelChildInterface;
 use Component\ViewModel\ViewModelAbstract;
 
 /**
@@ -9,7 +9,7 @@ use Component\ViewModel\ViewModelAbstract;
  *
  * @author pes2704
  */
-abstract class ViewModelChildListAbstract extends ViewModelAbstract implements ViewModelChildListInterface {
+abstract class ViewModelChildItemAbstract extends ViewModelAbstract implements ViewModelChildInterface {
     
     private $id;
 

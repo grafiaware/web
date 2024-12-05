@@ -2,32 +2,29 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelChildListAbstract;
-use Component\ViewModel\ViewModelListInterface;
-
+use Component\ViewModel\ViewModelChildListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
-
-use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Entity\CompanyInterface;
-
+use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\JobToTagRepoInterface;
 use Events\Model\Repository\JobTagRepoInterface;
-use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Repository\CompanyRepoInterface;
 
-use Events\Model\Entity\JobToTagInterface;
-use Events\Model\Entity\JobTagInterface;
 use Events\Model\Entity\JobInterface;
-
+use Events\Model\Entity\JobTagInterface;
+use Events\Model\Entity\CompanyInterface;
 
 use Access\Enum\RoleEnum;
-
 use ArrayIterator;
 
 /**
- * 
+ * Description of RepresentativeActionViewModel
+ *
+ * @author pes2704
  */
-class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelListInterface {
+class JobChildJobToTagListViewModel extends ViewModelChildListAbstract implements ViewModelChildListInterface {
+    
 
     private $status;       
     private $jobRepo;
@@ -60,14 +57,10 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
     }
     
     public function provideItemDataCollection(): iterable {
-        assert(false, "není implementováno!");
-    }
-    
-    public function getIterator() {                        
         // $editable = true;                            
-        $requestedId = $this->getParentId(); //id jobu                  
+        $jobId = $this->getParentId(); //id jobu                  
         /** @var JobInterface $job */ 
-        $job = $this->jobRepo->get($requestedId);   
+        $job = $this->jobRepo->get($jobId);   
         $jobCompanyId = $job->getCompanyId();        
         /** @var CompanyInterface $company */
         $company = $this->companyRepo->get($jobCompanyId);
@@ -75,7 +68,6 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
         $jobToTagies=[];
 
             $editableItem = $this->isAdministrator() || $this->isCompanyEditor($company->getId());
-            $componentRouteSegment = "events/v1/company/$parentId/companycontact";           
                     
             $allTags=[];
             $jobTagEntitiesAll = $this->jobTagRepo->findAll();
@@ -84,6 +76,7 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
                 $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
                 //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
             }
+            $componentRouteSegment = "events/v1/company/$jobCompanyId/job/$jobId/jovtotag";           
 
             $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $job->getId() );
 
@@ -115,10 +108,14 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
                 // data
                 'fields' => [                    ],
             ];
-                  
-       
-        $this->appendData($jobToTagies);
+        return $jobToTagies;
+    }
+    public function getIterator() {
+
+        $array = [         
+            'listHeadline'=>'Tagy', 
+            'items' => $this->getArrayCopy()];
+        $this->appendData($array);
         return parent::getIterator();        
     }
-
 }

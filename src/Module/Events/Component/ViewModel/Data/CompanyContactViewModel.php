@@ -2,24 +2,20 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelItemAbstract;
-use Component\ViewModel\ViewModelItemInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
-use Events\Model\Entity\CompanyContactInterface;
-use Events\Model\Entity\CompanyInterface;
 
 use Access\Enum\RoleEnum;
-use ArrayIterator;
 
 /**
  * Description of RepresentativeActionViewModel
  *
  * @author pes2704
  */
-class CompanyContactViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+class CompanyContactViewModel extends ViewModelItemAbstract {
     
     private $status;
     private $companyRepo;

@@ -20,7 +20,7 @@ use Exception;
 /**
  * 
  */
-class CompanyJobViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+class JobViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
     
     private $status;
     private $companyRepo;

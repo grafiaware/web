@@ -1,8 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelItemAbstract;
-use Component\ViewModel\ViewModelItemInterface;
+use Component\ViewModel\ViewModelChildItemAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
@@ -14,11 +13,12 @@ use Events\Model\Entity\CompanyInterface;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
+use LogicException;
 use UnexpectedValueException;
 /**
  * 
  */
-class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+class CompanyChildCompanyAddressViewModel extends ViewModelChildItemAbstract {
 
     private $status;
     private $companyRepo;
@@ -44,18 +44,24 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }    
     
-    public function getIterator() {                        
-        $requestedId = $this->getItemId();
+    public function getIterator() {
+        if ($this->hasParentId()) {
+            $companyId = $this->getParentId();  // id company            
+        } else {
+            throw new LogicException("Není nastaveno parent id.");
+        }
+        if( null==$this->companyRepo->get($companyId) ) {
+            throw new UnexpectedValueException("Neexistuje parent entita.");
+        }
+
         $isAdministrator = $this->isAdministrator();
         
-        $editableItem = $isAdministrator || $this->isCompanyEditor($requestedId);
-        $componentRouteSegment = "events/v1/company/$requestedId/companyaddress";
+        $editableItem = $isAdministrator || $this->isCompanyEditor($companyId);
+        $componentRouteSegment = "events/v1/company/$companyId/companyaddress";
         
-        $company = $this->companyRepo->get($requestedId);
-        $addHeadline = "Adresa pro firmu - " . $company->getName() ;
                 
         /** @var CompanyAddressInterface $companyAddress */
-        $companyAddress = $this->companyAddressRepo->get($requestedId);
+        $companyAddress = $this->companyAddressRepo->get($companyId);  // pk = fk
         if (isset($companyAddress)) {
             $companyAddrArray = [
                 // conditions
@@ -65,8 +71,6 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyAddress->getCompanyId(),
                 // data
-                'addHeadline' => $addHeadline,
-            
                 'fields' => [
                     'editable' => $editableItem,
                     'name'   => $companyAddress->getName(),
@@ -77,13 +81,13 @@ class CompanyAddressViewModel extends ViewModelItemAbstract implements ViewModel
             ];           
         } elseif ($editableItem) {
             /** @var CompanyInterface $company */ 
-            if ($this->companyRepo->get($requestedId)) {  // validace id rodiče
+            if ($this->companyRepo->get($companyId)) {  // validace id rodiče
                 $companyAddrArray = [
                     // conditions
                     'editable' => true,    // zobrazí formulář a tlačítko přidat 
                     // text
                     'addHeadline' => 'Přidej adresu',                      
-                    'companyId'=> $requestedId,
+                    'companyId'=> $companyId,
                     //route
                     'componentRouteSegment' => $componentRouteSegment,
                     // data

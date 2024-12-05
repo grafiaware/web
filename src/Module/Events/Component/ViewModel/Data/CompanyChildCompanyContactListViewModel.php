@@ -2,7 +2,6 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelChildListAbstract;
-use Component\ViewModel\ViewModelChildListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
@@ -19,7 +18,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyContactListViewModel extends ViewModelChildListAbstract implements ViewModelChildListInterface {
+class CompanyChildCompanyContactListViewModel extends ViewModelChildListAbstract {
     
     private $status;
     private $companyRepo;
@@ -57,6 +56,8 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
+                // text
+                'headline' => 'Jméno kontaktu',
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyContact->getId(),
@@ -75,6 +76,7 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
             $items[] = [
                 // conditions
                 'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
+                'add' => true,   // zobrazí se tlačítko Uložit      ?????????????
                 // text
                 'addHeadline' => 'Přidej kontakt',                 
                 //route
