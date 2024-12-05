@@ -77,14 +77,12 @@ class CompanyJobListViewModel extends ViewModelChildListAbstract implements View
         }
 
         $componentRouteSegment = "events/v1/company/$parentId/companycontact";
-        $items = [];
-        /** @var CompanyContactInterface $companyContact */
-        $companyContacts = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $parentId ] );        $componentRouteSegment = "events/v1/company/$companyId/job";
+        $companyJobs = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $parentId ] );
         $selectEducations = $this->selectEducations();        
         
         $isAdministrator = $this->isAdministrator();
         $items=[];     
-        foreach ($this->jobRepo->findAll() as $job) {
+        foreach ($companyJobs as $job) {
             /** @var JobInterface $job */
             $editableItem = $isAdministrator || $this->isCompanyEditor($job->getCompanyId());
             $companyId = $job->getCompanyId();
