@@ -401,12 +401,10 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                                 
                 if($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::EDIT)) {
                     $component->setData($c->get(DocumentViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
-                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('documentEditable'));                    
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('documentEditable')));
                 } elseif($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::DISPLAY)) {
                     $component->setData($c->get(DocumentViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
-                    $component->addPluginTemplateName("fieldsTemplate", $configuration->getTemplate('document'));    
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('document')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }

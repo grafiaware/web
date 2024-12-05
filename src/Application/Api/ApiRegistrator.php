@@ -244,8 +244,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
         
         #### DocumentControler
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/document/:id/remove'));
-
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile/:parentId/doctype/:type'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile/:parentId/doctype/:type/:id'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile/:parentId/doctype/:type/:id/remove'));
+        
     ### mail module ###
     #
         #### MailControler ######

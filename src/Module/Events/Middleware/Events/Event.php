@@ -326,20 +326,18 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         
         
         //add
-        $this->routeGenerator->addRouteForAction('POST', 'XX/events/v1/document/:id/', function(ServerRequestInterface $request, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $id) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->addDocument($request, $id);
         });  
         //update
-        $this->routeGenerator->addRouteForAction('POST', 'XXX/events/v1/document/:id/', function(ServerRequestInterface $request, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id', function(ServerRequestInterface $request, $id) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->updateDocument($request, $id);
         });
-        
-        
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/document/:id/remove', function(ServerRequestInterface $request, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id/remove', function(ServerRequestInterface $request, $id) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->remove($request, $id);
