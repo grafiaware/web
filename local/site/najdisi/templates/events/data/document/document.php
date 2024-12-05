@@ -8,26 +8,54 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */        
  
 ?>
-
-            <div class="two fields ">                        
-                <div class="field">
-                <label>Jméno firmy (pro adresu)</label>
-                    <input readonly type="text" name="name" placeholder="" maxlength="100" minlength="1" required value="<?= $name ?? '' ?>">
-                 </div>  
-                <div class="field">
-                    <label>Lokace</label>
-                    <input readonly type="text" name="lokace" placeholder="" maxlength="100"  required value="<?= $lokace ?? ''  ?>">
-                </div>
+                <label><b>Nahrané soubory</b></label>                    
+                <form class="ui huge form"  method="POST" >
+                    <div class="two fields">
+                        <div class="field">
+                              <p>Životopis:<b> <?= isset($visitorDocumentCvFilename) ? $visitorDocumentCvFilename : ''; ?></b></p>                                                        
+                             <?= isset($visitorDocumentCvId) ?
+                                '<button type="submit" formaction="events/v1/document/' .$visitorDocumentCvId . '/remove" >Odstranit životopis</button>'
+                                : '' ;   ?>
+                        </div>      
+                        <div class="field">
+                            <p>Motivační dopis:<b> <?= isset($visitorDocumentLetterFilename) ? $visitorDocumentLetterFilename : ''; ?></b></p>                            
+                            <?= isset($visitorDocumentLetterId) ?
+                                "<button type='submit' formaction='events/v1/document/" .$visitorDocumentLetterId . "/remove' >Odstranit motivační dopis</button>"
+                                : "" ;   ?>
+                        </div>
+                    </div>
+                </form>                  
+                <br/>
+<!--    <div class="field">
+                                <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a></span>
+                                <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
+        </div>-->                   
+                                  
+                <!--odesílá k uložení do souboru-->
+                <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
+                     <div class="two fields">
+                        <div class="field margin">
+                            <label><?= ( isset($visitorDocumentCvFilename) ) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
+                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="10000000">
+                            <p>Akceptované typy souborů: <?= $accept ?> Max. velikost souboru: 10 MB.</p>
+                        </div>
+                        <div class="field margin">
+                            <button class="ui primary button" type="submit">Uložit životopis</button>
+                        </div>
+                     </div>
+                </form>
+                <form class="ui huge form" action="events/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
+                     <div class="two fields">
+                        <div class="field margin">
+                            <label><?= ( isset($visitorDocumentLetterFilename) ) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
+                            <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="10000000">
+                            <p>Akceptované typy souborů: <?= $accept ?> Max. velikost souboru: 10 MB.</p>
+                        </div>
+                        <div class="field margin">
+                            <button class="ui primary button" type="submit">Uložit dopis</button>
+                        </div>
+                     </div>
+                </form>
+             
             </div>
-            <div class="two fields">
-                <div class="field">
-                    <label>PSČ</label>
-                    <input readonly type="text" name="psc" maxlength="5" 
-                                            pattern="[0-9]{5}" title="Zadejte 5 číslic." placeholder="12345"
-                                            value="<?= $psc ?? '' ?>">
-                </div>
-                <div class="field">
-                    <label>Obec</label>
-                    <input readonly type="text" name="obec" placeholder="" maxlength="60" value="<?= $obec ?? '' ?>">
-                </div>
-            </div>                 
+                

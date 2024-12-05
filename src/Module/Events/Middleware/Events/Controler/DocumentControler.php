@@ -70,22 +70,22 @@ class DocumentControler extends FrontControlerAbstract {
     
     
     
-    
-    
-    
-    
-    public function remove(ServerRequestInterface $request, $id) {
-             
-            $document = $this->documentRepo->get($id);
-            if (!isset($document)) {                
-            }
-            else{
-                $this->documentRepo->remove($document);                                
-            } 
-
-            $this->addFlashMessage(" Document smazán.");
-            return $this->redirectSeeLastGet($request);        
-    }
+//    
+//    
+//    
+//    
+//    public function remove(ServerRequestInterface $request, $id) {
+//             
+//            $document = $this->documentRepo->get($id);
+//            if (!isset($document)) {                
+//            }
+//            else{
+//                $this->documentRepo->remove($document);                                
+//            } 
+//
+//            $this->addFlashMessage(" Document smazán.");
+//            return $this->redirectSeeLastGet($request);        
+//    }
 
     
     

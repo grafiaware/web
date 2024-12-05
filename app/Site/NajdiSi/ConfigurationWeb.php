@@ -145,6 +145,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'job' => self::WEB_TEMPLATES_SITE.'events/data/job/job.php',
                 'jobEditable' => self::WEB_TEMPLATES_SITE.'events/job-editable.php',
 
+                'document' => self::WEB_TEMPLATES_SITE.'events/data/document/document.php',
+                'documentEditable' => self::WEB_TEMPLATES_SITE.'events/data/document/document-editable.php',  
                 
                 'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
                 'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
