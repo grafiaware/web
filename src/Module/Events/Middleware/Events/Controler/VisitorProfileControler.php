@@ -171,7 +171,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
      * @param type $idDocument
      * @return type
      */
-    public function addDocument (ServerRequestInterface $request, $idDocument) {                 
+    public function addDocument (ServerRequestInterface $request, $parentId, $type) {                 
 //        $isRepresentative = false;
 //           
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -220,7 +220,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
      * @param type $idCompanyContact
      * @return type
      */
-    public function updateDocument (ServerRequestInterface $request, $idDocument) {                   
+    public function updateDocument (ServerRequestInterface $request, $parentId, $type, $id) {                   
 //        $isRepresentative = false;
 //        
 //        /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -243,11 +243,15 @@ class VisitorProfileControler extends FrontControlerAbstract {
 
         
                 /** @var DocumentInterface $document */
-                $document = $this->documentRepo->get($idDocument);
-                                                                          
-                $document->setContent($content);//( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $document->setDocumentFilename($document_filename) ; ((new RequestParams())->getParsedBodyParam($request, 'phones'));
-                $document->setDocumentMimetype($document_mimetype) ; ((new RequestParams())->getParsedBodyParam($request, "mobiles"));
+                $document = $this->documentRepo->get($id);
+                if (isset($document)) {
+                    $this->addFlashMessage("Mám document pro id $id!");
+                } else {
+                    $this->addFlashMessage("Nemám document pro id $id! Uáááá :-(");
+                }
+//                $document->setContent($content);//( (new RequestParams())->getParsedBodyParam($request, 'name') );
+//                $document->setDocumentFilename($document_filename) ; ((new RequestParams())->getParsedBodyParam($request, 'phones'));
+//                $document->setDocumentMimetype($document_mimetype) ; ((new RequestParams())->getParsedBodyParam($request, "mobiles"));
 //
 //                } else {
 //                $this->addFlashMessage("Údaje o kontaktech firmy smí editovat pouze representant firmy (popř. administrator).");
@@ -259,7 +263,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
     
     
     
-     public function remove(ServerRequestInterface $request, $id) {
+     public function remove(ServerRequestInterface $request, $parentId, $type, $id) {
              
             $document = $this->documentRepo->get($id);
             if (!isset($document)) {                
