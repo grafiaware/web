@@ -19,7 +19,6 @@ echo Html::tag('div',
         ]
     );
 echo "</br></br>";
-echo Html::p("££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££", $pStyle);
 echo Html::p("Jedna adresa s id adresy: events/v1/data/companyAddress/10", $pStyle);
 echo Html::tag('div', 
         [
@@ -34,7 +33,6 @@ echo Html::tag('div',
             'data-red-apiuri'=>"events/v1/data/companyAddress/36",
         ]
     );
-echo Html::p("££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££££", $pStyle);
 echo "</br></br>";
 
 

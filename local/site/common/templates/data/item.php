@@ -8,8 +8,8 @@ use Pes\Text\Message;
 
         <form class="ui huge form" action="" method="POST" >
             <div class="two fields">   
-                <?= $this->insertIf(!$editable, $fieldsTemplate, $fields  ?? [], __DIR__.'/noData.php') ?>
-                <?= $this->insertIf($editable, $fieldsTemplate, $fields  ?? []) ?>
+                <?= $this->insertIf(!($editable ?? false), $fieldsTemplate, $fields  ?? [], __DIR__.'/noData.php') ?>
+                <?= $this->insertIf($editable ?? false, $fieldsTemplate, $fields  ?? []) ?>
             </div>                
             <!--buttons-->
             <div>

@@ -20,9 +20,12 @@ use Events\Model\Repository\CompanyRepoInterface;
             ]
         );
     
+    echo Html::tag('h4', $pStyle, "Cyklus pro všechny company");
+
     foreach ($companies as $company) {
         $companyId = $company->getId();
-
+        echo Html::tag('div',['style'=>'background-color: yellow; color: red;'] ,$company->getName());
+        
         echo Html::p("Jedna company s id company: events/v1/data/company/$companyId", $pStyle);
         echo Html::tag('div', 
                 [

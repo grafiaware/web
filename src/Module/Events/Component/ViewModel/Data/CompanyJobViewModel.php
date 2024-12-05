@@ -62,33 +62,33 @@ class CompanyJobViewModel extends ViewModelItemAbstract implements ViewModelItem
     
     public function getIterator() {                         
         if ($this->hasItemId()) {
-            $obI$this->getItemId();
-             /** @var JobInterface $job */ 
-            $job = $this->jobRepo->get();  // id jobu
+            $jobId = $this->getItemId();
         } else {
             throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
         }
+        /** @var JobInterface $job */ 
+        $job = $this->jobRepo->get($jobId);  // id jobu        
         if (!isset($job)) {
             throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content            
         }
-        $componentRouteSegment = "events/v1/company/$companyId/job";
         
         $selectEducations = $this->selectEducations();
         
         $isAdministrator = $this->isAdministrator();
         $editableItem = $isAdministrator || $this->isCompanyRepresentative($job->getCompanyId());
-        $companyId = $job->getCompanyId();        
+        $companyId = $job->getCompanyId();
+        $componentRouteSegment = "events/v1/company/$companyId/job";
+        
         $companyJob = [
             // conditions
             'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
             'remove'=> $isAdministrator,   // přidá tlačítko remove do item
             //route
-            'componentRouteSegment' => "events/v1/company/$companyId/job",
+            'componentRouteSegment' => $componentRouteSegment,
             'id' => $job->getId(),
             // data
                 'fields' => [
                     'editable' => $editableItem,
-//                            'companyId' => $jobEntity->getCompanyId(),                
                     'pozadovaneVzdelaniStupen' =>  $job->getPozadovaneVzdelaniStupen(),
                     'nazev' =>  $job->getNazev(),                
                     'mistoVykonu' =>  $job->getMistoVykonu(),
