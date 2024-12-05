@@ -229,23 +229,21 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         
         
         //add
-        $this->routeGenerator->addRouteForAction('POST', 'XX/events/v1/document/:id/', function(ServerRequestInterface $request, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->addDocument($request, $id);
+            return $ctrl->addDocument($request, $parentId, $type);
         });  
         //update
-        $this->routeGenerator->addRouteForAction('POST', 'XXX/events/v1/document/:id/', function(ServerRequestInterface $request, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id', function(ServerRequestInterface $request, $parentId, $type, $id) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->updateDocument($request, $id);
+            return $ctrl->updateDocument($request, $parentId, $type, $id);
         });
-        
-        
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/document/:id/remove', function(ServerRequestInterface $request, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id/remove', function(ServerRequestInterface $request, $parentId, $type, $id) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->remove($request, $id);
+            return $ctrl->remove($request, $parentId, $type, $id);
         });
         
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
