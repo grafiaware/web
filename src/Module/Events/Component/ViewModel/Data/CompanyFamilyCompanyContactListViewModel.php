@@ -46,11 +46,12 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
     
     public function provideItemDataCollection(): iterable {
         $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
+        $companyId = $this->getParentId();
+        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
         $items = [];
         /** @var CompanyContactInterface $companyContact */
-        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $this->getParentId() ] );
-        foreach ($companyContacts as $companyContact) {           
-            $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyContact->getCompanyId());
+        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $companyId ] );
+        foreach ($companyContacts as $companyContact) {   
             $items[] = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná

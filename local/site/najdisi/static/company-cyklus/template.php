@@ -40,11 +40,11 @@ use Events\Model\Repository\CompanyRepoInterface;
                     'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
                 ]
             );
-        echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/data/company/$companyId/companyContact", $pStyle);
+        echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/data/company/$companyId/companycontact", $pStyle);
         echo Html::tag('div', 
                 [
                     'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/company/$companyId/companyContact",
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
                 ]
             );
 

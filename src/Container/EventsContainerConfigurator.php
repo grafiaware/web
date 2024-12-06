@@ -130,8 +130,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             'company' => CompanyComponent::class,
             'companyList' => CompanyListComponent::class,
-            'companyFamilycompanyContact' => CompanyContactComponent::class,
-            'companyFamilycompanyContactList' => CompanyFamilyCompanyContactListComponent::class,
+            'companyFamilycompanycontact' => CompanyContactComponent::class,
+            'companyFamilycompanycontactList' => CompanyFamilyCompanyContactListComponent::class,
             'companyFamilycompanyaddressList' => CompanyFamilyCompanyAddressListComponent::class,
             'job' => JobComponent::class,
             'companyFamilyjobList' => CompanyFamilyJobListComponent::class,            
