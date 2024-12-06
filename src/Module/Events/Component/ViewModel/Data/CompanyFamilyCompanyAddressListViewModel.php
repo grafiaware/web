@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelChildItemAbstract;
+use Component\ViewModel\ViewModelFamilyListAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
@@ -18,7 +18,7 @@ use UnexpectedValueException;
 /**
  * 
  */
-class CompanyChildCompanyAddressViewModel extends ViewModelChildItemAbstract {
+class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstract {
 
     private $status;
     private $companyRepo;
@@ -43,30 +43,18 @@ class CompanyChildCompanyAddressViewModel extends ViewModelChildItemAbstract {
     private function isCompanyEditor($companyId) {
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }    
-    
-    public function getIterator() {
-        if ($this->hasParentId()) {
-            $companyId = $this->getParentId();  // id company            
-        } else {
-            throw new LogicException("Není nastaveno parent id.");
-        }
-        if( null==$this->companyRepo->get($companyId) ) {
-            throw new UnexpectedValueException("Neexistuje parent entita.");
-        }
-
+    public function provideItemDataCollection(): iterable {
+        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
         $isAdministrator = $this->isAdministrator();
-        
-        $editableItem = $isAdministrator || $this->isCompanyEditor($companyId);
-        $componentRouteSegment = "events/v1/company/$companyId/companyaddress";
-        
+        $editableItem = $isAdministrator || $this->isCompanyEditor($this->getParentId());
                 
         /** @var CompanyAddressInterface $companyAddress */
-        $companyAddress = $this->companyAddressRepo->get($companyId);  // pk = fk
+        $companyAddress = $this->companyAddressRepo->get($this->getParentId());  // pk = fk
         if (isset($companyAddress)) {
-            $companyAddrArray = [
+            $companyAddrArray[] = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $isAdministrator,   // přidá tlačítko remove do item
+                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyAddress->getCompanyId(),
@@ -81,8 +69,8 @@ class CompanyChildCompanyAddressViewModel extends ViewModelChildItemAbstract {
             ];           
         } elseif ($editableItem) {
             /** @var CompanyInterface $company */ 
-            if ($this->companyRepo->get($companyId)) {  // validace id rodiče
-                $companyAddrArray = [
+            if ($this->companyRepo->get($this->getParentId())) {  // validace id rodiče
+                $companyAddrArray[] = [
                     // conditions
                     'editable' => true,    // zobrazí formulář a tlačítko přidat 
                     // text
@@ -91,8 +79,6 @@ class CompanyChildCompanyAddressViewModel extends ViewModelChildItemAbstract {
                     //route
                     'componentRouteSegment' => $componentRouteSegment,
                     // data
-                    'addHeadline' => $addHeadline,
-
                     'fields' => [
                         'editable' => $editableItem,]                    
                     ];
@@ -102,7 +88,16 @@ class CompanyChildCompanyAddressViewModel extends ViewModelChildItemAbstract {
         } else {
             $companyAddrArray = [];
         }
-        $this->appendData($companyAddrArray);
+        return $companyAddrArray;
+    }
+    
+    public function getIterator() {
+    
+
+        $array = [         
+            'listHeadline'=>'Adresa', 
+            'items' => $this->getArrayCopy()];
+        $this->appendData($array);
         return parent::getIterator();        
     }
     

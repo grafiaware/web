@@ -103,18 +103,18 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:name/:id', function(ServerRequestInterface $request, $name, $id) {
             /** @var ComponentControler $ctrl */
             $ctrl = $this->container->get(ComponentControler::class);
-            return $ctrl->data($request, $name, $id);
+            return $ctrl->dataItem($request, $name, $id);
             });
-        $this->routeGenerator->addRouteForAction('GET', '/events/v1/subdata/:name/:parentId', function(ServerRequestInterface $request, $name, $parentId) {
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:parentName/:parentId/:name', function(ServerRequestInterface $request, $parentName, $parentId, $name) {
             /** @var ComponentControler $ctrl */
             $ctrl = $this->container->get(ComponentControler::class);
-            return $ctrl->subDataList($request, $name, $parentId);
+            return $ctrl->familyDataList($request, $parentName, $parentId, $name);
             });
-//        $this->routeGenerator->addRouteForAction('GET', '/events/v1/subdata/:name/:parentId', function(ServerRequestInterface $request, $name, $parentId) {
-//            /** @var ComponentControler $ctrl */
-//            $ctrl = $this->container->get(ComponentControler::class);
-//            return $ctrl->subDataList($request, $name, $parentId);
-//            });
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:parentName/:parentId/:name/:id', function(ServerRequestInterface $request, $parentName, $parentId, $name, $id) {
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
+            return $ctrl->familyDataItem($request, $parentName, $parentId, $name, $id);
+            });
         }
 
     ### POST #################################

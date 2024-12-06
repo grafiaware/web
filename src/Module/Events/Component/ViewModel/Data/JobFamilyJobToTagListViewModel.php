@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelChildListAbstract;
+use Component\ViewModel\ViewModelFamilyListAbstract;
 use Component\ViewModel\ViewModelChildListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
@@ -23,7 +23,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class JobChildJobToTagListViewModel extends ViewModelChildListAbstract implements ViewModelChildListInterface {
+class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract implements ViewModelChildListInterface {
     
 
     private $status;       

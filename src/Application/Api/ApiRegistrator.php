@@ -170,8 +170,8 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/component/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/data/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/data/:name/:id'));
-        $registry->register($this->getPrototype->withUrlPattern('/events/v1/subdata/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/events/v1/subdata/:name/:parentId'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/data/:parentName/:parentId/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/data/:parentName/:parentId/:name/:id'));
         
         #### RepesentationControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representation'));

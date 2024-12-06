@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelChildListAbstract;
+use Component\ViewModel\ViewModelFamilyListAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 use Component\ViewModel\StatusViewModelInterface;
 
@@ -20,7 +20,7 @@ use Exception;
  *
  * @author pes2704
  */
-class CompanyChildJobListViewModel extends ViewModelChildListAbstract {
+class CompanyChildJobListViewModel extends ViewModelFamilyListAbstract {
     
     private $status;
     private $companyRepo;

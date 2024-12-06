@@ -33,18 +33,18 @@ use Events\Model\Repository\CompanyRepoInterface;
                     'data-red-apiuri'=>"events/v1/data/company/$companyId",
                 ]
             );
-        echo Html::p("Jedna adresa s id adresy: events/v1/data/companyAddress/$companyId", $pStyle);
+        echo Html::p("Jedna adresa s id company (rodiče): events/v1/data/company/$companyId/companyaddress", $pStyle);
         echo Html::tag('div', 
                 [
                     'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/companyAddress/$companyId",
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
                 ]
             );
-        echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/subdata/companyContact/$companyId", $pStyle);
+        echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/data/company/$companyId/companyContact", $pStyle);
         echo Html::tag('div', 
                 [
                     'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/subdata/companyContact/$companyId",
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/companyContact",
                 ]
             );
 

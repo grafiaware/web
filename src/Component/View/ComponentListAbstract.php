@@ -59,5 +59,4 @@ abstract class ComponentListAbstract extends CollectionView implements Component
         
         $this->appendComponentViewCollection($componentViewCollection);
     }
-
 }

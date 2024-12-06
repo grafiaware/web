@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelChildListAbstract;
+use Component\ViewModel\ViewModelFamilyListAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
@@ -18,7 +18,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyChildCompanyContactListViewModel extends ViewModelChildListAbstract {
+class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstract {
     
     private $status;
     private $companyRepo;
@@ -45,11 +45,10 @@ class CompanyChildCompanyContactListViewModel extends ViewModelChildListAbstract
     }
     
     public function provideItemDataCollection(): iterable {
-        $parentId = $this->getParentId();
-        $componentRouteSegment = "events/v1/company/$parentId/companycontact";
+        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
         $items = [];
         /** @var CompanyContactInterface $companyContact */
-        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $parentId ] );
+        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $this->getParentId() ] );
         foreach ($companyContacts as $companyContact) {           
             $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyContact->getCompanyId());
             $items[] = [

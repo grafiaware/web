@@ -6,13 +6,12 @@
  */
 
 namespace Component\ViewModel;
-
-use Component\ViewModel\ViewModelChildInterface;
-use Component\ViewModel\ViewModelListInterface;
+use Component\ViewModel\ViewModelFamilyInterface;
+use Component\ViewModel\ViewModelItemInterface;
 /**
  *
  * @author pes2704
  */
-interface ViewModelChildListInterface extends ViewModelChildInterface, ViewModelListInterface {
+interface ViewModelFamilyItemInterface extends ViewModelFamilyInterface, ViewModelItemInterface {
     //put your code here
 }

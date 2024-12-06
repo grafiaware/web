@@ -26,9 +26,9 @@ use Events\Component\View\Data\CompanyComponent;
 use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactComponent;
-use Events\Component\View\Data\CompanyChildCompanyContactListComponent;
-use Events\Component\View\Data\CompanyChildCompanyAddressComponent;
-use Events\Component\View\Data\JobChildJobToTagListComponent;
+use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
+use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
+use Events\Component\View\Data\JobFamilyJobToTagListComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
@@ -36,9 +36,9 @@ use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
 use Events\Component\ViewModel\Data\CompanyListViewModel;
 use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
-use Events\Component\ViewModel\Data\CompanyChildCompanyContactListViewModel;
-use Events\Component\ViewModel\Data\CompanyChildCompanyAddressViewModel;
-use Events\Component\ViewModel\Data\JobChildJobToTagListViewModel;
+use Events\Component\ViewModel\Data\CompanyFamilyCompanyContactListViewModel;
+use Events\Component\ViewModel\Data\CompanyFamilyCompanyAddressListViewModel;
+use Events\Component\ViewModel\Data\JobFamilyJobToTagListViewModel;
 
 
 /**
