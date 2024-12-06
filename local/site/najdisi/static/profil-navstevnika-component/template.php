@@ -12,6 +12,12 @@ echo Html::tag('div',
         ]
     );
 
+
+
+
+
+
+
 echo Html::p("--------------- PROFILE ------------", $pStyle);
 echo Html::tag('div', 
         [
