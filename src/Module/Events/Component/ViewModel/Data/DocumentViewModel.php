@@ -65,25 +65,24 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
     
     public function getIterator() {                        
         $requestedId = $this->getItemId();  // id documentu
-        $parrentId =  $this->status->getUserLoginName();  // (loginame) tj. id v nadrizene tabulce   visitor
+        $parentId =  $this->status->getUserLoginName();  // (loginame) tj. id v nadrizene tabulce  visitorProfile
                 
         $requestedParTab = 'visitorprofile';
-        $requestedParTabRepo =  $this->visitorProfileRepo;
+        //$requestedParTabRepo =  $this->visitorProfileRepo;
         $requestedTypeDoc = 'letter';
         //------------------------------------------------------
                // unikátní jména souborů pro upload
         $userHash = $this->status->getUserLoginHash();
         $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
-        $uploadedFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+        $uploadedFilename = VisitorProfileControler::UPLOADED_KEY.$userHash;
         //-------------------------------------------------------------------------------------
         
         $isAdministrator = $this->isAdministrator();        
-        $editableItem = $isAdministrator || $this->isCurrentVisitor($parrentId);    
+        $editableItem = $isAdministrator || $this->isCurrentVisitor($parentId);    
         
-        $componentRouteSegment = "events/v1/$requestedParTab/$parrentId/doctype/$requestedTypeDoc";     
-       
-        $visitorProfile = $requestedParTabRepo->get($parrentId) ;
-        $addHeadline = "--- Soubor --- typ:  $requestedTypeDoc ";
+        $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";            
+        //$visitorProfile = $requestedParTabRepo->get($parentId) ;
+        $addHeadline = "* Soubor je typu:  $requestedTypeDoc ";
                 
         /** @var DocumentInterface $document */
         $document = $this->documentRepo->get($requestedId);     
@@ -95,12 +94,13 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $requestedId,
             
+                'addHeadline' => $addHeadline,
                 'uploadedFilename' => $uploadedFilename,
                 'filename'    => $document->getDocumentFilename(),
                 'visitorDocumentId'   => $document->getId(),
                 'accept' => $accept,                
             ];           
-        } elseif ($this->visitorProfileRepo->get($parrentId)) {  // validace id rodiče
+        } elseif ($this->visitorProfileRepo->get($parentId)) {  // validace id rodiče
                 $documentArr = [
                 // conditions
                     'editable' => true,
@@ -109,16 +109,16 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
                     //route
                     'componentRouteSegment' => $componentRouteSegment,
                     // data
+                    'addHeadline' => $addHeadline,                    
                     'uploadedFilename' => $uploadedFilename,
                     'accept' => $accept,                    
                     ];
             } else {
                 throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
             }
-//        } else {
-//            $documentArr = [];
-//        }
-        
+
+// $documentArr = [];
+       
         
         $this->appendData($documentArr);
         return parent::getIterator();        

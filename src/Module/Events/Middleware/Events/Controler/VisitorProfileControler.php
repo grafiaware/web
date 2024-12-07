@@ -27,7 +27,7 @@ use Events\Model\Repository\RepresentativeRepoInterface;
 //use Events\Model\Repository\RepresentativeRepo;
 
 use Events\Model\Entity\VisitorProfile;
-use Events\Model\Entity\VisitorProfileIntertface;
+use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Entity\Document;
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Entity\VisitorJobRequest;
@@ -64,7 +64,8 @@ class VisitorProfileControler extends FrontControlerAbstract {
 
     const UPLOADED_KEY_CV = "visitor-cv";
     const UPLOADED_KEY_LETTER = "visitor-letter";
-
+    const UPLOADED_KEY = "visitor-document";
+    
 //    private $multiple = false;
 //    private $accept;
 
@@ -193,21 +194,135 @@ class VisitorProfileControler extends FrontControlerAbstract {
 //            if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {
                 // POST data       
         
+        
                 /** @var DocumentInterface $document */
-                $document =  new Document(); //new 
+                $document = $this->documentRepo->get($id);
+                if (isset($document)) {
+                    $this->addFlashMessage("Mám document v tabulce document  id $id! ");
+                } else {
+                    $this->addFlashMessage("Nemám document v  tabulce document  id $id! Uáááá :-(");
+                }
                 
-                $document->setContent($content);  //  setCompanyId($idCompany)
-                $document->setDocumentFilename($document_filename) ; //  ( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $document->setDocumentMimetype($document_mimetype) ;//    kace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
-                      
-                $this->documentRepo->add($document);
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
+        } else {
+            $userHash = $loginAggregateCredentials->getLoginNameHash();
+
+         
+            $files = $request->getUploadedFiles();
+
+            
+            /** @var  UploadedFileInterface $file */
+            if(isset($files) AND $files) {
+                if (array_key_exists(self::UPLOADED_KEY.$userHash, $files)) {
+                    $fileForSave = $files[self::UPLOADED_KEY.$userHash];
+                    $typeSelf = self::UPLOADED_KEY;
+//                } elseif (array_key_exists(self::UPLOADED_KEY_LETTER.$userHash, $files)) {
+//                    $fileForSave = $files[self::UPLOADED_KEY_LETTER.$userHash];
+//                    $type = self::UPLOADED_KEY_LETTER;
+                } else {
+                    //  tady nevim co delat
+                }
+                $response = $this->createResponeIfError($request, $fileForSave);
+            } else {
+                $this->addFlashMessage("neodeslán žádný soubor. Soubor neuložen.", FlashSeverityEnum::WARNING);
+                $response = $this->redirectSeeLastGet($request);                                 
+            }
+        }
+             
+                ###### SAVE
+        if (!isset($response) AND isset($typeSelf)) {
+    //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
+    //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+
+            // file move to temp
+            $clientFileName = $fileForSave->getClientFilename();
+            $clientMime = $fileForSave->getClientMediaType();
+            $size = $fileForSave->getSize();  // v bytech
+            $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
+            $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
+            $fileForSave->moveTo($uploadedFileTemp);
+
+            // if login - save data
+            if ( isset($loginAggregateCredentials) )  {
+               /* df */ // $loginName = $loginAggregateCredentials->getLoginName();
+               /* df */ //  $visitorProfileData = $this->visitorProfileRepo->get($loginName);
                 
-//            } else {
-//                $this->addFlashMessage("Údaje o adrese firmy smí editovat pouze representant firmy (popř. administrator).");
-//            }          
-//        }                
+               /**  @var VisitorProfileInterface  $visitorProfileData */
+                $visitorProfileData = $this->visitorProfileRepo->get($parentId);
+                if (!isset($visitorProfileData)) {   // u UPDATE vzdy existuje
+                    $visitorProfileData = new VisitorProfile();
+                    $visitorProfileData->setLoginLoginName($parentId);
+                    $this->visitorProfileRepo->add($visitorProfileData);
+                }
                 
-        return $this->redirectSeeLastGet($request);
+                 /** @var DocumentInterface $documentCv */           
+                 /** @var DocumentInterface $documentLettter */     
+                $documentCvId = $visitorProfileData->getCvDocument();
+                $documentLettterId = $visitorProfileData->getLetterDocument();   
+                
+                switch ($type) {
+                    case 'cv' :  //self::UPLOADED_KEY_CV:
+                        if (!isset($documentCvId)) {
+                            $documentCv = new Document();
+                            $this->documentRepo->add($documentCv);
+                           
+                            $visitorProfileData->setCvDocument($documentCv->getId());
+                        }
+                        else {        
+                             $documentCv = $this->documentRepo->get($documentCvId);  
+                        }                 
+                        $documentCv->getContent(file_get_contents($uploadedFileTemp));
+                        $documentCv->getDocumentMimetype($clientMime);
+                        $documentCv->setDocumentFilename($clientFileName);                        
+                        
+                        $this->addFlashMessage("Uložen váš životopis.", FlashSeverityEnum::SUCCESS);
+                        break;
+                        
+                    case 'letter' ://self::UPLOADED_KEY_LETTER:
+                        if (!isset($documentLettterId)) {
+                            $documentLetter = new Document();
+                            $this->documentRepo->add($documentLetter);
+                            
+                            $visitorProfileData->setLetterDocument($documentLetter->getId());
+                        }
+                         else {   
+                            $documentLetter = $this->documentRepo->get($documentLettterId);     
+                        }     
+                        $documentLetter->setContent(file_get_contents($uploadedFileTemp));
+                        $documentLetter->setDocumentMimetype($clientMime);
+                        $documentLetter->setDocumentFilename($clientFileName);
+                        
+                        $this->addFlashMessage("Uložen váš motivační dopis.", FlashSeverityEnum::SUCCESS);
+                        break;
+                    default:
+                        break;
+                }
+                $flashMessage = "Uloženo $size bytů.";
+                $this->addFlashMessage($flashMessage);
+
+                $response = $this->redirectSeeLastGet($request);
+            } else {
+                $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
+                $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
+                $this->redirectSeeLastGet($request);
+            }
+        } else {
+            if (isset($clientFileName)) {
+                $this->addFlashMessage($clientFileName);
+            }
+            $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
+            return $response;
+        }
+        
+                
+                 return $response;
+       
+                    
+        //return $this->redirectSeeLastGet($request);
     }
 
     
@@ -245,10 +360,153 @@ class VisitorProfileControler extends FrontControlerAbstract {
                 /** @var DocumentInterface $document */
                 $document = $this->documentRepo->get($id);
                 if (isset($document)) {
-                    $this->addFlashMessage("Mám document pro id $id!");
+                    $this->addFlashMessage("Mám document v tabulce document  id $id! ");
                 } else {
-                    $this->addFlashMessage("Nemám document pro id $id! Uáááá :-(");
+                    $this->addFlashMessage("Nemám document v  tabulce document  id $id! Uáááá :-(");
                 }
+                
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
+        } else {
+            $userHash = $loginAggregateCredentials->getLoginNameHash();
+
+         
+            $files = $request->getUploadedFiles();
+
+            
+            /** @var  UploadedFileInterface $file */
+            if(isset($files) AND $files) {
+                if (array_key_exists(self::UPLOADED_KEY.$userHash, $files)) {
+                    $fileForSave = $files[self::UPLOADED_KEY.$userHash];
+                    $typeSelf = self::UPLOADED_KEY;
+//                } elseif (array_key_exists(self::UPLOADED_KEY_LETTER.$userHash, $files)) {
+//                    $fileForSave = $files[self::UPLOADED_KEY_LETTER.$userHash];
+//                    $type = self::UPLOADED_KEY_LETTER;
+                } else {
+                    //  tady nevim co delat
+                }
+                $response = $this->createResponeIfError($request, $fileForSave);
+            } else {
+                $this->addFlashMessage("neodeslán žádný soubor. Soubor neuložen.", FlashSeverityEnum::WARNING);
+                $response = $this->redirectSeeLastGet($request);                                 
+            }
+        }
+             
+                ###### SAVE
+        if (!isset($response) AND isset($typeSelf)) {
+    //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
+    //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+
+            // file move to temp
+            $clientFileName = $fileForSave->getClientFilename();
+            $clientMime = $fileForSave->getClientMediaType();
+            $size = $fileForSave->getSize();  // v bytech
+            $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
+            $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
+            $fileForSave->moveTo($uploadedFileTemp);
+
+            // if login - save data
+            if ( isset($loginAggregateCredentials) )  {
+               /* df */ // $loginName = $loginAggregateCredentials->getLoginName();
+               /* df */ //  $visitorProfileData = $this->visitorProfileRepo->get($loginName);
+                
+//               /**  @var VisitorProfileInterface  $visitorProfileData */
+//                $visitorProfileData = $this->visitorProfileRepo->get($parentId);
+//                if (!isset($visitorProfileData)) {   // u UPDATE vzdy existuje
+//                    $visitorProfileData = new VisitorProfile();
+//                    $visitorProfileData->setLoginLoginName($parentId);
+//                    $this->visitorProfileRepo->add($visitorProfileData);
+//                }
+//                
+//                 /** @var DocumentInterface $documentCv */           
+//                 /** @var DocumentInterface $documentLettter */     
+//                $documentCvId = $visitorProfileData->getCvDocument();
+//                $documentLettterId = $visitorProfileData->getLetterDocument();   
+                
+//                switch ($type) {
+//                    case 'cv' :  //self::UPLOADED_KEY_CV:
+//                        if (!isset($documentCvId)) {
+//                            $documentCv = new Document();
+//                            $this->documentRepo->add($documentCv);
+//                           
+//                            $visitorProfileData->setCvDocument($documentCv->getId());
+//                        }
+//                        else {        
+                             $document = $this->documentRepo->get($id);  
+                        //}                                                 
+                        
+                        $document->setContent(file_get_contents($uploadedFileTemp));
+                        $document->setDocumentMimetype($clientMime);
+                        $document->setDocumentFilename($clientFileName);                        
+                        
+                        
+                        $this->addFlashMessage("Uložen váš soubor." .$document->getDocumentFilename(), FlashSeverityEnum::SUCCESS);
+//                        break;
+                        
+//                    case 'letter' ://self::UPLOADED_KEY_LETTER:
+//                        if (!isset($documentLettterId)) {
+//                            $documentLetter = new Document();
+//                            $this->documentRepo->add($documentLetter);
+//                            
+//                            $visitorProfileData->setLetterDocument($documentLetter->getId());
+//                        }
+//                         else {   
+//                            $documentLetter = $this->documentRepo->get($documentLettterId);     
+//                        }     
+//                        $documentLetter->setContent(file_get_contents($uploadedFileTemp));
+//                        $documentLetter->setDocumentMimetype($clientMime);
+//                        $documentLetter->setDocumentFilename($clientFileName);
+//                        
+//                        $this->addFlashMessage("Uložen váš motivační dopis.", FlashSeverityEnum::SUCCESS);
+//                        break;
+//                    default:
+//                        break;
+//                }
+                $flashMessage = "Uloženo $size bytů.";
+                $this->addFlashMessage($flashMessage);
+
+                $response = $this->redirectSeeLastGet($request);
+            } else {
+                $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
+                $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
+                $this->redirectSeeLastGet($request);
+            }
+        } else {
+            if (isset($clientFileName)) {
+                $this->addFlashMessage($clientFileName);
+            }
+            $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
+            return $response;
+        }
+        
+                
+                 return $response;
+       
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+               // return $this->redirectSeeLastGet($request);
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
 //                $document->setContent($content);//( (new RequestParams())->getParsedBodyParam($request, 'name') );
 //                $document->setDocumentFilename($document_filename) ; ((new RequestParams())->getParsedBodyParam($request, 'phones'));
 //                $document->setDocumentMimetype($document_mimetype) ; ((new RequestParams())->getParsedBodyParam($request, "mobiles"));
@@ -258,7 +516,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
 //            }
 //        }
                 
-        return $this->redirectSeeLastGet($request);
+       
     }
     
     
@@ -539,7 +797,8 @@ class VisitorProfileControler extends FrontControlerAbstract {
         $error = $uploadfile->getError();
         $size = $uploadfile->getSize();  // v bytech
 
-        $this->addFlashMessage($clientFileName);
+        if (!($clientFileName==="")) {
+            $this->addFlashMessage($clientFileName);}
 
         // Sanitize input // Remove anything which isn't a word, whitespace, number or any of the following caracters -_~,;[]().
 //        $fileNameError = preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $clientFileName);
