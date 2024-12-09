@@ -13,7 +13,7 @@ use Events\Model\Entity\JobInterface;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
-use Exception;
+use LogicException;
 
 /**
  * Description of RepresentativeActionViewModel
@@ -69,22 +69,18 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
      * @return iterable
      */
     public function provideItemDataCollection(): iterable {
-        if($this->hasParentId()) {
-            $parentId = $this->getParentId();
-        } else {
-            throw new Exception;
-        }
+        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
+        $parentId = $this->getParentId();
 
-        $componentRouteSegment = "events/v1/company/$parentId/companycontact";
         $companyJobs = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $parentId ] );
         $selectEducations = $this->selectEducations();        
         
         $isAdministrator = $this->isAdministrator();
+        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
+        
         $items=[];     
         foreach ($companyJobs as $job) {
             /** @var JobInterface $job */
-            $editableItem = $isAdministrator || $this->isCompanyEditor($job->getCompanyId());
-            $companyId = $job->getCompanyId();
             $items[] = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
@@ -96,7 +92,6 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
                 'fields' => [
                     'editable' => $editableItem,
                     'selectEducations' =>  $selectEducations,
-//                            'companyId' => ,                
                     'pozadovaneVzdelaniStupen' =>  $job->getPozadovaneVzdelaniStupen(),
                     'nazev' =>  $job->getNazev(),                
                     'mistoVykonu' =>  $job->getMistoVykonu(),
