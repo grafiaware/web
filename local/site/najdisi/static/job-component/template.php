@@ -5,11 +5,16 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 use Events\Model\Repository\CompanyRepo;
+use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Entity\JobInterface;
 
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );
     $companies = $companyRepo->findAll();
-    
+    /** @var JobRepoInterface $jobRepo */
+    $jobRepo = $container->get(JobRepo::class);
     $pStyle = ['style'=>'color: red;'];
 
     echo Html::p("Všechny tagy: events/v1/data/tag", $pStyle);
@@ -28,25 +33,35 @@ use Events\Model\Repository\CompanyRepo;
             ]
         );
     
-    echo Html::p("Jedna sada job to tag pro job s id: events/v1/data/jobtotag/8", $pStyle);
+    echo Html::p("Jedna sada job to tag pro job s id: events/v1/data/job/8/jobtotag", $pStyle);
     echo Html::tag('div', 
             [
                 'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/data/jobtotag/8",
+                'data-red-apiuri'=>"events/v1/data/job/8/jobtotag",
             ]
         );    
     echo Html::tag('h4', $pStyle, "Cyklus pro všechny company");
 
     foreach ($companies as $company) {
         $companyId = $company->getId();
+        $jobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId ] );
         echo Html::tag('div',['style'=>'background-color: yellow; color: red;'] ,$company->getName());
+//        echo Html::p("Všechny joby pro company s id $companyId: events/v1/data/job/{$job->getId()}", $pStyle);
         
+        foreach ($jobs as $job) {
+            /** @var JobInterface $job */
+            echo Html::tag('div', 
+                    [
+                        'class'=>'cascade',
+                        'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}",
+                    ]
+                );            
+            echo Html::tag('div', 
+                    [
+                        'class'=>'cascade',
+                        'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}/jobtotag",
+                    ]
+                );              
+        }
 
-        echo Html::p("Všechny joby pro company s id $companyId: events/v1/data/job/$companyId", $pStyle);
-        echo Html::tag('div', 
-                [
-                    'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/job/$companyId",
-                ]
-            );
     }

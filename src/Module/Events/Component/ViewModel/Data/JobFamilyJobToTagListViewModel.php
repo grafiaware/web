@@ -2,7 +2,6 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelFamilyListAbstract;
-use Component\ViewModel\ViewModelChildListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
@@ -23,7 +22,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract implements ViewModelChildListInterface {
+class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract {
     
 
     private $status;       
@@ -57,57 +56,59 @@ class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract impleme
     }
     
     public function provideItemDataCollection(): iterable {
+        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
+        
+        
         // $editable = true;                            
         $jobId = $this->getParentId(); //id jobu                  
         /** @var JobInterface $job */ 
-        $job = $this->jobRepo->get($jobId);   
+        $job = $this->jobRepo->get($jobId);
         $jobCompanyId = $job->getCompanyId();        
         /** @var CompanyInterface $company */
         $company = $this->companyRepo->get($jobCompanyId);
                 
         $jobToTagies=[];
 
-            $editableItem = $this->isAdministrator() || $this->isCompanyEditor($company->getId());
-                    
-            $allTags=[];
-            $jobTagEntitiesAll = $this->jobTagRepo->findAll();
-            /** @var JobTagInterface  $jobTagEntity */
-            foreach ( $jobTagEntitiesAll as $jobTagEntity) {
-                $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
-                //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
-            }
-            $componentRouteSegment = "events/v1/company/$jobCompanyId/job/$jobId/jovtotag";           
+        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($company->getId());
 
-            $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $job->getId() );
+        $allTags=[];
+        $jobTagEntitiesAll = $this->jobTagRepo->findAll();
+        /** @var JobTagInterface  $jobTagEntity */
+        foreach ( $jobTagEntitiesAll as $jobTagEntity) {
+            $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
+            //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
+        }
+        $componentRouteSegment = "events/v1/company/$jobCompanyId/job/$jobId/jobtotag";           
 
-            $checkedTags=[];   //nalepky pro 1 job
-            $checkedTagsText=[]; 
-            foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
-               /** @var JobToTagInterface $jobToTagEntity */
-              $idDoTag = $jobToTagEntity->getJobTagId();
-               /** @var JobTagInterface $tagE */
-              $tagE = $this->jobTagRepo->get($idDoTag);
-              $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
-              $checkedTagsText["{$tagE->getTag()}"] = $tagE->getId()  ;
-            }
-            $jobToTagies[] = [
-                    'jobId'    => $job->getId(),
-                    'jobNazev' => $job->getNazev(),
-                    'allTags'  => $allTags,
-                    'checkedTags' => $checkedTags,
+        $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $job->getId() );
 
-                    'checkedTagsText' => $checkedTagsText,
-                    
-                    
-                // conditions
+        $checkedTags=[];   //nalepky pro 1 job
+        $checkedTagsText=[]; 
+        foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
+            /** @var JobToTagInterface $jobToTagEntity */
+            $idDoTag = $jobToTagEntity->getJobTagId();
+            /** @var JobTagInterface $tagE */
+            $tagE = $this->jobTagRepo->get($idDoTag);
+            $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
+            $checkedTagsText["{$tagE->getTag()}"] = $tagE->getId()  ;
+
+        }
+        $jobToTagies[] = [
+            // conditions
+            'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+            //route
+            'componentRouteSegment' => $componentRouteSegment,
+            'id' => $jobCompanyId,
+            // data
+            'fields' => [ 
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $companyContact->getId(),
-                // data
-                'fields' => [                    ],
-            ];
+                'jobId'    => $job->getId(),
+                'jobNazev' => $job->getNazev(),
+                'allTags'  => $allTags,
+                'checkedTags' => $checkedTags,
+
+                'checkedTagsText' => $checkedTagsText,                   ],
+        ];        
         return $jobToTagies;
     }
     public function getIterator() {

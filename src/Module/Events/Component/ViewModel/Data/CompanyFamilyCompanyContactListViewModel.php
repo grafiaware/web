@@ -61,10 +61,9 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyContact->getId(),
-                // data,
                 // data
                 'fields' => [
-                    'editable' => $editableItem,               
+                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                     'name' =>  $companyContact->getName(),
                     'phones' =>  $companyContact->getPhones(),
                     'mobiles' =>  $companyContact->getMobiles(),
@@ -76,7 +75,6 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
             $items[] = [
                 // conditions
                 'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
-                'add' => true,   // zobrazí se tlačítko Uložit      ?????????????
                 // text
                 'addHeadline' => 'Přidej kontakt',                 
                 //route

@@ -27,7 +27,7 @@ use ArrayIterator;
 /**
  * 
  */
-class QQQJobChildJobToTagListViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+class QQQJobToTagViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
 
     private $status;       
     private $jobRepo;
@@ -98,14 +98,6 @@ class QQQJobChildJobToTagListViewModel extends ViewModelItemAbstract implements 
               $checkedTagsText["{$tagE->getTag()}"] = $tagE->getId()  ;
             }
             $jobToTagies[] = [
-                    'jobId'    => $job->getId(),
-                    'jobNazev' => $job->getNazev(),
-                    'allTags'  => $allTags,
-                    'checkedTags' => $checkedTags,
-
-                    'checkedTagsText' => $checkedTagsText,
-                    
-                    
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
@@ -113,7 +105,15 @@ class QQQJobChildJobToTagListViewModel extends ViewModelItemAbstract implements 
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyContact->getId(),
                 // data
-                'fields' => [                    ],
+                'fields' => [   
+                // conditions
+                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                    'jobId'    => $job->getId(),
+                    'jobNazev' => $job->getNazev(),
+                    'allTags'  => $allTags,
+                    'checkedTags' => $checkedTags,
+                    'checkedTagsText' => $checkedTagsText,
+                    ],
             ];
                   
        

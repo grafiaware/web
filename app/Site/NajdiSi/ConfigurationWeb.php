@@ -123,6 +123,7 @@ class ConfigurationWeb extends ConfigurationConstants {
 
                 'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
                 'item' => self::WEB_TEMPLATES_COMMON.'data/item.php',
+                'multiItem' => self::WEB_TEMPLATES_COMMON.'data/multiItem.php',
                 
                 'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
                 'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',

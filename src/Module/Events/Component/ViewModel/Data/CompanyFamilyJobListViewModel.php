@@ -20,7 +20,7 @@ use Exception;
  *
  * @author pes2704
  */
-class CompanyChildJobListViewModel extends ViewModelFamilyListAbstract {
+class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
     
     private $status;
     private $companyRepo;
