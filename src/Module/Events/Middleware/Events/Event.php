@@ -327,13 +327,13 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->addDocument($request, $parentId, $type);
+            return $ctrl->addupdateDocument($request, $parentId, $type);
         });  
         //update
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id', function(ServerRequestInterface $request, $parentId, $type, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type/*, $id*/) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->updateDocument($request, $parentId, $type, $id);
+            return $ctrl->updateDocument($request, $parentId, $type/*, $id*/);
         });
         //remove
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id/remove', function(ServerRequestInterface $request, $parentId, $type, $id) {

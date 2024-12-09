@@ -52,24 +52,25 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
 //        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
 //    }   
     
-    private function isCurrentVisitor($requestedId) {
+    private function isCurrentVisitor($parentId) {
         //zda je visitor a
         //zda je to visitor, jehoz je to profile
-        //!!!!!!!!!!!!!
-        $is = $this->status->getUserLoginName() == $requestedId;
-        
+        $is = $this->status->getUserLoginName() == $parentId;      
         return ( ($this->status->getUserRole()== RoleEnum::VISITOR)  AND $is ) ;
     }
     
     
     
     public function getIterator() {                        
-        $requestedId = $this->getItemId();  // id documentu
-        $parentId =  $this->status->getUserLoginName();  // (loginame) tj. id v nadrizene tabulce  visitorProfile
-                
+        //$requestedId = $this->getItemId();  // id documentu    // -----   z routy 
+        $parentId =  '';  // -----  !!! z routy  // POUZIT        
+        $parentId =  $this->status->getUserLoginName();  //prihlasen (loginame) tj. id v nadrizene tabulce  visitorProfile  //NEPOUZIT
+       // $parentId = 'visitor';
+             // -----   z routy       
+        
         $requestedParTab = 'visitorprofile';
-        //$requestedParTabRepo =  $this->visitorProfileRepo;
-        $requestedTypeDoc = 'letter';
+        $requestedParTabRepo =  $this->visitorProfileRepo;
+        $requestedTypeDoc = VisitorProfileControler::TYPE_LETTER;
         //------------------------------------------------------
                // unikátní jména souborů pro upload
         $userHash = $this->status->getUserLoginHash();
@@ -81,42 +82,68 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         $editableItem = $isAdministrator || $this->isCurrentVisitor($parentId);    
         
         $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";            
-        //$visitorProfile = $requestedParTabRepo->get($parentId) ;
-        $addHeadline = "* Soubor je typu:  $requestedTypeDoc ";
-                
-        /** @var DocumentInterface $document */
-        $document = $this->documentRepo->get($requestedId);     
-        if (isset($document)) {
-            $documentArr = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $requestedId,
+        $visitorProfile = $requestedParTabRepo->get($parentId);
+
+        
+        
+        if (isset($visitorProfile)) {
             
-                'addHeadline' => $addHeadline,
-                'uploadedFilename' => $uploadedFilename,
-                'filename'    => $document->getDocumentFilename(),
-                'visitorDocumentId'   => $document->getId(),
-                'accept' => $accept,                
-            ];           
-        } elseif ($this->visitorProfileRepo->get($parentId)) {  // validace id rodiče
-                $documentArr = [
-                // conditions
-                    'editable' => true,
-                    // text
-                    'addHeadline' => 'Přidej dokument',                      
-                    //route
-                    'componentRouteSegment' => $componentRouteSegment,
-                    // data
-                    'addHeadline' => $addHeadline,                    
-                    'uploadedFilename' => $uploadedFilename,
-                    'accept' => $accept,                    
-                    ];
-            } else {
-                throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
+
+            if ($requestedTypeDoc == VisitorProfileControler::TYPE_LETTER) {
+                $addHeadline = "Soubor je typu:  motivační dopis ";
+                $idDocument = $visitorProfile->getCvDocument();
+            }
+            if ($requestedTypeDoc == VisitorProfileControler::TYPE_CV) {
+                $addHeadline = "Soubor je typu: životopis ";
+                $idDocument = $visitorProfile->getLetterDocument();                        
             }
 
+
+            /** @var DocumentInterface $document */
+            $document = $this->documentRepo->get($idDocument);     
+            if (isset($document)) {
+                $documentArr = [
+                    // conditions
+                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                    //route
+                    'componentRouteSegment' => $componentRouteSegment,
+                    'id' => $requestedId,
+
+                    'addHeadline' => $addHeadline,
+                    'uploadedFilename' => $uploadedFilename,
+                    'filename'    => $document->getDocumentFilename(),
+                    'visitorDocumentId'   => $document->getId(),
+                    'accept' => $accept,                
+                ];           
+            } elseif (  $requestedParTabRepo->get($parentId)) {  // validace id rodiče
+                    $documentArr = [
+                    // conditions
+                        'editable' => true,
+                        // text
+                        'addHeadline' => 'Přidej dokument',                      
+                        //route
+                        'componentRouteSegment' => $componentRouteSegment,
+                        // data
+                        'addHeadline' => $addHeadline,                    
+                        'uploadedFilename' => $uploadedFilename,
+                        'accept' => $accept,                    
+                        ];
+                } else {
+                    throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
+                }
+
+        } else {
+            $addHeadline = "Neexistuje profil návštěvníka s požadovaným id.";
+            
+            $documentArr = [
+                'editable' => false,
+                'addHeadline' => $addHeadline, 
+                'accept' => $accept, 
+            ];
+                //throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
+        }  
+            
+            
 // $documentArr = [];
        
         
