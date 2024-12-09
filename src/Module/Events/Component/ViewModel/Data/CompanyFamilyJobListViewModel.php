@@ -1,8 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelChildListAbstract;
-use Component\ViewModel\ViewModelChildListInterface;
+use Component\ViewModel\ViewModelFamilyListAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 use Component\ViewModel\StatusViewModelInterface;
 
@@ -21,7 +20,7 @@ use Exception;
  *
  * @author pes2704
  */
-class CompanyJobListViewModel extends ViewModelChildListAbstract implements ViewModelChildListInterface {
+class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
     
     private $status;
     private $companyRepo;
@@ -133,6 +132,6 @@ class CompanyJobListViewModel extends ViewModelChildListAbstract implements View
         $array = [         
             'listHeadline'=>'Pozice', 
             'items' => $this->getArrayCopy()];
-        return new ArrayIterator($array);
-    }
+        $this->appendData($array);
+        return parent::getIterator();     }
 }

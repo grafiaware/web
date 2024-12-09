@@ -26,9 +26,9 @@ use Events\Component\View\Data\CompanyComponent;
 use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactComponent;
-use Events\Component\View\Data\CompanyContactListComponent;
-use Events\Component\View\Data\CompanyAddressComponent;
-use Events\Component\View\Data\JobToTagListComponent;
+use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
+use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
+use Events\Component\View\Data\JobFamilyJobToTagListComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
@@ -36,9 +36,9 @@ use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
 use Events\Component\ViewModel\Data\CompanyListViewModel;
 use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
-use Events\Component\ViewModel\Data\CompanyContactListViewModel;
-use Events\Component\ViewModel\Data\CompanyAddressViewModel;
-use Events\Component\ViewModel\Data\JobToTagListViewModel;
+use Events\Component\ViewModel\Data\CompanyFamilyCompanyContactListViewModel;
+use Events\Component\ViewModel\Data\CompanyFamilyCompanyAddressListViewModel;
+use Events\Component\ViewModel\Data\JobFamilyJobToTagListViewModel;
 
 
 /**
@@ -123,6 +123,7 @@ class ConfigurationWeb extends ConfigurationConstants {
 
                 'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
                 'item' => self::WEB_TEMPLATES_COMMON.'data/item.php',
+                'multiItem' => self::WEB_TEMPLATES_COMMON.'data/multiItem.php',
                 
                 'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
                 'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',
@@ -140,8 +141,9 @@ class ConfigurationWeb extends ConfigurationConstants {
                 
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
-                'jobToTag' => self::WEB_TEMPLATES_SITE.'events/job-to-tag.php',
-                'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/job-to-tag-editable.php',
+                'jobToTag' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag.php',
+                'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag-editable.php',
+                
                 'job' => self::WEB_TEMPLATES_SITE.'events/data/job/job.php',
                 'jobEditable' => self::WEB_TEMPLATES_SITE.'events/job-editable.php',
 

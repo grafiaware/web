@@ -10,7 +10,7 @@ use Access\Enum\AccessPresentationEnum;
 /** 
  * 
  */ 
-class CompanyContactListComponent extends ComponentListAbstract {
+class CompanyFamilyCompanyContactListComponent extends ComponentListAbstract {
 
     public static function getComponentPermissions(): array {
         return [

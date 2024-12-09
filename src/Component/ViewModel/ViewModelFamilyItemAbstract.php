@@ -8,16 +8,16 @@
 
 namespace Component\ViewModel;
 
-use Component\ViewModel\ViewModelItemInterface;
+use Component\ViewModel\ViewModelFamilyItemInterface;
 
-use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelFamilyAbstract;
 
 /**
  * Description of ViewModelAbstract
  *
  * @author pes2704
  */
-abstract class ViewModelItemAbstract extends ViewModelAbstract implements ViewModelItemInterface {
+abstract class ViewModelFamilyItemAbstract extends ViewModelFamilyAbstract implements ViewModelFamilyItemInterface {
     
     private $id;
     

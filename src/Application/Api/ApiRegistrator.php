@@ -170,7 +170,8 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/component/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/data/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/data/:name/:id'));
-        $registry->register($this->getPrototype->withUrlPattern('/events/v1/subdata/:name/:parentId'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/data/:parentName/:parentId/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/data/:parentName/:parentId/:name/:id'));
         
         #### RepesentationControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representation'));
@@ -228,9 +229,9 @@ class ApiRegistrator {
                 
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:jobTagId'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtotag/:jobTagId'));   
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/jobtag/:jobTagId/remove'));
                 
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId/jobtotag'));   
        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/vzdelani'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/vzdelani/:stupen'));

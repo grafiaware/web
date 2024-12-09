@@ -15,12 +15,12 @@ use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\JobInterface;
 use Access\Enum\RoleEnum;
 
-use Exception;
+use UnexpectedValueException;
 
 /**
  * 
  */
-class CompanyJobViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+class JobViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
     
     private $status;
     private $companyRepo;
@@ -69,7 +69,7 @@ class CompanyJobViewModel extends ViewModelItemAbstract implements ViewModelItem
         /** @var JobInterface $job */ 
         $job = $this->jobRepo->get($jobId);  // id jobu        
         if (!isset($job)) {
-            throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content            
+            throw new UnexpectedValueException("No job with given id.");// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content            
         }
         
         $selectEducations = $this->selectEducations();

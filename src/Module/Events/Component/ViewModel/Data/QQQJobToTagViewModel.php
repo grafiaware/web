@@ -1,8 +1,8 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelChildListAbstract;
-use Component\ViewModel\ViewModelListInterface;
+use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelItemInterface;
 
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
@@ -27,7 +27,7 @@ use ArrayIterator;
 /**
  * 
  */
-class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelListInterface {
+class QQQJobToTagViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
 
     private $status;       
     private $jobRepo;
@@ -98,14 +98,6 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
               $checkedTagsText["{$tagE->getTag()}"] = $tagE->getId()  ;
             }
             $jobToTagies[] = [
-                    'jobId'    => $job->getId(),
-                    'jobNazev' => $job->getNazev(),
-                    'allTags'  => $allTags,
-                    'checkedTags' => $checkedTags,
-
-                    'checkedTagsText' => $checkedTagsText,
-                    
-                    
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
@@ -113,7 +105,15 @@ class JobToTagViewModel extends ViewModelChildListAbstract implements ViewModelL
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyContact->getId(),
                 // data
-                'fields' => [                    ],
+                'fields' => [   
+                // conditions
+                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                    'jobId'    => $job->getId(),
+                    'jobNazev' => $job->getNazev(),
+                    'allTags'  => $allTags,
+                    'checkedTags' => $checkedTags,
+                    'checkedTagsText' => $checkedTagsText,
+                    ],
             ];
                   
        

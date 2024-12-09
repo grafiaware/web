@@ -103,12 +103,17 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:name/:id', function(ServerRequestInterface $request, $name, $id) {
             /** @var ComponentControler $ctrl */
             $ctrl = $this->container->get(ComponentControler::class);
-            return $ctrl->data($request, $name, $id);
+            return $ctrl->dataItem($request, $name, $id);
             });
-        $this->routeGenerator->addRouteForAction('GET', '/events/v1/subdata/:name/:parentId', function(ServerRequestInterface $request, $name, $parentId) {
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:parentName/:parentId/:name', function(ServerRequestInterface $request, $parentName, $parentId, $name) {
             /** @var ComponentControler $ctrl */
             $ctrl = $this->container->get(ComponentControler::class);
-            return $ctrl->subDataList($request, $name, $parentId);
+            return $ctrl->familyDataList($request, $parentName, $parentId, $name);
+            });
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:parentName/:parentId/:name/:id', function(ServerRequestInterface $request, $parentName, $parentId, $name, $id) {
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
+            return $ctrl->familyDataItem($request, $parentName, $parentId, $name, $id);
             });
         }
 
@@ -218,6 +223,117 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeRepresentative($request, $loginLoginName, $companyId);
         });
         
+      
+       
+        //-----------------visitorprofile -- document---                
+        //add
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->addDocument($request, $parentId, $type);
+        });  
+        //update
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id', function(ServerRequestInterface $request, $parentId, $type, $id) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->updateDocument($request, $parentId, $type, $id);
+        });
+        //remove
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id/remove', function(ServerRequestInterface $request, $parentId, $type, $id) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->remove($request, $parentId, $type, $id);
+        });
+        //-----------------visitorprofile
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->visitor($request);
+        });
+        //?????????????????????????????
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->uploadVisitorFile($request);
+        });
+        
+        
+        
+        
+        
+        
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/:jobId/jobrequest', function(ServerRequestInterface $request, $jobId) {
+            /** @var VisitorJobRequestControler $ctrl */
+            $ctrl = $this->container->get(VisitorJobRequestControler::class);
+            return $ctrl->jobRequest($request, $jobId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest/:visitorLoginName/:jobId', function(ServerRequestInterface $request, $visitorLoginName, $jobId) {
+            /** @var VisitorJobRequestControler $ctrl */
+            $ctrl = $this->container->get(VisitorJobRequestControler::class);
+            return $ctrl->sendJobRequest($request, $visitorLoginName, $jobId);
+        });
+        
+        
+        //-----------------      
+              
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/job' , function(ServerRequestInterface $request, $idCompany) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->addJob($request, $idCompany);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/job/:jobId' , function(ServerRequestInterface $request, $idCompany, $jobId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->updateJob($request, $idCompany, $jobId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/job/:jobId/remove' , function(ServerRequestInterface $request, $idCompany, $jobId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->removeJob($request, $idCompany,  $jobId);
+        });
+        
+        //------------------------------------------------
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag' , function(ServerRequestInterface $request) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->addJobTag($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:jobTagId' , function(ServerRequestInterface $request, $tagId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->updateJobTag($request,  $tagId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/jobtag/:jobTagId/remove' , function(ServerRequestInterface $request, $tagId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->removeJobTag($request,  $tagId);
+        });             
+       
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/job/:jobId/jobtotag' , function(ServerRequestInterface $request, $companyId, $jobId) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->processingJobToTag($request, $companyId, $jobId);
+        });
+        
+        
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/vzdelani' , function(ServerRequestInterface $request) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->addPozadovaneVzdelani($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/vzdelani/:stupen' , function(ServerRequestInterface $request, $stupen) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->updatePozadovaneVzdelani($request, $stupen);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/vzdelani/:stupen/remove' , function(ServerRequestInterface $request, $stupen) {
+            /** @var JobControler $ctrl */
+            $ctrl = $this->container->get(JobControler::class);
+            return $ctrl->removePozadovaneVzdelani($request, $stupen);
+        });                  
+             
         ###################        
         # EventControler_2
         ###################

@@ -4,7 +4,7 @@ namespace Events\Middleware\Events\Controler;
 use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
-
+use Psr\Http\Message\ResponseInterface;
 // enum
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
@@ -13,10 +13,10 @@ use Access\Enum\AccessActionEnum;
 use Pes\View\Renderer\ImplodeRenderer;
 
 use Component\View\ComponentCompositeInterface;
-use Component\View\ComponentCollectionInterface;
 use Component\ViewModel\ViewModelInterface;
 use Component\ViewModel\ViewModelItemInterface;
-use Component\ViewModel\ViewModelChildListInterface;
+use Component\ViewModel\ViewModelFamilyListInterface;
+use Component\ViewModel\ViewModelFamilyItemInterface;
 
 use Pes\Text\Html;
 
@@ -44,9 +44,18 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         ];
     }
     
-    ### action metody ###############
+    ### component metody ###############
 
-    public function serviceComponent(ServerRequestInterface $request, $name) {
+    /**
+     * Vrací response s obsahem určeným ke vložení na místo proměnné v šabloně layoutu. V konfiguraci (ConfigurationCache::layoutController()) 
+     * jsou mapy context<->service (tj. jméno proměnné<->jméno služby). Obsah je vygenerován komponentou, komponentu metoda získá z kontejneru. 
+     * Jméno služby kontejneru t.j. jméno třídy komponenty získá z konfigurace - z mapy context-service.
+     * 
+     * @param ServerRequestInterface $request
+     * @param string $name
+     * @return ResponseInterface
+     */
+    public function serviceComponent(ServerRequestInterface $request, $name): ResponseInterface {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
                 $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
@@ -63,7 +72,17 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }
         return $this->createStringOKResponseFromView($view);
     }
-    public function component(ServerRequestInterface $request, $name) {
+    
+    /**
+     * Vrací response s obsahem vygenerovaným komponentou. Komponentu metoda získá z kontejneru se jménem služby daným parametrem $name metody. 
+     * Parametr metody je získán jako část routy, t.j. URL, proto se jedná o string, který lze zapsat jako část URL. Nelze tedy použít přímo jméno třídy komponenty. 
+     * Je nutné v kontejneru vytvořit alias ke třídě komponenty a tuto metodu volat se jménem alias.
+     * 
+     * @param ServerRequestInterface $request
+     * @param string $name Jméno služby konteneru (obvykle alias k jménu tídy komponenty)
+     * @return ResponseInterface
+     */
+    public function component(ServerRequestInterface $request, $name): ResponseInterface {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($name);
@@ -76,9 +95,21 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($component);
     }
     
-    public function dataList(ServerRequestInterface $request, $name) {
-        $listName = $name."List";
+#### data component metody ##################
+    
+    /**
+     * Vrací response s obsahem vygenerovaným datovou komponentou zobrazující seznam (list). 
+     * Komponentu metoda získá z kontejneru se jménem služby daným parametrem $name metody, ke kterému se připojí přípona "List". 
+     * Parametr metody je získán jako část routy, t.j. URL, proto se jedná o string, který lze zapsat jako část URL. Nelze tedy použít přímo jméno třídy komponenty. 
+     * Je nutné v kontejneru vytvořit alias ke třídě komponenty se jménem složeným z příslušné části routy a řetězce "List".
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $name
+     * @return ResponseInterface
+     */
+    public function dataList(ServerRequestInterface $request, $name): ResponseInterface {
         if($this->isAllowed(AccessActionEnum::GET)) {
+            $listName = $name."List";
             if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($listName);
             } else {
@@ -90,7 +121,19 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($component);
     }
 
-    public function data(ServerRequestInterface $request, $name, $id) {
+    /**
+     * Vrací response s obsahem vygenerovaným datovou komponentou zobrazující jednu položku (item). 
+     * Komponentu metoda získá z kontejneru se jménem služby daným parametrem $name metody.
+     * Parametr metody je získán jako část routy, t.j. URL, proto se jedná o string, který lze zapsat jako část URL. Nelze tedy použít přímo jméno třídy komponenty. 
+     * Je nutné v kontejneru vytvořit alias ke třídě komponenty se jménem odpovídajícím příslušné části routy.
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $name
+     * @param type $id
+     * @return ResponseInterface
+     * @throws LogicException
+     */
+    public function dataItem(ServerRequestInterface $request, $name, $id): ResponseInterface {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($name);
@@ -110,20 +153,58 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }           
         return $this->createStringOKResponseFromView($component);
     }
-
-    public function subDataList(ServerRequestInterface $request, $name, $parentId) {
-        $listName = $name."List";
+    
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $parentName
+     * @param type $parentId
+     * @param type $childName
+     * @return ResponseInterface
+     */
+    public function familyDataList(ServerRequestInterface $request, $parentName, $parentId, $childName): ResponseInterface {
         if($this->isAllowed(AccessActionEnum::GET)) {
-            if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
-                $component = $this->container->get($listName);
+            $serviceName = $parentName."Family".$childName."List";
+            if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($serviceName);
                 /** @var ComponentCompositeInterface $component */
                 $viewModel = $component->getData();
                 /** @var ViewModelInterface $viewModel */
-                if ($viewModel instanceof ViewModelChildListInterface) {
-                    $viewModel->setParentId($parentId);
+                if ($viewModel instanceof ViewModelFamilyListInterface) {
+                    $viewModel->setFamily($parentName, $parentId, $childName);
                 }
             } else {
-                $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
+                $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    
+            }
+        } else {
+            $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);
+        }           
+        return $this->createStringOKResponseFromView($component);
+    }
+    
+    /**
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $parentName
+     * @param type $parentId
+     * @param type $childName
+     * @param type $id
+     * @return ResponseInterface
+     */
+    public function familyDataItem(ServerRequestInterface $request, $parentName, $parentId, $childName, $id): ResponseInterface {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            $serviceName = $parentName."Family".$childName;
+            if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
+                $component = $this->container->get($serviceName);
+                /** @var ComponentCompositeInterface $component */
+                $viewModel = $component->getData();
+                /** @var ViewModelInterface $viewModel */
+                if ($viewModel instanceof ViewModelFamilyItemInterface) {
+                    $viewModel->setFamily($parentName, $parentId, $childName);
+                    $viewModel->setChildId($id);
+                }
+            } else {
+                $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    
             }
         } else {
             $component =  $this->getNonPermittedContentView(AccessActionEnum::GET);

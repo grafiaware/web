@@ -36,7 +36,7 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
 
-
+use UnexpectedValueException;
 
 /**
  * 
@@ -109,9 +109,34 @@ class JobControler extends FrontControlerAbstract {
         $this->jobTagRepo = $jobTagRepo;
     }
     
-   
+    private function hasReprePermission($companyId) {
+        $permitted = false; 
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();        
+        $representativeActions = $statusSecurity->getRepresentativeActions();
+        if (isset($representativeActions)) {
+            $representative = $representativeActions->getRepresentative();
+            if (isset($representative)) {
+                $permitted = ($representative->getCompanyId()==$companyId);
+            }
+        }
+        return $permitted || $this->hasAdminPermission();
+    }
     
-     
+    private function hasAdminPermission() {
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();    
+        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();            
+        $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';   
+        $permitted = ($role==ConfigurationCache::auth()['roleEventsAdministrator']);
+        return $permitted;
+    }
+    
+    private function createUnathorizedResponse() {
+        $response = (new ResponseFactory())->createResponse();
+        return $response->withStatus(401);  // Unauthorized        
+    }
     
     /**
      * 
@@ -120,49 +145,17 @@ class JobControler extends FrontControlerAbstract {
      * @return type
      */
     public function addJob (ServerRequestInterface $request, $idCompany) {                 
-        $isRepresentative = false;
-        
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-        if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unaathorized
-        } else {  
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-                $isRepresentative = true; 
-            }
-                        
-            if ($isRepresentative) {
-                /** @var JobInterface $job */
-                $job =  new Job(); //new $job
-                
-                $job->setCompanyId($idCompany);
-                // POST formularovadata       
-                //not null
-                $job->setPozadovaneVzdelaniStupen((new RequestParams())->getParsedBodyParam($request, 'pozadovane-vzdelani-stupen'));
-                $job->setNazev((new RequestParams())->getParsedBodyParam($request, 'nazev'));
-                $job->setMistoVykonu((new RequestParams())->getParsedBodyParam($request, 'misto-vykonu'));
-                $job->setPopisPozice((new RequestParams())->getParsedBodyParam($request, 'popis-pozice'));
-                $job->setPozadujeme((new RequestParams())->getParsedBodyParam($request, 'pozadujeme'));
-                $job->setNabizime((new RequestParams())->getParsedBodyParam($request, 'nabizime'));         
-                
-                $this->jobRepo->add($job);
-                
-            } else {
-                $this->addFlashMessage("Údaje o pozicích u vyvstavovatele smí editovat pouze representant vystavovatele.");
-            }
-            
+        if ($this->hasReprePermission($idCompany)) {
+            /** @var JobInterface $job */
+            $job =  new Job(); //new $job
+            $job->setCompanyId($idCompany);
+            $this->hydrateJobData($request, $job);
+            $this->jobRepo->add($job);
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
         }
-        return $this->redirectSeeLastGet($request);
+        return $this->redirectSeeLastGet($request);        
     }
-    
-  
     
     /**
      * 
@@ -171,51 +164,27 @@ class JobControler extends FrontControlerAbstract {
      * @param type $idJob
      * @return type
      */
-    public function updateJob (ServerRequestInterface $request, $idCompany, $idJob) {                   
-        $isRepresentative = false;
-        
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-        if (!isset($loginAggregateCredentials)) {
-            //$this->addFlashMessage("Nejste přihlášen!"); //ale neni to videt
-            
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unauthorized
-        } else {                                   
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-                            $isRepresentative = true; 
-                }
-            }            
-            if ($isRepresentative) {
-                /** @var JobInterface $job */
-                $job = $this->jobRepo->get( $idJob );
-                
-                // POST formularova data         
-                //not null
-                $job->setPozadovaneVzdelaniStupen((new RequestParams())->getParsedBodyParam($request, 'pozadovane-vzdelani-stupen'));
-                $job->setNazev((new RequestParams())->getParsedBodyParam($request, 'nazev'));
-                $job->setMistoVykonu((new RequestParams())->getParsedBodyParam($request, 'misto-vykonu'));
-                $job->setPopisPozice((new RequestParams())->getParsedBodyParam($request, 'popis-pozice'));
-                $job->setPozadujeme((new RequestParams())->getParsedBodyParam($request, 'pozadujeme'));
-                $job->setNabizime((new RequestParams())->getParsedBodyParam($request, 'nabizime'));   
-                
-                //$this->jobRepo->add($job);
-                
-            } else {
-                $this->addFlashMessage("Údaje o pozicích vystavovatele smí editovat pouze representant vystavovatele.");
-            }
-            
+    public function updateJob (ServerRequestInterface $request, $idCompany, $idJob) {                          
+        if ($this->hasReprePermission($idCompany)) {
+            /** @var JobInterface $job */
+            $job = $this->jobRepo->get( $idJob );
+            $this->hydrateJobData($request, $job);
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
         }
         return $this->redirectSeeLastGet($request);
     }
 
-                
+    private function hydrateJobData(ServerRequestInterface $request, JobInterface $job) {
+        // POST formularova data         
+        //not null
+        $job->setPozadovaneVzdelaniStupen((new RequestParams())->getParsedBodyParam($request, 'pozadovane-vzdelani-stupen'));
+        $job->setNazev((new RequestParams())->getParsedBodyParam($request, 'nazev'));
+        $job->setMistoVykonu((new RequestParams())->getParsedBodyParam($request, 'misto-vykonu'));
+        $job->setPopisPozice((new RequestParams())->getParsedBodyParam($request, 'popis-pozice'));
+        $job->setPozadujeme((new RequestParams())->getParsedBodyParam($request, 'pozadujeme'));
+        $job->setNabizime((new RequestParams())->getParsedBodyParam($request, 'nabizime'));           
+    }
                 
    
     /**
@@ -225,109 +194,63 @@ class JobControler extends FrontControlerAbstract {
      * @param type $idJob
      * @return type
      */
-    public function removeJob (ServerRequestInterface $request, $idCompany, $idJob) {                   
-        $isRepresentative = false;
-                
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-        if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unaathorized
-        } else {                                   
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-                            $isRepresentative = true; 
-                }
-            }          
-                
-            if ($isRepresentative) {       
-                /** @var JobInterface $job */
-                $job = $this->jobRepo->get( $idJob );                                
-                $this->jobRepo->remove( $job ); 
-                                
-            } else {
-                $this->addFlashMessage("Údaje o pozicích vystavovatele smí mazat pouze representant vystavovatele.");
-            }
-            
+    public function removeJob (ServerRequestInterface $request, $idCompany, $idJob) {                           
+        if ($this->hasReprePermission($idCompany)) {       
+            /** @var JobInterface $job */
+            $job = $this->jobRepo->get( $idJob );                                
+            $this->jobRepo->remove( $job ); 
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
         }
-        return $this->redirectSeeLastGet($request);
+        return $this->redirectSeeLastGet($request);        
     }
             
-    
-    
-    
-        
+            
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $idJob
+     * @param type $jobId
      * @return type
      */
-    public function processingJobToTag (ServerRequestInterface $request, $idJob) {                   
-        $isRepresentative = false;
-        
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-        if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unauthorized
-        } else {                                   
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';   
-            
-            $job = $this->jobRepo->get($idJob);            
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-                if ( $this->representativeRepo->get($loginName, $job->getCompanyId( ) ))   {
-                            $isRepresentative = true; 
+    public function processingJobToTag (ServerRequestInterface $request, $companyId, $jobId) {                   
+        if ($this->hasReprePermission($companyId)) {
+            $arrayJobTagIds_ForJob = [];
+            $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($jobId);
+            /** @var JobToTagInterface $jobToTag */
+            foreach ($allJobToTags_ForJob as $jobToTag) {   
+                $arrayJobTagIds_ForJob[] = $jobToTag->getJobTagId() ; 
+            }                                
+            $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
+            $data = (new RequestParams())->getParsedBodyParam($request, "data" );
+            if(!is_array($data)) {
+                throw new UnexpectedValueException("No suitable data from request.");
+            }
+            /** @var JobTagInterface $tag */
+            foreach ($allTags as $tagEntity) {
+                // $postTag - tento tag je zaskrtnut ve form
+                $postTagId = $data[$tagEntity->getTag()];                                        
+                if (isset ($postTagId) ) { // je zaskrtnut ve form
+                    //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
+                    if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            
+                        /** @var JobToTag $newJobToTag */
+                        $newJobToTag = new JobToTag(); //new 
+                        $newJobToTag->setJobId($jobId); 
+                        $newJobToTag->setJobTagId($postTagId);
+                        $this->jobToTagRepo->add($newJobToTag);
+                    }                        
                 }
-            }            
-            if ($isRepresentative) {
-                               
-                $arrayJobTagIds_ForJob = [];
-                $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($idJob);
-                /** @var JobToTagInterface $jobToTag */
-                foreach ($allJobToTags_ForJob as $jobToTag) {   
-                    $arrayJobTagIds_ForJob[] = $jobToTag->getJobTagId() ; 
-                }                                
-                $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
-                $data = (new RequestParams())->getParsedBodyParam($request, "data" );
-                /** @var JobTagInterface $tag */
-                foreach ($allTags as $tagEntity) {
-                    // $postTag - tento tag je zaskrtnut ve form
-                    $postTagId = $data[$tagEntity->getTag()];                                        
-                    if (isset ($postTagId) ) { // je zaskrtnut ve form
-                        //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
-                        if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            
-                            /** @var JobToTag $newJobToTag */
-                            $newJobToTag = new JobToTag(); //new 
-                            $newJobToTag->setJobId($idJob); 
-                            $newJobToTag->setJobTagId($postTagId);
-                            $this->jobToTagRepo->add($newJobToTag);
-                        }                        
+                else { // neni zaskrtnut ve form                                      
+                    //je-li v jobToTag  - vymazat z jobToTag  //neni-li v jobToTag - ok, nic
+                    if (in_array($tagEntity->getId(), $arrayJobTagIds_ForJob)) {
+                       $jobToTagEntity = $this->jobToTagRepo->get($jobId, $tagEntity->getId());
+                       $this->jobToTagRepo->remove($jobToTagEntity);
                     }
-                    else { // neni zaskrtnut ve form                                      
-                        //je-li v jobToTag  - vymazat z jobToTag  //neni-li v jobToTag - ok, nic
-                        if (in_array($tagEntity->getId(), $arrayJobTagIds_ForJob)) {
-                           $jobToTagEntity = $this->jobToTagRepo->get($idJob, $tagEntity->getId());
-                           $this->jobToTagRepo->remove($jobToTagEntity);
-                        }
-                    }                 
-                }                                                                
-                
-            } else {
-                $this->addFlashMessage("Údaje o typech nabízených pozic smí editovat pouze representant firmy.");
-            }
-            
+                }                 
+            }                                                                
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
         }
-        return $this->redirectSeeLastGet($request);
+        return $this->redirectSeeLastGet($request);        
     }
     
     
@@ -339,39 +262,16 @@ class JobControler extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      */
-    public function addJobTag (ServerRequestInterface $request) {                 
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }                        
-//            if ($isRepresentative) {
-
-                
-                /** @var JobTagInterface $tag */
-                $tag = new JobTag(); //new       
-
-                $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );              
-                $this->jobTagRepo->add($tag);             
-               
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
-//            }
-//        }   
-        
-        return $this->redirectSeeLastGet($request);
+    public function addJobTag (ServerRequestInterface $request) {                              
+        if ($this->hasAdminPermission()) {
+            /** @var JobTagInterface $tag */
+            $tag = new JobTag();  
+            $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );              
+            $this->jobTagRepo->add($tag);             
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
+        }
+        return $this->redirectSeeLastGet($request);        
     }
     
     
@@ -381,38 +281,14 @@ class JobControler extends FrontControlerAbstract {
      * @param type $id
      */
     public function updateJobTag (ServerRequestInterface $request, $id) {                    
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }                        
-//            if ($isRepresentative) {
-        
-        
+        if ($this->hasAdminPermission()) {
             /** @var JobTagInterface $tag */
             $tag = $this->jobTagRepo->get($id);       
             $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );                        
-        
-        
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
-//            }
-//        }           
-        
-        return $this->redirectSeeLastGet($request);
-
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
+        }
+        return $this->redirectSeeLastGet($request);        
     }    
       
 
@@ -423,37 +299,14 @@ class JobControler extends FrontControlerAbstract {
      * @return type
      */
     public function removeJobTag (ServerRequestInterface $request, $id) {                   
-//        $isRepresentative = false;
-//                
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {                                   
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-//                            $isRepresentative = true; 
-//                }
-//            }                          
-//            if ($isRepresentative) {       
-                    
-           
-                /** @var JobTagInterface $tag */
-                $tag = $this->jobTagRepo->get( $id );                                
-                $this->jobTagRepo->remove( $tag );         
-                                                
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
-//            }           
-//        }
-                
-        return $this->redirectSeeLastGet($request);
+        if ($this->hasAdminPermission()) {
+            /** @var JobTagInterface $tag */
+            $tag = $this->jobTagRepo->get( $id );                                
+            $this->jobTagRepo->remove( $tag );         
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
+        }
+        return $this->redirectSeeLastGet($request);        
     }
             
     
@@ -466,46 +319,18 @@ class JobControler extends FrontControlerAbstract {
      * @return type
      */
     public function addPozadovaneVzdelani (ServerRequestInterface $request) {                 
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }                        
-//            if ($isRepresentative) {
-
-                
-                /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
-                //$pozadovaneVzdelani = $this->container->get(PozadovaneVzdelani::class); //new       
-                
-                $pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
-
-                $pozadovaneVzdelani->setStupen((new RequestParams())->getParsedBodyParam($request, 'stupen') );
-                $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
-
-                $this->pozadovaneVzdelaniRepo->add($pozadovaneVzdelani);             
-               
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí přidávat pouze ...");
-//            }
-//        }   
-        
-        return $this->redirectSeeLastGet($request);
+        if ($this->hasAdminPermission()) {
+            /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
+            $pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
+            $pozadovaneVzdelani->setStupen((new RequestParams())->getParsedBodyParam($request, 'stupen') );
+            $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );              
+            $this->pozadovaneVzdelaniRepo->add($pozadovaneVzdelani);             
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
+        }
+        return $this->redirectSeeLastGet($request);           
     }
     
-    
-  
     /**
      * 
      * @param ServerRequestInterface $request
@@ -513,41 +338,16 @@ class JobControler extends FrontControlerAbstract {
      * @return type
      */
     public function updatePozadovaneVzdelani (ServerRequestInterface $request, $stupen) {                    
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }                        
-//            if ($isRepresentative) {
-        
-                   
+        if ($this->hasAdminPermission()) {
             /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
             $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
             $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );
-           
-        
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic smí editovat pouze ...");
-//            }
-//        }           
-        
-        return $this->redirectSeeLastGet($request);
-
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
+        }
+        return $this->redirectSeeLastGet($request);               
     }    
       
-
     /**
      * 
      * @param ServerRequestInterface $request
@@ -555,40 +355,13 @@ class JobControler extends FrontControlerAbstract {
      * @return type
      */
     public function removePozadovaneVzdelani (ServerRequestInterface $request, $stupen) {                   
-//        $isRepresentative = false;
-//                
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {                                   
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-//                            $isRepresentative = true; 
-//                }
-//            }                          
-//            if ($isRepresentative) {       
-                    
-           
+        if ($this->hasAdminPermission()) {
             /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
             $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
             $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
-
-                                                
-//            } else {
-//                $this->addFlashMessage("Možné typy nabízených pozic  smí odstraňovat pouze ....");
-//            }           
-//        }
-                
-        return $this->redirectSeeLastGet($request);
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
+        }
+        return $this->redirectSeeLastGet($request);        
     }
-            
-    
-  
  }   

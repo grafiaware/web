@@ -1,8 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelChildListAbstract;
-use Component\ViewModel\ViewModelChildListInterface;
+use Component\ViewModel\ViewModelFamilyListAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
@@ -19,7 +18,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyContactListViewModel extends ViewModelChildListAbstract implements ViewModelChildListInterface {
+class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstract {
     
     private $status;
     private $companyRepo;
@@ -46,24 +45,25 @@ class CompanyContactListViewModel extends ViewModelChildListAbstract implements 
     }
     
     public function provideItemDataCollection(): iterable {
-        $parentId = $this->getParentId();
-        $componentRouteSegment = "events/v1/company/$parentId/companycontact";
+        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
+        $companyId = $this->getParentId();
+        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
         $items = [];
         /** @var CompanyContactInterface $companyContact */
-        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $parentId ] );
-        foreach ($companyContacts as $companyContact) {           
-            $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyContact->getCompanyId());
+        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $companyId ] );
+        foreach ($companyContacts as $companyContact) {   
             $items[] = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
+                // text
+                'headline' => 'Jméno kontaktu',
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $companyContact->getId(),
-                // data,
                 // data
                 'fields' => [
-                    'editable' => $editableItem,               
+                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                     'name' =>  $companyContact->getName(),
                     'phones' =>  $companyContact->getPhones(),
                     'mobiles' =>  $companyContact->getMobiles(),
