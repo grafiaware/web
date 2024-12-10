@@ -358,7 +358,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
      * @param type $id
      * @return type
      */
-    public function addupdateDocument (ServerRequestInterface $request, $parentId, $type /*,$id*/) {  
+    public function addupdateDocument (ServerRequestInterface $request, $parentId, $type ) {  
         
 //      muze ???
 //      -----------------------------------------------------------------------                
@@ -403,7 +403,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
             $visitorProfile = $this->visitorProfileRepo->get($parentId);   
             if (isset ($visitorProfile) ) {
 
-                $document = $this->getRightDocument($visitorProfile);
+                $document = $this->getRightDocument($visitorProfile, $type);
 
                 // file move to temp
                 $clientFileName = $fileForSave->getClientFilename();
@@ -416,25 +416,27 @@ class VisitorProfileControler extends FrontControlerAbstract {
                 // if login - save data
                 if ( isset($loginAggregateCredentials) )  {            
 
-                    if (isset($document)) { //update                              
-                        $document->setContent(file_get_contents($uploadedFileTemp));
-                        $document->setDocumentMimetype($clientMime);
-                        $document->setDocumentFilename($clientFileName);                                                
-                    }                    
-                    else  {//add
+                    if (!isset($document)) {                                    
+//                    //add
                         $document = new Document();
                         $this->documentRepo->add($document);
+                        
                         switch ($type) {
                             case self::TYPE_CV:
-                                $visitorProfile->setCvDocument($document);
+                                $visitorProfile->setCvDocument($document->getId());
                                 break;
                             case self::TYPE_LETTER:
-                                $visitorProfile->setLetterDocument($document);
+                                $visitorProfile->setLetterDocument($document->getId());
                                 break;
                             default:
                                 break;
                         }                      
                     }
+                    
+                    $document->setContent(file_get_contents($uploadedFileTemp));
+                    $document->setDocumentMimetype($clientMime);
+                    $document->setDocumentFilename($clientFileName);  
+                    
                     $this->addFlashMessage("Uložen váš soubor." .$document->getDocumentFilename(), FlashSeverityEnum::SUCCESS);                        
                     $flashMessage = "Uloženo $size bytů.";
                     $this->addFlashMessage($flashMessage);
@@ -450,6 +452,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
             }  
             else {
                 // nepřečetlse  VisitorProfile
+                 $response = $this->redirectSeeLastGet($request); 
             }
             
             
@@ -474,15 +477,22 @@ class VisitorProfileControler extends FrontControlerAbstract {
     
     
      public function remove(ServerRequestInterface $request, $parentId, $type, $id) {
-             
+            $visitorProfile = $this->visitorProfileRepo->get($parentId);  
+            if (isset ($visitorProfile) ) {
+                $document1 = $this->getRightDocument($visitorProfile, $type);
+            }
+            
+         ///  KTERy<<?????????????
+            
             $document = $this->documentRepo->get($id);
-            if (!isset($document)) {                
+            if (!isset($document)) {    
+                $this->addFlashMessage(" Document nenalezen.");
             }
             else{
-                $this->documentRepo->remove($document);                                
+                $this->documentRepo->remove($document); 
+                $this->addFlashMessage(" Document smazán.");
             } 
 
-            $this->addFlashMessage(" Document smazán.");
             return $this->redirectSeeLastGet($request);        
     }
     

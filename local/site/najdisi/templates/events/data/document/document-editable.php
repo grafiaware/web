@@ -14,19 +14,19 @@ if ($editable) {
         $disabled = 'disabled';
     }        
 ?>
+    <?= ($addHeadline ?? TRUE) ? "<p>$addHeadline</p>" : "" ?>
+
     <label><b>Nahraný soubor</b></label>                    
     <form class="ui huge form"  method="POST" >
         <div class="field">
-            <p><b> <?= $filename ?? '' ?></b></p>                                                        
+            <p><b> <?= $filename ?? '---' ?></b></p>                                                        
             <?=
-            ($editable ?? false)  ?    //&& ($remove ?? false)
+            ( ($editable ?? false) && ($id ?? false) ) ?
                         "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove' > Odstranit </button>" : "";
             ?>
         </div>                              
     </form>                  
-
-        <?= ($addHeadline ?? TRUE) ? "<p>$addHeadline</p>" : "" ?>
-
+     
     <form class="ui huge form" method="POST" enctype="multipart/form-data">
         <div class="two fields">   
             <div class="field margin">
