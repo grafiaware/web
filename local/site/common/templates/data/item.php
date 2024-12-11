@@ -7,10 +7,10 @@ use Pes\Text\Message;
             <?= $addHeadline ?? false ? "<p>$addHeadline</p>" : "" ?>
 
         <form class="ui huge form" action="" method="POST" >
-            <div class="two fields">   
+            <!--<div class="two fields">-->   
                 <?= $this->insertIf(!($editable ?? false), $fieldsTemplate, $fields  ?? [], __DIR__.'/noData.php') ?>
                 <?= $this->insertIf($editable ?? false, $fieldsTemplate, $fields  ?? []) ?>
-            </div>                
+            <!--</div>-->                
             <!--buttons-->
             <div>
                 <?=

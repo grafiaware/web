@@ -13,8 +13,8 @@ use Red\Middleware\Redactor\Controler\PresentationActionControler;
             </div>
             <div class="item">
                 <div class="ui toggle checkbox">
-                    <input type="checkbox" name="<?= PresentationActionControler::FORM_PRESENTATION_EDIT_MODE ?>" <?= $editContent ? "checked" : "" ?> onchange="this.form.submit()">
-                    <label><?= $editContent ? "Vypnout inline editaci" : "Zapnout inline editaci"?></label>
+                    <input id="prepnout-editaci" type="checkbox" name="<?= PresentationActionControler::FORM_PRESENTATION_EDIT_MODE ?>" <?= $editContent ? "checked" : "" ?> onchange="this.form.submit()">
+                    <label for="prepnout-editaci"><?= $editContent ? "Vypnout inline editaci" : "Zapnout inline editaci"?></label>
                 </div>
 
 <!--                <i class="dropdown icon"></i>

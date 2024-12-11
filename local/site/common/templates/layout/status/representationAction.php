@@ -24,8 +24,8 @@ use Events\Middleware\Events\Controler\RepresentationControler;
                             $placeholderValue) ?>  
                     </div> 
                     <div class="ui toggle checkbox">
-                        <input type="checkbox" name="<?= RepresentationControler::FORM_REPRESENTATION_EDIT_DATA ?>" <?= $editData ? "checked" : "" ?> onchange="this.form.submit()">
-                        <label><?= $editData ? "Vypnout editaci údajů" : "Zapnout editaci údajů"?></label>
+                        <input id="prepnout-editaci-repre" type="checkbox" name="<?= RepresentationControler::FORM_REPRESENTATION_EDIT_DATA ?>" <?= $editData ? "checked" : "" ?> onchange="this.form.submit()">
+                        <label for="prepnout-editaci-repre"><?= $editData ? "Vypnout editaci údajů" : "Zapnout editaci údajů"?></label>
                     </div>
 <!--                    <div class="ui fluid large buttons">
                         <button class="ui positive button" type="submit" formtarget="_self" formaction="events/v1/representation">Odeslat</button>
