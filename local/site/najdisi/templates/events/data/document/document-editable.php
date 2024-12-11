@@ -42,7 +42,7 @@ if ($editable) {
             <?=
             ($editable ?? false) ? 
                 (isset($id)  ?
-                    "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id' > Uložit změny </button>"
+                    "<button class='ui primary button' type='submit' formaction='$componentRouteSegment' > Uložit změny </button>"
                 :
                     "<button class='ui primary button' type='submit' formaction='$componentRouteSegment' > Přidat </button>" 
                 )        

@@ -365,7 +365,6 @@ class VisitorProfileControler extends FrontControlerAbstract {
 //      
 //      
         // POST data                               
-        /** @var VisitorProfileInterface $visitorProfile */  
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
 
@@ -389,17 +388,14 @@ class VisitorProfileControler extends FrontControlerAbstract {
                 $response = $this->redirectSeeLastGet($request);                                 
             }
         }
-        
-        
-        
-        
-        
+            
              
         ###### SAVE
         if (!isset($response) AND isset($typeSelf)) {
 //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
 //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
-        
+            
+            /** @var VisitorProfileInterface $visitorProfile */  
             $visitorProfile = $this->visitorProfileRepo->get($parentId);   
             if (isset ($visitorProfile) ) {
 
@@ -431,8 +427,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
                             default:
                                 break;
                         }                      
-                    }
-                    
+                    }                    
                     $document->setContent(file_get_contents($uploadedFileTemp));
                     $document->setDocumentMimetype($clientMime);
                     $document->setDocumentFilename($clientFileName);  
@@ -441,21 +436,16 @@ class VisitorProfileControler extends FrontControlerAbstract {
                     $flashMessage = "Uloženo $size bytů.";
                     $this->addFlashMessage($flashMessage);
                     $response = $this->redirectSeeLastGet($request);
-
                 } else {
                     $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
                     $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
                     $this->redirectSeeLastGet($request);
-                }
-            
-            
+                }         
             }  
             else {
-                // nepřečetlse  VisitorProfile
+                // nepřečetl se  VisitorProfile
                  $response = $this->redirectSeeLastGet($request); 
-            }
-            
-            
+            }                        
         } else {
             if (isset($clientFileName)) {
                 $this->addFlashMessage($clientFileName);
@@ -463,11 +453,9 @@ class VisitorProfileControler extends FrontControlerAbstract {
             $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
             return $response;
         }
-        
-                
+                        
         return $response;
-                                                       
-       
+  
     }
     
     

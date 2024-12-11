@@ -70,8 +70,8 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         
         $requestedParTab = 'visitorprofile';
         $requestedParTabRepo =  $this->visitorProfileRepo;
-        //$requestedTypeDoc = VisitorProfileControler::TYPE_LETTER;
-        $requestedTypeDoc = VisitorProfileControler::TYPE_CV;
+        $requestedTypeDoc = VisitorProfileControler::TYPE_LETTER;
+        //$requestedTypeDoc = VisitorProfileControler::TYPE_CV;
 
         //------------------------------------------------------
                // unikátní jména souborů pro upload
@@ -141,8 +141,7 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
             ];
                 //throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
         }  
-            
-            
+        
 // $documentArr = [];
        
         
