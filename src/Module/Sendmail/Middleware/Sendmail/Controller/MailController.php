@@ -24,7 +24,8 @@ use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, LoginAggregateCredentialsRepo, RegistrationRepo
 };
 
-
+use Access\AccessPresentationInterface;
+use Access\Enum\AccessPresentationEnum;
 /**
  * Description of PostControler
  *
@@ -39,10 +40,11 @@ class MailControler extends PresentationFrontControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            AccessPresentation $acccessPresentation,
             LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
             RegistrationRepo $registrationRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
         $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
         $this->registrationRepo = $registrationRepo;
     }
