@@ -110,6 +110,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'logs.render' => 'Render.log',
             'logs.type' => FileLogger::REWRITE_LOG,
             'templates' => [
+                
                 // common layout templates
                 'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
@@ -118,13 +119,16 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
                 'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+                
                 // site layout templates
                 'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
-
+                
+                // data templates - common
                 'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
                 'item' => self::WEB_TEMPLATES_COMMON.'data/item.php',
                 'multiItem' => self::WEB_TEMPLATES_COMMON.'data/multiItem.php',
                 
+                // data templates - components
                 'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
                 'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',
 
@@ -134,24 +138,22 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'companyAddress' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address.php',
                 'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',  
                 
-                'companyJobEditable' => self::WEB_TEMPLATES_SITE.'events/data/job/job-editable.php',  // jen editable verze
+                'jobEditable' => self::WEB_TEMPLATES_SITE.'events/data/job/job-editable.php',  // jen editable verze
                 
                 'jobTag' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag.php',
                 'jobTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag-editable.php',
-                
-                'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
-                
+                                
                 'jobToTag' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag.php',
                 'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag-editable.php',
                 
-                'job' => self::WEB_TEMPLATES_SITE.'events/data/job/job.php',
-                'jobEditable' => self::WEB_TEMPLATES_SITE.'events/job-editable.php',
-
                 'document' => self::WEB_TEMPLATES_SITE.'events/data/document/document.php',
                 'documentEditable' => self::WEB_TEMPLATES_SITE.'events/data/document/document-editable.php',  
                 
-                'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
                 'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
+                'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
+                
+                ////
+                'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
             ],
         ];

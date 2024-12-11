@@ -336,7 +336,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                                 
                 if($accessPresentation->hasAnyPermission(JobComponentPrototype::class)) {
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
-                    $component->addPluginTemplateName('fieldsTemplate', $configuration->getTemplate('companyJobEditable'));
+                    $component->addPluginTemplateName('fieldsTemplate', $configuration->getTemplate('jobEditable'));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
