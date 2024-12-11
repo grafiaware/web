@@ -56,20 +56,14 @@ class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract {
     }
     
     public function provideItemDataCollection(): iterable {
-        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
-        
+        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();  // exception
         
         // $editable = true;                            
         $jobId = $this->getParentId(); //id jobu                  
         /** @var JobInterface $job */ 
         $job = $this->jobRepo->get($jobId);
-        $jobCompanyId = $job->getCompanyId();        
-        /** @var CompanyInterface $company */
-        $company = $this->companyRepo->get($jobCompanyId);
-                
-        $jobToTagies=[];
-
-        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($company->getId());
+    
+        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($job->getCompanyId());
 
         $allTags=[];
         $jobTagEntitiesAll = $this->jobTagRepo->findAll();
@@ -78,12 +72,12 @@ class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract {
             $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
             //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
         }
-        $componentRouteSegment = "events/v1/company/$jobCompanyId/job/$jobId/jobtotag";           
 
         $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $job->getId() );
 
         $checkedTags=[];   //nalepky pro 1 job
         $checkedTagsText=[]; 
+        $jobToTagies=[];
         foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
             /** @var JobToTagInterface $jobToTagEntity */
             $idDoTag = $jobToTagEntity->getJobTagId();
@@ -97,8 +91,7 @@ class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract {
             // conditions
             'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
             //route
-            'componentRouteSegment' => $componentRouteSegment,
-            'id' => $jobCompanyId,
+            'componentRouteSegment' => $componentRouteSegment,    // pracuje jen s kolekcíc -> nejsou routy s id jednotlivých job to tag
             // data
             'fields' => [ 
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná

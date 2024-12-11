@@ -212,8 +212,10 @@ class JobControler extends FrontControlerAbstract {
      * @param type $jobId
      * @return type
      */
-    public function processingJobToTag (ServerRequestInterface $request, $companyId, $jobId) {                   
-        if ($this->hasReprePermission($companyId)) {
+    public function processingJobToTag (ServerRequestInterface $request, $jobId) {   
+        /** @var JobInterface $job */
+        $job = $this->jobRepo->get( $jobId );         
+        if ($this->hasReprePermission($job->getCompanyId())) {
             $arrayJobTagIds_ForJob = [];
             $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($jobId);
             /** @var JobToTagInterface $jobToTag */
