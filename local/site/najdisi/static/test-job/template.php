@@ -17,6 +17,7 @@ use Events\Model\Entity\JobInterface;
     $jobRepo = $container->get(JobRepo::class);
     $pStyle = ['style'=>'color: red;'];
 
+    echo Html::tag('h4', $pStyle, "tag - seznam");    
     echo Html::p("Všechny tagy: events/v1/data/tag", $pStyle);
     echo Html::tag('div', 
             [
@@ -24,23 +25,8 @@ use Events\Model\Entity\JobInterface;
                 'data-red-apiuri'=>"events/v1/data/tag",
             ]
         );
-
-    echo Html::p("Jeden job s id: events/v1/data/job/8", $pStyle);
-    echo Html::tag('div', 
-            [
-                'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/data/job/8",
-            ]
-        );
-    
-    echo Html::p("Jedna sada job to tag pro job s id: events/v1/data/job/8/jobtotag", $pStyle);
-    echo Html::tag('div', 
-            [
-                'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/data/job/8/jobtotag",
-            ]
-        );    
-    echo Html::tag('h4', $pStyle, "Cyklus pro všechny company");
+   
+    echo Html::tag('h4', $pStyle, "job - cyklus pro všechny company");
 
     foreach ($companies as $company) {
         $companyId = $company->getId();
