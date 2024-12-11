@@ -240,55 +240,17 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
         ###########################
         ## VisitorProfileControler
         ###########################              
-        //add
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type) {
-            /** @var VisitorProfileControler $ctrl */
-            $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->addDocument($request, $parentId, $type);
-        });  
-        //update
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id', function(ServerRequestInterface $request, $parentId, $type, $id) {
-            /** @var VisitorProfileControler $ctrl */
-            $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->updateDocument($request, $parentId, $type, $id);
-        });
-        //remove
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id/remove', function(ServerRequestInterface $request, $parentId, $type, $id) {
-            /** @var VisitorProfileControler $ctrl */
-            $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->remove($request, $parentId, $type, $id);
-        });
-        //-----------------visitorprofile
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorProfileControler $ctrl */
-            $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->visitor($request);
-        });
-        //?????????????????????????????
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
-            /** @var VisitorProfileControler $ctrl */
-            $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->uploadVisitorFile($request);
-        });
-        
-         
-        //add
+        //add or update
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->addupdateDocument($request, $parentId, $type);
-        });  
-        //update
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type/*, $id*/) {
-            /** @var VisitorProfileControler $ctrl */
-            $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->updateDocument($request, $parentId, $type/*, $id*/);
         });
         //remove
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/:id/remove', function(ServerRequestInterface $request, $parentId, $type, $id) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type/remove', function(ServerRequestInterface $request, $parentId, $type) {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->remove($request, $parentId, $type, $id);
+            return $ctrl->remove($request, $parentId, $type);
         });
         //-----------------visitorprofile
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
@@ -301,8 +263,7 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var VisitorProfileControler $ctrl */
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->uploadVisitorFile($request);
-        });        
-        
+        });       
         
         ###########################
         ## VisitorJobRequestControler
