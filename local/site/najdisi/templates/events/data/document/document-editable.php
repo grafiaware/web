@@ -22,7 +22,7 @@ if ($editable) {
             <p><b> <?= $filename ?? '---' ?></b></p>                                                        
             <?=
             ( ($editable ?? false) && ($id ?? false) ) ?
-                        "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove' > Odstranit </button>" : "";
+                        "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/remove' > Odstranit </button>" : "";
             ?>
         </div>                              
     </form>                  

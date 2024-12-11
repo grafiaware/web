@@ -476,15 +476,12 @@ class VisitorProfileControler extends FrontControlerAbstract {
     
     
     
-     public function remove(ServerRequestInterface $request, $parentId, $type, $id) {
+     public function remove(ServerRequestInterface $request, $parentId, $type) {
             $visitorProfile = $this->visitorProfileRepo->get($parentId);  
             if (isset ($visitorProfile) ) {
-                $document1 = $this->getRightDocument($visitorProfile, $type);
+                $document = $this->getRightDocument($visitorProfile, $type);
             }
-            
-         ///  KTERy<<?????????????
-            
-            $document = $this->documentRepo->get($id);
+                       
             if (!isset($document)) {    
                 $this->addFlashMessage(" Document nenalezen.");
             }

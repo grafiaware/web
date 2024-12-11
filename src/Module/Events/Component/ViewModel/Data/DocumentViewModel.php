@@ -65,7 +65,7 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         //$requestedId = $this->getItemId();  // id documentu    // -----   z routy, netreba
         $parentId =  '';  // -----  !!! z routy  // POUZIT        
         $parentId =  $this->status->getUserLoginName();  //prihlasen (loginame) tj. id v nadrizene tabulce  visitorProfile  //NEPOUZIT
-        $parentId = 'visitor';
+        //$parentId = 'visitor';
              // -----   z routy       
         
         $requestedParTab = 'visitorprofile';
@@ -81,14 +81,12 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         //-------------------------------------------------------------------------------------
         
         $isAdministrator = $this->isAdministrator();        
-        $editableItem = $isAdministrator || $this->isCurrentVisitor($parentId);    
+        $editableItem = $isAdministrator || $this->isCurrentVisitor($parentId);           
         
-        $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";            
-        $visitorProfile = $requestedParTabRepo->get($parentId);
-
-        
-        
-        if (isset($visitorProfile)) {
+        if (isset($parentId)) {
+            $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";   
+            $visitorProfile = $requestedParTabRepo->get($parentId);
+            
             if ($requestedTypeDoc == VisitorProfileControler::TYPE_LETTER) {
                 $addHeadline = "Soubor typu:  motivační dopis ";
                 $idDocument = $visitorProfile->getLetterDocument();   
@@ -134,7 +132,7 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
                 }
 
         } else {
-            $addHeadline = "Neexistuje profil návštěvníka s požadovaným id.";
+            $addHeadline = "Neexistuje profil návštěvníka (s požadovaným id).";
             
             $documentArr = [
                 'editable' => false,
