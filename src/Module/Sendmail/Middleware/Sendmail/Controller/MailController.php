@@ -40,7 +40,7 @@ class MailControler extends PresentationFrontControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            AccessPresentation $acccessPresentation,
+            AccessPresentationInterface $accessPresentation,
             LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
             RegistrationRepo $registrationRepo
             ) {
