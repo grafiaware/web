@@ -109,7 +109,7 @@ class JobControler extends FrontControlerAbstract {
         $this->jobTagRepo = $jobTagRepo;
     }
     
-    private function isPermitted($companyId) {
+    private function hasReprePermission($companyId) {
         $permitted = false; 
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurity = $this->statusSecurityRepo->get();        
@@ -120,9 +120,14 @@ class JobControler extends FrontControlerAbstract {
                 $permitted = ($representative->getCompanyId()==$companyId);
             }
         }
-        
+        return $permitted || $this->hasAdminPermission();
+    }
+    
+    private function hasAdminPermission() {
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();    
         /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-          $loginAggregateCredentials = $statusSecurity->getLoginAggregate();            
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();            
         $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';   
         $permitted = ($role==ConfigurationCache::auth()['roleEventsAdministrator']);
         return $permitted;
@@ -140,7 +145,7 @@ class JobControler extends FrontControlerAbstract {
      * @return type
      */
     public function addJob (ServerRequestInterface $request, $idCompany) {                 
-        if ($this->isPermitted($idCompany)) {
+        if ($this->hasReprePermission($idCompany)) {
             /** @var JobInterface $job */
             $job =  new Job(); //new $job
             $job->setCompanyId($idCompany);
@@ -160,7 +165,7 @@ class JobControler extends FrontControlerAbstract {
      * @return type
      */
     public function updateJob (ServerRequestInterface $request, $idCompany, $idJob) {                          
-        if ($this->isPermitted($idCompany)) {
+        if ($this->hasReprePermission($idCompany)) {
             /** @var JobInterface $job */
             $job = $this->jobRepo->get( $idJob );
             $this->hydrateJobData($request, $job);
@@ -190,7 +195,7 @@ class JobControler extends FrontControlerAbstract {
      * @return type
      */
     public function removeJob (ServerRequestInterface $request, $idCompany, $idJob) {                           
-        if ($this->isPermitted($idCompany)) {       
+        if ($this->hasReprePermission($idCompany)) {       
             /** @var JobInterface $job */
             $job = $this->jobRepo->get( $idJob );                                
             $this->jobRepo->remove( $job ); 
@@ -207,8 +212,10 @@ class JobControler extends FrontControlerAbstract {
      * @param type $jobId
      * @return type
      */
-    public function processingJobToTag (ServerRequestInterface $request, $companyId, $jobId) {                   
-        if ($this->isPermitted($companyId)) {
+    public function processingJobToTag (ServerRequestInterface $request, $jobId) {   
+        /** @var JobInterface $job */
+        $job = $this->jobRepo->get( $jobId );         
+        if ($this->hasReprePermission($job->getCompanyId())) {
             $arrayJobTagIds_ForJob = [];
             $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($jobId);
             /** @var JobToTagInterface $jobToTag */
@@ -257,9 +264,10 @@ class JobControler extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      */
-    public function addJobTag (ServerRequestInterface $request, $companyId) {                              
-        if ($this->isPermitted($companyId)) {
-            /** @var JobTagInterface **/
+    public function addJobTag (ServerRequestInterface $request) {                              
+        if ($this->hasAdminPermission()) {
+            /** @var JobTagInterface $tag */
+            $tag = new JobTag();  
             $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );              
             $this->jobTagRepo->add($tag);             
         } else {
@@ -274,8 +282,8 @@ class JobControler extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @param type $id
      */
-    public function updateJobTag (ServerRequestInterface $request, $companyId, $id) {                    
-        if ($this->isPermitted($companyId)) {
+    public function updateJobTag (ServerRequestInterface $request, $id) {                    
+        if ($this->hasAdminPermission()) {
             /** @var JobTagInterface $tag */
             $tag = $this->jobTagRepo->get($id);       
             $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );                        
@@ -292,8 +300,8 @@ class JobControler extends FrontControlerAbstract {
      * @param type $tag
      * @return type
      */
-    public function removeJobTag (ServerRequestInterface $request, $companyId, $id) {                   
-        if ($this->isPermitted($companyId)) {
+    public function removeJobTag (ServerRequestInterface $request, $id) {                   
+        if ($this->hasAdminPermission()) {
             /** @var JobTagInterface $tag */
             $tag = $this->jobTagRepo->get( $id );                                
             $this->jobTagRepo->remove( $tag );         
@@ -312,8 +320,8 @@ class JobControler extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      */
-    public function addPozadovaneVzdelani (ServerRequestInterface $request, $companyId) {                 
-        if ($this->isPermitted($companyId)) {
+    public function addPozadovaneVzdelani (ServerRequestInterface $request) {                 
+        if ($this->hasAdminPermission()) {
             /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
             $pozadovaneVzdelani = new PozadovaneVzdelani() ; //new    
             $pozadovaneVzdelani->setStupen((new RequestParams())->getParsedBodyParam($request, 'stupen') );
@@ -325,16 +333,14 @@ class JobControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);           
     }
     
-    
-  
     /**
      * 
      * @param ServerRequestInterface $request
      * @param type $stupen
      * @return type
      */
-    public function updatePozadovaneVzdelani (ServerRequestInterface $request, $companyId, $stupen) {                    
-        if ($this->isPermitted($companyId)) {
+    public function updatePozadovaneVzdelani (ServerRequestInterface $request, $stupen) {                    
+        if ($this->hasAdminPermission()) {
             /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
             $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
             $pozadovaneVzdelani->setVzdelani((new RequestParams())->getParsedBodyParam($request, 'vzdelani') );
@@ -344,15 +350,14 @@ class JobControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);               
     }    
       
-
     /**
      * 
      * @param ServerRequestInterface $request
      * @param type $stupen
      * @return type
      */
-    public function removePozadovaneVzdelani (ServerRequestInterface $request, $companyId, $stupen) {                   
-        if ($this->isPermitted($companyId)) {
+    public function removePozadovaneVzdelani (ServerRequestInterface $request, $stupen) {                   
+        if ($this->hasAdminPermission()) {
             /** @var PozadovaneVzdelaniInterface $pozadovaneVzdelani */
             $pozadovaneVzdelani = $this->pozadovaneVzdelaniRepo->get($stupen);            
             $this->pozadovaneVzdelaniRepo->remove($pozadovaneVzdelani);
@@ -361,7 +366,4 @@ class JobControler extends FrontControlerAbstract {
         }
         return $this->redirectSeeLastGet($request);        
     }
-            
-    
-  
  }   

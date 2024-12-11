@@ -19,7 +19,7 @@ if ($editable) {
         <div class="field">
             <p><b> <?= $filename ?? '' ?></b></p>                                                        
             <?=
-            ($editable ?? false) && ($remove ?? false) ? 
+            ($editable ?? false)  ?    //&& ($remove ?? false)
                         "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove' > Odstranit </button>" : "";
             ?>
         </div>                              

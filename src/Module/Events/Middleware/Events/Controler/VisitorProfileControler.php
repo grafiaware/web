@@ -66,6 +66,9 @@ class VisitorProfileControler extends FrontControlerAbstract {
     const UPLOADED_KEY_LETTER = "visitor-letter";
     const UPLOADED_KEY = "visitor-document";
     
+    const TYPE_CV = "cv";
+    const TYPE_LETTER = "letter";
+    
 //    private $multiple = false;
 //    private $accept;
 
@@ -164,36 +167,18 @@ class VisitorProfileControler extends FrontControlerAbstract {
 
  
     
-    
-    
-     /**
+             
+    /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $idDocument
+     * @param type $parentId
+     * @param type $type
      * @return type
      */
     public function addDocument (ServerRequestInterface $request, $parentId, $type) {                 
-//        $isRepresentative = false;
-//           
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk(); 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }
-//     
-//            if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {
-                // POST data       
-        
+//      muze ???
+//      -----------------------------------------------------------------------                
+        // POST data        
         
                 /** @var DocumentInterface $document */
                 $document = $this->documentRepo->get($id);
@@ -202,6 +187,9 @@ class VisitorProfileControler extends FrontControlerAbstract {
                 } else {
                     $this->addFlashMessage("Nemám document v  tabulce document  id $id! Uáááá :-(");
                 }
+        
+        $visitorProfile = $this->visitorProfileRepo->get($parentId);
+                
                 
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
@@ -328,63 +316,70 @@ class VisitorProfileControler extends FrontControlerAbstract {
     
     
     
+    
+   /**
+    * 
+    * @param VisitorProfileInterface $visitorProfile
+    * @param type $type
+    * @return type
+    */
+    private function getRightDocument( VisitorProfileInterface $visitorProfile, $type ) {
+        /** @var VisitorProfileInterface $visitorProfile */
+       //$visitorProfile = $this->visitorProfileRepo->get($parentId);           
+        switch ($type) {
+            case self::TYPE_CV:
+                $idDocument = $visitorProfile->getCvDocument();
+                break;
+            case self::TYPE_LETTER:
+                $idDocument = $visitorProfile->getLetterDocument();
+                break;
+            default:
+                break;
+        }
+        
+        if (isset($idDocument) ) {       
+            /** @var DocumentInterface $document */
+            $document = $this->documentRepo->get($idDocument);
+            
+            if (isset($document)) {
+                $this->addFlashMessage("Mám document v tabulce document  id $idDocument! ");
+            } else {
+                $this->addFlashMessage("Nemám document v tabulce document  id $idDocument! Uáááá :-(");
+            }
+        }
+        return($document);
+    }
+        
     /**
      * 
      * @param ServerRequestInterface $request
-     * @param type $idCompany
-     * @param type $idCompanyContact
+     * @param type $parentId
+     * @param type $type
+     * @param type $id
      * @return type
      */
-    public function updateDocument (ServerRequestInterface $request, $parentId, $type, $id) {                   
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unauthorized
-//        } else {                                   
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-//                            $isRepresentative = true; 
-//                }
-//            }            
-//        if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {  
-
+    public function addupdateDocument (ServerRequestInterface $request, $parentId, $type /*,$id*/) {  
         
-                /** @var DocumentInterface $document */
-                $document = $this->documentRepo->get($id);
-                if (isset($document)) {
-                    $this->addFlashMessage("Mám document v tabulce document  id $id! ");
-                } else {
-                    $this->addFlashMessage("Nemám document v  tabulce document  id $id! Uáááá :-(");
-                }
-                
+//      muze ???
+//      -----------------------------------------------------------------------                
+//      
+//      
+        // POST data                               
+        /** @var VisitorProfileInterface $visitorProfile */  
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
 
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
         } else {
-            $userHash = $loginAggregateCredentials->getLoginNameHash();
-
-         
+            $userHash = $loginAggregateCredentials->getLoginNameHash();         
             $files = $request->getUploadedFiles();
-
             
             /** @var  UploadedFileInterface $file */
             if(isset($files) AND $files) {
                 if (array_key_exists(self::UPLOADED_KEY.$userHash, $files)) {
                     $fileForSave = $files[self::UPLOADED_KEY.$userHash];
                     $typeSelf = self::UPLOADED_KEY;
-//                } elseif (array_key_exists(self::UPLOADED_KEY_LETTER.$userHash, $files)) {
-//                    $fileForSave = $files[self::UPLOADED_KEY_LETTER.$userHash];
-//                    $type = self::UPLOADED_KEY_LETTER;
                 } else {
                     //  tady nevim co delat
                 }
@@ -394,86 +389,70 @@ class VisitorProfileControler extends FrontControlerAbstract {
                 $response = $this->redirectSeeLastGet($request);                                 
             }
         }
+        
+        
+        
+        
+        
              
-                ###### SAVE
+        ###### SAVE
         if (!isset($response) AND isset($typeSelf)) {
-    //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
-    //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+//        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
+//        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+        
+            $visitorProfile = $this->visitorProfileRepo->get($parentId);   
+            if (isset ($visitorProfile) ) {
 
-            // file move to temp
-            $clientFileName = $fileForSave->getClientFilename();
-            $clientMime = $fileForSave->getClientMediaType();
-            $size = $fileForSave->getSize();  // v bytech
-            $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
-            $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
-            $fileForSave->moveTo($uploadedFileTemp);
+                $document = $this->getRightDocument($visitorProfile);
 
-            // if login - save data
-            if ( isset($loginAggregateCredentials) )  {
-               /* df */ // $loginName = $loginAggregateCredentials->getLoginName();
-               /* df */ //  $visitorProfileData = $this->visitorProfileRepo->get($loginName);
-                
-//               /**  @var VisitorProfileInterface  $visitorProfileData */
-//                $visitorProfileData = $this->visitorProfileRepo->get($parentId);
-//                if (!isset($visitorProfileData)) {   // u UPDATE vzdy existuje
-//                    $visitorProfileData = new VisitorProfile();
-//                    $visitorProfileData->setLoginLoginName($parentId);
-//                    $this->visitorProfileRepo->add($visitorProfileData);
-//                }
-//                
-//                 /** @var DocumentInterface $documentCv */           
-//                 /** @var DocumentInterface $documentLettter */     
-//                $documentCvId = $visitorProfileData->getCvDocument();
-//                $documentLettterId = $visitorProfileData->getLetterDocument();   
-                
-//                switch ($type) {
-//                    case 'cv' :  //self::UPLOADED_KEY_CV:
-//                        if (!isset($documentCvId)) {
-//                            $documentCv = new Document();
-//                            $this->documentRepo->add($documentCv);
-//                           
-//                            $visitorProfileData->setCvDocument($documentCv->getId());
-//                        }
-//                        else {        
-                             $document = $this->documentRepo->get($id);  
-                        //}                                                 
-                        
+                // file move to temp
+                $clientFileName = $fileForSave->getClientFilename();
+                $clientMime = $fileForSave->getClientMediaType();
+                $size = $fileForSave->getSize();  // v bytech
+                $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
+                $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
+                $fileForSave->moveTo($uploadedFileTemp);
+
+                // if login - save data
+                if ( isset($loginAggregateCredentials) )  {            
+
+                    if (isset($document)) { //update                              
                         $document->setContent(file_get_contents($uploadedFileTemp));
                         $document->setDocumentMimetype($clientMime);
-                        $document->setDocumentFilename($clientFileName);                        
-                        
-                        
-                        $this->addFlashMessage("Uložen váš soubor." .$document->getDocumentFilename(), FlashSeverityEnum::SUCCESS);
-//                        break;
-                        
-//                    case 'letter' ://self::UPLOADED_KEY_LETTER:
-//                        if (!isset($documentLettterId)) {
-//                            $documentLetter = new Document();
-//                            $this->documentRepo->add($documentLetter);
-//                            
-//                            $visitorProfileData->setLetterDocument($documentLetter->getId());
-//                        }
-//                         else {   
-//                            $documentLetter = $this->documentRepo->get($documentLettterId);     
-//                        }     
-//                        $documentLetter->setContent(file_get_contents($uploadedFileTemp));
-//                        $documentLetter->setDocumentMimetype($clientMime);
-//                        $documentLetter->setDocumentFilename($clientFileName);
-//                        
-//                        $this->addFlashMessage("Uložen váš motivační dopis.", FlashSeverityEnum::SUCCESS);
-//                        break;
-//                    default:
-//                        break;
-//                }
-                $flashMessage = "Uloženo $size bytů.";
-                $this->addFlashMessage($flashMessage);
+                        $document->setDocumentFilename($clientFileName);                                                
+                    }                    
+                    else  {//add
+                        $document = new Document();
+                        $this->documentRepo->add($document);
+                        switch ($type) {
+                            case self::TYPE_CV:
+                                $visitorProfile->setCvDocument($document);
+                                break;
+                            case self::TYPE_LETTER:
+                                $visitorProfile->setLetterDocument($document);
+                                break;
+                            default:
+                                break;
+                        }                      
+                    }
+                    $this->addFlashMessage("Uložen váš soubor." .$document->getDocumentFilename(), FlashSeverityEnum::SUCCESS);                        
+                    $flashMessage = "Uloženo $size bytů.";
+                    $this->addFlashMessage($flashMessage);
+                    $response = $this->redirectSeeLastGet($request);
 
-                $response = $this->redirectSeeLastGet($request);
-            } else {
-                $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
-                $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
-                $this->redirectSeeLastGet($request);
+                } else {
+                    $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
+                    $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
+                    $this->redirectSeeLastGet($request);
+                }
+            
+            
+            }  
+            else {
+                // nepřečetlse  VisitorProfile
             }
+            
+            
         } else {
             if (isset($clientFileName)) {
                 $this->addFlashMessage($clientFileName);
@@ -483,41 +462,14 @@ class VisitorProfileControler extends FrontControlerAbstract {
         }
         
                 
-                 return $response;
-       
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-               // return $this->redirectSeeLastGet($request);
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-//                $document->setContent($content);//( (new RequestParams())->getParsedBodyParam($request, 'name') );
-//                $document->setDocumentFilename($document_filename) ; ((new RequestParams())->getParsedBodyParam($request, 'phones'));
-//                $document->setDocumentMimetype($document_mimetype) ; ((new RequestParams())->getParsedBodyParam($request, "mobiles"));
-//
-//                } else {
-//                $this->addFlashMessage("Údaje o kontaktech firmy smí editovat pouze representant firmy (popř. administrator).");
-//            }
-//        }
-                
+        return $response;
+                                                       
        
     }
+    
+    
+    
+    
     
     
     

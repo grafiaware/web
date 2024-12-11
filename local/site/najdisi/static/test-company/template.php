@@ -47,5 +47,11 @@ use Events\Model\Repository\CompanyRepoInterface;
                     'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
                 ]
             );
-
+        echo Html::p("Všechny joby jedné company s id company (rodiče): events/v1/data/company/$companyId/job", $pStyle);
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
+                ]
+            );
     }
