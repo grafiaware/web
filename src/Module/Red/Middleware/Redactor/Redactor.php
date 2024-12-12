@@ -19,7 +19,7 @@ use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 
 use Red\Middleware\Redactor\Controler\ComponentControler;
-use Red\Middleware\Redactor\Controler\StaticControler;
+use Red\Middleware\Redactor\Controler\RedStaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\PresentationActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
@@ -92,8 +92,8 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         #### StaticControler ####
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var StaticControler $ctrl */
-            $ctrl = $this->container->get(StaticControler::class);
+            /** @var RedStaticControler $ctrl */
+            $ctrl = $this->container->get(RedStaticControler::class);
             return $ctrl->static($request, $staticName);
             });
 //        $this->routeGenerator->addRouteForAction('GET', '/red/v1/staticfolded/:folderName', function(ServerRequestInterface $request, $staticName) {

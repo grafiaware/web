@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 // controller
 use Red\Middleware\Redactor\Controler\ComponentControler;
-use Red\Middleware\Redactor\Controler\StaticControler;
+use Red\Middleware\Redactor\Controler\RedStaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler; // jen konstanty třídy
 use Red\Middleware\Redactor\Controler\MenuControler;
@@ -865,8 +865,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
-            StaticControler::class => function(ContainerInterface $c) {
-                return (new StaticControler(
+            RedStaticControler::class => function(ContainerInterface $c) {
+                return (new RedStaticControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),

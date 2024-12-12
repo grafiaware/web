@@ -9,6 +9,9 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Template\Compiler\TemplateCompilerInterface;
 
+use Access\AccessPresentationInterface;
+use Access\Enum\AccessPresentationEnum;
+
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -24,9 +27,10 @@ class AuthStaticControler extends PresentationFrontControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            AccessPresentationInterface $accessPresentation,
             TemplateCompilerInterface $templateCompiler
             ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
         $this->templateCompiler = $templateCompiler;
     }
     
