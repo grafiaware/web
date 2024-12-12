@@ -389,7 +389,7 @@
 .ui.toast {
   display: none;
   border-radius: 0.5rem;
-  padding: 0.91666667em 1.16666667em;
+  padding: 0.66666667em 0.83333333em;
   margin: 0 -1px -0.01em;
   color: #000;
   background-color: #fff;
@@ -496,9 +496,9 @@
   padding: 0;
 }
 .ui.toast.ui.ui.ui.image > .content {
-  padding-top: 0.91666667em;
-  padding-bottom: 0.91666667em;
-  padding-right: 1.16666667em;
+  padding-top: 0.66666667em;
+  padding-bottom: 0.66666667em;
+  padding-right: 0.83333333em;
 }
 .ui.toast.ui.ui.ui.image > .actions {
   margin: 0;
@@ -508,10 +508,10 @@
   border-bottom-left-radius: 0.5rem;
 }
 .ui.toast.ui.ui.ui.image > .ui.image.mini {
-  min-width: calc(0.9166666666666666em + 35px);
+  min-width: calc(0.6666666666666666em + 35px);
 }
 .ui.toast.ui.ui.ui.image > .ui.image.mini + .content {
-  min-height: calc(0.9166666666666666em + 35px);
+  min-height: calc(0.6666666666666666em + 35px);
   padding-left: 4.4em;
 }
 .ui.hoverfloating.message:hover {

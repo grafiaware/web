@@ -24,7 +24,7 @@
   color: rgba(0, 0, 0, 0.6);
   font-family: 'Rubik';
   margin: 0 0.25em 0 0;
-  padding: 0.91666667em 1.5em 0.91666667em;
+  padding: 1em 1.5em 1em;
   text-transform: none;
   text-shadow: none;
   font-weight: 500;
@@ -641,19 +641,19 @@
     -------------------- */
 .ui.compact.buttons .button,
 .ui.compact.button {
-  padding: 0.6875em 1.125em 0.6875em;
+  padding: 0.75em 1.125em 0.75em;
 }
 .ui.compact.icon.buttons .button,
 .ui.compact.icon.button {
-  padding: 0.6875em 0.6875em 0.6875em;
+  padding: 0.75em 0.75em 0.75em;
 }
 .ui.compact.labeled.icon.buttons .button,
 .ui.compact.labeled.icon.button {
-  padding: 0.6875em 3.95833333em 0.6875em;
+  padding: 0.75em 4.125em 0.75em;
 }
 .ui.compact.labeled.icon.buttons .button > .icon,
 .ui.compact.labeled.icon.button > .icon {
-  padding: 0.6875em 0;
+  padding: 0.75em 0;
 }
 
 /* -------------------
@@ -719,7 +719,7 @@
     --------------- */
 .ui.icon.buttons .button,
 .ui.icon.button:not(.animated):not(.compact):not(.labeled) {
-  padding: 0.91666667em 0.91666667em 0.91666667em;
+  padding: 1em 1em 1em;
 }
 .ui.animated.icon.button > .content > .icon,
 .ui.icon.buttons .button > .icon,
@@ -850,7 +850,7 @@
 .ui.tertiary.button {
   transition: color 0.1s ease !important;
   border-radius: 0;
-  margin: 0.41666667em 0.25em 0.41666667em 0 !important;
+  margin: 0.5em 0.25em 0.5em 0 !important;
   padding: 0.5em 0.5em !important;
   box-shadow: none;
   color: rgba(0, 0, 0, 0.6);
@@ -879,7 +879,7 @@
 .ui.labeled.icon.buttons .button,
 .ui.labeled.icon.button {
   position: relative;
-  padding-left: 4.33333333em !important;
+  padding-left: 4.5em !important;
   padding-right: 1.5em !important;
 }
 
@@ -896,9 +896,9 @@
   border-bottom-left-radius: inherit;
   text-align: center;
   animation: none;
-  padding: 0.91666667em 0;
+  padding: 1em 0;
   margin: 0;
-  width: 2.83333333em;
+  width: 3em;
   background-color: rgba(0, 0, 0, 0.05);
   color: "";
   box-shadow: -1px 0 0 0 transparent inset;
@@ -906,7 +906,7 @@
 
 /* Right Labeled */
 .ui[class*="right labeled"].icon.button {
-  padding-right: 4.33333333em !important;
+  padding-right: 4.5em !important;
   padding-left: 1.5em !important;
 }
 .ui[class*="right labeled"].icon.button > .icon {
@@ -988,7 +988,7 @@
 .ui.buttons .or {
   position: relative;
   width: 0.3em;
-  height: 2.83333333em;
+  height: 3em;
   z-index: 3;
 }
 .ui.buttons .or::before {
@@ -1000,11 +1000,11 @@
   left: 50%;
   background-color: #fff;
   text-shadow: none;
-  margin-top: -0.95833333em;
-  margin-left: -0.95833333em;
-  width: 1.91666667em;
-  height: 1.91666667em;
-  line-height: 1.91666667em;
+  margin-top: -1em;
+  margin-left: -1em;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
   color: rgba(0, 0, 0, 0.4);
   font-style: 300;
   font-weight: 500;
@@ -4063,6 +4063,4 @@
 .ui.disabled.button,
 .ui.disabled.button:hover {
   pointer-events: auto !important;
-  opacity: 1 !important;
-  color: rgba(34, 36, 38, 0.3);
 }

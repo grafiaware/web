@@ -98,7 +98,7 @@
 .text{
     font-size: @fontSize;
     color: @textColor;
-    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal):not(.zadne-okraje){
+    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal):not(.zadne-okraje):not(.okraje-dole){
         padding: 10px 0;
     }
     &.okraje{
@@ -114,6 +114,9 @@
     &.zadne-okraje{
         padding: 5px 0;
         margin: 0;
+    }
+    &.okraje-dole:has(button){
+        padding-bottom: 20px;
     }
     &.velky{
         font-size: @bigFontSize; 

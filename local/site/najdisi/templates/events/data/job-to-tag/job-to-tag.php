@@ -8,6 +8,6 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 
 ?>
-                        <div class="field">                                                                                               
+                        <span class="ui big red tag label tag-list">                                                                                               
                                 <?= implode(', ',array_keys($checkedTagsText) ); ?>                                 
-                        </div>                                                
+                        </span>                                                

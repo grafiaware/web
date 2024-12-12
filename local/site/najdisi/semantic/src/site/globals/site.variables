@@ -56,6 +56,14 @@
 @h5 : unit((27 / 14), rem); 
 @h6 : unit((25 / 14), rem); 
 
+/* --------------
+   Form Input
+--------------- */
+
+/* This adjusts the default form input across all elements */
+@inputVerticalPadding: @relative8px;
+@inputHorizontalPadding: @relative10px;
+
 /*-------------------
         Sizes
 --------------------*/ 

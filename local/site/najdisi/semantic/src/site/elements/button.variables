@@ -5,4 +5,5 @@
 /***************
     Button
 ***************/
+@verticalPadding: 1em;
 

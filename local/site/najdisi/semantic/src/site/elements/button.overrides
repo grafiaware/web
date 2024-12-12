@@ -23,7 +23,5 @@
 }
 .ui.button:disabled, .ui.buttons .disabled.button:not(.basic), .ui.disabled.active.button, .ui.disabled.button, .ui.disabled.button:hover {
     pointer-events: auto !important;
-    opacity: 1 !important;  
-    color: rgba(34,36,38,.3); 
 }
    

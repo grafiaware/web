@@ -12,7 +12,7 @@ use Pes\Text\Message;
                 <?= $this->insertIf($editable ?? false, $fieldsTemplate, $fields  ?? []) ?>
             <!--</div>-->                
             <!--buttons-->
-            <div>
+            <div class="text okraje-dole">
                 <?=
                 $editable ?? false ? 
                     (isset($id) 

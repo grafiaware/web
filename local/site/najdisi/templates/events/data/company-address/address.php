@@ -11,8 +11,8 @@ use Pes\Text\Html;
 
             <div class="two fields ">                        
                 <div class="field">
-                <label>Jméno firmy (pro adresu)</label>
-                <p><?= $name ?? '' ?></p>
+                    <label>Jméno firmy (pro adresu)</label>
+                    <p><?= $name ?? '' ?></p>
                  </div>  
                 <div class="field">
                     <label>Lokace</label>

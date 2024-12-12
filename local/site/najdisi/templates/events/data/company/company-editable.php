@@ -11,8 +11,9 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
     }   
 ?>
                      
-                <div class="eight wide field">
+                <div class="field">
                     <label>Název firmy</label>
                     <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="250" value="<?= $name ?? '' ?>" required >
+                    <span></span>
                 </div>  
   

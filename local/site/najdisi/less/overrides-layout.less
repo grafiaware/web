@@ -319,6 +319,46 @@ body{
         margin-top: 15px !important;
         margin-bottom: 10px !important;
     }
+    .ui.tag.tag-list{
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+    .ui.form{
+        .field{
+            position: relative; 
+        }
+        [required]{
+            border: 1px solid @purple;
+            + span{
+                position: absolute;
+                color: @purple;
+                background-color: @lightGrey;
+                height: 39px;
+                width: 10px;
+                display: block;
+                border-radius: 5px 0 0 5px;
+                &::before{
+                    content:"\f12a";
+                    font-family: Icons;
+                    position: relative;
+                    top: 6px;
+                    left: 1px;
+                }
+            }
+        }
+        .fields > .field > [required]{
+            + span{
+                left: 10px;
+                bottom: 2px;
+            }
+        }
+        > .field > [required]{
+            + span{
+                left: 0;
+                bottom: 1px;
+            }
+        }
+    } 
     .blok-menu-paticka{
         margin-left: 13px;
     }

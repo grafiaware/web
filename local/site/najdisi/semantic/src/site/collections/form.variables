@@ -2,3 +2,4 @@
     User Variable Overrides
 *******************************/
 @labelFontSize: @relativeMedium;
+@rowDistance: 0.5em;

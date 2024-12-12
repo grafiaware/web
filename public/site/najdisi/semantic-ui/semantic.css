@@ -747,7 +747,7 @@ input::selection {
   color: rgba(0, 0, 0, 0.6);
   font-family: 'Rubik';
   margin: 0 0.25em 0 0;
-  padding: 0.91666667em 1.5em 0.91666667em;
+  padding: 1em 1.5em 1em;
   text-transform: none;
   text-shadow: none;
   font-weight: 500;
@@ -1451,22 +1451,22 @@ input::selection {
 
 .ui.compact.buttons .button,
 .ui.compact.button {
-  padding: 0.6875em 1.125em 0.6875em;
+  padding: 0.75em 1.125em 0.75em;
 }
 
 .ui.compact.icon.buttons .button,
 .ui.compact.icon.button {
-  padding: 0.6875em 0.6875em 0.6875em;
+  padding: 0.75em 0.75em 0.75em;
 }
 
 .ui.compact.labeled.icon.buttons .button,
 .ui.compact.labeled.icon.button {
-  padding: 0.6875em 3.95833333em 0.6875em;
+  padding: 0.75em 4.125em 0.75em;
 }
 
 .ui.compact.labeled.icon.buttons .button > .icon,
 .ui.compact.labeled.icon.button > .icon {
-  padding: 0.6875em 0;
+  padding: 0.75em 0;
 }
 
 /* -------------------
@@ -1541,7 +1541,7 @@ input::selection {
 
 .ui.icon.buttons .button,
 .ui.icon.button:not(.animated):not(.compact):not(.labeled) {
-  padding: 0.91666667em 0.91666667em 0.91666667em;
+  padding: 1em 1em 1em;
 }
 
 .ui.animated.icon.button > .content > .icon,
@@ -1695,7 +1695,7 @@ input::selection {
 .ui.tertiary.button {
   transition: color 0.1s ease !important;
   border-radius: 0;
-  margin: 0.41666667em 0.25em 0.41666667em 0 !important;
+  margin: 0.5em 0.25em 0.5em 0 !important;
   padding: 0.5em 0.5em !important;
   box-shadow: none;
   color: rgba(0, 0, 0, 0.6);
@@ -1728,7 +1728,7 @@ input::selection {
 .ui.labeled.icon.buttons .button,
 .ui.labeled.icon.button {
   position: relative;
-  padding-left: 4.33333333em !important;
+  padding-left: 4.5em !important;
   padding-right: 1.5em !important;
 }
 
@@ -1746,9 +1746,9 @@ input::selection {
   border-bottom-left-radius: inherit;
   text-align: center;
   animation: none;
-  padding: 0.91666667em 0;
+  padding: 1em 0;
   margin: 0;
-  width: 2.83333333em;
+  width: 3em;
   background-color: rgba(0, 0, 0, 0.05);
   color: "";
   box-shadow: -1px 0 0 0 transparent inset;
@@ -1757,7 +1757,7 @@ input::selection {
 /* Right Labeled */
 
 .ui[class*="right labeled"].icon.button {
-  padding-right: 4.33333333em !important;
+  padding-right: 4.5em !important;
   padding-left: 1.5em !important;
 }
 
@@ -1852,7 +1852,7 @@ input::selection {
 .ui.buttons .or {
   position: relative;
   width: 0.3em;
-  height: 2.83333333em;
+  height: 3em;
   z-index: 3;
 }
 
@@ -1865,11 +1865,11 @@ input::selection {
   left: 50%;
   background-color: #fff;
   text-shadow: none;
-  margin-top: -0.95833333em;
-  margin-left: -0.95833333em;
-  width: 1.91666667em;
-  height: 1.91666667em;
-  line-height: 1.91666667em;
+  margin-top: -1em;
+  margin-left: -1em;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
   color: rgba(0, 0, 0, 0.4);
   font-style: 300;
   font-weight: 500;
@@ -5440,8 +5440,6 @@ input::selection {
 .ui.disabled.button,
 .ui.disabled.button:hover {
   pointer-events: auto !important;
-  opacity: 1 !important;
-  color: rgba(34, 36, 38, 0.3);
 }
 /*!
  * # Fomantic-UI 2.9.2 - Container
@@ -16478,7 +16476,7 @@ img.ui.bordered.image {
 }
 
 .ui.input > input:not([type="color"]) {
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
 }
 
 .ui.input > input::-webkit-calendar-picker-indicator {
@@ -16822,7 +16820,7 @@ img.ui.bordered.image {
 }
 
 .field .ui.transparent.input > textarea {
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
 }
 
 /* Transparent Icon */
@@ -16881,7 +16879,7 @@ img.ui.bordered.image {
   right: 0;
   margin: 0;
   height: 100%;
-  width: 2.93333333em;
+  width: 2.43333333em;
   opacity: 0.5;
   border-radius: 0 0.5rem 0.5rem 0;
   transition: opacity 0.3s ease;
@@ -16893,7 +16891,7 @@ img.ui.bordered.image {
 
 .ui.ui.ui.ui.icon.input:not(.corner) > textarea,
 .ui.ui.ui.ui.icon.input:not(.corner) > input {
-  padding-right: 2.93333333em;
+  padding-right: 2.43333333em;
 }
 
 .ui.icon.input > i.icon::before,
@@ -16930,12 +16928,12 @@ img.ui.bordered.image {
 
 .ui.ui.ui.ui[class*="left icon"]:not([class*="left corner"]).input > textarea,
 .ui.ui.ui.ui[class*="left icon"]:not([class*="left corner"]).input > input {
-  padding-left: 2.93333333em;
+  padding-left: 2.43333333em;
 }
 
 .ui.ui.ui.ui[class*="left icon"]:not(.corner).input > textarea,
 .ui.ui.ui.ui[class*="left icon"]:not(.corner).input > input {
-  padding-right: 1.16666667em;
+  padding-right: 0.83333333em;
 }
 
 /* Focus */
@@ -16959,8 +16957,8 @@ img.ui.bordered.image {
 }
 
 .ui.labeled.input > .label:not(.corner) {
-  padding-top: 0.91666667em;
-  padding-bottom: 0.91666667em;
+  padding-top: 0.66666667em;
+  padding-bottom: 0.66666667em;
 }
 
 /* Regular Label on Left */
@@ -17263,8 +17261,8 @@ img.ui.bordered.image {
 
 .ui.action.input > .button,
 .ui.action.input > .buttons > .button {
-  padding-top: 0.91666667em;
-  padding-bottom: 0.91666667em;
+  padding-top: 0.66666667em;
+  padding-bottom: 0.66666667em;
   margin: 0;
 }
 
@@ -17363,7 +17361,7 @@ img.ui.bordered.image {
 .ui.file.input input[type="file"]::-webkit-file-upload-button {
   border: none;
   cursor: pointer;
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
   margin-right: 1em;
   background: #e0e1e2;
   font-weight: 500;
@@ -17384,7 +17382,7 @@ img.ui.bordered.image {
 .ui.file.input input[type="file"]::-ms-browse {
   border: none;
   cursor: pointer;
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
   margin: 0;
   background: #e0e1e2;
   font-weight: 500;
@@ -17418,7 +17416,7 @@ img.ui.bordered.image {
 .ui.file.input input[type="file"]::-webkit-file-upload-button {
   border: none;
   cursor: pointer;
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
   margin-right: 1em;
   background: #e0e1e2;
   font-weight: 500;
@@ -17429,7 +17427,7 @@ img.ui.bordered.image {
 .ui.file.input input[type="file"]::file-selector-button {
   border: none;
   cursor: pointer;
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
   margin-right: 1em;
   background: #e0e1e2;
   font-weight: 500;
@@ -22928,7 +22926,7 @@ ol.ui.suffixed.list li::before,
 --------------------- */
 
 .ui.form > p {
-  margin: 1em 0;
+  margin: 0.5em 0;
 }
 
 /* --------------------
@@ -22937,7 +22935,7 @@ ol.ui.suffixed.list li::before,
 
 .ui.form .field {
   clear: both;
-  margin: 0 0 1em;
+  margin: 0 0 0.5em;
 }
 
 .ui.form .fields .fields,
@@ -23019,7 +23017,7 @@ ol.ui.suffixed.list li::before,
   -webkit-appearance: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   line-height: 1.21428571em;
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
   font-size: 1em;
   background: #fff;
   border: 1px solid rgba(34, 36, 38, 0.15);
@@ -23048,7 +23046,7 @@ ol.ui.suffixed.list li::before,
   margin: 0;
   -webkit-appearance: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  padding: 0.91666667em 1.16666667em;
+  padding: 0.66666667em 0.83333333em;
   background: #fff;
   border: 1px solid rgba(34, 36, 38, 0.15);
   outline: none;
@@ -23112,7 +23110,7 @@ ol.ui.suffixed.list li::before,
 .ui.form .field .transparent.input:not(.icon) input,
 .ui.form .field input.transparent,
 .ui.form .field textarea.transparent {
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
 }
 
 .ui.form .field input.transparent,
@@ -23142,7 +23140,7 @@ ol.ui.suffixed.list li::before,
   border: 1px solid rgba(34, 36, 38, 0.15);
   border-radius: 0.5rem;
   box-shadow: 0 0 0 0 transparent inset;
-  padding: 0.62em 1.16666667em;
+  padding: 0.62em 0.83333333em;
   color: #000;
   transition: color 0.1s ease, border-color 0.1s ease;
 }
@@ -24620,7 +24618,7 @@ ol.ui.suffixed.list li::before,
 
 .ui.form .grouped.fields {
   display: block;
-  margin: 0 0 1em;
+  margin: 0 0 0.5em;
 }
 
 .ui.form .grouped.fields:last-child {
@@ -24655,7 +24653,7 @@ ol.ui.suffixed.list li::before,
 .ui.form .fields {
   display: flex;
   flex-direction: row;
-  margin: 0 -0.5em 1em;
+  margin: 0 -0.5em 0.5em;
 }
 
 .ui.form .fields > .field {
@@ -24727,7 +24725,7 @@ ol.ui.suffixed.list li::before,
   .ui.form:not(.unstackable) .fields:not(.unstackable) > .fields,
   .ui.form:not(.unstackable) .fields:not(.unstackable) > .field {
     width: 100%;
-    margin: 0 0 1em;
+    margin: 0 0 0.5em;
   }
 }
 
@@ -24818,7 +24816,7 @@ ol.ui.suffixed.list li::before,
     --------------------- */
 
 .ui.form .inline.fields {
-  margin: 0 0 1em;
+  margin: 0 0 0.5em;
   align-items: center;
 }
 
@@ -38535,10 +38533,10 @@ select.ui.dropdown {
   outline: 0;
   transform: rotateZ(0);
   min-width: 14em;
-  min-height: 2.96428571em;
+  min-height: 2.46428571em;
   background: #fff;
   display: inline-block;
-  padding: 0.91666667em 3.36666667em 0.91666667em 1.16666667em;
+  padding: 0.66666667em 3.03333333em 0.66666667em 0.83333333em;
   color: #000;
   box-shadow: none;
   border: 1px solid rgba(34, 36, 38, 0.15);
@@ -38559,11 +38557,11 @@ select.ui.dropdown {
   width: auto;
   height: auto;
   line-height: 1.21428571em;
-  top: 0.91666667em;
-  right: 1.16666667em;
+  top: 0.66666667em;
+  right: 0.83333333em;
   z-index: 3;
-  margin: -0.91666667em;
-  padding: 0.91666667em;
+  margin: -0.66666667em;
+  padding: 0.66666667em;
   opacity: 0.8;
   transition: opacity 0.1s ease;
 }
@@ -38887,14 +38885,14 @@ select.ui.dropdown {
 
 .ui.search.selection.dropdown > input.search {
   line-height: 1.21428571em;
-  padding: 0.80952381em 3.36666667em 0.80952381em 1.16666667em;
+  padding: 0.55952381em 3.03333333em 0.55952381em 0.83333333em;
 }
 
 /* Used to size multi select input to character width */
 
 .ui.search.selection.dropdown > span.sizer {
   line-height: 1.21428571em;
-  padding: 0.80952381em 3.36666667em 0.80952381em 1.16666667em;
+  padding: 0.55952381em 3.03333333em 0.55952381em 0.83333333em;
   display: none;
   white-space: pre;
 }
@@ -38966,10 +38964,10 @@ select.ui.dropdown {
 .ui.dropdown > .remove.icon {
   cursor: pointer;
   font-size: 1em;
-  margin: -0.91666667em;
-  padding: 0.91666667em;
+  margin: -0.66666667em;
+  padding: 0.66666667em;
   right: 2em;
-  top: 0.91666667em;
+  top: 0.66666667em;
   position: absolute;
   opacity: 0.6;
   z-index: 3;
@@ -39010,7 +39008,7 @@ select.ui.dropdown {
 /* Multiple Selection */
 
 .ui.ui.multiple.dropdown {
-  padding: 0.26984127em 3.36666667em 0.26984127em 0.41666667em;
+  padding: 0.18650794em 3.03333333em 0.18650794em 0.41666667em;
 }
 
 .ui.multiple.dropdown .menu {
@@ -39041,7 +39039,7 @@ select.ui.dropdown {
   position: static;
   padding: 0;
   max-width: 100%;
-  margin: 0.53968254em 0 0.53968254em 0.75em;
+  margin: 0.37301587em 0 0.37301587em 0.41666667em;
   line-height: 1.41666667em;
 }
 
@@ -39091,7 +39089,7 @@ select.ui.dropdown {
   top: 0;
   left: 0;
   padding: inherit;
-  margin: 0.53968254em 0 0.53968254em 0.75em;
+  margin: 0.37301587em 0 0.37301587em 0.41666667em;
   line-height: 1.41666667em;
 }
 
@@ -39105,7 +39103,7 @@ select.ui.dropdown {
   position: static;
   padding: 0;
   max-width: 100%;
-  margin: 0.53968254em 0 0.53968254em 0.75em;
+  margin: 0.37301587em 0 0.37301587em 0.41666667em;
   width: 2.2em;
   line-height: 1.41666667em;
 }
@@ -43377,7 +43375,7 @@ select.ui.dropdown {
   font-style: normal;
   font-weight: 300;
   line-height: 1.21428571em;
-  padding: 0.80952381em 1.16666667em;
+  padding: 0.55952381em 0.83333333em;
   font-size: 1.08333333em;
   background: #fff;
   border: 1px solid rgba(34, 36, 38, 0.15);
@@ -44688,7 +44686,7 @@ span.ui.massive.text {
 .ui.toast {
   display: none;
   border-radius: 0.5rem;
-  padding: 0.91666667em 1.16666667em;
+  padding: 0.66666667em 0.83333333em;
   margin: 0 -1px -0.01em;
   color: #000;
   background-color: #fff;
@@ -44822,9 +44820,9 @@ span.ui.massive.text {
 }
 
 .ui.toast.ui.ui.ui.image > .content {
-  padding-top: 0.91666667em;
-  padding-bottom: 0.91666667em;
-  padding-right: 1.16666667em;
+  padding-top: 0.66666667em;
+  padding-bottom: 0.66666667em;
+  padding-right: 0.83333333em;
 }
 
 .ui.toast.ui.ui.ui.image > .actions {
@@ -44837,11 +44835,11 @@ span.ui.massive.text {
 }
 
 .ui.toast.ui.ui.ui.image > .ui.image.mini {
-  min-width: calc(0.9166666666666666em + 35px);
+  min-width: calc(0.6666666666666666em + 35px);
 }
 
 .ui.toast.ui.ui.ui.image > .ui.image.mini + .content {
-  min-height: calc(0.9166666666666666em + 35px);
+  min-height: calc(0.6666666666666666em + 35px);
   padding-left: 4.4em;
 }
 

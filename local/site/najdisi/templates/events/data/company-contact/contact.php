@@ -5,21 +5,21 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
             <div class="two fields">                        
                 <div class="field">
-                <label>Jméno kontaktu</label>
-                    <input readonly type="text" name="name" placeholder="" maxlength="100" value="<?= $name ?? '' ?>" required>
+                    <label>Jméno kontaktu</label>
+                    <p><?= $name ?? '' ?></p>
                  </div>  
                 <div class="field">
                     <label>E-maily</label>
-                    <input readonly type="email" name="emails" placeholder="" maxlength="100" value="<?= $emails ?? ''  ?>">
+                    <p><?= $emails ?? ''  ?></p>
                 </div>
             </div>
             <div class="two fields">
                 <div class="field">
                     <label>Telefony</label>
-                    <input readonly type="text" name="phones" placeholder="" maxlength="60" value="<?= $phones ?? '' ?>">
+                    <p><?= $phones ?? '' ?></p>
                 </div>
                 <div class="field">
                     <label>Mobily</label>
-                    <input readonly type="text" name="mobiles" placeholder="" maxlength="60" value="<?= $mobiles ?? '' ?>">
+                    <p><?= $mobiles ?? '' ?></p>
                 </div>
             </div>                 
