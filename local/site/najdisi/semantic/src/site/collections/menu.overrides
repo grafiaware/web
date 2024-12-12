@@ -127,6 +127,17 @@
             position: relative;
             color: @invertedTextColor;
         }
+        a:hover{
+            z-index: 20;
+            background-color: fade(@primaryColor, 80%);
+            ~ i.icon{
+                z-index: 21;
+            }
+        }
+        .item:has( > .presented > p){
+            outline: 2px solid fade(@invertedTextColor, 60%);
+            color: fade(@invertedTextColor, 60%);
+        }
     }
     .kos .ui.vertical.menu{
         a, p{

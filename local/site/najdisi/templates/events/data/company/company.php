@@ -5,5 +5,5 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                       
                 <div class="field">
                     <label>Název firmy</label>
-                    <p><?= $name ?? '' ?>"</p>
+                    <p><?= $name ?? '' ?></p>
                  </div>         

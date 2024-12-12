@@ -2248,6 +2248,17 @@ Floated Menu / Item
   position: relative;
   color: #fff;
 }
+#mySidenav.editMenu .ui.vertical.menu a:hover {
+  z-index: 20;
+  background-color: rgba(0, 114, 212, 0.8);
+}
+#mySidenav.editMenu .ui.vertical.menu a:hover ~ i.icon {
+  z-index: 21;
+}
+#mySidenav.editMenu .ui.vertical.menu .item:has( > .presented > p) {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
+}
 #mySidenav.editMenu .kos .ui.vertical.menu a,
 #mySidenav.editMenu .kos .ui.vertical.menu p {
   font-size: 1.4rem !important;
