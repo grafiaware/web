@@ -180,7 +180,7 @@ class Mail {
                 self::$logger->error("[$time] Nepodařilo se odeslat mail '{subject}'.", ['subject'=>$actualParams->getContent()->getSubject()]);
                 self::$logger->error("PHPmail error info:: '{info}'.", ['info'=>$mail->ErrorInfo]);
                 self::$logger->error("PHPmail exception message: '{message}'.", ['message'=>$e->errorMessage()]);
-                echo $mail->ErrorInfo;
+                echo "<h4>Mailerror info:</h4>".PHP_EOL.$mail->ErrorInfo;
             }
             throw new MailException("Nepodařilo se odeslat mail", 0, $e);
         }
