@@ -11,21 +11,11 @@ use Pes\Text\Html;
 
             <div class="two fields ">                        
                 <div class="field">
-                    <label>Jméno firmy (pro adresu)</label>
-                    <p><?= $name ?? '' ?></p>
+                    <p class="text primarni-barva zadne-okraje"><?= $name ?? '' ?></p>
+                    <p class="text primarni-barva zadne-okraje"><i class="map outline icon"></i> Pobočka firmy</p>
                  </div>  
                 <div class="field">
-                    <label>Lokace</label>
-                    <p><?= $lokace ?? ''  ?></p>
+                    <p class="text zadne-okraje"><i class="map marker icon"></i><?= $lokace ?? ''  ?></p>
+                    <p class="text zadne-okraje"><?= $psc ?? '' ?> <?= $obec ?? '' ?></p>
                 </div>
-            </div>
-            <div class="two fields">
-                <div class="field">
-                    <label>PSČ</label>
-                    <p><?= $psc ?? '' ?></p>
-                </div>
-                <div class="field">
-                    <label>Obec</label>
-                    <p><?= $obec ?? '' ?></p>
-                </div>
-            </div>                 
+            </div>             

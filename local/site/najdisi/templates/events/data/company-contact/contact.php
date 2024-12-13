@@ -5,21 +5,13 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
             <div class="two fields">                        
                 <div class="field">
-                    <label>Jméno kontaktu</label>
-                    <p><?= $name ?? '' ?></p>
+                    <p class="text primarni-barva zadne-okraje"><?= $name ?? '' ?></p>
+                    <p class="text primarni-barva zadne-okraje"><i class="id badge outline icon"></i>Kontaktujte nás</p>
                  </div>  
                 <div class="field">
-                    <label>E-maily</label>
-                    <p><?= $emails ?? ''  ?></p>
+                    <p class="text zadne-okraje"><i class="mail icon"></i> <?= $emails ?? '' ?> </p> 
+                    <?php if($mobiles || $phones){ ?>
+                        <p class="text zadne-okraje"><i class="mobile alternate icon"></i><i class="phone icon"></i><?= $mobiles ?> <?= $phones ?></p> 
+                    <?php }?>
                 </div>
-            </div>
-            <div class="two fields">
-                <div class="field">
-                    <label>Telefony</label>
-                    <p><?= $phones ?? '' ?></p>
-                </div>
-                <div class="field">
-                    <label>Mobily</label>
-                    <p><?= $mobiles ?? '' ?></p>
-                </div>
-            </div>                 
+            </div>                

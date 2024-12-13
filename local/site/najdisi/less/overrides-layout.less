@@ -333,7 +333,7 @@ body{
                 position: absolute;
                 color: @purple;
                 background-color: @lightGrey;
-                height: 39px;
+                height: 40px;
                 width: 10px;
                 display: block;
                 border-radius: 5px 0 0 5px;
@@ -341,7 +341,7 @@ body{
                     content:"\f12a";
                     font-family: Icons;
                     position: relative;
-                    top: 6px;
+                    top: 8px;
                     left: 1px;
                 }
             }
@@ -349,14 +349,43 @@ body{
         .fields > .field > [required]{
             + span{
                 left: 10px;
-                bottom: 2px;
+                bottom: 1px;
             }
         }
         > .field > [required]{
             + span{
-                left: 0;
+                left: 1px;
                 bottom: 1px;
             }
+        }
+        select[required]{
+            height: 42px;
+        }
+        span:has(select[required]){
+            + span{
+                position: absolute;
+                color: @purple;
+                background-color: @lightGrey;
+                height: 40px;
+                width: 10px;
+                display: block;
+                border-radius: 5px 0 0 5px;
+                left: 10px;
+                bottom: 1px;
+                &::before{
+                    content:"\f12a";
+                    font-family: Icons;
+                    position: relative;
+                    top: 8px;
+                    left: 1px;
+                }
+            }
+        }
+        label > input{
+            margin-right: 5px;
+        }
+        label:has(input){
+            cursor: pointer;
         }
     } 
     .blok-menu-paticka{

@@ -333,10 +333,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);              
                 $component = new JobComponentPrototype($configuration);
-                                
-                if($accessPresentation->hasAnyPermission(JobComponentPrototype::class)) {
+                if($accessPresentation->isAllowed(JobComponentPrototype::class, AccessPresentationEnum::EDIT)) {
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
                     $component->addPluginTemplateName('fieldsTemplate', $configuration->getTemplate('jobEditable'));
+                } elseif($accessPresentation->isAllowed(JobComponentPrototype::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->addPluginTemplateName('fieldsTemplate', $configuration->getTemplate('job'));                    
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
