@@ -344,7 +344,10 @@ class ConfigurationWeb extends ConfigurationConstants {
         return [
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
-            'mail.paramsname' => 'grafiaInterni', //'najdisi', //'itGrafiaGmail', // 
+            // volba sady parametrů z Mail\ParamsTemplates
+//            'mail.paramsname' => 'grafiaInterni', 
+            'mail.paramsname' => 'najdisi', 
+//            'mail.paramsname' => 'itGrafiaGmail', 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'attachments/' : self::WEB_FILES_SITE.'attachments/',
 
         ];
