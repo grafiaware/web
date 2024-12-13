@@ -86,6 +86,32 @@ class ParamsTemplates {
         $params
             ->setHost(
                     (new Host())
+                        ->setHost('smtp.cesky-hosting.cz')
+                    )
+            ->setSmtpAuth(
+                    (new SmtpAuth())
+                        ->setSmtpAuth(true)
+                        ->setUserName('info@najdisi.cz')
+                        ->setPassword('Kostrčnenihouba')
+                    )
+            ->setEncryption(
+                    (new Encryption())->setEncryption(Encryption::NONE)
+                    )
+            ->setHeaders(
+                    (new Headers())
+                        ->setHeaders(['X-Mailer' => 'web mail'])
+                    )
+            ;
+
+        return $params;
+    }
+
+    private static function najdisiWebSMTP() {
+
+        $params = new Params();
+        $params
+            ->setHost(
+                    (new Host())
                         ->setHost('websmtp.cesky-hosting.cz')
                     )
             ->setSmtpAuth(
@@ -121,7 +147,7 @@ class ParamsTemplates {
             ->setHost(
                     (new Host())
                         ->setHost('posta.grafia.cz')
-                        ->setHost('localhost')
+//                        ->setHost('localhost')
                     )
             ->setSmtpAuth(
                     (new SmtpAuth())
