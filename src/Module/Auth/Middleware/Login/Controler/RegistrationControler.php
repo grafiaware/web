@@ -280,6 +280,6 @@ class RegistrationControler extends LoginControlerAbstract
                                                  ->addTo('svoboda@grafia.cz', 'pes')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     $mail->mail($params); // posle mail
-                    #########################-----------------------------        
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }
