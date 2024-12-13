@@ -62,15 +62,17 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
     
     
     public function getIterator() {                        
-        //$requestedId = $this->getItemId();  // id documentu    // -----   z routy 
+        //$requestedId = $this->getItemId();  // id documentu    // -----   z routy, netreba
         $parentId =  '';  // -----  !!! z routy  // POUZIT        
         $parentId =  $this->status->getUserLoginName();  //prihlasen (loginame) tj. id v nadrizene tabulce  visitorProfile  //NEPOUZIT
-       // $parentId = 'visitor';
+        //$parentId = 'visitor';
              // -----   z routy       
         
         $requestedParTab = 'visitorprofile';
         $requestedParTabRepo =  $this->visitorProfileRepo;
         $requestedTypeDoc = VisitorProfileControler::TYPE_LETTER;
+        //$requestedTypeDoc = VisitorProfileControler::TYPE_CV;
+
         //------------------------------------------------------
                // unikátní jména souborů pro upload
         $userHash = $this->status->getUserLoginHash();
@@ -79,35 +81,32 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         //-------------------------------------------------------------------------------------
         
         $isAdministrator = $this->isAdministrator();        
-        $editableItem = $isAdministrator || $this->isCurrentVisitor($parentId);    
+        $editableItem = $isAdministrator || $this->isCurrentVisitor($parentId);           
         
-        $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";            
-        $visitorProfile = $requestedParTabRepo->get($parentId);
-
-        
-        
-        if (isset($visitorProfile)) {
+        if (isset($parentId)) {
+            $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";   
+            $visitorProfile = $requestedParTabRepo->get($parentId);
             
-
             if ($requestedTypeDoc == VisitorProfileControler::TYPE_LETTER) {
-                $addHeadline = "Soubor je typu:  motivační dopis ";
-                $idDocument = $visitorProfile->getCvDocument();
+                $addHeadline = "Soubor typu:  motivační dopis ";
+                $idDocument = $visitorProfile->getLetterDocument();   
             }
             if ($requestedTypeDoc == VisitorProfileControler::TYPE_CV) {
-                $addHeadline = "Soubor je typu: životopis ";
-                $idDocument = $visitorProfile->getLetterDocument();                        
+                $addHeadline = "Soubor typu: životopis ";
+                $idDocument = $visitorProfile->getCvDocument();
             }
 
-
-            /** @var DocumentInterface $document */
-            $document = $this->documentRepo->get($idDocument);     
+            if (isset($idDocument)) {                         
+                /** @var DocumentInterface $document */
+                $document = $this->documentRepo->get($idDocument);     
+            }
             if (isset($document)) {
                 $documentArr = [
                     // conditions
                     'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                     //route
                     'componentRouteSegment' => $componentRouteSegment,
-                    'id' => $requestedId,
+                    'id' => $idDocument,
 
                     'addHeadline' => $addHeadline,
                     'uploadedFilename' => $uploadedFilename,
@@ -133,7 +132,7 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
                 }
 
         } else {
-            $addHeadline = "Neexistuje profil návštěvníka s požadovaným id.";
+            $addHeadline = "Neexistuje profil návštěvníka (s požadovaným id).";
             
             $documentArr = [
                 'editable' => false,
@@ -142,8 +141,7 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
             ];
                 //throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
         }  
-            
-            
+        
 // $documentArr = [];
        
         

@@ -358,14 +358,13 @@ class VisitorProfileControler extends FrontControlerAbstract {
      * @param type $id
      * @return type
      */
-    public function addupdateDocument (ServerRequestInterface $request, $parentId, $type /*,$id*/) {  
+    public function addupdateDocument (ServerRequestInterface $request, $parentId, $type ) {  
         
 //      muze ???
 //      -----------------------------------------------------------------------                
 //      
 //      
         // POST data                               
-        /** @var VisitorProfileInterface $visitorProfile */  
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
 
@@ -389,21 +388,18 @@ class VisitorProfileControler extends FrontControlerAbstract {
                 $response = $this->redirectSeeLastGet($request);                                 
             }
         }
-        
-        
-        
-        
-        
+            
              
         ###### SAVE
         if (!isset($response) AND isset($typeSelf)) {
 //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
 //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
-        
+            
+            /** @var VisitorProfileInterface $visitorProfile */  
             $visitorProfile = $this->visitorProfileRepo->get($parentId);   
             if (isset ($visitorProfile) ) {
 
-                $document = $this->getRightDocument($visitorProfile);
+                $document = $this->getRightDocument($visitorProfile, $type);
 
                 // file move to temp
                 $clientFileName = $fileForSave->getClientFilename();
@@ -416,43 +412,40 @@ class VisitorProfileControler extends FrontControlerAbstract {
                 // if login - save data
                 if ( isset($loginAggregateCredentials) )  {            
 
-                    if (isset($document)) { //update                              
-                        $document->setContent(file_get_contents($uploadedFileTemp));
-                        $document->setDocumentMimetype($clientMime);
-                        $document->setDocumentFilename($clientFileName);                                                
-                    }                    
-                    else  {//add
+                    if (!isset($document)) {                                    
+//                    //add
                         $document = new Document();
                         $this->documentRepo->add($document);
+                        
                         switch ($type) {
                             case self::TYPE_CV:
-                                $visitorProfile->setCvDocument($document);
+                                $visitorProfile->setCvDocument($document->getId());
                                 break;
                             case self::TYPE_LETTER:
-                                $visitorProfile->setLetterDocument($document);
+                                $visitorProfile->setLetterDocument($document->getId());
                                 break;
                             default:
                                 break;
                         }                      
-                    }
+                    }                    
+                    $document->setContent(file_get_contents($uploadedFileTemp));
+                    $document->setDocumentMimetype($clientMime);
+                    $document->setDocumentFilename($clientFileName);  
+                    
                     $this->addFlashMessage("Uložen váš soubor." .$document->getDocumentFilename(), FlashSeverityEnum::SUCCESS);                        
                     $flashMessage = "Uloženo $size bytů.";
                     $this->addFlashMessage($flashMessage);
                     $response = $this->redirectSeeLastGet($request);
-
                 } else {
                     $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
                     $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
                     $this->redirectSeeLastGet($request);
-                }
-            
-            
+                }         
             }  
             else {
-                // nepřečetlse  VisitorProfile
-            }
-            
-            
+                // nepřečetl se  VisitorProfile
+                 $response = $this->redirectSeeLastGet($request); 
+            }                        
         } else {
             if (isset($clientFileName)) {
                 $this->addFlashMessage($clientFileName);
@@ -460,11 +453,9 @@ class VisitorProfileControler extends FrontControlerAbstract {
             $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
             return $response;
         }
-        
-                
+                        
         return $response;
-                                                       
-       
+  
     }
     
     
@@ -473,16 +464,20 @@ class VisitorProfileControler extends FrontControlerAbstract {
     
     
     
-     public function remove(ServerRequestInterface $request, $parentId, $type, $id) {
-             
-            $document = $this->documentRepo->get($id);
-            if (!isset($document)) {                
+     public function remove(ServerRequestInterface $request, $parentId, $type) {
+            $visitorProfile = $this->visitorProfileRepo->get($parentId);  
+            if (isset ($visitorProfile) ) {
+                $document = $this->getRightDocument($visitorProfile, $type);
+            }
+                       
+            if (!isset($document)) {    
+                $this->addFlashMessage(" Document nenalezen.");
             }
             else{
-                $this->documentRepo->remove($document);                                
+                $this->documentRepo->remove($document); 
+                $this->addFlashMessage(" Document smazán.");
             } 
 
-            $this->addFlashMessage(" Document smazán.");
             return $this->redirectSeeLastGet($request);        
     }
     
