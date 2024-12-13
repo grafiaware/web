@@ -254,4 +254,32 @@ class RegistrationControler extends LoginControlerAbstract
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
+    
+    public function testMail(ServerRequestInterface $request) {
+                    /** @var Mail $mail */
+                    $mail = $this->container->get(Mail::class);
+                    /** @var HtmlMessage $mailMessageFactory */
+                    $mailMessageFactory = $this->container->get(HtmlMessage::class);
+
+                    $subject =  'Veletrh práce a vzdělávání - Registrace.';
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
+
+                    $attachments = [ (new Attachment())
+                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
+                                    ->setAltText('Logo Grafia')
+                                   ];
+                    $params = (new Params())
+                                ->setContent(  (new Content())
+                                                 ->setSubject($subject)
+                                                 ->setHtml($body)
+//                                                 ->setAttachments($attachments)
+                                            )
+                                ->setParty  (  (new Party())
+                                                 ->setFrom('it.grafia@gmail.com', 'web najdisi')
+                                                 ->addReplyTo('svoboda@grafia.cz', 'reply web najdisi')
+                                                 ->addTo('svoboda@grafia.cz', 'pes')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                            );
+                    $mail->mail($params); // posle mail
+                    #########################-----------------------------        
+    }
 }

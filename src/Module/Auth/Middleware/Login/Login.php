@@ -51,6 +51,13 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         
+        // TEST MAIL RegistrationControler
+        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/testmail', function(ServerRequestInterface $request) {
+            /** @var RegistrationControler $ctrl */
+            $ctrl = $this->container->get(RegistrationControler::class);
+            return $ctrl->testMail($request);
+            });        
+        
         #### AuthStaticControler ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
             /** @var AuthStaticControler $ctrl */

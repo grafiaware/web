@@ -251,6 +251,12 @@ class ApiRegistrator {
         
     ### mail module ###
     #
+    
+        // TEST
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/testmail'));     
+        
+        
+        
         #### MailControler ######
         $registry->register($this->getPrototype->withUrlPattern('/sendmail/v1/sendmail/:campaign'));
 
