@@ -7,9 +7,9 @@ use FrontControler\PresentationFrontControlerAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
+use Access\AccessPresentationInterface;
 use Template\Compiler\TemplateCompilerInterface;
 
-use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
 use Psr\Http\Message\ServerRequestInterface;

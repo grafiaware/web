@@ -65,7 +65,7 @@ class RegistrationControler extends LoginControlerAbstract
             $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
             $registerEmail = $requestParams->getParsedBodyParam($request, 'email', FALSE);
-            $registerInfo = $requestParams->getParsedBodyParam($request, 'info', FALSE);
+            $registerInfo  = $requestParams->getParsedBodyParam($request, 'info', FALSE);
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
                 /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
@@ -112,10 +112,12 @@ class RegistrationControler extends LoginControlerAbstract
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
                     $subject =  'Veletrh práce a vzdělávání - Registrace.';
-                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php",
+                                                                        ['confirmationUrl'=>$confirmationUrl
+                                                                                            ]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
+                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_Grafia.png')
                                     ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
@@ -125,10 +127,10 @@ class RegistrationControler extends LoginControlerAbstract
 //                                                 ->setAttachments($attachments)
                                             )
                                 ->setParty  (  (new Party())
-                                                 ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
-                                                 ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
+                                                 ->setFrom('noreply@grafia.cz', 'web najisi')
+                                                 ->addReplyTo('webmaster@grafia.cz', 'info web najdisi')
                                                  ->addTo( $registerEmail, $registerJmeno)
-                                                  //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                 //->addTo('svoboda@grafia.cz', 'pes')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     $mail->mail($params); // posle mail
                     #########################-----------------------------
@@ -145,12 +147,12 @@ class RegistrationControler extends LoginControlerAbstract
                     /** @var HtmlMessage $mailMessageFactory */
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
-                    $subject =  "veletrhprace.online - Kopie zaslaného mailu - Registrace: '$registerJmeno'";
+                    $subject =  "praci.najdisi.cz - Kopie zaslaného mailu - Registrace: '$registerJmeno'";
                     $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", 
                                                         ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
+                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_Grafia.png')
                                     ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
@@ -160,9 +162,10 @@ class RegistrationControler extends LoginControlerAbstract
 //                                                 ->setAttachments($attachments)
                                             )
                                 ->setParty  (  (new Party())
-                                                 ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
-                                                 ->addTo('svoboda@grafia.cz', 'copy registration veletrhprace.online')
-                                                  //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                  ->setFrom('noreply@grafia.cz', 'web najisi')
+                                                  ->addReplyTo('webmaster@grafia.cz', 'info web najdisi')
+                                                  //->addReplyTo('selnerova@grafia.cz', 'info web najdisi')
+                                                  ->addTo('it@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     $mail->mail($params); // posle mail
                     #########################-----------------------------
@@ -184,7 +187,7 @@ class RegistrationControler extends LoginControlerAbstract
                                                              'registerInfo' => $registerInfo,
                                                             ]);
                         $attachments = [ (new Attachment())
-                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_Grafia.png')
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())
@@ -194,9 +197,10 @@ class RegistrationControler extends LoginControlerAbstract
     //                                                 ->setAttachments($attachments)
                                                 )
                                     ->setParty  (  (new Party())
-                                                     ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
-                                                     ->addTo('svoboda@grafia.cz', 'Registace vystavovatele veletrhprace.online')
-                                                     ->addTo('pirnosova@grafia.cz', 'Registace vystavovatele veletrhprace.online')
+                                                     ->setFrom('noreply@grafia.cz', 'web najisi')
+                                                     ->addReplyTo('webmaster@grafia.cz', 'info web najdisi')
+                                                    // ->addTo('svoboda@grafia.cz', 'Registace vystavovatele web najdisi')
+                                                     ->addTo('it@grafia.cz', 'Registace vystavovatele web najdisi')
                                                 );
                         $mail->mail($params); // posle mail
                         #########################-----------------------------
@@ -275,7 +279,7 @@ class RegistrationControler extends LoginControlerAbstract
 //                                                 ->setAttachments($attachments)
                                             )
                                 ->setParty  (  (new Party())
-                                                 ->setFrom('it.grafia@gmail.com', 'web najdisi')
+                                                 ->setFrom('noreply@grafia.cz', 'web najisi')
                                                  ->addReplyTo('svoboda@grafia.cz', 'reply web najdisi')
                                                  ->addTo('svoboda@grafia.cz', 'pes')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
