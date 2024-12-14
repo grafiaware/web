@@ -2,7 +2,6 @@
 namespace Events\Middleware\Events;
 
 use Pes\Middleware\AppMiddlewareAbstract;
-use Pes\Container\Container;
 
 use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
@@ -12,11 +11,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Container\EventsContainerConfigurator;
-use Container\EventsModelContainerConfigurator;
-use Container\EventsDbContainerConfigurator;
-use Container\AuthContainerConfigurator;
-use Container\MailContainerConfigurator;
+//use Pes\Container\Container;
+//use Container\EventsContainerConfigurator;
+//use Container\EventsModelContainerConfigurator;
+//use Container\EventsDbContainerConfigurator;
+//use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\ComponentControler;
 use Events\Middleware\Events\Controler\RepresentationControler;
@@ -43,7 +42,29 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
      * @return Response
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+        // middleware kontejner:
+        //      nový kontejner konfigurovaný MenuContainerConfigurator
+        //      -> delegát další nový kontejner konfigurovaný ApiContainerConfigurator a LoginContainerConfigurator
+        //      -> delegát aplikační kontejner
+        // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
+        // jsou v jednotlivých kontejnerech)
 
+//        $this->container =
+//            (new EventsContainerConfigurator())->configure(
+//                (new EventsModelContainerConfigurator())->configure(
+//                    (new EventsDbContainerConfigurator())->configure(
+//                        (new MailContainerConfigurator())->configure(
+//                            new Container($this->getApp()->getAppContainer())
+//                        )
+//                    )
+//                )
+//            );
+        
+        
+        $this->container = $this->getApp()->getAppContainer();  // měl by mít nastaven kontejner z middleware EventsAccess
+        /** @var RouteSegmentGenerator $this->routeGenerator */
+        $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
+        
         if ($request->getMethod()=="GET") {
             $this->prepareProcessGet();
         } elseif ($request->getMethod()=="POST") {
@@ -61,26 +82,6 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
 #### GET ################################
 
     private function prepareProcessGet() {
-        // middleware kontejner:
-        //      nový kontejner konfigurovaný MenuContainerConfigurator
-        //      -> delegát další nový kontejner konfigurovaný ApiContainerConfigurator a LoginContainerConfigurator
-        //      -> delegát aplikační kontejner
-        // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
-        // jsou v jednotlivých kontejnerech)
-
-        $this->container =
-            (new EventsContainerConfigurator())->configure(
-                (new EventsModelContainerConfigurator())->configure(
-                    (new EventsDbContainerConfigurator())->configure(
-                        (new MailContainerConfigurator())->configure(
-                            new Container($this->getApp()->getAppContainer())
-                        )
-                    )
-                )
-            );
-
-        /** @var RouteSegmentGenerator $this->routeGenerator */
-        $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         ###########################
         ## EventStaticControler
@@ -124,32 +125,6 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
 #### POST #################################
 
     private function prepareProcessPost() {
-
-        // middleware kontejner:
-        //      nový kontejner konfigurovaný MenuContainerConfigurator
-        //      -> delegát další nový kontejner konfigurovaný ApiContainerConfigurator a LoginContainerConfigurator
-        //      -> delegát aplikační kontejner
-        // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
-        // jsou v jednotlivých kontejnerech)
-
-        $this->container =
-            (new EventsContainerConfigurator())->configure(
-                (new EventsModelContainerConfigurator())->configure(
-                    (new EventsDbContainerConfigurator())->configure(
-                        (new Container(
-//                                (new LoginContainerConfigurator())->configure(
-                                    (new MailContainerConfigurator())->configure(
-                                        new Container($this->getApp()->getAppContainer())
-                                    )
-//                                )
-                            )
-                        )
-                    )
-                )
-            );
-
-        /** @var RouteSegmentGenerator $this->routeGenerator */
-        $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         ###########################
         ## RepresentationControler

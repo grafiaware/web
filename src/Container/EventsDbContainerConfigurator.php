@@ -5,6 +5,7 @@ use Pes\Container\ContainerConfiguratorAbstract;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
+use Site\ConfigurationCache;
 
 // db Handler
 use Pes\Database\Handler\Account;
@@ -26,29 +27,7 @@ use Pes\Logger\FileLogger;
 class EventsDbContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return [
-            #####################################
-            # Konfigurace připojení k databázi Events
-            #
-            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
-            #
-            'dbEvents.db.type' => DbTypeEnum::MySQL,
-            'dbEvents.db.port' => '3306',
-            'dbEvents.db.charset' => 'utf8',
-            'dbEvents.db.collation' => 'utf8_general_ci',
-            'dbEvents.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbEvents.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxx' : 'events',
-            #
-            ###################################
-            # Konfigurace logu databáze
-            #
-            'dbEvents.logs.db.directory' => 'Logs/Events',
-            'dbEvents.logs.db.file' => 'Database.log',
-            #
-            #################################
-
-
-        ];
+        return ConfigurationCache::dbEvents();
     }
 
     public function getFactoriesDefinitions(): iterable {

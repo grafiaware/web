@@ -7,6 +7,8 @@
 
 namespace Site\NajdiSi;
 
+use Pes\Database\Handler\DbTypeEnum;
+
 /**
  * Description of ConfigurationEvents
  *
@@ -18,6 +20,32 @@ class ConfigurationEvents extends ConfigurationConstants {
     const EVENTS_TEMPLATES_COMMON = 'local/site/common/templates/events/';
     const EVENTS_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/events/';
 
+    public static function dbEvents() {
+
+        return [
+            #####################################
+            # Konfigurace připojení k databázi Events
+            #
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+            #
+            'dbEvents.db.type' => DbTypeEnum::MySQL,
+            'dbEvents.db.port' => '3306',
+            'dbEvents.db.charset' => 'utf8',
+            'dbEvents.db.collation' => 'utf8_general_ci',
+            'dbEvents.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
+            'dbEvents.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxx' : 'events',
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
+            'dbEvents.logs.db.directory' => 'Logs/Events',
+            'dbEvents.logs.db.file' => 'Database.log',
+            'dbEvents.logs.db.loginsync' => 'LoginSync.log',
+            #
+            #################################
+            ];
+    }  
+    
     /**
      * Konfigurace prezentace - vrací parametry pro ComponentControler
      * @return array

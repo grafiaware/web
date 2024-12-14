@@ -70,6 +70,7 @@ use Events\Component\ViewModel\Data\DocumentViewModel;
 // controler
 use Events\Middleware\Events\Controler\ComponentControler;
 use Events\Middleware\Events\Controler\EventStaticControler;
+use Events\Middleware\Events\Controler\LoginSyncControler;
 use Events\Middleware\Events\Controler\RepresentationControler;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Middleware\Events\Controler\JobControler;
@@ -84,6 +85,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Repository\VisitorProfileRepo;
+use Events\Model\Repository\LoginRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
@@ -541,6 +543,19 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(AccessPresentation::class),
                         $c->get(TemplateCompiler::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            'dbEventsLoginSynLogger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('dbEvents.logs.db.directory'), $c->get('dbEvents.logs.db.loginsync'), FileLogger::APPEND_TO_LOG);
+            },
+            LoginSyncControler::class => function(ContainerInterface $c) {
+                return (new LoginSyncControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(LoginRepo::class),
+                        $c->get('dbEventsLoginSynLogger')
                         )
                     )->injectContainer($c);  // inject component kontejner
             },

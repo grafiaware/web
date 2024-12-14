@@ -20,6 +20,7 @@ use Red\Middleware\Component\Component;
 
 use Red\Middleware\Redactor\Redactor;
 use Transformator\Middleware\Transformator\Transformator;
+use Events\Middleware\Events\EventsLoginSync;
 use Events\Middleware\Events\Event;
 use Sendmail\Middleware\Sendmail\Sendmail;
 
@@ -109,6 +110,7 @@ class SelectorItems {
                     new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
+                    new EventsLoginSync(),
                     new Event()
                 ];},
             '/sendmail'=>

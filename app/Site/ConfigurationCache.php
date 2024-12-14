@@ -132,6 +132,9 @@ class ConfigurationCache {
                 case 'rs':
                     self::$cache[$name] = Siteconfig\ConfigurationDb::rs();
                     break;
+                case 'dbEvents':
+                    self::$cache[$name] = Siteconfig\ConfigurationEvents::dbEvents();
+                    break;
                 ###############################
                 # configutation consent
                 #
@@ -216,6 +219,10 @@ class ConfigurationCache {
         return self::getConfigModule('rs');
     }
 
+    public static function dbEvents() {
+        return self::getConfigModule('dbEvents');
+    }
+    
     ### presentation ###
     #
     public static function commonTemplates() {
