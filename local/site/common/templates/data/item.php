@@ -5,8 +5,8 @@ use Pes\Text\Message;
 ?>
 
             <?= $addHeadline ?? false ? "<p>$addHeadline</p>" : "" ?>
-
-        <form class="ui huge form" action="" method="POST" >
+            <?php $formUid= uniqid(); ?>
+        <form id="<?= $formUid ?>" class="ui huge form" action="" method="POST" onKeyup="enableButton(event)">
             <!--<div class="two fields">-->   
                 <?= $this->insertIf(!($editable ?? false), $fieldsTemplate, $fields  ?? [], __DIR__.'/noData.php') ?>
                 <?= $this->insertIf($editable ?? false, $fieldsTemplate, $fields  ?? []) ?>
@@ -17,14 +17,14 @@ use Pes\Text\Message;
                 $editable ?? false ? 
                     (isset($id) 
                     ?
-                        "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id' > Uložit změny </button>"
+                        "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment/$id'> Uložit změny </button>"
                     :
-                        "<button class='ui primary button' type='submit' formaction='$componentRouteSegment' > Přidat </button>" 
+                        "<button disabled ".(isset($formUid) ? "id='add_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment'> Přidat </button>" 
                     )        
                 : "";
                 ?>
                 <?=
-                ($editable ?? false) && ($remove ?? false) ? "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove' > Odstranit </button>" : "";
+                ($editable ?? false) && ($remove ?? false) ? "<button ".(isset($formUid) ? "id='remove_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove'> Odstranit </button>" : "";
                 ?>
             </div>   
         </form>         

@@ -1,3 +1,26 @@
+function removeDisabled(elementId){
+   document.getElementById(elementId).removeAttribute('disabled');
+}
+
+function enableButton(event) {
+//    alert("susus!");
+    form = event.currentTarget;
+    input = event.target;
+    list = form.closest(".list");
+    let buttons = list.querySelectorAll("button");
+    buttons.forEach((button) => {button.disabled = true;});
+    editButton = form.querySelector('#edit_'+form.id);
+    if(editButton) {
+       editButton.disabled = false;
+    } //editButton
+    addButton = form.querySelector('#add_'+form.id);
+    if(addButton) {
+       addButton.disabled = false;
+    }//addButton
+//    alert('Change !');  
+    event.stopPropagation();
+}
+
 //funkce se volaji v souboru svislemenu.php
 function hamburger_open() {
     document.getElementById("mySidenav").style.display = "block";
@@ -40,8 +63,4 @@ function toggleTemplateSelect(event, id) {
     event.preventDefault();
     event.stopPropagation();
 }
-
-                function removeDisabled(elementId){
-                   document.getElementById(elementId).removeAttribute('disabled');
-               };
 

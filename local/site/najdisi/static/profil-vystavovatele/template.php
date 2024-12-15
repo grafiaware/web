@@ -100,7 +100,8 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
             'idCompany' =>  $companyE->getId(),
             'nameCompany' =>  $companyE->getName(),
             ];            
-        $representativeContext ['regmail'] = $loginAggregate->getRegistration()->getEmail();       //BERU Z REGISTRACE doplnen mail                            
+        $registation = $loginAggregate->getRegistration();
+        $representativeContext ['regmail'] = isset($registation) ? $registation->getEmail() : "";       //BERU Z REGISTRACE doplnen mail                            
            
      
         //--- pro company  vypsat vsechny companyContact      

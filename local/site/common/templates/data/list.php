@@ -10,11 +10,8 @@ use Pes\Text\Message;
                 <i class="dropdown icon"></i>
                 <?= $listHeadline ?>
             </div>     
-        
-            <div class="active content">      
-                <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>                           
+            <?php $listUid = uniqid(); ?>
+            <div id="list_<?php $listUid;?>" class="list active content">      
+                <?= $this->insert( __DIR__.'/items.php', $items+["listUid"=>$listUid], __DIR__.'/empty.php') ?>                           
             </div>            
     </div>
-
-
-  

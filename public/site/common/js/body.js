@@ -1,7 +1,6 @@
-function enableButton(formElement) {
-    alert("susus!");
-//formElement.getElementById("save").disabled = false;alert('Change !');    
-}
+
+
+
 
 
 //=== ui elementy ===

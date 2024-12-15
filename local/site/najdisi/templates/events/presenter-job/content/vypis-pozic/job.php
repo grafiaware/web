@@ -60,7 +60,8 @@ $documentRepo = $container->get(DocumentRepo::class);
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-    $loginEmailFromRegistration = $loginAggregate->getRegistration()->getEmail();  // promenou nepotrebuji, ale email ano cca radek 180
+    $registation = $loginAggregate->getRegistration();
+    $loginEmailFromRegistration = isset($registation) ? $registation->getEmail() : "";  // promenou nepotrebuji, ale email ano cca radek 180
     
     $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
 

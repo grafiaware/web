@@ -48,7 +48,7 @@ use Auth\Middleware\Login\Controler\AuthControler;
     
     <div class="ui styled fluid accordion">           
         <h3>             
-           CREDENTIALS-tabulka                                
+           CREDENTIALS-tabulka
         </h3>                          
         <div>      
              <script>
