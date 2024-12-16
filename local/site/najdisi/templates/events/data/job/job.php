@@ -15,61 +15,47 @@ use Pes\Text\Html;
     }        
 ?>
 
+    <div class="ui styled fluid accordion">   
+        <div class="title">
+            <i class="dropdown icon"></i> <?= $nazev ?? '' ?> 
+            <?php /*if($checkedTagsText){*/ ?> <span class="ui big red tag label tag-list"> lala <?php /*= implode(', ',array_keys($checkedTagsText) ); */?></span><?php /* } */?> 
+        </div>
+        <div class="content">
             <div class="two fields">                        
                 <div class="field">
-                <label>Názevvvv pozice</label>
-                    <input <?= $readonly ?> type="text" name="nazev" placeholder="" maxlength="120" value="<?= $nazev ?? '' ?>" required>
-                    <span></span>
-                 </div>                 
-                
-                <div class="field">                    
-                    <?php
-                    if($editable) {
-                    ?>                       
-                        <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
-                                      ["pozadovane-vzdelani-stupen"=> $pozadovaneVzdelaniStupen ?? '' ],  
-                                      $selectEducations ??  [], 
-                                      ['required' => true ],
-                                      []) ?>  
-                    <span></span>
-                     <?php   
-                     
-                    }else{   ?> 
-                        <?=  "<p class='text zadne-okraje tucne'>Požadované vzdělání: </p><p>"  .  
-                             $selectEducations [$pozadovaneVzdelaniStupen] ."</p>" ?? ''   ?>
-                    <?php                      
-                     } 
-                     ?> 
+                    <p class='text zadne-okraje tucne'>Požadované vzdělání: </p>
+                </div>
+                <div class="field">
+                    <p><?= $selectEducations [$pozadovaneVzdelaniStupen] ?? '' ?></p>
                 </div>
             </div>
-            <div class="two fields">
+            <div class="two fields">                        
                 <div class="field">
-                    <label>Místo výkonu</label>
-                    <input <?= $readonly ?> type="text" name="misto-vykonu" placeholder="" maxlength="45" 
-                                            value="<?= $mistoVykonu ?? '' ?>">
-                    <span></span>
+                    <p class="text tucne zadne-okraje">Místo výkonu:</p>
                 </div>
                 <div class="field">
-                    <label>Popis pozice</label>
-                    <input <?= $readonly ?> type="text" name="popis-pozice" placeholder="" maxlength="1000" 
-                                            value="<?= $popisPozice ?? '' ?>">
-                    <span></span>
+                    <p><?= $mistoVykonu ?? '' ?></p>
                 </div>
-            </div>   
-            <div class="two fields">
+            </div>
+            <div class="two fields">                        
                 <div class="field">
-                    <label>Požadujeme</label>
-                    <input <?= $readonly ?> type="text" name="pozadujeme" placeholder="" maxlength="1000" 
-                                            value="<?= $pozadujeme ?? '' ?>">
-                    <span></span>
-                </div>
+                    <p class="text tucne zadne-okraje">Popis pozice:</p>
+                </div>                
                 <div class="field">
-                    <label>Nabízíme</label>
-                    <input <?= $readonly ?> type="text" name="nabizime" placeholder="" maxlength="1000" 
-                                            value="<?= $nabizime ?? '' ?>">
-                    <span></span>
+                    <p><?= $popisPozice ?? '' ?></p>
+                </div>                
+            </div>
+            <div class="two fields">                        
+                <div class="field">
+                    <p class="text tucne zadne-okraje">Požadujeme:</p>
+                    <p><?= $pozadujeme ?? '' ?></p>
+                </div>                 
+                <div class="field">
+                    <p class="text tucne zadne-okraje">Nabízíme:</p>
+                    <p><?= $nabizime ?? '' ?></p>
                 </div>
-            </div>             
+            </div>
+        </div>           
 
 
 
