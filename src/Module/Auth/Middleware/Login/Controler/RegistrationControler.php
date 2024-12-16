@@ -112,13 +112,13 @@ class RegistrationControler extends LoginControlerAbstract
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
                     $subject =  'Veletrh práce a vzdělávání - Registrace.';
-                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php",
-                                                                        ['confirmationUrl'=>$confirmationUrl
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/Obsah.php",    //registration.php",
+                                                        ['confirmationUrl'=>$confirmationUrl
                                                                                             ]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_Grafia.png')
-                                    ->setAltText('Logo Grafia')
+                                   // ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_Grafia.png')
+                                   // ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
                                 ->setContent(  (new Content())
@@ -148,7 +148,7 @@ class RegistrationControler extends LoginControlerAbstract
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
                     $subject =  "praci.najdisi.cz - Kopie zaslaného mailu - Registrace: '$registerJmeno'";
-                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", 
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/Obsah.php",         //registration.php", 
                                                         ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
@@ -165,7 +165,7 @@ class RegistrationControler extends LoginControlerAbstract
                                                   ->setFrom('noreply@grafia.cz', 'web najisi')
                                                   ->addReplyTo('webmaster@grafia.cz', 'info web najdisi')
                                                   //->addReplyTo('selnerova@grafia.cz', 'info web najdisi')
-                                                  ->addTo('it@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                  ->addTo('it@grafia.cz', 'vlse2610@grafia.cz')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     $mail->mail($params); // posle mail
                     #########################-----------------------------
