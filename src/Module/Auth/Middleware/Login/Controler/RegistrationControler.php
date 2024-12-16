@@ -105,32 +105,36 @@ class RegistrationControler extends LoginControlerAbstract
                     $confirmDomainName = $request->getServerParams()['HTTP_HOST'].$this->getBasePath($request);  // getBasePath - končí /
                     $confirmationUrl = "http://{$confirmDomainName}auth/v1/confirm/$uid";
 
-                    #########################--------- poslat mail uzivateli-------------------
+                    #########################--------- poslat mail uzivateli---------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
                     /** @var HtmlMessage $mailMessageFactory */
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
+                    
+                    
+                    $attachments = [ (new Attachment())
+                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
+                                    ->setAltText('Logo Grafia')
+                                   ];
 
                     $subject =  'Veletrh práce a vzdělávání - Registrace.';
                     $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php",
-                                                        ['confirmationUrl'=>$confirmationUrl
-                                                                                            ]);
+                                                                        ['confirmationUrl'=>$confirmationUrl,
+                                                                       //  'attachments'=>$attachments   //takto pouze jako příloha
+                                                                        ]);
 
-                    $attachments = [ (new Attachment())
-                                   // ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_Grafia.png')
-                                   // ->setAltText('Logo Grafia')
-                                   ];
                     $params = (new Params())
                                 ->setContent(  (new Content())
                                                  ->setSubject($subject)
                                                  ->setHtml($body)
-//                                                 ->setAttachments($attachments)
+                                                 ->setAttachments($attachments)
                                             )
                                 ->setParty  (  (new Party())
-                                                 ->setFrom('allmail@grafia.cz', 'web najisi')
-                                                 ->addReplyTo('webmaster@grafia.cz', 'info web najdisi')
+                                                 ->setFrom('info@najdisi.cz', 'web najdisi')
+                                                 //->addReplyTo('allmail@grafia.cz', 'info web najdisi')   //nejak neumime
                                                  ->addTo( $registerEmail, $registerJmeno)
-                                                 //->addTo('svoboda@grafia.cz', 'pes')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                //->addTo('svoboda@grafia.cz', 'pes')  
+                                                // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     $mail->mail($params); // posle mail
                     #########################-----------------------------
@@ -141,20 +145,22 @@ class RegistrationControler extends LoginControlerAbstract
                     $this->addFlashMessage("Děkujeme za Vaši registraci. \n Na Vaši adresu jsme odeslali potvrzovací mail.\n"
                           . "V mailu registraci dokončete.");
 
-                    #########################---------  kopie -------------------
+                    #########################---------  kopie -------------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
                     /** @var HtmlMessage $mailMessageFactory */
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
+                    
+                    $attachments = [ (new Attachment())
+                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
+                                    ->setAltText('Logo Grafia')
+                                   ];
 
                     $subject =  "praci.najdisi.cz - Kopie zaslaného mailu - Registrace: '$registerJmeno'";
                     $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", 
-                                                        ['confirmationUrl'=>$confirmationUrl ]);
-
-                    $attachments = [ (new Attachment())
-                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_Grafia.png')
-                                    ->setAltText('Logo Grafia')
-                                   ];
+                                                        ['confirmationUrl'=>$confirmationUrl,
+                                                        // 'attachments'=>$attachments    // zde zbytecne
+                                                        ]);                   
                     $params = (new Params())
                                 ->setContent(  (new Content())
                                                  ->setSubject($subject)
@@ -162,13 +168,14 @@ class RegistrationControler extends LoginControlerAbstract
 //                                                 ->setAttachments($attachments)
                                             )
                                 ->setParty  (  (new Party())
-                                                  ->setFrom('noreply@grafia.cz', 'web najisi')
-                                                  ->addReplyTo('webmaster@grafia.cz', 'info web najdisi')
-                                                  //->addReplyTo('selnerova@grafia.cz', 'info web najdisi')
-                                                  ->addTo('it@grafia.cz', 'vlse2610@grafia.cz')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                  ->setFrom('noreply@najdisi.cz', 'web najisi')
+                                                  //->addReplyTo('allmail@grafia.cz', 'info web najdisi')   //nejak neumime
+                                                  //->addReplyTo('selnerova@grafia.cz', 'info web najdisi') //nejak neumime
+                                                  ->addTo('it@grafia.cz', 'kopie')
+                                                  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     $mail->mail($params); // posle mail
-                    #########################-----------------------------
+                    #########################-----------------------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
                     if ($registerInfo) {
                         //zde zapsat do databaze - KAM??
@@ -187,20 +194,20 @@ class RegistrationControler extends LoginControlerAbstract
                                                              'registerInfo' => $registerInfo,
                                                             ]);
                         $attachments = [ (new Attachment())
-                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_Grafia.png')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())
                                     ->setContent(  (new Content())
                                                      ->setSubject($subject)
                                                      ->setHtml($body)
-    //                                                 ->setAttachments($attachments)
+    //                                                 ->setAttachments($attachments)   //zde zbytecne
                                                 )
                                     ->setParty  (  (new Party())
-                                                     ->setFrom('noreply@grafia.cz', 'web najisi')
-                                                     ->addReplyTo('webmaster@grafia.cz', 'info web najdisi')
-                                                    // ->addTo('svoboda@grafia.cz', 'Registace vystavovatele web najdisi')
-                                                     ->addTo('it@grafia.cz', 'Registace vystavovatele web najdisi')
+                                                     ->setFrom('noreply@najdisi.cz', 'web najisi')
+                                                    // ->addReplyTo('allmail@grafia.cz', 'info web najdisi')
+                                                    // ->addTo('svoboda@grafia.cz', 'Registace zástupce vystavovatele')
+                                                     ->addTo('it@grafia.cz', 'Registace zástupce vystavovatele')
                                                 );
                         $mail->mail($params); // posle mail
                         #########################-----------------------------
