@@ -2,7 +2,6 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelItemAbstract;
-use Component\ViewModel\ViewModelItemInterface;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
@@ -21,7 +20,7 @@ use TypeError;
  *
  * @author pes2704
  */
-class CompanyViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+class CompanyViewModel extends ViewModelItemAbstract {
 
     private $status;  
     

@@ -19,6 +19,8 @@ interface ViewModelItemInterface extends ViewModelInterface {
     
     public function receiveEntity(EntityInterface $entity);
     
+    public function receiveFamilyRouteSegment(string $familyRouteSegment);
+    
     public function isItemEditable(): bool;
     
     /**

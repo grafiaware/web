@@ -33,6 +33,10 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
         $this->companyRepo = $companyRepo;
         $this->companyContactRepo = $companyContactRepo;
     }
+    
+    public function isListEditable(): bool {
+        return $this->isAdministrator();
+    }    
 
     use RepresentativeTrait;
     
@@ -44,46 +48,14 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
     
-    public function provideItemDataCollection(): iterable {
+    public function provideItemEntityCollection(): iterable {
         $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
         $companyId = $this->getParentId();
         $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
         $items = [];
         /** @var CompanyContactInterface $companyContact */
         $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $companyId ] );
-        foreach ($companyContacts as $companyContact) {   
-            $items[] = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
-                // text
-                'headline' => 'Jméno kontaktu',
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $companyContact->getId(),
-                // data
-                'fields' => [
-                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                    'name' =>  $companyContact->getName(),
-                    'phones' =>  $companyContact->getPhones(),
-                    'mobiles' =>  $companyContact->getMobiles(),
-                    'emails' =>  $companyContact->getEmails(),      
-                    ], 
-            ];
-        }
-        if ($editableItem) {
-            $items[] = [
-                // conditions
-                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
-                // text
-                'addHeadline' => 'Přidej kontakt',                 
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                // data
-                'fields' => [
-                    'editable' => $editableItem,]
-            ];
-        }        
+
         return $items;
     }
     public function getIterator() {
