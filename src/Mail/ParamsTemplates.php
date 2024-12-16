@@ -38,8 +38,8 @@ class ParamsTemplates {
     }
     //-----------------------------------------------------------------------------------------------------------------------
     /**
-     * Parametry pro odesílání prostřednictvím smtp.cesky-hosting.cz
-     * Pro přihlášení k SMTP serveru se používají údaje emailového účtu 'info@najdisi.cz' zřízeného na doméně najdisi.cz
+     * Parametry pro odesílání prostřednictvím smtp.gmail.com
+     * Pro přihlášení k SMTP serveru se používají údaje emailového účtu it.grafia@gmail.com
      *
      * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
      *
@@ -64,7 +64,7 @@ class ParamsTemplates {
                     )
             ->setHeaders(
                     (new Headers())
-                        ->setHeaders(['X-Mailer' => 'veletrhprace.online'])
+                        ->setHeaders(['X-Mailer' => 'web mail'])
                     )
             ;
 
