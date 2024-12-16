@@ -2,6 +2,7 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Message;
 /** @var PhpTemplateRendererInterface $this */
+
 ?>
 
     <div class="ui styled fluid accordion">   
@@ -10,8 +11,7 @@ use Pes\Text\Message;
                 <i class="dropdown icon"></i>
                 <?= $listHeadline ?>
             </div>     
-            <?php $listUid = uniqid(); ?>
-            <div id="list_<?php $listUid;?>" class="list active content">      
-                <?= $this->insert( __DIR__.'/items.php', $items+["listUid"=>$listUid], __DIR__.'/empty.php') ?>                           
+            <div class="list active content">      
+                <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>                           
             </div>            
     </div>

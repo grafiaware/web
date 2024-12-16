@@ -27,4 +27,5 @@ class CompanyListComponent extends ComponentListAbstract {
             RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true],
         ];
     }
+
 }

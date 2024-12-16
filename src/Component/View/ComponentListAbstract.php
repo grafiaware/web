@@ -36,9 +36,10 @@ abstract class ComponentListAbstract extends CollectionView implements Component
     
     public function setListViewModel(ViewModelListInterface $listViewModel) {
         $this->listViewModel = $listViewModel;
-        $this->setData($listViewModel);
     }
-    
+    public function getListViewModel(): \Component\ViewModel\ViewModelListInterface {
+        return $this->listViewModel;
+    }
     /**
      * Získá kolekci dat z view modelu collection komponentu metodou provideDataCollection(). 
      * Tuto data kolekci iteruje (foreach) a pro každá v iteraci získaná data vytvoří nový view klonováním prototypu a tomuto view nastavi získaná data.
@@ -50,13 +51,15 @@ abstract class ComponentListAbstract extends CollectionView implements Component
             throw new LogicException("Komponent list musí mít nastaven list view model metodou ->setListViewModel(ViewModelListInterface)");
         }
         $componentViewCollection = [];
-        foreach ($this->listViewModel->provideItemDataCollection() as $itemData) {
-            /** @var ViewInterface $view */
-            $view = clone ($this->viewPrototype);
-            $view->setData($itemData);
-            $componentViewCollection[] = $view;
+        foreach ($this->listViewModel->provideItemEntityCollection() as $entity) {
+            /** @var ComponentPrototypeInterface $itemComponent */
+            $itemComponent = clone ($this->viewPrototype);
+            $itemComponent->getItemViewModel()->receiveEntity($entity);
+            $componentViewCollection[] = $itemComponent;
         }
         
         $this->appendComponentViewCollection($componentViewCollection);
+                $this->setData($this->listViewModel);
+
     }
 }

@@ -14,4 +14,5 @@ use Component\ViewModel\ViewModelListInterface;
  */
 interface ComponentListInterface {
     public function setListViewModel(ViewModelListInterface $collectionViewModel);
+    public function getListViewModel(): ViewModelListInterface;
 }

@@ -22,7 +22,7 @@ if ($editable) {
                     <span></span>
                  </div>  
                 <div class="field">
-                    <label>Lokace</label>
+                    <label>Místo firmy (pro adresu)</label>
                     <input <?= $readonly ?> type="text" name="lokace" placeholder="" maxlength="100"  required value="<?= $lokace ?? ''  ?>">
                     <span></span>
                 </div>

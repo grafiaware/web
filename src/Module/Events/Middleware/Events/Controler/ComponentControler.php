@@ -12,7 +12,8 @@ use Access\Enum\AccessActionEnum;
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;
 
-use Component\View\ComponentCompositeInterface;
+use Component\View\ComponentItemInterface;
+use Component\View\ComponentListInterface;
 use Component\ViewModel\ViewModelInterface;
 use Component\ViewModel\ViewModelItemInterface;
 use Component\ViewModel\ViewModelFamilyListInterface;
@@ -137,8 +138,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($name);
-                /** @var ComponentCompositeInterface $component */
-                $viewModel = $component->getData();
+                /** @var ComponentItemInterface $component */
+                $viewModel = $component->getItemViewModel();
                 /** @var ViewModelInterface $viewModel */
                 if ($viewModel instanceof ViewModelItemInterface) {
                     $viewModel->setItemId($id);
@@ -167,9 +168,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             $serviceName = $parentName."Family".$childName."List";
             if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($serviceName);
-                /** @var ComponentCompositeInterface $component */
-                $viewModel = $component->getData();
-                /** @var ViewModelInterface $viewModel */
+                /** @var ComponentListInterface $component */
+                $viewModel = $component->getListViewModel();
                 if ($viewModel instanceof ViewModelFamilyListInterface) {
                     $viewModel->setFamily($parentName, $parentId, $childName);
                 }
@@ -196,9 +196,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             $serviceName = $parentName."Family".$childName;
             if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($serviceName);
-                /** @var ComponentCompositeInterface $component */
-                $viewModel = $component->getData();
-                /** @var ViewModelInterface $viewModel */
+                /** @var ComponentItemInterface $component */
+                $viewModel = $component->getItemViewModel();                
                 if ($viewModel instanceof ViewModelFamilyItemInterface) {
                     $viewModel->setFamily($parentName, $parentId, $childName);
                     $viewModel->setChildId($id);

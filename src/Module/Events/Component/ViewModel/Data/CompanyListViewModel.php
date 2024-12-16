@@ -7,8 +7,7 @@ use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Entity\CompanyInterface;
-
+use Events\Model\Entity\Company;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
@@ -32,6 +31,10 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
         $this->companyRepo = $companyRepo;
     }
     
+    public function isListEditable(): bool {
+        return $this->isAdministrator();
+    }
+    
     use RepresentativeTrait;
     
     private function isAdministrator() {
@@ -50,37 +53,12 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      * 
      * @return iterable
      */
-    public function provideItemDataCollection(): iterable {
-        $isAdministrator = $this->isAdministrator();
-        $componentRouteSegment = 'events/v1/company';
-        $items=[];     
-        foreach ($this->companyRepo->findAll() as $company) {
-            /** @var CompanyInterface $company */
-            $editableItem = $isAdministrator || $this->isCompanyEditor($company->getId());
-            $items[] = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $isAdministrator,   // přidá tlačítko remove do item
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $company->getId(),
-                // data
-                'fields' => ['editable' => $editableItem, 'name' =>  $company->getName()],
-                ];
+    public function provideItemEntityCollection(): iterable {
+        $entities = $this->companyRepo->findAll();
+        if ($this->isAdministrator()) {
+            $entities[] = new Company();  // pro přidání
         }
-        if ($isAdministrator) {  // přidání item pro přidání společnosti
-            $items[] = [
-                // conditions
-                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                // text
-                'addHeadline' => 'Přidej firmu',                
-                // data
-                'fields' => ['editable' => $editableItem],
-                ];
-        }
-        return $items;
+        return $entities;
     }
     
     /**

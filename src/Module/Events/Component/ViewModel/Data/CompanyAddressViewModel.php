@@ -7,8 +7,12 @@ use Events\Component\ViewModel\Data\RepresentativeTrait;
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyAddressRepoInterface;
+use Events\Model\Entity\CompanyAddressInterface;
+use Model\Entity\EntityInterface;
 
 use Access\Enum\RoleEnum;
+use TypeError;
+use Exception;
 
 /**
  * Description of RepresentativeActionViewModel
@@ -20,7 +24,8 @@ class CompanyAddressViewModel extends ViewModelItemAbstract {
     private $status;
     private $companyRepo;
     private $companyAddressRepo;
-
+    private $companyAddress;
+    
     public function __construct(
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo,
@@ -30,7 +35,22 @@ class CompanyAddressViewModel extends ViewModelItemAbstract {
         $this->companyRepo = $companyRepo;
         $this->companyAddressRepo = $addressRepo;
     }
-
+    
+    public function receiveEntity(EntityInterface $entity) {
+        if ($entity instanceof CompanyAddressInterface) {
+            $this->companyAddress = $entity;
+        } else {
+            $cls = CompanyAddressInterface::class;
+            $parCls = get_class($entity);
+            throw new TypeError("Typ entity musí být $cls, předáno $parCls.");
+        }
+    }
+    
+    public function isItemEditable(): bool {
+        $this->loadCompanyAddress();
+        return $this->isAdministrator() || $this->isCompanyEditor($this->companyAddress->getCompanyId());
+    }
+    
     use RepresentativeTrait;
     
     private function isAdministrator() {
@@ -41,31 +61,56 @@ class CompanyAddressViewModel extends ViewModelItemAbstract {
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
     
+    private function loadCompanyAddress() {
+        if (!isset($this->companyAddress)) {
+            if ($this->hasItemId()) {
+                $this->companyAddress = $this->companyAddressRepo->get($this->getItemId());     
+            } else {
+                throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+            }
+        }
+    }
+    
     public function getIterator() {
-        $requestedId = $this->getItemId();
-        $componentRouteSegment = "events/v1/companycontact";
-
-        $companyAddress = $this->companyAddressRepo->get($requestedId);
-        
-        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyAddress->getCompanyId());
-        $companyContactArray = [
-            // conditions
-            'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-            'remove'=> $editableItem,   // přidá tlačítko remove do item
-            //route
-            'componentRouteSegment' => $componentRouteSegment,
-            'id' => $companyAddress->getId(),
-            // data
-            'fields' => [
-                'editable' => $editableItem,
-                'name'   => $companyAddress->getName(),
-                'lokace' => $companyAddress->getLokace(),
-                'psc'    => $companyAddress->getPsc(),
-                'obec'   => $companyAddress->getObec()
-                ],                      
+        $this->loadCompanyAddress();
+        $componentRouteSegment = "events/v1/companycontact";   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
+        $editableItem = $this->isItemEditable();
+        $id = $this->companyAddress->getCompanyId();
+        if (isset($id)) {        
+        $companyAddrArray = [
+                // conditions
+                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                'remove'=> $editableItem,   // přidá tlačítko remove do item
+                //route
+                'componentRouteSegment' => $componentRouteSegment,
+                'id' => $id,
+                // data
+                'fields' => [
+                    'editable' => $editableItem,
+                    'name'   => $this->companyAddress->getName(),
+                    'lokace' => $this->companyAddress->getLokace(),
+                    'psc'    => $this->companyAddress->getPsc(),
+                    'obec'   => $this->companyAddress->getObec()
+                ],                
             ];
-
-        $this->appendData($companyContactArray);
+        } else {
+            /** @var CompanyInterface $company */ 
+            if ($this->companyRepo->get($this->getParentId())) {  // validace id rodiče
+                $companyAddrArray = [
+                    // conditions
+                    'editable' => true,    // zobrazí formulář a tlačítko přidat 
+                    // text
+                    'addHeadline' => 'Přidej adresu',                      
+                    'companyId'=> $this->getParentId(),
+                    //route
+                    'componentRouteSegment' => $componentRouteSegment,
+                    // data
+                    'fields' => [
+                        'editable' => $editableItem,]                    
+                    ];        
+            }
+        }
+        $this->appendData($companyAddrArray);
         return parent::getIterator();        
     }
 }

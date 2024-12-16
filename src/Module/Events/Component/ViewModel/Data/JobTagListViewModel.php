@@ -45,7 +45,7 @@ class JobTagListViewModel extends ViewModelAbstract implements ViewModelListInte
      * 
      * @return iterable
      */
-    public function provideItemDataCollection(): iterable {
+    public function provideItemEntityCollection(): iterable {
         $items=[];     
         foreach ($this->jobTagRepo->findAll() as $jobTag) {
 

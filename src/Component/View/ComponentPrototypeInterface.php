@@ -1,12 +1,12 @@
 <?php
 namespace Component\View;
 
-use Pes\View\ViewInterface;
+use Component\View\ComponentItemInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ComponentPrototypeInterface extends ViewInterface {
+interface ComponentPrototypeInterface extends ComponentItemInterface {
     public function __clone();
 }
