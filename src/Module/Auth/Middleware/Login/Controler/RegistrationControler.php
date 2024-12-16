@@ -112,7 +112,7 @@ class RegistrationControler extends LoginControlerAbstract
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
                     $subject =  'Veletrh práce a vzdělávání - Registrace.';
-                    $body = $mailMessageFactory->create(__DIR__."/Messages/Obsah.php",    //registration.php",
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php",
                                                         ['confirmationUrl'=>$confirmationUrl
                                                                                             ]);
 
@@ -127,7 +127,7 @@ class RegistrationControler extends LoginControlerAbstract
 //                                                 ->setAttachments($attachments)
                                             )
                                 ->setParty  (  (new Party())
-                                                 ->setFrom('noreply@grafia.cz', 'web najisi')
+                                                 ->setFrom('allmail@grafia.cz', 'web najisi')
                                                  ->addReplyTo('webmaster@grafia.cz', 'info web najdisi')
                                                  ->addTo( $registerEmail, $registerJmeno)
                                                  //->addTo('svoboda@grafia.cz', 'pes')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
@@ -148,7 +148,7 @@ class RegistrationControler extends LoginControlerAbstract
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
                     $subject =  "praci.najdisi.cz - Kopie zaslaného mailu - Registrace: '$registerJmeno'";
-                    $body = $mailMessageFactory->create(__DIR__."/Messages/Obsah.php",         //registration.php", 
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", 
                                                         ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
