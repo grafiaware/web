@@ -16,18 +16,21 @@
     <body  style="margin: 0; padding: 0;">
         <table role="presentation"  cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
             <thead>
-                <tr>
-                    <th><h1>Veletrh práce a vzdělávání</h1></th>
+                 <tr>
+                     <th>
+                         <img src="<?=$data_logo_grafia?>"  width="70" />                              
+                         <h1>Veletrh práce a vzdělávání</h1>
+                     </th>                     
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        <p style="margin: 0;"> Vaše registrace byla dokončena. Se zadaným jménem a heslem se nyní můžete přihlásit.</p>
+                        <p style="margin:  10px 0px 10px 0px;"> Vaše registrace byla dokončena. Se zadaným jménem a heslem se nyní můžete přihlásit.</p>
                     </td>
                 </tr>
                 <tr>
-                    <td><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</td>
+                    <td><p style="margin:  5px 0px 5px 0px;" > S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>.</td>
                 </tr>
             </tbody>
         </table>
