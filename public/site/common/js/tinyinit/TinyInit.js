@@ -189,9 +189,9 @@ var editFormRepresentative = {
     menubar: false,  // bez vypnutí se zobeazí default menu
     plugins: ['save', 'cancel', 'lists', 'autolink'], //var mobile
     toolbar: ['save', 'cancel', 'undo', 'bold', 'italic', 'styles'], //var mobile
-//    quickbars_insert_toolbar: false,
-//    quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',    
-    setup: redEditorSetup    
+    setup: redEditorSetup   
+    //plugin wordcount
+    
 };
 
 var editTextConfig = {
