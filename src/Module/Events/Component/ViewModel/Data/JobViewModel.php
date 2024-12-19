@@ -1,8 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelItemAbstract;
-use Component\ViewModel\ViewModelItemInterface;
+use Component\ViewModel\ViewModelFamilyItemAbstract;
 
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
@@ -11,21 +10,27 @@ use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
-use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\JobInterface;
 use Access\Enum\RoleEnum;
+use Model\Entity\EntityInterface;
 
 use UnexpectedValueException;
 
 /**
  * 
  */
-class JobViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+class JobViewModel extends ViewModelFamilyItemAbstract {
     
     private $status;
     private $companyRepo;
     private $jobRepo;
     private $pozadovaneVzdelaniRepo;
+    
+    /**
+     * 
+     * @var JobInterface
+     */
+    private $job;
 
     public function __construct(
             StatusViewModelInterface $status,
@@ -38,6 +43,24 @@ class JobViewModel extends ViewModelItemAbstract implements ViewModelItemInterfa
         $this->jobRepo = $jobRepo;
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
     }    
+    public function receiveEntity(EntityInterface $entity) {
+        if ($entity instanceof JobInterface) {
+            $this->job = $entity;
+        } else {
+            $cls = JobInterface::class;
+            $parCls = get_class($entity);
+            throw new TypeError("Typ entity musí být $cls, předáno $parCls.");
+        }
+    }
+    
+    public function receiveFamilyRouteSegment(string $familyRouteSegment) {
+        $this->familyRouteSegment = $familyRouteSegment;
+    }
+    
+    public function isItemEditable(): bool {
+        $this->loadJob();
+        return $this->isAdministrator() || $this->isCompanyRepresentative($this->job->getCompanyId());
+    }
     
     use RepresentativeTrait;    
 
@@ -60,44 +83,59 @@ class JobViewModel extends ViewModelItemAbstract implements ViewModelItemInterfa
         return $selectEducations;
     }
     
-    public function getIterator() {                         
-        if ($this->hasItemId()) {
-            $jobId = $this->getItemId();
-        } else {
-            throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+    private function loadJob() {
+        if (!isset($this->job)) {
+            if ($this->hasItemId()) {
+                $this->job = $this->jobRepo->get($this->getItemId());     
+            } else {
+                throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+            }
         }
-        /** @var JobInterface $job */ 
-        $job = $this->jobRepo->get($jobId);  // id jobu        
-        if (!isset($job)) {
-            throw new UnexpectedValueException("No job with given id.");// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content            
-        }
-        
+    }
+    
+    public function getIterator() {  
+        $this->loadJob();
+        $componentRouteSegment = $this->familyRouteSegment->getFamilyRouteSegment();
+        $editableItem = $this->isItemEditable();
+        $id = $this->job->getCompanyId();        
         $selectEducations = $this->selectEducations();
-        
-        $isAdministrator = $this->isAdministrator();
-        $editableItem = $isAdministrator || $this->isCompanyRepresentative($job->getCompanyId());
-        $companyId = $job->getCompanyId();
-        $componentRouteSegment = "events/v1/company/$companyId/job";
-        
-        $companyJob = [
-            // conditions
-            'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-            'remove'=> $isAdministrator,   // přidá tlačítko remove do item
-            //route
-            'componentRouteSegment' => $componentRouteSegment,
-            'id' => $job->getId(),
-            // data
-                'fields' => [
-                    'editable' => $editableItem,
-                    'pozadovaneVzdelaniStupen' =>  $job->getPozadovaneVzdelaniStupen(),
-                    'nazev' =>  $job->getNazev(),                
-                    'mistoVykonu' =>  $job->getMistoVykonu(),
-                    'popisPozice' =>  $job->getPopisPozice(),
-                    'pozadujeme' =>  $job->getPozadujeme(),
-                    'nabizime' =>  $job->getNabizime(),                    
-                    'selectEducations' =>  $selectEducations,
-                    ],                
-            ];                
+
+        if (isset($id)) {                  
+            $companyJob = [
+                // conditions
+                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                'remove'=> $editableItem,   // přidá tlačítko remove do item
+                //route
+                'componentRouteSegment' => $componentRouteSegment,
+                'id' => $this->job->getId(),
+                // data
+                    'fields' => [
+                        'editable' => $editableItem,
+                        'pozadovaneVzdelaniStupen' =>  $this->job->getPozadovaneVzdelaniStupen(),
+                        'nazev' =>  $this->job->getNazev(),                
+                        'mistoVykonu' =>  $this->job->getMistoVykonu(),
+                        'popisPozice' =>  $this->job->getPopisPozice(),
+                        'pozadujeme' =>  $this->job->getPozadujeme(),
+                        'nabizime' =>  $this->job->getNabizime(),                    
+                        'selectEducations' =>  $selectEducations,
+                        ],                
+                ];                
+        } elseif ($editableItem) {
+            $companyJob = [
+                // conditions
+                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                // text
+                'addHeadline' => 'Přidej pozici', 
+                //route
+                'componentRouteSegment' => $componentRouteSegment,
+                'id' => $this->job->getId(),
+                // data
+                    'fields' => [
+                        'editable' => $editableItem,
+                        'selectEducations' =>  $selectEducations,                        
+                        ],                
+                ];                   
+        }
                                   
         $this->appendData($companyJob);
         return parent::getIterator();        

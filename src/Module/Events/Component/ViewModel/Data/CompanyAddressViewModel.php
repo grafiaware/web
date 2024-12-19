@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelFamilyItemAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
@@ -19,7 +19,7 @@ use Exception;
  *
  * @author pes2704
  */
-class CompanyAddressViewModel extends ViewModelItemAbstract {
+class CompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     
     private $status;
     private $companyRepo;
@@ -73,11 +73,11 @@ class CompanyAddressViewModel extends ViewModelItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyAddress();
-        $componentRouteSegment = "events/v1/companycontact";   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
+        $componentRouteSegment = $this->familyRouteSegment->getFamilyRouteSegment();
         $editableItem = $this->isItemEditable();
         $id = $this->companyAddress->getCompanyId();
         if (isset($id)) {        
-        $companyAddrArray = [
+            $companyAddrArray = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
@@ -93,15 +93,15 @@ class CompanyAddressViewModel extends ViewModelItemAbstract {
                     'obec'   => $this->companyAddress->getObec()
                 ],                
             ];
-        } else {
+        } elseif ($editableItem) {
             /** @var CompanyInterface $company */ 
-            if ($this->companyRepo->get($this->getParentId())) {  // validace id rodiče
+            if ($this->companyRepo->get($this->familyRouteSegment->getParentId())) {  // validace id rodiče
                 $companyAddrArray = [
                     // conditions
                     'editable' => true,    // zobrazí formulář a tlačítko přidat 
                     // text
                     'addHeadline' => 'Přidej adresu',                      
-                    'companyId'=> $this->getParentId(),
+                    'companyId'=> $this->familyRouteSegment->getParentId(),
                     //route
                     'componentRouteSegment' => $componentRouteSegment,
                     // data

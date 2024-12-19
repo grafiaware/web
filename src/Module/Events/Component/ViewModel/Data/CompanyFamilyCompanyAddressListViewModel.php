@@ -30,23 +30,18 @@ class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstra
     }
     
     public function isListEditable(): bool {
-        return $this->isAdministrator();
+        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }    
     
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
-    }
-
-    private function isCompanyEditor($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
-    }
-    
     public function provideItemEntityCollection(): iterable {
-        $entities = $this->companyAddressRepo->findAll();
-        if ($this->isAdministrator()) {
-            $entities[] = new CompanyAddress();  // pro přidání
+        // varianta pro vazbu 1:0..1 - kolekce s max. jedním prvkem -> přidat jen pokud není žádný prvek
+        
+        /** @var CompanyAddressInterface $companyAddress */
+        $entity = $this->companyAddressRepo->get($this->familyRouteSegment->getParentId());  // pk = fk        
+        if ($this->isListEditable() && !$entity) {   // přidat jen pokud adresa není
+            $entity = new CompanyAddress();  // pro přidání
         }
-        return $entities;
+        return [$entity];
     }
     
     public function getIterator() {

@@ -6,8 +6,8 @@ use Component\ViewModel\ViewModelItemAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
-use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Entity\CompanyInterface;
+use Events\Model\Repository\JobTagRepoInterface;
+use Events\Model\Entity\JobTagInterface;
 use Model\Entity\EntityInterface;
 
 use Access\Enum\RoleEnum;
@@ -20,38 +20,38 @@ use TypeError;
  *
  * @author pes2704
  */
-class CompanyViewModel extends ViewModelItemAbstract {
+class JobTagViewModel extends ViewModelItemAbstract {
 
     private $status;  
     
-    private $companyRepo;
+    private $jobTagRepo;
     
     /**
      * 
-     * @var CompanyInterface
+     * @var JobTagInterface
      */
-    private $company;
+    private $jobTag;
     
     public function __construct(
             StatusViewModelInterface $status,
-            CompanyRepoInterface $companyRepo
+            JobTagRepoInterface $jobTagRepo
             ) {
         $this->status = $status;
-        $this->companyRepo = $companyRepo;
+        $this->jobTagRepo = $jobTagRepo;
     }
     
     public function receiveEntity(EntityInterface $entity) {
-        if ($entity instanceof CompanyInterface) {
-            $this->company = $entity;
+        if ($entity instanceof JobTagInterface) {
+            $this->jobTag = $entity;
         } else {
-            $cls = CompanyInterface::class;
+            $cls = JobTagInterface::class;
             $parCls = get_class($entity);
             throw new TypeError("Typ entity musí být $cls, předáno $parCls.");
         }
     }
     
     public function isItemEditable(): bool {
-        $this->loadCompany();
+        $this->loadJobTag();
         return $this->isAdministrator();
     }
     
@@ -61,14 +61,10 @@ class CompanyViewModel extends ViewModelItemAbstract {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
 
-    private function isCompanyRepresentative($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
-    }
-
-    private function loadCompany() {
-        if (!isset($this->company)) {
+    private function loadJobTag() {
+        if (!isset($this->jobTag)) {
             if ($this->hasItemId()) {
-                $this->company = $this->companyRepo->get($this->getItemId());     
+                $this->jobTag = $this->jobTagRepo->get($this->getItemId());     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
@@ -76,11 +72,11 @@ class CompanyViewModel extends ViewModelItemAbstract {
     }
     
     public function getIterator() {
-        $this->loadCompany();
+        $this->loadJobTag();
         $componentRouteSegment = 'events/v1/company';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 
         $editableItem = $this->isItemEditable();
-        $id = $this->company->getId();
+        $id = $this->jobTag->getId();
         if (isset($id)) {
             $item = [
                 // conditions
@@ -90,7 +86,7 @@ class CompanyViewModel extends ViewModelItemAbstract {
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $id,
                 // data
-                'fields' => ['editable' => $editableItem, 'name' => $this->company->getName()],
+                'fields' => ['editable' => $editableItem, 'tag' => $this->jobTag->getTag()],
                 ];
         } elseif ($editableItem) {
             $item = [
@@ -99,7 +95,7 @@ class CompanyViewModel extends ViewModelItemAbstract {
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
                 // text
-                'addHeadline' => 'Přidej firmu',                
+                'addHeadline' => 'Přidej tag',                
                 // data
                 'fields' => ['editable' => $editableItem],
                 ];

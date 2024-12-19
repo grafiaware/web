@@ -8,7 +8,7 @@ use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
 use Events\Model\Entity\CompanyContactInterface;
-use Events\Model\Entity\CompanyInterface;
+use Events\Model\Entity\CompanyContact;
 
 use Access\Enum\RoleEnum;
 use ArrayIterator;
@@ -49,14 +49,11 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
     }
     
     public function provideItemEntityCollection(): iterable {
-        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
-        $companyId = $this->getParentId();
-        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
-        $items = [];
-        /** @var CompanyContactInterface $companyContact */
-        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $companyId ] );
-
-        return $items;
+        $entities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $this->familyRouteSegment->getParentId() ] );
+        if ($this->isListEditable()) {
+            $entities[] = new CompanyContact();  // pro přidání
+        }
+        return $entities;        
     }
     public function getIterator() {
 

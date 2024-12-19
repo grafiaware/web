@@ -10,41 +10,23 @@ namespace Component\ViewModel;
 
 use Component\ViewModel\ViewModelFamilyItemInterface;
 
-use Pes\Type\ContextData;
+use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
 
 /**
  * Description of ViewModelAbstract
  *
  * @author pes2704
  */
-abstract class ViewModelFamilyItemAbstract extends ContextData implements ViewModelFamilyItemInterface {
-    
-    private $id;
+abstract class ViewModelFamilyItemAbstract extends ViewModelItemAbstract implements ViewModelFamilyItemInterface {
     
     /**
-     * {@inheritDoc}
      * 
-     * @param type $id
+     * @var FamilyRouteSegmentInterface
      */
-    public function setItemId(string $id) {
-        $this->id = $id;
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @return bool
-     */
-    public function hasItemId(): bool {
-        return isset($this->id);
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @return mixed
-     */
-    public function getItemId(): string {
-        return $this->id ?? null;
+    protected $familyRouteSegment;
+
+    public function setFamilyRouteSegment(FamilyRouteSegmentInterface $familyRouteSegment): void {
+        $this->familyRouteSegment = $familyRouteSegment;
     }
 }

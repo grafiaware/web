@@ -7,6 +7,7 @@ use Component\View\ComponentPrototypeInterface;
 
 use Component\View\ComponentListInterface;
 use Component\ViewModel\ViewModelListInterface;
+use Component\ViewModel\ViewModelFamilyItemInterface;
 
 use Configuration\ComponentConfigurationInterface;
 
@@ -25,8 +26,12 @@ abstract class ComponentListAbstract extends CollectionView implements Component
      */
     protected $configuration;
     
-    private $viewPrototype;
+    protected $viewPrototype;
     
+    /**
+     * 
+     * @var ViewModelListInterface
+     */
     private $listViewModel;
 
     public function __construct(ComponentConfigurationInterface $configuration, ComponentPrototypeInterface $viewPrototype) {
@@ -37,9 +42,11 @@ abstract class ComponentListAbstract extends CollectionView implements Component
     public function setListViewModel(ViewModelListInterface $listViewModel) {
         $this->listViewModel = $listViewModel;
     }
-    public function getListViewModel(): \Component\ViewModel\ViewModelListInterface {
+    
+    public function getListViewModel(): ViewModelListInterface {
         return $this->listViewModel;
-    }
+    }   
+    
     /**
      * Získá kolekci dat z view modelu collection komponentu metodou provideDataCollection(). 
      * Tuto data kolekci iteruje (foreach) a pro každá v iteraci získaná data vytvoří nový view klonováním prototypu a tomuto view nastavi získaná data.
@@ -59,7 +66,7 @@ abstract class ComponentListAbstract extends CollectionView implements Component
         }
         
         $this->appendComponentViewCollection($componentViewCollection);
-                $this->setData($this->listViewModel);
+        $this->setData($this->listViewModel);
 
     }
 }

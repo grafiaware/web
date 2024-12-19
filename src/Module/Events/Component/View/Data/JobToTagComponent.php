@@ -9,7 +9,7 @@ use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
 
 /** 
- * 
+ * extends ComponentFamilyItemAbstract implements ComponentItemInterface, ComponentPrototypeInterface
  */ 
 class JobToTagComponent extends ComponentItemAbstract implements ComponentItemInterface {
 

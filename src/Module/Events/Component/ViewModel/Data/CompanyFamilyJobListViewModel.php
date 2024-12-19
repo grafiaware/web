@@ -9,6 +9,7 @@ use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 use Events\Model\Entity\JobInterface;
+use Events\Model\Entity\Job;
 
 use Access\Enum\RoleEnum;
 
@@ -39,6 +40,10 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
     }    
     
+    public function isListEditable(): bool {
+        return $this->isAdministrator();
+    } 
+    
     use RepresentativeTrait;    
 
     private function isAdministrator() {
@@ -68,55 +73,63 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
      * 
      * @return iterable
      */
-    public function provideItemDataCollection(): iterable {
-        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
-        $parentId = $this->getParentId();
-
-        $companyJobs = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $parentId ] );
-        $selectEducations = $this->selectEducations();        
-        
-        $isAdministrator = $this->isAdministrator();
-        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
-        
-        $items=[];     
-        foreach ($companyJobs as $job) {
-            /** @var JobInterface $job */
-            $items[] = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $isAdministrator,   // přidá tlačítko remove do item
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $job->getId(),
-                // data
-                'fields' => [
-                    'editable' => $editableItem,
-                    'selectEducations' =>  $selectEducations,
-                    'pozadovaneVzdelaniStupen' =>  $job->getPozadovaneVzdelaniStupen(),
-                    'nazev' =>  $job->getNazev(),                
-                    'mistoVykonu' =>  $job->getMistoVykonu(),
-                    'popisPozice' =>  $job->getPopisPozice(),
-                    'pozadujeme' =>  $job->getPozadujeme(),
-                    'nabizime' =>  $job->getNabizime(),                    
-                    ],   
-                ];
+//    public function provideItemDataCollection(): iterable {
+//        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
+//        $parentId = $this->getParentId();
+//
+//        $companyJobs = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $parentId ] );
+//        $selectEducations = $this->selectEducations();        
+//        
+//        $isAdministrator = $this->isAdministrator();
+//        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
+//        
+//        $items=[];     
+//        foreach ($companyJobs as $job) {
+//            /** @var JobInterface $job */
+//            $items[] = [
+//                // conditions
+//                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+//                'remove'=> $isAdministrator,   // přidá tlačítko remove do item
+//                //route
+//                'componentRouteSegment' => $componentRouteSegment,
+//                'id' => $job->getId(),
+//                // data
+//                'fields' => [
+//                    'editable' => $editableItem,
+//                    'selectEducations' =>  $selectEducations,
+//                    'pozadovaneVzdelaniStupen' =>  $job->getPozadovaneVzdelaniStupen(),
+//                    'nazev' =>  $job->getNazev(),                
+//                    'mistoVykonu' =>  $job->getMistoVykonu(),
+//                    'popisPozice' =>  $job->getPopisPozice(),
+//                    'pozadujeme' =>  $job->getPozadujeme(),
+//                    'nabizime' =>  $job->getNabizime(),                    
+//                    ],   
+//                ];
+//        }
+//        if ($isAdministrator) {  // přidání item pro přidání společnosti
+//            $items[] = [
+//                // conditions
+//                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
+//                // text
+//                'addHeadline' => 'Přidej pozici',
+//                //route
+//                'componentRouteSegment' => $componentRouteSegment,                
+//                // data
+//                'fields' => [
+//                    'editable' => $editableItem,
+//                    'selectEducations' =>  $selectEducations,
+//                    ],
+//                ];
+//        }
+//        return $items;
+//    }
+    
+    public function provideItemEntityCollection(): iterable {
+        $entities = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $this->familyRouteSegment->getParentId() ] );
+        if ($this->isListEditable()) {
+            $entities[] = new Job();  // pro přidání
         }
-        if ($isAdministrator) {  // přidání item pro přidání společnosti
-            $items[] = [
-                // conditions
-                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
-                // text
-                'addHeadline' => 'Přidej pozici',
-                //route
-                'componentRouteSegment' => $componentRouteSegment,                
-                // data
-                'fields' => [
-                    'editable' => $editableItem,
-                    'selectEducations' =>  $selectEducations,
-                    ],
-                ];
-        }
-        return $items;
+        return $entities;        
     }
     
     /**

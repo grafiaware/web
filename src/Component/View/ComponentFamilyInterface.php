@@ -12,8 +12,7 @@ use Component\ViewModel\ViewModelListInterface;
  *
  * @author pes2704
  */
-interface ComponentListInterface {
-    public function setListViewModel(ViewModelListInterface $collectionViewModel);
-    public function getListViewModel(): ViewModelListInterface;
+interface ComponentFamilyInterface {
+    public function createFamilyRouteSegment(string $parentName, string $parentId, string $childName);
 
 }

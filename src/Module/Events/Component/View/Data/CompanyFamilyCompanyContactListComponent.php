@@ -2,7 +2,7 @@
 
 namespace Events\Component\View\Data;
 
-use Component\View\ComponentListAbstract;
+use Component\View\ComponentFamilyListAbstract;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -10,7 +10,7 @@ use Access\Enum\AccessPresentationEnum;
 /** 
  * 
  */ 
-class CompanyFamilyCompanyContactListComponent extends ComponentListAbstract {
+class CompanyFamilyCompanyContactListComponent extends ComponentFamilyListAbstract {
 
     public static function getComponentPermissions(): array {
         return [

@@ -14,11 +14,11 @@ use Pes\View\Renderer\ImplodeRenderer;
 
 use Component\View\ComponentItemInterface;
 use Component\View\ComponentListInterface;
+use Component\View\ComponentFamilyInterface;
 use Component\ViewModel\ViewModelInterface;
 use Component\ViewModel\ViewModelItemInterface;
 use Component\ViewModel\ViewModelFamilyListInterface;
 use Component\ViewModel\ViewModelFamilyItemInterface;
-
 use Pes\Text\Html;
 
 use LogicException;
@@ -169,9 +169,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($serviceName);
                 /** @var ComponentListInterface $component */
-                $viewModel = $component->getListViewModel();
-                if ($viewModel instanceof ViewModelFamilyListInterface) {
-                    $viewModel->setFamily($parentName, $parentId, $childName);
+                if ($component instanceof ComponentFamilyInterface) {
+                    $component->createFamilyRouteSegment($parentName, $parentId, $childName);
                 }
             } else {
                 $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    
@@ -196,11 +195,11 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             $serviceName = $parentName."Family".$childName;
             if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($serviceName);
-                /** @var ComponentItemInterface $component */
+                /** @var ViewModelItemInterface $viewModel */
                 $viewModel = $component->getItemViewModel();                
-                if ($viewModel instanceof ViewModelFamilyItemInterface) {
-                    $viewModel->setFamily($parentName, $parentId, $childName);
-                    $viewModel->setChildId($id);
+                $viewModel->setItemId($id);
+                if ($component instanceof ComponentFamilyInterface) {
+                    $component->createFamilyRouteSegment($parentName, $parentId, $childName);
                 }
             } else {
                 $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    

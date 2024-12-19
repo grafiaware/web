@@ -15,11 +15,11 @@ use Pes\Type\ContextDataInterface;
 use LogicException;
 
 /**
- * Description of ComponentListAbstract
+ * Description of ComponentItemAbstract
  *
  * @author pes2704
  */
-abstract class ComponentItemAbstract extends CollectionView implements ComponentItemInterface {
+abstract class ComponentItemAbstract extends CollectionView implements ComponentPrototypeInterface, ComponentItemInterface {
 
     /**
      *
@@ -48,7 +48,9 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
     public function __construct(ComponentConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }
-    
+        public function __clone() {
+        $this->itemViewModel = clone $this->itemViewModel;
+    }
     public function setItemViewModel(ViewModelItemInterface $itemViewModel) {
         $this->itemViewModel = $itemViewModel;
     }

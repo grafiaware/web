@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelFamilyItemAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
@@ -20,13 +20,17 @@ use TypeError;
  *
  * @author pes2704
  */
-class CompanyContactViewModel extends ViewModelItemAbstract {
+class CompanyContactViewModel extends ViewModelFamilyItemAbstract {
     
     private $status;
     private $companyRepo;
     private $companyContactRepo;
+    
+    /**
+     * 
+     * @var CompanyContactInterface
+     */
     private $companyContact;
-    private $familyRouteSegment;
 
 
     public function __construct(
@@ -54,7 +58,7 @@ class CompanyContactViewModel extends ViewModelItemAbstract {
     }
     
     public function isItemEditable(): bool {
-        $this->loadCompany();
+        $this->loadCompanyAddress();
         return $this->isAdministrator() || $this->isCompanyRepresentative($this->companyContact->getCompanyId());
     }
     
@@ -68,7 +72,7 @@ class CompanyContactViewModel extends ViewModelItemAbstract {
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
     
-    private function loadCompany() {
+    private function loadCompanyAddress() {
         if (!isset($this->companyContact)) {
             if ($this->hasItemId()) {
                 $this->companyContact = $this->companyContactRepo->get($this->getItemId());     
@@ -79,51 +83,29 @@ class CompanyContactViewModel extends ViewModelItemAbstract {
     }
     
     public function getIterator() {
-        $requestedId = $this->getItemId();
-        $componentRouteSegment = "events/v1/companycontact";
-
-        $this->companyContact = $this->companyContactRepo->get($requestedId);
-        
-        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($this->companyContact->getCompanyId());
-        $companyContactArray = [
-            // conditions
-            'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-            'remove'=> $editableItem,   // přidá tlačítko remove do item
-            //route
-            'componentRouteSegment' => $componentRouteSegment,
-            'id' => $this->companyContact->getId(),
-            // data
-            'fields' => [
-                'editable' => $editableItem,
-                'name' =>  $this->companyContact->getName(),
-                'phones' =>  $this->companyContact->getPhones(),
-                'mobiles' =>  $this->companyContact->getMobiles(),
-                'emails' =>  $this->companyContact->getEmails(),
-                ],                      
-            ];
-
-        foreach ($companyContacts as $companyContact) {   
-            $items[] = [
+        $this->loadCompanyAddress();
+        $componentRouteSegment = $this->familyRouteSegment->getFamilyRouteSegment();
+        $editableItem = $this->isItemEditable();
+        $id = $this->companyContact->getCompanyId();        
+        if (isset($id)) {                
+            $companyContactArray = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
-                // text
-                'headline' => 'Jméno kontaktu',
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
-                'id' => $companyContact->getId(),
+                'id' => $this->companyContact->getId(),
                 // data
                 'fields' => [
-                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                    'name' =>  $companyContact->getName(),
-                    'phones' =>  $companyContact->getPhones(),
-                    'mobiles' =>  $companyContact->getMobiles(),
-                    'emails' =>  $companyContact->getEmails(),      
-                    ], 
-            ];
-        }
-        if ($editableItem) {
-            $items[] = [
+                    'editable' => $editableItem,
+                    'name' =>  $this->companyContact->getName(),
+                    'phones' =>  $this->companyContact->getPhones(),
+                    'mobiles' =>  $this->companyContact->getMobiles(),
+                    'emails' =>  $this->companyContact->getEmails(),
+                    ],                      
+                ];
+        } elseif ($editableItem) {
+            $companyContactArray = [
                 // conditions
                 'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 // text
