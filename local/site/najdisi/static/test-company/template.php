@@ -24,7 +24,7 @@ use Events\Model\Repository\CompanyRepoInterface;
 
     foreach ($companies as $company) {
         $companyId = $company->getId();
-        echo Html::tag('div',['style'=>'background-color: yellow; color: red;'] ,$company->getName());
+        echo Html::tag('p',['class'=>'nadpis'] ,$company->getName());
         
         echo Html::p("Jedna company s id company: events/v1/data/company/$companyId", $pStyle);
         echo Html::tag('div', 

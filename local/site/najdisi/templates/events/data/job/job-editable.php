@@ -15,13 +15,12 @@ use Pes\Text\Html;
     }        
 ?>
 
-            <div class="two fields">                        
-                <div class="field">
-                <label>Název pozice</label>
-                    <input <?= $readonly ?> type="text" name="nazev" placeholder="" maxlength="120" value="<?= $nazev ?? '' ?>" required>
-                    <span></span>
-                 </div>                 
-                
+            <div class="field">
+                <label>Název pozice:</label>
+                <input <?= $readonly ?> type="text" name="nazev" placeholder="" maxlength="120" value="<?= $nazev ?? '' ?>" required>
+                <span></span>
+            </div>
+            <div class="two fields">  
                 <div class="field">                    
                     <?php
                     if($editable) {
@@ -41,32 +40,28 @@ use Pes\Text\Html;
                      } 
                      ?> 
                 </div>
-            </div>
-            <div class="two fields">
                 <div class="field">
                     <label>Místo výkonu</label>
                     <input <?= $readonly ?> type="text" name="misto-vykonu" placeholder="" maxlength="45" 
                                             value="<?= $mistoVykonu ?? '' ?>">
                     <span></span>
                 </div>
-                <div class="field">
-                    <label>Popis pozice</label>
-                    <input <?= $readonly ?> type="text" name="popis-pozice" placeholder="" maxlength="1000" 
-                                            value="<?= $popisPozice ?? '' ?>">
-                    <span></span>
-                </div>
+            </div>
+            <div class="field">
+                <label>Popis pozice</label>
+                <input <?= $readonly ?> type="text" name="popis-pozice" placeholder="" maxlength="1000" 
+                                        value="<?= $popisPozice ?? '' ?>">
+                <span></span>
             </div>   
             <div class="two fields">
                 <div class="field">
                     <label>Požadujeme</label>
-                    <input <?= $readonly ?> type="text" name="pozadujeme" placeholder="" maxlength="1000" 
-                                            value="<?= $pozadujeme ?? '' ?>">
+                    <div class="edit-representative borderDance" name="pozadujeme" required><?= $pozadujeme ?? '' ?></div>
                     <span></span>
                 </div>
                 <div class="field">
                     <label>Nabízíme</label>
-                    <input <?= $readonly ?> type="text" name="nabizime" placeholder="" maxlength="1000" 
-                                            value="<?= $nabizime ?? '' ?>">
+                    <div class="edit-representative borderDance" name="nabizime" required><?= $nabizime ?? '' ?></div>
                     <span></span>
                 </div>
             </div>             

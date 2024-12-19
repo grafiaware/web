@@ -15,7 +15,7 @@ use Pes\Text\Html;
     }        
 ?>
 
-    <div class="ui styled fluid accordion">   
+    <div class="accordion">   
         <div class="title">
             <i class="dropdown icon"></i> <?= $nazev ?? '' ?> 
             <?php /*if($checkedTagsText){*/ ?> <span class="ui big red tag label tag-list"> lala <?php /*= implode(', ',array_keys($checkedTagsText) ); */?></span><?php /* } */?> 

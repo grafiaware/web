@@ -31,7 +31,7 @@ use Events\Model\Entity\JobInterface;
     foreach ($companies as $company) {
         $companyId = $company->getId();
         $jobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId ] );
-        echo Html::tag('div',['style'=>'background-color: yellow; color: red;'] ,$company->getName());
+        echo Html::tag('p',['class'=>'nadpis'] ,$company->getName());
 //        echo Html::p("Všechny joby pro company s id $companyId: events/v1/data/job/{$job->getId()}", $pStyle);
         
         foreach ($jobs as $job) {

@@ -24956,6 +24956,22 @@ ol.ui.suffixed.list li::before,
 /*******************************
          Site Overrides
 *******************************/
+
+.content .ui.form:not(:first-child) > :first-child {
+  margin-top: 1em;
+  border-top: 1px dashed;
+  padding-top: 0.7em;
+}
+
+.page-content > div > div:not(:has(.accordion)) .ui.form > :first-child {
+  margin-top: 1em;
+  border-top: 1px dashed;
+  padding-top: 0.7em;
+}
+
+.page-content > div .nadpis + div:not(:has(.accordion)) .ui.form > :first-child {
+  border-top: 0;
+}
 /*!
  * # Fomantic-UI 2.9.2 - Grid
  * https://github.com/fomantic/Fomantic-UI/

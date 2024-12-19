@@ -21,6 +21,7 @@
 //
 export const initEditors = () => {
     tinymce.remove();
+    tinymce.init(editFormRepresentative);
     tinymce.init(editTextConfig);
     tinymce.init(editHtmlConfig);
     tinymce.init(editMceEditableConfig);
@@ -179,6 +180,18 @@ let editFullConfig = {
     image_class_list: imageClassList,  
     smart_paste: true,   // Detect text that resembles a URL and change the text to a hyperlink.
                          //Detect text that resembles the URL for an image and will try to replace the text with the image.       
+};
+
+var editFormRepresentative = {
+    selector: 'form .edit-representative',
+    placeholder: 'Napište text',
+    paste_as_text: true,  // default false, true - převede vkládaný obsah na holý text
+    menubar: false,  // bez vypnutí se zobeazí default menu
+    plugins: ['save', 'cancel', 'lists', 'autolink'], //var mobile
+    toolbar: ['save', 'cancel', 'undo', 'bold', 'italic', 'styles'], //var mobile
+//    quickbars_insert_toolbar: false,
+//    quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',    
+    setup: redEditorSetup    
 };
 
 var editTextConfig = {

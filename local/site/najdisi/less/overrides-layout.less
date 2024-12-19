@@ -329,6 +329,7 @@ body{
         }
         [required]{
             border: 1px solid @purple;
+            border-radius: 5px;
             + span{
                 position: absolute;
                 color: @purple;
@@ -361,6 +362,13 @@ body{
         select[required]{
             height: 42px;
         }
+        div[required]{
+            padding-left: 12px;
+            + span{
+                background: 0 0;
+                top: 22px;
+            }
+        } 
         span:has(select[required]){
             + span{
                 position: absolute;
