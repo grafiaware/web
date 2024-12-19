@@ -19,6 +19,14 @@ use Pes\Text\Html;
         <div class="title">
             <i class="dropdown icon"></i> <?= $nazev ?? '' ?> 
             <?php /*if($checkedTagsText){*/ ?> <span class="ui big red tag label tag-list"> lala <?php /*= implode(', ',array_keys($checkedTagsText) ); */?></span><?php /* } */?> 
+            <?php
+                echo Html::tag('div', 
+                    [
+                        'class'=>'cascade',
+                        'data-red-apiuri'=>"events/v1/data/job/$jobId/jobtotag",
+                    ]
+                );     
+            ?>
         </div>
         <div class="content">
             <div class="two fields">                        

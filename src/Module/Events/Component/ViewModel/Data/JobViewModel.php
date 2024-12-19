@@ -90,6 +90,7 @@ class JobViewModel extends ViewModelItemAbstract implements ViewModelItemInterfa
                 'fields' => [
                     'editable' => $editableItem,
                     'pozadovaneVzdelaniStupen' =>  $job->getPozadovaneVzdelaniStupen(),
+                    'jobId' => $job->getId(),
                     'nazev' =>  $job->getNazev(),                
                     'mistoVykonu' =>  $job->getMistoVykonu(),
                     'popisPozice' =>  $job->getPopisPozice(),
