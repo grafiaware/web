@@ -11,30 +11,40 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>veletrhPRACE.online</title>
+        <title></title>
     </head>
     <body  style="margin: 0; padding: 0;">
         <table role="presentation"  cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
             <thead>
                 <tr>
-                    <th><h1>Veletrh práce a vzdělávání</h1></th>
+                    <th>
+                        <img src="<?=$data_logo_grafia?>"  width="70" />        
+                        <h1>Veletrh práce a vzdělávání</h1>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        <p style="margin: 0;">Děkujeme za Vaši registraci. <br/>Na tento mail, prosím, neodpovídejte.</p>
+                        <p style="margin: 10px 0px 10px 0px;">
+                            Děkujeme za Vaši registraci. <br/>
+                            Toto je automaticky generovaný e-mail. Na tento e-mail, prosím, neodpovídejte.
+                        </p>
                     </td>
                 </tr>
                 <tr>
-                    <td>Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní následující 24 hodiny.</td>
+                    <td>
+                        <p style="margin: 10px 0px 10px 0px;">
+                            <b>Svoji registraci dokončete kliknutím na níže uvedený odkaz!</b> <br/>                            
+                        </p>
+                    </td>
                 </tr>
                 <tr>
                     <td bgcolor="#dddddd" style="padding: 10px 30px 10px 30px;">
                         <table role="presentation"  cellspacing="0" cellpadding="20px" border="0" style="border-collapse: collapse;">
                             <tbody>
                                 <tr>
-                                    <td bgcolor="#aa0022" style=“font-size: 14px; font-family: Arial, sans-serif; background-color: #330011; padding: 0px 0px 0px 0px;"”>
+                                    <td bgcolor="pink" style=“font-size: 14px; font-family: Arial, sans-serif; background-color: pink; padding: 0px 0px 0px 0px;">
                                         <a href="<?= $confirmationUrl ?>" target="_blank" rel="noopener"><h2>&nbsp;&nbsp;&nbsp;Potvrďte registraci!&nbsp;&nbsp;&nbsp;</h2></a>
                                     </td>
                                 </tr>
@@ -43,10 +53,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Po dokončení registrace dostanete potvrzovací mail. Pak se budete moci přihlašovat na web veletrhprace.online.</td>
+                    <td>
+                        <p style="margin:  10px 0px 10px 0px;">Po dokončení registrace obdržíte potvrzovací e-mail. Pak se budete moci přihlašovat na web praci.najdisi.cz.</p>
+                    </td>
                 </tr>
                 <tr>
-                    <td>S pozdravem <br/> tým realizátora Grafia,s.r.o.</td>
+                    <td><p style="margin:  5px 0px 5px 0px;" > S pozdravem <br/> tým realizátora Grafia,s.r.o.</p></td>
                 </tr>
 
             </tbody>

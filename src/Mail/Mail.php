@@ -130,8 +130,8 @@ class Mail {
 
         try {
             //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
-//            $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
+//            $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
+            $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
 
             $mail->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
@@ -153,7 +153,12 @@ class Mail {
             foreach ($actualParams->getParty()->getToArray() as $to) {
                 $mail->addAddress($to[0], $to[1]);     //Add a recipient            //Name is optional
             };
-
+            foreach ($actualParams->getParty()->getCcArray() as $cc) {
+                $mail->addCC($cc[0], $cc[1]);     //Add a cc            //Name is optional
+            };
+            foreach ($actualParams->getParty()->getBccArray() as $bcc) {
+                $mail->addBCC($bcc[0], $bcc[1]);     //Add a bcc            //Name is optional
+            };            
             //Attachments
             foreach ($actualParams->getContent()->getAttachments() as $attachment) {
                 if ($attachment instanceof Attachment) {

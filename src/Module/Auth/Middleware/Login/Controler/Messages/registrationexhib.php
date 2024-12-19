@@ -6,7 +6,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>veletrhPRACE.online</title>
+        <title></title>
     </head>
     <body  style="margin: 0; padding: 0;">
         <table role="presentation"  cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
@@ -35,7 +35,7 @@
                     <td>Tak ho pěkně založte!</td>
                 </tr>
                 <tr>
-                    <td>S pozdravem <br/> web veletrhprace.online</td>
+                    <td>S pozdravem <br/> trpaslíci z webu praci.najdisicz</td>
                 </tr>
 
             </tbody>
