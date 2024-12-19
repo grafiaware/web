@@ -197,31 +197,6 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
 
-        #### EventControler_2 ####
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId/remove'));
-        
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId/remove'));
-        
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:id'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:id/remove'));
-
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent/remove'));
-
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase/:eventLinkPhaseId'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase/:eventLinkPhaseId/remove'));
-
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId/remove'));
-
         #### JobControler  ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job/:jobId'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/job'));
@@ -248,6 +223,31 @@ class ApiRegistrator {
         #### DocumentControler
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile/:parentId/doctype/:type'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile/:parentId/doctype/:type/remove'));
+
+        #### EventControler_2 ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institution/:institutionId/remove'));
+        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/institutiontype/:institutiontypeId/remove'));
+        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:id'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontenttype/:id/remove'));
+
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventcontent/:idContent/remove'));
+
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase/:eventLinkPhaseId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlinkphase/:eventLinkPhaseId/remove'));
+
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId/remove'));      
         
     ### mail module ###
     #

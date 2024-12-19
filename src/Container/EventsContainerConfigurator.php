@@ -26,20 +26,16 @@ use Component\Renderer\Html\NoContentForStatusRenderer;
 
 use Events\Component\View\Manage\RepresentativeActionComponent;
 use Events\Component\View\Data\CompanyComponent;
-use Events\Component\View\Data\CompanyComponentPrototype;
 use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactComponent;
-use Events\Component\View\Data\CompanyContactComponentPrototype;
 use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
 use Events\Component\View\Data\CompanyAddressComponent;
-use Events\Component\View\Data\CompanyAddressComponentPrototype;
 use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
 use Events\Component\View\Data\JobToTagComponent;
 use Events\Component\View\Data\JobToTagComponentPrototype;
 use Events\Component\View\Data\JobFamilyJobToTagListComponent;
 use Events\Component\View\Data\JobComponent;
-use Events\Component\View\Data\JobComponentPrototype;
 use Events\Component\View\Data\CompanyFamilyJobListComponent;
 //use Events\Component\View\Data\CompanyJobsListComponent;
 use Events\Component\View\Data\TagComponent;
@@ -62,6 +58,7 @@ use Events\Component\ViewModel\Data\JobTagListViewModel;
 use Events\Component\ViewModel\Data\JobTagViewModel;
 use Events\Component\ViewModel\Data\QQQJobToTagViewModel;
 use Events\Component\ViewModel\Data\JobFamilyJobToTagListViewModel;
+use Events\Component\ViewModel\Data\JobToTagViewModel;
 use Events\Component\ViewModel\Data\JobViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyJobListViewModel;
 use Events\Component\ViewModel\Data\CompanyJobsListViewModel;
@@ -350,7 +347,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);              
-                $component = new JobFamilyJobToTagListComponent($configuration, $c->get(JobToTagComponentPrototype::class)); 
+                $component = new JobFamilyJobToTagListComponent($configuration, $c->get(JobToTagComponent::class)); 
                                 
                 if($accessPresentation->hasAnyPermission(JobFamilyJobToTagListComponent::class, AccessPresentationEnum::EDIT)) {
                     $component->setListViewModel($c->get(JobFamilyJobToTagListViewModel::class));
@@ -668,7 +665,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(JobTagRepo::class),       
                         $c->get(CompanyRepo::class),       
                     );
-            },          
+            },
+            JobToTagViewModel::class => function(ContainerInterface $c) {
+                return new JobToTagViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(JobToTagRepo::class),       
+                    );
+            },
             CompanyFamilyJobListViewModel::class => function(ContainerInterface $c) {
                 return new CompanyFamilyJobListViewModel(
                         $c->get(StatusViewModel::class),

@@ -37,11 +37,17 @@ class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstra
         // varianta pro vazbu 1:0..1 - kolekce s max. jedním prvkem -> přidat jen pokud není žádný prvek
         
         /** @var CompanyAddressInterface $companyAddress */
+        $entities = [];
         $entity = $this->companyAddressRepo->get($this->familyRouteSegment->getParentId());  // pk = fk        
-        if ($this->isListEditable() && !$entity) {   // přidat jen pokud adresa není
+        if ($this->isListEditable() && !$this->count($entities)) {   // přidat jen pokud adresa není
             $entity = new CompanyAddress();  // pro přidání
         }
-        return [$entity];
+        if (isset($entity)) {
+            $entities[] = $entity;
+        } else {
+            $entities = [];
+        }
+        return $entities;
     }
     
     public function getIterator() {

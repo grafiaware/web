@@ -59,7 +59,7 @@ class CompanyContactViewModel extends ViewModelFamilyItemAbstract {
     
     public function isItemEditable(): bool {
         $this->loadCompanyAddress();
-        return $this->isAdministrator() || $this->isCompanyRepresentative($this->companyContact->getCompanyId());
+        return $this->isAdministrator() || $this->isCompanyEditor($this->companyContact->getCompanyId());
     }
     
     use RepresentativeTrait;

@@ -39,7 +39,7 @@ use Events\Model\Entity\JobInterface;
             echo Html::tag('div', 
                     [
                         'class'=>'cascade',
-                        'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}",
+                        'data-red-apiuri'=>"events/v1/data/company/$companyId/job/{$job->getId()}",
                     ]
                 );            
             echo Html::tag('div', 
