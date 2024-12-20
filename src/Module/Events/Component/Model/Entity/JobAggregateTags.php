@@ -11,7 +11,7 @@ use Model\Entity\PersistableEntityAbstract;
  *
  * @author vlse2610
  */
-class Job extends PersistableEntityAbstract implements JobInterface {
+class JobAggregateTags extends PersistableEntityAbstract implements JobInterface {
 
     private $id;            //NOT NULL
     private $companyId;     //NOT NULL

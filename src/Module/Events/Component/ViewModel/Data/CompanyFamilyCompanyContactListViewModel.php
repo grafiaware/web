@@ -35,8 +35,8 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
     }
     
     public function isListEditable(): bool {
-        return $this->isAdministrator();
-    }    
+        return $this->isAdministrator() || $this->isCompanyEditor($this->companyAddress->getCompanyId());
+    }
 
     use RepresentativeTrait;
     

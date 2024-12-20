@@ -14,6 +14,8 @@ use Events\Model\Entity\JobInterface;
 use Events\Model\Entity\JobTagInterface;
 use Events\Model\Entity\CompanyInterface;
 
+use Events\Component\Model\Entity\JobAggregateTags;
+
 use Access\Enum\RoleEnum;
 use ArrayIterator;
 
@@ -45,6 +47,11 @@ class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract {
         $this->companyRepo = $companyRepo;
     }
 
+    public function isListEditable(): bool {
+        $this->loadCompanyAddress();
+        return $this->isAdministrator() || $this->isCompanyEditor($this->companyAddress->getCompanyId());
+    }
+    
     use RepresentativeTrait;
     
     private function isAdministrator() {
@@ -56,6 +63,13 @@ class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract {
     }
     
     public function provideItemDataCollection(): iterable {
+        $job = $this->jobRepo->get($this->familyRouteSegment->getParentId());
+        $jobTagEntitiesAll = $this->jobTagRepo->findAll();
+        $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId($job->getId());
+        
+        
+        
+        
         $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();  // exception
         
         // $editable = true;                            
@@ -70,7 +84,6 @@ class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract {
         /** @var JobTagInterface  $jobTagEntity */
         foreach ( $jobTagEntitiesAll as $jobTagEntity) {
             $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
-            //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
         }
 
         $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $job->getId() );
