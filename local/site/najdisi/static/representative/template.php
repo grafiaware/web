@@ -18,22 +18,31 @@ use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Entity\LoginInterface;
 
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface;
+use Access\Enum\RoleEnum;
+
 /** @var PhpTemplateRendererInterface $this */
 
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$userRole = $statusViewModel->getUserRole();
+if ( $userRole == RoleEnum::SUPERVISOR ) {
 
-   $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-    /** @var StatusSecurityRepo $statusSecurityRepo */
-    $statusSecurity = $statusSecurityRepo->get();
-    /** @var LoginAggregateFullInterface $loginAggregate */
-    $loginAggregate = $statusSecurity->getLoginAggregate();
+                // asi navic 
+                $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+                /** @var StatusSecurityRepo $statusSecurityRepo */
+                $statusSecurity = $statusSecurityRepo->get();
+                /** @var LoginAggregateFullInterface $loginAggregate */
+                $loginAggregate = $statusSecurity->getLoginAggregate();
 
-    if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginName();
-        $cred = $loginAggregate->getCredentials();
-        
-        $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
-    }
-//    ------------------------------------------------
+                if (isset($loginAggregate)) {
+                    $loginName = $loginAggregate->getLoginName();
+                    $cred = $loginAggregate->getCredentials();
+
+                    $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
+                }
+//    ------------------------------------------------??
     
    
     
@@ -95,5 +104,7 @@ use Events\Model\Entity\LoginInterface;
         
         </div>
         
- 
+ <?php
+   }
+?>
 

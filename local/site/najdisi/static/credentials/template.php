@@ -16,9 +16,22 @@ use Auth\Model\Entity\RoleInterface;
 use Auth\Model\Entity\CredentialsInterface;
 
 use Auth\Middleware\Login\Controler\AuthControler;
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface;
+use Access\Enum\RoleEnum;
 
 /** @var PhpTemplateRendererInterface $this */
 
+//------------------------------------------------------------------
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$userRole = $statusViewModel->getUserRole();
+if ( $userRole == RoleEnum::SUPERVISOR ) {
+        
+   
+    
+    
+//------------------------------------------------------------------
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
     /** @var RoleRepoInterface $roleRepo */ 
@@ -43,9 +56,9 @@ use Auth\Middleware\Login\Controler\AuthControler;
                 'selectRoles' =>  $selectRoles,
                 "selected" => ["selectRole"=>$credential->getRoleFk() ?? AuthControler::NULL_VALUE],
             ];
-    }                                       
-  ?>
-    
+    }                                        
+?>
+
     <div class="ui styled fluid accordion">           
         <h3>             
            CREDENTIALS-tabulka                                
@@ -70,4 +83,6 @@ use Auth\Middleware\Login\Controler\AuthControler;
                                       
         </div>
     </div>    
-
+<?php
+   }
+?>
