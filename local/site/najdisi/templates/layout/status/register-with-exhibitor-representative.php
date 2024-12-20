@@ -5,10 +5,26 @@ use Site\ConfigurationCache;
             <i class="address card icon"></i>
     </button>
 
-    <div class="ui mini page modal transition hidden register">
+    <div class="ui tiny page modal transition hidden register">
         <i class="white close icon"></i>
         <div class="content">
             <p class="text velky">Registrovat se</p>
+            <div class="register-info">
+                <div class="ui two column grid">
+                    <div class="two wide column center aligned">
+                        <button class="ui circular orange basic icon button register-info-button"><i class="info icon"></i></button>
+                    </div>
+                    <div class="thirteen wide column">
+                        <div class="register-info-text">
+                            <i class="close icon"></i>
+                            <p class="text seznam">Info pro registrující se lidi</p>
+                            <p class="text seznam">řádka</p>
+                            <p class="text seznam">řádka</p>
+                            <p class="text seznam">je to fakt dlouhý</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <form class="ui form centered" method="POST" action="auth/v1/register">
                 <div class="field">
                     <label>Přihlašovací jméno</label>
@@ -36,9 +52,16 @@ use Site\ConfigurationCache;
                 <div class="ui input input-company">
                     <div class="field">
                         <label>Název firmy</label>
-                        <input type="text" name="info" placeholder="Název společnosti" maxlength="50">
+                        <input class="input-company" type="text" name="info" placeholder="Název společnosti" maxlength="50">
                         <p class="maly text">Vyplňte jméno firmy, kterou zastupujete. <br/> Pokud zastupujete více firem, oddělte je čárkou.</p>
                     </div>
+                </div>
+                <div class="register-info-representative">
+                    <p class="text seznam">Info pro representata</p>
+                    <p class="text seznam">řádka</p>
+                    <p class="text seznam">řádka</p>
+                    <p class="text seznam">je to fakt dlouhý</p>
+                    <div><p class="ui orange button">Rozumím</p></div>
                 </div>
                 
                 <div class="ui fluid large buttons">

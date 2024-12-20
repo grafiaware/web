@@ -99,7 +99,7 @@
 .text{
     font-size: @fontSize;
     color: @textColor;
-    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal):not(.zadne-okraje):not(.okraje-dole){
+    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal):not(.zadne-okraje):not(.okraje-dole):not(.seznam){
         padding: 10px 0;
     }
     &.okraje{
@@ -147,6 +147,10 @@
     }
     &.kurziva{
         font-style: oblique;
+    }
+    &.seznam{
+        padding: 0;
+        margin: 0;
     }
 }
 .row.padding-vertical{

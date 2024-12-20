@@ -42,12 +42,6 @@ use Events\Model\Entity\JobInterface;
                         'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}",
                     ]
                 );            
-            echo Html::tag('div', 
-                    [
-                        'class'=>'cascade',
-                        'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}/jobtotag",
-                    ]
-                );              
         }
 
     }

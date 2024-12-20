@@ -527,8 +527,8 @@ body#tinymce{
 .register{
     .checkbox.exhibitor{
         label{
-            font-size: @fontSize;
-            padding-left: 1.1em;
+            padding-left: 1.5em;
+            margin-top: 10px;
         }
     }
     .input-company{
@@ -539,13 +539,50 @@ body#tinymce{
         }
         .field{
             label{
-                font-size: 0.87em; 
             }
             input{
-                font-size: 0.75em;
             }
         }
     }
+    .register-info-text, .register-info-representative{
+        padding: 10px;
+        border: 1px solid @orange;
+        border-radius: 5px;
+        transition: transform 0.5s;
+        backface-visibility: hidden; 
+        transform: scaleX(1);
+        .icon{
+            position: absolute;
+            top: 5px;
+            right: 0;
+            &:hover{
+                cursor: pointer;
+                color: @orange;
+            }
+        }
+        > div:has(p){
+            text-align: right;
+        }
+    }
+    .register-info-representative{
+        display: none;
+    }
+    .register-info-button.priority{
+        position: absolute;
+        top: -50px;
+        left: 146px;
+    }
+    .register-info-button{
+        animation: mymove .5s;
+    }
+    .fluid.buttons{
+        margin-top: 10px;
+    }
+}
+@keyframes mymove {
+  0% {opacity: 1;}
+  50% {opacity: 0;}
+ 100% {opacity: 1;}
 }
 
 //Poznamky a flash

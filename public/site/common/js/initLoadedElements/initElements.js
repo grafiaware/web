@@ -154,8 +154,37 @@ function initLoadedElements() {
             onUnchecked: function() {
                 $('.input-company').removeClass('show');
                 $('.input-company').attr("required", false);
+                $('.register-info-representative').hide();
+                $('.register .positive.button').removeClass('disabled');
             }
         });
+        
+        
+    $('.register-info-button').on('click', function(){
+        $('.register-info-text').toggle(
+                function(){$('.register-info-button').toggleClass('basic', 2000).toggleClass('priority', 2000);}
+        );
+    }); 
+    $('.register-info-text .close.icon').on('click', function(){
+        $('.register-info-text').hide(
+                function(){$('.register-info-button').toggleClass('basic').toggleClass('priority');}
+        );
+    }); 
+    $('.register input[name=info]').keyup(function(){
+        $('.register-info-representative').show();
+        $('.register .positive.button').addClass('disabled');
+        if($(this).val().length === 0) {
+            $('.register-info-representative').hide();
+            $('.register .positive.button').removeClass('disabled');
+        }
+        
+    });
+    $('.register-info-representative .button').on('click', function(){
+        $('.register-info-representative').hide();
+        $('.register .positive.button').removeClass('disabled');  
+    });
+    
+    
 
     //odebrání atributu required u hesla, pokud uživatel klikne na "zapomněl jsem heslo"
     $('.tertiary.button').on('click', function(){
