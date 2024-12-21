@@ -62,12 +62,13 @@ class JobFamilyJobToTagListViewModel extends ViewModelFamilyListAbstract {
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
     
-    public function provideItemDataCollection(): iterable {
+    public function provideItemEntityCollection(): iterable {
         $job = $this->jobRepo->get($this->familyRouteSegment->getParentId());
         $jobTagEntitiesAll = $this->jobTagRepo->findAll();
         $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId($job->getId());
         
-        
+        $jobAgg = new JobAggregateTags();
+        $jobAgg->setNazev($job->getNazev());
         
         
         $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();  // exception
