@@ -1,7 +1,7 @@
 <?php
 namespace Component\View;
 use Component\View\ComponentFamilyInterface;
-use Component\View\ComponentListAbstract;
+use Component\View\ComponentMultiAbstract;
 use Component\ViewModel\FamilyInterface;
 
 use Component\ViewModel\RouteSegment\FamilyRouteSegment;
@@ -11,11 +11,11 @@ use TypeError;
  *
  * @author pes2704
  */
-abstract class ComponentFamilyListAbstract extends ComponentListAbstract implements ComponentFamilyInterface {
+abstract class ComponentFamilyMultiAbstract extends ComponentMultiAbstract implements ComponentFamilyInterface {
     
     public function createFamilyRouteSegment(string $parentName, string $parentId, string $childName) {
         $familyRouteSegment = new FamilyRouteSegment($parentName, $parentId, $childName);
-        $listViewModel = $this->getListViewModel();
+        $listViewModel = $this->getMultiViewModel();
         if ($listViewModel instanceof FamilyInterface) {
             $listViewModel->setFamilyRouteSegment($familyRouteSegment);
         } else {

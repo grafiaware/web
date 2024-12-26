@@ -19,7 +19,7 @@ use LogicException;
  *
  * @author pes2704
  */
-abstract class ComponentItemAbstract extends CollectionView implements ComponentPrototypeInterface, ComponentItemInterface {
+abstract class ComponentItemAbstract extends CollectionView implements ComponentPrototypeInterface {
 
     /**
      *

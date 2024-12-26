@@ -35,6 +35,8 @@ class CompanyAddressViewModel extends ViewModelFamilyItemAbstract {
         $this->companyRepo = $companyRepo;
         $this->companyAddressRepo = $addressRepo;
     }
+
+    use RepresentativeTrait;
     
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof CompanyAddressInterface) {
@@ -50,9 +52,7 @@ class CompanyAddressViewModel extends ViewModelFamilyItemAbstract {
         $this->loadCompanyAddress();
         return $this->isAdministrator() || $this->isCompanyEditor($this->companyAddress->getCompanyId());
     }
-    
-    use RepresentativeTrait;
-    
+        
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
@@ -73,7 +73,7 @@ class CompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyAddress();
-        $componentRouteSegment = $this->familyRouteSegment->getFamilyRouteSegment();
+        $componentRouteSegment = $this->getFamilyRouteSegment()->getPath();
         $editableItem = $this->isItemEditable();
         $id = $this->companyAddress->getCompanyId();
         if (isset($id)) {        
@@ -95,13 +95,13 @@ class CompanyAddressViewModel extends ViewModelFamilyItemAbstract {
             ];
         } elseif ($editableItem) {
             /** @var CompanyInterface $company */ 
-            if ($this->companyRepo->get($this->familyRouteSegment->getParentId())) {  // validace id rodiče
+            if ($this->companyRepo->get($this->getFamilyRouteSegment()->getParentId())) {  // validace id rodiče
                 $companyAddrArray = [
                     // conditions
                     'editable' => true,    // zobrazí formulář a tlačítko přidat 
                     // text
                     'addHeadline' => 'Přidej adresu',                      
-                    'companyId'=> $this->familyRouteSegment->getParentId(),
+                    'companyId'=> $this->getFamilyRouteSegment()->getParentId(),
                     //route
                     'componentRouteSegment' => $componentRouteSegment,
                     // data

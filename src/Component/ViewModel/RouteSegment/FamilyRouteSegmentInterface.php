@@ -15,6 +15,6 @@ interface FamilyRouteSegmentInterface {
     
     public function getItemName(): string;
     
-    public function getFamilyRouteSegment(): string;
+    public function getPath(): string;
     
         }

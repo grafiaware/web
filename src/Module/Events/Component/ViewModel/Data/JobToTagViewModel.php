@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelFamilyItemAbstract;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
@@ -20,7 +20,7 @@ use TypeError;
  *
  * @author pes2704
  */
-class JobToTagViewModel extends ViewModelItemAbstract {
+class JobToTagViewModel extends ViewModelFamilyItemAbstract {
 
     private $status;  
     
@@ -40,6 +40,8 @@ class JobToTagViewModel extends ViewModelItemAbstract {
         $this->jobToTagRepo = $jobToTagRepo;
     }
     
+    use RepresentativeTrait;
+        
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof JobToTagInterface) {
             $this->jobToTag = $entity;
@@ -54,9 +56,7 @@ class JobToTagViewModel extends ViewModelItemAbstract {
         $this->loadJobToTag();
         return $this->isAdministrator();
     }
-    
-    use RepresentativeTrait;
-    
+
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }

@@ -43,6 +43,9 @@ class JobViewModel extends ViewModelFamilyItemAbstract {
         $this->jobRepo = $jobRepo;
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
     }    
+    
+    use RepresentativeTrait;    
+
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof JobInterface) {
             $this->job = $entity;
@@ -53,16 +56,10 @@ class JobViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function receiveFamilyRouteSegment(string $familyRouteSegment) {
-        $this->familyRouteSegment = $familyRouteSegment;
-    }
-    
     public function isItemEditable(): bool {
         $this->loadJob();
         return $this->isAdministrator() || $this->isCompanyRepresentative($this->job->getCompanyId());
     }
-    
-    use RepresentativeTrait;    
 
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
@@ -95,7 +92,7 @@ class JobViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {  
         $this->loadJob();
-        $componentRouteSegment = $this->familyRouteSegment->getFamilyRouteSegment();
+        $componentRouteSegment = $this->getFamilyRouteSegment()->getPath();
         $editableItem = $this->isItemEditable();
         $id = $this->job->getCompanyId();        
         $selectEducations = $this->selectEducations();

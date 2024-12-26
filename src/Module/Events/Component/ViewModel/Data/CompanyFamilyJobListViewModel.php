@@ -3,12 +3,13 @@ namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelFamilyListAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
-use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\FamilyInterface;
 
+use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
-use Events\Model\Entity\JobInterface;
+
 use Events\Model\Entity\Job;
 
 use Access\Enum\RoleEnum;
@@ -40,18 +41,29 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
     }    
     
-    public function isListEditable(): bool {
-        return $this->isAdministrator();
-    } 
+    use RepresentativeTrait;        
     
-    use RepresentativeTrait;    
-
+    public function isListEditable(): bool {
+        return $this->isAdministrator() || $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
+    }
+    
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
+        
+    protected function newListEntity() {
+        return new Job();  // "prázdná" entita pro formulář pro přidání
+    }
 
-    private function isCompanyEditor($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
+    protected function cardinality() {
+        return FamilyInterface::CARDINALITY_0_N;
+    }    
+
+    protected function loadListEntities() {
+        if (!$this->listEntities) {
+            $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId() );    
+            $this->listEntities = $this->jobRepo->find("company_id = :companyId", ['companyId' => $company->getId()]);
+        }
     }
     
     private function selectEducations() {
@@ -123,14 +135,6 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
 //        }
 //        return $items;
 //    }
-    
-    public function provideItemEntityCollection(): iterable {
-        $entities = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $this->familyRouteSegment->getParentId() ] );
-        if ($this->isListEditable()) {
-            $entities[] = new Job();  // pro přidání
-        }
-        return $entities;        
-    }
     
     /**
      * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky

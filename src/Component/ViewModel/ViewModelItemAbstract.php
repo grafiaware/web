@@ -8,9 +8,8 @@
 
 namespace Component\ViewModel;
 
-use Component\ViewModel\ViewModelItemInterface;
-
 use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelItemInterface;
 
 /**
  * Description of ViewModelAbstract

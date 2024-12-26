@@ -7,7 +7,7 @@ use Component\View\ComponentPrototypeInterface;
 
 use Component\View\ComponentListInterface;
 use Component\ViewModel\ViewModelListInterface;
-use Component\ViewModel\ViewModelFamilyItemInterface;
+use Component\ViewModel\FamilyInterface;
 
 use Configuration\ComponentConfigurationInterface;
 

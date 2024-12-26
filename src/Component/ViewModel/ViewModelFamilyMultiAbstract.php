@@ -2,7 +2,7 @@
 namespace Component\ViewModel;
 
 use Component\ViewModel\FamilyInterface;
-use Component\ViewModel\ViewModelListAbstract;
+use Component\ViewModel\ViewModelMultiAbstract;
 use Component\ViewModel\FamilyTrait;
 
 /**
@@ -10,7 +10,7 @@ use Component\ViewModel\FamilyTrait;
  *
  * @author pes2704
  */
-abstract class ViewModelFamilyListAbstract extends ViewModelListAbstract implements FamilyInterface {
+abstract class ViewModelFamilyMultiAbstract extends ViewModelMultiAbstract implements FamilyInterface {
     
     use FamilyTrait;
 

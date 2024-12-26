@@ -2,7 +2,7 @@
 
 namespace Events\Component\View\Data;
 
-use Component\View\ComponentListAbstract;
+use Component\View\ComponentFamilyMultiAbstract;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -10,7 +10,7 @@ use Access\Enum\AccessPresentationEnum;
 /** 
  * 
  */ 
-class JobFamilyJobToTagListComponent extends ComponentListAbstract {
+class JobFamilyTagMultiComponent extends ComponentFamilyMultiAbstract {
 
     public static function getComponentPermissions(): array {
         return [

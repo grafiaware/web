@@ -8,25 +8,17 @@
 
 namespace Component\ViewModel;
 
-use Component\ViewModel\ViewModelFamilyItemInterface;
-
+use Component\ViewModel\FamilyInterface;
 use Component\ViewModel\ViewModelItemAbstract;
-use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
-
+use Component\ViewModel\FamilyTrait;
 /**
+ * 
  * Description of ViewModelAbstract
  *
  * @author pes2704
  */
-abstract class ViewModelFamilyItemAbstract extends ViewModelItemAbstract implements ViewModelFamilyItemInterface {
+abstract class ViewModelFamilyItemAbstract extends ViewModelItemAbstract implements FamilyInterface {
     
-    /**
-     * 
-     * @var FamilyRouteSegmentInterface
-     */
-    protected $familyRouteSegment;
+    use FamilyTrait;
 
-    public function setFamilyRouteSegment(FamilyRouteSegmentInterface $familyRouteSegment): void {
-        $this->familyRouteSegment = $familyRouteSegment;
-    }
 }

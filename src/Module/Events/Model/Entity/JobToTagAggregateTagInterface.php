@@ -7,10 +7,11 @@
 
 namespace Events\Model\Entity;
 
+use JobToTagInterface
 /**
  *
  * @author pes2704
  */
-interface JobToTagAggregateTagInterface {
+interface JobToTagAggregateTagInterface extends{
     //put your code here
 }
