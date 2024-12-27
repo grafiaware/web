@@ -3,10 +3,12 @@ namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelFamilyListAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
+use Component\ViewModel\FamilyInterface;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
+
 use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\CompanyContact;
 
@@ -23,7 +25,7 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
     private $status;
     private $companyRepo;
     private $companyContactRepo;
-
+   
     public function __construct(
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo,
@@ -33,28 +35,36 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
         $this->companyRepo = $companyRepo;
         $this->companyContactRepo = $companyContactRepo;
     }
-    
-    public function isListEditable(): bool {
-        return $this->isAdministrator();
-    }    
 
     use RepresentativeTrait;
+    
+    public function isListEditable(): bool {
+        return $this->isAdministrator() || $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
+    }
     
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
+        
+    protected function newListEntity() {
+        return new CompanyContact();  // "prázdná" entita pro formulář pro přidání
+    }
 
-    private function isCompanyEditor($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
-    }
-    
-    public function provideItemEntityCollection(): iterable {
-        $entities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $this->familyRouteSegment->getParentId() ] );
-        if ($this->isListEditable()) {
-            $entities[] = new CompanyContact();  // pro přidání
+    protected function cardinality() {
+        return FamilyInterface::CARDINALITY_0_1;
+    }    
+
+    protected function loadListEntities() {
+        if (!$this->listEntities) {
+            $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId() );     
+            $this->listEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $company->getId()] );
         }
-        return $entities;        
     }
+
+    /**
+     * 
+     * @return ArrayIterator
+     */
     public function getIterator() {
 
         $array = [         

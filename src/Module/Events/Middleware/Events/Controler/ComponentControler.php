@@ -18,7 +18,7 @@ use Component\View\ComponentFamilyInterface;
 use Component\ViewModel\ViewModelInterface;
 use Component\ViewModel\ViewModelItemInterface;
 use Component\ViewModel\ViewModelFamilyListInterface;
-use Component\ViewModel\ViewModelFamilyItemInterface;
+use Component\ViewModel\FamilyInterface;
 use Pes\Text\Html;
 
 use LogicException;

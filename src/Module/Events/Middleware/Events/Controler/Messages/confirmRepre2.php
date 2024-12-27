@@ -27,7 +27,8 @@
                 <tr>
                     <td>
                         <p style="margin:  10px 0px 10px 0px;"> Vaše registrace byla dokončena. Se zadaným jménem a heslem se nyní můžete přihlásit.</p>
-                    </td>
+                        <p style="margin:  10px 0px 10px 0px;"> Jste zástupcem firmy. Tento status Vám dovoluje.....</p>
+                    </td>                   
                 </tr>
                 <tr>
                     <td><p style="margin:  5px 0px 5px 0px;" > S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>.</td>

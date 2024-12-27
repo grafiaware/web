@@ -29,7 +29,7 @@ use Pes\Text\Html;
                         <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
                                       ["pozadovane-vzdelani-stupen"=> $pozadovaneVzdelaniStupen ?? '' ],  
                                       $selectEducations ??  [], 
-                                      ['required' => true ],
+                                      ['required' => true , 'onChange'=>'eventsEnableButtonsOnInput(event)'],
                                       []) ?>  
                     <span></span>
                      <?php   

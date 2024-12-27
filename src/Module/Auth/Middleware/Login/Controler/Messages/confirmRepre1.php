@@ -26,7 +26,12 @@
             <tbody>
                 <tr>
                     <td>
-                        <p style="margin:  10px 0px 10px 0px;"> Vaše registrace byla dokončena. Se zadaným jménem a heslem se nyní můžete přihlásit.</p>
+                        <p style="margin:  10px 0px 10px 0px;"> Vaše registrace bude dokončena v co nejkratším termínu.
+                            <br/>                            
+                            Protože žádáte o zaregistrování jako zástupce firmy, registrace projde interním ověřovacím procesem
+                            a po odsouhlasení Vám bude záslán email.<br/>
+                            
+                            Pak se budete moci s Vámi zadaným jménem a heslem  přihlašovat.</p>
                     </td>
                 </tr>
                 <tr>

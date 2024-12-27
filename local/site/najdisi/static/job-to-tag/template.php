@@ -58,6 +58,10 @@ use Component\ViewModel\StatusViewModel;
         /** @var JobTagInterface  $jobTagEntity */
         foreach ( $jobTagEntitiesAll as $jobTagEntity) {
             $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
+            $tagSpan = $jobTagEntity->getTag() ?? '';
+            $allTags["<span class='ui big red tag label tag-list'>$tagSpan</span>"] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
+            
+            
             //$allTagsStrings[ $jobTagEntity->getId() ] = $jobTagEntity->getTag();
         }
 

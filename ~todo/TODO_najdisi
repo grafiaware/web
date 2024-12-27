@@ -1,0 +1,19 @@
+2 kroky musí proběhnout v Grafii po zaregistrování člověka jako zástupce firmy
+----------------------------
+1--krok
+-- toho člověka lze identifikovat podle mail.adresy  (pozn. je v registrationTabulce)
+mail.adresa, jméno, heslo, info=firma(musí být vynucený vstup v registračním formuláři) - tato data přijdou do Grafie v kopii registračního mailu toho člověka, pokud zaškrtl že zastupuje 
+----> po potvrzení registrace v mailu , tj."dokončení registrace" tím člověkem (od toho okamžiku je zapsán v credentialsTabulce)
+je třeba ručně  udelat z cloveka reprezentanta , tj. zadat roli reprezentative ve formulaří credentials  
+pracuje se s db single_login
+popř. by šlo přiřazení role tomu člověku zautomatizovat a nedělat to ručně
+
+
+2--krok
+!!!  v této době je třeba již mít tabulku login v events doplněnou o data z tabulky login v single_login !!! ZATIM NENI
+-------------------------------------------------------------------------------------------------------------
+-- login s rolí reprezentative  přiřadit k firmě - ve formuláři reprezentative - pracuje s db events
+(tady chceme posílat mail o dokončení registrace s řečma o možnostech zástupců firmy) !!! ZATIM NENI (příprava v CompanyControler addRepresentative())
+
+
+

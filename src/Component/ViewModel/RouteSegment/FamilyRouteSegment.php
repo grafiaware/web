@@ -37,7 +37,7 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
         return $this->childName;
     }
     
-    public function getFamilyRouteSegment(): string {
+    public function getPath(): string {
         if (!$this->hasFamily()) {
             throw new LogicException("All family parameters have not been set.");
         }

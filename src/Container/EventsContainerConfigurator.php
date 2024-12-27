@@ -34,7 +34,7 @@ use Events\Component\View\Data\CompanyAddressComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
 use Events\Component\View\Data\JobToTagComponent;
 use Events\Component\View\Data\JobToTagComponentPrototype;
-use Events\Component\View\Data\JobFamilyJobToTagListComponent;
+use Events\Component\View\Data\JobFamilyTagMultiComponent;
 use Events\Component\View\Data\JobComponent;
 use Events\Component\View\Data\CompanyFamilyJobListComponent;
 //use Events\Component\View\Data\CompanyJobsListComponent;
@@ -57,7 +57,7 @@ use Events\Component\ViewModel\Data\CompanyAddressViewModel;
 use Events\Component\ViewModel\Data\JobTagListViewModel;
 use Events\Component\ViewModel\Data\JobTagViewModel;
 use Events\Component\ViewModel\Data\QQQJobToTagViewModel;
-use Events\Component\ViewModel\Data\JobFamilyJobToTagListViewModel;
+use Events\Component\ViewModel\Data\JobFamilyTagMultiViewModel;
 use Events\Component\ViewModel\Data\JobToTagViewModel;
 use Events\Component\ViewModel\Data\JobViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyJobListViewModel;
@@ -143,7 +143,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             
             'tagList' => TagListComponent::class,
             'jobtotag' => JobToTagComponent::class,// JobToTagListComponent::class,
-            'jobFamilyjobtotagList' => JobFamilyJobToTagListComponent::class,
+            'jobFamilyjobtotagList' => JobFamilyTagMultiComponent::class,
            
             'visitorProfile' => VisitorProfileComponent::class,
       
@@ -343,15 +343,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;                  
             },
 
-            JobFamilyJobToTagListComponent::class => function(ContainerInterface $c) {
+            JobFamilyTagMultiComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);              
-                $component = new JobFamilyJobToTagListComponent($configuration, $c->get(JobToTagComponent::class)); 
+//                $component = new JobFamilyJobToTagListComponent($configuration, $c->get(JobToTagComponent::class)); 
+                $component = new JobFamilyTagMultiComponent($configuration, $c->get(TagComponent::class)); 
                                 
-                if($accessPresentation->hasAnyPermission(JobFamilyJobToTagListComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setListViewModel($c->get(JobFamilyJobToTagListViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
+                if($accessPresentation->hasAnyPermission(JobFamilyTagMultiComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component->setMultiViewModel($c->get(JobFamilyTagMultiViewModel::class));
+                    $component->setMultiTemplate(new PhpTemplate());  //bez šablony
+                    $component->setMultiTemplatePath($configuration->getTemplate('checked'), $configuration->getTemplate('checkbox'));                    
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -626,6 +628,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             CompanyFamilyCompanyAddressListViewModel::class => function(ContainerInterface $c) {
                 return new CompanyFamilyCompanyAddressListViewModel(
                         $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class),
                         $c->get(CompanyAddressRepo::class),                        
                     );
             },
@@ -648,8 +651,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(JobTagRepo::class),       
                     );
             },
-            JobFamilyJobToTagListViewModel::class => function(ContainerInterface $c) {
-                return new JobFamilyJobToTagListViewModel(
+            JobFamilyTagMultiViewModel::class => function(ContainerInterface $c) {
+                return new JobFamilyTagMultiViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(JobRepo::class),
                         $c->get(JobToTagRepo::class),
@@ -657,8 +660,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),       
                     );
             },         
-            JobFamilyJobToTagListViewModel::class => function(ContainerInterface $c) {
-                return new JobFamilyJobToTagListViewModel(
+            JobFamilyTagMultiViewModel::class => function(ContainerInterface $c) {
+                return new JobFamilyTagMultiViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(JobRepo::class),
                         $c->get(JobToTagRepo::class),

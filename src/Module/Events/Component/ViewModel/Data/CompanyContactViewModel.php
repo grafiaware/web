@@ -42,6 +42,8 @@ class CompanyContactViewModel extends ViewModelFamilyItemAbstract {
         $this->companyRepo = $companyRepo;
         $this->companyContactRepo = $companyContactRepo;
     }
+
+    use RepresentativeTrait;    
     
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof CompanyContactInterface) {
@@ -53,17 +55,11 @@ class CompanyContactViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function receiveFamilyRouteSegment(string $familyRouteSegment) {
-        $this->familyRouteSegment = $familyRouteSegment;
-    }
-    
     public function isItemEditable(): bool {
-        $this->loadCompanyAddress();
+        $this->loadCompanyContact();
         return $this->isAdministrator() || $this->isCompanyEditor($this->companyContact->getCompanyId());
     }
-    
-    use RepresentativeTrait;
-    
+        
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
@@ -72,7 +68,7 @@ class CompanyContactViewModel extends ViewModelFamilyItemAbstract {
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
     
-    private function loadCompanyAddress() {
+    private function loadCompanyContact() {
         if (!isset($this->companyContact)) {
             if ($this->hasItemId()) {
                 $this->companyContact = $this->companyContactRepo->get($this->getItemId());     
@@ -83,8 +79,8 @@ class CompanyContactViewModel extends ViewModelFamilyItemAbstract {
     }
     
     public function getIterator() {
-        $this->loadCompanyAddress();
-        $componentRouteSegment = $this->familyRouteSegment->getFamilyRouteSegment();
+        $this->loadCompanyContact();
+        $componentRouteSegment = $this->getFamilyRouteSegment()->getPath();
         $editableItem = $this->isItemEditable();
         $id = $this->companyContact->getCompanyId();        
         if (isset($id)) {                
