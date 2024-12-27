@@ -106,16 +106,16 @@ class JobViewModel extends ViewModelFamilyItemAbstract {
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $this->job->getId(),
                 // data
-                    'fields' => [
-                        'editable' => $editableItem,
-                        'pozadovaneVzdelaniStupen' =>  $this->job->getPozadovaneVzdelaniStupen(),
-                        'nazev' =>  $this->job->getNazev(),                
-                        'mistoVykonu' =>  $this->job->getMistoVykonu(),
-                        'popisPozice' =>  $this->job->getPopisPozice(),
-                        'pozadujeme' =>  $this->job->getPozadujeme(),
-                        'nabizime' =>  $this->job->getNabizime(),                    
-                        'selectEducations' =>  $selectEducations,
-                        ],                
+                'fields' => [
+                    'editable' => $editableItem,
+                    'pozadovaneVzdelaniStupen' =>  $this->job->getPozadovaneVzdelaniStupen(),
+                    'nazev' =>  $this->job->getNazev(),                
+                    'mistoVykonu' =>  $this->job->getMistoVykonu(),
+                    'popisPozice' =>  $this->job->getPopisPozice(),
+                    'pozadujeme' =>  $this->job->getPozadujeme(),
+                    'nabizime' =>  $this->job->getNabizime(),                    
+                    'selectEducations' =>  $selectEducations,
+                    ],                
                 ];                
         } elseif ($editableItem) {
             $companyJob = [
@@ -127,11 +127,13 @@ class JobViewModel extends ViewModelFamilyItemAbstract {
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $this->job->getId(),
                 // data
-                    'fields' => [
-                        'editable' => $editableItem,
-                        'selectEducations' =>  $selectEducations,                        
-                        ],                
+                'fields' => [
+                    'editable' => $editableItem,
+                    'selectEducations' =>  $selectEducations,                        
+                    ],                
                 ];                   
+        } else {
+            $companyJob = [];
         }
                                   
         $this->appendData($companyJob);

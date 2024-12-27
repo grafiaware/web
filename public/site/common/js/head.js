@@ -2,13 +2,29 @@ function removeDisabled(elementId){
    document.getElementById(elementId).removeAttribute('disabled');
 }
 
-function enableButton(event) {
-//    alert("susus!");
+function eventsEnableButtonsOnForm(event) {
     form = event.currentTarget;
-    input = event.target;
-    list = form.closest(".list");
-    let buttons = list.querySelectorAll("button");
-    buttons.forEach((button) => {button.disabled = true;});
+//    input = event.target;
+//    list = form.closest(".list");
+//    let buttons = list.querySelectorAll("button");
+//    buttons.forEach((button) => {button.disabled = true;});
+    eventsEnableSave(form);
+    event.stopPropagation();
+}
+
+function eventsEnableButtonsOnInput(event) {
+    form = event.currentTarget.closest('form');
+    eventsEnableSave(form);
+
+}
+
+function eventsResetButton(event) {
+    form = event.currentTarget.closest('form');
+    eventsDisableSave(form)
+    
+}
+
+function eventsEnableSave(form) {
     editButton = form.querySelector('#edit_'+form.id);
     if(editButton) {
        editButton.disabled = false;
@@ -17,9 +33,27 @@ function enableButton(event) {
     if(addButton) {
        addButton.disabled = false;
     }//addButton
-//    alert('Change !');  
-    event.stopPropagation();
+    resetButton = form.querySelector('#reset_'+form.id);
+    if(resetButton) {
+       resetButton.style.display = "inline";
+    }//resetButton    
 }
+
+function eventsDisableSave(form) {
+    editButton = form.querySelector('#edit_'+form.id);
+    if(editButton) {
+       editButton.disabled = true;
+    }
+    addButton = form.querySelector('#add_'+form.id);
+    if(addButton) {
+       addButton.disabled = true;
+    }
+    resetButton = form.querySelector('#reset_'+form.id);
+    if(resetButton) {
+       resetButton.style.display = "none";
+    }
+}
+
 
 //funkce se volaji v souboru svislemenu.php
 function hamburger_open() {

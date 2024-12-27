@@ -91,66 +91,66 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
         }
     }
     
-    public function provideItemEntityMapQQ(): iterable {
+//    public function provideItemEntityMapQQ(): iterable {
+//    
+//        ###########################
+//        $job = $this->jobRepo->get($this->getFamilyRouteSegment()->getParentId());
+//        $jobTagEntitiesAll = $this->jobTagRepo->findAll();
+//        $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId($job->getId());
+//        
+//        $jobAgg = new JobAggregateTags();
+//        $jobAgg->setNazev($job->getNazev());
+//        
+//        
+//        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment()->getPath();  // exception
+//        
+//        // $editable = true;                            
+//        $jobId = $this->getParentId(); //id jobu                  
+//        /** @var JobInterface $job */ 
+//        $job = $this->jobRepo->get($jobId);
+//    
+//        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($job->getCompanyId());
+//
+//        $allTags=[];
+//        $jobTagEntitiesAll = $this->jobTagRepo->findAll();
+//        /** @var JobTagInterface  $jobTagEntity */
+//        foreach ( $jobTagEntitiesAll as $jobTagEntity) {
+//            $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
+//        }
+//
+//        $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $job->getId() );
+//
+//        $checkedTags=[];   //nalepky pro 1 job
+//        $checkedTagsText=[]; 
+//        $jobToTagies=[];
+//        foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
+//            /** @var JobToTagInterface $jobToTagEntity */
+//            $idDoTag = $jobToTagEntity->getJobTagId();
+//            /** @var JobTagInterface $tagE */
+//            $tagE = $this->jobTagRepo->get($idDoTag);
+//            $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
+//            $checkedTagsText["{$tagE->getTag()}"] = $tagE->getId()  ;
+//
+//        }
+//        $jobToTagies[] = [
+//            // conditions
+//            'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+//            //route
+//            'componentRouteSegment' => $componentRouteSegment,    // pracuje jen s kolekcíc -> nejsou routy s id jednotlivých job to tag
+//            // data
+//            'fields' => [ 
+//                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+//                'jobId'    => $job->getId(),
+//                'jobNazev' => $job->getNazev(),
+//                'allTags'  => $allTags,
+//                'checkedTags' => $checkedTags,
+//
+//                'checkedTagsText' => $checkedTagsText,                   ],
+//        ];        
+//        return $jobToTagies;
+//    }
     
-        ###########################
-        $job = $this->jobRepo->get($this->getFamilyRouteSegment()->getParentId());
-        $jobTagEntitiesAll = $this->jobTagRepo->findAll();
-        $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId($job->getId());
-        
-        $jobAgg = new JobAggregateTags();
-        $jobAgg->setNazev($job->getNazev());
-        
-        
-        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment()->getPath();  // exception
-        
-        // $editable = true;                            
-        $jobId = $this->getParentId(); //id jobu                  
-        /** @var JobInterface $job */ 
-        $job = $this->jobRepo->get($jobId);
-    
-        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($job->getCompanyId());
-
-        $allTags=[];
-        $jobTagEntitiesAll = $this->jobTagRepo->findAll();
-        /** @var JobTagInterface  $jobTagEntity */
-        foreach ( $jobTagEntitiesAll as $jobTagEntity) {
-            $allTags[$jobTagEntity->getTag()] = ["data[{$jobTagEntity->getTag()}]" => $jobTagEntity->getId()] ;
-        }
-
-        $jobToTagEntities_proJob = $this->jobToTagRepo->findByJobId( $job->getId() );
-
-        $checkedTags=[];   //nalepky pro 1 job
-        $checkedTagsText=[]; 
-        $jobToTagies=[];
-        foreach ($jobToTagEntities_proJob as $jobToTagEntity) {
-            /** @var JobToTagInterface $jobToTagEntity */
-            $idDoTag = $jobToTagEntity->getJobTagId();
-            /** @var JobTagInterface $tagE */
-            $tagE = $this->jobTagRepo->get($idDoTag);
-            $checkedTags["data[{$tagE->getTag()}]"] = $tagE->getId()  ;
-            $checkedTagsText["{$tagE->getTag()}"] = $tagE->getId()  ;
-
-        }
-        $jobToTagies[] = [
-            // conditions
-            'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-            //route
-            'componentRouteSegment' => $componentRouteSegment,    // pracuje jen s kolekcíc -> nejsou routy s id jednotlivých job to tag
-            // data
-            'fields' => [ 
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'jobId'    => $job->getId(),
-                'jobNazev' => $job->getNazev(),
-                'allTags'  => $allTags,
-                'checkedTags' => $checkedTags,
-
-                'checkedTagsText' => $checkedTagsText,                   ],
-        ];        
-        return $jobToTagies;
-    }
-    
-    private function sel($items) {
+    private function multiTemplateData($items) {
         $allTags=[];
         // map jsou tagy indexované podle id tagů (se stejnou map byly renderovány items)
         $map = $this->multiEntitiesMap;
@@ -185,15 +185,12 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
                 [         
                 'listHeadline'=>'Tagy pracovní pozice',           
                 //route
-                'componentRouteSegment' => $componentRouteSegment,    // pracuje jen s kolekcíc -> nejsou routy s id jednotlivých job to tag
+                'componentRouteSegment' => $componentRouteSegment,    // pracuje jen s kolekcí -> nejsou routy s id jednotlivých job to tag
                 ],            
-                $this->sel($this->getArrayCopy())
+                $this->multiTemplateData($this->getArrayCopy())
             );        
         } else {
             $array = [
-            'listHeadline'=>'Tagy pracovní pozice',           
-            //route
-            'componentRouteSegment' => $componentRouteSegment,    // pracuje jen s kolekcíc -> nejsou routy s id jednotlivých job to tag
             'items' => $this->getArrayCopy()
             ];
         }        
