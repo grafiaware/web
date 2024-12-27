@@ -7,6 +7,7 @@ use Component\View\ComponentPrototypeInterface;
 
 use Component\View\ComponentListInterface;
 use Component\ViewModel\ViewModelListInterface;
+use Component\ViewModel\FamilyInterface;
 
 use Configuration\ComponentConfigurationInterface;
 
@@ -25,8 +26,12 @@ abstract class ComponentListAbstract extends CollectionView implements Component
      */
     protected $configuration;
     
-    private $viewPrototype;
+    protected $viewPrototype;
     
+    /**
+     * 
+     * @var ViewModelListInterface
+     */
     private $listViewModel;
 
     public function __construct(ComponentConfigurationInterface $configuration, ComponentPrototypeInterface $viewPrototype) {
@@ -36,8 +41,11 @@ abstract class ComponentListAbstract extends CollectionView implements Component
     
     public function setListViewModel(ViewModelListInterface $listViewModel) {
         $this->listViewModel = $listViewModel;
-        $this->setData($listViewModel);
     }
+    
+    public function getListViewModel(): ViewModelListInterface {
+        return $this->listViewModel;
+    }   
     
     /**
      * Získá kolekci dat z view modelu collection komponentu metodou provideDataCollection(). 
@@ -50,13 +58,15 @@ abstract class ComponentListAbstract extends CollectionView implements Component
             throw new LogicException("Komponent list musí mít nastaven list view model metodou ->setListViewModel(ViewModelListInterface)");
         }
         $componentViewCollection = [];
-        foreach ($this->listViewModel->provideItemDataCollection() as $itemData) {
-            /** @var ViewInterface $view */
-            $view = clone ($this->viewPrototype);
-            $view->setData($itemData);
-            $componentViewCollection[] = $view;
+        foreach ($this->listViewModel->provideItemEntityCollection() as $entity) {
+            /** @var ComponentPrototypeInterface $itemComponent */
+            $itemComponent = clone ($this->viewPrototype);
+            $itemComponent->getItemViewModel()->receiveEntity($entity);
+            $componentViewCollection[] = $itemComponent;
         }
         
         $this->appendComponentViewCollection($componentViewCollection);
+        $this->setData($this->listViewModel);
+
     }
 }

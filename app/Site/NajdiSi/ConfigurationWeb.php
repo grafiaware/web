@@ -28,7 +28,7 @@ use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyContactComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
-use Events\Component\View\Data\JobFamilyJobToTagListComponent;
+use Events\Component\View\Data\JobFamilyTagMultiComponent;
 
 // component view model
 use Component\ViewModel\StatusViewModel;
@@ -38,7 +38,7 @@ use Events\Component\ViewModel\Data\CompanyViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyCompanyContactListViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyCompanyAddressListViewModel;
-use Events\Component\ViewModel\Data\JobFamilyJobToTagListViewModel;
+use Events\Component\ViewModel\Data\JobFamilyTagMultiViewModel;
 
 
 /**
@@ -126,7 +126,10 @@ class ConfigurationWeb extends ConfigurationConstants {
                 // data templates - common
                 'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
                 'item' => self::WEB_TEMPLATES_COMMON.'data/item.php',
+                'items' => self::WEB_TEMPLATES_COMMON.'data/items.php',
                 'multiItem' => self::WEB_TEMPLATES_COMMON.'data/multiItem.php',
+                'checkbox' => self::WEB_TEMPLATES_COMMON.'data/checkbox.php',
+                'checked' => self::WEB_TEMPLATES_COMMON.'data/checked.php',
                 
                 // data templates - components
                 'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
@@ -348,6 +351,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             // volba sady parametrů z Mail\ParamsTemplates
 //            'mail.paramsname' => 'grafiaInterni', 
             'mail.paramsname' => 'najdisi', 
+//            'mail.paramsname' => 'najdisiWebSMTP',
 //            'mail.paramsname' => 'itGrafiaGmail', 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'attachments/' : self::WEB_FILES_SITE.'attachments/',
 

@@ -2,7 +2,7 @@
 
 namespace Events\Component\View\Data;
 
-use Component\View\ComponentItemAbstract;
+use Component\View\ComponentFamilyItemAbstract;
 use Component\View\ComponentItemInterface;
 
 use Access\Enum\RoleEnum;
@@ -11,7 +11,7 @@ use Access\Enum\AccessPresentationEnum;
 /** 
  * 
  */ 
-class CompanyContactComponent extends ComponentItemAbstract implements ComponentItemInterface {
+class CompanyContactComponent extends ComponentFamilyItemAbstract {
 
     public static function getComponentPermissions(): array {
         return [

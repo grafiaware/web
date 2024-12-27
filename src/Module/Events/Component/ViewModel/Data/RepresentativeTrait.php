@@ -23,7 +23,9 @@ trait RepresentativeTrait {
     protected function getStatusRepresentativeDataEditable(): bool {
         $actions = $this->status->getRepresentativeActions();
         return isset($actions) ? $actions->getDataEditable() : false;
-
-}
+    }
     
+    protected function isCompanyEditor($companyId): bool {
+        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
+    }
 }

@@ -7,10 +7,8 @@ use Pes\Text\Message;
 
             <div class="">
                 <?= $listHeadline ?>
-            </div>    
-            <div class="">
-                <?php $listUid = uniqid(); ?>
-                <div id="list_<?php $listUid;?>" class="list active content">      
-                    <?= $this->insert( __DIR__.'/items.php', $items+["listUid"=>$listUid], __DIR__.'/empty.php') ?>                           
-                </div> 
-            </div>
+            </div>     
+            <div class="list active content">      
+                <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>                           
+            </div>            
+    </div>

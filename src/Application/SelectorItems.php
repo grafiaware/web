@@ -21,7 +21,7 @@ use Red\Middleware\Component\Component;
 use Red\Middleware\Redactor\Redactor;
 use Transformator\Middleware\Transformator\Transformator;
 use Events\Middleware\Events\EventsLoginSync;
-use Events\Middleware\Events\Event;
+use Events\Middleware\Events\Events;
 use Sendmail\Middleware\Sendmail\Sendmail;
 
 use Build\Middleware\Build\Build;
@@ -111,7 +111,7 @@ class SelectorItems {
                     new FlashStatus(),
                     new PresentationStatus(),
                     new EventsLoginSync(),
-                    new Event()
+                    new Events()
                 ];},
             '/sendmail'=>
             function() {

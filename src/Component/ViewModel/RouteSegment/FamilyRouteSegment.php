@@ -1,23 +1,18 @@
 <?php
-namespace Component\ViewModel;
+namespace Component\ViewModel\RouteSegment;
 
-use Component\ViewModel\ViewModelFamilyInterface;
-use Component\ViewModel\ViewModelAbstract;
-
-use LogicException;
-
+ use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
 /**
- * Description of ViewModelChildListAbstract
+ * Description of FamilyRouteSegment
  *
  * @author pes2704
  */
-abstract class ViewModelFamilyAbstract extends ViewModelAbstract implements ViewModelFamilyInterface {
-    
+class FamilyRouteSegment implements FamilyRouteSegmentInterface {
     private $parentName;
     private $parentId;
     private $childName;
     
-    public function setFamily(string $parentName, string $parentId, string $childName) {
+    public function __construct(string $parentName, string $parentId, string $childName) {
         if (! ($parentName && $parentId && $childName)) {
             throw new UnexpectedValueException("nejsou nastaveny všechny povinné parametry.");
         }
@@ -42,7 +37,7 @@ abstract class ViewModelFamilyAbstract extends ViewModelAbstract implements View
         return $this->childName;
     }
     
-    public function getFamilyRouteSegment(): string {
+    public function getPath(): string {
         if (!$this->hasFamily()) {
             throw new LogicException("All family parameters have not been set.");
         }
@@ -51,5 +46,4 @@ abstract class ViewModelFamilyAbstract extends ViewModelAbstract implements View
         $itemName = $this->getItemName();
         return "$parentName/$parentId/$itemName";
     }
-        
 }

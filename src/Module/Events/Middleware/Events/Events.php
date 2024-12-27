@@ -29,7 +29,7 @@ use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 
 
-class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
+class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 
     private $container;
 
@@ -42,26 +42,8 @@ class Event extends AppMiddlewareAbstract implements MiddlewareInterface {
      * @return Response
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        // middleware kontejner:
-        //      nový kontejner konfigurovaný MenuContainerConfigurator
-        //      -> delegát další nový kontejner konfigurovaný ApiContainerConfigurator a LoginContainerConfigurator
-        //      -> delegát aplikační kontejner
-        // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
-        // jsou v jednotlivých kontejnerech)
-
-//        $this->container =
-//            (new EventsContainerConfigurator())->configure(
-//                (new EventsModelContainerConfigurator())->configure(
-//                    (new EventsDbContainerConfigurator())->configure(
-//                        (new MailContainerConfigurator())->configure(
-//                            new Container($this->getApp()->getAppContainer())
-//                        )
-//                    )
-//                )
-//            );
-        
-        
-        $this->container = $this->getApp()->getAppContainer();  // měl by mít nastaven kontejner z middleware EventsAccess
+        // middleware kontejner: má nastaven kontejner z middleware EventsLoginSync
+        $this->container = $this->getApp()->getAppContainer();
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         

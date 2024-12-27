@@ -12,12 +12,13 @@ use Access\Enum\AccessActionEnum;
 // renderery
 use Pes\View\Renderer\ImplodeRenderer;
 
-use Component\View\ComponentCompositeInterface;
+use Component\View\ComponentItemInterface;
+use Component\View\ComponentListInterface;
+use Component\View\ComponentFamilyInterface;
 use Component\ViewModel\ViewModelInterface;
 use Component\ViewModel\ViewModelItemInterface;
 use Component\ViewModel\ViewModelFamilyListInterface;
-use Component\ViewModel\ViewModelFamilyItemInterface;
-
+use Component\ViewModel\FamilyInterface;
 use Pes\Text\Html;
 
 use LogicException;
@@ -137,8 +138,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($name);
-                /** @var ComponentCompositeInterface $component */
-                $viewModel = $component->getData();
+                /** @var ComponentItemInterface $component */
+                $viewModel = $component->getItemViewModel();
                 /** @var ViewModelInterface $viewModel */
                 if ($viewModel instanceof ViewModelItemInterface) {
                     $viewModel->setItemId($id);
@@ -167,11 +168,9 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             $serviceName = $parentName."Family".$childName."List";
             if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($serviceName);
-                /** @var ComponentCompositeInterface $component */
-                $viewModel = $component->getData();
-                /** @var ViewModelInterface $viewModel */
-                if ($viewModel instanceof ViewModelFamilyListInterface) {
-                    $viewModel->setFamily($parentName, $parentId, $childName);
+                /** @var ComponentListInterface $component */
+                if ($component instanceof ComponentFamilyInterface) {
+                    $component->createFamilyRouteSegment($parentName, $parentId, $childName);
                 }
             } else {
                 $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    
@@ -196,12 +195,11 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             $serviceName = $parentName."Family".$childName;
             if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($serviceName);
-                /** @var ComponentCompositeInterface $component */
-                $viewModel = $component->getData();
-                /** @var ViewModelInterface $viewModel */
-                if ($viewModel instanceof ViewModelFamilyItemInterface) {
-                    $viewModel->setFamily($parentName, $parentId, $childName);
-                    $viewModel->setChildId($id);
+                /** @var ViewModelItemInterface $viewModel */
+                $viewModel = $component->getItemViewModel();                
+                $viewModel->setItemId($id);
+                if ($component instanceof ComponentFamilyInterface) {
+                    $component->createFamilyRouteSegment($parentName, $parentId, $childName);
                 }
             } else {
                 $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    

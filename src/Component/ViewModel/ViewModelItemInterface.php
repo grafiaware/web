@@ -8,6 +8,7 @@
 
 namespace Component\ViewModel;
 
+use Model\Entity\EntityInterface;
 use Component\ViewModel\ViewModelInterface;
 
 /**
@@ -15,6 +16,10 @@ use Component\ViewModel\ViewModelInterface;
  * @author pes2704
  */
 interface ViewModelItemInterface extends ViewModelInterface {
+    
+    public function receiveEntity(EntityInterface $entity);
+        
+    public function isItemEditable(): bool;
     
     /**
      * Metoda nastaví hodnotu identifikátoru z requestu.

@@ -3,12 +3,14 @@ namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelFamilyListAbstract;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
+use Component\ViewModel\FamilyInterface;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
+
 use Events\Model\Entity\CompanyContactInterface;
-use Events\Model\Entity\CompanyInterface;
+use Events\Model\Entity\CompanyContact;
 
 use Access\Enum\RoleEnum;
 use ArrayIterator;
@@ -23,7 +25,7 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
     private $status;
     private $companyRepo;
     private $companyContactRepo;
-
+   
     public function __construct(
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo,
@@ -36,56 +38,33 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
 
     use RepresentativeTrait;
     
+    public function isListEditable(): bool {
+        return $this->isAdministrator() || $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
+    }
+    
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
+        
+    protected function newListEntity() {
+        return new CompanyContact();  // "prázdná" entita pro formulář pro přidání
+    }
 
-    private function isCompanyEditor($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
-    }
-    
-    public function provideItemDataCollection(): iterable {
-        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
-        $companyId = $this->getParentId();
-        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
-        $items = [];
-        /** @var CompanyContactInterface $companyContact */
-        $companyContacts = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $companyId ] );
-        foreach ($companyContacts as $companyContact) {   
-            $items[] = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
-                // text
-                'headline' => 'Jméno kontaktu',
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $companyContact->getId(),
-                // data
-                'fields' => [
-                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                    'name' =>  $companyContact->getName(),
-                    'phones' =>  $companyContact->getPhones(),
-                    'mobiles' =>  $companyContact->getMobiles(),
-                    'emails' =>  $companyContact->getEmails(),      
-                    ], 
-            ];
+    protected function cardinality() {
+        return FamilyInterface::CARDINALITY_0_1;
+    }    
+
+    protected function loadListEntities() {
+        if (!$this->listEntities) {
+            $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId() );     
+            $this->listEntities = $this->companyContactRepo->find( " company_id = :idCompany ",  ['idCompany'=> $company->getId()] );
         }
-        if ($editableItem) {
-            $items[] = [
-                // conditions
-                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
-                // text
-                'addHeadline' => 'Přidej kontakt',                 
-                //route
-                'componentRouteSegment' => $componentRouteSegment,
-                // data
-                'fields' => [
-                    'editable' => $editableItem,]
-            ];
-        }        
-        return $items;
     }
+
+    /**
+     * 
+     * @return ArrayIterator
+     */
     public function getIterator() {
 
         $array = [         

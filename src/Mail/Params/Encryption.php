@@ -34,11 +34,11 @@ class Encryption {
 //SMTP      587             TLS                 ne
 //SMTPS     465             SSL                 ne
         switch ($encryption) {
-            case self::SMTPS:
+            case self::STARTTLS:
                 $this->smtpSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $this->port = 587;
                 break;
-            case self::STARTTLS:
+            case self::SMTPS:
                 $this->smtpSecure = PHPMailer::ENCRYPTION_SMTPS;
                 $this->port = 465;
                 break;

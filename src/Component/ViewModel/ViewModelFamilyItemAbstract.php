@@ -8,43 +8,17 @@
 
 namespace Component\ViewModel;
 
-use Component\ViewModel\ViewModelFamilyItemInterface;
-
-use Component\ViewModel\ViewModelFamilyAbstract;
-
+use Component\ViewModel\FamilyInterface;
+use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\FamilyTrait;
 /**
+ * 
  * Description of ViewModelAbstract
  *
  * @author pes2704
  */
-abstract class ViewModelFamilyItemAbstract extends ViewModelFamilyAbstract implements ViewModelFamilyItemInterface {
+abstract class ViewModelFamilyItemAbstract extends ViewModelItemAbstract implements FamilyInterface {
     
-    private $id;
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @param type $id
-     */
-    public function setItemId(string $id) {
-        $this->id = $id;
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @return bool
-     */
-    public function hasItemId(): bool {
-        return isset($this->id);
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @return mixed
-     */
-    public function getItemId(): string {
-        return $this->id ?? null;
-    }
+    use FamilyTrait;
+
 }

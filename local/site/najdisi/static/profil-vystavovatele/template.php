@@ -35,11 +35,9 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
     /** @var StatusViewModelInterface $statusViewModel */
     $statusViewModel = $container->get(StatusViewModel::class);
    
-    // $role = $statusViewModel->getUserRole();
     /** @var  RepresentativeInterface $representativeFromStatus*/
     $repreActions = $statusViewModel->getRepresentativeActions();
     $representativeFromStatus = isset($repreActions) ? $repreActions->getRepresentative(): null;
-      
     
     $readonly = 'readonly="1"';
     $disabled = 'disabled="1"';
