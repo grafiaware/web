@@ -2,33 +2,28 @@
 use Pes\Text\Text;
 use Pes\Text\Html;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-
-use Events\Model\Repository\CompanyRepo;
-use Events\Model\Repository\CompanyRepoInterface;
-
 /** @var PhpTemplateRendererInterface $this */
-    /** @var CompanyRepoInterface $companyRepo */
-    $companyRepo = $container->get(CompanyRepo::class );
-    $companies = $companyRepo->findAll();
-    $pStyle = ['style'=>'color: red;'];
-    
 
-    use Component\ViewModel\StatusViewModelInterface;
-    use Component\ViewModel\StatusViewModel;
-    use Auth\Model\Entity\LoginAggregateFullInterface;
-    use Events\Model\Entity\RepresentativeInterface;
+use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModel;
+use Events\Model\Entity\RepresentativeInterface;
+use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Entity\JobInterface;
 
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
 
-    /** @var StatusViewModelInterface $statusViewModel */
-    $statusViewModel = $container->get(StatusViewModel::class);
-   
-    /** @var  RepresentativeInterface $representativeFromStatus*/
-    $repreActions = $statusViewModel->getRepresentativeActions();
-    $representativeFromStatus = isset($repreActions) ? $repreActions->getRepresentative(): null;
+/** @var  RepresentativeInterface $representativeFromStatus*/
+$repreActions = $statusViewModel->getRepresentativeActions();
+$representativeFromStatus = isset($repreActions) ? $repreActions->getRepresentative(): null;
 
-    
+if (isset($representativeFromStatus)) {
     $companyId = $representativeFromStatus->getCompanyId();
-
+    /** @var JobRepoInterface $jobRepo */
+    $jobRepo = $container->get(JobRepo::class);
+    $jobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId] );
+    
     echo Html::tag('div', 
             [
                 'class'=>'cascade',
@@ -46,10 +41,24 @@ use Events\Model\Repository\CompanyRepoInterface;
                 'class'=>'cascade',
                 'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
             ]
-        );
-    echo Html::tag('div', 
-            [
-                'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
-            ]
-        );
+        );             
+
+    foreach ($jobs as $job) {
+        /** @var JobInterface $job */
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job/{$job->getId()}",
+                ]
+            );            
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}/jobtotag",
+                ]
+            );              
+    }
+    
+} else {
+    echo "Stránka je určena pouze přihlíšenému reprezentatu firmy.";
+}

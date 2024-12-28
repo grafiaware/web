@@ -31,8 +31,12 @@ use Events\Model\Entity\JobInterface;
     foreach ($companies as $company) {
         $companyId = $company->getId();
         $jobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId ] );
-        echo Html::tag('div',['style'=>'background-color: yellow; color: red;'] ,$company->getName());
-//        echo Html::p("Všechny joby pro company s id $companyId: events/v1/data/job/{$job->getId()}", $pStyle);
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId",
+                ]
+            );                 
         
         foreach ($jobs as $job) {
             /** @var JobInterface $job */

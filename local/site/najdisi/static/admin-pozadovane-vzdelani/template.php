@@ -5,12 +5,20 @@ use Site\ConfigurationCache;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface;
+use Access\Enum\RoleEnum;
+
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
 use Events\Model\Entity\PozadovaneVzdelaniInterface;
 
 /** @var PhpTemplateRendererInterface $this */
-
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$userRole = $statusViewModel->getUserRole();
+if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
+    
     /** @var PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo */ 
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
     //------------------------------------------------------------------
@@ -57,4 +65,8 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
         </div>           
                                       
     </div>
-
+<?php
+} else {
+    echo "stránka je určena pouze pro administraci.";
+}
+?>

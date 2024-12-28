@@ -347,7 +347,8 @@ var editUserInputConfig = {
     plugins: [
     'lists', 'link'
     ],
-    toolbar: 'undo redo | fontsize | bold italic underline | bullist | alignleft aligncenter | link',
+    toolbar: 'undo redo | bold italic underline | bullist | alignleft aligncenter | link',
+//    toolbar: 'undo redo | fontsize | bold italic underline | bullist | alignleft aligncenter | link',
     max_chars: 2000,
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,    

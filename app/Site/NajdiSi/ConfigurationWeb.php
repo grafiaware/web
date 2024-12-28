@@ -25,7 +25,7 @@ use Events\Component\View\Manage\RepresentativeActionComponent;
 use Events\Component\View\Data\CompanyComponent;
 use Events\Component\View\Data\CompanyListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
-use Events\Component\View\Data\CompanyContactComponent;
+use Events\Component\View\Data\CompanyFamilyCompanyContactComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
 use Events\Component\View\Data\JobFamilyTagMultiComponent;

@@ -27,7 +27,7 @@ use Access\Enum\RoleEnum;
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
 $userRole = $statusViewModel->getUserRole();
-if ( $userRole == RoleEnum::SUPERVISOR ) {
+if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
 
                 // asi navic 
                 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
@@ -104,7 +104,9 @@ if ( $userRole == RoleEnum::SUPERVISOR ) {
         
         </div>
         
- <?php
-   }
+<?php
+} else {
+    echo "stránka je určena pouze pro administraci.";
+}
 ?>
 

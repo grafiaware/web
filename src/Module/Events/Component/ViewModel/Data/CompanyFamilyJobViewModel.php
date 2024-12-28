@@ -19,7 +19,7 @@ use UnexpectedValueException;
 /**
  * 
  */
-class JobViewModel extends ViewModelFamilyItemAbstract {
+class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
     
     private $status;
     private $companyRepo;
@@ -58,15 +58,11 @@ class JobViewModel extends ViewModelFamilyItemAbstract {
     
     public function isItemEditable(): bool {
         $this->loadJob();
-        return $this->isAdministrator() || $this->isCompanyRepresentative($this->job->getCompanyId());
+        return $this->isAdministrator() || $this->isCompanyEditor($this->job->getCompanyId());
     }
 
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
-    }
-
-    private function isCompanyRepresentative($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
     
     private function selectEducations() {

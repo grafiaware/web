@@ -2,6 +2,7 @@
 namespace Component\ViewModel;
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\ViewModelMultiInterface;
+use Component\ViewModel\FamilyInterface;
 
 /**
  * Description of ViewModelListAbstract

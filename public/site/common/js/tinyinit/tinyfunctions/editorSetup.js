@@ -85,6 +85,8 @@ export const setupUserInputEditor = function (editor) {
     const allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
     editor.on('keydown', function (e) {
         if (allowedKeys.indexOf(e.keyCode) !== -1) return true;
+        let tinyLg = tinymce_getContentLength();
+        let editr = tinymce.get(tinymce.activeEditor.id);
         if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
             e.preventDefault();
             e.stopPropagation();
