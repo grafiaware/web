@@ -1,0 +1,22 @@
+19.12.
+
+registrační formulář 
+- informace o konfirmačním mailu - dostanou mail a jeho potvrzením bude registrace dokončena, pak se mohou se zadanými údaji přihlašovat
+- po zaškrtnutí "zastupuji firmu" se musí zobrazit informace, která jde zavřít jen tlačítkem 
+"rozumím". V informaci bude, že po dokončení registrace musí být jejich žádost o zastupování firmy schválena na základě informací 
+o vystavovatelích a partnerech. O schválení jako zátupce společnosti jim zašleme email a pak se budou teprve moci příhlásit a zadávat údaje o firmě a pracovních pozicích
+- ?? možná by mohli "žadatelé o zastupování" dostat jiný konfirmační mail s info
+
+
+27.12.
+
+list, item - tlačítko reset formuláře
+
+28.12.
+
+TinyMce - popis pozice, pžadujeme, nabízíme
+
+??     private function isPartInEditableMode() {
+
+
+

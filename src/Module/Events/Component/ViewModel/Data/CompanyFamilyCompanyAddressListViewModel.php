@@ -22,8 +22,6 @@ class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstra
 
     private $companyRepo;
     private $companyAddressRepo;
-
-    use RepresentativeTrait;
     
     public function __construct(
             StatusViewModelInterface $status,
@@ -34,6 +32,8 @@ class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstra
         $this->companyRepo = $companyRepo;
         $this->companyAddressRepo = $companyAddressRepo;
     }
+
+    use RepresentativeTrait;
     
     public function isListEditable(): bool {
         return $this->isAdministrator() || $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());

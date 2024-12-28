@@ -62,31 +62,6 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         return $response->withHeader('X-RED-Controlled', "$cls");
     }
 
-    ### response ###
-
-    /**
-     * Volá rodičovskou metodu Front kontroleru a k vrácenému response přidává řízení cache
-     * a ukládá poslední GET request pro "post redirect get".
-     *
-     * @param ServerRequestInterface $request
-     * @param type $stringContent
-     * @return ResponseInterface
-     */
-//    protected function createResponseFromString($stringContent, $status = StatusEnum::_200_OK): ResponseInterface {
-//        $response = parent::createResponseFromString($stringContent, $status);
-        
-//        $statusPresentation = $this->statusPresentationRepo->get();
-//        if ($request->getMethod()=='GET') {
-//            /** @var UriInfoInterface $uriInfo */
-//            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
-//            if (!$request->hasHeader("X-Cascade")) {
-//                $restUri = $uriInfo->getRestUri();
-//                $statusPresentation->setLastGetResourcePath($restUri);
-//            }
-//        }
-//        return $response;
-//    }
-
     ### status control methods ###
 
     protected function setPresentationMenuItem($menuItem) {

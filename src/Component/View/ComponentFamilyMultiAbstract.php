@@ -13,8 +13,8 @@ use TypeError;
  */
 abstract class ComponentFamilyMultiAbstract extends ComponentMultiAbstract implements ComponentFamilyInterface {
     
-    public function createFamilyRouteSegment(string $parentName, string $parentId, string $childName) {
-        $familyRouteSegment = new FamilyRouteSegment($parentName, $parentId, $childName);
+    public function createFamilyRouteSegment(string $prefix, string $parentName, string $parentId, string $childName) {
+        $familyRouteSegment = new FamilyRouteSegment($prefix, $parentName, $parentId, $childName);
         $listViewModel = $this->getMultiViewModel();
         if ($listViewModel instanceof FamilyInterface) {
             $listViewModel->setFamilyRouteSegment($familyRouteSegment);

@@ -35,7 +35,9 @@ use Pes\View\View;
 class ComponentControler extends PresentationFrontControlerAbstract {
 
     const LIST_COMPONENT_NAME_POSTFIX = 'List';
-    
+    const ROUTE_PREFIX = "events/v1";
+
+
     protected function getActionPermissions(): array {
         
         // je jen jeden ConponentControler, proto mají VISITOR i REPRESENTATIVE stejná oprávnění ke všem komponentům
@@ -170,7 +172,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 $component = $this->container->get($serviceName);
                 /** @var ComponentListInterface $component */
                 if ($component instanceof ComponentFamilyInterface) {
-                    $component->createFamilyRouteSegment($parentName, $parentId, $childName);
+                    $component->createFamilyRouteSegment(self::ROUTE_PREFIX, $parentName, $parentId, $childName);
                 }
             } else {
                 $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    
@@ -199,7 +201,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
                 $viewModel = $component->getItemViewModel();                
                 $viewModel->setItemId($id);
                 if ($component instanceof ComponentFamilyInterface) {
-                    $component->createFamilyRouteSegment($parentName, $parentId, $childName);
+                    $component->createFamilyRouteSegment(self::ROUTE_PREFIX, $parentName, $parentId, $childName);
                 }
             } else {
                 $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    
@@ -213,7 +215,8 @@ class ComponentControler extends PresentationFrontControlerAbstract {
 ###################
     private function errorView(ServerRequestInterface $request, $message = '') {
         $view = $this->container->get(View::class);
-        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $message)]);
+        $view->setData([Html::tag('div', ['style'=>'display: block;' ], $message)]);
+//        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $message)]);
         $view->setRenderer(new ImplodeRenderer());
         return $view;
     }    

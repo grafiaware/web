@@ -20,7 +20,7 @@ use TypeError;
  *
  * @author pes2704
  */
-class CompanyContactViewModel extends ViewModelFamilyItemAbstract {
+class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
     
     private $status;
     private $companyRepo;

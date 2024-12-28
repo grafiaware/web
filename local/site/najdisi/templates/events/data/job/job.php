@@ -30,6 +30,29 @@ use Pes\Text\Html;
         <div class="content">
             <div class="two fields">                        
                 <div class="field">
+                <label>Název pozice</label>
+                    <input <?= $readonly ?> type="text" name="nazev" placeholder="" maxlength="120" value="<?= $nazev ?? '' ?>" required>
+                    <span></span>
+                 </div>                 
+                
+                <div class="field">                    
+                    <?php
+                    if($editable) {
+                    ?>                       
+                        <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
+                                      ["pozadovane-vzdelani-stupen"=> $pozadovaneVzdelaniStupen ?? '' ],  
+                                      $selectEducations ??  [], 
+                                      ['required' => true ],
+                                      []) ?>  
+                    <span></span>
+                     <?php   
+                     
+                    }else{   ?> 
+                        <?=  "<p class='text zadne-okraje tucne'>Požadované vzdělání: </p><p>"  .  
+                             $selectEducations [$pozadovaneVzdelaniStupen] ."</p>" ?? ''   ?>
+                    <?php                      
+                     } 
+                     ?> 
                     <p class='text zadne-okraje tucne'>Požadované vzdělání: </p>
                 </div>
                 <div class="field">

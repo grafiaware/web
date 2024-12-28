@@ -15,7 +15,7 @@ use Events\Model\Entity\JobTagInterface;
 use Events\Model\Entity\JobToTag;
 
 use Events\Component\Model\Entity\JobAggregateTags;
-
+use Component\ViewModel\FamilyInterface;
 use Access\Enum\RoleEnum;
 use ArrayIterator;
 
@@ -50,7 +50,8 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
     use RepresentativeTrait;
     
     public function isMultiEditable(): bool {
-        return $this->isAdministrator() || $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
+        $job = $this->jobRepo->get($this->getFamilyRouteSegment()->getParentId());
+        return $this->isAdministrator() || $this->isCompanyEditor($job->getCompanyId());
     }
     
     private function isAdministrator() {
@@ -62,7 +63,7 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
     }
 
     protected function cardinality() {
-        return FamilyInterface::CARDINALITY_0_;
+        return FamilyInterface::CARDINALITY_0_N;
     }    
 
     private function getCheckedTags() {
@@ -179,7 +180,7 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
      * @return ArrayIterator
      */
     public function getIterator() {
-        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment()->getPath();  // exception 
+        $componentRouteSegment = $this->getFamilyRouteSegment()->getPath();  // exception 
         if ($this->isMultiEditable()) {
             $array = array_merge(
                 [         

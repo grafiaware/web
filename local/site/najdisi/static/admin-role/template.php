@@ -5,11 +5,19 @@ use Site\ConfigurationCache;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface;
+use Access\Enum\RoleEnum;
+
 use Auth\Model\Repository\RoleRepoInterface;
 use Auth\Model\Entity\RoleInterface;
 
 /** @var PhpTemplateRendererInterface $this */
-
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$userRole = $statusViewModel->getUserRole();
+if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
+    
     /** @var RoleRepoInterface $roleRepo */ 
     $roleRepo = $container->get(RoleRepoInterface::class );
     //------------------------------------------------------------------
@@ -32,4 +40,8 @@ use Auth\Model\Entity\RoleInterface;
                 <?= $this->insert( __DIR__.'/role.php' ) ?>                                                                                 
                                       
     </div>
-
+<?php
+} else {
+    echo "stránka je určena pouze pro administraci.";
+}
+?>

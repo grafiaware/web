@@ -8,14 +8,17 @@ namespace Component\ViewModel\RouteSegment;
  * @author pes2704
  */
 class FamilyRouteSegment implements FamilyRouteSegmentInterface {
+    
+    private $prefix;
     private $parentName;
     private $parentId;
     private $childName;
     
-    public function __construct(string $parentName, string $parentId, string $childName) {
+    public function __construct(string $prefix, string $parentName, string $parentId, string $childName) {
         if (! ($parentName && $parentId && $childName)) {
             throw new UnexpectedValueException("nejsou nastaveny všechny povinné parametry.");
         }
+        $this->prefix = $prefix;
         $this->parentName = $parentName;
         $this->parentId = $parentId;
         $this->childName = $childName;
@@ -41,9 +44,10 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
         if (!$this->hasFamily()) {
             throw new LogicException("All family parameters have not been set.");
         }
+        $prefix = $this->prefix;
         $parentName = $this->getParentName();
         $parentId = $this->getParentId();
         $itemName = $this->getItemName();
-        return "$parentName/$parentId/$itemName";
+        return "$prefix/$parentName/$parentId/$itemName";
     }
 }

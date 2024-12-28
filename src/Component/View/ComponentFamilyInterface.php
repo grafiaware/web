@@ -13,6 +13,6 @@ use Component\ViewModel\ViewModelListInterface;
  * @author pes2704
  */
 interface ComponentFamilyInterface {
-    public function createFamilyRouteSegment(string $parentName, string $parentId, string $childName);
+    public function createFamilyRouteSegment(string $prefix, string $parentName, string $parentId, string $childName);
 
 }
