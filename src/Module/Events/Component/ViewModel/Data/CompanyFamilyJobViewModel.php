@@ -96,14 +96,14 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
         if (isset($id)) {                  
             $companyJob = [
                 // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+                'editable' => $editableItem,    // přidá tlačítka edit, add do item
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $this->job->getId(),
+                'componentRouteSegment' => $componentRouteSegment,  // pro formaction v buttonech
+                'id' => $this->job->getId(),  // pro formaction v edit buttonu
                 // data
                 'fields' => [
-                    'editable' => $editableItem,
+                    'id' => $this->job->getId(),  // pro vnořený komponent JobFamilyTag
                     'pozadovaneVzdelaniStupen' =>  $this->job->getPozadovaneVzdelaniStupen(),
                     'nazev' =>  $this->job->getNazev(),                
                     'mistoVykonu' =>  $this->job->getMistoVykonu(),
@@ -124,7 +124,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                 'id' => $this->job->getId(),
                 // data
                 'fields' => [
-                    'editable' => $editableItem,
+                    'id' => $this->job->getId(),
                     'selectEducations' =>  $selectEducations,                        
                     ],                
                 ];                   

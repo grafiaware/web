@@ -28,6 +28,7 @@ RewriteRule ^ index.php [QSA,L]
 
 # RewriteRule ^((?s).*)$ index.php?_uri=/$1 [QSA,L]
 
+# vyžaduje mod expires: LoadModule expires_module modules/mod_expires.so
 ExpiresActive On
 ExpiresDefault "access plus 30 seconds"
 ExpiresByType text/css "access plus 10 seconds"

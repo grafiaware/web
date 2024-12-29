@@ -26,5 +26,8 @@ use Pes\Text\Message;
                 <?=
                 ($editable ?? false) && ($remove ?? false) ? "<button ".(isset($formUid) ? "id='remove_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove'> Odstranit </button>" : "";
                 ?>
+                <?=
+                ($editable ?? false) ? "<button ".(isset($formUid) ? "id='reset_$formUid'" : "")." style='display:none' class='ui secondary button' onClick='eventsResetButton(event)' type='reset'> Vrátit změny zpět </button>" : "";
+                ?>
             </div>   
         </form>         

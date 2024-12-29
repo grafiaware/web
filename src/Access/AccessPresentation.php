@@ -53,33 +53,31 @@ class AccessPresentation implements AccessPresentationInterface {
      * Vrací informaci, jestli přihlášený uživatel má oprávnění zobrazit komponent v zadaném prezentační režimu.
      * 
      * @param string $resourceClassname FQDN třídy (například view nebo komponent), pro kterou zjišťuji oprávnění k akci
-     * @param type $presentationMode Prezentační režim. Hodnota z AccessPresentationEnum.
+     * @param type $presentationAction Požadovaná prezentační aknce. Hodnota z AccessPresentationEnum.
      * @return bool
      */
-    public function isAllowed($resourceClassname, $presentationMode): bool {
-        $mode = (new AccessPresentationEnum())($presentationMode);
-        return $this->allowedByRole($resourceClassname, $mode);
+    public function isAllowed($resourceClassname, $presentationAction): bool {
+        $action = (new AccessPresentationEnum())($presentationAction);
+        return $this->allowedByRole($resourceClassname, $action);
     }
     
-    private function allowedByRole($resourceClassname, $mode) {
+    private function allowedByRole($resourceClassname, $action) {
         $isAllowed = false;
         $role = $this->statusViewModel->getUserRole();
         $logged = $this->statusViewModel->isUserLoggedIn();
         $permissions = $resourceClassname::getComponentPermissions();
         $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
-        foreach ($activeRoles as $activeRole) {
-            if (array_key_exists($activeRole, $permissions) AND array_key_exists($mode, $permissions[$activeRole])) {
-                $permission = $permissions[$activeRole][$mode];
+        do {
+            $activeRole = array_pop($activeRoles);  // array_pop pro prázdné pole vrací null
+            if (isset($activeRole) AND array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {               
+                $permission = $permissions[$activeRole][$action];
                 if($permission instanceof \Closure) {
                     $isAllowed = (bool) $permission();
                 } else {
                     $isAllowed = (bool) $permission;
-                } 
-                if ($isAllowed) {
-                    break;
-                }
-            }
-        }
+                }              
+            }            
+        } while (count($activeRoles) AND !$isAllowed);
         return $isAllowed;
     }
     

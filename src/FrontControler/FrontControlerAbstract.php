@@ -285,20 +285,16 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
         $isAllowed =false;
         do {
-            $activeRole = array_pop($activeRoles);
-            if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {               
+            $activeRole = array_pop($activeRoles);  // array_pop pro prázdné pole vrací null
+            if (isset($activeRole) AND array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {               
                 $permission = $permissions[$activeRole][$action];
                 if($permission instanceof \Closure) {
                     $isAllowed = (bool) $permission();
                 } else {
                     $isAllowed = (bool) $permission;
-                } 
-                if ($isAllowed) {
-                    break;
-                }                
-                
+                }              
             }            
-        } while (!$isAllowed);
+        } while (count($activeRoles) AND !$isAllowed);
         return $isAllowed;
     }
 

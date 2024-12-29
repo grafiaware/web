@@ -40,6 +40,8 @@ use Pes\View\CompositeViewInterface;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 
+use Access\Enum\RoleEnum;
+
 use Exception;
 use UnexpectedValueException;
 
@@ -401,10 +403,19 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
     }
 
     private function isPartInEditableMode() {
-        $userActions = $this->statusSecurityRepo->get()->getEditorActions();
-        $representativeActions = $this->statusSecurityRepo->get()->getRepresentativeActions();
-        
-        return (isset($userActions) && $userActions->presentEditableContent()) || (isset($representativeActions) && $representativeActions->getDataEditable());
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $userActions = $statusSecurity->getEditorActions();
+        $representativeActions = $statusSecurity->getRepresentativeActions();
+        $loginAgg = $statusSecurity->getLoginAggregate();
+        $role = isset($loginAgg) ? $loginAgg->getCredentials()->getRoleFk() : '';
+        return 
+        // editor
+        (isset($userActions) && $userActions->presentEditableContent()) 
+        // representative
+        || (isset($representativeActions) && $representativeActions->getDataEditable())
+        // events administrator
+        || (isset($role) && $role==RoleEnum::EVENTS_ADMINISTRATOR)
+        ;
     }
 
 }

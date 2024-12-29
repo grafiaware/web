@@ -15,13 +15,16 @@ use Events\Middleware\Events\Controler\RepresentationControler;
                 <p class="text velky zadne-okraje"><i class="user icon"></i><?= $loginName ?></p>
                 <form class="ui form centered" method="POST" action="events/v1/representation">
                     <div class="text okraje-vertical">
-                    <?= Html::select(
+                    <?php if(count($idCompanyArray)) {
+                            echo Html::select(
                             RepresentationControler::FORM_REPRESENTATION_COMPANY_ID, 
                             "Zastupovaná firma", 
                             [RepresentationControler::FORM_REPRESENTATION_COMPANY_ID=> $selectedCompanyId],  
                             $idCompanyArray, 
                             ['required' => true, 'onchange'=>'this.form.submit()'],
-                            $placeholderValue) ?>  
+                            $placeholderValue);
+                        }
+                    ?>  
                     </div> 
                     <div class="ui toggle checkbox">
                         <input id="prepnout-editaci-repre" type="checkbox" name="<?= RepresentationControler::FORM_REPRESENTATION_EDIT_DATA ?>" <?= $editData ? "checked" : "" ?> onchange="this.form.submit()">

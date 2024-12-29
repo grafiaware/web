@@ -63,10 +63,8 @@ class AuthControler extends FrontControlerAbstract {
     
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => true],
-//            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => true],
-//            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => true],
-//            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => true]
+            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => true, AccessActionEnum::POST => true],
+            RoleEnum::EVENTS_ADMINISTRATOR => [AccessActionEnum::GET => true, AccessActionEnum::POST => true],
         ];
     }    
      

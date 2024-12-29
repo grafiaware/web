@@ -212,7 +212,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(CompanyComponent::class)) {                   
                     $component->setItemViewModel($c->get(CompanyViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('item'));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('company'), $configuration->getTemplate('companyEditable'));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -243,7 +243,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(CompanyFamilyCompanyAddressComponent::class)) {
                     $component->setItemViewModel($c->get(CompanyFamilyCompanyAddressViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('item'));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('companyAddress'), $configuration->getTemplate('companyAddressEditable'));                   
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -273,7 +273,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(CompanyFamilyCompanyContactComponent::class)) {
                     $component->setItemViewModel($c->get(CompanyFamilyCompanyContactViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('item'));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('companyContact'), $configuration->getTemplate('companyContactEditable'));                                     
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -304,7 +304,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(CompanyFamilyJobComponent::class)) {
                     $component->setItemViewModel($c->get(CompanyFamilyJobViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('item'));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('job'), $configuration->getTemplate('jobEditable'));                      
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -335,7 +335,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(TagComponent::class)) {
                     $component->setItemViewModel($c->get(JobTagViewModel::class));  // !!!! JobTagViewModel neexistuje
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('item'));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('jobTag'), $configuration->getTemplate('jobTagEditable'));      
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -369,7 +369,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(JobToTagComponent::class)) {
                     $component->setItemViewModel($c->get(JobToTagViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('item'));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('jobToTag'), $configuration->getTemplate('jobToTagEditable'));            
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -406,12 +406,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
                 if($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::EDIT)) {
                     $component->setData($c->get(VisitorProfileViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorProfileEditable'));                    
                     
                 } elseif($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::DISPLAY)) {
                     $component->setData($c->get(VisitorProfileViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('item')));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorProfile'));                    
                     
                 } else {

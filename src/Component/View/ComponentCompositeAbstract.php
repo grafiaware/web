@@ -34,14 +34,8 @@ abstract class ComponentCompositeAbstract extends CompositeView implements Compo
         $this->configuration = $configuration;
     }
     
-    public function beforeRenderingHook(): void {
-        // component (view) musí mít před renderování nastaven renderer nebo renderer name nebo template
-        $data = $this->getData();
-        if ($data instanceof StatusViewModelInterface) {
-            $representativeCompanyId = $data->getRepresentativeActions()->getRepresentative()->getCompanyId();
-            if ($data->getRequestedId()==$representativeCompanyId) {
-                $x;
-            }
-        }
-    }
+//    public function beforeRenderingHook(): void {
+//        // component (view) musí mít před renderování nastaven renderer nebo renderer name nebo template
+//        $data = $this->getData();
+//    }
 }

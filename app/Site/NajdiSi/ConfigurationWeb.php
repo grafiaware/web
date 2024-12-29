@@ -111,53 +111,53 @@ class ConfigurationWeb extends ConfigurationConstants {
             'logs.type' => FileLogger::REWRITE_LOG,
             'templates' => [
                 
-                // common layout templates
-                'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
-                'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
-//                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
-                'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
-                'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
-                'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
-                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-                
-                // site layout templates
-                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
-                
-                // data templates - common
-                'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
-                'item' => self::WEB_TEMPLATES_COMMON.'data/item.php',
-                'items' => self::WEB_TEMPLATES_COMMON.'data/items.php',
-                'multiItem' => self::WEB_TEMPLATES_COMMON.'data/multiItem.php',
-                'checkbox' => self::WEB_TEMPLATES_COMMON.'data/checkbox.php',
-                'checked' => self::WEB_TEMPLATES_COMMON.'data/checked.php',
-                
-                // data templates - components
-                'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
-                'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',
+            // common layout templates
+            'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+            'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
+            'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+            'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
+            'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
+            'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
 
-                'companyContact' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact.php',
-                'companyContactEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-editable.php',
-                
-                'companyAddress' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address.php',
-                'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',  
-                
-                'job' => self::WEB_TEMPLATES_SITE.'events/data/job/job.php', 
-                'jobEditable' => self::WEB_TEMPLATES_SITE.'events/data/job/job-editable.php', 
-                
-                'jobTag' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag.php',
-                'jobTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag-editable.php',
-                                
-                'jobToTag' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag.php',
-                'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag-editable.php',
-                
-                'document' => self::WEB_TEMPLATES_SITE.'events/data/document/document.php',
-                'documentEditable' => self::WEB_TEMPLATES_SITE.'events/data/document/document-editable.php',  
-                
-                'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
-                'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
-                
-                ////
-                'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
+            // site layout templates
+            'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+
+            // data templates - common
+            'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
+            'item' => self::WEB_TEMPLATES_COMMON.'data/item.php',
+            'itemEditable' => self::WEB_TEMPLATES_COMMON.'data/itemEditable.php',
+            'items' => self::WEB_TEMPLATES_COMMON.'data/items.php',
+            'multiItem' => self::WEB_TEMPLATES_COMMON.'data/multiItem.php',
+            'checkbox' => self::WEB_TEMPLATES_COMMON.'data/checkbox.php',
+            'checked' => self::WEB_TEMPLATES_COMMON.'data/checked.php',
+
+            // data templates - components
+            'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
+            'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',
+
+            'companyContact' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact.php',
+            'companyContactEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-editable.php',
+
+            'companyAddress' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address.php',
+            'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',  
+
+            'job' => self::WEB_TEMPLATES_SITE.'events/data/job/job.php', 
+            'jobEditable' => self::WEB_TEMPLATES_SITE.'events/data/job/job-editable.php', 
+
+            'jobTag' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag.php',
+            'jobTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag-editable.php',
+
+            'jobToTag' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag.php',
+            'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag-editable.php',
+
+            'document' => self::WEB_TEMPLATES_SITE.'events/data/document/document.php',
+            'documentEditable' => self::WEB_TEMPLATES_SITE.'events/data/document/document-editable.php',  
+
+            'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
+            'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
+
+            ////
+            'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
             ],
         ];
