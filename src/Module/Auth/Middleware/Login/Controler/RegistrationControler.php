@@ -212,7 +212,7 @@ class RegistrationControler extends LoginControlerAbstract
     //                                                 ->setAttachments($attachments)   //zde zbytecne
                                                 )
                                     ->setParty  (  (new Party())
-                                                     ->setFrom('noreply@najdisi.cz', 'web najisi')
+                                                     ->setFrom('noreply@najdisi.cz', 'web najdisi')
                                                     // ->addReplyTo('allmail@grafia.cz', 'info web najdisi')
                                                     // ->addTo('svoboda@grafia.cz', 'Registace zástupce vystavovatele')
                                                      ->addTo('it@grafia.cz', 'Registace zástupce vystavovatele')
