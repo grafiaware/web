@@ -5,10 +5,10 @@ use Pes\Text\Message;
 ?>
 
 
-            <div class="">
-                <?= $listHeadline ?>
-            </div>     
-            <div class="list active content">      
+            <div class="ui grid stackable">     
+                <div class="sixteen wide column">
+                    <?= $listHeadline ?>
+                </div>
                 <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>                           
             </div>            
     </div>

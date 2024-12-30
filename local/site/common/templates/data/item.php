@@ -4,8 +4,8 @@ use Pes\Text\Message;
 /** @var PhpTemplateRendererInterface $this */
 ?>
 
-        <div>
+        <!--<div>-->
             <!--<div class="two fields">-->   
                 <?= $this->insert($fieldsTemplate, $fields  ?? []) ?>
             <!--</div>-->                
-        </div>         
+        <!--</div>-->         

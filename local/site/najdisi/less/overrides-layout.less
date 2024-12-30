@@ -1,4 +1,5 @@
 body{
+    overflow-wrap: break-word; 
     font-weight: @normal;
     /* VLASTNÍ HTML TAGY */
     headline, content, block, div[class=""], perex{
@@ -573,17 +574,13 @@ body#tinymce{
         left: 146px;
     }
     .register-info-button{
-        animation: mymove .5s;
+        animation: all .5s;
     }
     .fluid.buttons{
         margin-top: 10px;
     }
 }
-@keyframes mymove {
-  0% {opacity: 1;}
-  50% {opacity: 0;}
- 100% {opacity: 1;}
-}
+
 
 //Poznamky a flash
 @poznamkyPositionLeft: auto;

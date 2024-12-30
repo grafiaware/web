@@ -9,13 +9,11 @@ use Pes\Text\Html;
  
 ?>
 
-            <div class="two fields ">                        
-                <div class="field">
+                <div class="eight wide column">
                     <p class="text primarni-barva zadne-okraje"><?= $name ?? '' ?></p>
                     <p class="text primarni-barva zadne-okraje"><i class="map outline icon"></i>Místo firmy (pro adresu)</p>
                  </div>  
-                <div class="field">
+                <div class="eight wide column">
                     <p class="text zadne-okraje"><i class="map marker icon"></i><?= $lokace ?? ''  ?></p>
                     <p class="text zadne-okraje"><?= $psc ?? '' ?> <?= $obec ?? '' ?></p>
                 </div>
-            </div>             
