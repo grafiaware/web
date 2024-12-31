@@ -130,8 +130,8 @@ class Mail {
 
         try {
             //Server settings
-//            $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
-            $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
+            $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
+//            $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
 
             $mail->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
