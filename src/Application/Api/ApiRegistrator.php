@@ -48,7 +48,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/role/:role/remove'));
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/component/:name'));        
         
-
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/mailCompletRegistrationRepre'));  
+        
     ### web module ###
     #
         #### PageControler ####

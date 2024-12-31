@@ -57,7 +57,16 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(RegistrationControler::class);
             return $ctrl->testMail($request);
             });        
-        
+             
+        //  MAIL RegistrationControler  = při nastavení reprezentanta(zástupce) firmy
+        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/mailCompletRegistrationRepre',  function(ServerRequestInterface $request) {
+            /** @var RegistrationControler $ctrl */
+            $ctrl = $this->container->get(RegistrationControler::class);
+            return $ctrl->sendMailCompletRegistrationRepre($request);
+            });             
+             
+             
+             
         #### AuthStaticControler ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
             /** @var AuthStaticControler $ctrl */
