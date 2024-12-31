@@ -51,12 +51,6 @@ if (isset($representativeFromStatus)) {
                     'data-red-apiuri'=>"events/v1/data/company/$companyId/job/{$job->getId()}",
                 ]
             );            
-        echo Html::tag('div', 
-                [
-                    'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}/jobtotag",
-                ]
-            );              
     }
     
 } else {

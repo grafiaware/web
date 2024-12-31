@@ -2,7 +2,7 @@
 use Pes\Text\Html;
 ?>
 
-<div class="prihlaseni">
+<div class="prihlaseni <!--schvalene-->">
             <?=
                 Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"auth/v1/component/login",]) 
                 . 
