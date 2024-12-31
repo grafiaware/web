@@ -10,7 +10,7 @@ $data = ['key1' => 'value1', 'key2' => 'value2'];
 // use key 'http' even if you send the request to https://...
 $options = [
     'http' => [
-        'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+        'header' => "Content-type: application/x-www-form-urlencoded",
         'method' => 'POST',
         'content' => http_build_query($data),
     ],
@@ -22,5 +22,4 @@ if ($result === false) {
     /* Handle error */
 }
 
-var_dump($result);
 echo $result;

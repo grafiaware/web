@@ -11,7 +11,7 @@ Options +FollowSymLinks
 
 RewriteEngine On
 
-RewriteBase "/najdisi/"
+RewriteBase "/web/"
 
 #RewriteRule ^(.*) indexunderreconstuction.html [QSA,L]
 
