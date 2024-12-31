@@ -296,7 +296,7 @@ class RegistrationControler extends LoginControlerAbstract
                                                  ->setHtml($body)
                                             )
                                 ->setParty  (  (new Party())
-                                                 ->setFrom('noreply@grafia.cz', 'web najisi')
+                                                 ->setFrom('noreply@najdisi.cz', 'web najisi')
                                                  ->addReplyTo('svoboda@grafia.cz', 'reply web najdisi')
                                                  ->addTo('svoboda@grafia.cz', 'pes')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
