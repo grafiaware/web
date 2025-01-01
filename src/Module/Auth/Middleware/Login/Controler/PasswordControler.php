@@ -102,7 +102,7 @@ class PasswordControler extends LoginControlerAbstract {
                                                //  ->setAttachments($attachments)
                                                 )
                                     ->setParty  (  (new Party())
-                                                ->setFrom('noreply@najdisi.cz', 'web najdisi')
+                                                ->setFrom('noreply@najdisi.cz', 'web praci.najdisi.cz')
                                                 // ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
                                                 ->addTo( $registerEmail, $loginJmeno )
                                                 //->addTo('selnerova@grafia.cz', 'vlse') 

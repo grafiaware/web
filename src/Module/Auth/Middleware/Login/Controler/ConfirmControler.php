@@ -120,8 +120,8 @@ class ConfirmControler extends LoginControlerAbstract
              //                                    ->setAttachments($attachments)
                                                  )
                                     ->setParty  (  (new Party())
-                                                 ->setFrom('info@najdisi.cz', 'web najdisi')
-                                                 //->addReplyTo('svoboda@grafia.cz', 'info web najdisi'))
+                                                 ->setFrom('info@najdisi.cz', 'web praci.najdisi.cz')
+                                                 //->addReplyTo('svoboda@grafia.cz', 'info web praci.najdisi.cz'))
                                                  ->addTo( $registerEmail, $loginNameFk)
                                                 );
                         $mail->mail($params); // posle mail

@@ -132,8 +132,8 @@ class RegistrationControler extends LoginControlerAbstract
                                                 //->setAttachments($attachments)  //priloha
                                             )
                                 ->setParty  (  (new Party())
-                                                 ->setFrom('info@najdisi.cz', 'web najdisi')
-                                                 //->addReplyTo('allmail@grafia.cz', 'info web najdisi')   //nejak neumime
+                                                 ->setFrom('info@najdisi.cz', 'web praci.najdisi.cz')
+                                                 //->addReplyTo('allmail@grafia.cz', 'info web praci.najdisi.cz')   //nejak neumime
                                                  ->addTo( $registerEmail, $registerJmeno)
                                                 // ->addTo('svoboda@grafia.cz', 'pes')  
                                                 // ->addCc('webmaster@grafia.cz', 'vs')  
@@ -176,8 +176,8 @@ class RegistrationControler extends LoginControlerAbstract
 //                                            )
 //                                ->setParty  (  (new Party())
 //                                                  ->setFrom('noreply@najdisi.cz', 'web najisi')
-//                                                  //->addReplyTo('allmail@grafia.cz', 'info web najdisi')   //nejak neumime
-//                                                  //->addReplyTo('selnerova@grafia.cz', 'info web najdisi') //nejak neumime
+//                                                  //->addReplyTo('allmail@grafia.cz', 'info web praci.najdisi.cz')   //nejak neumime
+//                                                  //->addReplyTo('selnerova@grafia.cz', 'info web praci.najdisi.cz') //nejak neumime
 //                                                  ->addTo('it@grafia.cz', 'kopie pro Grafii')
 //                                                  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
 //                                            );
@@ -210,8 +210,8 @@ class RegistrationControler extends LoginControlerAbstract
     //                                                 ->setAttachments($attachments)   //zde zbytecne
                                                 )
                                     ->setParty  (  (new Party())
-                                                     ->setFrom('noreply@najdisi.cz', 'web najdisi')
-                                                    // ->addReplyTo('allmail@grafia.cz', 'info web najdisi')
+                                                     ->setFrom('noreply@najdisi.cz', 'web praci.najdisi.cz')
+                                                    // ->addReplyTo('allmail@grafia.cz', 'info web praci.najdisi.cz')
                                                     // ->addTo('svoboda@grafia.cz', 'Registace zástupce vystavovatele')
                                                      ->addTo('it@grafia.cz', 'Registace zástupce vystavovatele')
                                                 );
@@ -309,8 +309,8 @@ class RegistrationControler extends LoginControlerAbstract
 //                                              ->setAttachments($attachments)
                                          )
                             ->setParty  (  (new Party())
-                                         ->setFrom('info@najdisi.cz', 'web najdisi')
-                                         //->addReplyTo('svoboda@grafia.cz', 'info web najdisi'))
+                                         ->setFrom('info@najdisi.cz', 'web praci.najdisi.cz')
+                                         //->addReplyTo('svoboda@grafia.cz', 'info web praci.najdisi.cz'))
                                          ->addTo( $registerEmail, $loginName)
                                         );
 //              $mail->mail($params); // posle mail
@@ -360,7 +360,7 @@ class RegistrationControler extends LoginControlerAbstract
                                             )
                                 ->setParty  (  (new Party())
                                                  ->setFrom('noreply@najdisi.cz', 'web najisi')
-                                                // ->addReplyTo('svoboda@grafia.cz', 'reply web najdisi')
+                                                // ->addReplyTo('svoboda@grafia.cz', 'reply web praci.najdisi.cz')
                                                  ->addTo('selnerova@grafia.cz', 'selnerovaV')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     try {
