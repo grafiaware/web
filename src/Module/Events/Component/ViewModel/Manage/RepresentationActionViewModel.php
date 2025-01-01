@@ -38,8 +38,9 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
     public function getIterator() {
         $representativeActions = $this->status->getRepresentativeActions();
         if (isset($representativeActions)) {
-            $repsesentative =  $representativeActions->getRepresentative();
+            $represesentative =  $representativeActions->getRepresentative();
             $editData = $representativeActions->getDataEditable();
+            $companyName = $this->companyRepo->get($represesentative->getCompanyId())->getName();
         }
         $placeholderKey = '';
         
@@ -49,9 +50,10 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         $array = [
             'loginName' => $this->status->getUserLoginName(),
             'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderKey, 'Vyberte zastupovanou firmu'),
-            'selectedCompanyId' => isset($repsesentative) ? $repsesentative->getCompanyId() : null,
+            'selectedCompanyId' => isset($represesentative) ? $represesentative->getCompanyId() : null,
             'placeholderValue' => $placeholderKey,
-            'editData' => $editData
+            'editData' => $editData,
+            'companyName' => $companyName,
         ];
         return new ArrayIterator($array);        
     }

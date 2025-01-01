@@ -6,7 +6,11 @@ use Events\Middleware\Events\Controler\RepresentationControler;
 
 <!--vyber firmy je modalni okno, jde zavrit pouze pri stisku buttonu 'odeslat' v js initElements-->
     <button class="ui page icon button btn-vyberFirmy">
-        <i class="<?= $editData ? "green" : "red"?> power off icon"></i> Akce reprezentanta
+        <p>Akce reprezentanta</p>
+        <p class="">
+            <i class="user icon"></i><?= $loginName ?>
+            <i class="<?= $editData ? "green" : "red"?> power off icon"></i> <?= ($editData ? "edituje " : "needituje ").$companyName ?>
+        </p>
     </button>
 
     <div class="ui mini page modal transition hidden vyberFirmy">
