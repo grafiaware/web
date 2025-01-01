@@ -1,11 +1,9 @@
     <div class="logout">
         <!--<p class="profil-ikona"><a class="link-img" href=""><i class="inverted user circle icon"></i></a></p>-->
-                <p class="text zadne-okraje"><i class="user icon"></i><?= $userName ?></p>
         
         <form class="ui form" method="POST" action="">
             <div class="ui icon top left pointing dropdown fluid button">
-                <p class=""><i class="user icon"></i><?= $userName ?></p>
-                <i class="sign out alternate icon"></i> Odhlásit se              
+                <i class="sign out alternate icon"></i>              
             <div class="menu">
                 <div class="text nastred">
                     <p class=""><i class="user icon"></i><?= $userName ?></p>
