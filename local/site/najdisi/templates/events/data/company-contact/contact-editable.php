@@ -1,35 +1,29 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
- if ($editable) {
-        $readonly = '';
-        $disabled = '';
-    } else {
-        $readonly = 'readonly';
-        $disabled = 'disabled';
-    }   
+
 ?> 
             <div class="two fields">                        
                 <div class="field">
                 <label>Jméno kontaktu</label>
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="100" value="<?= $name ?? '' ?>">
+                    <input  type="text" name="name" placeholder="" maxlength="100" value="<?= $name ?? '' ?>">
                     <span></span>
                  </div>  
                 <div class="field">
-                    <label>E-maily</label>
-                    <input <?= $readonly ?> type="email" name="emails" placeholder="" maxlength="100" value="<?= $emails ?? ''  ?>">
+                    <label>E-mail</label>
+                    <input  type="email" name="emails" placeholder="" maxlength="100" value="<?= $emails ?? ''  ?>">
                     <span></span>
                 </div>
             </div>
             <div class="two fields">
                 <div class="field">
-                    <label>Telefony</label>
-                    <input <?= $readonly ?> type="text" name="phones" placeholder="" maxlength="60" value="<?= $phones ?? '' ?>">
+                    <label>Telefon</label>
+                    <input  type="tel" pattern="[+]?[0-9 ]{6,17}" name="phones" placeholder="" maxlength="60" value="<?= $phones ?? '' ?>">
                     <span></span>
                 </div>
                 <div class="field">
-                    <label>Mobily</label>
-                    <input <?= $readonly ?> type="text" name="mobiles" placeholder="" maxlength="60" value="<?= $mobiles ?? '' ?>">
+                    <label>Mobil</label>
+                    <input  type="tel" pattern="[+]?[0-9 ]{6,17}" name="mobiles" placeholder="" maxlength="60" value="<?= $mobiles ?? '' ?>">
                     <span></span>
                 </div>
             </div>     

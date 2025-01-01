@@ -44,7 +44,7 @@ use Pes\Text\Html;
 
                 <div class="field">
                     <label>Popis pozice</label>
-                    <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="1000" 
+                    <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="20" 
                                             value="<?= $popisPozice ?? '' ?>">
                     <span></span>
                 </div>

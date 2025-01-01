@@ -54,9 +54,9 @@ use Pes\Text\Html;
             ?>
             <div>
                 <?=
-                 isset($companyId) ?                 
-                "<button class='ui primary button' type='submit' formaction='events/v1/representative/". $loginLoginName . "/" . $companyId  ."/remove' > Odstranit representanta </button>" :    
-                "<button class='ui primary button' type='submit' formaction='events/v1/representative' > Uložit </button>" ;                
+                 isset($companyId) ?
+                "<button class='ui primary button' type='submit' formaction='".rawurlencode("events/v1/representative/$loginLoginName/$companyId/remove")."' > Odstranit representanta </button>" :    
+                "<button class='ui primary button' type='submit' formaction='".rawurlencode("events/v1/representative")."' > Uložit </button>" ;                
                 ?>                                                                                                                                                                                                                                                 
             </div>
             <?php

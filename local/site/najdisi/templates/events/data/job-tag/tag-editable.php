@@ -1,1 +1,1 @@
-                    <input type="text" name="tag" placeholder="" maxlength="45" required value="<?= $tag ?? '' ?>">
+                    <input type="text" name="tag" placeholder="" maxlength="20" required value="<?= $tag ?? '' ?>">
