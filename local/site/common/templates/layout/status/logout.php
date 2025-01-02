@@ -13,6 +13,10 @@
                 formtarget="_self" formaction='auth/v1/logout'>
                 Odhlásit
                 </button>
+                <button class="ui inverted secondary compact button" type="submit" name="logout" value="1"
+                formtarget="_self" formaction='auth/v1/changepassword'>
+                Chci si změnit heslo
+                </button>
             </div>
             </div>
         </form>
