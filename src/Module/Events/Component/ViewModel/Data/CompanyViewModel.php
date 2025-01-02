@@ -87,8 +87,8 @@ class CompanyViewModel extends ViewModelItemAbstract {
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $id,
+                'actionSave' => $componentRouteSegment."/$id",
+                'actionRemove' => $componentRouteSegment."/$id/remove",
                 // data
                 'fields' => ['editable' => $editableItem, 'name' => $this->company->getName()],
                 ];
@@ -97,7 +97,7 @@ class CompanyViewModel extends ViewModelItemAbstract {
                 // conditions
                 'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
+                'actionAdd' => $componentRouteSegment,
                 // text
                 'addHeadline' => 'Přidej firmu',                
                 // data

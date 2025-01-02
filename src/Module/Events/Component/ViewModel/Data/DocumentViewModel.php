@@ -89,24 +89,24 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
             
             if ($requestedTypeDoc == VisitorProfileControler::TYPE_LETTER) {
                 $addHeadline = "Soubor typu:  motivační dopis ";
-                $idDocument = $visitorProfile->getLetterDocument();   
+                $id = $visitorProfile->getLetterDocument();   
             }
             if ($requestedTypeDoc == VisitorProfileControler::TYPE_CV) {
                 $addHeadline = "Soubor typu: životopis ";
-                $idDocument = $visitorProfile->getCvDocument();
+                $id = $visitorProfile->getCvDocument();
             }
 
-            if (isset($idDocument)) {                         
+            if (isset($id)) {                         
                 /** @var DocumentInterface $document */
-                $document = $this->documentRepo->get($idDocument);     
+                $document = $this->documentRepo->get($id);     
             }
             if (isset($document)) {
                 $documentArr = [
                     // conditions
                     'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                     //route
-                    'componentRouteSegment' => $componentRouteSegment,
-                    'id' => $idDocument,
+                'actionSave' => $componentRouteSegment."/$id",
+                'actionRemove' => $componentRouteSegment."/$id/remove",
 
                     'addHeadline' => $addHeadline,
                     'uploadedFilename' => $uploadedFilename,
@@ -121,7 +121,7 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
                         // text
                         'addHeadline' => 'Přidej dokument',                      
                         //route
-                        'componentRouteSegment' => $componentRouteSegment,
+                'actionAdd' => $componentRouteSegment,
                         // data
                         'addHeadline' => $addHeadline,                    
                         'uploadedFilename' => $uploadedFilename,

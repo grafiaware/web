@@ -46,19 +46,19 @@ class RepresentationControler extends FrontControlerAbstract {
         $loginLoginName = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
         $companyId = (new RequestParams())->getParsedBodyParam($request, self::FORM_REPRESENTATION_COMPANY_ID);
         $editData = (new RequestParams())->getParsedBodyParam($request, self::FORM_REPRESENTATION_EDIT_DATA);
-        
+
+        $repreActions = $this->statusSecurityRepo->get()->getRepresentativeActions();
         if (isset($loginLoginName) AND isset($companyId)) {
             $representative = $this->representativeRepo->get($loginLoginName, $companyId);
+            if (isset($representative)) {
+                // nastavení aktuálního repesentative ve statusu
+                $repreActions->setRepresentative($representative);
+                $this->addFlashMessage("set repsentative company '$companyId'", FlashSeverityEnum::INFO);
+            } else {
+                $this->addFlashMessage("unable to set representation of company '$companyId'", FlashSeverityEnum::WARNING);            
+            }
         }
-        if (isset($representative)) {
-            // nastavení aktuálního repesentative ve statusu
-            $repreActions = $this->statusSecurityRepo->get()->getRepresentativeActions();
-            $repreActions->setRepresentative($representative);
-            $repreActions->setDataEditable($editData);
-            $this->addFlashMessage("set repsentative company '$companyId'", FlashSeverityEnum::INFO);
-        } else {
-            $this->addFlashMessage("unable to set representation of company '$companyId'", FlashSeverityEnum::WARNING);            
-        }
+        $repreActions->setDataEditable($editData);
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

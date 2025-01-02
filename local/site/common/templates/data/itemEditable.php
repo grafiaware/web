@@ -3,9 +3,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Message;
 /** @var PhpTemplateRendererInterface $this */
 
-
-
-
 ?>
 
         <?= $addHeadline ?? false ? "<p>$addHeadline</p>" : "" ?>
@@ -15,15 +12,16 @@ use Pes\Text\Message;
             <!--buttons-->
             <div class="text okraje-dole">
                 <?=
-                    (isset($id) 
-                    ?
-                        "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment/$id'> Uložit změny </button>"
-                    :
-                        "<button disabled ".(isset($formUid) ? "id='add_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment'> Přidat </button>" 
-                    );
+                    isset($actionSave) 
+                    ? "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' type='submit' formaction='$actionSave'> Uložit změny </button>" : '';
                 ?>
                 <?=
-                    ($remove ?? false) ? "<button ".(isset($formUid) ? "id='remove_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove'> Odstranit </button>" : "";
+                    isset($actionAdd) 
+                    ? "<button disabled ".(isset($formUid) ? "id='add_$formUid'" : "")." class='ui primary button' type='submit' formaction='$actionAdd'> Přidat </button>" : '';
+                ?>
+                <?=
+                    isset($actionRemove) 
+                    ? "<button ".(isset($formUid) ? "id='remove_$formUid'" : "")." class='ui primary button' type='submit' formaction='$actionRemove'> Odstranit </button>" : "";
                 ?>
                 <?=
                     "<button ".(isset($formUid) ? "id='reset_$formUid'" : "")." style='display:none' class='ui secondary button' onClick='eventsResetButton(event)' type='reset'> Vrátit změny zpět </button>";

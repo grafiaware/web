@@ -9,6 +9,8 @@ use Events\Model\Repository\CompanyRepoInterface;
 use Events\Component\ViewModel\Manage\RepresentationActionViewModelInterface;
 use Events\Model\Entity\RepresentativeInterface;
 
+use Access\Enum\RoleEnum;
+
 use ArrayIterator;
 
 /**
@@ -34,7 +36,11 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         $this->companyRepo = $companyRepo;
 
     }
-
+    
+    private function isAdministrator() {
+        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+    }
+    
     public function getIterator() {
         $representativeActions = $this->status->getRepresentativeActions();
         if (isset($representativeActions)) {
@@ -50,6 +56,7 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         
         $array = [
             'loginName' => $this->status->getUserLoginName(),
+            'isAdministrator' => $this->isAdministrator(),
             'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderKey, 'Vyberte zastupovanou firmu'),
             'selectedCompanyId' => $companyId,
             'placeholderValue' => $placeholderKey,

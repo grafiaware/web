@@ -19,7 +19,7 @@ use Events\Middleware\Events\Controler\RepresentationControler;
                 <p class="text velky zadne-okraje"><i class="user icon"></i><?= $loginName ?></p>
                 <form class="ui form centered" method="POST" action="events/v1/representation">
                     <div class="text okraje-vertical">
-                    <?php if(count($idCompanyArray)) {
+                    <?php if(!$isAdministrator && count($idCompanyArray)) {
                             echo Html::select(
                             RepresentationControler::FORM_REPRESENTATION_COMPANY_ID, 
                             "Zastupovaná firma", 
@@ -37,10 +37,10 @@ use Events\Middleware\Events\Controler\RepresentationControler;
 <!--                    <div class="ui fluid large buttons">
                         <button class="ui positive button" type="submit" formtarget="_self" formaction="events/v1/representation">Odeslat</button>
                     </div>
-                    <button class="fluid ui olive labeled icon button" type="submit" name="<?= RepresentationControler::FORM_REPRESENTATION_EDIT_DATA ?>" value="<?= empty($edit) ? 1 : 0 ?>" formtarget="_self"
+                    <button class="fluid ui olive labeled icon button" type="submit" name="<?= RepresentationControler::FORM_REPRESENTATION_EDIT_DATA ?>" value="<?= empty($editData) ? 1 : 0 ?>" formtarget="_self"
                         formaction="events/v1/representation/edit_mode">
                         <i class="pencil alternate icon"></i>
-                        <?= empty($edit) ? "Zapnout editaci údajů" : "Vypnout editaci údajů" ?>
+                        <?= empty($editData) ? "Zapnout editaci údajů" : "Vypnout editaci údajů" ?>
                     </button>    
 -->
                 </form>

@@ -73,27 +73,23 @@ class JobTagViewModel extends ViewModelItemAbstract {
     
     public function getIterator() {
         $this->loadJobTag();
-        $componentRouteSegment = 'events/v1/company';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
+        $componentRouteSegment = 'events/v1/jobtag';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 
         $editableItem = $this->isItemEditable();
         $id = $this->jobTag->getId();
         if (isset($id)) {
             $item = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
+                'actionSave' => $componentRouteSegment."/$id",
+                'actionRemove' => $componentRouteSegment."/$id/remove",
                 'id' => $id,
                 // data
                 'fields' => ['editable' => $editableItem, 'tag' => $this->jobTag->getTag()],
                 ];
         } elseif ($editableItem) {
             $item = [
-                // conditions
-                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
+                'actionAdd' => $componentRouteSegment,
                 // text
                 'addHeadline' => 'Přidej tag',                
                 // data

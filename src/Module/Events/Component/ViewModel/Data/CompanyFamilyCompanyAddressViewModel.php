@@ -73,17 +73,17 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyAddress();
-        $componentRouteSegment = $this->getFamilyRouteSegment()->getPath();
         $editableItem = $this->isItemEditable();
-        $id = $this->companyAddress->getCompanyId();
-        if (isset($id)) {        
+        $this->getFamilyRouteSegment()->setChildId($this->companyAddress->getCompanyId());
+        $componentRouteSegment = $this->getFamilyRouteSegment();
+        if ($componentRouteSegment->hasChildId()) {        
             $companyAddrArray = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $id,
+                    'actionSave' => $componentRouteSegment->getSavePath(),
+                    'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
                     'editable' => $editableItem,
@@ -101,9 +101,8 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
                     'editable' => true,    // zobrazí formulář a tlačítko přidat 
                     // text
                     'addHeadline' => 'Přidej adresu',                      
-                    'companyId'=> $this->getFamilyRouteSegment()->getParentId(),
                     //route
-                    'componentRouteSegment' => $componentRouteSegment,
+                    'actionAdd' => $componentRouteSegment->getAddPath(),
                     // data
                     'fields' => [
                         'editable' => $editableItem,]                    

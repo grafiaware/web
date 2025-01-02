@@ -88,22 +88,22 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {  
         $this->loadJob();
-        $componentRouteSegment = $this->getFamilyRouteSegment()->getPath();
         $editableItem = $this->isItemEditable();
-        $id = $this->job->getCompanyId();        
+        $this->getFamilyRouteSegment()->setChildId($this->job->getCompanyId());
+        $componentRouteSegment = $this->getFamilyRouteSegment();        
         $selectEducations = $this->selectEducations();
 
-        if (isset($id)) {                  
+        if ($componentRouteSegment->hasChildId()) {        
             $companyJob = [
                 // conditions
                 'editable' => $editableItem,    // přidá tlačítka edit, add do item
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => $componentRouteSegment,  // pro formaction v buttonech
-                'id' => $this->job->getId(),  // pro formaction v edit buttonu
+                'actionSave' => $componentRouteSegment->getSavePath(),
+                'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
-                    'id' => $this->job->getId(),  // pro vnořený komponent JobFamilyTag
+                    'id' => $this->job->getId(),  // pro cascade volání vnořeného komponentu JobFamilyTag
                     'pozadovaneVzdelaniStupen' =>  $this->job->getPozadovaneVzdelaniStupen(),
                     'nazev' =>  $this->job->getNazev(),                
                     'mistoVykonu' =>  $this->job->getMistoVykonu(),
@@ -120,11 +120,10 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                 // text
                 'addHeadline' => 'Přidej pozici', 
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $this->job->getId(),
+                'actionAdd' => $componentRouteSegment->getAddPath(),
                 // data
                 'fields' => [
-                    'id' => $this->job->getId(),
+                    'id' => $this->job->getId(),  //??
                     'selectEducations' =>  $selectEducations,                        
                     ],                
                 ];                   
