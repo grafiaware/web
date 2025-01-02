@@ -95,9 +95,6 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
 
         if ($componentRouteSegment->hasChildId()) {        
             $companyJob = [
-                // conditions
-                'editable' => $editableItem,    // přidá tlačítka edit, add do item
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
                 'actionSave' => $componentRouteSegment->getSavePath(),
                 'actionRemove' => $componentRouteSegment->getRemovePath(),
@@ -115,8 +112,6 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                 ];                
         } elseif ($editableItem) {
             $companyJob = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 // text
                 'addHeadline' => 'Přidej pozici', 
                 //route
