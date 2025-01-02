@@ -119,9 +119,9 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                 // data
                 'fields' => [
                     'id' => $this->job->getId(),  //??
-                    'selectEducations' =>  $selectEducations,                        
-                    ],                
-                ];                   
+                    'selectEducations' =>  $selectEducations,
+                    ],
+                ];
         } else {
             $companyJob = [];
         }
