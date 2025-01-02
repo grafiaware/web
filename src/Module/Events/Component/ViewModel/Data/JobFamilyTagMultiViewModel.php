@@ -180,13 +180,13 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
      * @return ArrayIterator
      */
     public function getIterator() {
-        $componentRouteSegment = $this->getFamilyRouteSegment()->getPath();  // exception 
+        $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($this->isMultiEditable()) {
             $array = array_merge(
                 [         
                 'listHeadline'=>'Tagy pracovní pozice',           
                 //route
-                'componentRouteSegment' => $componentRouteSegment,    // pracuje jen s kolekcí -> nejsou routy s id jednotlivých job to tag
+                'actionSave' => $componentRouteSegment->getAddPath(),    // pracuje jen s kolekcí -> nejsou routy s id jednotlivých job to tag
                 ],            
                 $this->multiTemplateData($this->getArrayCopy())
             );        

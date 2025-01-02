@@ -80,17 +80,17 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyContact();
-        $componentRouteSegment = $this->getFamilyRouteSegment()->getPath();
         $editableItem = $this->isItemEditable();
-        $id = $this->companyContact->getCompanyId();        
-        if (isset($id)) {                
+        $this->getFamilyRouteSegment()->setChildId($this->companyContact->getCompanyId());
+        $componentRouteSegment = $this->getFamilyRouteSegment();        
+        if ($componentRouteSegment->hasChildId()) {        
             $companyContactArray = [
                 // conditions
                 'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
                 'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
-                'id' => $this->companyContact->getId(),
+                'actionSave' => $componentRouteSegment->getSavePath(),
+                'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
                     'editable' => $editableItem,
@@ -107,7 +107,7 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
                 // text
                 'addHeadline' => 'Přidej kontakt',                 
                 //route
-                'componentRouteSegment' => $componentRouteSegment,
+                'actionAdd' => $componentRouteSegment->getAddPath(),
                 // data
                 'fields' => [
                     'editable' => $editableItem,]
