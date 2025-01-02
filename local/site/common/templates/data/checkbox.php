@@ -4,7 +4,6 @@ use Pes\Text\Message;
 
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
-
 ?>
         <form class="ui huge form" action="" method="POST" >
 
@@ -18,6 +17,6 @@ use Pes\Text\Html;
                 <div class="field">
                      <?= Html::checkbox( $allCheckboxes , $checkedCheckboxes ); ?>
                 </div>   
-                <button class='ui primary button' type='submit' formaction='<?= "$componentRouteSegment" ?>' > Uložit </button>
+                <button class='ui primary button' type='submit' formaction='<?= "$actionSave" ?>' > Uložit </button>
             </div>            
     </div>

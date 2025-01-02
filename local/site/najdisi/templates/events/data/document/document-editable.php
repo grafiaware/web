@@ -1,11 +1,12 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Site\ConfigurationCache;
 
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-/** @var PhpTemplateRendererInterface $this */        
+/** @var PhpTemplateRendererInterface $this */  
+use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
+
 if ($editable) {
         $readonly = '';
         $disabled = '';
@@ -22,7 +23,7 @@ if ($editable) {
             <p><b> <?= $filename ?? '---' ?></b></p>                                                        
             <?=
             ( ($editable ?? false) && ($id ?? false) ) ?
-                        "<button class='ui primary button' type='submit' formaction='$componentRouteSegment/remove' > Odstranit </button>" : "";
+                        "<button class='ui primary button' type='submit' formaction='$actionRemove' > Odstranit </button>" : "";
             ?>
         </div>                              
     </form>                  
@@ -42,9 +43,9 @@ if ($editable) {
             <?=
             ($editable ?? false) ? 
                 (isset($id)  ?
-                    "<button class='ui primary button' type='submit' formaction='$componentRouteSegment' > Uložit změny </button>"
+                    "<button class='ui primary button' type='submit' formaction='$sctionSave' > Uložit změny </button>"
                 :
-                    "<button class='ui primary button' type='submit' formaction='$componentRouteSegment' > Přidat </button>" 
+                    "<button class='ui primary button' type='submit' formaction='$actionAdd' > Přidat </button>" 
                 )        
             : "";
             ?>

@@ -14,7 +14,9 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
     private $parentName;
     private $parentId;
     private $childName;
-    
+    private $childId;
+
+
     public function __construct(string $prefix, string $parentName, string $parentId, string $childName) {
         if (! ($parentName && $parentId && $childName)) {
             throw new UnexpectedValueException("nejsou nastaveny všechny povinné parametry.");
@@ -41,7 +43,25 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
         return $this->childName;
     }
     
-    public function getPath(): string {
+    public function setChildId(string $id) {
+        $this->childId = $id;
+    }
+    
+    public function hasChildId(): bool {
+        return isset($this->childId);
+    }
+    
+    public function getChildId(): ?string {
+        return $this->childId;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return string
+     * @throws LogicException
+     */
+    public function getAddPath(): string {
         if (!$this->hasFamily()) {
             throw new LogicException("All family parameters have not been set.");
         }
@@ -52,6 +72,50 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
         return $this->encodePath("$prefix/$parentName/$parentId/$itemName");
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @return string
+     * @throws LogicException
+     */
+    public function getSavePath(): string {
+        if (!$this->hasFamily()) {
+            throw new LogicException("All family parameters have not been set.");
+        }
+        if (!isset($this->childId)) {
+            throw new LogicException("Child id have not been set.");
+        }        
+        $prefix = $this->prefix;
+        $parentName = $this->getParentName();
+        $parentId = $this->getParentId();
+        $itemName = $this->getItemName();
+        $childId = $this->childId;
+        return $this->encodePath("$prefix/$parentName/$parentId/$itemName/$childId");        
+
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return string
+     * @throws LogicException
+     */
+    public function getRemovePath(): string {
+        if (!$this->hasFamily()) {
+            throw new LogicException("All family parameters have not been set.");
+        }
+        if (!isset($this->childId)) {
+            throw new LogicException("Child id have not been set.");
+        }        
+        $prefix = $this->prefix;
+        $parentName = $this->getParentName();
+        $parentId = $this->getParentId();
+        $itemName = $this->getItemName();
+        $childId = $this->childId;
+        $remove = FamilyRouteSegmentInterface::REMOVE_POSTFIX;
+        return $this->encodePath("$prefix/$parentName/$parentId/$itemName/$childId/$remove");        
+    }
+        
     private function encodePath($path) {
         return implode('/', array_map(function ($v) {return rawurlencode($v);}, explode('/', $path)));
     }

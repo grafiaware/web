@@ -22,7 +22,7 @@ class RepresentativeActionComponent extends ComponentCompositeAbstract {
 
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
+            RoleEnum::EVENTS_ADMINISTRATOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
             RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
         ];
     }
