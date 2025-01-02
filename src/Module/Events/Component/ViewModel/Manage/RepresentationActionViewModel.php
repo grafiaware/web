@@ -39,8 +39,9 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         $representativeActions = $this->status->getRepresentativeActions();
         if (isset($representativeActions)) {
             $represesentative =  $representativeActions->getRepresentative();
+            $companyId = isset($represesentative) ? $represesentative->getCompanyId() : null;
             $editData = $representativeActions->getDataEditable();
-            $companyName = $this->companyRepo->get($represesentative->getCompanyId())->getName();
+            $companyName = isset($companyId) ? $this->companyRepo->get($represesentative->getCompanyId())->getName() : '';
         }
         $placeholderKey = '';
         
@@ -50,7 +51,7 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         $array = [
             'loginName' => $this->status->getUserLoginName(),
             'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderKey, 'Vyberte zastupovanou firmu'),
-            'selectedCompanyId' => isset($represesentative) ? $represesentative->getCompanyId() : null,
+            'selectedCompanyId' => $companyId,
             'placeholderValue' => $placeholderKey,
             'editData' => $editData,
             'companyName' => $companyName,

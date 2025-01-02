@@ -17,13 +17,13 @@ use Pes\Text\Message;
                 <?=
                     (isset($id) 
                     ?
-                        "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' type='submit' formaction='".rawurlencode("$componentRouteSegment/$id")."'> Uložit změny </button>"
+                        "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment/$id'> Uložit změny </button>"
                     :
-                        "<button disabled ".(isset($formUid) ? "id='add_$formUid'" : "")." class='ui primary button' type='submit' formaction='".rawurlencode("$componentRouteSegment")."'> Přidat </button>" 
+                        "<button disabled ".(isset($formUid) ? "id='add_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment'> Přidat </button>" 
                     );
                 ?>
                 <?=
-                    ($remove ?? false) ? "<button ".(isset($formUid) ? "id='remove_$formUid'" : "")." class='ui primary button' type='submit' formaction='".rawurlencode("$componentRouteSegment/$id/remove")."'> Odstranit </button>" : "";
+                    ($remove ?? false) ? "<button ".(isset($formUid) ? "id='remove_$formUid'" : "")." class='ui primary button' type='submit' formaction='$componentRouteSegment/$id/remove'> Odstranit </button>" : "";
                 ?>
                 <?=
                     "<button ".(isset($formUid) ? "id='reset_$formUid'" : "")." style='display:none' class='ui secondary button' onClick='eventsResetButton(event)' type='reset'> Vrátit změny zpět </button>";
