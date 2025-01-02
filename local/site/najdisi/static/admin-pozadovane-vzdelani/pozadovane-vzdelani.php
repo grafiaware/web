@@ -42,8 +42,8 @@ use Pes\Text\Html;
         <div>                                                                                                                                
             <?=
             isset($stupen) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/vzdelani/".rawurlencode($stupen)."'> Uložit </button>" .
-                "<button class='ui primary button' type='submit' formaction='events/v1/vzdelani/".rawurlencode($stupen)."/remove'> Odstranit  </button>" :
+                "<button class='ui primary button' type='submit' formaction='".Text::encodeUrlPath("events/v1/vzdelani/$stupen")."'> Uložit </button>" .
+                "<button class='ui primary button' type='submit' formaction='".Text::encodeUrlPath("events/v1/vzdelani/$stupen/remove")."'> Odstranit  </button>" :
                 
                 "<button class='ui primary button' type='submit' formaction='events/v1/vzdelani' > Uložit </button>" ;                
             ?>                                                                                                         

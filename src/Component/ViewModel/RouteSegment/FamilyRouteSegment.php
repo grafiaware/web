@@ -1,7 +1,8 @@
 <?php
 namespace Component\ViewModel\RouteSegment;
 
- use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
+use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
+ 
 /**
  * Description of FamilyRouteSegment
  *
@@ -48,6 +49,10 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
         $parentName = $this->getParentName();
         $parentId = $this->getParentId();
         $itemName = $this->getItemName();
-        return "$prefix/$parentName/$parentId/$itemName";
+        return $this->encodePath("$prefix/$parentName/$parentId/$itemName");
+    }
+    
+    private function encodePath($path) {
+        return implode('/', array_map(function ($v) {return rawurlencode($v);}, explode('/', $path)));
     }
 }

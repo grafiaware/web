@@ -55,7 +55,7 @@ use Pes\Text\Html;
             <div>
                 <?=
                  isset($companyId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/representative/".rawurlencode($loginLoginName)."/".rawurlencode($companyId)."/remove' > Odstranit representanta </button>" :    
+                "<button class='ui primary button' type='submit' formaction='".Text::encodeUrlPath("events/v1/representative/$loginLoginName/$companyId/remove")."' > Odstranit representanta </button>" :    
                 "<button class='ui primary button' type='submit' formaction='events/v1/representative' > Uložit </button>" ;                
                 ?>                                                                                                                                                                                                                                                 
             </div>
