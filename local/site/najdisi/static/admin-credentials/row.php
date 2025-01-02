@@ -29,7 +29,7 @@ use Pes\Text\Html;
             <td>  
                 <div>      
                 <button disabled id="<?="credentials_button_$loginNameFk"?>" form="<?="credentials_$loginNameFk"?>" class='ui secondary button' 
-                        type='submit' formaction='<?= "auth/v1/credentials/".rawurlencode($loginNameFk) ?>'> Uložit </button>
+                        type='submit' formaction='<?= Text::encodeUrlPath("auth/v1/credentials/$loginNameFk") ?>'> Uložit </button>
                 </div>           
             </td>                   
         </tr>   
