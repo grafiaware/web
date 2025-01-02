@@ -9,6 +9,8 @@ use Pes\Text\Message;
                 <div class="sixteen wide column">
                     <p class="nadpis"><?= $listHeadline ?></p>
                 </div>
-                <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>                           
+                <div class="sixteen wide column">
+                    <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>      
+                </div>
             </div>            
     </div>
