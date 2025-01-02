@@ -13,4 +13,3 @@ use Pes\Text\Message;
                     <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>      
                 </div>
             </div>            
-    </div>
