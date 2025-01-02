@@ -43,7 +43,11 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
         return $this->childName;
     }
     
-    public function setChildId(string $id) {
+    /**
+     * 
+     * @param string $id
+     */
+    public function setChildId(string $id=null) {
         $this->childId = $id;
     }
     

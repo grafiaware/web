@@ -11,7 +11,11 @@ interface FamilyRouteSegmentInterface {
     
     public function hasFamily(): bool;
     
-    public function setChildId(string $id);
+    /**
+     * 
+     * @param string $id
+     */
+    public function setChildId(string $id=null);
     
     public function getParentName(): string;
     
