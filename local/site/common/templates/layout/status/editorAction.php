@@ -4,9 +4,13 @@ use Red\Middleware\Redactor\Controler\PresentationActionControler;
 
 <form class="ui form" method="POST" action="red/v1/presentation/editoraction">
     <input type="hidden" name="hidden" value="hidden" /> 
-    <!--hidden proměná zajišťuje vznik $_POST pole v PHP - bez ní pokud není checkbox checked, proměnná chekox inputu neexistuje a protože jiná proměnná ve formuláři není, nevznikne $_POST-->
+    <!--hidden proměná zajišťuje vznik $_POST pole v PHP - bez ní pokud není checkbox checked, proměnná checkbox inputu neexistuje a protože jiná proměnná ve formuláři není, nevznikne $_POST-->
     <div class="ui icon left pointing dropdown button">
-        Akce
+        <p>Akce editora</p>
+        <p class="">
+            <i class="user icon"></i><?= $loginName ?>
+            <i class="<?= $editContent ? "green" : "red"?> power off icon"></i> <?= ($editContent ? "edituje " : "needituje ") ?>
+        </p>
         <div class="menu">
             <div class="text nastred">
                 <p><i class="user icon"></i><?= $loginName ?></p>

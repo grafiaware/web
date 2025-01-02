@@ -172,7 +172,8 @@ class JobControler extends FrontControlerAbstract {
         } else {
             $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
         }
-        return $this->redirectSeeLastGet($request);
+//        return $this->redirectSeeLastGet($request);
+        return $this->createPutNoContentResponse();
     }
 
     private function hydrateJobData(ServerRequestInterface $request, JobInterface $job) {
@@ -249,10 +250,11 @@ class JobControler extends FrontControlerAbstract {
                     }
                 }                 
             }                                                                
+            return $this->createPutNoContentResponse();
         } else {
             $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
-        }
-        return $this->redirectSeeLastGet($request);        
+            return $this->redirectSeeLastGet($request);
+        }        
     }
     
     
