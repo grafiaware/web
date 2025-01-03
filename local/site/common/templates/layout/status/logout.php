@@ -22,7 +22,7 @@
                     <p class="ui basic fluid black button">
                         Chci si změnit heslo</p>
                     <div class="menu">
-                        <form class="ui form" method="POST" action=""><
+                        <form class="ui form" method="POST" action="">
                             <div class="field">
                                 <label>Vaše aktuální heslo</label>
                                 <input class="notRequired" type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Aktuální heslo" required>
