@@ -3,7 +3,13 @@
     overflow: hidden  scroll;
     padding: 0 0 20px 15px;
     .ui.vertical.menu a, p{
-        padding-left: 25px;
+        padding-left: 25px !important;
+    }
+    .vertical.menu .item a.presented, .item p.presented{
+        margin: 0;
+    }
+    .vertical.menu .item > .menu .item a.presented, .item p.presented{
+        padding: 10px 10px 10px 20px;
     }
     .svisle-menu{   
             li i.dropdown{
