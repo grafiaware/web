@@ -150,11 +150,21 @@ class PasswordControler extends LoginControlerAbstract {
         $requestParams = new RequestParams();
         $changedPassword = $requestParams->getParsedBodyParam($request, 'changepassword', FALSE);
 
+    $changedPassword = true;
         if ($changedPassword) {
-            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
-            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
-            $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
-            $changeHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
+            //$fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
+           
+            //$fieldNameHesloStare = ConfigurationCache::auth()['fieldNameHeslo'];
+            //$fieldNameHesloNove = ConfigurationCache::auth()['fieldNameHeslo'];
+
+            //$loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
+            //$changeHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHesloNove, FALSE);
+            //$oldHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHesloStare, FALSE);
+
+            $loginJmeno = 'Aregi10';
+            $oldHeslo = 'Ck4Bg2Ev';
+            $changeHeslo = 'Heslo10';
+            
 
             /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
             $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
@@ -163,8 +173,13 @@ class PasswordControler extends LoginControlerAbstract {
             if (isset($loginAggregateCredentialsEntity ) )
             {
                 $credentials = $loginAggregateCredentialsEntity->getCredentials();
-                if (isset($$credentials)  AND ($changedPassword) ) {
-                    $hashedChangedPassword = ( new Password())->getPasswordHash( $changedPassword );
+                $oldPassHashedCtene = $credentials->getPasswordHash();
+                $oldPassHashedPsane =  ( new Password())->getPasswordHash( $oldHeslo ); //$oldHeslo;  //VYROBIT
+                
+                
+                
+                if (isset($credentials)  AND ($oldPassHashedCtene == $oldPassHashedPsane) ) {
+                    $hashedChangedPassword = ( new Password())->getPasswordHash( $changeHeslo );
                     $credentials = $loginAggregateCredentialsEntity->getCredentials()->setPasswordHash($hashedChangedPassword );
                    // $loginAggregateCredentialsEntity->setCredentials($credentials);
 
