@@ -49,6 +49,16 @@ body{
             top: 10px;
             left: 12px;;
             display: flex;
+            z-index: 101;
+            flex-direction: column;
+            background: #ffffffb5;
+            border: 1px solid black;
+            padding: 5px;
+            border-radius: 5px;
+            > .cascade > *{
+                margin: 5px 0;
+                width: 100%;
+            }
             .ui.button{
                 background-color: white;
                 color: @primaryColor;
@@ -58,16 +68,22 @@ body{
                     font-size: 1rem;
                 }
             }
-            
-                flex-direction: column;
-                background: #ffffffb5;
-                border: 1px solid black;
-                padding: 5px;
-                border-radius: 5px;
-                > .cascade > *{
-                    margin: 5px 0;
-                    width: 100%;
+            .dropdown.button{
+                > .menu{ 
+                    > .fluid.button{
+                        width: 82%;
+                    }
                 }
+                .item > .menu{
+                    padding: 15px 10px 10px;
+                    &.right, &.upward, &.left{
+                        left: 5px !important;
+                        right: 5px !important;
+                        top: 65px !important; 
+                        bottom: auto !important;
+                    }
+                }
+            } 
             
         }
     }
