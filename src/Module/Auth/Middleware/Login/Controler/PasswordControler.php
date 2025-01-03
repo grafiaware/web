@@ -164,51 +164,38 @@ class PasswordControler extends LoginControlerAbstract {
 
     public function changePassword(ServerRequestInterface $request) {
         $requestParams = new RequestParams();
-        $changedPassword = $requestParams->getParsedBodyParam($request, 'changepassword', FALSE);
+// $changedPassword = $requestParams->getParsedBodyParam($request, 'changepassword', FALSE);
+//        if ($changedPassword) {
+            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
+            $fieldNameHesloStare = ConfigurationCache::auth()['fieldNameHesloStare'];
+            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
 
-    $changedPassword = true;
-        if ($changedPassword) {
-            //$fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
-           
-            //$fieldNameHesloStare = ConfigurationCache::auth()['fieldNameHeslo'];
-            //$fieldNameHesloNove = ConfigurationCache::auth()['fieldNameHeslo'];
+            $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
+            $oldHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHesloStare, FALSE);
+            $changeHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
 
-            //$loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
-            //$changeHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHesloNove, FALSE);
-            //$oldHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHesloStare, FALSE);
-
-            $loginJmeno = 'Aregi10';
-            $oldHeslo = '6Nm58aqj';
-            $changeHeslo = 'Heslo10';
+//     $loginJmeno = 'Aregi10';
+//     $oldHeslo = '6Nm58aqj';
+//     $changeHeslo = 'Heslo10';
             
             /** @var  LoginAggregateFullInterface $loginAggregateFull  */
             $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
-             
             if (isset($loginAggregateFull ) ) {
                 $credentials = $loginAggregateFull->getCredentials();
-
-//                    $this->authenticator->authenticate($loginAggregateFull, $loginHeslo);
-                    $agree =  $this->authenticator->authenticate($loginAggregateFull, $oldHeslo);
-
-//                    $oldPassHashedCtene = $credentials->getPasswordHash();
-//                    $oldPassHashedPsane =  ( new Password())->getPasswordHash( $oldHeslo ); //$oldHeslo;  //VYROBIT
+                $agree =  $this->authenticator->authenticate($loginAggregateFull, $oldHeslo);
                 
-                
-                    if (isset($credentials)  AND ($agree) ) {
-                        $hashedChangedPassword = ( new Password())->getPasswordHash( $changeHeslo );
-                        $credentials = $loginAggregateFull->getCredentials()->setPasswordHash($hashedChangedPassword );
-                       // $loginAggregateCredentialsEntity->setCredentials($credentials);
+                if (isset($credentials)  AND ($agree) ) {
+                    $hashedChangedPassword = ( new Password())->getPasswordHash( $changeHeslo );
+                    $credentials = $loginAggregateFull->getCredentials()->setPasswordHash($hashedChangedPassword );
+                   // $loginAggregateCredentialsEntity->setCredentials($credentials);
 
-                        $this->addFlashMessage("Vaše heslo bylo změněno.");
-                    }
-               
-                
+                    $this->addFlashMessage("Vaše heslo bylo změněno.");
+                }
             }
             else {
                  $this->addFlashMessage("Neplatné jméno!");
             }
-
-        }
+ //       }
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

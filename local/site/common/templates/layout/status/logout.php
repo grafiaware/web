@@ -25,7 +25,7 @@
                         <form class="ui form" method="POST" action="">
                             <div class="field">
                                 <label>Vaše aktuální heslo</label>
-                                <input class="notRequired" type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Aktuální heslo" required>
+                                <input class="notRequired" type="password" name="<?=ConfigurationCache::auth()['fieldNameHesloStare']?>" placeholder="Aktuální heslo" required>
                             </div>
                             <div class="field">
                                 <label>Nové heslo</label>
