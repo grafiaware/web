@@ -20,7 +20,7 @@ use Pes\Text\Html;
                         echo Html::tag('span', 
                             [
                                 'class'=>'cascade',
-                                'data-red-apiuri'=>"events/v1/data/job/$id/jobtotag",
+                                'data-red-apiuri'=> $dataRedApiUri,
                             ]
                         );     
                     ?>                    
@@ -40,14 +40,11 @@ use Pes\Text\Html;
                 </div>
             </div>
 
-            <div class="two fields">
-
-                <div class="field">
-                    <label>Popis pozice</label>
-                    <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="20" 
-                                            value="<?= $popisPozice ?? '' ?>">
-                    <span></span>
-                </div>
+            <div class="field">
+                <label>Popis pozice</label>
+                <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="20" 
+                                        value="<?= $popisPozice ?? '' ?>">
+                <span></span>
             </div>
 
             <div class="two fields">

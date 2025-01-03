@@ -28,18 +28,20 @@ abstract class ComponentMultiAbstract extends CompositeView implements Component
     
     /**
      * 
-     * @var FileTemplateInterface
-     */
-    private $multiTemplate;
-    private $multiTemplateName;
-    private $editableMultiTemplateName;    
-    protected $viewPrototype;
-    
-    /**
-     * 
      * @var ViewModelMultiInterface
      */
     private $multiViewModel;
+    
+    /**
+     * 
+     * @var FileTemplateInterface
+     */
+    private $multiTemplate;
+    private $multiTemplatePath;
+    private $editableMultiTemplatePath;    
+    protected $viewPrototype;
+
+    private $pluginTemplatePath = [];
 
     public function __construct(ComponentConfigurationInterface $configuration, ComponentPrototypeInterface $viewPrototype) {
         $this->configuration = $configuration;
@@ -59,8 +61,12 @@ abstract class ComponentMultiAbstract extends CompositeView implements Component
     }
     
     public function setMultiTemplatePath($templateFilePath, $editableTemplateFilePath = null) {
-        $this->multiTemplateName = $templateFilePath;
-        $this->editableMultiTemplateName = $editableTemplateFilePath;
+        $this->multiTemplatePath = $templateFilePath;
+        $this->editableMultiTemplatePath = $editableTemplateFilePath;
+    }
+    
+    public function addPluginTemplatePath($name, $templateFilePath, $editableTemplateFilePath = null) {
+        $this->pluginTemplatePath[$name] = ["default"=>$templateFilePath, "editable"=>$editableTemplateFilePath];
     }
     
     /**
@@ -80,14 +86,19 @@ abstract class ComponentMultiAbstract extends CompositeView implements Component
             $this->appendComponentView($itemComponent, $id);
         }
               
-
-        if (isset($this->multiTemplate) AND $this->multiTemplateName) {
-            //když není editable, použije se vždy default
-            $editable = $this->multiViewModel->isMultiEditable();
-            $this->multiTemplate->setTemplateFilename(($editable && $this->editableMultiTemplateName) ? $this->editableMultiTemplateName : $this->multiTemplateName);
-        } else {
-            throw new LogicException("ComponentItem musí mít před renderováním nastavenu itemTemplate a alespoň první itemTemplatePath.");
+        $editable = $this->multiViewModel->isMultiEditable();
+        if (isset($this->pluginTemplatePath)) {
+            foreach ($this->pluginTemplatePath as $name => $paths) {
+                $this->multiViewModel->appendData([$name=>($editable ? $paths["editable"] : $paths["default"])]);                            
+            }
         }
+        if (isset($this->multiTemplate) AND $this->multiTemplatePath) {
+            //když není editable, použije se vždy default
+            $this->multiTemplate->setTemplateFilename(($editable && $this->editableMultiTemplatePath) ? $this->editableMultiTemplatePath : $this->multiTemplatePath);
+        } else {
+            throw new LogicException("ComponentItem musí mít před renderováním nastavenu multiTemplate a alespoň první multiTemplatePath.");
+        }       
+        
         $this->setTemplate($this->multiTemplate);
         $this->setData($this->multiViewModel);
         

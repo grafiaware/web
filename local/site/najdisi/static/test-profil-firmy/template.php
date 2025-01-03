@@ -54,5 +54,5 @@ if (isset($representativeFromStatus)) {
     }
     
 } else {
-    echo "Stránka je určena pouze přihlíšenému reprezentatu firmy.";
+    echo "Stránka je určena pouze přihlášenému reprezentantu firmy.";
 }

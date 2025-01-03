@@ -1,6 +1,9 @@
 <?php
 use Pes\Text\Html;
 use Events\Middleware\Events\Controler\RepresentationControler;
+
+$hasRepreCompany = (bool) $companyName ?? false;
+$mustSelectCompany = !$isAdministrator && count($idCompanyArray);
 ?>
 
 
@@ -9,7 +12,9 @@ use Events\Middleware\Events\Controler\RepresentationControler;
         <p>Akce reprezentanta</p>
         <p class="">
             <i class="user icon"></i><?= $loginName ?>
-            <i class="<?= $editData ? "green" : "red"?> power off icon"></i> <?= ($editData ? "edituje " : "needituje ").$companyName ?>
+            <div class="ui divider"></div>
+            <i class="briefcase icon"></i><?= $hasRepreCompany ? "zastupuje $companyName" : "Nemá vybranou firmu" ?>
+            <i class="<?= $editData ? "green" : "red"?> power off icon"></i> <?= ($editData ? "edituje " : "needituje ") ?>
         </p>
     </button>
 
@@ -19,7 +24,7 @@ use Events\Middleware\Events\Controler\RepresentationControler;
                 <p class="text velky zadne-okraje"><i class="user icon"></i><?= $loginName ?></p>
                 <form class="ui form centered" method="POST" action="events/v1/representation">
                     <div class="text okraje-vertical">
-                    <?php if(!$isAdministrator && count($idCompanyArray)) {
+                    <?php if($mustSelectCompany) {
                             echo Html::select(
                             RepresentationControler::FORM_REPRESENTATION_COMPANY_ID, 
                             "Zastupovaná firma", 
@@ -30,10 +35,12 @@ use Events\Middleware\Events\Controler\RepresentationControler;
                         }
                     ?>  
                     </div> 
+                    <?php if ($hasRepreCompany) {?>
                     <div class="ui toggle checkbox">
                         <input id="prepnout-editaci-repre" type="checkbox" name="<?= RepresentationControler::FORM_REPRESENTATION_EDIT_DATA ?>" <?= $editData ? "checked" : "" ?> onchange="this.form.submit()">
                         <label for="prepnout-editaci-repre"><?= $editData ? "Vypnout editaci údajů" : "Zapnout editaci údajů"?></label>
                     </div>
+                    <?php } ?>
 <!--                    <div class="ui fluid large buttons">
                         <button class="ui positive button" type="submit" formtarget="_self" formaction="events/v1/representation">Odeslat</button>
                     </div>

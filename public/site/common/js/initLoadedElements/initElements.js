@@ -43,8 +43,10 @@ function isTinyMCEDefined() {
 function initLoadedEditableElements() {
     //semantic-ui dropdown (použitý např. pro přihlašování)
     //$('.ui.dropdown').dropdown();
+    ////odhlášení reaguje na najetí (hover) (odhlaseni pres ikonu)
+//    $('.logout .button').dropdown({on: 'hover'});
     //menu semantic-ui dropdown reaguje na událost hover
-    $('.svisle-menu .ui.dropdown').dropdown({on: 'hover'});
+//    $('.svisle-menu .ui.dropdown').dropdown({on: 'hover'});
     //výběr šablony pro stránku - vlastní dropdown, protože jsou dva vnořený
     //$('.ui.selection.dropdown').dropdown();
 
@@ -77,9 +79,11 @@ function initLoadedElements() {
 //=== ui elementy ===
     
     //semantic-ui dropdown (použitý např. pro přihlašování)
-    $('.ui.dropdown')
-      .dropdown()
-    ;
+//    $('.ui.dropdown')
+//      .dropdown()
+//    ;
+    //odhlášení reaguje na najetí (hover) (odhlaseni pres ikonu)
+//    $('.logout .button').dropdown({on: 'hover'});
     //prihlaseni (otevreni/zavreni pres ikonu)
     $('.btn-login').click(function(){
         $(this).siblings('.menu-login').toggle();
@@ -130,9 +134,9 @@ function initLoadedElements() {
     });
 
     //menu semantic-ui dropdown reaguje na událost hover
-    $('.svisle-menu .ui.dropdown').dropdown({
-       on: 'hover'
-    });
+//    $('.svisle-menu .ui.dropdown').dropdown({
+//       on: 'hover'
+//    });
 
 
     //odeslani prihlasovaciho formulare pri stisku klavesy Enter
@@ -398,9 +402,11 @@ export function scrollToAnchorPosition() {
 function initJqueryEvents() {
     
     //semantic-ui dropdown (použitý např. pro přihlašování)
-    $('.ui.dropdown')
-      .dropdown()
-    ;
+//    $('.ui.dropdown')
+//      .dropdown()
+//    ;
+    //odhlášení reaguje na najetí (hover) (odhlaseni pres ikonu)
+    $('.logout .button').dropdown({on: 'hover'});
     //prihlaseni (otevreni/zavreni pres ikonu)
     $('.btn-login').click(function(){
         $(this).siblings('.menu-login').toggle();
@@ -439,9 +445,9 @@ function initJqueryEvents() {
     });
 
     //menu semantic-ui dropdown reaguje na událost hover
-    $('.svisle-menu .ui.dropdown').dropdown({
-       on: 'hover'
-    });
+//    $('.svisle-menu .ui.dropdown').dropdown({
+//       on: 'hover'
+//    });
 
 
     //odeslani prihlasovaciho formulare pri stisku klavesy Enter

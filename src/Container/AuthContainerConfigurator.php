@@ -354,8 +354,10 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(LoginAggregateCredentialsRepo::class),
-                        $c->get(LoginAggregateRegistrationRepo::class))
+//                        $c->get(LoginAggregateCredentialsRepo::class),
+//                        $c->get(LoginAggregateRegistrationRepo::class),
+                        $c->get(LoginAggregateFullRepo::class) ,
+                        $c->get(AuthenticatorInterface::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },

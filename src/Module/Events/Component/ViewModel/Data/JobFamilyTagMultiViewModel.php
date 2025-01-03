@@ -187,12 +187,12 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
                 'listHeadline'=>'Tagy pracovní pozice',           
                 //route
                 'actionSave' => $componentRouteSegment->getAddPath(),    // pracuje jen s kolekcí -> nejsou routy s id jednotlivých job to tag
+                'fields'=>$this->multiTemplateData($this->getArrayCopy())
                 ],            
-                $this->multiTemplateData($this->getArrayCopy())
             );        
         } else {
             $array = [
-            'items' => $this->getArrayCopy()
+            'fields' => ['items'=>$this->getArrayCopy()]
             ];
         }        
 

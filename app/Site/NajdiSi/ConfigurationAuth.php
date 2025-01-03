@@ -32,6 +32,7 @@ class ConfigurationAuth extends ConfigurationConstants {
         return [
                 'fieldNameJmeno' => 'jmeno'.$siteSpecificToken,
                 'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
+                'fieldNameHesloStare' => 'hesloStare'.$siteSpecificToken,
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo,
                 'roleVisitor' => RoleEnum::VISITOR,
