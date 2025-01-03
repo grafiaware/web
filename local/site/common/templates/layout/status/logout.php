@@ -6,7 +6,7 @@
         <!--<p class="profil-ikona"><a class="link-img" href=""><i class="inverted user circle icon"></i></a></p>-->
         
         <form class="ui form" method="POST" action="">
-            <div class="ui icon top left pointing dropdown fluid button">
+            <div class="ui icon top left pointing dropdown button">
                 <i class="sign out alternate icon"></i>              
             <div class="menu">
                 <div class="text nastred">
