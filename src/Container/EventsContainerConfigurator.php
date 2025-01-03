@@ -335,7 +335,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(TagComponent::class)) {
                     $component->setItemViewModel($c->get(JobTagViewModel::class));  // !!!! JobTagViewModel neexistuje
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('item'));   //, $configuration->getTemplate('itemEditable'));
+                    $component->setItemTemplatePath($configuration->getTemplate('item'), $configuration->getTemplate('itemEditable'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('jobTag'), $configuration->getTemplate('jobTagEditable'));      
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
