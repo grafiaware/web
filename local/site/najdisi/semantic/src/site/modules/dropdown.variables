@@ -16,3 +16,6 @@
 
 /* Sub Menu */
 @subMenuDistanceAway: -0.5em; 
+
+/* Pointing */
+@pointingArrowSize: 1em;

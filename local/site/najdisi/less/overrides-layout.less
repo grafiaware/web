@@ -55,21 +55,25 @@ body{
             border: 1px solid black;
             padding: 5px;
             border-radius: 5px;
-            > .cascade > *{
-                margin: 5px 0;
-                width: 100%;
-            }
+            > .cascade{
+                > .button, .dropdown.button{
+                    background-color: white;
+                    color: @primaryColor;
+                    border: 1px solid @primaryColor;
+                    border-radius: 5px;
+                }
+                > *{
+                    margin: 6px 0;
+                    width: 100%;
+                }
+            } 
             .ui.button{
-                background-color: white;
-                color: @primaryColor;
-                border: 1px solid @primaryColor;
-                border-radius: 5px;
                 &.dropdown, &.page{
                     font-size: 1rem;
                 }
             }
             .dropdown.button{
-                > .menu{ 
+                .text.nastred ~ form{ 
                     > .fluid.button{
                         width: 82%;
                     }
