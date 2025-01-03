@@ -12,4 +12,6 @@ interface ComponentMultiInterface {
     public function getMultiViewModel(): ViewModelMultiInterface;
     public function setMultiTemplate(FileTemplateInterface $template);
     public function setMultiTemplatePath($templateFilePath, $editableTemplateFilePath=null);
+    public function addPluginTemplatePath($name, $templateFilePath, $editableTemplateFilePath=null);
+    
 }

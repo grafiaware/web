@@ -39,8 +39,8 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
      */
     protected $itemViewModel;
     
-    private $itemTemplateName;
-    private $editableItemTemplateName;
+    private $itemTemplatePath;
+    private $editableItemTemplatePath;
 
 
     private $pluginTemplatePath = [];
@@ -64,8 +64,8 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
     }
     
     public function setItemTemplatePath($templateFilePath, $editableTemplateFilePath = null) {
-        $this->itemTemplateName = $templateFilePath;
-        $this->editableItemTemplateName = $editableTemplateFilePath;
+        $this->itemTemplatePath = $templateFilePath;
+        $this->editableItemTemplatePath = $editableTemplateFilePath;
     }
     
     public function addPluginTemplatePath($name, $templateFilePath, $editableTemplateFilePath = null) {
@@ -84,9 +84,9 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
                 $this->itemViewModel->appendData([$name=>($editable ? $paths["editable"] : $paths["default"])]);                            
             }
         }
-        if (isset($this->itemTemplate) AND $this->itemTemplateName) {
+        if (isset($this->itemTemplate) AND $this->itemTemplatePath) {
             //když není editable, použije se vždy default
-            $this->itemTemplate->setTemplateFilename(($editable && $this->editableItemTemplateName) ? $this->editableItemTemplateName : $this->itemTemplateName);
+            $this->itemTemplate->setTemplateFilename(($editable && $this->editableItemTemplatePath) ? $this->editableItemTemplatePath : $this->itemTemplatePath);
         } else {
             throw new LogicException("ComponentItem musí mít před renderováním nastavenu itemTemplate a alespoň první itemTemplatePath.");
         }

@@ -127,6 +127,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             'item' => self::WEB_TEMPLATES_COMMON.'data/item.php',
             'itemEditable' => self::WEB_TEMPLATES_COMMON.'data/itemEditable.php',
             'items' => self::WEB_TEMPLATES_COMMON.'data/items.php',
+            'multiEditable' => self::WEB_TEMPLATES_COMMON.'data/multiEditable.php',
+            'multi' => self::WEB_TEMPLATES_COMMON.'data/multi.php',                
             'checkbox' => self::WEB_TEMPLATES_COMMON.'data/checkbox.php',
             'checked' => self::WEB_TEMPLATES_COMMON.'data/checked.php',
 

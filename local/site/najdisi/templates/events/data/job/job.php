@@ -22,7 +22,7 @@ use Pes\Text\Html;
                         echo Html::tag('span', 
                             [
                                 'class'=>'cascade',
-                                'data-red-apiuri'=>"events/v1/data/job/$id/jobtotag",
+                                'data-red-apiuri'=> $dataRedApiUri,
                             ]
                         );     
                     ?>                 
