@@ -40,14 +40,11 @@ use Pes\Text\Html;
                 </div>
             </div>
 
-            <div class="two fields">
-
-                <div class="field">
-                    <label>Popis pozice</label>
-                    <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="20" 
-                                            value="<?= $popisPozice ?? '' ?>">
-                    <span></span>
-                </div>
+            <div class="field">
+                <label>Popis pozice</label>
+                <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="20" 
+                                        value="<?= $popisPozice ?? '' ?>">
+                <span></span>
             </div>
 
             <div class="two fields">

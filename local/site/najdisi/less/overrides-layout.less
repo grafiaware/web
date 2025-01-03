@@ -49,6 +49,16 @@ body{
             top: 10px;
             left: 12px;;
             display: flex;
+            z-index: 101;
+            flex-direction: column;
+            background: #ffffffb5;
+            border: 1px solid black;
+            padding: 5px;
+            border-radius: 5px;
+            > .cascade > *{
+                margin: 5px 0;
+                width: 100%;
+            }
             .ui.button{
                 background-color: white;
                 color: @primaryColor;
@@ -58,17 +68,23 @@ body{
                     font-size: 1rem;
                 }
             }
-            &.schvalene{
-                flex-direction: column;
-                background: #ffffffb5;
-                border: 1px solid black;
-                padding: 5px;
-                border-radius: 5px;
-                > .cascade > *{
-                    margin: 5px 0;
-                    width: 100%;
+            .dropdown.button{
+                > .menu{ 
+                    > .fluid.button{
+                        width: 82%;
+                    }
                 }
-            }
+                .item > .menu{
+                    padding: 15px 10px 10px;
+                    &.right, &.upward, &.left{
+                        left: 5px !important;
+                        right: 5px !important;
+                        top: 65px !important; 
+                        bottom: auto !important;
+                    }
+                }
+            } 
+            
         }
     }
     
@@ -137,10 +153,6 @@ body{
             padding: 10px;
             margin: 0 -10px;
             width: 106.5%;
-        }
-        .vertical.menu .item > .vertical.menu .item a.presented, .item p.presented{
-            padding: 10px 10px 10px 20px;
-            margin: 0 -22px;
         }
         .vertical.menu .item > .vertical.menu .item > .menu .item a.presented, .item p.presented{
             padding: 10px 10px 10px 30px;
