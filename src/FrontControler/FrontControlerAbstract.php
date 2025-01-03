@@ -186,6 +186,10 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $json;
     }
     
+    protected function createUnauthorizedResponse() {
+        $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
+    }
+    
     /**
      * Generuje response s přesměrováním na zadanou adresu.
      *

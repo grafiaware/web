@@ -18,13 +18,15 @@ use Site\ConfigurationCache;
                 </div>
                 <div class="field">
                     <label>Heslo</label>
-                    <input class="notRequired" type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Heslo" required>
+                    <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Heslo" required>
                 </div>
                 <div class="ui fluid large buttons">
                     <a class="ui hide button" href="javascript:void(0)">Zavřít</a>
                     <button class="ui positive button" tabindex="1" type="submit" name="login" value=1>Přihlásit</button>
                 </div>
-                <p class="text"><button class="ui basic fluid button" tabindex="0" type="submit" name="forgottenpassword" value=1 formaction="auth/v1/forgottenpassword">Zapomněl jsem heslo</button></p>
+                <p class="text">
+                    <button class="ui basic fluid button" tabindex="0" type="submit" name="forgottenpassword" value=1 formaction="auth/v1/forgottenpassword">Zapomněl jsem heslo</button>
+                </p>
             </form>
         </div>
     </div>
