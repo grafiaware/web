@@ -5,7 +5,7 @@
     <div class="logout">
         <!--<p class="profil-ikona"><a class="link-img" href=""><i class="inverted user circle icon"></i></a></p>-->
         
-            <div class="ui icon top left pointing dropdown button">
+            <div class="ui icon top left pointing dropdown button item">
                 <i class="sign out alternate icon"></i>              
             <div class="menu">
                 <div class="text nastred">
@@ -31,7 +31,7 @@
                                 <label>Nové heslo</label>
                                 <input class="notRequired" type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Nové heslo" required>
                             </div>
-                            <button class="ui inverted secondary fluid button" type="submit" name="logout" value="1"
+                            <button class="ui positive fluid button" type="submit" name="logout" value="1"
                                 formtarget="_self" formaction='auth/v1/changepassword'>Odeslat</button>
                         </form>
                     </div>

@@ -39811,17 +39811,17 @@ select.ui.dropdown {
   content: "";
   visibility: visible;
   transform: rotate(45deg);
-  width: 0.58333333em;
-  height: 0.58333333em;
+  width: 1em;
+  height: 1em;
   box-shadow: -1px -1px 0 0 rgba(34, 36, 38, 0.15);
   background: #fff;
   z-index: 2;
 }
 
 .ui.pointing.dropdown > .menu:not(.hidden)::after {
-  top: -0.29166667em;
+  top: -0.5em;
   left: 50%;
-  margin: 0 0 0 -0.29166667em;
+  margin: 0 0 0 -0.5em;
 }
 
 /* Top Left Pointing */
@@ -39843,7 +39843,7 @@ select.ui.dropdown {
 }
 
 .ui.top.left.pointing.dropdown > .menu::after {
-  top: -0.29166667em;
+  top: -0.5em;
   left: 1em;
   right: auto;
   margin: 0;
@@ -39862,7 +39862,7 @@ select.ui.dropdown {
 
 .ui.top.pointing.dropdown > .left.menu::after,
 .ui.top.right.pointing.dropdown > .menu::after {
-  top: -0.29166667em;
+  top: -0.5em;
   left: auto !important;
   right: 1em !important;
   margin: 0;
@@ -39880,7 +39880,7 @@ select.ui.dropdown {
 
 .ui.left.pointing.dropdown > .menu::after {
   top: 1em;
-  left: -0.29166667em;
+  left: -0.5em;
   margin: 0;
   transform: rotate(-45deg);
 }
@@ -39894,7 +39894,7 @@ select.ui.dropdown {
 .ui.left:not(.top):not(.bottom).pointing.dropdown > .left.menu::after {
   top: 1em;
   left: auto;
-  right: -0.29166667em;
+  right: -0.5em;
   margin: 0;
   transform: rotate(135deg);
 }
@@ -39911,7 +39911,7 @@ select.ui.dropdown {
 .ui.right.pointing.dropdown > .menu::after {
   top: 1em;
   left: auto;
-  right: -0.29166667em;
+  right: -0.5em;
   margin: 0;
   transform: rotate(135deg);
 }
@@ -39928,7 +39928,7 @@ select.ui.dropdown {
 
 .ui.bottom.pointing.dropdown > .menu::after {
   top: auto;
-  bottom: -0.29166667em;
+  bottom: -0.5em;
   right: auto;
   margin: 0;
   transform: rotate(-135deg);
@@ -39980,7 +39980,7 @@ select.ui.dropdown {
   top: 100% !important;
   bottom: auto !important;
   box-shadow: 1px 1px 0 0 rgba(34, 36, 38, 0.15);
-  margin: -0.29166667em 0 0;
+  margin: -0.5em 0 0;
 }
 
 /* Right Pointing Upward */
