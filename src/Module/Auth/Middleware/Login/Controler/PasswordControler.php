@@ -19,10 +19,14 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
-use Auth\Model\Repository\LoginAggregateCredentialsRepo;
-use Auth\Model\Entity\LoginAggregateCredentials;
-use Auth\Model\Repository\LoginAggregateRegistrationRepo;
-use Auth\Model\Entity\LoginAggregateRegistration;
+//use Auth\Model\Repository\LoginAggregateCredentialsRepo;
+//use Auth\Model\Entity\LoginAggregateCredentials;
+//use Auth\Model\Repository\LoginAggregateRegistrationRepo;
+//use Auth\Model\Entity\LoginAggregateRegistration;
+use Auth\Model\Repository\LoginAggregateFullRepo;
+
+use Auth\Model\Entity\LoginAggregateFull;
+use Auth\Authenticator\AuthenticatorInterface;
 
 use Auth\Model\Entity\CredentialsInterface;
 use Auth\Model\Entity\RegistrationInterface;
@@ -33,20 +37,27 @@ use Auth\Model\Entity\RegistrationInterface;
  * @author vlse2610
  */
 class PasswordControler extends LoginControlerAbstract {
-    private $loginAggregateCredentialsRepo;
-    private $loginAggregateRegistrationRepo;
+//    private $loginAggregateCredentialsRepo;
+//    private $loginAggregateRegistrationRepo;
+
+    private $loginAggregateFullRepo;
+    private $authenticator;
 
 
     public function __construct(
                         StatusSecurityRepo $statusSecurityRepo,
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
-             LoginAggregateCredentialsRepo $loginAggregateCredentialRepo,
-            LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo)
+//             LoginAggregateCredentialsRepo $loginAggregateCredentialRepo,
+//            LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo,
+            LoginAggregateFullRepo $loginAggregateFullRepo,
+                    AuthenticatorInterface $authenticator)
     {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->loginAggregateCredentialsRepo = $loginAggregateCredentialRepo;
-        $this->loginAggregateRegistrationRepo = $loginAggregateRegistrationRepo;
+//        $this->loginAggregateCredentialsRepo = $loginAggregateCredentialRepo;
+//        $this->loginAggregateRegistrationRepo = $loginAggregateRegistrationRepo;
+        $this->loginAggregateFullRepo = $loginAggregateFullRepo;        
+        $this->authenticator = $authenticator;
     }
 
 
@@ -62,9 +73,11 @@ class PasswordControler extends LoginControlerAbstract {
             if ($loginJmeno ) {
                 // heslo je zahashovane v Credentials - posleme mailem náhradní vygenerované, a zahashujeme do Credentials
                 /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
-                $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
-                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($loginJmeno);
-                        
+//                $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
+//                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($loginJmeno);
+                $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
+                $loginAggregateCredentialsEntity = $loginAggregateFull->getCredentials();
+                $loginAggregateRegistrationEntity = $loginAggregateFull->getRegistration();                        
                 if ( isset($loginAggregateCredentialsEntity)  AND isset($loginAggregateRegistrationEntity) )  {
                     /** @var CredentialsInterface  $credentials */
                     /** @var RegistrationInterface  $registration */    
