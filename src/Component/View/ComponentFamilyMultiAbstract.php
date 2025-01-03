@@ -14,9 +14,9 @@ use TypeError;
 abstract class ComponentFamilyMultiAbstract extends ComponentMultiAbstract implements ComponentFamilyInterface {
     
     public function createFamilyRouteSegment(string $prefix, string $parentName, string $parentId, string $childName) {
-        $familyRouteSegment = new FamilyRouteSegment($prefix, $parentName, $parentId, $childName);
         $listViewModel = $this->getMultiViewModel();
         if ($listViewModel instanceof FamilyInterface) {
+            $familyRouteSegment = new FamilyRouteSegment($prefix, $parentName, $parentId, $childName);
             $listViewModel->setFamilyRouteSegment($familyRouteSegment);
         } else {
             $comCls = get_class($this);
