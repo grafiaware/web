@@ -81,7 +81,7 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
     public function getIterator() {
         $this->loadCompanyContact();
         $editableItem = $this->isItemEditable();
-        $this->getFamilyRouteSegment()->setChildId($this->companyContact->getCompanyId());
+        $this->getFamilyRouteSegment()->setChildId($this->companyContact->getId());
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         if ($componentRouteSegment->hasChildId()) {        
             $companyContactArray = [

@@ -13,15 +13,17 @@ function eventsEnableButtonsOnForm(event) {
 }
 
 function eventsEnableButtonsOnInput(event) {
-    form = event.currentTarget.closest('form');
+    form = event.target.closest('form');
     eventsEnableSave(form);
+}
 
+function eventsEnableButtonsOnTinyMCE(form) {
+    eventsEnableSave(form);
 }
 
 function eventsResetButton(event) {
-    form = event.currentTarget.closest('form');
-    eventsDisableSave(form)
-    
+    form = event.target.closest('form');
+    eventsDisableSave(form);
 }
 
 function eventsEnableSave(form) {

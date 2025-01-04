@@ -348,6 +348,7 @@ var selectTemplateMultipageConfig = {
 import {setupUserInputEditor, initInstanceUserInputEditor, pastePreprocessUserInput} from "./tinyfunctions/editorSetup.js";
 
 var editUserInputConfig = {
+//    ...editCommonConfig,
     selector: '.edit-userinput',
     schema : 'html5',
     promotion: false,   // vypíná tlačítko upgrade - Premium upgrade promotion option

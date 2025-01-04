@@ -24,6 +24,10 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     private $status;
     private $companyRepo;
     private $companyAddressRepo;
+    /**
+     * 
+     * @var CompanyAddressInterface
+     */
     private $companyAddress;
     
     public function __construct(
@@ -74,7 +78,7 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     public function getIterator() {
         $this->loadCompanyAddress();
         $editableItem = $this->isItemEditable();
-        $this->getFamilyRouteSegment()->setChildId($this->companyAddress->getCompanyId());
+        $this->getFamilyRouteSegment()->setChildId($this->companyAddress->getCompanyId());  //pk = fk
         $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($componentRouteSegment->hasChildId()) {        
             $companyAddrArray = [

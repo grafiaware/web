@@ -4,6 +4,8 @@
  */
 
 
+/* global tinymce */
+
 /**
  * Callback funkce nastavená parametrem v konfiguraci TinyMCE setup: editorFunction. Volá se před inicializací instance TinyMCE.
  *
@@ -83,11 +85,12 @@ export const redEditorSetup = (editor) => {
  */
 export const setupUserInputEditor = function (editor) {
     const allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
+    const maxChars = editor.getParam('max_chars');
     editor.on('keydown', function (e) {
         if (allowedKeys.indexOf(e.keyCode) !== -1) return true;
-        let tinyLg = tinymce_getContentLength();
-        let editr = tinymce.get(tinymce.activeEditor.id);
-        if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
+        let editor = activeEditor();
+        let max = editor.getParam('max_chars');
+        if (activeEditorContentLength() + 1 > max) {
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -95,9 +98,17 @@ export const setupUserInputEditor = function (editor) {
         return true;
     });
     editor.on('keyup', function (e) {
-        tinymce_updateCharCounter(this, tinymce_getContentLength());
+        eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
+        tinymce_updateCharCounter(this, activeEditorContentLength());
     });
+    editor.on('Dirty', function (e) {
+        eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
+    });    
 };
+
+function activeEditor() {
+    return tinymce.get(tinymce.activeEditor.id);
+}
 
 /**
  * Callback funkce volaná po inicializaci TinyMce - použito v editWorkDataConfig.
@@ -106,7 +117,7 @@ export const setupUserInputEditor = function (editor) {
  */
 export const initInstanceUserInputEditor = function () { // initialize counter div
     $('#' + this.id).prev().append('<div class="char_count" style="text-align:right; float: right"></div>');
-    tinymce_updateCharCounter(this, tinymce_getContentLength());
+    tinymce_updateCharCounter(this, activeEditorContentLength());
 };
 
 /**
@@ -123,12 +134,14 @@ export const pastePreprocessUserInput = function (plugin, args) {
         args.content = '';
     }
     tinymce_updateCharCounter(editor, len + args.content.length);
+    eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
+    
 };
 
 function tinymce_updateCharCounter(editor, len) {
     $('#' + editor.id).prev().find('.char_count').text(len + '/' + editor.settings.max_chars);
 }
 
-function tinymce_getContentLength() {
-    return tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerText.length;
+function activeEditorContentLength() {
+    return activeEditor().contentDocument.body.innerText.length;
 }
