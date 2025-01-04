@@ -90,6 +90,7 @@ export const setupUserInputEditor = function (editor) {
         if (allowedKeys.indexOf(e.keyCode) !== -1) return true;
         let editor = activeEditor();
         let max = editor.getParam('max_chars');
+        let l = activeEditorContentLength();
         if (activeEditorContentLength() + 1 > max) {
             e.preventDefault();
             e.stopPropagation();
@@ -116,7 +117,8 @@ function activeEditor() {
  * @returns {undefined}
  */
 export const initInstanceUserInputEditor = function () { // initialize counter div
-    $('#' + this.id).prev().append('<div class="char_count" style="text-align:right; float: right"></div>');
+    // přidá div před editor
+    $('#' + this.id).prev().append('<div class="char_count" style="text-align:right; float: right; color: maroon;"></div>');
     tinymce_updateCharCounter(this, activeEditorContentLength());
 };
 
@@ -129,7 +131,7 @@ export const initInstanceUserInputEditor = function () { // initialize counter d
 export const pastePreprocessUserInput = function (plugin, args) {
     var editor = tinymce.get(tinymce.activeEditor.id);
     var len = editor.contentDocument.body.innerText.length;
-    if (len + args.content.length > editor.settings.max_chars) {
+    if (len + args.content.length > activeEditor().getParam('max_chars')) {
         alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + editor.settings.max_chars + '.');
         args.content = '';
     }
@@ -139,9 +141,9 @@ export const pastePreprocessUserInput = function (plugin, args) {
 };
 
 function tinymce_updateCharCounter(editor, len) {
-    $('#' + editor.id).prev().find('.char_count').text(len + '/' + editor.settings.max_chars);
+    $('#' + editor.id).prev().find('.char_count').text(len + '/' + activeEditor().getParam('max_chars'));
 }
 
 function activeEditorContentLength() {
-    return activeEditor().contentDocument.body.innerText.length;
+    return activeEditor().contentDocument.body.innerText.length-1;
 }

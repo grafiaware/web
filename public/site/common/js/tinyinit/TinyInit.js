@@ -352,6 +352,7 @@ var editUserInputConfig = {
     selector: '.edit-userinput',
     schema : 'html5',
     promotion: false,   // vypíná tlačítko upgrade - Premium upgrade promotion option
+    branding: false,    // vypíná "Powered by Tiny" link
     relative_urls : true,
     hidden_input: true,
 //    inline: true,
@@ -363,7 +364,7 @@ var editUserInputConfig = {
     ],
     toolbar: 'undo redo | bold italic underline | bullist | alignleft aligncenter | link',
 //    toolbar: 'undo redo | fontsize | bold italic underline | bullist | alignleft aligncenter | link',
-    max_chars: 2000,
+    max_chars: 1000,
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,    
     setup: setupUserInputEditor,
