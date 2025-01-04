@@ -19,7 +19,7 @@
                 <tr>
                     <td>
                         <p style="margin: 0;">Uživatel požaduje zaregistrování jako vystavovatel.
-                            <br/><p> Dodané údaje údaje jsou:</p></p>
+                            <br/><p> Dodané údaje jsou:</p></p>
                     </td>
                 </tr>
                 <tr>
