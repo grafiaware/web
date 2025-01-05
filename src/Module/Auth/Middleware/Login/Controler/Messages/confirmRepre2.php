@@ -27,8 +27,8 @@
                 <tr>
                     <td>
                         <p style="margin:  10px 0px 10px 0px;"> Vaše registrace byla dokončena. Se zadaným jménem a heslem se nyní můžete přihlásit.</p>
-                        <p style="margin:  10px 0px 10px 0px;"> Jste zástupcem firmy <?=$companyName?>. Tento status Vám dovoluje využívat funkce určené jen zástupcům firem. <b/>
-                                   Jsou to například údaje o Vaší společnosti a o nabízených pracovních pozicích.</p>
+                        <p style="margin:  10px 0px 10px 0px;"> Jste zástupcem firmy <?=$companyName?>. Tento status Vám dovoluje využívat funkce určené jen zástupcům firem. <br/>
+                                   Jsou to například úpravy údajú o Vaší společnosti a o nabízených pracovních pozicích.</p>
                     </td>                   
                 </tr>
                 <tr>
