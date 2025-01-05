@@ -25,7 +25,7 @@ use Events\Model\Entity\JobInterface;
             ]
         );
    
-    echo Html::tag('h4', $pStyle, "job - cyklus pro všechny company");
+    echo Html::tag('h4', $pStyle, "jednotlivé job item komponenty - cyklus pro všechny company");
 
     foreach ($companies as $company) {
         $companyId = $company->getId();
@@ -47,4 +47,23 @@ use Events\Model\Entity\JobInterface;
                 );            
         }
 
-    }
+    }    
+    echo Html::tag('h4', $pStyle, "job list komponenta - cyklus pro všechny company");
+    foreach ($companies as $company) {
+        $companyId = $company->getId();
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId",
+                ]
+            );                 
+        
+            /** @var JobInterface $job */
+            echo Html::tag('div', 
+                    [
+                        'class'=>'cascade',
+                        'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
+                    ]
+                );            
+
+    }    
