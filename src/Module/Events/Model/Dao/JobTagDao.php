@@ -25,7 +25,7 @@ class JobTagDao extends DaoEditAbstract  implements DaoEditAutoincrementKeyInter
     }
 
     public function getAttributes(): array {
-        return [ 'id', 'tag'  ];
+        return [ 'id', 'tag', 'color' ];
     }
 
     public function getTableName(): string {

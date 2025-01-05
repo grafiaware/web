@@ -6,7 +6,7 @@ use Red\Middleware\Redactor\Controler\PresentationActionControler;
     <input type="hidden" name="hidden" value="hidden" /> 
     <!--hidden proměná zajišťuje vznik $_POST pole v PHP - bez ní pokud není checkbox checked, proměnná checkbox inputu neexistuje a protože jiná proměnná ve formuláři není, nevznikne $_POST-->
     <div class="ui icon left pointing dropdown button">
-        <p>Akce editora</p>
+        <p><b>Akce editora</b></p>
         <p class="">
             <i class="user icon"></i><?= $loginName ?>
             <i class="<?= $editContent ? "green" : "red"?> power off icon"></i> <?= ($editContent ? "edituje " : "needituje ") ?>

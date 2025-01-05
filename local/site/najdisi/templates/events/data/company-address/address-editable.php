@@ -24,8 +24,8 @@ use Pes\Text\Html;
             <div class="two fields">
                 <div class="field">
                     <label>PSČ</label>
-                    <input type="text" name="psc" maxlength="5" 
-                                            pattern="[0-9]{5}" title="Zadejte 5 číslic." placeholder="12345"
+                    <input type="text" name="psc" maxlength="6" 
+                                            pattern="\d{3} ?\d{2}" title="Zadejte 5 číslic (můžete zadat i mezeru)." placeholder="123 45"
                                             value="<?= $psc ?? '' ?>">
                     <span></span>
                 </div>

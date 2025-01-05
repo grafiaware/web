@@ -35,7 +35,7 @@
                                         title ="<?=ConfigurationCache::auth()['passwordInfo']?>"
                                         required >
                                 </div>
-                            <button class="ui positive fluid button" type="submit" name="logout" value="1"
+                            <button class="ui positive fluid button" type="submit" name="changepassword" value="1"
                                     formtarget="_self" formaction='auth/v1/changepassword'>Odeslat</button>
                             </form>
                         </div>

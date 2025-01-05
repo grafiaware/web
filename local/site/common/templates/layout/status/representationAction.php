@@ -3,17 +3,20 @@ use Pes\Text\Html;
 use Events\Middleware\Events\Controler\RepresentationControler;
 
 $hasRepreCompany = (bool) $companyName ?? false;
-$mustSelectCompany = !$isAdministrator && count($idCompanyArray);
+$mustSelectCompany = !$isAdministrator && (count($idCompanyArray)>1);
 ?>
 
 
 <!--vyber firmy je modalni okno, jde zavrit pouze pri stisku buttonu 'odeslat' v js initElements-->
     <button class="ui page icon button btn-vyberFirmy">
-        <p>Akce reprezentanta</p>
+        <p><b>Akce reprezentanta</b></p>
         <p class="">
             <i class="user icon"></i><?= $loginName ?>
             <div class="ui divider"></div>
-            <i class="briefcase icon"></i><?= $hasRepreCompany ? "zastupuje $companyName" : "Nemá vybranou firmu" ?>
+                <?php if($mustSelectCompany) {?>
+                    <i class="briefcase icon"></i><?= $hasRepreCompany ? "zastupuje $companyName" : "Nemá vybranou firmu" ?>
+                    <div class="ui divider"></div>
+                <?php } ?>
             <i class="<?= $editData ? "green" : "red"?> power off icon"></i> <?= ($editData ? "edituje " : "needituje ") ?>
         </p>
     </button>
@@ -35,7 +38,7 @@ $mustSelectCompany = !$isAdministrator && count($idCompanyArray);
                         }
                     ?>  
                     </div> 
-                    <?php if ($hasRepreCompany) {?>
+                    <?php if (!$mustSelectCompany OR $hasRepreCompany) {?>
                     <div class="ui toggle checkbox">
                         <input id="prepnout-editaci-repre" type="checkbox" name="<?= RepresentationControler::FORM_REPRESENTATION_EDIT_DATA ?>" <?= $editData ? "checked" : "" ?> onchange="this.form.submit()">
                         <label for="prepnout-editaci-repre"><?= $editData ? "Vypnout editaci údajů" : "Zapnout editaci údajů"?></label>

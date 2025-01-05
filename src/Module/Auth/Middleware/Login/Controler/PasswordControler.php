@@ -76,8 +76,8 @@ class PasswordControler extends LoginControlerAbstract {
                
                 $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
                 
-                /** @var CredentialsInterface  $credentials */
-                /** @var RegistrationInterface  $registration */ 
+                   /** @var CredentialsInterface  $credentials */
+                  /** @var RegistrationInterface  $registration */ 
                 $credentials = $loginAggregateFull->getCredentials();
                 $registration = $loginAggregateFull->getRegistration();  
                 if  (isset($credentials) AND isset($registration))  {
@@ -155,29 +155,32 @@ class PasswordControler extends LoginControlerAbstract {
 
 
     public function changePassword(ServerRequestInterface $request) {
-        $loginAggregateFull = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if(!isset($loginAggregateFull)) {
+        $loginAggregateFullFromStatus = $this->statusSecurityRepo->get()->getLoginAggregate();
+        if(!isset($loginAggregateFullFromStatus)) {
             return $this->createUnauthorizedResponse();
-        }
+        }      
         
         $requestParams = new RequestParams();
         $changePassword = $requestParams->getParsedBodyParam($request, 'changepassword', FALSE);  // hodnota z button
         if ($changePassword) {
             $fieldNameHesloStare = ConfigurationCache::auth()['fieldNameHesloStare'];
             $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
-
             $oldHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHesloStare, FALSE);
             $changeHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
         }
-//     $loginJmeno = 'Aregi10';
-//     $oldHeslo = '6Nm58aqj';
-//     $changeHeslo = 'Heslo10';
         if ($oldHeslo AND $changeHeslo) {
-            /** @var  LoginAggregateFullInterface $loginAggregateFull  */
-            $agree =  $this->authenticator->authenticate($loginAggregateFull, $oldHeslo);
+            /** @var  LoginAggregateFullInterface $loginAggregateFullFromStatus  */
+            $agree =  $this->authenticator->authenticate($loginAggregateFullFromStatus, $oldHeslo);
             if ($agree) {
                 $hashedChangedPassword = ( new Password())->getPasswordHash( $changeHeslo );
-                $loginAggregateFull->getCredentials()->setPasswordHash($hashedChangedPassword );
+                
+                $loginName = $loginAggregateFullFromStatus->getLoginName();
+                $loginAggregateFull = $this->loginAggregateFullRepo->get($loginName);
+                    /** @var CredentialsInterface  $credentials */
+                $credentials = $loginAggregateFull->getCredentials();
+                $credentials->setPasswordHash($hashedChangedPassword );
+                
+                $loginAggregateFullFromStatus->getCredentials()->setPasswordHash($hashedChangedPassword);
                 $this->addFlashMessage("Vaše heslo bylo změněno.");
             } else {
                 $this->addFlashMessage("Nesouhlasí vaše staré heslo.");                    

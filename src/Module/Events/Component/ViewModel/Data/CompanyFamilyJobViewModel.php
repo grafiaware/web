@@ -89,7 +89,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
     public function getIterator() {  
         $this->loadJob();
         $editableItem = $this->isItemEditable();
-        $this->getFamilyRouteSegment()->setChildId($this->job->getCompanyId());
+        $this->getFamilyRouteSegment()->setChildId($this->job->getId());
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         $selectEducations = $this->selectEducations();
         $jobId = $this->job->getId();  // pro cascade volání vnořeného komponentu JobFamilyTag

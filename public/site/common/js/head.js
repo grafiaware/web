@@ -12,31 +12,39 @@ function eventsEnableButtonsOnForm(event) {
     event.stopPropagation();
 }
 
-function eventsEnableButtonsOnInput(event) {
-    form = event.currentTarget.closest('form');
-    eventsEnableSave(form);
+function eventsDisableButtonsOnForm(event) {
+    form = event.currentTarget;
+    eventsDisableSave(form);
+    event.stopPropagation();
+}
 
+function eventsEnableButtonsOnInput(event) {
+    form = event.target.closest('form');
+    eventsEnableSave(form);
+}
+
+function eventsEnableButtonsOnTinyMCE(form) {
+    eventsEnableSave(form);
 }
 
 function eventsResetButton(event) {
-    form = event.currentTarget.closest('form');
-    eventsDisableSave(form)
-    
+    form = event.target.closest('form');
+    eventsDisableSave(form);
 }
 
 function eventsEnableSave(form) {
     editButton = form.querySelector('#edit_'+form.id);
     if(editButton) {
        editButton.disabled = false;
-    } //editButton
+    }
     addButton = form.querySelector('#add_'+form.id);
     if(addButton) {
        addButton.disabled = false;
-    }//addButton
+    }
     resetButton = form.querySelector('#reset_'+form.id);
     if(resetButton) {
        resetButton.style.display = "inline";
-    }//resetButton    
+    }  
 }
 
 function eventsDisableSave(form) {

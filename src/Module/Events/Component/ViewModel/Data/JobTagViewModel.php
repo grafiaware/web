@@ -84,7 +84,7 @@ class JobTagViewModel extends ViewModelItemAbstract {
                 'actionRemove' => $componentRouteSegment."/$id/remove",
                 'id' => $id,
                 // data
-                'fields' => ['editable' => $editableItem, 'tag' => $this->jobTag->getTag()],
+                'fields' => ['tag' => $this->jobTag->getTag(), 'color' => $this->jobTag->getColor()],
                 ];
         } elseif ($editableItem) {
             $item = [
@@ -93,7 +93,7 @@ class JobTagViewModel extends ViewModelItemAbstract {
                 // text
                 'addHeadline' => 'Přidej tag',                
                 // data
-                'fields' => ['editable' => $editableItem],
+                'fields' => [],
                 ];
         }        
         

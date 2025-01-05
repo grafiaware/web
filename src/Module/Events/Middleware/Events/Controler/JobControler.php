@@ -161,14 +161,15 @@ class JobControler extends FrontControlerAbstract {
      * 
      * @param ServerRequestInterface $request
      * @param type $idCompany
-     * @param type $idJob
+     * @param type $jobId
      * @return type
      */
-    public function updateJob (ServerRequestInterface $request, $idCompany, $idJob) {                          
+    public function updateJob (ServerRequestInterface $request, $idCompany, $jobId) {                          
         if ($this->hasReprePermission($idCompany)) {
             /** @var JobInterface $job */
-            $job = $this->jobRepo->get( $idJob );
+            $job = $this->jobRepo->get( $jobId );
             $this->hydrateJobData($request, $job);
+            $this->processJobToTag($request, $jobId);
         } else {
             $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
         }
@@ -217,39 +218,7 @@ class JobControler extends FrontControlerAbstract {
         /** @var JobInterface $job */
         $job = $this->jobRepo->get( $jobId );         
         if ($this->hasReprePermission($job->getCompanyId())) {
-            $arrayJobTagIds_ForJob = [];
-            $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($jobId);
-            /** @var JobToTagInterface $jobToTag */
-            foreach ($allJobToTags_ForJob as $jobToTag) {   
-                $arrayJobTagIds_ForJob[] = $jobToTag->getJobTagId() ; 
-            }                                
-            $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
-            $data = (new RequestParams())->getParsedBodyParam($request, "data" );
-            if(!is_array($data)) {
-                throw new UnexpectedValueException("No suitable data from request.");
-            }
-            /** @var JobTagInterface $tag */
-            foreach ($allTags as $tagEntity) {
-                // $postTag - tento tag je zaskrtnut ve form
-                $postTagId = $data[$tagEntity->getTag()];                                        
-                if (isset ($postTagId) ) { // je zaskrtnut ve form
-                    //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
-                    if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            
-                        /** @var JobToTag $newJobToTag */
-                        $newJobToTag = new JobToTag(); //new 
-                        $newJobToTag->setJobId($jobId); 
-                        $newJobToTag->setJobTagId($postTagId);
-                        $this->jobToTagRepo->add($newJobToTag);
-                    }                        
-                }
-                else { // neni zaskrtnut ve form                                      
-                    //je-li v jobToTag  - vymazat z jobToTag  //neni-li v jobToTag - ok, nic
-                    if (in_array($tagEntity->getId(), $arrayJobTagIds_ForJob)) {
-                       $jobToTagEntity = $this->jobToTagRepo->get($jobId, $tagEntity->getId());
-                       $this->jobToTagRepo->remove($jobToTagEntity);
-                    }
-                }                 
-            }                                                                
+            $this->processJobToTag($request, $jobId);
             return $this->createPutNoContentResponse();
         } else {
             $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
@@ -257,7 +226,41 @@ class JobControler extends FrontControlerAbstract {
         }        
     }
     
-    
+    private function processJobToTag(ServerRequestInterface $request, $jobId) {
+        $arrayJobTagIds_ForJob = [];
+        $allJobToTags_ForJob = $this->jobToTagRepo->findByJobId($jobId);
+        /** @var JobToTagInterface $jobToTag */
+        foreach ($allJobToTags_ForJob as $jobToTag) {   
+            $arrayJobTagIds_ForJob[] = $jobToTag->getJobTagId() ; 
+        }                                
+        $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
+        $data = (new RequestParams())->getParsedBodyParam($request, "data" );
+        if(!is_array($data)) {
+            throw new UnexpectedValueException("No suitable data from request.");
+        }
+        /** @var JobTagInterface $tag */
+        foreach ($allTags as $tagEntity) {
+            // $postTag - tento tag je zaskrtnut ve form
+            $postTagId = $data[$tagEntity->getTag()];                                        
+            if (isset ($postTagId) ) { // je zaskrtnut ve form
+                //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
+                if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            
+                    /** @var JobToTag $newJobToTag */
+                    $newJobToTag = new JobToTag(); //new 
+                    $newJobToTag->setJobId($jobId); 
+                    $newJobToTag->setJobTagId($postTagId);
+                    $this->jobToTagRepo->add($newJobToTag);
+                }                        
+            }
+            else { // neni zaskrtnut ve form                                      
+                //je-li v jobToTag  - vymazat z jobToTag  //neni-li v jobToTag - ok, nic
+                if (in_array($tagEntity->getId(), $arrayJobTagIds_ForJob)) {
+                   $jobToTagEntity = $this->jobToTagRepo->get($jobId, $tagEntity->getId());
+                   $this->jobToTagRepo->remove($jobToTagEntity);
+                }
+            }                 
+        }                     
+    }
     
     
     
@@ -271,6 +274,7 @@ class JobControler extends FrontControlerAbstract {
             /** @var JobTagInterface $tag */
             $tag = new JobTag();  
             $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );              
+            $tag->setColor((new RequestParams())->getParsedBodyParam($request, 'color') );              
             $this->jobTagRepo->add($tag);             
         } else {
             $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
@@ -289,6 +293,7 @@ class JobControler extends FrontControlerAbstract {
             /** @var JobTagInterface $tag */
             $tag = $this->jobTagRepo->get($id);       
             $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );                        
+            $tag->setColor((new RequestParams())->getParsedBodyParam($request, 'color') );              
         } else {
             $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
         }

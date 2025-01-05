@@ -18,7 +18,6 @@ use Events\Model\Entity\JobInterface;
     $pStyle = ['style'=>'color: red;'];
 
     echo Html::tag('h4', $pStyle, "tag - seznam");    
-    echo Html::p("Všechny tagy: events/v1/data/tag", $pStyle);
     echo Html::tag('div', 
             [
                 'class'=>'cascade',

@@ -18,11 +18,15 @@ interface JobTagInterface extends PersistableEntityInterface {
      * @return string
      */
     public function getTag() ;
-        
+
+    /**
+     * @return string
+     */
+    public function getColor();
     
      /**
      *
-     * @param type $id
+     * @param string $id
      * @return JobTagInterface $this
      */
     public function setId($id) : JobTagInterface;
@@ -35,6 +39,11 @@ interface JobTagInterface extends PersistableEntityInterface {
      */
     public function setTag( $tag) : JobTagInterface ;
        
-    
+    /**
+     * 
+     * @param string $color
+     * @return JobTagInterface
+     */
+    public function setColor($color): JobTagInterface;    
     
 }
