@@ -40,6 +40,8 @@ class CompanyViewModel extends ViewModelItemAbstract {
         $this->companyRepo = $companyRepo;
     }
     
+    use RepresentativeTrait;
+        
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof CompanyInterface) {
             $this->company = $entity;
@@ -49,18 +51,12 @@ class CompanyViewModel extends ViewModelItemAbstract {
             throw new TypeError("Typ entity musí být $cls, předáno $parCls.");
         }
     }
-    
+
     public function isItemEditable(): bool {
         $this->loadCompany();
-        return $this->isAdministrator();
+        return $this->isAdministratorEditor();
     }
     
-    use RepresentativeTrait;
-    
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
-    }
-
     private function isCompanyRepresentative($companyId) {
         return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
     }
@@ -79,20 +75,16 @@ class CompanyViewModel extends ViewModelItemAbstract {
         $this->loadCompany();
         $componentRouteSegment = 'events/v1/company';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 
-        $editableItem = $this->isItemEditable();
         $id = $this->company->getId();
         if (isset($id)) {
             $item = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
                 'actionSave' => $componentRouteSegment."/$id",
                 'actionRemove' => $componentRouteSegment."/$id/remove",
                 // data
-                'fields' => ['editable' => $editableItem, 'name' => $this->company->getName()],
+                'fields' => ['name' => $this->company->getName()],
                 ];
-        } elseif ($editableItem) {
+        } elseif ($this->isItemEditable()) {
             $item = [
                 // conditions
                 'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
@@ -101,7 +93,7 @@ class CompanyViewModel extends ViewModelItemAbstract {
                 // text
                 'addHeadline' => 'Přidej firmu',                
                 // data
-                'fields' => ['editable' => $editableItem],
+                'fields' => [],
                 ];
         }        
         

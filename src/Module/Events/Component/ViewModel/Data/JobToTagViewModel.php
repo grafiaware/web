@@ -54,11 +54,7 @@ class JobToTagViewModel extends ViewModelFamilyItemAbstract {
     
     public function isItemEditable(): bool {
         $this->loadJobToTag();
-        return $this->isAdministrator();
-    }
-
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+        return $this->isAdministratorEditor();
     }
 
     private function loadJobToTag() {
@@ -75,20 +71,16 @@ class JobToTagViewModel extends ViewModelFamilyItemAbstract {
         $this->loadJobToTag();
         $componentRouteSegment = 'events/v1/company';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 
-        $editableItem = $this->isItemEditable();
         $id = $this->jobToTag->getId();
         if (isset($id)) {
             $item = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
                 'componentRouteSegment' => $componentRouteSegment,
                 'id' => $id,
                 // data
-                'fields' => ['editable' => $editableItem, 'tag' => $this->jobToTag->getTag()],
+                'fields' => ['tag' => $this->jobToTag->getTag()],
                 ];
-        } elseif ($editableItem) {
+        } elseif ($this->isItemEditable()) {
             $item = [
                 // conditions
                 'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
@@ -97,7 +89,7 @@ class JobToTagViewModel extends ViewModelFamilyItemAbstract {
                 // text
                 'addHeadline' => 'Přidej tag',                
                 // data
-                'fields' => ['editable' => $editableItem],
+                'fields' => [],
                 ];
         }        
         

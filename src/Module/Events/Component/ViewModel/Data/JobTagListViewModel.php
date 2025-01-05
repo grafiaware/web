@@ -10,6 +10,7 @@ use Events\Model\Repository\JobTagRepoInterface;
 use Events\Model\Entity\JobTagInterface;
 use Events\Model\Entity\JobTag;
 
+use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Access\Enum\RoleEnum;
 
@@ -34,13 +35,11 @@ class JobTagListViewModel extends ViewModelAbstract implements ViewModelListInte
         $this->jobTagRepo = $companyRepo;
     }
     
+    use RepresentativeTrait;
+        
     public function isListEditable(): bool {
-        return $this->isAdministrator();
+        return $this->isAdministratorEditor();
     } 
-    
-    private function isAdministrator() {
-        return $this->status->getUserRole()==RoleEnum::EVENTS_ADMINISTRATOR;
-    }
     
     public function provideItemEntityCollection(): iterable {
         $entities = $this->jobTagRepo->findAll();

@@ -56,16 +56,7 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
     }
     
     public function isItemEditable(): bool {
-        $this->loadCompanyContact();
-        return $this->isAdministrator() || $this->isCompanyEditor($this->companyContact->getCompanyId());
-    }
-        
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
-    }
-
-    private function isCompanyEditor($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
+        return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
     
     private function loadCompanyContact() {
@@ -85,9 +76,6 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         if ($componentRouteSegment->hasChildId()) {        
             $companyContactArray = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
                 'actionSave' => $componentRouteSegment->getSavePath(),
                 'actionRemove' => $componentRouteSegment->getRemovePath(),
@@ -102,8 +90,6 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
                 ];
         } elseif ($editableItem) {
             $companyContactArray = [
-                // conditions
-                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 // text
                 'addHeadline' => 'Přidej kontakt',                 
                 //route
@@ -112,7 +98,9 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
                 'fields' => [
                     'editable' => $editableItem,]
             ];
-        }                
+        } else {
+            $companyContactArray = [];
+        }
         
         
         $this->appendData($companyContactArray);

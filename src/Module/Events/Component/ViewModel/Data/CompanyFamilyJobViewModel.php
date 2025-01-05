@@ -57,12 +57,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
     }
     
     public function isItemEditable(): bool {
-        $this->loadJob();
-        return $this->isAdministrator() || $this->isCompanyEditor($this->job->getCompanyId());
-    }
-
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+        return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
     
     private function selectEducations() {
@@ -119,7 +114,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                 // data
                 'fields' => [
                 // cascade
-                    'dataRedApiUri' => "events/v1/data/job/$jobId/jobtotag",                    
+                    'dataRedApiUri' => false,                    
                     'selectEducations' =>  $selectEducations,
                     ],
                 ];
