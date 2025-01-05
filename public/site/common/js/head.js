@@ -12,6 +12,12 @@ function eventsEnableButtonsOnForm(event) {
     event.stopPropagation();
 }
 
+function eventsDisableButtonsOnForm(event) {
+    form = event.currentTarget;
+    eventsDisableSave(form);
+    event.stopPropagation();
+}
+
 function eventsEnableButtonsOnInput(event) {
     form = event.target.closest('form');
     eventsEnableSave(form);
@@ -30,15 +36,15 @@ function eventsEnableSave(form) {
     editButton = form.querySelector('#edit_'+form.id);
     if(editButton) {
        editButton.disabled = false;
-    } //editButton
+    }
     addButton = form.querySelector('#add_'+form.id);
     if(addButton) {
        addButton.disabled = false;
-    }//addButton
+    }
     resetButton = form.querySelector('#reset_'+form.id);
     if(resetButton) {
        resetButton.style.display = "inline";
-    }//resetButton    
+    }  
 }
 
 function eventsDisableSave(form) {

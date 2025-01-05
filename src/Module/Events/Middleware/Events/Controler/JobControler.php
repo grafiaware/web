@@ -274,6 +274,7 @@ class JobControler extends FrontControlerAbstract {
             /** @var JobTagInterface $tag */
             $tag = new JobTag();  
             $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );              
+            $tag->setColor((new RequestParams())->getParsedBodyParam($request, 'color') );              
             $this->jobTagRepo->add($tag);             
         } else {
             $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
@@ -292,6 +293,7 @@ class JobControler extends FrontControlerAbstract {
             /** @var JobTagInterface $tag */
             $tag = $this->jobTagRepo->get($id);       
             $tag->setTag((new RequestParams())->getParsedBodyParam($request, 'tag') );                        
+            $tag->setColor((new RequestParams())->getParsedBodyParam($request, 'color') );              
         } else {
             $this->addFlashMessage("Nemáte oprávnění měnit údaje o pracovní pozici.");
         }

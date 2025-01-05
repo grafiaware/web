@@ -14,9 +14,12 @@ class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
     
     private $id;     //NOT NULL
     private $tag;    //NOT NULL
+    private $color;    //NOT NULL
     
-    
-    
+    /**
+     * 
+     * @return string
+     */
     public function getId()  {
         return $this->id;
     }
@@ -29,13 +32,20 @@ class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
         return $this->tag;
     }
 
+    /**
+     * 
+     * @return string
+     */
+    public function getColor() {
+        return $this->color;
+    }
     
     /**
      *
-     * @param type $id
+     * @param string $id
      * @return JobInterface $this
      */
-    public function setId($id) : JobTagInterface{
+    public function setId($id): JobTagInterface{
         $this->id = $id;
         return $this;
     }
@@ -45,12 +55,18 @@ class JobTag  extends PersistableEntityAbstract implements JobTagInterface {
      * @param string $tag
      * @return JobTagInterface $this
      */
-    public function setTag( $tag) : JobTagInterface {
+    public function setTag( $tag): JobTagInterface {
         $this->tag = $tag;
         return $this;
     }
 
-
-
-
+    /**
+     * 
+     * @param string $color
+     * @return JobTagInterface
+     */
+    public function setColor($color): JobTagInterface {
+        $this->color = $color;
+        return $this;
+    }
 }

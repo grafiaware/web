@@ -13,7 +13,7 @@ use Pes\Text\Message;
             <div class="text okraje-dole">
                 <?=
                     isset($actionSave) 
-                    ? "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' type='submit' formaction='$actionSave'> Uložit změny </button>" : '';
+                    ? "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button'onClick='eventsDisableButtonsOnForm(event)'  type='submit' formaction='$actionSave'> Uložit změny </button>" : '';
                 ?>
                 <?=
                     isset($actionAdd) 
