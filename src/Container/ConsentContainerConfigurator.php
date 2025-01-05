@@ -13,6 +13,7 @@ use Pes\Logger\FileLogger;
 use Consent\Middleware\ConsentLogger\Controler\LogControler;
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Access\AccessPresentation;
 
 /**
  * Description of ConsentContainerConfigurator
