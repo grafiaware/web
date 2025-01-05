@@ -201,7 +201,22 @@ CookieConsent.run({
                             description: 'Tyto soubory cookie jsou nezbytné pro správné fungování webových stránek a nelze je zakázat..',
 
                             //this field will generate a toggle linked to the 'necessary' category
-                            linkedCategory: 'necessary'
+                            linkedCategory: 'necessary',
+                            cookieTable: {
+                                caption: 'Tabulka cookie',
+                                headers: {
+                                    name: 'Cookie',
+                                    domain: 'Domain',
+                                    desc: 'Popis'
+                                },
+                                body: [
+                                    {
+                                        name: 'www_na_session',
+                                        domain: location.hostname,
+                                        desc: 'Tyto cookie se používají pro přihlášení jedinečných uživatelů a používání funkcí systému pro editory, návštěvníky a reprezentanty firem.'
+                                    }
+                                ]
+                            }                            
                         },
                         {
                             title: 'Výkon a analytika',
