@@ -53,16 +53,7 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     }
     
     public function isItemEditable(): bool {
-        $this->loadCompanyAddress();
-        return $this->isAdministrator() || $this->isCompanyEditor($this->companyAddress->getCompanyId());
-    }
-        
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
-    }
-
-    private function isCompanyEditor($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
+        return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
     
     private function loadCompanyAddress() {
@@ -77,40 +68,36 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyAddress();
-        $editableItem = $this->isItemEditable();
         $this->getFamilyRouteSegment()->setChildId($this->companyAddress->getCompanyId());  //pk = fk
         $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($componentRouteSegment->hasChildId()) {        
             $companyAddrArray = [
-                // conditions
-                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                'remove'=> $editableItem,   // přidá tlačítko remove do item
                 //route
                     'actionSave' => $componentRouteSegment->getSavePath(),
                     'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
-                    'editable' => $editableItem,
                     'name'   => $this->companyAddress->getName(),
                     'lokace' => $this->companyAddress->getLokace(),
                     'psc'    => $this->companyAddress->getPsc(),
                     'obec'   => $this->companyAddress->getObec()
                 ],                
             ];
-        } elseif ($editableItem) {
+        } else {
             /** @var CompanyInterface $company */ 
             if ($this->companyRepo->get($this->getFamilyRouteSegment()->getParentId())) {  // validace id rodiče
-                $companyAddrArray = [
-                    // conditions
-                    'editable' => true,    // zobrazí formulář a tlačítko přidat 
-                    // text
-                    'addHeadline' => 'Přidej adresu',                      
-                    //route
-                    'actionAdd' => $componentRouteSegment->getAddPath(),
-                    // data
-                    'fields' => [
-                        'editable' => $editableItem,]                    
-                    ];        
+                if ($this->isItemEditable()) {
+                    $companyAddrArray = [
+                        // text
+                        'addHeadline' => 'Přidej adresu',                      
+                        //route
+                        'actionAdd' => $componentRouteSegment->getAddPath(),
+                        // data
+                        'fields' => []                    
+                        ];        
+                } else {
+                    $companyAddrArray = [];
+                }
             }
         }
         $this->appendData($companyAddrArray);

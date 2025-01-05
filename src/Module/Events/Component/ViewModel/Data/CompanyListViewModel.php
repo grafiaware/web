@@ -36,15 +36,7 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
     }
     
     use RepresentativeTrait;
-    
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
-    }
 
-    private function isCompanyEditor($companyId) {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
-    }
-    
     /**
      * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
      * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu

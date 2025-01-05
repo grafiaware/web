@@ -43,6 +43,8 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         $this->documentRepo = $documentRepo;
         $this->visitorProfileRepo = $visitorProfileRepo;        
     }
+
+    use RepresentativeTrait;
     
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
@@ -80,8 +82,7 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         $uploadedFilename = VisitorProfileControler::UPLOADED_KEY.$userHash;
         //-------------------------------------------------------------------------------------
         
-        $isAdministrator = $this->isAdministrator();        
-        $editableItem = $isAdministrator || $this->isCurrentVisitor($parentId);           
+        $editableItem = $this->isAdministratorEditor() || $this->isCurrentVisitor($parentId);           
         
         if (isset($parentId)) {
             $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";   

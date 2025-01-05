@@ -40,6 +40,8 @@ class JobTagViewModel extends ViewModelItemAbstract {
         $this->jobTagRepo = $jobTagRepo;
     }
     
+    use RepresentativeTrait;
+            
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof JobTagInterface) {
             $this->jobTag = $entity;
@@ -52,13 +54,7 @@ class JobTagViewModel extends ViewModelItemAbstract {
     
     public function isItemEditable(): bool {
         $this->loadJobTag();
-        return $this->isAdministrator();
-    }
-    
-    use RepresentativeTrait;
-    
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+        return $this->isAdministratorEditor();
     }
 
     private function loadJobTag() {
@@ -75,7 +71,6 @@ class JobTagViewModel extends ViewModelItemAbstract {
         $this->loadJobTag();
         $componentRouteSegment = 'events/v1/jobtag';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 
-        $editableItem = $this->isItemEditable();
         $id = $this->jobTag->getId();
         if (isset($id)) {
             $item = [
@@ -86,7 +81,7 @@ class JobTagViewModel extends ViewModelItemAbstract {
                 // data
                 'fields' => ['tag' => $this->jobTag->getTag(), 'color' => $this->jobTag->getColor()],
                 ];
-        } elseif ($editableItem) {
+        } elseif ($this->isItemEditable()) {
             $item = [
                 //route
                 'actionAdd' => $componentRouteSegment,

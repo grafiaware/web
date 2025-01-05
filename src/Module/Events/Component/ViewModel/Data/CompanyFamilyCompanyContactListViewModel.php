@@ -39,11 +39,7 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
     use RepresentativeTrait;
     
     public function isListEditable(): bool {
-        return $this->isAdministrator() || $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
-    }
-    
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+        return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
         
     protected function newListEntity() {

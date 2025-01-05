@@ -19,12 +19,16 @@ use Pes\Text\Html;
             <div class="ui grid">       
                 <div class="sixteen wide column">
                     <?php
+                    if ($dataRedApiUri) {
                         echo Html::tag('span', 
                             [
                                 'class'=>'cascade',
                                 'data-red-apiuri'=> $dataRedApiUri,
                             ]
-                        );     
+                        );
+                    } else {
+                        echo "<p>Tagy lze k pozici vybírat po prvním uložení pozice.</p>";
+                    }
                     ?>                 
                 </div>
                 <div class="five wide column">

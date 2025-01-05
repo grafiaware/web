@@ -21,8 +21,8 @@ $representativeFromStatus = isset($repreActions) ? $repreActions->getRepresentat
 if (isset($representativeFromStatus)) {
     $companyId = $representativeFromStatus->getCompanyId();
     /** @var JobRepoInterface $jobRepo */
-    $jobRepo = $container->get(JobRepo::class);
-    $jobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId] );
+//    $jobRepo = $container->get(JobRepo::class);
+//    $jobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId] );
     
     echo Html::tag('div', 
             [
@@ -42,16 +42,24 @@ if (isset($representativeFromStatus)) {
                 'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
             ]
         );             
-
-    foreach ($jobs as $job) {
-        /** @var JobInterface $job */
         echo Html::tag('div', 
                 [
                     'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job/{$job->getId()}",
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
                 ]
-            );            
-    }
+            );
+    
+    
+    
+//    foreach ($jobs as $job) {
+//        /** @var JobInterface $job */
+//        echo Html::tag('div', 
+//                [
+//                    'class'=>'cascade',
+//                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job/{$job->getId()}",
+//                ]
+//            );            
+//    }
     
 } else {
     echo "Stránka je určena pouze přihlášenému reprezentantu firmy.";

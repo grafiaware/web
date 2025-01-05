@@ -51,13 +51,9 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
     
     public function isMultiEditable(): bool {
         $job = $this->jobRepo->get($this->getFamilyRouteSegment()->getParentId());
-        return $this->isAdministrator() || $this->isCompanyEditor($job->getCompanyId());
+        return $this->isCompanyEditor($job->getCompanyId());
     }
     
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
-    }
-        
     protected function newMultiEntity() {
         return new JobToTag();  // "prázdná" entita pro formulář pro přidání
     }

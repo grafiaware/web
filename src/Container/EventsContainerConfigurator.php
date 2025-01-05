@@ -33,7 +33,6 @@ use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyAddressComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
 use Events\Component\View\Data\JobToTagComponent;
-use Events\Component\View\Data\JobToTagComponentPrototype;
 use Events\Component\View\Data\JobFamilyTagMultiComponent;
 use Events\Component\View\Data\CompanyFamilyJobComponent;
 use Events\Component\View\Data\CompanyFamilyJobListComponent;
