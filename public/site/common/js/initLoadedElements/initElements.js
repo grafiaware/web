@@ -390,7 +390,12 @@ function initJqueryEvents() {
       .dropdown()
     ;
     //odhlášení reaguje na najetí (hover) (odhlaseni pres ikonu)
-    $('.logout .button').dropdown({on: 'hover'});
+    $('.logout .button').dropdown({
+        on: 'hover'
+    });
+    $('.logout .positive.button').click(function(){
+        $('.logout .button').dropdown('visible');
+    });
     //prihlaseni (otevreni/zavreni pres ikonu)
     $('.btn-login').click(function(){
         $(this).siblings('.menu-login').toggle();
@@ -408,6 +413,13 @@ function initJqueryEvents() {
         $('.page.modal.register').modal({
             closable: false,
             useCSS   : true,
+        })
+        .modal('show');
+    });
+    //modalni okno pro ochranu osobních údajů
+    $('.btn-osudaje').click(function(){
+        $('.page.modal.osudaje').modal({
+            useCSS   : true
         })
         .modal('show');
     });
