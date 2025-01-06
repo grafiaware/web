@@ -47,7 +47,7 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
     }
 
     protected function cardinality() {
-        return FamilyInterface::CARDINALITY_0_1;
+        return FamilyInterface::CARDINALITY_0_N;
     }    
 
     protected function loadListEntities() {
