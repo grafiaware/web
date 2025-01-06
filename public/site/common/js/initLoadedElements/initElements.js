@@ -78,12 +78,7 @@ function initLoadedEditableElements() {
 function initLoadedElements() {
 //=== ui elementy ===
     
-    //semantic-ui dropdown (použitý např. pro přihlašování)
-//    $('.ui.dropdown')
-//      .dropdown()
-//    ;
-    //odhlášení reaguje na najetí (hover) (odhlaseni pres ikonu)
-//    $('.logout .button').dropdown({on: 'hover'});
+
     //prihlaseni (otevreni/zavreni pres ikonu)
     $('.btn-login').click(function(){
         $(this).siblings('.menu-login').toggle();
@@ -133,18 +128,7 @@ function initLoadedElements() {
             $(this).siblings('.poznamky').toggle("slow");
     });
 
-    //menu semantic-ui dropdown reaguje na událost hover
-//    $('.svisle-menu .ui.dropdown').dropdown({
-//       on: 'hover'
-//    });
 
-
-    //odeslani prihlasovaciho formulare pri stisku klavesy Enter
-//    $('.loginEnterKey').keyup(function(event){
-//        if(event.keyCode === 13){
-//            $('.positive.button').click();
-//        }
-//    });
 
     //veletrh online
     //checkbox v registraci (zastupuji vystavovatele)
@@ -402,9 +386,9 @@ export function scrollToAnchorPosition() {
 function initJqueryEvents() {
     
     //semantic-ui dropdown (použitý např. pro přihlašování)
-//    $('.ui.dropdown')
-//      .dropdown()
-//    ;
+    $('.ui.dropdown')
+      .dropdown()
+    ;
     //odhlášení reaguje na najetí (hover) (odhlaseni pres ikonu)
     $('.logout .button').dropdown({on: 'hover'});
     //prihlaseni (otevreni/zavreni pres ikonu)
