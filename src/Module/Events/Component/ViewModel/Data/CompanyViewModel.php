@@ -86,8 +86,6 @@ class CompanyViewModel extends ViewModelItemAbstract {
                 ];
         } elseif ($this->isItemEditable()) {
             $item = [
-                // conditions
-                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
                 //route
                 'actionAdd' => $componentRouteSegment,
                 // text
@@ -95,7 +93,9 @@ class CompanyViewModel extends ViewModelItemAbstract {
                 // data
                 'fields' => [],
                 ];
-        }        
+        } else {
+            $item = [];
+        }
         
         $this->appendData($item);
         return parent::getIterator();
