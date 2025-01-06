@@ -99,7 +99,7 @@ body{
         position: fixed;
         color: @invertedTextColor;
         background-color: @secondaryColor;
-        z-index: 0;
+        z-index: 1;
     }
     .klic-img{
         max-width: 212px !important;
@@ -107,7 +107,7 @@ body{
         position: absolute;
         left: -82px;
         top: 35px;
-        z-index: 0;
+        z-index: 1;
     }
     .no-fix{ //.fix-bar:has(#mySidenav.editMenu)
         > .icon-menu{
@@ -434,8 +434,14 @@ body{
     footer{
         border-top: 5px solid @primaryColor;
         position: relative;
-        z-index: -1;
         margin-right: 20px;
+        .blok-menu-paticka{
+            display: flex;
+            flex-wrap: wrap;
+            img{
+                margin-right: 13px;
+            }
+        }
     }
     
     
