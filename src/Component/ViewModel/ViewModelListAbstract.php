@@ -35,7 +35,7 @@ abstract class ViewModelListAbstract extends ViewModelAbstract implements ViewMo
             case FamilyInterface::CARDINALITY_0_1:
                 // exc
             case FamilyInterface::CARDINALITY_1_1:
-                if ($this->isListEditable() && count($this->listEntities)<1) {   // přidat jen pokud adresa není
+                if ($this->isListEditable() && count($this->listEntities)<1) {   // přidat jen pokud entita není
                     $this->listEntities[] = $this->newListEntity();
                 }
                 break;
