@@ -80,7 +80,7 @@ class CompanyViewModel extends ViewModelItemAbstract {
             $item = [
                 //route
                 'actionSave' => $componentRouteSegment."/$id",
-                'actionRemove' => $componentRouteSegment."/$id/remove",
+//                'actionRemove' => $componentRouteSegment."/$id/remove",  !! příliš nebezpečná operace
                 // data
                 'fields' => ['name' => $this->company->getName()],
                 ];
