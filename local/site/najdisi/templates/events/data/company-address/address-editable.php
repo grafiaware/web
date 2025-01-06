@@ -1,7 +1,7 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
-
+ 
 use Pes\Text\Text;
 use Pes\Text\Html;
 
@@ -25,7 +25,7 @@ use Pes\Text\Html;
                 <div class="field">
                     <label>PSČ</label>
                     <input type="text" name="psc" maxlength="6" 
-                                            pattern="\d{3} ?\d{2}" title="Zadejte 5 číslic (můžete zadat i mezeru)." placeholder="123 45"
+                                            pattern="\d{5}" title="Zadejte 5 číslic." placeholder="123 45"
                                             value="<?= $psc ?? '' ?>">
                     <span></span>
                 </div>
