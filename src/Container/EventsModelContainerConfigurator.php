@@ -74,6 +74,10 @@ use Events\Model\Dao\CompanyAddressDao;
 use Events\Model\Hydrator\CompanyAddressHydrator;
 use Events\Model\Repository\CompanyAddressRepo;
 
+use Events\Model\Dao\CompanyInfoDao;
+use Events\Model\Hydrator\CompanyInfoHydrator;
+use Events\Model\Repository\CompanyInfoRepo;
+
 use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Hydrator\CompanyContactHydrator;
 use Events\Model\Repository\CompanyContactRepo;
@@ -323,6 +327,17 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             CompanyAddressRepo::class => function(ContainerInterface $c) {
                 return new CompanyAddressRepo($c->get(CompanyAddressDao::class), $c->get(CompanyAddressHydrator::class));
+            },
+
+            //CompanyInfo
+            CompanyInfoDao::class => function(ContainerInterface $c) {
+                return new CompanyInfoDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            CompanyInfoHydrator::class => function(ContainerInterface $c) {
+                return new CompanyInfoHydrator();
+            },
+            CompanyInfoRepo::class => function(ContainerInterface $c) {
+                return new CompanyInfoRepo($c->get(CompanyInfoDao::class), $c->get(CompanyInfoHydrator::class));
             },
                     
              //CompanyParameter

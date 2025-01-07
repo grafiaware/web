@@ -504,6 +504,17 @@ class CompanyControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
     
+    public function addCompanyInfo(ServerRequestInterface $request, $idCompany) {
+        
+    }
+    
+    public function updateCompanyInfo(ServerRequestInterface $request, $idCompany, $idCompanyA) {
+        
+    }
+    
+    public function removeCompanyInfo(ServerRequestInterface $request, $idCompany, $idCompanyA) {
+        
+    }
     
     //---------------------------------------------------------------------------------
     

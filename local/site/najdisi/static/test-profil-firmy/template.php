@@ -42,7 +42,13 @@ if (isset($representativeFromStatus)) {
                 'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
             ]
         );             
-        echo Html::tag('div', 
+    echo Html::tag('div', 
+            [
+                'class'=>'cascade',
+                'data-red-apiuri'=>"events/v1/data/company/$companyId/companyinfo",
+            ]
+        ); 
+    echo Html::tag('div', 
                 [
                     'class'=>'cascade',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
