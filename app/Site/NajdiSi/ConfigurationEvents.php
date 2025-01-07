@@ -33,7 +33,7 @@ class ConfigurationEvents extends ConfigurationConstants {
             'dbEvents.db.charset' => 'utf8',
             'dbEvents.db.collation' => 'utf8_general_ci',
             'dbEvents.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1',            
-            'dbEvents.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxx' : 'events',
+            'dbEvents.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxx' : 'events2',
             #
             ###################################
             # Konfigurace logu databáze
