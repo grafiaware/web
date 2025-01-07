@@ -19,6 +19,7 @@ use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
 use Events\Model\Repository\CompanyAddressRepoInterface;
+use Events\Model\Repository\CompanyInfoRepoInterface;
 
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\Company;
@@ -26,6 +27,8 @@ use Events\Model\Entity\CompanyContactInterface;
 use Events\Model\Entity\CompanyContact;
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyAddress;
+use Events\Model\Entity\CompanyInfoInterface;
+use Events\Model\Entity\CompanyInfo;
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Entity\Representative;
 
@@ -43,6 +46,8 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
 
+use UnexpectedValueException;
+
 
 /**
  * Description of NestedFilesUpload
@@ -55,11 +60,18 @@ class CompanyControler extends FrontControlerAbstract {
      * @var CompanyContactRepoInterface
      */
     private $companyContactRepo;
+
     /**
      * @var CompanyAddressRepoInterface $companyAddressRepo
      */
      private $companyAddressRepo;     
+     
     /**
+     * @var CompanyInfoRepoInterface $companyInfoRepo
+     */
+     private $companyInfoRepo;     
+     
+     /**
      * @var CompanyRepoInterface
      */
     private $companyRepo;
@@ -87,6 +99,7 @@ class CompanyControler extends FrontControlerAbstract {
             CompanyRepoInterface $companyRepo,
             CompanyContactRepoInterface $companyContactRepo,
             CompanyAddressRepoInterface $companyAddressRepo,
+            CompanyInfoRepoInterface $companyInfoRepo,
             RepresentativeRepoInterface $representativeRepo
             
             ) {
@@ -94,47 +107,62 @@ class CompanyControler extends FrontControlerAbstract {
         $this->companyRepo = $companyRepo;
         $this->companyContactRepo = $companyContactRepo;
         $this->companyAddressRepo = $companyAddressRepo;
+        $this->companyInfoRepo = $companyInfoRepo;
         $this->representativeRepo = $representativeRepo;
     }
     
-        
+    
+    #### private ####
+    
+    private function getStatusLoginAggregate(): ?LoginAggregateFullInterface {
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurity = $this->statusSecurityRepo->get();
+        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
+        return $statusSecurity->getLoginAggregate();        
+    }
+  
+    //TODO: permissions jen pokud je zapnuta editace, oddělit administratora - pro add update remove Company
+    private function hasPermissions(LoginAggregateFullInterface $loginAggregateCredentials, $companyId) {
+        $loginName = $loginAggregateCredentials->getLoginName();            
+        $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
+        $isRepresentative = false;
+        if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
+            if ( $this->representativeRepo->get($loginName, $companyId ) )   {
+                $isRepresentative = true; 
+            }
+        }            
+        return ( $isRepresentative OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) );      
+    }
+    
+    private function hasAdminPermissions(LoginAggregateFullInterface $loginAggregateCredentials) {
+        $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
+        return (isset($role) AND ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) );            
+    }
+    
+    private function checkParentId($companyId) {
+        if (null===$this->companyRepo->get($companyId)) {
+            throw new UnexpectedValueException("Invalid path. Id mismatch.");
+        }
+        return $companyId;
+    }
+
+
+    #### public ####
+    
     /**
      * 
      * @param ServerRequestInterface $request
      * @return type
      */
     public function addCompany (ServerRequestInterface $request) {                 
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {  
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-//                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-//                $isRepresentative = true; 
-//            }
-//                        
-//            if ($isRepresentative) {
-            
-                /** @var CompanyInterface $company */                        
-                $company = new Company();//new $company 
-                // POST formularovadata
-                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
-                $this->companyRepo->add($company);
-                
-//            } else {
-//                $this->addFlashMessage("Údaje o ...e smí editovat pouze representant vystavovatele.");
-//            }           
-//        }
-                
+        if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {
+            /** @var CompanyInterface $company */                        
+            $company = new Company();
+            $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
+            $this->companyRepo->add($company);
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
+        }                           
         return $this->redirectSeeLastGet($request);
     }
     
@@ -147,35 +175,14 @@ class CompanyControler extends FrontControlerAbstract {
      * @return type
      */
     public function updateCompany (ServerRequestInterface $request, $idCompany) {                   
-//        $isRepresentative = false;
-//        
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unauthorized
-//        } else {                                   
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-//                            $isRepresentative = true; 
-//                }
-//            }                      
-//            if ($isRepresentative) {
-        
-        
-                /** @var CompanyInterface $company */
-                $company = $this->companyRepo->get( $idCompany );                
-                // POST formularovadata
-                $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
-//            } else {
-//                $this->addFlashMessage("Údaje o ... smí editovat pouze representant vystavovatele.");
-//            }            
-//        }
+    if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {
+            /** @var CompanyInterface $company */
+            $company = $this->companyRepo->get( $idCompany );                
+            // POST formularovadata
+            $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
+        }            
         return $this->redirectSeeLastGet($request);
     }
     
@@ -189,36 +196,15 @@ class CompanyControler extends FrontControlerAbstract {
      * @param type $idCompany
      * @return type
      */
-    public function removeCompany (ServerRequestInterface $request,  $idCompany) {                   
-//        $isRepresentative = false;
-//                
-//        /** @var StatusSecurityRepo $statusSecurityRepo */
-//        $statusSecurity = $this->statusSecurityRepo->get();
-//        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-//        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
-//        if (!isset($loginAggregateCredentials)) {
-//            $response = (new ResponseFactory())->createResponse();
-//            return $response->withStatus(401);  // Unaathorized
-//        } else {                                   
-//            $loginName = $loginAggregateCredentials->getLoginName();            
-//            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
-//            
-//            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {
-//               
-//                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-//                            $isRepresentative = true; 
-//                }
-//            }          
-//            if ($isRepresentative) {                 
-        
-                 /** @var CompanyInterface $company */
-                $company = $this->companyRepo->get( $idCompany );
-                $this->companyRepo->remove( $company ); 
-                                
-//            } else {
-//                $this->addFlashMessage("Údaje o ... vystavovatele smí mazat pouze representant vystavovatele.");
-//            }            
-//        }
+    public function removeCompany (ServerRequestInterface $request,  $idCompany) {  
+        if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {        
+            /** @var CompanyInterface $company */
+            $company = $this->companyRepo->get( $idCompany );
+            $this->companyRepo->remove( $company ); 
+
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
+        }            
         return $this->redirectSeeLastGet($request);
     }
             
@@ -233,46 +219,30 @@ class CompanyControler extends FrontControlerAbstract {
      * @return type
      */
     public function addCompanyContact (ServerRequestInterface $request, $idCompany) {                 
-        $isRepresentative = false;
-        
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unaathorized
-        } else {  
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? ''; 
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-                $isRepresentative = true; 
-            }
-                        
-        if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {         
-                /** @var CompanyContactInterface $companyContact */
-                $companyContact = new CompanyContact(); //new $companyContact
-                
-                // POST formularova data
-                $companyContact->setCompanyId($idCompany);
-                $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
-                $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
-                $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));
-                
-                $this->companyContactRepo->add($companyContact);
-                
-            } else {
-                $this->addFlashMessage("Údaje o kontaktech firmy smí editovat pouze representant firmy (popř. administrator).");
-            }
-            
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {      
+            /** @var CompanyContactInterface $companyContact */
+            $companyContact = new CompanyContact(); //new $companyContact
+
+            // POST formularova data
+            $companyContact->setCompanyId($idCompany);
+            $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+            $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
+            $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
+            $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));
+
+            $this->companyContactRepo->add($companyContact);
+
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);
     }
+
     
-  
     /**
      * 
      * @param ServerRequestInterface $request
@@ -281,43 +251,25 @@ class CompanyControler extends FrontControlerAbstract {
      * @return type
      */
     public function updateCompanyContact (ServerRequestInterface $request, $idCompany, $idCompanyContact) {                   
-        $isRepresentative = false;
-        
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unauthorized
-        } else {                                   
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-                            $isRepresentative = true; 
-                }
-            }            
-        if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {          
-                /** @var CompanyContactInterface $companyContact */
-                $companyContact = $this->companyContactRepo->get( $idCompanyContact );
-                
-                // POST formularova data                                              
-                $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
-                $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
-                $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));            
-            } else {
-                $this->addFlashMessage("Údaje o kontaktech firmy smí editovat pouze representant firmy (popř. administrator).");
-            }
-            
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {
+            /** @var CompanyContactInterface $companyContact */
+            $companyContact = $this->companyContactRepo->get( $idCompanyContact );
+
+            // POST formularova data                                              
+            $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+            $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
+            $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
+            $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));            
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);
     }
-    
-    
-   
+
     
     /**
      * 
@@ -327,34 +279,17 @@ class CompanyControler extends FrontControlerAbstract {
      * @return type
      */
     public function removeCompanyContact (ServerRequestInterface $request,  $idCompany, $idCompanyContact) {                   
-        $isRepresentative = false;
-                
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unaathorized
-        } else {                                   
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';           
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-                            $isRepresentative = true; 
-                }
-            }          
-                
-        if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {           
-                /** @var CompanyContactInterface $companyContact */
-                $companyContact = $this->companyContactRepo->get( $idCompanyContact );
-                $this->companyContactRepo->remove( $companyContact ); 
-                                
-            } else {
-                $this->addFlashMessage("Údaje o kontaktech firmy smí mazat pouze representant firmy (popř. administrator).");
-            }
-            
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {        
+            /** @var CompanyContactInterface $companyContact */
+            $companyContact = $this->companyContactRepo->get( $idCompanyContact );
+            $this->companyContactRepo->remove( $companyContact ); 
+
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);
     }
@@ -370,41 +305,25 @@ class CompanyControler extends FrontControlerAbstract {
      * @return type
      */
     public function addCompanyAddress (ServerRequestInterface $request, $idCompany) {                 
-        $isRepresentative = false;
-           
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unaathorized
-        } else {  
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk(); 
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) 
-                            AND  $this->representativeRepo->get($loginName, $idCompany) )  {
-                $isRepresentative = true; 
-            }
-     
-            if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {
-                // POST data                
-                /** @var CompanyAddressInterface $companyAddress */
-                $companyAddress =  new CompanyAddress(); //new 
-                
-                $companyAddress->setCompanyId($idCompany);
-                $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
-                $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
-                $companyAddress->setObec((new RequestParams())->getParsedBodyParam($request, "obec"));
-                
-                $this->companyAddressRepo->add($companyAddress);
-                
-            } else {
-                $this->addFlashMessage("Údaje o adrese firmy smí editovat pouze representant firmy (popř. administrator).");
-            }
-            
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {
+            // POST data                
+            /** @var CompanyAddressInterface $companyAddress */
+            $companyAddress =  new CompanyAddress(); //new 
+
+            $companyAddress->setCompanyId($idCompany);
+            $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+            $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
+            $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
+            $companyAddress->setObec((new RequestParams())->getParsedBodyParam($request, "obec"));
+
+            $this->companyAddressRepo->add($companyAddress);
+
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);
     }
@@ -420,42 +339,25 @@ class CompanyControler extends FrontControlerAbstract {
      * @return type
      */
     public function updateCompanyAddress (ServerRequestInterface $request, $idCompany, $idCompanyA) {                   
-        $isRepresentative = false;
-                
-         /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unauthorized
-        } else {                                   
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative'] ) ) {              
-                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-                            $isRepresentative = true; 
-                }
-            }                   
-  
-            if ( ($isRepresentative) OR ( $role ==  ConfigurationCache::auth()[ 'roleEventsAdministrator' ] ) )   {                
-                /** @var CompanyAddressInterface $companyAddress */
-                $companyAddress = $this->companyAddressRepo->get( $idCompany );  
-                if (!isset($companyAddress)) {
-                    $companyAddress = new CompanyAddress();
-                    $this->companyAddressRepo->add($companyAddress);
-                }
-                $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-                $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
-                $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
-                $companyAddress->setObec((new RequestParams())->getParsedBodyParam($request, "obec"));
-                
-                
-            } else {
-                $this->addFlashMessage("Údaje o adrese firmy smí editovat pouze representant firmy (popř. administrator).");
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {              
+            /** @var CompanyAddressInterface $companyAddress */
+            $companyAddress = $this->companyAddressRepo->get( $idCompanyA );  
+            if (!isset($companyAddress)) {
+                throw new UnexpectedValueException("Invalid path. Invalid child id.");
             }
-            
+            $this->checkParentId($companyAddress->getCompanyId());
+            $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
+            $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
+            $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
+            $companyAddress->setObec((new RequestParams())->getParsedBodyParam($request, "obec"));
+
+
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);
     }
@@ -472,77 +374,118 @@ class CompanyControler extends FrontControlerAbstract {
      * @return type
      */
     public function removeCompanyAddress (ServerRequestInterface $request, $idCompany, $idCompanyA)  {                   
-        $isRepresentative = false;
-                        
-         /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        /** @var LoginAggregateFullInterface $loginAggregateCredentials */
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();                           
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            return $response->withStatus(401);  // Unaathorized
-        } else {                                   
-            $loginName = $loginAggregateCredentials->getLoginName();            
-            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
-            
-            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {              
-                if ( $this->representativeRepo->get($loginName, $idCompany ) )   {
-                            $isRepresentative = true; 
-                }
-            }                             
-                  
-        if ( ($isRepresentative) OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) ) {           
-                /** @var CompanyAddressIntarface $companyAddress */
-                $companyAddress = $this->companyAddressRepo->get( $idCompany ); 
-                $this->companyAddressRepo->remove( $companyAddress ); 
-                                
-            } else {
-                $this->addFlashMessage("Údaje o adrese firmy smí mazat pouze representant firmy (popř. administrator).");
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {     
+            /** @var CompanyAddressIntarface $companyAddress */
+            $companyAddress = $this->companyAddressRepo->get( $idCompany ); 
+            if (!isset($companyAddress)) {
+                throw new UnexpectedValueException("Invalid path. Invalid child id.");
             }
-            
+            $this->checkParentId($companyAddress->getCompanyId());            
+            $this->companyAddressRepo->remove( $companyAddress ); 
+
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);
     }
     
     public function addCompanyInfo(ServerRequestInterface $request, $idCompany) {
-        
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
+        if (!isset($loginAggregateCredentials)) {
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {
+            /** @var CompanyInfoInterface $companyInfo */
+            $companyInfo =  new CompanyInfo();
+
+            $companyInfo->setCompanyId($idCompany);
+            $companyInfo->setIntroduction( (new RequestParams())->getParsedBodyParam($request, 'introduction') );
+            $companyInfo->setVideoLink((new RequestParams())->getParsedBodyParam($request, 'video_link'));
+            $companyInfo->setPositives((new RequestParams())->getParsedBodyParam($request, "positives"));
+            $companyInfo->setSocial((new RequestParams())->getParsedBodyParam($request, "social"));
+
+            $this->companyInfoRepo->add($companyInfo);
+
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
+        }
+        return $this->redirectSeeLastGet($request);        
     }
     
     public function updateCompanyInfo(ServerRequestInterface $request, $idCompany, $idCompanyA) {
-        
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
+        if (!isset($loginAggregateCredentials)) {
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {              
+            /** @var CompanyInfoInterface $companyInfo */
+            $companyInfo = $this->companyInfoRepo->get( $idCompanyA );  
+            if (!isset($companyInfo)) {
+                throw new UnexpectedValueException("Invalid path. Invalid child id.");
+            }
+            $companyInfo->setIntroduction( (new RequestParams())->getParsedBodyParam($request, 'introduction') );
+            $companyInfo->setVideoLink((new RequestParams())->getParsedBodyParam($request, 'video_link'));
+            $companyInfo->setPositives((new RequestParams())->getParsedBodyParam($request, "positives"));
+            $companyInfo->setSocial((new RequestParams())->getParsedBodyParam($request, "social"));
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
+        }
+        return $this->redirectSeeLastGet($request);        
     }
     
     public function removeCompanyInfo(ServerRequestInterface $request, $idCompany, $idCompanyA) {
-        
+        $loginAggregateCredentials = $this->getStatusLoginAggregate();
+        if (!isset($loginAggregateCredentials)) {
+            return $this->createUnauthorizedResponse();
+        }                                  
+        if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {     
+            /** @var CompanyInfoInterface $companyInfo */
+            $companyInfo = $this->companyInfoRepo->get( $idCompanyA );  
+            if (!isset($companyInfo)) {
+                throw new UnexpectedValueException("Invalid path. Invalid child id.");
+            }           
+            $this->companyInfoRepo->remove( $companyInfo ); 
+
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
+        }
+        return $this->redirectSeeLastGet($request);        
     }
     
     //---------------------------------------------------------------------------------
+    // TODO: SV - permissions!!
     
-    
-     public function addRepresentative (ServerRequestInterface $request) {                   
-                // POST data                
-                $selectCompanyId = (new RequestParams())->getParsedBodyParam($request, "selectCompany");
-                $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
-                
-                /** @var RepresentativeInterface $representative */
-                $representative = new Representative(); //new              
-                $representative->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'selectCompany') ) ;
-                $representative->setLoginLoginName( (new RequestParams())->getParsedBodyParam($request, 'selectLogin') );
-                                
-                $this->representativeRepo->add($representative);                
-                //------------------------------------------------------------------------------------
-                
-                /** @var CompanyInterface $companyEntity */
-                $companyEntity = $this->companyRepo->get($selectCompanyId);
-                $companyName = $companyEntity->getName();
-                $loginName = (new RequestParams())->getParsedBodyParam($request, 'selectLogin');
-                
-                /*  company name, login name , tady neznam mail adr.- musim jinam */
-                $ret = $this->sendMailUsingAuthData( $companyName, $loginName );   
-                if (isset($ret)) {
-                    $this->addFlashMessage("Mail o dokončení registrace odeslán." );
-                }
-     
+     public function addRepresentative (ServerRequestInterface $request) {
+        if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {         
+            // POST data                
+            $selectCompanyId = (new RequestParams())->getParsedBodyParam($request, "selectCompany");
+            $selectLogin = (new RequestParams())->getParsedBodyParam($request, "selectLogin");
+
+            /** @var RepresentativeInterface $representative */
+            $representative = new Representative(); //new              
+            $representative->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'selectCompany') ) ;
+            $representative->setLoginLoginName( (new RequestParams())->getParsedBodyParam($request, 'selectLogin') );
+
+            $this->representativeRepo->add($representative);                
+            //------------------------------------------------------------------------------------
+
+            /** @var CompanyInterface $companyEntity */
+            $companyEntity = $this->companyRepo->get($selectCompanyId);
+            $companyName = $companyEntity->getName();
+            $loginName = (new RequestParams())->getParsedBodyParam($request, 'selectLogin');
+
+            /*  company name, login name , tady neznam mail adr.- musim jinam */
+            $ret = $this->sendMailUsingAuthData( $companyName, $loginName );   
+            if (isset($ret)) {
+                $this->addFlashMessage("Mail o dokončení registrace odeslán." );
+            }
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
+        }
         return $this->redirectSeeLastGet($request);
     }
 
@@ -565,8 +508,7 @@ class CompanyControler extends FrontControlerAbstract {
         
         if ($result === false) {
             /* Handle error */
-        }
-        else {
+        } else {
             return true ;     
         }
         
@@ -575,12 +517,14 @@ class CompanyControler extends FrontControlerAbstract {
     
     
     public function removeRepresentative (ServerRequestInterface $request, $loginLoginName, $companyId ) {
-        
+        if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {
                 // POST data                
                 /** @var RepresentativeIntarface $representative */
                 $representative = $this->representativeRepo->get( $loginLoginName, $companyId ); 
                 $this->representativeRepo->remove( $representative ); 
-
+        } else {
+            $this->addFlashMessage("Nemáte oprávnění.");
+        }
         return $this->redirectSeeLastGet($request);
     }
     

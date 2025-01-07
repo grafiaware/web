@@ -66,8 +66,3 @@ use Pes\Text\Html;
                 </div>
             </div>             
 
-
-
-
-
-                    <!--<div class="edit-representative borderDance" name="pozadujeme" required><?= '';$pozadujeme ?? '' ?></div>-->
