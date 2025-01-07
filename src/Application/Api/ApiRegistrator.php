@@ -195,6 +195,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyaddress/:companyIdA'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyaddress/:companyIdA/remove'));             
         
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyinfo'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyinfo/:companyIdA'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/company/:companyId/companyinfo/:companyIdA/remove'));  
+        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representative/:loginLoginName/:companyId/remove'));
 

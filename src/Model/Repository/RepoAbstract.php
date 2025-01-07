@@ -134,6 +134,10 @@ abstract class RepoAbstract {
         return $index;
     }
 
+    //TODO: SV a) metoda indexFromEntity($entity) -> do entit metodu getIndex() a v repo abstract volej $entity->getIndex().b) metoda indexFromRow($row) -> v repo abstract použij DAO->getPrimaryKeyAttributes() a row 
+    //  - má to vadu, musí být stejné pořadí skládání v entity->getIndex a DAO->getPrimaryKeyAttributes() - asi by se dalo v entity abstract použít method hydrator a generovat skládání z dat DAO->getPrimaryKeyAttributes() (ze jen sloupců)
+    // tak, že sepřevedou jména sloupců -> camelCase -> přidá se get a volá se metoda entity
+    
     /**
      * Defaultní implementace indexFromKeyParams().
      *
