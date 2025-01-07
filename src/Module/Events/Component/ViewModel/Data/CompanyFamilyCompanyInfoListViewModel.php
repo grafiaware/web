@@ -7,8 +7,8 @@ use Component\ViewModel\FamilyInterface;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Repository\CompanyAddressRepoInterface;
-use Events\Model\Entity\CompanyAddress;
+use Events\Model\Repository\CompanyInfoRepoInterface;
+use Events\Model\Entity\CompanyInfo;
 
 use Access\Enum\RoleEnum;
 use ArrayIterator;
@@ -16,21 +16,21 @@ use ArrayIterator;
 /**
  * 
  */
-class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstract {
+class CompanyFamilyCompanyInfoListViewModel extends ViewModelFamilyListAbstract {
 
     private $status;
 
     private $companyRepo;
-    private $companyAddressRepo;
+    private $companyInfoRepo;
     
     public function __construct(
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo,
-            CompanyAddressRepoInterface $companyAddressRepo
+            CompanyInfoRepoInterface $companyInfoRepo
             ) {
         $this->status = $status;
         $this->companyRepo = $companyRepo;
-        $this->companyAddressRepo = $companyAddressRepo;
+        $this->companyInfoRepo = $companyInfoRepo;
     }
 
     use RepresentativeTrait;
@@ -40,7 +40,7 @@ class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstra
     }
     
     protected function newListEntity() {
-        return new CompanyAddress();  // "prázdná" entita pro formulář pro přidání
+        return new CompanyInfo();  // "prázdná" entita pro formulář pro přidání
     }
     
     protected function cardinality() {
@@ -50,7 +50,7 @@ class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstra
     protected function loadListEntities() {
         if (!$this->listEntities) {
             $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId() );
-            $this->listEntities = $this->companyAddressRepo->find( " company_id = :idCompany ",  ['idCompany'=> $company->getId()] );
+            $this->listEntities = $this->companyInfoRepo->find( " company_id = :idCompany ",  ['idCompany'=> $company->getId()] );
         }
     }
     
@@ -60,7 +60,7 @@ class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstra
      */
     public function getIterator() {
         $array = [         
-            'listHeadline'=>'Adresa', 
+            'listHeadline'=>'Zaměstnavatel', 
             'items' => $this->getArrayCopy()];
         $this->appendData($array);
         return parent::getIterator();        
