@@ -17,7 +17,7 @@ use Pes\Text\Html;
         </div>
         <div class="content">
             <div class="ui grid">       
-             
+                <div class="row">
                 <div class="ten wide column">
                     <p class="text tucne zadne-okraje">O nás</p>
                     <p><?= $introduction ?? '' ?></p>
@@ -25,7 +25,8 @@ use Pes\Text\Html;
                 <div class="six wide column">
                     <p class="text tucne zadne-okraje">Video</p>
                     <p><?= $videoLink ?? '' ?></p>
-                </div>                  
+                </div> 
+                </div>
                 <div class="eight wide column">
                     <p class="text tucne zadne-okraje">Proč k nám</p>
                     <p><?= $positives ?? '' ?></p>

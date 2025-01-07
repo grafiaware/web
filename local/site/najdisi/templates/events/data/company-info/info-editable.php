@@ -15,7 +15,7 @@ use Pes\Text\Html;
             </div>
             <div class="field">
                 <label>Video</label>
-                <input class="edit-userinput" type="text" name="video-link" placeholder="" maxlength="1000" 
+                <input type="text" name="video-link" placeholder="" maxlength="150" 
                                         value="<?= $videoLink ?? '' ?>">
             </div>
             <div class="two fields">
