@@ -10,11 +10,8 @@ use Pes\Text\Html;
 ?>
             <div class="ui grid">
                 <div class="eight wide column">
-                    <p class="text primarni-barva zadne-okraje"><?= $name ?? '' ?></p>
-                    <p class="text primarni-barva zadne-okraje"><i class="map outline icon"></i>Místo firmy (pro adresu)</p>
-                 </div>  
-                <div class="eight wide column">
-                    <p class="text zadne-okraje"><i class="map marker icon"></i><?= $lokace ?? ''  ?></p>
-                    <p class="text zadne-okraje"><?= $psc ?? '' ?> <?= $obec ?? '' ?></p>
+                    <p class="text primarni-barva zadne-okraje"><i class="building outline icon"></i><?= $name ?? '' ?></p>
+                    <p class="text primarni-barva zadne-okraje"><i class="map outline icon"></i><?= $lokace ?? ''  ?></p>
+                    <p class="text zadne-okraje"><i class="map marker icon"></i><?= $psc ?? '' ?> <?= $obec ?? '' ?></p>
                 </div>
             </div>
