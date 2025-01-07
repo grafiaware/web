@@ -390,12 +390,19 @@ function initJqueryEvents() {
       .dropdown()
     ;
     //odhlášení reaguje na najetí (hover) (odhlaseni pres ikonu)
-    $('.logout .button .menu').dropdown({
-        on: 'click'
-    });
+//    $('.logout .button .menu').dropdown({
+//        on: 'click'
+//    });
     //prihlaseni (otevreni/zavreni pres ikonu)
     $('.btn-login').click(function(){
         $(this).siblings('.menu-login').toggle();
+    });
+    //modalni okno pro zmenu hesla
+    $('.btn-zmena-hesla').click(function(){
+        $('.page.modal.zmena-hesla').modal({
+            useCSS   : true
+        })
+        .modal('show');
     });
     //modalni okno pro prihlaseni
     $('.btn-login').click(function(){
@@ -423,6 +430,31 @@ function initJqueryEvents() {
     $('.ui.hide.button').click(function(){
        $('.page.modal').modal('hide');
     });
+    
+    //ověření youtube url adresy
+    // Najdeme input podle ID
+        const youtubeInput = document.getElementById("youtubeUrl");
+
+        // Ověříme, zda input existuje
+        if (youtubeInput) {
+            const message = document.getElementById("message");
+
+            // Přidáme event listener na vstup do pole
+            youtubeInput.addEventListener("input", function () {
+                const urlInput = youtubeInput.value;
+
+                // Regulární výraz pro ověření YouTube URL
+                const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}$/;
+
+                if (youtubeRegex.test(urlInput)) {
+                    message.textContent = "Platná YouTube URL adresa!";
+                    message.style.color = "green";
+                } else {
+                    message.textContent = "Neplatná YouTube URL adresa. Zkontrolujte prosím vstup.";
+                    message.style.color = "red";
+                }
+            });
+        }
 
 
     //flash message
