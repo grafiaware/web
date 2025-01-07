@@ -5,7 +5,14 @@ use Site\ConfigurationCache;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-/** @var PhpTemplateRendererInterface $this */        
+/** @var PhpTemplateRendererInterface $this */    
+
+
+// Převod na embed URL
+$parsedUrl = parse_url($videoLink);
+parse_str($parsedUrl['query'], $queryParams);
+$videoId = $queryParams['v'];
+$embedUrl = "https://www.youtube.com/embed/" . $videoId;
     
 ?>
 
@@ -24,7 +31,13 @@ use Pes\Text\Html;
                 </div>   
                 <div class="six wide column">
                     <p class="text tucne zadne-okraje">Video</p>
-                    <p><?= $videoLink ?? '' ?></p>
+                    <div class="video-container">
+                        <iframe width="444" height="250" src="<?php echo htmlspecialchars($embedUrl); ?>" 
+                                frameborder="0" 
+                                allow="encrypted-media; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
                 </div> 
                 </div>
                 <div class="eight wide column">

@@ -569,6 +569,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),
                         $c->get(CompanyContactRepo::class),
                         $c->get(CompanyAddressRepo::class),
+                        $c->get(CompanyInfoRepo::class),
                         $c->get(RepresentativeRepo::class)
                         )
                        )->injectContainer($c);
