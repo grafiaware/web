@@ -390,11 +390,8 @@ function initJqueryEvents() {
       .dropdown()
     ;
     //odhlášení reaguje na najetí (hover) (odhlaseni pres ikonu)
-    $('.logout .button').dropdown({
-        on: 'hover'
-    });
-    $('.logout .positive.button').click(function(){
-        $('.logout .button').dropdown('visible');
+    $('.logout .button .menu').dropdown({
+        on: 'click'
     });
     //prihlaseni (otevreni/zavreni pres ikonu)
     $('.btn-login').click(function(){

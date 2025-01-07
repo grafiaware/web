@@ -18,27 +18,25 @@
                         Odhlásit
                         </button>
                     </form>
-                    <div class="item"> 
-                        <p class="ui basic fluid black button">
-                            Chci si změnit heslo
-                        </p>
-                        <div class="menu">
-                            <form class="ui form" method="POST" action="">
-                                <div class="field">
-                                    <label>Vaše aktuální heslo</label>
-                                    <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHesloStare']?>" placeholder="Aktuální heslo" required>
-                                </div>
-                                <div class="field">
-                                    <label>Nové heslo</label>
-                                    <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Nové heslo"
-                                        pattern="<?=ConfigurationCache::auth()['passwordPattern']?>"
-                                        title ="<?=ConfigurationCache::auth()['passwordInfo']?>"
-                                        required >
-                                </div>
+                    <p class="ui basic fluid black button">
+                        Chci si změnit heslo
+                    </p>
+                    <div class="zmena-hesla">
+                        <form class="ui form" method="POST" action="">
+                            <div class="field">
+                                <label>Vaše aktuální heslo</label>
+                                <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHesloStare']?>" placeholder="Aktuální heslo" required>
+                            </div>
+                            <div class="field">
+                                <label>Nové heslo</label>
+                                <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Nové heslo"
+                                    pattern="<?=ConfigurationCache::auth()['passwordPattern']?>"
+                                    title ="<?=ConfigurationCache::auth()['passwordInfo']?>"
+                                    required >
+                            </div>
                             <button class="ui positive fluid button" type="submit" name="changepassword" value="1"
-                                    formtarget="_self" formaction='auth/v1/changepassword'>Odeslat</button>
-                            </form>
-                        </div>
+                                formtarget="_self" formaction='auth/v1/changepassword'>Odeslat</button>
+                        </form>
                     </div>
                 </div>
             </div>
