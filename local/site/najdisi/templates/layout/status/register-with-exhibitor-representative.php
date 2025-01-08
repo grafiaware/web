@@ -17,10 +17,13 @@ use Site\ConfigurationCache;
                     <div class="thirteen wide column">
                         <div class="register-info-text">
                             <i class="close icon"></i>
-                            <p class="text seznam">Info pro registrující se lidi</p>
-                            <p class="text seznam">řádka</p>
-                            <p class="text seznam">řádka</p>
-                            <p class="text seznam">je to fakt dlouhý</p>
+                            <p class="text seznam">Přihlašovací jméno, heslo a email jsou povinné údaje.</p>
+                            <p class="text seznam">Po jejich zadání a potvrzení se stanete registrovaným návštěvníkem.</p>
+                            <div class="ui divider"></div>
+                            <p class="text seznam">POKUD CHCETE ZASTUPOVAT FIRMU:</p>
+                            <p class="text seznam">Jako zástupce firmy zaškrtněte políčko dole ve formuláři. Zástupcem firmy se stanete až po interním schválení. 
+                            O schválení budete informováni emailem a pak budete moci upravovat data firmy.</p>
+                            <p><?=ConfigurationCache::auth()['registrationInfo'] ?? ''?></p>
                         </div>
                     </div>
                 </div>
@@ -28,7 +31,10 @@ use Site\ConfigurationCache;
             <form class="ui form centered" method="POST" action="auth/v1/register">
                 <div class="field">
                     <label>Přihlašovací jméno</label>
-                    <input type="text" name="<?=ConfigurationCache::auth()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                     <input type="text" name="<?=ConfigurationCache::auth()['fieldNameJmeno']?>" placeholder="Jméno"
+                           pattern="<?=ConfigurationCache::auth()['jmenoPattern']?>"
+                           title ="<?=ConfigurationCache::auth()['jmenoInfo']?>"
+                           required >    
                 </div>
                 <div class="field">
                     <label>Heslo</label>
