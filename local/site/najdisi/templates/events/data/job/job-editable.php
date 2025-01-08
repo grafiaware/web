@@ -34,20 +34,21 @@ use Pes\Text\Html;
                     <input type="text" name="misto-vykonu" placeholder="" maxlength="45" 
                                             value="<?= $mistoVykonu ?? '' ?>">
                     <span></span>
-                </div>                <div class="field">                                          
+                </div>
+                    <div class="field">                                          
                         <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
                                       ["pozadovane-vzdelani-stupen"=> $pozadovaneVzdelaniStupen ?? '' ],  
                                       $selectEducations ??  [], 
                                       ['required' => true , 'onChange'=>'eventsEnableButtonsOnInput(event)'],
                                       []) ?>  
-                </div>
+                    </div>
                 </div>
             </div>
 
             <div class="field">
                 <label>Popis pozice</label>
                 <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="1000" 
-                                        value="<?= $popisPozice ?? '' ?>">
+                                        value="<?= Text::esc_attr($popisPozice) ?? '' ?>">
                 <span></span>
             </div>
 
@@ -55,13 +56,13 @@ use Pes\Text\Html;
                 <div class="field">
                     <label>Požadujeme</label>
                     <input class="edit-userinput" type="text" name="pozadujeme" placeholder="" maxlength="1000" 
-                                            value="<?= $pozadujeme ?? '' ?>">
+                                            value="<?= Text::esc_attr($pozadujeme) ?? '' ?>">
                     <span></span>
                 </div>
                 <div class="field">
                     <label>Nabízíme</label>
                     <input class="edit-userinput" type="text" name="nabizime" placeholder="" maxlength="1000" 
-                                            value="<?= $nabizime ?? '' ?>">
+                                            value="<?= Text::esc_attr($nabizime) ?? '' ?>">
                     <span></span>
                 </div>
             </div>             
