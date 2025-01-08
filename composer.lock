@@ -198,12 +198,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "8195f1977c82b2d186877d1b514684c7d4e776e6"
+                "reference": "1783f7091d0257b3f877358616b0870c08f50dea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/8195f1977c82b2d186877d1b514684c7d4e776e6",
-                "reference": "8195f1977c82b2d186877d1b514684c7d4e776e6",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/1783f7091d0257b3f877358616b0870c08f50dea",
+                "reference": "1783f7091d0257b3f877358616b0870c08f50dea",
                 "shasum": ""
             },
             "require": {
@@ -248,7 +248,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master"
             },
-            "time": "2025-01-02T09:12:06+00:00"
+            "time": "2025-01-08T12:16:45+00:00"
         },
         {
             "name": "phar-io/manifest",

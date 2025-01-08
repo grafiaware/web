@@ -401,12 +401,12 @@ class CompanyControler extends FrontControlerAbstract {
         if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {
             /** @var CompanyInfoInterface $companyInfo */
             $companyInfo =  new CompanyInfo();
-
+            $requestParams = new RequestParams();
             $companyInfo->setCompanyId($idCompany);
-            $companyInfo->setIntroduction( (new RequestParams())->getParsedBodyParam($request, 'introduction') );
-            $companyInfo->setVideoLink((new RequestParams())->getParsedBodyParam($request, 'video_link'));
-            $companyInfo->setPositives((new RequestParams())->getParsedBodyParam($request, "positives"));
-            $companyInfo->setSocial((new RequestParams())->getParsedBodyParam($request, "social"));
+            $companyInfo->setIntroduction( $requestParams->getParsedBodyParam($request, 'introduction') );
+            $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'video_link'));
+            $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
+            $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));
 
             $this->companyInfoRepo->add($companyInfo);
 
@@ -427,10 +427,11 @@ class CompanyControler extends FrontControlerAbstract {
             if (!isset($companyInfo)) {
                 throw new UnexpectedValueException("Invalid path. Invalid child id.");
             }
-            $companyInfo->setIntroduction( (new RequestParams())->getParsedBodyParam($request, 'introduction') );
-            $companyInfo->setVideoLink((new RequestParams())->getParsedBodyParam($request, 'videolink'));
-            $companyInfo->setPositives((new RequestParams())->getParsedBodyParam($request, "positives"));
-            $companyInfo->setSocial((new RequestParams())->getParsedBodyParam($request, "social"));
+            $requestParams = new RequestParams();
+            $companyInfo->setIntroduction($requestParams->getParsedBodyParam($request, 'introduction') );
+            $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'videolink'));
+            $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
+            $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
         }
