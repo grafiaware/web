@@ -48,7 +48,7 @@ use Pes\Text\Html;
             <div class="field">
                 <label>Popis pozice</label>
                 <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="1000" 
-                                        value="<?= Text::esc_attr($popisPozice) ?? '' ?>">
+                                        value="<?= Text::esc_attr($popisPozice ?? '') ?>">
                 <span></span>
             </div>
 
@@ -56,13 +56,13 @@ use Pes\Text\Html;
                 <div class="field">
                     <label>Požadujeme</label>
                     <input class="edit-userinput" type="text" name="pozadujeme" placeholder="" maxlength="1000" 
-                                            value="<?= Text::esc_attr($pozadujeme) ?? '' ?>">
+                                            value="<?= Text::esc_attr($pozadujeme ?? '') ?>">
                     <span></span>
                 </div>
                 <div class="field">
                     <label>Nabízíme</label>
                     <input class="edit-userinput" type="text" name="nabizime" placeholder="" maxlength="1000" 
-                                            value="<?= Text::esc_attr($nabizime) ?? '' ?>">
+                                            value="<?= Text::esc_attr($nabizime ?? '') ?>">
                     <span></span>
                 </div>
             </div>             
