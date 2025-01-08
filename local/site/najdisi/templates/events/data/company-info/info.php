@@ -43,33 +43,24 @@ if (!empty($videoLink)) {
             
             <?php } ?>
 
-         <?php if($positives || $social) { ?>
+        <?php if($positives || $social) { ?>
         <div class="row">
             <div class="sixteen wide column">
                 <div class="ui styled fluid accordion">  
                     <div class="title">   
-                        <div class="ui divided grid">
-                            <?php if($positives ?? false) { ?>
-                                <div class="eight wide column">
-                                    <p class="text tucne zadne-okraje">Proč k nám <i class="dropdown icon"></i></p>
-                                </div>
-                            <?php } ?>
-                            <?php if($social ?? false) { ?>
-                                <div class="eight wide column">
-                                    <p class="text tucne zadne-okraje">Jak žijeme <i class="dropdown icon"></i></p>
-                                </div>
-                            <?php } ?>
-                        </div>
+                        <i class="dropdown icon"></i>Proč být součástí našeho týmu
                     </div>
                     <div class="content">
-                        <div class="ui two column divided grid">
+                        <div class="ui two column divided grid stackable">
                             <?php if($positives ?? false) { ?>
                                 <div class="eight wide column">
+                                    <p class="text tucne zadne-okraje">Proč k nám</p>
                                     <div><?= $positives ?? '' ?></div>
                                 </div>
                             <?php } ?>
                             <?php if($social ?? false) { ?>
                                 <div class="eight wide column">
+                                    <p class="text tucne zadne-okraje">Jak žijeme</p>
                                     <div><?= $social ?? '' ?></div>
                                 </div>
                             <?php } ?>
