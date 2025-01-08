@@ -130,9 +130,9 @@ export const initInstanceUserInputEditor = function () { // initialize counter d
  */
 export const pastePreprocessUserInput = function (plugin, args) {
     var editor = tinymce.get(tinymce.activeEditor.id);
-    var len = editor.contentDocument.body.innerText.length;
+    var len = activeEditorContentLength();
     if (len + args.content.length > activeEditor().getParam('max_chars')) {
-        alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + editor.settings.max_chars + '.');
+        alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + activeEditor().getParam('max_chars') + '.');
         args.content = '';
     }
     tinymce_updateCharCounter(editor, len + args.content.length);
