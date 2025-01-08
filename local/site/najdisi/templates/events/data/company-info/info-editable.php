@@ -10,25 +10,21 @@ use Pes\Text\Html;
 ?>
             <div class="field">
                 <label>O nás</label>
-                <input class="edit-userinput" type="text" name="introduction" placeholder="" maxlength="1000" 
-                                        value="<?= Text::esc_attr($introduction ?? '') ?>">
+                <input class="edit-userinput" type="text" name="introduction" placeholder="" maxlength="1000"><?= $introduction ?? '' ?></textarea>
             </div>
             <div class="field">
                 <label>Video</label>
-                <input id="youtubeUrl" type="text" name="videolink" placeholder="https://www.youtube.com/watch?v=..." maxlength="150" 
-                                        value="<?= Text::esc_attr($videoLink ?? '') ?>">
+                <input id="youtubeUrl" type="text" name="videolink" placeholder="https://www.youtube.com/watch?v=..." maxlength="150"><?= $videoLink ?? '' ?></textarea>
                 <p id="message"></p>
             </div>
             <div class="two fields">
                 <div class="field">
                     <label>Proč k nám</label>
-                    <input class="edit-userinput" type="text" name="positives" placeholder="" maxlength="1000" 
-                           value="<?= Text::esc_attr($positives ?? '') ?>">
+                    <input class="edit-userinput" type="text" name="positives" placeholder="" maxlength="1000"><?= $positives ?? '' ?></textarea>
                 </div>
                 <div class="field">
                     <label>Jak žijeme</label>
-                    <input class="edit-userinput" type="text" name="social" placeholder="" maxlength="1000" 
-                                            value="<?= Text::esc_attr($social ?? '') ?>">
+                    <input class="edit-userinput" type="text" name="social" placeholder="" maxlength="1000"><?= $social ?? '' ?></textarea>
                 </div>
             </div>             
 

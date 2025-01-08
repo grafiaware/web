@@ -47,22 +47,19 @@ use Pes\Text\Html;
 
             <div class="field">
                 <label>Popis pozice</label>
-                <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="1000" 
-                                        value="<?= Text::esc_attr($popisPozice ?? '') ?>">
+                <textarea class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="1000"><?= ($popisPozice ?? '') ?></textarea>
                 <span></span>
             </div>
 
             <div class="two fields">
                 <div class="field">
                     <label>Požadujeme</label>
-                    <input class="edit-userinput" type="text" name="pozadujeme" placeholder="" maxlength="1000" 
-                                            value="<?= Text::esc_attr($pozadujeme ?? '') ?>">
+                    <textarea class="edit-userinput" type="text" name="pozadujeme" placeholder="" maxlength="1000"><?= ($pozadujeme ?? '') ?></textarea>
                     <span></span>
                 </div>
                 <div class="field">
                     <label>Nabízíme</label>
-                    <input class="edit-userinput" type="text" name="nabizime" placeholder="" maxlength="1000" 
-                                            value="<?= Text::esc_attr($nabizime ?? '') ?>">
+                    <textarea class="edit-userinput" type="text" name="nabizime" placeholder="" maxlength="1000"><?= ($nabizime ?? '') ?></textarea>
                     <span></span>
                 </div>
             </div>             
