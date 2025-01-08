@@ -428,7 +428,7 @@ class CompanyControler extends FrontControlerAbstract {
                 throw new UnexpectedValueException("Invalid path. Invalid child id.");
             }
             $companyInfo->setIntroduction( (new RequestParams())->getParsedBodyParam($request, 'introduction') );
-            $companyInfo->setVideoLink((new RequestParams())->getParsedBodyParam($request, 'video_link'));
+            $companyInfo->setVideoLink((new RequestParams())->getParsedBodyParam($request, 'videolink'));
             $companyInfo->setPositives((new RequestParams())->getParsedBodyParam($request, "positives"));
             $companyInfo->setSocial((new RequestParams())->getParsedBodyParam($request, "social"));
         } else {
@@ -467,8 +467,8 @@ class CompanyControler extends FrontControlerAbstract {
 
             /** @var RepresentativeInterface $representative */
             $representative = new Representative(); //new              
-            $representative->setCompanyId((new RequestParams())->getParsedBodyParam($request, 'selectCompany') ) ;
-            $representative->setLoginLoginName( (new RequestParams())->getParsedBodyParam($request, 'selectLogin') );
+            $representative->setCompanyId($selectCompanyId) ;
+            $representative->setLoginLoginName($selectLogin);
 
             $this->representativeRepo->add($representative);                
             //------------------------------------------------------------------------------------
@@ -476,10 +476,9 @@ class CompanyControler extends FrontControlerAbstract {
             /** @var CompanyInterface $companyEntity */
             $companyEntity = $this->companyRepo->get($selectCompanyId);
             $companyName = $companyEntity->getName();
-            $loginName = (new RequestParams())->getParsedBodyParam($request, 'selectLogin');
 
             /*  company name, login name , tady neznam mail adr.- musim jinam */
-            $ret = $this->sendMailUsingAuthData( $companyName, $loginName );   
+            $ret = $this->sendMailUsingAuthData( $companyName, $selectLogin );   
             if (isset($ret)) {
                 $this->addFlashMessage("Mail o dokončení registrace odeslán." );
             }
