@@ -37301,7 +37301,7 @@ a.inverted.ui.card:hover,
   transform: none;
   border: none;
   top: 0;
-  background: rgba(0, 0, 0, 0.05);
+  background: #767676;
   box-shadow: none;
   width: 3.5rem;
   height: 1.5rem;

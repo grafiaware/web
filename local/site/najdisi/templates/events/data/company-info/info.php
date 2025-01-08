@@ -43,31 +43,38 @@ if (!empty($videoLink)) {
             
             <?php } ?>
 
-        <?php if($positives || $social) { ?>
+        
         <div class="row">
-            <div class="sixteen wide column">
-                <div class="ui styled fluid accordion">  
-                    <div class="title">   
-                        <i class="dropdown icon"></i>Proč být součástí našeho týmu
-                    </div>
-                    <div class="content">
-                        <div class="ui two column divided grid stackable">
-                            <?php if($positives ?? false) { ?>
-                                <div class="eight wide column">
-                                    <p class="text tucne zadne-okraje">Proč k nám</p>
-                                    <div><?= $positives ?? '' ?></div>
-                                </div>
-                            <?php } ?>
-                            <?php if($social ?? false) { ?>
-                                <div class="eight wide column">
-                                    <p class="text tucne zadne-okraje">Jak žijeme</p>
-                                    <div><?= $social ?? '' ?></div>
-                                </div>
-                            <?php } ?>
+                <?php if($positives ?? false) { ?>
+                <div class="sixteen wide column">
+                    <div class="ui styled fluid accordion">  
+                        <div class="title">   
+                            <i class="dropdown icon"></i>Proč k nám
                         </div>
-                    </div>
+                        <div class="content">
+                            <div class="ui grid">
+                                <div class="column">
+                                    <div><?= $positives ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
                 </div>   
-            </div>   
-        </div>   
-        <?php } ?>
+                <?php } ?>
+                <?php if($social ?? false) { ?>
+                <div class="sixteen wide column">
+                    <div class="ui styled fluid accordion">  
+                        <div class="title">   
+                            <i class="dropdown icon"></i>Jak žijeme
+                        </div>
+                        <div class="content">
+                            <div class="ui grid">
+                                <div class="column">
+                                    <div><?= $social ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                </div>   
+                <?php } ?>
     </div>

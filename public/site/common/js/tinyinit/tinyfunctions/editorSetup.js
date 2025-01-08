@@ -104,7 +104,10 @@ export const setupUserInputEditor = function (editor) {
     });
     editor.on('Dirty', function (e) {
         eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
-    });    
+    });
+//  editor.on("change", (e) => {
+//    alert("The TinyMCE rich text editor content has changed.");
+//  });    
 };
 
 function activeEditor() {

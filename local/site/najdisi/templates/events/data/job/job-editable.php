@@ -34,34 +34,32 @@ use Pes\Text\Html;
                     <input type="text" name="misto-vykonu" placeholder="" maxlength="45" 
                                             value="<?= $mistoVykonu ?? '' ?>">
                     <span></span>
-                </div>                <div class="field">                                          
+                </div>
+                    <div class="field">                                          
                         <?= Html::select( "pozadovane-vzdelani-stupen", "Požadované vzdělání:", 
                                       ["pozadovane-vzdelani-stupen"=> $pozadovaneVzdelaniStupen ?? '' ],  
                                       $selectEducations ??  [], 
                                       ['required' => true , 'onChange'=>'eventsEnableButtonsOnInput(event)'],
                                       []) ?>  
-                </div>
+                    </div>
                 </div>
             </div>
 
             <div class="field">
                 <label>Popis pozice</label>
-                <input class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="1000" 
-                                        value="<?= $popisPozice ?? '' ?>">
+                <textarea class="edit-userinput" type="text" name="popis-pozice" placeholder="" maxlength="1000"><?= ($popisPozice ?? '') ?></textarea>
                 <span></span>
             </div>
 
             <div class="two fields">
                 <div class="field">
                     <label>Požadujeme</label>
-                    <input class="edit-userinput" type="text" name="pozadujeme" placeholder="" maxlength="1000" 
-                                            value="<?= $pozadujeme ?? '' ?>">
+                    <textarea class="edit-userinput" type="text" name="pozadujeme" placeholder="" maxlength="1000"><?= ($pozadujeme ?? '') ?></textarea>
                     <span></span>
                 </div>
                 <div class="field">
                     <label>Nabízíme</label>
-                    <input class="edit-userinput" type="text" name="nabizime" placeholder="" maxlength="1000" 
-                                            value="<?= $nabizime ?? '' ?>">
+                    <textarea class="edit-userinput" type="text" name="nabizime" placeholder="" maxlength="1000"><?= ($nabizime ?? '') ?></textarea>
                     <span></span>
                 </div>
             </div>             
