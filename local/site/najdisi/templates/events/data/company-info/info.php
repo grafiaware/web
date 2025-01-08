@@ -7,30 +7,27 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */    
 
-
-// Převod na embed URL
-$parsedUrl = parse_url($videoLink);
-parse_str($parsedUrl['query'], $queryParams);
-$videoId = $queryParams['v'];
-$embedUrl = "https://www.youtube.com/embed/" . $videoId;
-    
+if (!empty($videoLink)) {
+    // Převod na embed URL
+    $parsedUrl = parse_url($videoLink);
+    parse_str($parsedUrl['query'], $queryParams);
+    $videoId = $queryParams['v'];
+    $embedUrl = "https://www.youtube.com/embed/" . $videoId;
+} 
 ?>
 
-    <div class="ui styled fluid accordion">   
+     
        
-        <div class="title">
-            <i class="dropdown icon"></i> 
-                <?= $nazev ?? '' ?> 
-        </div>
-        <div class="content">
-            <div class="ui grid">    
+    <div class="ui grid">
+                 <?php if($introduction ?? false) { ?>
                 <div class="row">
                     <div class="sixteen wide column">
                         <p class="text tucne zadne-okraje">O nás</p>
                         <p><?= $introduction ?? '' ?></p>
                     </div>   
                 </div>
-                <?php if($embedUrl?? false) { ?>
+                <?php } ?>
+                <?php if($videoLink ?? false) { ?>
                 <div class="row">                
                     <div class="ten wide column">
                         <p class="text tucne zadne-okraje">Video</p>
@@ -43,21 +40,34 @@ $embedUrl = "https://www.youtube.com/embed/" . $videoId;
                         </div>
                     </div> 
                 </div> 
-                <?php } ?>
-                <div class="row">                
-                    <div class="eight wide column">
-                        <p class="text tucne zadne-okraje">Proč k nám</p>
-                        <p><?= $positives ?? '' ?></p>
-                    </div>                 
-                    <div class="eight wide column">
-                        <p class="text tucne zadne-okraje">Jak žijeme</p>
-                        <p><?= $social ?? '' ?></p>
+            
+            <?php } ?>
+
+        <?php if($positives || $social) { ?>
+        <div class="row">
+            <div class="sixteen wide column">
+                <div class="ui styled fluid accordion">  
+                    <div class="title">   
+                        <i class="dropdown icon"></i>Proč být součástí našeho týmu
                     </div>
-                </div>
+                    <div class="content">
+                        <div class="ui two column divided grid stackable">
+                            <?php if($positives ?? false) { ?>
+                                <div class="eight wide column">
+                                    <p class="text tucne zadne-okraje">Proč k nám</p>
+                                    <div><?= $positives ?? '' ?></div>
+                                </div>
+                            <?php } ?>
+                            <?php if($social ?? false) { ?>
+                                <div class="eight wide column">
+                                    <p class="text tucne zadne-okraje">Jak žijeme</p>
+                                    <div><?= $social ?? '' ?></div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>   
             </div>   
-        </div>        
-    </div> 
-
-
-
-
+        </div>   
+        <?php } ?>
+    </div>
