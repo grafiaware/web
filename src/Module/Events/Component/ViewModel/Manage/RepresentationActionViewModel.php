@@ -52,6 +52,8 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
                 if(count($dbRepresentatives)==1) {
                     $statusRepresesentative = $dbRepresentatives[0];
                     $companyId = $statusRepresesentative->getCompanyId();
+                } else {
+                    $companyId = null;    // pro events administratora
                 }
             }
             
