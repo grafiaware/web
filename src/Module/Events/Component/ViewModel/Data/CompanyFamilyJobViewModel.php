@@ -71,6 +71,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
         return $selectEducations;
     }
     
+    // pokud je volán jako item = !isset($this->job) - načte a zobrazí i nepublikované joby
     private function loadJob() {
         if (!isset($this->job)) {
             if ($this->hasItemId()) {
@@ -96,6 +97,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                 // data
                 'fields' => [
                     'dataRedApiUri' => "events/v1/data/job/$jobId/jobtotag",
+                    'published' => $this->job->getPublished(),
                     'pozadovaneVzdelaniStupen' =>  $this->job->getPozadovaneVzdelaniStupen(),
                     'nazev' =>  $this->job->getNazev(),                
                     'mistoVykonu' =>  $this->job->getMistoVykonu(),

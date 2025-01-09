@@ -15,6 +15,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
 
     private $id;            //NOT NULL
     private $companyId;     //NOT NULL
+    private $published;     // NOT NULL default 0
     private $pozadovaneVzdelaniStupen;  //NOT NULL
     private $nazev;
     private $mistoVykonu;
@@ -22,6 +23,10 @@ class Job extends PersistableEntityAbstract implements JobInterface {
     private $pozadujeme;
     private $nabizime;
 
+    /**
+     * 
+     * @return string|null
+     */
     public function getId()  {
         return $this->id;
     }
@@ -33,6 +38,15 @@ class Job extends PersistableEntityAbstract implements JobInterface {
     public function getCompanyId()  {
         return $this->companyId;
     }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getPublished() {
+        return $this->published;
+    }
+
     /**
      *
      * @return string
@@ -40,6 +54,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
     public function getPozadovaneVzdelaniStupen()  {
         return $this->pozadovaneVzdelaniStupen;
     }
+    
     /**
      *
      * @return string|null
@@ -83,7 +98,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
      * @param type $id
      * @return JobInterface
      */
-    public function setId($id) : JobInterface{
+    public function setId($id): JobInterface {
         $this->id = $id;
         return $this;
     }
@@ -92,16 +107,27 @@ class Job extends PersistableEntityAbstract implements JobInterface {
      * @param type $companyId
      * @return JobInterface
      */
-    public function setCompanyId( $companyId) : JobInterface{
+    public function setCompanyId( $companyId): JobInterface {
         $this->companyId = $companyId;
         return $this;
     }
+
+    /**
+     * 
+     * @param type $published
+     * @return JobInterface
+     */
+    public function setPublished($published): JobInterface {
+        $this->published = $published;
+        return $this;
+    }
+
     /**
      *
      * @param type $pozadovaneVzdelaniStupen
      * @return JobInterface
      */
-    public function setPozadovaneVzdelaniStupen(  $pozadovaneVzdelaniStupen) : JobInterface{
+    public function setPozadovaneVzdelaniStupen(  $pozadovaneVzdelaniStupen): JobInterface {
         $this->pozadovaneVzdelaniStupen = $pozadovaneVzdelaniStupen;
         return $this;
     }
@@ -110,7 +136,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
      * @param string|null $nazev
      * @return JobInterface
      */
-    public function setNazev( $nazev ) : JobInterface{
+    public function setNazev( $nazev ): JobInterface {
         $this->nazev = $nazev;
         return $this;
     }
@@ -119,7 +145,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
      * @param string|null $mistoVykonu
      * @return JobInterface
      */
-    public function setMistoVykonu( $mistoVykonu  ) : JobInterface{
+    public function setMistoVykonu( $mistoVykonu  ): JobInterface {
         $this->mistoVykonu = $mistoVykonu;
         return $this;
     }
@@ -129,7 +155,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
      * @param string|null $popisPozice
      * @return JobInterface
      */
-    public function setPopisPozice( $popisPozice ) : JobInterface{
+    public function setPopisPozice( $popisPozice ): JobInterface {
         $this->popisPozice = $popisPozice;
         return $this;
     }
@@ -138,7 +164,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
     * @param string|null $pozadujeme
     * @return JobInterface
     */
-    public function setPozadujeme( $pozadujeme ) : JobInterface{
+    public function setPozadujeme( $pozadujeme ): JobInterface {
         $this->pozadujeme = $pozadujeme;
         return $this;
     }
@@ -147,7 +173,7 @@ class Job extends PersistableEntityAbstract implements JobInterface {
      * @param string|null $nabizime
      * @return JobInterface
      */
-    public function setNabizime( $nabizime ) : JobInterface{
+    public function setNabizime( $nabizime ): JobInterface {
         $this->nabizime = $nabizime;
         return $this;
     }
