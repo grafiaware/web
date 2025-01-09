@@ -45,12 +45,13 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         $representativeActions = $this->status->getRepresentativeActions();
         if (isset($representativeActions)) {
             $statusRepresesentative =  $representativeActions->getRepresentative();
-            if(isset($statusRepresesentative)) {
-            $companyId = $statusRepresesentative->getCompanyId();
+            if (isset($statusRepresesentative)) {
+                $companyId = $statusRepresesentative->getCompanyId();                
             } else {
                 $dbRepresentatives = $this->getRepresentativesByLoginName($this->status->getUserLoginName());
                 if(count($dbRepresentatives)==1) {
-                    $companyId = $dbRepresentatives[1]->getCompanyId();
+                    $statusRepresesentative = $dbRepresentatives[0];
+                    $companyId = $statusRepresesentative->getCompanyId();
                 }
             }
             
