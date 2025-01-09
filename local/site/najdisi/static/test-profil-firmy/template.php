@@ -33,18 +33,6 @@ if (isset($representativeFromStatus)) {
     echo Html::tag('div', 
             [
                 'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
-            ]
-        );
-    echo Html::tag('div', 
-            [
-                'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
-            ]
-        );             
-    echo Html::tag('div', 
-            [
-                'class'=>'cascade',
                 'data-red-apiuri'=>"events/v1/data/company/$companyId/companyinfo",
             ]
         ); 
@@ -54,7 +42,18 @@ if (isset($representativeFromStatus)) {
                     'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
                 ]
             );
-    
+    echo Html::tag('div', 
+            [
+                'class'=>'cascade',
+                'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
+            ]
+        );
+    echo Html::tag('div', 
+            [
+                'class'=>'cascade',
+                'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
+            ]
+        );
     
     
 //    foreach ($jobs as $job) {

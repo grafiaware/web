@@ -296,7 +296,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = new CompanyFamilyCompanyContactListComponent($configuration, $c->get(CompanyFamilyCompanyContactComponent::class));    //CompanyComponentPrototype
                 if($accessPresentation->hasAnyPermission(CompanyFamilyCompanyContactListComponent::class)) {
                     $component->setListViewModel($c->get(CompanyFamilyCompanyContactListViewModel::class));                    
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list2column')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }

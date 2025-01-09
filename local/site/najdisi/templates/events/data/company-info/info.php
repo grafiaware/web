@@ -18,17 +18,14 @@ if (!empty($videoLink)) {
 
      
        
-    <div class="ui grid">
-                 <?php if($introduction ?? false) { ?>
-                <div class="row">
+            <div class="ui grid">
+                <?php if($introduction ?? false) { ?>
                     <div class="sixteen wide column">
-                        <p class="text tucne zadne-okraje">O nás</p>
+                        <p class="nadpis">O nás</p>
                         <p><?= $introduction ?? '' ?></p>
                     </div>   
-                </div>
                 <?php } ?>
                 <?php if($videoLink ?? false) { ?>
-                <div class="row">                
                     <div class="ten wide column">
                         <p class="text tucne zadne-okraje">Video</p>
                         <div class="video-container">
@@ -39,42 +36,40 @@ if (!empty($videoLink)) {
                             </iframe>
                         </div>
                     </div> 
-                </div> 
-            
-            <?php } ?>
-
-        
-        <div class="row">
-                <?php if($positives ?? false) { ?>
+                <?php } ?>
                 <div class="sixteen wide column">
-                    <div class="ui styled fluid accordion">  
-                        <div class="title">   
-                            <i class="dropdown icon"></i>Proč k nám
-                        </div>
-                        <div class="content">
-                            <div class="ui grid">
-                                <div class="column">
-                                    <div><?= $positives ?></div>
+                    <?php if($positives ?? false) { ?>
+                        <div class="ui styled fluid accordion">  
+                            <div class="title">   
+                                <i class="dropdown icon"></i>Proč k nám
+                            </div>
+                            <div class="content">
+                                <div class="ui grid">
+                                    <div class="column">
+                                        <div><?= $positives ?></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>   
-                </div>   
-                <?php } ?>
-                <?php if($social ?? false) { ?>
-                <div class="sixteen wide column">
-                    <div class="ui styled fluid accordion">  
-                        <div class="title">   
-                            <i class="dropdown icon"></i>Jak žijeme
-                        </div>
-                        <div class="content">
-                            <div class="ui grid">
-                                <div class="column">
-                                    <div><?= $social ?></div>
+                        </div>   
+                    <?php } ?>
+                    <?php if($social ?? false) { ?>
+                        <div class="ui styled fluid accordion">  
+                            <div class="title">   
+                                <i class="dropdown icon"></i>Jak žijeme
+                            </div>
+                            <div class="content">
+                                <div class="ui grid">
+                                    <div class="column">
+                                        <div><?= $social ?></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>   
+                        </div>   
+                    <?php } ?>
                 </div>   
+                <?php if($companyImages ?? false) { ?>
+                    <div class="sixteen wide column">
+                        <img class="" alt="" src="<?= $companyImages?>" height="300" width="auto"/>
+                    </div>   
                 <?php } ?>
-    </div>
+            </div>

@@ -124,6 +124,7 @@ class ConfigurationWeb extends ConfigurationConstants {
 
             // data templates - common
             'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
+            'list2column' => self::WEB_TEMPLATES_COMMON.'data/list2column.php',
             'fields' => self::WEB_TEMPLATES_COMMON.'data/fields.php',
             'formWithFields' => self::WEB_TEMPLATES_COMMON.'data/formWithFields.php',
             'items' => self::WEB_TEMPLATES_COMMON.'data/items.php',
@@ -144,6 +145,7 @@ class ConfigurationWeb extends ConfigurationConstants {
 
             'companyInfo' => self::WEB_TEMPLATES_SITE.'events/data/company-info/info.php',
             'companyInfoEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-info/info-editable.php',  
+//            'companyInfoEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-info/info-editable-image.php',  
                 
             'job' => self::WEB_TEMPLATES_SITE.'events/data/job/job.php', 
             'jobEditable' => self::WEB_TEMPLATES_SITE.'events/data/job/job-editable.php', 
