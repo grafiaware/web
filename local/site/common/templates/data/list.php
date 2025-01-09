@@ -7,7 +7,7 @@ use Pes\Text\Message;
 
             <div class="ui grid stackable">     
                 <div class="sixteen wide column">
-                    <p class="nadpis"><?= $listHeadline ?></p>
+                    <p class="podnadpis"><?= $listHeadline ?></p>
                 </div>
                 <div class="sixteen wide column">
                     <?= $this->insert( __DIR__.'/items.php', $items, __DIR__.'/empty.php') ?>      

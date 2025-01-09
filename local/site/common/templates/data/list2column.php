@@ -7,7 +7,7 @@ use Pes\Text\Message;
 
             <div class="ui grid stackable">     
                 <div class="sixteen wide column">
-                    <p class="nadpis"> <?= $listHeadline ?></p>
+                    <p class="podnadpis"> <?= $listHeadline ?></p>
                 </div>
                 <div class="sixteen wide column">
                     <div class="ui grid stackable">

@@ -19,14 +19,8 @@ if (!empty($videoLink)) {
      
        
             <div class="ui grid">
-                <?php if($introduction ?? false) { ?>
-                    <div class="sixteen wide column">
-                        <p class="nadpis">O nás</p>
-                        <p><?= $introduction ?? '' ?></p>
-                    </div>   
-                <?php } ?>
                 <?php if($videoLink ?? false) { ?>
-                    <div class="ten wide column">
+                    <div class="sixteen wide mobile ten wide computer column">
                         <p class="text tucne zadne-okraje">Video</p>
                         <div class="video-container">
                             <iframe width="444" height="250" src="<?php echo htmlspecialchars($embedUrl); ?>" 
@@ -38,6 +32,20 @@ if (!empty($videoLink)) {
                     </div> 
                 <?php } ?>
                 <div class="sixteen wide column">
+                    <?php if($introduction ?? false) { ?>
+                        <div class="ui styled fluid accordion">  
+                            <div class="active title">   
+                                <i class="dropdown icon"></i>O nás
+                            </div>
+                            <div class="active content">
+                                <div class="ui grid">
+                                    <div class="column">
+                                        <div><?= $introduction ?? '' ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    <?php } ?>
                     <?php if($positives ?? false) { ?>
                         <div class="ui styled fluid accordion">  
                             <div class="title">   

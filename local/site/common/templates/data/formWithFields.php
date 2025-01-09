@@ -27,4 +27,4 @@ use Pes\Text\Message;
                     "<button ".(isset($formUid) ? "id='reset_$formUid'" : "")." style='display:none' class='ui secondary button' onClick='eventsResetButton(event)' type='reset'> Vrátit změny zpět </button>";
                 ?>
             </div>   
-        </form>         
+        </form>

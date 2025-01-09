@@ -8,6 +8,13 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */        
  
 ?>
+<div class="ui styled fluid accordion">   
+        <div class="active title">
+            <i class="dropdown icon"></i> 
+            Informace o firmě
+        </div>
+    <div class="active content">
+       
             <div class="field">
                 <label>O nás</label>
                 <textarea class="edit-userinput" type="text" name="introduction" placeholder="" maxlength="1000"><?= $introduction ?? '' ?></textarea>
@@ -27,3 +34,6 @@ use Pes\Text\Html;
                     <textarea class="edit-userinput" type="text" name="social" placeholder="" maxlength="1000"><?= $social ?? '' ?></textarea>
                 </div>
             </div>
+        
+    </div>
+</div>

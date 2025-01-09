@@ -242,7 +242,7 @@ function initLoadedElements() {
 
     //semantic-ui accordion (použitý např. pro výpis informací v profilu přihlášeného uživatele)
     $('.styled.accordion').accordion();
-
+    
     //a tab is a hidden section of content activated by a menu
     $('.tabular.menu .item').tab();
 

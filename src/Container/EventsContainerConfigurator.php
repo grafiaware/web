@@ -311,7 +311,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(CompanyFamilyCompanyContactComponent::class)) {
                     $component->setItemViewModel($c->get(CompanyFamilyCompanyContactViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
+                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields2column'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('companyContact'), $configuration->getTemplate('companyContactEditable'));                                     
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
