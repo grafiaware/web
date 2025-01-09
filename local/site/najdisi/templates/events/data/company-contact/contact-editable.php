@@ -3,6 +3,23 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 ?> 
+
+<div class="ui styled fluid accordion"> 
+    <?php if(isset($name)) { ?>
+        <div class="title">
+            <i class="dropdown icon"></i> 
+            <?= $name ?>
+        </div>
+        <div class="content">
+    <?php } else { ?>        
+        <div class="title mark-new">
+            <i class="dropdown icon"></i> 
+            Nový kontakt
+        </div>
+        <div class="content">
+    <?php } ?>  
+            
+            
             <div class="two fields">                        
                 <div class="field">
                 <label>Jméno kontaktu</label>
@@ -27,3 +44,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                     <span></span>
                 </div>
             </div>     
+            
+            </div>
+    </div>

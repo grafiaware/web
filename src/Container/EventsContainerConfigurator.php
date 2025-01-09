@@ -296,7 +296,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = new CompanyFamilyCompanyContactListComponent($configuration, $c->get(CompanyFamilyCompanyContactComponent::class));    //CompanyComponentPrototype
                 if($accessPresentation->hasAnyPermission(CompanyFamilyCompanyContactListComponent::class)) {
                     $component->setListViewModel($c->get(CompanyFamilyCompanyContactListViewModel::class));                    
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list2column')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -311,7 +311,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(CompanyFamilyCompanyContactComponent::class)) {
                     $component->setItemViewModel($c->get(CompanyFamilyCompanyContactViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
+                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields2column'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('companyContact'), $configuration->getTemplate('companyContactEditable'));                                     
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
