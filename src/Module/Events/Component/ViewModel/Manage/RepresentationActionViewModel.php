@@ -50,7 +50,7 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
             } else {
                 $dbRepresentatives = $this->getRepresentativesByLoginName($this->status->getUserLoginName());
                 if(count($dbRepresentatives)==1) {
-                    $companyId = $dbRepresentatives[1]->getCompanyId();
+                    $companyId = $dbRepresentatives[0]->getCompanyId();
                 }
             }
             
