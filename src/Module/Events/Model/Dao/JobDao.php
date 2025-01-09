@@ -28,6 +28,7 @@ class JobDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface
         return [
             'id',
             'company_id',
+            'published',
             'pozadovane_vzdelani_stupen',
             'nazev',
             'misto_vykonu',

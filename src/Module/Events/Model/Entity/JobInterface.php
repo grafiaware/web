@@ -14,32 +14,38 @@ interface JobInterface extends PersistableEntityInterface {
     
      /**
      *
+     * @return string|null
+     */
+    public function getCompanyId();
+    
+    /**
      * @return string
      */
-    public function getCompanyId()  ;
-     /**
+    public function getPublished();
+    
+    /**
      *
      * @return string
      */
-    public function getPozadovaneVzdelaniStupen()  ;
+    public function getPozadovaneVzdelaniStupen();
     
     /**
      * 
      * @return string|null
      */
-    public function getNazev() ;
+    public function getNazev();
     
     /**
      * 
      * @return string|null
      */
-    public function getMistoVykonu() ;
+    public function getMistoVykonu();
     
     /**
      * 
      * @return string|null
      */
-    public function getPopisPozice() ;
+    public function getPopisPozice();
     
     /**
      * 
@@ -65,6 +71,13 @@ interface JobInterface extends PersistableEntityInterface {
      * @return JobInterface
      */
     public function setCompanyId( $companyId) : JobInterface;
+    
+    /**
+     * 
+     * @param type $published
+     * @return JobInterface
+     */
+    public function setPublished($published): JobInterface;
     
     /**
      * 

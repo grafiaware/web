@@ -57,8 +57,12 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
 
     protected function loadListEntities() {
         if (!$this->listEntities) {
-            $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId() );    
-            $this->listEntities = $this->jobRepo->find("company_id = :companyId", ['companyId' => $company->getId()]);
+            $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId() );   
+            if ($this->isListEditable()) {
+                $this->listEntities = $this->jobRepo->find("company_id = :companyId", ['companyId' => $company->getId()]);
+            } else {
+                $this->listEntities = $this->jobRepo->find("company_id = :companyId AND published=:published", ['companyId' => $company->getId(), 'published'=>1]);                
+            }
         }
     }
     

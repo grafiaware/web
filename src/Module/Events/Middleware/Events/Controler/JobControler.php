@@ -178,14 +178,15 @@ class JobControler extends FrontControlerAbstract {
     }
 
     private function hydrateJobData(ServerRequestInterface $request, JobInterface $job) {
-        // POST formularova data         
+        $requestParams = new RequestParams();  
         //not null
         $job->setPozadovaneVzdelaniStupen((new RequestParams())->getParsedBodyParam($request, 'pozadovane-vzdelani-stupen'));
-        $job->setNazev((new RequestParams())->getParsedBodyParam($request, 'nazev'));
-        $job->setMistoVykonu((new RequestParams())->getParsedBodyParam($request, 'misto-vykonu'));
-        $job->setPopisPozice((new RequestParams())->getParsedBodyParam($request, 'popis-pozice'));
-        $job->setPozadujeme((new RequestParams())->getParsedBodyParam($request, 'pozadujeme'));
-        $job->setNabizime((new RequestParams())->getParsedBodyParam($request, 'nabizime'));           
+        $job->setPublished($requestParams->getParsedBodyParam($request, 'published', 0) ? 1 : 0);  // fomantic vrací "on"
+        $job->setNazev($requestParams->getParsedBodyParam($request, 'nazev'));
+        $job->setMistoVykonu($requestParams->getParsedBodyParam($request, 'misto-vykonu'));
+        $job->setPopisPozice($requestParams->getParsedBodyParam($request, 'popis-pozice'));
+        $job->setPozadujeme($requestParams->getParsedBodyParam($request, 'pozadujeme'));
+        $job->setNabizime($requestParams->getParsedBodyParam($request, 'nabizime'));           
     }
                 
    
@@ -234,14 +235,11 @@ class JobControler extends FrontControlerAbstract {
             $arrayJobTagIds_ForJob[] = $jobToTag->getJobTagId() ; 
         }                                
         $allTags = $this->jobTagRepo->findAll(); //vsechny tag co existuji
-        $data = (new RequestParams())->getParsedBodyParam($request, "data" );
-        if(!is_array($data)) {
-            throw new UnexpectedValueException("No suitable data from request.");
-        }
+        $data = (new RequestParams())->getParsedBodyParam($request, "data" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
         /** @var JobTagInterface $tag */
         foreach ($allTags as $tagEntity) {
             // $postTag - tento tag je zaskrtnut ve form
-            $postTagId = $data[$tagEntity->getTag()];                                        
+            $postTagId = isset($data) ? $data[$tagEntity->getTag()] : null;
             if (isset ($postTagId) ) { // je zaskrtnut ve form
                 //je-li v jobToTag - ok, nic    //neni-li v jobToTag - zapsat do jobToTag 
                 if (!(in_array($postTagId,  $arrayJobTagIds_ForJob))) {                                                                            
