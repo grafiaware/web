@@ -44,10 +44,18 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
     public function getIterator() {
         $representativeActions = $this->status->getRepresentativeActions();
         if (isset($representativeActions)) {
-            $represesentative =  $representativeActions->getRepresentative();
-            $companyId = isset($represesentative) ? $represesentative->getCompanyId() : null;
+            $statusRepresesentative =  $representativeActions->getRepresentative();
+            if(isset($statusRepresesentative)) {
+            $companyId = $statusRepresesentative->getCompanyId();
+            } else {
+                $dbRepresentatives = $this->getRepresentativesByLoginName($this->status->getUserLoginName());
+                if(count($dbRepresentatives)==1) {
+                    $companyId = $dbRepresentatives[1]->getCompanyId();
+                }
+            }
+            
             $editData = $representativeActions->getDataEditable();
-            $companyName = isset($companyId) ? $this->companyRepo->get($represesentative->getCompanyId())->getName() : '';
+            $companyName = isset($companyId) ? $this->companyRepo->get($statusRepresesentative->getCompanyId())->getName() : '';
         }
         $placeholderKey = '';
         
