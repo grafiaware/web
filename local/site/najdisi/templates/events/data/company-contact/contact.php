@@ -1,23 +1,19 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
+
 ?>
-            <div class="ui grid">
-                <div class="eight wide column">
-                    <p class="text primarni-barva zadne-okraje"><?= $name ?? '' ?></p>
-                    <p class="text primarni-barva zadne-okraje"><i class="id badge outline icon"></i>Kontaktujte nás</p>
-                 </div>  
-                <div class="eight wide column">
+           <div class="eight wide column">
+                <div class="ui segment">
+                    <p class="text primarni-barva zadne-okraje"><i class="id badge outline icon"></i><?= $name ?? '' ?></p>
                     <?php if($mobiles){ ?>
+                    <p class="text zadne-okraje"><a href="tel:<?= $mobiles ?>"><i class="mobile alternate icon"></i> <?= $mobiles ?></a> </p> 
+                    <?php }?>
+                    <?php if($phones){ ?>
+                    <p class="text zadne-okraje"><a href="tel:<?= $phones ?>"><i class="phone icon"></i> <?= $phones ?></a></p> 
+                    <?php }?>
+                    <?php if($emails){ ?>
                         <p class="text zadne-okraje"><a href="mailto:<?= $emails ?? '' ?>"><i class="mail icon"></i> <?= $emails ?? '' ?> </a></p> 
                     <?php }?>
-                    <p class="text zadne-okraje">
-                        <?php if($mobiles){ ?>
-                        <a href="tel:<?= $mobiles ?>"><i class="mobile alternate icon"></i> <?= $mobiles ?></a> 
-                        <?php }?>
-                        <?php if($phones){ ?>
-                        <a href="tel:<?= $phones ?>"><i class="phone icon"></i> <?= $phones ?></a>
-                        <?php }?>
-                    </p> 
                 </div>
             </div>

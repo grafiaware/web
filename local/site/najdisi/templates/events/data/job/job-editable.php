@@ -8,9 +8,27 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */        
  
 ?>
+
+<div class="ui styled fluid accordion"> 
+    <?php if(isset($nazev)) { ?>
+        <div class="title">
+            <i class="dropdown icon"></i> 
+            <?= $nazev ?>
+        </div>
+        <div class="content">
+    <?php } else { ?>        
+        <div class="title mark-new">
+            <i class="dropdown icon"></i> 
+            Nová pozice
+        </div>
+        <div class="content">
+    <?php } ?>  
+            
+            
+            
             <div class="ui checkbox">
                 <input type="checkbox" name="published" <?= $published ?? false ? 'checked' : '' ?> >
-                <label >Publikovat pozici</label>
+                <label>Publikovat pozici</label>
             </div>
             <div class="field">
                 <label>Název pozice</label>
@@ -64,5 +82,11 @@ use Pes\Text\Html;
                     <textarea class="edit-userinput" type="text" name="nabizime" placeholder="" maxlength="1000"><?= ($nabizime ?? '') ?></textarea>
                     <span></span>
                 </div>
-            </div>             
+            </div>   
+            
+            
+            
+            
+        </div>
+    </div>
 

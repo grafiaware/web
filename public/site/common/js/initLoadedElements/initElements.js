@@ -68,6 +68,52 @@ function initLoadedEditableElements() {
                 return day + '. ' + month + '. ' + year;}
         }
     });
+    
+    ////////////////////////////////
+     //výběr obrázku pro representanta
+    const fileInput = document.getElementById('hidden-file-input');
+    const selectedFileName = document.getElementById('selected-file-name');
+    const changeFileBtn = document.getElementById('change-file-btn');
+    const removeFileBtn = document.getElementById('remove-file-btn');
+    if (fileInput) {
+    // Kliknutí na tlačítko "Vybrat obrázek"
+    document.getElementById('upload-image-btn').addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // Změna souboru
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Kontrola velikosti souboru
+        const maxFileSize = 2 * 1024 * 1024; // 2 MB
+        if (file.size > maxFileSize) {
+            alert('Velikost souboru přesahuje 2 MB. Vyberte menší soubor.');
+            fileInput.value = ''; // Reset inputu
+            return;
+        }
+
+        // Zobrazení názvu souboru a aktivace tlačítek
+        selectedFileName.textContent = file.name;
+        changeFileBtn.style.display = 'inline-block'; //změnit obrázek
+        removeFileBtn.style.display = 'inline-block'; //odstranit obrázek
+    });
+
+    // Kliknutí na tlačítko "Změnit obrázek"
+    changeFileBtn.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // Kliknutí na tlačítko "Odstranit obrázek"
+    removeFileBtn.addEventListener('click', () => {
+        fileInput.value = ''; // Vymazání hodnoty inputu
+        selectedFileName.textContent = 'Žádný soubor nebyl vybrán'; // Reset textu
+        changeFileBtn.style.display = 'none'; // Skrytí tlačítek
+        removeFileBtn.style.display = 'none';
+    });
+    }
+     ////////////////////////////////
 }
 
 /**
@@ -196,7 +242,7 @@ function initLoadedElements() {
 
     //semantic-ui accordion (použitý např. pro výpis informací v profilu přihlášeného uživatele)
     $('.styled.accordion').accordion();
-
+    
     //a tab is a hidden section of content activated by a menu
     $('.tabular.menu .item').tab();
 
@@ -204,7 +250,7 @@ function initLoadedElements() {
     $('.profil-visible').on('click', function(){
         $(this).closest('.navazat-kontakt').find('.profil.hidden').toggle();
     });
-
+    
 
     // Detect request animation frame
     var scroll = window.requestAnimationFrame ||
@@ -380,7 +426,7 @@ export function scrollToAnchorPosition() {
 //      });
 //    } // End if
 //  });
-    
+  
 }
 
 function initJqueryEvents() {
