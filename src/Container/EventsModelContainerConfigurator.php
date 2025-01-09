@@ -137,8 +137,8 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'events.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'events_everyone',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'events.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxx' : 'events_everyone',
+            'events.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz004' : 'events_everyone',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'events.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz004' : 'events_everyone',
 
             #
             ###################################
