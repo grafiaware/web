@@ -69,13 +69,10 @@ class PasswordControler extends LoginControlerAbstract {
             // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
             $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
+            $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
 
-            if ($loginJmeno ) {
-                // heslo je zahashovane v Credentials - posleme mailem náhradní vygenerované, a zahashujeme do Credentials
-                /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
-               
-                $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
-                
+            if (isset($loginAggregateFull) ) {
+                // heslo je zahashovane v Credentials - posleme mailem náhradní vygenerované, a zahashujeme do Credentials               
                    /** @var CredentialsInterface  $credentials */
                   /** @var RegistrationInterface  $registration */ 
                 $credentials = $loginAggregateFull->getCredentials();
@@ -123,9 +120,6 @@ class PasswordControler extends LoginControlerAbstract {
                 } else {
                     $this->addFlashMessage("Váš účet nebyl zaregistrován, neznáme Vaši email adresu. Nelze vám zaslat nové přihlašovací údaje.");
                 }
-//                } else {
-//                    $this->addFlashMessage("Neplatné jméno!");
-//                }
             } else {
                 $this->addFlashMessage("Neplatné jméno!");
             }
