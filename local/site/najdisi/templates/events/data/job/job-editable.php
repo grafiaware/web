@@ -8,12 +8,14 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */        
  
 ?>
-
+            <div class="ui checkbox">
+                <input type="checkbox" name="published" <?= $published ? 'checked' : '' ?> >
+                <label >Publikovat pozici</label>
+            </div>
             <div class="field">
                 <label>Název pozice</label>
                 <input type="text" name="nazev" placeholder="" maxlength="120" value="<?= $nazev ?? '' ?>" required>
             </div>  
-
             <div class="two fields">                        
                 <div class="field">
                     <?php

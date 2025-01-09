@@ -83,7 +83,7 @@ export const redEditorSetup = (editor) => {
  * @param {type} editor
  * @returns {undefined}
  */
-export const setupUserInputEditor = function (editor) {
+export const setupUserInputEditor = (editor) => {
     const allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
     const maxChars = editor.getParam('max_chars');
     editor.on('keydown', function (e) {
@@ -98,13 +98,13 @@ export const setupUserInputEditor = function (editor) {
         }
         return true;
     });
-    editor.on('keyup', function (e) {
+    editor.on('keyup', (e) => {
         eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
         tinymce_updateCharCounter(this, activeEditorContentLength());
     });
-    editor.on('Dirty', function (e) {
-        eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
-    });
+//    editor.on('Dirty', (e) => {
+//        eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
+//    });
 //  editor.on("change", (e) => {
 //    alert("The TinyMCE rich text editor content has changed.");
 //  });    

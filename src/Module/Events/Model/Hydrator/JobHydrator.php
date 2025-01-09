@@ -15,14 +15,7 @@ use Model\Hydrator\HydratorInterface;
  * @author vlse2610
  */
 class JobHydrator extends TypeHydratorAbstract implements HydratorInterface {
-//    `job`.`id`,//NOT NULL
-//    `job`.`company_id`,  //NOT NULL
-//    `job`.`pozadovane_vzdelani_stupen`,  
-//    `job`.`nazev`,
-//    `job`.`misto_vykonu`,
-//    `job`.`popis_pozice`,
-//    `job`.`pozadujeme`,
-//    `job`.`nabizime`
+
     
      /**
       * 
@@ -34,6 +27,7 @@ class JobHydrator extends TypeHydratorAbstract implements HydratorInterface {
         $job
             ->setId( $this->getPhpValue( $rowData, 'id'))
             ->setCompanyId( $this->getPhpValue   ( $rowData, 'company_id') )
+            ->setPublished( $this->getPhpValue   ( $rowData, 'published') )
             ->setPozadovaneVzdelaniStupen( $this->getPhpValue( $rowData, 'pozadovane_vzdelani_stupen') )
             ->setNazev( $this->getPhpValue       ( $rowData, 'nazev') )
             ->setMistoVykonu( $this->getPhpValue ( $rowData, 'misto_vykonu') )
@@ -52,6 +46,7 @@ class JobHydrator extends TypeHydratorAbstract implements HydratorInterface {
         /** @var JobInterface $job */
         // id je autoincrement
         $this->setSqlValue( $rowData, 'company_id', $job->getCompanyId() );
+        $this->setSqlValue( $rowData, 'published', $job->getPublished() );
         $this->setSqlValue( $rowData, 'pozadovane_vzdelani_stupen', $job->getPozadovaneVzdelaniStupen() ) ;
         $this->setSqlValue( $rowData, 'nazev', $job->getNazev() ) ;
         $this->setSqlValue( $rowData, 'misto_vykonu', $job->getMistoVykonu() );
