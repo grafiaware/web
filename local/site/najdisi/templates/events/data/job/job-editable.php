@@ -9,7 +9,7 @@ use Pes\Text\Html;
  
 ?>
             <div class="ui checkbox">
-                <input type="checkbox" name="published" <?= $published ? 'checked' : '' ?> >
+                <input type="checkbox" name="published" <?= $published ?? false ? 'checked' : '' ?> >
                 <label >Publikovat pozici</label>
             </div>
             <div class="field">
