@@ -117,7 +117,7 @@ class ParamsTemplates {
             ->setSmtpAuth(
                     (new SmtpAuth())
                         ->setSmtpAuth(true)
-                        ->setUserName('info@najdisi.cz')
+                        ->setUserName('najdisi.cz')
                         ->setPassword('Kostrčnenihouba')
                     )
             ->setEncryption(
