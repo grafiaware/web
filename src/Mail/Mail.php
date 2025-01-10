@@ -139,12 +139,12 @@ class Mail {
             $mail->SMTPSecure = $actualParams->getEncryption()->getSmtpSecure();
             $mail->Port = $actualParams->getEncryption()->getPort();
 
-            //Whether to use SMTP authentication
-            $mail->SMTPAuth = $actualParams->getSmtpAuth()->getSmtpAuth();
-            //Username to use for SMTP authentication
-            $mail->Username = $actualParams->getSmtpAuth()->getUserName();
-            //Password to use for SMTP authentication
-            $mail->Password = $actualParams->getSmtpAuth()->getPassword();
+//            //Whether to use SMTP authentication
+//            $mail->SMTPAuth = $actualParams->getSmtpAuth()->getSmtpAuth();
+//            //Username to use for SMTP authentication
+//            $mail->Username = $actualParams->getSmtpAuth()->getUserName();
+//            //Password to use for SMTP authentication
+//            $mail->Password = $actualParams->getSmtpAuth()->getPassword();
 
             $mail->Encoding = self::ENCODING;
 
