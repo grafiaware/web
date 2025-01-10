@@ -132,6 +132,8 @@ class Mail {
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
 //            $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
+//            
+//            zakomentováno $mail->isSMTP(); přidáno $mail->isMail(); zakomentovány řádky pod $mail->Port používající metodu ->getSmtpAuth()
 //            $mail->isSMTP();                                            //Send using SMTP
             $mail->isMail();                                            //Send using SMTP
 
