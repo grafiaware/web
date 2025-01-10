@@ -491,7 +491,7 @@ class CompanyControler extends FrontControlerAbstract {
 
 
     private function sendMailUsingAuthData ($companyName, $loginName){
-        $url = 'http://localhost/web/auth/v1/mailCompletRegistrationRepre';
+        $url = 'https://localhost/web/auth/v1/mailCompletRegistrationRepre';
         $data = ['companyName' => $companyName, 'loginName' => $loginName ];
 
         // use key 'http' even if you send the request to https://...
