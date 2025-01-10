@@ -121,7 +121,7 @@ class ParamsTemplates {
                         ->setPassword('Kostrčnenihouba')
                     )
             ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::NONE)
+                    (new Encryption())->setEncryption(Encryption::STARTTLS)
                     )
             ->setHeaders(
                     (new Headers())
