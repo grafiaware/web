@@ -112,16 +112,16 @@ class ParamsTemplates {
         $params
             ->setHost(
                     (new Host())
-                        ->setHost('websmtpQ.cesky-hosting.cz')
+                        ->setHost('websmtp.cesky-hosting.cz')
                     )
             ->setSmtpAuth(
                     (new SmtpAuth())
-                        ->setSmtpAuth(true)
+                        ->setSmtpAuth(false)
                         ->setUserName('najdisi.cz')
                         ->setPassword('Kostrčnenihouba')
                     )
             ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::STARTTLS)
+                    (new Encryption())->setEncryption(Encryption::NONE)
                     )
             ->setHeaders(
                     (new Headers())
