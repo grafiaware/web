@@ -112,7 +112,7 @@ class ParamsTemplates {
         $params
             ->setHost(
                     (new Host())
-                        ->setHost('websmtp.cesky-hosting.cz')
+                        ->setHost('websmtpQ.cesky-hosting.cz')
                     )
             ->setSmtpAuth(
                     (new SmtpAuth())
