@@ -134,19 +134,19 @@ class Mail {
             $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
 //            
 //            zakomentováno $mail->isSMTP(); přidáno $mail->isMail(); zakomentovány řádky pod $mail->Port používající metodu ->getSmtpAuth()
-            $mail->isSMTP();                                            //Send using SMTP
-//            $mail->isMail();                                            //Send using SMTP
+//            $mail->isSMTP();                                            //Send using SMTP
+            $mail->isMail();                                            //Send using SMTP
 
             $mail->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
             $mail->SMTPSecure = $actualParams->getEncryption()->getSmtpSecure();
             $mail->Port = $actualParams->getEncryption()->getPort();
 
-            //Whether to use SMTP authentication
-            $mail->SMTPAuth = $actualParams->getSmtpAuth()->getSmtpAuth();
-            //Username to use for SMTP authentication
-            $mail->Username = $actualParams->getSmtpAuth()->getUserName();
-            //Password to use for SMTP authentication
-            $mail->Password = $actualParams->getSmtpAuth()->getPassword();
+//            //Whether to use SMTP authentication
+//            $mail->SMTPAuth = $actualParams->getSmtpAuth()->getSmtpAuth();
+//            //Username to use for SMTP authentication
+//            $mail->Username = $actualParams->getSmtpAuth()->getUserName();
+//            //Password to use for SMTP authentication
+//            $mail->Password = $actualParams->getSmtpAuth()->getPassword();
 
             $mail->Encoding = self::ENCODING;
 
