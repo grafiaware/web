@@ -530,6 +530,8 @@ function initJqueryEvents() {
 
     //veletrh online
     //checkbox v registraci (zastupuji vystavovatele)
+    $('.ui.checkbox').checkbox();
+
     $('.exhibitor.checkbox')
         .checkbox()
         .first().checkbox({
