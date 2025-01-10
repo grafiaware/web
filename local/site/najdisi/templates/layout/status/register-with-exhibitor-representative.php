@@ -21,8 +21,7 @@ use Site\ConfigurationCache;
                             <p class="text seznam">Po jejich zadání a potvrzení se stanete registrovaným návštěvníkem.</p>
                             <div class="ui divider"></div>
                             <p class="text seznam">POKUD CHCETE ZASTUPOVAT FIRMU:</p>
-                            <p class="text seznam">Jako zástupce firmy zaškrtněte políčko dole ve formuláři. Zástupcem firmy se stanete až po interním schválení. 
-                            O schválení budete informováni emailem a pak budete moci upravovat data firmy.</p>
+                            <p class="text seznam">Jako zástupce firmy zaškrtněte políčko dole ve formuláři.</p>
                             <p><?=ConfigurationCache::auth()['registrationInfo'] ?? ''?></p>
                         </div>
                     </div>
@@ -63,10 +62,8 @@ use Site\ConfigurationCache;
                     </div>
                 </div>
                 <div class="register-info-representative">
-                    <p class="text seznam">Info pro representata</p>
-                    <p class="text seznam">řádka</p>
-                    <p class="text seznam">řádka</p>
-                    <p class="text seznam">je to fakt dlouhý</p>
+                    <p class="text seznam">Info pro representanta</p>
+                    <p class="text seznam">Zástupcem firmy se stanete až po interním schválení. O schválení budete informováni emailem a pak budete moci upravovat data firmy.</p>
                     <div><p class="ui orange button">Rozumím</p></div>
                 </div>
                 

@@ -8,9 +8,11 @@ echo Html::p(Html::tag('a',
                     ],
         "sendmailVS Ťuk!"
                 ));
-echo Html::p(Html::tag('a', 
+echo Html::p(Html::tag('form', 
                     [
-                        'href'=>"auth/v1/testmail",
+                        'method'=>'POST',
+                        'action'=>"auth/v1/testmail",
                     ],
-        "testmail Ťuk!"
+                    Html::tag('submit', ['type'=>'submit'],
+                    "testmail Ťuk!")
                 ));
