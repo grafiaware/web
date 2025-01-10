@@ -13,6 +13,6 @@ echo Html::p(Html::tag('form',
                         'method'=>'POST',
                         'action'=>"auth/v1/testmail",
                     ],
-                    Html::tag('submit', ['type'=>'submit'],
+                    Html::tag('button', ['type'=>'submit'],
                     "testmail Ťuk!")
                 ));
