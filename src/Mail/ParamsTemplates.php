@@ -88,12 +88,12 @@ class ParamsTemplates {
                     (new Host())
                         ->setHost('smtp.cesky-hosting.cz')
                     )
-            ->setSmtpAuth(
-                    (new SmtpAuth())
-                        ->setSmtpAuth(true)
-                        ->setUserName('info@najdisi.cz')
-                        ->setPassword('Kostrčnenihouba')
-                    )
+//            ->setSmtpAuth(
+//                    (new SmtpAuth())
+//                        ->setSmtpAuth(true)
+//                        ->setUserName('info@najdisi.cz')
+//                        ->setPassword('Kostrčnenihouba')
+//                    )
             ->setEncryption(
                     (new Encryption())->setEncryption(Encryption::NONE)
                     )
