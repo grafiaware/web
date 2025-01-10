@@ -135,6 +135,7 @@ class Mail {
 //            
 //            zakomentováno $mail->isSMTP(); přidáno $mail->isMail(); zakomentovány řádky pod $mail->Port používající metodu ->getSmtpAuth()
             $mail->isSMTP();                                            //Send using SMTP
+//            $mail->isMail();                                            //Send using SMTP
 
             $mail->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
             $mail->SMTPSecure = $actualParams->getEncryption()->getSmtpSecure();
