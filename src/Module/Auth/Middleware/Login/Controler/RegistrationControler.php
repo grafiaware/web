@@ -361,7 +361,8 @@ class RegistrationControler extends LoginControlerAbstract
                                 ->setParty  (  (new Party())
                                                  ->setFrom('info@najdisi.cz', 'web najdisi')
                                                 // ->addReplyTo('svoboda@grafia.cz', 'reply web praci.najdisi.cz')
-                                                 ->addTo('selnerova@grafia.cz', 'selnerovaV')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+//                                                 ->addTo('selnerova@grafia.cz', 'selnerovaV')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                 ->addTo('noreply@najdisi.cz', 'selnerovaV')
                                             );
                     try {
                         $ret = $mail->mail($params); // posle mail
