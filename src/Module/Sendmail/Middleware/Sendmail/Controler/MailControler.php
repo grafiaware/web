@@ -18,11 +18,16 @@ use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 
 use Mail\Params;
-use Mail\Params\{Content, Attachment, Party};
+use Mail\Params\Content;
+use Mail\Params\Attachment;
+use Mail\Params\Party;
 
-use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, LoginAggregateCredentialsRepo, RegistrationRepo
-};
+
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Auth\Model\Repository\LoginAggregateCredentialsRepo;
+use Auth\Model\Repository\RegistrationRepo;
 
 use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
@@ -161,7 +166,7 @@ class MailControler extends PresentationFrontControlerAbstract {
                                          ->setAttachments($attachments)
                                     )
                         ->setParty  (  (new Party())
-                                         ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
+                                                 ->setFrom('info@najdisi.cz', 'web praci.najdisi.cz')
                                          ->addTo('svoboda@grafia.cz', $credentials->getLoginNameFk().' veletrhprace.online')
                                          ->addTo($registration->getEmail(), $credentials->getLoginNameFk().' veletrhprace.online')
                                     );

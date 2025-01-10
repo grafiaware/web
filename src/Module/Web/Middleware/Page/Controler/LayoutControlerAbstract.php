@@ -413,8 +413,8 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         (isset($userActions) && $userActions->presentEditableContent()) 
         // representative
         || (isset($representativeActions) && $representativeActions->getDataEditable())
-        // events administrator
-        || (isset($role) && $role==RoleEnum::EVENTS_ADMINISTRATOR)
+//        // events administrator
+//        || (isset($role) && $role==RoleEnum::EVENTS_ADMINISTRATOR)
         ;
     }
 
