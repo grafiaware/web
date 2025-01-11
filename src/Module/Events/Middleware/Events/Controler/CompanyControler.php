@@ -479,9 +479,9 @@ class CompanyControler extends FrontControlerAbstract {
             $companyName = $companyEntity->getName();
 
             /*  company name, login name , tady neznam mail adr.- musim jinam */
-            $ret = $this->sendMailUsingAuthData( $companyName, $selectLogin );   
+            $ret = $this->sendMailUsingAuthData($request, $companyName, $selectLogin);   
             if (isset($ret)) {
-                $this->addFlashMessage("Mail o dokončení registrace odeslán." );
+                $this->addFlashMessage("Mail o dokončení registrace odeslán. $url" );
             }
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
@@ -490,8 +490,16 @@ class CompanyControler extends FrontControlerAbstract {
     }
 
 
-    private function sendMailUsingAuthData ($companyName, $loginName){
-        $url = 'http://localhost/web/auth/v1/mailCompletRegistrationRepre';
+    private function sendMailUsingAuthData (ServerRequestInterface $request, $companyName, $loginName){
+        $scheme = $request->getUri()->getScheme();
+        $host = $request->getUri()->getHost();
+
+        $ruri = $this->getUriInfo($request)->getRestUri();
+        $rap =$this->getUriInfo($request)->getRootAbsolutePath();
+        $sp = $this->getUriInfo($request)->getSubdomainPath();
+        $url = "$scheme://$host$sp"."auth/v1/mailCompletRegistrationRepre";
+return $url;
+//        $url = 'http://localhost/web/auth/v1/mailCompletRegistrationRepre';
         $data = ['companyName' => $companyName, 'loginName' => $loginName ];
 
         // use key 'http' even if you send the request to https://...
