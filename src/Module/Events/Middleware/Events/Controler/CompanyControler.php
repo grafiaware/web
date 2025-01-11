@@ -477,7 +477,7 @@ class CompanyControler extends FrontControlerAbstract {
             /** @var CompanyInterface $companyEntity */
             $companyEntity = $this->companyRepo->get($selectCompanyId);
             $companyName = $companyEntity->getName();
-                    
+
             /*  company name, login name , tady neznam mail adr.- musim jinam */
             $ret = $this->sendMailUsingAuthData( $companyName, $selectLogin );   
             if (isset($ret)) {
@@ -490,10 +490,8 @@ class CompanyControler extends FrontControlerAbstract {
     }
 
 
-    private function sendMailUsingAuthData (ServerRequestInterface $request, $companyName, $loginName){
-        $scheme = $request->getUri()->getScheme();
-        $host = $request->getUri()->getHost();
-        $url = "$scheme$host/auth/v1/mailCompletRegistrationRepre";
+    private function sendMailUsingAuthData ($companyName, $loginName){
+        $url = 'https://localhost/web/auth/v1/mailCompletRegistrationRepre';
         $data = ['companyName' => $companyName, 'loginName' => $loginName ];
 
         // use key 'http' even if you send the request to https://...
