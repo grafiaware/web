@@ -8,6 +8,6 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-class UndefinedFlashMessageSeverityException extends \UnexpectedValueException implements StatusModelExceptionInterface {
+class UndefinedFlashMessageSeverityException extends UnexpectedValueException implements StatusModelExceptionInterface {
     //put your code here
 }

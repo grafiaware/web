@@ -15,6 +15,7 @@ use Pes\Type\Enum;
  */
 class FlashSeverityEnum extends Enum {
     // "warning", "info", "success"
+    const ERROR = "error";
     const WARNING = "warning";
     const INFO = "info";
     const SUCCESS = "success";
