@@ -481,7 +481,7 @@ class CompanyControler extends FrontControlerAbstract {
             /*  company name, login name , tady neznam mail adr.- musim jinam */
             $ret = $this->sendMailUsingAuthData($request, $companyName, $selectLogin);   
             if (isset($ret)) {
-                $this->addFlashMessage("Mail o dokončení registrace odeslán. $url" );
+                $this->addFlashMessage("Mail o dokončení registrace odeslán. $ret" );
             }
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
