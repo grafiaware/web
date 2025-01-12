@@ -32,8 +32,8 @@ if (!empty($videoLink)) {
                     </div> 
                 <?php } ?>
                 <div class="sixteen wide column">
+                    <div class="ui styled fluid accordion">  
                     <?php if($introduction ?? false) { ?>
-                        <div class="ui styled fluid accordion">  
                             <div class="active title">   
                                 <i class="dropdown icon"></i>O nás
                             </div>
@@ -44,10 +44,8 @@ if (!empty($videoLink)) {
                                     </div>
                                 </div>
                             </div>
-                        </div>    
                     <?php } ?>
                     <?php if($positives ?? false) { ?>
-                        <div class="ui styled fluid accordion">  
                             <div class="title">   
                                 <i class="dropdown icon"></i>Proč k nám
                             </div>
@@ -58,10 +56,8 @@ if (!empty($videoLink)) {
                                     </div>
                                 </div>
                             </div>
-                        </div>   
                     <?php } ?>
                     <?php if($social ?? false) { ?>
-                        <div class="ui styled fluid accordion">  
                             <div class="title">   
                                 <i class="dropdown icon"></i>Jak žijeme
                             </div>
@@ -72,9 +68,9 @@ if (!empty($videoLink)) {
                                     </div>
                                 </div>
                             </div>
-                        </div>   
                     <?php } ?>
                 </div>   
+            </div>   
                 <?php if($companyImages ?? false) { ?>
                     <div class="sixteen wide column">
                         <img class="" alt="" src="<?= $companyImages?>" height="300" width="auto"/>

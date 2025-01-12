@@ -36839,7 +36839,7 @@ a.inverted.ui.card:hover,
   display: block;
   padding-left: 1.85714em;
   outline: none;
-  font-size: 1.08333333em;
+  font-size: 17px;
 }
 
 .ui.checkbox label::before {
@@ -37632,6 +37632,11 @@ a.inverted.ui.card:hover,
 /*******************************
          Site Overrides
 *******************************/
+
+.ui.checkbox label::before {
+  height: 16px;
+  width: 16px;
+}
 /*!
  * # Fomantic-UI 2.9.2 - Dimmer
  * https://github.com/fomantic/Fomantic-UI/

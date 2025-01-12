@@ -2,4 +2,7 @@
     User Variable Overrides
 *******************************/
 
+@checkboxSize: @fontSize;
+@labelFontSize: @fontSize;
+
 @toggleLaneBackground: @grey;
