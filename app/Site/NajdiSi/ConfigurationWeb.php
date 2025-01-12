@@ -14,33 +14,6 @@ use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
 use Pes\Logger\FileLogger;
 
-//component
-use Configuration\ComponentConfiguration;
-use Pes\View\Template\PhpTemplate;
-use Component\View\ElementComponent;
-use Component\Renderer\Html\NoPermittedContentRenderer;
-use Component\Renderer\Html\NoContentForStatusRenderer;
-
-use Events\Component\View\Manage\RepresentativeActionComponent;
-use Events\Component\View\Data\CompanyComponent;
-use Events\Component\View\Data\CompanyListComponent;
-use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
-use Events\Component\View\Data\CompanyFamilyCompanyContactComponent;
-use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
-use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
-use Events\Component\View\Data\JobFamilyTagMultiComponent;
-
-// component view model
-use Component\ViewModel\StatusViewModel;
-use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
-use Events\Component\ViewModel\Data\CompanyListViewModel;
-use Events\Component\ViewModel\Data\CompanyViewModel;
-use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
-use Events\Component\ViewModel\Data\CompanyFamilyCompanyContactListViewModel;
-use Events\Component\ViewModel\Data\CompanyFamilyCompanyAddressListViewModel;
-use Events\Component\ViewModel\Data\JobFamilyTagMultiViewModel;
-
-
 /**
  * Description of Configuration
  *
