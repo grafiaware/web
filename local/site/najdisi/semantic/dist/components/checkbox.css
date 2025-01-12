@@ -50,7 +50,7 @@
   display: block;
   padding-left: 1.85714em;
   outline: none;
-  font-size: 1.08333333em;
+  font-size: 17px;
 }
 .ui.checkbox label::before {
   position: absolute;
@@ -739,3 +739,7 @@
          Site Overrides
 *******************************/
 
+.ui.checkbox label::before {
+  height: 16px;
+  width: 16px;
+}
