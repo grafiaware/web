@@ -2,6 +2,8 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelFamilyListAbstract;
+use Component\ViewModel\ViewModelLimutedListInterface;
+
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 use Component\ViewModel\FamilyInterface;
 
@@ -9,8 +11,10 @@ use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
+use Events\Model\Repository\CompanyParameterRepoInterface;
 
 use Events\Model\Entity\Job;
+use Events\Model\Entity\CompanyParameterInterface;
 
 use Access\Enum\RoleEnum;
 
@@ -22,23 +26,26 @@ use LogicException;
  *
  * @author pes2704
  */
-class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
+class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract implements ViewModelLimutedListInterface {
     
     private $status;
     private $companyRepo;
     private $jobRepo;
     private $pozadovaneVzdelaniRepo;
+    private $companyParameterRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
             CompanyRepoInterface $companyRepo,
             JobRepoInterface $jobRepo,
-            PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo
+            PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo,
+            CompanyParameterRepoInterface $companyParameterRepo
             ) {
         $this->status = $status;
         $this->companyRepo = $companyRepo;
         $this->jobRepo = $jobRepo;
         $this->pozadovaneVzdelaniRepo = $pozadovaneVzdelaniRepo;    
+        $this->companyParameterRepo = $companyParameterRepo;
     }    
     
     use RepresentativeTrait;        
@@ -47,6 +54,16 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
         return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
         
+    public function isItemCountUnderLimit(): bool {
+        $companyParameter = $this->companyParameterRepo->get($this->getFamilyRouteSegment()->getParentId());
+        if (isset($companyParameter)) {
+            $this->loadListEntities();
+            $count = count($this->listEntities);            
+            $under = $count<($companyParameter->getJobLimit());
+        }
+        return $under ?? false;
+    }
+    
     protected function newListEntity() {
         return new Job();  // "prázdná" entita pro formulář pro přidání
     }
@@ -76,65 +93,6 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract {
         }           
         return $selectEducations;
     }
-    
-    /**
-     * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
-     * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
-     * a této komponentě bude vložena jako data pro renderování položka kolekce dat. 
-     * Pozn. To znamená, že jednotlívé item komponenty nepoužijí (a nepotřebují) vlastní view model.
-     * 
-     * @return iterable
-     */
-//    public function provideItemDataCollection(): iterable {
-//        $componentRouteSegment = "events/v1/".$this->getFamilyRouteSegment();
-//        $parentId = $this->getParentId();
-//
-//        $companyJobs = $this->jobRepo->find( " company_id = :companyId ",  ['companyId'=> $parentId ] );
-//        $selectEducations = $this->selectEducations();        
-//        
-//        $isAdministrator = $this->isAdministrator();
-//        $editableItem = $this->isAdministrator() || $this->isCompanyEditor($companyId);        
-//        
-//        $items=[];     
-//        foreach ($companyJobs as $job) {
-//            /** @var JobInterface $job */
-//            $items[] = [
-//                // conditions
-//                'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-//                'remove'=> $isAdministrator,   // přidá tlačítko remove do item
-//                //route
-//                'componentRouteSegment' => $componentRouteSegment,
-//                'id' => $job->getId(),
-//                // data
-//                'fields' => [
-//                    'editable' => $editableItem,
-//                    'selectEducations' =>  $selectEducations,
-//                    'pozadovaneVzdelaniStupen' =>  $job->getPozadovaneVzdelaniStupen(),
-//                    'nazev' =>  $job->getNazev(),                
-//                    'mistoVykonu' =>  $job->getMistoVykonu(),
-//                    'popisPozice' =>  $job->getPopisPozice(),
-//                    'pozadujeme' =>  $job->getPozadujeme(),
-//                    'nabizime' =>  $job->getNabizime(),                    
-//                    ],   
-//                ];
-//        }
-//        if ($isAdministrator) {  // přidání item pro přidání společnosti
-//            $items[] = [
-//                // conditions
-//                'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 
-//                // text
-//                'addHeadline' => 'Přidej pozici',
-//                //route
-//                'componentRouteSegment' => $componentRouteSegment,                
-//                // data
-//                'fields' => [
-//                    'editable' => $editableItem,
-//                    'selectEducations' =>  $selectEducations,
-//                    ],
-//                ];
-//        }
-//        return $items;
-//    }
     
     /**
      * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky

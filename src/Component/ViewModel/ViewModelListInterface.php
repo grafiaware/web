@@ -17,5 +17,4 @@ interface ViewModelListInterface extends ViewModelInterface {
      */
     public function provideItemEntityCollection(): iterable;
     public function isListEditable(): bool;
-    
 }

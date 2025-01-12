@@ -351,7 +351,6 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new CompanyParameterRepo($c->get(CompanyParameterDao::class), $c->get(CompanyParameterHydrator::class));
             },        
 
-
             //CompanyContact
             CompanyContactDao::class => function(ContainerInterface $c) {
                 return new CompanyContactDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
@@ -362,9 +361,6 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             CompanyContactRepo::class => function(ContainerInterface $c) {
                 return new CompanyContactRepo($c->get(CompanyContactDao::class), $c->get(CompanyContactHydrator::class));
             },
-
-
-
 
             //Job
             JobDao::class => function(ContainerInterface $c) {
