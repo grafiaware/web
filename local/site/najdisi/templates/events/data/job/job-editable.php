@@ -48,7 +48,8 @@ use Pes\Text\Html;
                         echo "<p>Tagy lze k pozici vybírat po prvním uložení pozice.</p>";
                     }
                     ?>             
-                </div><div class="grouped fields">       
+                </div>
+                <div class="grouped fields">       
                 <div class="field">
                     <label>Místo výkonu</label>
                     <input type="text" name="misto-vykonu" placeholder="" maxlength="45" 
