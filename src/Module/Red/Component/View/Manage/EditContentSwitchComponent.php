@@ -33,6 +33,6 @@ class EditContentSwitchComponent extends ComponentCompositeAbstract implements I
     }
     
     public function getString() {
-        parent::getString();
+        return parent::getString();
     }
 }
