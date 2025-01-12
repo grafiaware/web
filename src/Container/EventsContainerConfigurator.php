@@ -92,6 +92,7 @@ use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\CompanyInfoRepo;
+use Events\Model\Repository\CompanyParameterRepo;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\JobRepo;
@@ -734,7 +735,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class),
                         $c->get(CompanyRepo::class),
                         $c->get(JobRepo::class),
-                        $c->get(PozadovaneVzdelaniRepo::class),                        
+                        $c->get(PozadovaneVzdelaniRepo::class), 
+                        $c->get(CompanyParameterRepo::class),
                     );
             },      
             CompanyFamilyJobViewModel::class => function(ContainerInterface $c) {

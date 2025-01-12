@@ -148,5 +148,5 @@ function tinymce_updateCharCounter(editor, len) {
 }
 
 function activeEditorContentLength() {
-    return activeEditor().contentDocument.body.innerText.length-1;
+    return activeEditor().contentDocument.body.innerText.length;
 }

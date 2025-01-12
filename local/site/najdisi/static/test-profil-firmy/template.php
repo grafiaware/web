@@ -7,9 +7,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
 use Events\Model\Entity\RepresentativeInterface;
-use Events\Model\Repository\JobRepo;
-use Events\Model\Repository\JobRepoInterface;
-use Events\Model\Entity\JobInterface;
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
@@ -20,9 +17,7 @@ $representativeFromStatus = isset($repreActions) ? $repreActions->getRepresentat
 
 if (isset($representativeFromStatus)) {
     $companyId = $representativeFromStatus->getCompanyId();
-    /** @var JobRepoInterface $jobRepo */
-//    $jobRepo = $container->get(JobRepo::class);
-//    $jobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId] );
+
     
     echo Html::tag('div', 
             [
@@ -37,12 +32,6 @@ if (isset($representativeFromStatus)) {
             ]
         ); 
     echo Html::tag('div', 
-                [
-                    'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
-                ]
-            );
-    echo Html::tag('div', 
             [
                 'class'=>'cascade',
                 'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
@@ -54,18 +43,12 @@ if (isset($representativeFromStatus)) {
                 'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
             ]
         );
-    
-    
-//    foreach ($jobs as $job) {
-//        /** @var JobInterface $job */
-//        echo Html::tag('div', 
-//                [
-//                    'class'=>'cascade',
-//                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job/{$job->getId()}",
-//                ]
-//            );            
-//    }
-    
+    echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
+                ]
+            );
 } else {
     echo "Stránka je určena pouze přihlášenému reprezentantu firmy.";
 }
