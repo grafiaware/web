@@ -22,7 +22,7 @@ $statusViewModel = $container->get(StatusViewModel::class);
 $role = $statusViewModel->getUserRole();
 
 if (isset($role) && $role==RoleEnum::REPRESENTATIVE) {
-    echo Html::p("Přehled pracovních pozic je až do termínu konání veletrhu zobrazován pouze přihláššným reprezentantům vystavovatelů a partnerů. Rozpracované informace o firmách a pozicích tak nejsou veřejné.", ["class"=>""]);
+    echo Html::p("Přehled pracovních pozic je až do termínu konání veletrhu zobrazován pouze přihlášeným reprezentantům vystavovatelů a partnerů. Rozpracované informace o firmách a pozicích tak nejsou veřejné.", ["class"=>"ui segment"]);
 
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );
