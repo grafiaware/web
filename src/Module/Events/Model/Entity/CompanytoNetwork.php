@@ -42,21 +42,21 @@ class CompanytoNetwork extends PersistableEntityAbstract implements CompanytoNet
     
     /**
      *
-     * @param string $jobId
-     * @return JobToTagInterface $this
+     * @param string $companyId
+     * @return CompanytoNetworkInterface $this
      */
-    public function setCompanyId($jobId): JobToTagInterface {
-        $this->companyId = $jobId;
+    public function setCompanyId($companyId): CompanytoNetworkInterface {
+        $this->companyId = $companyId;
         return $this;
     }
 
     /**
      * 
-     * @param string $jobTagId
-     * @return JobToTagInterface
+     * @param string $networkId
+     * @return CompanytoNetworkInterface
      */
-    public function setNetworkId($jobTagId): JobToTagInterface {
-        $this->networkId = $jobTagId;
+    public function setNetworkId($networkId): CompanytoNetworkInterface {
+        $this->networkId = $networkId;
         return $this;
     }
 

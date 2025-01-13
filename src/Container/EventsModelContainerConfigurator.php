@@ -82,6 +82,15 @@ use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Hydrator\CompanyContactHydrator;
 use Events\Model\Repository\CompanyContactRepo;
 
+
+use Events\Model\Dao\CompanyToNetworkDao;
+use Events\Model\Hydrator\CompanytoNetworkHydrator;
+use Events\Model\Repository\CompanytoNetworkRepo;
+
+use Events\Model\Dao\NetworkDao;
+use Events\Model\Hydrator\NetworkHydrator;
+use Events\Model\Repository\NetworkRepo;
+
 use Events\Model\Dao\JobDao;
 use Events\Model\Hydrator\JobHydrator;
 use Events\Model\Repository\JobRepo;
@@ -362,6 +371,28 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new CompanyContactRepo($c->get(CompanyContactDao::class), $c->get(CompanyContactHydrator::class));
             },
 
+            //CompanyToNetwork
+            CompanyToNetworkDao::class => function(ContainerInterface $c) {
+                return new CompanyToNetworkDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            CompanytoNetworkHydrator::class => function(ContainerInterface $c) {
+                return new CompanytoNetworkHydrator();
+            },
+            CompanytoNetworkRepo::class => function(ContainerInterface $c) {
+                return new CompanytoNetworkRepo($c->get(CompanyToNetworkDao::class), $c->get(CompanytoNetworkHydrator::class));
+            },
+                    
+            //Network
+            NetworkDao::class => function(ContainerInterface $c) {
+                return new NetworkDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            NetworkHydrator::class => function(ContainerInterface $c) {
+                return new NetworkHydrator();
+            },
+            NetworkRepo::class => function(ContainerInterface $c) {
+                return new NetworkRepo($c->get(NetworkDao::class), $c->get(NetworkHydrator::class));
+            },
+                    
             //Job
             JobDao::class => function(ContainerInterface $c) {
                 return new JobDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
