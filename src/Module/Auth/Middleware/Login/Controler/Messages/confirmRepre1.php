@@ -26,7 +26,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <p style="margin:  10px 0px 10px 0px;"> Vaše registrace bude dokončena v co nejkratším termínu.
+                        <p style="margin:  10px 0px 10px 0px;"> Vaše registrace bude změněna na registraci zástupce firmy v co nejkratším termínu.
                             <br/>                            
                             Protože žádáte o zaregistrování jako zástupce firmy, registrace projde interním ověřovacím procesem
                             a po odsouhlasení Vám bude záslán email.<br/>
