@@ -495,6 +495,8 @@ class CompanyControler extends FrontControlerAbstract {
         $url = "$scheme://$host$sp"."auth/v1/mailCompletRegistrationRepre";
         $data = ['companyName' => $companyName, 'loginName' => $loginName ];
 
+        // options pro stream_context_create() vždy definuj s položkou http
+        // url adresu pro file_get_contents(url, ..) definuj: https://....
         // use key 'http' even if you send the request to https://...
         $options = [
             'http' => [
