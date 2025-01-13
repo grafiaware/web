@@ -85,6 +85,6 @@ if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
     </div>    
 <?php
 } else {
-    echo "stránka je určena pouze pro administraci.";
+    echo Html::p("Stránka je určena pouze pro administraci.", ["class"=>"ui orange segment"]);
 }
 ?>

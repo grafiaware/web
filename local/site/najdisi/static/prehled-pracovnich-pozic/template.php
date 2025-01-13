@@ -1,78 +1,51 @@
 <?php
+use Pes\Text\Text;
+use Pes\Text\Html;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Site\ConfigurationCache;
-use Template\Compiler\TemplateCompilerInterface;
-
-use Events\Middleware\Events\ViewModel\JobViewModel;
-use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
-use Red\Model\Repository\BlockRepo;
-
-use Events\Model\Entity\CompanyInterface;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Repository\JobRepo;
+use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Entity\JobInterface;
 
-$headline = 'Pracovní pozice';
-$perex = 'Vítejte v přehledu pracovnich pozic všech vystavovatelů! ';
+use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\StatusViewModel;
+use Events\Model\Entity\RepresentativeInterface;
+use Access\Enum\RoleEnum;
 
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
 
+/** @var  RepresentativeInterface $representativeFromStatus*/
+$role = $statusViewModel->getUserRole();
 
+if (isset($role) && $role==RoleEnum::REPRESENTATIVE) {
+    echo Html::p("Přehled pracovních pozic je až do termínu konání veletrhu zobrazován pouze přihlášeným reprezentantům vystavovatelů a partnerů. Rozpracované informace o firmách a pozicích tak nejsou veřejné.", ["class"=>"ui segment"]);
 
-/** @var RepresentativeViewModel $representativeViewModel */
-//$representativeViewModel = $container->get( RepresentativeViewModel::class );
+    /** @var CompanyRepoInterface $companyRepo */
+    $companyRepo = $container->get(CompanyRepo::class );
+    $companies = $companyRepo->findAll();
 
+    foreach ($companies as $company) {
+        $companyId = $company->getId();
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId",
+                ]
+            );                 
+        
+            /** @var JobInterface $job */
+            echo Html::tag('div', 
+                    [
+                        'class'=>'cascade',
+                        'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
+                    ]
+                );            
 
-/** @var JobViewModel $jobModel */
-$jobModel = $container->get( JobViewModel::class );
-
-
-//TODO: prezentace - link na prezentaci (místo block)
-// odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
-// príklad:
-    /** @var BlockRepo $blockRepo */
-//    $blockRepo = $container->get(BlockRepo::class);
-//    $shortName = $company->getEventInstitutionName30();
-//    $block = isset($shortName) ? $blockRepo->get($shortName) : null;
-// SVOBODA - čeká na Red databázi - slouží pro generování odkazů na stránku firmy
-
-
-     /** @var CompanyRepoInterface $companyRepo */
-    $companyRepo = $container->get(CompanyRepo::class);
-    $companiesList = $companyRepo->findAll();   
-    //$companiesList = $representativeViewModel->getCompanyList();
-    
-    $allJobs  = [];
-    /** @var CompanyInterface $company */
-    foreach ($companiesList as $company ) {
-        $companyJobs = $jobModel->getCompanyJobList($company->getId());        
-        if ($companyJobs) {
-                     //TODO: odstranit předávání kontejneru - potřebuje ho vypis-pozic\pozice_2.php            
-            $jobsArray = [];
-            foreach ( $companyJobs /*$jobModel->getCompanyJobList($company->getId())*/  as $job) {
-                $jobsArray[] = array_merge($job, ['container' => ${TemplateCompilerInterface::VARNAME_CONTAINER}]);
-            }
-            $allJobs[] = [
-                    'block' => null,
-                    'companyName' => $company->getName(),
-                    'companyJobs' => ['jobs' => $jobsArray],
-                    ];        
-        }
-    }
-?>
-<article class="paper">
-    <section>
-        <headline>
-            <?php include "headline.php" ?>
-        </headline>
-        <perex>
-            <?php include "perex.php" ?>
-        </perex>
-    </section>
-    <section>
-        <content class='prehled-pozic'>
-            <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobs);  ?>
-        </content>
-    </section>
-</article>
-
+    }    
+} else {
+    echo "Stránka je až do termínu veletrhu zobrazena pouze přihlášeným reprezentantům firmy.";
+}
