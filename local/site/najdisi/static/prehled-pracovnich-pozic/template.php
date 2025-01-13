@@ -47,5 +47,6 @@ if (isset($role) && $role==RoleEnum::REPRESENTATIVE) {
 
     }    
 } else {
-    echo "Stránka je až do termínu veletrhu zobrazena pouze přihlášeným reprezentantům firmy.";
+    echo Html::p("Stránka je až do termínu veletrhu zobrazena pouze přihlášeným reprezentantům firmy.", ["class"=>"ui blue segment"]);
+    
 }
