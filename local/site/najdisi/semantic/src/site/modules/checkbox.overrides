@@ -1,3 +1,7 @@
 /*******************************
          Site Overrides
 *******************************/
+.ui.checkbox label::before{
+    height: @fontSize - 1;
+    width: @fontSize - 1;
+}

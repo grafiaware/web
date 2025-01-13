@@ -32,11 +32,6 @@ use Events\Model\Entity\CompanyInfo;
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Entity\Representative;
 
-use Mail\Mail;
-use Mail\MessageFactory\HtmlMessage;
-use Mail\Params;
-use Mail\Params\{Content, Attachment, Party};
-
 use Status\Model\Enum\FlashSeverityEnum;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -479,7 +474,7 @@ class CompanyControler extends FrontControlerAbstract {
             $companyName = $companyEntity->getName();
 
             /*  company name, login name , tady neznam mail adr.- musim jinam */
-            $ret = $this->sendMailUsingAuthData( $companyName, $selectLogin );   
+            $ret = $this->sendMailUsingAuthData($request, $companyName, $selectLogin);   
             if (isset($ret)) {
                 $this->addFlashMessage("Mail o dokončení registrace odeslán." );
             }
@@ -490,8 +485,14 @@ class CompanyControler extends FrontControlerAbstract {
     }
 
 
-    private function sendMailUsingAuthData ($companyName, $loginName){
-        $url = 'http://localhost/web/auth/v1/mailCompletRegistrationRepre';
+    private function sendMailUsingAuthData (ServerRequestInterface $request, $companyName, $loginName){
+        $scheme = $request->getUri()->getScheme();
+        $host = $request->getUri()->getHost();
+
+        $ruri = $this->getUriInfo($request)->getRestUri();
+        $rap =$this->getUriInfo($request)->getRootAbsolutePath();
+        $sp = $this->getUriInfo($request)->getSubdomainPath();
+        $url = "$scheme://$host$sp"."auth/v1/mailCompletRegistrationRepre";
         $data = ['companyName' => $companyName, 'loginName' => $loginName ];
 
         // use key 'http' even if you send the request to https://...
@@ -505,13 +506,29 @@ class CompanyControler extends FrontControlerAbstract {
 
         $context = stream_context_create($options);
         $result = file_get_contents($url, false, $context);
-        
         if ($result === false) {
-            /* Handle error */
+            $this->addFlashMessage("Mail o dokončení registrace se nepodařilo odeslat.", FlashSeverityEnum::WARNING);
         } else {
             return true ;     
         }
         
+####        
+//        $context = stream_context_create($options);
+//        $result = file_get_contents($url, false, $context);
+//        if ($result === false) {
+//            $this->addFlashMessage("Není spojení", FlashSeverityEnum::WARNING);
+//        } else {
+//            
+//            $str1=$str2=$status=null;
+//            sscanf($http_response_header[0] ,'%s %d %s', $str1,$status, $str2);
+//            if($status==200) {
+//                return $result;        
+//            } else {
+//                // response s jiným stavem než 200 OK
+//                    throw new \Exception($http_response_header[0]);
+//            }
+//        }
+
     } 
     
     

@@ -14,8 +14,6 @@ use Pes\Text\Html;
         <div class="title">
             <i class="dropdown icon"></i> 
                 <?= $nazev ?? '' ?> 
-        </div>
-        <div class="content">
             <div class="ui grid stackable">       
                 <div class="sixteen wide column">
                     <?php
@@ -30,7 +28,15 @@ use Pes\Text\Html;
                         echo "<p>Tagy lze k pozici vybírat po prvním uložení pozice.</p>";
                     }
                     ?>                 
+                </div>                
+                 <div class="sixteen wide column">
+                    <p class="text tucne zadne-okraje">Popis pozice:</p>
+                    <p><?= $popisPozice ?? '' ?></p>
                 </div>
+            </div>            
+        </div>
+        <div class="content">
+            <div class="ui grid stackable">       
                 <div class="five wide column">
                     <p><b>Místo výkonu:</b></p>
                 </div>
@@ -43,10 +49,7 @@ use Pes\Text\Html;
                 <div class="ten wide column">
                     <p><?= $selectEducations [$pozadovaneVzdelaniStupen] ?? '' ?></p>
                 </div>               
-                <div class="sixteen wide column">
-                    <p class="text tucne zadne-okraje">Popis pozice:</p>
-                    <p><?= $popisPozice ?? '' ?></p>
-                </div>
+
                 <div class="ui grid stackable">
                     <div class="eight wide column">
                         <p class="text tucne zadne-okraje">Požadujeme:</p>
