@@ -6,7 +6,18 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyRepoInterface;
 
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface;
+use Access\Enum\RoleEnum;
+
 /** @var PhpTemplateRendererInterface $this */
+
+
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$userRole = $statusViewModel->getUserRole();
+if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
+
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );
     $companies = $companyRepo->findAll();
@@ -55,3 +66,6 @@ use Events\Model\Repository\CompanyRepoInterface;
                 ]
             );
     }
+} else {
+    echo "stránka je určena pouze pro administraci.";
+}
