@@ -23,7 +23,7 @@ use Pes\Text\Html;
                 
                 <div class="field">
                     <?php if (isset($companyName) ){ ?>
-                            <label>Firma - CompanyName</label>
+                            <label>Firma</label>
                             <input <?= $readonly ?> type="text" name="company-name" placeholder="" maxlength="250" value="<?= $companyName ?>">
                     <?php } else { ?>
                             <?= Html::select("selectCompany", "Firma - Company name:",
@@ -36,7 +36,7 @@ use Pes\Text\Html;
                 
                 <div class="field"> 
                     <?php  if (isset($loginLoginName) ) { ?>
-                            <label>Representant - loginLoginName</label>
+                            <label>Representant</label>
                             <input <?= $readonly ?> type="text" name="login-login-name" placeholder="" maxlength="50" value="<?=  $loginLoginName  ?>">
                     <?php } else { ?>
                             <?= Html::select("selectLogin", "Representant - Login name:",  
