@@ -28,7 +28,7 @@ class MenuTagView extends View {
         $elementId = 'menu';
         $data['elementId'] = $elementId;
 
-        $tag = (new MenuLayout())->getTag($data);
+        $tag = (new MenuLayout())->getIcon($data);
         return ViewFactory::viewWithTag($tag)->render();  
     }
 }

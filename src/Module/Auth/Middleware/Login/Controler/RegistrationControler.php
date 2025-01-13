@@ -185,39 +185,39 @@ class RegistrationControler extends LoginControlerAbstract
 //                   #########################--------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                   
                     
-                    if ($registerInfo) {
-                        ##########################--------- poslat mail do Grafie - registrujicise  je  vystavovatel -------------------
-                        /** @var Mail $mail */
-                        $mail = $this->container->get(Mail::class);
-                        /** @var HtmlMessage $mailMessageFactory */
-                        $mailMessageFactory = $this->container->get(HtmlMessage::class);
-
-                        $subject =  'Veletrh práce a vzdělávání - Registrace zástupce vystavovatele.';
-                        $body = $mailMessageFactory->create(__DIR__."/Messages/registrationexhib.php",
-                                                            ['registerJmeno' => $registerJmeno,
-                                                             'registerHeslo' => $registerHeslo,
-                                                             'registerEmail' => $registerEmail,
-                                                             'registerInfo' => $registerInfo,
-                                                            ]);
-                        $attachments = [ (new Attachment())
-//                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
-//                                        ->setAltText('Logo Grafia')
-                                       ];
-                        $params = (new Params())
-                                    ->setContent(  (new Content())
-                                                     ->setSubject($subject)
-                                                     ->setHtml($body)
-    //                                                 ->setAttachments($attachments)   //zde zbytecne
-                                                )
-                                    ->setParty  (  (new Party())
-                                                     ->setFrom('noreply@najdisi.cz', 'web praci.najdisi.cz')
-                                                    // ->addReplyTo('allmail@grafia.cz', 'info web praci.najdisi.cz')
-                                                    // ->addTo('svoboda@grafia.cz', 'Registace zástupce vystavovatele')
-                                                     ->addTo('it@grafia.cz', 'Registace zástupce vystavovatele')
-                                                );
-                        $mail->mail($params); // posle mail
-                        #########################-----------------------------
-                    }
+//                    if ($registerInfo) {
+//                        ##########################--------- poslat mail do Grafie - registrujicise  je  vystavovatel -------------------
+//                        /** @var Mail $mail */
+//                        $mail = $this->container->get(Mail::class);
+//                        /** @var HtmlMessage $mailMessageFactory */
+//                        $mailMessageFactory = $this->container->get(HtmlMessage::class);
+//
+//                        $subject =  'Veletrh práce a vzdělávání - Registrace zástupce vystavovatele.';
+//                        $body = $mailMessageFactory->create(__DIR__."/Messages/registrationexhib.php",
+//                                                            ['registerJmeno' => $registerJmeno,
+//                                                             'registerHeslo' => $registerHeslo,
+//                                                             'registerEmail' => $registerEmail,
+//                                                             'registerInfo' => $registerInfo,
+//                                                            ]);
+//                        $attachments = [ (new Attachment())
+////                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
+////                                        ->setAltText('Logo Grafia')
+//                                       ];
+//                        $params = (new Params())
+//                                    ->setContent(  (new Content())
+//                                                     ->setSubject($subject)
+//                                                     ->setHtml($body)
+//    //                                                 ->setAttachments($attachments)   //zde zbytecne
+//                                                )
+//                                    ->setParty  (  (new Party())
+//                                                     ->setFrom('noreply@najdisi.cz', 'web praci.najdisi.cz')
+//                                                    // ->addReplyTo('allmail@grafia.cz', 'info web praci.najdisi.cz')
+//                                                    // ->addTo('svoboda@grafia.cz', 'Registace zástupce vystavovatele')
+//                                                     ->addTo('it@grafia.cz', 'Registace zástupce vystavovatele')
+//                                                );
+//                        $mail->mail($params); // posle mail
+//                        #########################-----------------------------
+//                    }
 
                 }
             }
