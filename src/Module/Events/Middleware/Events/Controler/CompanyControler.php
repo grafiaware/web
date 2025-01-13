@@ -512,6 +512,23 @@ class CompanyControler extends FrontControlerAbstract {
             return true ;     
         }
         
+####        
+//        $context = stream_context_create($options);
+//        $result = file_get_contents($url, false, $context);
+//        if ($result === false) {
+//            $this->addFlashMessage("Není spojení", FlashSeverityEnum::WARNING);
+//        } else {
+//            
+//            $str1=$str2=$status=null;
+//            sscanf($http_response_header[0] ,'%s %d %s', $str1,$status, $str2);
+//            if($status==200) {
+//                return $result;        
+//            } else {
+//                // response s jiným stavem než 200 OK
+//                    throw new \Exception($http_response_header[0]);
+//            }
+//        }
+
     } 
     
     
