@@ -164,7 +164,7 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
             if (!isset($visitorJobRequestDataExist)) {   //plati vzdy                  
                 $visitorJobRequestData = $this->container->get(VisitorJobRequest::class);  //new VisitorJobRequest();
                 $visitorJobRequestData->setLoginLoginName($loginName);
-                $visitorJobRequestData->setJobId($jobId);
+                $visitorJobRequestData->setCompanyId($jobId);
                 $visitorJobRequestData->setPositionName( $job->getNazev() /* $positionName */ );
                 $this->visitorJobRequestRepo->add($visitorJobRequestData);
                 
