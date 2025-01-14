@@ -25,6 +25,21 @@ use Pes\Text\Html;
                                         value="<?= $videoLink ?? '' ?>">
                 <p id="message"></p>
             </div>
+                        <div class="field">
+                    <?php
+                    if ($dataRedApiUri ?? false) {
+                        echo Html::tag('span', 
+                            [
+                                'class'=>'cascade',
+                                'data-red-apiuri'=> $dataRedApiUri,
+                            ]
+                        );
+//                        echo "<p>Sítě lze vybírat po prvním uložení informací o firmě.</p>";
+                    } else {
+                        echo "<p>Zadávání sociálních sítí bude spuštěno v krátké době.</p>";
+                    }
+                    ?>             
+                </div>
             <div class="two fields">
                 <div class="field">
                     <label>Proč k nám</label>

@@ -1,0 +1,98 @@
+<?php
+namespace Events\Component\ViewModel\Data;
+
+use Component\ViewModel\ViewModelItemAbstract;
+
+use Component\ViewModel\StatusViewModelInterface;
+use Events\Component\ViewModel\Data\RepresentativeTrait;
+
+use Events\Model\Repository\NetworkRepoInterface;
+use Events\Model\Entity\NetworkInterface;
+use Model\Entity\EntityInterface;
+
+use Access\Enum\RoleEnum;
+
+use Exception;
+use TypeError;
+
+/**
+ * Description of RepresentativeActionViewModel
+ *
+ * @author pes2704
+ */
+class NetworkViewModel extends ViewModelItemAbstract {
+
+    private $status;  
+    
+    private $networkRepo;
+    
+    /**
+     * 
+     * @var NetworkInterface
+     */
+    private $network;
+    
+    public function __construct(
+            StatusViewModelInterface $status,
+            NetworkRepoInterface $networkRepo
+            ) {
+        $this->status = $status;
+        $this->networkRepo = $networkRepo;
+    }
+    
+    use RepresentativeTrait;
+            
+    public function receiveEntity(EntityInterface $entity) {
+        if ($entity instanceof NetworkInterface) {
+            $this->network = $entity;
+        } else {
+            $cls = NetworkInterface::class;
+            $parCls = get_class($entity);
+            throw new TypeError("Typ entity musí být $cls, předáno $parCls.");
+        }
+    }
+    
+    public function isItemEditable(): bool {
+        $this->loadNetwork();
+        return $this->isAdministratorEditor();
+    }
+
+    private function loadNetwork() {
+        if (!isset($this->network)) {
+            if ($this->hasItemId()) {
+                $this->network = $this->networkRepo->get($this->getItemId());     
+            } else {
+                throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+            }
+        }
+    }
+    
+    public function getIterator() {
+        $this->loadNetwork();
+        $componentRouteSegment = 'events/v1/network';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
+
+        $id = $this->network->getId();
+        if (isset($id)) {
+            $item = [
+                //route
+                'actionSave' => $componentRouteSegment."/$id",
+                'actionRemove' => $componentRouteSegment."/$id/remove",
+                'id' => $id,
+                // data
+                'fields' => ['icon' => $this->network->getIcon(), 'embedCodeTemplate' => $this->network->getEmbedCodeTemplate()],
+                ];
+        } elseif ($this->isItemEditable()) {
+            $item = [
+                //route
+                'actionAdd' => $componentRouteSegment,
+                // text
+                'addHeadline' => 'Přidej network',                
+                // data
+                'fields' => [],
+                ];
+        }        
+        
+        $this->appendData($item);
+        return parent::getIterator();
+    }
+}

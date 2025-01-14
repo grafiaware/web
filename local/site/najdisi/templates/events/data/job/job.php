@@ -30,7 +30,7 @@ use Pes\Text\Html;
                     ?>                 
                 </div>                
                  <div class="sixteen wide column">
-                    <p class="text tucne zadne-okraje">Popis pozice:</p>
+                    <p>Popis pozice:</p>
                     <p><?= $popisPozice ?? '' ?></p>
                 </div>
             </div>            

@@ -1,0 +1,169 @@
+<?php
+use Site\ConfigurationCache;
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Pes\Text\Text;
+
+/** @var PhpTemplateRendererInterface $this */
+
+
+echo Html::p(
+"Prohlášení o ochraně údajů
+
+Chtěli bychom Vás informovat o ochraně osobních údajů a dalších ochranných opatřeních během návštěvy našich internetových stránek, abychom Vás ujistili, že z naší strany budou dodrženy veškeré předpisy týkající se ochrany Vašich osobních údajů.
+
+Ochrana Vašich osobních údajů je pro nás to nejdůležitější. V následujícím textu Vám detailně sdělíme, jaké údaje od Vás budeme při návštěvě našich internetových stránek získávat, jak je budeme zpracovávat nebo uchovávat a kdy je definitivně smažeme.
+
+ 
+
+1. Všeobecné informace o zpracování osobních údajů
+
+Odpovědnou osobou ve smyslu obecného nařízení o ochraně osobních údajů, která je zodpovědná za zpracování osobních údajů na této webové stránce, je:
+
+
+Tel.: 
+E-Mail: 
+
+Další informace o odpovědném orgánu naleznete v Impressu.
+Pověřenou osobu pro ochranu osobních údajů zastihnete zde:
+
+
+Tel.: 
+E-Mail: 
+
+a) Použití osobních údajů
+
+Osobními údaji se má na mysli např. jméno, adresa, e-mailový kontakt, datum narození, dosažené vzdělání atd. Tyto údaje uvádíte, když se u nás ucházíte o zaměstnání, zejména zde prostřednictvím internetové stránky. Vaše osobní údaje potřebujeme také k tomu, abychom Vás mohli kontaktovat. Uchováváme či zpracováváme ale jen takové údaje, které jste nám poskytli dobrovolně. Totéž se týká osobních údajů poskytnutých Vámi nebo případně třetí osobou v rámci realizace smlouvy nebo navázání obchodní spolupráce. Jedná se zpravidla o Vaše kontaktní údaje, popřípadě údaje pro potřeby platebního styku, jakož i veškeré nezbytné údaje k realizaci smlouvy. Eventuálně mohou být používány ještě další informace (jako např. informace o platební schopnosti), pokud jsou nezbytné k realizaci dané obchodní spolupráce.
+Vámi poskytnuté údaje budeme používat buď k navázání kontaktu s Vámi, nebo je využijeme jiným způsobem, např. k navázání obchodní spolupráce s Vámi nebo k vyřízení Vašich požadavků. To znamená, že tyto údaje použijeme jen v rámci naší podnikatelské činnosti, pokud se stanete nebo se hodláte stát její součástí.
+Tyto údaje budeme používat jen my nebo námi pověřené osoby a nebudeme je poskytovat ani prodávat třetím osobám a nebudeme je používat k jinému než našemu podnikatelskému účelu.
+Pokud nás požádáte o vymazání těchto údajů, okamžitě tak učiníme a údaje smažeme. Ve výjimečných případech se může stát, že budeme ze zákona povinni údaje uchovávat. V tom případě je smažeme hned, jakmile k tomu budeme oprávněni.
+
+b) Právní základ pro zpracování osobních údajů
+
+Pokud nám poskytnete souhlas se zpracováním Vašich osobních údajů, bude sloužit jako právní základ čl. 6 odst. 1 písm. a) obecného nařízení o ochraně údajů „GDPR“. Poskytnutý souhlas lze s účinností do budoucna kdykoliv odvolat.
+Při zpracování osobních údajů nezbytných k plnění smlouvy, jejíž smluvní stranou je dotyčná osoba, bude sloužit jako právní základ čl. 6 odst. 1 písm. b) obecného nařízení o ochraně údajů „GDPR“. To platí i pro případné postupy zpracování, jež jsou nezbytné k realizaci předsmluvních opatření.
+Pokud je zpracování osobních údajů nezbytné ke splnění právní povinnosti, kterou je naše firma vázána, bude sloužit jako právní základ čl. 6 odst. 1 písm. c) obecného nařízení o ochraně údajů „GDPR“.
+Jestliže je zpracování osobních údajů nezbytné k hájení našeho oprávněného zájmu a pokud zájmy, základní práva a svobody dotyčné osoby nepřevažují nad naším oprávněným zájmem, bude sloužit jako právní základ pro toto zpracování čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“.
+
+ 
+
+2. Všeobecné zpracování osobních údajů
+
+Zpřístupnění webové stránky a vytvoření logů
+
+Osobní údaje našich uživatelů zpracováváme zásadně jen pro zpřístupnění funkční webové stránky, našeho obsahu a plnění.
+Při každé návštěvě naší internetové stránky získává náš systém automaticky údaje a informace z počítačového systému, kde se stránky otevřou. Jedná se přitom o následující údaje:
+
+    typ a verze používaného prohlížeče
+    používaný operační systém
+    poskytovatel internetového připojení uživatele
+    IP adresa uživatele
+    datum a hodina návštěvy internetové stránky
+    webové stránky, z nichž se systém uživatele dostal na naši internetovou stránku/Referrer URL
+    webové stránky, které systém uživatele navštíví přes naši webovou stránku
+
+Za právní základ pro dočasné uchovávání výše uvedených dat považujeme čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“. Dočasné uchovávání IP adresy v systému je nezbytné k zajištění funkčnosti webové stránky.
+Při používání těchto informací nevyvozujeme žádné závěry týkající se dotyčné osoby. Informace jsou nezbytné hlavně ke správnému zobrazení obsahu našich internetových stránek a k zajištění dlouhodobé funkčnosti našich IT systémů a techniky naší internetové stránky.
+
+Používání cookies
+
+Naše webové stránky používají cookies. Jedná se o textové soubory, které jsou ukládány v internetovém prohlížeči, resp. internetovým prohlížečem do počítačového systému uživatele. Jakmile uživatel vstoupí na určitou webovou stránku, může být cookie uloženo do operačního systému uživatele. Toto cookie obsahuje charakteristický sled znaků, který umožňuje jednoznačnou identifikaci prohlížeče při opětovné návštěvě webové stránky. Používáme jen takové cookies, které jsou technicky nezbytné k provozu naší webové stránky. Pokud si nepřejete, aby byl Váš počítač při další návštěvě rozpoznán, můžete použití cookies odmítnout tím, že změníte nastavení ve Vašem prohlížeči na „Odmítnout cookies“. Odpovídající postup najdete v návodu k obsluze Vašeho prohlížeče. Jestliže použití cookies odmítnete, může dojít k omezením v používání některých oblastí našich internetových stránek.
+Pro zpracování osobních údajů s použitím cookies platí jako právní základ čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“. Naším oprávněným zájmem a tedy účelem při používání cookies je umožnění uživatelům používat naši webovou stránku.
+
+ 
+
+3. Služby na naší domovské stránce
+
+a) Registrace
+Na naší internetové stránce nabízíme uživatelům možnost registrace jako subdodavatelé nebo dodavatelé uvedením svých osobních dat. K dispozici je formulář, díky němuž s námi můžete navázat kontakt. Osobní údaje v této souvislosti nebudou poskytovány třetím osobám.
+Za právní základ považujeme Váš souhlas dle čl. 6 odst. 1 písm. a) obecného nařízení o ochraně údajů „GDPR“, díky němuž Vás přijmeme do naší databáze, abychom Vás mohli zohlednit při budoucích výběrových řízeních.
+
+b) E-mailový kontakt
+Na naší domovské stránce s námi můžete navázat kontakt prostřednictvím uvedených e-mailových adres. V tomto případě dojde k uložení osobních údajů uživatele poskytnutých formou e-mailu. V této souvislosti nebudou osobní údaje poskytovány třetím osobám. Údaje budou použity výhradě k vedení konverzace.
+Právním základem pro zpracování údajů přijatých v souvislosti s doručeným e-mailem je čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“. Náš oprávněný zájem spočívá ve vyřízení Vašeho požadavku.
+
+c) Kontaktní formulář pro uchazeče o zaměstnání
+Uchazeči o zaměstnání se na nás mohou obrátit online. Své podklady nám mohou zasílat mailem nebo prostřednictvím vyplněného kontaktního formuláře. Poskytnuté osobní údaje budou zpracovány a  použity výhradně za účelem zpracování uchazečovy žádosti. S údaji bude přitom nakládáno důvěrně.
+Právním základem v této věci je čl. 6 odst. 1 písm. b) obecného nařízení o ochraně údajů „GDPR“ ve spojení s § 26 odst. 1 spolkového zákona o ochraně osobních údajů „GDPR“ k navázání zaměstnaneckého poměru. Pokud nám poskytnete souhlas, je třeba navíc považovat za právní základ čl. 6 odst. 1 písm. a) obecného nařízení o ochraně údajů „GDPR“. Jestliže zpracování Vašich osobních údajů předcházel souhlas, máte právo kdykoliv svůj souhlas s platností do budoucna odvolat.
+
+d) Použití „manažera žádostí o zaměstnání BITE“
+Uchazeči o zaměstnání nás mohou kontaktovat prostřednictvím našeho portálu. Osobní údaje poskytnuté v rámci Vaší žádosti o zaměstnání bude společnost BERGER uchovávat a zpracovávat pomocí elektronických systémů na zpracování dat jen k stanovenému účelu ověření Vaší kvalifikace a v rámci vyřizování aktuálních nebo budoucích žádostí o zaměstnání a v rámci procesu obsazování volných míst, pokud je to zapotřebí pro rozhodování o vzniku zaměstnaneckého poměru u nás. Pokud se tedy ucházíte o zaměstnání online, žádáme o udělení souhlasu s uchováním a zpracováním Vašich osobních údajů. Vaše osobní údaje budeme uchovávat tak dlouho, dokud to bude vyžadovat rozhodování ve věci Vaší žádosti o zaměstnání. V případě přijetí do zaměstnání se tyto podklady stávají součástí Vaší osobní složky. Pokud ke vzniku zaměstnaneckého poměru nedojde, budou Vaše podklady nejpozději šest měsíců od oznámení o nepřijetí smazány. Kromě toho můžeme dále uchovávat údaje, pokud delší dobu uchovávání vyžadují oprávněné zájmy, např. právní spory nebo úřední či soudní nařízení. Vaše údaje o uchazeči o zaměstnání budou odeslány do IT systému našeho smluvního partnera, firmy BITE GmbH, 89077 Ulm. Firma BERGER zůstává odpovědná ve smyslu obecného nařízení EU o ochraně osobních údajů. Údaje nebudou poskytovány třetím osobám.
+Právní základ čl. 6 odst. 1 věta 1 písm. a) a b), čl. 88 odst. 1 obecného nařízení o ochraně údajů „GDPR“ a § 26 odst. 1 ve spojení s odst. 8 věta 2 spolkového zákona o ochraně osobních údajů „GDPR“ (nově): Detailnější informace o ochraně osobních údajů při online žádostech o zaměstnání najdete ve speciálním prohlášení o ochraně osobních dat na našem online portálu pro uchazeče o zaměstnání. Jestliže zpracování Vašich osobních údajů předcházel souhlas, máte právo kdykoliv svůj souhlas s platností do budoucna odvolat.
+
+e) Kontaktní formulář pro vyžádání ceníku (jen pro české závody)
+Zájemci si mohou prostřednictvím speciálního kontaktního formuláře vyžádat ceníky jednotlivých českých závodů. Vámi poskytnuté osobní údaje budou používány výhradě za účelem vyřízení Vašeho požadavku (ceník).
+Právním základem pro zpracování dat poskytnutých v souvislosti se zaslaným mailem je čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“. Náš oprávněný zájem spočívá ve vyřízení Vašeho požadavku (zaslání ceníku).
+
+f) Použití Captcha
+Na naší webové stránce používáme „Captchu, která prověřuje, zda údaje na naší webové stránce (např. do kontaktního formuláře) vložil člověk nebo automatický program.
+Captchu používáme na základě našeho oprávněného zájmu (čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“). Náš oprávněný zájem spočívá v zamezení zneužití našich formulářů a v ochraně našich technických systémů.
+
+g) Mapy Google
+Na této webové stránce využíváme nabídky Mapy Google prostřednictvím API. Díky tomu Vám můžeme ukázat interaktivní mapy přímo na webové stránce a umožnit pohodlné využívání jejich funkcí. K tomu je ovšem zapotřebí uložení Vaší IP adresy. Tyto informace jsou zpravidla posílány na server Googlu v USA a tam uchovávány. Na tento přenos dat nemáme žádný vliv.
+K používání map Googlu dochází v zájmu odpovídajícího zobrazení našich online nabídek a snadného nalezení míst uvedených na webové stránce. To představuje oprávněný zájem ve smyslu čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“.
+Více informací o nakládání s osobními údaji uživatelů naleznete v prohlášení o ochraně údajů společnosti Google: https://www.google.de/intl/de/policies/privacy.
+
+h) Použití MyFonts
+Naše domovská stránka používá k jednotnému zobrazení druhů písma fonty „MyFonts“. Při návštěvě webové stránky načítá Váš prohlížeč nezbytné fonty do své mezipaměti, aby správně zobrazil texty a druhy písma.
+K používání MyFonts dochází v zájmu jednotného a odpovídajícího zobrazení naší domovské stránky. To představuje oprávněný zájem ve smyslu čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“.
+
+ 
+
+4. Příjemci nebo kategorie příjemců
+
+Zpracování Vašich osobních údajů může být nezbytné i uvnitř koncernu BERGER a probíhá zde za přísného dodržování platných předpisů, zejména obecného nařízení o ochraně údajů „GDPR“ a zákona č. 110/2019 Sb. o zpracování osobních údajů „GDPR“. Vaše údaje zpravidla nejsou poskytovány třetím osobám, ledaže by to vyžadoval zákon nebo realizace smlouvy.                                                                                                               V zásadě neposkytujeme žádné informace třetí zemi. V ojedinělém případě dochází k poskytnutí jen dle zákonných ustanovení (Kapitola V obecného nařízení o ochraně údajů „GDPR“).
+
+ 
+
+5. Smazání osobních údajů a doba jejich uchování
+
+Kritériem pro dobu uchovávání osobních údajů je příslušná zákonná lhůta pro uchování dat. Po jejím uplynutí budou příslušná data automaticky smazána, pokud již nejsou zapotřebí k plnění nebo uzavírání smlouvy nebo pokud z naší strany není oprávněný zájem na jejich dalším uchování.
+
+ 
+
+6. Vaše práva
+
+Rádi bychom Vás informovali o Vašich právech a možnostech:
+
+a) Právo na odvolání souhlasu se zpracováním osobních údajů
+Pokud dochází ke zpracování Vašich osobních údajů dle čl. 6 odst. 1 písm. f) obecného nařízení o ochraně údajů „GDPR“ za účelem hájení oprávněných zájmů, máte dle čl. 21 obecného nařízení o ochraně údajů „GDPR“ právo kdykoliv odvolat souhlas se zpracováním těchto údajů z důvodů, které vyplývají z Vaší zvláštní situace. My potom osobní údaje zpracovávat nebudeme, ledaže bychom prokázali pádné důvody pro jejich zpracování. Tyto důvody musí být nadřazeny Vašim zájmům, právu a svobodám, nebo musí zpracování dat sloužit uplatňování nebo ochraně právních nároků.
+
+b) Právo na poskytnutí informace dle čl. 15 obecného nařízení o ochraně údajů „GDPR“
+Máte právo kdykoliv získat informace o Vašich osobních údajích, které jsou u nás uloženy.
+
+c) Právo na opravu dle čl. 16 obecného nařízení o ochraně údajů „GDPR“
+Máte právo požadovat opravu nesprávných a doplnění neúplných osobních údajů.
+
+d) Právo na vymazání dle čl. 17 obecného nařízení o ochraně údajů „GDPR“
+Pokud od nás budete požadovat vymazání svých osobních údajů, okamžitě tak učiníme a údaje smažeme. Ve výjimečných případech se může stát, že budeme mít ze zákona povinnost údaje uchovávat. Potom je smažeme hned, jakmile k tomu budeme oprávněni.
+
+e) Právo na omezení zpracování dle čl. 18 nařízení o ochraně údajů „GDPR“
+Máte možnost požadovat omezení zpracování Vašich osobních údajů, např., pokud jste toho názoru, že Vaše údaje nejsou správné, jejich zpracování je protiprávní nebo jste proti jejich zpracování podali odvolání.
+
+f) Právo na přenositelnost údajů dle čl. 20 nařízení o ochraně údajů „GDPR“
+Máte možnost získat Vaše osobní údaje, které jste nám poskytli, ve strukturovaném, běžně používaném a strojově čitelném formátu.
+
+g) Právo na odvolání uděleného souhlasu dle čl. 7 odst. 3 nařízení o ochraně údajů „GDPR“
+Vámi udělený souhlas můžete kdykoliv bez udání důvodu odvolat. K tomu stačí neformální sdělení, které nám zašlete prostřednictvím e-mailu. Mějte, prosím, na paměti, že odvolání platí teprve do budoucna. Zpracování, k nimž došlo před odvoláním, tímto nejsou dotčena.
+
+h) h) právo podat stížnost u dozorového úřadu dle čl. 77 nařízení o ochraně údajů „GDPR“
+Máte také právo si stěžovat u dozorového úřadu.
+
+ 
+
+7. Další informace
+
+a) Poskytnutí údajů
+Rádi Vás budeme informovat také o tom, zda poskytnutí Vašich osobních údajů vyžaduje zákon nebo smlouva nebo zda je poskytnutí povinné i o tom, jaké následky by neposkytnutí mělo.
+
+b) Automatizované rozhodování včetně profilování
+Nedochází k žádnému automatizovanému rozhodování ani profilování.
+
+c) Komunikace prostřednictvím e-mailu
+Poukazujeme na to, že datový přenos po internetu (např. při mailové komunikaci) může vykazovat bezpečnostní mezery. Při přenosu nekódovaných zpráv existují značná rizika. Doporučujeme Vám tedy, abyste citlivá data neposílali nekódovanými e-maily.
+
+d) Vytváření externích odkazů
+Odkazy (linky) z naší internetové prezentace na jiné internetové stránky nepodléhají tomuto prohlášení o ochraně osobních údajů. Děláme maximum pro to, aby všechny odkazy umístěné na našich stránkách vyhovovaly našim požadavkům. Přesto nemáme žádný vliv na obsah těchto stránek a nemůžeme zaručit, že odpovídají našim požadavkům na ochranu údajů. Doporučujeme Vám tedy, abyste si ověřili prohlášení o ochraně údajů u těch stránek, které navštívíte.
+
+e) Výhrada změn
+Vyhrazujeme si právo na aktualizaci tohoto prohlášení o ochraně údajů při dodržení platných předpisů o ochraně dat.");
+
