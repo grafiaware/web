@@ -63,7 +63,7 @@ use Site\ConfigurationCache;
                 </div>
                 <div class="register-info-representative">
                     <p class="text seznam">Info pro representanta</p>
-                    <p class="text seznam">Zástupcem firmy se stanete až po interním schválení. O schválení budete informováni emailem a pak budete moci upravovat data firmy.</p>
+                    <p class="text seznam">Zástupcem firmy se stanete až po schválení organizátorem. O schválení budete informováni emailem a pak budete moci upravovat data firmy.</p>
                     <div><p class="ui orange button">Rozumím</p></div>
                 </div>
                 
