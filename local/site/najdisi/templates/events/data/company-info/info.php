@@ -18,9 +18,9 @@ if (!empty($videoLink)) {
 
      
        
-            <div class="ui grid">
+            <div class="ui grid stackable">
                 <?php if($videoLink ?? false) { ?>
-                    <div class="sixteen wide mobile ten wide computer column">
+                    <div class="sixteen wide computer ten wide large screen ten wide widescreen column">
                         <p class="text tucne zadne-okraje">Video</p>
                         <div class="video-container">
                             <iframe width="444" height="250" src="<?php echo htmlspecialchars($embedUrl); ?>" 
@@ -31,6 +31,26 @@ if (!empty($videoLink)) {
                         </div>
                     </div> 
                 <?php } ?>
+                <?php /*if($socialLink ?? false) { */?>
+                    <div class="sixteen wide computer six wide large screen six wide widescreen column">
+                        <p class="text tucne zadne-okraje">Sledujte nás</p>
+                        <p class="text zadne-okraje">
+                            <a href="odkaz" target="_blank"><i class="facebook circle icon"></i>označení</a>
+                        </p>
+                        <p class="text zadne-okraje">
+                            <a href="odkaz" target="_blank"><i class="instagram circle icon"></i>označení</a>
+                        </p>
+                        <p class="text zadne-okraje">
+                            <a href="odkaz" target="_blank"><i class="linkedin circle icon"></i>označení</a>
+                        </p>
+                        <p class="text zadne-okraje">
+                            <a href="odkaz" target="_blank"><i class="youtube circle icon"></i>označení</a>
+                        </p>
+                        <p class="text zadne-okraje">
+                            <a href="odkaz" target="_blank"><i class="globe circle icon"></i>označení</a>
+                        </p>
+                    </div> 
+                <?php/* } */?>
                 <div class="sixteen wide column">
                     <div class="ui styled fluid accordion">  
                     <?php if($introduction ?? false) { ?>
