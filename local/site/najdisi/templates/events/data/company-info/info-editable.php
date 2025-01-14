@@ -27,7 +27,7 @@ use Pes\Text\Html;
             </div>
                         <div class="field">
                     <?php
-                    if ($dataRedApiUri) {
+                    if ($dataRedApiUri ?? false) {
                         echo Html::tag('span', 
                             [
                                 'class'=>'cascade',

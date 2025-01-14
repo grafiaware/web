@@ -32,7 +32,7 @@ if (!empty($videoLink)) {
                     </div> 
                 <?php } ?>
                     <?php
-                    if ($dataRedApiUri) {
+                    if ($dataRedApiUri ?? false) {
                         echo Html::tag('span', 
                             [
                                 'class'=>'cascade',
