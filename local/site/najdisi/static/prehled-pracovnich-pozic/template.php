@@ -21,7 +21,7 @@ $statusViewModel = $container->get(StatusViewModel::class);
 /** @var  RepresentativeInterface $representativeFromStatus*/
 $role = $statusViewModel->getUserRole();
 
-if (isset($role) && $role==RoleEnum::REPRESENTATIVE) {
+if (isset($role) && ($role==RoleEnum::REPRESENTATIVE || $role==RoleEnum::EVENTS_ADMINISTRATOR)) {
     echo Html::p("Přehled pracovních pozic je až do termínu konání veletrhu zobrazován pouze přihlášeným reprezentantům vystavovatelů a partnerů. Rozpracované informace o firmách a pozicích tak nejsou veřejné.", ["class"=>"ui segment"]);
 
     /** @var CompanyRepoInterface $companyRepo */
