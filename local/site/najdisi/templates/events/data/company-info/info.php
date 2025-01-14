@@ -39,8 +39,9 @@ if (!empty($videoLink)) {
                                 'data-red-apiuri'=> $dataRedApiUri,
                             ]
                         );
+//                        echo "<p>Sítě lze vybírat po prvním uložení informací o firmě.</p>";
                     } else {
-                        echo "<p>Sítě lze k vybírat po prvním uložení informací i firmě.</p>";
+                        echo "<p>Zadávání sociálních sítí bude spuštěno v krátké době.</p>";
                     }
                     ?>  
                 <div class="sixteen wide column">
