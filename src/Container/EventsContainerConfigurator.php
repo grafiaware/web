@@ -34,6 +34,8 @@ use Events\Component\View\Data\CompanyFamilyCompanyAddressComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyAddressListComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyInfoComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyInfoListComponent;
+use Events\Component\View\Data\CompanyFamilyNetworkMultiComponent;
+use Events\Component\View\Data\NetworkComponent;
 use Events\Component\View\Data\JobToTagComponent;
 use Events\Component\View\Data\JobFamilyTagMultiComponent;
 use Events\Component\View\Data\CompanyFamilyJobComponent;
@@ -57,6 +59,8 @@ use Events\Component\ViewModel\Data\CompanyFamilyCompanyAddressListViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyCompanyAddressViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyCompanyInfoListViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyCompanyInfoViewModel;
+use Events\Component\ViewModel\Data\CompanyFamilyNetworkMultiViewModel;
+use Events\Component\ViewModel\Data\NetworkViewModel;
 use Events\Component\ViewModel\Data\JobTagListViewModel;
 use Events\Component\ViewModel\Data\JobTagViewModel;
 use Events\Component\ViewModel\Data\QQQJobToTagViewModel;
@@ -93,6 +97,8 @@ use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\CompanyInfoRepo;
 use Events\Model\Repository\CompanyParameterRepo;
+use Events\Model\Repository\CompanytoNetworkRepo;
+use Events\Model\Repository\NetworkRepo;
 use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\JobRepo;
@@ -350,6 +356,41 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;       
             },
+                    
+            NetworkComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);              
+                $component = new NetworkComponent($configuration);
+                if($accessPresentation->hasAnyPermission(NetworkComponent::class)) {
+                    $component->setItemViewModel($c->get(NetworkViewModel::class));
+                    $component->setItemTemplate(new PhpTemplate());  //bez šablony
+                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
+                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('network'), $configuration->getTemplate('networkEditable'));      
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;                  
+            },                    
+            XXJobFamilyTagMultiComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);              
+//                $component = new JobFamilyJobToTagListComponent($configuration, $c->get(JobToTagComponent::class)); 
+                $component = new JobFamilyTagMultiComponent($configuration, $c->get(TagComponent::class)); 
+                                
+                if($accessPresentation->hasAnyPermission(JobFamilyTagMultiComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component->setMultiViewModel($c->get(JobFamilyTagMultiViewModel::class));
+                    $component->setMultiTemplate(new PhpTemplate());  //bez šablony
+                    $component->setMultiTemplatePath($configuration->getTemplate('checked'), $configuration->getTemplate('checkbox'));
+//                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('checked'), $configuration->getTemplate('checkbox'));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;           
+            },                      
             TagListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -694,6 +735,20 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyInfoRepo::class),                        
                     );
             },
+            NetworkViewModel::class => function(ContainerInterface $c) {
+                return new NetworkViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(NetworkRepo::class),       
+                    );
+            },
+            CompanyFamilyNetworkMultiViewModel::class => function(ContainerInterface $c) {
+                return new CompanyFamilyNetworkMultiViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(CompanyRepo::class),       
+                        $c->get(CompanytoNetworkRepo::class),
+                        $c->get(NetworkRepo::class),       
+                    );
+            },     
             JobTagListViewModel::class => function(ContainerInterface $c) {
                 return new JobTagListViewModel(
                         $c->get(StatusViewModel::class),

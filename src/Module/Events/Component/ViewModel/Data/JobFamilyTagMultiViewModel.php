@@ -44,12 +44,7 @@ class JobFamilyTagMultiViewModel extends ViewModelFamilyMultiAbstract {
         $this->jobRepo = $jobRepo;
         $this->jobToTagRepo = $jobToTagRepo;
         $this->jobTagRepo = $jobTagRepo;
-        $this->companyRepo = $companyRepo;
-    }
-    
-    use RepresentativeTrait;
-    
-    public function isMultiEditable(): bool {
+        $this->companyRepo = $companyRepo;  //TODO: SV možná navíc?
         $job = $this->jobRepo->get($this->getFamilyRouteSegment()->getParentId());
         return $this->isCompanyEditor($job->getCompanyId());
     }
