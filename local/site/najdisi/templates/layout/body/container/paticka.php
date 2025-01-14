@@ -1,4 +1,11 @@
-                <div class="ui grid">
+<?php
+use Site\ConfigurationCache;
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Pes\Text\Text;
+
+/** @var PhpTemplateRendererInterface $this */
+?>
+<div class="ui grid">
                     <div class="fifteen wide column">
                         <p class="text velky tucne primarni-barva">Partneři</p>
                         <img class="partneri-img" src="layout-images/partneri.jpeg" alt="Partneři veletrhu"/>
@@ -45,8 +52,13 @@
                         <i class="white close icon"></i>
                         <div class="content">
                             <p class="text velky">Ochrana osobních údajů</p>
-                            <p>Důležité</p>    
-                            <p>Kecy v kleci</p>    
+                            <?php
+                            try {
+                                $this->insert(ConfigurationCache::webComponent()['templates']['gdpr']);
+                            } catch (Exception $exc) {
+                                echo $exc->getTraceAsString();
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>

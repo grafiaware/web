@@ -27,23 +27,23 @@ interface NetworkInterface extends PersistableEntityInterface {
      /**
      *
      * @param string $id
-     * @return JobTagInterface $this
+     * @return NetworkInterface $this
      */
-    public function setId($id) : JobTagInterface;
+    public function setId($id) : NetworkInterface;
     
     
     /**
      * 
      * @param string $tag
-     * @return JobTagInterface $this
+     * @return NetworkInterface $this
      */
-    public function setIcon( $tag) : JobTagInterface ;
+    public function setIcon( $tag) : NetworkInterface ;
        
     /**
      * 
      * @param string $color
-     * @return JobTagInterface
+     * @return NetworkInterface
      */
-    public function setEmbedCodeTemplate($color): JobTagInterface;    
+    public function setEmbedCodeTemplate($color): NetworkInterface;    
     
 }
