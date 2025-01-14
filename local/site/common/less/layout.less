@@ -55,7 +55,8 @@
 body{
     
     /*poznámky a flash mají stejný styl, jen jinou pozici*/              
-    .btn-poznamky{
+    .ui.button.btn-poznamky{
+        display: none; 
         position: fixed;  
         top: @buttonPoznamkyPositionTop;     
         right: @buttonPoznamkyPositionRight;
@@ -66,7 +67,7 @@ body{
     }
     .poznamky{               
         display: none;
-        position: absolute; 
+        position: absolute;   
         left: @poznamkyPositionLeft;  
         right: @poznamkyPositionRight;
         bottom: @poznamkyPositionBottom;
