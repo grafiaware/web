@@ -8,9 +8,7 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */        
     
 ?>
-
     <div class="ui styled fluid accordion">   
-       
         <div class="title">
             <i class="dropdown icon"></i> 
                 <?= $nazev ?? '' ?> 
@@ -62,7 +60,7 @@ use Pes\Text\Html;
                 </div>                
             </div>
         </div>   
-    </div>        
+    </div>   
 
 
 
