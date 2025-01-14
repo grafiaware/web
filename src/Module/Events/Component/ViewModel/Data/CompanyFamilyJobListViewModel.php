@@ -61,7 +61,7 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract implemen
             $count = count($this->listEntities);            
             $under = $count<($companyParameter->getJobLimit());
         }
-        return $under ?? false;
+        return $under ?? true;   // když není limit (parameter) je vždy true (přidávání povoleno)
     }
     
     protected function newListEntity() {

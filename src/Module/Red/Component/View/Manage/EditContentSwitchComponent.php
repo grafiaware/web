@@ -31,8 +31,5 @@ class EditContentSwitchComponent extends ComponentCompositeAbstract implements I
             RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
         ];
     }
-    
-    public function getString() {
-        return parent::getString();
-    }
+
 }

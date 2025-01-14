@@ -19,9 +19,9 @@ use Events\Model\Repository\NetworkRepoInterface;
 class NetworkRepo extends RepoAbstract implements NetworkRepoInterface {
 
    
-    public function __construct(NetworkDao $jobTagDao, JobTagHydrator $jobTagHydrator) {
+    public function __construct(NetworkDao $jobTagDao, NetworkHydrator $networkHydrator) {
         $this->dataManager = $jobTagDao;
-        $this->registerHydrator($jobTagHydrator);
+        $this->registerHydrator($networkHydrator);
     }
 
     /**
@@ -62,19 +62,19 @@ class NetworkRepo extends RepoAbstract implements NetworkRepoInterface {
 
      /**
      *
-     * @param NetworkInterface $jobtag
+     * @param NetworkInterface $network
      * @return void
      */
-    public function remove(NetworkInterface $jobtag ) :void {
-        $this->removeEntity($jobtag);
+    public function remove(NetworkInterface $network ) :void {
+        $this->removeEntity($network);
     }
 
     protected function createEntity() {
         return new Network();
     }
 
-    protected function indexFromEntity(NetworkInterface $jobtag) {
-        return $jobtag->getId();
+    protected function indexFromEntity(NetworkInterface $network) {
+        return $network->getId();
     }
 
     protected function indexFromRow($row) {

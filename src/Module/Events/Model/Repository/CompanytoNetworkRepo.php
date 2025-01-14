@@ -4,10 +4,10 @@ namespace Events\Model\Repository;
 use Model\Repository\RepoAbstract;
 use Events\Model\Repository\CompanytoNetworkRepoInterface;
 
-use Events\Model\Entity\JobToTagInterface;
-use Events\Model\Entity\JobToTag;
-use Events\Model\Dao\JobToTagDao;
-use Events\Model\Hydrator\JobToTagHydrator;
+use Events\Model\Entity\CompanytoNetworkInterface;
+use Events\Model\Entity\CompanytoNetwork;
+use Events\Model\Dao\CompanyToNetworkDao;
+use Events\Model\Hydrator\CompanytoNetworkHydrator;
 
 //use Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -18,87 +18,75 @@ use Events\Model\Hydrator\JobToTagHydrator;
  */
 class CompanytoNetworkRepo extends RepoAbstract implements CompanytoNetworkRepoInterface {
 
-    public function __construct(JobToTagDao $jobToTagDao, JobToTagHydrator $jobToTagHydrator) {
-        $this->dataManager = $jobToTagDao;
-        $this->registerHydrator($jobToTagHydrator);
+    public function __construct(CompanyToNetworkDao $companyToNetworkDao, CompanytoNetworkHydrator $companytoNetworkHydrator) {
+        $this->dataManager = $companyToNetworkDao;
+        $this->registerHydrator($companytoNetworkHydrator);
     }
 
- 
     /**
      * 
-     * @param type $jobId
-     * @param type $jobTagId
-     * @return JobToTagInterface|null
+     * @param type $companyId
+     * @param type $networkId
+     * @return CompanytoNetworkInterface|null
      */
-    public function get($jobId, $jobTagId): ?JobToTagInterface {
-        return $this->getEntity($jobId, $jobTagId);
+    public function get($companyId, $networkId): ?CompanytoNetworkInterface {
+        return $this->getEntity($companyId, $networkId);
     }
-
-
-
 
     /**
      *
-     * @param type $jobId
-     * @return JobToTagInterface[]
+     * @param type $companyId
+     * @return CompanytoNetworkInterface[]
      */
-    public function findByCompanyId($jobId) : array {
-        return $this->findEntities("job_id = :job_id", [":job_id"=>$jobId] );
+    public function findByCompanyId($companyId) : array {
+        return $this->findEntities("company_id = :company_id", [":company_id"=>$companyId] );
     }
-    
     
     /**
      * 
-     * @param type $jobTagId
-     * @return array
+     * @param type $networkId
+     * @return CompanytoNetworkInterface[]
      */
-    public function findByNetworkId($jobTagId) : array {
-        return $this->findEntities("job_tag_id = :job_tag_id", [":job_tag_id"=>$jobTagId] );
+    public function findByNetworkId($networkId) : array {
+        return $this->findEntities("network_id = :network_id", [":network_id"=>$networkId] );
     }
-
 
     /**
      *
-     * @return JobToTagInterface[]
+     * @return CompanytoNetworkInterface[]
      */
     public function findAll(): array  {
         return $this->findEntities();
     }
 
-
+    /**
+     *
+     * @param CompanytoNetworkInterface $companyToNetwork
+     * @return void
+     */
+    public function add(CompanytoNetworkInterface $companyToNetwork) :void {
+        $this->addEntity($companyToNetwork);
+    }
 
     /**
      *
-     * @param JobToTagInterface $jobToTag
+     * @param CompanytoNetworkInterface $companyToNetwork
      * @return void
      */
-    public function add(JobToTagInterface $jobToTag) :void {
-        $this->addEntity($jobToTag);
+    public function remove(CompanytoNetworkInterface $companyToNetwork)  :void {
+        $this->removeEntity($companyToNetwork);
     }
-
-
-
-    /**
-     *
-     * @param JobToTagInterface $jobToTag
-     * @return void
-     */
-    public function remove(JobToTagInterface $jobToTag)  :void {
-        $this->removeEntity($jobToTag);
-    }
-
-
 
     protected function createEntity() {
-        return new JobToTag();
+        return new CompanytoNetwork();
     }
 
-    protected function indexFromEntity(JobToTagInterface $jobToTag) {
-       return $jobToTag->getJobId() . $jobToTag->getJobTagId() ;
+    protected function indexFromEntity(CompanytoNetworkInterface $companyToNetwork) {
+       return $companyToNetwork->getCompanyId() . $companyToNetwork->getNetworkId() ;
     }
 
     protected function indexFromRow($row) {
-        return $row['job_id']. $row['job_tag_id'] ;
+        return $row['company_id']. $row['network_id'] ;
     }
 
 }
