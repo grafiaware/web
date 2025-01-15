@@ -7,9 +7,16 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
 use Events\Model\Entity\RepresentativeInterface;
+use Events\Model\Repository\CompanyParameterRepoInterface;
+use Events\Model\Repository\CompanyParameterRepo;
+use Events\Model\Entity\CompanyParameterInterface;
+
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
+/** @var CompanyParameterRepoInterface $companyParameterRepo */
+$companyParameterRepo = $container->get(CompanyParameterRepo::class);
+
 
 /** @var  RepresentativeInterface $representativeFromStatus*/
 $repreActions = $statusViewModel->getRepresentativeActions();
@@ -17,7 +24,11 @@ $representativeFromStatus = isset($repreActions) ? $repreActions->getRepresentat
 
 if (isset($representativeFromStatus)) {
     $companyId = $representativeFromStatus->getCompanyId();
-
+    /** @var  CompanyParameterInterface $companyParameter*/
+    $companyParameter = $companyParameterRepo->get($companyId);
+    if ( isset($companyParameter) ) {
+        $jobLimit = $companyParameter->getJobLimit();
+    }    
     
     echo Html::tag('div', 
             [
@@ -43,12 +54,16 @@ if (isset($representativeFromStatus)) {
                 'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
             ]
         );
-    echo Html::tag('div', 
-                [
-                    'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
-                ]
-            );
+    
+    if ( (isset($jobLimit) AND ($jobLimit>0) ) OR (!(isset($jobLimit)))  )  {     
+        echo Html::tag('div', 
+                    [
+                        'class'=>'cascade',
+                        'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
+                    ]
+                );
+    }
+    
 } else {
     echo Html::p("Stránka je určena pouze přihlášenému reprezentantu firmy.", ["class"=>"ui blue segment"]);
     
