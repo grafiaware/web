@@ -26,8 +26,9 @@ use Access\Enum\RoleEnum;
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
+$getEditable = $statusViewModel->getRepresentativeActions()->getDataEditable();
 $userRole = $statusViewModel->getUserRole();
-if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
+if ( ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) AND ($getEditable) )  {
 
                 // asi navic 
                 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
@@ -106,7 +107,7 @@ if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
         
 <?php
 } else {
-    echo Html::p("Stránka je určena pouze pro administraci.", ["class"=>"ui orange segment"]);
+    echo Html::p("Stránka je určena pouze pro editaci v administraci.", ["class"=>"ui orange segment"]);
 }
 ?>
 

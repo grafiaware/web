@@ -16,8 +16,9 @@ use Events\Model\Entity\PozadovaneVzdelaniInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
+$getEditable = $statusViewModel->getRepresentativeActions()->getDataEditable();
 $userRole = $statusViewModel->getUserRole();
-if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
+if ( ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) AND ($getEditable) ) {
     
     /** @var PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo */ 
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );
@@ -67,6 +68,6 @@ if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
     </div>
 <?php
 } else {
-    echo Html::p("Stránka je určena pouze pro administraci.", ["class"=>"ui orange segment"]);
+    echo Html::p("Stránka je určena pouze pro editaci v administraci.", ["class"=>"ui orange segment"]);
 }
 ?>
