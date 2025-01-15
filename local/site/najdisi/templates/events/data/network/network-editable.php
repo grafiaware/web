@@ -1,9 +1,15 @@
-                        <span class="text zadne-okraje" data-info="editable">
-                            <a href="<?= $link ?? '' ?>" target="_blank"><i class="<?= $icon ?> circle icon"></i>značka</a>
-                        </span>
+                <div class="field">
+<div class="grouped fields">       
+        <div class="field">
+        <span class="text zadne-okraje" data-info="editable">
+            <a href="<?= $link ?? '' ?>" target="_blank"><i class="<?= $icon ?> circle icon"></i>značka</a>
+        </span>
+        </div>
         <div class="field">
             <input type="text" name="link" placeholder="odkaz" maxlength="200" required value="<?= $link ?? '' ?>">
         </div>
+</div>
+</div>
 
 
 <!--<div class="two fields">   
