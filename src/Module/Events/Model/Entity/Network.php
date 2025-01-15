@@ -52,21 +52,21 @@ class Network  extends PersistableEntityAbstract implements NetworkInterface {
         
     /**
      *
-     * @param string $tag
+     * @param string $icon
      * @return NetworkInterface $this
      */
-    public function setIcon( $tag): NetworkInterface {
-        $this->icon = $tag;
+    public function setIcon( $icon): NetworkInterface {
+        $this->icon = $icon;
         return $this;
     }
 
     /**
      * 
-     * @param string $color
+     * @param string $embedCodeTemplate
      * @return NetworkInterface
      */
-    public function setEmbedCodeTemplate($color): NetworkInterface {
-        $this->embedCodeTemplate = $color;
+    public function setEmbedCodeTemplate($embedCodeTemplate): NetworkInterface {
+        $this->embedCodeTemplate = $embedCodeTemplate;
         return $this;
     }
 }

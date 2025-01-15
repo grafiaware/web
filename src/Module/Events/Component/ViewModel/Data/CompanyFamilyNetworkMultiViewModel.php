@@ -44,8 +44,8 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
     use RepresentativeTrait;
     
     public function isMultiEditable(): bool {
-        $job = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
-        return $this->isCompanyEditor($job->getCompanyId());
+        $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
+        return $this->isCompanyEditor($company->getId());
     }
     
     protected function newMultiEntity() {
@@ -86,17 +86,16 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
         $allNetworks=[];
         // map jsou networky indexované podle id networků (se stejnou map byly renderovány items)
         $map = $this->multiEntitiesMap;
-        /** @var JobTagInterface  $network */
+        /** @var NetworkInterface  $network */
         foreach ( $map as $id => $network) {
             $label = $items[$id];  //$items jsou remderované networky indexované podle id tagů
-            $allNetworks[$label] = ["data[{$network->getTag()}]" => $network->getId()] ;
+            $allNetworks[$label] = ["data[{$network->getIcon()}]" => $network->getId()] ;
         }        
 
         $checkedNetworks=[];   //networky pro 1 company
         foreach ($this->selectedEntities as $network) {
-            /** @var JobToTagInterface $jobToTag */
             /** @var NetworkInterface $network */
-            $checkedNetworks["data[{$network->getTag()}]"] = $network->getId();
+            $checkedNetworks["data[{$network->getIcon()}]"] = $network->getId();
         }
         return [
             'id' => $this->getFamilyRouteSegment()->getParentId(),
