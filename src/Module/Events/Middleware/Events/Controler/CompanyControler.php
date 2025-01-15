@@ -448,6 +448,7 @@ class CompanyControler extends FrontControlerAbstract {
             $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'videolink'));
             $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
             $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));
+            $this->processCompanyToNetwork($request, $idCompany);
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
         }
@@ -487,8 +488,8 @@ class CompanyControler extends FrontControlerAbstract {
         /** @var NetworkInterface $network */
         foreach ($allNetworks as $network) {
             // $postTag - tento tag je zaskrtnut ve form
-            $postNetworkId = isset($data) ? $data[$network->getId()] : null;
-            $postLink = isset($links) ? $links[$network->getId()] : null;
+            $postNetworkId = isset($data) ? $data[$network->getIcon()] : null;  // key=icon, value=id
+            $postLink = isset($links) ? $links[$network->getIcon()] : null;
             if (isset ($postNetworkId) ) { // je zaskrtnut ve form
                 //je-li v companytoNetwork - ok, nic    //neni-li v companytoNetwork - zapsat do companytoNetwork 
                 if (!(in_array($postNetworkId,  $networkIds_ForCompany))) {                                                                            

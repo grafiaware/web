@@ -68,9 +68,7 @@ class NetworkViewModel extends ViewModelItemAbstract {
     
     public function isItemEditable(): bool {
         $this->loadNetwork();
-//        return $this->isAdministratorEditor();
-//        return $this->isCompanyEditor($companyId);
-        return true;
+        return $this->isAdministratorEditor();
     }
 
     private function loadNetwork() {

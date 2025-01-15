@@ -94,7 +94,9 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
                         //route
                         'actionAdd' => $componentRouteSegment->getAddPath(),
                         // data
-                        'fields' => []                    
+                        'fields' => [
+                            'dataRedApiUri' => false,
+                            ]
                         ];        
                 } else {
                     $array = [];
