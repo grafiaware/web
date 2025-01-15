@@ -20,6 +20,8 @@ use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
 use Events\Model\Repository\CompanyAddressRepoInterface;
 use Events\Model\Repository\CompanyInfoRepoInterface;
+use Events\Model\Repository\CompanytoNetworkRepoInterface;
+use Events\Model\Repository\NetworkRepoInterface;
 
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\Company;
@@ -29,6 +31,10 @@ use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyAddress;
 use Events\Model\Entity\CompanyInfoInterface;
 use Events\Model\Entity\CompanyInfo;
+use Events\Model\Entity\CompanytoNetworkInterface;
+use Events\Model\Entity\CompanytoNetwork;
+use Events\Model\Entity\NetworkInterface;
+use Events\Model\Entity\Network;
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Entity\Representative;
 
@@ -75,7 +81,18 @@ class CompanyControler extends FrontControlerAbstract {
      */
     private $representativeRepo;    
     
-        
+    /**
+     * 
+     * @var CompanytoNetworkRepoInterface
+     */
+    private $companyToNetworkRepo;
+
+    /**
+     * 
+     * @var NetworkRepoInterface
+     */
+    private $networkRepo;
+
     /**
      * 
      * @param StatusSecurityRepo $statusSecurityRepo
@@ -95,7 +112,9 @@ class CompanyControler extends FrontControlerAbstract {
             CompanyContactRepoInterface $companyContactRepo,
             CompanyAddressRepoInterface $companyAddressRepo,
             CompanyInfoRepoInterface $companyInfoRepo,
-            RepresentativeRepoInterface $representativeRepo
+            RepresentativeRepoInterface $representativeRepo,
+            CompanytoNetworkRepoInterface $companyToNetworkRepo,
+            NetworkRepoInterface $networkRepo
             
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
@@ -104,6 +123,8 @@ class CompanyControler extends FrontControlerAbstract {
         $this->companyAddressRepo = $companyAddressRepo;
         $this->companyInfoRepo = $companyInfoRepo;
         $this->representativeRepo = $representativeRepo;
+        $this->companyToNetworkRepo = $companyToNetworkRepo;
+        $this->networkRepo = $networkRepo;
     }
     
     
@@ -451,6 +472,45 @@ class CompanyControler extends FrontControlerAbstract {
         }
         return $this->redirectSeeLastGet($request);        
     }
+    
+    
+    private function processCompanyToNetwork(ServerRequestInterface $request, $companyId) {
+        $networkIds_ForCompany = [];
+        $allNetworks_ForCompany = $this->companyToNetworkRepo->findByCompanyId($companyId);
+        /** @var JobToTagInterface $companyToNetwork */
+        foreach ($allNetworks_ForCompany as $companyToNetwork) {   
+            $networkIds_ForCompany[] = $companyToNetwork->getNetworkId() ; 
+        }                                
+        $allNetworks = $this->networkRepo->findAll(); 
+        $data = (new RequestParams())->getParsedBodyParam($request, "data" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
+        $links = (new RequestParams())->getParsedBodyParam($request, "link" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $link=null
+        /** @var NetworkInterface $network */
+        foreach ($allNetworks as $network) {
+            // $postTag - tento tag je zaskrtnut ve form
+            $postNetworkId = isset($data) ? $data[$network->getId()] : null;
+            $postLink = isset($links) ? $links[$network->getId()] : null;
+            if (isset ($postNetworkId) ) { // je zaskrtnut ve form
+                //je-li v companytoNetwork - ok, nic    //neni-li v companytoNetwork - zapsat do companytoNetwork 
+                if (!(in_array($postNetworkId,  $networkIds_ForCompany))) {                                                                            
+                    /** @var CompanytoNetworkInterface $newCompanyToNetwork */
+                    $newCompanyToNetwork = new CompanytoNetwork(); //new 
+                    $newCompanyToNetwork->setCompanyId($companyId); 
+                    $newCompanyToNetwork->setNetworkId($postNetworkId);
+                    $newCompanyToNetwork->setLink($postLink);
+                    
+                    $this->companyToNetworkRepo->add($newCompanyToNetwork);
+                }                        
+            }
+            else { // neni zaskrtnut ve form                                      
+                //je-li v companytoNetwork  - vymazat z companytoNetwork  //neni-li v companytoNetwork - ok, nic
+                if (in_array($network->getId(), $networkIds_ForCompany)) {
+                   $companyToNetwork = $this->companyToNetworkRepo->get($companyId, $network->getId());
+                   $this->companyToNetworkRepo->remove($companyToNetwork);
+                }
+            }                 
+        }                     ;
+    }    
+    
     
     //---------------------------------------------------------------------------------
     // TODO: SV - permissions!!

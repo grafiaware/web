@@ -7,6 +7,8 @@ use Component\ViewModel\StatusViewModelInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Events\Model\Repository\NetworkRepoInterface;
+use Events\Model\Repository\CompanytoNetworkRepoInterface;
+use Events\Model\Entity\CompanytoNetworkInterface;
 use Events\Model\Entity\NetworkInterface;
 use Model\Entity\EntityInterface;
 
@@ -27,16 +29,28 @@ class NetworkViewModel extends ViewModelItemAbstract {
     private $networkRepo;
     
     /**
-     * 
      * @var NetworkInterface
      */
     private $network;
     
+    /**
+     * @var CompanytoNetworkInterface
+     */
+    private $companyToNetwork;
+    
+    /**
+     * @var CompanytoNetworkRepoInterface
+     */
+    private $companyToNetworkRepo;
+
+
     public function __construct(
             StatusViewModelInterface $status,
+            CompanytoNetworkRepoInterface $companyToNetworkRepo,
             NetworkRepoInterface $networkRepo
             ) {
         $this->status = $status;
+        $this->companyToNetworkRepo = $companyToNetworkRepo;
         $this->networkRepo = $networkRepo;
     }
     
@@ -54,7 +68,9 @@ class NetworkViewModel extends ViewModelItemAbstract {
     
     public function isItemEditable(): bool {
         $this->loadNetwork();
-        return $this->isAdministratorEditor();
+//        return $this->isAdministratorEditor();
+//        return $this->isCompanyEditor($companyId);
+        return true;
     }
 
     private function loadNetwork() {
@@ -65,6 +81,7 @@ class NetworkViewModel extends ViewModelItemAbstract {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
         }
+        $companyToNetwork = $this->companyToNetworkRepo->findByNetworkId($this->network->getId());
     }
     
     public function getIterator() {
@@ -79,7 +96,11 @@ class NetworkViewModel extends ViewModelItemAbstract {
                 'actionRemove' => $componentRouteSegment."/$id/remove",
                 'id' => $id,
                 // data
-                'fields' => ['icon' => $this->network->getIcon(), 'embedCodeTemplate' => $this->network->getEmbedCodeTemplate()],
+                'fields' => [
+                    'icon' => $this->network->getIcon(), 
+                    'embedCodeTemplate' => $this->network->getEmbedCodeTemplate(), 
+                    'link'=> isset($this->companyToNetwork) ? $this->companyToNetwork->getLink() : ''
+                    ],
                 ];
         } elseif ($this->isItemEditable()) {
             $item = [

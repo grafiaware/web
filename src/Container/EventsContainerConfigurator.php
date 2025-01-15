@@ -613,7 +613,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyContactRepo::class),
                         $c->get(CompanyAddressRepo::class),
                         $c->get(CompanyInfoRepo::class),
-                        $c->get(RepresentativeRepo::class)
+                        $c->get(RepresentativeRepo::class),
+                        $c->get(CompanytoNetworkRepo::class)
                         )
                        )->injectContainer($c);
             },
@@ -739,7 +740,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             NetworkViewModel::class => function(ContainerInterface $c) {
                 return new NetworkViewModel(
                         $c->get(StatusViewModel::class),
-                        $c->get(NetworkRepo::class),       
+                        $c->get(CompanytoNetworkRepo::class),
+                        $c->get(NetworkRepo::class),  
                     );
             },
             CompanyFamilyNetworkMultiViewModel::class => function(ContainerInterface $c) {
