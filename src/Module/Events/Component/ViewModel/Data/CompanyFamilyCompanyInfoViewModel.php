@@ -77,7 +77,7 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
                     'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
-                    'dataRedApiUri' => "events/v1/data/company/{$this->companyInfo->getCompanyId()}/network",
+                    'companyNetworksUri' => "events/v1/data/company/{$this->companyInfo->getCompanyId()}/network",
                     'introduction' => $this->companyInfo->getIntroduction(),
                     'videoLink' => $this->companyInfo->getVideoLink(),
                     'positives' => $this->companyInfo->getPositives(),
@@ -95,7 +95,7 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
                         'actionAdd' => $componentRouteSegment->getAddPath(),
                         // data
                         'fields' => [
-                            'dataRedApiUri' => false,
+                            'companyNetworksUri' => false,
                             ]
                         ];        
                 } else {

@@ -58,7 +58,11 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
 
     private function getCheckedNetworks() {
         $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
-        $companyToNetworks = $this->companyToNetworkRepo->findByCompanyId($company->getId());
+            if ($this->isMultiEditable()) {
+                $companyToNetworks = $this->companyToNetworkRepo->findByCompanyId($company->getId());
+            } else {
+                $companyToNetworks = $this->companyToNetworkRepo->find("company_id=:company_id AND published=1", ["company_id"=>$company->getId()]);
+            }        
         $networks = [];
         foreach ($companyToNetworks as $companyToNetwork) {
             $networks[] = $this->networkRepo->get($companyToNetwork->getNetworkId());

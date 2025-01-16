@@ -18,7 +18,8 @@ CREATE TABLE `company_to_network` (
   CONSTRAINT `network_fk` FOREIGN KEY (`network_id`) REFERENCES `network` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+ALTER TABLE `events`.`company_to_network` 
+ADD COLUMN `published` TINYINT(1) NULL DEFAULT 0 AFTER `link`;
 
 CREATE TABLE `network` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

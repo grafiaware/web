@@ -366,7 +366,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(NetworkComponent::class)) {
                     $component->setItemViewModel($c->get(NetworkViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
+                    $component->setItemTemplatePath($configuration->getTemplate('fields'));  //, $configuration->getTemplate('formWithFields'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('network'), $configuration->getTemplate('networkEditable'));      
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);

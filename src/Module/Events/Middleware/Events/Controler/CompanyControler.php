@@ -476,43 +476,48 @@ class CompanyControler extends FrontControlerAbstract {
     
     
     private function processCompanyToNetwork(ServerRequestInterface $request, $companyId) {
-        $networkIds_ForCompany = [];
-        $allNetworks_ForCompany = $this->companyToNetworkRepo->findByCompanyId($companyId);
+        $companyNetworksIds = [];
+        $companyToNetworks = $this->companyToNetworkRepo->findByCompanyId($companyId);
         /** @var JobToTagInterface $companyToNetwork */
-        foreach ($allNetworks_ForCompany as $companyToNetwork) {   
-            $networkIds_ForCompany[] = $companyToNetwork->getNetworkId() ; 
+        foreach ($companyToNetworks as $companyToNetwork) {   
+            $companyNetworksIds[] = $companyToNetwork->getNetworkId() ; 
         }                                
         $allNetworks = $this->networkRepo->findAll(); 
         $data = (new RequestParams())->getParsedBodyParam($request, "data" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
         $links = (new RequestParams())->getParsedBodyParam($request, "link" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $link=null
+        
         /** @var NetworkInterface $network */
         foreach ($allNetworks as $network) {
-            // $postTag - tento tag je zaskrtnut ve form
-            $postNetworkId = isset($data) ? $data[$network->getIcon()] : null;  // key=icon, value=id
-            $postLink = isset($links) ? $links[$network->getIcon()] : null;
-            if (isset ($postNetworkId) ) { // je zaskrtnut ve form
-                //je-li v companytoNetwork - ok, nic    //neni-li v companytoNetwork - zapsat do companytoNetwork 
-                if (!(in_array($postNetworkId,  $networkIds_ForCompany))) {                                                                            
-                    /** @var CompanytoNetworkInterface $newCompanyToNetwork */
-                    $newCompanyToNetwork = new CompanytoNetwork(); //new 
-                    $newCompanyToNetwork->setCompanyId($companyId); 
-                    $newCompanyToNetwork->setNetworkId($postNetworkId);
-                    $newCompanyToNetwork->setLink($postLink);
-                    
-                    $this->companyToNetworkRepo->add($newCompanyToNetwork);
-                }                        
-            }
-            else { // neni zaskrtnut ve form                                      
-                //je-li v companytoNetwork  - vymazat z companytoNetwork  //neni-li v companytoNetwork - ok, nic
-                if (in_array($network->getId(), $networkIds_ForCompany)) {
-                   $companyToNetwork = $this->companyToNetworkRepo->get($companyId, $network->getId());
-                   $this->companyToNetworkRepo->remove($companyToNetwork);
+            $companyToNetwork = $this->companyToNetworkRepo->get($companyId, $network->getId());
+            
+            // $postNetworkId - tento tag je zaskrtnut ve form
+            $postChecked = $this->dataParam($data, $network->getIcon(), false) ? 1 : 0;  // key=icon, value=id network 
+            $postLink = $this->dataParam($links, $network->getId());    // key = id network, value= link
+            
+            if ($postChecked OR (isset($postLink) AND $postLink)) { // je zaskrtnut ve form nebo má hodnotu link (neprázdný řetězec)
+                if (!isset($companyToNetwork)) {                                                                            
+                    /** @var CompanytoNetworkInterface $companyToNetwork */
+                    $companyToNetwork = new CompanytoNetwork(); //new 
+                    $companyToNetwork->setCompanyId($companyId); 
+                    $companyToNetwork->setNetworkId($network->getId());
+                    $companyToNetwork->setLink($postLink);
+                    $companyToNetwork->setPublished($postChecked);
+                    $this->companyToNetworkRepo->add($companyToNetwork);
+                } else {
+                    $companyToNetwork->setLink($postLink);
+                    $companyToNetwork->setPublished($postChecked);
+                }                    
+            } else { // neni zaskrtnut ve form a nemá hodnotu link                                    
+                if (isset($companyToNetwork)) {
+                    $this->companyToNetworkRepo->remove($companyToNetwork);
                 }
             }                 
-        }                     ;
+        }
     }    
     
-    
+    private function dataParam($data, $key, $default = null) {
+        return (isset($data) AND array_key_exists($key, $data)) ? $data[$key] : $default ;
+    }
     //---------------------------------------------------------------------------------
     // TODO: SV - permissions!!
     

@@ -20,9 +20,14 @@ interface CompanytoNetworkRepoInterface  extends RepoInterface {
      */
     public function get($companyId, $networkId): ?CompanytoNetworkInterface ;
     
-    
+    /**
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return CompanytoNetworkInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array;    
 
-    
     /**
      *
      * @param type $companyId

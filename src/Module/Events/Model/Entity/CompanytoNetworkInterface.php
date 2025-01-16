@@ -28,6 +28,11 @@ interface CompanytoNetworkInterface extends PersistableEntityInterface {
      * @return string
      */
     public function getLink();        
+
+    /**
+     * @return string
+     */
+    public function getPublished();
     
     /**
      * 
@@ -49,5 +54,12 @@ interface CompanytoNetworkInterface extends PersistableEntityInterface {
      * @return CompanytoNetworkInterface
      */
     public function setLink($link): CompanytoNetworkInterface;
+    
+    /**
+     * 
+     * @param type $published
+     * @return CompanytoNetworkInterface
+     */
+    public function setPublished($published): CompanytoNetworkInterface;    
     
 }

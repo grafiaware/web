@@ -5,6 +5,8 @@ use Component\ViewModel\ViewModelItemAbstract;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
+use Component\ViewModel\FamilyInterface;
+use \Component\ViewModel\FamilyTrait;
 
 use Events\Model\Repository\NetworkRepoInterface;
 use Events\Model\Repository\CompanytoNetworkRepoInterface;
@@ -22,7 +24,7 @@ use TypeError;
  *
  * @author pes2704
  */
-class NetworkViewModel extends ViewModelItemAbstract {
+class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface{
 
     private $status;  
     
@@ -55,7 +57,8 @@ class NetworkViewModel extends ViewModelItemAbstract {
     }
     
     use RepresentativeTrait;
-            
+    use FamilyTrait;
+    
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof NetworkInterface) {
             $this->network = $entity;
@@ -68,7 +71,7 @@ class NetworkViewModel extends ViewModelItemAbstract {
     
     public function isItemEditable(): bool {
         $this->loadNetwork();
-        return $this->isAdministratorEditor();
+        return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
 
     private function loadNetwork() {
@@ -79,7 +82,7 @@ class NetworkViewModel extends ViewModelItemAbstract {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
         }
-        $companyToNetwork = $this->companyToNetworkRepo->findByNetworkId($this->network->getId());
+        $this->companyToNetwork = $this->companyToNetworkRepo->get($this->getFamilyRouteSegment()->getParentId(), $this->network->getId());
     }
     
     public function getIterator() {
@@ -95,6 +98,7 @@ class NetworkViewModel extends ViewModelItemAbstract {
                 'id' => $id,
                 // data
                 'fields' => [
+                    'networkId' => $id,
                     'icon' => $this->network->getIcon(), 
                     'embedCodeTemplate' => $this->network->getEmbedCodeTemplate(), 
                     'link'=> isset($this->companyToNetwork) ? $this->companyToNetwork->getLink() : ''

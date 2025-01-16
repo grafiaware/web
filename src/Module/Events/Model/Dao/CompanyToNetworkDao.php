@@ -33,7 +33,8 @@ class CompanyToNetworkDao  extends DaoEditAbstract  implements CompanyToNetworkD
         return [
             'company_id',
             'network_id',
-            'link'
+            'link',
+            'published'
         ];
     }
 
