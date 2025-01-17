@@ -451,7 +451,31 @@ body{
         label:has(input){
             cursor: pointer;
         }
-    } 
+        label:has(input[type="checkbox"]){
+            display: flex !important;
+            flex-direction: row; 
+            align-items: baseline;
+        }
+        .network{
+            display: flex;
+            align-items: center; 
+            flex: auto;
+            .field{
+                display: flex;
+                &:first-child{
+                    width: 17%;
+                }
+                &:last-child{
+                    flex: auto; 
+                }
+            }
+            input{
+                margin-left: 10px;
+                font-size: 0.8em;
+            }
+        }
+    }
+    
     .blok-menu-paticka{
         margin-left: 13px;
     }
