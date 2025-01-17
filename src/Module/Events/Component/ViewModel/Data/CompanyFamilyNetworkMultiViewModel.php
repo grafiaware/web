@@ -44,8 +44,8 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
     use RepresentativeTrait;
     
     public function isMultiEditable(): bool {
-        $job = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
-        return $this->isCompanyEditor($job->getCompanyId());
+        $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
+        return $this->isCompanyEditor($company->getId());
     }
     
     protected function newMultiEntity() {
@@ -58,12 +58,17 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
 
     private function getCheckedNetworks() {
         $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
-        $companyToNetworks = $this->companyToNetworkRepo->findByCompanyId($company->getId());
-        $networks = [];
+        // načte vazební tabulku  - $companyToNetworks pro danou company
+//        if ($this->isMultiEditable()) {
+//            $companyToNetworks = $this->companyToNetworkRepo->findByCompanyId($company->getId());
+//        } else {
+            $companyToNetworks = $this->companyToNetworkRepo->find("company_id=:company_id AND published=1", ["company_id"=>$company->getId()]);
+//        }        
+        $checkedNetworks = [];
         foreach ($companyToNetworks as $companyToNetwork) {
-            $networks[] = $this->networkRepo->get($companyToNetwork->getNetworkId());
+            $checkedNetworks[] = $this->networkRepo->get($companyToNetwork->getNetworkId());
         }        
-        return $networks;
+        return $checkedNetworks;
     }
     
     protected function loadMultiEntitiesMap() {
@@ -86,17 +91,16 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
         $allNetworks=[];
         // map jsou networky indexované podle id networků (se stejnou map byly renderovány items)
         $map = $this->multiEntitiesMap;
-        /** @var JobTagInterface  $network */
+        /** @var NetworkInterface  $network */
         foreach ( $map as $id => $network) {
             $label = $items[$id];  //$items jsou remderované networky indexované podle id tagů
-            $allNetworks[$label] = ["data[{$network->getTag()}]" => $network->getId()] ;
+            $allNetworks[$label] = ["data[{$network->getIcon()}]" => $network->getId()] ;
         }        
 
         $checkedNetworks=[];   //networky pro 1 company
         foreach ($this->selectedEntities as $network) {
-            /** @var JobToTagInterface $jobToTag */
             /** @var NetworkInterface $network */
-            $checkedNetworks["data[{$network->getTag()}]"] = $network->getId();
+            $checkedNetworks["data[{$network->getIcon()}]"] = $network->getId();
         }
         return [
             'id' => $this->getFamilyRouteSegment()->getParentId(),

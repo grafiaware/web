@@ -152,6 +152,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyFamilycompanyinfoList' => CompanyFamilyCompanyInfoListComponent::class,
             'companyFamilyjob' => CompanyFamilyJobComponent::class,
             'companyFamilyjobList' => CompanyFamilyJobListComponent::class,            
+            'companyFamilynetworkList' => CompanyFamilyNetworkMultiComponent::class,            
             
             'document' => DocumentComponent::class,
             
@@ -365,7 +366,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->hasAnyPermission(NetworkComponent::class)) {
                     $component->setItemViewModel($c->get(NetworkViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
+                    $component->setItemTemplatePath($configuration->getTemplate('fields'));  //, $configuration->getTemplate('formWithFields'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('network'), $configuration->getTemplate('networkEditable'));      
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -373,15 +374,15 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;                  
             },                    
-            XXJobFamilyTagMultiComponent::class => function(ContainerInterface $c) {
+            CompanyFamilyNetworkMultiComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);              
 //                $component = new JobFamilyJobToTagListComponent($configuration, $c->get(JobToTagComponent::class)); 
-                $component = new JobFamilyTagMultiComponent($configuration, $c->get(TagComponent::class)); 
+                $component = new CompanyFamilyNetworkMultiComponent($configuration, $c->get(NetworkComponent::class)); 
                                 
-                if($accessPresentation->hasAnyPermission(JobFamilyTagMultiComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setMultiViewModel($c->get(JobFamilyTagMultiViewModel::class));
+                if($accessPresentation->hasAnyPermission(CompanyFamilyNetworkMultiComponent::class, AccessPresentationEnum::EDIT)) {
+                    $component->setMultiViewModel($c->get(CompanyFamilyNetworkMultiViewModel::class));
                     $component->setMultiTemplate(new PhpTemplate());  //bez šablony
                     $component->setMultiTemplatePath($configuration->getTemplate('checked'), $configuration->getTemplate('checkbox'));
 //                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('checked'), $configuration->getTemplate('checkbox'));
@@ -612,7 +613,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyContactRepo::class),
                         $c->get(CompanyAddressRepo::class),
                         $c->get(CompanyInfoRepo::class),
-                        $c->get(RepresentativeRepo::class)
+                        $c->get(RepresentativeRepo::class),
+                        $c->get(CompanytoNetworkRepo::class),
+                        $c->get(NetworkRepo::class)
                         )
                        )->injectContainer($c);
             },
@@ -738,7 +741,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             NetworkViewModel::class => function(ContainerInterface $c) {
                 return new NetworkViewModel(
                         $c->get(StatusViewModel::class),
-                        $c->get(NetworkRepo::class),       
+                        $c->get(CompanytoNetworkRepo::class),
+                        $c->get(NetworkRepo::class),  
                     );
             },
             CompanyFamilyNetworkMultiViewModel::class => function(ContainerInterface $c) {

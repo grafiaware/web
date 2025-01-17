@@ -36,7 +36,7 @@ class NetworkHydrator extends TypeHydratorAbstract implements HydratorInterface 
      */
     public function extract(EntityInterface $network, ArrayAccess $rowData) {
         /** @var  Network $network */
-        $this->setSqlValue( $rowData, 'icon', $network->getId() ); 
+        $this->setSqlValue( $rowData, 'icon', $network->getIcon() ); 
         $this->setSqlValue( $rowData, 'embed_code_template', $network->getEmbedCodeTemplate() ); 
     }
 }

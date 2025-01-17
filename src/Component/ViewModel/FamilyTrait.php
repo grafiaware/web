@@ -15,10 +15,19 @@ trait FamilyTrait {
      */
     private $familyRouteSegment;
 
+    /**
+     * 
+     * @param FamilyRouteSegmentInterface $familyRouteSegment
+     * @return void
+     */
     public function setFamilyRouteSegment(FamilyRouteSegmentInterface $familyRouteSegment): void {
         $this->familyRouteSegment = $familyRouteSegment;
     }
     
+    /**
+     * 
+     * @return FamilyRouteSegmentInterface|null
+     */
     public function getFamilyRouteSegment(): ?FamilyRouteSegmentInterface {
         return $this->familyRouteSegment;
     }
