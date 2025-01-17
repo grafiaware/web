@@ -5,8 +5,12 @@ use Component\ViewModel\ViewModelItemAbstract;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
+use Component\ViewModel\FamilyInterface;
+use \Component\ViewModel\FamilyTrait;
 
 use Events\Model\Repository\NetworkRepoInterface;
+use Events\Model\Repository\CompanytoNetworkRepoInterface;
+use Events\Model\Entity\CompanytoNetworkInterface;
 use Events\Model\Entity\NetworkInterface;
 use Model\Entity\EntityInterface;
 
@@ -20,28 +24,41 @@ use TypeError;
  *
  * @author pes2704
  */
-class NetworkViewModel extends ViewModelItemAbstract {
+class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface{
 
     private $status;  
     
     private $networkRepo;
     
     /**
-     * 
      * @var NetworkInterface
      */
     private $network;
     
+    /**
+     * @var CompanytoNetworkInterface
+     */
+    private $companyToNetwork;
+    
+    /**
+     * @var CompanytoNetworkRepoInterface
+     */
+    private $companyToNetworkRepo;
+
+
     public function __construct(
             StatusViewModelInterface $status,
+            CompanytoNetworkRepoInterface $companyToNetworkRepo,
             NetworkRepoInterface $networkRepo
             ) {
         $this->status = $status;
+        $this->companyToNetworkRepo = $companyToNetworkRepo;
         $this->networkRepo = $networkRepo;
     }
     
     use RepresentativeTrait;
-            
+    use FamilyTrait;
+    
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof NetworkInterface) {
             $this->network = $entity;
@@ -54,7 +71,7 @@ class NetworkViewModel extends ViewModelItemAbstract {
     
     public function isItemEditable(): bool {
         $this->loadNetwork();
-        return $this->isAdministratorEditor();
+        return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
 
     private function loadNetwork() {
@@ -65,6 +82,7 @@ class NetworkViewModel extends ViewModelItemAbstract {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
         }
+        $this->companyToNetwork = $this->companyToNetworkRepo->get($this->getFamilyRouteSegment()->getParentId(), $this->network->getId());
     }
     
     public function getIterator() {
@@ -79,7 +97,12 @@ class NetworkViewModel extends ViewModelItemAbstract {
                 'actionRemove' => $componentRouteSegment."/$id/remove",
                 'id' => $id,
                 // data
-                'fields' => ['icon' => $this->network->getIcon(), 'embedCodeTemplate' => $this->network->getEmbedCodeTemplate()],
+                'fields' => [
+                    'networkId' => $id,
+                    'icon' => $this->network->getIcon(), 
+                    'embedCodeTemplate' => $this->network->getEmbedCodeTemplate(), 
+                    'link'=> isset($this->companyToNetwork) ? $this->companyToNetwork->getLink() : ''
+                    ],
                 ];
         } elseif ($this->isItemEditable()) {
             $item = [

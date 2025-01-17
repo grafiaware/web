@@ -20,6 +20,8 @@ use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyContactRepoInterface;
 use Events\Model\Repository\CompanyAddressRepoInterface;
 use Events\Model\Repository\CompanyInfoRepoInterface;
+use Events\Model\Repository\CompanytoNetworkRepoInterface;
+use Events\Model\Repository\NetworkRepoInterface;
 
 use Events\Model\Entity\CompanyInterface;
 use Events\Model\Entity\Company;
@@ -29,6 +31,10 @@ use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyAddress;
 use Events\Model\Entity\CompanyInfoInterface;
 use Events\Model\Entity\CompanyInfo;
+use Events\Model\Entity\CompanytoNetworkInterface;
+use Events\Model\Entity\CompanytoNetwork;
+use Events\Model\Entity\NetworkInterface;
+use Events\Model\Entity\Network;
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Entity\Representative;
 
@@ -75,7 +81,18 @@ class CompanyControler extends FrontControlerAbstract {
      */
     private $representativeRepo;    
     
-        
+    /**
+     * 
+     * @var CompanytoNetworkRepoInterface
+     */
+    private $companyToNetworkRepo;
+
+    /**
+     * 
+     * @var NetworkRepoInterface
+     */
+    private $networkRepo;
+
     /**
      * 
      * @param StatusSecurityRepo $statusSecurityRepo
@@ -95,7 +112,9 @@ class CompanyControler extends FrontControlerAbstract {
             CompanyContactRepoInterface $companyContactRepo,
             CompanyAddressRepoInterface $companyAddressRepo,
             CompanyInfoRepoInterface $companyInfoRepo,
-            RepresentativeRepoInterface $representativeRepo
+            RepresentativeRepoInterface $representativeRepo,
+            CompanytoNetworkRepoInterface $companyToNetworkRepo,
+            NetworkRepoInterface $networkRepo
             
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
@@ -104,6 +123,8 @@ class CompanyControler extends FrontControlerAbstract {
         $this->companyAddressRepo = $companyAddressRepo;
         $this->companyInfoRepo = $companyInfoRepo;
         $this->representativeRepo = $representativeRepo;
+        $this->companyToNetworkRepo = $companyToNetworkRepo;
+        $this->networkRepo = $networkRepo;
     }
     
     
@@ -427,6 +448,7 @@ class CompanyControler extends FrontControlerAbstract {
             $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'videolink'));
             $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
             $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));
+            $this->processCompanyToNetwork($request, $idCompany);
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
         }
@@ -452,6 +474,50 @@ class CompanyControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);        
     }
     
+    
+    private function processCompanyToNetwork(ServerRequestInterface $request, $companyId) {
+        $companyNetworksIds = [];
+        $companyToNetworks = $this->companyToNetworkRepo->findByCompanyId($companyId);
+        /** @var JobToTagInterface $companyToNetwork */
+        foreach ($companyToNetworks as $companyToNetwork) {   
+            $companyNetworksIds[] = $companyToNetwork->getNetworkId() ; 
+        }                                
+        $allNetworks = $this->networkRepo->findAll(); 
+        $data = (new RequestParams())->getParsedBodyParam($request, "data" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
+        $links = (new RequestParams())->getParsedBodyParam($request, "link" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $link=null
+        
+        /** @var NetworkInterface $network */
+        foreach ($allNetworks as $network) {
+            $companyToNetwork = $this->companyToNetworkRepo->get($companyId, $network->getId());
+            
+            // $postNetworkId - tento tag je zaskrtnut ve form
+            $postChecked = $this->dataParam($data, $network->getIcon(), false) ? 1 : 0;  // key=icon, value=id network 
+            $postLink = $this->dataParam($links, $network->getId());    // key = id network, value= link
+            
+            if ($postChecked OR (isset($postLink) AND $postLink)) { // je zaskrtnut ve form nebo má hodnotu link (neprázdný řetězec)
+                if (!isset($companyToNetwork)) {                                                                            
+                    /** @var CompanytoNetworkInterface $companyToNetwork */
+                    $companyToNetwork = new CompanytoNetwork(); //new 
+                    $companyToNetwork->setCompanyId($companyId); 
+                    $companyToNetwork->setNetworkId($network->getId());
+                    $companyToNetwork->setLink($postLink);
+                    $companyToNetwork->setPublished($postChecked);
+                    $this->companyToNetworkRepo->add($companyToNetwork);
+                } else {
+                    $companyToNetwork->setLink($postLink);
+                    $companyToNetwork->setPublished($postChecked);
+                }                    
+            } else { // neni zaskrtnut ve form a nemá hodnotu link                                    
+                if (isset($companyToNetwork)) {
+                    $this->companyToNetworkRepo->remove($companyToNetwork);
+                }
+            }                 
+        }
+    }    
+    
+    private function dataParam($data, $key, $default = null) {
+        return (isset($data) AND array_key_exists($key, $data)) ? $data[$key] : $default ;
+    }
     //---------------------------------------------------------------------------------
     // TODO: SV - permissions!!
     

@@ -77,10 +77,11 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
                     'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
-                    'introduction'   => $this->companyInfo->getIntroduction(),
+                    'companyNetworksUri' => "events/v1/data/company/{$this->companyInfo->getCompanyId()}/network",
+                    'introduction' => $this->companyInfo->getIntroduction(),
                     'videoLink' => $this->companyInfo->getVideoLink(),
-                    'positives'    => $this->companyInfo->getPositives(),
-                    'social'   => $this->companyInfo->getSocial()
+                    'positives' => $this->companyInfo->getPositives(),
+                    'social' => $this->companyInfo->getSocial()
                 ],                
             ];
         } else {
@@ -93,7 +94,9 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
                         //route
                         'actionAdd' => $componentRouteSegment->getAddPath(),
                         // data
-                        'fields' => []                    
+                        'fields' => [
+                            'companyNetworksUri' => false,
+                            ]
                         ];        
                 } else {
                     $array = [];

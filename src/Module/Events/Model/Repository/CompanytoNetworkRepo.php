@@ -32,7 +32,17 @@ class CompanytoNetworkRepo extends RepoAbstract implements CompanytoNetworkRepoI
     public function get($companyId, $networkId): ?CompanytoNetworkInterface {
         return $this->getEntity($companyId, $networkId);
     }
-
+    
+    /**
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return CompanytoNetworkInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array {
+        return $this->findEntities($whereClause, $touplesToBind);
+    }
+    
     /**
      *
      * @param type $companyId

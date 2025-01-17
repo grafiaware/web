@@ -490,8 +490,9 @@ function initJqueryEvents() {
                 const urlInput = youtubeInput.value;
 
                 // Regulární výraz pro ověření YouTube URL
-                const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}$/;
-
+//                const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}$/;
+                // https://stackoverflow.com/questions/19377262/regex-for-youtube-url
+                const youtubeRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(?:-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/;
                 if (youtubeRegex.test(urlInput)) {
                     message.textContent = "Platná YouTube URL adresa!";
                     message.style.color = "green";
