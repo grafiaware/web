@@ -242,14 +242,8 @@ class CompanyControler extends FrontControlerAbstract {
         if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {      
             /** @var CompanyContactInterface $companyContact */
             $companyContact = new CompanyContact(); //new $companyContact
-
-            // POST formularova data
             $companyContact->setCompanyId($idCompany);
-            $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-            $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
-            $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
-            $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));
-
+            $this->hydrateCompanyContact($request, $companyContact);
             $this->companyContactRepo->add($companyContact);
 
         } else {
@@ -274,18 +268,20 @@ class CompanyControler extends FrontControlerAbstract {
         if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {
             /** @var CompanyContactInterface $companyContact */
             $companyContact = $this->companyContactRepo->get( $idCompanyContact );
-
-            // POST formularova data                                              
-            $companyContact->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-            $companyContact->setPhones((new RequestParams())->getParsedBodyParam($request, 'phones'));
-            $companyContact->setMobiles((new RequestParams())->getParsedBodyParam($request, "mobiles"));
-            $companyContact->setEmails((new RequestParams())->getParsedBodyParam($request, "emails"));            
+            $this->hydrateCompanyContact($request, $companyContact);
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);
     }
 
+    private function hydrateCompanyContact(ServerRequestInterface $request, CompanyContactInterface $companyContact) {
+        $requestParams = new RequestParams();
+        $companyContact->setName($requestParams->getParsedBodyParam($request, 'name') );
+        $companyContact->setPhones($requestParams->getParsedBodyParam($request, 'phones'));
+        $companyContact->setMobiles($requestParams->getParsedBodyParam($request, "mobiles"));
+        $companyContact->setEmails($requestParams->getParsedBodyParam($request, "emails"));               
+    }
     
     /**
      * 
@@ -326,16 +322,10 @@ class CompanyControler extends FrontControlerAbstract {
             return $this->createUnauthorizedResponse();
         }                                  
         if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {
-            // POST data                
             /** @var CompanyAddressInterface $companyAddress */
             $companyAddress =  new CompanyAddress(); //new 
-
             $companyAddress->setCompanyId($idCompany);
-            $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-            $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
-            $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
-            $companyAddress->setObec((new RequestParams())->getParsedBodyParam($request, "obec"));
-
+            $this->hydrateCompanyAddress($request, $companyAddress);
             $this->companyAddressRepo->add($companyAddress);
 
         } else {
@@ -366,19 +356,20 @@ class CompanyControler extends FrontControlerAbstract {
                 throw new UnexpectedValueException("Invalid path. Invalid child id.");
             }
             $this->checkParentId($companyAddress->getCompanyId());
-            $companyAddress->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );
-            $companyAddress->setLokace((new RequestParams())->getParsedBodyParam($request, 'lokace'));
-            $companyAddress->setPsc((new RequestParams())->getParsedBodyParam($request, "psc"));
-            $companyAddress->setObec((new RequestParams())->getParsedBodyParam($request, "obec"));
-
-
+            $this->hydrateCompanyAddress($request, $companyAddress);
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);
     }
     
-    
+    private function hydrateCompanyAddress(ServerRequestInterface $request, CompanyAddressInterface $companyAddress) {
+        $requestParams = new RequestParams();
+        $companyAddress->setName($requestParams->getParsedBodyParam($request, 'name') );
+        $companyAddress->setLokace($requestParams->getParsedBodyParam($request, 'lokace'));
+        $companyAddress->setPsc($requestParams->getParsedBodyParam($request, "psc"));
+        $companyAddress->setObec($requestParams->getParsedBodyParam($request, "obec"));           
+    }    
     
    
     /**
@@ -417,13 +408,8 @@ class CompanyControler extends FrontControlerAbstract {
         if ($this->hasPermissions($loginAggregateCredentials, $idCompany)) {
             /** @var CompanyInfoInterface $companyInfo */
             $companyInfo =  new CompanyInfo();
-            $requestParams = new RequestParams();
             $companyInfo->setCompanyId($idCompany);
-            $companyInfo->setIntroduction( $requestParams->getParsedBodyParam($request, 'introduction') );
-            $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'video_link'));
-            $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
-            $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));
-
+            $this->hydrateCompanyInfo($request, $companyInfo);
             $this->companyInfoRepo->add($companyInfo);
 
         } else {
@@ -443,17 +429,21 @@ class CompanyControler extends FrontControlerAbstract {
             if (!isset($companyInfo)) {
                 throw new UnexpectedValueException("Invalid path. Invalid child id.");
             }
-            $requestParams = new RequestParams();
-            $companyInfo->setIntroduction($requestParams->getParsedBodyParam($request, 'introduction') );
-            $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'videolink'));
-            $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
-            $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));
+            $this->hydrateCompanyInfo($request, $companyInfo);
             $this->processCompanyToNetwork($request, $idCompany);
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
         }
         return $this->redirectSeeLastGet($request);        
     }
+    
+    private function hydrateCompanyInfo(ServerRequestInterface $request, CompanyInfoInterface $companyInfo) {
+        $requestParams = new RequestParams();
+        $companyInfo->setIntroduction($requestParams->getParsedBodyParam($request, 'introduction') );
+        $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'videolink'));
+        $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
+        $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));     
+    }    
     
     public function removeCompanyInfo(ServerRequestInterface $request, $idCompany, $idCompanyA) {
         $loginAggregateCredentials = $this->getStatusLoginAggregate();
