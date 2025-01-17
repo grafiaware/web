@@ -12,16 +12,9 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Events\Model\Repository\JobToTagRepo;
 use Events\Model\Repository\JobTagRepo;
 
-
-
 //TODO: chybný namespace Red
 use Red\Model\Entity\LoginAggregateFullInterface;
 
-use Events\Model\Entity\VisitorProfile;
-use Events\Model\Entity\Document;
-use Events\Model\Entity\DocumentInterface;
-use Events\Model\Entity\VisitorJobRequest;
-use Events\Model\Entity\VisitorJobRequestInterface;
 
 use Status\Model\Enum\FlashSeverityEnum;
 
@@ -34,7 +27,7 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
 
-
+use LogicException;
 
 
 /**
@@ -43,11 +36,9 @@ use Pes\Http\Response;
  * @author vlse2610
  */
 class FilterControler extends FrontControlerAbstract {
-
-    const UPLOADED_KEY_CV = "visitor-cv";
-    const UPLOADED_KEY_LETTER = "visitor-letter";
   
-    
+    const FILTER = 'filter';
+
     private $jobToTagRepo;
     private $jobTagRepo;
 
@@ -67,32 +58,38 @@ class FilterControler extends FrontControlerAbstract {
     
     
     public function filterJob(ServerRequestInterface $request) {
+                
+        $tags = (new RequestParams())->getParsedBodyParam($request, "filterDataTags" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
+        $selectCompanyId = (new RequestParams())->getParsedBodyParam($request, "filterSelectCompany" );   //AuthControler::NULL_VALUE;   
         
-        
-        $data = (new RequestParams())->getParsedBodyParam($request, "data" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
-
-        
+        $statusPresentation = $this->statusPresentationRepo->get();
+        if (isset($statusPresentation) ) {
+            $statusPresentation->setInfo(self::FILTER, ['filterDataTags'=>$tags, 'companyId'=>$selectCompanyId]);  
+            //$this->statusPresentationRepo->get()->setInfo(self::FILTER, ['data'=>$data, 'selectCompany'=>$selectCompany]);            
+        } else {
+            throw new LogicException("Neexistuje status presentation.");
+        }
         
         return $this->redirectSeeLastGet($request);         
     }
     
     
     
-   
-//    public function remove(ServerRequestInterface $request, $id) {
-//             
-//            $document = $this->documentRepo->get($id);
-//            if (!isset($document)) {                
-//            }
-//            else{
-//                $this->documentRepo->remove($document);                                
-//            } 
-//
-//            $this->addFlashMessage(" Document smazán.");
-//            return $this->redirectSeeLastGet($request);        
-//    }
-
     
+     public function cleanFilterJob(ServerRequestInterface $request) {
+                
+        $data = (new RequestParams())->getParsedBodyParam($request, "data" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null                
+        $selectCompany = (new RequestParams())->getParsedBodyParam($request, "selectCompany" ); 
+        
+        $data = [];
+        $selectCompany = "";
+        
+        return $this->redirectSeeLastGet($request);         
+    }
+    
+    
+
+//            $this->addFlashMessage(" Document smazán.");           
     
           
 }

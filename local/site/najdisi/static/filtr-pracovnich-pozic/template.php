@@ -16,22 +16,37 @@ use Events\Model\Repository\JobRepo;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Entity\JobInterface;
 
+
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
+use Events\Middleware\Events\Controler\FilterControler;
+
 use Events\Model\Entity\RepresentativeInterface;
 use Access\Enum\RoleEnum;
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
-
-/** @var  RepresentativeInterface $representativeFromStatus*/
-$role = $statusViewModel->getUserRole();
-
-if (isset($role) && ($role==RoleEnum::REPRESENTATIVE || $role==RoleEnum::EVENTS_ADMINISTRATOR)) {
-
-        /** @var CompanyRepoInterface $companyRepo */
-    $companyRepo = $container->get(CompanyRepo::class );
+        
+    $filter = $statusViewModel->getPresentationInfos()[FilterControler::FILTER]; //bylo ulozeno v FilterControler->filterJob()
     
+    $dataCheckNew=[];         
+    $dataCheck = $filter['filterDataTags'];
+    if (!isset($dataCheck)) { 
+        $dataCheckNew=[];         
+    }
+    else {
+        foreach ($dataCheck as $key => $value) {
+            $dataCheckNew["filterDataTags[". $key .  "]"] = (int)$value;         
+        }
+    }
+    $dataCheckArr = $dataCheckNew;
+    //----------------------------------
+    
+    $selectCompanyId = (int)$filter['companyId'];
+    //----------------------------------
+            
+        /** @var CompanyRepoInterface $companyRepo */
+    $companyRepo = $container->get(CompanyRepo::class );    
     $companies = $companyRepo->findAll();
     $selectCompanies =[];    
     $selectCompanies [AuthControler::NULL_VALUE] =  "" ;
@@ -49,83 +64,61 @@ if (isset($role) && ($role==RoleEnum::REPRESENTATIVE || $role==RoleEnum::EVENTS_
     $allTags=[];
         // map jsou tagy indexované podle id tagů (se stejnou map byly renderovány items)
         /** @var JobTagInterface  $jobTag */
-        foreach ( $map as $id => $jobTag) {
-            $allTags[$jobTag->getTag()] = ["data[{$jobTag->getTag()}]" => $jobTag->getId()] ;
+    foreach ( $map as $id => $jobTag) {
+       $allTags[$jobTag->getTag()] = ["filterDataTags[{$jobTag->getTag()}]" => $jobTag->getId()] ;
     }        
     //------------------------------------------------------------------- 
-        
-    $selectCompanyId = 10;   
-    $checkValuesArr = [ "data[pro ZP]" => 53,  "data[na rodičovské]" => 52 ];
+    
+//data  pro formular
+//    $selectCompanyId_1 = 10;   
+//    $dataCheckArr_1 = [ "filterDataTags[pro ZP]" => 53, 
+//                        "filterDataTags[na rodičovské]" => 52 ];
+    //-----------------------------------------------------------------------
+    
+    
+//     foreach (xxx as $jobId) {
+//            /** @var JobInterface $job */
+//            echo Html::tag('div', 
+//                    [
+//                        'class'=>'cascade',
+//                        'data-red-apiuri'=>"events/v1/data/company/$companyId/job/$jobId",
+//                    ]
+//                );            
+//        }
+    
+    
+    
+    
+    
+    
     ?> 
 
-  
+    <div>Nastavte hodnoty pro výběr nabízených pracovních pozic:</div>
+    
     <form class="ui huge form" action="" method="POST" > 
         
             <div class="field">
                 <?= Html::select( 
-                    "selectCompany", 
-                    "Firma pro filtr:",  
-                    [ "selectCompany"=> $selectCompanyId  ],    
+                    "filterSelectCompany", 
+                    "Firma:",  
+                    [ "filterSelectCompany" => $selectCompanyId ],    
                     $selectCompanies ??  [] , 
                     []    // ['required' => true ],                        
                 ) ?> 
             </div>
         
             <div class="field">
-                 <?= Html::checkbox( $allTags , $checkValuesArr ); ?>
+                 <div>Typ hledané pozice: </div>
+                 <?= Html::checkbox( $allTags , $dataCheckArr ); ?>
             </div>
                                          
             <div>      
                 <button class='ui secondary button' type='submit' 
-                        formaction='events/v1/filterjob'> Uložit </button>
+                        formaction='events/v1/filterjob'> Vyhledat </button>
                 <button class='ui secondary button' type='submit' 
-                        formaction='events/v1/filterjobclear'> Odškrtnout vše </button>
-            </div>            
+                        formaction='events/v1/cleanfilterjob'> Vyčistit filtr </button>
+            </div>                            
         
-        <?php
-//                       echo Html::tag('span', 
-//                       [
-//                       'class'=>'cascade',
-//                       'data-red-apiuri'=> "events/v1/data/jobtotag",
-//                       ]
-//                       );         
-        ?>
-           
     </form>
     
-    
-    
-    
-    
-    
-    
-    
- <?php       
-
-//    /** @var CompanyRepoInterface $companyRepo */
-//    $companyRepo = $container->get(CompanyRepo::class );
-//    $companies = $companyRepo->findAll();
-//
-//    foreach ($companies as $company) {
-//        $companyId = $company->getId();
-//        echo Html::tag('div', 
-//                [
-//                    'class'=>'cascade',
-//                    'data-red-apiuri'=>"events/v1/data/company/$companyId",
-//                ]
-//            );                 
-//        
-//            /** @var JobInterface $job */
-//            echo Html::tag('div', 
-//                    [
-//                        'class'=>'cascade',
-//                        'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
-//                    ]
-//                );            
-//       }    
-          
-          
-} else {
-    echo Html::p("Stránka je až do termínu veletrhu zobrazena pouze přihlášeným reprezentantům firmy.", ["class"=>"ui blue segment"]);
-    
-}
+   

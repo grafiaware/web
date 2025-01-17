@@ -115,7 +115,12 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var FilterControler $ctrl */
             $ctrl = $this->container->get(FilterControler::class);
             return $ctrl->filterJob($request);
-        });    
+        });   
+        $this->routeGenerator->addRouteForAction('POST', "/events/v1/cleanfilterjob" , function(ServerRequestInterface $request) {
+            /** @var FilterControler $ctrl */
+            $ctrl = $this->container->get(FilterControler::class);
+            return $ctrl->cleanFilterJob($request);
+        });   
             
         
         
