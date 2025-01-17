@@ -2,7 +2,7 @@
 <div class="grouped fields">       
         <div class="field">
         <span class="text zadne-okraje" data-info="editable">
-                            <a href="<?= $link ?? '' ?>" target="_blank"><i class="<?= $icon ?> circle icon"></i><?= $icon." značka" ?></a>
+                            <a href="<?= $link ?? '' ?>" target="_blank"><i class="<?= $icon ?> circle icon"></i><?= $icon ?></a>
         </span>
         </div>
         <div class="field">
@@ -18,5 +18,5 @@
         </div>
         <div class="field">                
             <input type="text" name="embedCodeTemplate" placeholder="vložte kód embedCodeTemplate" maxlength="120" required value="<?= $embedCodeTemplate ?? '' ?>">              
-        </div>-->
-    </div>
+        </div>
+    </div>-->
