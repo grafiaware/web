@@ -58,16 +58,17 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
 
     private function getCheckedNetworks() {
         $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
-            if ($this->isMultiEditable()) {
-                $companyToNetworks = $this->companyToNetworkRepo->findByCompanyId($company->getId());
-            } else {
-                $companyToNetworks = $this->companyToNetworkRepo->find("company_id=:company_id AND published=1", ["company_id"=>$company->getId()]);
-            }        
-        $networks = [];
+        // načte vazební tabulku  - $companyToNetworks pro danou company
+//        if ($this->isMultiEditable()) {
+//            $companyToNetworks = $this->companyToNetworkRepo->findByCompanyId($company->getId());
+//        } else {
+            $companyToNetworks = $this->companyToNetworkRepo->find("company_id=:company_id AND published=1", ["company_id"=>$company->getId()]);
+//        }        
+        $checkedNetworks = [];
         foreach ($companyToNetworks as $companyToNetwork) {
-            $networks[] = $this->networkRepo->get($companyToNetwork->getNetworkId());
+            $checkedNetworks[] = $this->networkRepo->get($companyToNetwork->getNetworkId());
         }        
-        return $networks;
+        return $checkedNetworks;
     }
     
     protected function loadMultiEntitiesMap() {
