@@ -100,6 +100,7 @@ class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface{
                 'fields' => [
                     'networkId' => $id,
                     'icon' => $this->network->getIcon(), 
+                    'title' => $this->network->getTitle(),
                     'embedCodeTemplate' => $this->network->getEmbedCodeTemplate(), 
                     'link'=> isset($this->companyToNetwork) ? $this->companyToNetwork->getLink() : ''
                     ],

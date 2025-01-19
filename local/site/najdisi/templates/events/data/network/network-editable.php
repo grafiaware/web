@@ -2,7 +2,7 @@
 <div class="grouped fields">       
         <div class="field">
         <span class="text zadne-okraje" data-info="editable">
-                            <a href="<?= $link ?? '' ?>" target="_blank"><i class="<?= $icon ?> circle icon"></i><?= $icon ?></a>
+                            <a href="<?= $link ?? '' ?>" target="_blank"><i class="<?= $icon ?> circle icon"></i><?= $title ?></a>
         </span>
         </div>
         <div class="field">

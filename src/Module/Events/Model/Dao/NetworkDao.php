@@ -23,7 +23,7 @@ class NetworkDao extends DaoEditAbstract  implements DaoEditAutoincrementKeyInte
     }
 
     public function getAttributes(): array {
-        return [ 'id', 'icon', 'embed_code_template' ];
+        return [ 'id', 'icon', 'title', 'embed_code_template' ];
     }
 
     public function getTableName(): string {
