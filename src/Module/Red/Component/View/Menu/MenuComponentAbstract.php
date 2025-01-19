@@ -22,17 +22,13 @@ use Red\Component\View\Menu\DriverComponentInterface;
 
 use Red\Service\Menu\DriverService;
 
-use Access\Enum\RoleEnum;
-use Access\Enum\AccessPresentationEnum;
-
-use LogicException;
 
 /**
  * Description of MenuComponent
  *
  * @author pes2704
  */
-class MenuComponent extends ComponentCompositeAbstract implements MenuComponentInterface {
+abstract class MenuComponentAbstract extends ComponentCompositeAbstract implements MenuComponentInterface {
 
     private $container;
 
@@ -51,15 +47,6 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     public function __construct(ComponentConfigurationInterface $configuration, ContainerInterface $container) {
         parent::__construct($configuration);
         $this->container = $container;
-    }
-    
-    public static function getComponentPermissions(): array {
-        return [
-            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
-            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
-            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true]
-        ];
     }
     
     public function getString() {
