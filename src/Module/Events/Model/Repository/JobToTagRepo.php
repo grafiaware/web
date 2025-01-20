@@ -54,6 +54,17 @@ class JobToTagRepo extends RepoAbstract implements JobToTagRepoInterface {
     public function findByJobTagId($jobTagId) : array {
         return $this->findEntities("job_tag_id = :job_tag_id", [":job_tag_id"=>$jobTagId] );
     }
+    
+    
+     /**
+     * 
+     * @param string $whereClause Příkaz where v SQL syntaxi vhodné pro PDO, s placeholdery
+     * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkazu where
+     * @return JobToTagInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]) : array {
+        return $this->findEntities( $whereClause, $touplesToBind );
+    }
 
 
     /**

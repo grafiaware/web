@@ -12,6 +12,10 @@ use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\JobTagRepo;
 use Events\Model\Repository\JobTagRepoInterface;
+use Events\Model\Repository\JobToTagRepo;
+use Events\Model\Repository\JobToTagRepoInterface;
+use Events\Model\Entity\JobToTagInterface;
+
 use Events\Model\Repository\JobRepo;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Entity\JobInterface;
@@ -32,14 +36,18 @@ $statusViewModel = $container->get(StatusViewModel::class);
     $dataCheckNew=[];         
     $dataCheck = $filter['filterDataTags'];
     if (!isset($dataCheck)) { 
-        $dataCheckNew=[];         
+        $dataCheckNew=[];     
+        $dataCheckForSelect='';
     }
     else {
         foreach ($dataCheck as $key => $value) {
-            $dataCheckNew["filterDataTags[". $key .  "]"] = (int)$value;         
+            $dataCheckNew["filterDataTags[". $key .  "]"] = (int)$value;      
+            $dataCheckForSelect .= $value . ',';
         }
     }
     $dataCheckArr = $dataCheckNew;
+    
+    $checksForSelect = substr($dataCheckForSelect,0,strlen($dataCheckForSelect)-1);    
     //----------------------------------
     
     $selectCompanyId = (int)$filter['companyId'];
@@ -74,23 +82,10 @@ $statusViewModel = $container->get(StatusViewModel::class);
 //    $dataCheckArr_1 = [ "filterDataTags[pro ZP]" => 53, 
 //                        "filterDataTags[na rodičovské]" => 52 ];
     //-----------------------------------------------------------------------
+    //------------------------------------------------------------------------
     
     
-//     foreach (xxx as $jobId) {
-//            /** @var JobInterface $job */
-//            echo Html::tag('div', 
-//                    [
-//                        'class'=>'cascade',
-//                        'data-red-apiuri'=>"events/v1/data/company/$companyId/job/$jobId",
-//                    ]
-//                );            
-//        }
-    
-    
-    
-    
-    
-    
+  
     ?> 
 
     <div>Nastavte hodnoty pro výběr nabízených pracovních pozic:</div>
@@ -120,5 +115,140 @@ $statusViewModel = $container->get(StatusViewModel::class);
             </div>                            
         
     </form>
+    
+    
+    <?php
+    
+        $jobToTagRepo = $container->get(JobToTagRepo::class);
+        $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in (:str) group by job_id " ,[ str => $checksForSelect ] );
+                       /** @var CompanyInterface $co */
+        foreach ($companies as $key => $co) { 
+             
+        }      
+         foreach ($companies as $key => $co) { 
+             
+        }   
+    
+        
+    if ( ($selectCompanyId == 0 ) and ($checksForSelect == '') ) {  //pro vsechny firmy vsechny joby
+           /** @var CompanyInterface $co */
+        foreach ($companies as $key => $co) {    
+          echo Html::p($co->getName(), []);
+          echo Html::tag('div', 
+            [
+                'class'=>'cascade',
+                'data-red-apiuri'=>"events/v1/data/company/{$co->getId()}/job",
+            ]
+            );   
+        }   
+    }
+    
+    if ( ($selectCompanyId == 0 ) and ($checksForSelect != '') ) {    //pro vsechny firmy vyber joby
+               /** @var CompanyInterface $co */
+        foreach ($companies as $key => $co) {  
+            
+            echo Html::p($co->getName(), []);         
+                /** @var JobToTagRepoInterface $jobToTagRepo */
+            $jobToTagRepo = $container->get(JobToTagRepo::class);
+            $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in (:str) group by job_id " ,[ str => $checksForSelect ] );
+         
+            
+                /** @var JobToTagInterface $jobToTagE */
+            foreach ($jobToTagEntities as $jobToTagE) {
+                
+                
+                echo '<div>' . $jobToTagE->getJobId() . '</div>' ;
+                $jobId = $jobToTagE->getJobId();
+                    /** @var JobInterface $job */
+                echo Html::tag('div', 
+                    [
+                        'class'=>'cascade',
+                        'data-red-apiuri'=>"events/v1/data/company/{$co->getId()}/job/$jobId",
+                    ]
+                    );            
+            }    
+        }
+        
+        
+        
+        
+        
+            ##################
+        if ( $selectCompanyId != 0 ) {
+            $comp = $companyRepo->find("company_id=:company_id", ['company_id'=>$selectCompanyId]);
+        } else {
+            $comp= $companies;
+        }            
+        /** @var CompanyInterface $co */
+        foreach ($comp as $key => $co) {  
+
+            echo Html::p($co->getName(), []);         
+                /** @var JobToTagRepoInterface $jobToTagRepo */
+            $jobToTagRepo = $container->get(JobToTagRepo::class);
+            $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in (:str) group by job_id " ,[ str => $checksForSelect ] );            
+            foreach ($jobToTagEntities as $jobToTagE) {
+                $jobIds[] = $jobToTagE->getJobId();
+            }
+            $jojo = implode(", ", $jobIds);
+            $jobRepo = $container->get(JobRepo::class);
+            $jobEntities = $jobRepo->find( " job_id in (:jojo) AND company_id=:company_id" ,[ 'jojo' => $jojo, 'company_id'=>$co->getId() ] );  
+            foreach ($jobEntities as $job) {                
+                echo Html::tag('div', 
+                    [
+                        'class'=>'cascade',
+                        'data-red-apiuri'=>"events/v1/data/company/{$co->getId()}/job/{$job->getId()}",
+                    ]
+                    );            
+            }               
+        }
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    if ( $selectCompanyId != 0 and $checksForSelect != '' ) { //pro 1 firmu  vyber joby
+         /** @var CompanyInterface $comp */
+        $comp = $companyRepo->get($selectCompanyId);
+        echo Html::p($comp->getName(), []);    
+        
+            /** @var JobToTagRepoInterface $jobToTagRepo */   
+        $jobToTagRepo = $container->get(JobToTagRepo::class);
+        $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in (:str) group by job_id " ,[ str => $checksForSelect ] );
+            /** @var JobToTagInterface $jobToTagE */
+        foreach ($jobToTagEntities as $jobToTagE) {
+            echo '<div>' . $jobToTagE->getJobId() . '</div>' ;
+            $jobId = $jobToTagE->getJobId();
+            echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$selectCompanyId/job/$jobId",
+                ]
+                );            
+        }
+    
+    
+    }
+    
+    if ( $selectCompanyId != 0 and $checksForSelect = '' ) { //pro 1 firmu vsechny joby
+        
+        echo Html::tag('div', 
+        [
+            'class'=>'cascade',
+            'data-red-apiuri'=>"events/v1/data/company/$selectCompanyId/job",
+        ]
+        );          
+    
+    }    
+ 
+    
+//    else {
+//       ?> 
+<!--        <p> Zadanému fitru neodpovídá žádná položka.  </p>-->
+    <?php
+//    }
     
    
