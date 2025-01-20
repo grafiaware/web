@@ -3,6 +3,7 @@ namespace Component\ViewModel\RouteSegment;
 
 use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
  
+use UnexpectedValueException;
 /**
  * Description of FamilyRouteSegment
  *
@@ -18,8 +19,8 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
 
 
     public function __construct(string $prefix, string $parentName, string $parentId, string $childName) {
-        if (! ($parentName && $parentId && $childName)) {
-            throw new UnexpectedValueException("nejsou nastaveny všechny povinné parametry.");
+        if (! (strlen($parentName) && strlen($parentId) && strlen($childName))) {
+            throw new UnexpectedValueException("nejsou nastaveny všechny povinné parametry. Parametry routy musí neprázdné.");
         }
         $this->prefix = $prefix;
         $this->parentName = $parentName;

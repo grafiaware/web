@@ -104,6 +104,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'fields' => self::WEB_TEMPLATES_COMMON.'data/fields.php',
                 'formWithFields' => self::WEB_TEMPLATES_COMMON.'data/formWithFields.php',
                 'formWithFields2column' => self::WEB_TEMPLATES_COMMON.'data/formWithFields2column.php',
+                'formEnctypeMultipartWithFields' => self::WEB_TEMPLATES_COMMON.'data/formEnctypeMultipartWithFields.php',
                 'items' => self::WEB_TEMPLATES_COMMON.'data/items.php',
                 'multiEditable' => self::WEB_TEMPLATES_COMMON.'data/multiEditable.php',
                 'multi' => self::WEB_TEMPLATES_COMMON.'data/multi.php',                
