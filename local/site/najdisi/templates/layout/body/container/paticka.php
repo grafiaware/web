@@ -53,11 +53,8 @@ use Pes\Text\Text;
                         <div class="content">
                             <p class="text velky">Ochrana osobních údajů</p>
                             <?php
-                            try {
-                                $this->insert(ConfigurationCache::webComponent()['templates']['gdpr']);
-                            } catch (Exception $exc) {
-                                echo $exc->getTraceAsString();
-                            }
+                                $dir = constant('PROJECT_PATH');
+                                echo $this->insert($dir.ConfigurationCache::webComponent()['templates']['gdpr']);
                             ?>
                         </div>
                     </div>

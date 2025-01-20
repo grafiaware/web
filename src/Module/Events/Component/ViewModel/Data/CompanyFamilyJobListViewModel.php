@@ -2,7 +2,7 @@
 namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelFamilyListAbstract;
-use Component\ViewModel\ViewModelLimutedListInterface;
+use Component\ViewModel\ViewModelLimitedListInterface;
 
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 use Component\ViewModel\FamilyInterface;
@@ -26,7 +26,7 @@ use LogicException;
  *
  * @author pes2704
  */
-class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract implements ViewModelLimutedListInterface {
+class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract implements ViewModelLimitedListInterface {
     
     private $status;
     private $companyRepo;
