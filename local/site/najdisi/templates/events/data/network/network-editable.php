@@ -1,5 +1,4 @@
-<div class="field">
-<div class="grouped fields">       
+    <div class="network">
         <div class="field">
         <span class="text zadne-okraje" data-info="editable">
                             <a href="<?= $link ?? '' ?>" target="_blank"><i class="<?= $icon ?> circle icon"></i><?= $title ?></a>
@@ -8,8 +7,7 @@
         <div class="field">
             <input type="url" name="link[<?= $networkId ?>]" placeholder="odkaz" maxlength="200" value="<?= $link ?? '' ?>" >
         </div>
-</div>
-</div>
+    </div>
 
 
 <!--<div class="two fields">   
