@@ -9,6 +9,7 @@ use Component\ViewModel\StatusViewModelInterface;
 
 use Events\Model\Repository\DocumentRepoInterface;
 use Events\Model\Entity\DocumentInterface;
+use Model\Entity\EntityInterface;
 use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorProfileRepoInterface;
 use Events\Model\Repository\VisitorProfileRepo;
@@ -23,6 +24,7 @@ use Access\Enum\RoleEnum;
 
 use ArrayIterator;
 use UnexpectedValueException;
+use Exception;
 /**
  * 
  */
@@ -31,6 +33,12 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
     private $status;
     private $documentRepo;
     private $visitorProfileRepo;
+    
+    /**
+     * 
+     * @var DocumentInterface
+     */
+    private $document;
 
     use RepresentativeTrait;
 
@@ -43,25 +51,35 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         $this->documentRepo = $documentRepo;
         $this->visitorProfileRepo = $visitorProfileRepo;        
     }
-
-    use RepresentativeTrait;
     
     private function isAdministrator() {
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
-
-//    private function isCompanyEditor($companyId) {
-//        return ($this->getStatusRepresentativeDataEditable() AND $this->getStatusRepresentativeCompanyId()==$companyId);
-//    }   
     
-    private function isCurrentVisitor($parentId) {
-        //zda je visitor a
-        //zda je to visitor, jehoz je to profile
-        $is = $this->status->getUserLoginName() == $parentId;      
-        return ( ($this->status->getUserRole()== RoleEnum::VISITOR)  AND $is ) ;
+    public function receiveEntity(EntityInterface $entity) {
+        if ($entity instanceof DocumentInterface) {
+            $this->document = $entity;
+        } else {
+            $cls = DocumentInterface::class;
+            $parCls = get_class($entity);
+            throw new TypeError("Typ entity musí být $cls, předáno $parCls.");
+        }
+    }
+
+    public function isItemEditable(): bool {
+        $this->loadDocument();
+        return $this->isAdministratorEditor();
     }
     
-    
+    private function loadDocument() {
+        if (!isset($this->document)) {
+            if ($this->hasItemId()) {
+                $this->document = $this->documentRepo->get($this->getItemId());     
+            } else {
+                throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+            }
+        }
+    }
     
     public function getIterator() {                        
         //$requestedId = $this->getItemId();  // id documentu    // -----   z routy, netreba
@@ -82,72 +100,106 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
         $uploadedFilename = VisitorProfileControler::UPLOADED_KEY.$userHash;
         //-------------------------------------------------------------------------------------
         
-        $editableItem = $this->isAdministratorEditor() || $this->isCurrentVisitor($parentId);           
-        
-        if (isset($parentId)) {
-            $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";   
-            $visitorProfile = $requestedParTabRepo->get($parentId);
-            
-            if ($requestedTypeDoc == VisitorProfileControler::TYPE_LETTER) {
-                $addHeadline = "Soubor typu:  motivační dopis ";
-                $id = $visitorProfile->getLetterDocument();   
-            }
-            if ($requestedTypeDoc == VisitorProfileControler::TYPE_CV) {
-                $addHeadline = "Soubor typu: životopis ";
-                $id = $visitorProfile->getCvDocument();
-            }
+//        $editableItem = $this->isAdministratorEditor() || $this->isCurrentVisitor($parentId);           
+//        
+//        if (isset($parentId)) {
+//            $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";   
+//            $visitorProfile = $requestedParTabRepo->get($parentId);
+//            
+//            if ($requestedTypeDoc == VisitorProfileControler::TYPE_LETTER) {
+//                $addHeadline = "Soubor typu:  motivační dopis ";
+//                $id = $visitorProfile->getLetterDocument();   
+//            }
+//            if ($requestedTypeDoc == VisitorProfileControler::TYPE_CV) {
+//                $addHeadline = "Soubor typu: životopis ";
+//                $id = $visitorProfile->getCvDocument();
+//            }
+//
+//            if (isset($id)) {                         
+//                /** @var DocumentInterface $document */
+//                $document = $this->documentRepo->get($id);     
+//            }
+//            if (isset($document)) {
+//                $documentArr = [
+//                    // conditions
+//                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
+//                    //route
+//                'actionSave' => $componentRouteSegment."/$id",
+//                'actionRemove' => $componentRouteSegment."/$id/remove",
+//
+//                    'addHeadline' => $addHeadline,
+//                    'uploadedFilename' => $uploadedFilename,
+//                    'filename'    => $document->getDocumentFilename(),
+//                    'visitorDocumentId'   => $document->getId(),
+//                    'accept' => $accept,                
+//                ];           
+//            } elseif (  $requestedParTabRepo->get($parentId)) {  // validace id rodiče
+//                    $documentArr = [
+//                    // conditions
+//                        'editable' => true,
+//                        // text
+//                        'addHeadline' => 'Přidej dokument',                      
+//                        //route
+//                'actionAdd' => $componentRouteSegment,
+//                        // data
+//                        'addHeadline' => $addHeadline,                    
+//                        'uploadedFilename' => $uploadedFilename,
+//                        'accept' => $accept,                    
+//                        ];
+//                } else {
+//                    throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
+//                }
+//
+//        } else {
+//            $addHeadline = "Neexistuje profil návštěvníka (s požadovaným id).";
+//            
+//            $documentArr = [
+//                'editable' => false,
+//                'addHeadline' => $addHeadline, 
+//                'accept' => $accept, 
+//            ];
+//                //throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
+//        }  
+//        
+//// $documentArr = [];
+//       
+//        
+//        $this->appendData($documentArr);
+//        return parent::getIterator();    
+###############        
+        $this->loadDocument();
+        $componentRouteSegment = 'events/v1/document';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 
-            if (isset($id)) {                         
-                /** @var DocumentInterface $document */
-                $document = $this->documentRepo->get($id);     
-            }
-            if (isset($document)) {
-                $documentArr = [
-                    // conditions
-                    'editable' => $editableItem,    // vstupní pole formuláře jsou editovatelná
-                    //route
+        $id = $this->document->getId();
+        if (isset($id)) {
+            $item = [
+                //route
                 'actionSave' => $componentRouteSegment."/$id",
-                'actionRemove' => $componentRouteSegment."/$id/remove",
-
-                    'addHeadline' => $addHeadline,
+//                'actionRemove' => $componentRouteSegment."/$id/remove",  !! příliš nebezpečná operace
+                // data
+                'fields' => [
                     'uploadedFilename' => $uploadedFilename,
-                    'filename'    => $document->getDocumentFilename(),
-                    'visitorDocumentId'   => $document->getId(),
-                    'accept' => $accept,                
-                ];           
-            } elseif (  $requestedParTabRepo->get($parentId)) {  // validace id rodiče
-                    $documentArr = [
-                    // conditions
-                        'editable' => true,
-                        // text
-                        'addHeadline' => 'Přidej dokument',                      
-                        //route
+                    'filename'    => $this->document->getDocumentFilename(),
+                    'accept' => $accept, ],
+                ];
+        } elseif ($this->isItemEditable()) {
+            $item = [
+                //route
                 'actionAdd' => $componentRouteSegment,
-                        // data
-                        'addHeadline' => $addHeadline,                    
-                        'uploadedFilename' => $uploadedFilename,
-                        'accept' => $accept,                    
-                        ];
-                } else {
-                    throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
-                }
-
+                // text
+                'addHeadline' => 'Přidej dokument',                
+                // data
+                'fields' => [
+                    'uploadedFilename' => $uploadedFilename,
+                    'accept' => $accept, ],
+                ];
         } else {
-            $addHeadline = "Neexistuje profil návštěvníka (s požadovaným id).";
-            
-            $documentArr = [
-                'editable' => false,
-                'addHeadline' => $addHeadline, 
-                'accept' => $accept, 
-            ];
-                //throw new UnexpectedValueException("Neexistuje profil návštěvníka s požadovaným id.");
-        }  
+            $item = [];
+        }
         
-// $documentArr = [];
-       
-        
-        $this->appendData($documentArr);
+        $this->appendData($item);
         return parent::getIterator();        
+        
     }
     
     
