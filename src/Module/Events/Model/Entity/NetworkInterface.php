@@ -10,15 +10,22 @@ use Model\Entity\PersistableEntityInterface;
  */
 interface NetworkInterface extends PersistableEntityInterface {
     
-    
+    /**
+     * @return string
+     */
     public function getId()  ;
     
     /**
      * 
      * @return string
      */
-    public function getIcon() ;
-
+    public function getIcon();
+    
+    /**
+     * @return string
+     */
+    public function getTitle();
+    
     /**
      * @return string
      */
@@ -38,7 +45,14 @@ interface NetworkInterface extends PersistableEntityInterface {
      * @return NetworkInterface $this
      */
     public function setIcon( $tag) : NetworkInterface ;
-       
+    
+    /**
+     * 
+     * @param type $title
+     * @return NetworkInterface
+     */
+    public function setTitle($title): NetworkInterface ;       
+
     /**
      * 
      * @param string $color

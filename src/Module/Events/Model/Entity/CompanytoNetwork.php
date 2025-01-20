@@ -15,7 +15,9 @@ class CompanytoNetwork extends PersistableEntityAbstract implements CompanytoNet
     private $companyId;  //NOT NULL
     private $networkId;   //NOT NULL
     private $link;
+    private $published;
 
+       
     /**
      *
      * @return string
@@ -38,6 +40,14 @@ class CompanytoNetwork extends PersistableEntityAbstract implements CompanytoNet
      */
     public function getLink() {
         return $this->link;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getPublished() {
+        return $this->published;
     }
     
     /**
@@ -69,4 +79,10 @@ class CompanytoNetwork extends PersistableEntityAbstract implements CompanytoNet
         $this->link = $link;
         return $this;
     }
+    
+
+    public function setPublished($published): CompanytoNetworkInterface  {
+        $this->published = $published;
+        return $this;
+    }    
 }

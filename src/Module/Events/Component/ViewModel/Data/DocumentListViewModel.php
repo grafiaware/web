@@ -6,8 +6,10 @@ use Component\ViewModel\ViewModelListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
-use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Entity\Company;
+
+use Events\Model\Repository\DocumentRepoInterface;
+use Events\Model\Entity\DocumentInterface;
+use Events\Model\Entity\Document;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
@@ -17,26 +19,28 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class DocumentListViewModel extends ViewModelAbstract implements ViewModelListInterface {
 
     private $status;  
     
-    private $companyRepo;
+    private $documentRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            CompanyRepoInterface $companyRepo
+            DocumentRepoInterface $documentRepo
             ) {
         $this->status = $status;
-        $this->companyRepo = $companyRepo;
+        $this->documentRepo = $documentRepo;
+    }
+    
+    private function isAdministrator() {
+        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
     
     public function isListEditable(): bool {
         return $this->isAdministrator();
     }
     
-    use RepresentativeTrait;
-
     /**
      * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
      * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
@@ -46,9 +50,9 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      * @return iterable
      */
     public function provideItemEntityCollection(): iterable {
-        $entities = $this->companyRepo->findAll();
+        $entities = $this->documentRepo->findAll();
         if ($this->isListEditable()) {
-            $entities[] = new Company();  // pro přidání
+            $entities[] = new Document();  // pro přidání
         }
         return $entities;
     }
@@ -59,7 +63,7 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      */
     public function getIterator() {
         $array = [         
-            'listHeadline'=>'Firmy', 
+            'listHeadline'=>'Dokumenty', 
             'items' => $this->getArrayCopy()];
         $this->appendData($array);
         return parent::getIterator();     }

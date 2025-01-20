@@ -27,7 +27,8 @@ class CompanytoNetworkHydrator extends TypeHydratorAbstract implements HydratorI
         $companyToNetwork                
             ->setCompanyId($this->getPhpValue( $rowData, 'company_id' ) )
             ->setNetworkId($this->getPhpValue( $rowData,'network_id') )
-            ->setLink($this->getPhpValue( $rowData, 'link' ));
+            ->setLink($this->getPhpValue( $rowData, 'link' ))
+            ->setPublished($this->getPhpValue( $rowData, 'published' ));
         
     } 
 
@@ -41,6 +42,7 @@ class CompanytoNetworkHydrator extends TypeHydratorAbstract implements HydratorI
         $this->setSqlValue( $rowData, 'company_id', $companyToNetwork->getCompanyId() );
         $this->setSqlValue( $rowData, 'network_id', $companyToNetwork->getNetworkId() ); 
         $this->setSqlValue( $rowData, 'link', $companyToNetwork->getLink() ); 
+        $this->setSqlValue( $rowData, 'published', $companyToNetwork->getPublished() ); 
         
     }
     
