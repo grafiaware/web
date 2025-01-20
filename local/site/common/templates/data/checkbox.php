@@ -8,7 +8,7 @@ use Pes\Text\Html;
      
 
 
-    <div class="ui styled fluid accordion">   
+    <div class="accordion">   
         <div class="active title">
             <i class="dropdown icon"></i>
             <?= $listHeadline ?>

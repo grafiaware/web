@@ -33,12 +33,16 @@ if (!empty($videoLink)) {
                 <?php } ?>
                     <?php
                     if ($companyNetworksUri ?? false) {
-                        echo Html::tag('span', 
+                        
+                        echo '<div class="sixteen wide computer six wide large screen six wide widescreen column">'
+                                . '<p class="text tucne zadne-okraje">Sledujte nás</p>' .
+                        Html::tag('span', 
                             [
                                 'class'=>'cascade',
                                 'data-red-apiuri'=> $companyNetworksUri,
                             ]
-                        );
+                        )
+                        . '</div>' ;
 //                        echo "<p>Sítě lze vybírat po prvním uložení informací o firmě.</p>";
                     } else {
                         echo "<p>Zadávání sociálních sítí bude spuštěno v krátké době.</p>";
