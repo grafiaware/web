@@ -35,6 +35,9 @@
         #mySidenav.editMenu .ui.vertical.menu:not(.icon){
             width: 21rem;
         }
+        .ui.form .network .field:first-child{
+            width: 22%;
+        } 
     } 
 }
 @media screen and (min-width: 1000px){
@@ -248,6 +251,12 @@
                 border: 0;
             }
         }
+        .ui.form .network{
+            flex-direction: column;
+            .field{
+                width: 100% !important; 
+            }
+        } 
         .blok-menu-paticka{
             display: none;
         }
