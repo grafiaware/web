@@ -21,7 +21,7 @@ use Access\Enum\AccessPresentationEnum;
 use Configuration\ComponentConfiguration;
 use Pes\View\Template\PhpTemplate;
 use Component\View\ElementComponent;
-use Component\Renderer\Html\NoPermittedContentRenderer;
+        use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 
 use Events\Component\View\Manage\RepresentativeActionComponent;
@@ -45,6 +45,7 @@ use Events\Component\View\Data\TagComponent;
 use Events\Component\View\Data\TagListComponent;
 use Events\Component\View\Data\VisitorProfileComponent;
 use Events\Component\View\Data\DocumentComponent;
+use Events\Component\View\Data\DocumentListComponent;
 
 
 // component view model
@@ -71,6 +72,7 @@ use Events\Component\ViewModel\Data\CompanyFamilyJobListViewModel;
 use Events\Component\ViewModel\Data\CompanyJobsListViewModel;
 use Events\Component\ViewModel\Data\VisitorProfileViewModel;
 use Events\Component\ViewModel\Data\DocumentViewModel;
+use Events\Component\ViewModel\Data\DocumentListViewModel;
 
 
 // controler
@@ -84,6 +86,8 @@ use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\FilterControler;
+
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -155,6 +159,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyFamilynetworkList' => CompanyFamilyNetworkMultiComponent::class,            
             
             'document' => DocumentComponent::class,
+            'documentList' => DocumentListComponent::class,
             
             'tagList' => TagListComponent::class,
             'jobtotag' => JobToTagComponent::class,// JobToTagListComponent::class,
@@ -459,51 +464,56 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;           
             },        
                     
+            DocumentListComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new DocumentListComponent($configuration, $c->get(DocumentComponent::class));
+                if($accessPresentation->hasAnyPermission(DocumentListComponent::class)) {
+                    $component->setListViewModel($c->get(DocumentListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                    
+                    
             DocumentComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);              
                 $component = new DocumentComponent($configuration);
-                                
-                if($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setData($c->get(DocumentViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('documentEditable')));
-                } elseif($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(DocumentViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('document')));
+                if($accessPresentation->hasAnyPermission(DocumentComponent::class)) {                   
+                    $component->setItemViewModel($c->get(DocumentViewModel::class));
+                    $component->setItemTemplate(new PhpTemplate());  //bez šablony
+                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formEnctypeMultipartWithFields'));
+                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('document'), $configuration->getTemplate('documentEditable'));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
-                }
+                }                
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;           
-            },                    
-                    
-                    
+            },                                  
+                
             VisitorProfileComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
                 $component = new VisitorProfileComponent($configuration);
 
-                if($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setData($c->get(VisitorProfileViewModel::class));
+                if($accessPresentation->hasAnyPermission(VisitorProfileComponent::class)) { 
+                    $component->setItemViewModel($c->get(VisitorProfileViewModel::class));
+                    $component->setItemTemplate(new PhpTemplate());  //bez šablony
                     $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
-                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorProfileEditable'));                    
-                    
-                } elseif($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(VisitorProfileViewModel::class));
-                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
-                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorProfile'));                    
-                    
+                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorProfile'), $configuration->getTemplate('visitorProfileEditable'));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },          
-                    
-            
-                    
+                                
                     
         ####
         # Element komponenty - vždy zobrazeny
@@ -659,6 +669,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },
+                    
+            FilterControler::class => function(ContainerInterface $c) {                                         
+                return (new FilterControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(JobToTagRepo::class),
+                        $c->get(JobTagRepo::class)                        
+                        )
+                       )->injectContainer($c);
+            },        
                     
         ####
         # renderer container
@@ -825,15 +846,19 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },     
                     
+            DocumentListViewModel::class => function(ContainerInterface $c) {
+                return new DocumentListViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(DocumentRepo::class), 
+                   );
+            },             
            DocumentViewModel::class => function(ContainerInterface $c) {
                 return new DocumentViewModel(
                         $c->get(StatusViewModel::class),
-//                        $c->get(StatusSecurityRepo::class),
                         $c->get(DocumentRepo::class), 
                         $c->get(VisitorProfileRepo::class),                                                                  
                    );
-            },             
-                    
+            },                             
                     
         
         

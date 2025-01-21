@@ -56,6 +56,11 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
     }
     
     public function getItemViewModel(): ViewModelItemInterface {
+        if (!isset($this->itemViewModel)) {
+            $cls = get_called_class();
+            throw new LogicException("Komponent $cls nemá nastaven ItemViewModel. ");
+        }
+        
         return $this->itemViewModel;
     }
 

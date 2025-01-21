@@ -11,6 +11,8 @@ use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
+use LogicException;
+
 /**
  * Description of MenuViewModel
  *
@@ -127,11 +129,11 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     public function getSubTreeNodes() {
         // root uid z jména komponenty
         if (!isset($this->menuRootName)) {
-            user_error("Název kořene menu nebyl zadán. Název kořene menu je nutné zadat metodou setMenuRootName().", E_USER_WARNING);
+            throw new LogicException("Název kořene menu nebyl zadán. Název kořene menu je nutné zadat metodou setMenuRootName().");
         }
         $menuRoot = $this->menuRootRepo->get($this->menuRootName);
         if (!isset($menuRoot)) {
-            user_error("Kořen menu se zadaným jménem '$this->menuRootName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
+            throw new LogicException("Kořen menu se zadaným jménem '$this->menuRootName' nebyl načten z tabulky kořenů menu.");
         }
         // nodes
         $nodes = $this->hierarchyRepo->findSubTree($this->presentedLanguageLangCode(), $menuRoot->getUidFk(), $this->maxDepth);

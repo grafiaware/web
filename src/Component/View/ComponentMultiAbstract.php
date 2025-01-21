@@ -77,7 +77,10 @@ abstract class ComponentMultiAbstract extends CompositeView implements Component
      */
     public function beforeRenderingHook(): void {
         if(!isset($this->multiViewModel)) {
-            throw new LogicException("Komponent list musí mít nastaven list view model metodou ->setListViewModel(ViewModelListInterface)");
+            return;
+            
+            $cls = get_called_class();
+            throw new LogicException("Selhalo generování item komponent k multi komponentě $cls. Komponent typu ComponentMultiInterface musí mít nastaven multi view model metodou ->setMultiViewModel(ViewModelMultiInterface)");
         }
         foreach ($this->multiViewModel->provideItemEntityMap() as $id => $entity) {
             /** @var ComponentPrototypeInterface $itemComponent */

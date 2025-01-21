@@ -14,8 +14,6 @@ use Events\Model\Entity\CompanytoNetworkInterface;
 use Events\Model\Entity\NetworkInterface;
 use Model\Entity\EntityInterface;
 
-use Access\Enum\RoleEnum;
-
 use Exception;
 use TypeError;
 
@@ -24,7 +22,7 @@ use TypeError;
  *
  * @author pes2704
  */
-class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface{
+class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface {
 
     private $status;  
     
@@ -100,6 +98,7 @@ class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface{
                 'fields' => [
                     'networkId' => $id,
                     'icon' => $this->network->getIcon(), 
+                    'title' => $this->network->getTitle(),
                     'embedCodeTemplate' => $this->network->getEmbedCodeTemplate(), 
                     'link'=> isset($this->companyToNetwork) ? $this->companyToNetwork->getLink() : ''
                     ],
