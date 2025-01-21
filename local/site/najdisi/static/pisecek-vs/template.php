@@ -100,9 +100,11 @@ use Events\Model\Entity\LoginInterface;
                             "Label2"=>['manažerská/vedoucí'=>'manažerská/vedoucí']] ,
                            ['manažerská/vedoucí'=>'manažerská/vedoucí']  ) ?>
         <br/>
-        <?= MojeHTML::checkbox( ["Label1"=>['technická'=>'technická'],
+        
+<!--                 MojeHTML::checkbox( ["Label1"=>['technická'=>'technická'],
                                  "Label2"=>['manažerská/vedoucí'=>'manažerská/vedoucí']] ,
-                                ['technická'=>'technická'] ) ?>
+                                ['technická'=>'technická'] )  -->
+                                
         
         <br/> //------------------------------------------------- <br/>
          
@@ -121,10 +123,24 @@ use Events\Model\Entity\LoginInterface;
         <?= Html::checkbox(["Zobraz"=>['show'=>true] ]
                              ) ?>
 
-        
+    </div>
+    </div>
 
-    </div>
-    </div>
+ <?php 
+     $selectCompanies = [ "1" => "jedna" ,"10" => "DDDDD", "TT" => 1120  ];
+ ?>
+
+<br/><br/><br/><br/>dOBREJ ZMATEK<br/>
+<div class="field">
+                    <?= Html::select( 
+                        "selectCompany", 
+                        "Firma pro filtr:",  
+                        [ "selectCompany"=>10  ],    
+                         $selectCompanies ??  [] , [ "placeholder" => "vyberrrr"] , 
+                        [], 
+                        "vyber firmu"
+                        ) ?> 
+        </div>
 
 
 

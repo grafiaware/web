@@ -86,6 +86,8 @@ use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\FilterControler;
+
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -667,6 +669,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },
+                    
+            FilterControler::class => function(ContainerInterface $c) {                                         
+                return (new FilterControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(JobToTagRepo::class),
+                        $c->get(JobTagRepo::class)                        
+                        )
+                       )->injectContainer($c);
+            },        
                     
         ####
         # renderer container
