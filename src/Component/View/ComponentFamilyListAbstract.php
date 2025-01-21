@@ -15,9 +15,8 @@ abstract class ComponentFamilyListAbstract extends ComponentListAbstract impleme
     
     public function createFamilyRouteSegment(string $prefix, string $parentName, string $parentId, string $childName) {
         $familyRouteSegment = new FamilyRouteSegment($prefix, $parentName, $parentId, $childName);
-        $listViewModel = $this->getListViewModel();
-        if ($listViewModel instanceof FamilyInterface) {
-            $listViewModel->setFamilyRouteSegment($familyRouteSegment);
+        if ($this->listViewModel instanceof FamilyInterface) {
+            $this->listViewModel->setFamilyRouteSegment($familyRouteSegment);
         } else {
             $comCls = get_class($this);
             $cls = FamilyInterface::class;

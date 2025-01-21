@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelSingleListAbstract;
 use Component\ViewModel\ViewModelListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
@@ -17,7 +17,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class CompanyListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
 
     private $status;  
     

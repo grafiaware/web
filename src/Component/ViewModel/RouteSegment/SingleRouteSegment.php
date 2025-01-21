@@ -9,7 +9,7 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-class ListRouteSegment implements ListRouteSegmentInterface {
+class SingleRouteSegment implements ListRouteSegmentInterface {
     
     private $prefix;
     private $listName;

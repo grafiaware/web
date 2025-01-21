@@ -19,9 +19,7 @@ abstract class ViewModelListAbstract extends ViewModelAbstract implements ViewMo
     abstract protected function loadListEntities();
     
     abstract protected function newListEntity();
-    
-    abstract protected function cardinality();
-    
+        
     public function provideItemEntityCollection(): iterable {
         $this->loadListEntities();
         if ($this->isListEditable()) { 

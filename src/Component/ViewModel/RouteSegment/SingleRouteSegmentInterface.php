@@ -5,7 +5,7 @@ namespace Component\ViewModel\RouteSegment;
  *
  * @author pes2704
  */
-interface ListRouteSegmentInterface {
+interface SingleRouteSegmentInterface {
     
     const REMOVE_POSTFIX = "remove";
     

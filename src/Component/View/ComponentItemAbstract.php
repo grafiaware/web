@@ -48,9 +48,11 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
     public function __construct(ComponentConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }
-        public function __clone() {
+    
+    public function __clone() {
         $this->itemViewModel = clone $this->itemViewModel;
     }
+    
     public function setItemViewModel(ViewModelItemInterface $itemViewModel) {
         $this->itemViewModel = $itemViewModel;
     }

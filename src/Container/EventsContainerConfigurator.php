@@ -25,8 +25,8 @@ use Component\View\ElementComponent;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 
 use Events\Component\View\Manage\RepresentativeActionComponent;
-use Events\Component\View\Data\CompanyComponent;
-use Events\Component\View\Data\CompanyListComponent;
+use Events\Component\View\Data\CompanySingleItemComponent;
+use Events\Component\View\Data\CompanySingleListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyContactComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
@@ -45,8 +45,8 @@ use Events\Component\View\Data\TagComponent;
 use Events\Component\View\Data\TagListComponent;
 use Events\Component\View\Data\VisitorProfileComponent;
 use Events\Component\View\Data\VisitorProfileListComponent;
-use Events\Component\View\Data\DocumentComponent;
-use Events\Component\View\Data\DocumentListComponent;
+use Events\Component\View\Data\DocumentSingleItemComponent;
+use Events\Component\View\Data\DocumentSingleListComponent;
 
 
 // component view model
@@ -146,8 +146,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             'representativeAction' => RepresentativeActionComponent::class,
 
-            'company' => CompanyComponent::class,
-            'companyList' => CompanyListComponent::class,
+            'company' => CompanySingleItemComponent::class,
+            'companyList' => CompanySingleListComponent::class,
             'companyFamilycompanycontact' => CompanyFamilyCompanyContactComponent::class,
             'companyFamilycompanycontactList' => CompanyFamilyCompanyContactListComponent::class,
             'companyFamilycompanyaddress' => CompanyFamilyCompanyAddressComponent::class,
@@ -158,8 +158,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyFamilyjobList' => CompanyFamilyJobListComponent::class,            
             'companyFamilynetworkList' => CompanyFamilyNetworkMultiComponent::class,            
             
-            'document' => DocumentComponent::class,
-            'documentList' => DocumentListComponent::class,
+            'document' => DocumentSingleItemComponent::class,
+            'documentList' => DocumentSingleListComponent::class,
             
             'tagList' => TagListComponent::class,
             'jobtotag' => JobToTagComponent::class,// JobToTagListComponent::class,
@@ -209,12 +209,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
                     
-            CompanyListComponent::class => function(ContainerInterface $c) {            
+            CompanySingleListComponent::class => function(ContainerInterface $c) {            
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new CompanyListComponent($configuration, $c->get(CompanyComponent::class));
-                if($accessPresentation->hasAnyPermission(CompanyListComponent::class)) {
+                $component = new CompanySingleListComponent($configuration, $c->get(CompanySingleItemComponent::class));
+                if($accessPresentation->hasAnyPermission(CompanySingleListComponent::class)) {
                     $component->setListViewModel($c->get(CompanyListViewModel::class));                    
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
                 } else {
@@ -223,13 +223,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            CompanyComponent::class => function(ContainerInterface $c) {  // komponent bez dat
+            CompanySingleItemComponent::class => function(ContainerInterface $c) {  // komponent bez dat
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new CompanyComponent($configuration);
+                $component = new CompanySingleItemComponent($configuration);
 
-                if($accessPresentation->hasAnyPermission(CompanyComponent::class)) {                   
+                if($accessPresentation->hasAnyPermission(CompanySingleItemComponent::class)) {                   
                     $component->setItemViewModel($c->get(CompanyViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
                     $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
@@ -465,12 +465,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;           
             },        
                     
-            DocumentListComponent::class => function(ContainerInterface $c) {
+            DocumentSingleListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new DocumentListComponent($configuration, $c->get(DocumentComponent::class));
-                if($accessPresentation->hasAnyPermission(DocumentListComponent::class)) {
+                $component = new DocumentSingleListComponent($configuration, $c->get(DocumentSingleItemComponent::class));
+                if($accessPresentation->hasAnyPermission(DocumentSingleListComponent::class)) {
                     $component->setListViewModel($c->get(DocumentListViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
                 } else {
@@ -480,12 +480,12 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },                    
                     
-            DocumentComponent::class => function(ContainerInterface $c) {
+            DocumentSingleItemComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);              
-                $component = new DocumentComponent($configuration);
-                if($accessPresentation->hasAnyPermission(DocumentComponent::class)) {                   
+                $component = new DocumentSingleItemComponent($configuration);
+                if($accessPresentation->hasAnyPermission(DocumentSingleItemComponent::class)) {                   
                     $component->setItemViewModel($c->get(DocumentViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
                     $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formEnctypeMultipartWithFields'));

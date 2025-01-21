@@ -8,9 +8,7 @@
 
 namespace Events\Component\View\Data;
 
-use Component\View\ComponentFamilyItemAbstract;
-use Component\View\ComponentItemInterface;
-use Component\View\ComponentPrototypeInterface;
+use Component\View\ComponentSingleListAbstract;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -20,14 +18,11 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class CompanyComponent extends ComponentFamilyItemAbstract implements ComponentItemInterface, ComponentPrototypeInterface {
+class DocumentSingleListComponent extends ComponentSingleListAbstract {
 
     public static function getComponentPermissions(): array {
         return [
             RoleEnum::EVENTS_ADMINISTRATOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
-            RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
-            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true],
         ];
     }
 

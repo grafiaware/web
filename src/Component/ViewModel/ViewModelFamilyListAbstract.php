@@ -14,5 +14,6 @@ abstract class ViewModelFamilyListAbstract extends ViewModelListAbstract impleme
     
     use FamilyTrait;
 
+    abstract protected function cardinality();
 
 }
