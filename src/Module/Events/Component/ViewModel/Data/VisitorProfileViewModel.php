@@ -30,9 +30,7 @@ use ArrayIterator;
 class VisitorProfileViewModel extends  ViewModelItemAbstract implements ViewModelItemInterface {
 
     private $status;
-    private $secutityRepo;
     private $visitorProfileRepo;
-    private $documentRepo;
 
     /**
      * 
@@ -42,15 +40,10 @@ class VisitorProfileViewModel extends  ViewModelItemAbstract implements ViewMode
 
     public function __construct(
             StatusViewModelInterface $status,
-            StatusSecurityRepo $secutityRepo,
-            VisitorProfileRepoInterface $visitorProfileRepo,
-            DocumentRepoInterface $documentRepo
-
+            VisitorProfileRepoInterface $visitorProfileRepo
             ) {
         $this->status = $status;
-        $this->secutityRepo = $secutityRepo;
         $this->visitorProfileRepo = $visitorProfileRepo;
-        $this->documentRepo = $documentRepo;
     }    
     
     
@@ -71,7 +64,7 @@ class VisitorProfileViewModel extends  ViewModelItemAbstract implements ViewMode
     }
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof VisitorProfileInterface) {
-            $this->company = $entity;
+            $this->visitorProfile = $entity;
         } else {
             $cls = VisitorProfileInterface::class;
             $parCls = get_class($entity);

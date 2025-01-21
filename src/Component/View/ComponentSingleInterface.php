@@ -11,7 +11,7 @@ namespace Component\View;
  *
  * @author pes2704
  */
-interface ComponentFamilyInterface {
-    public function createFamilyRouteSegment(string $prefix, string $parentName, string $parentId, string $childName);
+interface ComponentSingleInterface {
+    public function createSingleRouteSegment(string $prefix, string $parentName);
 
 }

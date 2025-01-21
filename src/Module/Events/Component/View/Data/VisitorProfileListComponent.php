@@ -18,13 +18,11 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class VisitorListComponent extends ComponentListAbstract {
+class VisitorProfileListComponent extends ComponentListAbstract {
 
     public static function getComponentPermissions(): array {
         return [
             RoleEnum::EVENTS_ADMINISTRATOR => [AccessPresentationEnum::DISPLAY => true, AccessPresentationEnum::EDIT => true],
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
-            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true],
         ];
     }
 

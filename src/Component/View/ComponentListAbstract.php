@@ -6,6 +6,7 @@ use Pes\View\ViewInterface;
 use Component\View\ComponentPrototypeInterface;
 
 use Component\View\ComponentListInterface;
+use Component\View\ComponentSingleInterface;
 use Component\ViewModel\ViewModelListInterface;
 use Component\ViewModel\FamilyInterface;
 
@@ -18,7 +19,7 @@ use LogicException;
  *
  * @author pes2704
  */
-abstract class ComponentListAbstract extends CollectionView implements ComponentListInterface {
+abstract class ComponentListAbstract extends CollectionView implements ComponentListInterface, ComponentSingleInterface {
 
     /**
      *

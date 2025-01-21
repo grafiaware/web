@@ -44,6 +44,7 @@ use Events\Component\View\Data\CompanyFamilyJobListComponent;
 use Events\Component\View\Data\TagComponent;
 use Events\Component\View\Data\TagListComponent;
 use Events\Component\View\Data\VisitorProfileComponent;
+use Events\Component\View\Data\VisitorProfileListComponent;
 use Events\Component\View\Data\DocumentComponent;
 use Events\Component\View\Data\DocumentListComponent;
 
@@ -70,6 +71,7 @@ use Events\Component\ViewModel\Data\JobToTagViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyJobViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyJobListViewModel;
 use Events\Component\ViewModel\Data\CompanyJobsListViewModel;
+use Events\Component\ViewModel\Data\VisitorProfileListViewModel;
 use Events\Component\ViewModel\Data\VisitorProfileViewModel;
 use Events\Component\ViewModel\Data\DocumentViewModel;
 use Events\Component\ViewModel\Data\DocumentListViewModel;
@@ -164,6 +166,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'jobFamilyjobtotagList' => JobFamilyTagMultiComponent::class,
            
             'visitorProfile' => VisitorProfileComponent::class,
+            'visitorprofileList' => VisitorProfileListComponent::class,
       
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
            
@@ -493,7 +496,20 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;           
             },                                  
-                
+            VisitorProfileListComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new VisitorProfileListComponent($configuration, $c->get(VisitorProfileComponent::class));
+                if($accessPresentation->hasAnyPermission(VisitorProfileListComponent::class)) {
+                    $component->setListViewModel($c->get(VisitorProfileListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                
             VisitorProfileComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -822,14 +838,19 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(JobRepo::class),
                         $c->get(PozadovaneVzdelaniRepo::class),                        
                     );
-            },     
-
+            },
+                    
+            VisitorProfileListViewModel::class => function(ContainerInterface $c) {
+                return new VisitorProfileListViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(VisitorProfileRepo::class),
+                    );
+            },
+                    
             VisitorProfileViewModel::class => function(ContainerInterface $c) {
                 return new VisitorProfileViewModel(
                         $c->get(StatusViewModel::class),
-                        $c->get(StatusSecurityRepo::class),
                         $c->get(VisitorProfileRepo::class),
-                        $c->get(DocumentRepo::class),                                        
                     );
             },     
                     

@@ -41,7 +41,7 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
      * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
      * a této komponentě bude vložena jako data pro renderování položka kolekce dat. 
-     * Pozn. To znamená, že jednotlívé item komponenty nepoužijí (a nepotřebují) vlastní view model.
+     * Pozn. To znamená, že jednotlivé item komponenty nepoužijí (a nepotřebují) vlastní view model.
      * 
      * @return iterable
      */
