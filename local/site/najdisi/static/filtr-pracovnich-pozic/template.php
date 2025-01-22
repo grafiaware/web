@@ -32,39 +32,36 @@ use Access\Enum\RoleEnum;
     $filter = $statusViewModel->getPresentationInfos()[FilterControler::FILTER]; //bylo ulozeno v FilterControler->filterJob()
     
     $dataCheck = $filter['filterDataTags'];
+    
+    $dataCheckArr=[];
     if (!isset($dataCheck)) { 
-        $dataCheckArr=[];      //musi byt
-        $checksForSelectString='';      //nebude  
+        $dataCheckArr=[];    
+        $dataChecksForSelectA=[];
+        $checksIdsIn = null;
     }
     else {
         $dataCheckForSelectA=[];
-        $ii = 0;
-        
+        $ii = 0;        
         foreach ($dataCheck as $key => $value) {
-            $dataCheckArr["filterDataTags[". $key .  "]"] = (int)$value;      //musi byt
-            $dataCheckForSelect .= $value . ',';         //nebude  
-                                             
-            $dataCheckForSelectA['in'.$ii++] = $value;        
+            $dataCheckArr["filterDataTags[". $key .  "]"] = (int)$value;                                       
+            
+            $dataChecksForSelectA['in'.$ii++] = $value;        
         }
-        if($dataCheckForSelectA) {
-            $joChecksIdsIn = ":".implode(", :", array_keys($dataCheckForSelectA) );
+        if($dataChecksForSelectA) {
+            $checksIdsIn = ":".implode(", :", array_keys($dataChecksForSelectA) );
         }
-        //$dataCheckForSelectA $joChecksIdsIn   ---  se pouziji v sql
-        
-        
-        
-        $checksForSelectString = substr($dataCheckForSelect,0,strlen($dataCheckForSelect)-1);  //nebude  
-    }   
+        //$dataCheckForSelectA $checksIdsIn   ---  se pouziji v sql            
+   }   
    
     $selectCompanyId = (int)$filter['companyId'];
     //----------------------------------------------------
             
         /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );    
-    $companies = $companyRepo->findAll();
+    $companies = $companyRepo->find( " 1=1 order by name ASC ", []) ;
     $selectCompanies =[];    
     $selectCompanies [AuthControler::NULL_VALUE] =  "" ;
-    /** @var CompanyInterface $company */ 
+        /** @var CompanyInterface $company */ 
     foreach ( $companies as $company ) {
         $selectCompanies [$company->getId()] = $company->getName() ;
     }                            
@@ -87,7 +84,6 @@ use Access\Enum\RoleEnum;
 //    $dataCheckArr_1 = [ "filterDataTags[pro ZP]" => 53, 
 //                        "filterDataTags[na rodičovské]" => 52 ];
     //-----------------------------------------------------------------------
-
 ?> 
 
     <div>Nastavte hodnoty pro výběr nabízených pracovních pozic:</div>
@@ -121,9 +117,15 @@ use Access\Enum\RoleEnum;
 <?php
           /** @var JobToTagRepoInterface $jobToTagRepo */
     $jobToTagRepo = $container->get(JobToTagRepo::class);
-    $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in (:str) group by job_id " ,[ "str" => $checksForSelectString ] ); 
+    if (isset($checksIdsIn)) {
+        $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in ($checksIdsIn) group by job_id " ,$dataChecksForSelectA ); 
+    } else {
+        $jobToTagEntities=[];
+    }
     
+    //priprava pro in , jobsy
     $jobIds=[];
+    $joJobsIn=[];
     $ii = 0;
     foreach ($jobToTagEntities as $jobToTagE) {
         $jobIds['in'.$ii++] = $jobToTagE->getJobId();
@@ -135,98 +137,65 @@ use Access\Enum\RoleEnum;
           /** @var JobRepoInterface $jobRepo */
     $jobRepo = $container->get(JobRepo::class);
     if ( $selectCompanyId != 0 ) {
-        $comps = $companyRepo->find(" id=:company_id", ['company_id'=>$selectCompanyId]);      // ale vzdy vybrana jen jedna firma!
+        $comps = $companyRepo->find(" id=:company_id ", ['company_id'=>$selectCompanyId]);      // ale vzdy vybrana jen jedna firma!
         if ($jobIds) {
            $compid = $comps[0]->getId(); 
-           $jobEntities = $jobRepo->find( " id in ($joJobsIn)  AND company_id = :company_id " , array_merge($jobIds, ['company_id' => $compid ]) );  
-        }else{        
-            //$jobEntities = [];
-            $jobEntities = $jobRepo->findAll(); 
-        }    
-    } else {
-        $comps = $companies;
-        if ($jobIds) {
-           $jobEntities = $jobRepo->find( " id in ($joJobsIn)" , $jobIds);  
+           $jobEntities = $jobRepo->find( " id in ($joJobsIn)  AND company_id = :company_id order by company_id, nazev " ,
+                                          array_merge($jobIds, ['company_id' => $compid ]) );  
+        } else {              
+            $jobEntities = $jobRepo->find(" 1=1 order by company_id, nazev ASC ", []); 
+            if (($dataChecksForSelectA) and (!($jobToTagEntities))) {
+                $jobEntities = $jobRepo->find("  company_id = :company_id  order by company_id, nazev ASC ", ['company_id' => $compid ] );     
+            } 
            
-        }else{ 
-           $jobEntities = $jobRepo->findAll();  
+        }    
+    } else {        
+        if ($jobIds) {
+           $comps = $companies; 
+           $jobEntities = $jobRepo->find( " id in ($joJobsIn) order by company_id, nazev "  , $jobIds);             
+        } else { 
+           $comps = $companies;  
+           if ( $jobToTagEntities /*$dataChecksForSelectA*/) {
+                $comps = [];
+           }
+           else { 
+               $jobEntities = $jobRepo->find( " 1=1 order by company_id, nazev ASC ", [] );                 
+           }
         }   
     }          
 
+    
+    if  ($comps ) {           
             /** @var CompanyInterface $comp */
-    foreach ($comps as $key => $comp) {
-
-        /** @var JobInterface $job */
-        foreach ($jobEntities as $job) {  
-            if ($comp->getId() == $job->getCompanyId()) {
-                echo Html::p($comp->getName(), []); 
-                echo Html::tag('div', 
-                    [
-                        'class'=>'cascade',
-                        'data-red-apiuri'=>"events/v1/data/company/{$comp->getId()}/job/{$job->getId()}",
-                    ]
-                    );  
-            }                        
+        foreach ($comps as $keyC => $comp) {
+            if  ($jobEntities ) {
+                          /** @var JobInterface $job */
+                foreach ($jobEntities as $keyJ => $job) {  
+                    if ($comp->getId() == $job->getCompanyId()) {
+                            //nadpisy
+                        if (count($comps)!= 1 ) {             
+                            if ($keyJ > 0) {
+                                if ($jobEntities[$keyJ-1]->getCompanyId() <> ($jobEntities[$keyJ]->getCompanyId() ) ) {    
+                                    echo Html::p($comp->getName(), []); 
+                                }
+                            } else {   
+                                echo Html::p($comp->getName(), []); 
+                            }           
+                        }                
+                        
+                        echo Html::tag('div', 
+                            [
+                                'class'=>'cascade',
+                                'data-red-apiuri'=>"events/v1/data/company/{$comp->getId()}/job/{$job->getId()}",
+                            ]
+                            );  
+                    }                        
+                } 
+            }else {
+                echo Html::p("Zadanému fitru neodpovídá žádná položka." , []); 
+            }                     
         }    
-?> 
-<!--        <p>  --------  </p>-->
-<?php        
-              
-    } 
-        
-                  
-//    
-//            ##################
-////        if ( $selectCompanyId != 0 ) {
-////            $comps = $companyRepo->find("id=:company_id", ['company_id'=>$selectCompanyId]);
-////        } else {
-////            $comps = $companies;
-////        }            
-//        /** @var CompanyInterface $co */
-//        foreach ($comps as $key => $comp) {  
-//
-//            echo Html::p($comp->getName(), []);         
-//            
-//                /** @var JobToTagRepoInterface $jobToTagRepo */
-//            $jobToTagRepo = $container->get(JobToTagRepo::class);
-//            $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in (:str) group by job_id " ,[ str => $checksForSelectString ] );            
-//            foreach ($jobToTagEntities as $jobToTagE) {
-//                $jobIds[] = $jobToTagE->getJobId();
-//            }
-//            $jojo = implode(", ", $jobIds);
-//            
-//            $jobRepo = $container->get(JobRepo::class);
-//            $jobEntities = $jobRepo->find( " job_id in (:jojo) AND company_id=:company_id" ,[ 'jojo' => $jojo, 'company_id'=>$comp->getId() ] );  
-//            foreach ($jobEntities as $job) {                
-//                echo Html::tag('div', 
-//                    [
-//                        'class'=>'cascade',
-//                        'data-red-apiuri'=>"events/v1/data/company/{$comp->getId()}/job/{$job->getId()}",
-//                    ]
-//                    );            
-//            }               
-//        }
-//        
-        
-        
-//    if ( ($selectCompanyId == 0 ) and ($checksForSelectString == '') ) {  //pro vsechny firmy vsechny joby
-//           /** @var CompanyInterface $co */
-//        foreach ($companies as $key => $co) {    
-//          echo Html::p($co->getName(), []);
-//          echo Html::tag('div', 
-//            [
-//                'class'=>'cascade',
-//                'data-red-apiuri'=>"events/v1/data/company/{$co->getId()}/job",
-//            ]
-//            );   
-//        }   
-//    }
-
-    
-//    else {
-//       ?> 
-<!--        <p> Zadanému fitru neodpovídá žádná položka.  </p>-->
-    <?php
-//    }
-    
-   
+    }
+    else  {  
+         echo Html::p("Zadanému fitru neodpovídá žádná položka." , []);                 
+    }    
