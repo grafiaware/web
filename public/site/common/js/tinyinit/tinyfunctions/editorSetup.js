@@ -90,13 +90,13 @@ export const setupUserInputEditor = (editor) => {
         if (allowedKeys.indexOf(e.keyCode) !== -1) return true;
         let editor = activeEditor();
         let max = editor.getParam('max_chars');
-        let l = activeEditorContentLength();
-        if (activeEditorContentLength() + 1 > max) {
+        let len = activeEditorContentLength();
+        if (len + 1 > max) {
             e.preventDefault();
             e.stopPropagation();
             return false;
         }
-        tinymce_updateCharCounter(editor, l+1);
+        tinymce_updateCharCounter(editor, len+1);
         return true;
     });
     editor.on('keyup', (e) => {
@@ -133,11 +133,12 @@ export const initInstanceUserInputEditor = function () { // initialize counter d
  * @returns {undefined}
  */
 export const pastePreprocessUserInput = function (plugin, args) {
-    var editor = tinymce.get(tinymce.activeEditor.id);
-    var len = activeEditorContentLength();
-    if (len + args.content.length > activeEditor().getParam('max_chars')) {
-        alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + activeEditor().getParam('max_chars') + '.');
-        args.content = '';
+    let editor = activeEditor();
+    let len = activeEditorContentLength();
+    let max = editor.getParam('max_chars');    
+    if (len + args.content.length > max) {
+        alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + max + '.');
+        args.content = args.content.substring(1,max-len);
     }
     tinymce_updateCharCounter(editor, len + args.content.length);
     eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
