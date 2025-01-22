@@ -87,6 +87,8 @@ export const setupUserInputEditor = (editor) => {
     const allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
     const maxChars = editor.getParam('max_chars');
     editor.on('keydown', function (e) {
+        let ctrl = e.ctrlKey ? e.ctrlKey : ((e.keyCode === 17) ? true : false); // ctrl detection        
+        if (e.keyCode === 86 && ctrl)  return true;   // ctrl + v
         if (allowedKeys.indexOf(e.keyCode) !== -1) return true;
         let editor = activeEditor();
         let max = editor.getParam('max_chars');
@@ -138,7 +140,7 @@ export const pastePreprocessUserInput = function (plugin, args) {
     let max = editor.getParam('max_chars');    
     if (len + args.content.length > max) {
         alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + max + '.');
-        args.content = args.content.substring(1,max-len);
+        args.content = args.content.substring(0,max-len);
     }
     tinymce_updateCharCounter(editor, len + args.content.length);
     eventsEnableButtonsOnTinyMCE(activeEditor().formElement);
