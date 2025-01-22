@@ -81,6 +81,11 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         return isset($loginAggregate) ? $loginAggregate->getLoginNameHash() : null;
     }
+    public function getUserEmail(): ?string {
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $registration = isset($loginAggregate) ? $loginAggregate->getRegistration() : null;  
+        return isset($registration) ? $registration->getEmail() : null;
+    }
     public function isUserLoggedIn(): bool {
         $loginAggregate = $this->getUserLoginName();
         return isset($loginAggregate) ? true : false;

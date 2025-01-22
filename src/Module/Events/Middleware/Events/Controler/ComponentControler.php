@@ -15,6 +15,8 @@ use Pes\View\Renderer\ImplodeRenderer;
 use Component\View\ComponentItemInterface;
 use Component\View\ComponentListInterface;
 use Component\View\ComponentFamilyInterface;
+use Component\View\ComponentSingleInterface;
+
 use Component\ViewModel\ViewModelInterface;
 use Component\ViewModel\ViewModelItemInterface;
 use Component\ViewModel\ViewModelFamilyListInterface;
@@ -107,14 +109,17 @@ class ComponentControler extends PresentationFrontControlerAbstract {
      * Je nutné v kontejneru vytvořit alias ke třídě komponenty se jménem složeným z příslušné části routy a řetězce "List".
      * 
      * @param ServerRequestInterface $request
-     * @param type $name
+     * @param string $parentName
      * @return ResponseInterface
      */
-    public function dataList(ServerRequestInterface $request, $name): ResponseInterface {
+    public function dataList(ServerRequestInterface $request, $parentName): ResponseInterface {
         if($this->isAllowed(AccessActionEnum::GET)) {
-            $listName = $name."List";
+            $listName = $parentName."List";
             if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($listName);
+                if ($component instanceof ComponentSingleInterface) {
+                    $component->createSingleRouteSegment(self::ROUTE_PREFIX, $parentName);
+                }                
             } else {
                 $component = $this->errorView($request, "Component $listName is not defined (configured) or have no alias in container.");                    
             }
@@ -139,15 +144,11 @@ class ComponentControler extends PresentationFrontControlerAbstract {
     public function dataItem(ServerRequestInterface $request, $name, $id): ResponseInterface {
         if($this->isAllowed(AccessActionEnum::GET)) {
             if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
-                $component = $this->container->get($name);
-                /** @var ComponentItemInterface $component */
-                $viewModel = $component->getItemViewModel();
-                /** @var ViewModelInterface $viewModel */
-                if ($viewModel instanceof ViewModelItemInterface) {
-                    $viewModel->setItemId($id);
-                } else {
-                    throw new LogicException("ViewModel komponenty ". get_class($component)." není požadovaného typu ViewModelItemInterface");
-                }
+                $component = $this->container->get($name);               
+                if ($component instanceof ComponentSingleInterface) {
+                    $routeSegment = $component->createSingleRouteSegment(self::ROUTE_PREFIX, $name);
+                    $routeSegment->setChildId($id);
+                }     
             } else {
                 $component = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
             }
@@ -197,11 +198,9 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             $serviceName = $parentName."Family".$childName;
             if($this->container->has($serviceName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($serviceName);
-                /** @var ViewModelItemInterface $viewModel */
-                $viewModel = $component->getItemViewModel();                
-                $viewModel->setItemId($id);
                 if ($component instanceof ComponentFamilyInterface) {
-                    $component->createFamilyRouteSegment(self::ROUTE_PREFIX, $parentName, $parentId, $childName);
+                    $routeSegment = $component->createFamilyRouteSegment(self::ROUTE_PREFIX, $parentName, $parentId, $childName);
+                    $routeSegment->setChildId($id);
                 }
             } else {
                 $component = $this->errorView($request, "Component $serviceName is not defined (configured) or have no alias in container.");                    

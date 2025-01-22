@@ -1,13 +1,7 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
- if ($editable) {
-        $readonly = '';
-        $disabled = '';
-    } else {
-        $readonly = 'readonly';
-        $disabled = 'disabled';
-    }   
+  
 ?> 
 
 
@@ -16,8 +10,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
             <div class="column">
                 <div class="ui styled fluid accordion">
                     <?=
-                        $this->insert( __DIR__.'/osobni-udaje-profil.php', $profileData  );    
-
+                        $this->insert( __DIR__.'/osobni-udaje-profil.php', $profileData  )    
+                        .
                         $this->insert(__DIR__.'/osobni-soubory-profil.php', $documents ); 
 
                     ?>

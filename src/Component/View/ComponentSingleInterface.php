@@ -7,13 +7,13 @@
 
 namespace Component\View;
 
-use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
+use Component\ViewModel\RouteSegment\SingleRouteSegmentInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ComponentFamilyInterface {
-    public function createFamilyRouteSegment(string $prefix, string $parentName, string $parentId, string $childName): FamilyRouteSegmentInterface;
+interface ComponentSingleInterface {
+    public function createSingleRouteSegment(string $prefix, string $parentName): SingleRouteSegmentInterface;
 
 }

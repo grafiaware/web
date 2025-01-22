@@ -1,15 +1,13 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelSingleListAbstract;
 use Component\ViewModel\ViewModelListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
-
-use Events\Model\Repository\DocumentRepoInterface;
-use Events\Model\Entity\DocumentInterface;
-use Events\Model\Entity\Document;
+use Events\Model\Repository\CompanyRepoInterface;
+use Events\Model\Entity\Company;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
@@ -19,40 +17,38 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class DocumentListViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class CompanySingleListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
 
     private $status;  
     
-    private $documentRepo;
+    private $companyRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            DocumentRepoInterface $documentRepo
+            CompanyRepoInterface $companyRepo
             ) {
         $this->status = $status;
-        $this->documentRepo = $documentRepo;
-    }
-    
-    private function isAdministrator() {
-        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
+        $this->companyRepo = $companyRepo;
     }
     
     public function isListEditable(): bool {
         return $this->isAdministrator();
     }
     
+    use RepresentativeTrait;
+
     /**
      * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
      * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
      * a této komponentě bude vložena jako data pro renderování položka kolekce dat. 
-     * Pozn. To znamená, že jednotlívé item komponenty nepoužijí (a nepotřebují) vlastní view model.
+     * Pozn. To znamená, že jednotlivé item komponenty nepoužijí (a nepotřebují) vlastní view model.
      * 
      * @return iterable
      */
     public function provideItemEntityCollection(): iterable {
-        $entities = $this->documentRepo->findAll();
+        $entities = $this->companyRepo->findAll();
         if ($this->isListEditable()) {
-            $entities[] = new Document();  // pro přidání
+            $entities[] = new Company();  // pro přidání
         }
         return $entities;
     }
@@ -63,7 +59,7 @@ class DocumentListViewModel extends ViewModelAbstract implements ViewModelListIn
      */
     public function getIterator() {
         $array = [         
-            'listHeadline'=>'Dokumenty', 
+            'listHeadline'=>'Firmy', 
             'items' => $this->getArrayCopy()];
         $this->appendData($array);
         return parent::getIterator();     }

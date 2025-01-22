@@ -8,7 +8,7 @@
 
 namespace Events\Component\View\Data;
 
-use Component\View\ComponentListAbstract;
+use Component\View\ComponentSingleListAbstract;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -18,7 +18,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class DocumentListComponent extends ComponentListAbstract {
+class VisitorProfileSingleListComponent extends ComponentSingleListAbstract {
 
     public static function getComponentPermissions(): array {
         return [

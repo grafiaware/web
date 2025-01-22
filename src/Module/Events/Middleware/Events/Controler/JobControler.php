@@ -120,7 +120,10 @@ class JobControler extends FrontControlerAbstract {
                 $permitted = ($representative->getCompanyId()==$companyId);
             }
         }
-        return $permitted || $this->hasAdminPermission();
+        if (!$permitted) {
+            $permitted = $this->hasAdminPermission();  // volá se jen když není representative
+        }
+        return $permitted;
     }
     
     private function hasAdminPermission() {
@@ -186,7 +189,7 @@ class JobControler extends FrontControlerAbstract {
         $job->setMistoVykonu($requestParams->getParsedBodyParam($request, 'misto-vykonu'));
         $job->setPopisPozice($requestParams->getParsedBodyParam($request, 'popis-pozice'));
         $job->setPozadujeme($requestParams->getParsedBodyParam($request, 'pozadujeme'));
-        $job->setNabizime($requestParams->getParsedBodyParam($request, 'nabizime'));           
+        $job->setNabizime($requestParams->getParsedBodyParam($request, 'nabizime'));        
     }
                 
    

@@ -1,13 +1,15 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelSingleListAbstract;
 use Component\ViewModel\ViewModelListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
-use Events\Model\Repository\VisitorProfileRepoInterface;
-use Events\Model\Entity\VisitorProfile;
+
+use Events\Model\Repository\DocumentRepoInterface;
+use Events\Model\Entity\DocumentInterface;
+use Events\Model\Entity\Document;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
@@ -17,28 +19,28 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class VisitorProfileListViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class DocumentSingleListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
 
     private $status;  
     
-    private $visitorProfileRepo;
+    private $documentRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            VisitorProfileRepoInterface $visitorProgileRepo
+            DocumentRepoInterface $documentRepo
             ) {
         $this->status = $status;
-        $this->visitorProfileRepo = $visitorProgileRepo;
+        $this->documentRepo = $documentRepo;
     }
     
     private function isAdministrator() {
-        return ($this->status->getUserRole() == RoleEnum::EVENTS_ADMINISTRATOR);
+        return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
     
     public function isListEditable(): bool {
         return $this->isAdministrator();
     }
-
+    
     /**
      * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
      * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
@@ -48,9 +50,9 @@ class VisitorProfileListViewModel extends ViewModelAbstract implements ViewModel
      * @return iterable
      */
     public function provideItemEntityCollection(): iterable {
-        $entities = $this->visitorProfileRepo->findAll();
+        $entities = $this->documentRepo->findAll();
         if ($this->isListEditable()) {
-            $entities[] = new VisitorProfile();
+            $entities[] = new Document();  // pro přidání
         }
         return $entities;
     }
@@ -61,7 +63,7 @@ class VisitorProfileListViewModel extends ViewModelAbstract implements ViewModel
      */
     public function getIterator() {
         $array = [         
-            'listHeadline'=>'Návštěvníci', 
+            'listHeadline'=>'Dokumenty', 
             'items' => $this->getArrayCopy()];
         $this->appendData($array);
         return parent::getIterator();     }

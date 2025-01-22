@@ -30,7 +30,7 @@ abstract class ComponentMultiAbstract extends CompositeView implements Component
      * 
      * @var ViewModelMultiInterface
      */
-    private $multiViewModel;
+    protected $multiViewModel;
     
     /**
      * 
@@ -77,8 +77,6 @@ abstract class ComponentMultiAbstract extends CompositeView implements Component
      */
     public function beforeRenderingHook(): void {
         if(!isset($this->multiViewModel)) {
-            return;
-            
             $cls = get_called_class();
             throw new LogicException("Selhalo generování item komponent k multi komponentě $cls. Komponent typu ComponentMultiInterface musí mít nastaven multi view model metodou ->setMultiViewModel(ViewModelMultiInterface)");
         }

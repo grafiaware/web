@@ -442,7 +442,7 @@ class CompanyControler extends FrontControlerAbstract {
         $companyInfo->setIntroduction($requestParams->getParsedBodyParam($request, 'introduction') );
         $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'videolink'));
         $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
-        $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));     
+        $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));    
     }    
     
     public function removeCompanyInfo(ServerRequestInterface $request, $idCompany, $idCompanyA) {
