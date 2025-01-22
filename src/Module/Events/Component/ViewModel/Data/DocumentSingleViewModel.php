@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelSingleItemAbstract;
 use Component\ViewModel\ViewModelItemInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
@@ -28,7 +28,7 @@ use Exception;
 /**
  * 
  */
-class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemInterface {
+class DocumentSingleViewModel extends ViewModelSingleItemAbstract implements ViewModelItemInterface {
 
     private $status;
     private $documentRepo;
@@ -73,8 +73,8 @@ class DocumentViewModel extends ViewModelItemAbstract implements ViewModelItemIn
     
     private function loadDocument() {
         if (!isset($this->document)) {
-            if ($this->hasItemId()) {
-                $this->document = $this->documentRepo->get($this->getItemId());     
+            if ($this->getSingleRouteSegment()->getChildId()) {
+                $this->document = $this->documentRepo->get($this->getSingleRouteSegment()->getChildId());      
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }

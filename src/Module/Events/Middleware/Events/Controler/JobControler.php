@@ -120,7 +120,10 @@ class JobControler extends FrontControlerAbstract {
                 $permitted = ($representative->getCompanyId()==$companyId);
             }
         }
-        return $permitted || $this->hasAdminPermission();
+        if (!$permitted) {
+            $permitted = $this->hasAdminPermission();  // volá se jen když není representative
+        }
+        return $permitted;
     }
     
     private function hasAdminPermission() {

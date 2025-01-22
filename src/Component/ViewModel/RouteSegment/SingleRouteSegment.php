@@ -1,7 +1,7 @@
 <?php
 namespace Component\ViewModel\RouteSegment;
 
-use Component\ViewModel\RouteSegment\ListRouteSegmentInterface;
+use Component\ViewModel\RouteSegment\SingleRouteSegmentInterface;
  
 use UnexpectedValueException;
 /**
@@ -9,7 +9,7 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-class SingleRouteSegment implements ListRouteSegmentInterface {
+class SingleRouteSegment implements SingleRouteSegmentInterface {
     
     private $prefix;
     private $listName;

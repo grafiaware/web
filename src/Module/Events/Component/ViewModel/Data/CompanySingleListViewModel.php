@@ -17,7 +17,7 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
+class CompanySingleListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
 
     private $status;  
     

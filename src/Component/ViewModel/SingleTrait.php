@@ -20,7 +20,7 @@ trait SingleTrait {
      * @param SingleRouteSegmentInterface $singleRouteSegment
      * @return void
      */
-    public function setSingleRouteSegment(FamilyRouteSegmentInterface $singleRouteSegment): void {
+    public function setSingleRouteSegment(SingleRouteSegmentInterface $singleRouteSegment): void {
         $this->singleRouteSegment = $singleRouteSegment;
     }
     
@@ -28,7 +28,7 @@ trait SingleTrait {
      * 
      * @return SingleRouteSegmentInterface|null
      */
-    public function getSingleRouteSegment(): ?FamilyRouteSegmentInterface {
+    public function getSingleRouteSegment(): ?SingleRouteSegmentInterface {
         return $this->singleRouteSegment;
     }
 

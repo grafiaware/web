@@ -14,11 +14,7 @@ abstract class ViewModelListAbstract extends ViewModelAbstract implements ViewMo
     
     protected $listRepo;
     
-    protected $listEntities = [];
-   
-    abstract protected function loadListEntities();
-    
-    abstract protected function newListEntity();
+    protected $listEntities = [];    
         
     public function provideItemEntityCollection(): iterable {
         $this->loadListEntities();

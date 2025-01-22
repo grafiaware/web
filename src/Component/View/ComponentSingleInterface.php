@@ -7,11 +7,13 @@
 
 namespace Component\View;
 
+use Component\ViewModel\RouteSegment\SingleRouteSegmentInterface;
+
 /**
  *
  * @author pes2704
  */
 interface ComponentSingleInterface {
-    public function createSingleRouteSegment(string $prefix, string $parentName);
+    public function createSingleRouteSegment(string $prefix, string $parentName): SingleRouteSegmentInterface;
 
 }
