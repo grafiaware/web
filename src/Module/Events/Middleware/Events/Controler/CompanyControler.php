@@ -439,10 +439,10 @@ class CompanyControler extends FrontControlerAbstract {
     
     private function hydrateCompanyInfo(ServerRequestInterface $request, CompanyInfoInterface $companyInfo) {
         $requestParams = new RequestParams();
-        $companyInfo->setIntroduction($requestParams->getParsedBodyParam($request, 'introduction') );
+        $companyInfo->setIntroduction(substr($requestParams->getParsedBodyParam($request, 'introduction') ), 0, 1000);
         $companyInfo->setVideoLink($requestParams->getParsedBodyParam($request, 'videolink'));
-        $companyInfo->setPositives($requestParams->getParsedBodyParam($request, "positives"));
-        $companyInfo->setSocial($requestParams->getParsedBodyParam($request, "social"));     
+        $companyInfo->setPositives(substr($requestParams->getParsedBodyParam($request, "positives")), 0, 1000);
+        $companyInfo->setSocial(substr($requestParams->getParsedBodyParam($request, "social")), 0, 1000);    
     }    
     
     public function removeCompanyInfo(ServerRequestInterface $request, $idCompany, $idCompanyA) {
