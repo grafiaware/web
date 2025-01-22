@@ -187,9 +187,9 @@ class JobControler extends FrontControlerAbstract {
         $job->setPublished($requestParams->getParsedBodyParam($request, 'published', 0) ? 1 : 0);  // fomantic vrací "on"
         $job->setNazev($requestParams->getParsedBodyParam($request, 'nazev'));
         $job->setMistoVykonu($requestParams->getParsedBodyParam($request, 'misto-vykonu'));
-        $job->setPopisPozice(substr($requestParams->getParsedBodyParam($request, 'popis-pozice')), 0, 1000);
-        $job->setPozadujeme(substr($requestParams->getParsedBodyParam($request, 'pozadujeme')), 0, 1000);
-        $job->setNabizime(substr($requestParams->getParsedBodyParam($request, 'nabizime')), 0, 1000);        
+        $job->setPopisPozice($requestParams->getParsedBodyParam($request, 'popis-pozice'));
+        $job->setPozadujeme($requestParams->getParsedBodyParam($request, 'pozadujeme'));
+        $job->setNabizime($requestParams->getParsedBodyParam($request, 'nabizime'));        
     }
                 
    

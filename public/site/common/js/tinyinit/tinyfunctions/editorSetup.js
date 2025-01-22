@@ -96,6 +96,7 @@ export const setupUserInputEditor = (editor) => {
             e.stopPropagation();
             return false;
         }
+        tinymce_updateCharCounter(editor, l+1);
         return true;
     });
     editor.on('keyup', (e) => {
