@@ -59,8 +59,8 @@ class JobToTagViewModel extends ViewModelFamilyItemAbstract {
 
     private function loadJobToTag() {
         if (!isset($this->jobToTag)) {
-            if ($this->hasItemId()) {
-                $this->jobToTag = $this->jobToTagRepo->get($this->getItemId());     
+            if ($this->getSingleRouteSegment()->getChildId()) {
+                $this->jobToTag = $this->jobToTagRepo->get($this->getSingleRouteSegment()->getChildId());     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }

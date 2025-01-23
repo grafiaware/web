@@ -61,8 +61,8 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
     
     private function loadCompanyContact() {
         if (!isset($this->companyContact)) {
-            if ($this->hasItemId()) {
-                $this->companyContact = $this->companyContactRepo->get($this->getItemId());     
+            if ($this->getFamilyRouteSegment()->hasChildId()) {
+                $this->companyContact = $this->companyContactRepo->get($this->getFamilyRouteSegment()->getChildId());     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }

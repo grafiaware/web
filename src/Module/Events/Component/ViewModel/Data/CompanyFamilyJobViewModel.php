@@ -74,8 +74,8 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
     // pokud je volán jako item = !isset($this->job) - načte a zobrazí i nepublikované joby
     private function loadJob() {
         if (!isset($this->job)) {
-            if ($this->hasItemId()) {
-                $this->job = $this->jobRepo->get($this->getItemId());     
+            if ($this->getFamilyRouteSegment()->hasChildId()) {
+                $this->job = $this->jobRepo->get($this->getFamilyRouteSegment()->getChildId());     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
