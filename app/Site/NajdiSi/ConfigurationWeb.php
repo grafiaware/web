@@ -293,11 +293,11 @@ class ConfigurationWeb extends ConfigurationConstants {
         return [
             'menu.services' => [
                 
-                menuSupervisor:
-            - nástroj jak vůbec umět přidávat menu - jinak asi nutno přidat do build
-            - právo display jen supervisor
-            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
-            - 
+//                menuSupervisor:
+//            - nástroj jak vůbec umět přidávat menu - jinak asi nutno přidat do build
+//            - právo display jen supervisor
+//            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
+//            - 
                 
                 
                 
