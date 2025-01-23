@@ -39,7 +39,15 @@ interface JobToTagRepoInterface  extends RepoInterface {
      */
     public function findByJobTagId($jobTagId) : array ;
     
+    /**
+     * 
+     * @param string $whereClause Příkaz where v SQL syntaxi vhodné pro PDO, s placeholdery
+     * @param array $touplesToBind Pole dvojic jméno-hodnota, ze kterého budou budou nahrazeny placeholdery v příkazu where
+     * @return JobToTagInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]) : array ;
         
+    
     /**
      * 
      * @return JobToTagInterface[]

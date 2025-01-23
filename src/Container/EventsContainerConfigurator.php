@@ -691,9 +691,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new FilterControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(JobToTagRepo::class),
-                        $c->get(JobTagRepo::class)                        
+                        $c->get(StatusPresentationRepo::class)                                        
                         )
                        )->injectContainer($c);
             },        
