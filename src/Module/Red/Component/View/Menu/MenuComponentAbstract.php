@@ -72,10 +72,12 @@ abstract class MenuComponentAbstract extends ComponentCompositeAbstract implemen
      * @throws \LogicException
      */
     public function beforeRenderingHook(): void {
-        $this->setPresentedMenuItemId();
-        $subtreeNodeModels = $this->contextData->getNodeModels();
-        $topLevelComponent = $this->buildMenuComponentsTree($subtreeNodeModels);
-        $this->appendComponentView($topLevelComponent, MenuComponentInterface::MENU);        
+        if (isset($this->contextData)) {
+            $this->setPresentedMenuItemId();
+            $subtreeNodeModels =  $this->contextData->getNodeModels();
+            $topLevelComponent = $this->buildMenuComponentsTree($subtreeNodeModels);
+            $this->appendComponentView($topLevelComponent, MenuComponentInterface::MENU);    
+        }
     }
 
     private function setPresentedMenuItemId(): void {
