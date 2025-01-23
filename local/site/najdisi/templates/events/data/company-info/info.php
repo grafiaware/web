@@ -25,7 +25,7 @@ if (!empty($videoLink)) {
         if (strpos($host, 'youtube.com') !== false && !empty($query)) {
             // Dlouhá YouTube URL (youtube.com/watch?v=...)
             parse_str($query, $queryParams);
-            $videoId = $queryParams['v'] ?? '';
+            $videoId = array_key_exists('v', $queryParams) ? $queryParams['v'] ?? '' : '';
         } elseif (strpos($host, 'youtu.be') !== false) {
             // Krátká YouTube URL (youtu.be/...)
             $videoId = ltrim($path, '/');
