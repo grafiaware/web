@@ -25,6 +25,19 @@
     padding-top: 15px;
     padding-bottom: 15px; 
 }
+.item_action{
+    position: sticky;
+    right: auto;
+    z-index: 1;
+    transform: translateX(32px) translateY(0px);
+    z-index: 5;
+    .editingButtons.basic.button{
+        background-color: @white;
+        &:hover{
+            background-color: whitesmoke;
+        }
+    }
+}
 .template-multipage{
     .item_action{
         //display: none; 
