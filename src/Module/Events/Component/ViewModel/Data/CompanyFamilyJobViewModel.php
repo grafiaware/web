@@ -79,11 +79,6 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
-//            if ($this->hasItemId()) {
-//                $this->job = $this->jobRepo->get($this->getItemId());     
-//            } else {
-//                throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
-//            }
         }
     }
     

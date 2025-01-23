@@ -74,8 +74,8 @@ class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface 
 
     private function loadNetwork() {
         if (!isset($this->network)) {
-            if ($this->hasItemId()) {
-                $this->network = $this->networkRepo->get($this->getItemId());     
+            if ($this->getFamilyRouteSegment()->hasChildId()) {
+                $this->network = $this->networkRepo->get($this->getFamilyRouteSegment()->getChildId());     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
