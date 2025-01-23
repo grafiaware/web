@@ -48,14 +48,21 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
     public function __construct(ComponentConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }
-        public function __clone() {
+    
+    public function __clone() {
         $this->itemViewModel = clone $this->itemViewModel;
     }
+    
     public function setItemViewModel(ViewModelItemInterface $itemViewModel) {
         $this->itemViewModel = $itemViewModel;
     }
     
     public function getItemViewModel(): ViewModelItemInterface {
+        if (!isset($this->itemViewModel)) {
+            $cls = get_called_class();
+            throw new LogicException("Komponent $cls nemá nastaven ItemViewModel. ");
+        }
+        
         return $this->itemViewModel;
     }
 
@@ -84,13 +91,15 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
                 $this->itemViewModel->appendData([$name=>($editable ? $paths["editable"] : $paths["default"])]);                            
             }
         }
-        if (isset($this->itemTemplate) AND $this->itemTemplatePath) {
-            //když není editable, použije se vždy default
-            $this->itemTemplate->setTemplateFilename(($editable && $this->editableItemTemplatePath) ? $this->editableItemTemplatePath : $this->itemTemplatePath);
-        } else {
-            throw new LogicException("ComponentItem musí mít před renderováním nastavenu itemTemplate a alespoň první itemTemplatePath.");
+        if(!isset($this->renderer) && !isset($this->rendererName)) {        // např. NoContentRenderer
+            if (isset($this->itemTemplate) AND $this->itemTemplatePath) {
+                //když není editable, použije se vždy default
+                $this->itemTemplate->setTemplateFilename(($editable && $this->editableItemTemplatePath) ? $this->editableItemTemplatePath : $this->itemTemplatePath);
+            } else {
+                throw new LogicException("ComponentItem musí mít před renderováním nastavenu itemTemplate a alespoň první itemTemplatePath.");
+            }
+            $this->setTemplate($this->itemTemplate);
         }
-        $this->setTemplate($this->itemTemplate);
         $this->setData($this->itemViewModel);
     }
 

@@ -32,7 +32,7 @@ abstract class ComponentListAbstract extends CollectionView implements Component
      * 
      * @var ViewModelListInterface
      */
-    private $listViewModel;
+    protected $listViewModel;
 
     public function __construct(ComponentConfigurationInterface $configuration, ComponentPrototypeInterface $viewPrototype) {
         $this->configuration = $configuration;
@@ -43,7 +43,7 @@ abstract class ComponentListAbstract extends CollectionView implements Component
         $this->listViewModel = $listViewModel;
     }
     
-    public function getListViewModel(): ViewModelListInterface {
+    public function getListViewModel(): ?ViewModelListInterface {
         return $this->listViewModel;
     }   
     
@@ -55,7 +55,8 @@ abstract class ComponentListAbstract extends CollectionView implements Component
      */
     public function beforeRenderingHook(): void {
         if(!isset($this->listViewModel)) {
-            throw new LogicException("Komponent list musí mít nastaven list view model metodou ->setListViewModel(ViewModelListInterface)");
+            $cls = get_called_class();
+            throw new LogicException("Selhalo generování item komponent k list komponentě $cls. Komponent typu ComponentListInterface musí mít nastaven list view model metodou ->setListViewModel(ViewModelListInterface)");
         }
         $componentViewCollection = [];
         foreach ($this->listViewModel->provideItemEntityCollection() as $entity) {

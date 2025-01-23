@@ -27,7 +27,7 @@ use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
-
+use Events\Middleware\Events\Controler\FilterControler;
 
 class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -73,7 +73,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(EventStaticControler::class);
             return $ctrl->static($request, $staticName);
             });
-            
+                                      
         ###########################
         ## ComponentControler
         ###########################
@@ -107,6 +107,23 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 #### POST #################################
 
     private function prepareProcessPost() {
+        
+        ###########################
+        ## FilterControler
+        ###########################
+        $this->routeGenerator->addRouteForAction('POST', "/events/v1/filterjob" , function(ServerRequestInterface $request) {
+            /** @var FilterControler $ctrl */
+            $ctrl = $this->container->get(FilterControler::class);
+            return $ctrl->filterJob($request);
+        });   
+        $this->routeGenerator->addRouteForAction('POST', "/events/v1/cleanfilterjob" , function(ServerRequestInterface $request) {
+            /** @var FilterControler $ctrl */
+            $ctrl = $this->container->get(FilterControler::class);
+            return $ctrl->cleanFilterJob($request);
+        });   
+            
+        
+        
 
         ###########################
         ## RepresentationControler
@@ -213,6 +230,17 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         ###########################
         ## VisitorProfileControler
         ###########################              
+        //-----------------visitorprofile
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile', function(ServerRequestInterface $request) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->addVisitorProfile($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:loginname', function(ServerRequestInterface $request, $loginName) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->addVisitorProfile($request, $loginName);
+        });
         //add or update
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type) {
             /** @var VisitorProfileControler $ctrl */
@@ -225,12 +253,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->remove($request, $parentId, $type);
         });
-        //-----------------visitorprofile
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorProfileControler $ctrl */
-            $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->visitor($request);
-        });
+
         //?????????????????????????????
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
             /** @var VisitorProfileControler $ctrl */

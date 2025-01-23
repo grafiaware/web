@@ -1,13 +1,13 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\ViewModelSingleListAbstract;
 use Component\ViewModel\ViewModelListInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
-use Events\Model\Repository\CompanyRepoInterface;
-use Events\Model\Entity\Company;
+use Events\Model\Repository\VisitorProfileRepoInterface;
+use Events\Model\Entity\VisitorProfile;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
@@ -17,25 +17,27 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInterface {
+class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
 
     private $status;  
     
-    private $companyRepo;
+    private $visitorProfileRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            CompanyRepoInterface $companyRepo
+            VisitorProfileRepoInterface $visitorProgileRepo
             ) {
         $this->status = $status;
-        $this->companyRepo = $companyRepo;
+        $this->visitorProfileRepo = $visitorProgileRepo;
+    }
+    
+    private function isAdministrator() {
+        return ($this->status->getUserRole() == RoleEnum::EVENTS_ADMINISTRATOR);
     }
     
     public function isListEditable(): bool {
         return $this->isAdministrator();
     }
-    
-    use RepresentativeTrait;
 
     /**
      * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
@@ -46,9 +48,9 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      * @return iterable
      */
     public function provideItemEntityCollection(): iterable {
-        $entities = $this->companyRepo->findAll();
-        if ($this->isAdministrator()) {
-            $entities[] = new Company();  // pro přidání
+        $entities = $this->visitorProfileRepo->findAll();
+        if ($this->isListEditable()) {
+            $entities[] = new VisitorProfile();
         }
         return $entities;
     }
@@ -59,7 +61,7 @@ class CompanyListViewModel extends ViewModelAbstract implements ViewModelListInt
      */
     public function getIterator() {
         $array = [         
-            'listHeadline'=>'Firmy', 
+            'listHeadline'=>'Návštěvníci', 
             'items' => $this->getArrayCopy()];
         $this->appendData($array);
         return parent::getIterator();     }

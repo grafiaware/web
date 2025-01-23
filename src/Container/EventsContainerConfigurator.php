@@ -21,12 +21,12 @@ use Access\Enum\AccessPresentationEnum;
 use Configuration\ComponentConfiguration;
 use Pes\View\Template\PhpTemplate;
 use Component\View\ElementComponent;
-use Component\Renderer\Html\NoPermittedContentRenderer;
+        use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 
 use Events\Component\View\Manage\RepresentativeActionComponent;
-use Events\Component\View\Data\CompanyComponent;
-use Events\Component\View\Data\CompanyListComponent;
+use Events\Component\View\Data\CompanySingleItemComponent;
+use Events\Component\View\Data\CompanySingleListComponent;
 use Events\Component\View\Data\RepresentativeCompanyAddressComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyContactComponent;
 use Events\Component\View\Data\CompanyFamilyCompanyContactListComponent;
@@ -43,15 +43,17 @@ use Events\Component\View\Data\CompanyFamilyJobListComponent;
 //use Events\Component\View\Data\CompanyJobsListComponent;
 use Events\Component\View\Data\TagComponent;
 use Events\Component\View\Data\TagListComponent;
-use Events\Component\View\Data\VisitorProfileComponent;
-use Events\Component\View\Data\DocumentComponent;
+use Events\Component\View\Data\VisitorProfileSingleItemComponent;
+use Events\Component\View\Data\VisitorProfileSingleListComponent;
+use Events\Component\View\Data\DocumentSingleItemComponent;
+use Events\Component\View\Data\DocumentSingleListComponent;
 
 
 // component view model
 use Component\ViewModel\StatusViewModel;
 use Events\Component\ViewModel\Manage\RepresentationActionViewModel;
-use Events\Component\ViewModel\Data\CompanyListViewModel;
-use Events\Component\ViewModel\Data\CompanyViewModel;
+use Events\Component\ViewModel\Data\CompanySingleListViewModel;
+use Events\Component\ViewModel\Data\CompanySingleItemViewModel;
 use Events\Component\ViewModel\Data\RepresentativeCompanyAddressViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyCompanyContactListViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyCompanyContactViewModel;
@@ -69,8 +71,10 @@ use Events\Component\ViewModel\Data\JobToTagViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyJobViewModel;
 use Events\Component\ViewModel\Data\CompanyFamilyJobListViewModel;
 use Events\Component\ViewModel\Data\CompanyJobsListViewModel;
-use Events\Component\ViewModel\Data\VisitorProfileViewModel;
-use Events\Component\ViewModel\Data\DocumentViewModel;
+use Events\Component\ViewModel\Data\VisitorProfileSingleListViewModel;
+use Events\Component\ViewModel\Data\VisitorProfileSingleItemViewModel;
+use Events\Component\ViewModel\Data\DocumentSingleViewModel;
+use Events\Component\ViewModel\Data\DocumentSingleListViewModel;
 
 
 // controler
@@ -84,6 +88,8 @@ use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\FilterControler;
+
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -142,8 +148,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             'representativeAction' => RepresentativeActionComponent::class,
 
-            'company' => CompanyComponent::class,
-            'companyList' => CompanyListComponent::class,
+            'company' => CompanySingleItemComponent::class,
+            'companyList' => CompanySingleListComponent::class,
             'companyFamilycompanycontact' => CompanyFamilyCompanyContactComponent::class,
             'companyFamilycompanycontactList' => CompanyFamilyCompanyContactListComponent::class,
             'companyFamilycompanyaddress' => CompanyFamilyCompanyAddressComponent::class,
@@ -154,13 +160,15 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'companyFamilyjobList' => CompanyFamilyJobListComponent::class,            
             'companyFamilynetworkList' => CompanyFamilyNetworkMultiComponent::class,            
             
-            'document' => DocumentComponent::class,
+            'document' => DocumentSingleItemComponent::class,
+            'documentList' => DocumentSingleListComponent::class,
             
             'tagList' => TagListComponent::class,
             'jobtotag' => JobToTagComponent::class,// JobToTagListComponent::class,
             'jobFamilyjobtotagList' => JobFamilyTagMultiComponent::class,
            
-            'visitorProfile' => VisitorProfileComponent::class,
+            'visitorprofile' => VisitorProfileSingleItemComponent::class,
+            'visitorprofileList' => VisitorProfileSingleListComponent::class,
       
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
            
@@ -203,13 +211,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
                     
-            CompanyListComponent::class => function(ContainerInterface $c) {            
+            CompanySingleListComponent::class => function(ContainerInterface $c) {            
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new CompanyListComponent($configuration, $c->get(CompanyComponent::class));
-                if($accessPresentation->hasAnyPermission(CompanyListComponent::class)) {
-                    $component->setListViewModel($c->get(CompanyListViewModel::class));                    
+                $component = new CompanySingleListComponent($configuration, $c->get(CompanySingleItemComponent::class));
+                if($accessPresentation->hasAnyPermission(CompanySingleListComponent::class)) {
+                    $component->setListViewModel($c->get(CompanySingleListViewModel::class));                    
                     $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -217,14 +225,14 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            CompanyComponent::class => function(ContainerInterface $c) {  // komponent bez dat
+            CompanySingleItemComponent::class => function(ContainerInterface $c) {  // komponent bez dat
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new CompanyComponent($configuration);
+                $component = new CompanySingleItemComponent($configuration);
 
-                if($accessPresentation->hasAnyPermission(CompanyComponent::class)) {                   
-                    $component->setItemViewModel($c->get(CompanyViewModel::class));
+                if($accessPresentation->hasAnyPermission(CompanySingleItemComponent::class)) {                   
+                    $component->setItemViewModel($c->get(CompanySingleItemViewModel::class));
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
                     $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('company'), $configuration->getTemplate('companyEditable'));
@@ -459,51 +467,70 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;           
             },        
                     
-            DocumentComponent::class => function(ContainerInterface $c) {
+            DocumentSingleListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                $configuration = $c->get(ComponentConfiguration::class);              
-                $component = new DocumentComponent($configuration);
-                                
-                if($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setData($c->get(DocumentViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('documentEditable')));
-                } elseif($accessPresentation->isAllowed(DocumentComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(DocumentViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('document')));
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new DocumentSingleListComponent($configuration, $c->get(DocumentSingleItemComponent::class));
+                if($accessPresentation->hasAnyPermission(DocumentSingleListComponent::class)) {
+                    $component->setListViewModel($c->get(DocumentSingleListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;           
+                return $component;
             },                    
                     
-                    
-            VisitorProfileComponent::class => function(ContainerInterface $c) {
+            DocumentSingleItemComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);              
+                $component = new DocumentSingleItemComponent($configuration);
+                if($accessPresentation->hasAnyPermission(DocumentSingleItemComponent::class)) {                   
+                    $component->setItemViewModel($c->get(DocumentSingleViewModel::class));
+                    $component->setItemTemplate(new PhpTemplate());  //bez šablony
+                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formEnctypeMultipartWithFields'));
+                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('document'), $configuration->getTemplate('documentEditable'));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }                
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;           
+            },                                  
+            VisitorProfileSingleListComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new VisitorProfileComponent($configuration);
+                $component = new VisitorProfileSingleListComponent($configuration, $c->get(VisitorProfileSingleItemComponent::class));
+                    $component->setListViewModel($c->get(VisitorProfileSingleListViewModel::class));
+                if($accessPresentation->hasAnyPermission(VisitorProfileSingleListComponent::class)) {
+                    $component->setListViewModel($c->get(VisitorProfileSingleListViewModel::class));
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                
+            VisitorProfileSingleItemComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new VisitorProfileSingleItemComponent($configuration);
+                    $component->setItemViewModel($c->get(VisitorProfileSingleItemViewModel::class));
 
-                if($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::EDIT)) {
-                    $component->setData($c->get(VisitorProfileViewModel::class));
+                if($accessPresentation->hasAnyPermission(VisitorProfileSingleItemComponent::class)) { 
+                    $component->setItemTemplate(new PhpTemplate());  //bez šablony
                     $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
-                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorProfileEditable'));                    
-                    
-                } elseif($accessPresentation->isAllowed(VisitorProfileComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(VisitorProfileViewModel::class));
-                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
-                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorProfile'));                    
-                    
+                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorProfile'), $configuration->getTemplate('visitorProfileEditable'));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },          
-                    
-            
-                    
+                                
                     
         ####
         # Element komponenty - vždy zobrazeny
@@ -660,6 +687,15 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                        )->injectContainer($c);
             },
                     
+            FilterControler::class => function(ContainerInterface $c) {                                         
+                return (new FilterControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class)                                        
+                        )
+                       )->injectContainer($c);
+            },        
+                    
         ####
         # renderer container
         #
@@ -677,14 +713,14 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),                        
                     );
             },
-            CompanyListViewModel::class => function(ContainerInterface $c) {
-                return new CompanyListViewModel(
+            CompanySingleListViewModel::class => function(ContainerInterface $c) {
+                return new CompanySingleListViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(CompanyRepo::class),                        
                     );
             },
-            CompanyViewModel::class => function(ContainerInterface $c) {
-                return new CompanyViewModel(
+            CompanySingleItemViewModel::class => function(ContainerInterface $c) {
+                return new CompanySingleItemViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(CompanyRepo::class),                        
                     );
@@ -814,26 +850,35 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(JobRepo::class),
                         $c->get(PozadovaneVzdelaniRepo::class),                        
                     );
-            },     
-
-            VisitorProfileViewModel::class => function(ContainerInterface $c) {
-                return new VisitorProfileViewModel(
+            },
+                    
+            VisitorProfileSingleListViewModel::class => function(ContainerInterface $c) {
+                return new VisitorProfileSingleListViewModel(
                         $c->get(StatusViewModel::class),
-                        $c->get(StatusSecurityRepo::class),
                         $c->get(VisitorProfileRepo::class),
-                        $c->get(DocumentRepo::class),                                        
+                    );
+            },
+                    
+            VisitorProfileSingleItemViewModel::class => function(ContainerInterface $c) {
+                return new VisitorProfileSingleItemViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(VisitorProfileRepo::class),
                     );
             },     
                     
-           DocumentViewModel::class => function(ContainerInterface $c) {
-                return new DocumentViewModel(
+            DocumentSingleListViewModel::class => function(ContainerInterface $c) {
+                return new DocumentSingleListViewModel(
                         $c->get(StatusViewModel::class),
-//                        $c->get(StatusSecurityRepo::class),
+                        $c->get(DocumentRepo::class), 
+                   );
+            },             
+           DocumentSingleViewModel::class => function(ContainerInterface $c) {
+                return new DocumentSingleViewModel(
+                        $c->get(StatusViewModel::class),
                         $c->get(DocumentRepo::class), 
                         $c->get(VisitorProfileRepo::class),                                                                  
                    );
-            },             
-                    
+            },                             
                     
         
         

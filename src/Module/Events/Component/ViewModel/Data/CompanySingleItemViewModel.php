@@ -1,7 +1,7 @@
 <?php
 namespace Events\Component\ViewModel\Data;
 
-use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\ViewModelSingleItemAbstract;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Component\ViewModel\Data\RepresentativeTrait;
@@ -20,7 +20,7 @@ use TypeError;
  *
  * @author pes2704
  */
-class CompanyViewModel extends ViewModelItemAbstract {
+class CompanySingleItemViewModel extends ViewModelSingleItemAbstract {
 
     private $status;  
     
@@ -63,8 +63,8 @@ class CompanyViewModel extends ViewModelItemAbstract {
 
     private function loadCompany() {
         if (!isset($this->company)) {
-            if ($this->hasItemId()) {
-                $this->company = $this->companyRepo->get($this->getItemId());     
+            if ($this->getSingleRouteSegment()->getChildId()) {
+                $this->company = $this->companyRepo->get($this->getSingleRouteSegment()->getChildId());     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }

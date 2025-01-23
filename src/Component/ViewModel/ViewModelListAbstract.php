@@ -3,7 +3,7 @@ namespace Component\ViewModel;
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\ViewModelListInterface;
 use Component\ViewModel\FamilyInterface;
-use Component\ViewModel\ViewModelLimutedListInterface;
+use Component\ViewModel\ViewModelLimitedListInterface;
 
 /**
  * Description of ViewModelListAbstract
@@ -14,18 +14,12 @@ abstract class ViewModelListAbstract extends ViewModelAbstract implements ViewMo
     
     protected $listRepo;
     
-    protected $listEntities = [];
-   
-    abstract protected function loadListEntities();
-    
-    abstract protected function newListEntity();
-    
-    abstract protected function cardinality();
-    
+    protected $listEntities = [];    
+        
     public function provideItemEntityCollection(): iterable {
         $this->loadListEntities();
         if ($this->isListEditable()) { 
-            if ($this instanceof ViewModelLimutedListInterface) {
+            if ($this instanceof ViewModelLimitedListInterface) {
                 if ($this->isItemCountUnderLimit()) {
                     $this->addNewEntity();                    
                 }

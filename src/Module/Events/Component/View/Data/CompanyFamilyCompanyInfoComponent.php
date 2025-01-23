@@ -20,9 +20,5 @@ class CompanyFamilyCompanyInfoComponent extends ComponentItemAbstract implements
             RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => true],
             RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => true],
             ];
-    }
-    
-    public function __clone() {
-        $this->itemViewModel = clone $this->itemViewModel;
-    }    
+    } 
 }

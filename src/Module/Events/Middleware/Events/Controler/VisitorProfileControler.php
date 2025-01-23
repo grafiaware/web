@@ -134,37 +134,60 @@ class VisitorProfileControler extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      */
-    public function visitor(ServerRequestInterface $request) {
-        $statusSecurity = $this->statusSecurityRepo->get();
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
-
+    public function addVisitorProfile(ServerRequestInterface $request) {
+        $loginAggregateCredentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse();
-            $response = $response->withStatus(401);  // Unathorized
+            $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unathorized
         } else {
             $loginName = $loginAggregateCredentials->getLoginName();
-
             $visitorProfile = $this->visitorProfileRepo->get($loginName);
-            if (!isset($visitorProfile)) {
+            if (!isset($visitorProfile)) {  // ?? odmítnutí, pokud profil existuje
                 $visitorProfile = new VisitorProfile();
                 $visitorProfile->setLoginLoginName($loginName);
                 $this->visitorProfileRepo->add($visitorProfile);
             }
-    
-            // POST data
-            $visitorProfile->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
-            $visitorProfile->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
-            $visitorProfile->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
-            $visitorProfile->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
-            $visitorProfile->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
-            $visitorProfile->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
-            $visitorProfile->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
-
+            $this->hydrateVisitorProfile($request, $visitorProfile);
 //            $this->addFlashMessage(" Data uložena");
-            return $this->redirectSeeLastGet($request);
+            $response =  $this->redirectSeeLastGet($request);
         }
+        return $response;
     }
-
+    
+    public function updateVisitorProfile(ServerRequestInterface $request, $loginName) {
+        $loginAggregateCredentials = $this->statusSecurityRepo->get()->getLoginAggregate();
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unathorized
+        } else {
+            $statusLoginName = $loginAggregateCredentials->getLoginName();
+            if ($loginName !== $statusLoginName) {
+                $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unathorized                
+            } else {
+//TODO: přidej kontrolu podle login name hash
+//            $postLoginNameHash = (new RequestParams())->getParsedBodyParam($request, 'loginnamehash');
+//            $loginameHash = ... vis status
+                $visitorProfile = $this->visitorProfileRepo->get($loginName);
+                if (!isset($visitorProfile)) {  // ?? odmítnutí, pokud profil existuje
+                    $visitorProfile = new VisitorProfile();
+                    $visitorProfile->setLoginLoginName($loginName);
+                    $this->visitorProfileRepo->add($visitorProfile);
+                }
+                $this->hydrateVisitorProfile($request, $visitorProfile);
+                $this->addFlashMessage(" Data uložena");
+                $response =  $this->redirectSeeLastGet($request);
+            }
+        }
+        return $response;
+    }
+    private function hydrateVisitorProfile(ServerRequestInterface $request, VisitorProfileInterface $visitorProfile) {
+        $requestParams = new RequestParams();
+        $visitorProfile->setPrefix($requestParams->getParsedBodyParam($request, 'prefix'));
+        $visitorProfile->setName($requestParams->getParsedBodyParam($request, 'name'));
+        $visitorProfile->setSurname($requestParams->getParsedBodyParam($request, 'surname'));
+        $visitorProfile->setPostfix($requestParams->getParsedBodyParam($request, 'postfix'));
+        $visitorProfile->setPhone($requestParams->getParsedBodyParam($request, 'phone'));
+        $visitorProfile->setCvEducationText($requestParams->getParsedBodyParam($request, 'cv-education-text'));
+        $visitorProfile->setCvSkillsText($requestParams->getParsedBodyParam($request, 'cv-skills-text'));        
+    }
  
     
              
