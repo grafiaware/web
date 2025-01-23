@@ -99,7 +99,7 @@ class SingleRouteSegment implements SingleRouteSegmentInterface {
         $prefix = $this->prefix;
         $listName = $this->getList();
         $childId = $this->childId;
-        $remove = ListRouteSegmentInterface::REMOVE_POSTFIX;
+        $remove = SingleRouteSegmentInterface::REMOVE_POSTFIX;
         return $this->encodePath("$prefix/$listName/$childId/$remove");        
     }
         

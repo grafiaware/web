@@ -28,7 +28,7 @@ if ($isVisitor) {
 echo Html::tag('div', 
         [
             'class'=>'cascade',
-            'data-red-apiuri'=>"events/v1/data/visitorProfile/$loginName"
+            'data-red-apiuri'=>"events/v1/data/visitorprofile/$loginName"
         ]
     );
 }

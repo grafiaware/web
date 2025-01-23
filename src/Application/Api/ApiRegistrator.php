@@ -226,7 +226,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
        
         #### VisitorProfileControler ####
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile'));        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile/:loginname'));        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
         
         #### DocumentControler

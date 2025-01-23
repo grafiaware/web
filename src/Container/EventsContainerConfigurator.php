@@ -167,7 +167,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'jobtotag' => JobToTagComponent::class,// JobToTagListComponent::class,
             'jobFamilyjobtotagList' => JobFamilyTagMultiComponent::class,
            
-            'visitorProfile' => VisitorProfileSingleItemComponent::class,
+            'visitorprofile' => VisitorProfileSingleItemComponent::class,
             'visitorprofileList' => VisitorProfileSingleListComponent::class,
       
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
