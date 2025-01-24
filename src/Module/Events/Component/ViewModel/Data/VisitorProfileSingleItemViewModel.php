@@ -74,7 +74,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
     
     public function isItemEditable(): bool {
         $this->loadVisitorProfile();
-        return $this->isVisitor();
+        return $this->isVisitor() || $this->isAdministrator();
     }
     
     private function loadVisitorProfile() {
@@ -88,22 +88,20 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
     }    
     
     public function getIterator() {     
-        $this->loadVisitorProfile();
         
-        $isAdministrator = $this->isAdministrator();
-        $editable =  $this->isAdministrator() || $this->isCurrentVisitor();
-                //$userHash = $loginAggregate->getLoginNameHash();
-                $userHash =  $this->status->getUserLoginHash();
-                $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
-                $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
-                $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
-
-                $visitorEmail = $this->status->getUserEmail();
-            //------------------------------------------------------------------
-
-                /** @var StatusViewModelInterface $statusViewModel */
-                $role = $this->status->getUserRole();
- 
+//        $isAdministrator = $this->isAdministrator();
+//        $editable =  $this->isAdministrator() || $this->isCurrentVisitor();
+//                //$userHash = $loginAggregate->getLoginNameHash();
+//                $userHash =  $this->status->getUserLoginHash();
+//                $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
+//                $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+//                $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
+//
+//            //------------------------------------------------------------------
+//
+//                /** @var StatusViewModelInterface $statusViewModel */
+//                $role = $this->status->getUserRole();
+// 
 
 //                if (isset($this->visitorProfile)) {
 //                    $documentCvId = $this->visitorProfile->getCvDocument();
@@ -151,6 +149,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
 //                }             
                                   
         $this->loadVisitorProfile();
+        $visitorEmail = $this->status->getUserEmail();
 
         if ($this->getSingleRouteSegment()->hasChildId()) {
             $item = [
@@ -181,7 +180,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
                 ];
         }        
         
-        $this->appendData($item);
+        $this->appendData($item ?? []);
         return parent::getIterator();  
     }
     

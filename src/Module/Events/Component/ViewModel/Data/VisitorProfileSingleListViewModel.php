@@ -49,6 +49,8 @@ class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract impl
      */
     public function provideItemEntityCollection(): iterable {
         $entities = $this->visitorProfileRepo->findAll();
+//                tady: asociativní pole id=>entita
+
         if ($this->isListEditable()) {
             $entities[] = new VisitorProfile();
         }
