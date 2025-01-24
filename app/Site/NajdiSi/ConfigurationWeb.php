@@ -142,7 +142,9 @@ class ConfigurationWeb extends ConfigurationConstants {
 
                 'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
                 'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
-
+                
+                'visitorJobRequest' => self::WEB_TEMPLATES_SITE.'events/data/visitor-job-request/visitor-job-request.php',  
+                'visitorJobRequestEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-job-request/visitor-job-request-editable.php',
                 ////
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 

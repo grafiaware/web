@@ -79,7 +79,7 @@ class VisitorJobRequestSingleItemViewModel extends  ViewModelSingleItemAbstract 
     
     private function loadVisitorJobRequest() {
         if (!isset($this->visitorJobRequest)) {
-            if ($this->getSingleRouteSegment()->getChildId()) {
+            if ($this->getSingleRouteSegment()->hasChildId()) {
                 $this->visitorJobRequest = $this->visitorJobRequestRepo->get($this->getSingleRouteSegment()->getChildId());     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content

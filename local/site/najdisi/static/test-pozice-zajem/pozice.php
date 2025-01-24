@@ -65,7 +65,7 @@ use Pes\Text\Html;
                                                 echo Html::tag('div', 
                                                     [
                                                         'class'=>'cascade',
-                                                        'data-red-apiuri'=>"events/v1/data/visitorprofile/$visitorLoginName"
+                                                        'data-red-apiuri'=>"events/v1/data/visitorjobrequest/$visitorLoginName"
                                                     ]
                                                 );
                                             ?>
@@ -87,12 +87,11 @@ use Pes\Text\Html;
                                         </div>
                                         <div class="sixteen wide column">
                                             <div class="profil hidden">
-                                                <p>TADY MÁ BÝT VISITOR JOB REQUEST - ZATÍM MÍSTO TOHO UKAZUJI VISITOR PROFILE</P>
                                             <?php
                                                 echo Html::tag('div', 
                                                     [
                                                         'class'=>'cascade',
-                                                        'data-red-apiuri'=>"events/v1/data/visitorprofile/$visitorLoginName"
+                                                        'data-red-apiuri'=>"events/v1/data/visitorjobrequest/$visitorLoginName"
                                                     ]
                                                 );
                                             ?>

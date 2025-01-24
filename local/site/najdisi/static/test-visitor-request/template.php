@@ -21,20 +21,20 @@ use Component\ViewModel\StatusViewModel;
     /** @var DocumentRepoInterface $documentRepo */
     $documentRepo = $container->get(DocumentRepo::class );
     echo "Jen pro admina!";
-    echo Html::p("Přehled profilů");
+    echo Html::p("Přehled job requestů");
     echo Html::tag('div', 
         [
             'class'=>'cascade',
-            'data-red-apiuri'=>"events/v1/data/visitorprofile"
+            'data-red-apiuri'=>"events/v1/data/visitorjobrequest"
         ]
     );
     echo "Jen pro návštěvníka!";
-    echo Html::p("Profil");
+    echo Html::p("Job request");
     if ($isVisitor) {
     echo Html::tag('div', 
             [
                 'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/data/visitorprofile/$loginName"
+                'data-red-apiuri'=>"events/v1/data/visitorjobrequest/$loginName"
             ]
         );
     }    
