@@ -19,10 +19,11 @@ use Events\Model\Entity\JobInterface;
     ###
     # DUMMY data
     
-        $isVisitor = true;
+        $isVisitor = false;
         $isVisitorDataPost = true;
         $isRepresentativeOfCompany = true;
         $visitorLoginName = 'visitor';
+        $visitorJobRequestCount = 2;
     #
     ###
     

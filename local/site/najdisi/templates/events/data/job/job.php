@@ -28,8 +28,10 @@ use Pes\Text\Html;
                     ?>                 
                 </div>                
                  <div class="sixteen wide column">
-                    <p>Popis pozice:</p>
-                    <p><?= $popisPozice ?? '' ?></p>
+                    <div class="job-description">
+                        <p>Popis pozice:</p>
+                        <p><?= $popisPozice ?? '' ?></p>
+                    </div>
                 </div>
             </div>            
         </div>

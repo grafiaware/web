@@ -475,6 +475,37 @@ body{
             }
         }
     }
+    .cascade{
+        width: 100%;
+    }
+    .ui.accordion {
+      width: 100%; 
+
+      .title {
+        display: block;
+        width: 100%; 
+      }
+
+      .job-description {
+        display: -webkit-box; 
+        -webkit-line-clamp: 3; 
+        -webkit-box-orient: vertical; 
+        display: box; /* Modernější podpora */
+        line-clamp: 3;
+        box-orient: vertical;
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        white-space: normal; 
+        width: 100%; 
+        box-sizing: border-box; 
+
+      }
+    }
+    .ui.accordion .active.title .job-description{
+          -webkit-line-clamp: unset; 
+          display: block; 
+          overflow: visible; 
+        }
     
     .blok-menu-paticka{
         margin-left: 13px;

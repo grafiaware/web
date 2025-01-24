@@ -4,9 +4,9 @@ use Events\Model\Entity\JobInterface;
 use Pes\Text\Html;
 
 ?>
-        <div class="title">
-                   
-            <p class="podnadpis"><i class="dropdown icon"></i>
+    <div class="ui grid">               
+        <div class="sixteen wide column">
+            <p class="podnadpis">
                 <?= $nazevPozice ?? 'DUMMY $nazevPozice' ?>, <?= $mistoVykonu ?? 'DUMMY $mistoVykonu' ?>
                 <?= "DUMMY $this->repeat(__DIR__.'/pozice/tag.php', $jobTags, 'tag')" ?>
                 <?php
@@ -19,7 +19,7 @@ use Pes\Text\Html;
                 ?>
             </p>
         </div>
-        <div class="content">
+        <div class="sixteen wide column">
             <div class="ui grid stackable">
                 <?php
                     /** @var JobInterface $job */
@@ -135,4 +135,5 @@ use Pes\Text\Html;
                 </div>
             </div>
         </div>
+    </div>
 
