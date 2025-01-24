@@ -3,11 +3,10 @@ namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelSingleListAbstract;
 use Component\ViewModel\ViewModelListInterface;
-use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
-use Events\Model\Repository\VisitorProfileRepoInterface;
-use Events\Model\Entity\VisitorProfile;
+use Events\Model\Repository\VisitorJobRequestRepoInterface;
+use Events\Model\Entity\VisitorJobRequest;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
@@ -17,18 +16,18 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
+class VisitorJobRequestSingleListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
 
     private $status;  
     
-    private $visitorProfileRepo;
+    private $visitorJobRequestRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            VisitorProfileRepoInterface $visitorProfileRepo
+            VisitorJobRequestRepoInterface $visitorJobRequestRepo
             ) {
         $this->status = $status;
-        $this->visitorProfileRepo = $visitorProfileRepo;
+        $this->visitorJobRequestRepo = $visitorJobRequestRepo;
     }
     
     private function isAdministrator() {
@@ -48,11 +47,11 @@ class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract impl
      * @return iterable
      */
     public function provideItemEntityCollection(): iterable {
-        $entities = $this->visitorProfileRepo->findAll();
+        $entities = $this->visitorJobRequestRepo->findAll();
 //                tady: asociativní pole id=>entita
 
         if ($this->isListEditable()) {
-            $entities[] = new VisitorProfile();
+            $entities[] = new VisitorJobRequest();
         }
         return $entities;
     }
