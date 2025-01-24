@@ -16,3 +16,13 @@ echo Html::p(Html::tag('form',
                     Html::tag('button', ['type'=>'submit'],
                     "testmail Ťuk!")
                 ));
+
+echo "-------------------------------------------";
+echo Html::p(Html::tag('form', 
+                    [
+                        'method'=>'POST',
+                        'action'=>"auth/v1/testmail",
+                    ],
+                    Html::tag('button', ['type'=>'submit'],
+                    "testmail Ťuk!")
+                ));
