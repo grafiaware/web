@@ -166,8 +166,7 @@ function initLoadedElements() {
     $('.flashtoast')
         .toast({
             displayTime: 5000
-        })
-    ;
+        });
 
     $('.btn-poznamky').on("click",
         function(){
@@ -494,7 +493,8 @@ function initJqueryEvents() {
                 // https://stackoverflow.com/questions/19377262/regex-for-youtube-url
                 const youtubeRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(?:-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/;
                 // Regulární výraz pro ověření Vimeo URL
-                const vimeoRegex = /^(https?:\/\/)?(www\.)?(vimeo\.com\/)(\d+)(\?.*)?$/;
+//                const vimeoRegex = /^(https?:\/\/)?(www\.)?(vimeo\.com\/)(\d+)(\?.*)?$/;
+                const vimeoRegex = /^(?:http|https)?:?\/?\/?(?:www\.)?(?:player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)$/;
                 if (youtubeRegex.test(urlInput)) {
                     message.textContent = "Platná YouTube URL adresa!";
                     message.style.color = "green";
@@ -502,7 +502,7 @@ function initJqueryEvents() {
                     message.textContent = "Platná Vimeo URL adresa!";
                     message.style.color = "green";
                 } else {
-                    message.textContent = "Neplatná YouTube URL adresa. Zkontrolujte prosím vstup.";
+                    message.textContent = "Neznámá YouTube nebo Vimeo URL adresa. Video možná bebude funkční. Zkontrolujte prosím vstup.";
                     message.style.color = "red";
                 }
             });

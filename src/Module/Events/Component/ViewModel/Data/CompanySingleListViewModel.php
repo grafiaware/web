@@ -47,6 +47,7 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
      */
     public function provideItemEntityCollection(): iterable {
         $entities = $this->companyRepo->findAll();
+//        tady: asociativní pole id=>entita
         if ($this->isListEditable()) {
             $entities[] = new Company();  // pro přidání
         }
