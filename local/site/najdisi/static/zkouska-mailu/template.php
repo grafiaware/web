@@ -21,8 +21,8 @@ echo "-------------------------------------------";
 echo Html::p(Html::tag('form', 
                     [
                         'method'=>'POST',
-                        'action'=>"auth/v1/testmail",
+                        'action'=>"events/v1/sendjobrequestnewzkouska/visitor/6", 
                     ],
                     Html::tag('button', ['type'=>'submit'],
-                    "testmail Ťuk!")
+                    "jobRequestMail")
                 ));

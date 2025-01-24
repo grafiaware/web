@@ -1,7 +1,12 @@
 <?php
-use Red\Model\Entity\VisitorDataPostInterface;
-/** @var VisitorDataPostInterface $visitorJobRequest */
+//use Red\Model\Entity\VisitorDataPostInterface;
+//use VisitorDataPostInterface;
+use Events\Model\Entity\VisitorJobRequestInterface;
+
 use Pes\Text\Text;
+/** @var VisitorJobRequestInterface  $visitorJobRequest */
+
+
 ?>
 
 <!DOCTYPE html>
@@ -19,12 +24,13 @@ use Pes\Text\Text;
 
 
             <div>
+                <img src="<?=$data_logo_grafia?>"  width="70" />                 
                 <h1>Veletrh práce a vzdělávání</h1>
-                <h2>zájemce o pozici <?= $positionName ?></h2>
+                <h2>zájemce o pozici <?= $visitorJobRequest->getPositionName() ?></h2>
 
                 <h3>Pracovní údaje návštěvníka.</h3>
                 <br>
-                <p>Návštěvník veletrhprace.online</p><p> Jméno:&nbsp;&nbsp; <b>
+                <p>Návštěvník praci.najdisi.cz </p><p> Jméno:&nbsp;&nbsp; <b>
                     <?= Text::esc(
                     trim(
                             $visitorJobRequest->getPrefix()
