@@ -1,0 +1,160 @@
+<?php
+namespace Events\Component\ViewModel\Data;
+
+use Component\ViewModel\ViewModelFamilyItemAbstract;
+
+use Component\ViewModel\StatusViewModelInterface;
+use Events\Model\Repository\JobRepoInterface;
+use Events\Model\Repository\VisitorJobRequestRepoInterface;
+use Events\Model\Repository\VisitorProfileRepoInterface;
+use Events\Model\Entity\VisitorJobRequestInterface;
+use Events\Model\Entity\VisitorProfileInterface;
+use Model\Entity\EntityInterface;
+
+
+use Access\Enum\RoleEnum;
+
+use UnexpectedValueException;
+use Exception;
+use TypeError;
+
+/**
+ * Description of RepresentativeActionViewModel
+ *
+ * @author pes2704
+ */
+class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
+    
+    private $status;
+    private $jobRepo;
+    private $jobRequestRepo;
+    private $visitorProfileRepo;
+
+
+    /**
+     * @var VisitorJobRequestInterface
+     */
+    private $jobRequest;
+
+    public function __construct(
+            StatusViewModelInterface $status,
+            JobRepoInterface $jobRepo,
+            VisitorJobRequestRepoInterface $jobRequestRepo,
+            VisitorProfileRepoInterface $visitorProfileRepo
+            ) {
+        $this->status = $status;
+        $this->jobRepo = $jobRepo;
+        $this->jobRequestRepo = $jobRequestRepo;
+        $this->visitorProfileRepo = $visitorProfileRepo;
+    }
+
+    private function isAdministrator() {
+        return ($this->status->getUserRole() == RoleEnum::EVENTS_ADMINISTRATOR);
+    }
+
+    private function isVisitor() {
+        return ($this->status->getUserRole() == RoleEnum::VISITOR);
+    }
+    
+    private function isJobRequestEditor($jobRequestLoginName) {
+        return ($this->status->getUserRole() == RoleEnum::VISITOR AND $this->status->getUserLoginName() == $jobRequestLoginName );
+    }
+
+    public function isItemEditable(): bool {
+        return $this->isJobRequestEditor($this->getFamilyRouteSegment()->getChildId());
+    }
+    
+    public function receiveEntity(EntityInterface $entity) {
+        if ($entity instanceof VisitorJobRequestInterface) {
+            $this->jobRequest = $entity;
+            $this->getFamilyRouteSegment()->setChildId($this->jobRequest->getLoginLoginName());            
+        } else {
+            $cls = VisitorJobRequestInterface::class;
+            $parCls = get_class($entity);
+            throw new TypeError("Typ entity musí být $cls, předáno $parCls.");
+        }
+    }
+    
+    //TODO: SV test a exception do rodičovské metody
+    private function loadJobRequest() {
+        if (!isset($this->jobRequest)) {
+            if ($this->getFamilyRouteSegment()->hasChildId()) {
+                if (null===$this->jobRepo->get($this->getFamilyRouteSegment()->getParentId())) {
+                    throw new UnexpectedValueException("The child entity has no requested parent.");
+                }
+                $this->jobRequest = $this->jobRequestRepo->get($this->getFamilyRouteSegment()->getChildId(), $this->getFamilyRouteSegment()->getParentId());     // get(loginname, jobid)
+                if (!isset($this->jobRequest)) {
+                        throw new UnexpectedValueException("There is no requested child entity.");// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+                }                
+            } else {
+                throw new UnexpectedValueException("There is no required child entity ID in the route..");// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+            }
+        }
+    }
+    
+    private function getVisitorProfile(): ?VisitorProfileInterface {
+        $loginLoginName = $this->status->getUserLoginName();
+        if (isset($loginLoginName)) {
+            return $this->visitorProfile = $this->visitorProfileRepo->get($loginLoginName);
+        }
+    }
+
+
+    public function getIterator() {
+        $this->loadJobRequest();
+        $visitorEmail = $this->status->getUserEmail();
+
+        if ($this->getFamilyRouteSegment()->hasChildId()) {
+            $item = [
+                //route
+                'actionSave' => $this->getFamilyRouteSegment()->getSavePath(),
+                'actionRemove' => $this->getFamilyRouteSegment()->getRemovePath(),
+//                'id' => $this->getFamilyRouteSegment()->getChildId(),
+                // data
+                'fields' => [
+                        'prefix' =>   $this->jobRequest->getPrefix(),
+                        'name' =>     $this->jobRequest->getName(),
+                        'surname' =>  $this->jobRequest->getSurname(),
+                        'postfix' =>  $this->jobRequest->getPostfix(),
+                        'phone' =>    $this->jobRequest->getPhone(),                    
+                        'email' => $this->jobRequest->getEmail(),
+//                        'visitorEmail' => $visitorEmail,
+                        'cvEducationText' =>  $this->jobRequest->getCvEducationText(),
+                        'cvSkillsText' =>     $this->jobRequest->getCvSkillsText(),
+                    ],
+                ];
+        } elseif ($this->isItemEditable()) {
+            $visitorProfile = $this->getVisitorProfile();
+            if (isset($visitorProfile)) {
+                $item = [
+                    //route
+                    'actionAdd' => $this->getFamilyRouteSegment()->getAddPath(),
+                    // text
+                    'addHeadline' => 'Nový zájem o pozici',                
+                    // data
+                    'fields' => [
+                        'prefix' =>   $visitorProfile->getPrefix(),
+                        'name' =>     $visitorProfile->getName(),
+                        'surname' =>  $visitorProfile->getSurname(),
+                        'postfix' =>  $visitorProfile->getPostfix(),
+                        'phone' =>    $visitorProfile->getPhone(),                    
+                        'email' => $visitorEmail,   // email z registrace
+                        'cvEducationText' =>  $this->jobRequest->getCvEducationText(),
+                        'cvSkillsText' =>     $this->jobRequest->getCvSkillsText(),                        
+                    ],
+                    ];
+            } else {
+                $item = [
+                    // text
+                    'addHeadline' => 'Odeslat zájem o pozici může jen přihlášený návštěvník s vytvořeným profilem.',                
+                    // data
+                    'fields' => [
+                    ],
+                    ];                
+            }
+        }        
+        
+        $this->appendData($item ?? []);
+        return parent::getIterator();          
+    }
+}

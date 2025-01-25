@@ -49,6 +49,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof JobInterface) {
             $this->job = $entity;
+            $this->getFamilyRouteSegment()->setChildId($this->job->getId());            
         } else {
             $cls = JobInterface::class;
             $parCls = get_class($entity);
@@ -84,8 +85,6 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {  
         $this->loadJob();
-        $editableItem = $this->isItemEditable();
-        $this->getFamilyRouteSegment()->setChildId($this->job->getId());
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         $selectEducations = $this->selectEducations();
         $jobId = $this->job->getId();  // pro cascade volání vnořeného komponentu JobFamilyTag
@@ -107,7 +106,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                     'selectEducations' =>  $selectEducations,
                     ],                
                 ];                
-        } elseif ($editableItem) {
+        } elseif ($this->isItemEditable()) {
             $companyJob = [
                 // text
                 'addHeadline' => 'Přidej pozici', 

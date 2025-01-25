@@ -7,7 +7,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 ?>
             <div class="active title">
                 <i class="dropdown icon"></i>
-                Balíček pracovních údajů k odeslání
+                Zájem o pracovní pozici
             </div>
             <div class="active content">
                 <form class="ui huge form" action="events/v1/visitor" method="POST">
@@ -32,11 +32,11 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                     <div class="two fields">
                         <div class="field">
                             <label>E-mail (zde nelze zadat/opravit)</label>
-                            <p><?= $visitorEmail ?? '';  ?></p>
+                            <input type="email" name="email" placeholder="email" readonly value="<?= $email ?? '';  ?>">
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input  type="tel" name="phone" placeholder="+420 777 888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= $phone ?? ''; ?>">
+                            <input  type="tel" name="phone" placeholder="+420 777 888 555" pattern="[+]?[0-9 ]{9,17}" maxlength="45" value="<?= $phone ?? ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
