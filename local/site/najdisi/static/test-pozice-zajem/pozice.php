@@ -7,14 +7,14 @@ use Pes\Text\Html;
                    
             <div class="ui grid stackable">
                 
-                        <?php
-                        if($isVisitor AND $isVisitorDataPost) {
-                            include 'pozice/titleVisitorPost.php';
-                        }
-                        if($isRepresentativeOfCompany) {
-                            include 'pozice/titleRepresentative.php';
-                        }
-                        ?>
+                <?php
+                if($isVisitor AND $isVisitorDataPost) {
+                    include 'pozice/titleVisitorPost.php';
+                }
+                if($isRepresentativeOfCompany) {
+                    include 'pozice/titleRepresentative.php';
+                }
+                ?>
                     
                 <?php
                     /** @var JobInterface $job */
@@ -30,7 +30,6 @@ use Pes\Text\Html;
                         <div  class="navazat-kontakt">
                             <div class="ui grid">
                                 <?php
-//----------                               
                                 if ($isVisitor) {
                                     ?>
                                     <div class="sixteen wide column center aligned">

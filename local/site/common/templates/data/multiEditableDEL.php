@@ -13,10 +13,10 @@ use Pes\Text\Message;
         <div class="list active content">      
             <form class="ui big form" action="" method="POST"  onKeyup="eventsEnableButtonsOnForm(event)">
             <?= $this->insert($fieldsTemplate, $fields  ?? []) ?> 
-            <?=
-                isset($actionSave) 
-                ? "<button class='ui primary button' type='submit' formaction='$actionSave' > Uložit </button>" : '';
-            ?>            
+                <?=
+                    isset($actionSave) 
+                    ? "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' onClick='eventsDisableButtonsOnForm(event)'  type='submit' formaction='$actionSave'> ".($titleSave ?? 'Uložit změny')." </button>" : '';
+                ?>     
             </form>     
         </div>            
     </div>
