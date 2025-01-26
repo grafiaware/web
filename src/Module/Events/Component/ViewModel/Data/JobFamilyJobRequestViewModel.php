@@ -108,9 +108,8 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
         if ($this->getFamilyRouteSegment()->hasChildId() AND isset($this->jobRequest)) {
             $item = [
                 //route
-                //TODO: vypnout tlačítka - odeslaný request nelze měnit ani smazat
-                'actionSave' => $this->getFamilyRouteSegment()->getSavePath(),
-                'actionRemove' => $this->getFamilyRouteSegment()->getRemovePath(),
+//                'actionSave' => $this->getFamilyRouteSegment()->getSavePath(),
+//                'actionRemove' => $this->getFamilyRouteSegment()->getRemovePath(),
 //                'id' => $this->getFamilyRouteSegment()->getChildId(),
                 // data
                 'fields' => [

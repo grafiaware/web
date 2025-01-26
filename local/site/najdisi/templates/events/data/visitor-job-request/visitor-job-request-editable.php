@@ -44,7 +44,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                             <label>Vzdělání, kurzy</label>
                             <textarea name="cv-education-text" class="edit-userinput"><?= $cvEducationText ?? ''; ?></textarea>
                         </div>
-                        <div class="field margin">
+                        <div class="field">
                             <label>Pracovní zkušenosti, dovednosti</label>
                             <textarea name="cv-skills-text" class="edit-userinput"><?= $cvSkillsText ?? ''; ?></textarea>
                         </div>
