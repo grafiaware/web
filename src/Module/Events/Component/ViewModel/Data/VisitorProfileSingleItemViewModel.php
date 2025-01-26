@@ -152,11 +152,11 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         $this->loadVisitorProfile();
         $visitorEmail = $this->status->getUserEmail();
 
-        if ($this->getSingleRouteSegment()->hasChildId()) {
+        if ($this->getSingleRouteSegment()->hasChildId() && isset($this->visitorProfile)) {
             $item = [
                 //route
                 'actionSave' => $this->getSingleRouteSegment()->getSavePath(),
-                'actionRemove' => $this->getSingleRouteSegment()->getRemovePath(),
+//                'actionRemove' => $this->getSingleRouteSegment()->getRemovePath(),
                 'id' => $this->getSingleRouteSegment()->getChildId(),
                 // data
                 'fields' => [
