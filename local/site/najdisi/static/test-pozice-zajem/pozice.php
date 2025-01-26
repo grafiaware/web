@@ -4,21 +4,28 @@ use Events\Model\Entity\JobInterface;
 use Pes\Text\Html;
 
 ?>
-        <div class="title">
                    
-            <p class="podnadpis"><i class="dropdown icon"></i>
-                <?php
-                if($isVisitor AND $isVisitorDataPost) {
-                    include 'potice/titleVisitorPost.php';
-                }
-                if($isRepresentativeOfCompany) {
-                    include 'pozice/titleRepresentative.php';
-                }
-                ?>
-            </p>
-        </div>
-        <div class="sixteen wide column">
             <div class="ui grid stackable">
+                
+                        <?php
+                        if($isVisitor AND $isVisitorDataPost) {
+                            echo '<div class="sixteen wide column">
+                                    <p class="podnadpis">
+                                        <i class="small level down alternate flipped icon"></i>';
+                            include 'potice/titleVisitorPost.php';
+                            echo    '</p>
+                                  </div>';
+                        }
+                        if($isRepresentativeOfCompany) {
+                            echo '<div class="sixteen wide column">
+                                    <p class="podnadpis">
+                                        <i class="small level down alternate flipped icon"></i>';
+                            include 'pozice/titleRepresentative.php';
+                            echo    '</p>
+                                  </div>';
+                        }
+                        ?>
+                    
                 <?php
                     /** @var JobInterface $job */
                     echo Html::tag('div', 
