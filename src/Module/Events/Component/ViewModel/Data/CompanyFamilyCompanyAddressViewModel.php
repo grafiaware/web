@@ -45,6 +45,7 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof CompanyAddressInterface) {
             $this->companyAddress = $entity;
+            $this->getFamilyRouteSegment()->setChildId($this->companyAddress->getCompanyId());  //pk = fk            
         } else {
             $cls = CompanyAddressInterface::class;
             $parCls = get_class($entity);
@@ -68,7 +69,6 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyAddress();
-        $this->getFamilyRouteSegment()->setChildId($this->companyAddress->getCompanyId());  //pk = fk
         $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($componentRouteSegment->hasChildId()) {        
             $companyAddrArray = [

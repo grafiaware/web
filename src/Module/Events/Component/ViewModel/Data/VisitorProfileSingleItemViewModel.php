@@ -79,8 +79,9 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
     
     private function loadVisitorProfile() {
         if (!isset($this->visitorProfile)) {
-            if ($this->getSingleRouteSegment()->getChildId()) {
-                $this->visitorProfile = $this->visitorProfileRepo->get($this->getSingleRouteSegment()->getChildId());     
+            if ($this->getSingleRouteSegment()->hasChildId()) {
+                $childId = $this->getSingleRouteSegment()->getChildId();
+                $this->visitorProfile = $this->visitorProfileRepo->get($childId);     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }

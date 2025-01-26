@@ -3,11 +3,10 @@ namespace Events\Component\ViewModel\Data;
 
 use Component\ViewModel\ViewModelSingleListAbstract;
 use Component\ViewModel\ViewModelListInterface;
-use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Component\ViewModel\StatusViewModelInterface;
-use Events\Model\Repository\VisitorProfileRepoInterface;
-use Events\Model\Entity\VisitorProfile;
+use Events\Model\Repository\VisitorJobRequestRepoInterface;
+use Events\Model\Entity\VisitorJobRequest;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
@@ -17,18 +16,18 @@ use ArrayIterator;
  *
  * @author pes2704
  */
-class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
+class VisitorJobRequestSingleListViewModel extends ViewModelSingleListAbstract implements ViewModelListInterface {
 
     private $status;  
     
-    private $visitorProfileRepo;
+    private $visitorJobRequestRepo;
 
     public function __construct(
             StatusViewModelInterface $status,
-            VisitorProfileRepoInterface $visitorProfileRepo
+            VisitorJobRequestRepoInterface $visitorJobRequestRepo
             ) {
         $this->status = $status;
-        $this->visitorProfileRepo = $visitorProfileRepo;
+        $this->visitorJobRequestRepo = $visitorJobRequestRepo;
     }
     
     private function isAdministrator() {
@@ -38,10 +37,23 @@ class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract impl
     public function isListEditable(): bool {
         return $this->isAdministrator();
     }
-    
-    protected function loadListEntities() {
-        $this->listEntities = $this->visitorProfileRepo->findAll();
+
+    /**
+     * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
+     * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
+     * a této komponentě bude vložena jako data pro renderování položka kolekce dat. 
+     * Pozn. To znamená, že jednotlívé item komponenty nepoužijí (a nepotřebují) vlastní view model.
+     * 
+     * @return iterable
+     */
+    public function provideItemEntityCollection(): iterable {
+        $entities = $this->visitorJobRequestRepo->findAll();
 //                tady: asociativní pole id=>entita
+
+        if ($this->isListEditable()) {
+            $entities[] = new VisitorJobRequest();
+        }
+        return $entities;
     }
     
     /**

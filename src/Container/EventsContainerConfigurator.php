@@ -45,6 +45,8 @@ use Events\Component\View\Data\TagComponent;
 use Events\Component\View\Data\TagListComponent;
 use Events\Component\View\Data\VisitorProfileSingleItemComponent;
 use Events\Component\View\Data\VisitorProfileSingleListComponent;
+use Events\Component\View\Data\JobFamilyJobRequestComponent;
+use Events\Component\View\Data\JobFamilyJobRequestListComponent;
 use Events\Component\View\Data\DocumentSingleItemComponent;
 use Events\Component\View\Data\DocumentSingleListComponent;
 
@@ -73,6 +75,8 @@ use Events\Component\ViewModel\Data\CompanyFamilyJobListViewModel;
 use Events\Component\ViewModel\Data\CompanyJobsListViewModel;
 use Events\Component\ViewModel\Data\VisitorProfileSingleListViewModel;
 use Events\Component\ViewModel\Data\VisitorProfileSingleItemViewModel;
+use Events\Component\ViewModel\Data\JobFamilyJobRequestViewModel;
+use Events\Component\ViewModel\Data\JobFamilyJobRequestListViewModel;
 use Events\Component\ViewModel\Data\DocumentSingleViewModel;
 use Events\Component\ViewModel\Data\DocumentSingleListViewModel;
 
@@ -169,7 +173,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
            
             'visitorprofile' => VisitorProfileSingleItemComponent::class,
             'visitorprofileList' => VisitorProfileSingleListComponent::class,
-      
+            'jobFamilyjobrequest' => JobFamilyJobRequestComponent::class,
+            'jobFamilyjobrequestList' => JobFamilyJobRequestListComponent::class,  
+            
             'representativeCompanyAddress' => RepresentativeCompanyAddressComponent::class,
            
         ];
@@ -530,7 +536,37 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },          
-                                
+            JobFamilyJobRequestListComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new JobFamilyJobRequestListComponent($configuration, $c->get(JobFamilyJobRequestComponent::class));
+                    $component->setListViewModel($c->get(JobFamilyJobRequestListViewModel::class));
+                if($accessPresentation->hasAnyPermission(JobFamilyJobRequestListComponent::class)) {
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplate('list')));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                
+            JobFamilyJobRequestComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new JobFamilyJobRequestComponent($configuration);
+                    $component->setItemViewModel($c->get(JobFamilyJobRequestViewModel::class));
+
+                if($accessPresentation->hasAnyPermission(JobFamilyJobRequestComponent::class)) { 
+                    $component->setItemTemplate(new PhpTemplate());  //bez šablony
+                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
+                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorJobRequest'), $configuration->getTemplate('visitorJobRequestEditable'));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },                                     
                     
         ####
         # Element komponenty - vždy zobrazeny
@@ -863,6 +899,21 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new VisitorProfileSingleItemViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(VisitorProfileRepo::class),
+                    );
+            },     
+                    
+            JobFamilyJobRequestViewModel::class => function(ContainerInterface $c) {
+                return new JobFamilyJobRequestViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(JobRepo::class),
+                        $c->get(VisitorJobRequestRepo::class),
+                        $c->get(VisitorProfileRepo::class),
+                    );
+            },                    
+            JobFamilyJobRequestListViewModel::class => function(ContainerInterface $c) {
+                return new JobFamilyJobRequestListViewModel(
+                        $c->get(StatusViewModel::class),
+                        $c->get(VisitorJobRequestRepo::class),
                     );
             },     
                     
