@@ -11,7 +11,7 @@ use Pes\Text\Message;
             <?= $listHeadline ?>
         </div>     
         <div class="list active content">      
-            <form class="ui huge form" action="" method="POST"  onKeyup="eventsEnableButtonsOnForm(event)">
+            <form class="ui big form" action="" method="POST"  onKeyup="eventsEnableButtonsOnForm(event)">
             <?= $this->insert($fieldsTemplate, $fields  ?? []) ?> 
             <?=
                 isset($actionSave) 

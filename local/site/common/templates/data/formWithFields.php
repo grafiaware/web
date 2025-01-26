@@ -7,7 +7,7 @@ use Pes\Text\Message;
 
         <?= $addHeadline ?? false ? "<p class='podnadpis'>$addHeadline</p>" : "" ?>
         <?php $formUid= uniqid(); ?>
-        <form id="<?= $formUid ?>" class="ui huge form" action="" method="POST" onKeyup="eventsEnableButtonsOnForm(event)" onChange="eventsEnableButtonsOnForm(event)">
+        <form id="<?= $formUid ?>" class="ui big form" action="" method="POST" onKeyup="eventsEnableButtonsOnForm(event)" onChange="eventsEnableButtonsOnForm(event)">
                 <?= $this->insert($fieldsTemplate, $fields  ?? []) ?>
             <!--buttons-->
             <div class="text okraje-dole">

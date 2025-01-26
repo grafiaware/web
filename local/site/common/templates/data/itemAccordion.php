@@ -7,7 +7,7 @@ use Pes\Text\Message;
 
             <?= $addHeadline ?? false ? "<p>$addHeadline</p>" : "" ?>
             <?php $formUid= uniqid(); ?>
-        <form id="<?= $formUid ?>" class="ui huge form" action="" method="POST" onKeyup="enableButton(event)">
+        <form id="<?= $formUid ?>" class="ui big form" action="" method="POST" onKeyup="enableButton(event)">
             <!--<div class="two fields">-->   
                 <?= $this->insertIf(!($editable ?? false), $fieldsTemplate, $fields  ?? [], __DIR__.'/noData.php') ?>
                 <?= $this->insertIf($editable ?? false, $fieldsTemplate, $fields  ?? []) ?>
