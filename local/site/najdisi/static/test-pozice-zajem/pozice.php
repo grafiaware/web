@@ -9,20 +9,10 @@ use Pes\Text\Html;
                 
                         <?php
                         if($isVisitor AND $isVisitorDataPost) {
-                            echo '<div class="sixteen wide column">
-                                    <p class="podnadpis">
-                                        <i class="small level down alternate flipped icon"></i>';
-                            include 'potice/titleVisitorPost.php';
-                            echo    '</p>
-                                  </div>';
+                            include 'pozice/titleVisitorPost.php';
                         }
                         if($isRepresentativeOfCompany) {
-                            echo '<div class="sixteen wide column">
-                                    <p class="podnadpis">
-                                        <i class="small level down alternate flipped icon"></i>';
                             include 'pozice/titleRepresentative.php';
-                            echo    '</p>
-                                  </div>';
                         }
                         ?>
                     
@@ -79,9 +69,9 @@ use Pes\Text\Html;
                                
                                     <?php
                                 } elseif ($isRepresentativeOfCompany) {
-                                    include 'pozice/contentNotLoggedIn.php';
-                                } elseif (!isset($loginAggregate)) {
                                     include 'pozice/contentRepresentative.php';
+                                } elseif (!isset($loginAggregate)) {
+                                    include 'pozice/contentNotLoggedIn.php';
                                 }
                                 ?>
                             </div>
