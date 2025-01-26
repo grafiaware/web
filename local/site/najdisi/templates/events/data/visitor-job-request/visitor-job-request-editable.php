@@ -13,7 +13,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                 <form class="ui huge form" action="events/v1/visitor" method="POST">
                     <div class="four fields">
                         <div class="three wide field">
-                            <label>Titul před jménem</label>
+                            <label>Titul před</label>
                             <input   type="text" name="prefix" placeholder="" maxlength="45" value="<?= $prefix ?? ''; ?>">
                         </div>
                         <div class="five wide field">
@@ -25,7 +25,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                             <input  type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= $surname ?? ''; ?>">
                         </div>
                         <div class="three wide field">
-                            <label>Titul za jménem</label>
+                            <label>Titul za</label>
                             <input  type="text" name="postfix" placeholder="" maxlength="45" value="<?= $postfix ?? ''; ?>">
                         </div>
                     </div>
