@@ -1,6 +1,6 @@
                 <div class="sixteen wide column">
                     <p class="podnadpis">
-                        <i class="small level down alternate flipped icon"></i>';                    
+                        <i class="small level down alternate flipped icon"></i>                    
                     <?php
                     if ($visitorJobRequestCount>0) {
                     ?>
