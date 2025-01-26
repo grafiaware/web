@@ -43,6 +43,8 @@ class JobTagListViewModel extends ViewModelAbstract implements ViewModelListInte
     
     public function provideItemEntityCollection(): iterable {
         $entities = $this->jobTagRepo->findAll();
+//        tady: asociativní pole id=>entita
+        
         if ($this->isListEditable()) {
             $entities[] = new JobTag();  // pro přidání
         }

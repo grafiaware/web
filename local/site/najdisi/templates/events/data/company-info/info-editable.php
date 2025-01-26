@@ -21,7 +21,7 @@ use Pes\Text\Html;
             </div>
             <div class="field">
                 <label>Video</label>
-                <input id="youtubeUrlQQ" type="url" name="videolink" placeholder="https://www.youtube.com/watch?v=..." maxlength="150" 
+                <input id="youtubeUrlQQQ" type="url" name="videolink" placeholder="https://www.youtube.com/watch?v=... | https://vimeo.com/123456789" maxlength="150" 
                                         value="<?= $videoLink ?? '' ?>">
                 <p id="message"></p>
             </div>

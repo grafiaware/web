@@ -222,11 +222,13 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/vzdelani/:stupen/remove'));   
       
         #### VisitorJobRequestControler
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/:jobId/jobrequest'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/sendjobrequest/:visitorLoginName/:jobId'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/job/:jobId/jobrequest'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/job/:jobId/jobrequest/:loginloginname'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/job/:jobId/jobrequest/:loginloginname/send'));
        
         #### VisitorProfileControler ####
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitor'));        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile'));        
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/visitorprofile/:loginname'));        
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/uploadvisitorfile'));
         
         #### DocumentControler

@@ -190,7 +190,7 @@ class ConfigurationDb {
             'auth.db.port' => '3306',
             'auth.db.charset' => 'utf8',
             'auth.db.collation' => 'utf8_general_ci',
-            'auth.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'xenon.intranet.grafia.cz' ,   // 'localhost' zbytečně překládá jméno,
+            'auth.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
             'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz02' : 'single_login',  // 'revoluceorg04' : 'single_login',
             #
             ###################################
@@ -219,7 +219,7 @@ class ConfigurationDb {
             'red.db.port' => '3306',
             'red.db.charset' => 'utf8',
             'red.db.collation' => 'utf8_general_ci',
-            'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'xenon.intranet.grafia.cz' ,   // 'localhost' zbytečně překládá jméno,
+            'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
             'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz01' : 'najdisi', // 'revoluceorg03' : 'najdisi',
             #
             ###################################

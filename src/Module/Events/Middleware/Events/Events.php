@@ -230,6 +230,17 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         ###########################
         ## VisitorProfileControler
         ###########################              
+        //-----------------visitorprofile
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile', function(ServerRequestInterface $request) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->addVisitorProfile($request);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:loginname', function(ServerRequestInterface $request, $loginName) {
+            /** @var VisitorProfileControler $ctrl */
+            $ctrl = $this->container->get(VisitorProfileControler::class);
+            return $ctrl->addVisitorProfile($request, $loginName);
+        });
         //add or update
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitorprofile/:parentId/doctype/:type', function(ServerRequestInterface $request, $parentId, $type) {
             /** @var VisitorProfileControler $ctrl */
@@ -242,12 +253,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->remove($request, $parentId, $type);
         });
-        //-----------------visitorprofile
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorProfileControler $ctrl */
-            $ctrl = $this->container->get(VisitorProfileControler::class);
-            return $ctrl->visitor($request);
-        });
+
         //?????????????????????????????
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
             /** @var VisitorProfileControler $ctrl */
@@ -258,12 +264,17 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         ###########################
         ## VisitorJobRequestControler
         ###########################
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/:jobId/jobrequest', function(ServerRequestInterface $request, $jobId) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/job/:jobId/jobrequest', function(ServerRequestInterface $request, $jobId) {
             /** @var VisitorJobRequestControler $ctrl */
             $ctrl = $this->container->get(VisitorJobRequestControler::class);
-            return $ctrl->jobRequest($request, $jobId);
+            return $ctrl->addRequest($request, $jobId);
         });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest/:visitorLoginName/:jobId', function(ServerRequestInterface $request, $visitorLoginName, $jobId) {
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/job/:jobId/jobrequest/:loginloginname', function(ServerRequestInterface $request, $jobId, $loginloginname) {
+            /** @var VisitorJobRequestControler $ctrl */
+            $ctrl = $this->container->get(VisitorJobRequestControler::class);
+            return $ctrl->updateRequest($request, $jobId, $loginloginname);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/job/:jobId/jobrequest/:loginloginname/send', function(ServerRequestInterface $request, $visitorLoginName, $jobId) {
             /** @var VisitorJobRequestControler $ctrl */
             $ctrl = $this->container->get(VisitorJobRequestControler::class);
             return $ctrl->sendJobRequest($request, $visitorLoginName, $jobId);
@@ -325,20 +336,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(JobControler::class);
             return $ctrl->removePozadovaneVzdelani($request, $stupen);
         });                  
-        
-        ###########################
-        ## VisitorJobRequestControler
-        ###########################
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/:jobId/jobrequest', function(ServerRequestInterface $request, $jobId) {
-            /** @var VisitorJobRequestControler $ctrl */
-            $ctrl = $this->container->get(VisitorJobRequestControler::class);
-            return $ctrl->jobRequest($request, $jobId);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/events/v1/sendjobrequest/:visitorLoginName/:jobId', function(ServerRequestInterface $request, $visitorLoginName, $jobId) {
-            /** @var VisitorJobRequestControler $ctrl */
-            $ctrl = $this->container->get(VisitorJobRequestControler::class);
-            return $ctrl->sendJobRequest($request, $visitorLoginName, $jobId);
-        });  
+
         
 ##########################################################################################################################################################             
         ###################        

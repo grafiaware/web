@@ -74,13 +74,14 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
     
     public function isItemEditable(): bool {
         $this->loadVisitorProfile();
-        return $this->isVisitor();
+        return $this->isVisitor() || $this->isAdministrator();
     }
     
     private function loadVisitorProfile() {
         if (!isset($this->visitorProfile)) {
-            if ($this->getSingleRouteSegment()->getChildId()) {
-                $this->visitorProfile = $this->visitorProfileRepo->get($this->getSingleRouteSegment()->getChildId());     
+            if ($this->getSingleRouteSegment()->hasChildId()) {
+                $childId = $this->getSingleRouteSegment()->getChildId();
+                $this->visitorProfile = $this->visitorProfileRepo->get($childId);     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
@@ -88,84 +89,100 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
     }    
     
     public function getIterator() {     
-        $this->loadVisitorProfile();
         
-        $isAdministrator = $this->isAdministrator();
-        $editable =  $this->isAdministrator() || $this->isCurrentVisitor();
-                //$userHash = $loginAggregate->getLoginNameHash();
-                $userHash =  $this->status->getUserLoginHash();
-                $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
-                $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
-                $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
+//        $isAdministrator = $this->isAdministrator();
+//        $editable =  $this->isAdministrator() || $this->isCurrentVisitor();
+//                //$userHash = $loginAggregate->getLoginNameHash();
+//                $userHash =  $this->status->getUserLoginHash();
+//                $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
+//                $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+//                $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
+//
+//            //------------------------------------------------------------------
+//
+//                /** @var StatusViewModelInterface $statusViewModel */
+//                $role = $this->status->getUserRole();
+// 
 
-                $visitorEmail = $this->status->getUserEmail();
-            //------------------------------------------------------------------
-
-                /** @var StatusViewModelInterface $statusViewModel */
-                $role = $this->status->getUserRole();
-                $loginName =  $this->status->getUserLoginName();
-
-
-                /** @var VisitorProfileRepoInterface $visitorProfileRepo */
-                $visitorProfileRepo = $this->visitorProfileRepo;
-                /** @var VisitorProfileInterface $visitorProfile */
-                $visitorProfile = $visitorProfileRepo->get($loginName);   
-
-                if (isset($visitorProfile)) {
-                    $documentCvId = $visitorProfile->getCvDocument();
-                    $documentLettterId = $visitorProfile->getLetterDocument();        
-                }
-                /** @var DocumentInterface $visitorDocumentCv */
-                if (isset($documentCvId))  {
-                    $visitorDocumentCv = $this->documentRepo->get($documentCvId);        
-                }
-
-                /** @var DocumentInterface $visitorDocumentLetter */
-                if (isset($documentLettterId)) {
-                    $visitorDocumentLetter = $this->documentRepo->get($documentLettterId);         
-                }
-
-                $documents = [
-                    'visitorDocumentCvFilename' => isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : '',
-                    'visitorDocumentLetterFilename' => isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : '',
-                    'visitorDocumentCvId' => isset($visitorDocumentCv) ? $visitorDocumentCv->getId() : '',
-                    'visitorDocumentLetterId' => isset($visitorDocumentLetter) ? $visitorDocumentLetter->getId() : '',
-
-                    'editable' => $editable, 
-                    'uploadedCvFilename' => ($uploadedCvFilename) ?? '',
-                    'uploadedLetterFilename' => ($uploadedLetterFilename) ?? '',
-                    'accept' => $accept ?? ''
-
-                ];
-
-                if (isset($visitorProfile)) {
-                    $item /*profileData*/  = [
-                        'cvEducationText' =>  $visitorProfile->getCvEducationText(),
-                        'cvSkillsText' =>     $visitorProfile->getCvSkillsText(),
-                        'name' =>     $visitorProfile->getName(),
-                        'phone' =>    $visitorProfile->getPhone(),
-                        'postfix' =>  $visitorProfile->getPostfix(),
-                        'prefix' =>   $visitorProfile->getPrefix(),
-                        'surname' =>  $visitorProfile->getSurname(),
-                        'visitorEmail' => $visitorEmail,
-
-                        ];
-                } else {
-                    $item = [
-                        'loginName_proInsert'=> $loginName,
-                        ];
-                }             
+//                if (isset($this->visitorProfile)) {
+//                    $documentCvId = $this->visitorProfile->getCvDocument();
+//                    $documentLettterId = $this->visitorProfile->getLetterDocument();        
+//                }
+//                /** @var DocumentInterface $visitorDocumentCv */
+//                if (isset($documentCvId))  {
+//                    $visitorDocumentCv = $this->documentRepo->get($documentCvId);        
+//                }
+//
+//                /** @var DocumentInterface $visitorDocumentLetter */
+//                if (isset($documentLettterId)) {
+//                    $visitorDocumentLetter = $this->documentRepo->get($documentLettterId);         
+//                }
+//                $documents = [
+//                    'visitorDocumentCvFilename' => isset($visitorDocumentCv) ? $visitorDocumentCv->getDocumentFilename() : '',
+//                    'visitorDocumentLetterFilename' => isset($visitorDocumentLetter) ? $visitorDocumentLetter->getDocumentFilename() : '',
+//                    'visitorDocumentCvId' => isset($visitorDocumentCv) ? $visitorDocumentCv->getId() : '',
+//                    'visitorDocumentLetterId' => isset($visitorDocumentLetter) ? $visitorDocumentLetter->getId() : '',
+//
+//                    'editable' => $editable, 
+//                    'uploadedCvFilename' => ($uploadedCvFilename) ?? '',
+//                    'uploadedLetterFilename' => ($uploadedLetterFilename) ?? '',
+//                    'accept' => $accept ?? ''
+//
+//                ];
+//                $nn = 'Balíček pracovních údajů';
+//
+//                if (isset($this->visitorProfile)) {
+//                    $item = [
+//                        'cvEducationText' =>  $this->visitorProfile->getCvEducationText(),
+//                        'cvSkillsText' =>     $this->visitorProfile->getCvSkillsText(),
+//                        'name' =>     $this->visitorProfile->getName(),
+//                        'phone' =>    $this->visitorProfile->getPhone(),
+//                        'postfix' =>  $this->visitorProfile->getPostfix(),
+//                        'prefix' =>   $this->visitorProfile->getPrefix(),
+//                        'surname' =>  $this->visitorProfile->getSurname(),
+//                        'visitorEmail' => $visitorEmail,
+//
+//                        ];
+//                } else {
+//                    $item = [
+//                        'loginName_proInsert'=> $loginName,
+//                        ];
+//                }             
                                   
-        $array = [
-            'profileData' => $item,
-            'documents' => $documents    
-            
-        ];           
+        $this->loadVisitorProfile();
+        $visitorEmail = $this->status->getUserEmail();
+
+        if ($this->getSingleRouteSegment()->hasChildId()) {
+            $item = [
+                //route
+                'actionSave' => $this->getSingleRouteSegment()->getSavePath(),
+                'actionRemove' => $this->getSingleRouteSegment()->getRemovePath(),
+                'id' => $this->getSingleRouteSegment()->getChildId(),
+                // data
+                'fields' => [
+                        'cvEducationText' =>  $this->visitorProfile->getCvEducationText(),
+                        'cvSkillsText' =>     $this->visitorProfile->getCvSkillsText(),
+                        'name' =>     $this->visitorProfile->getName(),
+                        'phone' =>    $this->visitorProfile->getPhone(),
+                        'postfix' =>  $this->visitorProfile->getPostfix(),
+                        'prefix' =>   $this->visitorProfile->getPrefix(),
+                        'surname' =>  $this->visitorProfile->getSurname(),
+                        'visitorEmail' => $visitorEmail,
+                    ],
+                ];
+        } elseif ($this->isItemEditable()) {
+            $item = [
+                //route
+                'actionAdd' => $this->getSingleRouteSegment()->getAddPath(),
+                // text
+                'addHeadline' => 'Nový profil',                
+                // data
+                'fields' => [],
+                ];
+        }        
         
-        
-   
-        $this->appendData($array);
-        return parent::getIterator();    
+        $this->appendData($item ?? []);
+        return parent::getIterator();  
     }
     
 ########################
@@ -193,15 +210,15 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         
         if (isset($parentId)) {
             $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";   
-            $visitorProfile = $requestedParTabRepo->get($parentId);
+            $this->visitorProfile = $requestedParTabRepo->get($parentId);
             
             if ($requestedTypeDoc == VisitorProfileControler::TYPE_LETTER) {
                 $addHeadline = "Soubor typu:  motivační dopis ";
-                $id = $visitorProfile->getLetterDocument();   
+                $id = $this->visitorProfile->getLetterDocument();   
             }
             if ($requestedTypeDoc == VisitorProfileControler::TYPE_CV) {
                 $addHeadline = "Soubor typu: životopis ";
-                $id = $visitorProfile->getCvDocument();
+                $id = $this->visitorProfile->getCvDocument();
             }
 
             if (isset($id)) {                         

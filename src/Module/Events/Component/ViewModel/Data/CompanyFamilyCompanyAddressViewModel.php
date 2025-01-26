@@ -45,6 +45,7 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof CompanyAddressInterface) {
             $this->companyAddress = $entity;
+            $this->getFamilyRouteSegment()->setChildId($this->companyAddress->getCompanyId());  //pk = fk            
         } else {
             $cls = CompanyAddressInterface::class;
             $parCls = get_class($entity);
@@ -58,8 +59,8 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     
     private function loadCompanyAddress() {
         if (!isset($this->companyAddress)) {
-            if ($this->hasItemId()) {
-                $this->companyAddress = $this->companyAddressRepo->get($this->getItemId());     
+            if ($this->getFamilyRouteSegment()->hasChildId()) {
+                $this->companyAddress = $this->companyAddressRepo->get($this->getFamilyRouteSegment()->getChildId());     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
@@ -68,7 +69,6 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyAddress();
-        $this->getFamilyRouteSegment()->setChildId($this->companyAddress->getCompanyId());  //pk = fk
         $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($componentRouteSegment->hasChildId()) {        
             $companyAddrArray = [

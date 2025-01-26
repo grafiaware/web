@@ -142,7 +142,9 @@ class ConfigurationWeb extends ConfigurationConstants {
 
                 'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
                 'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
-
+                
+                'visitorJobRequest' => self::WEB_TEMPLATES_SITE.'events/data/visitor-job-request/visitor-job-request.php',  
+                'visitorJobRequestEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-job-request/visitor-job-request-editable.php',
                 ////
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 
@@ -271,9 +273,6 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             'contextMenuMap' => [
                     'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
-                    'menuEventsAdmin' => ['service'=>'menuEventsAdmin', 'targetContext'=>'content'],
-                    'menuEventsRepresentative' => ['service'=>'menuEventsRepresentative', 'targetContext'=>'content'],
-                    'menuEventsVisitor' => ['service'=>'menuEventsVisitor', 'targetContext'=>'content'],
                 ],
             'contextMenuEditableMap' => [
                     'bloky' => ['service'=>'menuBlocks', 'targetId'=>'menutarget_content'],
@@ -293,12 +292,12 @@ class ConfigurationWeb extends ConfigurationConstants {
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
             'menu.services' => [
-                
-                menuSupervisor:
-            - nástroj jak vůbec umět přidávat menu - jinak asi nutno přidat do build
-            - právo display jen supervisor
-            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
-            - 
+
+//                menuSupervisor:
+//            - nástroj jak vůbec umět přidávat menu - jinak asi nutno přidat do build
+//            - právo display jen supervisor
+//            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
+//            - 
                 
                 
                 

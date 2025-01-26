@@ -42,7 +42,7 @@ use Site\ConfigurationCache;
                 </div>
                 <div class="field">
                     <label>E-mail</label>
-                     <input type="email" name="email" placeholder="Email" required>
+                     <input type="email" name="email" placeholder="email" required>
                 </div>
                 <div class="ui fluid large buttons">
                     <a class="ui hide button" href="javascript:void(0)">Zavřít</a>
