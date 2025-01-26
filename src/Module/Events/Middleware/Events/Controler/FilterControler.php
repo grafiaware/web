@@ -35,21 +35,6 @@ use LogicException;
 class FilterControler extends FrontControlerAbstract {
   
     const FILTER = 'filter';
-
-//    private $jobToTagRepo;
-//    private $jobTagRepo;
-
-    public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo
-                       
-            ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);        
-
-    }
-
-    
     
     public function filterJob(ServerRequestInterface $request) {
                 

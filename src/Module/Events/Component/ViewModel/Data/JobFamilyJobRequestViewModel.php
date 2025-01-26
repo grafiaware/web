@@ -83,9 +83,10 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
                     throw new UnexpectedValueException("The child entity has no requested parent.");
                 }
                 $this->jobRequest = $this->jobRequestRepo->get($this->getFamilyRouteSegment()->getChildId(), $this->getFamilyRouteSegment()->getParentId());     // get(loginname, jobid)
-                if (!isset($this->jobRequest)) {
-                        throw new UnexpectedValueException("There is no requested child entity.");// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
-                }                
+// job request je speciální - když není request, do formuláře se předvyplní data z profilu => nevadí, že není request a přitom někdo volá komponent s childId
+//                if (!isset($this->jobRequest)) {
+//                        throw new UnexpectedValueException("There is no requested child entity.");// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
+//                }                
             } else {
                 throw new UnexpectedValueException("There is no required child entity ID in the route..");// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
@@ -104,9 +105,10 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
         $this->loadJobRequest();
         $visitorEmail = $this->status->getUserEmail();
 
-        if ($this->getFamilyRouteSegment()->hasChildId()) {
+        if ($this->getFamilyRouteSegment()->hasChildId() AND isset($this->jobRequest)) {
             $item = [
                 //route
+                //TODO: vypnout tlačítka - odeslaný request nelze měnit ani smazat
                 'actionSave' => $this->getFamilyRouteSegment()->getSavePath(),
                 'actionRemove' => $this->getFamilyRouteSegment()->getRemovePath(),
 //                'id' => $this->getFamilyRouteSegment()->getChildId(),
@@ -139,8 +141,8 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
                         'postfix' =>  $visitorProfile->getPostfix(),
                         'phone' =>    $visitorProfile->getPhone(),                    
                         'email' => $visitorEmail,   // email z registrace
-                        'cvEducationText' =>  $this->jobRequest->getCvEducationText(),
-                        'cvSkillsText' =>     $this->jobRequest->getCvSkillsText(),                        
+                        'cvEducationText' =>  $visitorProfile->getCvEducationText(),
+                        'cvSkillsText' =>     $visitorProfile->getCvSkillsText(),                        
                     ],
                     ];
             } else {
