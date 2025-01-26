@@ -174,10 +174,13 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
             $item = [
                 //route
                 'actionAdd' => $this->getSingleRouteSegment()->getAddPath(),
+                'titleAdd' => 'Uložit údaje profilu',
                 // text
                 'addHeadline' => 'Nový profil',                
                 // data
-                'fields' => [],
+                'fields' => [
+                        'visitorEmail' => $visitorEmail,                    
+                ],
                 ];
         }        
         
