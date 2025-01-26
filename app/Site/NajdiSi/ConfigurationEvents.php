@@ -32,7 +32,7 @@ class ConfigurationEvents extends ConfigurationConstants {
             'dbEvents.db.port' => '3306',
             'dbEvents.db.charset' => 'utf8',
             'dbEvents.db.collation' => 'utf8_general_ci',
-            'dbEvents.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1',            
+            'dbEvents.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'xenon.intranet.grafia.cz',            
             'dbEvents.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'najdisicz03' : 'events',
             #
             ###################################
