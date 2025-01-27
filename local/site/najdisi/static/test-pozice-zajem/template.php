@@ -30,7 +30,8 @@ use Access\Enum\RoleEnum;
     $role = $statusViewModel->getUserRole();
     $loginName = $statusViewModel->getUserLoginName();
     $isVisitor = (isset($role) AND $role==RoleEnum::VISITOR);
-    $representative = $statusViewModel->getRepresentativeActions()->getRepresentative();
+    $representativeActions = $statusViewModel->getRepresentativeActions();
+    $representative = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );
     $companies = $companyRepo->findAll();
