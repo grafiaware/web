@@ -84,12 +84,19 @@ use Access\Enum\RoleEnum;
 //    $dataCheckArr_1 = [ "filterDataTags[pro ZP]" => 53, 
 //                        "filterDataTags[na rodičovské]" => 52 ];
     //-----------------------------------------------------------------------
+    $filterVisible = ($selectCompanyId OR $dataCheckArr);
+    
+    
 ?> 
 
     <div>Nastavte hodnoty pro výběr nabízených pracovních pozic:</div>
+    <div id="toggleFilter" class="ui big black button <?= $filterVisible ?? false ? 'active' : '' ?>">
+        <i class="<?= $filterVisible ?? false ? 'close' : 'filter' ?> icon"></i> 
+        <?= $filterVisible ?? false ? 'Skrýt filtr' : 'Zobrazit filtr' ?>
+    </div>
     
-    <form class="ui huge form" action="" method="POST" > 
-        
+    <div id="filterSection" class="ui segment">
+        <form class="ui big form" action="" method="POST" > 
             <div class="field">
                 <?= Html::select( 
                     "filterSelectCompany", 
@@ -99,20 +106,20 @@ use Access\Enum\RoleEnum;
                     []    // ['required' => true ],                        
                 ) ?> 
             </div>
-        
+
             <div class="field">
                  <div>Typ hledané pozice: </div>
                  <?= Html::checkbox( $allTags , $dataCheckArr ); ?>
             </div>
-                                         
+
             <div>      
                 <button class='ui secondary button' type='submit' 
                         formaction='events/v1/filterjob'> Vyhledat </button>
                 <button class='ui secondary button' type='submit' 
                         formaction='events/v1/cleanfilterjob'> Vyčistit filtr </button>
             </div>                                    
-    </form>
-    
+        </form>
+    </div>
     
 <?php
           /** @var JobToTagRepoInterface $jobToTagRepo */
