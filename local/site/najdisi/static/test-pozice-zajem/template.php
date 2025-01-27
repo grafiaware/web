@@ -30,7 +30,8 @@ use Access\Enum\RoleEnum;
     $role = $statusViewModel->getUserRole();
     $loginName = $statusViewModel->getUserLoginName();
     $isVisitor = (isset($role) AND $role==RoleEnum::VISITOR);
-    $representative = $statusViewModel->getRepresentativeActions()->getRepresentative();
+    $representativeActions = $statusViewModel->getRepresentativeActions();
+    $representative = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );
     $companies = $companyRepo->findAll();
@@ -71,7 +72,7 @@ use Access\Enum\RoleEnum;
         foreach ($companyJobs as $job) {
             $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $job->getId());
             $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $job->getId()] ));
-            include "pozice.php";
+            include "pozice.php";  // cascade job a jobrequest
         }
     }      
 

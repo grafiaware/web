@@ -1,6 +1,7 @@
 <?php
+use Pes\Text\Html;
 
-                                    if($isVisitorDataPost) {
+                                    if($visitorJobRequestCount) {
                                         ?>
                                         <div class="sixteen wide column center aligned">
 
@@ -16,7 +17,7 @@
                                                 echo Html::tag('div', 
                                                     [
                                                         'class'=>'cascade',
-                                                        'data-red-apiuri'=>"events/v1/data/visitorjobrequest/$loginName"
+                                                        'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}/jobrequest/$loginName"
                                                     ]
                                                 );
                                             ?>
