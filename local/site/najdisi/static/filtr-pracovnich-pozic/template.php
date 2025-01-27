@@ -84,7 +84,7 @@ use Access\Enum\RoleEnum;
 //    $dataCheckArr_1 = [ "filterDataTags[pro ZP]" => 53, 
 //                        "filterDataTags[na rodičovské]" => 52 ];
     //-----------------------------------------------------------------------
-    
+    $filterVisible = ($selectCompanyId OR $dataCheckArr);
     
     
 ?> 
