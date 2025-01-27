@@ -72,7 +72,7 @@ use Access\Enum\RoleEnum;
         foreach ($companyJobs as $job) {
             $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $job->getId());
             $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $job->getId()] ));
-            include "pozice.php";
+            include "pozice.php";  // cascade job a jobrequest
         }
     }      
 

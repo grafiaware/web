@@ -2,9 +2,9 @@
                     <p class="podnadpis">
                         <i class="small level down alternate flipped icon"></i>                    
                     <?php
-                    if ($visitorJobRequestCount>0) {
+                    if ($visitorJobRequestCount) {
                     ?>
-                    <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorJobRequestCount ?? 'DUMMY $visitorJobRequestCount'?></span>
+                    <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorJobRequestCount ?? '0'?></span>
                     <?php
                     } else {
                     ?>
