@@ -13,7 +13,6 @@ class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobR
 
     private $loginLoginName;    //NOT NULL
     private $jobId;             //NOT NULL
-    private $positionName;      //NOT NULL
     
     private $prefix;
     private $name;
@@ -25,15 +24,13 @@ class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobR
     private $cvSkillsText;
     private $cvDocument;
     private $letterDocument;
+    private $created;
 
     public function getLoginLoginName() {
         return $this->loginLoginName;
     }
     public function getJobId() {
         return $this->jobId;
-    }
-    public function getPositionName() {
-        return $this->positionName;
     }
 
     public function getPrefix() {
@@ -75,7 +72,12 @@ class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobR
     public function getLetterDocument() {
         return $this->letterDocument;
     }
+    
+    public function getCreated() {
+        return $this->created;
+    }
 
+    
     public function setLoginLoginName($loginName): VisitorJobRequestInterface {
         $this->loginLoginName = $loginName;
         return $this;
@@ -83,11 +85,6 @@ class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobR
 
     public function setJobId($jobId): VisitorJobRequestInterface {
         $this->jobId = $jobId;
-        return $this;
-    }
-
-    public function setPositionName($positionName): VisitorJobRequestInterface {
-        $this->positionName = $positionName;
         return $this;
     }
 

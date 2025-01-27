@@ -26,11 +26,11 @@ use Pes\Text\Message;
                     ? "<button ".(isset($formUid) ? "id='remove_$formUid'" : "")." class='ui primary button' type='submit' formaction='$actionRemove'> ".($titleAdd ?? 'Odstranit')." </button>" : "";
                 ?>
                 <?=
-                    "<button ".(isset($formUid) ? "id='reset_$formUid'" : "")." style='display:none' class='ui secondary button' onClick='eventsResetButton(event)' type='reset'> Vrátit změny zpět </button>";
-                ?>
-                <?=
                     isset($actionSpecific) 
                     ? "<button ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' type='submit' formaction='$actionSpecific'> $titleSpecific </button>" : '';
-                ?>                
+                ?>                 
+                <?=
+                    "<button ".(isset($formUid) ? "id='reset_$formUid'" : "")." style='display:none' class='ui secondary button' onClick='eventsResetButton(event)' type='reset'> Vrátit změny zpět </button>";
+                ?>               
             </div>   
         </form>

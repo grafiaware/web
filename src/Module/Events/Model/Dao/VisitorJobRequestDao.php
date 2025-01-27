@@ -24,7 +24,6 @@ class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestD
         return [
             'login_login_name`',
             'job_id',
-            'position_name',
             'prefix',
             'name',
             'surname',
@@ -34,7 +33,8 @@ class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestD
             'cv_education_text',
             'cv_skills_text',
             'cv_document',
-            'letter_document'
+            'letter_document',
+            'created'
         ];
     }
 

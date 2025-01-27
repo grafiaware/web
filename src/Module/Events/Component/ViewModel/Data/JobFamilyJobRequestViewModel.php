@@ -48,11 +48,15 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
         $this->jobRequestRepo = $jobRequestRepo;
         $this->visitorProfileRepo = $visitorProfileRepo;
     }
-
+    
     private function isAdministrator() {
         return ($this->status->getUserRole() == RoleEnum::EVENTS_ADMINISTRATOR);
     }
-
+    
+    private function isRepresentative() {
+        return ($this->status->getUserRole() == RoleEnum::REPRESENTATIVE);
+    }
+    
     private function isVisitor() {
         return ($this->status->getUserRole() == RoleEnum::VISITOR);
     }
@@ -113,56 +117,60 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
         $this->loadJobRequest();
         $visitorEmail = $this->status->getUserEmail();
 
-        if ($this->getFamilyRouteSegment()->hasChildId() AND isset($this->jobRequest)) {
-            $item = [
-                //route
-//                'actionSave' => $this->getFamilyRouteSegment()->getSavePath(),
-//                'actionRemove' => $this->getFamilyRouteSegment()->getRemovePath(),
-//                'id' => $this->getFamilyRouteSegment()->getChildId(),
-                // data
-                'fields' => [
-                        'prefix' =>   $this->jobRequest->getPrefix(),
-                        'name' =>     $this->jobRequest->getName(),
-                        'surname' =>  $this->jobRequest->getSurname(),
-                        'postfix' =>  $this->jobRequest->getPostfix(),
-                        'phone' =>    $this->jobRequest->getPhone(),                    
-                        'email' => $this->jobRequest->getEmail(),
-//                        'visitorEmail' => $visitorEmail,
-                        'cvEducationText' =>  $this->jobRequest->getCvEducationText(),
-                        'cvSkillsText' =>     $this->jobRequest->getCvSkillsText(),
-                    ],
-                ];
-        } elseif ($this->isItemEditable()) {
-            $this->loadVisitorProfile();
-            if (isset($this->visitorProfile)) {
-                $item = [
+        if ($this->getFamilyRouteSegment()->hasChildId()) {   // požaduji job request
+            if(isset($this->jobRequest)) {    // job request již byl uložen
+                    if($this->isRepresentative()) {  // jen podle role, nezjišťuji jestli reprezentuje company - nemám company repo a v kontoleru se automaticky odesílá právě přuhlášenému reprezentantovi
+                        $buttonAction = $this->getFamilyRouteSegment()->getSavePath()."/send";  // routa s id job requestu doplněná o /send
+                        $buttonTitle = 'Odeslat uložený zájem o pozici na svůj e-mail';
+                    }
+                    $item = [
                     //route
-                    'actionSpecific' => $this->getFamilyRouteSegment()->getSavePath()."/send",  // routa s id job requestu doplněná o /send
-                    'titleSpecific' => 'Odeslat zájem o pozici',
-                    // text
-                    'addHeadline' => 'Nový zájem o pozici',                
-                    'infoText' => 'Zájem o pozici je předvyplněn údaji z vašeho profilu návštěvníka. Před odesláním můžete údaje upravit.',
+                    'actionSpecific' => $buttonAction ?? null,
+                    'titleSpecific' => $buttonTitle ?? null,
                     // data
                     'fields' => [
-                        'prefix' => $this->visitorProfile->getPrefix(),
-                        'name' =>     $this->visitorProfile->getName(),
-                        'surname' =>  $this->visitorProfile->getSurname(),
-                        'postfix' =>  $this->visitorProfile->getPostfix(),
-                        'phone' =>    $this->visitorProfile->getPhone(),                    
-                        'email' => $visitorEmail,   // email z registrace
-                        'cvEducationText' =>  $this->visitorProfile->getCvEducationText(),
-                        'cvSkillsText' =>     $this->visitorProfile->getCvSkillsText(),                        
-                    ],
+                            'prefix' =>   $this->jobRequest->getPrefix(),
+                            'name' =>     $this->jobRequest->getName(),
+                            'surname' =>  $this->jobRequest->getSurname(),
+                            'postfix' =>  $this->jobRequest->getPostfix(),
+                            'phone' =>    $this->jobRequest->getPhone(),                    
+                            'email' => $this->jobRequest->getEmail(),
+    //                        'visitorEmail' => $visitorEmail,
+                            'cvEducationText' =>  $this->jobRequest->getCvEducationText(),
+                            'cvSkillsText' =>     $this->jobRequest->getCvSkillsText(),
+                        ],
                     ];
-            } else {
-                throw new LogicException("There is no profile for editable job request.");
+            } elseif ($this->isItemEditable()) {   // job request ještě nebyl uložen a uživatel může editovat
+                $this->loadVisitorProfile();    // job request se předvyplní z profilu 
+                if (isset($this->visitorProfile)) {   // profil se čte pro přihlášeného visitora
+                    $item = [
+                        //route
+                        'actionSpecific' => $this->getFamilyRouteSegment()->getAddPath(),  // actionSpecific je ve výchozím stavu enabled - uživatel nemusí v datech nic měnit, jen uloží
+                        'titleSpecific' => 'Odeslat zájem o pozici',
+                        // text
+                        'addHeadline' => 'Nový zájem o pozici',                
+                        'infoText' => 'Zájem o pozici je předvyplněn údaji z vašeho profilu návštěvníka. Před odesláním můžete údaje upravit.',
+                        // data
+                        'fields' => [
+                            'prefix' => $this->visitorProfile->getPrefix(),
+                            'name' =>     $this->visitorProfile->getName(),
+                            'surname' =>  $this->visitorProfile->getSurname(),
+                            'postfix' =>  $this->visitorProfile->getPostfix(),
+                            'phone' =>    $this->visitorProfile->getPhone(),                    
+                            'email' => $visitorEmail,   // email z registrace
+                            'cvEducationText' =>  $this->visitorProfile->getCvEducationText(),
+                            'cvSkillsText' =>     $this->visitorProfile->getCvSkillsText(),                        
+                        ],
+                        ];
+                } else {
+                    $item = [
+                        // text
+                            'infoText' => 'Odeslat zájem o pozici může jen přihlášený návštěvník s vytvořeným profilem. Vyplňte svůj profil návštěvníka.',
+                        ];                     
+//                    throw new LogicException("There is no profile for editable job request.");   // sem by skript neměl dostat, pokud není profile, nemá být item editable
+                }
             }
-        } else {
-            $item = [
-                // text
-                    'infoText' => 'Odeslat zájem o pozici může jen přihlášený návštěvník s vytvořeným profilem. Vyplňte svůj profil návštěvníka.',
-                ];                
-        }        
+        }      
         
         $this->appendData($item ?? []);
         return parent::getIterator();          

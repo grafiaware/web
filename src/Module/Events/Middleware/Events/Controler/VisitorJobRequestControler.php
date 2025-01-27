@@ -144,19 +144,12 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
             $job = $this->jobRepo->get($jobId);
             $jobRequest = $this->visitorJobRequestRepo->get($loginName, $jobId);             
                                                
-            // ################################### 
-            // neexistuje jobrequest pro tento job, a to vzdy, protoze
-            // Pozn.: existuje-li jobrequest - tak tudy vubec nejdu.... zadost se da poslat jen 1x, pak tam neni uz tlacitko 
-            // ######################
-            //-- kdyz je document v profileData  - i tak vyrobit document novy+add do documentRepo a v jobrequestu updatovat id a
-            //   do noveho documentu presunout data ze stavajiciho dokumentu , ktery je v profilu
-            //-- kdyz neni dokument v profileData - vyrobit document novy+add do documentRepo, a do jobRequestu (id, tj. letter_document, cv_document) 
-               
             if (!isset($jobRequest)) {   //plati vzdy                  
                 $jobRequest = new VisitorJobRequest();
+                // loginName a jobId je složený id
                 $jobRequest->setLoginLoginName($loginName);
-                $jobRequest->setCompanyId($jobId);
-                $jobRequest->setPositionName( $job->getNazev() /* $positionName */ );
+                $jobRequest->setJobId($jobId);
+                $this->hydrateJobRequest($request, $jobRequest);
                 $this->visitorJobRequestRepo->add($jobRequest);
                 
 //            $visitorProfileData = $this->visitorProfileRepo->get($loginName); // existuje vzdy
@@ -224,16 +217,6 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
             $job = $this->jobRepo->get($jobId);
             $jobRequest = $this->visitorJobRequestRepo->get($loginName, $jobId);             
 
-//            $visitorProfileData = $this->visitorProfileRepo->get($loginName); // existuje vzdy
-                                               
-            // ################################### 
-            // neexistuje jobrequest pro tento job, a to vzdy, protoze
-            // Pozn.: existuje-li jobrequest - tak tudy vubec nejdu.... zadost se da poslat jen 1x, pak tam neni uz tlacitko 
-            // ######################
-            //-- kdyz je document v profileData  - i tak vyrobit document novy+add do documentRepo a v jobrequestu updatovat id a
-            //   do noveho documentu presunout data ze stavajiciho dokumentu , ktery je v profilu
-            //-- kdyz neni dokument v profileData - vyrobit document novy+add do documentRepo, a do jobRequestu (id, tj. letter_document, cv_document) 
-               
             if (!isset($jobRequest)) {
                 $this->addFlashMessage("Zájem o tuto pozici byl již odeslán dříve.", FlashSeverityEnum::WARNING);  // error
             } else {
