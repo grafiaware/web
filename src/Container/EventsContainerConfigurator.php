@@ -21,7 +21,7 @@ use Access\Enum\AccessPresentationEnum;
 use Configuration\ComponentConfiguration;
 use Pes\View\Template\PhpTemplate;
 use Component\View\ElementComponent;
-        use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 
 use Events\Component\View\Manage\RepresentativeActionComponent;

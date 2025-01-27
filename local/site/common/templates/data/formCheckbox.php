@@ -13,15 +13,16 @@ use Pes\Text\Html;
             <i class="dropdown icon"></i>
             <?= $listHeadline ?>
         </div>     
-        <div class="list active content">      
-            <form class="ui huge form" action="" method="POST"  onKeyup="eventsEnableButtonsOnForm(event)">
+        <div class="list active content">     
+            <?= $infoText ?? false ? "<p class='ui blue segment'>$infoText</p>" : "" ?>            
+            <form class="ui big form" action="" method="POST"  onKeyup="eventsEnableButtonsOnForm(event)">
                 <div class="field">
                      <?= Html::checkbox( $allCheckboxes , $checkedCheckboxes ); ?>
                 </div>   
-            <?=
-                isset($actionSave) 
-                ? "<button class='ui primary button' type='submit' formaction='$actionSave' > Uložit </button>" : '';
-            ?>            
+                <?=
+                    isset($actionSave) 
+                    ? "<button disabled ".(isset($formUid) ? "id='edit_$formUid'" : "")." class='ui primary button' onClick='eventsDisableButtonsOnForm(event)'  type='submit' formaction='$actionSave'> ".($titleSave ?? 'Uložit změny')." </button>" : '';
+                ?>    
             </form>     
         </div>            
     </div>

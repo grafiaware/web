@@ -15,7 +15,7 @@ use Model\Entity\EntityInterface;
 use Access\Enum\RoleEnum;
 
 use UnexpectedValueException;
-use Exception;
+use LogicException;
 use TypeError;
 
 /**
@@ -35,6 +35,7 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
      * @var VisitorJobRequestInterface
      */
     private $jobRequest;
+    private $visitorProfile;
 
     public function __construct(
             StatusViewModelInterface $status,
@@ -56,12 +57,19 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
         return ($this->status->getUserRole() == RoleEnum::VISITOR);
     }
     
-    private function isJobRequestEditor($jobRequestLoginName) {
+    private function isJobRequestCreator($jobRequestLoginName) {
         return ($this->status->getUserRole() == RoleEnum::VISITOR AND $this->status->getUserLoginName() == $jobRequestLoginName );
     }
 
+    /**
+     * Přihlášen user s rolí visitor, přihlašovací jméno je shodné s loginName požadovaného jobRequestu jobRequest dosud nebyl uložen.
+     * Tedy pro nepřihlášeného jako visitor
+     * @return bool
+     */
     public function isItemEditable(): bool {
-        return $this->isJobRequestEditor($this->getFamilyRouteSegment()->getChildId());
+        $this->loadJobRequest(); 
+        $this->loadVisitorProfile();
+        return isset($this->visitorProfile) && !isset($this->jobRequest) && $this->isJobRequestCreator($this->getFamilyRouteSegment()->getChildId());
     }
     
     public function receiveEntity(EntityInterface $entity) {
@@ -93,10 +101,10 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    private function getVisitorProfile(): ?VisitorProfileInterface {
+    private function loadVisitorProfile() {
         $loginLoginName = $this->status->getUserLoginName();
         if (isset($loginLoginName)) {
-            return $this->visitorProfile = $this->visitorProfileRepo->get($loginLoginName);
+            $this->visitorProfile = $this->visitorProfileRepo->get($loginLoginName);
         }
     }
 
@@ -108,9 +116,8 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
         if ($this->getFamilyRouteSegment()->hasChildId() AND isset($this->jobRequest)) {
             $item = [
                 //route
-                //TODO: vypnout tlačítka - odeslaný request nelze měnit ani smazat
-                'actionSave' => $this->getFamilyRouteSegment()->getSavePath(),
-                'actionRemove' => $this->getFamilyRouteSegment()->getRemovePath(),
+//                'actionSave' => $this->getFamilyRouteSegment()->getSavePath(),
+//                'actionRemove' => $this->getFamilyRouteSegment()->getRemovePath(),
 //                'id' => $this->getFamilyRouteSegment()->getChildId(),
                 // data
                 'fields' => [
@@ -126,34 +133,34 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
                     ],
                 ];
         } elseif ($this->isItemEditable()) {
-            $visitorProfile = $this->getVisitorProfile();
-            if (isset($visitorProfile)) {
+            $this->loadVisitorProfile();
+            if (isset($this->visitorProfile)) {
                 $item = [
                     //route
-                    'actionAdd' => $this->getFamilyRouteSegment()->getAddPath(),
+                    'actionSpecific' => $this->getFamilyRouteSegment()->getSavePath()."/send",  // routa s id job requestu doplněná o /send
+                    'titleSpecific' => 'Odeslat e-mail',
                     // text
                     'addHeadline' => 'Nový zájem o pozici',                
                     // data
                     'fields' => [
-                        'prefix' =>   $visitorProfile->getPrefix(),
-                        'name' =>     $visitorProfile->getName(),
-                        'surname' =>  $visitorProfile->getSurname(),
-                        'postfix' =>  $visitorProfile->getPostfix(),
-                        'phone' =>    $visitorProfile->getPhone(),                    
+                        'prefix' => $this->visitorProfile->getPrefix(),
+                        'name' =>     $this->visitorProfile->getName(),
+                        'surname' =>  $this->visitorProfile->getSurname(),
+                        'postfix' =>  $this->visitorProfile->getPostfix(),
+                        'phone' =>    $this->visitorProfile->getPhone(),                    
                         'email' => $visitorEmail,   // email z registrace
-                        'cvEducationText' =>  $visitorProfile->getCvEducationText(),
-                        'cvSkillsText' =>     $visitorProfile->getCvSkillsText(),                        
+                        'cvEducationText' =>  $this->visitorProfile->getCvEducationText(),
+                        'cvSkillsText' =>     $this->visitorProfile->getCvSkillsText(),                        
                     ],
                     ];
             } else {
-                $item = [
-                    // text
-                    'addHeadline' => 'Odeslat zájem o pozici může jen přihlášený návštěvník s vytvořeným profilem.',                
-                    // data
-                    'fields' => [
-                    ],
-                    ];                
+                throw new LogicException("There is no profile for editable job request.");
             }
+        } else {
+            $item = [
+                // text
+                    'infoText' => 'Odeslat zájem o pozici může jen přihlášený návštěvník s vytvořeným profilem. Vyplňte svůj profil návštěvníka.',
+                ];                
         }        
         
         $this->appendData($item ?? []);

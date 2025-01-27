@@ -10,8 +10,8 @@ use Pes\Text\Html;
 ?>
     <div class="ui styled fluid accordion">   
         <div class="title">
-            <i class="dropdown icon"></i> 
-                <?= $nazev ?? '' ?> 
+            <i class="dropdown blue icon"></i> 
+            <span class="job-title"> <?= $nazev ?? '' ?> </span>
             <div class="ui grid stackable">       
                 <div class="sixteen wide column">
                     <?php
@@ -28,8 +28,10 @@ use Pes\Text\Html;
                     ?>                 
                 </div>                
                  <div class="sixteen wide column">
-                    <p>Popis pozice:</p>
-                    <p><?= $popisPozice ?? '' ?></p>
+                    <div class="job-description">
+                        <p class="text zadne-okraje">Popis pozice:</p>
+                        <p><?= $popisPozice ?? '' ?></p>
+                    </div>
                 </div>
             </div>            
         </div>

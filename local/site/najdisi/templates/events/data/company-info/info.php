@@ -88,7 +88,7 @@ if (!empty($videoLink)) {
                     }
                     ?>  
                 <div class="sixteen wide column">
-                    <div class="ui styled fluid accordion">  
+                    <div class="ui basic styled fluid accordion">  
                         <?php if($introduction ?? false) { ?>
                                 <div class="active title">   
                                     <i class="dropdown icon"></i>O nás

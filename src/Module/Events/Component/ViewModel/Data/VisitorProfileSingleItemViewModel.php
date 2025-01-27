@@ -55,13 +55,11 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         return ($this->status->getUserRole() == RoleEnum::VISITOR);
     }
     
-    private function isCurrentVisitor() {
+    private function isProfileCreator() {
         $requestedLogName = $this->getSingleRouteSegment()->getChildId();
-        
-        return ($this->status->getUserRole() == RoleEnum::VISITOR and 
-                $this->status->getUserLoginName() == $requestedLogName )
-                ;
+        return ($this->isVisitor() && $this->status->getUserLoginName() == $requestedLogName );
     }
+    
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof VisitorProfileInterface) {
             $this->visitorProfile = $entity;
@@ -152,11 +150,11 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         $this->loadVisitorProfile();
         $visitorEmail = $this->status->getUserEmail();
 
-        if ($this->getSingleRouteSegment()->hasChildId()) {
+        if ($this->getSingleRouteSegment()->hasChildId() && isset($this->visitorProfile)) {
             $item = [
                 //route
                 'actionSave' => $this->getSingleRouteSegment()->getSavePath(),
-                'actionRemove' => $this->getSingleRouteSegment()->getRemovePath(),
+//                'actionRemove' => $this->getSingleRouteSegment()->getRemovePath(),
                 'id' => $this->getSingleRouteSegment()->getChildId(),
                 // data
                 'fields' => [
@@ -174,10 +172,13 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
             $item = [
                 //route
                 'actionAdd' => $this->getSingleRouteSegment()->getAddPath(),
+                'titleAdd' => 'Uložit údaje profilu',
                 // text
-                'addHeadline' => 'Nový profil',                
+                'addHeadline' => 'Nový profil návštěvníka',                
                 // data
-                'fields' => [],
+                'fields' => [
+                        'visitorEmail' => $visitorEmail,                    
+                ],
                 ];
         }        
         
@@ -206,7 +207,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         $uploadedFilename = VisitorProfileControler::UPLOADED_KEY.$userHash;
         //-------------------------------------------------------------------------------------
         
-        $editableItem = $this->isAdministratorEditor() || $this->isCurrentVisitor($parentId);           
+        $editableItem = $this->isAdministratorEditor() || $this->isProfileCreator($parentId);           
         
         if (isset($parentId)) {
             $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";   

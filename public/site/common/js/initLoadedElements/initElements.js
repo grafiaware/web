@@ -173,7 +173,14 @@ function initLoadedElements() {
             $(this).siblings('.poznamky').toggle("slow");
     });
 
-
+    //filtr pro pracovni pozice
+    $('#toggleFilter').on('click', function () {
+        $('#filterSection').slideToggle(300); // Plynulé zobrazení/skrytí
+        $(this).toggleClass('active'); // Přepnutí stavu tlačítka
+        $(this).html($(this).hasClass('active') 
+            ? '<i class="close icon"></i> Skrýt filtr' 
+            : '<i class="filter icon"></i> Zobrazit filtr');
+    });
 
     //veletrh online
     //checkbox v registraci (zastupuji vystavovatele)

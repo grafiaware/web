@@ -4,21 +4,18 @@ use Events\Model\Entity\JobInterface;
 use Pes\Text\Html;
 
 ?>
-        <div class="title">
                    
-            <p class="podnadpis"><i class="dropdown icon"></i>
+            <div class="ui grid stackable">
+                
                 <?php
                 if($isVisitor AND $isVisitorDataPost) {
-                    include 'potice/titleVisitorPost.php';
+                    include 'pozice/titleVisitorPost.php';
                 }
                 if($isRepresentativeOfCompany) {
                     include 'pozice/titleRepresentative.php';
                 }
                 ?>
-            </p>
-        </div>
-        <div class="content">
-            <div class="ui grid stackable">
+                    
                 <?php
                     /** @var JobInterface $job */
                     echo Html::tag('div', 
@@ -33,7 +30,6 @@ use Pes\Text\Html;
                         <div  class="navazat-kontakt">
                             <div class="ui grid">
                                 <?php
-//----------                               
                                 if ($isVisitor) {
                                     ?>
                                     <div class="sixteen wide column center aligned">
@@ -72,9 +68,9 @@ use Pes\Text\Html;
                                
                                     <?php
                                 } elseif ($isRepresentativeOfCompany) {
-                                    include 'pozice/contentNotLoggedIn.php';
-                                } elseif (!isset($loginAggregate)) {
                                     include 'pozice/contentRepresentative.php';
+                                } elseif (!isset($loginAggregate)) {
+                                    include 'pozice/contentNotLoggedIn.php';
                                 }
                                 ?>
                             </div>
@@ -83,4 +79,5 @@ use Pes\Text\Html;
                 </div>
             </div>
         </div>
+    </div>
 
