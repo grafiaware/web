@@ -7,8 +7,6 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */    
 
-$imagesPath = ConfigurationCache::files()['@siteimages'];
-
 if (!empty($videoLink)) {
     // Rozparsování URL
     $parsedUrl = parse_url($videoLink);
@@ -48,46 +46,44 @@ if (!empty($videoLink)) {
     }
 }
 ?>
-     
             <div class="ui grid stackable">
-                <div class="sixteen wide computer nine wide large screen nine wide widescreen column">
-                    <img src=<?="$imagesPath/LOXXESS.png"?> alt="LOXXESS"/>
-                </div> 
-                <div class="sixteen wide computer seven wide large screen seven wide widescreen column">
-                    <?php if($videoLink ?? false) { ?>
+                <?php if($videoLink ?? false) { ?>
+                    <div class="sixteen wide computer ten wide large screen ten wide widescreen column">
                         <p class="text tucne zadne-okraje">Video</p>
                         <div class="video-container">
                             <?php if (!empty($embedYoutubeUrl)): ?>
-                                <iframe width="330" height="186" src="<?= $embedYoutubeUrl ?>" 
+                                <iframe width="444" height="250" src="<?= $embedYoutubeUrl ?>" 
                                         frameborder="0" 
                                         allow="encrypted-media; picture-in-picture" 
                                         allowfullscreen>
                                 </iframe>
                             <?php elseif (!empty($embedVimeoUrl)): ?>
-                                <iframe width="330" height="186" src="<?= $embedVimeoUrl ?>" 
+                                <iframe width="444" height="250" src="<?= $embedVimeoUrl ?>" 
                                         frameborder="0" 
                                         allow="encrypted-media; picture-in-picture" 
                                         allowfullscreen>
                                 </iframe>
                             <?php endif; ?>
                         </div>
-                    <?php } ?>
+                    </div> 
+                <?php } ?>
                     <?php
                     if ($companyNetworksUri ?? false) {
                         
-                        echo '<p class="text tucne zadne-okraje">Sledujte nás</p>' .
+                        echo '<div class="sixteen wide computer six wide large screen six wide widescreen column">'
+                                . '<p class="text tucne zadne-okraje">Sledujte nás</p>' .
                         Html::tag('span', 
                             [
                                 'class'=>'cascade',
                                 'data-red-apiuri'=> $companyNetworksUri,
                             ]
-                        );
+                        )
+                        . '</div>' ;
 //                        echo "<p>Sítě lze vybírat po prvním uložení informací o firmě.</p>";
                     } else {
                         echo "<p>Zadávání sociálních sítí bude spuštěno v krátké době.</p>";
                     }
                     ?>  
-                </div>
                 <div class="sixteen wide column">
                     <div class="ui basic styled fluid accordion">  
                         <?php if($introduction ?? false) { ?>

@@ -62,7 +62,7 @@ use Access\Enum\RoleEnum;
         
         echo Html::tag('div', 
                 [
-                    'class'=>'cascade',
+                    'class'=>'cascade nazev-firmy',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId",
                 ]
             );                 
