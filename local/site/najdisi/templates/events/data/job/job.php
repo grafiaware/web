@@ -49,17 +49,14 @@ use Pes\Text\Html;
                 <div class="ten wide column">
                     <p><?= $selectEducations [$pozadovaneVzdelaniStupen] ?? '' ?></p>
                 </div>               
-
-                <div class="ui grid stackable">
-                    <div class="eight wide column">
-                        <p class="text tucne zadne-okraje">Požadujeme:</p>
-                        <p><?= $pozadujeme ?? '' ?></p>
-                    </div>                 
-                    <div class="eight wide column">
-                        <p class="text tucne zadne-okraje">Nabízíme:</p>
-                        <p><?= $nabizime ?? '' ?></p>
-                    </div>
-                </div>                
+                <div class="eight wide column">
+                    <p class="text tucne zadne-okraje">Požadujeme:</p>
+                    <p><?= $pozadujeme ?? '' ?></p>
+                </div>                 
+                <div class="eight wide column">
+                    <p class="text tucne zadne-okraje">Nabízíme:</p>
+                    <p><?= $nabizime ?? '' ?></p>
+                </div>
             </div>
         </div>   
     </div>   

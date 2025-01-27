@@ -1,7 +1,12 @@
 <?php
-use Red\Model\Entity\VisitorDataPostInterface;
-/** @var VisitorDataPostInterface $visitorJobRequest */
+//use Red\Model\Entity\VisitorDataPostInterface;
+//use VisitorDataPostInterface;
+use Events\Model\Entity\VisitorJobRequestInterface;
+
 use Pes\Text\Text;
+/** @var VisitorJobRequestInterface  $visitorJobRequest */
+
+
 ?>
 
 <!DOCTYPE html>
@@ -19,12 +24,14 @@ use Pes\Text\Text;
 
 
             <div>
-                <h1>Veletrh práce a vzdělávání</h1>
-                <h2>zájemce o pozici <?= $positionName ?></h2>
+                <img src="<?=$data_logo_grafia?>"  width="70" />                 
+                <h2>Veletrh práce a vzdělávání - zájemce o pozici</h2>
+                <h2><?= $job->getNazev() ?></h2>
 
-                <h3>Pracovní údaje návštěvníka.</h3>
+                <!-- <h3>Pracovní údaje návštěvníka - praci.najdisi.cz</h3> -->
+                <hr/>
                 <br>
-                <p>Návštěvník veletrhprace.online</p><p> Jméno:&nbsp;&nbsp; <b>
+                <p> Jméno:&nbsp;&nbsp; <b>
                     <?= Text::esc(
                     trim(
                             $visitorJobRequest->getPrefix()
@@ -36,31 +43,32 @@ use Pes\Text\Text;
             </div>
             <div><br></div>
             <div>
-                <p>e-mail</p>
-                <p><?= Text::esc($visitorJobRequest->getEmail()); ?></p>
+                <p>e-mail:&nbsp;&nbsp;
+                <?= Text::esc($visitorJobRequest->getEmail()); ?></p>
             </div>
             <div><br></div>
             <div>
-                <p>Telefon</p>
-                <p><?= Text::esc($visitorJobRequest->getPhone()); ?></p>
+                <p>Telefon:&nbsp;&nbsp;
+                <?= Text::esc($visitorJobRequest->getPhone()); ?></p>
             </div>
-            <div><br></div>
+            
+            <div><br/><br/></div>
             <div>
-                <p>Vzdělání, kurzy</p>
-                <p><?= Text::esc($visitorJobRequest->getCvEducationText()); ?></p>
+                <p>Vzdělání, kurzy:</p>
+                <div><?= $visitorJobRequest->getCvEducationText(); ?></div>
             </div>
-            <div><br></div>
+            <div><br/><br/></div>
             <div>
-                <p>Pracovní zkušenosti, dovednosti</p>
-                <p><?= Text::esc($visitorJobRequest->getCvSkillsText()); ?></p>
+                <p>Pracovní zkušenosti, dovednosti:</p>
+                <div><?= $visitorJobRequest->getCvSkillsText(); ?></div>
             </div>
-            <div><br></div>
-            <div>V příloze zasíláme případně přiložený životopis a motivační dopis.
-            </div>
-            <div><br></div>
-
+            <div><br/><br/></div>
+            
+            <div><p>V příloze zasíláme případně přiložený životopis a motivační dopis.</p>
+            </div>            
             <div>
-                <p style="margin: 0cm 0cm 0pt; padding: 0px; box-sizing: content-box; color: rgb(34, 34, 34);">Tým Grafia - organizátor veletrhu
+                <p style="margin: 0cm 0cm 0pt; padding: 0px; box-sizing: content-box; color: rgb(34, 34, 34);">
+                    S pozdravem <br/> tým realizátora Grafia, s.r.o.
                 </p>
                 <p style="margin: 0cm 0cm 0pt; padding: 0px; box-sizing: content-box; color: rgb(34, 34, 34);">
                     <br>

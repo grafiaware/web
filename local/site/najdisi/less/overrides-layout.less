@@ -484,9 +484,6 @@ body{
       .title {
         display: block;
         width: 100%; 
-        &:hover .job-title, &:hover .icon{
-           color: darken(@primaryColor, 10%);
-        }
         .ui.grid{
             margin-top: -5px;
         }
@@ -530,7 +527,32 @@ body{
     #toggleFilter.active ~ #filterSection {
         display: block;
     }
-    
+    .ui.grid, .ui.styled.fluid.accordion {
+      overflow: visible;
+    }
+    .cascade {
+        overflow: visible;
+    }
+    .nazev-firmy{
+        font-size: @h2; 
+        font-weight: 300;
+        margin: 0.5em 0 !important;
+        padding: 10px 0 10px 7px;
+        color: @primaryColor;
+        position: sticky; 
+        top: 0;
+        z-index: 10;
+        width: 100%;
+        min-height: 50px;
+        background-color: @white;
+        border-left: 2px solid @primaryColor;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .stanek-img{
+        height: auto;
+        max-height: 430px;
+        width: auto;
+    }
     .blok-menu-paticka{
         margin-left: 13px;
     }

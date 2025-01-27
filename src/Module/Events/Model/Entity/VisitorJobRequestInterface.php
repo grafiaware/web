@@ -17,8 +17,6 @@ interface VisitorJobRequestInterface extends PersistableEntityInterface {
 
     public function getJobId();
 
-    public function getPositionName();
-
     public function getPrefix();
 
     public function getName();
@@ -38,12 +36,12 @@ interface VisitorJobRequestInterface extends PersistableEntityInterface {
     public function getCvDocument();
 
     public function getLetterDocument();
-
+    
+    public function getCreated();
+    
     public function setLoginLoginName($loginLoginName): VisitorJobRequestInterface;
 
     public function setJobId($jobId): VisitorJobRequestInterface;
-
-    public function setPositionName($positionName): VisitorJobRequestInterface;
 
     public function setPrefix($prefix): VisitorJobRequestInterface;
 

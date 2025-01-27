@@ -51,7 +51,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"web/v1/component/infoBoard",])  ?>
             </div>
             <div class="row">
-                <div class="fifteen wide mobile fifteen wide tablet nine wide computer ten wide large screen eleven wide widescreen column">
+                <div class="thirteen wide computer twelve wide large screen twelve wide widescreen column">
                      <footer id="footer">
                         <span id="kontakty"></span>
                         <?php include "container/paticka.php"; ?>

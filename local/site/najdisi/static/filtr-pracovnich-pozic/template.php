@@ -89,7 +89,7 @@ use Access\Enum\RoleEnum;
     
 ?> 
 
-    <div>Nastavte hodnoty pro výběr nabízených pracovních pozic:</div>
+    <div><p class="podnadpis okraje">Nastavte hodnoty pro výběr nabízených pracovních pozic:</p></div>
     <div id="toggleFilter" class="ui big black button <?= $filterVisible ?? false ? 'active' : '' ?>">
         <i class="<?= $filterVisible ?? false ? 'close' : 'filter' ?> icon"></i> 
         <?= $filterVisible ?? false ? 'Skrýt filtr' : 'Zobrazit filtr' ?>
@@ -149,10 +149,12 @@ use Access\Enum\RoleEnum;
            $compid = $comps[0]->getId(); 
            $jobEntities = $jobRepo->find( " id in ($joJobsIn)  AND company_id = :company_id order by company_id, nazev " ,
                                           array_merge($jobIds, ['company_id' => $compid ]) );  
-        } else {              
+        } else {             
+            $compid = $comps[0]->getId(); 
             $jobEntities = $jobRepo->find(" 1=1 order by company_id, nazev ASC ", []); 
             if (($dataChecksForSelectA) and (!($jobToTagEntities))) {
-                $jobEntities = $jobRepo->find("  company_id = :company_id  order by company_id, nazev ASC ", ['company_id' => $compid ] );     
+                //$jobEntities = $jobRepo->find("  company_id = :company_id  order by company_id, nazev ASC ", ['company_id' => $compid ] );     
+                $jobEntities = [];     
             } 
            
         }    
@@ -161,15 +163,23 @@ use Access\Enum\RoleEnum;
            $comps = $companies; 
            $jobEntities = $jobRepo->find( " id in ($joJobsIn) order by company_id, nazev "  , $jobIds);             
         } else { 
-           $comps = $companies;  
-           if ( $jobToTagEntities /*$dataChecksForSelectA*/) {
-                $comps = [];
-           }
-           else { 
-               $jobEntities = $jobRepo->find( " 1=1 order by company_id, nazev ASC ", [] );                 
-           }
+           $comps = $companies;             
+           $jobEntities = $jobRepo->find( " 1=1 order by company_id, nazev ASC ", [] ); 
+           if (($dataChecksForSelectA) and (!($jobToTagEntities))) {
+                //$jobEntities = $jobRepo->find("  company_id = :company_id  order by company_id, nazev ASC ", ['company_id' => $compid ] );     
+                $jobEntities = [];  
+                $comps  = []; 
+            } 
+            
+//           if ( $jobToTagEntities /*$dataChecksForSelectA*/) {  //bzlo
+//                $comps = [];
+//           }
+//           else { 
+//               $jobEntities = $jobRepo->find( " 1=1 order by company_id, nazev ASC ", [] );                 
+//           }
         }   
     }          
+
 
     
     if  ($comps ) {           
@@ -179,7 +189,8 @@ use Access\Enum\RoleEnum;
                           /** @var JobInterface $job */
                 foreach ($jobEntities as $keyJ => $job) {  
                     if ($comp->getId() == $job->getCompanyId()) {
-                            //nadpisy
+                           
+                        //nadpisy
                         if (count($comps)!= 1 ) {             
                             if ($keyJ > 0) {
                                 if ($jobEntities[$keyJ-1]->getCompanyId() <> ($jobEntities[$keyJ]->getCompanyId() ) ) {    
@@ -189,6 +200,7 @@ use Access\Enum\RoleEnum;
                                 echo Html::p($comp->getName(), []); 
                             }           
                         }                
+                        
                         
                         echo Html::tag('div', 
                             [

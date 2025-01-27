@@ -47,9 +47,23 @@ trait RepresentativeTrait {
         $actions = $this->status->getRepresentativeActions();
         return isset($actions) ? $actions->getDataEditable() : false;
     }
+
+    /**
+     * Informuje zda přihlášený uživatel reprezentuje company.
+     * 
+     * @param type $companyId
+     * @return bool
+     * @throws UnexpectedValueException
+     */
+    protected function isCompanyRepresentative($companyId): bool {
+        if(!isset($companyId)) {
+            throw new UnexpectedValueException("Hodnota id company nesmí být null.");
+        }
+        return ($this->getStatusRepresentativeCompanyId()==$companyId);
+    }
     
     /**
-     * Informuje zda přihlýšený uživatel má právo editovat data company.
+     * Informuje zda přihlášený uživatel reprezentuje company a právě edituje data.
      * 
      * @param type $companyId
      * @return bool
@@ -60,7 +74,7 @@ trait RepresentativeTrait {
             throw new UnexpectedValueException("Hodnota id company nesmí být null.");
         }
         $editData = $this->getStatusRepresentativeDataEditable();
-        $isCompanyRepresentative = ($this->getStatusRepresentativeCompanyId()==$companyId);
+        $isCompanyRepresentative = $this->isCompanyRepresentative($companyId);
         $isAdministrator = $this->isAdministrator();
         return ($editData AND ($isCompanyRepresentative OR $isAdministrator));
     }

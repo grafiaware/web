@@ -403,6 +403,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
     }
 
     private function isPartInEditableMode() {
+        //TODO: SV !!NUTNÉ!! zde se rozhoduje, jestli se načítají skripty potřebné pro editaci 
         $statusSecurity = $this->statusSecurityRepo->get();
         $userActions = $statusSecurity->getEditorActions();
         $representativeActions = $statusSecurity->getRepresentativeActions();
@@ -413,6 +414,8 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         (isset($userActions) && $userActions->presentEditableContent()) 
         // representative
         || (isset($representativeActions) && $representativeActions->getDataEditable())
+        // visitor - nemá přepínač edituj data - edituje pořád
+        || ($role==RoleEnum::VISITOR)
 //        // events administrator
 //        || (isset($role) && $role==RoleEnum::EVENTS_ADMINISTRATOR)
         ;
