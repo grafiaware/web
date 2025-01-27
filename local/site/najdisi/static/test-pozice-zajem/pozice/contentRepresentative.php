@@ -6,9 +6,9 @@ use Pes\Text\Html;
                                         <div class="sixteen wide column center aligned">
 
                                             <div class="ui large button green profil-visible">
-                                                <i class="play icon"></i>
+                                                <i class="eye icon"></i>
                                                 <span>Chci si prohlédnout údaje, které zájemci odeslali  &nbsp;</span>
-                                                <i class="play flipped icon"></i>
+                                                <i class="eye icon"></i>
                                             </div>
                                         </div>
                                         <div class="sixteen wide column">

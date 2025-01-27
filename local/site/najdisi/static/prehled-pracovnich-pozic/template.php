@@ -32,7 +32,7 @@ if (isset($role) && ($role==RoleEnum::REPRESENTATIVE || $role==RoleEnum::EVENTS_
         $companyId = $company->getId();
         echo Html::tag('div', 
                 [
-                    'class'=>'cascade',
+                    'class'=>'cascade nazev-firmy',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId",
                 ]
             );                 

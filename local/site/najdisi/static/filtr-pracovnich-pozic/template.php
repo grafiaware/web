@@ -89,7 +89,7 @@ use Access\Enum\RoleEnum;
     
 ?> 
 
-    <div>Nastavte hodnoty pro výběr nabízených pracovních pozic:</div>
+    <div><p class="podnadpis okraje">Nastavte hodnoty pro výběr nabízených pracovních pozic:</p></div>
     <div id="toggleFilter" class="ui big black button <?= $filterVisible ?? false ? 'active' : '' ?>">
         <i class="<?= $filterVisible ?? false ? 'close' : 'filter' ?> icon"></i> 
         <?= $filterVisible ?? false ? 'Skrýt filtr' : 'Zobrazit filtr' ?>

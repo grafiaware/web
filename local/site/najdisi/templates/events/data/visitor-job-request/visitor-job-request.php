@@ -7,37 +7,43 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 //TODO: semantic steps attached
 
 ?>
-           <div class="eight wide column">
-                <div class="ui segment">
+           <div class="ui internally celled grid">
+               <div class="row">
+                    <div class="sixteen wide column">
                             <p  class="text primarni-barva zadne-okraje"><?php echo (isset($prefix) ? "$prefix " : "").(isset($name) ? "$name " : "").(isset($surname) ? "$surname" : "").(isset($postfix) ? ", $postfix" : "") ?></p>
-                        </div>
                     </div>
-                    <div class="ui horizontal segments">
-                        <div class="ui segment">
-                            E-mail
-                        </div>
-                        <div class="ui segment">
-                            <?= $email ?? '';  ?>
-                        </div>
+               </div>
+               <div class="row">
+                    <div class="eight wide column">
+                        E-mail
                     </div>
-                    <div class="ui horizontal segments">
-                        <div class="ui segment">
-                            Telefon
-                        </div>
-                        <div class="ui segment">
-                            <?= $phone ?? '';  ?>
-                        </div>
+                    <div class="eight wide column">
+                        <?= $email ?? '';  ?>
                     </div>
-                    <div class="ui segment">
+               </div>
+               <div class="row">
+                    <div class="eight wide column">
+                        Telefon
+                    </div>
+                    <div class="eight wide column">
+                        <?= $phone ?? '';  ?>
+                    </div>
+               </div>
+               <div class="row">
+                    <div class="sixteen wide column">
                         <p>Vzdělání, kurzy</p>
                         <div>
                             <?= $cvEducationText ?? ''; ?>
                         </div>
                     </div>
-                    <div class="ui segment">
+               </div>
+               <div class="row">
+                    <div class="sixteen wide column">
                         <p>Pracovní zkušenosti, dovednosti</p>
                         <div>
                             <?= $cvSkillsText ?? ''; ?>
                         </div>
                     </div>
+                </div>
+            </div>
                                          
