@@ -138,9 +138,10 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
                 $item = [
                     //route
                     'actionSpecific' => $this->getFamilyRouteSegment()->getSavePath()."/send",  // routa s id job requestu doplněná o /send
-                    'titleSpecific' => 'Odeslat e-mail',
+                    'titleSpecific' => 'Odeslat zájem o pozici',
                     // text
                     'addHeadline' => 'Nový zájem o pozici',                
+                    'infoText' => 'Zájem o pozici je předvyplněn údaji z vašeho profilu návštěvníka. Před odesláním můžete údaje upravit.',
                     // data
                     'fields' => [
                         'prefix' => $this->visitorProfile->getPrefix(),
