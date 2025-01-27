@@ -26,7 +26,7 @@ use Pes\Text\Text;
             <div>
                 <img src="<?=$data_logo_grafia?>"  width="70" />                 
                 <h2>Veletrh práce a vzdělávání - zájemce o pozici</h2>
-                <h2><?= $visitorJobRequest->getPositionName() ?></h2>
+                <h2><?= $job->getNazev() ?></h2>
 
                 <!-- <h3>Pracovní údaje návštěvníka - praci.najdisi.cz</h3> -->
                 <hr/>
