@@ -520,7 +520,16 @@ body{
           -webkit-line-clamp: unset; 
           display: block; 
           overflow: visible; 
+    }
+    #filterSection{
+       display: none;
+        &.segment{
+           border: 2px solid @black;
         }
+    }
+    #toggleFilter.active ~ #filterSection {
+        display: block;
+    }
     
     .blok-menu-paticka{
         margin-left: 13px;
