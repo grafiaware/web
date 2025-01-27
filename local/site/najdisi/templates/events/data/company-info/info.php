@@ -50,21 +50,21 @@ if (!empty($videoLink)) {
 ?>
      
             <div class="ui grid stackable">
-                <div class="sixteen wide computer nine wide large screen nine wide widescreen column">
-                    <img src=<?="$imagesPath/LOXXESS.png"?> alt="LOXXESS"/>
+                <div class="sixteen wide tablet eight wide computer nine wide large screen column">
+                    <img src=<?="$imagesPath/LOXXESS.png"?> alt="LOXXESS" class="stanek-img"/>
                 </div> 
-                <div class="sixteen wide computer seven wide large screen seven wide widescreen column">
+                <div class="sixteen wide tablet eight wide computer seven wide large screen seven wide widescreen column">
                     <?php if($videoLink ?? false) { ?>
                         <p class="text tucne zadne-okraje">Video</p>
                         <div class="video-container">
                             <?php if (!empty($embedYoutubeUrl)): ?>
-                                <iframe width="330" height="186" src="<?= $embedYoutubeUrl ?>" 
+                                <iframe width="420" height="236" src="<?= $embedYoutubeUrl ?>" 
                                         frameborder="0" 
                                         allow="encrypted-media; picture-in-picture" 
                                         allowfullscreen>
                                 </iframe>
                             <?php elseif (!empty($embedVimeoUrl)): ?>
-                                <iframe width="330" height="186" src="<?= $embedVimeoUrl ?>" 
+                                <iframe width="420" height="236" src="<?= $embedVimeoUrl ?>" 
                                         frameborder="0" 
                                         allow="encrypted-media; picture-in-picture" 
                                         allowfullscreen>

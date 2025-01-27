@@ -270,6 +270,24 @@ content .online-stanky{
 .navazat-kontakt{
     .profil.hidden{
        display: none;
+       .internally.celled{
+           outline: 2px solid @green;
+           &::before{
+               content:"\f077";
+               position: absolute;
+               top: -6px;
+               right: 50%;
+               transform: translateX(-50%);
+               color: @green;
+               background: @white;
+               height: 18px;
+               width: 18px;
+               font-family: Icons;
+               font-weight: 400;
+               font-style: normal;
+               font-size: 1.25em;
+           }
+       }
     }
 }
 
