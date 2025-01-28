@@ -559,7 +559,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
                 if($accessPresentation->hasAnyPermission(JobFamilyJobRequestComponent::class)) { 
                     $component->setItemTemplate(new PhpTemplate());  //bez šablony
-                    $component->setItemTemplatePath($configuration->getTemplate('fields'), $configuration->getTemplate('formWithFields'));
+                    $component->setItemTemplatePath($configuration->getTemplate('fieldsWithSpecificButton'), $configuration->getTemplate('formWithFields'));
                     $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('visitorJobRequest'), $configuration->getTemplate('visitorJobRequestEditable'));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
