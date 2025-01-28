@@ -32,4 +32,8 @@ trait FamilyTrait {
         return $this->familyRouteSegment;
     }
     
+    public function __clone() {
+        $this->familyRouteSegment = clone $this->familyRouteSegment;
+    }
+    
 }
