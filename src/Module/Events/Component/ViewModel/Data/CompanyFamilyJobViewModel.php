@@ -87,7 +87,6 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
         $this->loadJob();
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         $selectEducations = $this->selectEducations();
-        $jobId = $this->job->getId();  // pro cascade volání vnořeného komponentu JobFamilyTag
         if ($componentRouteSegment->hasChildId()) {        
             $companyJob = [
                 //route
@@ -95,7 +94,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                 'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
-                    'dataRedApiUri' => "events/v1/data/job/$jobId/jobtotag",
+                    'dataRedApiUri' => "events/v1/data/job/{$this->job->getId()}/jobtotag",  // pro cascade volání vnořeného komponentu JobFamilyTag
                     'published' => $this->job->getPublished(),
                     'pozadovaneVzdelaniStupen' =>  $this->job->getPozadovaneVzdelaniStupen(),
                     'nazev' =>  $this->job->getNazev(),                
