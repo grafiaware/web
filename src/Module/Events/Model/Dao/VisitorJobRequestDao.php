@@ -33,8 +33,8 @@ class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestD
             'cv_education_text',
             'cv_skills_text',
             'cv_document',
-            'letter_document',
-            'created'
+            'letter_document'  //,
+//            'created'
         ];
     }
 
