@@ -64,7 +64,7 @@ class VisitorJobRequestHydrator extends TypeHydratorAbstract implements Hydrator
             $this->setSqlValue($rowData, 'cv_skills_text', $visitorDataPost->getCvSkillsText());
             $this->setSqlValue($rowData, 'cv_document', $visitorDataPost->getCvDocument());
             $this->setSqlValue($rowData, 'letter_document', $visitorDataPost->getLetterDocument());
-//            $this->setSqlValue($rowData, 'created', $visitorDataPost->getCreated());                     
+            $this->setSqlValue($rowData, 'created', $visitorDataPost->getCreated());                     
             
     }
 
