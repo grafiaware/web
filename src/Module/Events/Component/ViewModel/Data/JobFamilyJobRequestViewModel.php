@@ -140,7 +140,7 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
                             'cvSkillsText' =>     $this->jobRequest->getCvSkillsText(),
                         ],
                     ];
-            } elseif ($this->isItemEditable()) {   // job request ještě nebyl uložen a uživatel může editovat
+            } elseif ($this->isItemEditable()) {   // job request ještě nebyl uložen a uživatel může editovat = má rpofil a nemá request
                 $this->loadVisitorProfile();    // job request se předvyplní z profilu 
                 if (isset($this->visitorProfile)) {   // profil se čte pro přihlášeného visitora
                     $item = [
@@ -169,6 +169,12 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
                         ];                     
 //                    throw new LogicException("There is no profile for editable job request.");   // sem by skript neměl dostat, pokud není profile, nemá být item editable
                 }
+            } else {
+                $item = [
+                    // text
+                        'infoText' => 'Odeslat zájem o pozici může jen přihlášený návštěvník s vytvořeným profilem. Vyplňte svůj profil návštěvníka.',
+                    ];                     
+//                    throw new LogicException("There is no profile for editable job request.");   // sem by skript neměl dostat, pokud není profile, nemá být item editable
             }
         }      
         
