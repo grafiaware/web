@@ -58,9 +58,13 @@ use Access\Enum\RoleEnum;
     /** @var CompanyInterface $company */
     foreach ($companies as $company) {
         $companyId = $company->getId();
-        $isRepresentativeOfCompany = isset($representative) && $companyId==($representative->getCompanyId());
-        $companyJobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId ] );
-        
+        $isRepresentativeOfCompany = isset($representative) && $companyId==($representative->getCompanyId());        
+        if ($isRepresentativeOfCompany) {
+            $companyJobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId ] );
+        } else {
+            $companyJobs = $jobRepo->find(" (company_id = :idCompany)  AND (published = 1) ",  ['idCompany'=> $companyId ] );
+        }
+           
         echo Html::tag('div', 
                 [
                     'class'=>'cascade nazev-firmy',
