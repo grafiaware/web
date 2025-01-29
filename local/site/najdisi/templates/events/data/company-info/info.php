@@ -51,7 +51,7 @@ if (!empty($videoLink)) {
      
             <div class="ui grid stackable">
                 <div class="sixteen wide tablet eight wide computer nine wide large screen column">
-                    <img src=<?="$imagesPath/LOXXESS.png"?> alt="LOXXESS" class="stanek-img"/>
+                    <img src=<?="$imagesPath/$exhibitionStand"?> alt="$imagesName" class="stanek-img"/>
                 </div> 
                 <div class="sixteen wide tablet eight wide computer seven wide large screen seven wide widescreen column">
                     <?php if($videoLink ?? false) { ?>
