@@ -32,7 +32,7 @@ if (isset($representativeFromStatus)) {
     
     echo Html::tag('div', 
             [
-                'class'=>'cascade',
+                'class'=>'cascade nazev-firmy',
                 'data-red-apiuri'=>"events/v1/data/company/$companyId",
             ]
         );
@@ -55,7 +55,7 @@ if (isset($representativeFromStatus)) {
             ]
         );
     
-    if ( (isset($jobLimit) AND ($jobLimit>0) ) OR (!(isset($jobLimit)))  )  {     
+    if ( !isset($jobLimit) OR $jobLimit=0)  {     
         echo Html::tag('div', 
                     [
                         'class'=>'cascade',

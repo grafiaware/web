@@ -102,12 +102,13 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
                 'list2column' => self::WEB_TEMPLATES_COMMON.'data/list2column.php',
                 'fields' => self::WEB_TEMPLATES_COMMON.'data/fields.php',
+                'fieldsWithSpecificButton' => self::WEB_TEMPLATES_COMMON.'data/fieldsWithSpecificButton.php',
                 'formWithFields' => self::WEB_TEMPLATES_COMMON.'data/formWithFields.php',
                 'formWithFields2column' => self::WEB_TEMPLATES_COMMON.'data/formWithFields2column.php',
                 'formEnctypeMultipartWithFields' => self::WEB_TEMPLATES_COMMON.'data/formEnctypeMultipartWithFields.php',
                 'items' => self::WEB_TEMPLATES_COMMON.'data/items.php',
-                'multiEditable' => self::WEB_TEMPLATES_COMMON.'data/multiEditable.php',
-                'multi' => self::WEB_TEMPLATES_COMMON.'data/multi.php',                
+//                'multiEditable' => self::WEB_TEMPLATES_COMMON.'data/multiEditable.php',
+//                'multi' => self::WEB_TEMPLATES_COMMON.'data/multi.php',                
                 'checkbox' => self::WEB_TEMPLATES_COMMON.'data/checkbox.php',
                 'checked' => self::WEB_TEMPLATES_COMMON.'data/checked.php',
 
@@ -142,7 +143,9 @@ class ConfigurationWeb extends ConfigurationConstants {
 
                 'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
                 'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
-
+                
+                'visitorJobRequest' => self::WEB_TEMPLATES_SITE.'events/data/visitor-job-request/visitor-job-request.php',  
+                'visitorJobRequestEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-job-request/visitor-job-request-editable.php',
                 ////
                 'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
                 

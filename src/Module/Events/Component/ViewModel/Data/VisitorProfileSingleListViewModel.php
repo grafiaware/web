@@ -25,10 +25,10 @@ class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract impl
 
     public function __construct(
             StatusViewModelInterface $status,
-            VisitorProfileRepoInterface $visitorProgileRepo
+            VisitorProfileRepoInterface $visitorProfileRepo
             ) {
         $this->status = $status;
-        $this->visitorProfileRepo = $visitorProgileRepo;
+        $this->visitorProfileRepo = $visitorProfileRepo;
     }
     
     private function isAdministrator() {
@@ -38,21 +38,10 @@ class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract impl
     public function isListEditable(): bool {
         return $this->isAdministrator();
     }
-
-    /**
-     * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
-     * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
-     * a této komponentě bude vložena jako data pro renderování položka kolekce dat. 
-     * Pozn. To znamená, že jednotlívé item komponenty nepoužijí (a nepotřebují) vlastní view model.
-     * 
-     * @return iterable
-     */
-    public function provideItemEntityCollection(): iterable {
-        $entities = $this->visitorProfileRepo->findAll();
-        if ($this->isListEditable()) {
-            $entities[] = new VisitorProfile();
-        }
-        return $entities;
+    
+    protected function loadListEntities() {
+        $this->listEntities = $this->visitorProfileRepo->findAll();
+//                tady: asociativní pole id=>entita
     }
     
     /**

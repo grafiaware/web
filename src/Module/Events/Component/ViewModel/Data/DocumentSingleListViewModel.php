@@ -51,6 +51,8 @@ class DocumentSingleListViewModel extends ViewModelSingleListAbstract implements
      */
     public function provideItemEntityCollection(): iterable {
         $entities = $this->documentRepo->findAll();
+//        tady: asociativní pole id=>entita
+        
         if ($this->isListEditable()) {
             $entities[] = new Document();  // pro přidání
         }

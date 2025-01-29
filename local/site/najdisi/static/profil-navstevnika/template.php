@@ -31,4 +31,12 @@ echo Html::tag('div',
             'data-red-apiuri'=>"events/v1/data/visitorprofile/$loginName"
         ]
     );
+} else {
+    echo Html::tag('div', ["class"=>"ui blue segment"],
+                    Html::p("Stránka je určena pouze přihlášenému návštěvníkovi.")
+                            .
+                '<i class="exclamation icon"></i>Přihlaste se jako návštěvník. <i class="user icon"></i> Přihlášení návštěvníci mohou posílat žádosti přímo zaměstnavateli. Pokud ještě nejste zaregistrování, nejprve se registrujte. <i class="address card icon"></i>'
+            );
+
+    
 }

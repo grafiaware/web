@@ -4,6 +4,11 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 ?>
         <div class="ui grid">
             <div class="sixteen wide column">
-                <p class="nazev-firmy"><?= $name ?? '' ?></p>
+                <p>
+                    <i class="icons">
+                        <i class="building icon"></i>
+                        <i class="corner user icon"></i>
+                    </i>
+                    <?= $name ?? '' ?></p>
             </div>    
         </div>

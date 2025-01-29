@@ -3,5 +3,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Message;
 /** @var PhpTemplateRendererInterface $this */
 ?>
- 
-                <?= $this->insert($fieldsTemplate, $fields  ?? []) ?>     
+        <?= $infoText ?? false ? "<p class='ui blue segment'>$infoText</p>" : "" ?>
+
+        <?= $this->insert($fieldsTemplate, $fields  ?? []) ?>     
+

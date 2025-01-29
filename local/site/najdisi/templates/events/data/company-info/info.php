@@ -7,6 +7,8 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */    
 
+$imagesPath = ConfigurationCache::files()['@siteimages'];
+
 if (!empty($videoLink)) {
     // Rozparsování URL
     $parsedUrl = parse_url($videoLink);
@@ -46,49 +48,48 @@ if (!empty($videoLink)) {
     }
 }
 ?>
-
      
-       
             <div class="ui grid stackable">
-                <?php if($videoLink ?? false) { ?>
-                    <div class="sixteen wide computer ten wide large screen ten wide widescreen column">
+                <div class="sixteen wide tablet eight wide computer nine wide large screen column">
+                    <img src=<?="$imagesPath/$exhibitionStand"?> alt="$imagesName" class="stanek-img"/>
+                </div> 
+                <div class="sixteen wide tablet eight wide computer seven wide large screen seven wide widescreen column">
+                    <?php if($videoLink ?? false) { ?>
                         <p class="text tucne zadne-okraje">Video</p>
                         <div class="video-container">
                             <?php if (!empty($embedYoutubeUrl)): ?>
-                                <iframe width="444" height="250" src="<?= $embedYoutubeUrl ?>" 
+                                <iframe width="420" height="236" src="<?= $embedYoutubeUrl ?>" 
                                         frameborder="0" 
                                         allow="encrypted-media; picture-in-picture" 
                                         allowfullscreen>
                                 </iframe>
                             <?php elseif (!empty($embedVimeoUrl)): ?>
-                                <iframe width="444" height="250" src="<?= $embedVimeoUrl ?>" 
+                                <iframe width="420" height="236" src="<?= $embedVimeoUrl ?>" 
                                         frameborder="0" 
                                         allow="encrypted-media; picture-in-picture" 
                                         allowfullscreen>
                                 </iframe>
                             <?php endif; ?>
                         </div>
-                    </div> 
-                <?php } ?>
+                    <?php } ?>
                     <?php
                     if ($companyNetworksUri ?? false) {
                         
-                        echo '<div class="sixteen wide computer six wide large screen six wide widescreen column">'
-                                . '<p class="text tucne zadne-okraje">Sledujte nás</p>' .
+                        echo '<p class="text tucne zadne-okraje">Sledujte nás</p>' .
                         Html::tag('span', 
                             [
                                 'class'=>'cascade',
                                 'data-red-apiuri'=> $companyNetworksUri,
                             ]
-                        )
-                        . '</div>' ;
+                        );
 //                        echo "<p>Sítě lze vybírat po prvním uložení informací o firmě.</p>";
                     } else {
                         echo "<p>Zadávání sociálních sítí bude spuštěno v krátké době.</p>";
                     }
                     ?>  
+                </div>
                 <div class="sixteen wide column">
-                    <div class="ui styled fluid accordion">  
+                    <div class="ui basic styled fluid accordion">  
                         <?php if($introduction ?? false) { ?>
                                 <div class="active title">   
                                     <i class="dropdown icon"></i>O nás

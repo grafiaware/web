@@ -55,13 +55,11 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         return ($this->status->getUserRole() == RoleEnum::VISITOR);
     }
     
-    private function isCurrentVisitor() {
+    private function isProfileCreator() {
         $requestedLogName = $this->getSingleRouteSegment()->getChildId();
-        
-        return ($this->status->getUserRole() == RoleEnum::VISITOR and 
-                $this->status->getUserLoginName() == $requestedLogName )
-                ;
+        return ($this->isVisitor() && $this->status->getUserLoginName() == $requestedLogName );
     }
+    
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof VisitorProfileInterface) {
             $this->visitorProfile = $entity;
@@ -74,13 +72,14 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
     
     public function isItemEditable(): bool {
         $this->loadVisitorProfile();
-        return $this->isVisitor();
+        return $this->isVisitor() || $this->isAdministrator();
     }
     
     private function loadVisitorProfile() {
         if (!isset($this->visitorProfile)) {
-            if ($this->getSingleRouteSegment()->getChildId()) {
-                $this->visitorProfile = $this->visitorProfileRepo->get($this->getSingleRouteSegment()->getChildId());     
+            if ($this->getSingleRouteSegment()->hasChildId()) {
+                $childId = $this->getSingleRouteSegment()->getChildId();
+                $this->visitorProfile = $this->visitorProfileRepo->get($childId);     
             } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
@@ -88,22 +87,20 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
     }    
     
     public function getIterator() {     
-        $this->loadVisitorProfile();
         
-        $isAdministrator = $this->isAdministrator();
-        $editable =  $this->isAdministrator() || $this->isCurrentVisitor();
-                //$userHash = $loginAggregate->getLoginNameHash();
-                $userHash =  $this->status->getUserLoginHash();
-                $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
-                $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
-                $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
-
-                $visitorEmail = $this->status->getUserEmail();
-            //------------------------------------------------------------------
-
-                /** @var StatusViewModelInterface $statusViewModel */
-                $role = $this->status->getUserRole();
- 
+//        $isAdministrator = $this->isAdministrator();
+//        $editable =  $this->isAdministrator() || $this->isCurrentVisitor();
+//                //$userHash = $loginAggregate->getLoginNameHash();
+//                $userHash =  $this->status->getUserLoginHash();
+//                $accept = implode(", ", ConfigurationCache::eventsUploads()['upload.events.acceptedextensions']);
+//                $uploadedCvFilename = VisitorProfileControler::UPLOADED_KEY_CV.$userHash;
+//                $uploadedLetterFilename = VisitorProfileControler::UPLOADED_KEY_LETTER.$userHash;
+//
+//            //------------------------------------------------------------------
+//
+//                /** @var StatusViewModelInterface $statusViewModel */
+//                $role = $this->status->getUserRole();
+// 
 
 //                if (isset($this->visitorProfile)) {
 //                    $documentCvId = $this->visitorProfile->getCvDocument();
@@ -151,12 +148,13 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
 //                }             
                                   
         $this->loadVisitorProfile();
+        $visitorEmail = $this->status->getUserEmail();
 
-        if ($this->getSingleRouteSegment()->hasChildId()) {
+        if ($this->getSingleRouteSegment()->hasChildId() && isset($this->visitorProfile)) {
             $item = [
                 //route
                 'actionSave' => $this->getSingleRouteSegment()->getSavePath(),
-                'actionRemove' => $this->getSingleRouteSegment()->getRemovePath(),
+//                'actionRemove' => $this->getSingleRouteSegment()->getRemovePath(),
                 'id' => $this->getSingleRouteSegment()->getChildId(),
                 // data
                 'fields' => [
@@ -174,14 +172,17 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
             $item = [
                 //route
                 'actionAdd' => $this->getSingleRouteSegment()->getAddPath(),
+                'titleAdd' => 'Uložit údaje profilu',
                 // text
-                'addHeadline' => 'Nový profil',                
+                'addHeadline' => 'Nový profil návštěvníka',                
                 // data
-                'fields' => [],
+                'fields' => [
+                        'visitorEmail' => $visitorEmail,                    
+                ],
                 ];
         }        
         
-        $this->appendData($item);
+        $this->appendData($item ?? []);
         return parent::getIterator();  
     }
     
@@ -206,7 +207,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         $uploadedFilename = VisitorProfileControler::UPLOADED_KEY.$userHash;
         //-------------------------------------------------------------------------------------
         
-        $editableItem = $this->isAdministratorEditor() || $this->isCurrentVisitor($parentId);           
+        $editableItem = $this->isAdministratorEditor() || $this->isProfileCreator($parentId);           
         
         if (isset($parentId)) {
             $componentRouteSegment = "events/v1/$requestedParTab/$parentId/doctype/$requestedTypeDoc";   

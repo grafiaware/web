@@ -1,0 +1,1 @@
+<?php /*$exhibitionStand = 'LOXXESS.png'; */

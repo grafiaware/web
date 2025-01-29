@@ -84,12 +84,19 @@ use Access\Enum\RoleEnum;
 //    $dataCheckArr_1 = [ "filterDataTags[pro ZP]" => 53, 
 //                        "filterDataTags[na rodičovské]" => 52 ];
     //-----------------------------------------------------------------------
+    $filterVisible = ($selectCompanyId OR $dataCheckArr);
+    
+    
 ?> 
 
-    <div>Nastavte hodnoty pro výběr nabízených pracovních pozic:</div>
+    <div><p class="podnadpis okraje">Nastavte hodnoty pro výběr nabízených pracovních pozic:</p></div>
+    <div id="toggleFilter" class="ui big black button <?= $filterVisible ?? false ? 'active' : '' ?>">
+        <i class="<?= $filterVisible ?? false ? 'close' : 'filter' ?> icon"></i> 
+        <?= $filterVisible ?? false ? 'Skrýt filtr' : 'Zobrazit filtr' ?>
+    </div>
     
-    <form class="ui huge form" action="" method="POST" > 
-        
+    <div id="filterSection" class="ui segment">
+        <form class="ui big form" action="" method="POST" > 
             <div class="field">
                 <?= Html::select( 
                     "filterSelectCompany", 
@@ -99,20 +106,20 @@ use Access\Enum\RoleEnum;
                     []    // ['required' => true ],                        
                 ) ?> 
             </div>
-        
+
             <div class="field">
                  <div>Typ hledané pozice: </div>
                  <?= Html::checkbox( $allTags , $dataCheckArr ); ?>
             </div>
-                                         
+
             <div>      
                 <button class='ui secondary button' type='submit' 
                         formaction='events/v1/filterjob'> Vyhledat </button>
                 <button class='ui secondary button' type='submit' 
                         formaction='events/v1/cleanfilterjob'> Vyčistit filtr </button>
             </div>                                    
-    </form>
-    
+        </form>
+    </div>
     
 <?php
           /** @var JobToTagRepoInterface $jobToTagRepo */
@@ -142,37 +149,41 @@ use Access\Enum\RoleEnum;
            $compid = $comps[0]->getId(); 
            $jobEntities = $jobRepo->find( " id in ($joJobsIn)  AND company_id = :company_id order by company_id, nazev " ,
                                           array_merge($jobIds, ['company_id' => $compid ]) );  
-        } else {              
+        } else {             
             $jobEntities = $jobRepo->find(" 1=1 order by company_id, nazev ASC ", []); 
             if (($dataChecksForSelectA) and (!($jobToTagEntities))) {
-                $jobEntities = $jobRepo->find("  company_id = :company_id  order by company_id, nazev ASC ", ['company_id' => $compid ] );     
-            } 
-           
+                //$jobEntities = $jobRepo->find("  company_id = :company_id  order by company_id, nazev ASC ", ['company_id' => $compid ] );     
+                $jobEntities = [];     
+            }            
         }    
     } else {        
+        $comps = $companies;    
         if ($jobIds) {
-           $comps = $companies; 
            $jobEntities = $jobRepo->find( " id in ($joJobsIn) order by company_id, nazev "  , $jobIds);             
         } else { 
-           $comps = $companies;  
-           if ( $jobToTagEntities /*$dataChecksForSelectA*/) {
-                $comps = [];
-           }
-           else { 
-               $jobEntities = $jobRepo->find( " 1=1 order by company_id, nazev ASC ", [] );                 
-           }
+           $jobEntities = $jobRepo->find( " 1=1 order by company_id, nazev ASC ", [] ); 
+           if (($dataChecksForSelectA) and (!($jobToTagEntities))) {
+                //$jobEntities = $jobRepo->find("  company_id = :company_id  order by company_id, nazev ASC ", ['company_id' => $compid ] );     
+                $jobEntities = [];  
+                $comps  = []; 
+            }             
         }   
     }          
 
+    $companyList = [];
     
     if  ($comps ) {           
             /** @var CompanyInterface $comp */
         foreach ($comps as $keyC => $comp) {
             if  ($jobEntities ) {
+                $companyList[$comp->getId()] = [];
+                
                           /** @var JobInterface $job */
                 foreach ($jobEntities as $keyJ => $job) {  
                     if ($comp->getId() == $job->getCompanyId()) {
-                            //nadpisy
+                        $companyList[$comp->getId()][] =  $job->getId();
+                           
+                        //nadpisy
                         if (count($comps)!= 1 ) {             
                             if ($keyJ > 0) {
                                 if ($jobEntities[$keyJ-1]->getCompanyId() <> ($jobEntities[$keyJ]->getCompanyId() ) ) {    
@@ -183,18 +194,25 @@ use Access\Enum\RoleEnum;
                             }           
                         }                
                         
+                        
                         echo Html::tag('div', 
                             [
                                 'class'=>'cascade',
                                 'data-red-apiuri'=>"events/v1/data/company/{$comp->getId()}/job/{$job->getId()}",
                             ]
                             );  
-                    }                        
+                    }    
+                    
                 } 
+                if  ( !$companyList[$comp->getId()] ) { 
+                    unset($companyList[$comp->getId()] );                      
+                }
             }else {
                 echo Html::p("Zadanému fitru neodpovídá žádná položka." , []); 
-            }                     
-        }    
+            }      
+            
+        } 
+        //$stuj = 1;
     }
     else  {  
          echo Html::p("Zadanému fitru neodpovídá žádná položka." , []);                 

@@ -28,6 +28,9 @@ body{
             object-fit: contain;
             position: relative;
             z-index: -1;
+            max-height: 370px;
+            height: auto;
+            width: 100%;
         }
 /*        display: flex;
         align-items: start;
@@ -475,7 +478,84 @@ body{
             }
         }
     }
-    
+    .cascade{
+        width: 100%;
+    }
+    .ui.accordion {
+      width: 100%; 
+
+      .title {
+        display: block;
+        width: 100%; 
+        .ui.grid{
+            margin-top: -5px;
+        }
+        .text.zadne-okraje{
+            padding-top: 0;
+        }
+      }
+      .job-title{
+          color: @primaryColor;
+          font-size: @bigFontSize;
+          line-height: 1.3;
+          
+      }
+      .job-description {
+        margin-top: -10px;
+        display: -webkit-box; 
+        -webkit-line-clamp: 3; 
+        -webkit-box-orient: vertical; 
+        display: box; /* Modernější podpora */
+        line-clamp: 3;
+        box-orient: vertical;
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        white-space: normal; 
+        width: 100%; 
+        box-sizing: border-box; 
+
+      }
+    }
+    .ui.accordion .active.title .job-description{
+          -webkit-line-clamp: unset; 
+          display: block; 
+          overflow: visible; 
+    }
+    #filterSection{
+       display: none;
+        &.segment{
+           border: 2px solid @black;
+        }
+    }
+    #toggleFilter.active ~ #filterSection {
+        display: block;
+    }
+    .ui.grid, .ui.styled.fluid.accordion {
+      overflow: visible;
+    }
+    .cascade {
+        overflow: visible;
+    }
+    .nazev-firmy{
+        font-size: @h2; 
+        font-weight: 300;
+        margin: 0.5em 0 !important;
+        padding: 10px 0 10px 7px;
+        color: @primaryColor;
+        position: sticky; 
+        top: 0;
+        z-index: 10;
+        width: 100%;
+        min-height: 50px;
+        background-color: @white;
+        border-left: 2px solid @primaryColor;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .stanek-img{
+        height: auto;
+        max-height: 430px;
+        width: auto;
+    }
     .blok-menu-paticka{
         margin-left: 13px;
     }

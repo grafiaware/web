@@ -1,0 +1,1 @@
+<?php /*$exhibitionStand = 'Berger_Bohemia.png';*/ 

@@ -11,7 +11,6 @@ use Events\Model\Entity\CompanyContactInterface;
 use Model\Entity\EntityInterface;
 
 
-use Access\Enum\RoleEnum;
 use Exception;
 use TypeError;
 
@@ -48,6 +47,7 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof CompanyContactInterface) {
             $this->companyContact = $entity;
+            $this->getFamilyRouteSegment()->setChildId($this->companyContact->getId());
         } else {
             $cls = CompanyContactInterface::class;
             $parCls = get_class($entity);
@@ -71,8 +71,6 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyContact();
-        $editableItem = $this->isItemEditable();
-        $this->getFamilyRouteSegment()->setChildId($this->companyContact->getId());
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         if ($componentRouteSegment->hasChildId()) {        
             $companyContactArray = [
@@ -81,14 +79,14 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
                 'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
-                    'editable' => $editableItem,
+//                    'editable' => $editableItem,
                     'name' =>  $this->companyContact->getName(),
                     'phones' =>  $this->companyContact->getPhones(),
                     'mobiles' =>  $this->companyContact->getMobiles(),
                     'emails' =>  $this->companyContact->getEmails(),
                     ],                      
                 ];
-        } elseif ($editableItem) {
+        } elseif ($this->isItemEditable()) {
             $companyContactArray = [
                 // text
                 'addHeadline' => 'Přidej kontakt',                 
@@ -96,7 +94,8 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
                 'actionAdd' => $componentRouteSegment->getAddPath(),
                 // data
                 'fields' => [
-                    'editable' => $editableItem,]
+//                    'editable' => $editableItem,
+                    ]
             ];
         } else {
             $companyContactArray = [];

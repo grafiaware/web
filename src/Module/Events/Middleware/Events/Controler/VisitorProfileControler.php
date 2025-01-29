@@ -144,10 +144,12 @@ class VisitorProfileControler extends FrontControlerAbstract {
             if (!isset($visitorProfile)) {  // ?? odmítnutí, pokud profil existuje
                 $visitorProfile = new VisitorProfile();
                 $visitorProfile->setLoginLoginName($loginName);
+                $this->hydrateVisitorProfile($request, $visitorProfile);
                 $this->visitorProfileRepo->add($visitorProfile);
+                $this->addFlashMessage("Profil uložen");
+            } else {
+                $this->addFlashMessage("Profil již existuje.", FlashSeverityEnum::WARNING);
             }
-            $this->hydrateVisitorProfile($request, $visitorProfile);
-//            $this->addFlashMessage(" Data uložena");
             $response =  $this->redirectSeeLastGet($request);
         }
         return $response;
@@ -166,13 +168,12 @@ class VisitorProfileControler extends FrontControlerAbstract {
 //            $postLoginNameHash = (new RequestParams())->getParsedBodyParam($request, 'loginnamehash');
 //            $loginameHash = ... vis status
                 $visitorProfile = $this->visitorProfileRepo->get($loginName);
-                if (!isset($visitorProfile)) {  // ?? odmítnutí, pokud profil existuje
-                    $visitorProfile = new VisitorProfile();
-                    $visitorProfile->setLoginLoginName($loginName);
-                    $this->visitorProfileRepo->add($visitorProfile);
+                if (!isset($visitorProfile)) {
+                    $this->addFlashMessage("Profil neexistuje", FlashSeverityEnum::WARNING);
+                } else {
+                    $this->hydrateVisitorProfile($request, $visitorProfile);
+                    $this->addFlashMessage("Profil uložen");
                 }
-                $this->hydrateVisitorProfile($request, $visitorProfile);
-                $this->addFlashMessage(" Data uložena");
                 $response =  $this->redirectSeeLastGet($request);
             }
         }

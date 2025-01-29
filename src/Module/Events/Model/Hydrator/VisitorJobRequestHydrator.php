@@ -38,7 +38,7 @@ class VisitorJobRequestHydrator extends TypeHydratorAbstract implements Hydrator
             ->setCvSkillsText($this->getPhpValue($rowData, 'cv_skills_text'))
             ->setCvDocument($this->getPhpValue($rowData, 'cv_document'))
             ->setLetterDocument($this->getPhpValue($rowData, 'letter_document'))
-            ->setPositionName($this->getPhpValue($rowData, 'position_name'))
+//                'created' TIMESTAMP
            ;
                     
     }
@@ -54,7 +54,6 @@ class VisitorJobRequestHydrator extends TypeHydratorAbstract implements Hydrator
             $this->setSqlValue($rowData, 'login_login_name', $visitorDataPost->getLoginLoginName());
             
             $this->setSqlValue($rowData, 'job_id', $visitorDataPost->getJobId());
-            $this->setSqlValue($rowData, 'position_name', $visitorDataPost->getPositionName());
             $this->setSqlValue($rowData, 'prefix', $visitorDataPost->getPrefix());
             $this->setSqlValue($rowData, 'name', $visitorDataPost->getName());
             $this->setSqlValue($rowData, 'surname', $visitorDataPost->getSurname());
@@ -65,7 +64,7 @@ class VisitorJobRequestHydrator extends TypeHydratorAbstract implements Hydrator
             $this->setSqlValue($rowData, 'cv_skills_text', $visitorDataPost->getCvSkillsText());
             $this->setSqlValue($rowData, 'cv_document', $visitorDataPost->getCvDocument());
             $this->setSqlValue($rowData, 'letter_document', $visitorDataPost->getLetterDocument());
-                     
+            $this->setSqlValue($rowData, 'created', $visitorDataPost->getCreated());                     
             
     }
 

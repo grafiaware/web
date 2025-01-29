@@ -52,14 +52,6 @@
         margin-bottom: 85px;
     }
 }
-.nazev-firmy{
-    font-size: @h2; 
-    font-weight: 300;
-    z-index: 1;
-    position: relative; 
-    margin: 0.5em 0 0 !important;
-    color: @primaryColor;
-}
 .nadpis{
     font-size: @h2;
     font-weight: 300;
@@ -96,7 +88,7 @@
 .podnadpis{
     font-size: @h5; 
     line-height: 1;
-    margin: 0.3em 0 0 !important;
+    margin: 0.3em 0 0;
     &.primarni-barva{
         color: @primaryColor;
     }
@@ -106,10 +98,13 @@
     &.tucne{
         font-weight: @bold;
     }
+    &.okraje{
+        margin-bottom: 0.3em;
+    }
 }
 .text{
     font-size: @fontSize;
-    color: @textColor;
+    //color: @textColor;
     &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal):not(.zadne-okraje):not(.okraje-dole):not(.seznam){
         padding: 10px 0 15px 0;
     }
