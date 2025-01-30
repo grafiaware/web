@@ -2,7 +2,7 @@
 use Site\ConfigurationCache;
 
 ##########################
-$companyId = 10;
+$companyId = 47;
 ##########################
 
 include ConfigurationCache::eventTemplates()['templates']."presenter/company-profile.php"; ?>
