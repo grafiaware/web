@@ -1,1 +1,0 @@
-<?php /*$exhibitionStand = 'SONY_DADC.png'; */

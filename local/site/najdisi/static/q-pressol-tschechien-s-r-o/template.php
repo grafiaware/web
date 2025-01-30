@@ -1,1 +1,0 @@
-<?php /*$exhibitionStand = 'pressol.png'; */
