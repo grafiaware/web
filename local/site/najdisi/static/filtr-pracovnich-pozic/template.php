@@ -99,9 +99,9 @@ use Access\Enum\RoleEnum;
         <form class="ui big form" action="" method="POST" > 
             <div class="field">
                 <?= Html::select( 
-                    "filterSelectCompany", 
+                    FilterControler::FILTER_COMPANY, 
                     "Firma:",  
-                    [ "filterSelectCompany" => $selectCompanyId ],    
+                    [FilterControler::FILTER_COMPANY => $selectCompanyId ],    
                     $selectCompanies ??  [] , 
                     []    // ['required' => true ],                        
                 ) ?> 
