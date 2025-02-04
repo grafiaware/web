@@ -29,7 +29,7 @@ use Pes\Text\Html;
                                                 echo Html::tag('div', 
                                                     [
                                                         'class'=>'cascade',
-                                                        'data-red-apiuri'=>"events/v1/data/job/{$job->getId()}/jobrequest/$loginName"
+                                                        'data-red-apiuri'=>$uriCascadeJobFamilyJobrequest
                                                     ]
                                                 );
                                             ?>
