@@ -157,10 +157,10 @@ $jobsCount = 0;
 /** @var CompanyInterface $company */
 foreach ($companies as $company) {
     if ($joJobsIn) {
-        $companyJobs =  $jobRepo->find("id in ($joJobsIn)  AND company_id = :company_id order by company_id, nazev ",
+        $companyJobs =  $jobRepo->find("id in ($joJobsIn)  AND company_id = :company_id AND published=1 ORDER BY nazev ",
                                           array_merge($jobIds, ['company_id' => $company->getId()]));  
     } else {
-        $companyJobs = []; // $jobRepo->find("company_id = :company_id order by company_id, nazev ", ['company_id' => $company->getId()]);              
+        $companyJobs = [];             
     }
     $viewCompanies[] = ['company'=>$company, 'companyJobs'=>$companyJobs];
     $jobsCount = $jobsCount + count($companyJobs);
