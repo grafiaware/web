@@ -42,6 +42,11 @@ use Access\Enum\RoleEnum;
     
     /** @var StatusViewModelInterface $statusViewModel */
     $statusViewModel = $container->get(StatusViewModel::class);  
+    $role = $statusViewModel->getUserRole();
+    $loginName = $statusViewModel->getUserLoginName();
+    $isVisitor = (isset($role) AND $role==RoleEnum::VISITOR);
+    $representativeActions = $statusViewModel->getRepresentativeActions();
+    $representative = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
     
     $filter = $statusViewModel->getPresentationInfos()[FilterControler::FILTER]; //bylo ulozeno v FilterControler->filterJob()
     $selectCompanyId = (int)$filter[FilterControler::FILTER_COMPANY];    
@@ -83,15 +88,15 @@ use Access\Enum\RoleEnum;
     }        
 
     //-----------------------------------------------------------------------
-    $filterVisible = ($selectCompanyId OR $filterCheckboxData);
+    $isFilterVisible = ($selectCompanyId OR $filterCheckboxData);
     
     
 ?> 
 
     <div><p class="podnadpis okraje">Nastavte hodnoty pro výběr nabízených pracovních pozic:</p></div>
-    <div id="toggleFilter" class="ui big black button <?= $filterVisible ?? false ? 'active' : '' ?>">
-        <i class="<?= $filterVisible ?? false ? 'close' : 'filter' ?> icon"></i> 
-        <?= $filterVisible ?? false ? 'Skrýt filtr' : 'Zobrazit filtr' ?>
+    <div id="toggleFilter" class="ui big black button <?= $isFilterVisible ?? false ? 'active' : '' ?>">
+        <i class="<?= $isFilterVisible ?? false ? 'close' : 'filter' ?> icon"></i> 
+        <?= $isFilterVisible ?? false ? 'Skrýt filtr' : 'Zobrazit filtr' ?>
     </div>
     
     <div id="filterSection" class="ui segment">
@@ -175,16 +180,31 @@ if  ($jobsCount == 0) {
     foreach ($viewCompanies as $viewCompany) {
         if ($viewCompany['companyJobs']) {
             $companyId = $viewCompany['company']->getId();
+            $isRepresentativeOfCompany = isset($representative) && $companyId==($representative->getCompanyId());
+            $uriCascadeCompany = "events/v1/data/company/$companyId";
             echo Html::tag('div', 
                     [
                         'class'=>'cascade nazev-firmy',
-                        'data-red-apiuri'=>"events/v1/data/company/$companyId",
+                        'data-red-apiuri'=>$uriCascadeCompany,
                     ]
                 );     
             /** @var JobInterface $job */
             foreach ($viewCompany['companyJobs'] as $job) {
+                $jobId = $job->getId();
                 $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $job->getId());
                 $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $job->getId()] ));
+                
+                ## proměnné pro pozice.php
+                $isVisitor;
+                $isRepresentativeOfCompany;
+                $isVisitorDataPost;
+                $visitorJobRequestCount;
+                $block; // je chybně v contentNotLoggedIn
+                
+                $uriCascadeCompanyFamilyJob = "events/v1/data/company/$companyId/job/$jobId";
+                $uriCascadeJobFamilyJobrequest = "events/v1/data/job/$jobId/jobrequest/$loginName";
+                $uriCascadeJobFamilyJobrequestList = "events/v1/data/job/$jobId/jobrequest";
+                
                 include "pozice.php";  // cascade job a jobrequest
             }
         }
