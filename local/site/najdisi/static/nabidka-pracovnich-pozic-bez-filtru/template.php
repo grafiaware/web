@@ -54,25 +54,28 @@ use Access\Enum\RoleEnum;
 //        $visitorLoginName = 'visitor';
     #
     ###
-    
+
     /** @var CompanyInterface $company */
     foreach ($companies as $company) {
         $companyId = $company->getId();
         $isRepresentativeOfCompany = isset($representative) && $companyId==($representative->getCompanyId());
         $companyJobs = $jobRepo->find(" company_id = :idCompany ",  ['idCompany'=> $companyId ] );
-        
+        $viewCompanies[] = ['company'=>$company, 'companyJobs'=>$companyJobs];
+    }      
+
+    foreach ($viewCompanies as $viewCompany) {
+        $companyId = $viewCompany['company']->getId();
         echo Html::tag('div', 
                 [
                     'class'=>'cascade nazev-firmy',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId",
                 ]
-            );                 
-        
+            );     
+
         /** @var JobInterface $job */
-        foreach ($companyJobs as $job) {
+        foreach ($viewCompany['companyJobs'] as $job) {
             $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $job->getId());
             $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $job->getId()] ));
             include "pozice.php";  // cascade job a jobrequest
         }
-    }      
-
+    }

@@ -114,7 +114,8 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     }
 
     protected function getLoginUserName() {
-        return $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
+        $statusecurity = $this->statusSecurityRepo->get();
+        return $statusecurity->hasValidSecurityContext() ? $statusecurity->getLoginAggregate()->getLoginName() : '';
     }
     
     private function statusCode($statusEnumValue) {

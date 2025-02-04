@@ -35,15 +35,18 @@ use LogicException;
 class FilterControler extends FrontControlerAbstract {
   
     const FILTER = 'filter';
-    
+    const FILTER_TAGS = 'filter_tags';
+    const FILTER_COMPANY = 'filter_company';
+
+
     public function filterJob(ServerRequestInterface $request) {
                 
-        $tags = (new RequestParams())->getParsedBodyParam($request, "filterDataTags" );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
-        $selectCompanyId = (new RequestParams())->getParsedBodyParam($request, "filterSelectCompany" );   //AuthControler::NULL_VALUE;   
+        $tags = (new RequestParams())->getParsedBodyParam($request, self::FILTER_TAGS );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
+        $selectCompanyId = (new RequestParams())->getParsedBodyParam($request, self::FILTER_COMPANY );   //AuthControler::NULL_VALUE;   
         
         $statusPresentation = $this->statusPresentationRepo->get();
         if (isset($statusPresentation) ) {
-            $statusPresentation->setInfo(self::FILTER, ['filterDataTags'=>$tags, 'companyId'=>$selectCompanyId]);  
+            $statusPresentation->setInfo(self::FILTER, [self::FILTER_TAGS=>$tags, self::FILTER_COMPANY=>$selectCompanyId]);  
         } else {
             throw new LogicException("Neexistuje status presentation.");
         }
@@ -58,7 +61,7 @@ class FilterControler extends FrontControlerAbstract {
         
         $statusPresentation = $this->statusPresentationRepo->get();
         if (isset($statusPresentation) ) {
-            $statusPresentation->setInfo(self::FILTER, ['filterDataTags'=> null, 'companyId'=> '' ]);  
+            $statusPresentation->setInfo(self::FILTER, [self::FILTER_TAGS=> null, self::FILTER_COMPANY=> '' ]);  
         } else {
             throw new LogicException("Neexistuje status presentation.");
         }       

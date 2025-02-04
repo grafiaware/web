@@ -9,6 +9,9 @@ use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyInfoRepoInterface;
 use Events\Model\Entity\CompanyInfoInterface;
 use Model\Entity\EntityInterface;
+use Events\Model\Entity\CompanyInterface;
+
+use Site\ConfigurationCache;
 
 use Access\Enum\RoleEnum;
 use TypeError;
@@ -69,6 +72,10 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
     
     public function getIterator() {
         $this->loadCompanyInfo();
+        /** @var CompanyInterface $company */ 
+        $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
+        $companyShortcut = preg_split('~[^\p{L}\p{N}\']+~u',$company ? $company->getName() : '')[0];
+        $exhibitorStandImage = ConfigurationCache::files()['@siteimages']."/".$companyShortcut.".png";
         $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($componentRouteSegment->hasChildId()) {        
             $array = [
@@ -77,6 +84,7 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
                     'actionRemove' => $componentRouteSegment->getRemovePath(),
                 // data
                 'fields' => [
+                    'exhibitorStandImage' => $exhibitorStandImage,
                     'companyNetworksUri' => "events/v1/data/company/{$this->companyInfo->getCompanyId()}/network",
                     'introduction' => $this->companyInfo->getIntroduction(),
                     'videoLink' => $this->companyInfo->getVideoLink(),
@@ -85,12 +93,12 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
                 ],                
             ];
         } else {
-            /** @var CompanyInterface $company */ 
-            if ($this->companyRepo->get($this->getFamilyRouteSegment()->getParentId())) {  // validace id rodiče
+
+            if ($company) {  // validace id rodiče
                 if ($this->isItemEditable()) {
                     $array = [
                         // text
-                        'addHeadline' => 'Přidej informace zaměstnavatele',                      
+                        'addHeadline' => 'Přidejte informace zaměstnavatele',                      
                         //route
                         'actionAdd' => $componentRouteSegment->getAddPath(),
                         // data

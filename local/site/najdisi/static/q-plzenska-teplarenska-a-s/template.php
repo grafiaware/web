@@ -1,0 +1,1 @@
+<?php /*$exhibitionStand = 'Plzenska_teplarenska.png'; */

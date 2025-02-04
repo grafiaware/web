@@ -50,9 +50,11 @@ if (!empty($videoLink)) {
 ?>
      
             <div class="ui grid stackable">
-                <div class="sixteen wide tablet eight wide computer nine wide large screen column">
-                    <img src=<?="$imagesPath/LOXXESS.png"?> alt="LOXXESS" class="stanek-img"/>
-                </div> 
+                <?php if(isset($exhibitorStandImage) && is_readable($exhibitorStandImage)) { ?>
+                    <div class="sixteen wide tablet eight wide computer nine wide large screen column">
+                        <img src="<?=$exhibitorStandImage?>" alt="stánek firmy" class="stanek-img"/>
+                    </div> 
+                <?php } ?>
                 <div class="sixteen wide tablet eight wide computer seven wide large screen seven wide widescreen column">
                     <?php if($videoLink ?? false) { ?>
                         <p class="text tucne zadne-okraje">Video</p>
