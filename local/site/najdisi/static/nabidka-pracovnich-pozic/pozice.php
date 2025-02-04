@@ -21,7 +21,7 @@ use Pes\Text\Html;
                     echo Html::tag('div', 
                             [
                                 'class'=>'cascade',
-                                'data-red-apiuri'=>"events/v1/data/company/$companyId/job/{$job->getId()}",
+                                'data-red-apiuri'=>$uriCascadeCompanyFamilyJob,
                             ]
                         );
                 ?>
@@ -34,8 +34,8 @@ use Pes\Text\Html;
                                     include 'pozice/contentVisitor.php';
                                 } elseif ($isRepresentativeOfCompany) {
                                     include 'pozice/contentRepresentative.php';
-                                } elseif (!isset($loginAggregate)) {
-                                    include 'pozice/contentNotLoggedIn.php';
+                                } else {
+                                    include 'pozice/contentOthers.php';
                                 }
                                 ?>
                             </div>
