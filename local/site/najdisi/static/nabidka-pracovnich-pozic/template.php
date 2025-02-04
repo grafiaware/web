@@ -160,8 +160,7 @@ foreach ($companies as $company) {
         $companyJobs =  $jobRepo->find("id in ($joJobsIn)  AND company_id = :company_id order by company_id, nazev ",
                                           array_merge($jobIds, ['company_id' => $company->getId()]));  
     } else {
-        $companyJobs =  $jobRepo->find("company_id = :company_id order by company_id, nazev ",
-                                          ['company_id' => $company->getId()]);              
+        $companyJobs = []; // $jobRepo->find("company_id = :company_id order by company_id, nazev ", ['company_id' => $company->getId()]);              
     }
     $viewCompanies[] = ['company'=>$company, 'companyJobs'=>$companyJobs];
     $jobsCount = $jobsCount + count($companyJobs);
@@ -191,8 +190,8 @@ if  ($jobsCount == 0) {
             /** @var JobInterface $job */
             foreach ($viewCompany['companyJobs'] as $job) {
                 $jobId = $job->getId();
-                $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $job->getId());
-                $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $job->getId()] ));
+                $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $jobId);
+                $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $jobId] ));
                 
                 ## proměnné pro pozice.php
                 $isVisitor;
