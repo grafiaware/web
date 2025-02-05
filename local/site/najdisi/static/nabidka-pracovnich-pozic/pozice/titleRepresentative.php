@@ -9,11 +9,11 @@
                     <?php
                     if ($visitorJobRequestCount) {
                     ?>
-                    <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorJobRequestCount ?? '0'?></span>
+                    <span class="ui big basic orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorJobRequestCount ?? '0'?></span>
                     <?php
                     } else {
                     ?>
-                    <span class="ui big grey label">Na pozici se dosud nikdo nehlásil.</span>
+                    <span class="ui big basic grey label">Na pozici se dosud nikdo nehlásil.</span>
                     <?php
                     }
                     ?>

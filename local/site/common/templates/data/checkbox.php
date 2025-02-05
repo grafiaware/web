@@ -11,7 +11,7 @@ use Pes\Text\Html;
     <div class="accordion">   
         <div class="active title">
             <i class="dropdown icon"></i>
-            <?= $listHeadline ?>
+            <?= $listHeadline ?? ''?>
         </div>     
         <div class="list active content">      
                 <div class="field">
