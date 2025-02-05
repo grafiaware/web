@@ -74,18 +74,13 @@ if (!empty($videoLink)) {
                             <?php endif; ?>
                         </div>
                     <?php } ?>
-                    <?php
-                    if ($companyNetworksUri ?? false) {
+                    <?=
                         Html::tag('span', 
                             [
                                 'class'=>'cascade',
                                 'data-red-apiuri'=> $companyNetworksUri,
                             ]
                         );
-//                        echo "<p>Sítě lze vybírat po prvním uložení informací o firmě.</p>";
-                    } else {
-                        echo "<p>Zadávání sociálních sítí bude spuštěno v krátké době.</p>";
-                    }
                     ?>  
                 </div>
                 <div class="sixteen wide column">

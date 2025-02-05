@@ -2,7 +2,7 @@
                                     <div class="sixteen wide column center aligned">
                                         <div class="ui large basic button blue profil-visible">
                                             <i class="star icon"></i>
-                                            <span>Mám zájem o tuto pozici</span>
+                                            <span>Mám zájem o tuto pozici&nbsp;</span>
                                             <i class="star icon"></i>
                                         </div>
                                         <div class="profil hidden">

@@ -87,7 +87,7 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
         }
     }
     
-    private function multiTemplateData($items) {
+    private function checkboxTemplateData($items) {
         $allNetworks=[];
         // map jsou networky indexované podle id networků (se stejnou map byly renderovány items)
         $map = $this->multiEntitiesMap;
@@ -122,7 +122,7 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
                 //route
                 'actionSave' => $componentRouteSegment->getAddPath(),    // pracuje jen s kolekcí -> nejsou routy s id jednotlivých job to tag
                 ]
-                , $this->multiTemplateData($this->getArrayCopy())          
+                , $this->checkboxTemplateData($this->getArrayCopy())          
             );        
         } else {
             $array = [
