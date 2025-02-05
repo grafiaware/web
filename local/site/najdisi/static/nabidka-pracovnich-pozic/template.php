@@ -128,9 +128,9 @@ use Access\Enum\RoleEnum;
 <?php
 
     if (isset($checksIdsIn)) {
-        $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in ($checksIdsIn) group by job_id " ,$dataChecksForSelectA ); 
+        $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in ($checksIdsIn) group by job_id " ,$dataChecksForSelectA );  // všechny vybrané (checked) a použité (jsou ve vazební tabulce)
     } else {
-        $jobToTagEntities=[];
+        $jobToTagEntities=$jobToTagRepo->find( " 1 group by job_id " ,$dataChecksForSelectA ); //  [];
     }
     
     //priprava pro in , jobsy
@@ -160,7 +160,7 @@ foreach ($companies as $company) {
         $companyJobs =  $jobRepo->find("id in ($joJobsIn)  AND company_id = :company_id AND published=1 ORDER BY nazev ",
                                           array_merge($jobIds, ['company_id' => $company->getId()]));  
     } else {
-        $companyJobs = [];             
+        $companyJobs = [];  // $jobRepo->find("company_id = :company_id AND published=1 ORDER BY nazev ", ['company_id' => $company->getId()]);            
     }
     $viewCompanies[] = ['company'=>$company, 'companyJobs'=>$companyJobs];
     $jobsCount = $jobsCount + count($companyJobs);
