@@ -1,1 +1,0 @@
-<?php /*$exhibitionStand = 'RSF_Electronic.png'; */
