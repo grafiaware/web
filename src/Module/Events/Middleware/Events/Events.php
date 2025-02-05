@@ -11,12 +11,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-//use Pes\Container\Container;
-//use Container\EventsContainerConfigurator;
-//use Container\EventsModelContainerConfigurator;
-//use Container\EventsDbContainerConfigurator;
-//use Container\MailContainerConfigurator;
-
 use Events\Middleware\Events\Controler\ComponentControler;
 use Events\Middleware\Events\Controler\RepresentationControler;
 use Events\Middleware\Events\Controler\EventStaticControler;
