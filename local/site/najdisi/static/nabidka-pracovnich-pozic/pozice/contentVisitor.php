@@ -6,7 +6,7 @@ use Pes\Text\Html;
                                     <?php
                                     if($isVisitorDataPost) {
                                         ?>
-                                        <div class="ui large button green profil-visible">
+                                        <div class="ui large basic button green profil-visible">
                                             <i class="mail bulk icon"></i>
                                             <span>Chci si prohlédnout údaje, které jsem odeslal/a  &nbsp;</span>
                                             <i class="mail bulk flipped icon"></i> 
@@ -14,7 +14,7 @@ use Pes\Text\Html;
                                         <?php
                                     } else {
                                         ?>
-                                        <div class="ui large button blue profil-visible">
+                                        <div class="ui large basic button blue profil-visible">
                                             <i class="star icon"></i>
                                             <span>Mám zájem o tuto pozici &nbsp;</span>
                                             <i class="star icon"></i>

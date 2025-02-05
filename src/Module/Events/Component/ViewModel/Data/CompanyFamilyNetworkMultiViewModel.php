@@ -118,7 +118,7 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
             $componentRouteSegment = $this->getFamilyRouteSegment();
             $array = array_merge(
                 [         
-                'listHeadline'=>'Sítě firmy',           
+                'listHeadline'=>'Sledujte nás - sítě firmy',           
                 //route
                 'actionSave' => $componentRouteSegment->getAddPath(),    // pracuje jen s kolekcí -> nejsou routy s id jednotlivých job to tag
                 ]
@@ -126,6 +126,7 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
             );        
         } else {
             $array = [
+                'listHeadline'=>'Sledujte nás',           
             'items'=>$this->getArrayCopy()
             ];
         }        

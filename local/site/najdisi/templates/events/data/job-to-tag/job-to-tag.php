@@ -9,7 +9,7 @@ use Pes\Text\Html;
 
 ?>
                         <?php if($checkedTagsText){ ?>
-                            <span class="ui big red tag label tag-list">                                                                                               
+                            <span class="ui big basic red tag label tag-list">                                                                                               
                                 <?= implode(', ',array_keys($checkedTagsText) ); ?>                                 
                             </span>     
                         <?php }?>
