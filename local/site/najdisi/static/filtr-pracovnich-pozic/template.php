@@ -31,7 +31,7 @@ use Access\Enum\RoleEnum;
     $statusViewModel = $container->get(StatusViewModel::class);        
     $filter = $statusViewModel->getPresentationInfos()[FilterControler::FILTER]; //bylo ulozeno v FilterControler->filterJob()
     
-    $dataCheck = $filter['filterDataTags'];
+    $dataCheck = $filter[FilterControler::FILTER_TAGS];
     
     $dataCheckArr=[];
     if (!isset($dataCheck)) { 
@@ -43,7 +43,7 @@ use Access\Enum\RoleEnum;
         $dataCheckForSelectA=[];
         $ii = 0;        
         foreach ($dataCheck as $key => $value) {
-            $dataCheckArr["filterDataTags[". $key .  "]"] = (int)$value;                                       
+            $dataCheckArr[FilterControler::FILTER_TAGS."[". $key .  "]"] = (int)$value;                                       
             
             $dataChecksForSelectA['in'.$ii++] = $value;        
         }
@@ -53,7 +53,7 @@ use Access\Enum\RoleEnum;
         //$dataCheckForSelectA $checksIdsIn   ---  se pouziji v sql            
    }   
    
-    $selectCompanyId = (int)$filter['companyId'];
+    $selectCompanyId = (int)$filter[FilterControler::FILTER_COMPANY];
     //----------------------------------------------------
             
         /** @var CompanyRepoInterface $companyRepo */
@@ -76,13 +76,13 @@ use Access\Enum\RoleEnum;
         // map jsou tagy indexované podle id tagů (se stejnou map byly renderovány items)
         /** @var JobTagInterface  $jobTag */
     foreach ( $map as $id => $jobTag) {
-       $allTags[$jobTag->getTag()] = ["filterDataTags[{$jobTag->getTag()}]" => $jobTag->getId()] ;
+       $allTags[$jobTag->getTag()] = [FilterControler::FILTER_TAGS."[{$jobTag->getTag()}]" => $jobTag->getId()] ;
     }        
     //-------------------------------------------------------------------     
 //data  pro formular
 //    $selectCompanyId_1 = 10;   
-//    $dataCheckArr_1 = [ "filterDataTags[pro ZP]" => 53, 
-//                        "filterDataTags[na rodičovské]" => 52 ];
+//    $dataCheckArr_1 = [ FilterControler::FILTER_TAGS."[pro ZP]" => 53, 
+//                        FilterControler::FILTER_TAGS."[na rodičovské]" => 52 ];
     //-----------------------------------------------------------------------
     $filterVisible = ($selectCompanyId OR $dataCheckArr);
     
@@ -99,9 +99,9 @@ use Access\Enum\RoleEnum;
         <form class="ui big form" action="" method="POST" > 
             <div class="field">
                 <?= Html::select( 
-                    "filterSelectCompany", 
+                    FilterControler::FILTER_COMPANY, 
                     "Firma:",  
-                    [ "filterSelectCompany" => $selectCompanyId ],    
+                    [FilterControler::FILTER_COMPANY => $selectCompanyId ],    
                     $selectCompanies ??  [] , 
                     []    // ['required' => true ],                        
                 ) ?> 

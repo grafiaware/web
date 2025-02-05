@@ -128,9 +128,9 @@ use Access\Enum\RoleEnum;
 <?php
 
     if (isset($checksIdsIn)) {
-        $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in ($checksIdsIn) group by job_id " ,$dataChecksForSelectA ); 
+        $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in ($checksIdsIn) group by job_id " ,$dataChecksForSelectA );  // všechny vybrané (checked) a použité (jsou ve vazební tabulce)
     } else {
-        $jobToTagEntities=[];
+        $jobToTagEntities=$jobToTagRepo->find( " 1 group by job_id " ,$dataChecksForSelectA ); //  [];
     }
     
     //priprava pro in , jobsy
@@ -157,11 +157,10 @@ $jobsCount = 0;
 /** @var CompanyInterface $company */
 foreach ($companies as $company) {
     if ($joJobsIn) {
-        $companyJobs =  $jobRepo->find("id in ($joJobsIn)  AND company_id = :company_id order by company_id, nazev ",
+        $companyJobs =  $jobRepo->find("id in ($joJobsIn)  AND company_id = :company_id AND published=1 ORDER BY nazev ",
                                           array_merge($jobIds, ['company_id' => $company->getId()]));  
     } else {
-        $companyJobs =  $jobRepo->find("company_id = :company_id order by company_id, nazev ",
-                                          ['company_id' => $company->getId()]);              
+        $companyJobs = [];  // $jobRepo->find("company_id = :company_id AND published=1 ORDER BY nazev ", ['company_id' => $company->getId()]);            
     }
     $viewCompanies[] = ['company'=>$company, 'companyJobs'=>$companyJobs];
     $jobsCount = $jobsCount + count($companyJobs);
@@ -191,8 +190,8 @@ if  ($jobsCount == 0) {
             /** @var JobInterface $job */
             foreach ($viewCompany['companyJobs'] as $job) {
                 $jobId = $job->getId();
-                $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $job->getId());
-                $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $job->getId()] ));
+                $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $jobId);
+                $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $jobId] ));
                 
                 ## proměnné pro pozice.php
                 $isVisitor;

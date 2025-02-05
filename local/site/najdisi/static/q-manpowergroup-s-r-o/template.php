@@ -1,1 +1,0 @@
-<?php /*$exhibitionStand = 'Manpower.png'; */
