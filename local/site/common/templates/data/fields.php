@@ -5,5 +5,5 @@ use Pes\Text\Message;
 ?>
         <?= $fieldsInfoText ?? false ? "<p class='ui blue segment'>$fieldsInfoText</p>" : "" ?>
 
-        <?= $this->insert($fieldsTemplate, $fields, __DIR__.'/noData.php') ?>     
+        <?= $this->insert($fieldsTemplate, $fields ?? [], __DIR__.'/noData.php') ?>     
 
