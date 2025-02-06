@@ -12,15 +12,15 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
             <div class="four fields">
                 <div class="three wide field">
                     <label>Titul před</label>
-                    <input   type="text" name="prefix" placeholder="" maxlength="45" value="<?= $prefix ?? ''; ?>">
+                    <input type="text" name="prefix" placeholder="" maxlength="45" value="<?= $prefix ?? ''; ?>">
                 </div>
                 <div class="five wide field">
                     <label>Jméno</label>
-                    <input  type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= $name ?? ''; ?>">
+                    <input required type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= $name ?? ''; ?>">
                 </div>
                 <div class="five wide field">
                     <label>Příjmení</label>
-                    <input  type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= $surname ?? ''; ?>">
+                    <input required type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= $surname ?? ''; ?>">
                 </div>
                 <div class="three wide field">
                     <label>Titul za</label>
