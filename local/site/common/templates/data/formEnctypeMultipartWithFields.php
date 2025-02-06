@@ -6,7 +6,7 @@ use Pes\Text\Message;
 ?>
 
         <?= $addHeadline ?? false ? "<p class='podnadpis'>$addHeadline</p>" : "" ?>
-        <?= $infoText ?? false ? "<p class='ui blue segment'>$infoText</p>" : "" ?>
+        <?= $fieldsInfoText ?? false ? "<p class='ui blue segment'>$fieldsInfoText</p>" : "" ?>
         <?php $formUid= uniqid(); ?>
         <form id="<?= $formUid ?>" class="ui big form" action="" method="POST" enctype="multipart/form-data" onKeyup="eventsEnableButtonsOnForm(event)" onChange="eventsEnableButtonsOnForm(event)">
                 <?= $this->insert($fieldsTemplate, $fields  ?? []) ?>
