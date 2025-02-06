@@ -1,9 +1,9 @@
 
                                     <div class="sixteen wide column center aligned">
-                                        <div class="ui large button blue profil-visible">
-                                            <i class="play icon"></i>
-                                            <span>Mám zájem o tuto pozici</span>
-                                            <i class="play flipped icon"></i>
+                                        <div class="ui large basic button blue profil-visible">
+                                            <i class="star icon"></i>
+                                            <span>Mám zájem o tuto pozici&nbsp;</span>
+                                            <i class="star icon"></i>
                                         </div>
                                         <div class="profil hidden">
                                             <div class="active title">
@@ -13,7 +13,7 @@
                                             if (isset($block)) {
                                                 ?>
                                                 <a href="<?= "web/v1/page/block/".$block->getName()."#chci-navazat-kontakt" ?>">
-                                                    <div class="ui large button grey profil-visible">
+                                                    <div class="ui large basic button grey profil-visible">
                                                         Chci jít na stánek pro kontaktní údaje
                                                     </div>
                                                 </a>

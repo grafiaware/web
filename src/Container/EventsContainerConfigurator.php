@@ -392,14 +392,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);              
-//                $component = new JobFamilyJobToTagListComponent($configuration, $c->get(JobToTagComponent::class)); 
                 $component = new CompanyFamilyNetworkMultiComponent($configuration, $c->get(NetworkComponent::class)); 
-                                
                 if($accessPresentation->hasAnyPermission(CompanyFamilyNetworkMultiComponent::class, AccessPresentationEnum::EDIT)) {
                     $component->setMultiViewModel($c->get(CompanyFamilyNetworkMultiViewModel::class));
                     $component->setMultiTemplate(new PhpTemplate());  //bez šablony
                     $component->setMultiTemplatePath($configuration->getTemplate('checked'), $configuration->getTemplate('checkbox'));
-//                    $component->addPluginTemplatePath("fieldsTemplate", $configuration->getTemplate('checked'), $configuration->getTemplate('checkbox'));
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
