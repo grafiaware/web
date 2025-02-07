@@ -14,7 +14,7 @@ use Pes\Text\Html;
             <?= $listHeadline ?>
         </div>     
         <div class="list active content">     
-            <?= $infoText ?? false ? "<p class='ui blue segment'>$infoText</p>" : "" ?>            
+            <?= $fieldsInfoText ?? false ? "<p class='ui blue segment'>$fieldsInfoText</p>" : "" ?>            
             <form class="ui big form" action="" method="POST"  onKeyup="eventsEnableButtonsOnForm(event)">
                 <div class="field">
                      <?= Html::checkbox( $allCheckboxes , $checkedCheckboxes ); ?>
