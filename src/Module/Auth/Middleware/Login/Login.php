@@ -9,6 +9,7 @@ use Auth\Middleware\Login\Controler\RegistrationControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\AuthControler;
+use Auth\Middleware\Login\Controler\SynchroControler;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -151,7 +152,18 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var AuthControler $ctrl */
             $ctrl = $this->container->get(AuthControler::class);
             return $ctrl->removeRole($request, $role);
-        });             
+        });   
+        
+              
+        // SynchroControler       
+        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/synchro', function(ServerRequestInterface $request) {
+            /** @var SynchroControler $ctrl */
+            $ctrl = $this->container->get(SynchroControler::class);
+            return $ctrl->synchro($request);
+        });         
+        
+        
+        
         
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);

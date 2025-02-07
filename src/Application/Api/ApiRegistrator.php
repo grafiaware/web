@@ -50,6 +50,9 @@ class ApiRegistrator {
         
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/mailCompletRegistrationRepre'));  
         
+        #### SynchroControler  auth ####
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/synchro'));
+        
     ### web module ###
     #
         #### PageControler ####
@@ -176,6 +179,9 @@ class ApiRegistrator {
         
         #### RepesentationControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/representation'));
+        
+        #### SynchroControler events ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/synchro'));
         
         #### EventControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));

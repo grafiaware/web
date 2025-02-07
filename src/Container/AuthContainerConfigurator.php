@@ -7,6 +7,10 @@ use Site\ConfigurationCache;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
+
+
+
+
 // logger
 use Pes\Logger\FileLogger;
 
@@ -70,6 +74,8 @@ use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Middleware\Login\Controler\AuthStaticControler;
 use Auth\Middleware\Login\Controler\ComponentControler;
+
+use Auth\Middleware\Login\Controler\SynchroControler;
 
 // authenticator
 use Auth\Authenticator\AuthenticatorInterface;
@@ -319,6 +325,17 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     )->injectContainer($c);  // inject component kontejner
             },
 
+                    
+            SynchroControler::class =>   function(ContainerInterface $c) {
+                return (new SynchroControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),                       
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },        
+                    
+                    
             // FrontControler (POST)
             LoginLogoutControler::class => function(ContainerInterface $c) {
                 return (new LoginLogoutControler(

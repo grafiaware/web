@@ -1,0 +1,32 @@
+<?php
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Site\ConfigurationCache;
+
+use Pes\Text\Text;
+use Pes\Text\Html;
+
+/** @var PhpTemplateRendererInterface $this */
+
+    //    $readonly = 'readonly="1"';
+    //    $disabled = 'disabled="1"';
+        $readonly = '';
+        $disabled = ''; 
+?>
+
+        <form class="ui huge form" action="" method="POST" >      
+
+            
+
+            <?php
+            if($readonly === '') {
+            ?>
+            <div>
+                <?=                
+                "<button class='ui primary button' type='submit' formaction='".Text::encodeUrlPath("events/v1/synchro")."' > Synchro </button>" 
+                ?>                                                                                                                                                                                                                                                 
+            </div>
+            <?php
+            }
+            ?>
+
+        </form>           
