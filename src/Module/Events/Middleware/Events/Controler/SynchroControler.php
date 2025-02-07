@@ -11,10 +11,11 @@ use Status\Model\Repository\StatusPresentationRepo;
 
 use Status\Model\Enum\FlashSeverityEnum;
 
+use Events\Model\Repository\LoginRepoInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UploadedFileInterface;
 
+use Psr\Http\Message\UploadedFileInterface;
 use Pes\Http\Helper\RequestStatus;
 use Pes\Http\Request\RequestParams;
 
@@ -29,23 +30,47 @@ use Pes\Http\Response;
  * @author vlse2610
  */
 class SynchroControler   extends FrontControlerAbstract {
-  //  private $visitorProfileRepo;
-  //  private $visitorJobRequestRepo;
+    private $loginRepo;
         
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo
-//            DocumentRepo $documentRepo
+            StatusPresentationRepo $statusPresentationRepo,
+            
+            LoginRepoInterface $loginRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);        
-//        $this->documentRepo = $documentRepo;
+        $this->loginRepo = $loginRepo;
     }
 
     
     
+    
     public function synchro (ServerRequestInterface $request){
+        
+        
+        $logins = $this->loginRepo->findAll();
+        
+        SVSVSVSV
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/json; charset=utf-8",
+                'method' => 'POST' ,
+                'content' => json_encode($logins),
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);        
+        if ($result!==false) {
+            $resultData = json_decode($result);
+        } else {
+//            chyba
+        }
+                
+        //---------------------------------------------------------------------
+        
         $scheme = $request->getUri()->getScheme();
         $host = $request->getUri()->getHost();
 
@@ -73,15 +98,9 @@ class SynchroControler   extends FrontControlerAbstract {
            $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
         }
         else {
-            $this->addFlashMessage("Přišlo $result", FlashSeverityEnum::SUCCESS);            
+            $this->addFlashMessage("Přišlo ** $result **", FlashSeverityEnum::SUCCESS);            
         }
-        
-        
-        if ($result === false) {
-            $this->addFlashMessage("Mail o dokončení registrace se nepodařilo odeslat.", FlashSeverityEnum::WARNING);
-        } else {
-            return true ;     
-        }
+                     
         
         return $this->redirectSeeLastGet($request); // 303 See Other
 

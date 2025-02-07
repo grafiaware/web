@@ -29,5 +29,18 @@ interface LoginAggregateFullRepoInterface  extends RepoAssotiatingOneInterface {
      * @param LoginAggregateFullInterface $loginAgg
      */
     public function remove(LoginAggregateFullInterface $loginAgg);
-
+    
+    /**
+     * 
+     * @param string $whereClause
+     * @param array $touplesToBind
+     * @return array LoginAggregateFullInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array;
+    
+    /**
+     * 
+     * @return array LoginAggregateFullInterface[]
+     */
+    public function findAll() : array;
 }
