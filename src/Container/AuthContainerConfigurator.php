@@ -330,7 +330,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new SynchroControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),                       
+                        $c->get(StatusPresentationRepo::class),      
+                        $c->get(LoginAggregateFullRepo::class)        
                         )
                     )->injectContainer($c);  // inject component kontejner
             },        

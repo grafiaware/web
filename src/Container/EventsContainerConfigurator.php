@@ -634,7 +634,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new SynchroControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),                       
+                        $c->get(StatusPresentationRepo::class),     
+                        $c->get(LoginRepo::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },

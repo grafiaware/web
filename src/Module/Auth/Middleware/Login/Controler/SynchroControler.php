@@ -58,28 +58,30 @@ class SynchroControler   extends FrontControlerAbstract {
 
     
     
-    public function synchro (ServerRequestInterface $request){
+    public function synchro (ServerRequestInterface $request){               
         
-        $sourceLogins=[]; //toto prijde - pole loginu v events
+        
+        $sourceLogins = (new RequestParams())->getParsedBodyParam($request,'logins');
+        
         
         $exi=[];  $forremove=[];
-        
-        //prohledavam, zda jsou v auth, ty co nejsou se budou v events mazat
-        foreach ($logins  as $login) {
-            $full = $this->loginAggregateFullRepo->get($login);
-            if (isset($full)) {
-               $exi[] = $full;
-            }
-            else {
-                $forremove[] = $full;
-            }
-        }
-        
-        $this->
+//        
+//        //prohledavam, zda jsou v auth, ty co nejsou se budou v events mazat
+//        foreach ($logins  as $login) {
+//            $full = $this->loginAggregateFullRepo->get($login);
+//            if (isset($full)) {
+//               $exi[] = $full;
+//            }
+//            else {
+//                $forremove[] = $full;
+//            }
+//        }
+//        
+//        $this->
 
         
-    
-    return $this->createStringOKResponse("Byl jsem v AUTH Synchro", 200); // 303 See Other
+    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other 
+    //return $this->createStringOKResponse("Byl jsem v AUTH Synchro", 200); // 303 See Other
                                     
     }
     

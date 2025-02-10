@@ -8,10 +8,10 @@ use FrontControler\FrontControlerAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
+use Events\Model\Repository\LoginRepoInterface;
+use Events\Model\Entity\LoginInterface;
 
 use Status\Model\Enum\FlashSeverityEnum;
-
-use Events\Model\Repository\LoginRepoInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -47,30 +47,18 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     
-    public function synchro (ServerRequestInterface $request){
-        
-        
+    public function synchro (ServerRequestInterface $request){                
         $logins = $this->loginRepo->findAll();
         
-        SVSVSVSV
-        $options = [
-            'http' => [
-                'header' => "Content-type: application/json; charset=utf-8",
-                'method' => 'POST' ,
-                'content' => json_encode($logins),
-            ],
-        ];
-
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);        
-        if ($result!==false) {
-            $resultData = json_decode($result);
-        } else {
-//            chyba
+        $sourceLogins=[];
+              /** @var LoginInterface $login */
+        foreach ($logins as $login) {
+            $sourceLogins[] = $login->getLoginName();
         }
-                
-        //---------------------------------------------------------------------
         
+        
+        
+        //--------------
         $scheme = $request->getUri()->getScheme();
         $host = $request->getUri()->getHost();
 
@@ -84,22 +72,56 @@ class SynchroControler   extends FrontControlerAbstract {
         // options pro stream_context_create() vždy definuj s položkou http
         // url adresu pro file_get_contents(url, ..) definuj: https://....
         // use key 'http' even if you send the request to https://...
+            
         $options = [
             'http' => [
-                'header' => "Content-type: application/x-www-form-urlencoded",
-                'method' => 'POST' //,
-                //'content' => http_build_query($data),
+                'header' => "Content-type: application/json; charset=utf-8",
+                'method' => 'POST' ,
+                'content' => json_encode($sourceLogins),
             ],
         ];
 
         $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        if ($result === false) {
-           $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
+        $result = file_get_contents($url, false, $context);        
+        
+        if ($result!==false) {
+            $resultData = json_decode($result);            
+            $this->addFlashMessage("Přišlo ** $resultData[0]  **", FlashSeverityEnum::SUCCESS); 
+        } else {
+            $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
         }
-        else {
-            $this->addFlashMessage("Přišlo ** $result **", FlashSeverityEnum::SUCCESS);            
-        }
+                
+        //---------------------------------------------------------------------
+        
+//        $scheme = $request->getUri()->getScheme();
+//        $host = $request->getUri()->getHost();
+//
+//        $ruri = $this->getUriInfo($request)->getRestUri();
+//        $rap =$this->getUriInfo($request)->getRootAbsolutePath();
+//        $sp = $this->getUriInfo($request)->getSubdomainPath();
+//        
+//        $url = "$scheme://$host$sp"."auth/v1/synchro";
+//        //$data = ['companyName' => $companyName, 'loginName' => $loginName ];
+//
+//        // options pro stream_context_create() vždy definuj s položkou http
+//        // url adresu pro file_get_contents(url, ..) definuj: https://....
+//        // use key 'http' even if you send the request to https://...
+//        $options = [
+//            'http' => [
+//                'header' => "Content-type: application/x-www-form-urlencoded",
+//                'method' => 'POST' //,
+//                //'content' => http_build_query($data),
+//            ],
+//        ];
+//
+//        $context = stream_context_create($options);
+//        $result = file_get_contents($url, false, $context);
+//        if ($result === false) {
+//           $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
+//        }
+//        else {
+//            $this->addFlashMessage("Přišlo ** $result **", FlashSeverityEnum::SUCCESS);            
+//        }
                      
         
         return $this->redirectSeeLastGet($request); // 303 See Other
