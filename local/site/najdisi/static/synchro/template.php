@@ -25,6 +25,13 @@ use Pes\Text\Html;
                 "<button class='ui primary button' type='submit' formaction='".Text::encodeUrlPath("events/v1/synchro")."' > Synchro </button>" 
                 ?>                                                                                                                                                                                                                                                 
             </div>
+            </></p>
+            <div>
+                <?=                
+                "<button class='ui primary button' type='submit' formaction='".Text::encodeUrlPath("auth/v1/ladimsynchro")."' > ladim Synchro </button>" 
+                ?>                                                                                                                                                                                                                                                 
+            </div>
+            
             <?php
             }
             ?>

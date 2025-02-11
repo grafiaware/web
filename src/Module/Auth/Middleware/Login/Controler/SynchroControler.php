@@ -24,6 +24,8 @@ use Auth\Model\Repository\LoginAggregateRegistrationRepoInterface;
 use Auth\Model\Repository\LoginAggregateCredentialsRepoInterface;
 
 
+use Auth\Model\Entity\LoginAggregateFullInterface;
+
 use Status\Model\Enum\FlashSeverityEnum;
 
 
@@ -61,22 +63,55 @@ class SynchroControler   extends FrontControlerAbstract {
     public function synchro (ServerRequestInterface $request){               
         
         
-        $sourceLogins = (new RequestParams())->getParsedBodyParam($request,'logins');
+        $sourceLoginsVEvents = (new RequestParams())->getParsedBodyParam($request,'logins');
+        
+//------------------------------
+        //$sourceLogins = [];
+        $sourceLoginsVEvents = ["AndyAndy",	"Andy_/Akka/",	"CvicnyRepre",	"events_administrator",
+                         "Kralik", "navstevnik", "navstevnik1", "representative","visitor", "vlse2610" ];
+//------------------------------   
+        
+        $existing=[];  $jsouNavicVEvents=[]; $nejsouVEvents =[];
+        
+        if (isset($sourceLoginsVEvents))  {   
+            //beru am sourceLogins z events, zda jsou v auth. Ty co nejsou, jsou navic v events
+            foreach ($sourceLoginsVEvents  as $login) {
+                   /** @var LoginAggregateFullInterface $full */ 
+                $full = $this->loginAggregateFullRepo->get($login);
+                $ideName = $full->getLoginName();   //je login
+                if (isset($full)) {                                
+                   $existing[$ideName] = $full;
+                }
+                else {
+                   $jsouNavicVEvents [$ideName] = $full;  
+                }
+            }
+
+            // beru logins z auth, zda jsou  v events, ty co nejsou, jsou navic v auth, tj.nejsou v events
+            $fulls = $this->loginAggregateFullRepo->findAll();
+            if ($fulls) {                                  
+                         /** @var LoginAggregateFullInterface $onefull */ 
+                foreach ($fulls  as $onefull) {
+                    $ideName = $onefull->getLoginName();
+                    //hledam ideName v $sourceLogins
+                    if (in_array($ideName, $sourceLoginsVEvents)) {
+                         $existing[$ideName] = $onefull;
+                    }
+                    else {
+                        $nejsouVEvents [$ideName] = $onefull;    
+                    }
+                }
+
+            }
+            
+            
+            //ze vstupniho pole mayat tz co najdu
+            //a  do druheho (vysledneho )pole patri  tz co nenajdu - ale budou v poli nakem yvlast
+        }
         
         
-        $exi=[];  $forremove=[];
-//        
-//        //prohledavam, zda jsou v auth, ty co nejsou se budou v events mazat
-//        foreach ($logins  as $login) {
-//            $full = $this->loginAggregateFullRepo->get($login);
-//            if (isset($full)) {
-//               $exi[] = $full;
-//            }
-//            else {
-//                $forremove[] = $full;
-//            }
-//        }
-//        
+        
+        
 //        $this->
 
         

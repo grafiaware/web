@@ -52,6 +52,8 @@ class ApiRegistrator {
         
         #### SynchroControler  auth ####
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/synchro'));
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/ladimsynchro'));
+        
         
     ### web module ###
     #
