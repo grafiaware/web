@@ -60,62 +60,68 @@ class SynchroControler   extends FrontControlerAbstract {
 
     
     
-    public function synchro (ServerRequestInterface $request){               
-        
-        
-        $sourceLoginsVEvents = (new RequestParams())->getParsedBodyParam($request,'logins');
+    public function synchro (ServerRequestInterface $request){                               
+        $controlledItems = (new RequestParams())->getParsedBodyParam($request,'loginky');
         
 //------------------------------
         //$sourceLogins = [];
-        $sourceLoginsVEvents = ["AndyAndy",	"Andy_/Akka/",	"CvicnyRepre",	"events_administrator",
-                         "Kralik", "navstevnik", "navstevnik1", "representative","visitor", "vlse2610" ];
+//        $controlledItems = ["AndyAndy",	"Andy_/Akka/",	"CvicnyRepre",	"events_administrator",
+//                         "Kralik", "navstevnik", "navstevnik1", "representative","visitor", "vlse2610" ];
 //------------------------------   
+        $existing=[];  
+        $loginsToRemove=[]; $fullToAdd =[];
         
-        $existing=[];  $jsouNavicVEvents=[]; $nejsouVEvents =[];
-        
-        if (isset($sourceLoginsVEvents))  {   
-            //beru am sourceLogins z events, zda jsou v auth. Ty co nejsou, jsou navic v events
-            foreach ($sourceLoginsVEvents  as $login) {
-                   /** @var LoginAggregateFullInterface $full */ 
-                $full = $this->loginAggregateFullRepo->get($login);
-                $ideName = $full->getLoginName();   //je login
-                if (isset($full)) {                                
-                   $existing[$ideName] = $full;
-                }
-                else {
-                   $jsouNavicVEvents [$ideName] = $full;  
-                }
-            }
+        if (isset($controlledItems))  {   
+            //beru am sourceLogins z events, zda jsou v auth. Ty co nejsou, jsou navic v events   --- ty v events bede butno vymazat
+//            foreach ($controlledItems  as $login) {
+//                   /** @var LoginAggregateFullInterface $full */ 
+//                $full = $this->loginAggregateFullRepo->get($login);
+//                $ideName = $full->getLoginName();   //je login
+//                if (isset($full)) {                                
+//                   $existing[$ideName] = $full;
+//                }
+//                else {
+//                   $loginsToRemove [$ideName] = $full;  
+//                }
+//            }
 
-            // beru logins z auth, zda jsou  v events, ty co nejsou, jsou navic v auth, tj.nejsou v events
+            
+            
+            // beru logins z auth, zda jsou  v kcontrolledItems. 
+            // Ty co nejsou, jsou v auth navic , a budou se  pak  pridavat
             $fulls = $this->loginAggregateFullRepo->findAll();
             if ($fulls) {                                  
                          /** @var LoginAggregateFullInterface $onefull */ 
                 foreach ($fulls  as $onefull) {
-                    $ideName = $onefull->getLoginName();
-                    //hledam ideName v $sourceLogins
-                    if (in_array($ideName, $sourceLoginsVEvents)) {
-                         $existing[$ideName] = $onefull;
+                    $ideName = $full->getLoginName();
+                  
+                    //hledam ideName v $controlledItems
+                    if (in_array($ideName, $controlledItems)) {
+                        $existing[$ideName] = $onefull;
                     }
                     else {
-                        $nejsouVEvents [$ideName] = $onefull;    
+                        $fullToAdd [$ideName] = $onefull;    
                     }
-                }
+                    $controlledItems = array_diff($controlledItems, [$ideName]) ; // muze byt ten samy?
 
+                }
+                    //ty, co zbydou v poli, jsou navic a budou na vymazani
+                $loginsToRemove = $controlledItems; //zde je pole jen loginu
             }
             
             
-            //ze vstupniho pole mayat tz co najdu
-            //a  do druheho (vysledneho )pole patri  tz co nenajdu - ale budou v poli nakem yvlast
+            // ze vstupniho pole mazat ty co najdu - zbytek je prvni vysledne pole
+            // a do druheho (vysledneho )pole patri ty, co nenajdu 
         }
         
+       $result = [  'addItems' => $fullToAdd, 'remItems' => $loginsToRemove ];
         
-        
-        
-//        $this->
+//       json_encode($fullToAdd) 
+//       json_encode($loginsToRemove)
 
-        
-    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other 
+    return $this->createJsonOKResponse( $result, 200); // 303 See Other        
+    //
+    //return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other 
     //return $this->createStringOKResponse("Byl jsem v AUTH Synchro", 200); // 303 See Other
                                     
     }
@@ -124,20 +130,8 @@ class SynchroControler   extends FrontControlerAbstract {
 
 
 
-   //        $requestParams = new RequestParams();
-//        $companyName = $requestParams->getParsedBodyParam($request, 'companyName');
-//        $loginName = $requestParams->getParsedBodyParam($request, 'loginName');   
-//               
-//        $loginAggregateRegistration = $this->loginAggregateRegistrationRepo->get($loginName);
-//        $registerEmail = $loginAggregateRegistration->getRegistration()->getEmail();
-
-       
 //            try {
 //                    $ret = $mail->mail($params); // posle mail
 //                } catch (MailExceptionInterface $exc) {
 //                    echo $exc->getTraceAsString();
-//                }  
-
-          
-
-
+//                }          
