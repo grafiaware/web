@@ -22,6 +22,8 @@ use Red\Component\View\Menu\DriverComponentInterface;
 
 use Red\Service\Menu\DriverService;
 
+use Pes\Debug\Timer;
+
 
 /**
  * Description of MenuComponent
@@ -31,6 +33,7 @@ use Red\Service\Menu\DriverService;
 abstract class MenuComponentAbstract extends ComponentCompositeAbstract implements MenuComponentInterface {
 
     private $container;
+    private $itemType;
 
     /**
      * @var MenuViewModelInterface
@@ -39,14 +42,16 @@ abstract class MenuComponentAbstract extends ComponentCompositeAbstract implemen
 
     private $levelRendererName;
     private $levelRendererEditableName;
-    
-    private $rootRealDepth;
-    
+        
     private $presentedMenuItemId;
 
     public function __construct(ComponentConfigurationInterface $configuration, ContainerInterface $container) {
         parent::__construct($configuration);
         $this->container = $container;
+    }
+    
+    public function setItemType($itemType) {
+        $this->itemType = $itemType;        
     }
     
     public function getString() {
@@ -74,8 +79,12 @@ abstract class MenuComponentAbstract extends ComponentCompositeAbstract implemen
     public function beforeRenderingHook(): void {
         if (isset($this->contextData)) {
             $this->setPresentedMenuItemId();
+                $timer = new Timer();
+                $timer->start();
             $subtreeNodeModels =  $this->contextData->getNodeModels();
+                $modelsTime = $timer->interval();  // 150 milisec
             $topLevelComponent = $this->buildMenuComponentsTree($subtreeNodeModels);
+                $runtime = $timer->runtime();  // 525 milisec
             $this->appendComponentView($topLevelComponent, MenuComponentInterface::MENU);    
         }
     }
@@ -116,10 +125,13 @@ abstract class MenuComponentAbstract extends ComponentCompositeAbstract implemen
         
         $itemComponentStack = [];
         $first = true;
+            $timer = new Timer();
+            $timer->start();   
+            $ii=0;
         foreach ($subtreeNodeModels as $treeNodeModel) {
             $itemDepth = $treeNodeModel['realDepth'];
             if ($first) {
-                $this->rootRealDepth = $itemDepth;
+                $rootRealDepth = $itemDepth;
                 $currDepth = $itemDepth;
                 $first = false;
             }
@@ -127,15 +139,18 @@ abstract class MenuComponentAbstract extends ComponentCompositeAbstract implemen
                 $currDepth = $itemDepth;
             } elseif ($itemDepth<$currDepth) {
                 $this->createChildrenComponents($currDepth, $itemDepth, $itemComponentStack);
+                $forea[$ii++.'children'] = $timer->interval();            // 13 milisec
                 $currDepth = $itemDepth;
             }
             $itemComponentStack[$currDepth][] = $this->createItemComponent($treeNodeModel);
+                $forea[$ii++.'item'] = $timer->interval();            // 13 milisec
         }
         if ($itemComponentStack) {
-            $levelComponent = $this->createChildrenComponents($currDepth, $this->rootRealDepth-1, $itemComponentStack);
+            $levelComponent = $this->createChildrenComponents($currDepth, $rootRealDepth-1, $itemComponentStack);
         } else {
             $levelComponent = $this->createLevelComponent([]);
         }
+            $runtime = $timer->runtime();        // 520 milisec
         return $levelComponent;
     }
     
@@ -146,15 +161,22 @@ abstract class MenuComponentAbstract extends ComponentCompositeAbstract implemen
      * @return ItemComponent
      */
     private function createItemComponent($treeNodeModel) {
+            $timer = new Timer();
+            $timer->start();        
+            $it = 0;
         /** @var ItemComponent $item */
         $item = $this->container->get(ItemComponent::class);
+            $containerTime = $timer->interval();
         $itemViewModel = $item->getData();
         $itemViewModel->setUid($treeNodeModel['menuItem']->getUidFk());
         $itemViewModel->setRealDepth($treeNodeModel['realDepth']);
         $itemViewModel->setOnPath($treeNodeModel['isOnPath']);
         $itemViewModel->setLeaf($treeNodeModel['isLeaf']);
+            $dataTime = $timer->interval();
         $driver = $this->createDriverComponent($treeNodeModel['menuItem']);
+            $driveTime = $timer->interval();
         $item->appendComponentView($driver, ItemComponentInterface::DRIVER);        
+                $itemTime = $timer->runtime();         
         return $item;
     }
     
@@ -164,13 +186,16 @@ abstract class MenuComponentAbstract extends ComponentCompositeAbstract implemen
      * @param MenuItemInterface $menuItem
      * @return DriverComponentInterface
      */
-    public function createDriverComponent(MenuItemInterface $menuItem): DriverComponentInterface {   // PUBLIC pro volání z ComponentControler
+    private function createDriverComponent(MenuItemInterface $menuItem): DriverComponentInterface {   // ?? PUBLIC pro volání z ComponentControler
         /** @var DriverComponent $driver */
+            $timer = new Timer();
+            $timer->start();          
         $driver = $this->container->get(DriverComponent::class);
+            $containerCompTime = $timer->interval();  // poprvé 1ms, pak 80 mikrosec
         /** @var DriverServiceInterface $driverService */
         $driverService = $this->container->get(DriverService::class);
-        $isPresented = $this->presentedMenuItemId == $menuItem->getId();        
-        $driverService->completeDriverComponent($driver, $menuItem->getUidFk(), $isPresented);
+        $isPresented = $this->presentedMenuItemId == $menuItem->getId();
+        $driverService->completeDriverComponent($driver, $menuItem, $isPresented, $this->itemType); //  $itemType!
         return $driver;
     }
     

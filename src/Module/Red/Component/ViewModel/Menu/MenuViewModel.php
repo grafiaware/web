@@ -11,6 +11,8 @@ use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
+use Pes\Debug\Timer;
+
 use LogicException;
 
 /**
@@ -126,12 +128,8 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      *
      * @return array
      */
-    public function getSubTreeNodes() {
-        // root uid z jména komponenty
-        if (!isset($this->menuRootName)) {
-            throw new LogicException("Název kořene menu nebyl zadán. Název kořene menu je nutné zadat metodou setMenuRootName().");
-        }
-        $menuRoot = $this->menuRootRepo->get($this->menuRootName);
+    public function getSubTreeNodes(string $rootName, $maxDepth= null) {
+        $menuRoot = $this->menuRootRepo->get($rootName);
         if (!isset($menuRoot)) {
             throw new LogicException("Kořen menu se zadaným jménem '$this->menuRootName' nebyl načten z tabulky kořenů menu.");
         }
@@ -148,7 +146,13 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      * @return array
      */
     public function getNodeModels(): array {
-        $nodes = $this->getSubTreeNodes();
+        if (!isset($this->menuRootName)) {
+            throw new LogicException("Název kořene menu nebyl zadán. Název kořene menu je nutné zadat metodou setMenuRootName().");
+        }
+            $timer = new Timer();
+            $timer->start();        
+        $nodes = $this->getSubTreeNodes($this->menuRootName, $this->maxDepth);   // 140 milisec
+            $nodesReadTime = $timer->interval();
         $rootNode = reset($nodes); 
 
         $presentedNode = $this->getPresentedMenuNode($rootNode);
@@ -173,7 +177,9 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         }
         
         $models = [];
-        foreach ($nodes as $key => $node) {
+                $beforeForeachTime = $timer->interval();
+
+        foreach ($nodes as $key => $node) {   //10 mikrosec -> cca 4 milisec celkem (400 nodes)
             /** @var HierarchyAggregateInterface $node */
             $menuItem = $node->getMenuItem();
             
@@ -192,7 +198,9 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
                 'realDepth'=>$realDepth, 'isOnPath'=>$isOnPath, 'isLeaf'=>$isLeaf,
                 'menuItem'=>$menuItem
             ];
+            $forea[] = $timer->interval();
         }
+            $runtime = $timer->runtime();
         return $models;
     }
 }
