@@ -61,7 +61,7 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     public function synchro (ServerRequestInterface $request){                               
-        $controlledItems = (new RequestParams())->getParsedBodyParam($request,'loginky');
+        $controlledItems = (new RequestParams())->getParsedBodyParam($request,'controlledItems');
         
 //------------------------------
         //$sourceLogins = [];
@@ -87,37 +87,51 @@ class SynchroControler   extends FrontControlerAbstract {
 
             
             
-            // beru logins z auth, zda jsou  v kcontrolledItems. 
-            // Ty co nejsou, jsou v auth navic , a budou se  pak  pridavat
+            // beru logins z auth, zda jsou  v ccontrolledItems. 
+            // zy co nejsou, jsou v auth navic , a budou se  pak  pridavat
             $fulls = $this->loginAggregateFullRepo->findAll();
             if ($fulls) {                                  
                          /** @var LoginAggregateFullInterface $onefull */ 
                 foreach ($fulls  as $onefull) {
-                    $ideName = $full->getLoginName();
+                    $ideName = $onefull->getLoginName();
                   
                     //hledam ideName v $controlledItems
                     if (in_array($ideName, $controlledItems)) {
                         $existing[$ideName] = $onefull;
+                        
+                        $reArr = array_diff($controlledItems, [$ideName] ) ;
+                        $controlledItems = $reArr;
+//                        $controlledItems = array_diff($controlledItems, [0 =>$ideName] ) ; // muze byt ten samy?
                     }
                     else {
-                        $fullToAdd [$ideName] = $onefull;    
+//                        $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();    
+//                        $fullToAdd [$ideName]['email'] = $onefull->getRegistration()->getEmail();
+//                        $fullToAdd [$ideName]['info'] = $onefull->getRegistration()->getInfo();
+                        if ( ( null !== $onefull->getCredentials() ) ) {
+                            $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();
+                        } else {
+                            $fullToAdd [$ideName]['role'] = "";
+                        } 
+                        if ( ( null !== $onefull->getRegistration() )) {
+                            $fullToAdd [$ideName]['email'] = $onefull->getRegistration()->getEmail();
+                            $fullToAdd [$ideName]['info'] = $onefull->getRegistration()->getInfo();
+                        }else {
+                            $fullToAdd [$ideName]['email'] = "";
+                            $fullToAdd [$ideName]['info'] = "";
+                        }                                               
                     }
-                    $controlledItems = array_diff($controlledItems, [$ideName]) ; // muze byt ten samy?
-
                 }
-                    //ty, co zbydou v poli, jsou navic a budou na vymazani
                 $loginsToRemove = $controlledItems; //zde je pole jen loginu
-            }
+            }                        
+            // ze vstupniho pole $controlledItems mazat ty, co najdu - zbytek pak je prvni vysledne pole - jjsou k  vymazani
+            // a do druheho vysledneho pole patri ty, co nenajdu - jsou k  pridavani
             
+            $result = [  'addItems' => $fullToAdd, 'remItems' => $loginsToRemove ];
             
-            // ze vstupniho pole mazat ty co najdu - zbytek je prvni vysledne pole
-            // a do druheho (vysledneho )pole patri ty, co nenajdu 
-        }
-        
-       $result = [  'addItems' => $fullToAdd, 'remItems' => $loginsToRemove ];
-        
-//       json_encode($fullToAdd) 
-//       json_encode($loginsToRemove)
+        }else {
+            $this->addFlashMessage("Nejsou data pro synchro-login.",  FlashSeverityEnum::WARNING);
+            $result = [];
+        }        
 
     return $this->createJsonOKResponse( $result, 200); // 303 See Other        
     //

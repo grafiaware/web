@@ -23,7 +23,7 @@ use Pes\Text\Html;
                     foreach ($controlledItems as $key => $value) {
             ?>
                           <?=  
-                            "<input name='loginky[".$key."] value=' ".$value."' >"
+                            "<input name='controlledItems[".$key."]' value='$value' >"
                           ?> 
             <?php
                     }
@@ -41,7 +41,7 @@ use Pes\Text\Html;
             <div>
                 <?=                
                 "<button class='ui primary button' type='submit' "
-                                . "formaction='".Text::encodeUrlPath("auth/v1/ladimsynchro")."' > ladim Synchro </button>" 
+                                . "formaction='".Text::encodeUrlPath("auth/v1/ladimsynchro")."' > ladim Synchro - zakladna dat</button>" 
                 ?>                                                                                                                                                                                                                                                 
             </div>
             
