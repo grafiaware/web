@@ -4,13 +4,15 @@ use Pes\Text\Html;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
+use Site\ConfigurationCache;
+
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Repository\CompanyParameterRepoInterface;
 use Events\Model\Repository\CompanyParameterRepo;
 use Events\Model\Entity\CompanyParameterInterface;
-
+use Events\Model\Repository\JobRepo;
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
@@ -18,18 +20,19 @@ $statusViewModel = $container->get(StatusViewModel::class);
 $companyParameterRepo = $container->get(CompanyParameterRepo::class);
 
 
-/** @var  RepresentativeInterface $representativeFromStatus*/
+/** @var  RepresentativeInterface $representative*/
 $repreActions = $statusViewModel->getRepresentativeActions();
-$representativeFromStatus = isset($repreActions) ? $repreActions->getRepresentative(): null;
+$representative = isset($repreActions) ? $repreActions->getRepresentative(): null;
 
-if (isset($representativeFromStatus)) {
-    $companyId = $representativeFromStatus->getCompanyId();
+if (isset($representative)) {
+    $companyId = $representative->getCompanyId();
     /** @var  CompanyParameterInterface $companyParameter*/
     $companyParameter = $companyParameterRepo->get($companyId);
     if ( isset($companyParameter) ) {
         $jobLimit = $companyParameter->getJobLimit();
     }    
-    
+    $editable = $repreActions->getDataEditable();
+
     echo Html::tag('div', 
             [
                 'class'=>'cascade nazev-firmy',
@@ -55,13 +58,26 @@ if (isset($representativeFromStatus)) {
             ]
         );
     
-    if ( !isset($jobLimit) OR $jobLimit!=0)  {     
-        echo Html::tag('div', 
+    if ( !isset($jobLimit) OR $jobLimit!=0)  {  
+        if ($editable) {
+            echo Html::tag('div', 
                     [
                         'class'=>'cascade',
                         'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
                     ]
                 );
+        } else {
+            /** @var JobRepoInterface $jobRepo */
+            $jobRepo = $container->get(JobRepo::class);            
+            $jobs = $jobRepo->find("company_id = :company_id ORDER BY nazev ", ['company_id' => $companyId]);     
+            
+            ### proměnné pro companyPositions
+            $representative;
+            $jobs;
+            $companyId;
+            
+            include ConfigurationCache::eventTemplates()['templates']."page/companyPositions/positions.php";            
+        }
     }
     
 } else {
