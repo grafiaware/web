@@ -26,8 +26,9 @@ use Events\Model\Entity\CompanyInterface;
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
 
+use Site\ConfigurationCache;
+
 use Events\Middleware\Events\Controler\FilterControler;
-use Events\Model\Entity\RepresentativeInterface;
 use Access\Enum\RoleEnum;
 
 
@@ -160,7 +161,7 @@ foreach ($companies as $company) {
         $companyJobs =  $jobRepo->find("id in ($joJobsIn)  AND company_id = :company_id AND published=1 ORDER BY nazev ",
                                           array_merge($jobIds, ['company_id' => $company->getId()]));  
     } else {
-        $companyJobs = [];  // $jobRepo->find("company_id = :company_id AND published=1 ORDER BY nazev ", ['company_id' => $company->getId()]);            
+        $companyJobs = [];  //            
     }
     $viewCompanies[] = ['company'=>$company, 'companyJobs'=>$companyJobs];
     $jobsCount = $jobsCount + count($companyJobs);
@@ -171,41 +172,27 @@ if  ($jobsCount == 0) {
      echo Html::tag("div", ["class"=>"ui red segment"], Html::p("Zadanému fitru neodpovídá žádná položka." , []));                 
 } else {
         
-    /** @var VisitorJobRequestRepo $jobRequestRepo */
-    $jobRequestRepo = $container->get(VisitorJobRequestRepo::class);      
-    $loginName = $statusViewModel->getUserLoginName();
+   
     
     ## display
     foreach ($viewCompanies as $viewCompany) {
-        if ($viewCompany['companyJobs']) {
+        $jobs = $viewCompany['companyJobs'];
+        if ($jobs) {
             $companyId = $viewCompany['company']->getId();
-            $isRepresentativeOfCompany = isset($representative) && $companyId==($representative->getCompanyId());
             $uriCascadeCompany = "events/v1/data/company/$companyId";
             echo Html::tag('div', 
                     [
                         'class'=>'cascade nazev-firmy',
                         'data-red-apiuri'=>$uriCascadeCompany,
                     ]
-                );     
-            /** @var JobInterface $job */
-            foreach ($viewCompany['companyJobs'] as $job) {
-                $jobId = $job->getId();
-                $isVisitorDataPost = isset($loginName) && null!==$jobRequestRepo->get($loginName, $jobId);
-                $visitorJobRequestCount = count($jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $jobId] ));
-                
-                ## proměnné pro pozice.php
-                $isVisitor;
-                $isRepresentativeOfCompany;
-                $isVisitorDataPost;
-                $visitorJobRequestCount;
-                $block; // je chybně v contentNotLoggedIn
-                
-                $uriCascadeCompanyFamilyJob = "events/v1/data/company/$companyId/job/$jobId";
-                $uriCascadeJobFamilyJobrequest = "events/v1/data/job/$jobId/jobrequest/$loginName";
-                $uriCascadeJobFamilyJobrequestList = "events/v1/data/job/$jobId/jobrequest";
-                
-                include "pozice.php";  // cascade job a jobrequest
-            }
+                );
+            
+            ### proměnné pro companyPositions
+            $representative;
+            $jobs;
+            $companyId;
+            
+            include ConfigurationCache::eventTemplates()['templates']."page/companyPositions/positions.php";
         }
     }        
         
