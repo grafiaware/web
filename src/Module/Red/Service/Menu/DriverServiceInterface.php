@@ -1,6 +1,7 @@
 <?php
 namespace Red\Service\Menu;
 
+use Red\Model\Entity\MenuItemInterface;
 use Red\Component\View\Menu\DriverComponentInterface;
 
 /**
@@ -9,5 +10,7 @@ use Red\Component\View\Menu\DriverComponentInterface;
  */
 interface DriverServiceInterface {
     
-    public function completeDriverComponent(DriverComponentInterface $driver, $uid, $isPresented);
+    public function getMenuItem($uid);
+    
+    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, $isPresented, $itemType);
 }

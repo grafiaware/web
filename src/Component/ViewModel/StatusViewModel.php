@@ -95,7 +95,6 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      * {@inheritdoc}
      *
      * Informuje zda prezentace je v editovatelném režimu a současně prezentovaný obsah je editovatelný přihlášeným uživatelem.
-     * Editovat smí uživatel s rolí 'sup'
      *
      * @return bool
      */

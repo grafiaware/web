@@ -212,7 +212,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
                     'langCode' => $this->getPresentationLangCode(),
                     'title' => ConfigurationCache::layoutControler()['title'],
                     // podmínění insert css souborů v head/css.php
-                    'isEditableMode' => $this->isPartInEditableMode(),
+                    'isContentEditable' => $this->isContentEditable(),
                     // na mnoha místech - cesty k souborům zadané v konfiguraci
                     'linksCommon' => ConfigurationCache::layoutControler()['linksCommon'],
                     'linksSite' => ConfigurationCache::layoutControler()['linksSite'],
@@ -233,7 +233,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      */
     protected function getComponentViews(ServerRequestInterface $request) {
         $views = array_merge(
-                $this->isPartInEditableMode() ? $this->getEditableModeViews($request) : [],
+                $this->isContentEditable() ? $this->getEditableModeViews($request) : [],
                 $this->getMenuViews(),
                 $this->getBlockLoaders(),
                 $this->getCascadeViews(),
@@ -382,7 +382,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
         $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
-        if($this->isPartInEditableMode()) {
+        if($this->isContentEditable()) {
             return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, ConfigurationCache::layoutControler()['cascade.cacheLoadOnce']); 
         } else {
             return $this->cascadeLoaderFactory->getRedLoaderElement($dataRedApiUri, ConfigurationCache::layoutControler()['cascade.cacheReloadOnNav']);             
@@ -402,7 +402,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         return $this->getNoContentView($message);
     }
 
-    private function isPartInEditableMode() {
+    private function isContentEditable() {
         //TODO: SV !!NUTNÉ!! zde se rozhoduje, jestli se načítají skripty potřebné pro editaci 
         $statusSecurity = $this->statusSecurityRepo->get();
         $userActions = $statusSecurity->getEditorActions();

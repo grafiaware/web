@@ -81,7 +81,7 @@ interface MenuViewModelInterface extends ViewModelInterface {
      *
      * @return ItemViewModelInterface array af
      */
-    public function getSubTreeNodes();
+    public function getSubTreeNodes(string $rootName, $maxDepth= null);
 
 //    public function setSubTreeItemViews($itemViews);
 //
