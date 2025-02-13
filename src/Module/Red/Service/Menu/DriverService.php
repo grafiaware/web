@@ -12,6 +12,7 @@ use Red\Component\View\Menu\DriverButtonsComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
+use Red\Model\Entity\MenuItemInterface;
 use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
 use Red\Component\Renderer\Html\Menu\DriverRenderer;
@@ -58,7 +59,7 @@ class DriverService implements DriverServiceInterface{
     
     
     
-    private function getMenuItem($uid) {
+    public function getMenuItem($uid) {
         return $this->menuItemRepo->get($this->statusViewModel->getPresentedLanguage()->getLangCode(), $uid);        
     }
     
@@ -115,19 +116,18 @@ class DriverService implements DriverServiceInterface{
         return $buttonComponents;
     }
     
-    public function completeDriverComponent(DriverComponentInterface $driver, $uid, $isPresented){
+    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, $isPresented, $itemType){
         /** @var DriverViewModelInterface $driverViewModel */
         $driverViewModel = $driver->getData();
 
-        $menuItem = $this->getMenuItem($uid);
-        $driverViewModel->withMenuItem($menuItem);
+        $driverViewModel->withMenuItem($menuItem);         
         $driverViewModel->setPresented($isPresented);
-        $driverViewModel->setItemType($this->getItemType($uid));
         if($this->statusViewModel->presentEditableContent()) {
             if ($driverViewModel->isPresented() && $menuItem->getApiGeneratorFk()!='root') {
+                $driverViewModel->setItemType($itemType);     // užito tady pro create buttons a v  ButtonsMenuAddRenderer + ButtonsMenuPasteRenderer pro renderování buttonů
                 $buttonsComponent = $this->container->get(DriverButtonsComponent::class);
                 $driver->appendComponentView($buttonsComponent, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
-                $buttons = $this->getDriverButtonComponents($driverViewModel->getItemType());
+                $buttons = $this->getDriverButtonComponents($itemType);
                 $buttonsComponent->appendComponentViewCollection($buttons);  // tady button komponenty dědí DriverViewModel
             }            
             $driver->setRendererName(DriverRendererEditable::class);

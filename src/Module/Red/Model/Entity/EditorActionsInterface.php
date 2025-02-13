@@ -32,7 +32,7 @@ interface EditorActionsInterface extends SecurityPersistableEntityInterface {
      *
      * @return bool
      */
-    public function presentEditableMenu(): bool;
+//    public function presentEditableMenu(): bool;
 
     ###
 
