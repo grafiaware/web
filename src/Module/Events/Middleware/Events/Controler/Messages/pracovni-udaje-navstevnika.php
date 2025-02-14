@@ -28,7 +28,9 @@ use Pes\Text\Text;
                 <h2>Veletrh práce a vzdělávání - zájemce o pozici</h2>
                 <h2><?= $job->getNazev() ?></h2>
 
-                <!-- <h3>Pracovní údaje návštěvníka - praci.najdisi.cz</h3> -->
+                <hr/>
+                <p>Tato zpráva je zaslána aplikací z www stránek Veletrh práce a vzdělávání - praci.najdisi.cz</p>
+                <p>Zasíláme pracovní údaje zájemce o zaměstnání na uvedené pozici tak, jak je vyplnil.<p>
                 <hr/>
                 <br>
                 <p> Jméno:&nbsp;&nbsp; <b>
