@@ -128,7 +128,7 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
             if(isset($this->jobRequest)) {    // job request již byl uložen
                 if($this->isRepresentative()) {  // jen podle role, nezjišťuji jestli reprezentuje company - nemám company repo a v kontoleru se automaticky odesílá právě přuhlášenému reprezentantovi
                     $buttonAction = $this->getFamilyRouteSegment()->getSavePath()."/send";  // routa s id job requestu doplněná o /send
-                    $buttonTitle = 'Odeslat uložený zájem o pozici na svůj e-mail';
+                    $buttonTitle = 'Chci odeslat uložený zájem o pozici na svůj e-mail';
                 }
                 $item = [
                 //route
