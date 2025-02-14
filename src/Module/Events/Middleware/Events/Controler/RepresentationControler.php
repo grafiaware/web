@@ -53,9 +53,9 @@ class RepresentationControler extends FrontControlerAbstract {
             if (isset($representative)) {
                 // nastavení aktuálního repesentative ve statusu
                 $repreActions->setRepresentative($representative);
-                $this->addFlashMessage("set repsentative company '$companyId'", FlashSeverityEnum::INFO);
+                $this->addFlashMessage("set representative of the company '$companyId'", FlashSeverityEnum::INFO);
             } else {
-                $this->addFlashMessage("unable to set representation of company '$companyId'", FlashSeverityEnum::WARNING);            
+                $this->addFlashMessage("cannot be set to represent the company '$companyId'", FlashSeverityEnum::WARNING);
             }
         }
         $repreActions->setDataEditable($editData);
