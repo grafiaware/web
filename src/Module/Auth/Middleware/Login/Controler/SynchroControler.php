@@ -35,7 +35,8 @@ use Auth\Model\Entity\LoginAggregateCredentials;
 use Auth\Model\Entity\Registration;
 use Auth\Model\Entity\LoginAggregateRegistration;
 
-
+use DateTime;
+use Exception;
 
 
 /**
@@ -60,36 +61,27 @@ class SynchroControler   extends FrontControlerAbstract {
 
     
     
-    public function synchro (ServerRequestInterface $request){                               
-        $controlledItems = (new RequestParams())->getParsedBodyParam($request,'controlledItems');
+    
+    
+    public function synchro (ServerRequestInterface $request){   
+            
+        //  addItems - beru postupne polozky z referencmi db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db - jsou k  pridavani do zavisle db
+        //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazanu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
+            $controlledItems = $request->getParsedBody();     
         
-//------------------------------
-        //$sourceLogins = [];
+//------------------------------ 
 //        $controlledItems = ["AndyAndy",	"Andy_/Akka/",	"CvicnyRepre",	"events_administrator",
 //                         "Kralik", "navstevnik", "navstevnik1", "representative","visitor", "vlse2610" ];
-//------------------------------   
+//------------------------------  
+       // $controlledItems  pole, jen loginy,  pole ze zavisle db
         $existing=[];  
-        $loginsToRemove=[]; $fullToAdd =[];
+        $fullToAdd =[];
         
         if (isset($controlledItems))  {   
-            //beru am sourceLogins z events, zda jsou v auth. Ty co nejsou, jsou navic v events   --- ty v events bede butno vymazat
-//            foreach ($controlledItems  as $login) {
-//                   /** @var LoginAggregateFullInterface $full */ 
-//                $full = $this->loginAggregateFullRepo->get($login);
-//                $ideName = $full->getLoginName();   //je login
-//                if (isset($full)) {                                
-//                   $existing[$ideName] = $full;
-//                }
-//                else {
-//                   $loginsToRemove [$ideName] = $full;  
-//                }
-//            }
-
-            
-            
-            // beru logins z auth, zda jsou  v ccontrolledItems. 
-            // zy co nejsou, jsou v auth navic , a budou se  pak  pridavat
+            // beru logins z auth, zda jsou  v controlledItems. 
+            // ty co nejsou, jsou v auth navic , a budou se  pak  pridavat
             $fulls = $this->loginAggregateFullRepo->findAll();
+            
             if ($fulls) {                                  
                          /** @var LoginAggregateFullInterface $onefull */ 
                 foreach ($fulls  as $onefull) {
@@ -101,12 +93,9 @@ class SynchroControler   extends FrontControlerAbstract {
                         
                         $reArr = array_diff($controlledItems, [$ideName] ) ;
                         $controlledItems = $reArr;
-//                        $controlledItems = array_diff($controlledItems, [0 =>$ideName] ) ; // muze byt ten samy?
+//                        $controlledItems = array_diff($controlledItems, [0 =>$ideName] ) ; // muze byt ten samy? spis ne
                     }
                     else {
-//                        $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();    
-//                        $fullToAdd [$ideName]['email'] = $onefull->getRegistration()->getEmail();
-//                        $fullToAdd [$ideName]['info'] = $onefull->getRegistration()->getInfo();
                         if ( ( null !== $onefull->getCredentials() ) ) {
                             $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();
                         } else {
@@ -121,31 +110,18 @@ class SynchroControler   extends FrontControlerAbstract {
                         }                                               
                     }
                 }
-                $loginsToRemove = $controlledItems; //zde je pole jen loginu
-            }                        
-            // ze vstupniho pole $controlledItems mazat ty, co najdu - zbytek pak je prvni vysledne pole - jjsou k  vymazani
-            // a do druheho vysledneho pole patri ty, co nenajdu - jsou k  pridavani
-            
-            $result = [  'addItems' => $fullToAdd, 'remItems' => $loginsToRemove ];
+                
+            }          
+        
+            $result = [  'addItems' => $fullToAdd, 'remItems' => $controlledItems ];
             
         }else {
             $this->addFlashMessage("Nejsou data pro synchro-login.",  FlashSeverityEnum::WARNING);
             $result = [];
         }        
 
-    return $this->createJsonOKResponse( $result, 200); // 303 See Other        
-    //
-    //return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other 
-    //return $this->createStringOKResponse("Byl jsem v AUTH Synchro", 200); // 303 See Other
-                                    
+    return $this->createJsonOKResponse( $result, 200); // 303 See Other            
+//    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other                                     
     }
     
 }
-
-
-
-//            try {
-//                    $ret = $mail->mail($params); // posle mail
-//                } catch (MailExceptionInterface $exc) {
-//                    echo $exc->getTraceAsString();
-//                }          

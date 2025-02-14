@@ -50,10 +50,10 @@ class SynchroControler   extends FrontControlerAbstract {
     public function synchro (ServerRequestInterface $request){                
         $logins = $this->loginRepo->findAll();
         
-        $sourceLogins=[];
+        $controlledItems=[];
               /** @var LoginInterface $login */
         foreach ($logins as $login) {
-            $sourceLogins[] = $login->getLoginName();
+            $controlledItems[] = $login->getLoginName();
         }
         
         
@@ -72,12 +72,12 @@ class SynchroControler   extends FrontControlerAbstract {
         // options pro stream_context_create() vždy definuj s položkou http
         // url adresu pro file_get_contents(url, ..) definuj: https://....
         // use key 'http' even if you send the request to https://...
-            
+        $json = json_encode($controlledItems);
         $options = [
             'http' => [
-                'header' => "Content-type: application/json; charset=utf-8",
+                'header' => "Content-type: application/json",
                 'method' => 'POST' ,
-                'content' => json_encode($sourceLogins),
+                'content' => $json,
             ],
         ];
 
@@ -86,7 +86,7 @@ class SynchroControler   extends FrontControlerAbstract {
         
         if ($result!==false) {
             $resultData = json_decode($result);            
-            $this->addFlashMessage("Přišlo ** $resultData[0]  **", FlashSeverityEnum::SUCCESS); 
+            $this->addFlashMessage("Přišlo **  **", FlashSeverityEnum::SUCCESS); 
         } else {
             $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
         }
