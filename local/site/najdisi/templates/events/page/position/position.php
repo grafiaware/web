@@ -9,10 +9,10 @@ use Pes\Text\Html;
                 
                 <?php
                 if($isVisitor AND $isVisitorDataPost) {
-                    include 'pozice/titleVisitorPost.php';
+                    include 'position/titleVisitorPost.php';
                 }
                 if($isRepresentativeOfCompany) {
-                    include 'pozice/titleRepresentative.php';
+                    include 'position/titleRepresentative.php';
                 }
                 ?>
                     
@@ -31,11 +31,11 @@ use Pes\Text\Html;
                             <div class="ui grid">
                                 <?php
                                 if ($isVisitor) {
-                                    include 'pozice/contentVisitor.php';
+                                    include 'position/contentVisitor.php';
                                 } elseif ($isRepresentativeOfCompany) {
-                                    include 'pozice/contentRepresentative.php';
+                                    include 'position/contentRepresentative.php';
                                 } else {
-                                    include 'pozice/contentOthers.php';
+                                    include 'position/contentOthers.php';
                                 }
                                 ?>
                             </div>
