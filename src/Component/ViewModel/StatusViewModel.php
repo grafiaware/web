@@ -13,6 +13,11 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
+use Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\StatusFlashInterface;
+
+
 /**
  * Description of StatusViewModelAbstract
  *
@@ -34,6 +39,12 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      * @var StatusFlashRepo
      */
     protected $statusFlashRepo;
+    
+    private $statusSecurity;
+    
+    private $statusPresentation;
+    
+    private $statusFlash;
 
     /**
      * @var ItemActionRepo
@@ -47,11 +58,14 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 //            ,
 //            ItemActionRepo $itemActionRepo
             ) {
+        parent::__construct();
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
         $this->statusFlashRepo = $statusFlashRepo;
 //        $this->itemActionRepo = $itemActionRepo;
-        parent::__construct();
+        $this->statusSecurity = $this->statusSecurityRepo->get();
+        $this->statusPresentation = $this->statusPresentationRepo->get();
+        $this->statusFlash = $this->statusFlashRepo->get();
         }
 
     public function getFlashCommand($key) {
