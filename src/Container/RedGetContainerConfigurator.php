@@ -63,6 +63,7 @@ use Red\Component\View\Menu\DriverComponentInterface;
 use Red\Component\View\Menu\DriverButtonsComponent;
 
 use Red\Component\View\Menu\MenuComponentRed;
+use Red\Component\View\Menu\MenuComponentSupervisor;
 use Red\Component\View\Menu\MenuComponentEventsAdmin;
 use Red\Component\View\Menu\MenuComponentEventsRepresentative;
 use Red\Component\View\Menu\MenuComponentEventsVisitor;
@@ -270,6 +271,13 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
 //                }
                 return $component;
             },
+                    
+            MenuComponentSupervisor::class => function(ContainerInterface $c) {
+                $component = new MenuComponentSupervisor($c->get(ComponentConfiguration::class), $c);  // kontejner
+                $component->setRendererName(MenuRenderer::class);                
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
             MenuComponentEventsAdmin::class => function(ContainerInterface $c) {
                 $component = new MenuComponentEventsAdmin($c->get(ComponentConfiguration::class), $c);  // kontejner
                 $component->setRendererName(MenuRenderer::class);                
@@ -351,6 +359,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -368,6 +377,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -385,6 +395,28 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    
+//                    $viewModel->setMaxDepth(2);
+
+                    $component->setData($viewModel);
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },
+            'menuSupervisor' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.services')['menuSupervisor'];
+                /** @var MenuComponentRed $component */
+                $component = $c->get(MenuComponentSupervisor::class);
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                if($accessPresentation->isAllowed(MenuComponentSupervisor::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -405,6 +437,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentEventsAdmin::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -422,6 +455,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentEventsRepresentative::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -439,6 +473,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentEventsVisitor::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -460,6 +495,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -478,6 +514,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
                     $viewModel = $c->get(MenuViewModel::class);
@@ -941,7 +978,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class)
+                        $c->get(AccessPresentation::class),
+                        $c->get(MenuItemRepo::class),
+                        $c->get(DriverService::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },

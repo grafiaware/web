@@ -42,9 +42,9 @@ class EditorActions extends PersistableEntityAbstract implements EditorActionsIn
      *
      * @return bool
      */
-    public function presentEditableMenu(): bool {
-        return $this->editableMenu;
-    }
+//    public function presentEditableMenu(): bool {
+//        return $this->editableMenu;
+//    }
 
     /**
      * Nastaví informaci, že prezentace je přepnuta do modu editace layoutu.

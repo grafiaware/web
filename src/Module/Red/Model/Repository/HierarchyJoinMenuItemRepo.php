@@ -99,7 +99,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract implements HierarchyJoinMen
      * @param int $maxDepth int or NULL
      * @return HierarchyAggregateInterface array of
      */
-    public function findSubTree($langCode, $rootUid, $maxDepth=NULL) {
+    public function findSubTree($langCode, $rootUid, $maxDepth= null) {
         return $this->recreateEntitiesByRowDataArray($this->dataManager->getSubTree($langCode, $rootUid, $maxDepth));
     }
 
