@@ -255,7 +255,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             // Toto jméno odpovídá jménu proměnné v PHP šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
             // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
             
-            //  název proměnné v šabloně => [routa => název služby v kontejneru (obvykle název třídy komponentu)]
+            //  název proměnné v šabloně => [routa => název služby v konteneru (obvykle název třídy komponentu)]
             'contextServiceMap' => [
 //                    'info' => ["web/v1/service/info"=>InfoBoardComponent::class],
                 ],
@@ -263,7 +263,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'contextLayoutMap' => [
                     'menuSvisle' => 'menuVertical',
                 ],
-            //  název proměnné v šabloně => název služby v kontejneru (obvykle název menu komponentu jako string)
+            //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutEditableMap' => [
                     'bloky' => 'menuBlocks',
                     'kos' => 'menuTrash',
@@ -272,15 +272,10 @@ class ConfigurationWeb extends ConfigurationConstants {
             'contextTargetMap' => [
                     'content'=>['id'=>'menusvisle_target'],  
                 ],
-            //  název proměnné v šabloně => ['service'=>název služby v kontejneru (obvykle název menu komponentu jako string),
-            //                              'targetContext'=>název proměnné v šabloně - index v 'contextTargetMap']
             'contextMenuMap' => [
                     'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
                 ],
-            //  název proměnné v šabloně => ['service'=>název služby v kontejneru (obvykle název menu komponentu jako string),   
-            //                              'targetContext'=>id elementu, do kterého se vloží obsah]
             'contextMenuEditableMap' => [
-                    'supevisor' => ['service'=>'menuSupervisor', 'targetId'=>'menutarget_content'],
                     'bloky' => ['service'=>'menuBlocks', 'targetId'=>'menutarget_content'],
                     'kos' => ['service'=>'menuTrash', 'targetId'=>'menutarget_content'],
                 ],
@@ -305,32 +300,32 @@ class ConfigurationWeb extends ConfigurationConstants {
 //            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
 //            - 
                 
-                // název služby (komponentu) => [konfigurace]
+                
                 
                     'menuSupervisor' => [
-                        'rootName' => 'root',
+                        'rootName' => 'menu_vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
-//                    'menuEventsAdmin' => [
-//                        'rootName' => '',   // dosud neexistuje položka v menu_root a menu_item
-//                        'itemtype' => ItemTypeEnum::MULTILEVEL,
-//                        'levelRenderer' => 'menuVertical.levelRenderer',
-//                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
-//                        ],
-//                    'menuEventsRepresentative' => [
-//                        'rootName' => '',   // dosud neexistuje položka v menu_root a menu_item
-//                        'itemtype' => ItemTypeEnum::ONELEVEL,
-//                        'levelRenderer' => 'menuVertical.levelRenderer',
-//                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
-//                        ],
-//                    'menuEventsVisitor' => [
-//                        'rootName' => '',   // dosud neexistuje položka v menu_root a menu_item
-//                        'itemtype' => ItemTypeEnum::ONELEVEL,
-//                        'levelRenderer' => 'menuVertical.levelRenderer',
-//                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
-//                        ],
+                    'menuEventsAdmin' => [
+                        'rootName' => 'menu_vertical',
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        ],
+                    'menuEventsRepresentative' => [
+                        'rootName' => 'menu_vertical',
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        ],
+                    'menuEventsVisitor' => [
+                        'rootName' => 'menu_vertical',
+                        'itemtype' => ItemTypeEnum::ONELEVEL,
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        ],
                     'menuVertical' => [
                         'rootName' => 'menu_vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,

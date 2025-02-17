@@ -37,6 +37,7 @@ use Status\Model\Enum\FlashSeverityEnum;
 class LoginLogoutControler extends FrontControlerAbstract {
 
     private $authenticator;
+    private $superAuthenticator;
 
     private $loginAggregateFullRepo;
 
@@ -48,10 +49,12 @@ class LoginLogoutControler extends FrontControlerAbstract {
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
             LoginAggregateFullRepo $loginAggregateFullRepo,
-                    AuthenticatorInterface $authenticator) {
+                    AuthenticatorInterface $authenticator,
+                    AuthenticatorInterface $superAuthenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateFullRepo = $loginAggregateFullRepo;
         $this->authenticator = $authenticator;
+        $this->superAuthenticator = $superAuthenticator;
     }
 
     public function login(ServerRequestInterface $request) {
@@ -81,6 +84,35 @@ class LoginLogoutControler extends FrontControlerAbstract {
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
+    }
+    
+    public function superlogin(ServerRequestInterface $request) {
+        $requestParams = new RequestParams();
+        $login = $requestParams->getParsedBodyParam($request, 'login', FALSE);
+
+        if ($login) {
+            // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
+            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
+            $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
+            $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
+
+            if ($loginJmeno AND $loginHeslo) {
+                /** @var LoginAggregateFull $loginAggregateFull */
+                $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
+
+                if (isset($loginAggregateFull) AND $this->superAuthenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
+                    $securityStatus = $this->statusSecurityRepo->get();  // ze session
+                    /** @var StatusSecurityInterface $securityStatus */
+                    $securityStatus->new($loginAggregateFull);
+                    $this->addFlashMessage("Jste přihlášeni.", FlashSeverityEnum::SUCCESS);
+                }
+                else {
+                    $this->addFlashMessage("Neplatné přihlášení!", FlashSeverityEnum::WARNING);
+                }
+            }
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other        
     }
 
     public function logout(ServerRequestInterface $request) {
