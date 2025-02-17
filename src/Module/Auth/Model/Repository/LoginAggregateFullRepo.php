@@ -50,15 +50,41 @@ class LoginAggregateFullRepo extends RepoAbstract implements LoginAggregateFullR
     public function get($loginName): ?LoginAggregateFullInterface {
         return $this->getEntity($loginName);
     }
-
+    
+    /**
+     * 
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return array LoginAggregateFullInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array {
+        return $this->findEntities($whereClause, $touplesToBind);
+    }
+    
+    /**
+     * 
+     * @return array LoginAggregateFullInterface[]
+     */
+    public function findAll() : array {
+        return $this->findEntities();
+    }
+    
+    /**
+     * 
+     * @param LoginAggregateFullInterface $loginAgg
+     */
     public function add(LoginAggregateFullInterface $loginAgg) {
         $this->addEntity($loginAgg);
     }
 
+    /**
+     * 
+     * @param LoginAggregateFullInterface $loginAgg
+     */
     public function remove(LoginAggregateFullInterface $loginAgg) {
         $this->removeEntity($loginAgg);
     }
-
+    
     #### protected ###########
 
     protected function indexFromEntity(LoginAggregateFullInterface $loginAggReg) {
