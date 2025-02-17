@@ -18,15 +18,15 @@ use Pes\Text\Html;
             
 
             <?php
-                    $controlledItems = ["AndyAndy",	"Andy_/Akka/",	"CvicnyRepre",	"events_administrator",
-                         "Kralik", "navstevnik", "navstevnik1", "representative","visitor", "vlse2610" ];
-                    foreach ($controlledItems as $key => $value) {
+//                    $controlledItems = ["AndyAndy",	"Andy_/Akka/",	"CvicnyRepre",	"events_administrator",
+//                         "Kralik", "navstevnik", "navstevnik1", "representative","visitor", "vlse2610" ];
+//                    foreach ($controlledItems as $key => $value) {
             ?>
-                          <?=  
-                            "<input name='controlledItems[".$key."]' value='$value' >"
+                          <?=  d
+//                            "<input name='controlledItems[".$key."]' value='$value' >"
                           ?> 
             <?php
-                    }
+//                    }
             
             if($readonly === '') {
             ?>
@@ -39,10 +39,9 @@ use Pes\Text\Html;
             </div>
             </></p>
             <div>
-                <?=                
-                "<button class='ui primary button' type='submit' "
-                                . "formaction='".Text::encodeUrlPath("auth/v1/ladimsynchro")."' > ladim Synchro - zakladna dat</button>" 
-                ?>                                                                                                                                                                                                                                                 
+                     
+<!--       //Text::encodeUrlPath("auth/v1/ladimsynchro").  "' > ladim Synchro - zakladna dat</button>"      -->
+                                                                                                                                                                                                                                                           
             </div>
             
             <?php
