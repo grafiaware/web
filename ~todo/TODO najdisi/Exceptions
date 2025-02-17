@@ -1,0 +1,9 @@
+critical | 2025-02-17 13:21:25 | Pes\View\Renderer\Exception\TemplateRenderingException exception  Nastala výjimka při vykonávání PHP kódu template 'local/site/najdisi/static/admin-representative/template.php'. on line 201 in file /home/www/najdisi.cz/www/praci25.najdisi.cz/vendor/pes/pes/src/View/Renderer/PhpTemplateRenderer.php
+critical | 2025-02-17 13:21:25 | Error Call to a member function getDataEditable() on null on line 29 in file /home/www/najdisi.cz/www/praci25.najdisi.cz/local/site/najdisi/static/admin-representative/template.php
+
+
+
+critical | 2025-02-17 13:05:57 | Pes\Middleware\Exception\UnprocessedRequestException exception  Nevyhodnocený request: řetézec middleware vyčerpán bez získání výstupu. method: GET, path: /sitemap_index.xml on line 26 in file /home/www/najdisi.cz/www/praci25.najdisi.cz/vendor/pes/pes/src/Middleware/UnprocessedRequestHandler.php
+critical | 2025-02-17 14:01:18 | Pes\Middleware\Exception\UnprocessedRequestException exception  Nevyhodnocený request: řetézec middleware vyčerpán bez získání výstupu. method: GET, path: /.well-known/traffic-advice on line 26 in file /home/www/najdisi.cz/www/praci25.najdisi.cz/vendor/pes/pes/src/Middleware/UnprocessedRequestHandler.php
+critical | 2025-02-17 14:14:00 | Pes\Middleware\Exception\UnprocessedRequestException exception  Nevyhodnocený request: řetézec middleware vyčerpán bez získání výstupu. method: GET, path: /robots.txt on line 26 in file /home/www/najdisi.cz/www/praci25.najdisi.cz/vendor/pes/pes/src/Middleware/UnprocessedRequestHandler.php
+
