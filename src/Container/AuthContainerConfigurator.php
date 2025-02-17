@@ -132,7 +132,6 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
-            AuthenticatorInterface::class => DbHashAuthenticator::class,
             // components
             'login' => LoginComponent::class,
             'logout' => LogoutComponent::class,
@@ -326,7 +325,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(LoginAggregateFullRepo::class),
-                        $c->get(AuthenticatorInterface::class))
+                        $c->get(DbHashAuthenticator::class),
+                        $c->get(DbAuthenticator::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },

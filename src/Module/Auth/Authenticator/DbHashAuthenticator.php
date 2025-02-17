@@ -2,6 +2,7 @@
 
 namespace Auth\Authenticator;
 
+use Auth\Authenticator\AuthenticatorInterface;
 use Pes\Security\Password\Password;
 
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;

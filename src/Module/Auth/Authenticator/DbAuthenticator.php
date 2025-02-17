@@ -8,12 +8,8 @@
 
 namespace Auth\Authenticator;
 
-use Red\Model\Entity\LoginAggregateCredentialsInterface;
-use Red\Model\Entity\LoginAggregate;
-
-use Auth\Model\Dao\LoginAggregateReadonlyDao;
-
-use Pes\Type\Date;
+use Auth\Authenticator\AuthenticatorInterface;
+use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 
 /**
  * Description of Menu
@@ -40,9 +36,10 @@ class DbAuthenticator implements AuthenticatorInterface {
             }
         }
         if ($mandatory) {
-            if ($loginAggregateEntity->getCredentials()->getPasswordHash()==$password)
-            $authenticated = true;
+            if ($loginAggregateEntity->getCredentials()->getPasswordHash()==$password) {
+                $authenticated = true;
+            }
         }
-        return $authenticated;
+        return $authenticated ?? false;
     }
 }
