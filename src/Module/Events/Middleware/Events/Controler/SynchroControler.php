@@ -84,10 +84,15 @@ class SynchroControler   extends FrontControlerAbstract {
         if ($result!==false) {
             $resultData = json_decode($result, true);            
             
-            if ( $resultData['addItems'] ) {                                           
+            if ( $resultData['addItems'] ) {        
+                              /** @var LoginInterface $loginItem */
                 foreach ($resultData['addItems'] as $key => $loginItem) {                                
                     $loginA =  new Login();
                     $loginA->setLoginName($key);
+                    $loginA->setRole($loginItem['role']);
+                    $loginA->setEmail($loginItem['email']);
+                    $loginA->setInfo($loginItem['info']);
+                    $loginA->setModul($loginItem['modul']);
                     
                     $this->loginRepo->add($loginA);
                 }

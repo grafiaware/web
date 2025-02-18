@@ -29,7 +29,11 @@ class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
      */
     public function hydrate(EntityInterface $login, ArrayAccess $rowData) {
         /** @var LoginInterface $login */
-        $login->setLoginName( $this->getPhpValue( $rowData, 'login_name'));
+        $login->setLoginName  ( $this->getPhpValue ( $rowData, 'login_name') )
+                    ->setRole ( $this->getPhpValue ( $rowData, 'role') )
+                    ->setEmail( $this->getPhpValue ( $rowData, 'email') )
+                    ->setInfo ( $this->getPhpValue ( $rowData, 'info') )
+                    ->setModul( $this->getPhpValue ( $rowData, 'modul') )    ;
         
     }
 
@@ -40,8 +44,11 @@ class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
      */
     public function extract(EntityInterface $login, ArrayAccess $rowData) {
         /** @var LoginInterface $login */
-         $this->setSqlValue( $rowData, 'login_name', $login->getLoginName());
-                
+        $this->setSqlValue( $rowData, 'login_name', $login->getLoginName());         
+        $this->setSqlValue( $rowData, 'role', $login->getRole() );
+        $this->setSqlValue( $rowData, 'email', $login->getEmail() );
+        $this->setSqlValue( $rowData, 'info', $login->getInfo() );
+        $this->setSqlValue( $rowData, 'modul', $login->getModul() );                
     }
 
 }
