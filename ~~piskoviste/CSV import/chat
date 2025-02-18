@@ -1,0 +1,190 @@
+V PHP můžeš číst CSV soubor několika způsoby. Nejčastěji se používá funkce `fgetcsv()`, která umožňuje čtení CSV řádek po řádku.  
+
+### **Jednoduchý příklad čtení CSV souboru**  
+```php
+<?php
+$filename = "data.csv"; // Název CSV souboru
+
+if (($handle = fopen($filename, "r")) !== FALSE) { 
+    while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) { 
+        print_r($row); // Výpis obsahu řádku
+    }
+    fclose($handle);
+} else {
+    echo "Nepodařilo se otevřít soubor.";
+}
+?>
+```
+✅ Tento skript:  
+- Otevře CSV soubor pro čtení (`fopen()`)
+- Použije `fgetcsv()` ke čtení jednotlivých řádků jako pole (`array`)
+- Zavře soubor (`fclose()`)
+
+---
+
+### **Pokročilejší čtení CSV souboru s hlavičkou**
+Pokud má CSV první řádek jako hlavičku, můžeme ji použít jako klíče v asociativním poli:
+
+```php
+<?php
+$filename = "data.csv";
+
+if (($handle = fopen($filename, "r")) !== FALSE) {
+    $header = fgetcsv($handle); // První řádek jako hlavička
+    $data = [];
+
+    while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        $data[] = array_combine($header, $row); // Spojí hlavičku s daty
+    }
+
+    fclose($handle);
+    print_r($data);
+} else {
+    echo "Nepodařilo se otevřít soubor.";
+}
+?>
+```
+✅ Tento skript:
+- Přečte první řádek jako hlavičku (`fgetcsv()`)
+- Použije `array_combine()` k přiřazení hodnot ke klíčům
+- Uloží data do pole a vypíše je
+
+---
+
+### **Použití `SplFileObject` (Modernější přístup)**
+Alternativou k `fgetcsv()` je `SplFileObject`:
+
+```php
+<?php
+$file = new SplFileObject("data.csv");
+$file->setFlags(SplFileObject::READ_CSV);
+
+foreach ($file as $row) {
+    print_r($row);
+}
+?>
+```
+✅ Tento přístup je efektivnější pro velké soubory.
+
+Potřebuješ CSV soubor i zapisovat, nebo jen číst? 🚀
+
+
+Kromě `fgetcsv()` a `SplFileObject` existuje několik dalších způsobů, jak číst CSV soubor v PHP. Zde jsou různé alternativy:
+
+---
+
+### **1️⃣ Použití `file()` a `explode()`**
+Tento způsob načte celý soubor do pole řádků a pak je rozděluje ručně pomocí `explode()`.
+
+```php
+<?php
+$filename = "data.csv";
+$lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+foreach ($lines as $line) {
+    $row = explode(",", $line);
+    print_r($row);
+}
+?>
+```
+✅ **Výhody**:  
+- Jednoduché a rychlé pro malé soubory.  
+- Nemusíš používat souborové ukazatele.  
+
+❌ **Nevýhody**:  
+- Může způsobit problémy, pokud jsou v CSV souboru hodnoty uzavřené v uvozovkách nebo obsahují čárky.  
+
+---
+
+### **2️⃣ Použití `str_getcsv()`**
+Tento přístup kombinuje `file()` a funkci `str_getcsv()`, která umí lépe parsovat CSV řádky.
+
+```php
+<?php
+$filename = "data.csv";
+$lines = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+foreach ($lines as $line) {
+    $row = str_getcsv($line);
+    print_r($row);
+}
+?>
+```
+✅ **Výhody**:  
+- Funguje podobně jako `fgetcsv()`, ale bez potřeby otevření souboru ručně.  
+
+❌ **Nevýhody**:  
+- Načítá celý soubor do paměti (nevhodné pro velmi velké soubory).  
+
+---
+
+### **3️⃣ Použití knihovny jako `League\Csv`**
+Pokud chceš robustnější řešení, můžeš použít knihovnu [League\Csv](https://csv.thephpleague.com/).
+
+📌 Instalace přes Composer:
+```
+composer require league/csv
+```
+
+📌 Použití:
+```php
+<?php
+require 'vendor/autoload.php';
+
+use League\Csv\Reader;
+
+$csv = Reader::createFromPath('data.csv', 'r');
+$csv->setHeaderOffset(0); // Pokud má CSV hlavičku
+
+foreach ($csv as $row) {
+    print_r($row);
+}
+?>
+```
+✅ **Výhody**:  
+- Podporuje pokročilé funkce (např. filtrování, validaci dat).  
+- Umí pracovat s velkými soubory efektivně.  
+
+❌ **Nevýhody**:  
+- Potřebuje instalaci přes Composer.  
+
+---
+
+### **4️⃣ Použití PDO a dočasné SQL tabulky (pro velká data)**
+Pokud máš obrovské CSV soubory, můžeš je dočasně načíst do MySQL a pracovat s nimi pomocí SQL dotazů.
+
+```php
+<?php
+$pdo = new PDO("mysql:host=localhost;dbname=test", "root", "");
+
+$query = "
+    LOAD DATA INFILE 'data.csv' 
+    INTO TABLE my_table 
+    FIELDS TERMINATED BY ',' 
+    OPTIONALLY ENCLOSED BY '\"'
+    LINES TERMINATED BY '\n'
+    IGNORE 1 LINES"; // Přeskakuje hlavičku
+
+$pdo->exec($query);
+?>
+```
+✅ **Výhody**:  
+- Extrémně rychlé pro velká data.  
+- Možnost použití SQL dotazů k filtrování dat.  
+
+❌ **Nevýhody**:  
+- Potřebuje MySQL databázi a správná oprávnění.  
+
+---
+
+### **Shrnutí nejlepších metod**
+| Metoda                 | Vhodné pro | Výhody | Nevýhody |
+|------------------------|-----------|--------|----------|
+| `fgetcsv()`            | Střední soubory | Jednoduché, nativní | Může být pomalejší pro velké soubory |
+| `SplFileObject`        | Velké soubory | Paměťově efektivní | Méně intuitivní syntaxe |
+| `file() + explode()`   | Malé soubory | Nejjednodušší způsob | Neumí správně uvozovky a oddělovače |
+| `str_getcsv()`         | Střední soubory | Lepší než `explode()` | Načítá celý soubor do paměti |
+| `League\Csv` (Composer) | Pokročilé aplikace | Bohaté možnosti | Nutná instalace knihovny |
+| MySQL `LOAD DATA INFILE` | Velká data | Extrémně rychlé | Potřebuje databázi |
+
+📌 Jaký způsob preferuješ? 🚀
