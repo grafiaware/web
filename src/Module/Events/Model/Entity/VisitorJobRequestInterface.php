@@ -63,4 +63,6 @@ interface VisitorJobRequestInterface extends PersistableEntityInterface {
 
     public function setLetterDocument($letterDocument): VisitorJobRequestInterface;
 
+    public function setCreated($created): VisitorJobRequestInterface;
+
 }

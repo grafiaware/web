@@ -137,4 +137,9 @@ class VisitorJobRequest extends PersistableEntityAbstract implements VisitorJobR
         $this->letterDocument = $letterDocument;
         return $this;
     }
+    
+    public function setCreated($created): VisitorJobRequestInterface {
+        $this->created = $created;
+        return $this;
+    }
 }
