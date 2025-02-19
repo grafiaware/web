@@ -22,7 +22,10 @@ class LoginDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface 
                 'role',
                 'email',
                 'info',
-                'modul'            
+                'module',
+                'url',
+                'created',   
+                'updated'   
             ];
     }
 

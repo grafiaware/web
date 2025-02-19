@@ -33,7 +33,11 @@ class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
                     ->setRole ( $this->getPhpValue ( $rowData, 'role') )
                     ->setEmail( $this->getPhpValue ( $rowData, 'email') )
                     ->setInfo ( $this->getPhpValue ( $rowData, 'info') )
-                    ->setModul( $this->getPhpValue ( $rowData, 'modul') )    ;
+                    ->setModule( $this->getPhpValue ( $rowData, 'module') ) 
+                    ->setUrl  ( $this->getPhpValue ( $rowData, 'url') ) 
+                    ->setCreated($rowData->offsetGet('created') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('created')) : NULL)
+                    ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL);
+;
         
     }
 
@@ -48,7 +52,9 @@ class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
         $this->setSqlValue( $rowData, 'role', $login->getRole() );
         $this->setSqlValue( $rowData, 'email', $login->getEmail() );
         $this->setSqlValue( $rowData, 'info', $login->getInfo() );
-        $this->setSqlValue( $rowData, 'modul', $login->getModul() );                
+        $this->setSqlValue( $rowData, 'module', $login->getModule() );       
+        $this->setSqlValue( $rowData, 'url', $login->getUrl() );       
+                // created a updated jsou timestamp - readonly
     }
 
 }

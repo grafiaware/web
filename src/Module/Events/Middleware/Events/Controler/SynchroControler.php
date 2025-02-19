@@ -92,17 +92,16 @@ class SynchroControler   extends FrontControlerAbstract {
                     $loginA->setRole($loginItem['role']);
                     $loginA->setEmail($loginItem['email']);
                     $loginA->setInfo($loginItem['info']);
-                    $loginA->setModul($loginItem['modul']);
+                    $loginA->setModule($loginItem['module']);
+                    $loginA->setUrl($url);
                     
                     $this->loginRepo->add($loginA);
                 }
             }
             if ( $resultData['remItems'] ) {                                           
-                foreach ($resultData['remItems'] as  $loginItem) {                                
-                    $loginA =  new Login();
-                    $loginA->setLoginName($loginItem);
-                    
-                    $this->loginRepo->remove($loginA);
+                foreach ($resultData['remItems'] as  $loginItem) {                                                                        
+                    $loginB = $this->loginRepo->get($loginItem);
+                    $this->loginRepo->remove($loginB);
                 }
             }    
         } else {

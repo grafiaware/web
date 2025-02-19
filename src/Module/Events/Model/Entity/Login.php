@@ -16,10 +16,7 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
      * @var string
      */
     private $loginName; //NOT NULL    
-     /**
-     * @var string
-     */
-    private $modul; //NOT NULL
+   
     
      /**
      * @var string
@@ -33,6 +30,25 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
      * @var string
      */
     private $info;
+    /**
+     * @var string
+     */
+    private $module; //NOT NULL    
+     /**
+     * @var string
+     */
+    private $url;  //NOT NULL   
+    
+    /**
+     * @var \DateTime
+     */
+    private $created;    //NOT NULL
+    /**
+     * @var \DateTime
+     */
+    private $updated;    //NOT NULL
+       
+    
     
 
 
@@ -57,21 +73,19 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
      *
      * @return string
      */
-    public function getModul() {
-        return $this->modul;
+    public function getModule() {
+        return $this->module;
     }
     /**
      *
-     * @param string $modul
+     * @param string $module
      * @return LoginInterface  $this
      */
-    public function setModul(string $modul): LoginInterface {
-        $this->modul = $modul;
+    public function setModule(string $module): LoginInterface {
+        $this->module = $module;
         return $this;
     }
-    
-    
-    
+            
     
     /**
      *
@@ -124,5 +138,64 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
         $this->info = $info;
         return $this;
     }
+    
+    
+     /**
+     * 
+     * @return string
+     */
+     public function getUrl(): string {
+        return $this->url;
+    }
+    /**
+     * 
+     * @param string $url
+     * @return LoginInterface  $this
+     */
+    public function setUrl(string $url): LoginInterface {
+        $this->url = $url;
+        return $this;
+    }
            
+    
+    
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getCreated(): \DateTime {
+        return $this->created;
+    }
+    /**
+     *
+     * @param \DateTime $created
+     * @return LoginInterface
+     */
+    public function setCreated(\DateTime $created): LoginInterface {
+        $this->created = $created;
+        return $this;
+    }
+    
+    
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getUpdated(): \DateTime {
+        return $this->updated;
+    }
+    /**
+     *
+     * @param \DateTime $updated
+     * @return LoginInterface
+     */
+    public function setUpdated(\DateTime $updated): LoginInterface {
+        $this->updated = $updated;
+        return $this;
+    }
+    
+    
+    
+    
+    
 }

@@ -92,7 +92,7 @@ class SynchroControler   extends FrontControlerAbstract {
 //                        $controlledItems = array_diff($controlledItems, [0 =>$ideName] ) ; // muze byt ten samy? spis ne
                     }
                     else {
-                        $fullToAdd [$ideName]['modul'] = 'auth';
+                        $fullToAdd [$ideName]['module'] = 'auth';
                         if ( ( null !== $onefull->getCredentials() ) ) {
                             $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();
                         } else {

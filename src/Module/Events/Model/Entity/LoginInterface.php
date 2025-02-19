@@ -31,14 +31,14 @@ interface LoginInterface extends PersistableEntityInterface {
      *
      * @return string
      */
-    public function getModul();
+    public function getModule();
     
     /**
      *
-     * @param string $modul
+     * @param string $module
      * @return LoginInterface  $this
      */
-    public function setModul(string $modul): LoginInterface ;
+    public function setModule(string $module): LoginInterface ;
   
    
     /**
@@ -73,14 +73,55 @@ interface LoginInterface extends PersistableEntityInterface {
      * 
      * @return string|null
      */
-     public function getInfo(): ?string;
-    
+     public function getInfo(): ?string;    
     /**
      * 
      * @param string $info
      * @return LoginInterface  $this
      */
-    public function setInfo(string $info=null): LoginInterface ;       
+    public function setInfo(string $info=null): LoginInterface ;      
+    
+    
+    /**
+     * 
+     * @return string
+     */
+     public function getUrl(): string ;    
+    /**
+     * 
+     * @param string $url
+     * @return LoginInterface  $this
+     */
+    public function setUrl(string $url): LoginInterface ;    
+     
+    
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getCreated(): \DateTime ;
+     /**
+     *
+     * @param \DateTime $created
+     * @return LoginInterface
+     */
+    public function setCreated(\DateTime $created): LoginInterface ;
+   
+
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getUpdated(): \DateTime ;
+    /**
+     *
+     * @param \DateTime $updated
+     * @return LoginInterface
+     */
+    public function setUpdated(\DateTime $updated): LoginInterface ;
+      
+    
+    
     
     
     
