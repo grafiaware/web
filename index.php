@@ -27,7 +27,7 @@ use Application\SelectorItems;
 
 use Pes\Http\Factory\EnvironmentFactory;
 use Pes\Middleware\UnprocessedRequestHandler;
-use Pes\Middleware\NoMatchSelectorItemRequestHandler;
+use Pes\Middleware\NoMatchedRouteRequestHandler;
 
 use Pes\Http\ResponseSender;
 $environment = (new EnvironmentFactory())->createFromGlobals();
@@ -45,7 +45,7 @@ $app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppCon
 //$urihandler = fopen('uri.log', 'a+');   // !! proběhne commit do gitu!
 //fwrite($urihandler, $environment->get('REQUEST_URI').PHP_EOL);
 //fclose($urihandler);
-$noMatchHandler = $appContainer->get(NoMatchSelectorItemRequestHandler::class);
+$noMatchHandler = $appContainer->get(NoMatchedRouteRequestHandler::class);
 $response = $app->run($selector, $noMatchHandler);
 //echo $response->getStatusCode();
 
