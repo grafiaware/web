@@ -54,13 +54,23 @@ class Sendmail extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
-        $routeGenerator->addRouteForAction('GET', '/sendmail/v1/campaign/:campaign', function(ServerRequestInterface $request, $campaign) {
+        $routeGenerator->addRouteForAction('POST', '/sendmail/v1/campaign/:campaign', function(ServerRequestInterface $request, $campaign) {
             /** @var MailControler $ctrl */
             $ctrl = $this->container->get(MailControler::class);
             return $ctrl->send($request, $campaign);
         });
         
-        $routeGenerator->addRouteForAction('GET', '/sendmail/v1/sendmailVS', function(ServerRequestInterface $request) {
+        
+        $routeGenerator->addRouteForAction('POST', '/sendmail/v1/assembly/:assembly/campaign/:campaign', function(ServerRequestInterface $request, $assembly, $campaign) {
+            /** @var MailControler $ctrl */
+            $ctrl = $this->container->get(MailControler::class);
+            return $ctrl->sendCampaign($request, $assembly, $campaign);
+        });
+        
+        
+        
+        
+        $routeGenerator->addRouteForAction('POST', '/sendmail/v1/sendmailVS', function(ServerRequestInterface $request) {
             /** @var MailControler $ctrl */
             $ctrl = $this->container->get(MailControler::class);
             return $ctrl->sendVS($request);

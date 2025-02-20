@@ -36,10 +36,25 @@ class LoginAggregateCredentialsRepo  extends RepoAbstract implements LoginAggreg
         return new LoginAggregateCredentials();
     }
 
+    /**
+     * 
+     * @param type $loginName
+     * @return LoginAggregateCredentialsInterface|null
+     */
     public function get($loginName): ?LoginAggregateCredentialsInterface {
         return $this->getEntity($loginName);
     }
 
+    /**
+     * 
+     * @param string $whereClause
+     * @param array $touplesToBind
+     * @return LoginAggregateCredentialsInterface[]
+     */
+    public function find($whereClause="", $touplesToBind=[]): array {
+        return $this->findEntities($whereClause, $touplesToBind);
+    }
+    
     /**
      *
      * @param LoginAggregateCredentialsInterface $loginAgg
