@@ -67,7 +67,15 @@ class ConfigurationWeb extends ConfigurationConstants {
             'app.logs.selector.type' => FileLogger::APPEND_TO_LOG,
             #
             ##################################
-        ];
+            ##################################
+            # Konfigurace noMatchedRouteLogger loggeru
+            #
+            'app.logs.nomatch.file' => 'NoMatchedRoute.log',
+            'app.logs.nomatch.type' => FileLogger::APPEND_TO_LOG,
+            #
+            ##################################
+            #
+            ];
     }
 
     /**
