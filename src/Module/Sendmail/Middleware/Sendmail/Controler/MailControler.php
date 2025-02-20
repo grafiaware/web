@@ -189,11 +189,9 @@ class MailControler extends PresentationFrontControlerAbstract {
 //                        $mail->mail($params); // posle mail
                      $sended++;
                      
-                     
-                    }
                 }
             }
-        }        
+        }      
 //        return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
 
         $this->addFlashMessage("Prošlo sendmailem()SSSSS. ");
