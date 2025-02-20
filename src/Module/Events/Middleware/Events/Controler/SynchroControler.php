@@ -47,12 +47,14 @@ class SynchroControler   extends FrontControlerAbstract {
 
     
     
-    
-    public function synchro (ServerRequestInterface $request){         
-       //  $controlledItems - obsah zavisle db, a ten se upravuje podle referencmi db, 
-       //  viz routa "auth/v1/synchro"
-        
-        
+    /**
+     *   $controlledItems - obsah zavisle db, a ten se upravuje podle referencmi db, 
+     *   viz routa "auth/v1/synchro"
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function synchro (ServerRequestInterface $request){                     
         $logins = $this->loginRepo->findAll();        
         $controlledItems=[];
               /** @var LoginInterface $login */
@@ -85,7 +87,6 @@ class SynchroControler   extends FrontControlerAbstract {
             $resultData = json_decode($result, true);            
             
             if ( $resultData['addItems'] ) {        
-                              /** @var LoginInterface $loginItem */
                 foreach ($resultData['addItems'] as $key => $loginItem) {                                
                     $loginA =  new Login();
                     $loginA->setLoginName($key);
@@ -113,32 +114,4 @@ class SynchroControler   extends FrontControlerAbstract {
           
 }
 
-        
-//        $scheme = $request->getUri()->getScheme();
-//        $host = $request->getUri()->getHost();
-//
-//        $ruri = $this->getUriInfo($request)->getRestUri();
-//        $rap =$this->getUriInfo($request)->getRootAbsolutePath();
-//        $sp = $this->getUriInfo($request)->getSubdomainPath();        
-//        $url = "$scheme://$host$sp"."auth/v1/synchro";
-//        //$data = ['companyName' => $companyName, 'loginName' => $loginName ];
-//
-//        // options pro stream_context_create() vždy definuj s položkou http
-//        // url adresu pro file_get_contents(url, ..) definuj: https://....
-//        // use key 'http' even if you send the request to https://...
-//        $options = [
-//            'http' => [
-//                'header' => "Content-type: application/x-www-form-urlencoded",
-//                'method' => 'POST' //,
-//                //'content' => http_build_query($data),
-//            ],
-//        ];
-//        $context = stream_context_create($options);
-//        $result = file_get_contents($url, false, $context);
-//        if ($result === false) {
-//           $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
-//        }
-//        else {
-//            $this->addFlashMessage("Přišlo ** $result **", FlashSeverityEnum::SUCCESS);            
-//        }
                         

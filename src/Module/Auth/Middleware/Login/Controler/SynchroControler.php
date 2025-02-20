@@ -62,15 +62,17 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     
-    
+    /**
+     *  obsah zavisle db prijde v request, a ten se upravuje podle referencmi db                
+     *  addItems - beru postupne polozky z referencmi db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db - jsou k  pridavani do zavisle db
+     *  remItems - ze vstupniho pole ze zavisle db $controlledItems smazanu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
+     * 
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
     public function synchro (ServerRequestInterface $request){   
-        // obsah zavisle db prijde v request, a ten se upravuje podle referencmi db 
-                
-        //  addItems - beru postupne polozky z referencmi db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db - jsou k  pridavani do zavisle db
-        //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazanu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
-        
-        $controlledItems = $request->getParsedBody();     
-       // $controlledItems  pole, jen loginy,  pole ze zavisle db
+        $controlledItems = $request->getParsedBody();  // $controlledItems  pole, jen loginy,  pole ze zavisle db
         $existing=[];  
         $fullToAdd =[];
         
@@ -118,7 +120,6 @@ class SynchroControler   extends FrontControlerAbstract {
         }        
 
     return $this->createJsonOKResponse( $result, 200); // 303 See Other            
-//    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other                                     
     }
     
 }
