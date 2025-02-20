@@ -7,6 +7,10 @@ use Site\ConfigurationCache;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
+
+
+
+
 // logger
 use Pes\Logger\FileLogger;
 
@@ -71,6 +75,8 @@ use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Middleware\Login\Controler\AuthStaticControler;
 use Auth\Middleware\Login\Controler\ComponentControler;
 
+use Auth\Middleware\Login\Controler\SynchroControler;
+
 // authenticator
 use Auth\Authenticator\AuthenticatorInterface;
 use Auth\Authenticator\DbAuthenticator;
@@ -132,7 +138,6 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
-            AuthenticatorInterface::class => DbHashAuthenticator::class,
             // components
             'login' => LoginComponent::class,
             'logout' => LogoutComponent::class,
@@ -319,6 +324,18 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     )->injectContainer($c);  // inject component kontejner
             },
 
+                    
+            SynchroControler::class =>   function(ContainerInterface $c) {
+                return (new SynchroControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),      
+                        $c->get(LoginAggregateFullRepo::class)        
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },        
+                    
+                    
             // FrontControler (POST)
             LoginLogoutControler::class => function(ContainerInterface $c) {
                 return (new LoginLogoutControler(
@@ -326,7 +343,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(LoginAggregateFullRepo::class),
-                        $c->get(AuthenticatorInterface::class))
+                        $c->get(DbHashAuthenticator::class),
+                        $c->get(DbAuthenticator::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },

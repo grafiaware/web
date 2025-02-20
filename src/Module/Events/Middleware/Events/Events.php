@@ -17,11 +17,11 @@ use Events\Middleware\Events\Controler\EventStaticControler;
 use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\EventControler_2;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
-use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\FilterControler;
+use Events\Middleware\Events\Controler\SynchroControler;
 
 class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -254,6 +254,18 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(VisitorProfileControler::class);
             return $ctrl->uploadVisitorFile($request);
         });       
+        
+        
+        ###########################
+        ## SynchroControler
+        ###########################
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/synchro', function(ServerRequestInterface $request) {
+            /** @var SynchroControler $ctrl */
+            $ctrl = $this->container->get(SynchroControler::class);
+            return $ctrl->synchro($request);
+        }); 
+        
+        
         
         ###########################
         ## VisitorJobRequestControler
