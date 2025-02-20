@@ -277,8 +277,12 @@ class ApiRegistrator {
         
         
         #### MailControler ######
-        $registry->register($this->getPrototype->withUrlPattern('/sendmail/v1/campaign/:campaign'));
-        $registry->register($this->getPrototype->withUrlPattern('/sendmail/v1/sendmailVS'));
+        $registry->register($this->postPrototype->withUrlPattern('/sendmail/v1/campaign/:campaign'));
+        
+        $registry->register($this->postPrototype->withUrlPattern('/sendmail/v1/assembly/:assembly/campaign/:campaign'));
+
+        
+        $registry->register($this->postPrototype->withUrlPattern('/sendmail/v1/sendmailVS'));
 
     ### build module ###
     #
