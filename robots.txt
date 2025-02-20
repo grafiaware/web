@@ -1,2 +1,7 @@
 User-Agent: *
-Disallow: /
+# vse mimo public
+Disallow: /app/
+Disallow: /bootstrap/
+Disallow: /local/
+Disallow: /src/
+Disallow: /vendor/
