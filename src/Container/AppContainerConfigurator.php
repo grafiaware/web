@@ -23,7 +23,7 @@ use Application\WebAppFactory;
 // selector
 use Pes\Middleware\Selector;
 
-use Pes\Middleware\NoMatchSelectorItemRequestHandler;
+use Pes\Middleware\NoMatchedRouteRequestHandler;
 
 // security context - použit v security status
 use StatusManager\Observer\SecurityContextObjectsRemover;
@@ -185,8 +185,8 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             'noMatchedRouteLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance( $c->get('app.logs.directory'), $c->get('app.logs.nomatch.file'), $c->get('app.logs.nomatch.type'));
             },                    
-            NoMatchSelectorItemRequestHandler::class => function(ContainerInterface $c) {
-                return new NoMatchSelectorItemRequestHandler($c->get('noMatchedRouteLogger'));
+            NoMatchedRouteRequestHandler::class => function(ContainerInterface $c) {
+                return new NoMatchedRouteRequestHandler($c->get('noMatchedRouteLogger'));
             },
             Router::class => function(ContainerInterface $c) {
                 $router = new Router();

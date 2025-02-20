@@ -1,5 +1,7 @@
 User-Agent: *
-Disallow: /Middleware
-Disallow: /Logs
-Disallow: /vendor
-Disallow: /nbproject
+# vse mimo public
+Disallow: /app/
+Disallow: /bootstrap/
+Disallow: /local/
+Disallow: /src/
+Disallow: /vendor/
