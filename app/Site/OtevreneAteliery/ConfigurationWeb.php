@@ -85,6 +85,14 @@ class ConfigurationWeb extends ConfigurationConstants {
             'app.logs.selector.type' => FileLogger::APPEND_TO_LOG,
             #
             ##################################
+            ##################################
+            # Konfigurace noMatchedRouteLogger loggeru
+            #
+            'app.logs.nomatch.file' => 'NoMatchedRoute.log',
+            'app.logs.nomatch.type' => FileLogger::APPEND_TO_LOG,
+            #
+            ##################################
+            #
         ];
     }
 
@@ -304,14 +312,14 @@ class ConfigurationWeb extends ConfigurationConstants {
 
     public static function files() {
         return [
-            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'download/' : self::WEB_FILES_SITE.'download/',
-            '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'images/' : self::WEB_FILES_COMMON.'images/',
-            '@commonmovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'movies/' : self::WEB_FILES_COMMON.'movies/',
-            '@siteimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'images/' : self::WEB_FILES_SITE.'images/',
-            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'movies/' : self::WEB_FILES_SITE.'movies/',
-            '@siteupload' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload/' : self::WEB_FILES_SITE.'upload/',
+            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'download' : self::WEB_FILES_SITE.'download',
+            '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'images' : self::WEB_FILES_COMMON.'images',
+            '@commonmovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'movies' : self::WEB_FILES_COMMON.'movies',
+            '@siteimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'images' : self::WEB_FILES_SITE.'images',
+            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'movies' : self::WEB_FILES_SITE.'movies',
+            '@siteupload' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload' : self::WEB_FILES_SITE.'upload',
 
-            '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter/" : self::WEB_FILES_SITE."presenter/",
+            '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter" : self::WEB_FILES_SITE."presenter",
 
         ];
     }

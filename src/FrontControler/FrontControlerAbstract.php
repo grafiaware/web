@@ -188,7 +188,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     }
     
     protected function createUnauthorizedResponse() {
-        $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
+        return (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
     }
     
     /**
