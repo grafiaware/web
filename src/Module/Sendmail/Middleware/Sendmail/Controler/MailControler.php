@@ -22,6 +22,10 @@ use Mail\Params\Content;
 use Mail\Params\Attachment;
 use Mail\Params\Party;
 
+use Sendmail\Middleware\Sendmail\Controler\Contents\MailContent;
+
+
+
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -127,8 +131,7 @@ class MailControler extends PresentationFrontControlerAbstract {
     
     
    
-    public function  sendCampaign( ServerRequestInterface $request, string $assembly, int $campaign=-1000) {
-      
+    public function  sendCampaign( ServerRequestInterface $request, string $assembly, int $campaign=-1000) {      
         
         $count = 10;
         $min = ($campaign-1)*$count+1;
@@ -137,17 +140,20 @@ class MailControler extends PresentationFrontControlerAbstract {
         $counter = 0;
         $sended = 0;
         
-        $visitorsLoginAgg = $this->getLogins();
-        foreach ($visitorsLoginAgg as $visitorLoginAgg) {
-            $credentials = $visitorLoginAgg->getCredentials();
-            if (isset($credentials) AND ($credentials->getRoleFk() === "visitor")) {
-                $counter++;
-                if ($counter>=$min AND $counter<=$max ) {
-//                
-//                    $registration = $this->registrationRepo->get($visitorLoginAgg->getLoginName());
-//                    if (isset($registration) AND $registration->getEmail()) {
-//                        /** @var Mail $mail */
-//                        $mail = $this->container->get(Mail::class);
+        $adresati = [ "selnerova@grafia.cz", "webmaster@grafia.cz" ];
+        foreach ($adresati as $adresat) {
+                        
+            $counter++;
+//            if ($counter>=$min AND $counter<=$max )  {
+                                                        
+                        /** @var Mail $mail */
+                $mail = $this->container->get(Mail::class);
+                        
+                //$params = (new Params())
+                $obsahMailu =  (new MailContent() )  ;
+                $para = $obsahMailu->getParams($assembly, $adresat);
+                        
+                        
 //                        /** @var HtmlMessage $mailMessageFactory */
 //                        $mailMessageFactory = $this->container->get(HtmlMessage::class);
 //                        $subject =  'Veletrh práce - Poděkování, odkazy a "virtuální igelitka"';
@@ -155,25 +161,10 @@ class MailControler extends PresentationFrontControlerAbstract {
 //                                                            ['registerJmeno' => $credentials->getLoginNameFk(),
 //
 //                                                            ]);
-//                        $attachments = [
-//
+//                        $attachments = [//
 //                                        (new Attachment())
 //                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')
-//                                        ->setAltText('Katalog veletrhPRACE.online 2021'),
-//                                        (new Attachment())
-//                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Letak nabor studenti POSSEHL.pdf')
-//                                        ->setAltText('Leták nábor studenti_POSSEHL'),
-//                                        (new Attachment())
-//                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'MD ELEKTRONIK Serizovac min.pdf')
-//                                        ->setAltText('Leták MD ELEKTRONIK Seřizovač'),
-//                                        (new Attachment())
-//                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'GRAFIA letaky.pdf')
-//                                        ->setAltText('Letáky Grafia'),
-//                                        (new Attachment())
-//                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
-//                                        ->setAltText('Logo Grafia'),
-//
-//
+//                                        ->setAltText('Katalog veletrhPRACE.online 2021'),                                        
 //                                       ];
 //                        $params = (new Params())
 //                                    ->setContent(  (new Content())
@@ -186,21 +177,26 @@ class MailControler extends PresentationFrontControlerAbstract {
 //                                                     ->addTo('svoboda@grafia.cz', $credentials->getLoginNameFk().' veletrhprace.online')
 //                                                     ->addTo($registration->getEmail(), $credentials->getLoginNameFk().' veletrhprace.online')
 //                                                );
-//                        $mail->mail($params); // posle mail
-                     $sended++;
-                     
-                }
-            }
-        }      
-//        return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
-
-        $this->addFlashMessage("Prošlo sendmailem()SSSSS. ");
-             
-        return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
-
+                                                
+                                                
+                                                
+                       $mail->mail($para); // posle mail
+                       
+                                                                                            
+                     $sended++;                     
+//            }                                  
+               
+        }
+              
+        $this->addFlashMessage("Prošlo sendmailem()SSSSS. ");                             
         
+        return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");        
         
     }
+    
+    
+    
+    
     
     
     
@@ -221,7 +217,6 @@ class MailControler extends PresentationFrontControlerAbstract {
 
                                                 ]);
             $attachments = [
-
                             (new Attachment())
                             ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')
                             ->setAltText('Katalog veletrhPRACE.online 2021'),
@@ -253,8 +248,6 @@ class MailControler extends PresentationFrontControlerAbstract {
                                     );
           //  $mail->mail($params); // posle mail
 
-
-        
        
         return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
     }
