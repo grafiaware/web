@@ -1,14 +1,16 @@
 <?php
 
-namespace Auth\Middleware\Logged\Service;
+namespace Firewall\Middleware\Rule;
 
 /**
  *
  * @author pes2704
  */
-interface AccessorInterface {
+interface RoleInterface {
     /**
      * @return bool Přístup povolen.
      */
     public function granted();
+    
+    public function restrictMessage();
 }
