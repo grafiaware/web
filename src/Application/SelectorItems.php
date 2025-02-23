@@ -12,7 +12,7 @@ use Pes\Application\AppInterface;
 use Pes\Middleware\SelectorInterface;
 
 use Auth\Middleware\Login\Login;
-use Firewall\Middleware\Firewall\Firewall;
+use Firewall\Middleware\Firewall;
 use Firewall\Middleware\Rule\IsLogged;
 use Firewall\Middleware\Rule\HasRole;
 
@@ -120,7 +120,7 @@ class SelectorItems {
             '/sendmail'=>
             function() {
                 return [
-                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    //TODO: doplnit basic autentifikaci pro případ nepřihlášeného uživatele.
                     new SecurityStatus(),
 //                    new Login(),
                     new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
@@ -129,7 +129,7 @@ class SelectorItems {
             '/build'=>
             function() {
                 return [
-                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    //TODO: doplnit basic autentifikaci pro případ nepřihlášeného uživatele.
                     new SecurityStatus(),
 //                    new Login(),
                     new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),

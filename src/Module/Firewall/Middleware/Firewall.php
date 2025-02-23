@@ -1,5 +1,5 @@
 <?php
-namespace Firewall\Middleware\Firewall;
+namespace Firewall\Middleware;
 
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
