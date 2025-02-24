@@ -26,6 +26,9 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
 use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 use Auth\Model\Repository\RegistrationRepo;
 
+
+use Sendmail\Middleware\Sendmail\Controler\Contents\MailContent;
+
 /**
  *
  *
@@ -58,6 +61,13 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
             HtmlMessage::class => function(ContainerInterface $c) {
                 return new HtmlMessage();
             },
+                    
+            MailContent::class => function(ContainerInterface $c) {   
+                return new MailContent(
+                        $c->get(HtmlMessage::class),      
+                );
+            },                              
+                    
             MailControler::class => function(ContainerInterface $c) {
                 return (new MailControler(
                         $c->get(StatusSecurityRepo::class),
@@ -65,9 +75,11 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(AccessPresentation::class),
                         $c->get(LoginAggregateCredentialsRepo::class),
-                        $c->get(RegistrationRepo::class)
-
-                    ))->injectContainer($c);  // inject component kontejner
+                        $c->get(RegistrationRepo::class),
+                        $c->get(Mail::class), 
+                        $c->get(MailContent::class)                        
+                    ));
+                        //->injectContainer($c);  // inject component kontejner
             },
 
         ];
