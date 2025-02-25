@@ -28,7 +28,7 @@ interface StatusFlashInterface extends PersistableEntityInterface {
     /**
      * Vrací command se životností do příštího requestu (standartní "flash" životnost). Command vždy smaže.
      */
-    public function getCommand();
+//    public function getCommand();
 
     /**
      * Vrací "post" command Viz setPostCommand. Command vždy smaže.
@@ -57,7 +57,7 @@ interface StatusFlashInterface extends PersistableEntityInterface {
      * @param type $command
      * @return \Status\Model\Entity\StatusFlashInterface
      */
-    public function setCommand($command): StatusFlashInterface;
+//    public function setCommand($command): StatusFlashInterface;
 
     /**
      * Nastaví command se životností do nastavení příštího command v POST nebo PUT requestu. 

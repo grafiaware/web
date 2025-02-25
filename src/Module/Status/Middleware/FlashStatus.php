@@ -35,8 +35,16 @@ class FlashStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
             $statusFlashRepo->add($statusFlash);
         }
         $statusFlash->beforeHandle($request);
+        if ($request->getMethod() == 'GET') {
+            unset($statusFlashRepo);   // uloží data a zavře session (session_write_close)
+            $sessionClosed = true;
+        } else {
+            $sessionClosed = false;            
+        }
         $response = $handler->handle($request);
-        $statusFlash->afterHandle($request);
+        if($sessionClosed) {
+            $statusFlash->afterHandle($request);
+        }
 
         return $response;
     }

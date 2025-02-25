@@ -55,8 +55,8 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         // možná není potřeba ukládat - nebude fungoba seeLastGet
         
         $statusPresentation = $this->createStatusBeforeHandle($request);
-        $response = $handler->handle($request);
         $this->setStatusAfterHandle($statusPresentation, $request);        
+        $response = $handler->handle($request);
         $response = $this->addResponseHeaders($response);
         return $response;
     }
@@ -79,10 +79,10 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         if (is_null($statusPresentation->getLanguage())) {
             $langCode = $this->getRequestedLangCode($request);
             /** @var LanguageRepo $lanuageRepo */
-            $lanuageRepo = $this->container->get(LanguageRepo::class);
-            $language = $lanuageRepo->get($langCode);
+//            $lanuageRepo = $this->container->get(LanguageRepo::class);
+//            $language = $lanuageRepo->get($langCode);
             $statusPresentation->setRequestedLangCode($langCode);
-            $statusPresentation->setLanguage($language);
+//            $statusPresentation->setLanguage($language);
         }
         return $statusPresentation;
     }

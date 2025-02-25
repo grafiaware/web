@@ -49,7 +49,8 @@ abstract class StatusRepositoryAbstract {
                 $this->statusDao->delete(static::FRAGMENT_NAME);
             }
         }
-    }
+        $this->statusDao->finish();   // zapíše a uzavře session 
+    } 
 
     public function __destruct() {
         $this->flush();
