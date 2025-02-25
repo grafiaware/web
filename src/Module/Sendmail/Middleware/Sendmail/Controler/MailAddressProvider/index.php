@@ -156,3 +156,5 @@ print_r($verifiedData);
 echo "</pre>";
 
 exportCsv("VPV_ankety_test_verified.csv", $verifiedData);
+
+//$verifiedData = importCsv("VPV_ankety_test_verified.csv");

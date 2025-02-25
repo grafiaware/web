@@ -81,8 +81,19 @@ class MailControler extends PresentationFrontControlerAbstract {
 
         $adresati = [ "selnerova@grafia.cz", "webmaster@grafia.cz" ];
         
-        foreach ($adresati as $adresat) {
-            
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        foreach ($adresati as $adresat) {            
             $para = $this->mailContent->getParams("Jedna", $adresat, 'jmeno Adresáta');
             $this->mail->mail($para); // posle mail
             $sended++;                     
