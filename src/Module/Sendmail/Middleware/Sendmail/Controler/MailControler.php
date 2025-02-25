@@ -22,11 +22,6 @@ use Mail\Params\Content;
 use Mail\Params\Attachment;
 use Mail\Params\Party;
 
-use Sendmail\Middleware\Sendmail\Controler\Contents\MailContent;
-
-
-
-
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -80,21 +75,23 @@ class MailControler extends PresentationFrontControlerAbstract {
 
     
    
-    public function  sendCampaign( ServerRequestInterface $request, string $assembly) {      
+    public function  sendCampaign( ServerRequestInterface $request, string $assembly, $campaign) {      
 
         $sended = 0;
 
         $adresati = [ "selnerova@grafia.cz", "webmaster@grafia.cz" ];
         
         foreach ($adresati as $adresat) {
-            $para = $this->mailContent->getParams("Dva", $adresat, 'jmeno Adresáta');
+            
+            $para = $this->mailContent->getParams("Jedna", $adresat, 'jmeno Adresáta');
             $this->mail->mail($para); // posle mail
             $sended++;                     
         }
               
         $this->addFlashMessage("Prošlo sendmailem()...SSSSS. ");                             
         
-        return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");        
+        //return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");       
+        return $this->createStringOKResponse("Mail: campaign: $campaign ..... odesláno $sended mailú.");       
         
     }
     
