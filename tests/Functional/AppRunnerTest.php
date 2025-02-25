@@ -11,7 +11,7 @@ use Application\SelectorItems;
 use Pes\Middleware\Selector;
 use Pes\Container\Container;
 
-use Pes\Middleware\NoMatchSelectorItemRequestHandler;
+use Pes\Middleware\NoMatchedRouteRequestHandler;
 use Pes\Http\ResponseSender;
 
 use Container\AppContainerConfigurator;
@@ -54,7 +54,7 @@ class AppRunnerTest extends AppRunner {
         $selector = new Selector();
         (new SelectorItems($app))->addItems($selector);
 
-        $response = $app->run($selector, new NoMatchSelectorItemRequestHandler());
+        $response = $app->run($selector, new NoMatchedRouteRequestHandler());
         $this->assertInstanceOf(\Pes\Http\Response::class, $response);
         $size = $response->getBody()->getSize();
         $this->assertGreaterThan(1000000, 0, "málo");

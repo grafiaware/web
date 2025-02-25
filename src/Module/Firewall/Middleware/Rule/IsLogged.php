@@ -1,6 +1,6 @@
 <?php
 
-namespace Auth\Middleware\Logged\Service;
+namespace Firewall\Middleware\Rule;
 
 use Pes\Application\AppInterface;
 use Status\Model\Repository\StatusSecurityRepo;
@@ -10,7 +10,7 @@ use Status\Model\Repository\StatusSecurityRepo;
  *
  * @author pes2704
  */
-class LoggedAccessor implements AccessorInterface {
+class IsLogged implements RoleInterface {
 
     /**
      * @var AppInterface
@@ -31,5 +31,9 @@ class LoggedAccessor implements AccessorInterface {
             return (isset($loginAggregate) AND $loginAggregate->getCredentials()) ? TRUE : FALSE;
         }
         return FALSE;
+    }
+    
+    public function restrictMessage() {
+        return "Přístup mají pouze přihlášení uživatelé.";
     }
 }

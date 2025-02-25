@@ -29,18 +29,18 @@ class Replace implements ReplaceInterface {
      */
     public function replaceTemplateStrings(ServerRequestInterface $request, &$text): void {
 
-        $transform = array(
-            // templates, static
-            '@download/'               => ConfigurationCache::files()['@download'],
-            '@commonimages/'           => ConfigurationCache::files()['@commonimages'],
-            '@commonmovies/'           => ConfigurationCache::files()['@commonmovies'],
-            '@siteimages/'             => ConfigurationCache::files()['@siteimages'],
-            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
-            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
-            '@siteupload/'             => ConfigurationCache::files()['@siteupload'],
-            '@presenter'               => ConfigurationCache::files()['@presenter'],
-        );
-
+//        $transform = array(
+//            // templates, static
+//            '@download/'               => ConfigurationCache::files()['@download'],
+//            '@commonimages/'           => ConfigurationCache::files()['@commonimages'],
+//            '@commonmovies/'           => ConfigurationCache::files()['@commonmovies'],
+//            '@siteimages/'             => ConfigurationCache::files()['@siteimages'],
+//            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
+//            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
+//            '@siteupload/'             => ConfigurationCache::files()['@siteupload'],
+//            '@presenter/'              => ConfigurationCache::files()['@presenter'],
+//        );
+        $transform = ConfigurationCache::files();
         // <a href="index.php?list=download&amp;file=1197476.txt" target="_blank">Obchodní podmínky e-shop Grafia ke stažení</a>
         $text = str_replace(array_keys($transform), array_values($transform), $text);
     }
@@ -89,8 +89,8 @@ class Replace implements ReplaceInterface {
     public function replaceSlots(&$text): void {
         $repl = $text;
         $slots = [
-          '/(--%VLOZVIDEOFLV_)(.*)(%--)/'=>  '<video width="600px" controls  poster="'.ConfigurationCache::files()['@sitemovies'].'$2.jpg"'
-            . '<source src="'.ConfigurationCache::files()['@sitemovies'].'$2.mp4" type="video/mp4">'
+          '/(--%VLOZVIDEOFLV_)(.*)(%--)/'=>  '<video width="600px" controls  poster="'.ConfigurationCache::files()['@sitemovies'].'/$2.jpg"'
+            . '<source src="'.ConfigurationCache::files()['@sitemovies'].'/$2.mp4" type="video/mp4">'
                 . 'Váš prohlížeč nepodporuje element video.</video>' 
         ];
         foreach ($slots as $slot => $value) {
