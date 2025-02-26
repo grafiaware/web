@@ -11,10 +11,10 @@ namespace Sendmail\Middleware\Sendmail\Controler\Contents;
  *
  * @author vlse2610
  */
-interface RecipientsValidateorInterface {
+interface RecipientsValidatorInterface {
         
     
-    public function validate($param) ;
+    public function validate($data) ;
 
             
             

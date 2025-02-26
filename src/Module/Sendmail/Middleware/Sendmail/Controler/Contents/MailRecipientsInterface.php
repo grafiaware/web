@@ -13,7 +13,7 @@ namespace Sendmail\Middleware\Sendmail\Controler\Contents;
  */
 interface MailRecipientsInterface {
     
-     public function getRecipients();
+     public function getRecipients($jmenoSouboruCSV);
      
      
 }

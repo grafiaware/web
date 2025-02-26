@@ -32,6 +32,7 @@ use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
 use Sendmail\Middleware\Sendmail\Controler\Contents\MailContentInterface;
+use Sendmail\Middleware\Sendmail\Controler\Contents\MailRecipientsInterface;
 
 
 
@@ -44,8 +45,11 @@ class MailControler extends PresentationFrontControlerAbstract {
 
     private $loginAggregateCredentialsRepo;
     private $registrationRepo;
+    
     private $mail;
     private $mailContent;
+    private $mailRecipients;
+    
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -56,14 +60,17 @@ class MailControler extends PresentationFrontControlerAbstract {
             RegistrationRepo $registrationRepo,
             
             Mail $mail,
-            MailContentInterface $mailContent                        
+            MailContentInterface $mailContent,
+            MailRecipientsInterface $mailRecipients
+            
             ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
-        $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
-        $this->registrationRepo = $registrationRepo;
-         
-        $this->mail = $mail;
-        $this->mailContent = $mailContent;
+            parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
+            $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
+            $this->registrationRepo = $registrationRepo;
+
+            $this->mail = $mail;
+            $this->mailContent = $mailContent;
+            $this->mailRecipients = $mailRecipients;
     }
 
 
@@ -79,20 +86,16 @@ class MailControler extends PresentationFrontControlerAbstract {
 
         $sended = 0;
 
+        
+        
+        $jmenoSouboruCSV = "MujSoubor";
+        $recipientsArray = $this->mailRecipients->getRecipients($jmenoSouboruCSV);
+        
+        
+                
+        //-------------------------------
         $adresati = [ "selnerova@grafia.cz", "webmaster@grafia.cz" ];
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        $adresati = [];
         foreach ($adresati as $adresat) {            
             $para = $this->mailContent->getParams("Jedna", $adresat, 'jmeno Adresáta');
             $this->mail->mail($para); // posle mail
