@@ -69,7 +69,7 @@ class HierarchyControler extends FrontControlerAbstract {
     public function cut(ServerRequestInterface $request, $uid): ResponseInterface {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand([self::POST_COMMAND_CUT=>$uid]);  // command s životností do dalšího POST requestu
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $statusFlash->setMessage("cut - item: $langCode/$uid selected for cut&paste operation", FlashSeverityEnum::INFO);
 //        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
         //TODO: POST version
@@ -79,7 +79,7 @@ class HierarchyControler extends FrontControlerAbstract {
     public function copy(ServerRequestInterface $request, $uid): ResponseInterface {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand([self::POST_COMMAND_COPY=>$uid]);  // command s životností do dalšího POST requestu
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $statusFlash->setMessage("copy - item: $langCode/$uid selected for copy&paste operation", FlashSeverityEnum::INFO);
 //        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
         //TODO: POST version
@@ -193,7 +193,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
         // maže hierarchy, menu_item (menu_item_asset má fk CASCADE) a asset - nemaže soubory "assets"
         $this->editHierarchyDao->deleteSubTree($uid);
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);
         $redirectUid = $parentNode['uid'];   // kořen trash
 //            return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
@@ -223,7 +223,7 @@ class HierarchyControler extends FrontControlerAbstract {
     }
 
     private function getContentApiUri($uid) {
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $node = $this->editHierarchyDao->get(["lang_code_fk"=>$langCode, "uid_fk"=>$uid]);
         if (!isset($node)) {
             throw new Exception;

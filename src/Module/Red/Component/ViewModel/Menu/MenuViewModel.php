@@ -116,7 +116,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     }
 
     public function presentedLanguageLangCode() {
-        return $this->statusViewModel->getPresentedLanguage()->getLangCode();
+        return $this->statusViewModel->getPresentedLanguageCode();
     }
     
     public function getPresentedMenuItem() {

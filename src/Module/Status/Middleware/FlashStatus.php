@@ -35,17 +35,13 @@ class FlashStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
             $statusFlashRepo->add($statusFlash);
         }
         $statusFlash->beforeHandle($request);
-        if ($request->getMethod() == 'GET') {
-            unset($statusFlashRepo);   // uloží data a zavře session (session_write_close)
-            $sessionClosed = true;
-        } else {
-            $sessionClosed = false;            
+        
+        if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
+            $statusFlashRepo->flush();   // uloží data a zavře session (session_write_close)
         }
         $response = $handler->handle($request);
-        if($sessionClosed) {
-            $statusFlash->afterHandle($request);
-        }
-
+        $statusFlash->afterHandle($request);
+        $statusFlashRepo->flush();   // uloží data a zavře session (session_write_close)
         return $response;
     }
 }

@@ -96,7 +96,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
         assert(1, 'Je to potřeba!');
         $multipage = $this->getMultipage();
         if (isset($multipage)) {
-            $langCode = $this->getStatusViewModel()->getPresentedLanguage()->getLangCode();
+            $langCode = $this->getStatusViewModel()->getPresentedLanguageCode();
             $menuItem = $this->menuItemRepo->getById($multipage->getMenuItemIdFk());
             $nodes = $this->hierarchyRepo->findSubTree($langCode, $menuItem->getUidFk());  // neomezená maxDepth
             return $nodes;

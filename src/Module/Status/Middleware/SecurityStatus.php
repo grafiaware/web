@@ -46,7 +46,12 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         if ( !$statusSecurity->hasValidSecurityContext()) {
             $statusSecurity->removeContext();
         }
-
-        return $handler->handle($request);
+        
+        if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
+            $statusSecurityRepo->flush();   // uloží data a zavře session (session_write_close)
+        }        
+        $response = $handler->handle($request);
+        $statusSecurityRepo->flush();
+        return $response;
     }
 }

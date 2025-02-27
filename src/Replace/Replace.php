@@ -108,7 +108,7 @@ class Replace implements ReplaceInterface {
     
     public function replaceRsUrlsInHref(ServerRequestInterface $request, &$text, $key, MenuItemDaoInterface $dao, StatusPresentationInterface $statusPresentation): void {
         $prefix = 'href="';
-        $langCode = $statusPresentation->getLanguage()->getLangCode();
+        $langCode = $statusPresentation->getLanguageCode();
         $lastGetResourcePath = $statusPresentation->getLastGetResourcePath();
         $prefixLength = strlen($prefix);
         $transform = '';
