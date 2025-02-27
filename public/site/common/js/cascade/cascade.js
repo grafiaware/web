@@ -10,8 +10,8 @@ const conf = {
 //    apiAction: "apiAction",
 //    navigationClass: "navigation",
 
-    apiAction: "QQQapiAction",
-    navigationClass: "QQQnavigation",
+    apiAction: "apiAction",
+    navigationClass: "navigation",
     itemElementName: 'li',
     itemLeafClass: "leaf",
     itemParentClass: "parent",
