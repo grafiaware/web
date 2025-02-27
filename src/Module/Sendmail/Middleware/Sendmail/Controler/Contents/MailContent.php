@@ -18,12 +18,6 @@ use Mail\Params\Party;
 
 use Sendmail\Middleware\Sendmail\Controler\Contents\MailContentInterface;
 
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Auth\Model\Repository\LoginAggregateCredentialsRepo;
-use Auth\Model\Repository\RegistrationRepo;
-
 use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
@@ -40,21 +34,9 @@ class MailContent implements MailContentInterface {
       private $htmlMessageFactory;
 
     public function __construct(
-            HtmlMessage $htmlMessage
-            
-//            StatusSecurityRepo $statusSecurityRepo,
-//            StatusFlashRepo $statusFlashRepo,
-//            StatusPresentationRepo $statusPresentationRepo,
-//            AccessPresentationInterface $accessPresentation,
-//            LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
-//            RegistrationRepo $registrationRepo
-            ) {
-//        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
-//        $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
-//        $this->registrationRepo = $registrationRepo;
-        
-        
-        $this->htmlMessageFactory = $htmlMessage;
+            HtmlMessage $htmlMessageFactory
+            ) {        
+        $this->htmlMessageFactory = $htmlMessageFactory;
     }
     
     

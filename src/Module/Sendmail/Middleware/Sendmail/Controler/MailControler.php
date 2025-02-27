@@ -84,20 +84,20 @@ class MailControler extends PresentationFrontControlerAbstract {
    
     public function  sendCampaign( ServerRequestInterface $request, string $assembly, $campaign) {      
 
-        $sended = 0;
-
-        
+        $sended = 0;       
         
         $jmenoSouboruCSV = "MujSoubor";
-        $recipientsArray = $this->mailRecipients->getRecipients($jmenoSouboruCSV);
-        
+        $recipientsData = $this->mailRecipients->getRecipients($jmenoSouboruCSV);        
         
                 
         //-------------------------------
-        $adresati = [ "selnerova@grafia.cz", "webmaster@grafia.cz" ];
-        $adresati = [];
-        foreach ($adresati as $adresat) {            
-            $para = $this->mailContent->getParams("Jedna", $adresat, 'jmeno Adresáta');
+//        $adresati = [ "selnerova@grafia.cz", "webmaster@grafia.cz" ];
+//        $adresati = [];        
+////        foreach ($adresati as $adresat) {   
+            
+        
+        foreach ($recipientsData as $recipient) {                
+            $para = $this->mailContent->getParams("Jedna", $recipient['email'], 'jmeno Adresáta');
             $this->mail->mail($para); // posle mail
             $sended++;                     
         }
@@ -105,7 +105,12 @@ class MailControler extends PresentationFrontControlerAbstract {
         $this->addFlashMessage("Prošlo sendmailem()...SSSSS. ");                             
         
         //return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");       
-        return $this->createStringOKResponse("Mail: campaign: $campaign ..... odesláno $sended mailú.");       
+        return $this->createStringOKResponse("<hr/>Mail: campaign: $campaign ..... odesláno $sended mailú.<hr/>" 
+                .
+                 "<pre>"
+                    . print_r($recipientsData,true) .
+                 "</pre>"
+                );       
         
     }
     

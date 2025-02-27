@@ -13,6 +13,12 @@ namespace Sendmail\Middleware\Sendmail\Controler\Contents;
  */
 interface MailContentInterface {
     
+    /**
+     * 
+     * @param type $assembly  oznaceni "sestavy" mailu
+     * @param type $mailAdresata
+     * @param type $jmenoAdresata
+     */
      public function getParams($assembly, $mailAdresata, $jmenoAdresata)  ;
      
      

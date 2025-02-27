@@ -24,11 +24,16 @@ function importCsv($filename) {
 
 function exportCsv($filename, array $data) {
     $file = new SplFileObject($filename, "w");
-    $headers = array_keys($data);
+    $headers = array_map(function($val){return iconv("UTF-8", "Windows-1250", $val);}, array_keys($data[0]));
     $file->fputcsv($headers);
+    $first = true;
     foreach ($data as $dataRow) {
-        $row = array_map(function($val){return iconv("UTF-8", "Windows-1250", $val);}, $dataRow);
-        $file->fputcsv($row);
+        if ($first) {
+            $first = false;
+        } else {
+            $row = array_map(function($val){return iconv("UTF-8", "Windows-1250", $val);}, $dataRow);
+            $file->fputcsv($row);
+        }
     }
 }
 
