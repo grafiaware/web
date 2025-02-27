@@ -43,21 +43,27 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->container =
-                (new PresentationStatusComfigurator())->configure(
-                    (new RedModelContainerConfigurator())->configure(
-                        (new DbUpgradeContainerConfigurator())->configure(
-                                new Container($this->getApp()->getAppContainer())
-                        )
-                )
-            );
+//        $this->container =
+//                (new PresentationStatusComfigurator())->configure(
+//                    (new RedModelContainerConfigurator())->configure(
+//                        (new DbUpgradeContainerConfigurator())->configure(
+//                                new Container($this->getApp()->getAppContainer())
+//                        )
+//                )
+//            );
         //TODO: POST version
         // možná není potřeba ukládat - nebude fungoba seeLastGet
-        
+
+        $this->container = $this->getApp()->getAppContainer();
+
         $statusPresentation = $this->createStatusBeforeHandle($request);
+        $this->setStatusAfterHandle($statusPresentation, $request); 
+
+        if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
+            $this->statusPresentationRepo->flush();   // uloží data a zavře session (session_write_close)
+        }        
         $response = $handler->handle($request);
-        $this->setStatusAfterHandle($statusPresentation, $request);        
-        $response = $this->addResponseHeaders($response);
+        $this->statusPresentationRepo->flush();
         return $response;
     }
 
@@ -76,13 +82,13 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
             $this->statusPresentationRepo->add($statusPresentation);
         }        
         // jazyk prezentace
-        if (is_null($statusPresentation->getLanguage())) {
+        if (is_null($statusPresentation->getLanguageCode())) {
             $langCode = $this->getRequestedLangCode($request);
             /** @var LanguageRepo $lanuageRepo */
-            $lanuageRepo = $this->container->get(LanguageRepo::class);
-            $language = $lanuageRepo->get($langCode);
+//            $lanuageRepo = $this->container->get(LanguageRepo::class);
+//            $language = $lanuageRepo->get($langCode);
             $statusPresentation->setRequestedLangCode($langCode);
-            $statusPresentation->setLanguage($language);
+//            $statusPresentation->setLanguage($language);
         }
         return $statusPresentation;
     }
@@ -131,9 +137,5 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         }
         return $langCode;
     }
-    
-    private function addResponseHeaders(ResponseInterface $response) {
-        $language = $this->statusPresentationRepo->get()->getLanguage();
-        return $response->withHeader('Content-Language', $language->getLocale());
-    }    
+
 }

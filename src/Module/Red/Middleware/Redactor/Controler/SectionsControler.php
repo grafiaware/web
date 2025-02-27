@@ -250,7 +250,7 @@ class SectionsControler extends FrontControlerAbstract {
     public function cut(ServerRequestInterface $request, $sectionId) {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand([self::POST_COMMAND_CUT=>$sectionId]);  // command s životností do dalšího POST requestu
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $statusFlash->setMessage("Section cut - item: $langCode/$sectionId selected for cut&paste operation", FlashSeverityEnum::INFO);        
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -265,7 +265,7 @@ class SectionsControler extends FrontControlerAbstract {
     public function copy(ServerRequestInterface $request, $sectionId) {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand([self::POST_COMMAND_COPY=>$sectionId]);  // command s životností do dalšího POST requestu
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $statusFlash->setMessage("Section copy - item: $langCode/$sectionId selected for copy&paste operation", FlashSeverityEnum::INFO);  
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

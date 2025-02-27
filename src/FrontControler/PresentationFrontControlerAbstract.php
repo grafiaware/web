@@ -43,7 +43,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     }    
     
     ### headers ###
-
+    
     /**
      * Přetěžuje addHeaders() z FrontControlerAbstract
      * @param ServerRequestInterface $request
@@ -70,7 +70,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     }
 
     protected function getPresentationLangCode() {
-        return $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return $this->statusPresentationRepo->get()->getLanguageCode();
     }
 
 

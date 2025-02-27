@@ -25,8 +25,8 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     private $preparedFlashMessages=[];
     private $storedFlashMessages=[];
 
-    private $preparedFlashCommand;
-    private $storedFlashCommand;
+//    private $preparedFlashCommand;
+//    private $storedFlashCommand;
 
     private $preparedPostFlashCommand;
     private $storedPostFlashCommand;
@@ -54,11 +54,11 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     /**
      * Vrací command se životností do příštího requestu (standartní "flash" životnost). Command vždy smaže.
      */
-    public function getCommand() {
-        $command = $this->storedFlashCommand;
-        $this->storedFlashCommand = null;
-        return $command;
-    }
+//    public function getCommand() {
+//        $command = $this->storedFlashCommand;
+//        $this->storedFlashCommand = null;
+//        return $command;
+//    }
 
     /**
      * Vrací "post" command Viz setPostCommand. Command vždy smaže.
@@ -104,10 +104,10 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
      * @param type $command
      * @return StatusFlashInterface
      */
-    public function setCommand($command): StatusFlashInterface {
-        $this->preparedFlashCommand = $command;
-        return $this;
-    }
+//    public function setCommand($command): StatusFlashInterface {
+//        $this->preparedFlashCommand = $command;
+//        return $this;
+//    }
 
     /**
      * Nastaví command se životností do nastavení příštího command v POST nebo PUT requestu. 
@@ -149,16 +149,16 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
     public function afterHandle(ServerRequestInterface $request): void {
         $this->storedFlashMessages += $this->preparedFlashMessages;
         $this->preparedFlashMessages = [];
-        if (isset($this->preparedFlashCommand)) {
-            $this->storedFlashCommand = $this->preparedFlashCommand;
-            $this->preparedFlashCommand = null;
-        }
-        if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
+//        if (isset($this->preparedFlashCommand)) {
+//            $this->storedFlashCommand = $this->preparedFlashCommand;
+//            $this->preparedFlashCommand = null;
+//        }
+//        if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
             if (isset($this->preparedPostFlashCommand)) {
                 $this->storedPostFlashCommand = $this->preparedPostFlashCommand;
                 $this->preparedPostFlashCommand = null;
             }
-        }
+//        }
 
     }
 }

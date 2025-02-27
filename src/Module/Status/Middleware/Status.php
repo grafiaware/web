@@ -23,8 +23,14 @@ use Red\Model\Entity\EditorActions;
  *
  * @author pes2704
  */
-class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
+class Status extends AppMiddlewareAbstract implements MiddlewareInterface {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+        $this->securityStatusBeforeHandle();
+
+        return $handler->handle($request);
+    }
+    
+    private function securityStatusBeforeHandle() {
         $container = $this->getApp()->getAppContainer();
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
@@ -45,13 +51,29 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         }
         if ( !$statusSecurity->hasValidSecurityContext()) {
             $statusSecurity->removeContext();
+        }        
+    }
+    
+    
+    private function flashStatusBeforeHandle($param) {
+        $container = $this->getApp()->getAppContainer();
+
+        /** @var StatusFlashRepo $statusFlashRepo */
+        $statusFlashRepo = $container->get(StatusFlashRepo::class);
+
+        $statusFlash = $statusFlashRepo->get();
+        if (!isset($statusFlash)) {
+            $statusFlash = new StatusFlash();
+            $statusFlashRepo->add($statusFlash);
+        }
+        $statusFlash->beforeHandle($request);
+        if ($request->getMethod() == 'GET') {
+            unset($statusFlashRepo);   // uloží data a zavře session (session_write_close)
+            $sessionClosed = true;
+        } else {
+            $sessionClosed = false;            
         }
         
-        if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
-            $statusSecurityRepo->flush();   // uloží data a zavře session (session_write_close)
-        }        
-        $response = $handler->handle($request);
-        $statusSecurityRepo->flush();
-        return $response;
     }
+    
 }

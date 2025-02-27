@@ -37,7 +37,7 @@ class Katalog {
         $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $statusPresentation = $statusPresentationRepo->get();
-        $this->langCode = $statusPresentation->getLanguage()->getLangCode();
+        $this->langCode = $statusPresentation->getLanguageCode();
         $this->katalogUid = $statusPresentation->getMenuItem()->getUidFk();
     }
     

@@ -53,7 +53,7 @@ class PresentationActionControler extends FrontControlerAbstract {
         $requestedLangCode = (new RequestParams())->getParsedBodyParam($request, 'langcode');
         $language = $this->languageRepo->get($requestedLangCode);
         if (isset($language)) {
-            $this->statusPresentationRepo->get()->setLanguage($language);
+            $this->statusPresentationRepo->get()->setLanguageCode($language);
         } else{
             throw new UnexpectedLanguageException("Požadavek a nastavení neznámého jazyka aplikace s kódem $requestedLangCode.");
         }

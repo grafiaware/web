@@ -28,7 +28,7 @@ class InfoBoardViewModel extends ViewModelAbstract implements InfoBoardViewModel
     }
 
     private function getLanguageInfo() {
-        $language = $this->statusViewModel->getPresentedLanguage();
+        $language = $this->statusViewModel->getPresentedLanguageCode();
         return [
             'jazyk' => $language->getName(),
             ];

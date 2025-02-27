@@ -23,7 +23,7 @@ abstract class StatusRepositoryAbstract {
      */
     protected $statusDao;
 
-    private $loaded=FALSE;
+    private $loadedFragment = [];
 
     protected $entity;
 
@@ -32,22 +32,36 @@ abstract class StatusRepositoryAbstract {
     }
 
     protected function load() {
-        if (!$this->loaded) {
+        if (!isset($this->loadedFragment[static::FRAGMENT_NAME])) {
             $row = $this->statusDao->get(static::FRAGMENT_NAME);
             if ($row) {
                 $this->entity = $row[0];
             }
-            $this->loaded = TRUE;
+            $this->loadedFragment[static::FRAGMENT_NAME] = true;
         }
     }
 
     public function flush(): void {
-        if ($this->loaded) {   // pokud není laded -> není entita
+        if (isset($this->loadedFragment[static::FRAGMENT_NAME])) {   // pokud není loaded -> není entita
             if ($this->entity) {
                 $this->statusDao->set(static::FRAGMENT_NAME, [$this->entity]);
             } else {
                 $this->statusDao->delete(static::FRAGMENT_NAME);
             }
+        }
+        unset($this->loadedFragment[static::FRAGMENT_NAME]);
+        $this->sessionClose();
+    } 
+    
+    /**
+     * Uloží a zavře session. To ukončí session lock.
+     * V metodě flush() jednotlivých repository je odstraněna položka $this->loadedFragment. 
+     * Metoda sessionClose() zjičťuje jestli je pole $this->loadedFragment prízdné a pokud je prázdné uloží a zavře session 
+     * - v metodě dao finish() dojde h volání session_write_close().
+     */
+    private function sessionClose() {
+        if (empty($this->loadedFragment)) {
+            $this->statusDao->finish();   // zapíše a uzavře session       
         }
     }
 
