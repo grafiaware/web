@@ -1,45 +1,63 @@
 <?php
-
-namespace Sendmail\Middleware\Sendmail\Controler\Contents;
+namespace Sendmail\Middleware\Sendmail\Controler\Recipients;
 
 use Site\ConfigurationCache;
 
-use Sendmail\Middleware\Sendmail\Controler\Contents\MailRecipientsInterface;
-use Sendmail\Middleware\Sendmail\Controler\Contents\RecipientsValidatorInterface;
+use Sendmail\Middleware\Sendmail\Controler\Recipients\MailRecipientsInterface;
+use Sendmail\Middleware\Sendmail\Controler\Recipients\RecipientsValidatorInterface;
 
 use SplFileObject;
 use UnexpectedValueException;
-
-
 
 /**
  * 
  */
 class MailRecipients implements MailRecipientsInterface {
+    
     /** @var RecipientsValidatorInterface $recipientsValidator */
     private $recipientsValidator;
        
     public function __construct( 
-                RecipientsValidatorInterface $recipientsValidator 
+            RecipientsValidatorInterface $recipientsValidator 
         ) {
-            $this->recipientsValidator = $recipientsValidator;               
+        $this->recipientsValidator = $recipientsValidator;               
     }
     
-    
+    /**
+     * parametry:
+     * vstupní csv, verified csv, email callback => closure, která z řádky dat vrací email adresu příjemce, user callback => closure, která z řádky dat vrací jméno příjemce
+     * 
+     * - načte vstupní csv, načte verified csv
+     *  - adresy, které jsou ve vstupním csv a nejsou ve verified csv verifikuje a přidá do verified csv
+     *  - adresy, které již jsou i ve verified csv verifikuje, pokud požadovaný stupeň verifikace je vyšší než stupeň, na který byla adresa již verifikována a přepíše údaje ve verified csv
+     * 
+     * stupeň verifikace:
+     * hodnota z ValidationDegreeEnum
+     */
 
 
-    public function getRecipients($jmenoSouboruCSV) {
+    public function getRecipients($sourceCsvFilePath) {
         // tady precist soubor s daty a verifikovat
-        $data = $this->importCsv ( __DIR__ . "/"  . $jmenoSouboruCSV .".csv");
+        $data = $this->importCsv ($sourceCsvFilePath);
+                $verifiedData = [];
+        foreach ($data as $dataRow) {
+            $email = $dataRow['E-mail:'];
+            if (is_string($email)) {
+                $verifiedData = $this->recipientsValidator->verifyEmail($data);                       
+                $verified = $test['verified'];
+            } else {
+                $verified = 'no mail';
+            }
+            $verifiedData[] = array_merge($dataRow, ['mail verified' => $verified, 'verification time'=> date("Y-m-d H:i:s")]);
+        }
         
-      //  $verifiedData = $this->recipientsValidator->validate($data);                       
       //  exportCsv($jmenoSouboruCSV ."_verified.csv", $verifiedData);
-        $this->exportCsv( __DIR__ . "/"  . $jmenoSouboruCSV ."_verified.csv", $data);
+        $this->exportCsv( __DIR__ . "/"  . $sourceCsvFilePath ."_verified.csv", $data);
    
         
         //-------------------------------------------------------------------------------
         //  ***** prectu nahradni
-        $verifiedDataFromFile = $this->importCsv( __DIR__ . "/"  . $jmenoSouboruCSV . "_verifiedN.csv");                        
+        $verifiedDataFromFile = $this->importCsv( __DIR__ . "/"  . $sourceCsvFilePath . "_verifiedN.csv");                        
         $verifiedData = $verifiedDataFromFile;
         // **********  tady vybrat z dat ty s  user **************
         $recipientsData = [];

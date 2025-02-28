@@ -32,7 +32,7 @@ use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
 use Sendmail\Middleware\Sendmail\Controler\Contents\MailContentInterface;
-use Sendmail\Middleware\Sendmail\Controler\Contents\MailRecipientsInterface;
+use Sendmail\Middleware\Sendmail\Controler\Recipients\MailRecipientsInterface;
 
 
 
@@ -86,15 +86,8 @@ class MailControler extends PresentationFrontControlerAbstract {
 
         $sended = 0;       
         
-        $jmenoSouboruCSV = "MujSoubor";
-        $recipientsData = $this->mailRecipients->getRecipients($jmenoSouboruCSV);        
-        
-                
-        //-------------------------------
-//        $adresati = [ "selnerova@grafia.cz", "webmaster@grafia.cz" ];
-//        $adresati = [];        
-////        foreach ($adresati as $adresat) {   
-            
+        $csvFilePath = __DIR__ . "/"."MujSoubor.csv";
+        $recipientsData = $this->mailRecipients->getRecipients($csvFilePath);                   
         
         foreach ($recipientsData as $recipient) {                
             $para = $this->mailContent->getParams("Jedna", $recipient['email'], 'jmeno Adresáta');
@@ -178,61 +171,6 @@ class MailControler extends PresentationFrontControlerAbstract {
                 }
             }
         }        
-        return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public function sendVS(ServerRequestInterface $request) {        
-        
-                    /** @var Mail $mail */
-            $mail = $this->container->get(Mail::class);
-            /** @var HtmlMessage $mailMessageFactory */
-            $mailMessageFactory = $this->container->get(HtmlMessage::class);
-            $subject =  'Veletrh práce - Poděkování, odkazy a "virtuální igelitka"';
-            $body = $mailMessageFactory->create(__DIR__."/Messages/podekovani-odkazy-igelitka2.php",
-                                                ['registerJmeno' => $credentials->getLoginNameFk(),
-
-                                                ]);
-            $attachments = [
-                            (new Attachment())
-                            ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')
-                            ->setAltText('Katalog veletrhPRACE.online 2021'),
-                            (new Attachment())
-                            ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Letak nabor studenti POSSEHL.pdf')
-                            ->setAltText('Leták nábor studenti_POSSEHL'),
-                            (new Attachment())
-                            ->setFileName(ConfigurationCache::mail()['mail.attachments'].'MD ELEKTRONIK Serizovac min.pdf')
-                            ->setAltText('Leták MD ELEKTRONIK Seřizovač'),
-                            (new Attachment())
-                            ->setFileName(ConfigurationCache::mail()['mail.attachments'].'GRAFIA letaky.pdf')
-                            ->setAltText('Letáky Grafia'),
-                            (new Attachment())
-                            ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
-                            ->setAltText('Logo Grafia'),
-
-
-                           ];
-            $params = (new Params())
-                        ->setContent(  (new Content())
-                                         ->setSubject($subject)
-                                         ->setHtml($body)
-                                         ->setAttachments($attachments)
-                                    )
-                        ->setParty  (  (new Party())
-                                                 ->setFrom('info@najdisi.cz', 'web praci.najdisi.cz')
-                                         ->addTo('svoboda@grafia.cz', $credentials->getLoginNameFk().' veletrhprace.online')
-                                         ->addTo($registration->getEmail(), $credentials->getLoginNameFk().' veletrhprace.online')
-                                    );
-          //  $mail->mail($params); // posle mail
-
-       
         return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
     }
 
