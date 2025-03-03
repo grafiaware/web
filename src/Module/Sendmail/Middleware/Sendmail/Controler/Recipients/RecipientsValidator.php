@@ -3,6 +3,8 @@ namespace Sendmail\Middleware\Sendmail\Controler\Recipients;
 
 use Sendmail\Middleware\Sendmail\Controler\Recipients\RecipientsValidatorInterface;
 use Sendmail\Middleware\Sendmail\Controler\Recipients\ValidationDegreeEnum;
+use Sendmail\Middleware\Sendmail\Controler\Recipients\ValidityEnum;
+
 
 /**
  * Description of RecipientsValidator
@@ -75,20 +77,7 @@ class RecipientsValidator implements RecipientsValidatorInterface {
         return false;
     }
 
-    private function isSequential($value){
-        if(is_array($value) || ($value instanceof \Countable && $value instanceof \ArrayAccess)){
-            for ($i = count($value) - 1; $i >= 0; $i--) {
-                if (!isset($value[$i]) && !array_key_exists($i, $value)) {
-                    return FALSE;
-                }
-            }
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-    }
-
-    public function verifyEmail($email, $validationDegree) {
+    public function validateEmail($email, $validationDegree) {
         $validationDegreeEnum = new ValidationDegreeEnum();
         $degree = $validationDegreeEnum($validationDegree);
         //   https://www.root.cz/clanky/php-kontrola-e-mail/  (Vrána)
@@ -96,30 +85,25 @@ class RecipientsValidator implements RecipientsValidatorInterface {
         if ($degree==ValidationDegreeEnum::SYNTAX || $degree==ValidationDegreeEnum::DOMAIN || $degree==ValidationDegreeEnum::USER) {
             $syntaxChecked = $this->checkEmail($email) OR $this->checkEmail2($email);
             if ($syntaxChecked) {
-                $verified = ValidationDegreeEnum::SYNTAX;
+                $verified = ValidityEnum::SYNTAX;
+            } else {
+                $verified = ValidityEnum::NO_MAIL;
             }
             if ($degree==ValidationDegreeEnum::DOMAIN || $degree==ValidationDegreeEnum::USER) {
                 $domain = preg_replace('~.*@~', '', $email).'.';  //tečka na konci - zabrání doplnění doménového jména o lokální příponu
                 $domainChecked = dns_get_record($domain, DNS_MX);
                 if ($domainChecked) {
-                    $verified = ValidationDegreeEnum::DOMAIN;
+                    $verified = ValidityEnum::DOMAIN;
                 }
                 if ($degree==ValidationDegreeEnum::USER) {
                     $userCheck = $this->tryServerDialog($email, $from, $errorMessage, $communication);
                     if ($userCheck) {
-                        $verified = ValidationDegreeEnum::USER;
+                        $verified = ValidityEnum::USER;
                     }
                 }
             }
         }
-        return $verified ?? false;
+        return $verified;
     }
-
-    public function verifyEmails($emails) {
-        foreach ($emails as $email) {
-            $test[$email] = verifyEmail($email);
-        }
-        return $test;
-    }   
     
 }

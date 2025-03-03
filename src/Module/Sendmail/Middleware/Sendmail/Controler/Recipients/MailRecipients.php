@@ -1,13 +1,17 @@
 <?php
 namespace Sendmail\Middleware\Sendmail\Controler\Recipients;
 
-use Site\ConfigurationCache;
+use Sendmail\Middleware\Sendmail\Campaign\CampaignConfigInterface;
 
 use Sendmail\Middleware\Sendmail\Controler\Recipients\MailRecipientsInterface;
 use Sendmail\Middleware\Sendmail\Controler\Recipients\RecipientsValidatorInterface;
+use Sendmail\Middleware\Sendmail\Controler\Recipients\ValidityEnum;
 
+use Pes\Debug\Timer;
+
+use CallbackFilterIterator;
+use ArrayIterator;
 use SplFileObject;
-use UnexpectedValueException;
 
 /**
  * 
@@ -36,32 +40,36 @@ class MailRecipients implements MailRecipientsInterface {
      */
 
 
-    public function getRecipients($sourceCsvFilePath) {
+    public function validateSourceFile(CampaignConfigInterface $campaignConfig) {
+        $emailCallback = $campaignConfig->getEmailCallback();
+        $validationDegree = $campaignConfig->getValidationDegree();
+        
         // tady precist soubor s daty a verifikovat
-        $data = $this->importCsv ($sourceCsvFilePath);
-                $verifiedData = [];
+        $data = $this->importCsv($campaignConfig->getSourceCsvFilepath());
+        $timer = new Timer();
+        $startSeconds = $timer->start();
         foreach ($data as $dataRow) {
-            $email = $dataRow['E-mail:'];
-            if (is_string($email)) {
-                $verifiedData = $this->recipientsValidator->verifyEmail($data);                       
-                $verified = $test['verified'];
+            $emailAddress = $emailCallback($dataRow);
+            if (is_string($emailAddress)) {
+                $validAddress = $this->recipientsValidator->validateEmail($emailAddress, $validationDegree);                       
             } else {
-                $verified = 'no mail';
+                $validAddress = ValidityEnum::NO_MAIL;
             }
-            $verifiedData[] = array_merge($dataRow, ['mail verified' => $verified, 'verification time'=> date("Y-m-d H:i:s")]);
+            $validatedData[] = array_merge($dataRow, ['mail address validity' => $validAddress, 'validation time'=> date("Y-m-d H:i:s")]);
         }
         
-      //  exportCsv($jmenoSouboruCSV ."_verified.csv", $verifiedData);
-        $this->exportCsv( __DIR__ . "/"  . $sourceCsvFilePath ."_verified.csv", $data);
+        $this->exportCsv($campaignConfig->getValidatedCsvFilepath(), $validatedData);
+    }
    
         
-        //-------------------------------------------------------------------------------
-        //  ***** prectu nahradni
-        $verifiedDataFromFile = $this->importCsv( __DIR__ . "/"  . $sourceCsvFilePath . "_verifiedN.csv");                        
-        $verifiedData = $verifiedDataFromFile;
-        // **********  tady vybrat z dat ty s  user **************
+    public function getRecipients(CampaignConfigInterface $campaignConfig) {
+        $emailCallback = $campaignConfig->getEmailCallback();
+        $userCallback = $campaignConfig->getUserCallback();
+        
+        $validatedData = $this->importCsv($campaignConfig->getSourceCsvFilepath());
+        $filteredData = new CallbackFilterIterator(new ArrayIterator($validatedData), $campaignConfig->getFilterCallback());
         $recipientsData = [];
-        foreach ($verifiedData as $key => $row) {
+        foreach ($filteredData as $row) {
              if ($row['mail verified'] == 'user' ) {
                 $recipientsData[] =  [ 'email' => $row['E-mail:'], 
                                        'prijmeni' => $row['Příjmení'] ];

@@ -7,7 +7,6 @@ namespace Sendmail\Middleware\Sendmail\Controler\Recipients;
  */
 interface RecipientsValidatorInterface {
         
-    public function verifyEmail($email, $validationDegree);
+    public function validateEmail($email, $validationDegree);
 
-    public function verifyEmails($emails);    
 }
