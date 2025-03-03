@@ -46,7 +46,10 @@ class MailRecipients implements MailRecipientsInterface {
         foreach ($verifiedData as $key => $row) {
              if ($row['mail verified'] == 'user' ) {
                 $recipientsData[] =  [ 'email' => $row['E-mail:'], 
-                                       'prijmeni' => $row['Příjmení'] ];
+                                       'prijmeni' => $row['Příjmení'],
+                                       'jmeno' => $row['Jméno'],
+                                       'verification time' => $row['verification time'] 
+                        ];
              }            
         }
    

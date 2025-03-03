@@ -97,7 +97,7 @@ class MailControler extends PresentationFrontControlerAbstract {
             
         
         foreach ($recipientsData as $recipient) {                
-            $para = $this->mailContent->getParams("Jedna", $recipient['email'], 'jmeno Adresáta');
+            $para = $this->mailContent->getParams("Jedna", $recipient['email'], $recipient['jmeno'] . ' ' . $recipient['prijmeni']   );
             $this->mail->mail($para); // posle mail
             $sended++;                     
         }
