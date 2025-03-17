@@ -93,10 +93,10 @@ class MailControler extends PresentationFrontControlerAbstract {
             <h4>Validation:</h4>
             <pre>$dataPrint</pre>
         ";
-        return $this->createStringOKResponse($html);       
+        return $this->createStringOKResponse($html);
     }
     
-    public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {      
+    public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {
         // config
         $campaignConfig = $this->campaignProvider->getCampaignConfig($campaignName);
         $maxRuntime=10;

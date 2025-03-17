@@ -74,6 +74,8 @@ class MailSender implements MailSenderInterface {
                 ];                       
             }
         }
+        $this->campaignData->exportTargetCsvFile($campaignConfig, $targetData);
+        
         return $report;
     }
     
