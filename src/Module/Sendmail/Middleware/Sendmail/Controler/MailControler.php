@@ -95,28 +95,25 @@ class MailControler extends PresentationFrontControlerAbstract {
         $html .= "
             <h4>Validation:</h4>
             <pre>$dataPrint</pre>
-                
         ";
         return $this->createStringOKResponse($html);       
-        
     }
     
    
     public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {      
         // config
         $campaignConfig = $this->campaignProvider->getCampaignConfig($campaignName);
-        
-        $report = $this->mailSender->sendEmails($campaignConfig);
+        $maxRuntime=10;
+        $maxQuantity=50;
+        $report = $this->mailSender->sendEmails($campaignConfig, $maxRuntime, $maxQuantity);
 
         $sended = count($report);
-        //return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");       
-        return $this->createStringOKResponse("<hr/>Mail: campaign: '$campaignName'. Proběhl pokus o odeslánÍ $sended mailů.<hr/>" 
-                .
-                 "<pre>"
-                    . print_r($report,true) .
-                 "</pre>"
-                );       
+        $html = "<h4>Mail: campaign: '$campaignName'</h4>";
+        $html .= "<p>maxRuntime: $maxRuntime s, maxQuantity $maxQuantity</p>";
+        $html .= "<p>Proběhl pokus o odeslánÍ $sended mailů.</p><hr/>";
+        $html .= "<pre>".print_r($report,true)."</pre>";
         
+        return $this->createStringOKResponse($html);       
     }
     
     public function send(ServerRequestInterface $request, int $campaign=-1000) {
