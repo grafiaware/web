@@ -6,6 +6,7 @@ use Sendmail\Middleware\Sendmail\Campaign\CampaignConfigInterface;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
 use Sendmail\Middleware\Sendmail\Recipients\RecipientsValidatorInterface;
 use Sendmail\Middleware\Sendmail\Csv\CampaignDataInterface;
+use Sendmail\Middleware\Sendmail\Recipients\MailSenderInterface;
 
 use Pes\Debug\Timer;
 
@@ -69,6 +70,8 @@ class MailRecipients implements MailRecipientsInterface {
                     MailRecipientsInterface::ADDITION_TIME => date("Y-m-d H:i:s"), 
                     MailRecipientsInterface::MAIL_ADDRESS_VALIDITY => '', 
                     MailRecipientsInterface::VALIDATION_TIME=> '', 
+                    MailSenderInterface::CAMPAIGN_ASSEMBLY => '',
+                    MailSenderInterface::SENDING_TIME => ''
                 ]);
             }
         }

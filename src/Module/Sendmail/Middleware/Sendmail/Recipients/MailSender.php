@@ -57,7 +57,7 @@ class MailSender implements MailSenderInterface {
             if ($timer->runtime()>$maxRuntime || $attempts>$maxQuantity) {
                 break;
             }
-            if ($sendingConditionCallback($dataRow)) {
+            if ($dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY]==='' && $sendingConditionCallback($dataRow)) {
                 $mailAdresata = $emailCallback($dataRow);
                 $jmenoAdresata = $userCallback($dataRow);
                 $params = $this->mailContent->getParams($mailAdresata, $jmenoAdresata);
@@ -71,10 +71,8 @@ class MailSender implements MailSenderInterface {
                     $errorInfo = $mailExc->getPrevious()->getMessage();
                     $result = $message.' Info: '.$errorInfo;
                 }
-                array_merge($dataRow, [
-                    MailSenderInterface::MAIL_SENDED => $assembly,
-                    MailSenderInterface::SENDING_TIME => date("Y-m-d H:i:s")
-                ]);
+                $dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY] = $assembly;
+                $dataRow[MailSenderInterface::SENDING_TIME] = date("Y-m-d H:i:s");
                 $report[] = [
                     'email' => $mailAdresata,
                     'name' => $jmenoAdresata,

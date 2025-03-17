@@ -385,6 +385,7 @@ class ConfigurationWeb extends ConfigurationConstants {
 //            'mail.paramsname' => 'najdisiWebSMTP',
 //            'mail.paramsname' => 'itGrafiaGmail', 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'attachments/' : self::WEB_FILES_SITE.'attachments/',
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'sendmail/' : self::WEB_FILES_SITE.'sendmail/',
 
         ];
     }

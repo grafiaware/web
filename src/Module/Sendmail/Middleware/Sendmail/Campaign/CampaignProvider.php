@@ -5,6 +5,8 @@ use Sendmail\Middleware\Sendmail\Campaign\CampaignProviderInterface;
 use Sendmail\Middleware\Sendmail\Recipients\ValidityEnum;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
 
+use Site\ConfigurationCache;
+
 use UnexpectedValueException;
 
 /**
@@ -32,8 +34,8 @@ class CampaignProvider implements CampaignProviderInterface {
         switch ($name) {
             case self::JEDNA:
                 $data = [
-                    'sourceCsvFilepath' => __DIR__ . "/Contents/MujSoubor.csv",
-                    'verifiedCsvFilepath' => __DIR__ . "/Contents/MujSoubor_validated.csv",
+                    'sourceCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "MujSoubor.csv",
+                    'verifiedCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "MujSoubor_validated.csv",
                     'csvFileRowIdCallback' => function($row) {return $row["Časová značka"];},
                     'emailCallback' => function($row) {return $row["E-mail:"];},
                     'userCallback' => function($row) {return isset($row["Příjmení:"]) ? ($row["Příjmení:"].' '.$row["Jméno:"]) : $row["E-mail:"];},
