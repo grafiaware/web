@@ -13,11 +13,12 @@ class CampaignConfig implements CampaignConfigInterface {
      * vstupní csv, verified csv, email callback => closure, která z řádky dat vrací email adresu příjemce, user callback => closure, která z řádky dat vrací jméno příjemce
      * 
      * stupeň verifikace:
-     * hodnota z ValidationDegreeEnum
+     * hodnota z ValidityEnum
      */
     
     private $sourceCsvFilepath;
     private $validatedCsvFilepath;
+    private $csvFileRowIdCallback;
     private $validationDegree;
     
     private $emailCallback;
@@ -25,45 +26,54 @@ class CampaignConfig implements CampaignConfigInterface {
     private $filterCallback;
     private $contentAssembly;
 
-    public function getSourceCsvFilepath() {
+    public function getSourceCsvFilepath(): string {
         return $this->sourceCsvFilepath;
     }
 
-    public function getValidatedCsvFilepath() {
+    public function getValidatedCsvFilepath(): string {
         return $this->validatedCsvFilepath;
     }
     
-    public function getValidationDegree() {
+    public function getCsvFileRowIdCallback(): callable {
+        return $this->csvFileRowIdCallback;
+    }
+
+    public function setCsvFileRowIdCallback(callable $csvFileRowIdCallback): CampaignConfigInterface {
+        $this->csvFileRowIdCallback = $csvFileRowIdCallback;
+        return $this;
+    }
+
+    public function getValidationDegree(): int {
         return $this->validationDegree;
     }
 
-    public function getEmailCallback() {
+    public function getEmailCallback(): callable {
         return $this->emailCallback;
     }
 
-    public function getUserCallback() {
+    public function getUserCallback(): callable {
         return $this->userCallback;
     }
     
-    public function getFilterCallback() {
+    public function getSendingConditionCallback(): callable {
         return $this->filterCallback;
     }
 
-    public function getContentAssembly() {
+    public function getContentAssembly(): string {
         return $this->contentAssembly;
     }
     
-    public function setSourceCsvFilepath($sourceCsvFilepath): CampaignConfigInterface {
+    public function setSourceCsvFilepath(string $sourceCsvFilepath): CampaignConfigInterface {
         $this->sourceCsvFilepath = $sourceCsvFilepath;
         return $this;
     }
 
-    public function setVerifiedCsvFilepath($verifiedCsvFilepath): CampaignConfigInterface {
+    public function setVerifiedCsvFilepath(string $verifiedCsvFilepath): CampaignConfigInterface {
         $this->validatedCsvFilepath = $verifiedCsvFilepath;
         return $this;
     }
     
-    public function setValidationDegree($validationDegree): CampaignConfigInterface {
+    public function setValidationDegree(int $validationDegree): CampaignConfigInterface {
         $this->validationDegree = $validationDegree;
         return $this;
     }
@@ -78,12 +88,12 @@ class CampaignConfig implements CampaignConfigInterface {
         return $this;
     }
 
-    public function setFilterCallback($filterCallback): CampaignConfigInterface {
-        $this->filterCallback = $filterCallback;
+    public function setSendingConditionCallback(callable $conditionCallback): CampaignConfigInterface {
+        $this->filterCallback = $conditionCallback;
         return $this;
     }
 
-    public function setContentAssembly($contentAssembly): CampaignConfigInterface {
+    public function setContentAssembly(string $contentAssembly): CampaignConfigInterface {
         $this->contentAssembly = $contentAssembly;
         return $this;
     }

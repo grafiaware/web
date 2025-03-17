@@ -117,7 +117,7 @@ class Mail {
      * 
      * 
      * @param Params $params Parametry aktuálně odesílaného mailu
-     * @throws MailException
+     * @return bool false on error 
      */
     public function mail(Params $params = null) {
         $actualParams = $this->params ;
@@ -180,7 +180,7 @@ class Mail {
             $mail->CharSet = self::CHARSET;
             $mail->action_function = Mail::class.'::actionOnSend';
 
-            $mail->send();
+            return $mail->send();
 
         } catch (Exception $e) {
             if (self::$logger) {

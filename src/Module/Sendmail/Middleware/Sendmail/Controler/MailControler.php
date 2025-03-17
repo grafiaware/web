@@ -31,10 +31,11 @@ use Auth\Model\Repository\RegistrationRepo;
 use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
-use Sendmail\Middleware\Sendmail\Controler\Contents\MailContentInterface;
-use Sendmail\Middleware\Sendmail\Controler\Recipients\MailRecipientsInterface;
-
-
+use Sendmail\Middleware\Sendmail\Recipients\MailSenderInterface;
+use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
+use Sendmail\Middleware\Sendmail\Campaign\CampaignProviderInterface;
+use Sendmail\Middleware\Sendmail\Campaign\CampaignConfig;
+use Sendmail\Middleware\Sendmail\Recipients\ValidityEnum;
 
 /**
  * Description of PostControler
@@ -46,10 +47,9 @@ class MailControler extends PresentationFrontControlerAbstract {
     private $loginAggregateCredentialsRepo;
     private $registrationRepo;
     
-    private $mail;
-    private $mailContent;
+    private $mailSender;
     private $mailRecipients;
-    
+    private $campaignProvider;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -59,18 +59,18 @@ class MailControler extends PresentationFrontControlerAbstract {
             LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
             RegistrationRepo $registrationRepo,
             
-            Mail $mail,
-            MailContentInterface $mailContent,
-            MailRecipientsInterface $mailRecipients
+            MailSenderInterface $mailSender,
+            MailRecipientsInterface $mailRecipients,
+            CampaignProviderInterface $campaignProvider
             
-            ) {
-            parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
-            $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
-            $this->registrationRepo = $registrationRepo;
+        ) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
+        $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
+        $this->registrationRepo = $registrationRepo;
 
-            $this->mail = $mail;
-            $this->mailContent = $mailContent;
-            $this->mailRecipients = $mailRecipients;
+        $this->mailSender = $mailSender;
+        $this->mailRecipients = $mailRecipients;
+        $this->campaignProvider = $campaignProvider;
     }
 
 
@@ -79,38 +79,47 @@ class MailControler extends PresentationFrontControlerAbstract {
         return $visitorsLoginAgg;
     }
 
+    public function  validate( ServerRequestInterface $request, $campaignName) {
+        // config
+        $campaignConfig = $this->campaignProvider->getCampaignConfig($campaignName);
 
+        // připojení nových dat ze zdrojového souboru
+        $numberOfAppended = $this->mailRecipients->appendSourceCsv($campaignConfig);
+        $html = "
+            <h4>Append:</h4>
+            <pre>$numberOfAppended rows</pre>
+        ";        
+
+        $newValidatedData = $this->mailRecipients->validateEmailsInCsvFile($campaignConfig);  // default runtime 10 sekund -> poslední test musí začít nejpozději do 10. sekund
+        $dataPrint = print_r($newValidatedData, true);
+        $html .= "
+            <h4>Validation:</h4>
+            <pre>$dataPrint</pre>
+                
+        ";
+        return $this->createStringOKResponse($html);       
+        
+    }
     
    
-    public function  sendCampaign( ServerRequestInterface $request, string $assembly, $campaign) {      
+    public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {      
+        // config
+        $campaignConfig = $this->campaignProvider->getCampaignConfig($campaignName);
+        
+        $report = $this->mailSender->sendEmails($campaignConfig);
 
-        $sended = 0;       
-        
-        $csvFilePath = __DIR__ . "/"."MujSoubor.csv";
-        $recipientsData = $this->mailRecipients->getRecipients($csvFilePath);                   
-        
-        foreach ($recipientsData as $recipient) {                
-            $para = $this->mailContent->getParams("Jedna", $recipient['email'], 'jmeno Adresáta');
-            $this->mail->mail($para); // posle mail
-            $sended++;                     
-        }
-              
-        $this->addFlashMessage("Prošlo sendmailem()...SSSSS. ");                             
-        
+        $sended = count($report);
         //return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");       
-        return $this->createStringOKResponse("<hr/>Mail: campaign: $campaign ..... odesláno $sended mailú.<hr/>" 
+        return $this->createStringOKResponse("<hr/>Mail: campaign: '$campaignName'. Proběhl pokus o odeslánÍ $sended mailů.<hr/>" 
                 .
                  "<pre>"
-                    . print_r($recipientsData,true) .
+                    . print_r($report,true) .
                  "</pre>"
                 );       
         
     }
     
-    
-    
-    
-        public function send(ServerRequestInterface $request, int $campaign=-1000) {
+    public function send(ServerRequestInterface $request, int $campaign=-1000) {
         $count = 10;
         $min = ($campaign-1)*$count+1;
         $max = $min + $count-1;

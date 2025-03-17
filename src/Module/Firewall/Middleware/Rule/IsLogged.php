@@ -28,7 +28,7 @@ class IsLogged implements RoleInterface {
         $securityStatus = $securityStatusRepo->get();
         if (isset($securityStatus)) {
             $loginAggregate = $securityStatus->getLoginAggregate();
-            return (isset($loginAggregate) AND $loginAggregate->getCredentials()) ? TRUE : FALSE;
+            return (isset($loginAggregate) AND !empty($loginAggregate->getCredentials())) ? TRUE : FALSE;
         }
         return FALSE;
     }

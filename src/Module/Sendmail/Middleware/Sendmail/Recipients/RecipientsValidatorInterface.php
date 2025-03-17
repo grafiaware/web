@@ -1,5 +1,5 @@
 <?php
-namespace Sendmail\Middleware\Sendmail\Controler\Recipients;
+namespace Sendmail\Middleware\Sendmail\Recipients;
 
 /**
  *

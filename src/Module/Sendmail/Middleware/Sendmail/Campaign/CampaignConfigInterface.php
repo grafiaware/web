@@ -7,32 +7,36 @@ namespace Sendmail\Middleware\Sendmail\Campaign;
  */
 interface CampaignConfigInterface {
     
-    public function getSourceCsvFilepath();
+    public function getSourceCsvFilepath(): string;
 
-    public function getValidatedCsvFilepath();
-
-    public function getValidationDegree();
-
-    public function getEmailCallback();
-
-    public function getUserCallback();
+    public function getValidatedCsvFilepath(): string;
     
-    public function getFilterCallback();
+    public function getCsvFileRowIdCallback(): callable;
 
-    public function getContentAssembly();
+    public function getValidationDegree(): int;
 
-    public function setSourceCsvFilepath($sourceCsvFilepath): CampaignConfigInterface;
+    public function getEmailCallback(): callable;
 
-    public function setVerifiedCsvFilepath($verifiedCsvFilepath): CampaignConfigInterface;
+    public function getUserCallback(): callable;
+    
+    public function getSendingConditionCallback(): callable;
 
-    public function setValidationDegree($validationDegree): CampaignConfigInterface;
+    public function getContentAssembly(): string;
+
+    public function setSourceCsvFilepath(string $sourceCsvFilepath): CampaignConfigInterface;
+
+    public function setVerifiedCsvFilepath(string $verifiedCsvFilepath): CampaignConfigInterface;
+
+    public function setCsvFileRowIdCallback(callable $csvFileRowIdCallback): CampaignConfigInterface;
+    
+    public function setValidationDegree(int $validationDegree): CampaignConfigInterface;
 
     public function setEmailCallback(callable $emailCallback): CampaignConfigInterface;
 
     public function setUserCallback(callable $userCallback): CampaignConfigInterface;
     
-    public function setFilterCallback($filterCallback): CampaignConfigInterface;
+    public function setSendingConditionCallback(callable $conditionCallback): CampaignConfigInterface;
 
-    public function setContentAssembly($contentAssembly): CampaignConfigInterface;
+    public function setContentAssembly(string $contentAssembly): CampaignConfigInterface;
     
 }
