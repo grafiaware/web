@@ -117,8 +117,8 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         return $editorActions ? $editorActions->presentEditableContent() : false;
     }
 
-    public function getPresentedLanguage(): ?LanguageInterface {
-        return $this->statusPresentationRepo->get()->getLanguage();
+    public function getPresentedLanguageCode(): ?string {
+        return $this->statusPresentationRepo->get()->getLanguageCode();
     }
 
     public function getEditorActions(): ?EditorActionsInterface {

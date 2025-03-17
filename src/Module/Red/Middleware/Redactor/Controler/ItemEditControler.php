@@ -91,7 +91,7 @@ class ItemEditControler extends FrontControlerAbstract {
      * @return type
      */
     public function toggle(ServerRequestInterface $request, $uid) {
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $msg = $this->menuItemManipulator->toggleItems($langCode, $uid);
 
         try {
@@ -186,7 +186,7 @@ class ItemEditControler extends FrontControlerAbstract {
     }
 
     private function getMenuItem($uid) {
-        return $this->menuItemRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $uid);
+        return $this->menuItemRepo->get($this->statusPresentationRepo->get()->getLanguageCode(), $uid);
     }
 
 

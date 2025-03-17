@@ -48,7 +48,7 @@ class Prepare implements PrepareStatusServiceInterface {
      */
     public function prepareDbByStatus() {
         $statusPresentation = $this->statusPresentationRepo->get();
-        if (!$statusPresentation->getLanguage()) {
+        if (!$statusPresentation->getLanguageCode()) {
             $requestedLangCode = $statusPresentation->getRequestedLangCode();
             $language = $this->languageRepo->get($requestedLangCode);
             if (!isset($language)) {
@@ -60,7 +60,7 @@ class Prepare implements PrepareStatusServiceInterface {
                     throw new UnexpectedValueException("Kód jazyka nastavený v konfiguraci jako výchozí jazyk nebyl nalezen mezi jazyky v databázi.");
                 }
             }
-            $statusPresentation->setLanguage($language);
+            $statusPresentation->setLanguageCode($language->getLangCode());
         }
         $userActions = $this->statusSecurityRepo->get()->getEditorActions();
         if(isset($userActions)) {

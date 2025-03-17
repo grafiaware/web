@@ -1,5 +1,5 @@
 <?php
-namespace Auth\Middleware\Logged;
+namespace Firewall\Middleware;
 
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -10,13 +10,13 @@ use Pes\Http\Headers;
 use Pes\Http\Factory\BodyFactory;
 use Pes\Http\Response;
 
-use Auth\Middleware\Logged\Service\AccessorInterface;
+use Firewall\Middleware\Rule\RoleInterface;
 
-class LoggedAccess implements MiddlewareInterface {
+class Firewall implements MiddlewareInterface {
 
     private $accessor;
 
-    public function __construct(AccessorInterface $accessor) {
+    public function __construct(RoleInterface $accessor) {
         $this->accessor = $accessor;
     }
 
@@ -31,7 +31,7 @@ class LoggedAccess implements MiddlewareInterface {
             $response = $handler->handle($request);
         } else {
             $headers = new Headers();
-            $body = (new BodyFactory())->createStream("Přístup mají pouze přihlášení uživatelé.");
+            $body = (new BodyFactory())->createStream($this->accessor->restrictMessage());
             $body->rewind();
             $response = new Response(403, $headers, $body);
         }

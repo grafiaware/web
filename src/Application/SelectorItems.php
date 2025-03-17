@@ -12,8 +12,10 @@ use Pes\Application\AppInterface;
 use Pes\Middleware\SelectorInterface;
 
 use Auth\Middleware\Login\Login;
-use Auth\Middleware\Logged\LoggedAccess;
-use Auth\Middleware\Logged\Service\LoggedAccessor;
+use Firewall\Middleware\Firewall;
+use Firewall\Middleware\Rule\IsLogged;
+use Firewall\Middleware\Rule\HasRole;
+
 use Ping\Middleware\Ping;
 use Web\Middleware\Page\Web;
 use Red\Middleware\Component\Component;
@@ -31,6 +33,8 @@ use Consent\Middleware\ConsentLogger\ConsentLogger;
 use Status\Middleware\FlashStatus;
 use Status\Middleware\PresentationStatus;
 use Status\Middleware\SecurityStatus;
+
+use Access\Enum\RoleEnum;
 
 /**
  * Description of SelectorFactory
@@ -86,7 +90,7 @@ class SelectorItems {
                 return [
                     new ResponseTime(),
                     new SecurityStatus(),
-                    new Login(),
+//                    new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
                     new Transformator(),
@@ -107,7 +111,7 @@ class SelectorItems {
                 return [
                     new ResponseTime(),
                     new SecurityStatus(),
-                    new Login(),
+//                    new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
                     new EventsLoginSync(),
@@ -116,19 +120,19 @@ class SelectorItems {
             '/sendmail'=>
             function() {
                 return [
-                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    //TODO: doplnit basic autentifikaci pro případ nepřihlášeného uživatele.
                     new SecurityStatus(),
-                    new Login(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+//                    new Login(),
+                    new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
                     new Sendmail()
                 ];},
             '/build'=>
             function() {
                 return [
-                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    //TODO: doplnit basic autentifikaci pro případ nepřihlášeného uživatele.
                     new SecurityStatus(),
-                    new Login(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+//                    new Login(),
+                    new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
                     new Build()
                 ];},
             '/consent'=>
@@ -143,7 +147,7 @@ class SelectorItems {
             function() {
                 return [
                     new SecurityStatus(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new Firewall(new IsLogged($this->app)),
                     new \Middleware\Rs\Transformator(),
                     new \Middleware\Rs\Rs()
                 ];},
@@ -151,7 +155,7 @@ class SelectorItems {
             function() {
                 return [
                     new SecurityStatus(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new Firewall(new IsLogged($this->app)),
                     new \Middleware\Edun\Transformator(),
                     new \Middleware\Edun\Edun()
                 ];},
@@ -159,7 +163,7 @@ class SelectorItems {
             function() {
                 return [
                     new SecurityStatus(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new Firewall(new IsLogged($this->app)),
                     new \Middleware\Staffer\Transformator(),
                     new \Middleware\Staffer\Staffer()
                 ];},

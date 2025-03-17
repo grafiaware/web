@@ -67,7 +67,7 @@ class SearchResultViewModel extends ViewModelAbstract implements SearchResultVie
             $text = trim(implode(' ', explode(" ",$text)));
 
             // hledají se jednotlivá slova IN NATURAL LANGUAGE MODE
-            $langCodeFk = $this->status->getPresentedLanguage()->getLangCode();
+            $langCodeFk = $this->status->getPresentedLanguageCode();
             return $this->menuItemRepo->findByPaperFulltextSearch($langCodeFk, $text);
     }
 

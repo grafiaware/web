@@ -20,6 +20,7 @@
             "Site\\": "app/Site",
             "Auth\\": "src/Module/Auth",
             "Build\\": "src/Module/Build",
+            "Firewall\\": "src/Module/Firewall",
             "Red\\": "src/Module/Red",
             "Web\\": "src/Module/Web",
             "Transformator\\": "src/Module/Transformator",

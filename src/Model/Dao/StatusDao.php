@@ -36,4 +36,8 @@ class StatusDao {
     public function delete($fragmentName) {
         $this->sessionHandler->delete($fragmentName);
     }
+    
+    public function finish() {
+        $this->sessionHandler->sessionFinish();
+    }
 }

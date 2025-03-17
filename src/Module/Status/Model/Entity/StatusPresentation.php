@@ -23,10 +23,7 @@ use Red\Model\Entity\ItemActionInterface;
  */
 class StatusPresentation extends PersistableEntityAbstract implements StatusPresentationInterface {
 
-    /**
-     * @var LanguageInterface
-     */
-    private $language;
+    private $languageCode;
 
     private $requestedLangCode;
 
@@ -65,10 +62,10 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
 
     /**
      *
-     * @return LanguageInterface|null
+     * @return string|null
      */
-    public function getLanguage(): ?LanguageInterface {
-        return $this->language;
+    public function getLanguageCode(): ?string {
+        return $this->languageCode;
     }
 
     /**
@@ -81,11 +78,11 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
 
     /**
      *
-     * @param LanguageInterface $language
+     * @param string $languageCode
      * @return StatusPresentationInterface
      */
-    public function setLanguage(LanguageInterface $language): StatusPresentationInterface {
-        $this->language = $language;
+    public function setLanguageCode($languageCode): StatusPresentationInterface {
+        $this->languageCode = $languageCode;
         return $this;
     }
 

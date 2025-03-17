@@ -37,9 +37,9 @@ interface StatusPresentationInterface extends PersistableEntityInterface {
 
     /**
      *
-     * @return LanguageInterface|null
+     * @return string|null
      */
-    public function getLanguage(): ?LanguageInterface;
+    public function getLanguageCode(): ?string;
 
     /**
      * @return string
@@ -48,10 +48,10 @@ interface StatusPresentationInterface extends PersistableEntityInterface {
     
     /**
      *
-     * @param LanguageInterface $language
+     * @param string $languageCode
      * @return StatusPresentationInterface
      */
-    public function setLanguage(LanguageInterface $language): StatusPresentationInterface;
+    public function setLanguageCode($languageCode): StatusPresentationInterface;
 
     /**
      *

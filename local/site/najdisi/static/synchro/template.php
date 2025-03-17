@@ -22,13 +22,18 @@ use Pes\Text\Html;
 //                         "Kralik", "navstevnik", "navstevnik1", "representative","visitor", "vlse2610" ];
 //                    foreach ($controlledItems as $key => $value) {
             ?>
-                          <?=  d
-//                            "<input name='controlledItems[".$key."]' value='$value' >"
-                          ?> 
+            <?=  d
+//                    "<input name='controlledItems[".$key."]' value='$value' >"
+            ?> 
             <?php
 //                    }
+//          ?>            
+<!--       //Text::encodeUrlPath("auth/v1/ladimsynchro").  "' > ladim Synchro - zakladna dat</button>"      -->           
+
             
-            if($readonly === '') {
+
+            <?php       
+                if($readonly === '') {
             ?>
                                    
             <div>
@@ -37,12 +42,10 @@ use Pes\Text\Html;
                                 . "formaction='".Text::encodeUrlPath("events/v1/synchro")."' > Synchro </button>" 
                 ?>                                                                                                                                                                                                                                                 
             </div>
-            </></p>
-            <div>
-                     
-<!--       //Text::encodeUrlPath("auth/v1/ladimsynchro").  "' > ladim Synchro - zakladna dat</button>"      -->
-                                                                                                                                                                                                                                                           
-            </div>
+            <hr/>
+            <br/> <br/> <br/> <br/> <br/>
+            
+                        
             
             <?php
             }
