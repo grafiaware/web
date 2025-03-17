@@ -47,15 +47,6 @@ use Pes\Text\Html;
             
                         
             
-            <div>
-                <?=                
-                "<button class='ui primary button' type='submit' "
-                                . "formaction='". Text::encodeUrlPath("sendmail/v1/assembly/mail1/campaign/zkouska")
-                                                . "' > MailControler.sendCampaign (ze seznamu) </button>" 
-                ?>     
-                                                                                                                                                                                                                                                           
-            </div>
-            
             <?php
             }
             ?>
