@@ -8,6 +8,7 @@ use Sendmail\Middleware\Sendmail\Csv\CampaignDataInterface;
 use Sendmail\Middleware\Sendmail\Campaign\CampaignConfigInterface;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
 use Mail\Mail;
+use Pes\Debug\Timer;
 use Mail\Exception\MailException;
 
 /**
