@@ -29,13 +29,11 @@ use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 use Auth\Model\Repository\RegistrationRepo;
 
 use Access\AccessPresentationInterface;
-use Access\Enum\AccessPresentationEnum;
 
 use Sendmail\Middleware\Sendmail\Recipients\MailSenderInterface;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
 use Sendmail\Middleware\Sendmail\Campaign\CampaignProviderInterface;
-use Sendmail\Middleware\Sendmail\Campaign\CampaignConfig;
-use Sendmail\Middleware\Sendmail\Recipients\ValidityEnum;
+
 
 /**
  * Description of PostControler
@@ -73,7 +71,6 @@ class MailControler extends PresentationFrontControlerAbstract {
         $this->campaignProvider = $campaignProvider;
     }
 
-
     private function getLogins() {
         $visitorsLoginAgg = $this->loginAggregateCredentialsRepo->find();
         return $visitorsLoginAgg;
@@ -99,7 +96,6 @@ class MailControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponse($html);       
     }
     
-   
     public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {      
         // config
         $campaignConfig = $this->campaignProvider->getCampaignConfig($campaignName);
@@ -179,5 +175,4 @@ class MailControler extends PresentationFrontControlerAbstract {
         }        
         return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
     }
-
 }
