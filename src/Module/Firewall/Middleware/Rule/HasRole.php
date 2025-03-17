@@ -36,7 +36,10 @@ class HasRole implements RoleInterface {
         $securityStatusRepo = $this->app->getAppContainer()->get(StatusSecurityRepo::class);
         $securityStatus = $securityStatusRepo->get();
         if (isset($securityStatus)) {
-            $loggedInRole = $securityStatus->getLoginAggregate()->getCredentials()->getRoleFk();
+            $loginAggregate = $securityStatus->getLoginAggregate();
+            if (isset($loginAggregate)) {
+                $loggedInRole = $securityStatus->getLoginAggregate()->getCredentials()->getRoleFk();
+            }
             return (isset($loggedInRole) AND $loggedInRole==$this->role) ? TRUE : FALSE;
         }
         return FALSE;
