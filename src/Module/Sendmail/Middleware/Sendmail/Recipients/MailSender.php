@@ -49,7 +49,13 @@ class MailSender implements MailSenderInterface {
         $targetData = $this->campaignData->importTargetCsvFile($campaignConfig);
         $this->mailContent->setAssembly($assembly);
         $report = [];
+        $timer = new Timer();
+        $startSeconds = $timer->start();
+        $attempts=0;
         foreach ($targetData as &$dataRow) {  // použití reference - umožňuje měnit data v poli v průběhu cyklu
+            if ($timer->runtime()>$maxRuntime || $attempts>$maxQuantity) {
+                break;
+            }
             if ($sendingConditionCallback($dataRow)) {
                 $mailAdresata = $emailCallback($dataRow);
                 $jmenoAdresata = $userCallback($dataRow);
@@ -58,6 +64,7 @@ class MailSender implements MailSenderInterface {
 //                    $this->mail->mail($params);
 //                    $result = 'Sended '.date("Y-m-d H:i:s");
                     $result = 'Test '.date("Y-m-d H:i:s");
+                    $attempts++;
                 } catch (MailException $mailExc) {
                     $message = $mailExc->getMessage();
                     $errorInfo = $mailExc->getPrevious()->getMessage();
