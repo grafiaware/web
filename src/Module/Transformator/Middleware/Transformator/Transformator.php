@@ -15,7 +15,7 @@ use Site\ConfigurationCache;
 use Red\Model\Dao\MenuItemDao;
 use Red\Model\Dao\MenuItemDaoInterface;
 use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\PresentationInterface;
 use Status\Model\Repository\StatusFlashRepo;
 
 use Pes\Http\Body;

@@ -8,7 +8,7 @@
 
 namespace Events\Middleware\Events\ViewModel;
 
-use Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\SecurityInterface;
 
 /**
  * Description of EventList
@@ -43,7 +43,7 @@ class Event
             3 => '1. 4. 2021',
     ];
 
-    public function __construct(StatusSecurityInterface $statusSecurity) {
+    public function __construct(SecurityInterface $statusSecurity) {
         $this->statusSecurity = $statusSecurity;
         $this->eventContent = new EventContentViewModel();
     }

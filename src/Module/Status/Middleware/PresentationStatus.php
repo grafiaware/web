@@ -22,10 +22,10 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Container\PresentationStatusComfigurator;
 
-use Status\Model\Entity\StatusPresentation;
+use Status\Model\Entity\Presentation;
 use Status\Model\Repository\StatusPresentationRepo;
 use Red\Model\Repository\LanguageRepo;
-use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\PresentationInterface;
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\EditorActions;
 
@@ -61,8 +61,12 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
         if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
             $this->statusPresentationRepo->flush();   // uloží data a zavře session (session_write_close)
-        }        
+        }
+        
+        ###
         $response = $handler->handle($request);
+        ###
+        
         $this->statusPresentationRepo->flush();
         return $response;
     }
@@ -78,7 +82,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
         $statusPresentation = $this->statusPresentationRepo->get();
         if (!isset($statusPresentation)) {
-            $statusPresentation = new StatusPresentation();
+            $statusPresentation = new Presentation();
             $this->statusPresentationRepo->add($statusPresentation);
         }        
         // jazyk prezentace
@@ -103,7 +107,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      * @param type $statusPresentation
      * @param type $request
      */
-    private function setStatusAfterHandle(StatusPresentationInterface $statusPresentation, $request) {
+    private function setStatusAfterHandle(PresentationInterface $statusPresentation, $request) {
         if ($request->getMethod()=='GET') {
             if (!$request->hasHeader("X-Cascade")) {
                 $statusPresentation->setLastGetResourcePath($this->getRestUri($request));

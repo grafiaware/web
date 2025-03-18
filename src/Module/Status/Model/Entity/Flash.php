@@ -20,7 +20,7 @@ use Status\Model\Exception\UndefinedFlashMessageSeverityException;
  *
  * @author pes2704
  */
-class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterface {
+class Flash extends PersistableEntityAbstract implements FlashInterface {
 
     private $preparedFlashMessages=[];
     private $storedFlashMessages=[];
@@ -86,9 +86,9 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
      * Nastaví novou flash message.
      *
      * @param string $message
-     * @return StatusFlashInterface
+     * @return FlashInterface
      */
-    public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): StatusFlashInterface {
+    public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): FlashInterface {
         $en = $this->severityEnum;
         try {
             $this->preparedFlashMessages[] = ['severity'=>$en($severity), 'message'=>$message];
@@ -116,25 +116,11 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
      * Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      *
      * @param type $command
-     * @return StatusFlashInterface
+     * @return FlashInterface
      */
-    public function setPostCommand($command): StatusFlashInterface {
+    public function setPostCommand($command): FlashInterface {
         $this->preparedPostFlashCommand = $command;
         return $this;
-    }
-
-    /**
-     * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus před zpracováním requestu v dalších vnořených middleware.
-     *
-     * Je volána před voláním middleware metody handle().
-     * Je volána poté, kdy byl StatusFlash obnoven z uložených dat, např. deserializován ze session.
-     * Objekt je v takovém okamžiku v identickém stavu, v jakém byl uložen v předcházejícím requestu.
-     *
-     * @param ServerRequestInterface $request
-     * @return void
-     */
-    public function beforeHandle(ServerRequestInterface $request): void {
-
     }
 
     /**
@@ -146,7 +132,7 @@ class StatusFlash extends PersistableEntityAbstract implements StatusFlashInterf
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function afterHandle(ServerRequestInterface $request): void {
+    public function storeMessages(): void {
         $this->storedFlashMessages += $this->preparedFlashMessages;
         $this->preparedFlashMessages = [];
 //        if (isset($this->preparedFlashCommand)) {

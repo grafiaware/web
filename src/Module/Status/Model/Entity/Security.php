@@ -23,7 +23,7 @@ use Events\Model\Entity\RepresentationActionsInterface;
  *
  * @author pes2704
  */
-class StatusSecurity extends PersistableEntityAbstract implements StatusSecurityInterface {
+class Security extends PersistableEntityAbstract implements SecurityInterface {
 
     /**
      * @var LoginAggregateFullInterface
@@ -46,9 +46,9 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
     /**
      * {@inheritdoc}
      * 
-     * @return StatusSecurityInterface
+     * @return SecurityInterface
      */
-    public function removeContext(): StatusSecurityInterface {
+    public function removeContext(): SecurityInterface {
         if (isset($this->loginAggregate)) {
             if (isset($this->editorActions)) {
                $this->editorActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
@@ -68,7 +68,7 @@ class StatusSecurity extends PersistableEntityAbstract implements StatusSecurity
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
-    public function new(LoginAggregateFullInterface $loginAggregate): StatusSecurityInterface {
+    public function new(LoginAggregateFullInterface $loginAggregate): SecurityInterface {
         $this->loginAggregate = $loginAggregate;
         $this->editorActions = new EditorActions();
         $this->represantativeActions = new RepresentationActions();

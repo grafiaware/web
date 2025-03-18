@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author pes2704
  */
-interface StatusFlashInterface extends PersistableEntityInterface {
+interface FlashInterface extends PersistableEntityInterface {
 
     /**
      * Vrací pole flash message. Všechny flash messages smaže.
@@ -47,9 +47,9 @@ interface StatusFlashInterface extends PersistableEntityInterface {
      *
      * @param string $message
      * @param string $severity
-     * @return StatusFlashInterface
+     * @return FlashInterface
      */
-    public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): StatusFlashInterface;
+    public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): FlashInterface;
 
     /**
      * Nastaví command se životností do příštího requestu (standartní "flash" životnost).
@@ -66,21 +66,9 @@ interface StatusFlashInterface extends PersistableEntityInterface {
      * Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      * 
      * @param type $command
-     * @return \Status\Model\Entity\StatusFlashInterface
+     * @return \Status\Model\Entity\FlashInterface
      */
-    public function setPostCommand($command): StatusFlashInterface;
-
-    /**
-     * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus před zpracováním requestu v dalších vnořených middleware.
-     *
-     * Musí být volána před voláním middleware metody handle().
-     * Musí být volána poté, kdy byl StatusFlash obnoven z uložených dat, např. deserializován ze session.
-     * Objekt je v takovém okamžiku v identickém stavu, v jakém byl uložen v předcházejícím requestu.
-     *
-     * @param ServerRequestInterface $request
-     * @return void
-     */
-    public function beforeHandle(ServerRequestInterface $request): void;
+    public function setPostCommand($command): FlashInterface;
 
     /**
      * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus po zpracování requestu v dalších middleware.
@@ -91,5 +79,5 @@ interface StatusFlashInterface extends PersistableEntityInterface {
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function afterHandle(ServerRequestInterface $request): void;
+    public function storeMessages(): void;
 }

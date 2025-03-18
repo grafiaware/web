@@ -25,7 +25,7 @@ use Events\Model\Entity\RepresentationActionsInterface;
  *
  * @author pes2704
  */
-interface StatusSecurityInterface extends PersistableEntityInterface {
+interface SecurityInterface extends PersistableEntityInterface {
 
     /**
      * Odstraní parametry. Určeno pro volání při záníku securiry kontextu nebo pokud se zjistí, že security kontext neexistuje.
@@ -34,15 +34,15 @@ interface StatusSecurityInterface extends PersistableEntityInterface {
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
-    public function removeContext(): StatusSecurityInterface;
+    public function removeContext(): SecurityInterface;
 
     /**
      * Nastaví výchozí parametry po vzniku security kontextu. Určeno pro volání po přihlášení uživatele.
      * 
      * @param LoginAggregateFullInterface $loginAggregate
-     * @return StatusSecurityInterface
+     * @return SecurityInterface
      */
-    public function new(LoginAggregateFullInterface $loginAggregate): StatusSecurityInterface;
+    public function new(LoginAggregateFullInterface $loginAggregate): SecurityInterface;
         
     /**
      * Informuje, zda security kontext existuje a zda je platný.

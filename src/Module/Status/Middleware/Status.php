@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 
-use Status\Model\Entity\StatusSecurity;
+use Status\Model\Entity\Security;
 use Status\Model\Repository\StatusSecurityRepo;
 use Red\Model\Entity\EditorActions;
 
@@ -34,7 +34,7 @@ class Status extends AppMiddlewareAbstract implements MiddlewareInterface {
         $container = $this->getApp()->getAppContainer();
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-        /** @var StatusSecurity $statusSecurity */
+        /** @var Security $statusSecurity */
         $statusSecurity = $statusSecurityRepo->get();
 
         // po vypršení session - security status není persisted, ale také nemá objekt UserActions (a vznikají chyby pří dotazech na userActions->xxx())
@@ -46,7 +46,7 @@ class Status extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         // obnoví security status s tím, že login aggregate je null - pro případny privátní obsah musí být vnořen Login middleware
         if (!isset($statusSecurity)) {
-            $statusSecurity = new StatusSecurity();
+            $statusSecurity = new Security();
             $statusSecurityRepo->add($statusSecurity); 
         }
         if ( !$statusSecurity->hasValidSecurityContext()) {

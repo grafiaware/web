@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 
-use Status\Model\Entity\StatusSecurity;
+use Status\Model\Entity\Security;
 use Status\Model\Repository\StatusSecurityRepo;
 use Red\Model\Entity\EditorActions;
 
@@ -28,7 +28,7 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         $container = $this->getApp()->getAppContainer();
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-        /** @var StatusSecurity $statusSecurity */
+        /** @var Security $statusSecurity */
         $statusSecurity = $statusSecurityRepo->get();
 
         // po vypršení session - security status není persisted, ale také nemá objekt UserActions (a vznikají chyby pří dotazech na userActions->xxx())
@@ -40,7 +40,7 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
 
         // obnoví security status s tím, že login aggregate je null - pro případny privátní obsah musí být vnořen Login middleware
         if (!isset($statusSecurity)) {
-            $statusSecurity = new StatusSecurity();
+            $statusSecurity = new Security();
             $statusSecurityRepo->add($statusSecurity); 
         }
         if ( !$statusSecurity->hasValidSecurityContext()) {
@@ -48,9 +48,13 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         }
         
         if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
-            $statusSecurityRepo->flush();   // uloží data a zavře session (session_write_close)
-        }        
+            $statusSecurityRepo->flush();   // uloží data a zavře session (session_write_close) - důležité pro zamezení session lock 
+        }
+        
+        ###
         $response = $handler->handle($request);
+        ###
+        
         $statusSecurityRepo->flush();
         return $response;
     }
