@@ -14,20 +14,20 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\ItemActionInterface;
 
-use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\PresentationInterface;
 
 /**
  *
  * @author pes2704
  */
-interface StatusPresentationInterface extends PersistableEntityInterface {
+interface PresentationInterface extends PersistableEntityInterface {
     
     /**
      *
      * @param type $lastResourcePath
      * @return $this
      */
-    public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface;
+    public function setLastGetResourcePath($lastResourcePath): PresentationInterface;
 
     /**
      *
@@ -49,16 +49,16 @@ interface StatusPresentationInterface extends PersistableEntityInterface {
     /**
      *
      * @param string $languageCode
-     * @return StatusPresentationInterface
+     * @return PresentationInterface
      */
-    public function setLanguageCode($languageCode): StatusPresentationInterface;
+    public function setLanguageCode($languageCode): PresentationInterface;
 
     /**
      *
      * @param string $requestedLangCode
-     * @return StatusPresentationInterface
+     * @return PresentationInterface
      */
-    public function setRequestedLangCode($requestedLangCode): StatusPresentationInterface;
+    public function setRequestedLangCode($requestedLangCode): PresentationInterface;
 
     /**
      *
@@ -69,9 +69,9 @@ interface StatusPresentationInterface extends PersistableEntityInterface {
     /**
      *
      * @param MenuItemInterface $menuItem
-     * @return StatusPresentationInterface
+     * @return PresentationInterface
      */
-    public function setMenuItem(MenuItemInterface $menuItem): StatusPresentationInterface;
+    public function setMenuItem(MenuItemInterface $menuItem): PresentationInterface;
 
     /**
      * Jméno poslední template zobrazené v náhledu template
@@ -82,9 +82,9 @@ interface StatusPresentationInterface extends PersistableEntityInterface {
      * Jméno poslední template zobrazené v náhledu template
      *
      * @param type $templateName
-     * @return StatusPresentationInterface
+     * @return PresentationInterface
      */
-    public function setLastTemplateName($templateName): StatusPresentationInterface;
+    public function setLastTemplateName($templateName): PresentationInterface;
 
     
     public function setInfo($name, $value);

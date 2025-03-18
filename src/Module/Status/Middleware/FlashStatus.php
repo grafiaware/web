@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 
-use Status\Model\Entity\StatusFlash;
+use Status\Model\Entity\Flash;
 use Status\Model\Repository\StatusFlashRepo;
 
 /**
@@ -31,16 +31,19 @@ class FlashStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         $statusFlash = $statusFlashRepo->get();
         if (!isset($statusFlash)) {
-            $statusFlash = new StatusFlash();
+            $statusFlash = new Flash();
             $statusFlashRepo->add($statusFlash);
         }
-        $statusFlash->beforeHandle($request);
         
         if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
             $statusFlashRepo->flush();   // uloží data a zavře session (session_write_close)
         }
+        
+        ###
         $response = $handler->handle($request);
-        $statusFlash->afterHandle($request);
+        ###
+        
+        $statusFlash->storeMessages($request);
         $statusFlashRepo->flush();   // uloží data a zavře session (session_write_close)
         return $response;
     }

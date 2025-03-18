@@ -33,7 +33,7 @@ use Model\Entity\Credentials;
 use Model\Entity\CredentialsInterface;
 
 // entity
-use Status\Model\Entity\StatusPresentation;
+use Status\Model\Entity\Presentation;
 
 // Access
 use Access\AccessPresentation;

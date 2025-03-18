@@ -10,7 +10,7 @@ use Component\ViewModel\ViewModelItemInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
-use Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\SecurityInterface;
 
 use Events\Model\Repository\VisitorProfileRepoInterface;
 use Events\Model\Repository\DocumentRepoInterface;

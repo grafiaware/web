@@ -13,9 +13,9 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
-use Status\Model\Entity\StatusSecurityInterface;
-use Status\Model\Entity\StatusPresentationInterface;
-use Status\Model\Entity\StatusFlashInterface;
+use Status\Model\Entity\SecurityInterface;
+use Status\Model\Entity\PresentationInterface;
+use Status\Model\Entity\FlashInterface;
 
 
 /**

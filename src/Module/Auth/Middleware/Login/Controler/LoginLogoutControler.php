@@ -26,7 +26,7 @@ use Auth\Model\Repository\LoginAggregateFullRepo;
 
 use Auth\Model\Entity\LoginAggregateFull;
 
-use Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\SecurityInterface;
 use Status\Model\Enum\FlashSeverityEnum;
 
 /**
@@ -74,7 +74,7 @@ class LoginLogoutControler extends FrontControlerAbstract {
 
                 if (isset($loginAggregateFull) AND $this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
                     $securityStatus = $this->statusSecurityRepo->get();  // ze session
-                    /** @var StatusSecurityInterface $securityStatus */
+                    /** @var SecurityInterface $securityStatus */
                     $securityStatus->new($loginAggregateFull);
                     $this->addFlashMessage("Jste přihlášeni.", FlashSeverityEnum::SUCCESS);
                 }
@@ -103,7 +103,7 @@ class LoginLogoutControler extends FrontControlerAbstract {
 
                 if (isset($loginAggregateFull) AND $this->superAuthenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
                     $securityStatus = $this->statusSecurityRepo->get();  // ze session
-                    /** @var StatusSecurityInterface $securityStatus */
+                    /** @var SecurityInterface $securityStatus */
                     $securityStatus->new($loginAggregateFull);
                     $this->addFlashMessage("Jste přihlášeni.", FlashSeverityEnum::SUCCESS);
                 }

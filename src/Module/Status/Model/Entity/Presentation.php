@@ -10,7 +10,7 @@ namespace Status\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
 
-use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\PresentationInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
@@ -21,7 +21,7 @@ use Red\Model\Entity\ItemActionInterface;
  *
  * @author pes2704
  */
-class StatusPresentation extends PersistableEntityAbstract implements StatusPresentationInterface {
+class Presentation extends PersistableEntityAbstract implements PresentationInterface {
 
     private $languageCode;
 
@@ -53,7 +53,7 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
      * @param type $lastResourcePath
      * @return $this
      */
-    public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface {
+    public function setLastGetResourcePath($lastResourcePath): PresentationInterface {
         $this->lastResourcePath = $lastResourcePath;
         return $this;
     }
@@ -79,9 +79,9 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
     /**
      *
      * @param string $languageCode
-     * @return StatusPresentationInterface
+     * @return PresentationInterface
      */
-    public function setLanguageCode($languageCode): StatusPresentationInterface {
+    public function setLanguageCode($languageCode): PresentationInterface {
         $this->languageCode = $languageCode;
         return $this;
     }
@@ -89,9 +89,9 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
     /**
      *
      * @param string $requestedLangCode
-     * @return StatusPresentationInterface
+     * @return PresentationInterface
      */
-    public function setRequestedLangCode($requestedLangCode): StatusPresentationInterface {
+    public function setRequestedLangCode($requestedLangCode): PresentationInterface {
         $this->requestedLangCode = $requestedLangCode;
         return $this;
     }
@@ -109,9 +109,9 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
     /**
      *
      * @param MenuItemInterface $menuItem
-     * @return StatusPresentationInterface
+     * @return PresentationInterface
      */
-    public function setMenuItem(MenuItemInterface $menuItem): StatusPresentationInterface {
+    public function setMenuItem(MenuItemInterface $menuItem): PresentationInterface {
         $this->menuItem = $menuItem;
         return $this;
     }
@@ -126,7 +126,7 @@ class StatusPresentation extends PersistableEntityAbstract implements StatusPres
         return $this->lastTemplateName;
     }
 
-    public function setLastTemplateName($templateName): StatusPresentationInterface {
+    public function setLastTemplateName($templateName): PresentationInterface {
         $this->lastTemplateName = $templateName;
         return $this;
     }

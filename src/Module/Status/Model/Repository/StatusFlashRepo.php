@@ -10,7 +10,7 @@ namespace Status\Model\Repository;
 
 use Model\Repository\StatusRepositoryAbstract;
 
-use Status\Model\Entity\StatusFlashInterface;
+use Status\Model\Entity\FlashInterface;
 
 /**
  * Description of StausLoginRepo
@@ -26,9 +26,9 @@ class StatusFlashRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu. Pokud entita ješte nebyla načtena z úložiště,
      * načte ji (jen jednou) a vrací.
      *
-     * @return StatusFlashInterface|null
+     * @return FlashInterface|null
      */
-    public function get(): ?StatusFlashInterface {
+    public function get(): ?FlashInterface {
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -37,9 +37,9 @@ class StatusFlashRepo extends StatusRepositoryAbstract {
 
     /**
      * Repository obsahuje vždy jen jednu entitu. Metoda add přidá entitu do prázdného repository, pokud v repository již entita je, přepíše ji.
-     * @param StatusFlashInterface $flashStatus
+     * @param FlashInterface $flashStatus
      */
-    public function add(StatusFlashInterface $flashStatus) {
+    public function add(FlashInterface $flashStatus) {
         $this->entity = $flashStatus;
     }
 

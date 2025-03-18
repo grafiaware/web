@@ -49,15 +49,22 @@ abstract class StatusRepositoryAbstract {
                 $this->statusDao->delete(static::FRAGMENT_NAME);
             }
         }
+        // smaže fragment
         unset($this->loadedFragment[static::FRAGMENT_NAME]);
+        // uloží a zavře session pokud byl smazán poslední fragment
         $this->sessionClose();
     } 
     
     /**
-     * Uloží a zavře session. To ukončí session lock.
-     * V metodě flush() jednotlivých repository je odstraněna položka $this->loadedFragment. 
-     * Metoda sessionClose() zjičťuje jestli je pole $this->loadedFragment prízdné a pokud je prázdné uloží a zavře session 
-     * - v metodě dao finish() dojde h volání session_write_close().
+     * Pokud jsou všechny fragmenty prázdné (např. smazané), uloží a zavře session. To zabráníé vzniku session lock nebo ukončí session lock.
+     * V metodě flush() jednotlivých repository je odstraněna položka se jménem příslušným danému repository $this->loadedFragment[jméno fragmentu]. 
+     * Metoda sessionClose() zjišťuje jestli je pole $this->loadedFragment prízdné a pokud je prázdné, uloží a zavře session.
+     * Pro uložení a zavření session volá metodu status DAO finish() - v metodě dao finish() dojde k volání session_write_close().
+     * 
+     * Celý tento mechanizmus tedy pracije tak, že po zavolání metody flush() jednotlivých repository každé repository smaže "svůj" fragment a po smazání 
+     * posledního existujícího fragmentu dojde ke uložení a zavření session.
+     * 
+     * Toho se dosáhne destrukcí repository - v metodě __destuct se volá ->flush() nebo přímo voláním metod flush() jednotlivých repository.
      */
     private function sessionClose() {
         if (empty($this->loadedFragment)) {
