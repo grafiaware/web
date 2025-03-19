@@ -4,7 +4,7 @@ require '../../../vendor/autoload.php';
 
 use Mail\Mail;
 use Mail\ParamsTemplates;
-use Mail\Params;
+use Mail\Assembly;
 use Mail\Params\{Content, Attachment, Party};
 
 
@@ -45,6 +45,6 @@ $party = (new Party())
 //            ->addBcc($bccAddress, $bccName)
         ;
 
-$params = (new Params())->setContent($content)->setParty($party);
+$params = (new Assembly())->setContent($content)->setParty($party);
 
 $mail->mail($params);

@@ -6,7 +6,7 @@ use Site\ConfigurationCache;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
-use Mail\Params;
+use Mail\Assembly;
 use Mail\Params\{Content, Attachment, Party};
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -100,7 +100,7 @@ class PasswordControler extends LoginControlerAbstract {
                                                          'generatedPassword'=>$generatedPassword,
                                                          'data_logo_grafia' => $data_logo_grafia
                                                         ]);                    
-                    $params = (new Params())
+                    $params = (new Assembly())
                                 ->setContent(  (new Content())
                                              ->setSubject($subject)
                                              ->setHtml($body)

@@ -21,7 +21,7 @@ interface CampaignConfigInterface {
     
     public function getSendingConditionCallback(): callable;
 
-    public function getContentAssembly(): string;
+    public function getAssemblyName(): string;
 
     public function setSourceCsvFilepath(string $sourceCsvFilepath): CampaignConfigInterface;
 
@@ -37,6 +37,6 @@ interface CampaignConfigInterface {
     
     public function setSendingConditionCallback(callable $conditionCallback): CampaignConfigInterface;
 
-    public function setContentAssembly(string $contentAssembly): CampaignConfigInterface;
+    public function setAssemblyName(string $assemblyName): CampaignConfigInterface;
     
 }

@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 
-use Mail\Params;
+use Mail\Assembly;
 use Mail\Params\Content;
 use Mail\Params\Attachment;
 use Mail\Params\Party;
@@ -156,7 +156,7 @@ class MailControler extends PresentationFrontControlerAbstract {
 
 
                                        ];
-                        $params = (new Params())
+                        $params = (new Assembly())
                                     ->setContent(  (new Content())
                                                      ->setSubject($subject)
                                                      ->setHtml($body)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mail\Params;
+namespace Mail\Assembly;
 
 use Mail\Params\Attachment;
 

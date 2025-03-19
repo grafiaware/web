@@ -1,6 +1,6 @@
 <?php
 
-namespace Mail\Params;
+namespace Mail\Assembly;
 
 use PHPMailer\PHPMailer\PHPMailer;
 

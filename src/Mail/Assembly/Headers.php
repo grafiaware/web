@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Mail\Params;
+namespace Mail\Assembly;
 
 /**
  * Description of Headers

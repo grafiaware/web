@@ -2,9 +2,14 @@
 
 namespace Mail;
 
-use Mail\Params\{
-    Host, Encryption, SmtpAuth, Party, Content, Attachment, Headers
-};
+use Mail\AssemblyInterface;
+use Mail\Assembly\Host;
+use Mail\Assembly\Encryption;
+use Mail\Assembly\SmtpAuth;
+use Mail\Assembly\Party;
+use Mail\Assembly\Content;
+use Mail\Assembly\Attachment;
+use Mail\Assembly\Headers;
 
 
 /**
@@ -12,7 +17,7 @@ use Mail\Params\{
  *
  * @author pes2704
  */
-class Params {
+class Assembly implements AssemblyInterface {
 
     /**
      *
@@ -50,7 +55,7 @@ class Params {
      */
     private $headers;
 
-    public function adotpConfigurationParams(Params $params) {
+    public function adoptConfigurationParams(AssemblyInterface $params) {
         if ($params->getContent()) {
             $this->setContent($params->getContent());
         }

@@ -26,7 +26,7 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
 use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 use Auth\Model\Repository\RegistrationRepo;
 
-use Sendmail\Middleware\Sendmail\Campaign\Contents\MailContent;
+use Sendmail\Middleware\Sendmail\Campaign\AssemblyProvider\AssemblyProvider;
 use Sendmail\Middleware\Sendmail\Recipients\RecipientsValidator;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipients;
 use Sendmail\Middleware\Sendmail\Recipients\MailSender;
@@ -67,8 +67,8 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new HtmlMessage();
             },
                     
-            MailContent::class => function(ContainerInterface $c) {   
-                return new MailContent(
+            AssemblyProvider::class => function(ContainerInterface $c) {   
+                return new AssemblyProvider(
                     $c->get(HtmlMessage::class),      
                 );
             },             
@@ -94,7 +94,7 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
             MailSender::class => function(ContainerInterface $c) {
                 return new MailSender(
                     $c->get(Mail::class), 
-                    $c->get(MailContent::class),
+                    $c->get(AssemblyProvider::class),
                     $c->get(CampaignData::class)
                 );
             },

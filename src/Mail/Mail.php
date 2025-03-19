@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\Exception;
 
 use Psr\Log\LoggerInterface;
 
-use Mail\Params;
+use Mail\AssemblyInterface;
 use Mail\Params\Attachment;
 use Mail\Params\StringAttachment;
 use Mail\Exception\MailException;
@@ -25,7 +25,7 @@ class Mail {
     
     /**
      *
-     * @var Params
+     * @var Assembly
      */
     private $params;
     private static $logger;
@@ -41,10 +41,10 @@ class Mail {
      * - šifrování mailů (objekt Mail\Params\Encryption)
      * - nastavení základní sady hlaviček (objekt Mail\Params\Headers)
      * 
-     * @param Params $params Výchozí sada parametrů. 
+     * @param Assembly $params Výchozí sada parametrů. 
      * @param LoggerInterface $logger Logger
      */
-    public function __construct(Params $params = null, LoggerInterface $logger) {
+    public function __construct(AssemblyInterface $params = null, LoggerInterface $logger) {
         $this->params = $params;
         self::$logger = $logger;
     }
@@ -116,13 +116,13 @@ class Mail {
      * - předmět mailu, tělo mailu, přílohy (objekt objekt Mail\Params\Content)
      * 
      * 
-     * @param Params $params Parametry aktuálně odesílaného mailu
+     * @param Assembly $params Parametry aktuálně odesílaného mailu
      * @return bool false on error 
      */
-    public function mail(Params $params = null) {
+    public function mail(AssemblyInterface $params = null) {
         $actualParams = $this->params ;
         if (isset($params)) {
-            $actualParams->adotpConfigurationParams($params);
+            $actualParams->adoptConfigurationParams($params);
         }
 
         //Instantiation and passing `true` enables exceptions

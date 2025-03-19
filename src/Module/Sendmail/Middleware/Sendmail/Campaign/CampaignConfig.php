@@ -24,7 +24,7 @@ class CampaignConfig implements CampaignConfigInterface {
     private $emailCallback;
     private $userCallback;
     private $filterCallback;
-    private $contentAssembly;
+    private $assemblyName;
 
     public function getSourceCsvFilepath(): string {
         return $this->sourceCsvFilepath;
@@ -59,8 +59,8 @@ class CampaignConfig implements CampaignConfigInterface {
         return $this->filterCallback;
     }
 
-    public function getContentAssembly(): string {
-        return $this->contentAssembly;
+    public function getAssemblyName(): string {
+        return $this->assemblyName;
     }
     
     public function setSourceCsvFilepath(string $sourceCsvFilepath): CampaignConfigInterface {
@@ -93,8 +93,8 @@ class CampaignConfig implements CampaignConfigInterface {
         return $this;
     }
 
-    public function setContentAssembly(string $contentAssembly): CampaignConfigInterface {
-        $this->contentAssembly = $contentAssembly;
+    public function setAssemblyName(string $assemblyName): CampaignConfigInterface {
+        $this->assemblyName = $assemblyName;
         return $this;
     }
 }

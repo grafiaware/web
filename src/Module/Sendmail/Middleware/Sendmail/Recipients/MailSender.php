@@ -2,7 +2,7 @@
 namespace Sendmail\Middleware\Sendmail\Recipients;
 
 use Sendmail\Middleware\Sendmail\Recipients\MailSenderInterface;
-use Sendmail\Middleware\Sendmail\Campaign\Contents\MailContentInterface;
+use Sendmail\Middleware\Sendmail\Campaign\AssemblyProvider\AssemblyProviderInterface;
 use Sendmail\Middleware\Sendmail\Csv\CampaignDataInterface;
 
 use Sendmail\Middleware\Sendmail\Campaign\CampaignConfigInterface;
@@ -19,17 +19,17 @@ use Mail\Exception\MailException;
 class MailSender implements MailSenderInterface {
     
     private $mail;
-    private $mailContent;
+    private $assembly;
     private $campaignData;
 
     public function __construct(
             Mail $mail,
-            MailContentInterface $mailContent,
+            AssemblyProviderInterface $assembly,
             CampaignDataInterface $campaignData
             
             ) {
         $this->mail = $mail;
-        $this->mailContent = $mailContent;
+        $this->assembly = $assembly;
         $this->campaignData = $campaignData;        
         
     }
@@ -42,13 +42,12 @@ class MailSender implements MailSenderInterface {
      * @return array Report
      */
     public function sendEmails(CampaignConfigInterface $campaignConfig, $maxRuntime=10, $maxQuantity=50): array {
-        $assembly = $campaignConfig->getContentAssembly();
+        $assemblyName = $campaignConfig->getAssemblyName();
         $emailCallback = $campaignConfig->getEmailCallback();
         $userCallback = $campaignConfig->getUserCallback();
         $sendingConditionCallback = $campaignConfig->getSendingConditionCallback();
         
         $targetData = $this->campaignData->importTargetCsvFile($campaignConfig);
-        $this->mailContent->setAssembly($assembly);
         $report = [];
         $timer = new Timer();
         $startSeconds = $timer->start();
@@ -60,7 +59,7 @@ class MailSender implements MailSenderInterface {
             if ($dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY]==='' && $sendingConditionCallback($dataRow)) {
                 $mailAdresata = $emailCallback($dataRow);
                 $jmenoAdresata = $userCallback($dataRow);
-                $params = $this->mailContent->getParams($mailAdresata, $jmenoAdresata);
+                $params = $this->assembly->getAssembly($assemblyName, $mailAdresata, $jmenoAdresata);
                 try {
                     $this->mail->mail($params);
                     $result = 'Sended '.date("Y-m-d H:i:s");
@@ -71,7 +70,7 @@ class MailSender implements MailSenderInterface {
                     $errorInfo = $mailExc->getPrevious()->getMessage();
                     $result = $message.' Info: '.$errorInfo;
                 }
-                $dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY] = $assembly;
+                $dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY] = $assemblyName;
                 $dataRow[MailSenderInterface::SENDING_TIME] = date("Y-m-d H:i:s");
                 $report[] = [
                     'email' => $mailAdresata,
