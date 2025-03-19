@@ -48,7 +48,7 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         }
         
         if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
-            $statusSecurityRepo->flush();   // uloží data a zavře session (session_write_close) - důležité pro zamezení session lock 
+            $statusSecurityRepo->flush();    // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         }
         
         ###

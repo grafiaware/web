@@ -60,14 +60,14 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         $this->setStatusAfterHandle($statusPresentation, $request); 
 
         if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
-            $this->statusPresentationRepo->flush();   // uloží data a zavře session (session_write_close)
+            $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         }
         
         ###
         $response = $handler->handle($request);
         ###
         
-        $this->statusPresentationRepo->flush();
+        $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         return $response;
     }
 

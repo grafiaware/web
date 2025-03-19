@@ -112,7 +112,7 @@ class ItemEditControler extends FrontControlerAbstract {
                     $this->addFlashMessage("Parent item is not active.", FlashSeverityEnum::INFO);
                     break;
             }
-//        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
+        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);   // json: parametry pro cascade fetchFreshContent()
         //TODO: POST version            
             return $this->redirectSeeLastGet($request); // 303 See Other
 
@@ -180,7 +180,7 @@ class ItemEditControler extends FrontControlerAbstract {
             $contentGenerator->initialize($langMenuItem);
         }
         $this->addFlashMessage("menuItem type($postedModule, $postedGenerator)", FlashSeverityEnum::SUCCESS);
-//        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
+        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
         //TODO: POST version        
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

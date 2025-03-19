@@ -53,7 +53,7 @@ class HierarchyControler extends FrontControlerAbstract {
     public function add(ServerRequestInterface $request, $uid): ResponseInterface {
         $siblingUid = $this->editHierarchyDao->addNode($uid);
         $this->addFlashMessage('add item as sibling', FlashSeverityEnum::SUCCESS);
-//        return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($siblingUid), "newitemuid"=>$siblingUid]);        
+        return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($siblingUid), "newitemuid"=>$siblingUid]);        
         //TODO: POST version
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$siblingUid");
     }
@@ -61,7 +61,7 @@ class HierarchyControler extends FrontControlerAbstract {
     public function addChild(ServerRequestInterface $request, $uid): ResponseInterface {
         $childUid = $this->editHierarchyDao->addChildNode($uid);
         $this->addFlashMessage('add item as child', FlashSeverityEnum::SUCCESS);
-//        return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($childUid), "newitemuid"=>$childUid]);
+        return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($childUid), "newitemuid"=>$childUid]);
         //TODO: POST version
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$childUid");
     }
@@ -71,7 +71,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $statusFlash->setPostCommand([self::POST_COMMAND_CUT=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $statusFlash->setMessage("cut - item: $langCode/$uid selected for cut&paste operation", FlashSeverityEnum::INFO);
-//        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
+        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
         //TODO: POST version
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -81,7 +81,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $statusFlash->setPostCommand([self::POST_COMMAND_COPY=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $statusFlash->setMessage("copy - item: $langCode/$uid selected for copy&paste operation", FlashSeverityEnum::INFO);
-//        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
+        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
         //TODO: POST version
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -90,7 +90,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->getPostCommand();  // zrušení výběru položky "cut"
         $statusFlash->setMessage("cut escape - operation cut&paste aborted", FlashSeverityEnum::WARNING);
-//        return $this->createJsonPutOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
+        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);  // refresh jen driver
         //TODO: POST version
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -137,9 +137,9 @@ class HierarchyControler extends FrontControlerAbstract {
             $this->addFlashMessage('unable to paste, item has no parent', FlashSeverityEnum::WARNING);
         }
 //        if ($success ) {
-//            return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
 //        } else {
-//            return $this->createJsonPutOKResponse(["refresh"=>"navigation", "newitemuid"=>$uid]);  // refresh jen driver
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "newitemuid"=>$uid]);  // refresh jen driver
 //        }
         //TODO: POST version
         return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
@@ -181,9 +181,9 @@ class HierarchyControler extends FrontControlerAbstract {
             $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
         }
 //        if ($success ) {
-//            return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
 //        } else {
-//            return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($uid), "newitemuid"=>$uid]);
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($uid), "newitemuid"=>$uid]);
 //        }
         //TODO: POST version
         return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
@@ -196,14 +196,14 @@ class HierarchyControler extends FrontControlerAbstract {
         $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);
         $redirectUid = $parentNode['uid'];   // kořen trash
-//            return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
         //TODO: POST version
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$redirectUid");
     }
 
     // odloženo!!
     public function nonPermittedDelete(ServerRequestInterface $request, $uid): ResponseInterface {
-//        return $this->createJsonPutOKResponse(["refresh"=>"closest"]);
+        return $this->createJsonOKResponse(["refresh"=>"closest"]);
         //TODO: POST version
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
     }
@@ -217,7 +217,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $redirectUid = isset($parentNode) ? $parentNode['uid'] : $uid;
         // ještě přepnout item (switchItem) - 
         // <a href="web/v1/page/item/664230b8de0c0" data-red-content="red/v1/paper/28" data-red-driver="red/v1/presenteddriver/664230b8de0c0"><span>Katalog umělců a institucí 2023</span><span class="semafor"><i class="circle icon green" title="published"></i></span></a>
-//                       return $this->createJsonPutOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
+                       return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
         //TODO: POST version        
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$redirectUid");
     }
