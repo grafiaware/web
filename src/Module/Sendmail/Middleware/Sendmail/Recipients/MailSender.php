@@ -62,9 +62,9 @@ class MailSender implements MailSenderInterface {
                 $jmenoAdresata = $userCallback($dataRow);
                 $params = $this->mailContent->getParams($mailAdresata, $jmenoAdresata);
                 try {
-//                    $this->mail->mail($params);
-//                    $result = 'Sended '.date("Y-m-d H:i:s");
-                    $result = 'Test '.date("Y-m-d H:i:s");
+                    $this->mail->mail($params);
+                    $result = 'Sended '.date("Y-m-d H:i:s");
+//                    $result = 'Test '.date("Y-m-d H:i:s");
                     $attempts++;
                 } catch (MailException $mailExc) {
                     $message = $mailExc->getMessage();

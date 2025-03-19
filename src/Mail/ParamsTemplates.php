@@ -45,6 +45,40 @@ class ParamsTemplates {
      *
      * @return Params
      */
+    private static function smtp4dev() {
+
+        $params = new Params();
+        $params
+            ->setHost(
+                    (new Host())
+                        ->setHost('localhost')
+                    )
+            ->setSmtpAuth(
+                    (new SmtpAuth())
+                        ->setSmtpAuth(true)
+                        ->setUserName('pes@localhost')
+                        ->setPassword('Heslo')
+                    )
+            ->setEncryption(
+                    (new Encryption())->setEncryption(Encryption::NONE)
+                    )
+            ->setHeaders(
+                    (new Headers())
+                        ->setHeaders(['X-Mailer' => 'web mail test'])
+                    )
+            ;
+
+        return $params;
+    }
+    //-----------------------------------------------------------------------------------------------------------------------
+    /**
+     * Parametry pro odesílání prostřednictvím smtp.gmail.com
+     * Pro přihlášení k SMTP serveru se používají údaje emailového účtu it.grafia@gmail.com
+     *
+     * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
+     *
+     * @return Params
+     */
     private static function itGrafiaGmail() {
 
         $params = new Params();
@@ -81,7 +115,7 @@ class ParamsTemplates {
      * @return Params
      */
     private static function najdisi() {
-
+         // funkční na hostingu
         $params = new Params();
         $params
             ->setHost(
