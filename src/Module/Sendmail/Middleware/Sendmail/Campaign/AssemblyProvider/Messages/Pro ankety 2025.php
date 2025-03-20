@@ -19,11 +19,13 @@ use Pes\Text\Text;
                         background-image: none; background-repeat: repeat; 
                         background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); background-attachment: fixed; 
                         cursor: text; padding: 16px 30px;">
-        
-        <div style="width:100%;">
+        <p>
+        <div style="width:90%;">
             <img style="float:left;" src="<?=$data_logo_grafia?>" width="70" alt='logoGrafia' />
             <img style="float:right;" src="<?=$data_logo_klic?>"  width="70" alt='logoKlic' />
         </div>
+        </p>
+        <p>
         <div>
             <h2>Veletrh práce a vzdělávání</h2>
             <!--  <?  Text::esc($doSestavy); ?>  -->
@@ -31,6 +33,8 @@ use Pes\Text\Text;
             <br/>
             <p></p>
         </div>
+        </p>
+
         
         <div>Dobrý den vážený návštěvníku veletrhu,&nbsp;
             <br/>

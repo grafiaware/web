@@ -19,17 +19,17 @@ use Mail\Exception\MailException;
 class MailSender implements MailSenderInterface {
     
     private $mail;
-    private $assembly;
+    private $assemblyProvider;
     private $campaignData;
 
     public function __construct(
             Mail $mail,
-            AssemblyProviderInterface $assembly,
+            AssemblyProviderInterface $assemblyProvider,
             CampaignDataInterface $campaignData
             
             ) {
         $this->mail = $mail;
-        $this->assembly = $assembly;
+        $this->assemblyProvider = $assemblyProvider;
         $this->campaignData = $campaignData;        
         
     }
@@ -59,9 +59,9 @@ class MailSender implements MailSenderInterface {
             if ($dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY]==='' && $sendingConditionCallback($dataRow)) {
                 $mailAdresata = $emailCallback($dataRow);
                 $jmenoAdresata = $userCallback($dataRow);
-                $params = $this->assembly->getAssembly($assemblyName, $mailAdresata, $jmenoAdresata);
+                $assembly = $this->assemblyProvider->getAssembly($assemblyName, $mailAdresata, $jmenoAdresata);
                 try {
-                    $this->mail->mail($params);
+                    $this->mail->mail($assembly);
                     $result = 'Sended '.date("Y-m-d H:i:s");
 //                    $result = 'Test '.date("Y-m-d H:i:s");
                     $attempts++;

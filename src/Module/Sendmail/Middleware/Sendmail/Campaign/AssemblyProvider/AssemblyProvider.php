@@ -68,7 +68,7 @@ class AssemblyProvider implements AssemblyProviderInterface {
                                      ->setAttachments($attachments)
                                 )
                         ->setParty  (  (new Party())
-                                     ->setFrom('info@najdisi.cz', 'Veletrh Prace')    
+                                     ->setFrom('info@najdisi.cz', 'Veletrh Práce')    
                                      ->addTo( $mailAdresata, $jmenoAdresata )
                                   //   ->addCc( 'webmaster@grafia.cz', 'Kopie')    //kopie
                                  //    ->addBcc( $bccAddress, $bccName)              //skryta              

@@ -36,12 +36,13 @@ class CampaignProvider implements CampaignProviderInterface {
             case self::JEDNA:
                 $data = [
                     'sourceCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "SouborVS.csv",
-                    'verifiedCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "MujSouborVS_validated.csv",
+                    'verifiedCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "SouborVS_validated.csv",
                     'csvFileRowIdCallback' => function($row) {return $row["Časová značka"];},
                     'emailCallback' => function($row) {return $row["E-mail:"];},
                     'userCallback' => function($row) {return isset($row["Příjmení:"]) ? ($row["Příjmení:"].' '.$row["Jméno:"]) : $row["E-mail:"];},
                     'validationDegree' => ValidityEnum::DOMAIN,
                     'sendingConditionCallback' => function($row) {return ($row[MailRecipientsInterface::MAIL_ADDRESS_VALIDITY]>= ValidityEnum::DOMAIN);},
+                    
                     'assemblyName' => AssemblyProviderInterface::ASSEMBLY_ANKETA_2025,
                 ];
                 break;
