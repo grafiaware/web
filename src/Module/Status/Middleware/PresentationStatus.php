@@ -58,7 +58,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         $this->setPresentationLanguage($statusPresentation, $request);
         $this->setLastGetPath($statusPresentation, $request); 
 
-        if ($request->getMethod() == 'GET') {  // && $request->hasHeader("X-Cascade")) {
+        if ($request->getMethod() == 'GET') {
             $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         }
         

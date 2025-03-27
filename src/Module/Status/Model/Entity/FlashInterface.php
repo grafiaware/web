@@ -82,22 +82,4 @@ interface FlashInterface extends PersistableEntityInterface {
      */
     public function storeMessages(): void;
     
-    
-    /**
-     * Metoda slouží pro vyzvednutí flash messages, které byly uloženy v úložišti dat session. Připraví messages pro čtení metodou getMessages() 
-     * a smaže messages z pole zpráv ukládaných do úložiště. Po této metodě pak může být provedeno uložení dat do úložiště session (soubor, databáze) 
-     * a k uvolnění úložiště (uzavření souboru, odemknutí řádku databáze) a tím k ukončení session lock.
-     * 
-     * Typicky je použita v procesu zpracování GET requestu, při kterém múže dojít k čtení a renderování dříve uložených messages.
-     * Umožňuje volat retrieveMessages() a následně ihned provést uložení dat session (a omezit session lock) PŘED voláním middleware metody hendle. 
-     * Uvnitř metody MW handle() pak jsou messages získávány metodou getMessages.
-     * 
-     * Poznámka: messages vyzvednuté metodou retrieveMessages() čekají s entitě až do prvního čtšní metodou getMessages(). To sice musí nastat nejdříve při zpracování 
-     * GET requestu, protože k volání metody retrieveMessages() by mělo docházet jen při GET requestu, ale k volání metody getMessages() nemusí dojít při stejném 
-     * GET requestu, ve kterém byla zavolána retrieveMessages(), může to být libovolný následující request. Například může dojít k volání getMessages() až v některém komponentu 
-     * volaném z cascade.js (např. v komponentu Flash).
-     * 
-     * @return void
-     */
-    public function retrieveMessages(): void;    
 }

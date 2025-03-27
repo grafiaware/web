@@ -37,8 +37,7 @@ class FlashStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
         
         // je to GET komponent -> flush
         //TODO: flash nenačítat jako komponent, vložit vždy do layoutu
-        if ($request->getMethod() == 'GET') {  // && $request->hasHeader("X-Cascade")) {  
-            $statusFlash->retrieveMessages();   // připraví data pro metodu getMessages() a smaže v entotě z uložených dt
+        if ($request->getMethod() == 'GET') {  //   
             $statusFlashRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         }
         
@@ -46,9 +45,7 @@ class FlashStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
         $response = $handler->handle($request);
         ###
         
-        if ($request->getMethod() != 'GET') {
-            $statusFlash->storeMessages();
-        }
+        $statusFlash->storeMessages();
 //        $statusFlashRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         return $response;
     }

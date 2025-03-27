@@ -47,8 +47,8 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * @return array
      */
     public function getMessages(): array {
-        $messages = $this->retrievedFlashMessages;
-        $this->retrievedFlashMessages = [];
+        $messages = $this->storedFlashMessages;
+        $this->storedFlashMessages = [];
         return $messages;
     }
 
@@ -89,18 +89,6 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
             }
 //        }
 
-    }
-    
-    /**
-     * {@inheritDoc}
-     * 
-     * @return void
-     */
-    public function retrieveMessages(): void {
-        foreach ($this->storedFlashMessages as $stor) {
-            $this->retrievedFlashMessages[] = $stor;            
-        }
-        $this->storedFlashMessages = [];
     }
     
     /**
