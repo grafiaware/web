@@ -20,7 +20,7 @@ use Psr\Http\Message\ServerRequestInterface;
 interface FlashInterface extends PersistableEntityInterface {
 
     /**
-     * Vrací pole flash message. Všechny flash messages smaže.
+     * Vrací pole flash messages, které byly předtím vyzvednuty metodou retrieveMessages(). Všechny vyzvednuté flash messages smaže.
      * @return array
      */
     public function getMessages(): array;
@@ -66,18 +66,38 @@ interface FlashInterface extends PersistableEntityInterface {
      * Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      * 
      * @param type $command
-     * @return \Status\Model\Entity\FlashInterface
+     * @return FlashInterface
      */
     public function setPostCommand($command): FlashInterface;
 
     /**
      * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus po zpracování requestu v dalších middleware.
-     *
+     * 
+     * Typicky je použita v procesu zpracování POST, PUT, DELETE requestu, kdy dochází k vytváření flash messages.
+     * 
      * Musí být volána po návratu z middleware metody handle().
-     * Po návratu z této metody je StatusFlash uložen, například serializován do session.
+     * Po volání této metody může být StatusFlash uložen, například serializován do session.
      *
-     * @param ServerRequestInterface $request
      * @return void
      */
     public function storeMessages(): void;
+    
+    
+    /**
+     * Metoda slouží pro vyzvednutí flash messages, které byly uloženy v úložišti dat session. Připraví messages pro čtení metodou getMessages() 
+     * a smaže messages z pole zpráv ukládaných do úložiště. Po této metodě pak může být provedeno uložení dat do úložiště session (soubor, databáze) 
+     * a k uvolnění úložiště (uzavření souboru, odemknutí řádku databáze) a tím k ukončení session lock.
+     * 
+     * Typicky je použita v procesu zpracování GET requestu, při kterém múže dojít k čtení a renderování dříve uložených messages.
+     * Umožňuje volat retrieveMessages() a následně ihned provést uložení dat session (a omezit session lock) PŘED voláním middleware metody hendle. 
+     * Uvnitř metody MW handle() pak jsou messages získávány metodou getMessages.
+     * 
+     * Poznámka: messages vyzvednuté metodou retrieveMessages() čekají s entitě až do prvního čtšní metodou getMessages(). To sice musí nastat nejdříve při zpracování 
+     * GET requestu, protože k volání metody retrieveMessages() by mělo docházet jen při GET requestu, ale k volání metody getMessages() nemusí dojít při stejném 
+     * GET requestu, ve kterém byla zavolána retrieveMessages(), může to být libovolný následující request. Například může dojít k volání getMessages() až v některém komponentu 
+     * volaném z cascade.js (např. v komponentu Flash).
+     * 
+     * @return void
+     */
+    public function retrieveMessages(): void;    
 }

@@ -24,6 +24,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
 
     private $preparedFlashMessages=[];
     private $storedFlashMessages=[];
+    private $retrievedFlashMessages=[];
 
 //    private $preparedFlashCommand;
 //    private $storedFlashCommand;
@@ -41,16 +42,67 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
     }
 
     /**
-     * Vrací pole flash message. Všechny flash messages smaže.
-     *
-     * @return array Array Flash messages.
+     * {@inheritDoc}
+     * 
+     * @return array
      */
     public function getMessages(): array {
-        $messages = $this->storedFlashMessages;
-        $this->storedFlashMessages = [];
+        $messages = $this->retrievedFlashMessages;
+        $this->retrievedFlashMessages = [];
         return $messages;
     }
 
+    /**
+     * Přidá novou flash message.
+     *
+     * @param string $message
+     * @return FlashInterface
+     */
+    public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): FlashInterface {
+        $en = $this->severityEnum;
+        try {
+            $this->preparedFlashMessages[] = ['severity'=>$en($severity), 'message'=>$message];
+        } catch (ValueNotInEnumException $e) {
+            throw new UndefinedFlashMessageSeverityException("nepřípustná hodnota severity $severity", 0, $e);
+        }
+        return $this;
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return void
+     */
+    public function storeMessages(): void {
+        foreach ($this->preparedFlashMessages as $prep) {
+            $this->storedFlashMessages[] = $prep;   //TODO: stack
+        }
+        $this->preparedFlashMessages = [];
+//        if (isset($this->preparedFlashCommand)) {
+//            $this->storedFlashCommand = $this->preparedFlashCommand;
+//            $this->preparedFlashCommand = null;
+//        }
+//        if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
+            if (isset($this->preparedPostFlashCommand)) {
+                $this->storedPostFlashCommand = $this->preparedPostFlashCommand;
+                $this->preparedPostFlashCommand = null;
+            }
+//        }
+
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @return void
+     */
+    public function retrieveMessages(): void {
+        foreach ($this->storedFlashMessages as $stor) {
+            $this->retrievedFlashMessages[] = $stor;            
+        }
+        $this->storedFlashMessages = [];
+    }
+    
     /**
      * Vrací command se životností do příštího requestu (standartní "flash" životnost). Command vždy smaže.
      */
@@ -83,22 +135,6 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
     }
 
     /**
-     * Nastaví novou flash message.
-     *
-     * @param string $message
-     * @return FlashInterface
-     */
-    public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): FlashInterface {
-        $en = $this->severityEnum;
-        try {
-            $this->preparedFlashMessages[] = ['severity'=>$en($severity), 'message'=>$message];
-        } catch (ValueNotInEnumException $e) {
-            throw new UndefinedFlashMessageSeverityException("nepřípustná hodnota severity $severity", 0, $e);
-        }
-        return $this;
-    }
-
-    /**
      * Nastaví command se životností do příštího requestu (standartní "flash" životnost).
      *
      * @param type $command
@@ -123,28 +159,4 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
         return $this;
     }
 
-    /**
-     * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus po zpracování requestu v dalších middleware.
-     *
-     * Je určen k volání po návratu z middleware metody handle(). Připraví StatusFlash pro uložení do session.
-     * Po návratu z této metody múže být StatusFlash uložen, například serializován do session.
-     *
-     * @param ServerRequestInterface $request
-     * @return void
-     */
-    public function storeMessages(): void {
-        $this->storedFlashMessages += $this->preparedFlashMessages;
-        $this->preparedFlashMessages = [];
-//        if (isset($this->preparedFlashCommand)) {
-//            $this->storedFlashCommand = $this->preparedFlashCommand;
-//            $this->preparedFlashCommand = null;
-//        }
-//        if ($request->getMethod() == 'POST' || $request->getMethod() == 'PUT') {
-            if (isset($this->preparedPostFlashCommand)) {
-                $this->storedPostFlashCommand = $this->preparedPostFlashCommand;
-                $this->preparedPostFlashCommand = null;
-            }
-//        }
-
-    }
 }
