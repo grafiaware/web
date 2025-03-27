@@ -57,6 +57,13 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
                $this->represantativeActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
             }
             $this->loginAggregate = null;
+        } else {
+            if (isset($this->editorActions)) {
+                $this->editorActions->processActionsForLossOfSecurityContext("unknown");
+            }            
+            if (isset($this->represantativeActions)) {
+                $this->represantativeActions->processActionsForLossOfSecurityContext("unknown");
+            }
         }
         $this->info = [];
         return $this;

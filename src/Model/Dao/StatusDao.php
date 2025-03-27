@@ -40,4 +40,8 @@ class StatusDao {
     public function finish() {
         $this->sessionHandler->sessionFinish();
     }
+    
+    public function reset() {
+        $this->sessionHandler->sessionReset();
+    }
 }

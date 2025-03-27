@@ -33,10 +33,10 @@ class Prepare implements PrepareStatusServiceInterface {
     
     /**
      * Provede akce závislé prezentačním a security statusu, které potřebují přístup k databázi webu. 
-     * Tyto jsou spuštěny údálostmi v Status middleware, ale je nažádoucí je provádět v StatusP middleware, protože by to vyžadovalo přístup k databázi již v tomto middleware.
+     * Tyto jsou spuštěny událostmi v Status middleware, ale je nežádoucí je provádět v Status middleware, protože by to vyžadovalo přístup k databázi již v tomto middleware.
      * 
      * StatusPresentation akce:
-     * Metoda nastaví jazyk prezentace podle jazyka požadovaného v requestu (požadovaný jazyk byl nastaven do status presentation v status presentation middleware) 
+     * Metoda nastaví jazyk prezentace podle jazyka požadovaného v requestu (požadovaný jazyk byl nastaven do status presentation v PresentationStatus middleware) 
      * a podle dostupných jazykových verzí v databázi (potřebuje LanguageRepo).
      * 
      * StatusSecurity akce:

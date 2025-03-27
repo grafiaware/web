@@ -31,13 +31,6 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         /** @var Security $statusSecurity */
         $statusSecurity = $statusSecurityRepo->get();
 
-        // po vypršení session - security status není persisted, ale také nemá objekt UserActions (a vznikají chyby pří dotazech na userActions->xxx())
-        //object(Model\Entity\StatusSecurity)[178]
-        //  private 'loginAggregate' => null
-        //  private 'userActions' => null
-        //  private 'persisted' (Model\Entity\EntityAbstract) => boolean false
-        //  private 'locked' (Model\Entity\EntityAbstract) => boolean false
-
         // obnoví security status s tím, že login aggregate je null - pro případny privátní obsah musí být vnořen Login middleware
         if (!isset($statusSecurity)) {
             $statusSecurity = new Security();
@@ -47,15 +40,15 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
             $statusSecurity->removeContext();
         }
         
-        if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
-            $statusSecurityRepo->flush();   // uloží data a zavře session (session_write_close) - důležité pro zamezení session lock 
+        if ($request->getMethod() == 'GET') {
+            $statusSecurityRepo->flush();    // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         }
         
         ###
         $response = $handler->handle($request);
         ###
         
-        $statusSecurityRepo->flush();
+//        $statusSecurityRepo->flush();
         return $response;
     }
 }

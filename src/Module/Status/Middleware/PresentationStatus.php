@@ -43,31 +43,30 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-//        $this->container =
-//                (new PresentationStatusComfigurator())->configure(
-//                    (new RedModelContainerConfigurator())->configure(
-//                        (new DbUpgradeContainerConfigurator())->configure(
-//                                new Container($this->getApp()->getAppContainer())
-//                        )
-//                )
-//            );
         //TODO: POST version
         // možná není potřeba ukládat - nebude fungoba seeLastGet
 
         $this->container = $this->getApp()->getAppContainer();
+        /** @var StatusPresentationRepo $statusPresentationRepo */
+        $this->statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
+        $statusPresentation = $this->statusPresentationRepo->get();
+        if (!isset($statusPresentation)) {
+            $statusPresentation = new Presentation();
+            $this->statusPresentationRepo->add($statusPresentation);
+        }
+        
+        $this->setPresentationLanguage($statusPresentation, $request);
+        $this->setLastGetPath($statusPresentation, $request); 
 
-        $statusPresentation = $this->createStatusBeforeHandle($request);
-        $this->setStatusAfterHandle($statusPresentation, $request); 
-
-        if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade")) {
-            $this->statusPresentationRepo->flush();   // uloží data a zavře session (session_write_close)
+        if ($request->getMethod() == 'GET') {
+            $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         }
         
         ###
         $response = $handler->handle($request);
         ###
         
-        $this->statusPresentationRepo->flush();
+//        $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         return $response;
     }
 
@@ -76,15 +75,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      * 
      * @param ServerRequestInterface $request
      */
-    private function createStatusBeforeHandle(ServerRequestInterface $request) {
-        /** @var StatusPresentationRepo $statusPresentationRepo */
-        $this->statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
-
-        $statusPresentation = $this->statusPresentationRepo->get();
-        if (!isset($statusPresentation)) {
-            $statusPresentation = new Presentation();
-            $this->statusPresentationRepo->add($statusPresentation);
-        }        
+    private function setPresentationLanguage(PresentationInterface $statusPresentation, ServerRequestInterface $request) {
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguageCode())) {
             $langCode = $this->getRequestedLangCode($request);
@@ -92,9 +83,9 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 //            $lanuageRepo = $this->container->get(LanguageRepo::class);
 //            $language = $lanuageRepo->get($langCode);
             $statusPresentation->setRequestedLangCode($langCode);
+            $statusPresentation->setLanguageCode($langCode);
 //            $statusPresentation->setLanguage($language);
         }
-        return $statusPresentation;
     }
 
     /**
@@ -107,7 +98,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      * @param type $statusPresentation
      * @param type $request
      */
-    private function setStatusAfterHandle(PresentationInterface $statusPresentation, $request) {
+    private function setLastGetPath(PresentationInterface $statusPresentation, ServerRequestInterface $request) {
         if ($request->getMethod()=='GET') {
             if (!$request->hasHeader("X-Cascade")) {
                 $statusPresentation->setLastGetResourcePath($this->getRestUri($request));
