@@ -8,7 +8,7 @@ use Site\ConfigurationCache;
 
 use Status\Model\Repository\StatusSecurityRepo;
 
-use Status\Model\Entity\StatusSecurity;
+use Status\Model\Entity\Security;
 use Events\Model\Repository\EnrollRepo;
 use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Repository\CompanyRepo;
@@ -29,7 +29,7 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-/** @var StatusSecurity $statusSecurity */
+/** @var Security $statusSecurity */
 $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();

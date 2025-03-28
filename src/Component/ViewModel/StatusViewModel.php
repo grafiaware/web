@@ -13,9 +13,9 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
-use Status\Model\Entity\StatusSecurityInterface;
-use Status\Model\Entity\StatusPresentationInterface;
-use Status\Model\Entity\StatusFlashInterface;
+use Status\Model\Entity\SecurityInterface;
+use Status\Model\Entity\PresentationInterface;
+use Status\Model\Entity\FlashInterface;
 
 
 /**
@@ -117,8 +117,8 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         return $editorActions ? $editorActions->presentEditableContent() : false;
     }
 
-    public function getPresentedLanguage(): ?LanguageInterface {
-        return $this->statusPresentationRepo->get()->getLanguage();
+    public function getPresentedLanguageCode(): ?string {
+        return $this->statusPresentationRepo->get()->getLanguageCode();
     }
 
     public function getEditorActions(): ?EditorActionsInterface {

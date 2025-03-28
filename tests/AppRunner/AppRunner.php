@@ -10,7 +10,7 @@ use Pes\Http\Environment;
 use Application\WebAppFactory;
 use Application\SelectorItems;
 
-use Pes\Middleware\NoMatchSelectorItemRequestHandler;
+use Pes\Middleware\NoMatchedRouteRequestHandler;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -106,7 +106,7 @@ class AppRunner extends TestCase {
 
         $app = (new WebAppFactory())->createFromEnvironment($this->createEnvironment());
         $selector = (new SelectorItems($app))->create();
-        $response = $app->run($selector, new NoMatchSelectorItemRequestHandler());
+        $response = $app->run($selector, new NoMatchedRouteRequestHandler());
         $this->assertInstanceOf(\Pes\Http\Response::class, $response);
     }
 }

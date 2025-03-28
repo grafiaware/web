@@ -8,7 +8,7 @@ use Pes\Application\AppFactory;
 use Pes\Application\UriInfoInterface;
 
 use Red\Model\Dao\MenuItemDaoInterface;
-use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\PresentationInterface;
 use Replace\Exception\InvalidHtmlSourceException;
 use Replace\Exception\ListValueNotFoundInDatabaseException;
 use LogicException;
@@ -29,18 +29,18 @@ class Replace implements ReplaceInterface {
      */
     public function replaceTemplateStrings(ServerRequestInterface $request, &$text): void {
 
-        $transform = array(
-            // templates, static
-            '@download/'               => ConfigurationCache::files()['@download'],
-            '@commonimages/'           => ConfigurationCache::files()['@commonimages'],
-            '@commonmovies/'           => ConfigurationCache::files()['@commonmovies'],
-            '@siteimages/'             => ConfigurationCache::files()['@siteimages'],
-            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
-            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
-            '@siteupload/'             => ConfigurationCache::files()['@siteupload'],
-            '@presenter'               => ConfigurationCache::files()['@presenter'],
-        );
-
+//        $transform = array(
+//            // templates, static
+//            '@download/'               => ConfigurationCache::files()['@download'],
+//            '@commonimages/'           => ConfigurationCache::files()['@commonimages'],
+//            '@commonmovies/'           => ConfigurationCache::files()['@commonmovies'],
+//            '@siteimages/'             => ConfigurationCache::files()['@siteimages'],
+//            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
+//            '@sitemovies/'             => ConfigurationCache::files()['@sitemovies'],
+//            '@siteupload/'             => ConfigurationCache::files()['@siteupload'],
+//            '@presenter/'              => ConfigurationCache::files()['@presenter'],
+//        );
+        $transform = ConfigurationCache::files();
         // <a href="index.php?list=download&amp;file=1197476.txt" target="_blank">Obchodní podmínky e-shop Grafia ke stažení</a>
         $text = str_replace(array_keys($transform), array_values($transform), $text);
     }
@@ -89,8 +89,8 @@ class Replace implements ReplaceInterface {
     public function replaceSlots(&$text): void {
         $repl = $text;
         $slots = [
-          '/(--%VLOZVIDEOFLV_)(.*)(%--)/'=>  '<video width="600px" controls  poster="'.ConfigurationCache::files()['@sitemovies'].'$2.jpg"'
-            . '<source src="'.ConfigurationCache::files()['@sitemovies'].'$2.mp4" type="video/mp4">'
+          '/(--%VLOZVIDEOFLV_)(.*)(%--)/'=>  '<video width="600px" controls  poster="'.ConfigurationCache::files()['@sitemovies'].'/$2.jpg"'
+            . '<source src="'.ConfigurationCache::files()['@sitemovies'].'/$2.mp4" type="video/mp4">'
                 . 'Váš prohlížeč nepodporuje element video.</video>' 
         ];
         foreach ($slots as $slot => $value) {
@@ -106,9 +106,9 @@ class Replace implements ReplaceInterface {
         $text = $repl;
     }
     
-    public function replaceRsUrlsInHref(ServerRequestInterface $request, &$text, $key, MenuItemDaoInterface $dao, StatusPresentationInterface $statusPresentation): void {
+    public function replaceRsUrlsInHref(ServerRequestInterface $request, &$text, $key, MenuItemDaoInterface $dao, PresentationInterface $statusPresentation): void {
         $prefix = 'href="';
-        $langCode = $statusPresentation->getLanguage()->getLangCode();
+        $langCode = $statusPresentation->getLanguageCode();
         $lastGetResourcePath = $statusPresentation->getLastGetResourcePath();
         $prefixLength = strlen($prefix);
         $transform = '';

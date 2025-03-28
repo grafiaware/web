@@ -60,7 +60,7 @@ class DriverService implements DriverServiceInterface{
     
     
     public function getMenuItem($uid) {
-        return $this->menuItemRepo->get($this->statusViewModel->getPresentedLanguage()->getLangCode(), $uid);        
+        return $this->menuItemRepo->get($this->statusViewModel->getPresentedLanguageCode(), $uid);        
     }
     
     private function getItemType($uid) {

@@ -6,7 +6,7 @@ use Access\Enum\RoleEnum;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
-use Mail\Params;
+use Mail\Assembly;
 use Mail\Params\{Content, Attachment, Party};
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -111,7 +111,7 @@ class ConfirmControler extends LoginControlerAbstract
                                                               // 'logo_grafia'   => 'logo_grafia.png'
                                                             ] );                        
                         }    
-                            $params = (new Params())
+                            $params = (new Assembly())
                                     ->setContent(  (new Content())
                                                  ->setSubject($subject)
                                                  ->setHtml($body)
@@ -143,7 +143,7 @@ class ConfirmControler extends LoginControlerAbstract
     //                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
     //                                        ->setAltText('Logo Grafia')
                                            ];
-                            $params = (new Params())
+                            $params = (new Assembly())
                                         ->setContent(  (new Content())
                                                          ->setSubject($subject)
                                                          ->setHtml($body)

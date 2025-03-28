@@ -12,8 +12,10 @@ use Pes\Application\AppInterface;
 use Pes\Middleware\SelectorInterface;
 
 use Auth\Middleware\Login\Login;
-use Auth\Middleware\Logged\LoggedAccess;
-use Auth\Middleware\Logged\Service\LoggedAccessor;
+use Firewall\Middleware\Firewall;
+use Firewall\Middleware\Rule\IsLogged;
+use Firewall\Middleware\Rule\HasRole;
+
 use Ping\Middleware\Ping;
 use Web\Middleware\Page\Web;
 use Red\Middleware\Component\Component;
@@ -31,6 +33,9 @@ use Consent\Middleware\ConsentLogger\ConsentLogger;
 use Status\Middleware\FlashStatus;
 use Status\Middleware\PresentationStatus;
 use Status\Middleware\SecurityStatus;
+use Status\Middleware\FinishStatus;
+
+use Access\Enum\RoleEnum;
 
 /**
  * Description of SelectorFactory
@@ -68,6 +73,7 @@ class SelectorItems {
                     new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
+                    new FinishStatus(),
                     new Transformator(),
                     new Web()
                 ];};
@@ -86,9 +92,10 @@ class SelectorItems {
                 return [
                     new ResponseTime(),
                     new SecurityStatus(),
-                    new Login(),
+//                    new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
+                    new FinishStatus(),
                     new Transformator(),
                     new Redactor()
                 ];},
@@ -99,7 +106,8 @@ class SelectorItems {
                     new ResponseTime(),
                     new SecurityStatus(),
                     new FlashStatus(),
-//                    new PresentationStatus(),
+                    new PresentationStatus(),  // GET requesty (zobrazení komponenty) potřebují lang
+                    new FinishStatus(),
                     new Login()
                 ];},
             '/events'=>
@@ -107,28 +115,31 @@ class SelectorItems {
                 return [
                     new ResponseTime(),
                     new SecurityStatus(),
-                    new Login(),
+//                    new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
+                    new FinishStatus(),
                     new EventsLoginSync(),
                     new Events()
                 ];},
             '/sendmail'=>
             function() {
                 return [
-                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    //TODO: doplnit basic autentifikaci pro případ nepřihlášeného uživatele.
                     new SecurityStatus(),
-                    new Login(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+//                    new Login(),
+                    new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
+                    new FinishStatus(),
                     new Sendmail()
                 ];},
             '/build'=>
             function() {
                 return [
-                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    //TODO: doplnit basic autentifikaci pro případ nepřihlášeného uživatele.
                     new SecurityStatus(),
-                    new Login(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+//                    new Login(),
+                    new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
+                    new FinishStatus(),
                     new Build()
                 ];},
             '/consent'=>
@@ -143,7 +154,8 @@ class SelectorItems {
             function() {
                 return [
                     new SecurityStatus(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new Firewall(new IsLogged($this->app)),
+                    new FinishStatus(),
                     new \Middleware\Rs\Transformator(),
                     new \Middleware\Rs\Rs()
                 ];},
@@ -151,7 +163,8 @@ class SelectorItems {
             function() {
                 return [
                     new SecurityStatus(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new Firewall(new IsLogged($this->app)),
+                    new FinishStatus(),
                     new \Middleware\Edun\Transformator(),
                     new \Middleware\Edun\Edun()
                 ];},
@@ -159,7 +172,8 @@ class SelectorItems {
             function() {
                 return [
                     new SecurityStatus(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new Firewall(new IsLogged($this->app)),
+                    new FinishStatus(),
                     new \Middleware\Staffer\Transformator(),
                     new \Middleware\Staffer\Staffer()
                 ];},

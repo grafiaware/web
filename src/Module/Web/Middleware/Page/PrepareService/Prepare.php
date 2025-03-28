@@ -33,10 +33,10 @@ class Prepare implements PrepareStatusServiceInterface {
     
     /**
      * Provede akce závislé prezentačním a security statusu, které potřebují přístup k databázi webu. 
-     * Tyto jsou spuštěny údálostmi v Status middleware, ale je nažádoucí je provádět v StatusP middleware, protože by to vyžadovalo přístup k databázi již v tomto middleware.
+     * Tyto jsou spuštěny událostmi v Status middleware, ale je nežádoucí je provádět v Status middleware, protože by to vyžadovalo přístup k databázi již v tomto middleware.
      * 
      * StatusPresentation akce:
-     * Metoda nastaví jazyk prezentace podle jazyka požadovaného v requestu (požadovaný jazyk byl nastaven do status presentation v status presentation middleware) 
+     * Metoda nastaví jazyk prezentace podle jazyka požadovaného v requestu (požadovaný jazyk byl nastaven do status presentation v PresentationStatus middleware) 
      * a podle dostupných jazykových verzí v databázi (potřebuje LanguageRepo).
      * 
      * StatusSecurity akce:
@@ -48,7 +48,7 @@ class Prepare implements PrepareStatusServiceInterface {
      */
     public function prepareDbByStatus() {
         $statusPresentation = $this->statusPresentationRepo->get();
-        if (!$statusPresentation->getLanguage()) {
+        if (!$statusPresentation->getLanguageCode()) {
             $requestedLangCode = $statusPresentation->getRequestedLangCode();
             $language = $this->languageRepo->get($requestedLangCode);
             if (!isset($language)) {
@@ -60,7 +60,7 @@ class Prepare implements PrepareStatusServiceInterface {
                     throw new UnexpectedValueException("Kód jazyka nastavený v konfiguraci jako výchozí jazyk nebyl nalezen mezi jazyky v databázi.");
                 }
             }
-            $statusPresentation->setLanguage($language);
+            $statusPresentation->setLanguageCode($language->getLangCode());
         }
         $userActions = $this->statusSecurityRepo->get()->getEditorActions();
         if(isset($userActions)) {

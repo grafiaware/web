@@ -9,6 +9,7 @@
 namespace Model\Repository;
 
 use Model\Dao\StatusDao;
+use LogicException;
 
 /**
  * StatusRepositoryAbstract má metody pro zápis (aktualizaci) dat v session a destruktor, který zajišťuje automatické uložení (aktualizaci)
@@ -23,7 +24,7 @@ abstract class StatusRepositoryAbstract {
      */
     protected $statusDao;
 
-    private $loaded=FALSE;
+    private static $loadedFragment = [];   // proměnná společná pro všechny SttausRepository
 
     protected $entity;
 
@@ -32,24 +33,30 @@ abstract class StatusRepositoryAbstract {
     }
 
     protected function load() {
-        if (!$this->loaded) {
+        if (empty($_SESSION)) {
+            throw new LogicException("Nejsou data v globálním poli \$_SESSION. Session v tomto běhu skriptu ještě nebyla spuštěna");
+        }
+        
+        if (!isset(self::$loadedFragment[static::FRAGMENT_NAME])) {
             $row = $this->statusDao->get(static::FRAGMENT_NAME);
             if ($row) {
                 $this->entity = $row[0];
             }
-            $this->loaded = TRUE;
+            self::$loadedFragment[static::FRAGMENT_NAME] = true;
         }
     }
 
     public function flush(): void {
-        if ($this->loaded) {   // pokud není laded -> není entita
+        if (isset(self::$loadedFragment[static::FRAGMENT_NAME])) {   // pokud není loaded -> není entita
             if ($this->entity) {
                 $this->statusDao->set(static::FRAGMENT_NAME, [$this->entity]);
             } else {
                 $this->statusDao->delete(static::FRAGMENT_NAME);
             }
+            // smaže fragment
+            unset(self::$loadedFragment[static::FRAGMENT_NAME]);
         }
-    }
+    } 
 
     public function __destruct() {
         $this->flush();

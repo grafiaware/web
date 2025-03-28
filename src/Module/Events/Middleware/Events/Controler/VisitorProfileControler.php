@@ -48,7 +48,7 @@ use Pes\Http\Response;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
-use Mail\Params;
+use Mail\Assembly;
 use Mail\Params\Content;
 use Mail\Params\Attachment; 
 use Mail\Params\StringAttachment;

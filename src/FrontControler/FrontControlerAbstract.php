@@ -94,6 +94,14 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         throw new LogicException("Implementace kontroleru musí implementovat vlastní metodu setConfiguration.");
     }
     
+    ### protected
+    
+    protected function addContentHeaders(ResponseInterface $response) {
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $languageCode = $statusPresentation->getLanguageCode();
+        return $response->withHeader('Content-Language', $languageCode);
+    }    
+        
     /**
      *
      * @param ServerRequestInterface $request
@@ -150,11 +158,13 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $response = (new ResponseFactory())->createResponse($statusEnumValue);
 
         ####  hlavičky  ####
+        $response = $this->addContentHeaders($response);
         $response = $this->addCacheHeaders($response);
 
         ####  body  ####
-        $size = $response->getBody()->write($stringContent);
-        $response->getBody()->rewind();
+        $body = $response->getBody();
+        $body->write($stringContent);
+        $body->rewind();
         return $response;
     }
     
@@ -188,7 +198,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     }
     
     protected function createUnauthorizedResponse() {
-        $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
+        return (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
     }
     
     /**

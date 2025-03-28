@@ -70,7 +70,7 @@ class MultipageControler extends AuthoredControlerAbstract {
             $multipage->setEditor($this->getLoginUserName());            
             $this->addFlashMessage("Set multipage template: $lastTemplateName", FlashSeverityEnum::SUCCESS);
         }
-//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+//        return $this->createJsonOKResponse(["refresh"=>"norefresh"]);
         //TODO: POST version                        
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -91,7 +91,7 @@ class MultipageControler extends AuthoredControlerAbstract {
             $multipage->setEditor($this->getLoginUserName());            
             $this->addFlashMessage("Removed multipage template $oldTemplate.", FlashSeverityEnum::SUCCESS);
         }
-//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+//        return $this->createJsonOKResponse(["refresh"=>"norefresh"]);
         //TODO: POST version                        
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

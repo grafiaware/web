@@ -10,8 +10,8 @@ const conf = {
 //    apiAction: "apiAction",
 //    navigationClass: "navigation",
 
-    apiAction: "QQQapiAction",
-    navigationClass: "QQQnavigation",
+    apiAction: "apiAction",
+    navigationClass: "navigation",
     itemElementName: 'li',
     itemLeafClass: "leaf",
     itemParentClass: "parent",
@@ -97,7 +97,7 @@ function fetchCascadeContent(parentElement){
         method: "GET",      //default
           cache: cacheControl,
           headers: {
-            "X-Cascade": "Do not store request",   // příznak pro PresentationStatus - neukládej request jako last GET
+            "X-Cascade": "do not store request",   // příznak pro PresentationStatus - neukládej request jako last GET
           },
     }).then(response => {
         if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
@@ -423,7 +423,7 @@ function getNewDrivers(previousItem, currentItem){
             method: "GET",      //default
               cache: cacheControl,
               headers: {
-                "X-Cascade": "Do not store request",   // příznak pro PresentationStatus - neukládej request jako last GET
+                "X-Cascade": "fetch driver",   // příznak pro PresentationStatus - neukládej request jako last GET
               },
             })
         .then(response => {

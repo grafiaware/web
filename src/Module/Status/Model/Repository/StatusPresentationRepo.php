@@ -10,7 +10,7 @@ namespace Status\Model\Repository;
 
 use Model\Repository\StatusRepositoryAbstract;
 
-use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\PresentationInterface;
 
 /**
  * Description of StausPresentationRepo
@@ -26,9 +26,9 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu StatusPresentation. Pokud entita ješte nebyla načtena z úložiště,
      * načte ji (jen jednou) a vrací.
      *
-     * @return StatusPresentationInterface|null
+     * @return PresentationInterface|null
      */
-    public function get(): ?StatusPresentationInterface {
+    public function get(): ?PresentationInterface {
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -38,9 +38,9 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
     /**
      * Repository obsahuje vždy jen jednu entitu StatusPresentation. Metoda add přidá entitu do prázdného repository, pokud v repository již entita je, přepíše ji.
      *
-     * @param StatusPresentationInterface $statusPresentation
+     * @param PresentationInterface $statusPresentation
      */
-    public function add(StatusPresentationInterface $statusPresentation) {
+    public function add(PresentationInterface $statusPresentation) {
         $this->entity = $statusPresentation;
     }
 

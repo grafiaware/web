@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 
-use Status\Model\Entity\StatusFlash;
+use Status\Model\Entity\Flash;
 use Status\Model\Repository\StatusFlashRepo;
 
 /**
@@ -31,13 +31,22 @@ class FlashStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         $statusFlash = $statusFlashRepo->get();
         if (!isset($statusFlash)) {
-            $statusFlash = new StatusFlash();
+            $statusFlash = new Flash();
             $statusFlashRepo->add($statusFlash);
         }
-        $statusFlash->beforeHandle($request);
+        
+        // je to GET komponent -> flush
+        //TODO: flash nenačítat jako komponent, vložit vždy do layoutu
+        if ($request->getMethod() == 'GET') {  //   
+            $statusFlashRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
+        }
+        
+        ###
         $response = $handler->handle($request);
-        $statusFlash->afterHandle($request);
-
+        ###
+        
+        $statusFlash->storeMessages();
+//        $statusFlashRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         return $response;
     }
 }

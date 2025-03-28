@@ -15,7 +15,7 @@ use Site\ConfigurationCache;
 use Red\Model\Dao\MenuItemDao;
 use Red\Model\Dao\MenuItemDaoInterface;
 use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\PresentationInterface;
 use Status\Model\Repository\StatusFlashRepo;
 
 use Pes\Http\Body;
@@ -51,7 +51,6 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             $newBody->write($this->transform($request, $response->getBody()->getContents()));
             $response = $response->withHeader('X-RED-Handle-Time', sprintf('%2.3fms', ($handleTime) * 1000));
             $response = $response->withHeader(self::HEADER, sprintf('%2.3fms', ($timer->interval()) * 1000));
-            $response = $response->withHeader('X-RED-Transformator-runtime', sprintf('%2.3fms', ($timer->runtime()) * 1000));
             $response = $response->withBody($newBody);
         }
         return $response;

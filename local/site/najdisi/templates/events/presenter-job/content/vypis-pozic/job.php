@@ -7,7 +7,7 @@ use Site\ConfigurationCache;
 use Access\Enum\RoleEnum;
 
 use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\SecurityInterface;
 
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;
@@ -38,7 +38,7 @@ $isVisitorDataPost = false;
 ####
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-/** @var StatusSecurityInterface $statusSecurity */
+/** @var SecurityInterface $statusSecurity */
 $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();

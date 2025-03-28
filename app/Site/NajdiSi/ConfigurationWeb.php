@@ -181,7 +181,7 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function presentationStatus() {
         return [
-            'default_lang_code' => 'cs',
+            'default_lang_code' => 'csQQQ',
             'accepted_languages' => ['cs']
         ];
     }
@@ -381,24 +381,26 @@ class ConfigurationWeb extends ConfigurationConstants {
             'mail.logs.file' => 'Mail.log',
             // volba sady parametrů z Mail\ParamsTemplates
 //            'mail.paramsname' => 'grafiaInterni', 
-            'mail.paramsname' => 'najdisi', 
+//            'mail.paramsname' => 'najdisi', // funkční na hostingu
 //            'mail.paramsname' => 'najdisiWebSMTP',
 //            'mail.paramsname' => 'itGrafiaGmail', 
+            'mail.paramsname' => 'smtp4dev', 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'attachments/' : self::WEB_FILES_SITE.'attachments/',
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'sendmail/' : self::WEB_FILES_SITE.'sendmail/',
 
         ];
     }
 
     public static function files() {
         return [
-            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'download/' : self::WEB_FILES_SITE.'download/',
-            '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'images/' : self::WEB_FILES_COMMON.'images/',
-            '@commonmovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'movies/' : self::WEB_FILES_COMMON.'movies/',
-            '@siteimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'images/' : self::WEB_FILES_SITE.'images/',
-            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'movies/' : self::WEB_FILES_SITE.'movies/',
-            '@siteupload' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload/' : self::WEB_FILES_SITE.'upload/',
+            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'download' : self::WEB_FILES_SITE.'download',
+            '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'images' : self::WEB_FILES_COMMON.'images',
+            '@commonmovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'movies' : self::WEB_FILES_COMMON.'movies',
+            '@siteimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'images' : self::WEB_FILES_SITE.'images',
+            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'movies' : self::WEB_FILES_SITE.'movies',
+            '@siteupload' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload' : self::WEB_FILES_SITE.'upload',
 
-            '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter/" : self::WEB_FILES_SITE."presenter/",
+            '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter" : self::WEB_FILES_SITE."presenter",
 
         ];
     }

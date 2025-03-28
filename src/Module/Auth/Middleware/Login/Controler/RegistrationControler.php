@@ -5,7 +5,7 @@ use Site\ConfigurationCache;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
-use Mail\Params;
+use Mail\Assembly;
 use Mail\Params\{Content, Attachment, Party};
 use Mail\Exception\MailExceptionInterface;
 
@@ -125,7 +125,7 @@ class RegistrationControler extends LoginControlerAbstract
                                                                                               //  'logo_grafia'   => 'logo_grafia.png'
                                                                                //  'attachments'=>$attachments   //takto pouze jako příloha
                                                                                                 ]);
-                    $params = (new Params())
+                    $params = (new Assembly())
                                 ->setContent(  (new Content())
                                                  ->setSubject($subject)
                                                  ->setHtml($body)
@@ -302,7 +302,7 @@ class RegistrationControler extends LoginControlerAbstract
                                                      'companyName' => $companyName,
                                                       // 'logo_grafia'   => 'logo_grafia.png'
                                                     ] );                                                
-                $params = (new Params())
+                $params = (new Assembly())
                             ->setContent(  (new Content())
                                          ->setSubject($subject)
                                          ->setHtml($body)
@@ -353,7 +353,7 @@ class RegistrationControler extends LoginControlerAbstract
                                 'data_logo_grafia' => $data_logo_grafia,
                             ]);
                     
-                    $params = (new Params())
+                    $params = (new Assembly())
                                 ->setContent(  (new Content())
                                                  ->setSubject($subject)
                                                  ->setHtml($body)

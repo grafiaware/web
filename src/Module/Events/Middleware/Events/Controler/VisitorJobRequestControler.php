@@ -48,7 +48,7 @@ use Pes\Http\Response;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
-use Mail\Params;
+use Mail\Assembly;
 use Mail\Params\Content;
 use Mail\Params\Attachment; 
 use Mail\Params\StringAttachment;
@@ -489,7 +489,7 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
         }
         
         //--------------------------------        
-        $params = (new Params())
+        $params = (new Assembly())
                     ->setContent(  (new Content())
                                      ->setSubject($subject)
                                      ->setHtml($body)

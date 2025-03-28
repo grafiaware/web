@@ -36,7 +36,7 @@ class LanguageSelectViewModel extends ViewModelAbstract implements LanguageSelec
     }
 
     public function getPresentedLangCode() {
-        return $this->status->getPresentedLanguage()->getLangCode();
+        return $this->status->getPresentedLanguageCode();
     }
 
     public function getIterator(): \Traversable {

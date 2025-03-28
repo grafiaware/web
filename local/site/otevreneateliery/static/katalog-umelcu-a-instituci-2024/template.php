@@ -3,7 +3,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 
 use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\SecurityInterface;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -48,7 +48,7 @@ if  (count($chBlock)) {
 
 /** @var StatusPresentationRepo $statuSecurityRepo */
 $statuSecurityRepo = $container->get(StatusSecurityRepo::class);
-/** @var StatusSecurityInterface $statusSecurity */
+/** @var SecurityInterface $statusSecurity */
 $statusSecurity = $statuSecurityRepo->get();
 if ($statusSecurity->getEditorActions() && $statusSecurity->getEditorActions()->presentEditableContent()) {
     $errorLog = $katalogGenerator->getLog();
