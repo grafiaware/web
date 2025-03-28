@@ -106,12 +106,13 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             SessionStatusHandler::class => function(ContainerInterface $c) {
                 ## startuje session ##
                 if (PES_DEVELOPMENT) {
+                    $logger = $c->get('sessionLogger');
                     $sessionHandler = new SessionStatusHandler(
                         $c->get(WebAppFactory::SESSION_NAME_SERVICE),
-                        new PhpLoggingSaveHandler($c->get('sessionLogger'))
+                        new PhpLoggingSaveHandler($logger)
 //                            new PhpSaveHandler()
                     );
-//                    $sessionHandler->setLogger($c->get('sessionLogger'));
+                    $sessionHandler->setLogger($logger);
                 } else {
                     $sessionHandler = new SessionStatusHandler(
                         $c->get(WebAppFactory::SESSION_NAME_SERVICE),

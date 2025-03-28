@@ -24,7 +24,7 @@ class RepresentationActions extends PersistableEntityAbstract implements Represe
 //        if($loggedOffUserName == $this->representative->getLoginLoginName()) {
 //            // nedělám nic, je to tu jen jako poznámka
 //        }
-        unset($this->representative);
+        $this->representative = null;  // unset se nehodí - WARNING undefined property v getRepresentative() - volá se leckde např. z template
     }
     
     public function setRepresentative(RepresentativeInterface $representative) {
