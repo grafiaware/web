@@ -9,6 +9,9 @@
 namespace Model\Repository;
 
 use Model\Dao\StatusDao;
+
+use Model\Entity\EntityInterface;
+
 use LogicException;
 
 /**
@@ -41,6 +44,12 @@ abstract class StatusRepositoryAbstract {
             $row = $this->statusDao->get(static::FRAGMENT_NAME);
             if ($row) {
                 $this->entity = $row[0];
+                  // tato situace nastává při změně třídy nebo přejmenování namespace objektu entity
+                // pak se všem uživatelům, kteří přistupovali k webu před změnou kódu na serveru objeví chyba
+                // obvykle FATAL Error - návratová hodnota repo->get musí být ... ale je __PHP_Incomplete_Class
+                if ($this->entity instanceof __PHP_Incomplete_Class) {  // tato situace nastává při změně třídy nebo přejmenování namespace objektu entity
+                    $this->entity = null;
+                }
             }
             self::$loadedFragment[static::FRAGMENT_NAME] = true;
         }
