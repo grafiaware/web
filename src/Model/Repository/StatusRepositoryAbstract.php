@@ -45,9 +45,10 @@ abstract class StatusRepositoryAbstract {
             if ($row) {
                 $this->entity = $row[0];
                   // tato situace nastává při změně třídy nebo přejmenování namespace objektu entity
+                  // po deserializaci vznikne __PHP_Incomplete_Class
                 // pak se všem uživatelům, kteří přistupovali k webu před změnou kódu na serveru objeví chyba
                 // obvykle FATAL Error - návratová hodnota repo->get musí být ... ale je __PHP_Incomplete_Class
-                if ($this->entity instanceof __PHP_Incomplete_Class) {  // tato situace nastává při změně třídy nebo přejmenování namespace objektu entity
+                if (!($this->entity instanceof EntityInterface)) {  // tato situace nastává při změně třídy nebo přejmenování namespace objektu entity - vznikne __PHP_Incomplete_Class
                     $this->entity = null;
                 }
             }
