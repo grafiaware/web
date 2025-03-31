@@ -9,12 +9,6 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 
-    //    $readonly = 'readonly="1"';
-    //    $disabled = 'disabled="1"';
-        $readonly = '';
-        $disabled = ''; 
-        
-        // předělat ->post data (i controler)
         $campaign = CampaignProviderInterface::CAMPAIGN_ANKETY_2025;
 ?>
 
