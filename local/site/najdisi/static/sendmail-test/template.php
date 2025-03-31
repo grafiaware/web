@@ -9,13 +9,7 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 
-    //    $readonly = 'readonly="1"';
-    //    $disabled = 'disabled="1"';
-        $readonly = '';
-        $disabled = ''; 
-        
-        // předělat ->post data (i controler)
-        $campaign = CampaignProviderInterface::JEDNA;
+        $campaign = CampaignProviderInterface::CAMPAIGN_ANKETY_2025;
 ?>
 
         <form class="ui huge form" action="" method="POST" >      
