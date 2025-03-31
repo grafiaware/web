@@ -20,7 +20,7 @@ use Psr\Http\Message\ServerRequestInterface;
 interface FlashInterface extends PersistableEntityInterface {
 
     /**
-     * Vrací pole flash message. Všechny flash messages smaže.
+     * Vrací pole flash messages, které byly předtím vyzvednuty metodou retrieveMessages(). Všechny vyzvednuté flash messages smaže.
      * @return array
      */
     public function getMessages(): array;
@@ -66,18 +66,20 @@ interface FlashInterface extends PersistableEntityInterface {
      * Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      * 
      * @param type $command
-     * @return \Status\Model\Entity\FlashInterface
+     * @return FlashInterface
      */
     public function setPostCommand($command): FlashInterface;
 
     /**
      * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus po zpracování requestu v dalších middleware.
-     *
+     * 
+     * Typicky je použita v procesu zpracování POST, PUT, DELETE requestu, kdy dochází k vytváření flash messages.
+     * 
      * Musí být volána po návratu z middleware metody handle().
-     * Po návratu z této metody je StatusFlash uložen, například serializován do session.
+     * Po volání této metody může být StatusFlash uložen, například serializován do session.
      *
-     * @param ServerRequestInterface $request
      * @return void
      */
     public function storeMessages(): void;
+    
 }

@@ -102,7 +102,7 @@ class ArticleControler extends AuthoredControlerAbstract {
             $article->setContent($postTemplateContent);
             $this->addFlashMessage("Set content with template: $lastTemplateName", FlashSeverityEnum::SUCCESS);
         }
-//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+//        return $this->createJsonOKResponse(["refresh"=>"norefresh"]);
         return $this->createPutNoContentResponse(); // 204 No Content
     }
 }

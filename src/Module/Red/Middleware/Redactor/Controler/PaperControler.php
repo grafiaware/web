@@ -76,7 +76,7 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
             }
         }
-//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+//        return $this->createJsonOKResponse(["refresh"=>"norefresh"]);
         return $this->createPutNoContentResponse(); // 204 No Content
     }
 
@@ -104,7 +104,7 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
             }
         }
-//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+//        return $this->createJsonOKResponse(["refresh"=>"norefresh"]);
         return $this->createPutNoContentResponse(); // 204 No Content
     }
 
@@ -128,7 +128,7 @@ class PaperControler extends AuthoredControlerAbstract {
                 $this->addFlashMessage("Set paper template: $templateName", FlashSeverityEnum::SUCCESS);
             }
         }
-//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+//        return $this->createJsonOKResponse(["refresh"=>"norefresh"]);
         //TODO: POST version                
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -149,7 +149,7 @@ class PaperControler extends AuthoredControlerAbstract {
             $paperAggregate->setEditor($this->getLoginUserName());
             $this->addFlashMessage("Removed paper template $oldTemplate.", FlashSeverityEnum::SUCCESS);
         }
-//        return $this->createJsonPutNoContentResponse(["refresh"=>"norefresh"]);
+//        return $this->createJsonOKResponse(["refresh"=>"norefresh"]);
         //TODO: POST version                
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

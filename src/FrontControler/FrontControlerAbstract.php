@@ -97,7 +97,8 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     ### protected
     
     protected function addContentHeaders(ResponseInterface $response) {
-        $languageCode = $this->statusPresentationRepo->get()->getLanguageCode();
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $languageCode = $statusPresentation->getLanguageCode();
         return $response->withHeader('Content-Language', $languageCode);
     }    
         
