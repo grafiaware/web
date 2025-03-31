@@ -99,7 +99,7 @@ class MailControler extends PresentationFrontControlerAbstract {
     public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {
         // config
         $campaignConfig = $this->campaignProvider->getCampaignConfig($campaignName);
-        $maxRuntime=10;
+        $maxRuntime=20;
         $maxQuantity=50;
         $report = $this->mailSender->sendEmails($campaignConfig, $maxRuntime, $maxQuantity);
 
