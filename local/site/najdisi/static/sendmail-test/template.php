@@ -15,7 +15,7 @@ use Pes\Text\Html;
         $disabled = ''; 
         
         // předělat ->post data (i controler)
-        $campaign = CampaignProviderInterface::JEDNA;
+        $campaign = CampaignProviderInterface::CAMPAIGN_ANKETY_2025;
 ?>
 
         <form class="ui huge form" action="" method="POST" >      

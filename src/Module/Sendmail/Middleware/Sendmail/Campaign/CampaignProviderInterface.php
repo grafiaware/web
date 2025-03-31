@@ -7,7 +7,7 @@ namespace Sendmail\Middleware\Sendmail\Campaign;
  */
 interface CampaignProviderInterface {
     
-    const JEDNA = "jedna";    
+    const CAMPAIGN_ANKETY_2025 = "anketni lístky návštěvníků";    
     
     public function getCampaignConfig($name);
 }
