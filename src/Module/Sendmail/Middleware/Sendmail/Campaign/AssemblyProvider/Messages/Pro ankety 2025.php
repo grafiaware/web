@@ -49,7 +49,6 @@ use Pes\Text\Text;
                 Za tuto spolupráci Vám děkujeme. 
                 </p>
                 <br/>
-                <br/>
                 <p>
                 Veletrh sice již skončil, ale stále je možnost sledovat a reagovat na pracovní nabídky, 
                 které vystavující firmy zveřejnily na webových stránkách veletrhu. 
@@ -58,24 +57,25 @@ use Pes\Text\Text;
                    target="_blank"><b>Veletrh práce a vzdělávání Klíč k příležitostem</b></a>, přihlásit se a zadat alespoň základní údaje o sobě do profilu návštěvníka. 
                 </p>
                 <br/>
-                <br/>
                 <p> 
                 <a href="https://praci25.najdisi.cz/web/v1/page/item/67844e1b2fea5" title="https://praci25.najdisi.cz/web/v1/page/item/67844e1b2fea5" 
                    target="_blank"><b>Nabídka pozic</b></a> na webu Veletrh práce a vzdělávání Klíč k příležitostem bude <b>aktuální až do 30.4.2025</b>.
                 </p>
                 <br/>                
-                <br/>
                 <p>
                 Přihlašte se a při prohlížení nabídky pozic můžete odesílat svůj zájem o pracovní pozice přímo personálnímu oddělení dané firmy. Na kliknutí a bez prostředníka!
                 </p>
                 <br/>
-                <br/>                
                 <p style="margin: 0cm 0cm 0pt; padding: 0px; box-sizing: content-box; color: rgb(34, 34, 34);">
-                    Odkaz na náš web sdílejte prosím také všem Vašim přátelům a známým. <br/><br/>
-                    S přáním pevného zdraví a štěstí na pracovním trhu  <br/>
-                </p>                              
+                    Odkaz na náš web sdílejte prosím také všem Vašim přátelům a známým. 
+                </p>
+                <br/>
                 <p style="margin: 0cm 0cm 0pt; padding: 0px; box-sizing: content-box; color: rgb(34, 34, 34);">
-                    Tým Grafia - organizátor veletrhu  <br/>
+                    S přáním pevného zdraví a štěstí na pracovním trhu
+                </p>
+                <br/>
+                <p style="margin: 0cm 0cm 0pt; padding: 0px; box-sizing: content-box; color: rgb(34, 34, 34);">
+                    <b>Tým Grafia - organizátor veletrhu</b>
                 </p>                
             </div>
         </div>
