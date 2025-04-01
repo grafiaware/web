@@ -47,28 +47,29 @@ use Pes\Text\Text;
                 při své účasti na letošním <b>Veletrhu práce a vzdělávání - Klíč k příležitostem</b> jste
                 vyplnil/a náš anketní lístek.
                 Za tuto spolupráci Vám děkujeme. 
-                </p><br/>
+                </p>
+                <br/>
+                <br/>
                 <p>
                 Veletrh sice již skončil, ale stále je možnost sledovat a reagovat na pracovní nabídky, 
-                které vystavující firmy zveřejnily na webových stránkách veletrhu. Nabídka pozic na adrese 
-                <a href="https://praci25.najdisi.cz/web/v1/page/item/67844e1b2fea5" title="https://praci25.najdisi.cz/web/v1/page/item/67844e1b2fea5" 
-                   target="_blank"><b>Veletrh práce a vzdělávání Klíč k příležitostem</b></a>
-                bude aktuální až do 30.4.2025.<br/>
-                Pro získání podrobností u jednotlivých pozic stačí zaregistrovat se na
+                které vystavující firmy zveřejnily na webových stránkách veletrhu. 
+                Pro zaslání zájmu o některou z pracovních pozic stačí zaregistrovat se jako návštěvník na
                 <a href="https://praci25.najdisi.cz" title="https://praci25.najdisi.cz"
-                   target="_blank"><b>Veletrh práce a vzdělávání Klíč k příležitostem</b></a> <br/>
-                Po přihlášení se Vám pak podrobnosti zobrazí. <br/>
+                   target="_blank"><b>Veletrh práce a vzdělávání Klíč k příležitostem</b></a>, přihlásit se a zadat alespoň základní údaje o sobě do profilu návštěvníka. 
                 </p>
+                <br/>
+                <br/>
+                <p> 
+                <a href="https://praci25.najdisi.cz/web/v1/page/item/67844e1b2fea5" title="https://praci25.najdisi.cz/web/v1/page/item/67844e1b2fea5" 
+                   target="_blank"><b>Nabídka pozic</b></a> na webu Veletrh práce a vzdělávání Klíč k příležitostem bude <b>aktuální až do 30.4.2025</b>.
+                </p>
+                <br/>                
+                <br/>
                 <p>
-                    <br/>
-                Prohlédněte si prosím nabídku pozic a pokud budete přihlášeni jako registrovaný návštěvník,
-                můžete odeslat svůj případný zájem o pozici přímo dané firmě.
+                Přihlašte se a při prohlížení nabídky pozic můžete odesílat svůj zájem o pracovní pozice přímo personálnímu oddělení dané firmy. Na kliknutí a bez prostředníka!
                 </p>
-
-            </div>
-            
-            <div><br/></div>
-            <div>
+                <br/>
+                <br/>                
                 <p style="margin: 0cm 0cm 0pt; padding: 0px; box-sizing: content-box; color: rgb(34, 34, 34);">
                     Odkaz na náš web sdílejte prosím také všem Vašim přátelům a známým. <br/><br/>
                     S přáním pevného zdraví a štěstí na pracovním trhu  <br/>
