@@ -41,7 +41,7 @@ class CampaignProvider implements CampaignProviderInterface {
                     'emailCallback' => function($row) {return $row["E-mail:"];},
                     'userCallback' => function($row) {return isset($row["Příjmení:"]) ? ($row["Příjmení:"].' '.$row["Jméno:"]) : $row["E-mail:"];},
                     'validationDegree' => ValidityEnum::USER,
-                    'sendingConditionCallback' => function($row) {return ($row[MailRecipientsInterface::MAIL_ADDRESS_VALIDITY]>= ValidityEnum::USER);},
+                    'sendingConditionCallback' => function($row) {return ($row[MailRecipientsInterface::MAIL_ADDRESS_VALIDITY]>= ValidityEnum::DOMAIN);},
                     
                     'assemblyName' => AssemblyProviderInterface::ASSEMBLY_ANKETA_2025,
                 ];
