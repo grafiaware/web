@@ -8,8 +8,9 @@ use Mail\AssemblyInterface;
  * @author vlse2610
  */
 interface AssemblyProviderInterface {
-    
-    const ASSEMBLY_ANKETA_2025 = "sestava pro maily návštěvníkům, kteří vyplnili anketu 2025";
+    // na hodnotě konstanta "nezáleží" - skript bude funkční s libovolnou hodnotou
+    // hodnota konstanty se zapíše do csv souboru do sloupce campaing assembly
+    const ASSEMBLY_ANKETA_2025 = "maily VPV anketa 2025";
     const ASSEMBLY_DVA = "druhá sestava";
     
     /**
