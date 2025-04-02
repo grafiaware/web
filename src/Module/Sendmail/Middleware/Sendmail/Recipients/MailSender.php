@@ -53,9 +53,9 @@ class MailSender implements MailSenderInterface {
         $startSeconds = $timer->start();
         $attempts=0;
         foreach ($targetData as &$dataRow) {  // použití reference - umožňuje měnit data v poli v průběhu cyklu
-//            if ($timer->runtime()>$maxRuntime || $attempts>$maxQuantity) {
-//                break;
-//            }
+            if ($timer->runtime()>$maxRuntime || $attempts>$maxQuantity) {
+                break;
+            }
             if ($dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY]==='' && $sendingConditionCallback($dataRow)) {
                 $mailAdresata = $emailCallback($dataRow);
                 $jmenoAdresata = $userCallback($dataRow);
