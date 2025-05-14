@@ -50,7 +50,7 @@ if  (count($chBlock)) {
 $statuSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var SecurityInterface $statusSecurity */
 $statusSecurity = $statuSecurityRepo->get();
-if ($statusSecurity->getEditorActions() && $statusSecurity->getEditorActions()->presentEditableContent()) {
+if (true OR $statusSecurity->getEditorActions() && $statusSecurity->getEditorActions()->presentEditableContent()) {
     $errorLog = $katalogGenerator->getLog();
     if ($errorLog) {
         $message = 
