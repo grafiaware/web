@@ -20,6 +20,11 @@ use Pes\Logger\FileLogger;
 class ConfigurationAuth extends ConfigurationConstants {
 
     public static function auth() {
+
+        ## JMÉNO - malé velké písmeno, číslice, min. 5 znaků
+        $jmenoPattern = "\w{5,}";
+        $jmenoInfo = "Jméno musí obsahovat jen malá nebo velká písmena bez diakritiky, číslice a podtržítko. Jiné znaky (například mezera) nejsou povoleny. Délka musí být nejméně 5 znaků.";
+
         ## HESLO - malé velké písmeno, číslice, min. 5 znaků
         $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}";
         $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 5 znaků.";
@@ -32,6 +37,9 @@ class ConfigurationAuth extends ConfigurationConstants {
         return [
                 'fieldNameJmeno' => 'jmeno'.$siteSpecificToken,
                 'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
+                'fieldNameHesloStare' => 'hesloStare'.$siteSpecificToken,
+                'jmenoPattern' => $jmenoPattern,
+                'jmenoInfo' => $jmenoInfo,
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo,
                 'roleVisitor' => RoleEnum::VISITOR,

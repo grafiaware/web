@@ -119,13 +119,9 @@ class ConfigurationDb {
             'build.config.import.rootuid' => [
                 '66422be5178a9'     // hierarchy uid položky menu, do které se provede konverze staré databáze pri importu
             ],
-                 
             'build.config.root' => [
                 'root', 'NAS_ROOT'
                 ],
-            
-           
-            
             'build.config.convert.copy' => [
                     'source' => 'otevreneatelierycz_20240611.stranky',
                     'target' => 'oa_upgrade.stranky'
