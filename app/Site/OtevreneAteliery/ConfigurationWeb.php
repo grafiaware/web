@@ -274,14 +274,16 @@ class ConfigurationWeb extends ConfigurationConstants {
             
             //  název proměnné v šabloně => [routa => název služby v konteneru (obvykle název třídy komponentu)]
             'contextServiceMap' => [
-                    'flash' => FlashComponent::class,
-                    'modalLogin' => LoginComponent::class,
-                    'modalLogout' => LogoutComponent::class,
-//                    'modalRegister' => RegisterComponent::class,
-                    'modalUserAction' => EditorActionComponent::class,
-                    'info' => InfoBoardComponent::class,
-                    'languageSelect'=> LanguageSelectComponent::class,
-                    'searchPhrase'=> SearchPhraseComponent::class,
+//                    'info' => ["web/v1/service/info"=>InfoBoardComponent::class],
+                    
+//                    'flash' => FlashComponent::class,
+//                    'modalLogin' => LoginComponent::class,
+//                    'modalLogout' => LogoutComponent::class,
+////                    'modalRegister' => RegisterComponent::class,
+//                    'modalUserAction' => EditorActionComponent::class,
+//                    'info' => InfoBoardComponent::class,
+                    'languageSelect'=> ["web/v1/service/languageSelect"=>LanguageSelectComponent::class],
+                    'searchPhrase'=> ["web/v1/service/searchPhrase"=>SearchPhraseComponent::class],
                 ],
             //  název proměnné v šabloně => název služby v kontejneru (obvykle název menu komponentu jako string)
             'contextLayoutMap' => [
