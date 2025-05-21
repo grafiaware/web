@@ -331,32 +331,13 @@ class ConfigurationWeb extends ConfigurationConstants {
 //            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
 //            - 
                 
-                
-                
                     'menuSupervisor' => [
                         'rootName' => 'menu_vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
-                    'menuEventsAdmin' => [
-                        'rootName' => 'menu_vertical',
-                        'itemtype' => ItemTypeEnum::MULTILEVEL,
-                        'levelRenderer' => 'menuVertical.levelRenderer',
-                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
-                        ],
-                    'menuEventsRepresentative' => [
-                        'rootName' => 'menu_vertical',
-                        'itemtype' => ItemTypeEnum::ONELEVEL,
-                        'levelRenderer' => 'menuVertical.levelRenderer',
-                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
-                        ],
-                    'menuEventsVisitor' => [
-                        'rootName' => 'menu_vertical',
-                        'itemtype' => ItemTypeEnum::ONELEVEL,
-                        'levelRenderer' => 'menuVertical.levelRenderer',
-                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
-                        ],
+
                     'menuVertical' => [
                         'rootName' => 'menu_vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
