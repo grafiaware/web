@@ -51,16 +51,14 @@ class Katalog {
     public function getKatalog() {
         /** @var HierarchyAggregateReadonlyDao $this->hierarchyDao */
         $this->hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
-        ####
-        # zde nastaveno čtení bez ohledu na kontext - čtou se i nepublikované položky ve všech repository (používají stejný context objekt
-        #
-        # - musí se nastavit zde, po zavolání $menuItemAggRepo->get() pro všechny $subTreeNodes se už v dalších metodách entity nečtou!
-        #
+
         /** @var ContextProviderInterface $contextProvider */
         $contextProvider = $this->container->get(ContextProviderInterface::class);
         
-        // kontext pro čtení pomocí HierarchyAggregateReadonlyDao - i v editovatelném modu načte jen aktivní node
-        $contextProvider->forceShowOnlyPublished(true);
+        #### kontroly položek menu ####
+        #
+        // kontext pro čtení pomocí HierarchyAggregateReadonlyDao pro účely kontroly - i v editovatelném modu načte jen aktivní (publikované) node
+        $contextProvider->forceShowOnlyPublished(true); // jen publikované
         
         $node = $this->hierarchyDao->get(['lang_code_fk'=>$this->langCode, 'uid_fk'=>$this->katalogUid]);
         if (!isset($node)) {
@@ -74,11 +72,17 @@ class Katalog {
         if (!$subTreeNodes) {  // prázdné pole
             throw new LogicException("Položka menu s katalogem nemá publikované (aktivní) potomky.");            
         }
+        #
+        #### konec kontrol položek menu ####
+        
+        
+        /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
         $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);                
         
-        // kontext pro čtení pomocí MenuItemAggregatePaperRepo - vždy načte i neaktivní menu item aggregate
-        $contextProvider->forceShowOnlyPublished(false);
+        // kontext pro čtení pomocí MenuItemAggregatePaperRepo - vždy načte i neaktivní (nepublikované) menu item
+        $contextProvider->forceShowOnlyPublished(false);    // publikované i nepublikované položky menu (a sekce v paperech)
         
+        #### kontoly typu položek a existentece publikované položky 
         foreach ($subTreeNodes as $node) {
             if (!$node['api_generator_fk']=='paper') {
                 throw new LogicException("Položka {$this->title} nemá hodnotu 'api_generator_fk'=='paper',  není typu paper.");            
@@ -101,8 +105,12 @@ class Katalog {
             if (!$sections) {  // prázdné pole
                 throw new LogicException("Paper '{$paper->getHeadline()}' nemá publikované (aktivní) sekce.");            
             }
-        }        
+        }
         
+        #### generování list ####
+        // čte publikované i nepublikované sekce - v seznami $list předá informaci s klíčem "active" 
+        // současný stav: v katalogu se aktivní položka zobrazuje červěně a jako odkaz, neaktivní černě a jen jako text - smyslem je, 
+        // aby stránka katalogu nebala "chudá" ve chvíli, kdy je ještě málo hotových (publikovaných) profilů (sekcí)
         $list = [];
         $this->log = [];
         foreach ($subTreeNodes as $node) {
