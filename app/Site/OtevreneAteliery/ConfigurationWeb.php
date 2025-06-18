@@ -11,13 +11,6 @@ namespace Site\OtevreneAteliery;
 use Application\WebAppFactory;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\EditorActionComponent;
-use Events\Component\View\Manage\RepresentativeActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -108,12 +101,13 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
                 'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
                 'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',
                 'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
                 'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
                 'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
 
                 // site layout templates
-                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+//                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
 
                 // data templates - common
                 'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
@@ -205,8 +199,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
                     'cs' => 'cs',
-                    'de' => 'de',
-                    'en' => 'en_US'
+//                    'de' => 'de',
+//                    'en' => 'en_US'
                 ],
 
             // title
