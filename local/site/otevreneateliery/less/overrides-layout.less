@@ -12,10 +12,21 @@ body{
     img{
         max-width: 100%; //aby se obrázek "vešel" do semantických obalů
         max-height: 100%; //aby šel obrázek deformovat při nastavení vlastní výšky a šířky v Tiny  
-    } 
-    header{ 
+    }
+    header{
+        background-repeat: round;
+        background: url('@{imgForSite}voaPozadi.jpg'), radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.99) 59%, rgba(0, 0, 0, 0.13) 75%);
+        background-blend-mode: lighten;
+        img{
+            width: auto;
+            display: block;
+        }
+    }
+    .header-default{
+        position: relative;
+        top: 0;
         z-index: 3;
-        background-color: white;
+        width: 100%;
         .header-mobile{
             display: none;
 /*            .logo-najdisi-mobile{
@@ -26,12 +37,54 @@ body{
             display: block;
         }
         img{
-            position: relative;
-            height: 100%;
-            width: auto;
-            display: block;
-            //margin: 0 auto;
+            margin: 10px auto;
+            height: 250px;
+            max-height: 250px;
+            padding-left: 5px;
         }
+        &.hide{
+            display: none;
+        }
+    }
+    .header-sticking{
+        position:sticky;
+        top: 0;
+        height: 90px;
+        background-color: @white;
+        //background-size: contain; //pro celou lištu
+        img{
+            height: 80px;
+            padding-left: 50px;
+        }
+        &.show{
+            display: block;
+            animation: animatetop 0.2s;
+        }
+        &:not(.show){
+            display: none;
+        }
+    }
+     @-webkit-keyframes animatetop {
+          from {
+            top: -1000px;
+            opacity: 0;
+          }
+          to {
+            top: 0;
+            opacity: 1;
+          }
+        }
+        @keyframes animatetop {
+          from {
+            top: -1000px;
+            opacity: 0;
+          }
+          to {
+            top: 0;
+            opacity: 1;
+          }
+        }
+    
 /*        display: flex;
         align-items: start;
         flex-direction: column;
@@ -48,7 +101,6 @@ body{
             }
         }*/
         //prihlaseni
-    }
     section{
         margin: 30px 0;
     }
@@ -137,43 +189,21 @@ body{
     
     /* definujte body jako časovou osu animace s názvem --nejakyNazev */
     //view-timeline-name: --nejakyNazev; /* experimentální vlastnost - není podporování*/
-    header{
-        //width: 25%;
+/*    header{
         position: sticky; 
         top: 0;
-/*        background-image: url('@{imgForSite}voaPozadi.jpg');*/
         background-repeat: round;
         background: url('@{imgForSite}voaPozadi.jpg'), radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.99) 59%, rgba(0, 0, 0, 0.13) 75%);
         background-blend-mode: lighten;
-        //animation: zmenaObr 2s both; 
         img{
             margin: 10px auto;
             height: 250px;
             max-height: 250px;
             padding-left: 5px;
-            //animation-timeline: --nejakyNazev;
-/*            animation-range-start: 10%;
-            animation-range-end: 40%;*/
-            //object-fit: contain;
+
         }
-    }
-/*    @keyframes zmenaObr {
-            from {
-                position: relative;
-                top:0 ;
-                right: 50%;
-                width: 100%;
-                height: 300px;
-                right: 0;
-            }
-            to {
-                height: 150px;
-                width: 300px;
-                //position: sticky;
-                left: 0;
-                //top: 0;
-            }
     }*/
+
     
     /***MENU***/
     #mySidenav.editMenu{
@@ -550,6 +580,7 @@ body{
         padding: 0;
     }*/
 }
+
 
 body#tinymce{
    // font-size: 24px;

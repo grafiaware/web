@@ -1,4 +1,7 @@
-                    <header id="header">
+                    <header class="header-default" id="header">
+                        <?php include "telo/hlavicka.php"; ?>
+                    </header>
+                    <header class="header-sticking" id="header">
                         <?php include "telo/hlavicka.php"; ?>
                     </header>
                     <div class="ui grid">

@@ -90,3 +90,23 @@ function listenPopState() {
         }
     }
 }
+
+/** Zajišťuje přechod mezi klasickou a „sticky“ (lepivou) navigací na základě scrollu.
+ * Pomocí IntersectionObserveru sleduje neviditelný prvek před navigací a při odscrollování skryje původní navigaci a zobrazí její sticking verzi.
+*/
+const navbar = document.querySelector(".header-default");
+const navbarSticky = document.querySelector(".header-sticking");
+const scrollWatcher = document.createElement("div");
+
+scrollWatcher.setAttribute("data-scroll-watcher", "");
+navbar.before(scrollWatcher);
+
+const navObserver = new IntersectionObserver(
+  (entries) => {
+    navbar.classList.toggle("hide", !entries[0].isIntersecting);
+    navbarSticky.classList.toggle("show", !entries[0].isIntersecting);
+  },
+  { rootMargin: "200px 0px 0px 0px" }
+);
+
+navObserver.observe(scrollWatcher);

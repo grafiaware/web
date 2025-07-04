@@ -1,6 +1,8 @@
-                    <header id="header">
+                    <header class="header-default" id="header">
                         <?php include "telo/hlavicka.php"; ?>
-                        
+                    </header>
+                    <header class="header-sticking" id="header">
+                        <?php include "telo/hlavicka.php"; ?>
                     </header>
                     <div class="ui grid">
                         <div class="one wide mobile five wide tablet five wide computer four wide large screen four wide widescreen column">
