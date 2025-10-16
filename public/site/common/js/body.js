@@ -62,17 +62,20 @@ if (document.readyState === 'complete') {
             
             //----------------------------
             var id_VS = "header";
-            var element_to_VS = document.getElementById(id_VS);
-            element_to_VS.style.border =   '10px solid blue'; 
+            var id_VS = "myOverlay";
+            var element_to_idVS = document.getElementById(id_VS);
+            element_to_idVS.style.border =   '10px solid blue'; 
+            
+            var element_headline = document.getElementsByTagName("headline");
             
             
             
             
             var id_Sidenav = "mySidenav";
-            var tag_templatePaper = "tekplate-paper";
+            var class_templatePaper = "template-paper";
             
             var element_Sidenav = document.getElementById(id_Sidenav);
-            var element_tag_templatePaper = document.getElementsByTagName(tag_templatePaper);
+            var element_class_templatePaper = document.getElementsByClassName(class_templatePaper);
             // 1. Vytvoření <img> elementu
             const obrazek = document.createElement('img');
             const divik = document.createElement('div');
@@ -84,19 +87,26 @@ if (document.readyState === 'complete') {
             //obrazek_template.src = './public/site/common/img/L+H50.gif';
 
             //// 3. Volitelné nastavení dalších atributů
-            //obrazek.alt = 'Popis obrázku';
-            //obrazek.width = 300; // šířka v pixelech
+            obrazek.alt = 'Popis obrázku';
+            obrazek.width = 100; // šířka v pixelech
+            
             divik.style.border = '10px solid yellow'; 
             divik.style.width  = '100px'; 
             divik.style.height  = '100px'; 
-            divik.textContent = "ČAU";
+            divik.textContent = "ČAU, jsem DIV";
 
             // 4. Připojení obrázku do dokumentu (např. do <body>)
             element_Sidenav.appendChild(obrazek);
             element_Sidenav.appendChild(divik);
-            //element_tag_templatePaper.appendChild(obrazek_template);
             
-            element_to_VS.appendChild(divik);  //pak uz neni na Sidenav
+            
+          //  element_to_idVS.appendChild(divik);  //pak uz neni na Sidenav?
+          
+          
+          
+//----------------------------------------- 
+            //element_class_templatePaper.appendChild(divik);   
+            //element_headline.appendChild(divik);
             
             
             
