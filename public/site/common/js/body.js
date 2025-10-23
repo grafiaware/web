@@ -60,61 +60,76 @@ if (document.readyState === 'complete') {
             showLoaded();            
             console.log("body: init loaded elements finished");
             
-            //----------------------------
-            var id_VS = "header";
-            var id_VS = "myOverlay";
-            var element_to_idVS = document.getElementById(id_VS);
-            element_to_idVS.style.border =   '10px solid blue'; 
-            
-            var element_headline = document.getElementsByTagName("headline");
             
             
             
             
-            var id_Sidenav = "mySidenav";
-            var class_templatePaper = "template-paper";
             
-            var element_Sidenav = document.getElementById(id_Sidenav);
-            var element_class_templatePaper = document.getElementsByClassName(class_templatePaper);
-            // 1. Vytvoření <img> elementu
-            const obrazek = document.createElement('img');
+//-----------------------------------------------------------------vs                         
+            var element_Header = document.getElementById("header");
+            element_Header.style.border =   '10px solid blue'; 
+            
+//           var element_headline = document.getElementsByTagName("headline");//??? nic nedela asi kvuli cascade,   neni 'zakladni' tag
+//           element_headline.style.backgroundColor = "olive";
+            
+            var class_pageContent = "page-content";  
+            var element_class_pageContent = document.getElementsByClassName(class_pageContent);
+           // element_class_pageContent.style.border =   '10px solid blue' //dela chybu
+          
+          //----------------------------------
+            const divikContent= document.createElement('div');
+            divikContent.style.border = '10px solid yellow';           
+            divikContent.style.backgroundColor = "olive";
+            divikContent.textContent = "jsem DIVikContent";
+            //element_class_pageContent.appendChild(divikContent); //dela asi chybu
+           
             const divik = document.createElement('div');
-            //const obrazek_template = document.createElement('img');
-            
-
-            // 2. Nastavení atributu src (cesty k obrázku)
-            obrazek.src = './public/site/common/img/L+H50.gif';
-            //obrazek_template.src = './public/site/common/img/L+H50.gif';
-
-            //// 3. Volitelné nastavení dalších atributů
-            obrazek.alt = 'Popis obrázku';
-            obrazek.width = 100; // šířka v pixelech
-            
             divik.style.border = '10px solid yellow'; 
             divik.style.width  = '100px'; 
             divik.style.height  = '100px'; 
-            divik.textContent = "ČAU, jsem DIV";
+            divik.textContent = "ČAU, jsem DIVik";
+            
+            
+            var element_Overlay = document.getElementById("myOverlay");
+            element_Overlay.style.border =   '10px solid blue'; 
+            element_Overlay.appendChild(divikContent);            
+            
+            var id_Sidenav = "mySidenav";                     
+            var element_Sidenav = document.getElementById(id_Sidenav);
+            element_Sidenav.appendChild(divik);
+                        
+            element_Overlay.appendChild(divik); //pak neni v Sidenav
+                      
+            
+            // 1. Vytvoření <img> elementu
+            const obrazek = document.createElement('img');           
+            const obrazek_1 = document.createElement('img');            
+
+            // 2. Nastavení atributu src (cesty k obrázku)
+            obrazek.src = './public/site/common/img/L+H50.gif';
+            obrazek_1.src = './public/site/common/img/L+H50.gif';
+
+            //// 3. Volitelné nastavení dalších atributů
+            obrazek.alt = 'Popis obrázku';
+            obrazek.width = 100; // šířka v pixelech        
+            obrazek_1.alt = 'Popis obrázku';
+            obrazek_1.width = 100; // šířka v pixelech      
+            
 
             // 4. Připojení obrázku do dokumentu (např. do <body>)
             element_Sidenav.appendChild(obrazek);
-            element_Sidenav.appendChild(divik);
-            
-            
-          //  element_to_idVS.appendChild(divik);  //pak uz neni na Sidenav?
+            element_Overlay.appendChild(obrazek_1);
           
-          
-          
-//----------------------------------------- 
-            //element_class_templatePaper.appendChild(divik);   
-            //element_headline.appendChild(divik);
-            
-            
-            
-            
-            
-            
-            
-            //-------------------------------
+            //----------------------------------------- 
+            //element_class_templatePaper.appendChild(divik);   //????
+            //element_headline.appendChild(divik);   
+//-----------------------------------------------------------------vs-konec
+
+
+
+
+
+
             scrollToAnchorPosition();
         };
         init(); 
