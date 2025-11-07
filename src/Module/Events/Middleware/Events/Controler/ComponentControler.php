@@ -210,13 +210,5 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         }           
         return $this->createStringOKResponseFromView($component);
     }
-    
-###################
-    private function errorView(ServerRequestInterface $request, $message = '') {
-        $view = $this->container->get(View::class);
-        $view->setData([Html::tag('div', ['style'=>'display: block;' ], $message)]);
-//        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $message)]);
-        $view->setRenderer(new ImplodeRenderer());
-        return $view;
-    }    
+
 }

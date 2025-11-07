@@ -62,6 +62,14 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         return $response->withHeader('X-RED-Controlled', "$cls");
     }
 
+    ### error view ###
+    protected function errorView(ServerRequestInterface $request, $message = '') {
+        $view = $this->container->get(View::class);
+        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $message)]);
+        $view->setRenderer(new ImplodeRenderer());
+        return $view;
+    }        
+    
     ### status control methods ###
 
     protected function setPresentationMenuItem($menuItem) {
