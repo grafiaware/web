@@ -8,7 +8,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\ComponentControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -35,23 +35,14 @@ use Red\Component\View\Content\Authored\Article\ArticleComponentInterface;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponentInterface;
 
-// renderery
-use Pes\View\Renderer\ImplodeRenderer;
-
-####################
-
-use Pes\Text\Html;
-
-####################
 //use Pes\Debug\Timer;
-use Pes\View\View;
 
 /**
  * Description of ComponentControler
  *
  * @author pes2704
  */
-class ComponentControler extends PresentationFrontControlerAbstract {
+class ComponentControler extends ComponentControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [
@@ -79,19 +70,6 @@ class ComponentControler extends PresentationFrontControlerAbstract {
             }
         } else {
             $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
-        }
-        return $this->createStringOKResponseFromView($view);
-    }
-    
-    public function component(ServerRequestInterface $request, $name) {
-        if($this->isAllowed(AccessActionEnum::GET)) {
-            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
-                $view = $this->container->get($name);
-            } else {
-                $view = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
-            }
-        } else {
-            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET);
         }
         return $this->createStringOKResponseFromView($view);
     }

@@ -1,7 +1,7 @@
 <?php
 namespace Events\Middleware\Events\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\ComponentControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -10,7 +10,6 @@ use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
 
 // renderery
-use Pes\View\Renderer\ImplodeRenderer;
 
 use Component\View\ComponentItemInterface;
 use Component\View\ComponentListInterface;
@@ -23,18 +22,17 @@ use Component\ViewModel\ViewModelFamilyListInterface;
 use Component\ViewModel\FamilyInterface;
 use Pes\Text\Html;
 
+use Exception;
 use LogicException;
 
-####################
 //use Pes\Debug\Timer;
-use Pes\View\View;
 
 /**
  * Description of ComponentControler
  *
  * @author pes2704
  */
-class ComponentControler extends PresentationFrontControlerAbstract {
+class ComponentControler extends ComponentControlerAbstract {
 
     const LIST_COMPONENT_NAME_POSTFIX = 'List';
     const ROUTE_PREFIX = "events/v1";
@@ -61,6 +59,7 @@ class ComponentControler extends PresentationFrontControlerAbstract {
      * @return ResponseInterface
      */
     public function serviceComponent(ServerRequestInterface $request, $name): ResponseInterface {
+        throw new Exception("Volání serviceComponent!!!");
         if($this->isAllowed(AccessActionEnum::GET)) {
             if (array_key_exists($name, ConfigurationCache::layoutController()['contextServiceMap'])) {
                 $service = reset(ConfigurationCache::layoutController()['contextServiceMap'][$name]) ?? null;
