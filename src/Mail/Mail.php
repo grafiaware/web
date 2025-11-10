@@ -138,9 +138,9 @@ class Mail implements MailInterface {
 //            $this->phpMailer->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
             $this->phpMailer->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
 //            
-//            zakomentováno $mail->isSMTP(); přidáno $mail->isMail(); zakomentovány řádky pod $mail->Port používající metodu ->getSmtpAuth()
-//            $mail->isSMTP();                                            //Send using SMTP
-            $mail->isMail();                                            //Send using PHP mail function
+//            zakomentováno $this->phpMailer->isSMTP(); přidáno $this->phpMailer->isMail(); zakomentovány řádky pod $this->phpMailer->Port používající metodu ->getSmtpAuth()
+            $this->phpMailer->isSMTP();                                            //Send using SMTP
+//            $this->phpMailer->isMail();                                          //Send using PHP mail function
 
             $this->phpMailer->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
             $this->phpMailer->SMTPSecure = $actualParams->getEncryption()->getSmtpSecure();
