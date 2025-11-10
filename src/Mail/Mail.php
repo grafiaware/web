@@ -2,6 +2,7 @@
 
 namespace Mail;
 
+use Mail\MailInterface;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -18,10 +19,15 @@ use Mail\Exception\MailException;
  *
  * @author pes2704
  */
-class Mail {
+class Mail implements MailInterface {
 
     const CHARSET = "UTF-8";
     const ENCODING = "8bit";
+    
+    /*
+     * PHPMailer
+     */
+    private $phpMailer;
     
     /**
      *
@@ -41,10 +47,12 @@ class Mail {
      * - šifrování mailů (objekt Mail\Params\Encryption)
      * - nastavení základní sady hlaviček (objekt Mail\Params\Headers)
      * 
-     * @param Assembly $params Výchozí sada parametrů. 
-     * @param LoggerInterface $logger Logger
+     * @param PHPMailer $phpMailer
+     * @param AssemblyInterface $params
+     * @param LoggerInterface $logger
      */
-    public function __construct(AssemblyInterface $params = null, LoggerInterface $logger) {
+    public function __construct(PHPMailer $phpMailer, AssemblyInterface $params = null, LoggerInterface $logger = null) {
+        $this->phpMailer = $phpMailer;
         $this->params = $params;
         self::$logger = $logger;
     }
@@ -119,76 +127,73 @@ class Mail {
      * @param Assembly $params Parametry aktuálně odesílaného mailu
      * @return bool false on error 
      */
-    public function mail(AssemblyInterface $params = null) {
+    public function mail(AssemblyInterface $params = null): bool {
         $actualParams = $this->params ;
         if (isset($params)) {
             $actualParams->adoptConfigurationParams($params);
         }
 
-        //Instantiation and passing `true` enables exceptions
-        $mail = new PHPMailer(true);
-
         try {
             //Server settings
-//            $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
-            $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
+//            $this->phpMailer->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
+            $this->phpMailer->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
 //            
 //            zakomentováno $mail->isSMTP(); přidáno $mail->isMail(); zakomentovány řádky pod $mail->Port používající metodu ->getSmtpAuth()
 //            $mail->isSMTP();                                            //Send using SMTP
             $mail->isMail();                                            //Send using PHP mail function
 
-            $mail->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
-            $mail->SMTPSecure = $actualParams->getEncryption()->getSmtpSecure();
-            $mail->Port = $actualParams->getEncryption()->getPort();
+            $this->phpMailer->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
+            $this->phpMailer->SMTPSecure = $actualParams->getEncryption()->getSmtpSecure();
+            $this->phpMailer->Port = $actualParams->getEncryption()->getPort();
 
             //Whether to use SMTP authentication
-            $mail->SMTPAuth = $actualParams->getSmtpAuth()->getSmtpAuth();
+            $this->phpMailer->SMTPAuth = $actualParams->getSmtpAuth()->getSmtpAuth();
             //Username to use for SMTP authentication
-            $mail->Username = $actualParams->getSmtpAuth()->getUserName();
+            $this->phpMailer->Username = $actualParams->getSmtpAuth()->getUserName();
             //Password to use for SMTP authentication
-            $mail->Password = $actualParams->getSmtpAuth()->getPassword();
+            $this->phpMailer->Password = $actualParams->getSmtpAuth()->getPassword();
 
-            $mail->Encoding = self::ENCODING;
+            $this->phpMailer->Encoding = self::ENCODING;
 
             //Recipients
             $from = $actualParams->getParty()->getFrom();
-            $mail->setFrom($from[0], $from[1]);
+            $this->phpMailer->setFrom($from[0], $from[1]);
             foreach ($actualParams->getParty()->getToArray() as $to) {
-                $mail->addAddress($to[0], $to[1]);     //Add a recipient            //Name is optional
+                $this->phpMailer->addAddress($to[0], $to[1]);     //Add a recipient            //Name is optional
             };
             foreach ($actualParams->getParty()->getCcArray() as $cc) {
-                $mail->addCC($cc[0], $cc[1]);     //Add a cc            //Name is optional
+                $this->phpMailer->addCC($cc[0], $cc[1]);     //Add a cc            //Name is optional
             };
             foreach ($actualParams->getParty()->getBccArray() as $bcc) {
-                $mail->addBCC($bcc[0], $bcc[1]);     //Add a bcc            //Name is optional
+                $this->phpMailer->addBCC($bcc[0], $bcc[1]);     //Add a bcc            //Name is optional
             };            
             //Attachments
             foreach ($actualParams->getContent()->getAttachments() as $attachment) {
                 if ($attachment instanceof Attachment) {
-                    $mail->addAttachment($attachment->getFileName(), $attachment->getAltText());      //Add attachments  //Optional name
+                    $this->phpMailer->addAttachment($attachment->getFileName(), $attachment->getAltText());      //Add attachments  //Optional name
                 }
                 if ($attachment instanceof StringAttachment) {
-                    $mail->addStringAttachment($attachment->getStringAttachment(), $attachment->getAltText());      //Add attachments  //Optional name
+                    $this->phpMailer->addStringAttachment($attachment->getStringAttachment(), $attachment->getAltText());      //Add attachments  //Optional name
                 }
             }
 
             //Content
-            $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = $actualParams->getContent()->getSubject();
-            $mail->msgHTML($actualParams->getContent()->getHtml(), __DIR__);
-            $mail->AltBody = $actualParams->getContent()->getAltBody();
-            $mail->CharSet = self::CHARSET;
-            $mail->action_function = Mail::class.'::actionOnSend';
+            $this->phpMailer->isHTML(true);                                  //Set email format to HTML
+            $this->phpMailer->Subject = $actualParams->getContent()->getSubject();
+            $this->phpMailer->msgHTML($actualParams->getContent()->getHtml(), __DIR__);
+            $this->phpMailer->AltBody = $actualParams->getContent()->getAltBody();
+            $this->phpMailer->CharSet = self::CHARSET;
+            $this->phpMailer->action_function = Mail::class.'::actionOnSend';
 
-            return $mail->send();
+            return $this->phpMailer->send();
 
         } catch (Exception $e) {
             if (self::$logger) {
                 $time = (new \DateTime())->format("Y-m-d H:i:s");
                 self::$logger->error("[$time] Nepodařilo se odeslat mail '{subject}'.", ['subject'=>$actualParams->getContent()->getSubject()]);
-                self::$logger->error("PHPmail error info:: '{info}'.", ['info'=>$mail->ErrorInfo]);
+                self::$logger->error("PHPmail error info:: '{info}'.", ['info'=>$this->phpMailer->ErrorInfo]);
                 self::$logger->error("PHPmail exception message: '{message}'.", ['message'=>$e->errorMessage()]);
-                echo "<h4>Mailerror info:</h4>".PHP_EOL.$mail->ErrorInfo;
+                echo "<h4>Mailerror info:</h4>".PHP_EOL.$this->phpMailer->ErrorInfo;
             }
             throw new MailException("Nepodařilo se odeslat mail", 0, $e);
         }

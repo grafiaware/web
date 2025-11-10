@@ -1,0 +1,151 @@
+<?php
+
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
+ */
+
+use Pes\Container\Container;
+
+
+use Status\Model\Repository\StatusPresentationRepo;
+
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Repository\MenuItemAggregatePaperRepo;
+
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
+
+
+// context
+use Model\Context\ContextProviderInterface;
+
+class Katalog {
+    
+    private $container;
+
+    private $langCode;
+    private $katalogUid;
+    
+    private $lastKatalogUid;
+
+    private $hierarchyDao;
+    
+    private $log;
+    
+    public function __construct($container) {
+        $this->container = $container;
+        $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
+        /** @var StatusPresentationRepo $statusPresentationRepo */
+        $statusPresentation = $statusPresentationRepo->get();
+        $this->langCode = $statusPresentation->getLanguageCode();
+        $this->katalogUid = $statusPresentation->getMenuItem()->getUidFk();
+    }
+    
+    public function getLastKatalogUid() {
+        if (!isset($this->lastKatalogUid)) {  // prázdné pole
+            throw new LogicException("Last katalog uid je generováno při generování katalogu. Je třeba nejprve volat metodu getKatalog().");            
+        }
+        return $this->lastKatalogUid;
+    }
+    
+    public function getKatalog() {
+        /** @var HierarchyAggregateReadonlyDao $this->hierarchyDao */
+        $this->hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
+
+        /** @var ContextProviderInterface $contextProvider */
+        $contextProvider = $this->container->get(ContextProviderInterface::class);
+        
+        #### kontroly položek menu ####
+        #
+        // kontext pro čtení pomocí HierarchyAggregateReadonlyDao pro účely kontroly - i v editovatelném modu načte jen aktivní (publikované) node
+        $contextProvider->forceShowOnlyPublished(true); // jen publikované
+        
+        $node = $this->hierarchyDao->get(['lang_code_fk'=>$this->langCode, 'uid_fk'=>$this->katalogUid]);
+        if (!isset($node)) {
+            throw new LogicException("V databázi '{$this->hierarchyDao->getSchemaName()}' není PUBLIKOVANÁ (active) položka menu v jazyce '$this->langCode' s názvem '$this->title'");
+        }     
+        if (!$node['api_module_fk']=='red') {
+            throw new LogicException("Položka {$this->title} nemá hodnotu 'api_module_fk'=='red', není určena pro modul red.");            
+        }      
+        $subTreeNodes = $this->hierarchyDao->getSubTree($this->langCode, $this->katalogUid);
+        array_shift($subTreeNodes);
+        if (!$subTreeNodes) {  // prázdné pole
+            throw new LogicException("Položka menu s katalogem nemá publikované (aktivní) potomky.");            
+        }
+        #
+        #### konec kontrol položek menu ####
+        
+        
+        /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
+        $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);                
+        
+        // kontext pro čtení pomocí MenuItemAggregatePaperRepo - vždy načte i neaktivní (nepublikované) menu item
+        $contextProvider->forceShowOnlyPublished(false);    // publikované i nepublikované položky menu (a sekce v paperech)
+        
+        #### kontoly typu položek a existentece publikované položky 
+        foreach ($subTreeNodes as $node) {
+            if (!$node['api_generator_fk']=='paper') {
+                throw new LogicException("Položka {$this->title} nemá hodnotu 'api_generator_fk'=='paper',  není typu paper.");            
+            }        
+            if (!$node['api_module_fk']=='red') {
+                throw new LogicException("Položka {$this->title} nemá hodnotu 'api_module_fk'=='red',  není určena pro modul red.");            
+            }
+            try {
+                $menuItemAgg = $menuItemAggRepo->get($this->langCode, $node['uid']);
+            } catch (TypeError $exc) {
+                throw new UnexpectedValueException("Položka menu item je typu paper, ale nepodařilo se načíst odpovídající paper z databáze.");
+            }
+
+            $paper = $menuItemAgg->getPaper();
+            // flash (notifikace)
+            if (!$paper instanceof PaperAggregatePaperSectionInterface) {
+                throw new LogicException("Paper '{$paper->getHeadline()}' není publikovaný (active) paper.");
+            }
+            $sections = $paper->getPaperSectionsArray();
+            if (!$sections) {  // prázdné pole
+                throw new LogicException("Paper '{$paper->getHeadline()}' nemá publikované (aktivní) sekce.");            
+            }
+        }
+        
+        #### generování list ####
+        // čte publikované i nepublikované sekce - v seznami $list předá informaci s klíčem "active" 
+        // současný stav: v katalogu se aktivní položka zobrazuje červěně a jako odkaz, neaktivní černě a jen jako text - smyslem je, 
+        // aby stránka katalogu nebala "chudá" ve chvíli, kdy je ještě málo hotových (publikovaných) profilů (sekcí)
+        $list = [];
+        $this->log = [];
+        foreach ($subTreeNodes as $node) {
+            $menuItemAgg = $menuItemAggRepo->get($this->langCode, $node['uid']);            
+            $paper = $menuItemAgg->getPaper();
+            $sections = $paper->getPaperSectionsArray();
+            foreach ($sections as $section) {
+                if ($section->getPriority()>0) {  // mimo sekcí v koši
+                    $content = $section->getContent();
+                    $anchorPattern = "/id=\"([^']*?)\"/";
+                    $anchorMatches = [];
+                    preg_match_all($anchorPattern, preg_replace('/\s+/', '', $content), $anchorMatches);
+                    $textPattern = "$<\/a>([^<]+)<\/$";
+                    $textMatches = [];
+                    preg_match_all($textPattern, $content, $textMatches);
+                    if ($anchorMatches[1] && $textMatches[1]) {
+                        foreach ($anchorMatches[1] as $key => $anchorMatch) {
+                            $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'firstLetter'=> strtoupper($anchorMatch[0]), 'anchor'=>$anchorMatch, 'nazev'=>$textMatches[1][$key], 'nazevCs'=>html_entity_decode($textMatches[1][$key], ENT_HTML5), 'active'=>$section->getActive()];                        
+                        }
+                    } else {
+                        if ($content) {  // ignoruje zcela prázdné sekce
+                            $this->log[$section->getId()] = substr($content, 0, 200);
+                        }
+                    }
+                }
+            }
+        }
+        return $list;
+    }
+    
+    /**
+     * Vrací pole, ve kterém jsou zapsány počátky obsahů sekcí, vekterých metoda getKatalog() nenašla právě jednu kontu a jeden text.
+     * @return type
+     */
+    public function getLog() {
+        return $this->log;
+    }
+}

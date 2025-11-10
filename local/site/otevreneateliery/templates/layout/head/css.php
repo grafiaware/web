@@ -8,6 +8,6 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
     <link rel="stylesheet" type="text/css" href="<?= $linksCommon.'css/media.css'?>" />
     <!-- head content -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css">
-    <?= $this->insertIf( !$isEditableMode, __DIR__.'/cssNoneditableMode.php', ['linksCommon'=>$linksCommon] ); ?>
-    <?= $this->insertIf( $isEditableMode, __DIR__.'/cssEditableMode.php', ['linksCommon'=>$linksCommon] ); ?>
+    <?= $this->insertIf( !$isContentEditable, __DIR__.'/cssNoneditableMode.php', ['linksCommon'=>$linksCommon] ); ?>
+    <?= $this->insertIf( $isContentEditable, __DIR__.'/cssEditableMode.php', ['linksCommon'=>$linksCommon] ); ?>
 

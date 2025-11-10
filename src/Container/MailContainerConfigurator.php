@@ -34,6 +34,8 @@ use Sendmail\Middleware\Sendmail\Campaign\CampaignProvider;
 use Sendmail\Middleware\Sendmail\Csv\CampaignData;
 use Sendmail\Middleware\Sendmail\Csv\CsvData;
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 /**
  *
  *
@@ -60,8 +62,15 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
             'mailLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('mail.logs.directory'), $c->get('mail.logs.file'), FileLogger::APPEND_TO_LOG); //new NullLogger();
             },
+            PHPMailer::class => function(ContainerInterface $c) {
+                return new PHPMailer(true);   // true enables exceptions
+            },
             Mail::class => function(ContainerInterface $c) {
-                return new Mail(ParamsTemplates::params($c->get('mail.paramsname')), $c->get('mailLogger'));
+                return new Mail(
+                        $c->get(PHPMailer::class),
+                        ParamsTemplates::params($c->get('mail.paramsname')), 
+                        $c->get('mailLogger')
+                    );
             },
             HtmlMessage::class => function(ContainerInterface $c) {
                 return new HtmlMessage();

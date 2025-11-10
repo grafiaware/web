@@ -77,7 +77,7 @@ class ConfigurationStyles extends ConfigurationConstants {
                             'icon.changedisplaydate' => 'violet calendar alternate icon',
                             'icon.changeeventdate' => 'yellow money check icon',
                             'icon.arrowup' => 'top right corner arrow up icon',
-                            'icon.arrowdown' => 'bottom right corner arrow left icon',
+                            'icon.arrowdown' => 'bottom right corner arrow down icon',
                             'icon.movecontent' => 'sticky note outline icon',
                             'icon.addcontent' => 'plus square outline icon',
                             'icon.permanently' => 'calendar outline icon',
