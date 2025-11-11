@@ -12,8 +12,8 @@ use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Model\Entity\VisitorProfile;
 use Events\Model\Entity\Document;
 use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Entity\StatusSecurity;
-use Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\Security;
+use Status\Model\Entity\SecurityInterface;
 
 
 
@@ -26,7 +26,7 @@ use Status\Model\Entity\StatusSecurityInterface;
 //----------- ------------------
     /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-    /** @var StatusSecurityInterface $statusSecurity */
+    /** @var SecurityInterface $statusSecurity */
 $statusSecurity = $statusSecurityRepo->get();
     /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();   

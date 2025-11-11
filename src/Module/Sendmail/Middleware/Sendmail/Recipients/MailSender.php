@@ -2,12 +2,13 @@
 namespace Sendmail\Middleware\Sendmail\Recipients;
 
 use Sendmail\Middleware\Sendmail\Recipients\MailSenderInterface;
-use Sendmail\Middleware\Sendmail\Campaign\Contents\MailContentInterface;
+use Sendmail\Middleware\Sendmail\Campaign\AssemblyProvider\AssemblyProviderInterface;
 use Sendmail\Middleware\Sendmail\Csv\CampaignDataInterface;
 
 use Sendmail\Middleware\Sendmail\Campaign\CampaignConfigInterface;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
 use Mail\Mail;
+use Pes\Debug\Timer;
 use Mail\Exception\MailException;
 
 /**
@@ -18,17 +19,17 @@ use Mail\Exception\MailException;
 class MailSender implements MailSenderInterface {
     
     private $mail;
-    private $mailContent;
+    private $assemblyProvider;
     private $campaignData;
 
     public function __construct(
             Mail $mail,
-            MailContentInterface $mailContent,
+            AssemblyProviderInterface $assemblyProvider,
             CampaignDataInterface $campaignData
             
             ) {
         $this->mail = $mail;
-        $this->mailContent = $mailContent;
+        $this->assemblyProvider = $assemblyProvider;
         $this->campaignData = $campaignData;        
         
     }
@@ -41,32 +42,36 @@ class MailSender implements MailSenderInterface {
      * @return array Report
      */
     public function sendEmails(CampaignConfigInterface $campaignConfig, $maxRuntime=10, $maxQuantity=50): array {
-        $assembly = $campaignConfig->getContentAssembly();
+        $assemblyName = $campaignConfig->getAssemblyName();
         $emailCallback = $campaignConfig->getEmailCallback();
         $userCallback = $campaignConfig->getUserCallback();
         $sendingConditionCallback = $campaignConfig->getSendingConditionCallback();
         
         $targetData = $this->campaignData->importTargetCsvFile($campaignConfig);
-        $this->mailContent->setAssembly($assembly);
         $report = [];
+        $timer = new Timer();
+        $startSeconds = $timer->start();
+        $attempts=0;
         foreach ($targetData as &$dataRow) {  // použití reference - umožňuje měnit data v poli v průběhu cyklu
-            if ($sendingConditionCallback($dataRow)) {
+            if ($timer->runtime()>$maxRuntime || $attempts>$maxQuantity) {
+                break;
+            }
+            if ($dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY]==='' && $sendingConditionCallback($dataRow)) {
                 $mailAdresata = $emailCallback($dataRow);
                 $jmenoAdresata = $userCallback($dataRow);
-                $params = $this->mailContent->getParams($mailAdresata, $jmenoAdresata);
+                $assembly = $this->assemblyProvider->getAssembly($assemblyName, $mailAdresata, $jmenoAdresata);
                 try {
-//                    $this->mail->mail($params);
-//                    $result = 'Sended '.date("Y-m-d H:i:s");
-                    $result = 'Test '.date("Y-m-d H:i:s");
+                    $this->mail->mail($assembly);
+                    $result = 'Sended '.date("Y-m-d H:i:s");
+//                    $result = 'Test '.date("Y-m-d H:i:s");
+                    $attempts++;
                 } catch (MailException $mailExc) {
                     $message = $mailExc->getMessage();
                     $errorInfo = $mailExc->getPrevious()->getMessage();
                     $result = $message.' Info: '.$errorInfo;
                 }
-                array_merge($dataRow, [
-                    MailSenderInterface::MAIL_SENDED => $assembly,
-                    MailSenderInterface::SENDING_TIME => date("Y-m-d H:i:s")
-                ]);
+                $dataRow[MailSenderInterface::CAMPAIGN_ASSEMBLY] = $assemblyName;
+                $dataRow[MailSenderInterface::SENDING_TIME] = date("Y-m-d H:i:s");
                 $report[] = [
                     'email' => $mailAdresata,
                     'name' => $jmenoAdresata,
@@ -74,6 +79,8 @@ class MailSender implements MailSenderInterface {
                 ];                       
             }
         }
+        $this->campaignData->exportTargetCsvFile($campaignConfig, $targetData);
+        
         return $report;
     }
     

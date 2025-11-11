@@ -15,7 +15,7 @@ use Sendmail\Middleware\Sendmail\Campaign\CampaignConfigInterface;
  */
 interface MailSenderInterface {
     
-    const MAIL_SENDED = 'mail sended';
+    const CAMPAIGN_ASSEMBLY = 'campaign assembly';
     const SENDING_TIME = 'sending time';    
     
     /**

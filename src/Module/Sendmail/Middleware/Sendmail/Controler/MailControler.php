@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 
-use Mail\Params;
+use Mail\Assembly;
 use Mail\Params\Content;
 use Mail\Params\Attachment;
 use Mail\Params\Party;
@@ -29,13 +29,11 @@ use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 use Auth\Model\Repository\RegistrationRepo;
 
 use Access\AccessPresentationInterface;
-use Access\Enum\AccessPresentationEnum;
 
 use Sendmail\Middleware\Sendmail\Recipients\MailSenderInterface;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
 use Sendmail\Middleware\Sendmail\Campaign\CampaignProviderInterface;
-use Sendmail\Middleware\Sendmail\Campaign\CampaignConfig;
-use Sendmail\Middleware\Sendmail\Recipients\ValidityEnum;
+
 
 /**
  * Description of PostControler
@@ -73,7 +71,6 @@ class MailControler extends PresentationFrontControlerAbstract {
         $this->campaignProvider = $campaignProvider;
     }
 
-
     private function getLogins() {
         $visitorsLoginAgg = $this->loginAggregateCredentialsRepo->find();
         return $visitorsLoginAgg;
@@ -96,14 +93,13 @@ class MailControler extends PresentationFrontControlerAbstract {
             <h4>Validation:</h4>
             <pre>$dataPrint</pre>
         ";
-        return $this->createStringOKResponse($html);       
+        return $this->createStringOKResponse($html);
     }
     
-   
-    public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {      
+    public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {
         // config
         $campaignConfig = $this->campaignProvider->getCampaignConfig($campaignName);
-        $maxRuntime=10;
+        $maxRuntime=20;
         $maxQuantity=50;
         $report = $this->mailSender->sendEmails($campaignConfig, $maxRuntime, $maxQuantity);
 
@@ -160,7 +156,7 @@ class MailControler extends PresentationFrontControlerAbstract {
 
 
                                        ];
-                        $params = (new Params())
+                        $params = (new Assembly())
                                     ->setContent(  (new Content())
                                                      ->setSubject($subject)
                                                      ->setHtml($body)
@@ -179,5 +175,4 @@ class MailControler extends PresentationFrontControlerAbstract {
         }        
         return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
     }
-
 }

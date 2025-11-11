@@ -10,6 +10,10 @@ namespace Model\Repository;
 
 use Model\Dao\StatusDao;
 
+use Model\Entity\EntityInterface;
+
+use LogicException;
+
 /**
  * StatusRepositoryAbstract má metody pro zápis (aktualizaci) dat v session a destruktor, který zajišťuje automatické uložení (aktualizaci)
  * sat v session při zániku objektu.
@@ -23,7 +27,7 @@ abstract class StatusRepositoryAbstract {
      */
     protected $statusDao;
 
-    private $loadedFragment = [];
+    private static $loadedFragment = [];   // proměnná společná pro všechny SttausRepository
 
     protected $entity;
 
@@ -32,38 +36,37 @@ abstract class StatusRepositoryAbstract {
     }
 
     protected function load() {
-        if (!isset($this->loadedFragment[static::FRAGMENT_NAME])) {
+        if (empty($_SESSION)) {
+            throw new LogicException("Nejsou data v globálním poli \$_SESSION. Session v tomto běhu skriptu ještě nebyla spuštěna");
+        }
+        
+        if (!isset(self::$loadedFragment[static::FRAGMENT_NAME])) {
             $row = $this->statusDao->get(static::FRAGMENT_NAME);
             if ($row) {
                 $this->entity = $row[0];
+                  // tato situace nastává při změně třídy nebo přejmenování namespace objektu entity
+                  // po deserializaci vznikne __PHP_Incomplete_Class
+                // pak se všem uživatelům, kteří přistupovali k webu před změnou kódu na serveru objeví chyba
+                // obvykle FATAL Error - návratová hodnota repo->get musí být ... ale je __PHP_Incomplete_Class
+                if (!($this->entity instanceof EntityInterface)) {  // tato situace nastává při změně třídy nebo přejmenování namespace objektu entity - vznikne __PHP_Incomplete_Class
+                    $this->entity = null;
+                }
             }
-            $this->loadedFragment[static::FRAGMENT_NAME] = true;
+            self::$loadedFragment[static::FRAGMENT_NAME] = true;
         }
     }
 
     public function flush(): void {
-        if (isset($this->loadedFragment[static::FRAGMENT_NAME])) {   // pokud není loaded -> není entita
+        if (isset(self::$loadedFragment[static::FRAGMENT_NAME])) {   // pokud není loaded -> není entita
             if ($this->entity) {
                 $this->statusDao->set(static::FRAGMENT_NAME, [$this->entity]);
             } else {
                 $this->statusDao->delete(static::FRAGMENT_NAME);
             }
+            // smaže fragment
+            unset(self::$loadedFragment[static::FRAGMENT_NAME]);
         }
-        unset($this->loadedFragment[static::FRAGMENT_NAME]);
-        $this->sessionClose();
     } 
-    
-    /**
-     * Uloží a zavře session. To ukončí session lock.
-     * V metodě flush() jednotlivých repository je odstraněna položka $this->loadedFragment. 
-     * Metoda sessionClose() zjičťuje jestli je pole $this->loadedFragment prízdné a pokud je prázdné uloží a zavře session 
-     * - v metodě dao finish() dojde h volání session_write_close().
-     */
-    private function sessionClose() {
-        if (empty($this->loadedFragment)) {
-            $this->statusDao->finish();   // zapíše a uzavře session       
-        }
-    }
 
     public function __destruct() {
         $this->flush();

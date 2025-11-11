@@ -49,17 +49,21 @@ use Access\Enum\RoleEnum;
     $representativeActions = $statusViewModel->getRepresentativeActions();
     $representative = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
     
-    $filter = $statusViewModel->getPresentationInfos()[FilterControler::FILTER]; //bylo ulozeno v FilterControler->filterJob()
-    $selectCompanyId = (int)$filter[FilterControler::FILTER_COMPANY];    
-    $dataCheck = $filter[FilterControler::FILTER_TAGS];
+    $presentationInfo = $statusViewModel->getPresentationInfos();
+    $filter = $presentationInfo[FilterControler::FILTER] ?? null ; //bylo ulozeno v FilterControler->filterJob()
+    if(isset($filter)) {
+        $selectCompanyId = (int)$filter[FilterControler::FILTER_COMPANY];    
+        $dataCheck = $filter[FilterControler::FILTER_TAGS];
+    } else {
+        $selectCompanyId = null;
+    }
     
     $filterCheckboxData=[];
     if (!isset($dataCheck)) { 
         $filterCheckboxData=[];    
         $dataChecksForSelectA=[];
         $checksIdsIn = null;
-    }
-    else {
+    } else {
         $dataCheckForSelectA=[];
         $ii = 0;        
         foreach ($dataCheck as $key => $value) {
@@ -69,7 +73,6 @@ use Access\Enum\RoleEnum;
         if($dataChecksForSelectA) {
             $checksIdsIn = ":".implode(", :", array_keys($dataChecksForSelectA) );
         }
-        //$dataCheckForSelectA $checksIdsIn   ---  se pouziji v sql            
    }   
    
     //----------------------------------------------------

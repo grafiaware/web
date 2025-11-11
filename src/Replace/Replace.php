@@ -8,7 +8,7 @@ use Pes\Application\AppFactory;
 use Pes\Application\UriInfoInterface;
 
 use Red\Model\Dao\MenuItemDaoInterface;
-use Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\PresentationInterface;
 use Replace\Exception\InvalidHtmlSourceException;
 use Replace\Exception\ListValueNotFoundInDatabaseException;
 use LogicException;
@@ -106,7 +106,7 @@ class Replace implements ReplaceInterface {
         $text = $repl;
     }
     
-    public function replaceRsUrlsInHref(ServerRequestInterface $request, &$text, $key, MenuItemDaoInterface $dao, StatusPresentationInterface $statusPresentation): void {
+    public function replaceRsUrlsInHref(ServerRequestInterface $request, &$text, $key, MenuItemDaoInterface $dao, PresentationInterface $statusPresentation): void {
         $prefix = 'href="';
         $langCode = $statusPresentation->getLanguageCode();
         $lastGetResourcePath = $statusPresentation->getLastGetResourcePath();

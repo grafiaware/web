@@ -252,7 +252,7 @@ function initLoadedElements() {
     //a tab is a hidden section of content activated by a menu
     $('.tabular.menu .item').tab();
 
-    //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
+    //rozbalení formuláře osobních údajů pro "Mám zájem o tuto pozici"
     $('.profil-visible').on('click', function(){
         $(this).closest('.navazat-kontakt').find('.profil.hidden').toggle();
     });

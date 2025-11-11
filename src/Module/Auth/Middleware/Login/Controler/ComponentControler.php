@@ -1,7 +1,7 @@
 <?php
 namespace Auth\Middleware\Login\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\ComponentControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -9,23 +9,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
 
-// renderery
-use Pes\View\Renderer\ImplodeRenderer;
-
-####################
-
-use Pes\Text\Html;
-
-####################
 //use Pes\Debug\Timer;
-use Pes\View\View;
 
 /**
  * Description of ComponentControler
  *
  * @author pes2704
  */
-class ComponentControler extends PresentationFrontControlerAbstract {
+class ComponentControler extends ComponentControlerAbstract {
 
     protected function getActionPermissions(): array {
         
@@ -51,11 +42,4 @@ class ComponentControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponseFromView($view);
     }
     
-###################
-    private function errorView(ServerRequestInterface $request, $message = '') {
-        $view = $this->container->get(View::class);
-        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $message)]);
-        $view->setRenderer(new ImplodeRenderer());
-        return $view;
-    }    
 }

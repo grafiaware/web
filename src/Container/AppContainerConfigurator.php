@@ -33,7 +33,7 @@ use Model\Entity\Credentials;
 use Model\Entity\CredentialsInterface;
 
 // entity
-use Status\Model\Entity\StatusPresentation;
+use Status\Model\Entity\Presentation;
 
 // Access
 use Access\AccessPresentation;
@@ -106,12 +106,13 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             SessionStatusHandler::class => function(ContainerInterface $c) {
                 ## startuje session ##
                 if (PES_DEVELOPMENT) {
+                    $logger = $c->get('sessionLogger');
                     $sessionHandler = new SessionStatusHandler(
                         $c->get(WebAppFactory::SESSION_NAME_SERVICE),
-//                        new PhpLoggingSaveHandler($c->get('sessionLogger'))
-                            new PhpSaveHandler()
+                        new PhpLoggingSaveHandler($logger)
+//                            new PhpSaveHandler()
                     );
-                    $sessionHandler->setLogger($c->get('sessionLogger'));
+                    $sessionHandler->setLogger($logger);
                 } else {
                     $sessionHandler = new SessionStatusHandler(
                         $c->get(WebAppFactory::SESSION_NAME_SERVICE),

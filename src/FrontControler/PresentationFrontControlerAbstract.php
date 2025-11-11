@@ -60,8 +60,8 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         }
         $cls = (new \ReflectionClass($this))->getShortName();
         return $response->withHeader('X-RED-Controlled', "$cls");
-    }
-
+    }   
+    
     ### status control methods ###
 
     protected function setPresentationMenuItem($menuItem) {

@@ -26,13 +26,15 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
 use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 use Auth\Model\Repository\RegistrationRepo;
 
-use Sendmail\Middleware\Sendmail\Campaign\Contents\MailContent;
+use Sendmail\Middleware\Sendmail\Campaign\AssemblyProvider\AssemblyProvider;
 use Sendmail\Middleware\Sendmail\Recipients\RecipientsValidator;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipients;
 use Sendmail\Middleware\Sendmail\Recipients\MailSender;
 use Sendmail\Middleware\Sendmail\Campaign\CampaignProvider;
 use Sendmail\Middleware\Sendmail\Csv\CampaignData;
 use Sendmail\Middleware\Sendmail\Csv\CsvData;
+
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  *
@@ -60,15 +62,22 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
             'mailLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('mail.logs.directory'), $c->get('mail.logs.file'), FileLogger::APPEND_TO_LOG); //new NullLogger();
             },
+            PHPMailer::class => function(ContainerInterface $c) {
+                return new PHPMailer(true);   // true enables exceptions
+            },
             Mail::class => function(ContainerInterface $c) {
-                return new Mail(ParamsTemplates::params($c->get('mail.paramsname')), $c->get('mailLogger'));
+                return new Mail(
+                        $c->get(PHPMailer::class),
+                        ParamsTemplates::params($c->get('mail.paramsname')), 
+                        $c->get('mailLogger')
+                    );
             },
             HtmlMessage::class => function(ContainerInterface $c) {
                 return new HtmlMessage();
             },
                     
-            MailContent::class => function(ContainerInterface $c) {   
-                return new MailContent(
+            AssemblyProvider::class => function(ContainerInterface $c) {   
+                return new AssemblyProvider(
                     $c->get(HtmlMessage::class),      
                 );
             },             
@@ -94,7 +103,7 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
             MailSender::class => function(ContainerInterface $c) {
                 return new MailSender(
                     $c->get(Mail::class), 
-                    $c->get(MailContent::class),
+                    $c->get(AssemblyProvider::class),
                     $c->get(CampaignData::class)
                 );
             },

@@ -1,14 +1,16 @@
-        <div class="prihlaseni">
+<?php
+use Pes\Text\Html;
+?>
+
+<div class="prihlaseni">
             <?=
-                $modalLogin ?? '';
-            ?>
-            <?=
-                $modalLogout ?? '';
-            ?>
-            <?=
-                $modalRegister ?? '';
-            ?>
-            <?=
-                $modalUserAction ?? ''
+                Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"auth/v1/component/login",]) 
+                . 
+                Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"auth/v1/component/logout",]) 
+                . 
+                Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"auth/v1/component/register",]) 
+                . 
+                Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/presentationAction",]) 
+        ;
             ?>
         </div>

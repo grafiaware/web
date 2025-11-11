@@ -388,7 +388,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
-            'menuSvisle' => function(ContainerInterface $c) {
+            'menuVertical' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuVertical'];
                 /** @var MenuComponentRed $component */
                 $component = $c->get(MenuComponentRed::class);

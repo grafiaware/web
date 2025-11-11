@@ -10,7 +10,7 @@ namespace Status\Model\Repository;
 
 use Model\Repository\StatusRepositoryAbstract;
 
-use Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\SecurityInterface;
 
 /**
  * Description of StatusSecurityRepo
@@ -26,9 +26,9 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu StatusSecurityInterface. Pokud entita ješte nebyla načtena z úložiště,
      * načte ji (jen jednou) a vrací.
      *
-     * @return StatusSecurityInterface|null
+     * @return SecurityInterface|null
      */
-    public function get(): ?StatusSecurityInterface {
+    public function get(): ?SecurityInterface {
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -37,9 +37,9 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
 
     /**
      * Repository obsahuje vždy jen jednu entitu StatusSecurityInterface. Metoda add přidá entitu do prázdného repository, pokud v repository již entita je, přepíše ji.
-     * @param StatusSecurityInterface $securityStatus
+     * @param SecurityInterface $securityStatus
      */
-    public function add(StatusSecurityInterface $securityStatus) {
+    public function add(SecurityInterface $securityStatus) {
         $this->entity = $securityStatus;
     }
 

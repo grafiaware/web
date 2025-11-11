@@ -7,7 +7,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 use Access\Enum\RoleEnum;
 
-use Status\Model\Entity\StatusSecurity;
+use Status\Model\Entity\Security;
 use Status\Model\Repository\StatusSecurityRepo;
 use Events\Model\Entity\RepresentativeInterface;
 
@@ -79,7 +79,7 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
         //--------------------- $loginAggregate ---------------
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-        /** @var StatusSecurity $statusSecurity */
+        /** @var Security $statusSecurity */
         $statusSecurity = $statusSecurityRepo->get();
         /** @var LoginAggregateFullInterface $loginAggregate */
         $loginAggregate = $statusSecurity->getLoginAggregate();

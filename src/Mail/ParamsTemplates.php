@@ -8,10 +8,16 @@
 
 namespace Mail;
 
-use Mail\Params;
-use Mail\Params\{
-    Host, Encryption, SmtpAuth, Party, Content, Attachment, Headers
-};
+use Mail\Assembly;
+use Mail\AssemblyInterface;
+use Mail\Assembly\Host;
+use Mail\Assembly\Encryption;
+use Mail\Assembly\SmtpAuth;
+use Mail\Assembly\Party;
+use Mail\Assembly\Content;
+use Mail\Assembly\Attachment;
+use Mail\Assembly\Headers;
+
 /**
  * Description of ParamsTemplates
  * 
@@ -26,7 +32,7 @@ class ParamsTemplates {
     /**
      *
      * @param string $name
-     * @return Params
+     * @return Assembly
      */
     public static function params($name) {
         if (array_key_exists($name, self::$paramsArray)) {
@@ -43,11 +49,45 @@ class ParamsTemplates {
      *
      * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
      *
-     * @return Params
+     * @return Assembly
+     */
+    private static function smtp4dev() {
+
+        $params = new Assembly();
+        $params
+            ->setHost(
+                    (new Host())
+                        ->setHost('localhost')
+                    )
+            ->setSmtpAuth(
+                    (new SmtpAuth())
+                        ->setSmtpAuth(true)
+                        ->setUserName('pes@localhost')
+                        ->setPassword('Heslo')
+                    )
+            ->setEncryption(
+                    (new Encryption())->setEncryption(Encryption::NONE)
+                    )
+            ->setHeaders(
+                    (new Headers())
+                        ->setHeaders(['X-Mailer' => 'web mail test'])
+                    )
+            ;
+
+        return $params;
+    }
+    //-----------------------------------------------------------------------------------------------------------------------
+    /**
+     * Parametry pro odesílání prostřednictvím smtp.gmail.com
+     * Pro přihlášení k SMTP serveru se používají údaje emailového účtu it.grafia@gmail.com
+     *
+     * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
+     *
+     * @return Assembly
      */
     private static function itGrafiaGmail() {
 
-        $params = new Params();
+        $params = new Assembly();
         $params
             ->setHost(
                     (new Host())
@@ -78,11 +118,11 @@ class ParamsTemplates {
      *
      * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
      *
-     * @return Params
+     * @return Assembly
      */
     private static function najdisi() {
-
-        $params = new Params();
+         // funkční na hostingu
+        $params = new Assembly();
         $params
             ->setHost(
                     (new Host())
@@ -108,7 +148,7 @@ class ParamsTemplates {
 
     private static function najdisiWebSMTP() {
 
-        $params = new Params();
+        $params = new Assembly();
         $params
             ->setHost(
                     (new Host())
@@ -138,11 +178,11 @@ class ParamsTemplates {
      *
      * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
      *
-     * @return Params
+     * @return Assembly
      */
     private static function grafiaInterni() {
 
-        $params = new Params();
+        $params = new Assembly();
         $params
             ->setHost(
                     (new Host())
@@ -186,7 +226,7 @@ class ParamsTemplates {
                     ->setAltText('Logo Grafia')
         ];
 
-        $params = new Params();
+        $params = new Assembly();
         $params
             ->setHost(
                     (new Host())
@@ -222,7 +262,7 @@ class ParamsTemplates {
     ##########################################
 
     private static function vzor() {
-        $params = new Params();
+        $params = new Assembly();
         $params
             ->setHost(
                     (new Host())

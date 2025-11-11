@@ -2,8 +2,11 @@
 namespace Sendmail\Middleware\Sendmail\Campaign;
 
 use Sendmail\Middleware\Sendmail\Campaign\CampaignProviderInterface;
+use Sendmail\Middleware\Sendmail\Campaign\AssemblyProvider\AssemblyProviderInterface;
 use Sendmail\Middleware\Sendmail\Recipients\ValidityEnum;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
+
+use Site\ConfigurationCache;
 
 use UnexpectedValueException;
 
@@ -14,9 +17,9 @@ use UnexpectedValueException;
  */
 class CampaignProvider implements CampaignProviderInterface {
     
-    public function getCampaignConfig($name) {
+    public function getCampaignConfig($campaignName) {
         $campaignConfig = new CampaignConfig();
-        $data = $this->configData($name);
+        $data = $this->configData($campaignName);
         $campaignConfig->setSourceCsvFilepath($data['sourceCsvFilepath']);
         $campaignConfig->setVerifiedCsvFilepath($data['verifiedCsvFilepath']);
         $campaignConfig->setCsvFileRowIdCallback($data['csvFileRowIdCallback']);
@@ -24,26 +27,28 @@ class CampaignProvider implements CampaignProviderInterface {
         $campaignConfig->setUserCallback($data['userCallback']);
         $campaignConfig->setValidationDegree($data['validationDegree']);
         $campaignConfig->setSendingConditionCallback($data['sendingConditionCallback']);
-        $campaignConfig->setContentAssembly($name);
+        $campaignConfig->setAssemblyName($data['assemblyName']);
         return $campaignConfig;
     }
     
-    private function configData($name) {
-        switch ($name) {
-            case self::JEDNA:
+    private function configData($campaignName) {
+        switch ($campaignName) {
+            case self::CAMPAIGN_ANKETY_2025:
                 $data = [
-                    'sourceCsvFilepath' => __DIR__ . "/Contents/MujSoubor.csv",
-                    'verifiedCsvFilepath' => __DIR__ . "/Contents/MujSoubor_validated.csv",
+                    'sourceCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "VPV_ankety_2025/VPV_ankety.csv",
+                    'verifiedCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "VPV_ankety_2025/VPV_ankety_validated.csv",
                     'csvFileRowIdCallback' => function($row) {return $row["Časová značka"];},
                     'emailCallback' => function($row) {return $row["E-mail:"];},
-                    'userCallback' => function($row) {return isset($row["Příjmení:"]) ? ($row["Příjmení:"].' '.$row["Jméno:"]) : $row["E-mail:"];},
+                    'userCallback' => function($row) {return isset($row["Příjmení"]) ? ($row["Příjmení"].' '.$row["Jméno"]) : $row["E-mail:"];},
                     'validationDegree' => ValidityEnum::USER,
-                    'sendingConditionCallback' => function($row) {return ($row[MailRecipientsInterface::MAIL_ADDRESS_VALIDITY]>= ValidityEnum::USER);},
+                    'sendingConditionCallback' => function($row) {return ($row[MailRecipientsInterface::MAIL_ADDRESS_VALIDITY]>= ValidityEnum::DOMAIN);},
+                    
+                    'assemblyName' => AssemblyProviderInterface::ASSEMBLY_ANKETA_2025,
                 ];
                 break;
 
             default:
-                throw new UnexpectedValueException("Neznámé jméno konfigurace kampaně '$name'");
+                throw new UnexpectedValueException("Neznámé jméno konfigurace kampaně '$campaignName'");
         }
         return $data;
     }

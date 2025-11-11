@@ -9,7 +9,7 @@ use Pes\Text\Html;
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSupervisor",])  ?>
             </nav>
             <nav class="svisle-menu">
-                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSvisle",])  ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuVertical",])  ?>
             </nav>
             <nav class="svisle-menu kos">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuTrash",])  ?>

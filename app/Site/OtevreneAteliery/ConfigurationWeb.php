@@ -11,13 +11,6 @@ namespace Site\OtevreneAteliery;
 use Application\WebAppFactory;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\EditorActionComponent;
-use Events\Component\View\Manage\RepresentativeActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -35,15 +28,6 @@ class ConfigurationWeb extends ConfigurationConstants {
     const RED_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/red/';
     const RED_STATIC = 'local/site/'.self::WEB_SITE.'static/';
     
-    ### bootstrap ###
-    #
-    public static function bootstrap() {
-        return [
-            'bootstrap.logs.basepath' => self::WEB_BOOTSTRAP_LOGS,
-            'bootstrap.productionhost' => self::WEB_BOOTSTRAP_PRODUCTION_HOST,
-        ];
-    }
-
     ### kontejner ###
     #
 
@@ -105,16 +89,89 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function webComponent() {
         return [
-            'webcomponent.logs.directory' => 'Logs/Web',
-            'webcomponent.logs.render' => 'Render.log',
-            'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
-            'webcomponent.templates' =>
-                [
+            'logs.directory' => 'Logs/Components',
+            'logs.render' => 'Render.log',
+            'logs.type' => FileLogger::REWRITE_LOG,
+            'templates' => [
 
-                ]
+                //gdpr    
+                'gdpr' => self::WEB_TEMPLATES_COMMON.'layout/gdpr/gdpr.php',
+
+                // common layout templates
+                'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
+                'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',
+                'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
+                'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
+                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+
+                // site layout templates
+//                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+
+                // data templates - common
+                'list' => self::WEB_TEMPLATES_COMMON.'data/list.php',
+                'list2column' => self::WEB_TEMPLATES_COMMON.'data/list2column.php',
+                'fields' => self::WEB_TEMPLATES_COMMON.'data/fields.php',
+                'fieldsWithSpecificButton' => self::WEB_TEMPLATES_COMMON.'data/fieldsWithSpecificButton.php',
+                'formWithFields' => self::WEB_TEMPLATES_COMMON.'data/formWithFields.php',
+                'formWithFields2column' => self::WEB_TEMPLATES_COMMON.'data/formWithFields2column.php',
+                'formEnctypeMultipartWithFields' => self::WEB_TEMPLATES_COMMON.'data/formEnctypeMultipartWithFields.php',
+                'items' => self::WEB_TEMPLATES_COMMON.'data/items.php',
+//                'multiEditable' => self::WEB_TEMPLATES_COMMON.'data/multiEditable.php',
+//                'multi' => self::WEB_TEMPLATES_COMMON.'data/multi.php',                
+                'checkbox' => self::WEB_TEMPLATES_COMMON.'data/checkbox.php',
+                'checked' => self::WEB_TEMPLATES_COMMON.'data/checked.php',
+
+                // data templates - components
+                'company' => self::WEB_TEMPLATES_SITE.'events/data/company/company.php',     
+                'companyEditable' => self::WEB_TEMPLATES_SITE.'events/data/company/company-editable.php',
+
+                'companyContact' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact.php',
+                'companyContactEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-contact/contact-editable.php',
+
+                'companyAddress' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address.php',
+                'companyAddressEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-address/address-editable.php',  
+
+                'companyInfo' => self::WEB_TEMPLATES_SITE.'events/data/company-info/info.php',
+                'companyInfoEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-info/info-editable.php',  
+    //            'companyInfoEditable' => self::WEB_TEMPLATES_SITE.'events/data/company-info/info-editable-image.php',  
+
+                'job' => self::WEB_TEMPLATES_SITE.'events/data/job/job.php', 
+                'jobEditable' => self::WEB_TEMPLATES_SITE.'events/data/job/job-editable.php', 
+                
+                'network' => self::WEB_TEMPLATES_SITE.'events/data/network/network.php',
+                'networkEditable' => self::WEB_TEMPLATES_SITE.'events/data/network/network-editable.php',
+                
+                'jobTag' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag.php',
+                'jobTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-tag/tag-editable.php',
+
+                'jobToTag' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag.php',
+                'jobToTagEditable' => self::WEB_TEMPLATES_SITE.'events/data/job-to-tag/job-to-tag-editable.php',
+
+                'document' => self::WEB_TEMPLATES_SITE.'events/data/document/document.php',
+                'documentEditable' => self::WEB_TEMPLATES_SITE.'events/data/document/document-editable.php',  
+
+                'visitorProfile' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile.php',  
+                'visitorProfileEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-profile/visitor-profile-editable.php',
+                
+                'visitorJobRequest' => self::WEB_TEMPLATES_SITE.'events/data/visitor-job-request/visitor-job-request.php',  
+                'visitorJobRequestEditable' => self::WEB_TEMPLATES_SITE.'events/data/visitor-job-request/visitor-job-request-editable.php',
+                ////
+                'representativeCompanyAddress' => self::WEB_TEMPLATES_SITE.'events/representative-company-address.php',
+                
+            ],
         ];
     }
-
+    /**
+     * Konfigurace - parametry common templates
+     * @return array
+     */
+    public static function commonTemplates() {
+        return [
+            'templates' => self::WEB_TEMPLATES_COMMON,
+        ];
+    }
     ### presentation ###
     #
 
@@ -127,7 +184,7 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function presentationStatus() {
         return [
-            'default_lang_code' => 'cs',
+            'default_lang_code' => 'csQQQ',
             'accepted_languages' => ['cs']
         ];
     }
@@ -142,8 +199,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
                     'cs' => 'cs',
-                    'de' => 'de',
-                    'en' => 'en_US'
+//                    'de' => 'de',
+//                    'en' => 'en_US'
                 ],
 
             // title
@@ -209,18 +266,20 @@ class ConfigurationWeb extends ConfigurationConstants {
             // Toto jméno odpovídá jménu proměnné v PHP šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
             // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
             
-            //  název proměnné v šabloně => název služby v konteneru (obvykle název třídy komponentu)
+            //  název proměnné v šabloně => [routa => název služby v konteneru (obvykle název třídy komponentu)]
             'contextServiceMap' => [
-                    'flash' => FlashComponent::class,
-                    'modalLogin' => LoginComponent::class,
-                    'modalLogout' => LogoutComponent::class,
-//                    'modalRegister' => RegisterComponent::class,
-                    'modalUserAction' => EditorActionComponent::class,
-                    'info' => InfoBoardComponent::class,
-                    'languageSelect'=> LanguageSelectComponent::class,
-                    'searchPhrase'=> SearchPhraseComponent::class,
+//                    'info' => ["web/v1/service/info"=>InfoBoardComponent::class],
+                    
+//                    'flash' => FlashComponent::class,
+//                    'modalLogin' => LoginComponent::class,
+//                    'modalLogout' => LogoutComponent::class,
+////                    'modalRegister' => RegisterComponent::class,
+//                    'modalUserAction' => EditorActionComponent::class,
+//                    'info' => InfoBoardComponent::class,
+                    'languageSelect'=> ["web/v1/service/languageSelect"=>LanguageSelectComponent::class],
+                    'searchPhrase'=> ["web/v1/service/searchPhrase"=>SearchPhraseComponent::class],
                 ],
-            //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
+            //  název proměnné v šabloně => název služby v kontejneru (obvykle název menu komponentu jako string)
             'contextLayoutMap' => [
                     'menuSvisle' => 'menuVertical',
                 ],
@@ -259,6 +318,20 @@ class ConfigurationWeb extends ConfigurationConstants {
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
         return [
             'menu.services' => [
+
+//                menuSupervisor:
+//            - nástroj jak vůbec umět přidávat menu - jinak asi nutno přidat do build
+//            - právo display jen supervisor
+//            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
+//            - 
+                
+                    'menuSupervisor' => [
+                        'rootName' => 'menu_vertical',
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        ],
+
                     'menuVertical' => [
                         'rootName' => 'menu_vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
@@ -269,13 +342,13 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'rootName' => 'blocks',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuBlocks.levelRenderer',
-                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
                         ],
                     'menuTrash' => [
                         'rootName' => 'trash',
                         'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menuTrash.levelRenderer',
-                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
                         ],
                 ],
 
@@ -304,8 +377,14 @@ class ConfigurationWeb extends ConfigurationConstants {
         return [
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
-            'mail.paramsname' => 'grafiaInterni', //'najdisi', //'itGrafiaGmail', // 
+            // volba sady parametrů z Mail\ParamsTemplates
+//            'mail.paramsname' => 'grafiaInterni', 
+//            'mail.paramsname' => 'najdisi', // funkční na hostingu
+//            'mail.paramsname' => 'najdisiWebSMTP',
+//            'mail.paramsname' => 'itGrafiaGmail', 
+            'mail.paramsname' => 'smtp4dev', 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'attachments/' : self::WEB_FILES_SITE.'attachments/',
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'sendmail/' : self::WEB_FILES_SITE.'sendmail/',
 
         ];
     }
