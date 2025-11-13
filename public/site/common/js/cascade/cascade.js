@@ -50,19 +50,23 @@ export function loadSubsequentElements(document, className) {
  */
 function fetchCascadeContents(element) { 
     if (element.nodeName==='#document') {
-        console.log(`cascade: Run loadSubsequentElements() for document.`);
+        console.log(`53s AAAAAA DOCUMENT AAAAAAAAAAAAAA cascade: Run loadSubsequentElements() for document.`);
     } else {
-        console.log(`cascade: Run loadSubsequentElements() for element ${element.tagName}.`);
+        console.log(`53s ---------aaa element aaa ---- cascade: Run loadSubsequentElements() for element ${element.tagName}.`);
     }
 
     // elements is a live HTMLCollection of found elements
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
     var cascadeElements = element.getElementsByClassName(conf.cascadeClass);
-    console.log(`cascade: ${cascadeElements.length} child elements for cascade founded by class="${conf.cascadeClass}".`);    
+    
+    console.log(`62s cascade: ${cascadeElements.length} child elements for cascade founded by class="${conf.cascadeClass}".`);    
+    
     var cascadeElementsArray = Array.from(cascadeElements);  // kopie z HTMLCollection, která je live collection
     let loadSubPromises = cascadeElementsArray.map(elementToCascade => fetchCascadeContent(elementToCascade));
 
-    if (cascadeElements.length) {console.log(`cascade: Calling of fetchContents() fetched next ${loadSubPromises.length} element contents.`);}
+    if (cascadeElements.length) 
+        {console.log(`68s ----------cascade: Calling of fetchContents() fetched next ${loadSubPromises.length} element contents.`);}
+    
     // Promise.allSettled just waits for all promises to settle, regardless of the result. The resulting array has:
     //    {status:"fulfilled", value:result} for successful responses,
     //    {status:"rejected", reason:error} for errors.
@@ -89,6 +93,8 @@ function fetchCascadeContents(element) {
 function fetchCascadeContent(parentElement){
     let apiUri = getApiUri(parentElement);
     let cacheControl = getCacheControl(parentElement);
+    
+    console.log( `* fetchCascadeContent ${apiUri} `);
 
     /// fetch ///
     // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
@@ -107,17 +113,17 @@ function fetchCascadeContent(parentElement){
             throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
         }
     }).then(textPromise => {
-        console.log(`cascade: Loading content from ${apiUri}.`);
+        console.log(`116 **** cascade: Loading content from ${apiUri}.`);
         return replaceChildren(parentElement, textPromise);  // vrací původní parent element
     }).then(parentWithNewContent => {
         listenLinks(parentWithNewContent);
         listenFormsWithApiAction(parentWithNewContent);
         return fetchCascadeContents(parentWithNewContent);
     }).then(allSettledPromise => {
-        console.log(`cascade: Loaded content from ${apiUri}.`);
+        console.log(`123 **** cascade: Loaded content from ${apiUri}.---- jsou vsechny`);
 //        initElements();  // import z initElements.js
     }).catch(e => {
-        throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
+        throw new Error(`126 **** cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
 }
 
@@ -317,10 +323,10 @@ function listenLinks(loaderElement) {
         // na všechny <li> v elementu s třídou conf.navigationClass přidá event listener
         let navs = loaderElement.getElementsByClassName(conf.navigationClass);
         let navsCnt = navs.length;
-        console.log(`cascade: Try to listen links in `+ loaderElement.getAttribute(conf.elementApiUri) + ' - ' + navsCnt + ' navs found.');
+        console.log(`326 cascade: Try to listen links in `+ loaderElement.getAttribute(conf.elementApiUri) + ' - ' + navsCnt + ' navs found.');
         for (const navigation of [...navs]) {
             let items = navigation.querySelectorAll(conf.itemElementName);
-            console.log(`cascade: Listen links match `+items.length+' items.');
+            console.log(`329 cascade: Listen links match `+items.length+' items.');
             for (const item of [...items]) {
                 // když event listener z nějakého důvodu nepracuje, provede se default akce elementu anchor -> volá se načtení celé stránky
                 item.addEventListener("click", linkListener.bind(contentTarget));
