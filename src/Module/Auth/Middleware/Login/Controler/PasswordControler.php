@@ -7,7 +7,7 @@ use Site\ConfigurationCache;
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 use Mail\Assembly;
-use Mail\Params\{Content, Attachment, Party};
+use Mail\Assembly\{Content, Attachment, Party};
 
 use Psr\Http\Message\ServerRequestInterface;
 

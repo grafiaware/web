@@ -41,7 +41,7 @@ use Red\Service\ItemCreator\StaticTemplate\StaticTemplateCreator;
 use Red\Service\ItemCreator\Multipage\MultipageCreator;
 //enum
 use Red\Service\ItemCreator\Enum\ApiModuleEnum;
-use Red\Service\ItemCreator\Enum\ApiGeneratorEnum;
+use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
 
 // menu itemmanipulator
 use Red\Service\HierarchyManipulator\MenuItemManipulator;
@@ -173,12 +173,12 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemApiRepo::class)
                     );
                 // lazy volání služby kontejneru
-                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ApiGeneratorEnum::PAPER_GENERATOR, function() use ($c) {return $c->get(PaperCreator::class);});
-                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ApiGeneratorEnum::ARTICLE_GENERATOR, function() use ($c) {return $c->get(ArticleCreator::class);});
-                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ApiGeneratorEnum::MULTIPAGE_GENERATOR, function() use ($c) {return $c->get(MultipageCreator::class);});
-                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
-                $factory->registerGenerator(ApiModuleEnum::EVENTS_MODULE, ApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
-                $factory->registerGenerator(ApiModuleEnum::AUTH_MODULE, ApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::PAPER_GENERATOR, function() use ($c) {return $c->get(PaperCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::ARTICLE_GENERATOR, function() use ($c) {return $c->get(ArticleCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::MULTIPAGE_GENERATOR, function() use ($c) {return $c->get(MultipageCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::EVENTS_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::AUTH_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
                 return $factory;
             },
             PaperCreator::class => function(ContainerInterface $c) {

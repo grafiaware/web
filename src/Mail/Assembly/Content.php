@@ -2,7 +2,7 @@
 
 namespace Mail\Assembly;
 
-use Mail\Params\Attachment;
+use Mail\Assembly\Attachment;
 
 /**
  * Description of Content
@@ -17,8 +17,23 @@ class Content {
 
     private $attachments = [];
 
-    public function getSubject() : string {
+    /**
+     * Vrací předmět mailu v kódování vhodném pro přenost e-mailenm a e-mail klienty. V e-mail klientovi je tento text správně automaticky dekódován a zobrazen.
+     * Text je je zakódován pomocí base64 a následně předán s informací, že se jadná o text ve znakové sadě UTF-8 a kódovaný base64.
+     * 
+     * @return string
+     */
+    public function getSubjectBase64() : string {
         return '=?utf-8?B?'.base64_encode($this->subject).'?=';
+    }
+    
+    /**
+     * Vrací předmět e-mailu bez kódování.
+     * 
+     * @return string
+     */
+    public function getSubjectRaw(): string {
+        return $this->subject;
     }
 
     public function getHtml(): string {
