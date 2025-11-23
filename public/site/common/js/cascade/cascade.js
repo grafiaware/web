@@ -1,5 +1,6 @@
 import {initElements} from "../initLoadedElements/initElements.js";
 
+// viz local\site\common\templates\layout\cascade\loaderElement.php
 const conf = {
     cascadeClass: 'cascade',
     elementApiUri: "data-red-apiuri",
@@ -19,7 +20,7 @@ const conf = {
 };
 
 
-// cache control vypnuto na řádku 162
+// cache control vypnuto ve funkci getCacheControl()
 var apiPrefix = "red/v1/";
 var api = {
     driver: "red/v1/driver/",

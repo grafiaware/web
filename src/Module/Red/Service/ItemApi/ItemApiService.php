@@ -3,7 +3,7 @@ namespace Red\Service\ItemApi;
 
 use Pes\View\ViewInterface;
 use Red\Model\Entity\MenuItemInterface;
-use Red\Service\ItemCreator\Enum\ApiGeneratorEnum;
+use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
 use Pes\Text\FriendlyUrl;
 
 use UnexpectedValueException;
@@ -16,7 +16,7 @@ use UnexpectedValueException;
 class ItemApiService implements ItemApiServiceInterface {
     
     const DEFAULT_MODULE = 'red';
-    const DEFAULT_GENERATOR = ApiGeneratorEnum::SELECT_GENERATOR;
+    const DEFAULT_GENERATOR = ItemApiGeneratorEnum::SELECT_GENERATOR;
     
     /**
      * {@inheritDoc}
@@ -65,7 +65,7 @@ class ItemApiService implements ItemApiServiceInterface {
         } elseif (!isset($apiModule) OR !isset($apiGenerator)) {
             throw new UnexpectedValueException("Nelze vytvořit content loader api uri pro menu item s id '{$menuItem->getId()}'. Menu item musí mít hodnoty api module a api generator obě nastaveny nebo obě NULL.");
         }
-        if($apiGenerator==ApiGeneratorEnum::STATIC_GENERATOR) {
+        if($apiGenerator==ItemApiGeneratorEnum::STATIC_GENERATOR) {
             $id = $this->getNameForStaticPage($menuItem);
         } else {
             $id = $menuItem->getId();

@@ -10,8 +10,8 @@ use PHPMailer\PHPMailer\Exception;
 use Psr\Log\LoggerInterface;
 
 use Mail\AssemblyInterface;
-use Mail\Params\Attachment;
-use Mail\Params\StringAttachment;
+use Mail\Assembly\Attachment;
+use Mail\Assembly\StringAttachment;
 use Mail\Exception\MailException;
 
 /**
@@ -33,7 +33,7 @@ class Mail implements MailInterface {
      *
      * @var Assembly
      */
-    private $params;
+    private $assembly;
     private static $logger;
 
     /**
@@ -42,18 +42,18 @@ class Mail implements MailInterface {
      * odesílané při běhu skriptu. 
      * 
      * Typicky se jedná a sadu:
-     * - smtp host (objekt Mail\Params\Host)
-     * - smtp autentikace pro přístup k smtp hostu (objekt Mail\Params\SmtpAuth)
-     * - šifrování mailů (objekt Mail\Params\Encryption)
-     * - nastavení základní sady hlaviček (objekt Mail\Params\Headers)
+     * - smtp host (objekt Mail\Assembly\Host)
+     * - smtp autentikace pro přístup k smtp hostu (objekt Mail\Assembly\SmtpAuth)
+     * - šifrování mailů (objekt Mail\Assembly\Encryption)
+     * - nastavení základní sady hlaviček (objekt Mail\Assembly\Headers)
      * 
      * @param PHPMailer $phpMailer
-     * @param AssemblyInterface $params
+     * @param AssemblyInterface $assembly
      * @param LoggerInterface $logger
      */
-    public function __construct(PHPMailer $phpMailer, AssemblyInterface $params = null, LoggerInterface $logger = null) {
+    public function __construct(PHPMailer $phpMailer, AssemblyInterface $assembly = null, LoggerInterface $logger = null) {
         $this->phpMailer = $phpMailer;
-        $this->params = $params;
+        $this->assembly = $assembly;
         self::$logger = $logger;
     }
 
@@ -119,18 +119,18 @@ class Mail implements MailInterface {
      * 
      * Pevně zadané parametry mailu jsou: kódování 8 bit, UTF-8.
      *  
-     * Parametry metody typicky obsahují:
-     * - odesílatele, sadu příjemců, příjemců kopie, příjemců skryté kopie (objekt Mail\Params\Party)
-     * - předmět mailu, tělo mailu, přílohy (objekt objekt Mail\Params\Content)
+     * Parametry metody typicky obsahují parametry skladby mailu:
+     * - odesílatele, sadu příjemců, příjemců kopie, příjemců skryté kopie (objekt Mail\Assembly\Party)
+     * - předmět mailu, tělo mailu, přílohy (objekt objekt Mail\Assembly\Content)
      * 
      * 
-     * @param Assembly $params Parametry aktuálně odesílaného mailu
+     * @param Assembly $assembly Parametry skladby aktuálně odesílaného mailu
      * @return bool false on error 
      */
-    public function mail(AssemblyInterface $params = null): bool {
-        $actualParams = $this->params ;
-        if (isset($params)) {
-            $actualParams->adoptConfigurationParams($params);
+    public function mail(AssemblyInterface $assembly = null): bool {
+        $actualAssembly = $this->assembly ;
+        if (isset($assembly)) {
+            $actualAssembly->adoptConfigurationParams($assembly);
         }
 
         try {
@@ -142,33 +142,34 @@ class Mail implements MailInterface {
             $this->phpMailer->isSMTP();                                            //Send using SMTP
 //            $this->phpMailer->isMail();                                          //Send using PHP mail function
 
-            $this->phpMailer->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
-            $this->phpMailer->SMTPSecure = $actualParams->getEncryption()->getSmtpSecure();
-            $this->phpMailer->Port = $actualParams->getEncryption()->getPort();
+            $this->phpMailer->Host = $actualAssembly->getHost()->getHost();                      //Set the SMTP server to send through
+            $this->phpMailer->SMTPSecure = $actualAssembly->getEncryption()->getSmtpSecure();
+            $this->phpMailer->Port = $actualAssembly->getEncryption()->getPort();
 
             //Whether to use SMTP authentication
-            $this->phpMailer->SMTPAuth = $actualParams->getSmtpAuth()->getSmtpAuth();
+            $this->phpMailer->SMTPAuth = $actualAssembly->getSmtpAuth()->getSmtpAuth();
             //Username to use for SMTP authentication
-            $this->phpMailer->Username = $actualParams->getSmtpAuth()->getUserName();
+            $this->phpMailer->Username = $actualAssembly->getSmtpAuth()->getUserName();
             //Password to use for SMTP authentication
-            $this->phpMailer->Password = $actualParams->getSmtpAuth()->getPassword();
+            $this->phpMailer->Password = $actualAssembly->getSmtpAuth()->getPassword();
 
             $this->phpMailer->Encoding = self::ENCODING;
 
             //Recipients
-            $from = $actualParams->getParty()->getFrom();
+            $from = $actualAssembly->getParty()->getFrom();
             $this->phpMailer->setFrom($from[0], $from[1]);
-            foreach ($actualParams->getParty()->getToArray() as $to) {
+            foreach ($actualAssembly->getParty()->getToArray() as $to) {
                 $this->phpMailer->addAddress($to[0], $to[1]);     //Add a recipient            //Name is optional
             };
-            foreach ($actualParams->getParty()->getCcArray() as $cc) {
+            foreach ($actualAssembly->getParty()->getCcArray() as $cc) {
                 $this->phpMailer->addCC($cc[0], $cc[1]);     //Add a cc            //Name is optional
             };
-            foreach ($actualParams->getParty()->getBccArray() as $bcc) {
+            foreach ($actualAssembly->getParty()->getBccArray() as $bcc) {
                 $this->phpMailer->addBCC($bcc[0], $bcc[1]);     //Add a bcc            //Name is optional
             };            
             //Attachments
-            foreach ($actualParams->getContent()->getAttachments() as $attachment) {
+            foreach ($actualAssembly->getContent()->getAttachments() as $attachment) {
+                //TODO: Svoboda - přidání přílohy mailu - opravit - předávané parametry neodpovídají tomu, co PHPmailer očekává 
                 if ($attachment instanceof Attachment) {
                     $this->phpMailer->addAttachment($attachment->getFileName(), $attachment->getAltText());      //Add attachments  //Optional name
                 }
@@ -179,9 +180,10 @@ class Mail implements MailInterface {
 
             //Content
             $this->phpMailer->isHTML(true);                                  //Set email format to HTML
-            $this->phpMailer->Subject = $actualParams->getContent()->getSubject();
-            $this->phpMailer->msgHTML($actualParams->getContent()->getHtml(), __DIR__);
-            $this->phpMailer->AltBody = $actualParams->getContent()->getAltBody();
+            $this->phpMailer->Subject = $actualAssembly->getContent()->getSubjectBase64();
+            //TODO: Svoboda - obrázky do emailu - opravit - druhý paramentr je basedir jako předpona cety k obrázkům - je použito __DIR__ - to nemůže fungovat            
+            $this->phpMailer->msgHTML($actualAssembly->getContent()->getHtml(), __DIR__);   
+            $this->phpMailer->AltBody = $actualAssembly->getContent()->getAltBody();
             $this->phpMailer->CharSet = self::CHARSET;
             $this->phpMailer->action_function = Mail::class.'::actionOnSend';
 
@@ -190,7 +192,9 @@ class Mail implements MailInterface {
         } catch (Exception $e) {
             if (self::$logger) {
                 $time = (new \DateTime())->format("Y-m-d H:i:s");
-                self::$logger->error("[$time] Nepodařilo se odeslat mail '{subject}'.", ['subject'=>$actualParams->getContent()->getSubject()]);
+                self::$logger->error("[$time] Nepodařilo se odeslat mail. Subject: '{subject}'.", ['subject'=>$actualAssembly->getContent()->getSubjectRaw()]);        
+                $toString = implode(', ', array_column($actualAssembly->getParty()->getToArray(), 0));
+                self::$logger->error("To: {toString}", ['toString'=>$toString]);
                 self::$logger->error("PHPmail error info:: '{info}'.", ['info'=>$this->phpMailer->ErrorInfo]);
                 self::$logger->error("PHPmail exception message: '{message}'.", ['message'=>$e->errorMessage()]);
                 echo "<h4>Mailerror info:</h4>".PHP_EOL.$this->phpMailer->ErrorInfo;

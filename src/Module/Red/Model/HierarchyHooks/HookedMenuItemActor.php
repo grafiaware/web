@@ -10,7 +10,7 @@ namespace Red\Model\HierarchyHooks;
 
 use Pes\Database\Handler\HandlerInterface;
 use Red\Model\Dao\Hierarchy\HookedActorAbstract;
-use Red\Service\ItemCreator\Enum\ApiGeneratorEnum;
+use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
 
 /**
  * Description of HookedArticleActions
@@ -22,7 +22,7 @@ class HookedMenuItemActor extends HookedActorAbstract {
     const NEW_TITLE = 'Title';
     
     const DEFAULT_MODULE = 'red';
-    const DEFAULT_GENERATOR = ApiGeneratorEnum::SELECT_GENERATOR;
+    const DEFAULT_GENERATOR = ItemApiGeneratorEnum::SELECT_GENERATOR;
     
     private $menuItemTableName;
     private $newTitle;

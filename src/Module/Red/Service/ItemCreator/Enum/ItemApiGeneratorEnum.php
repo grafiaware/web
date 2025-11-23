@@ -8,7 +8,7 @@ use Pes\Type\Enum;
  *
  * @author pes2704
  */
-class ApiGeneratorEnum extends Enum {
+class ItemApiGeneratorEnum extends Enum {
     const SELECT_GENERATOR = 'select';
     const ARTICLE_GENERATOR = 'article';
     const PAPER_GENERATOR = 'paper';

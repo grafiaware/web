@@ -36,10 +36,10 @@ use Pes\Http\Response;
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 use Mail\Assembly;
-use Mail\Params\Content;
-use Mail\Params\Attachment; 
-use Mail\Params\StringAttachment;
-use Mail\Params\Party;
+use Mail\Assembly\Content;
+use Mail\Assembly\Attachment; 
+use Mail\Assembly\StringAttachment;
+use Mail\Assembly\Party;
 
 
 /**
