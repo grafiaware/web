@@ -33,7 +33,7 @@ use Consent\Middleware\ConsentLogger\ConsentLogger;
 use Status\Middleware\FlashStatus;
 use Status\Middleware\PresentationStatus;
 use Status\Middleware\SecurityStatus;
-use Status\Middleware\FinishStatus;
+use Status\Middleware\UnlockStatus;
 
 use Access\Enum\RoleEnum;
 
@@ -73,7 +73,7 @@ class SelectorItems {
                     new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new Transformator(),
                     new Web()
                 ];};
@@ -95,7 +95,7 @@ class SelectorItems {
 //                    new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new Transformator(),
                     new Redactor()
                 ];},
@@ -107,7 +107,7 @@ class SelectorItems {
                     new SecurityStatus(),
                     new FlashStatus(),
                     new PresentationStatus(),  // GET requesty (zobrazení komponenty) potřebují lang
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new Login()
                 ];},
             '/events'=>
@@ -118,7 +118,7 @@ class SelectorItems {
 //                    new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new EventsLoginSync(),
                     new Events()
                 ];},
@@ -129,7 +129,7 @@ class SelectorItems {
                     new SecurityStatus(),
 //                    new Login(),
                     new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new Sendmail()
                 ];},
             '/build'=>
@@ -139,7 +139,7 @@ class SelectorItems {
                     new SecurityStatus(),
 //                    new Login(),
                     new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new Build()
                 ];},
             '/consent'=>
@@ -155,7 +155,7 @@ class SelectorItems {
                 return [
                     new SecurityStatus(),
                     new Firewall(new IsLogged($this->app)),
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new \Middleware\Rs\Transformator(),
                     new \Middleware\Rs\Rs()
                 ];},
@@ -164,7 +164,7 @@ class SelectorItems {
                 return [
                     new SecurityStatus(),
                     new Firewall(new IsLogged($this->app)),
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new \Middleware\Edun\Transformator(),
                     new \Middleware\Edun\Edun()
                 ];},
@@ -173,7 +173,7 @@ class SelectorItems {
                 return [
                     new SecurityStatus(),
                     new Firewall(new IsLogged($this->app)),
-                    new FinishStatus(),
+                    new UnlockStatus(),
                     new \Middleware\Staffer\Transformator(),
                     new \Middleware\Staffer\Staffer()
                 ];},
