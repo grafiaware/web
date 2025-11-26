@@ -360,6 +360,7 @@ class RegistrationControler extends LoginControlerAbstract
                                                  ->setFrom('info@najdisi.cz', 'web najdisi')
                                                 // ->addReplyTo('svoboda@grafia.cz', 'reply web praci.najdisi.cz')
                                                  ->addTo('selnerova@grafia.cz', 'selnerovaV')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                 ->addTo('svoboda@grafia.cz', 'testMail')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     try {
                         $ret = $mail->mail($params); // posle mail
