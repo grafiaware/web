@@ -21,7 +21,7 @@ use Model\Dao\StatusDao;
  *
  * @author pes2704
  */
-class FinishStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
+class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
     /**
      * Uvolní session lock
      * 

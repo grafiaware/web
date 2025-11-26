@@ -18,9 +18,9 @@ use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 
 use Mail\Assembly;
-use Mail\Params\Content;
-use Mail\Params\Attachment;
-use Mail\Params\Party;
+use Mail\Assembly\Content;
+use Mail\Assembly\Attachment;
+use Mail\Assembly\Party;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;

@@ -6,7 +6,7 @@ use Site\ConfigurationCache;
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 use Mail\Assembly;
-use Mail\Params\{Content, Attachment, Party};
+use Mail\Assembly\{Content, Attachment, Party};
 use Mail\Exception\MailExceptionInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -313,8 +313,6 @@ class RegistrationControler extends LoginControlerAbstract
                                          //->addReplyTo('svoboda@grafia.cz', 'info web praci.najdisi.cz'))
                                          ->addTo( $registerEmail, $loginName)
                                         );
-//              $mail->mail($params); // posle mail
-
             try {
                     $ret = $mail->mail($params); // posle mail
                 } catch (MailExceptionInterface $exc) {
@@ -362,6 +360,7 @@ class RegistrationControler extends LoginControlerAbstract
                                                  ->setFrom('info@najdisi.cz', 'web najdisi')
                                                 // ->addReplyTo('svoboda@grafia.cz', 'reply web praci.najdisi.cz')
                                                  ->addTo('selnerova@grafia.cz', 'selnerovaV')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                 ->addTo('svoboda@grafia.cz', 'testMail')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     try {
                         $ret = $mail->mail($params); // posle mail
