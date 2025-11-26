@@ -34,7 +34,7 @@ use Sendmail\Middleware\Sendmail\Recipients\MailSenderInterface;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
 use Sendmail\Middleware\Sendmail\Campaign\CampaignProviderInterface;
 
-
+use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 /**
  * Description of PostControler
  *
@@ -71,6 +71,11 @@ class MailControler extends PresentationFrontControlerAbstract {
         $this->campaignProvider = $campaignProvider;
     }
 
+    /**
+     * Načte z databáze a vrací všechny entity LoginAggregateCredentials.
+     * 
+     * @return LoginAggregateCredentialsInterface[]
+     */
     private function getLogins() {
         $visitorsLoginAgg = $this->loginAggregateCredentialsRepo->find();
         return $visitorsLoginAgg;
@@ -112,6 +117,14 @@ class MailControler extends PresentationFrontControlerAbstract {
         return $this->createStringOKResponse($html);       
     }
     
+    /**
+     * Stará metoda pro Veletrh online pro odesílání mail kampaní návštěvníkům. Rozesílá po dávkách uživatelům s rolí 'visitor', 
+     * kteří mají zaregistrovaný email. Obsah mailu je natvrdo v metodě.
+     * 
+     * @param ServerRequestInterface $request
+     * @param int $campaign Pořadové číslo dávky v kampani počínaje jedničkou.
+     * @return type
+     */
     public function send(ServerRequestInterface $request, int $campaign=-1000) {
         $count = 10;
         $min = ($campaign-1)*$count+1;
