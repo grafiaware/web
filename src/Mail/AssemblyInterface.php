@@ -21,10 +21,10 @@ interface AssemblyInterface {
     public function getParty(): ?Party;
     public function getContent(): ?Content;
     public function getHeaders(): ?Headers;
-    public function setHost(Host $host);
-    public function setSmtp(Smtp $smtpAuth);
-    public function setParty(Party $party);
-    public function setContent(Content $content);
-    public function setHeaders(Headers $headers);
+    public function setHost(Host $host): AssemblyInterface;
+    public function setSmtp(Smtp $smtpAuth): AssemblyInterface;
+    public function setParty(Party $party): AssemblyInterface;
+    public function setContent(Content $content): AssemblyInterface;
+    public function setHeaders(Headers $headers): AssemblyInterface;
     
 }

@@ -94,27 +94,27 @@ class Assembly implements AssemblyInterface {
         return $this->headers;
     }
 
-    public function setHost(Host $host) {
+    public function setHost(Host $host): AssemblyInterface {
         $this->host = $host;
         return $this;
     }
 
-    public function setSmtp(Smtp $smtp) {
+    public function setSmtp(Smtp $smtp): AssemblyInterface {
         $this->smtp = $smtp;
         return $this;
     }
 
-    public function setParty(Party $party) {
+    public function setParty(Party $party): AssemblyInterface {
         $this->party = $party;
         return $this;
     }
 
-    public function setContent(Content $content) {
+    public function setContent(Content $content): AssemblyInterface {
         $this->content = $content;
         return $this;
     }
 
-    public function setHeaders(Headers $headers) {
+    public function setHeaders(Headers $headers): AssemblyInterface {
         $this->headers = $headers;
         return $this;
     }
