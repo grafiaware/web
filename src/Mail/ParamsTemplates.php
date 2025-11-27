@@ -12,7 +12,7 @@ use Mail\Assembly;
 use Mail\AssemblyInterface;
 use Mail\Assembly\Host;
 use Mail\Assembly\Encryption;
-use Mail\Assembly\Smtp;
+use Mail\Assembly\SmtpConnection;
 use Mail\Assembly\Party;
 use Mail\Assembly\Content;
 use Mail\Assembly\Attachment;
@@ -60,7 +60,7 @@ class ParamsTemplates {
                         ->setHost('localhost')
                     )
             ->setSmtp(
-                    (new Smtp())
+                    (new SmtpConnection())
                         ->setSmtpAuth(true)
                         ->setUserName('pes@localhost')
                         ->setPassword('Heslo')
@@ -92,7 +92,7 @@ class ParamsTemplates {
                         ->setHost('smtp.gmail.com')
                     )
             ->setSmtp(
-                    (new Smtp())
+                    (new SmtpConnection())
                         ->setSmtpAuth(true)
                         ->setUserName('it.grafia@gmail.com')
                         ->setPassword('ItDiskAdmin')
@@ -125,7 +125,7 @@ class ParamsTemplates {
                         ->setHost('smtp.cesky-hosting.cz')
                     )
             ->setSmtp(
-                    (new Smtp())
+                    (new SmtpConnection())
                         ->setSmtpAuth(true)
                         ->setUserName('info@najdisi.cz')
                         ->setPassword('Kostrčnenihouba')
@@ -175,7 +175,7 @@ class ParamsTemplates {
 //                        ->setHost('localhost')
                     )
             ->setSmtp(
-                    (new Smtp())
+                    (new SmtpConnection())
                         ->setSmtpAuth(true)
                         ->setUserName('allmail')
                         ->setPassword('Liamlla123')
@@ -216,7 +216,7 @@ class ParamsTemplates {
                         ->setHost('smtp.cesky-hosting.cz')
                     )
             ->setSmtp(
-                    (new Smtp())
+                    (new SmtpConnection())
                         ->setSmtpAuth(true)
                         ->setUserName('info@najdisi.cz')
                         ->setPassword('KroKF56uJ2pp')
@@ -250,7 +250,7 @@ class ParamsTemplates {
                         ->setHost('smtp.example.com')
                     )
             ->setSmtp(
-                    (new Smtp())
+                    (new SmtpConnection())
                         ->setSmtpAuth($smtpAuth)
                         ->setUserName($userName)
                         ->setPassword($password)

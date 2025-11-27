@@ -16,7 +16,7 @@ use Mail\AssemblyInterface;
 
 use Mail\Assembly\Host;
 use Mail\Assembly\Encryption;
-use Mail\Assembly\Smtp;
+use Mail\Assembly\SmtpConnection;
 use Mail\Assembly\Party;
 use Mail\Assembly\Content;
 use Mail\Assembly\Attachment;

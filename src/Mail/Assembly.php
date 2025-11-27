@@ -5,7 +5,7 @@ namespace Mail;
 use Mail\AssemblyInterface;
 use Mail\Assembly\Host;
 use Mail\Assembly\Encryption;
-use Mail\Assembly\Smtp;
+use Mail\Assembly\SmtpConnection;
 use Mail\Assembly\Party;
 use Mail\Assembly\Content;
 use Mail\Assembly\Attachment;
@@ -27,7 +27,7 @@ class Assembly implements AssemblyInterface {
 
     /**
      *
-     * @var Smtp
+     * @var SmtpConnection
      */
     private $smtp;
 
@@ -78,7 +78,7 @@ class Assembly implements AssemblyInterface {
         return $this->host;
     }
 
-    public function getSmtp(): ?Smtp {
+    public function getSmtp(): ?SmtpConnection {
         return $this->smtp;
     }
 
@@ -99,7 +99,7 @@ class Assembly implements AssemblyInterface {
         return $this;
     }
 
-    public function setSmtp(Smtp $smtp): AssemblyInterface {
+    public function setSmtp(SmtpConnection $smtp): AssemblyInterface {
         $this->smtp = $smtp;
         return $this;
     }

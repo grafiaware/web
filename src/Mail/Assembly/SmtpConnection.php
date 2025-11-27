@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\SMTP;
  *
  * @author pes2704
  */
-class Smtp {
+class SmtpConnection {
 
     const SMTPS = "SMTPS";
     const STARTTLS = "STARTTLS";
