@@ -18,13 +18,11 @@ interface AssemblyInterface {
     public function adoptConfigurationParams(AssemblyInterface $params);
     public function getHost(): ?Host;
     public function getSmtp(): ?Smtp;
-    public function getEncryption(): ?Encryption;
     public function getParty(): ?Party;
     public function getContent(): ?Content;
     public function getHeaders(): ?Headers;
     public function setHost(Host $host);
     public function setSmtp(Smtp $smtpAuth);
-    public function setEncryption(Encryption $encryption);
     public function setParty(Party $party);
     public function setContent(Content $content);
     public function setHeaders(Headers $headers);
