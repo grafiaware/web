@@ -10,6 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 use Psr\Log\LoggerInterface;
 
 use Mail\AssemblyInterface;
+use Mail\Assembly\Smtp;
 use Mail\Assembly\Attachment;
 use Mail\Assembly\StringAttachment;
 use Mail\Exception\MailException;
@@ -138,9 +139,7 @@ class Mail implements MailInterface {
 
             $this->phpMailer->Host = $actualAssembly->getHost()->getHost();                      //Set the SMTP server to send through
             
-            if (null!==$actualAssembly->getSmtp()) {
-                $this->phpMailer->isMail();                                          //Send using PHP mail function            
-            } else {                
+            if ($actualAssembly->getSmtp() instanceof Smtp) {
                 $this->phpMailer->isSMTP();                                         //Send using SMTP
 //                $this->phpMailer->SMTPDebug = SMTP::DEBUG_CONNECTION;             //Enable verbose debug output
                 $this->phpMailer->SMTPDebug = SMTP::DEBUG_OFF;                      //No debug output
@@ -152,6 +151,8 @@ class Mail implements MailInterface {
                 $this->phpMailer->Password = $actualAssembly->getSmtp()->getPassword();
                 $this->phpMailer->SMTPSecure = $actualAssembly->getSmtp()->getSmtpSecure();
                 $this->phpMailer->Port = $actualAssembly->getSmtp()->getPort();
+            } else {                
+                $this->phpMailer->isMail();                                          //Send using PHP mail function            
             }
             
             $this->phpMailer->Encoding = self::ENCODING;
