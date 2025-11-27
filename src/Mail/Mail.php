@@ -25,7 +25,7 @@ class Mail implements MailInterface {
     const ENCODING = "8bit";
     
     /*
-     * PHPMailer
+     * @var PHPMailer
      */
     private $phpMailer;
     
@@ -135,24 +135,25 @@ class Mail implements MailInterface {
 
         try {
             //Server settings
-//            $this->phpMailer->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
-            $this->phpMailer->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
-//            
-//            zakomentováno $this->phpMailer->isSMTP(); přidáno $this->phpMailer->isMail(); zakomentovány řádky pod $this->phpMailer->Port používající metodu ->getSmtpAuth()
-            $this->phpMailer->isSMTP();                                            //Send using SMTP
-//            $this->phpMailer->isMail();                                          //Send using PHP mail function
 
             $this->phpMailer->Host = $actualAssembly->getHost()->getHost();                      //Set the SMTP server to send through
-            $this->phpMailer->SMTPSecure = $actualAssembly->getEncryption()->getSmtpSecure();
-            $this->phpMailer->Port = $actualAssembly->getEncryption()->getPort();
-
-            //Whether to use SMTP authentication
-            $this->phpMailer->SMTPAuth = $actualAssembly->getSmtpAuth()->getSmtpAuth();
-            //Username to use for SMTP authentication
-            $this->phpMailer->Username = $actualAssembly->getSmtpAuth()->getUserName();
-            //Password to use for SMTP authentication
-            $this->phpMailer->Password = $actualAssembly->getSmtpAuth()->getPassword();
-
+            
+            if (null!==$actualAssembly->getSmtp()) {
+                $this->phpMailer->isMail();                                          //Send using PHP mail function            
+            } else {                
+                $this->phpMailer->isSMTP();                                         //Send using SMTP
+//                $this->phpMailer->SMTPDebug = SMTP::DEBUG_CONNECTION;             //Enable verbose debug output
+                $this->phpMailer->SMTPDebug = SMTP::DEBUG_OFF;                      //No debug output
+                //Whether to use SMTP authentication
+                $this->phpMailer->SMTPAuth = $actualAssembly->getSmtp()->getSmtpAuth();
+                //Username to use for SMTP authentication
+                $this->phpMailer->Username = $actualAssembly->getSmtp()->getUserName();
+                //Password to use for SMTP authentication
+                $this->phpMailer->Password = $actualAssembly->getSmtp()->getPassword();
+                $this->phpMailer->SMTPSecure = $actualAssembly->getSmtp()->getSmtpSecure();
+                $this->phpMailer->Port = $actualAssembly->getSmtp()->getPort();
+            }
+            
             $this->phpMailer->Encoding = self::ENCODING;
 
             //Recipients

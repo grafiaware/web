@@ -5,7 +5,7 @@ namespace Mail;
 use Mail\AssemblyInterface;
 use Mail\Assembly\Host;
 use Mail\Assembly\Encryption;
-use Mail\Assembly\SmtpAuth;
+use Mail\Assembly\Smtp;
 use Mail\Assembly\Party;
 use Mail\Assembly\Content;
 use Mail\Assembly\Attachment;
@@ -27,9 +27,9 @@ class Assembly implements AssemblyInterface {
 
     /**
      *
-     * @var SmtpAuth
+     * @var Smtp
      */
-    private $smtpAuth;
+    private $smtp;
 
     /**
      *
@@ -59,9 +59,6 @@ class Assembly implements AssemblyInterface {
         if ($params->getContent()) {
             $this->setContent($params->getContent());
         }
-        if ($params->getEncryption()) {
-            $this->setEncryption($params->getEncryption());
-        }
         if ($params->getHeaders()) {
             $this->setHeaders($params->getHeaders());
         }
@@ -71,8 +68,8 @@ class Assembly implements AssemblyInterface {
         if ($params->getParty()) {
             $this->setParty($params->getParty());
         }
-        if ($params->getSmtpAuth()) {
-            $this->setSmtpAuth($params->getSmtpAuth());
+        if ($params->getSmtp()) {
+            $this->setSmtp($params->getSmtp());
         }
 
     }
@@ -81,12 +78,8 @@ class Assembly implements AssemblyInterface {
         return $this->host;
     }
 
-    public function getSmtpAuth(): ?SmtpAuth {
-        return $this->smtpAuth;
-    }
-
-    public function getEncryption(): ?Encryption {
-        return $this->encryption;
+    public function getSmtp(): ?Smtp {
+        return $this->smtp;
     }
 
     public function getParty(): ?Party {
@@ -106,13 +99,8 @@ class Assembly implements AssemblyInterface {
         return $this;
     }
 
-    public function setSmtpAuth(SmtpAuth $smtpAuth) {
-        $this->smtpAuth = $smtpAuth;
-        return $this;
-    }
-
-    public function setEncryption(Encryption $encryption) {
-        $this->encryption = $encryption;
+    public function setSmtp(Smtp $smtp) {
+        $this->smtp = $smtp;
         return $this;
     }
 

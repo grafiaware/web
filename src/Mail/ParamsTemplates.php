@@ -12,7 +12,7 @@ use Mail\Assembly;
 use Mail\AssemblyInterface;
 use Mail\Assembly\Host;
 use Mail\Assembly\Encryption;
-use Mail\Assembly\SmtpAuth;
+use Mail\Assembly\Smtp;
 use Mail\Assembly\Party;
 use Mail\Assembly\Content;
 use Mail\Assembly\Attachment;
@@ -59,8 +59,8 @@ class ParamsTemplates {
                     (new Host())
                         ->setHost('localhost')
                     )
-            ->setSmtpAuth(
-                    (new SmtpAuth())
+            ->setSmtp(
+                    (new Smtp())
                         ->setSmtpAuth(true)
                         ->setUserName('pes@localhost')
                         ->setPassword('Heslo')
@@ -93,8 +93,8 @@ class ParamsTemplates {
                     (new Host())
                         ->setHost('smtp.gmail.com')
                     )
-            ->setSmtpAuth(
-                    (new SmtpAuth())
+            ->setSmtp(
+                    (new Smtp())
                         ->setSmtpAuth(true)
                         ->setUserName('it.grafia@gmail.com')
                         ->setPassword('ItDiskAdmin')
@@ -128,8 +128,8 @@ class ParamsTemplates {
                     (new Host())
                         ->setHost('smtp.cesky-hosting.cz')
                     )
-            ->setSmtpAuth(
-                    (new SmtpAuth())
+            ->setSmtp(
+                    (new Smtp())
                         ->setSmtpAuth(true)
                         ->setUserName('info@najdisi.cz')
                         ->setPassword('Kostrčnenihouba')
@@ -147,19 +147,13 @@ class ParamsTemplates {
     }
 
     private static function najdisiWebSMTP() {
-
+        // není nastaveno SMTP => používá PHP funkci mail()
         $params = new Assembly();
         $params
             ->setHost(
                     (new Host())
                         ->setHost('websmtp.cesky-hosting.cz')
                     )
-//            -setSmtpAuth(
-//                    (new SmtpAuth())
-//                        ->setSmtpAuth(true)
-//                        ->setUserName('najdisi.cz')
-//                        ->setPassword('Kostrčnenihouba')
-//                    )
             ->setEncryption(
                     (new Encryption())->setEncryption(Encryption::NONE)
                     )
@@ -189,8 +183,8 @@ class ParamsTemplates {
                         ->setHost('posta.grafia.cz')
 //                        ->setHost('localhost')
                     )
-            ->setSmtpAuth(
-                    (new SmtpAuth())
+            ->setSmtp(
+                    (new Smtp())
                         ->setSmtpAuth(true)
                         ->setUserName('allmail')
                         ->setPassword('Liamlla123')
@@ -232,8 +226,8 @@ class ParamsTemplates {
                     (new Host())
                         ->setHost('smtp.cesky-hosting.cz')
                     )
-            ->setSmtpAuth(
-                    (new SmtpAuth())
+            ->setSmtp(
+                    (new Smtp())
                         ->setSmtpAuth(true)
                         ->setUserName('info@najdisi.cz')
                         ->setPassword('KroKF56uJ2pp')
@@ -268,8 +262,8 @@ class ParamsTemplates {
                     (new Host())
                         ->setHost('smtp.example.com')
                     )
-            ->setSmtpAuth(
-                    (new SmtpAuth())
+            ->setSmtp(
+                    (new Smtp())
                         ->setSmtpAuth($smtpAuth)
                         ->setUserName($userName)
                         ->setPassword($password)

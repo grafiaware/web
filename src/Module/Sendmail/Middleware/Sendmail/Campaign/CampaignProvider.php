@@ -17,7 +17,13 @@ use UnexpectedValueException;
  */
 class CampaignProvider implements CampaignProviderInterface {
     
-    public function getCampaignConfig($campaignName) {
+    /**
+     * {@inheritDoc}
+     * 
+     * @param type $campaignName
+     * @return array
+     */
+    public function getCampaignConfig($campaignName): array {
         $campaignConfig = new CampaignConfig();
         $data = $this->configData($campaignName);
         $campaignConfig->setSourceCsvFilepath($data['sourceCsvFilepath']);
@@ -31,9 +37,16 @@ class CampaignProvider implements CampaignProviderInterface {
         return $campaignConfig;
     }
     
+    /**
+     * Metoda slouří pro definování konfigurace jednotlivých kampaní. Vrací konfiguraci kampaně podle jména kampaně.
+     * 
+     * @param string $campaignName
+     * @return array
+     * @throws UnexpectedValueException
+     */
     private function configData($campaignName) {
         switch ($campaignName) {
-            case self::CAMPAIGN_ANKETY_2025:
+            case self::CAMPAIGN_ANKETY_2025:  // konstanta definována v interface
                 $data = [
                     'sourceCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "VPV_ankety_2025/VPV_ankety.csv",
                     'verifiedCsvFilepath' => ConfigurationCache::mail()['filesDirectory'] . "VPV_ankety_2025/VPV_ankety_validated.csv",
