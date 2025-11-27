@@ -64,9 +64,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('pes@localhost')
                         ->setPassword('Heslo')
-                    )
-            ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::NONE)
+                        ->setEncryption(Encryption::NONE)
                     )
             ->setHeaders(
                     (new Headers())
@@ -98,9 +96,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('it.grafia@gmail.com')
                         ->setPassword('ItDiskAdmin')
-                    )
-            ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::STARTTLS)
+                        ->setEncryption(Encryption::STARTTLS)
                     )
             ->setHeaders(
                     (new Headers())
@@ -133,9 +129,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('info@najdisi.cz')
                         ->setPassword('Kostrčnenihouba')
-                    )
-            ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::SMTPS)
+                        ->setEncryption(Encryption::SMTPS)
                     )
             ->setHeaders(
                     (new Headers())
@@ -153,9 +147,6 @@ class ParamsTemplates {
             ->setHost(
                     (new Host())
                         ->setHost('websmtp.cesky-hosting.cz')
-                    )
-            ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::NONE)
                     )
             ->setHeaders(
                     (new Headers())
@@ -188,9 +179,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('allmail')
                         ->setPassword('Liamlla123')
-                    )
-            ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::NONE)
+                        ->setEncryption(Encryption::NONE)
                     )
             ->setHeaders(
                     (new Headers())
@@ -231,9 +220,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('info@najdisi.cz')
                         ->setPassword('KroKF56uJ2pp')
-                    )
-            ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::NONE)
+                        ->setEncryption(Encryption::NONE)
                     )
             ->setHeaders(
                     (new Headers())
@@ -267,9 +254,7 @@ class ParamsTemplates {
                         ->setSmtpAuth($smtpAuth)
                         ->setUserName($userName)
                         ->setPassword($password)
-                    )
-            ->setEncryption(
-                    (new Encryption())->setEncryption(Encryption::NONE)
+                        ->setEncryption(Encryption::NONE)
                     )
             ->setHeaders(
                     (new Headers())

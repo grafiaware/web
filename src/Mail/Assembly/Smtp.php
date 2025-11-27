@@ -34,10 +34,6 @@ class Smtp {
     public function getPassword(): string {
         return $this->password;
     }
-
-    public function setSmtpAuth(bool $smtpAuth) {
-        return $this->smtpAuth = $smtpAuth;
-    }
     
     public function getSmtpSecure() {
         return $this->smtpSecure;
@@ -50,13 +46,20 @@ class Smtp {
     public function getSmtpDebug() {
         return $this->smtpDebug;
     }
+
+    public function setSmtpAuth(bool $smtpAuth) {
+        $this->smtpAuth = $smtpAuth;
+        return $this;        
+    }
     
-    public function setUserName(string $userName): void {
+    public function setUserName(string $userName) {
         $this->userName = $userName;
+        return $this;
     }
 
-    public function setPassword(string $password): void {
+    public function setPassword(string $password) {
         $this->password = $password;
+        return $this;
     }
 
     /**
@@ -69,7 +72,7 @@ class Smtp {
      * @param string $encryption Hodnota některé z konstant třídy SMTPS, STARTTLS, NONE, default NONE
      * @return $this
      */
-    public function setEncryption($encryption = self::NONE): void {
+    public function setEncryption($encryption = self::NONE) {
 //Protokol  Port            Zabezpečení spojení Zabezpečená autentizace
 //SMTP      25 nebo 625     žádné nebo TLS 	ne
 //SMTP      587             TLS                 ne
@@ -89,10 +92,11 @@ class Smtp {
                 $this->port = 25;
                 break;
         }
+        return $this;
     }
 
-    public function setDebug($smtpDebug=SMTP::DEBUG_OFF): void {
-        
+    public function setDebug($smtpDebug=SMTP::DEBUG_OFF) {
         $this->smtpDebug = $smtpDebug;
+        return $this;
     }
 }
