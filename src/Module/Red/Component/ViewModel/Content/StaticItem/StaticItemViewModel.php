@@ -17,6 +17,8 @@ use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\StaticItemInterface;
 
+use \Site\ConfigurationCache;
+
 use UnexpectedValueException;
 
 /**
@@ -26,6 +28,8 @@ use UnexpectedValueException;
  */
 class StaticItemViewModel extends MenuItemViewModel implements StaticItemViewModelInterface {
 
+    const DEFAULT_TEMPLATE_FILENAME='template.php';
+    
     /**
      * @var StaticItemRepoInterface
      */
@@ -58,8 +62,10 @@ class StaticItemViewModel extends MenuItemViewModel implements StaticItemViewMod
                 }
             }
         }
+        $basePath = ConfigurationCache::componentControler()['static'] ?? '';
+        $path = null !== $this->staticEntity->getPath() ? $this->staticEntity->getPath() : '';
 
-        return $this->staticEntity->getPath() ? $this->staticEntity->getPath().'\\'.$this->staticEntity->getTemplate() : $this->staticEntity->getTemplate();
+        return $basePath.$path.'/'.$this->staticEntity->getTemplate().'/'.self::DEFAULT_TEMPLATE_FILENAME;
     }
 
     public function getIterator(): \Traversable {

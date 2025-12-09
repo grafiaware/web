@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Red\Model\Entity\PaperInterface;
+use Red\Model\Entity\StaticItemInterface;
 use Model\Entity\PersistableEntityAbstract;
 use DateTime;
 
@@ -51,41 +51,41 @@ class StaticItemClass extends PersistableEntityAbstract implements StaticItemInt
      *
      * @return DateTime|null
      */
-    public function getUpdated() {
+    public function getUpdated(): ?DateTime {
         return $this->updated;
     }
 
-    public function setId($id): PaperInterface {
+    public function setId($id): StaticItemInterface {
         $this->id = $id;
         return $this;
     }
 
-    public function setMenuItemIdFk($menuItemIdFk): PaperInterface {
+    public function setMenuItemIdFk($menuItemIdFk): StaticItemInterface {
         $this->menuItemIdFk = $menuItemIdFk;
         return $this;
     }
 
-    public function setPath($path): PaperInterface {
+    public function setPath($path): StaticItemInterface {
         $this->path = $path;
         return $this;
     }
 
-    public function setTemplate($template): PaperInterface {
+    public function setTemplate($template): StaticItemInterface {
         $this->template = $template;
         return $this;
     }
 
-    public function setCreator($creator): PaperInterface {
+    public function setCreator($creator): StaticItemInterface {
         $this->creator = $creator;
         return $this;
     }
     
     /**
      * 
-     * @param type $updated
-     * @return PaperInterface
+     * @param DateTime $updated
+     * @return StaticItemInterface
      */
-    public function setUpdated($updated): PaperInterface {
+    public function setUpdated(DateTime $updated=null): StaticItemInterface {
         $this->updated = $updated;
         return $this;
     }

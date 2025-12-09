@@ -65,11 +65,11 @@ class ItemApiService implements ItemApiServiceInterface {
         } elseif (!isset($apiModule) OR !isset($apiGenerator)) {
             throw new UnexpectedValueException("Nelze vytvořit content loader api uri pro menu item s id '{$menuItem->getId()}'. Menu item musí mít hodnoty api module a api generator obě nastaveny nebo obě NULL.");
         }
-        if($apiGenerator==ItemApiGeneratorEnum::STATIC_GENERATOR) {
-            $id = $this->getNameForStaticPage($menuItem);
-        } else {
+//        if($apiGenerator==ItemApiGeneratorEnum::STATIC_GENERATOR) {
+//            $id = $this->getNameForStaticPage($menuItem);
+//        } else {
             $id = $menuItem->getId();
-        }
+//        }
         return "$apiModule/v1/$apiGenerator/$id";
     }
     
