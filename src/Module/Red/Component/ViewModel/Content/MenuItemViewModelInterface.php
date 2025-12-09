@@ -32,7 +32,7 @@ interface MenuItemViewModelInterface {
      * Vrací entitu MenuItemInterface s id zadaným metodou setMenuItemId($menuItemId).
      * @return MenuItemInterface
      */
-    public function getMenuItem(): MenuItemInterface;
+    public function getMenuItem(): ?MenuItemInterface;
     
     /**
      * Vrací náhodně generovaný identifikátor objektu komponenty. 

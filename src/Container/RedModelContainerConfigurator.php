@@ -96,6 +96,10 @@ use Red\Model\Dao\MultipageDao;
 use Red\Model\Hydrator\MultipageHydrator;
 use Red\Model\Repository\MultipageRepo;
 
+use Red\Model\Dao\StaticItemDao;
+use Red\Model\Hydrator\StaticItemHydrator;
+use Red\Model\Repository\StaticItemRepo;
+
 use Red\Model\Dao\ItemActionDao;
 use Red\Model\Hydrator\ItemActionHydrator;
 use Red\Model\Repository\ItemActionRepo;
@@ -339,6 +343,18 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             MultipageRepo::class => function(ContainerInterface $c) {
                 return new MultipageRepo($c->get(MultipageDao::class), $c->get(MultipageHydrator::class));
+            },
+            StaticItemDao::class => function(ContainerInterface $c) {
+                return new StaticItemDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            StaticItemHydrator::class => function(ContainerInterface $c) {
+                return new StaticItemHydrator();
+            },
+            StaticItemRepo::class => function(ContainerInterface $c) {
+                return new StaticItemRepo($c->get(StaticItemDao::class), $c->get(StaticItemHydrator::class));
             },
             ItemActionDao::class => function(ContainerInterface $c) {
                 return new ItemActionDao(

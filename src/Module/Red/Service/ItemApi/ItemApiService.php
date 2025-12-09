@@ -59,7 +59,7 @@ class ItemApiService implements ItemApiServiceInterface {
         $apiModule = $menuItem->getApiModuleFk();
         $apiGenerator = $menuItem->getApiGeneratorFk();
         //TODO: Sv - hierarchy hooked actor - metoda add - použij konstatnty této třídy pri insert apimodule a apigenerator
-        if (!isset($apiModule) AND !isset($apiGenerator)) {  // hierarchy hooked actor - metoda add nechá module a generastor prázdné
+        if (!isset($apiModule) AND !isset($apiGenerator)) {  // hierarchy hooked actor - metoda add nechá module a generator prázdné
             $apiModule = self::DEFAULT_MODULE;
             $apiGenerator = self::DEFAULT_GENERATOR;
         } elseif (!isset($apiModule) OR !isset($apiGenerator)) {

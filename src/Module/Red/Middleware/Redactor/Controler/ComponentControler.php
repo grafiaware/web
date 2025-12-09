@@ -25,6 +25,7 @@ use Access\Enum\AccessActionEnum;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModel;
 use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModel;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
+use Red\Component\ViewModel\Content\StaticItem\StaticItemViewModel;
 use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
 use Red\Component\View\Content\TypeSelect\ItemTypeSelectComponent;
@@ -34,6 +35,8 @@ use Red\Component\View\Content\Authored\Article\ArticleComponent;
 use Red\Component\View\Content\Authored\Article\ArticleComponentInterface;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponentInterface;
+use Red\Component\View\Content\StaticItem\StaticItemComponent;
+use Red\Component\View\Content\StaticItem\StaticItemComponentInterface;
 
 //use Pes\Debug\Timer;
 
@@ -133,4 +136,16 @@ class ComponentControler extends ComponentControlerAbstract {
         return $this->createStringOKResponseFromView($view);
     }
     
+    public function static(ServerRequestInterface $request, $menuItemId) {
+        if($this->isAllowed(AccessActionEnum::GET)) {
+            /** @var StaticItemViewModel $viewModel */
+            $viewModel = $this->container->get(StaticItemViewModel::class);   
+            $viewModel->setMenuItemId($menuItemId);
+            /** @var StaticItemComponentInterface $view */
+            $view = $this->container->get(StaticItemComponent::class);
+        } else {
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
+        }
+        return $this->createStringOKResponseFromView($view);            
+    }
 }

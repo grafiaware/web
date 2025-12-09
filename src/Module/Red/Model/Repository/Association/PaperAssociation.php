@@ -22,6 +22,7 @@ class PaperAssociation extends AssociationOneToOneAbstract implements Associatio
     public function getReferenceName() {
         return PaperDao::REFERENCE_MENU_ITEM;
     }
+    
     public function hydrateChild(PersistableEntityInterface $parentEntity, &$childValue): void {
         /** @var MenuItemAggregatePaper $parentEntity */
         $parentEntity->setPaper($childValue);

@@ -25,9 +25,9 @@ use Red\Middleware\Redactor\Controler\HierarchyControler;
 use Red\Middleware\Redactor\Controler\ItemEditControler;
 use Red\Middleware\Redactor\Controler\ItemActionControler;
 use Red\Middleware\Redactor\Controler\PaperControler;
+use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\ArticleControler;
 use Red\Middleware\Redactor\Controler\MultipageControler;
-use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
 use Events\Middleware\Events\Controler\{EventControler, VisitorProfileControler};
@@ -37,7 +37,7 @@ use Events\Middleware\Events\Controler\{EventControler, VisitorProfileControler}
 use Red\Service\ItemCreator\ItemCreatorRegistry;
 use Red\Service\ItemCreator\Paper\PaperCreator;
 use Red\Service\ItemCreator\Article\ArticleCreator;
-use Red\Service\ItemCreator\StaticTemplate\StaticTemplateCreator;
+use Red\Service\ItemCreator\StaticItem\StaticItemCreator;
 use Red\Service\ItemCreator\Multipage\MultipageCreator;
 //enum
 use Red\Service\ItemCreator\Enum\ApiModuleEnum;
@@ -68,6 +68,7 @@ use Red\Model\Repository\PaperRepo;
 use Red\Model\Repository\PaperSectionRepo;
 use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\MultipageRepo;
+use Red\Model\Repository\StaticItemRepo;
 use Red\Model\Repository\ItemActionRepo;
 
 /**
@@ -136,6 +137,13 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(PaperAggregateSectionsRepo::class));
             },
+            SectionsControler::class => function(ContainerInterface $c) {
+                return new SectionsControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(PaperSectionRepo::class));
+            },
             ArticleControler::class => function(ContainerInterface $c) {
                 return new ArticleControler(
                         $c->get(StatusSecurityRepo::class),
@@ -150,13 +158,6 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(MultipageRepo::class));
             },
-            SectionsControler::class => function(ContainerInterface $c) {
-                return new SectionsControler(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(PaperSectionRepo::class));
-            },
             FilesUploadControler::class => function(ContainerInterface $c) {
                 return new FilesUploadControler(
                         $c->get(StatusSecurityRepo::class),
@@ -166,7 +167,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // generator service
 
-            // volání nastavených služeb Red\Service\ItemCreator ->initialize() probíhá při nastevení typu menuItem - teď v Controler/EditItemControler->type()
+            // volání nastavených služeb Red\Service\ItemCreator ->initialize() probíhá při nastavování typu menuItem - teď v Controler/EditItemControler->type()
 
             ItemCreatorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ItemCreatorRegistry(
@@ -176,9 +177,9 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                 $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::PAPER_GENERATOR, function() use ($c) {return $c->get(PaperCreator::class);});
                 $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::ARTICLE_GENERATOR, function() use ($c) {return $c->get(ArticleCreator::class);});
                 $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::MULTIPAGE_GENERATOR, function() use ($c) {return $c->get(MultipageCreator::class);});
-                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
-                $factory->registerGenerator(ApiModuleEnum::EVENTS_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
-                $factory->registerGenerator(ApiModuleEnum::AUTH_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticTemplateCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticItemCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::EVENTS_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticItemCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::AUTH_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticItemCreator::class);});
                 return $factory;
             },
             PaperCreator::class => function(ContainerInterface $c) {
@@ -205,8 +206,8 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MultipageRepo::class)
                     );
             },                    
-            StaticTemplateCreator::class => function(ContainerInterface $c) {
-                return new StaticTemplateCreator(
+            StaticItemCreator::class => function(ContainerInterface $c) {
+                return new StaticItemCreator(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class)

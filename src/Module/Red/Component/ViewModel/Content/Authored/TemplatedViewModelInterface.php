@@ -13,7 +13,7 @@ use Red\Component\ViewModel\Content\MenuItemViewModelInterface;
  *
  * @author pes2704
  */
-interface TemplateddViewModelInterface extends MenuItemViewModelInterface {
+interface TemplatedViewModelInterface extends MenuItemViewModelInterface {
 
     
 }

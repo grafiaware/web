@@ -20,7 +20,7 @@ use Red\Model\Repository\ArticleRepo;
 use Red\Model\Enum\AuthoredTypeEnum;
 
 /**
- * Description of PaperViewModelAnstract
+ * Description of ArticleViewModel
  *
  * @author pes2704
  */

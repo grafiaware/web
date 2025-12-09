@@ -8,11 +8,10 @@ use Access\Enum\RoleEnum;
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
 
- //------------------------------------------------------------------
-    /** @var StatusViewModelInterface $statusViewModel */
-    $statusViewModel = $container->get(StatusViewModel::class);
-    $role = $statusViewModel->getUserRole();
-    $loginName = $statusViewModel->getUserLoginName();
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$role = $statusViewModel->getUserRole();
+$loginName = $statusViewModel->getUserLoginName();
 
 $isVisitor = (isset($role) AND $role==RoleEnum::VISITOR);
 

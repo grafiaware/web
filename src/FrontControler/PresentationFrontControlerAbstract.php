@@ -45,7 +45,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     ### headers ###
     
     /**
-     * Přetěžuje addHeaders() z FrontControlerAbstract
+     * Přetěžuje addCacheHeaders() z FrontControlerAbstract
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface

@@ -9,7 +9,7 @@
 namespace Red\Component\View\Content\TypeSelect;
 
 use Component\View\ComponentCompositeAbstract;
-use Red\Component\ViewModel\Authored\TypeSelect\ItemTypeSelectViewModel;
+use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;

@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 // controller
 use Red\Middleware\Redactor\Controler\ComponentControler;
-use Red\Middleware\Redactor\Controler\RedStaticControler;
+use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler; // jen konstanty třídy
 use Red\Middleware\Redactor\Controler\MenuControler;
@@ -94,11 +94,11 @@ use Red\Component\View\Content\Authored\Paper\PaperComponent;
 use Red\Component\View\Content\Authored\Article\ArticleComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponent;
 use Red\Component\View\Content\Authored\TemplatedComponent;
-
 use Red\Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
-
 use Red\Component\View\Content\Authored\PaperTemplate\PaperTemplateComponent;
+
+use Red\Component\View\Content\StaticItem\StaticItemComponent;
 
 use Red\Component\View\Manage\SelectTemplateComponent;
 
@@ -126,10 +126,9 @@ use Web\Component\ViewModel\Flash\FlashViewModel;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModel;
 use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModel;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
-
 use Red\Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModel;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
-
+use Red\Component\ViewModel\Content\StaticItem\StaticItemViewModel;
 use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
 use Red\Component\ViewModel\Manage\EditMenuSwitchViewModel;
@@ -161,6 +160,7 @@ use Red\Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEdit
 
 use Red\Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 use Red\Component\Renderer\Html\Manage\SelectTemplateRenderer;
+use Red\Component\Renderer\Html\Content\StaticItem\StaticItemRenderer;
 
 use Red\Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Red\Component\Renderer\Html\Generated\SearchPhraseRenderer;
@@ -187,6 +187,7 @@ use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Repository\MultipageRepo;
+use Red\Model\Repository\StaticItemRepo;
 
 // DAO (pro volání služeb)
 use Red\Model\Dao\Hierarchy\HierarchyDao;
@@ -853,7 +854,23 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
-
+            StaticItemComponent::class => function(ContainerInterface $c) {
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new StaticItemComponent($configuration);
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class); 
+                if($accessPresentation->isAllowed(StaticItemComponent::class, AccessPresentationEnum::DISPLAY)) {
+                    // StaticItemComponent nemá svůj specifický renderer, používá PhpTemplateRenderer
+                    $component->setRendererName(\Pes\View\Renderer\PhpTemplateRenderer::class);
+                    $viewModel = $c->get(StaticItemViewModel::class);
+                    $component->setData($viewModel);
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;                
+            },
             ####
             # komponenty - pro editační režim authored komponent
             #
@@ -984,8 +1001,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
-            RedStaticControler::class => function(ContainerInterface $c) {
-                return (new RedStaticControler(
+            StaticControler::class => function(ContainerInterface $c) {
+                return (new StaticControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
@@ -1105,6 +1122,13 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(ItemActionRepo::class),
                             $c->get(MultipageRepo::class),
                             $c->get(HierarchyJoinMenuItemRepo::class)
+                    );
+            },
+            StaticItemViewModel::class => function(ContainerInterface $c) {
+                return new StaticItemViewModel(
+                            $c->get(StatusViewModel::class),
+                            $c->get(MenuItemRepo::class),
+                            $c->get(StaticItemRepo::class)
                     );
             },
             LanguageSelectViewModel::class => function(ContainerInterface $c) {

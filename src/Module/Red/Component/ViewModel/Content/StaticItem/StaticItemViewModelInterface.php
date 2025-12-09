@@ -6,11 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace Red\Component\ViewModel\Generated;
+namespace Red\Component\ViewModel\Content\StaticItem;
 
 use Component\ViewModel\ViewModelInterface;
 
 use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\StaticItemInterface;
 
 /**
  *
@@ -24,4 +25,10 @@ interface StaticItemViewModelInterface extends ViewModelInterface {
      * @return MenuItemInterface|null
      */
     public function getMenuItem(): ?MenuItemInterface ;
+    
+    /**
+     * 
+     * @return string|null
+     */
+    public function getStaticTemplatePath(): ?string;
 }
