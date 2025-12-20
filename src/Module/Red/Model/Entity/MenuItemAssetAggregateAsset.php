@@ -47,7 +47,7 @@ class MenuItemAssetAggregateAsset extends MenuItemAsset implements MenuItemAsset
      * @param array $assets
      * @return MenuItemAssetAggregateAssetInterface
      */
-    public function setAAssetsArray(array $assets=[]): MenuItemAssetAggregateAssetInterface {
+    public function setAssetsArray(array $assets=[]): MenuItemAssetAggregateAssetInterface {
         $this->assets = $assets;
         return $this;
     }

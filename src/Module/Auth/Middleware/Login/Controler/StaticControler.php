@@ -1,5 +1,5 @@
 <?php
-namespace Red\Middleware\Redactor\Controler;
+namespace Auth\Middleware\Login\Controler;
 
 use FrontControler\StaticComponentControlerAbstract;
 

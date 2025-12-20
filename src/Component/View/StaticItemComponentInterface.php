@@ -1,5 +1,5 @@
 <?php
-namespace Red\Component\View\Content\StaticItem;
+namespace Component\View;
 use Component\View\ComponentCompositeInterface;
 
 /**

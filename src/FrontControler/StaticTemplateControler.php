@@ -1,5 +1,5 @@
 <?php
-namespace Auth\Middleware\Login\Controler;
+namespace FrontControler;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
@@ -15,11 +15,11 @@ use Access\Enum\AccessPresentationEnum;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Description of ComponentControler
+ * Description of StaticTemplateControler
  *
  * @author pes2704
  */
-class AuthStaticControler extends PresentationFrontControlerAbstract {
+class StaticTemplateControler extends PresentationFrontControlerAbstract {
 
     private $templateCompiler;
 
@@ -36,8 +36,6 @@ class AuthStaticControler extends PresentationFrontControlerAbstract {
     
     protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => true],
-            RoleEnum::EDITOR => [AccessActionEnum::GET => self::class, AccessActionEnum::POST => true],
             RoleEnum::AUTHENTICATED => [AccessActionEnum::GET => true],
             RoleEnum::ANONYMOUS => [AccessActionEnum::GET => true]
         ];

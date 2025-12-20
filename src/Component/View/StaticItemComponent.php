@@ -1,9 +1,9 @@
 <?php
 
-namespace Red\Component\View\Content\StaticItem;
+namespace Component\View;
 
 use Component\View\ComponentCompositeAbstract;
-use Red\Component\ViewModel\Content\StaticItem\StaticItemViewModel;
+use Component\ViewModel\StaticItemViewModel;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;

@@ -6,12 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Red\Component\ViewModel\Content\StaticItem;
+namespace Component\ViewModel;
 
 use Component\ViewModel\ViewModelInterface;
 
+use Psr\Container\ContainerInterface;
+
 use Red\Model\Entity\MenuItemInterface;
-use Red\Model\Entity\StaticItemInterface;
 
 /**
  *
@@ -19,6 +20,8 @@ use Red\Model\Entity\StaticItemInterface;
  */
 interface StaticItemViewModelInterface extends ViewModelInterface {
 
+    public function injectContainer(ContainerInterface $container): StaticItemViewModelInterface;
+    
     /**
      * Vrací menuItem odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
      *

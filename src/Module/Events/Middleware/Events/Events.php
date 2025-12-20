@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Events\Middleware\Events\Controler\ComponentControler;
 use Events\Middleware\Events\Controler\RepresentationControler;
-use Events\Middleware\Events\Controler\EventStaticControler;
+use Events\Middleware\Events\Controler\StaticControler;
 use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\EventControler_2;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
@@ -37,7 +37,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         // middleware kontejner: má nastaven kontejner z middleware EventsLoginSync
-        $this->container = $this->getApp()->getAppContainer();
+        $this->container = $this->getApp()->getAppContainer();  // "dědí" kontejnet z EventsLoginSync
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         
@@ -63,8 +63,8 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         ## EventStaticControler
         ###########################
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var EventStaticControler $ctrl */
-            $ctrl = $this->container->get(EventStaticControler::class);
+            /** @var StaticControler $ctrl */
+            $ctrl = $this->container->get(StaticControler::class);
             return $ctrl->static($request, $staticName);
             });
                                       

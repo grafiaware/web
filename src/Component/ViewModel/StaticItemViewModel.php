@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Component\ViewModel\Content\StaticItem;
+namespace Component\ViewModel;
 
 use Red\Component\ViewModel\Content\MenuItemViewModel;
 
@@ -18,6 +18,8 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\StaticItemInterface;
 
 use \Site\ConfigurationCache;
+
+use Psr\Container\ContainerInterface;
 
 use UnexpectedValueException;
 
@@ -39,6 +41,8 @@ class StaticItemViewModel extends MenuItemViewModel implements StaticItemViewMod
      * @var StaticItemInterface
      */
     private $staticEntity;
+    
+    private $container;
 
     public function __construct(
             StatusViewModelInterface $status, 
@@ -47,6 +51,11 @@ class StaticItemViewModel extends MenuItemViewModel implements StaticItemViewMod
             ) {
         parent::__construct($status, $menuItemRepo);
         $this->staticRepo = $staticRepo;
+    }
+    
+    public function injectContainer(ContainerInterface $container): StaticItemViewModelInterface {
+        $this->container = $container;
+        return $this;
     }
     
     /**
@@ -73,6 +82,7 @@ class StaticItemViewModel extends MenuItemViewModel implements StaticItemViewMod
                 [
                     'menuItem' => $this->getMenuItem(),
                     'staticTemplatePath' => $this->getStaticTemplatePath(),
+                    'container' => $this->container,        // v proměnné $container ve včech statických stránkách a šablonách je k dispozici kontainer
                 ]
                 );
         return parent::getIterator();

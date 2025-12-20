@@ -1,7 +1,7 @@
 <?php
-namespace Red\Middleware\Redactor\Controler;
+namespace FrontControler;
 
-use FrontControler\StaticComponentControlerAbstract;
+use FrontControler\ComponentControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -22,11 +22,11 @@ use Component\View\StaticItemComponentInterface;
 //use Pes\Debug\Timer;
 
 /**
- * Description of StaticControler
+ * Description of ComponentControler
  *
  * @author pes2704
  */
-class StaticControler extends StaticComponentControlerAbstract {
+abstract class StaticComponentControlerAbstract extends ComponentControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [

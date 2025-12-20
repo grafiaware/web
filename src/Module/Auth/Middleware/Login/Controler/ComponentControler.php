@@ -27,19 +27,4 @@ class ComponentControler extends ComponentControlerAbstract {
         ];
     }
     
-    ### action metody ###############
-
-    public function component(ServerRequestInterface $request, $name) {
-        if($this->isAllowed(AccessActionEnum::GET)) {
-            if($this->container->has($name)) {   // musí být definován alias name => jméno třídy komponentu
-                $view = $this->container->get($name);
-            } else {
-                $view = $this->errorView($request, "Component $name is not defined (configured) or have no alias in container.");                    
-            }
-        } else {
-            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET);
-        }
-        return $this->createStringOKResponseFromView($view);
-    }
-    
 }

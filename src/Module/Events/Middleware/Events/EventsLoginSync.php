@@ -10,6 +10,7 @@ use Pes\Middleware\AppMiddlewareAbstract;
 
 use Pes\Container\Container;
 
+use Container\StaticItemContainerConfigurator;
 use Container\EventsContainerConfigurator;
 use Container\EventsModelContainerConfigurator;
 use Container\EventsDbContainerConfigurator;
@@ -30,10 +31,12 @@ class EventsLoginSync extends AppMiddlewareAbstract implements MiddlewareInterfa
         
         $this->container =
             (new EventsContainerConfigurator())->configure(
-                (new EventsModelContainerConfigurator())->configure(
-                    (new EventsDbContainerConfigurator())->configure(
-                        (new MailContainerConfigurator())->configure(
-                            new Container($this->getApp()->getAppContainer())
+                (new StaticItemContainerConfigurator())->configure(                    
+                    (new EventsModelContainerConfigurator())->configure(
+                        (new EventsDbContainerConfigurator())->configure(
+                            (new MailContainerConfigurator())->configure(
+                                new Container($this->getApp()->getAppContainer())
+                            )
                         )
                     )
                 )
@@ -45,9 +48,9 @@ class EventsLoginSync extends AppMiddlewareAbstract implements MiddlewareInterfa
         #
         ###############################       
             
-        $updateEventsControler = $this->container->get(LoginSyncControler::class);
-        /** @var LoginSyncControler $updateEventsControler */
-        $updateEventsControler->actualizeLogin();
+        $loginSyncControler = $this->container->get(LoginSyncControler::class);
+        /** @var LoginSyncControler $loginSyncControler */
+        $loginSyncControler->actualizeLogin();
         return $handler->handle($request);
     }
 }

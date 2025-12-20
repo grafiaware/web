@@ -12,8 +12,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use Container\StaticItemContainerConfigurator;
 use Container\RedGetContainerConfigurator;
-
 use Container\RedPostContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
@@ -73,9 +73,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         // jsou v jednotlivých kontejnerech)
         $this->container =
             (new RedGetContainerConfigurator())->configure(
-                (new RedModelContainerConfigurator())->configure(
-                    (new DbUpgradeContainerConfigurator())->configure(
-                            new Container($this->getApp()->getAppContainer())
+                (new StaticItemContainerConfigurator())->configure(
+                    (new RedModelContainerConfigurator())->configure(
+                        (new DbUpgradeContainerConfigurator())->configure(
+                                new Container($this->getApp()->getAppContainer())
+                        )
                     )
                 )
             );

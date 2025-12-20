@@ -72,7 +72,7 @@ use Auth\Middleware\Login\Controler\RegistrationControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\AuthControler;
-use Auth\Middleware\Login\Controler\AuthStaticControler;
+use Auth\Middleware\Login\Controler\StaticControler;
 use Auth\Middleware\Login\Controler\ComponentControler;
 
 use Auth\Middleware\Login\Controler\SynchroControler;
@@ -303,16 +303,15 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
 //---------------------------------------------------------------------------
-            // PresentationFrontControler (GET)
-            AuthStaticControler::class => function(ContainerInterface $c) {
-                return (new AuthStaticControler(
+            // front kontrolery
+            StaticControler::class => function(ContainerInterface $c) {
+                return (new StaticControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),
-                        $c->get(TemplateCompiler::class)  )          
+                        $c->get(AccessPresentation::class)
+                        )
                     )->injectContainer($c);  // inject component kontejner
-                    ;
             },
             ComponentControler::class => function(ContainerInterface $c) {
                 return (new ComponentControler(

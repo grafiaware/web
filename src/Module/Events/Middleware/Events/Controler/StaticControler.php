@@ -1,5 +1,5 @@
 <?php
-namespace Red\Middleware\Redactor\Controler;
+namespace Events\Middleware\Events\Controler;
 
 use FrontControler\StaticComponentControlerAbstract;
 

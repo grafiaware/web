@@ -9,8 +9,8 @@ use Pes\Container\Container;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // controller
-use Red\Middleware\Redactor\Controler\ComponentControler;
 use Red\Middleware\Redactor\Controler\StaticControler;
+use Red\Middleware\Redactor\Controler\ComponentControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler; // jen konstanty třídy
 use Red\Middleware\Redactor\Controler\MenuControler;
@@ -30,8 +30,9 @@ use Container\RendererContainerConfigurator;
 // template renderer container
 use Pes\View\Renderer\Container\TemplateRendererContainer;
 
-// template
+// template + renderer
 use Pes\View\Template\PhpTemplate;
+use Pes\View\Renderer\PhpTemplateRenderer;
 
 // view
 use Pes\View\View;
@@ -98,8 +99,6 @@ use Red\Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
 use Red\Component\View\Content\Authored\PaperTemplate\PaperTemplateComponent;
 
-use Red\Component\View\Content\StaticItem\StaticItemComponent;
-
 use Red\Component\View\Manage\SelectTemplateComponent;
 
 use Component\View\ElementComponent;
@@ -128,7 +127,6 @@ use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModel;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModel;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
-use Red\Component\ViewModel\Content\StaticItem\StaticItemViewModel;
 use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
 use Red\Component\ViewModel\Manage\EditMenuSwitchViewModel;
@@ -160,7 +158,6 @@ use Red\Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEdit
 
 use Red\Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 use Red\Component\Renderer\Html\Manage\SelectTemplateRenderer;
-use Red\Component\Renderer\Html\Content\StaticItem\StaticItemRenderer;
 
 use Red\Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Red\Component\Renderer\Html\Generated\SearchPhraseRenderer;
@@ -187,7 +184,6 @@ use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Repository\MultipageRepo;
-use Red\Model\Repository\StaticItemRepo;
 
 // DAO (pro volání služeb)
 use Red\Model\Dao\Hierarchy\HierarchyDao;
@@ -216,7 +212,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getParams(): iterable {
         return array_merge(
                 ConfigurationCache::web(),  //db
-                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
+//                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
                 ConfigurationCache::menu(),
 //                Configuration::renderer(),
                 ConfigurationCache::redTemplates()
@@ -433,7 +429,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menuEventsAdmin' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuEventsAdmin'];
-                /** @var MenuComponentRed $component */
+                /** @var MenuComponentEventsAdmin $component */
                 $component = $c->get(MenuComponentEventsAdmin::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -451,7 +447,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menuEventsRepresentative' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuEventsRepresentative'];
-                /** @var MenuComponentRed $component */
+                /** @var MenuComponentEventsRepresentative $component */
                 $component = $c->get(MenuComponentEventsRepresentative::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -469,7 +465,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },                    
             'menuEventsVisitor' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuEventsVisitor'];
-                /** @var MenuComponentRed $component */
+                /** @var MenuComponentEventsVisitor $component */
                 $component = $c->get(MenuComponentEventsVisitor::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -854,23 +850,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
-            StaticItemComponent::class => function(ContainerInterface $c) {
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
-                $component = new StaticItemComponent($configuration);
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class); 
-                if($accessPresentation->isAllowed(StaticItemComponent::class, AccessPresentationEnum::DISPLAY)) {
-                    // StaticItemComponent nemá svůj specifický renderer, používá PhpTemplateRenderer
-                    $component->setRendererName(\Pes\View\Renderer\PhpTemplateRenderer::class);
-                    $viewModel = $c->get(StaticItemViewModel::class);
-                    $component->setData($viewModel);
-                } else {
-                    $component->setRendererName(NoPermittedContentRenderer::class);
-                }
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;                
-            },
             ####
             # komponenty - pro editační režim authored komponent
             #
@@ -971,16 +950,25 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesDefinitions(): iterable {
         return [
             // configuration - používá parametry nastavené metodou getParams()
-            ComponentConfiguration::class => function(ContainerInterface $c) {
-                return new ComponentConfiguration(
-                        $c->get('logs.directory'),
-                        $c->get('logs.render'),
-                        $c->get('logs.type'),
-                        $c->get('templates')
-                    );
-            },
+//            ComponentConfiguration::class => function(ContainerInterface $c) {
+//                return new ComponentConfiguration(
+//                        $c->get('logs.directory'),
+//                        $c->get('logs.render'),
+//                        $c->get('logs.type'),
+//                        $c->get('templates')
+//                    );
+//            },
 
             // front kontrolery
+            StaticControler::class => function(ContainerInterface $c) {
+                return (new StaticControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },
             ComponentControler::class => function(ContainerInterface $c) {
                 return (new ComponentControler(
                         $c->get(StatusSecurityRepo::class),
@@ -998,16 +986,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AccessPresentation::class),
                         $c->get(MenuItemRepo::class),
                         $c->get(DriverService::class)
-                        )
-                    )->injectContainer($c);  // inject component kontejner
-            },
-            StaticControler::class => function(ContainerInterface $c) {
-                return (new StaticControler(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),
-                        $c->get(TemplateCompiler::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
@@ -1066,11 +1044,11 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         ####
         # renderer container
         #
-            'rendererContainer' => function(ContainerInterface $c) {
-                // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
-                // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
-                return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
-            },
+//            'rendererContainer' => function(ContainerInterface $c) {
+//                // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
+//                // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
+//                return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
+//            },
 
         ####
 
@@ -1124,13 +1102,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(HierarchyJoinMenuItemRepo::class)
                     );
             },
-            StaticItemViewModel::class => function(ContainerInterface $c) {
-                return new StaticItemViewModel(
-                            $c->get(StatusViewModel::class),
-                            $c->get(MenuItemRepo::class),
-                            $c->get(StaticItemRepo::class)
-                    );
-            },
             LanguageSelectViewModel::class => function(ContainerInterface $c) {
                 return new LanguageSelectViewModel(
                             $c->get(StatusViewModel::class),
@@ -1160,7 +1131,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
 
-            // database account
+            // database account, pod kterým view modely (jejich repository) přistupují do databáte
             Account::class => function(ContainerInterface $c) {
                 /* @var $user LoginAggregateFullInterface */
                 $user = $c->get(LoginAggregateFullInterface::class);

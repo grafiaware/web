@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Přihlášení</title>
+</head>
+<body>
+
+<h1>Přihlášení</h1>
+
+<form method="post" action="/login-password">
+    <input type="text" name="email" placeholder="Email"><br>
+    <input type="password" name="password" placeholder="Heslo"><br>
+    <button>Přihlásit</button>
+</form>
+
+<hr>
+
+<h2>Přihlášení pomocí QR kódu</h2>
+
+<!-- Zobrazení QR kódu -->
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ qrUrl }}">
+
+<p>Naskenujte QR kód mobilem</p>
+
+<script>
+// Polling QR status každých 1s
+setInterval(() => {
+    fetch('/qr-status/{{ qrToken }}')
+        .then(r => r.json())
+        .then(data => {
+            if (data.status === 'authenticated') {
+                window.location.href = '/';
+            }
+        });
+}, 1000);
+</script>
+
+<hr>
+
+<h2>Nebo pomocí poskytovatele:</h2>
+
+<a href="/oauth/google">Google</a><br>
+<a href="/oauth/github">GitHub</a><br>
+<a href="/oauth/microsoft">Microsoft</a><br>
+<a href="/oauth/facebook">Facebook</a><br>
+
+</body>
+</html>
+
+templates/qr-auth.twig
+
+Mobilní stránka, kam se dostane uživatel po načtení QR.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>QR autentizace</title>
+</head>
+<body>
+
+<h1>Přihlášení k zařízení</h1>
+
+<p>Pro dokončení přihlášení se nyní autentizujte:</p>
+
+<a href="/oauth/google?qr={{ token }}">Google</a><br>
+<a href="/oauth/github?qr={{ token }}">GitHub</a><br>
+<a href="/oauth/microsoft?qr={{ token }}">Microsoft</a><br>
+<a href="/oauth/facebook?qr={{ token }}">Facebook</a><br>
+
+<h2>Nebo heslem</h2>
+
+<form method="post" action="/qr-login-finish">
+    <input type="hidden" name="token" value="{{ token }}">
+    <input type="email" name="email" placeholder="Email"><br>
+    <input type="password" name="password" placeholder="Heslo"><br>
+    <button>Přihlásit</button>
+</form>
+
+</body>
+</html>
