@@ -1,0 +1,23 @@
+<?php
+
+/* 
+ * Statická home stránka - fallback.
+ */
+?>
+<div style="text-align: center;">
+ <p style="text-align: center;"><strong>12. ročn&iacute;k veletrhu proběhne 30. 1. 2024&nbsp;<strong>v&nbsp;<a title="&Uacute;slavsk&aacute; 75, Plzeň" href="https://www.google.com/maps/place/TJ+Lokomotiva+Plze%C5%88/@49.7389514,13.3943343,17z/data=!3m1!4b1!4m5!3m4!1s0x470af1d90057fd93:0x72223eeb580172f7!8m2!3d49.7389562!4d13.3965154" target="_blank" rel="noopener">TJ Lokomotiva Plzeň</a>.</strong></strong></p>
+ <p style="text-align: center;"><span>&nbsp;Přij&iacute;t se vždy se vyplat&iacute;, i když pr&aacute;ci pr&aacute;vě nehled&aacute;te.<br></span></p>
+ <p style="text-align: center;"><span style="color: #e20019;"><span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql lr9zc1uh a8c37x1j fe6kdd0r mau55g9w c8b282yb keod5gw0 nxhoafnm aigsh9s9 d3f4x2em iv3no6db jq4qci2q a3bd9o3v b1v8xokw oo9gr5id hzawbc8m" style="color: #000000;">Každ&yacute;m rokem koncem ledna zde najdete&nbsp;</span></span><span>des&iacute;tky </span><span>vystavovatelů</span><span> se stovkami pracovn</span><span>&iacute;ch m&iacute;st</span><span> od dělnick&yacute;ch po specializovan&eacute; a manažersk&eacute; pozice. K tomu nab&iacute;dneme&nbsp;<a title="program" href="web/v1/page/item/65aff921b3678" target="_blank" rel="noopener">skvěl&yacute; doprovodn&yacute; program</a> - <span class="d2edcug0 hpfvmrgz qv66sw1b c1et5uql lr9zc1uh a8c37x1j fe6kdd0r mau55g9w c8b282yb keod5gw0 nxhoafnm aigsh9s9 d3f4x2em iv3no6db jq4qci2q a3bd9o3v b1v8xokw oo9gr5id hzawbc8m">p</span>oradny, předn&aacute;&scaron;ky, testov&aacute;n&iacute; a řadu služeb zdarma!&nbsp;Tě&scaron;&iacute;me se na v&aacute;s!</span></p>
+ <p style="text-align: center;"><span style="color: #e20019;"><span><span style="color: #000000; vertical-align: middle;">Chcete vědět v&iacute;c? Sledujte aktuality na&nbsp;<a title="pro m&eacute;dia" href="web/v1/page/item/65aff921c39b8" target="_blank" rel="noopener">str&aacute;nce pro m&eacute;dia</a>.&nbsp;<br></span></span></span><span style="color: #e20019;"><span><span style="color: #000000; vertical-align: middle;">Sledujte n&aacute;s na soci&aacute;ln&iacute;ch s&iacute;t&iacute;ch:&nbsp;</span></span></span><a title="Veletrh pr&aacute;ce a vzděl&aacute;v&aacute;n&iacute; Plzeň - Kl&iacute;č k př&iacute;ležitostem" href="https://www.facebook.com/veletrhprace" target="_blank" rel="noopener"><img style="vertical-align: top; margin-top: -1px;" title="facebook" src="_files/najdisi/files/1153903.png" alt="facebook" height="33"> </a><a href="https://www.instagram.com/veletrhprace/" target="_blank" rel="noopener"><img style="vertical-align: top;" title="instagram" src="_files/najdisi/files/3564869.jpg" alt="ikona-instagram" height="34"></a><a href="https://cz.linkedin.com/company/grafia-s.r.o." target="_blank" rel="noopener"><img style="margin-left: 7px; margin-top: 1px; vertical-align: top;" title="linkedin" src="_files/najdisi/files/4158925.png" alt="linkedin" height="31"></a></p>
+ <p><strong>&nbsp;<img src="_files/najdisi/files/1954941.jpg" alt="soubor fotyk z veletrhu kolaz na web.jpg" width="600"></strong></p>
+ <hr>
+ <p style="text-align: center;">&nbsp;</p>
+ <p><span><strong>Ohl&eacute;dnut&iacute; za loňsk&yacute;m ročn&iacute;kem:</strong></span></p>
+ <p style="text-align: center;">&nbsp;</p>
+ <p><span><strong>11. ročn&iacute;k proběhl<strong>&nbsp;<strong>26. 1. 2023.</strong></strong></strong></span>&nbsp;</p>
+ <p><span>Z&aacute;&scaron;titu nad akc&iacute; převzali:<br>sen&aacute;tor Lum&iacute;r Aschenbrenner<br>a hejtman Plzeňsk&eacute;ho kraje Rudolf &Scaron;pot&aacute;k</span></p>
+ <p style="text-align: center;">&nbsp;<strong style="color: #e20019;"><a href="https://veletrhprace.rajce.idnes.cz/Veletrh_prace_a_vzdelavani_2023" target="_blank" rel="noopener">Fotografie</a>&nbsp;z 11. ročn&iacute;ku veletrhu&nbsp;<a href="https://veletrhprace.rajce.idnes.cz/Veletrh_prace_a_vzdelavani_2023" target="_blank" rel="noopener">ZDE</a></strong></p>
+ <p style="text-align: center;"><strong style="color: #e20019;"><span style="color: #000000;">Předchoz&iacute; ročn&iacute;ky naleznete v lev&eacute;m menu.</span></strong></p>
+ <p>&nbsp;</p>
+ </div>
+ <p style="text-align: center;"><span style="color: #333333;"><span style="font-size: xx-small;"> <video src="_files/najdisi/movies/200127 Studio Z_Grafia_Veletrh_prace_2020.mp4" poster="_files/najdisi/movies/200127 Studio Z_Grafia_Veletrh_prace_2020.jpg" controls="controls" width="600px" height="150">V&aacute;&scaron; prohl&iacute;žeč nepodporuje element video.</video> </span> <br></span></p>

@@ -7,6 +7,8 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Template\Compiler\TemplateCompilerInterface;
 
+use Site\ConfigurationCache;
+
 use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
@@ -35,7 +37,8 @@ class RedStaticControler extends PresentationFrontControlerAbstract {
     ### action metody ###############
 
     public function static(ServerRequestInterface $request, $staticName) {
-        $realName = str_replace('_', '/', $staticName);
+        $staticPath = ConfigurationCache::componentControler()['static'].$staticName;            
+        $realName = str_replace('_', '/', $staticPath);
         $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
         $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
         return $this->createStringOKResponse($compiledContent);

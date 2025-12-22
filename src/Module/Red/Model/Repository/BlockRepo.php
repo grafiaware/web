@@ -21,7 +21,7 @@ use Red\Model\Hydrator\BlockHydrator;
  *
  * @author pes2704
  */
-class BlockRepo extends RepoAbstract implements BlockRepoInterface, RepoReadonlyInterface {
+class BlockRepo extends RepoAbstract implements BlockRepoInterface {
 
     public function __construct(BlockDao $componentDao, BlockHydrator $componentHydrator) {
         $this->dataManager = $componentDao;

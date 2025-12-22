@@ -15,6 +15,8 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Access\AccessPresentationInterface;
 use Template\Compiler\TemplateCompilerInterface;
 
+use Site\ConfigurationCache;
+
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -40,7 +42,8 @@ class EventStaticControler extends PresentationFrontControlerAbstract {
     ### action metody ###############
 
     public function static(ServerRequestInterface $request, $staticName) {
-        $realName = str_replace('_', '/', $staticName);
+        $staticPath = ConfigurationCache::componentControler()['static'].$staticName;            
+        $realName = str_replace('_', '/', $staticPath);
         $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
         $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
         return $this->createStringOKResponse($compiledContent);
