@@ -27,12 +27,11 @@ class TemplateCompiler implements TemplateCompilerInterface {
     /**
      * Vrací přeložený obsah statické šablony. Pokud přeložený obsah neexistuje, přeloží ho, t.j. renderuje statickou šablonu a uloží obsah do složky s přeloženými obsahy.
      *
-     * @param type $staticName
+     * @param string $templatePath
      * @return string
      */
-    public function getCompiledContent(ServerRequestInterface $request, $staticName): string {
-        $templatePath = ConfigurationCache::componentControler()['static'].$staticName;
-        $templateFilename = $templatePath."/template.php";
+    public function getCompiledContent(ServerRequestInterface $request, $templatePath): string {
+        $templateFilename = $templatePath.self::TEMPLATE_FILE_NAME;
         $compiledPath = ConfigurationCache::componentControler()['compiled'];
         $compiledFileName = $compiledPath.$staticName.".html";
 //TODO: Compiled - souboru s šablonou a souboru se zkompilovaným obsahem pomocí touch() nastavit stejný čas poslední změny -> pak pokud je šablona novější, překlad

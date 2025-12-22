@@ -69,10 +69,19 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         $statusPresentation->setMenuItem($menuItem);
     }
 
+
     protected function getPresentationLangCode() {
         return $this->statusPresentationRepo->get()->getLanguageCode();
     }
 
-
+    /**
+     * Nastaví nebo přenastaví jazyk prezentace.
+     * 
+     * @param type $languageCode
+     * @return type
+     */
+    protected function setPresentationLangCode($languageCode) {
+        return $this->statusPresentationRepo->get()->setLanguageCode($languageCode);
+    }
 
 }

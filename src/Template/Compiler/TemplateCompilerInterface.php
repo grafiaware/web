@@ -10,9 +10,9 @@ use Psr\Http\Message\ServerRequestInterface;
 interface TemplateCompilerInterface {
 
     const VARNAME_CONTAINER = 'container';
-
+    const TEMPLATE_FILE_NAME = "/template.php";
 
     public function injectTemplateVars(array $templateVariables);
-    public function getCompiledContent(ServerRequestInterface $request, $staticName): string;
+    public function getCompiledContent(ServerRequestInterface $request, $templatePath): string;
 
 }
