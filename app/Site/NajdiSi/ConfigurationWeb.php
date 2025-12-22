@@ -181,7 +181,7 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function presentationStatus() {
         return [
-            'default_lang_code' => 'csQQQ',
+            'default_lang_code' => 'cs',
             'accepted_languages' => ['cs']
         ];
     }

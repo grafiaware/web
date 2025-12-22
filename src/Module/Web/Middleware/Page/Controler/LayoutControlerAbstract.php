@@ -76,6 +76,57 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         $this->cascadeLoaderFactory = $cascadeLoaderFactory;              
     }
     
+    protected function getSafeItem($uid): MenuItemInterface {
+        try {
+            $langCode = $this->getPresentationLangCode();
+            $menuItem = $this->getMenuItem($langCode, $uid);
+        } catch (NoItemException $exc) {
+            //TODO: log
+            $languageCode = ConfigurationCache::presentationStatus()['default_lang_code'];
+            $this->setPresentationLangCode($languageCode);
+            $this->addFlashMessage('Default language set.');            
+        try {
+            //TODO: log
+            $menuItem = $this->getMenuItem($languageCode, $uid);
+            
+        } catch (NoItemException $exc) {
+            $this->addFlashMessage('Redirect: item to home.');   
+            $menuItem = $this->getSafeHomeItem();
+        }
+            
+        }
+        return $menuItem;
+    }
+
+    protected function getSafeHomeItem(): MenuItemInterface {
+        // home block na základě konfigurace
+        $homeBlockName = $this->getHomePageBlockName();  // exc neošetřená - fatal - chyba v konfiguraci 
+        $homeBlock = $this->getBlock($homeBlockName);  // exc neošetřená - fatal - chyba v databázi
+        try {
+            // skutečný home item
+            $languageCode = $this->getPresentationLangCode();            
+            $homeItem = $this->getMenuItem($languageCode, $homeBlock->getUidFk()); // pokud existuje záznam v block - musí existovat i item s uid - integrita pomocí cizího klíče v db
+            // nalezen skutečný home item
+        } catch (NoItemException $exc) {
+            // není item pro home block uid
+            // -> není presentation lang code - chybně fungující ukládání informací do session - prohlížeče s ochanou proti cookies, reklamám apod.
+            //TODO: log
+            $languageCode = ConfigurationCache::presentationStatus()['default_lang_code'];
+            $this->addFlashMessage('Default language set.');
+            $this->setPresentationLangCode($languageCode);            
+            $homeItem = $this->getMenuItem($languageCode, $homeBlock->getUidFk());    // exc neošetřená - fatal - stránka není zveřejněná    
+        }    
+        return $homeItem;
+    }
+    
+    protected function responseForItem(ServerRequestInterface $request, MenuItemInterface $menuItem): ResponseInterface {
+            $this->setPresentationMenuItem($menuItem);
+            $view = $this->composeLayoutView($request, $menuItem);
+            return $this->createStringOKResponseFromView($view);
+    }
+    
+    ## private
+    
     /**
      * Podle hierarchy uid a aktuálního jazyka prezentace vrací entitu MenuItem.
      *
@@ -83,88 +134,14 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * @return MenuItemInterface
      * @throws NoItemException
      */
-    protected function getMenuItem($uid): MenuItemInterface {
+    private function getMenuItem($langCode, $uid): MenuItemInterface {
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        $menuItem = $menuItemRepo->get($this->getPresentationLangCode(), $uid);
+        $menuItem = $menuItemRepo->get($langCode, $uid);
         if (!isset($menuItem)) {
-            throw new NoItemException("No item in database for uid '$uid'.");
+            throw new NoItemException("No published item in database for langCode '$langCode' and uid '$uid'.");
         }
         return $menuItem;
-    }
-    
-    protected function getSafeItem($uid): MenuItemInterface {
-        try {
-            $menuItem = $this->getMenuItem($uid);
-        } catch (NoItemException $exc) {
-            //TODO: log
-            $this->addFlashMessage('Redirect: item to fallback.');            
-            $menuItem = $this->getFallbackHomeItem();
-        }
-        return $menuItem;
-    }
-
-    protected function getSafeHomeItem(): MenuItemInterface {
-        // home block na základě konfigurace
-        $homeBlockName = $this->getHomePageBlockName();  // exc neošetřená - fatal chyba v konfiguraci 
-        $homeBlock = $this->getBlock($homeBlockName);  // exc neošetřená - fatal chyba v databázi
-        try {
-            // skutečný home item
-            $homeItem = $this->getMenuItem($homeBlock->getUidFk()); // pokud ecistuje záznam v block - musí existovat i item s uid - integrita pomocí cizího klíče v db
-            // nalezen skutečný home item
-            $this->setFallbackBlock($homeItem->getUidFk());
-        } catch (NoItemException $exc) {
-            // není item pro home block uid
-            // !! tato situace múže nastat chybně nastaveným uid položky home v tabulce block
-            // a zřajmě také chybně fungujícím ukládání informací do session - prohlížeče s ochanou proti cookies, reklamám apod.
-            //TODO: log
-            $this->addFlashMessage('Redirect: home page to home fallback.');
-            return $this->getFallbackHomeItem();
-        }    
-
-        return $homeItem;
-        
-    }
-        
-    protected function getFallbackHomeItem(): MenuItemInterface {
-            $fallbackBlock = $this->getFallbackBlock();
-            $fallbackUid = $fallbackBlock->getUidFk();
-            try {
-                $homeItem = $this->getMenuItem($fallbackUid);
-            } catch (NoItemException $exc) {
-                throw new NoItemException("No item in database for home page fallback block named '{$fallbackBlock->getName()}' with value '$fallbackUid'.");
-            }
-            return $homeItem;
-    }
-    
-    protected function responseForItem(ServerRequestInterface $request, MenuItemInterface $menuItem): ResponseInterface {
-        //        $startTime = microtime(true);
-            $this->setPresentationMenuItem($menuItem);
-            $view = $this->composeLayoutView($request, $menuItem);
-            return $this->createStringOKResponseFromView($view);
-//            ->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
-    }
-    
-    ## private
-    
-    private function setFallbackBlock($realHomeUid): void {
-        $fallbackName = ConfigurationCache::layoutControler()['homePageFallbackBlockName'];
-        try {
-            $fallbackBlock = $this->getBlock($fallbackName); 
-            if ($realHomeUid != $fallbackBlock->getUidFk()) {
-                // fallback uid v tabulce block je jiný než nalezený home uid - fallback uid se přepíše nalezeným home uid
-                $fallbackBlock->setUidFk($realHomeUid);
-            }
-        } catch (NoBlockException $exc) {
-            //Automatické nastavení fallback záznamu do tabulky block
-            //Nalezen existující home item podle uid a neexistuje záznam pro fallback name v tabulce blocks - vytvoří záznam
-            /** @var BlockRepo $blockRepo */
-            $blockRepo = $this->container->get(BlockRepo::class);
-            $block = new Block();
-            $block->setName($fallbackName);
-            $block->setUidFk($realHomeUid);
-            $blockRepo->add($block);
-        }
     }
     
     private function getFallbackBlock(): BlockInterface {
