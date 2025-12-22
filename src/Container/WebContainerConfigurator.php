@@ -85,6 +85,9 @@ use Red\Component\ViewModel\Manage\InfoBoardViewModel;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 
+// template kompiler (pro heme fallback)
+use Template\Compiler\TemplateCompiler;
+
 // logger
 use Pes\Logger\FileLogger;
 
@@ -461,7 +464,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusPresentationRepo::class),
                             $c->get(AccessPresentation::class),
                             $c->get(ItemApiService::class), 
-                            $c->get(CascadeLoaderFactory::class))
+                            $c->get(CascadeLoaderFactory::class),
+                            $c->get(TemplateCompiler::class)
+                        )
                         )->injectContainer($c);  // inject web kontejner
             },
             ItemApiService::class => function(ContainerInterface $c) {
@@ -484,7 +489,13 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             ViewFactory::class => function(ContainerInterface $c) {
                 return (new ViewFactory())->setRendererContainer($c->get('rendererContainer'));
             },
-
+        ####
+        # TemplateCompiler
+        #                    
+            TemplateCompiler::class => function(ContainerInterface $c) {
+                return new TemplateCompiler();
+            },
+                    
         ####
         # Prepare
         #                    

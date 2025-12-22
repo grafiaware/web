@@ -15,9 +15,7 @@ use FrontControler\PresentationFrontControlerAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
-
 use Access\AccessPresentationInterface;
-
 use Red\Service\ItemApi\ItemApiServiceInterface;
 use Red\Service\CascadeLoader\CascadeLoaderFactoryInterface;
 
@@ -26,7 +24,8 @@ use Psr\Http\Message\ResponseInterface;
 
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\BlockRepo;
-
+use Red\Model\Entity\Block;
+use Red\Model\Entity\BlockInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 ####################
@@ -42,8 +41,9 @@ use Pes\View\Template\InterpolateTemplate;
 
 use Access\Enum\RoleEnum;
 
-use Exception;
 use UnexpectedValueException;
+use Web\Middleware\Page\Controler\Exception\NoItemException;
+use Web\Middleware\Page\Controler\Exception\NoBlockException;
 
 /**
  * Description of GetControler
@@ -77,95 +77,139 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
     }
     
     /**
-     * 
-     * @return MenuItemInterface|null
-     * @throws UnexpectedValueException
-     */
-    protected function getHomeMenuItem(): ?MenuItemInterface {
-        $homePage = ConfigurationCache::layoutControler()['home_page'];
-        switch ($homePage[0]) {
-            case 'block':
-                try {
-                    $menuItem = $this->getMenuItemForBlock($homePage[1]);
-                } catch (UnexpectedValueException $exc) {                    
-//                    echo $exc->getMessage();
-                    $this->statusPresentationRepo->get()->setInfo('home', $exc->getMessage());
-                }
-                if (!isset($menuItem)) {
-//                    throw new UnexpectedValueException("Undefined menu item for default page (home page) defined in configuration as block with name '$homePage[1]'.");
-                    $this->statusPresentationRepo->get()->setInfo('home', "Undefined menu item for default page (home page) defined in configuration as block with name '$homePage[1]'.");
-                }
-                break;
-            case 'item':
-                $menuItem = $this->getMenuItem($homePage[1]);
-                if (!isset($menuItem)) {
-//                    throw new UnexpectedValueException("Default page (home page) defined in configuration as item with uid '$homePage[1]' not exists or is not published (active).");
-                    $this->statusPresentationRepo->get()->setInfo('home', "Default page (home page) defined in configuration as item with uid '$homePage[1]' not exists or is not published (active).");
-                }
-                break;
-            default:
-//                throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
-                    $this->statusPresentationRepo->get()->setInfo('home', "Unknown home page type in configuration. Type: '$homePage[0]'.");
-        }
-        return $menuItem ?? null;
-    }
-    
-    /**
-     * Podle hierarchy uid a aktuálního jazyka prezentace vrací menuItem nebo null
+     * Podle hierarchy uid a aktuálního jazyka prezentace vrací entitu MenuItem.
      *
      * @param string $uid
-     * @return MenuItemInterface|null
+     * @return MenuItemInterface
+     * @throws NoItemException
      */
-    protected function getMenuItem($uid): ?MenuItemInterface {
+    protected function getMenuItem($uid): MenuItemInterface {
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
         $menuItem = $menuItemRepo->get($this->getPresentationLangCode(), $uid);
-        return $menuItem ?? null;  // neexistuje nebo není aktivní
+        if (!isset($menuItem)) {
+            throw new NoItemException("No item in database for uid '$uid'.");
+        }
+        return $menuItem;
+    }
+    
+    protected function getSafeItem($uid): MenuItemInterface {
+        try {
+            $menuItem = $this->getMenuItem($uid);
+        } catch (NoItemException $exc) {
+            //TODO: log
+            $this->addFlashMessage('Redirect: item to fallback.');            
+            $menuItem = $this->getFallbackHomeItem();
+        }
+        return $menuItem;
+    }
+
+    protected function getSafeHomeItem(): MenuItemInterface {
+        // home block na základě konfigurace
+        $homeBlockName = $this->getHomePageBlockName();  // exc neošetřená - fatal chyba v konfiguraci 
+        $homeBlock = $this->getBlock($homeBlockName);  // exc neošetřená - fatal chyba v databázi
+        try {
+            // skutečný home item
+            $homeItem = $this->getMenuItem($homeBlock->getUidFk()); // pokud ecistuje záznam v block - musí existovat i item s uid - integrita pomocí cizího klíče v db
+            // nalezen skutečný home item
+            $this->setFallbackBlock($homeItem->getUidFk());
+        } catch (NoItemException $exc) {
+            // není item pro home block uid
+            // !! tato situace múže nastat chybně nastaveným uid položky home v tabulce block
+            // a zřajmě také chybně fungujícím ukládání informací do session - prohlížeče s ochanou proti cookies, reklamám apod.
+            //TODO: log
+            $this->addFlashMessage('Redirect: home page to home fallback.');
+            return $this->getFallbackHomeItem();
+        }    
+
+        return $homeItem;
+        
+    }
+        
+    protected function getFallbackHomeItem(): MenuItemInterface {
+            $fallbackBlock = $this->getFallbackBlock();
+            $fallbackUid = $fallbackBlock->getUidFk();
+            try {
+                $homeItem = $this->getMenuItem($fallbackUid);
+            } catch (NoItemException $exc) {
+                throw new NoItemException("No item in database for home page fallback block named '{$fallbackBlock->getName()}' with value '$fallbackUid'.");
+            }
+            return $homeItem;
+    }
+    
+    protected function responseForItem(ServerRequestInterface $request, MenuItemInterface $menuItem): ResponseInterface {
+        //        $startTime = microtime(true);
+            $this->setPresentationMenuItem($menuItem);
+            $view = $this->composeLayoutView($request, $menuItem);
+            return $this->createStringOKResponseFromView($view);
+//            ->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
+    }
+    
+    ## private
+    
+    private function setFallbackBlock($realHomeUid): void {
+        $fallbackName = ConfigurationCache::layoutControler()['homePageFallbackBlockName'];
+        try {
+            $fallbackBlock = $this->getBlock($fallbackName); 
+            if ($realHomeUid != $fallbackBlock->getUidFk()) {
+                // fallback uid v tabulce block je jiný než nalezený home uid - fallback uid se přepíše nalezeným home uid
+                $fallbackBlock->setUidFk($realHomeUid);
+            }
+        } catch (NoBlockException $exc) {
+            //Automatické nastavení fallback záznamu do tabulky block
+            //Nalezen existující home item podle uid a neexistuje záznam pro fallback name v tabulce blocks - vytvoří záznam
+            /** @var BlockRepo $blockRepo */
+            $blockRepo = $this->container->get(BlockRepo::class);
+            $block = new Block();
+            $block->setName($fallbackName);
+            $block->setUidFk($realHomeUid);
+            $blockRepo->add($block);
+        }
+    }
+    
+    private function getFallbackBlock(): BlockInterface {
+        $fallbackName = ConfigurationCache::layoutControler()['homePageFallbackBlockName'];
+        try {
+            $fallbackBlock = $this->getBlock($fallbackName); 
+        } catch (NoBlockException $exc) {
+            throw new NoBlockException("The fallback block named '$fallbackName' does not exist in the database. Check configuration.");            
+        }
+        return $fallbackBlock;
     }
 
     /**
-     * Podle jména bloku načte uid odpovídajícího menu item.
-     * Pokud blok se zadaným jménem není v databázi definován vyhodí výjimku.
-     * Pro uid zjištěného z bloku a aktuálního jazyka prezentace vrací menuItem nebo null, pkud menuitem není definován nebo není publikován (active).
+     * Podle jména bloku načte z databáze uid odpovídajícího menu item.
+     * Pokud blok se zadaným jménem není v databázi definován vyhodí výjimku NoBlockException.
      * 
-     * @param type $name
-     * @return MenuItemInterface|null
-     * @throws UnexpectedValueException
+     * @param string $name
+     * @return string
+     * @throws NoBlockException
      */
-    protected function getMenuItemForBlock($name): ?MenuItemInterface {
+    protected function getBlock($name): BlockInterface {
         /** @var BlockRepo $blockRepo */
         $blockRepo = $this->container->get(BlockRepo::class);
         $block = $blockRepo->get($name);
         if (!isset($block)) {
-            throw new UnexpectedValueException("Block with name '$name' not exists in database.");
+            throw new NoBlockException("The block named '$name' does not exist in the database.");
         }
-        $blockItem = $this->getMenuItem($block->getUidFk());
-        return $blockItem ?? null;  // není blok nebo není publikovaný&aktivní item
+        return $block;
     }
-
-#
-#### response ################################
-#
+    
     /**
-     * Metoda pro pomtomkovský controler (page controler). Rozšiřuje funkčnost metod FrontControlerAbstract.
-     * Vytvoří response pro položku v hierarchii - menu item. Pro neexistující menu item vytvoří response s přesměrováním na "home" stránku.
-     *
-     * @param ServerRequestInterface $request
-     * @param MenuItemInterface $menuItem
-     * @return ResponseInterface
+     * Vrací jméno bloku pro home page z konfigurace.
+     * Pokud jméno bloku pro home page v konfiguraci není, vyhodí výjimku.
+     * 
+     * @return type
+     * @throws UnexpectedValueException
      */
-    protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
-        if ($menuItem) {
-            $this->setPresentationMenuItem($menuItem);
+    protected function getHomePageBlockName() {
+        $homePageName = ConfigurationCache::layoutControler()['homePageBlockName'];
+        if (!$homePageName??'') {
+                throw new UnexpectedValueException("Undefined name of the home page (default page) in the configuration.");
         }
-            $view = $this->composeLayoutView($request, $menuItem);
-            $response = $this->createStringOKResponseFromView($view);
-//        } else {
-//            // neexistující stránka
-//            $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
-//        }
-        return $response;
+        return $homePageName;
     }
+    
 
 #
 #### composite view
@@ -178,7 +222,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * @param MenuItemInterface $menuItem
      * @return type
      */
-    private function composeLayoutView(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
+    protected function composeLayoutView(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         $layoutView = $this->getLayoutView($request);
         if (isset($menuItem)) {
             $layoutView->appendComponentViews($this->getContentViews($menuItem));
@@ -358,7 +402,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         // pro neexistující bloky nedělá nic
         foreach ($map as $variableName => $blockName) {
             try {
-                $menuItem = $this->getMenuItemForBlock($blockName);                
+                $menuItem = $this->getBlock($blockName);                
             } catch (UnexpectedValueException $exc) {  // neexistuje block
                 $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);
             }

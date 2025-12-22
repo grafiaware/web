@@ -42,6 +42,7 @@ class BlockHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $block, ArrayAccess $rowData) {
         /** @var BlockInterface $block */
+        $rowData->offsetSet('uid_fk', $block->getUidFk());
         $rowData->offsetSet('name', $block->getName());
     }
 }
