@@ -4,19 +4,12 @@ namespace Component\ViewModel;
 
 use Red\Model\Entity\EditorActionsInterface;
 use Events\Model\Entity\RepresentationActionsInterface;
-use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\MenuItemInterface;
-use Red\Model\Entity\LanguageInterface;
-use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Entity\StaticItemInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-
-use Status\Model\Entity\SecurityInterface;
-use Status\Model\Entity\PresentationInterface;
-use Status\Model\Entity\FlashInterface;
-
 
 /**
  * Description of StatusViewModelAbstract
@@ -46,23 +39,15 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     
     private $statusFlash;
 
-    /**
-     * @var ItemActionRepo
-     */
-//    protected $itemActionRepo;
-
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo
-//            ,
-//            ItemActionRepo $itemActionRepo
             ) {
         parent::__construct();
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
         $this->statusFlashRepo = $statusFlashRepo;
-//        $this->itemActionRepo = $itemActionRepo;
         $this->statusSecurity = $this->statusSecurityRepo->get();
         $this->statusPresentation = $this->statusPresentationRepo->get();
         $this->statusFlash = $this->statusFlashRepo->get();
@@ -131,6 +116,10 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     public function getPresentedMenuItem(): ?MenuItemInterface {
         return $this->statusPresentationRepo->get()->getMenuItem();
+    }
+    
+    public function getPresentedStaticItem(): ?StaticItemInterface {
+        return $this->statusPresentationRepo->get()->getStaticItem();
     }
     
     public function getSecurityInfos(): array {

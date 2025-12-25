@@ -12,7 +12,7 @@ use Component\ViewModel\ViewModelInterface;
 
 use Psr\Container\ContainerInterface;
 
-use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\StaticItemInterface;
 
 /**
  *
@@ -23,15 +23,14 @@ interface StaticItemViewModelInterface extends ViewModelInterface {
     public function injectContainer(ContainerInterface $container): StaticItemViewModelInterface;
     
     /**
-     * Vrací menuItem odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
-     *
-     * @return MenuItemInterface|null
+     * 
+     * @return StaticItemInterface
      */
-    public function getMenuItem(): ?MenuItemInterface ;
+    public function getStaticItem(): StaticItemInterface;
     
     /**
      * 
-     * @return string|null
+     * @return string
      */
-    public function getStaticTemplatePath(): ?string;
+    public function getStaticTemplatePath(): string;    
 }

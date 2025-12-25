@@ -329,7 +329,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             ItemActionService::class => function(ContainerInterface $c) {
                 return new ItemActionService($c->get(ItemActionRepo::class));
             },   
-                    
+  
             // database account
             Account::class => function(ContainerInterface $c) {
                 /* @var $user LoginAggregateFullInterface */

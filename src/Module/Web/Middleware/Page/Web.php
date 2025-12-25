@@ -15,6 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\WebContainerConfigurator;
+use Container\StaticItemContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 
 use Web\Middleware\Page\Controler\PageControler;
@@ -44,8 +45,10 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         //      app container se nekonfuguruje znovu - bere se z app
         $this->container =
             (new WebContainerConfigurator())->configure(
-                (new DbUpgradeContainerConfigurator())->configure(
-                    new Container($this->getApp()->getAppContainer())
+                (new StaticItemContainerConfigurator())->configure(
+                    (new DbUpgradeContainerConfigurator())->configure(
+                        new Container($this->getApp()->getAppContainer())
+                    )
                 )
             );
         // Nový kontejner nastaví jako kontejner aplikace - pro middleware Transformator

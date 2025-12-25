@@ -144,7 +144,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return array_merge(
-//                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
+                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
 //                Configuration::renderer(),
                 ConfigurationCache::redTemplates()
                 );
@@ -587,14 +587,14 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesDefinitions(): iterable {
         return [
             // configuration - používá parametry nastavené metodou getParams()
-//            ComponentConfiguration::class => function(ContainerInterface $c) {
-//                return new ComponentConfiguration(
-//                        $c->get('logs.directory'),
-//                        $c->get('logs.render'),
-//                        $c->get('logs.type'),
-//                        $c->get('templates')
-//                    );
-//            },
+            ComponentConfiguration::class => function(ContainerInterface $c) {
+                return new ComponentConfiguration(
+                        $c->get('logs.directory'),
+                        $c->get('logs.render'),
+                        $c->get('logs.type'),
+                        $c->get('templates')
+                    );
+            },
             // front kontrolery
             StaticControler::class => function(ContainerInterface $c) {
                 return (new StaticControler(
@@ -745,11 +745,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
         ####
         # renderer container
         #
-//            'rendererContainer' => function(ContainerInterface $c) {
-//                // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
-//                // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
-//                return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
-//            },
+            'rendererContainer' => function(ContainerInterface $c) {
+                // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
+                // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
+                return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
+            },
                     
             // component view model
             RepresentationActionViewModel::class => function(ContainerInterface $c) {

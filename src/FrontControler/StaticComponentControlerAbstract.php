@@ -40,8 +40,10 @@ abstract class StaticComponentControlerAbstract extends ComponentControlerAbstra
     public function static(ServerRequestInterface $request, $menuItemId) {
         if($this->isAllowed(AccessActionEnum::GET)) {
             /** @var StaticItemViewModel $viewModel */
-            $viewModel = $this->container->get(StaticItemViewModel::class);   
-            $viewModel->setMenuItemId($menuItemId);
+            $viewModel = $this->container->get(StaticItemViewModel::class);
+            $viewModel->getStaticItem()->getMenuItemIdFk();
+//            $viewModel->setMenuItemId($menuItemId);
+            $viewModel->
             /** @var StaticItemComponentInterface $view */
             $view = $this->container->get(StaticItemComponent::class);
         } else {

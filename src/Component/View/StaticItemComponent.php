@@ -40,7 +40,7 @@ class StaticItemComponent extends ComponentCompositeAbstract implements StaticIt
      * @return void
      */
     public function beforeRenderingHook(): void {        
-        $templateFilename = $this->contextData->getStaticTemplatePath();
+        $templateFilename = $this->contextData->getStaticItem();
         $this->setTemplate(new PhpTemplate($templateFilename));
     }
     

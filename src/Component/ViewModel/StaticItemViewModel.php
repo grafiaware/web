@@ -8,13 +8,13 @@
 
 namespace Component\ViewModel;
 
-use Red\Component\ViewModel\Content\MenuItemViewModel;
+use Component\ViewModel\ViewModelAbstract;
+
+use Component\ViewModel\StaticItemViewModelInterface;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\StaticItemRepoInterface;
 
-use Red\Model\Repository\MenuItemRepoInterface;
-use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\StaticItemInterface;
 
 use \Site\ConfigurationCache;
@@ -28,28 +28,27 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-class StaticItemViewModel extends MenuItemViewModel implements StaticItemViewModelInterface {
+class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewModelInterface {
 
     const DEFAULT_TEMPLATE_FILENAME='template.php';
+
+    /**
+     * @var StatusViewModelInterface
+     */
+    protected $statusViewModel;
     
     /**
      * @var StaticItemRepoInterface
      */
     private $staticRepo;
     
-    /**
-     * @var StaticItemInterface
-     */
-    private $staticEntity;
-    
     private $container;
 
     public function __construct(
             StatusViewModelInterface $status, 
-            MenuItemRepoInterface $menuItemRepo,
             StaticItemRepoInterface $staticRepo
             ) {
-        parent::__construct($status, $menuItemRepo);
+        $this->statusViewModel = $status;
         $this->staticRepo = $staticRepo;
     }
     
@@ -59,28 +58,35 @@ class StaticItemViewModel extends MenuItemViewModel implements StaticItemViewMod
     }
     
     /**
+     * Vrací StaticIrem získaný z presentation statusu.
      * 
-     * @return string|null
+     * @return StaticItemInterface
+     * @throws UnexpectedValueException
      */
-    public function getStaticTemplatePath(): ?string {
-        if (!isset($this->staticEntity)) {
-            if (isset($this->menuItemId)) {
-                $this->staticEntity = $this->staticRepo->getByMenuItemId($this->menuItemId);
-                if (!isset($this->staticEntity)) {
-                    throw new UnexpectedValueException("Nenačtena static položka z databáze pro menu item id: '{$this->menuItemId}'");
-                }
-            }
+    public function getStaticItem(): StaticItemInterface {
+        $staticEntity = $this->statusViewModel->getPresentedStaticItem();
+        if (!isset($staticEntity)) {
+            throw new UnexpectedValueException("Nenačtena static položka z presentation status view modelu.");
         }
-        $basePath = ConfigurationCache::componentControler()['static'] ?? '';
-        $path = null !== $this->staticEntity->getPath() ? $this->staticEntity->getPath() : '';
-
-        return $basePath.$path.'/'.$this->staticEntity->getTemplate().'/'.self::DEFAULT_TEMPLATE_FILENAME;
+        return $staticEntity;
     }
 
+    /**
+     * Vrací úplnou cestu k souboru šablony (template) pro StaticIrem získaný z presentation statusu.
+     * 
+     * @return string
+     */
+    public function getStaticTemplatePath(): string {
+        $staticEntity = $this->getStaticItem();
+        $basePath = ConfigurationCache::componentControler()['static'] ?? '';
+        $path = null !== $staticEntity->getPath() ? $staticEntity->getPath() : '';
+
+        return $basePath.$path.'/'.$staticEntity->getTemplate().'/'.self::DEFAULT_TEMPLATE_FILENAME;        
+    }
+    
     public function getIterator(): \Traversable {
         $this->appendData(
                 [
-                    'menuItem' => $this->getMenuItem(),
                     'staticTemplatePath' => $this->getStaticTemplatePath(),
                     'container' => $this->container,        // v proměnné $container ve včech statických stránkách a šablonách je k dispozici kontainer
                 ]

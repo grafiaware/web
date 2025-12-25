@@ -23,10 +23,13 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Red\Model\Repository\MenuItemRepo;
-use Red\Model\Repository\BlockRepo;
-use Red\Model\Entity\Block;
-use Red\Model\Entity\BlockInterface;
 use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Repository\BlockRepo;
+use Red\Model\Entity\BlockInterface;
+
+use Red\Model\Repository\StaticItemRepoInterface;
+use Red\Model\Repository\StaticItemRepo;
+use Red\Model\Entity\StaticItemInterface;
 
 ####################
 
@@ -120,9 +123,16 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
     }
     
     protected function responseForItem(ServerRequestInterface $request, MenuItemInterface $menuItem): ResponseInterface {
-            $this->setPresentationMenuItem($menuItem);
-            $view = $this->composeLayoutView($request, $menuItem);
-            return $this->createStringOKResponseFromView($view);
+        // set status
+        $this->setPresentationMenuItem($menuItem);
+        /** @var StaticItemRepoInterface $staticItemRepo */
+        $staticItemRepo = $this->container->get(StaticItemRepo::class); 
+        $staticItem = $staticItemRepo->getByMenuItemId($menuItem->getId());
+        $this->setPresentationStaticItem($staticItem);
+        // create view
+        $view = $this->composeLayoutView($request, $menuItem);
+        // create response
+        return $this->createStringOKResponseFromView($view);
     }
     
     ## private
@@ -244,6 +254,20 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         return $view;
     }
 
+    #### conzent #####
+        
+    private function getContentViews(MenuItemInterface $menuItem) {
+        //TODO:  !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)
+        $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
+        $views = [];
+        foreach (ConfigurationCache::layoutControler()['contextTargetMap'] as $contextName=>$targetSettings) {
+            // 'content'=>['id'=>'menutarget_content'],
+            $id = $targetSettings['id'];
+            $views[$contextName] = $this->cascadeLoaderFactory->getRedTargetElement($id, $dataRedApiUri, ConfigurationCache::layoutControler()['cascade.cacheLoadOnce']);            
+        }
+        return $views;
+    }
+    
     #### komponenty a komponentní views ######
 
     /**
@@ -255,6 +279,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
     protected function getComponentViews(ServerRequestInterface $request) {
         $views = array_merge(
                 $this->isContentEditable() ? $this->getEditableModeViews($request) : [],
+                $this->isContentEditable() ? $this->getMenuEditableViews() : [],
                 $this->getMenuViews(),
                 $this->getBlockLoaders(),
                 $this->getCascadeViews(),
@@ -296,8 +321,6 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
                     'urlEditScript' => ConfigurationCache::layoutControler()['urlEditScript'],
                     ]);
         $views ['redScripts'] = $redScriptsView;
-//        $views += $this->getLayoutEditableViews();
-        $views += $this->getMenuEditableViews();        
         return $views;
     }
     
@@ -313,18 +336,6 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         $views = [];
         foreach (array_keys(ConfigurationCache::layoutControler()['contextLayoutEditableMap']) as $contextName) {
             $views[$contextName] = $this->cascadeLoaderFactory->getRedLoaderElement("red/v1/service/$contextName", ConfigurationCache::layoutControler()['cascade.cacheLoadOnce']);             
-        }
-        return $views;
-    }
-    
-    private function getContentViews(MenuItemInterface $menuItem) {
-        //TODO:  !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)
-        $dataRedApiUri = $this->itemApiService->getContentApiUri($menuItem);
-        $views = [];
-        foreach (ConfigurationCache::layoutControler()['contextTargetMap'] as $contextName=>$targetSettings) {
-            // 'content'=>['id'=>'menutarget_content'],
-            $id = $targetSettings['id'];
-            $views[$contextName] = $this->cascadeLoaderFactory->getRedTargetElement($id, $dataRedApiUri, ConfigurationCache::layoutControler()['cascade.cacheLoadOnce']);            
         }
         return $views;
     }

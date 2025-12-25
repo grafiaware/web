@@ -32,13 +32,22 @@ use Access\AccessPresentation;
 use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
+// pro alias v rodičovském kontejneru
+use Pes\Database\Handler\HandlerInterface;
+
+// pro rodičovský kontejner
+use Model\Builder\Sql;
+use Model\RowData\PdoRowData;
+
 //component
 
 
 // static
-use Red\Middleware\Redactor\Controler\StaticControler;
 use Component\View\StaticItemComponent;
 use Component\ViewModel\StaticItemViewModel;
+
+use Red\Model\Dao\StaticItemDao;
+use Red\Model\Hydrator\StaticItemHydrator;
 use Red\Model\Repository\StaticItemRepo;
 
 // viewModel
@@ -47,19 +56,6 @@ use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\NoPermittedContentRenderer;
 
-// repo
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\MenuItemRepo;
-
-// login aggregate ze session - přihlášený uživatel
-use Auth\Model\Entity\LoginAggregateFullInterface; // pro app kontejner
-
-// database
-use Pes\Database\Handler\Account;
-use Pes\Database\Handler\AccountInterface;
-
 /**
  *
  *
@@ -67,15 +63,15 @@ use Pes\Database\Handler\AccountInterface;
  */
 class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams(): iterable {
-        return array_merge(
+//    public function getParams(): iterable {
+//        return array_merge(
 //                ConfigurationCache::web(),  //db
-                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
+//                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
 //                ConfigurationCache::menu(),
 //                Configuration::renderer(),
 //                ConfigurationCache::redTemplates()
-                );
-    }
+//                );
+//    }
     
     public function getFactoriesDefinitions(): iterable {
         return [
@@ -106,30 +102,32 @@ class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesDefinitions(): iterable {
         return [
             // configuration - používá parametry nastavené metodou getParams()
-            ComponentConfiguration::class => function(ContainerInterface $c) {
-                return new ComponentConfiguration(
-                        $c->get('logs.directory'),
-                        $c->get('logs.render'),
-                        $c->get('logs.type'),
-                        $c->get('templates')
-                    );
-            },
+//            ComponentConfiguration::class => function(ContainerInterface $c) {
+//                return new ComponentConfiguration(
+//                        $c->get('logs.directory'),
+//                        $c->get('logs.render'),
+//                        $c->get('logs.type'),
+//                        $c->get('templates')
+//                    );
+//            },
             StaticItemViewModel::class => function(ContainerInterface $c) {
                 return (new StaticItemViewModel(
                             $c->get(StatusViewModel::class),
-                            $c->get(MenuItemRepo::class),
                             $c->get(StaticItemRepo::class))
                         )->injectContainer($c);  // inject component kontejner - pro statické stránky - vznikne automaticky proměnná $container
 
             },
-
-        ####
-        # renderer container
-        #
-            'rendererContainer' => function(ContainerInterface $c) {
-                // POZOR - TemplateRendererContainer "má" - (->has() vrací true) - pro každé jméno service, pro které existuje třída!
-                // služby RendererContainerConfigurator, které jsou přímo jménem třídy (XxxRender::class) musí být konfigurovány v metodě getServicesOverrideDefinitions()
-                return (new RendererContainerConfigurator())->configure(new Container(new TemplateRendererContainer()));
+            StaticItemDao::class => function(ContainerInterface $c) {
+                return new StaticItemDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            StaticItemHydrator::class => function(ContainerInterface $c) {
+                return new StaticItemHydrator();
+            },
+            StaticItemRepo::class => function(ContainerInterface $c) {
+                return new StaticItemRepo($c->get(StaticItemDao::class), $c->get(StaticItemHydrator::class));
             },
         ];
     }
