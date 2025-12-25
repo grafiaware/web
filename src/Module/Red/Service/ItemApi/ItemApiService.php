@@ -65,11 +65,11 @@ class ItemApiService implements ItemApiServiceInterface {
         } elseif (!isset($apiModule) OR !isset($apiGenerator)) {
             throw new UnexpectedValueException("Nelze vytvořit content loader api uri pro menu item s id '{$menuItem->getId()}'. Menu item musí mít hodnoty api module a api generator obě nastaveny nebo obě NULL.");
         }
-//        if($apiGenerator==ItemApiGeneratorEnum::STATIC_GENERATOR) {
-//            $id = $this->getNameForStaticPage($menuItem);
-//        } else {
+        if($apiGenerator==ItemApiGeneratorEnum::TEMPLATE_GENERATOR) {
+            $id = $this->getTemplatePathForMenuItem($menuItem);
+        } else {
             $id = $menuItem->getId();
-//        }
+        }
         return "$apiModule/v1/$apiGenerator/$id";
     }
     
@@ -77,9 +77,9 @@ class ItemApiService implements ItemApiServiceInterface {
         return "red/v1/menu/{$menuItem->getUidFk()}/title";
     }
     
-    private function getNameForStaticPage(MenuItemInterface $menuItem) {
+    private function getTemplatePathForMenuItem(MenuItemInterface $menuItem) {
         $menuItemPrettyUri = $menuItem->getPrettyuri();
-        if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemControler - line 93
+        if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // ItemEditControler->title() + type()
             $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recipročně
         } else {
             $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());

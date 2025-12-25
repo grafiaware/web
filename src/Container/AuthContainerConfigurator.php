@@ -83,7 +83,9 @@ use Auth\Authenticator\DbAuthenticator;
 use Auth\Authenticator\DbHashAuthenticator;
 
 // repo
-use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
 
 // Access
 use Access\AccessPresentation;

@@ -14,4 +14,5 @@ class ItemApiGeneratorEnum extends Enum {
     const PAPER_GENERATOR = 'paper';
     const MULTIPAGE_GENERATOR = 'multipage';
     const STATIC_GENERATOR = 'static';
+    const TEMPLATE_GENERATOR = 'template';
 }

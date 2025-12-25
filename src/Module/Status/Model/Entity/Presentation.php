@@ -130,7 +130,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
         return $this->staticItem;
     }
     
-    public function setStaticItem(StaticItemInterface $staticItem): PresentationInterface {
+    public function setStaticItem(StaticItemInterface $staticItem=null): PresentationInterface {
         $this->staticItem = $staticItem;
         return $this;
     }

@@ -128,7 +128,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         /** @var StaticItemRepoInterface $staticItemRepo */
         $staticItemRepo = $this->container->get(StaticItemRepo::class); 
         $staticItem = $staticItemRepo->getByMenuItemId($menuItem->getId());
-        $this->setPresentationStaticItem($staticItem);
+        $this->setPresentationStaticItem($staticItem);  // static item nebo null
         // create view
         $view = $this->composeLayoutView($request, $menuItem);
         // create response

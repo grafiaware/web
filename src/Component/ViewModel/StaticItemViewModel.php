@@ -81,7 +81,7 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
         $basePath = ConfigurationCache::componentControler()['static'] ?? '';
         $path = null !== $staticEntity->getPath() ? $staticEntity->getPath() : '';
 
-        return $basePath.$path.'/'.$staticEntity->getTemplate().'/'.self::DEFAULT_TEMPLATE_FILENAME;        
+        return $basePath.$path.$staticEntity->getTemplate().'/'.self::DEFAULT_TEMPLATE_FILENAME;        
     }
     
     public function getIterator(): \Traversable {

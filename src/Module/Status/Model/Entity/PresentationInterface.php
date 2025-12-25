@@ -85,7 +85,7 @@ interface PresentationInterface extends PersistableEntityInterface {
      * 
      * @param StaticItemInterface $staticItem
      */
-    public function setStaticItem(StaticItemInterface $staticItem): PresentationInterface;
+    public function setStaticItem(StaticItemInterface $staticItem=null): PresentationInterface;
     
     /**
      * Jméno poslední template zobrazené v náhledu template

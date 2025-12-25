@@ -69,7 +69,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         $statusPresentation->setMenuItem($menuItem);
     }
 
-    protected function setPresentationStaticItem($staticItem) {
+    protected function setPresentationStaticItem($staticItem=null) {
         $statusPresentation = $this->statusPresentationRepo->get();
         $statusPresentation->setStaticItem($staticItem);        
     }

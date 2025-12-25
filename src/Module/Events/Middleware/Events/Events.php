@@ -60,7 +60,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
     private function prepareProcessGet() {
 
         ###########################
-        ## EventStaticControler
+        ## StaticControler
         ###########################
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
             /** @var StaticControler $ctrl */

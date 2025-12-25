@@ -30,7 +30,8 @@ use Red\Middleware\Redactor\Controler\ArticleControler;
 use Red\Middleware\Redactor\Controler\MultipageControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
-use Events\Middleware\Events\Controler\{EventControler, VisitorProfileControler};
+use Events\Middleware\Events\Controler\EventControler;
+use Events\Middleware\Events\Controler\VisitorProfileControler;
 
 // services
 // generator service
@@ -45,6 +46,8 @@ use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
 
 // menu itemmanipulator
 use Red\Service\HierarchyManipulator\MenuItemManipulator;
+// hooked actor
+use Red\Model\HierarchyHooks\HookedMenuItemActor;
 // item action service
 use Red\Service\ItemAction\ItemActionService;
 use Red\Service\Asset\AssetService;
@@ -127,6 +130,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemRepo::class),
                         $c->get(HierarchyAggregateReadonlyDao::class),
                         $c->get(MenuItemManipulator::class),
+                        $c->get(HookedMenuItemActor::class),
                         $c->get(ItemCreatorRegistry::class)
                         );
             },
@@ -217,8 +221,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuItemManipulator::class => function(ContainerInterface $c) {
                 return new MenuItemManipulator($c->get(MenuItemRepo::class),
                         $c->get(HierarchyAggregateReadonlyDao::class));
-            },
-                    
+            },           
             ItemActionService::class => function(ContainerInterface $c) {
                 return new ItemActionService(
                         $c->get(ItemActionRepo::class)
