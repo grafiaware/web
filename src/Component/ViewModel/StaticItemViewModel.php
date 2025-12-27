@@ -79,8 +79,7 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
     public function getStaticTemplatePath(): string {
         $staticEntity = $this->getStaticItem();
         $basePath = ConfigurationCache::componentControler()['static'] ?? '';
-        $path = null !== $staticEntity->getPath() ? $staticEntity->getPath() : '';
-
+        $path = $staticEntity->getPath() ?? '';
         return $basePath.$path.$staticEntity->getTemplate().'/'.self::DEFAULT_TEMPLATE_FILENAME;        
     }
     

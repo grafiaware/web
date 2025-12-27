@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Component\View\Manage;
+namespace Web\Component\View\Info;
 
 use Component\View\ComponentCompositeAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
@@ -34,5 +34,8 @@ class InfoBoardComponent extends ComponentCompositeAbstract {
             RoleEnum::VISITOR => [AccessPresentationEnum::DISPLAY => true],
             RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => true],
         ];
+    }
+    public function getString() {
+        return parent::getString();
     }
 }

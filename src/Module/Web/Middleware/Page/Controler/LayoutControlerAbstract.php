@@ -279,10 +279,10 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
     protected function getComponentViews(ServerRequestInterface $request) {
         $views = array_merge(
                 $this->isContentEditable() ? $this->getEditableModeViews($request) : [],
-                $this->isContentEditable() ? $this->getMenuEditableViews() : [],
-                $this->getMenuViews(),
+//                $this->isContentEditable() ? $this->getMenuEditableViews() : [],
+//                $this->getMenuViews(),
                 $this->getBlockLoaders(),
-                $this->getCascadeViews(),
+//                $this->getCascadeViews(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
             );

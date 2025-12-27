@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Component\ViewModel\Manage;
+namespace Web\Component\ViewModel\Info;
 
 use Component\ViewModel\ViewModelAbstract;
 
