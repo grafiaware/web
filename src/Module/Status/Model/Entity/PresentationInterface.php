@@ -77,9 +77,9 @@ interface PresentationInterface extends PersistableEntityInterface {
     
     /**
      * 
-     * @return StaticItemInterface
+     * @return StaticItemInterface|null
      */
-    public function getStaticItem(): StaticItemInterface;
+    public function getStaticItem(): ?StaticItemInterface;
     
     /**
      * 

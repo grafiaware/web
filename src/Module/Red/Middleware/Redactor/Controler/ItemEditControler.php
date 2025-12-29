@@ -148,7 +148,7 @@ class ItemEditControler extends FrontControlerAbstract {
         // změní menu item - title a pretty_uri
         $menuItem->setTitle($postTitle);
         $prefix = $menuItem->getLangCodeFk().$menuItem->getUidFk().'-';
-        $menuItem->setPrettyuri($this->hookedActor->genaratePrettyUri($postTitle, $prefix));        
+        $menuItem->setPrettyuri($this->hookedMenuItemActor->genaratePrettyUri($postTitle, $prefix));        
         $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
         //TODO: v editačním režimu -> refresh kvůli ribbon
         return $this->createJsonOKResponse(["refresh"=>"norefresh", "message"=>"Uložen nový titulek položky menu:".PHP_EOL.$postTitle]);

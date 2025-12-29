@@ -35,7 +35,5 @@ class InfoBoardComponent extends ComponentCompositeAbstract {
             RoleEnum::REPRESENTATIVE => [AccessPresentationEnum::DISPLAY => true],
         ];
     }
-    public function getString() {
-        return parent::getString();
-    }
+
 }

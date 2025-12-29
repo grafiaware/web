@@ -126,7 +126,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
 
     ## static item
     
-    public function getStaticItem(): StaticItemInterface {
+    public function getStaticItem(): ?StaticItemInterface {
         return $this->staticItem;
     }
     
