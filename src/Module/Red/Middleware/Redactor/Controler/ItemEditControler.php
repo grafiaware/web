@@ -100,7 +100,7 @@ class ItemEditControler extends FrontControlerAbstract {
      */
     public function toggle(ServerRequestInterface $request, $uid) {
         $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
-        //TODO: SV zěnit deaktivaci všech potomků při deaktivaci předka
+        //TODO: SV zěnit deaktivaci všech potomků při deaktivaci předka - nedeaktivovat, warning, změna semaforu pro nedostupné aktivní itemy
         $msg = $this->menuItemManipulator->toggleItems($langCode, $uid);
 
         try {
@@ -190,7 +190,7 @@ class ItemEditControler extends FrontControlerAbstract {
             $contentGenerator->initialize($langMenuItem);   
         }
         $this->addFlashMessage("menuItem type($postedModule, $postedGenerator)", FlashSeverityEnum::SUCCESS);
-        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
+//        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
         //TODO: POST version        
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

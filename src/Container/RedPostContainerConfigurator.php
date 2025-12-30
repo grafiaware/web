@@ -40,6 +40,7 @@ use Red\Service\ItemCreator\Paper\PaperCreator;
 use Red\Service\ItemCreator\Article\ArticleCreator;
 use Red\Service\ItemCreator\StaticItem\StaticItemCreator;
 use Red\Service\ItemCreator\Multipage\MultipageCreator;
+use Red\Service\ItemCreator\MenuItem\MenuItemCreator;
 //enum
 use Red\Service\ItemCreator\Enum\ApiModuleEnum;
 use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
@@ -184,6 +185,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                 $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticItemCreator::class);});
                 $factory->registerGenerator(ApiModuleEnum::EVENTS_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticItemCreator::class);});
                 $factory->registerGenerator(ApiModuleEnum::AUTH_MODULE, ItemApiGeneratorEnum::STATIC_GENERATOR, function() use ($c) {return $c->get(StaticItemCreator::class);});
+                $factory->registerGenerator(ApiModuleEnum::RED_MODULE, ItemApiGeneratorEnum::MENU_ROOT_GENERATOR, function() use ($c) {return $c->get(MenuItemCreator::class);});
                 return $factory;
             },
             PaperCreator::class => function(ContainerInterface $c) {
@@ -217,7 +219,13 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class)
                     );
             },
-
+            MenuItemCreator::class => function(ContainerInterface $c) {
+                return new MenuItemCreator(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(StatusFlashRepo::class)
+                    );
+            },
             MenuItemManipulator::class => function(ContainerInterface $c) {
                 return new MenuItemManipulator($c->get(MenuItemRepo::class),
                         $c->get(HierarchyAggregateReadonlyDao::class));

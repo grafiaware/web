@@ -15,4 +15,5 @@ class ItemApiGeneratorEnum extends Enum {
     const MULTIPAGE_GENERATOR = 'multipage';
     const STATIC_GENERATOR = 'static';
     const TEMPLATE_GENERATOR = 'template';
+    const MENU_ROOT_GENERATOR = 'menu';
 }

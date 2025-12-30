@@ -309,7 +309,7 @@ class ConfigurationWeb extends ConfigurationConstants {
 //            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
 //            - 
                     'menuSupervisor' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'root',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',

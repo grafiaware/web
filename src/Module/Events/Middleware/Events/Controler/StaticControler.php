@@ -35,15 +35,4 @@ class StaticControler extends StaticComponentControlerAbstract {
         ];
     }
     
-    ### action metody ###############
-    
-    public function static(ServerRequestInterface $request, $menuItemId) {
-        if($this->isAllowed(AccessActionEnum::GET)) {
-            /** @var StaticItemComponentInterface $view */
-            $view = $this->container->get(StaticItemComponent::class);
-        } else {
-            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
-        }
-        return $this->createStringOKResponseFromView($view);            
-    }
 }

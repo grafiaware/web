@@ -116,14 +116,14 @@ class HierarchyControler extends FrontControlerAbstract {
                 $pasteduid = $postCommand[$command];
                 switch ($command) {
                     case self::POST_COMMAND_CUT:
-                        $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid);
-                        $this->addFlashMessage('cutted items pasted as a siblings', FlashSeverityEnum::SUCCESS);
+                        $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid, false);  // vypnuta deaktivace 
+                        $this->addFlashMessage('Cutted items inserted as siblings.', FlashSeverityEnum::SUCCESS);
                         $success = true;
                         break;
                     case self::POST_COMMAND_COPY:
                         //TODO: Dodělat transformaci obsahů po kopírování podstromu menu
-                        $transform = $this->editHierarchyDao->copySubTreeAsSiebling($pasteduid, $uid);
-                        $this->addFlashMessage('copied items pasted as a siblings', FlashSeverityEnum::SUCCESS);
+                        $transform = $this->editHierarchyDao->copySubTreeAsSiebling($pasteduid, $uid, false);  // vypnuta deaktivace 
+                        $this->addFlashMessage('Copied items inserted as siblings.', FlashSeverityEnum::SUCCESS);
                         $success = true;
                         break;
                     default:
@@ -134,7 +134,7 @@ class HierarchyControler extends FrontControlerAbstract {
                 $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
             }
         } else {
-            $this->addFlashMessage('unable to paste, item has no parent', FlashSeverityEnum::WARNING);
+            $this->addFlashMessage('Unable to paste as siebling, item has no parent.', FlashSeverityEnum::WARNING);
         }
 //        if ($success ) {
             return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
@@ -164,13 +164,13 @@ class HierarchyControler extends FrontControlerAbstract {
             $pasteduid = $postCommand[$command];
             switch ($command) {
                 case self::POST_COMMAND_CUT:
-                    $this->editHierarchyDao->moveSubTreeAsChild($pasteduid, $uid);
-                    $this->addFlashMessage('cutted items pasted as a child', FlashSeverityEnum::SUCCESS);
+                    $this->editHierarchyDao->moveSubTreeAsChild($pasteduid, $uid, false);  // vypnuta deaktivace 
+                    $this->addFlashMessage('Cutted items inserted as children.', FlashSeverityEnum::SUCCESS);
                     $success = true;
                     break;
                 case self::POST_COMMAND_COPY:
-                    $transform = $this->editHierarchyDao->copySubTreeAsChild($pasteduid, $uid);
-                    $this->addFlashMessage('copied items pasted as a child', FlashSeverityEnum::SUCCESS);
+                    $transform = $this->editHierarchyDao->copySubTreeAsChild($pasteduid, $uid, false);  // vypnuta deaktivace 
+                    $this->addFlashMessage('Copied items inserted as children.', FlashSeverityEnum::SUCCESS);
                     $success = true;
                     break;
                 default:
