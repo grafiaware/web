@@ -28,9 +28,17 @@ use Events\Model\Entity\RepresentativeInterface;
 use Access\Enum\RoleEnum;
 
     /** @var StatusViewModelInterface $statusViewModel */
-    $statusViewModel = $container->get(StatusViewModel::class);        
-    $filter = $statusViewModel->getPresentationInfos()[FilterControler::FILTER]; //bylo ulozeno v FilterControler->filterJob()
-    
+    $statusViewModel = $container->get(StatusViewModel::class);    
+
+//    FilterControler::FILTER => [FilterControler::FILTER_TAGS=>$tags, FilterControler::FILTER_COMPANY=>$selectCompanyId]
+    $infos = $statusViewModel->getPresentationInfos();
+    if (array_key_exists(FilterControler::FILTER, $infos)) {
+        // bylo ulozeno v FilterControler->filterJob()
+        $filter = $infos[FilterControler::FILTER]; 
+    } else {
+        // filter ještě nebyl nasteven - nevolal se FilterControler->filterJob()
+        $filter = [FilterControler::FILTER_TAGS=>null, FilterControler::FILTER_COMPANY=>''];
+    }
     $dataCheck = $filter[FilterControler::FILTER_TAGS];
     
     $dataCheckArr=[];
