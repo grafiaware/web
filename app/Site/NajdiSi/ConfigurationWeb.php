@@ -315,19 +315,19 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuEventsAdmin' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'menu_events_admin',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuEventsRepresentative' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'menu_representative',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuEventsVisitor' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'menu_visitor',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',

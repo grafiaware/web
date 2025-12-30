@@ -412,7 +412,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = $c->get(MenuComponentSupervisor::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(MenuComponentSupervisor::class, AccessPresentationEnum::DISPLAY)) {
+                $status = $c->get(StatusViewModel::class);
+                // zobrazuje se je v editačním režimu
+                if($status->presentEditableContent() AND $accessPresentation->isAllowed(MenuComponentSupervisor::class, AccessPresentationEnum::EDIT)) {
                     $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
@@ -491,7 +493,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = $c->get(MenuComponentRed::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                $status = $c->get(StatusViewModel::class);
+                // zobrazuje se je v editačním režimu
+                if($status->presentEditableContent() AND $accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::EDIT)) {
                     $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
@@ -510,7 +514,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = $c->get(MenuComponentRed::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                $status = $c->get(StatusViewModel::class);
+                // zobrazuje se je v editačním režimu
+                if($status->presentEditableContent() AND $accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::EDIT)) {
                     $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
