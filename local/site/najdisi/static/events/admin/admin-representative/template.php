@@ -26,7 +26,8 @@ use Access\Enum\RoleEnum;
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
-$getEditable = $statusViewModel->getRepresentativeActions()->getDataEditable();
+$representativeActions = $statusViewModel->getRepresentativeActions();
+$getEditable = isset($representativeActions) ? $representativeActions->getDataEditable() : false;
 $userRole = $statusViewModel->getUserRole();
 if ( ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) AND ($getEditable) )  {
 
