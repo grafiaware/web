@@ -12,12 +12,12 @@ use Pes\Text\Html;
             Role:
             <?php  if (isset ($role) ) {   ?>
                     <input  type="text" name="role" placeholder="" maxlength="50" 
-                            pattern="[a-z]+"   title="Jen malá písmena - bez háčků a čárek" value="<?= $role ?>">
+                            pattern="[a-z_]+"   title="Jen malá písmena bez háčků a čárek a podtržítko" value="<?= $role ?>">
                     <button class='ui secondery button' type='submit' formaction='<?= Text::encodeUrlPath("auth/v1/role/$role") ?>'>Ulozit</button>
                     <button class='ui primary button' type='submit' formaction='<?= Text::encodeUrlPath("auth/v1/role/$role/remove") ?>'>Odstranit</button>
             <?php  } else {   ?>    
                     <input  type="text" name="role" placeholder="Zadejte jednoslovný název role složený z alfanumerických znaků" maxlength="50" 
-                            pattern="[a-z]+"   title="Jen malá písmena - bez háčků a čárek" 
+                            pattern="[a-z_]+"   title="Jen malá písmena bez háčků a čárek a podtržítko" 
                             required>
                     <button class='ui secondery button' type='submit' formaction='<?= "auth/v1/role" ?>'>Uložit</button>             
             <?php  } ?>            

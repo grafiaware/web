@@ -41,6 +41,10 @@ class DocumentSingleListViewModel extends ViewModelSingleListAbstract implements
         return $this->isAdministrator();
     }
     
+    protected function loadListEntities() {
+        $this->listEntities = $this->documentRepo->findAll();
+    }
+    
     /**
      * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
      * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu

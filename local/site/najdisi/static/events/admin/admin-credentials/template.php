@@ -5,6 +5,9 @@ use Site\ConfigurationCache;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\StatusViewModelInterface;
+use Access\Enum\RoleEnum;
 
 use Auth\Model\Repository\CredentialsRepoInterface;
 use Auth\Model\Repository\CredentialsRepo;
@@ -23,7 +26,11 @@ use Auth\Middleware\Login\Controler\AuthControler;
 
 
 /** @var PhpTemplateRendererInterface $this */
-
+/** @var StatusViewModelInterface $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+$getEditable = $statusViewModel->getRepresentativeActions()->getDataEditable();
+$userRole = $statusViewModel->getUserRole();
+if ( ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) AND ($getEditable) ) {
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
     /** @var RoleRepoInterface $roleRepo */ 
@@ -91,4 +98,8 @@ use Auth\Middleware\Login\Controler\AuthControler;
                                       
         </div>
     </div>    
-
+<?php
+} else {
+    echo Html::p("Stránka je určena pouze pro editaci v administraci.", ["class"=>"ui orange segment"]);
+}
+?>

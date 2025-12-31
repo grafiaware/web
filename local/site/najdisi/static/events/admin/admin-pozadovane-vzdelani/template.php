@@ -19,7 +19,7 @@ $statusViewModel = $container->get(StatusViewModel::class);
 $representativeActions = $statusViewModel->getRepresentativeActions();
 $getEditable = isset($representativeActions) ? $representativeActions->getDataEditable() : false;
 $userRole = $statusViewModel->getUserRole();
-if ( ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) AND ($getEditable) ) {
+if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR AND $getEditable ) {
     
     /** @var PozadovaneVzdelaniRepoInterface $pozadovaneVzdelaniRepo */ 
     $pozadovaneVzdelaniRepo = $container->get(PozadovaneVzdelaniRepo::class );

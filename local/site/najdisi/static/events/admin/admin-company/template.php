@@ -15,21 +15,23 @@ use Access\Enum\RoleEnum;
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
+$representativeActions = $statusViewModel->getRepresentativeActions();
+$getEditable = isset($representativeActions) ? $representativeActions->getDataEditable() : false;
 $userRole = $statusViewModel->getUserRole();
-if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR ) {
+if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR AND $getEditable ) {
 
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );
     $companies = $companyRepo->findAll();
     $pStyle = ['style'=>'color: red;'];
     
-    echo Html::p("Všechny company: events/v1/data/company", $pStyle);
-    echo Html::tag('div', 
-            [
-                'class'=>'cascade',
-                'data-red-apiuri'=>"events/v1/data/company",
-            ]
-        );
+//    echo Html::p("Všechny company: events/v1/data/company", $pStyle);
+//    echo Html::tag('div', 
+//            [
+//                'class'=>'cascade',
+//                'data-red-apiuri'=>"events/v1/data/company",
+//            ]
+//        );
     
     echo Html::tag('h4', $pStyle, "Cyklus pro všechny company");
 

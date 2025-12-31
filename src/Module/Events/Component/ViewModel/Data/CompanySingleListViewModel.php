@@ -13,7 +13,7 @@ use Access\Enum\RoleEnum;
 use ArrayIterator;
 
 /**
- * Description of RepresentativeActionViewModel
+ * Description of CompanySingleListViewModel
  *
  * @author pes2704
  */
@@ -33,6 +33,10 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
     
     public function isListEditable(): bool {
         return $this->isAdministrator();
+    }
+    
+    protected function loadListEntities() {
+        $this->listEntities = $this->companyRepo->findAll();
     }
     
     use RepresentativeTrait;
