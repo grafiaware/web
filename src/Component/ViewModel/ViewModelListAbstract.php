@@ -16,6 +16,9 @@ abstract class ViewModelListAbstract extends ViewModelAbstract implements ViewMo
     
     protected $listEntities = [];    
         
+    /**
+     * Metoda musí načíst z databáze všchny entity pro list a vložit je do pole $this->listEntities
+     */
     abstract protected function loadListEntities();
 
     

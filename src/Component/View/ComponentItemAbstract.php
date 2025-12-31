@@ -49,14 +49,29 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
         $this->configuration = $configuration;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     */
     public function __clone() {
         $this->itemViewModel = clone $this->itemViewModel;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @param ViewModelItemInterface $itemViewModel
+     */
     public function setItemViewModel(ViewModelItemInterface $itemViewModel) {
         $this->itemViewModel = $itemViewModel;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @return ViewModelItemInterface
+     * @throws LogicException
+     */
     public function getItemViewModel(): ViewModelItemInterface {
         if (!isset($this->itemViewModel)) {
             $cls = get_called_class();
@@ -66,22 +81,40 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
         return $this->itemViewModel;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @param FileTemplateInterface $template
+     */
     public function setItemTemplate(FileTemplateInterface $template) {
         $this->itemTemplate = $template;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @param type $templateFilePath
+     * @param type $editableTemplateFilePath
+     */
     public function setItemTemplatePath($templateFilePath, $editableTemplateFilePath = null) {
         $this->itemTemplatePath = $templateFilePath;
         $this->editableItemTemplatePath = $editableTemplateFilePath;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @param type $name
+     * @param type $templateFilePath
+     * @param type $editableTemplateFilePath
+     */
     public function addPluginTemplatePath($name, $templateFilePath, $editableTemplateFilePath = null) {
         $this->pluginTemplatePath[$name] = ["default"=>$templateFilePath, "editable"=>$editableTemplateFilePath];
     }   
     
     /**
-     * Přidí do dat před renderování pole nastavené metodou addPluginTemplateName()
-     * 
+     * Před renderováním přidá do dat pole template path pro pluginy nastavené metodou addPluginTemplatePath()
+     * Pokud není zadán renderer, nastaví objektu item template (zadaném metodou setItemTemplate() ) správnou template path - editační template nebo needitační template=default (nastavené metodou setItemTemplatePath() ).
      * @return void
      */
     public function beforeRenderingHook(): void {

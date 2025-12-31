@@ -22,6 +22,13 @@ abstract class ViewModelSingleListAbstract extends ViewModelListAbstract impleme
     
     use SingleTrait;
     
+    /**
+     * Volá metodu loadListEntities() konkrétního single list view modelu (XXXSingleListViewModel) pro načtení všech entit pro list z databáze.
+     * Pokud je editovatelný mód (list je editovatelný) a není překročen maximální počet entit (pro typ ViewModelLimitedListInterface) 
+     * přidá jednu novou entitu (pro přidání položky do seznamu ve formuláři).
+     * 
+     * @return iterable
+     */
     public function provideItemEntityCollection(): iterable {
         $this->loadListEntities();
         if ($this->isListEditable()) { 

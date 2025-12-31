@@ -63,6 +63,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof VisitorProfileInterface) {
             $this->visitorProfile = $entity;
+            $this->getSingleRouteSegment()->setChildId($this->visitorProfile->getLoginLoginName());            
         } else {
             $cls = VisitorProfileInterface::class;
             $parCls = get_class($entity);

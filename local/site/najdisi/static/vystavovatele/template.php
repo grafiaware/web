@@ -18,5 +18,5 @@ use Access\Enum\RoleEnum;
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
 
-    echo Html::p("Vítáme vás přehledu vystavovatelů na Veletrhu práce a vzdělávání 2025. Vyberte firmu v menu.", ["class"=>"ui blue segment"]);
+    echo Html::p("Vítáme vás přehledu vystavovatelů na Veletrhu práce a vzdělávání. Vyberte firmu v menu.", ["class"=>"ui blue segment"]);
     

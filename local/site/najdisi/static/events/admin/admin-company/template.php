@@ -39,28 +39,28 @@ if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR AND $getEditable ) {
         $companyId = $company->getId();
         echo Html::tag('p',['class'=>'nadpis'] ,$company->getName());
         
-        echo Html::p("Jedna company s id company: events/v1/data/company/$companyId", $pStyle);
+//        echo Html::p("Jedna company s id company: events/v1/data/company/$companyId", $pStyle);
         echo Html::tag('div', 
                 [
                     'class'=>'cascade nazev-firmy',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId",
                 ]
             );
-        echo Html::p("Jedna adresa s id company (rodiče): events/v1/data/company/$companyId/companyaddress", $pStyle);
+//        echo Html::p("Jedna adresa s id company (rodiče): events/v1/data/company/$companyId/companyaddress", $pStyle);
         echo Html::tag('div', 
                 [
                     'class'=>'cascade',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
                 ]
             );
-        echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/data/company/$companyId/companycontact", $pStyle);
+//        echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/data/company/$companyId/companycontact", $pStyle);
         echo Html::tag('div', 
                 [
                     'class'=>'cascade',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
                 ]
             );
-        echo Html::p("Všechny joby jedné company s id company (rodiče): events/v1/data/company/$companyId/job", $pStyle);
+//        echo Html::p("Všechny joby jedné company s id company (rodiče): events/v1/data/company/$companyId/job", $pStyle);
         echo Html::tag('div', 
                 [
                     'class'=>'cascade',
