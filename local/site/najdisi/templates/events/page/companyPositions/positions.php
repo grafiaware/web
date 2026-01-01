@@ -4,6 +4,7 @@ use Site\ConfigurationCache;
 use Events\Model\Entity\RepresentativeInterface;
 use Events\Model\Repository\VisitorJobRequestRepo;
 use Component\ViewModel\StatusViewModel;
+use Access\Enum\RoleEnum;
 
     /** @var RepresentativeInterface $representative */
     $isRepresentative = isset($representative);
@@ -12,9 +13,14 @@ use Component\ViewModel\StatusViewModel;
     $jobRequestRepo = $container->get(VisitorJobRequestRepo::class);   
     /** @var StatusViewModelInterface $statusViewModel */
     $statusViewModel = $container->get(StatusViewModel::class);  
-    
+    $role = $statusViewModel->getUserRole();
+    $isVisitor = (isset($role) AND $role==RoleEnum::VISITOR);         
     $loginName = $statusViewModel->getUserLoginName();
 
+    include 'positions/title.php';
+    if($isRepresentativeOfCompany) {
+        include 'positions/titleRepresentative.php';
+    }
             /** @var JobInterface $job */
             foreach ($jobs as $job) {
                 $jobId = $job->getId();

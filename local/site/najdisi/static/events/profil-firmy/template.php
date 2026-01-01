@@ -70,12 +70,12 @@ if (isset($representative)) {
             /** @var JobRepoInterface $jobRepo */
             $jobRepo = $container->get(JobRepo::class);            
             $jobs = $jobRepo->find("company_id = :company_id ORDER BY nazev ", ['company_id' => $companyId]);     
-            
+       
             ### proměnné pro companyPositions
             $representative;
             $jobs;
             $companyId;
-            
+
             include ConfigurationCache::eventTemplates()['templates']."page/companyPositions/positions.php";            
         }
     }

@@ -1,9 +1,4 @@
-                <div class="sixteen wide column">
-                    <div class="ui message">
-                        <p>
-                            <span class="ui small red text">V přehledu pozic se zobrazují jen publikované pracovní pozice. Prohlédnout si pozice, jejichž zveřejnění jste již zrušili můžete v profilu firmy.</span>
-                        </p>       
-                    </div>                 
+                <div class="sixteen wide column">           
                     <p class="podnadpis">
                         <i class="small level down alternate flipped icon"></i>                    
                     <?php
@@ -19,4 +14,3 @@
                     ?>
                     </p>
                 </div>
-                    

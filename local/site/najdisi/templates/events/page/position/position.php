@@ -12,8 +12,8 @@ use Pes\Text\Html;
                     include 'position/titleVisitorPost.php';
                 }
                 if($isRepresentativeOfCompany) {
-                    include 'position/titleRepresentative.php';
-                }
+                    include 'position/jobRequestsInfo.php';
+                }                
                 ?>
                     
                 <?php
