@@ -44,9 +44,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
     <div id="loaded">
         <div class="ui grid centered">
             <div class="row">
-                <?= /**$this->insertIf( $isContentEditable, __DIR__.'/container/teloEditableMode.php', $context);*/'' ?>
-                <?= /**$this->insertIf( !$isContentEditable, __DIR__.'/container/teloNoneditableMode.php', $context);*/'' ?>
-                <?= $this->insert( __DIR__.'/container/teloNoneditableMode.php', $context); ?>
+                <?= $this->insert( __DIR__.'/container/telo.php', $context); ?>
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"web/v1/component/flash",])  ?>
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"web/v1/component/infoBoard",])  ?>
             </div>

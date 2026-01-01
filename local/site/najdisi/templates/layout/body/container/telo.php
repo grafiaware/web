@@ -5,7 +5,7 @@
                     </header>
                     <div class="ui grid equal width stackable ">
                         <div class="one wide mobile five wide tablet four wide computer column">
-                            <?php include "telo/svislemenuEditableMode.php"; ?>
+                            <?php include "telo/svislemenu.php"; ?>
                             <?php include "telo/svislemenuPaticka.php"; ?>
                         </div>
                         <div class="column">
