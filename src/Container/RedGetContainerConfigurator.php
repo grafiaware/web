@@ -256,8 +256,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         # - stavové objekty, je třeba více kusů
         #
             MenuComponentRed::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
                 $component = new MenuComponentRed($c->get(ComponentConfiguration::class), $c);  // kontejner
                 $component->setRendererName(MenuRenderer::class);                
                 $component->setRendererContainer($c->get('rendererContainer'));

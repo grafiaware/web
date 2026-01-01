@@ -90,113 +90,61 @@ use Access\Enum\RoleEnum;
     foreach ($tags as $jobTag) {
        $filterCheckboxLabelsAndNameValuePairs[$jobTag->getTag()] = [FilterControler::FILTER_TAGS."[{$jobTag->getTag()}]" => $jobTag->getId()] ;
     }        
-
-    //-----------------------------------------------------------------------
-    $isFilterVisible = ($selectCompanyId OR $filterCheckboxData);
-    
-    
-?> 
-
-    <div><p class="podnadpis okraje">Nastavte hodnoty pro výběr nabízených pracovních pozic:</p></div>
-    <div id="toggleFilter" class="ui big black button <?= $isFilterVisible ?? false ? 'active' : '' ?>">
-        <i class="<?= $isFilterVisible ?? false ? 'close' : 'filter' ?> icon"></i> 
-        <?= $isFilterVisible ?? false ? 'Skrýt filtr' : 'Zobrazit filtr' ?>
-    </div>
-    
-    <div id="filterSection" class="ui segment">
-        <form class="ui big form" action="" method="POST" > 
-            <div class="field">
-                <?= Html::select( 
-                    FilterControler::FILTER_COMPANY, 
-                    "Firma:",  
-                    [ FilterControler::FILTER_COMPANY => $selectCompanyId ],    
-                    $selectCompanies ??  [] , 
-                    []    // ['required' => true ],                        
-                ) ?> 
-            </div>
-
-            <div class="field">
-                 <div>Typ hledané pozice: </div>
-                 <?= Html::checkbox( $filterCheckboxLabelsAndNameValuePairs , $filterCheckboxData ); ?>
-            </div>
-
-            <div>      
-                <button class='ui secondary button' type='submit' 
-                        formaction='events/v1/filterjob'> Vyhledat pozice podle filtru</button>
-                <button class='ui primary button' type='submit' 
-                        formaction='events/v1/cleanfilterjob'> Vyčistit filtr a zobrazit vše</button>
-            </div>                                    
-        </form>
-    </div>
-    
-<?php
-
     if (isset($checksIdsIn)) {
         $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in ($checksIdsIn) group by job_id " ,$dataChecksForSelectA );  // všechny vybrané (checked) a použité (jsou ve vazební tabulce)
     } else {
         $jobToTagEntities=$jobToTagRepo->find( " 1 group by job_id " ,$dataChecksForSelectA ); //  [];
     }
     
-    //priprava pro in , jobsy
+## view data
     $jobIds=[];
-    $joJobsIn=[];
+    $jobsInWithPlaceholders=[];
     $ii = 0;
     foreach ($jobToTagEntities as $jobToTagE) {
         $jobIds['in'.$ii++] = $jobToTagE->getJobId();
     }
     if($jobIds) {
-        $joJobsIn = ":".implode(", :", array_keys($jobIds));
+        $jobsInWithPlaceholders = ":".implode(", :", array_keys($jobIds));
     }
 
-
-    ## SV
-        if ( $selectCompanyId != 0 ) {
-            $companies = $companyRepo->find(" id=:company_id ", ['company_id'=>$selectCompanyId]);      // ale vzdy vybrana jen jedna firma!        
-        } else {
-            $companies = $allCompanies;
-        }
-
-## view data
-$jobsCount = 0;
-/** @var CompanyInterface $company */
-foreach ($companies as $company) {
-    if ($joJobsIn) {
-        $companyJobs =  $jobRepo->find("id in ($joJobsIn)  AND company_id = :company_id AND published=1 ORDER BY nazev ",
-                                          array_merge($jobIds, ['company_id' => $company->getId()]));  
+    if ( $selectCompanyId != 0 ) {
+        $companies = $companyRepo->find(" id=:company_id ", ['company_id'=>$selectCompanyId]);      // ale vzdy vybrana jen jedna firma!        
     } else {
-        $companyJobs = [];  //            
+        $companies = $allCompanies;
     }
-    $viewCompanies[] = ['company'=>$company, 'companyJobs'=>$companyJobs];
-    $jobsCount = $jobsCount + count($companyJobs);
-}
+
+
+    $jobsCount = 0;
+    /** @var CompanyInterface $company */
+    foreach ($companies as $company) {
+        if ($jobsInWithPlaceholders) {
+            $companyJobs =  $jobRepo->find("id in ($jobsInWithPlaceholders)  AND company_id = :company_id AND published=1 ORDER BY nazev ",
+                                              array_merge($jobIds, ['company_id' => $company->getId()]));  
+        } else {
+            $companyJobs = [];
+        }
+        $viewCompanies[] = ['company'=>$company, 'companyJobs'=>$companyJobs];
+        $jobsCount = $jobsCount + count($companyJobs);
+    }
     
 ## view    
-if  ($jobsCount == 0) {
-     echo Html::tag("div", ["class"=>"ui red segment"], Html::p("Zadanému fitru neodpovídá žádná položka." , []));                 
-} else {
-        
-   
+
+    $isFilterVisible = ($selectCompanyId OR $filterCheckboxData);
+    include('filtr.php');
     
-    ## display
-    foreach ($viewCompanies as $viewCompany) {
-        $jobs = $viewCompany['companyJobs'];
-        if ($jobs) {
-            $companyId = $viewCompany['company']->getId();
-            $uriCascadeCompany = "events/v1/data/company/$companyId";
-            echo Html::tag('div', 
-                    [
-                        'class'=>'cascade nazev-firmy',
-                        'data-red-apiuri'=>$uriCascadeCompany,
-                    ]
-                );
-            
-            ### proměnné pro companyPositions
-            $representative;
-            $jobs;
-            $companyId;
-            
-            include ConfigurationCache::eventTemplates()['templates']."page/companyPositions/positions.php";
-        }
-    }        
-        
-}
+    if ($jobsCount == 0) {
+        echo Html::tag("div", ["class"=>"ui red segment"], Html::p("Zadanému fitru neodpovídá žádná položka." , []));                 
+    } else {
+        foreach ($viewCompanies as $viewCompany) {
+            $jobs = $viewCompany['companyJobs'];
+            if ($jobs) {
+                $companyId = $viewCompany['company']->getId();
+                $uriCascadeCompany = "events/v1/data/company/$companyId";
+                echo Html::tag('div', ['class'=>'cascade nazev-firmy', 'data-red-apiuri'=>$uriCascadeCompany]);
+
+                ### proměnné pro companyPositions
+                $representative; $jobs; $companyId;
+                include ConfigurationCache::eventTemplates()['templates']."page/companyPositions/positions.php";
+            }
+        }        
+    }

@@ -53,7 +53,6 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                      <footer id="footer">
                         <span id="kontakty"></span>
                         <?php include "container/paticka.php"; ?>
-                        
                     </footer>
                 </div>
             </div>
