@@ -82,8 +82,8 @@ use Events\Component\ViewModel\Data\DocumentSingleListViewModel;
 
 
 // controler
+use Events\Middleware\Events\Controler\StaticControler;
 use Events\Middleware\Events\Controler\ComponentControler;
-use Events\Middleware\Events\Controler\EventStaticControler;
 use Events\Middleware\Events\Controler\LoginSyncControler;
 
 use Events\Middleware\Events\Controler\SynchroControler;
@@ -595,7 +595,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('templates')
                     );
             },
-            // PresentationFrontControler (GET)
+            // front kontrolery
+            StaticControler::class => function(ContainerInterface $c) {
+                return (new StaticControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },
             ComponentControler::class => function(ContainerInterface $c) {
                 return (new ComponentControler(
                         $c->get(StatusSecurityRepo::class),
@@ -605,16 +614,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },            
-            EventStaticControler::class => function(ContainerInterface $c) {
-                return (new EventStaticControler(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),
-                        $c->get(TemplateCompiler::class)
-                        )
-                    )->injectContainer($c);  // inject component kontejner
-            },
             'dbEventsLoginSynLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('dbEvents.logs.db.directory'), $c->get('dbEvents.logs.db.loginsync'), FileLogger::APPEND_TO_LOG);
             },

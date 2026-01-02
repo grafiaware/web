@@ -269,23 +269,23 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             //  název proměnné v šabloně => název služby v kontejneru (obvykle název menu komponentu jako string)
             'contextLayoutMap' => [
-                    'menuSvisle' => 'menuVertical',
+//                    'menuSvisle' => 'menuVertical',
                 ],
             //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutEditableMap' => [
-                    'bloky' => 'menuBlocks',
-                    'kos' => 'menuTrash',
+//                    'bloky' => 'menuBlocks',
+//                    'kos' => 'menuTrash',
                 ],
             //  název proměnné v šabloně => hodnota targetId příslušná k menu z položky 'contextMenuMap'
             'contextTargetMap' => [
                     'content'=>['id'=>'menusvisle_target'],  
                 ],
             'contextMenuMap' => [
-                    'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
+//                    'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
                 ],
             'contextMenuEditableMap' => [
-                    'bloky' => ['service'=>'menuBlocks', 'targetId'=>'menutarget_content'],
-                    'kos' => ['service'=>'menuTrash', 'targetId'=>'menutarget_content'],
+//                    'bloky' => ['service'=>'menuBlocks', 'targetId'=>'menutarget_content'],
+//                    'kos' => ['service'=>'menuTrash', 'targetId'=>'menutarget_content'],
                 ],
             'contextBlocksMap' => [
                 ],            
@@ -294,11 +294,12 @@ class ConfigurationWeb extends ConfigurationConstants {
     public static function menu() {
             // menu
             // 'jméno služby kontejneru' => [pole parametrů menu]
-            // 'jméno služby kontejneru' - jmébo služby kontejneru, která vrací příslušný menu komponent
+            // 'jméno služby kontejneru' - jméno služby kontejneru, která vrací příslušný menu komponent
             // parametry menu jsou:
             //      'rootName' => jméno kořene menu v db tabulce root_name,
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
+            //      'levelRendererEditable' => jméno rendereru pro editační režim
         return [
             'menu.services' => [
 
@@ -307,35 +308,32 @@ class ConfigurationWeb extends ConfigurationConstants {
 //            - právo display jen supervisor
 //            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
 //            - 
-                
-                
-                
                     'menuSupervisor' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'root',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuEventsAdmin' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'menu events admin',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuEventsRepresentative' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'menu representative',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuEventsVisitor' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'menu visitor',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuVertical' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'menu vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',

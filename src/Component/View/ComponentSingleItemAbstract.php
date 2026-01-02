@@ -14,14 +14,14 @@ use TypeError;
  */
 abstract class ComponentSingleItemAbstract extends ComponentItemAbstract implements ComponentSingleInterface {
     public function createSingleRouteSegment(string $prefix, string $parentName): SingleRouteSegmentInterface {
-        $singleRouteSegment = new SingleRouteSegment($prefix, $parentName);
         if (isset($this->itemViewModel)) {
             if ($this->itemViewModel instanceof SingleInterface) {
+                $singleRouteSegment = new SingleRouteSegment($prefix, $parentName);
                 $this->itemViewModel->setSingleRouteSegment($singleRouteSegment);
             } else {
                 $comCls = get_class($this);
                 $cls = SingleInterface::class;
-                $vmCls = get_class($listViewModel);
+                $vmCls = get_class($this->itemViewModel);
                 throw new TypeError("View model list komponenty $comCls musí být typu $cls a je typu $vmCls.");
             }
         }

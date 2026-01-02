@@ -41,22 +41,12 @@ class DocumentSingleListViewModel extends ViewModelSingleListAbstract implements
         return $this->isAdministrator();
     }
     
-    /**
-     * Poskytuje kolekci dat (iterovatelnou) pro generování položek - item komponentů..
-     * Položky - item komponenty vziknou tak, že ke každé položce datové kolekce bude vygenerována item komponenta z prototypu
-     * a této komponentě bude vložena jako data pro renderování položka kolekce dat. 
-     * Pozn. To znamená, že jednotlívé item komponenty nepoužijí (a nepotřebují) vlastní view model.
-     * 
-     * @return iterable
-     */
-    public function provideItemEntityCollection(): iterable {
-        $entities = $this->documentRepo->findAll();
-//        tady: asociativní pole id=>entita
-        
-        if ($this->isListEditable()) {
-            $entities[] = new Document();  // pro přidání
-        }
-        return $entities;
+    protected function loadListEntities() {
+        $this->listEntities = $this->documentRepo->findAll();
+    }
+    
+    protected function newListEntity() {
+        return new Document();  // "prázdná" entita pro formulář pro přidání
     }
     
     /**

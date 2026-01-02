@@ -96,6 +96,7 @@ use Red\Model\Dao\MultipageDao;
 use Red\Model\Hydrator\MultipageHydrator;
 use Red\Model\Repository\MultipageRepo;
 
+
 use Red\Model\Dao\ItemActionDao;
 use Red\Model\Hydrator\ItemActionHydrator;
 use Red\Model\Repository\ItemActionRepo;
@@ -340,6 +341,7 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
             MultipageRepo::class => function(ContainerInterface $c) {
                 return new MultipageRepo($c->get(MultipageDao::class), $c->get(MultipageHydrator::class));
             },
+
             ItemActionDao::class => function(ContainerInterface $c) {
                 return new ItemActionDao(
                         $c->get(HandlerInterface::class),

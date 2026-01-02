@@ -22,6 +22,7 @@ use Status\Model\Enum\FlashSeverityEnum;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Service\HierarchyManipulator\MenuItemManipulator;
+use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 use Red\Service\ItemCreator\ItemCreatorRegistryInterface;
 use Red\Service\HierarchyManipulator\MenuItemToggleResultEnum;
 use Red\Service\ItemApi\ItemApiService;
@@ -48,6 +49,11 @@ class ItemEditControler extends FrontControlerAbstract {
      * @var MenuItemManipulator
      */
     private $menuItemManipulator;
+    
+    /**
+     * @var HookedMenuItemActorInterface
+     */
+    private $hookedMenuItemActor;
 
     /**
      * @var ItemCreatorRegistryInterface
@@ -67,12 +73,14 @@ class ItemEditControler extends FrontControlerAbstract {
             MenuItemRepo $menuItemRepo,
             HierarchyAggregateReadonlyDao $hierarchyDao,
             MenuItemManipulator $menuItemManipulator,
+            HookedMenuItemActorInterface $hookedMenuItemActor,
             ItemCreatorRegistryInterface $contentGeneratorFactory
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
         $this->hierarchyDao = $hierarchyDao;
         $this->menuItemManipulator = $menuItemManipulator;
+        $this->hookedMenuItemActor = $hookedMenuItemActor;
         $this->itemCreatorRegistry = $contentGeneratorFactory;
     }
 
@@ -92,6 +100,7 @@ class ItemEditControler extends FrontControlerAbstract {
      */
     public function toggle(ServerRequestInterface $request, $uid) {
         $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
+        //TODO: SV zěnit deaktivaci všech potomků při deaktivaci předka - nedeaktivovat, warning, změna semaforu pro nedostupné aktivní itemy
         $msg = $this->menuItemManipulator->toggleItems($langCode, $uid);
 
         try {
@@ -132,13 +141,14 @@ class ItemEditControler extends FrontControlerAbstract {
         //TODO: NEUKLÁDAT  když postTitle je null nebo prázdný řetězec -> error response
         $menuItem = $this->getMenuItem($uid);
         $postTitle = (new RequestParams())->getParam($request, 'title');
-        $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
+        $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');  // nepoužito
         if (!$postTitle) {
             throw new UnexpectedValueException("Nelze uložit titulek položky menu. Titulek položky menu je null nebo prázdný.");
         }
+        // změní menu item - title a pretty_uri
         $menuItem->setTitle($postTitle);
-        // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž HierarchyAggregateEditDao)
-        $menuItem->setPrettyuri($menuItem->getLangCodeFk().$menuItem->getUidFk().'-'.FriendlyUrl::friendlyUrlText($postTitle, 80));
+        $prefix = $menuItem->getLangCodeFk().$menuItem->getUidFk().'-';
+        $menuItem->setPrettyuri($this->hookedMenuItemActor->genaratePrettyUri($postTitle, $prefix));        
         $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
         //TODO: v editačním režimu -> refresh kvůli ribbon
         return $this->createJsonOKResponse(["refresh"=>"norefresh", "message"=>"Uložen nový titulek položky menu:".PHP_EOL.$postTitle]);
@@ -155,32 +165,32 @@ class ItemEditControler extends FrontControlerAbstract {
      * @return Response
      */
     public function type(ServerRequestInterface $request, $uid) {
+        // POST parametry
         $postedType = (new RequestParams())->getParam($request, self::TYPE_VARIABLE_NAME);
         list($postedModule, $postedGenerator) = explode(self::SEPARATOR, $postedType);
-        $folded = (new RequestParams())->getParam($request, 'folded', false);   //TODO:  dočasně pro static path!!!!
+        // načtení položek menu - změnit se musí item ve všech jazykových verzích
         $allLangVersionsMenuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
+        // kontrola
         /** @var MenuItemInterface $langMenuItem */
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
             if (null!==$langMenuItem->getApiModuleFk() AND ItemApiService::DEFAULT_MODULE!=$langMenuItem->getApiModuleFk()
                     OR 
                 null!==$langMenuItem->getApiGeneratorFk() AND ItemApiService::DEFAULT_GENERATOR!=$langMenuItem->getApiGeneratorFk()) {
-                throw new LogicException("Pokus o nastavení typu položce menu, která již má api modul nebo api generator. "
+                    throw new LogicException("Pokus o nastavení typu položce menu, která již má api modul nebo api generator. "
                         . "Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' má nastaven api modul {$langMenuItem->getApiModuleFk()} a api generátor {$langMenuItem->getApiGeneratorFk()}.");
             }
         }
+        // vytvoření záznamů v databázi v závislosti na typu položky
         $contentGenerator = $this->itemCreatorRegistry->getGenerator($postedModule, $postedGenerator);
         foreach ($allLangVersionsMenuItems as $langMenuItem) {
+            // změní menu item
             $langMenuItem->setApiModuleFk($postedModule);
             $langMenuItem->setApiGeneratorFk($postedGenerator);
-            if ($folded) {
-                $langMenuItem->setPrettyuri('folded:'.$folded);   //TODO:  dočasně pro static path!!!!
-            } else {
-                $langMenuItem->setPrettyuri($langMenuItem->getLangCodeFk().$langMenuItem->getUidFk());   //TODO: service propretty uri
-            }
-            $contentGenerator->initialize($langMenuItem);
+            // přidá záznam do article nebo paper nebo multipage nebo static ...
+            $contentGenerator->initialize($langMenuItem);   
         }
         $this->addFlashMessage("menuItem type($postedModule, $postedGenerator)", FlashSeverityEnum::SUCCESS);
-        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
+//        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);
         //TODO: POST version        
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

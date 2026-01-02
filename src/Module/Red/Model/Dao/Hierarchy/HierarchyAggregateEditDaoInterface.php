@@ -15,7 +15,7 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
  * @author pes2704
  */
 interface HierarchyAggregateEditDaoInterface extends HierarchyAggregateReadonlyDaoInterface {
-
+    
 #### helper #################################################
     /**
      * Pomocná metoda - čte data jen z db tabulky pro nested set (hierarchy), nikoli agregátní

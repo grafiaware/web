@@ -13,7 +13,7 @@ use Access\Enum\RoleEnum;
 use ArrayIterator;
 
 /**
- * Description of RepresentativeActionViewModel
+ * Description of CompanySingleListViewModel
  *
  * @author pes2704
  */
@@ -35,6 +35,14 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
         return $this->isAdministrator();
     }
     
+    protected function loadListEntities() {
+        $this->listEntities = $this->companyRepo->findAll();
+    }
+    
+    protected function newListEntity() {
+        return new Company();  // "prázdná" entita pro formulář pro přidání
+    }
+    
     use RepresentativeTrait;
 
     /**
@@ -45,14 +53,14 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
      * 
      * @return iterable
      */
-    public function provideItemEntityCollection(): iterable {
-        $entities = $this->companyRepo->findAll();
-//        tady: asociativní pole id=>entita
-        if ($this->isListEditable()) {
-            $entities[] = new Company();  // pro přidání
-        }
-        return $entities;
-    }
+//    public function provideItemEntityCollection(): iterable {
+//        $entities = $this->companyRepo->findAll();
+////        tady: asociativní pole id=>entita
+//        if ($this->isListEditable()) {
+//            $entities[] = new Company();  // pro přidání
+//        }
+//        return $entities;
+//    }
     
     /**
      * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky

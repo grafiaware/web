@@ -35,6 +35,10 @@ use Red\Component\View\Content\Authored\Article\ArticleComponentInterface;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponentInterface;
 
+use Component\ViewModel\StaticItemViewModel;
+use Component\View\StaticItemComponent;
+use Component\View\StaticItemComponentInterface;
+
 //use Pes\Debug\Timer;
 
 /**
@@ -52,27 +56,6 @@ class ComponentControler extends ComponentControlerAbstract {
     }
     
     ### action metody ###############
-
-    public function serviceComponent(ServerRequestInterface $request, $name) {
-        if($this->isAllowed(AccessActionEnum::GET)) {
-            if (array_key_exists($name, ConfigurationCache::layoutControler()['contextServiceMap'])) {
-                $service = reset(ConfigurationCache::layoutControler()['contextServiceMap'][$name]) ?? null;
-            } else {
-                $service = ConfigurationCache::layoutControler()['contextLayoutMap'][$name] ?? ConfigurationCache::layoutControler()['contextLayoutEditableMap'][$name] ?? null;
-            }
-            if (!isset($service)) {
-                $view = $this->errorView($request, "Component $name undefined in configuration of context layout maps or context service map.");
-            }
-            if($this->container->has($service)) {
-                $view = $this->container->get($service);
-            } else {
-                $view = $this->errorView($request, "Component $service is not defined (configured) in container.");                    
-            }
-        } else {
-            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
-        }
-        return $this->createStringOKResponseFromView($view);
-    }
     
     public function root(ServerRequestInterface $request, $menuItemId) {
         return $this->createStringOKResponse('');
@@ -89,7 +72,7 @@ class ComponentControler extends ComponentControlerAbstract {
             $itemTypeSelectViewModel->setMenuItemId($menuItemId);
             $view = $this->container->get(ItemTypeSelectComponent::class);
         } else {
-            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, 'item type select');
         }
         return $this->createStringOKResponseFromView($view);
     }
@@ -115,7 +98,7 @@ class ComponentControler extends ComponentControlerAbstract {
             /** @var ArticleComponentInterface $view */
             $view = $this->container->get(ArticleComponent::class);
         } else {
-            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::ARTICLE);
         }
         return $this->createStringOKResponseFromView($view);
     }
@@ -128,9 +111,8 @@ class ComponentControler extends ComponentControlerAbstract {
             /** @var MultipageComponentInterface $view */
             $view = $this->container->get(MultipageComponent::class);
         } else {
-            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AccessActionEnum::GET, AuthoredTypeEnum::MULTIPAGE);
         }
         return $this->createStringOKResponseFromView($view);
     }
-    
 }

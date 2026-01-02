@@ -92,7 +92,7 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
      * @return MenuItemInterface
      * @throws LogicException
      */
-    public function getMenuItem(): MenuItemInterface {
+    public function getMenuItem(): ?MenuItemInterface {
         try {
             $id = $this->getMenuItemId();
         } catch (Exception $exc) {

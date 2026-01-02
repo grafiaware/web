@@ -13,6 +13,8 @@ use Model\Entity\PersistableEntityAbstract;
 use Status\Model\Entity\PresentationInterface;
 
 use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\StaticItemInterface;
+
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\ItemActionInterface;
 
@@ -31,6 +33,12 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      * @var MenuItemInterface
      */
     private $menuItem;
+    
+    /**
+     * 
+     * @var StaticItemInterface
+     */
+    private $staticItem;
 
     private $lastResourcePath;
 
@@ -116,6 +124,17 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
         return $this;
     }
 
+    ## static item
+    
+    public function getStaticItem(): ?StaticItemInterface {
+        return $this->staticItem;
+    }
+    
+    public function setStaticItem(StaticItemInterface $staticItem=null): PresentationInterface {
+        $this->staticItem = $staticItem;
+        return $this;
+    }
+    
     ## template
 
     /**

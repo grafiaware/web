@@ -13,6 +13,7 @@ use Red\Model\Entity\EditorActionsInterface;
 use Events\Model\Entity\RepresentationActionsInterface;
 
 use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\StaticItemInterface;
 
 /**
  *
@@ -36,7 +37,7 @@ interface StatusViewModelInterface extends ViewModelInterface {
     public function presentEditableContent(): bool;
     public function getPresentedLanguageCode(): ?string;
     public function getPresentedMenuItem(): ?MenuItemInterface;
-
+    public function getPresentedStaticItem(): ?StaticItemInterface;
     public function getEditorActions(): ?EditorActionsInterface;
     public function getRepresentativeActions(): ?RepresentationActionsInterface;
     // pro InfoBoard

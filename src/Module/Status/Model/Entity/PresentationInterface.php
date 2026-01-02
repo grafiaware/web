@@ -11,6 +11,8 @@ namespace Status\Model\Entity;
 use Model\Entity\PersistableEntityInterface;
 
 use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\StaticItemInterface;
+
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\ItemActionInterface;
 
@@ -72,7 +74,19 @@ interface PresentationInterface extends PersistableEntityInterface {
      * @return PresentationInterface
      */
     public function setMenuItem(MenuItemInterface $menuItem): PresentationInterface;
-
+    
+    /**
+     * 
+     * @return StaticItemInterface|null
+     */
+    public function getStaticItem(): ?StaticItemInterface;
+    
+    /**
+     * 
+     * @param StaticItemInterface $staticItem
+     */
+    public function setStaticItem(StaticItemInterface $staticItem=null): PresentationInterface;
+    
     /**
      * Jméno poslední template zobrazené v náhledu template
      */

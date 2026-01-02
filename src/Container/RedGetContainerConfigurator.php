@@ -9,8 +9,8 @@ use Pes\Container\Container;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // controller
+use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\ComponentControler;
-use Red\Middleware\Redactor\Controler\RedStaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler; // jen konstanty třídy
 use Red\Middleware\Redactor\Controler\MenuControler;
@@ -30,8 +30,9 @@ use Container\RendererContainerConfigurator;
 // template renderer container
 use Pes\View\Renderer\Container\TemplateRendererContainer;
 
-// template
+// template + renderer
 use Pes\View\Template\PhpTemplate;
+use Pes\View\Renderer\PhpTemplateRenderer;
 
 // view
 use Pes\View\View;
@@ -94,10 +95,8 @@ use Red\Component\View\Content\Authored\Paper\PaperComponent;
 use Red\Component\View\Content\Authored\Article\ArticleComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageComponent;
 use Red\Component\View\Content\Authored\TemplatedComponent;
-
 use Red\Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
 use Red\Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
-
 use Red\Component\View\Content\Authored\PaperTemplate\PaperTemplateComponent;
 
 use Red\Component\View\Manage\SelectTemplateComponent;
@@ -126,10 +125,8 @@ use Web\Component\ViewModel\Flash\FlashViewModel;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModel;
 use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModel;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
-
 use Red\Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModel;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
-
 use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
 use Red\Component\ViewModel\Manage\EditMenuSwitchViewModel;
@@ -259,8 +256,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         # - stavové objekty, je třeba více kusů
         #
             MenuComponentRed::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
                 $component = new MenuComponentRed($c->get(ComponentConfiguration::class), $c);  // kontejner
                 $component->setRendererName(MenuRenderer::class);                
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -415,7 +410,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = $c->get(MenuComponentSupervisor::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(MenuComponentSupervisor::class, AccessPresentationEnum::DISPLAY)) {
+                $status = $c->get(StatusViewModel::class);
+                // zobrazuje se je v editačním režimu
+                if($status->presentEditableContent() AND $accessPresentation->isAllowed(MenuComponentSupervisor::class, AccessPresentationEnum::EDIT)) {
                     $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
@@ -432,7 +429,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menuEventsAdmin' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuEventsAdmin'];
-                /** @var MenuComponentRed $component */
+                /** @var MenuComponentEventsAdmin $component */
                 $component = $c->get(MenuComponentEventsAdmin::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -450,7 +447,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menuEventsRepresentative' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuEventsRepresentative'];
-                /** @var MenuComponentRed $component */
+                /** @var MenuComponentEventsRepresentative $component */
                 $component = $c->get(MenuComponentEventsRepresentative::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -468,7 +465,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },                    
             'menuEventsVisitor' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuEventsVisitor'];
-                /** @var MenuComponentRed $component */
+                /** @var MenuComponentEventsVisitor $component */
                 $component = $c->get(MenuComponentEventsVisitor::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -494,7 +491,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = $c->get(MenuComponentRed::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                $status = $c->get(StatusViewModel::class);
+                // zobrazuje se je v editačním režimu
+                if($status->presentEditableContent() AND $accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::EDIT)) {
                     $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
@@ -513,7 +512,9 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = $c->get(MenuComponentRed::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                if($accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::DISPLAY)) {
+                $status = $c->get(StatusViewModel::class);
+                // zobrazuje se je v editačním režimu
+                if($status->presentEditableContent() AND $accessPresentation->isAllowed(MenuComponentRed::class, AccessPresentationEnum::EDIT)) {
                     $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */
@@ -853,7 +854,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
-
             ####
             # komponenty - pro editační režim authored komponent
             #
@@ -964,6 +964,15 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             // front kontrolery
+            StaticControler::class => function(ContainerInterface $c) {
+                return (new StaticControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
+                        )
+                    )->injectContainer($c);  // inject component kontejner
+            },
             ComponentControler::class => function(ContainerInterface $c) {
                 return (new ComponentControler(
                         $c->get(StatusSecurityRepo::class),
@@ -981,16 +990,6 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AccessPresentation::class),
                         $c->get(MenuItemRepo::class),
                         $c->get(DriverService::class)
-                        )
-                    )->injectContainer($c);  // inject component kontejner
-            },
-            RedStaticControler::class => function(ContainerInterface $c) {
-                return (new RedStaticControler(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class),
-                        $c->get(TemplateCompiler::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
@@ -1136,7 +1135,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
 
-            // database account
+            // database account, pod kterým view modely (jejich repository) přistupují do databáte
             Account::class => function(ContainerInterface $c) {
                 /* @var $user LoginAggregateFullInterface */
                 $user = $c->get(LoginAggregateFullInterface::class);

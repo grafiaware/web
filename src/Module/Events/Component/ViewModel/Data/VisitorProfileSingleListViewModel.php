@@ -36,12 +36,16 @@ class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract impl
     }
     
     public function isListEditable(): bool {
-        return $this->isAdministrator();
+        return $this->isAdministrator();  //zde events administrator
     }
-    
+    // volá se z ViewModelSingleListAbstract->provideItemEntityCollection()
     protected function loadListEntities() {
         $this->listEntities = $this->visitorProfileRepo->findAll();
 //                tady: asociativní pole id=>entita
+    }
+    
+    protected function newListEntity() {
+        return new VisitorProfile();  // "prázdná" entita pro formulář pro přidání
     }
     
     /**

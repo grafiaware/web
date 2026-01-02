@@ -45,7 +45,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     ### headers ###
     
     /**
-     * Přetěžuje addHeaders() z FrontControlerAbstract
+     * Přetěžuje addCacheHeaders() z FrontControlerAbstract
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
@@ -69,7 +69,11 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         $statusPresentation->setMenuItem($menuItem);
     }
 
-
+    protected function setPresentationStaticItem($staticItem=null) {
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation->setStaticItem($staticItem);        
+    }
+    
     protected function getPresentationLangCode() {
         return $this->statusPresentationRepo->get()->getLanguageCode();
     }

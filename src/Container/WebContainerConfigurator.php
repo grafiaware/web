@@ -69,7 +69,7 @@ use Component\View\ElementComponent;
 use Component\View\ElementInheritViewModelComponent;
 
 use Web\Component\View\Flash\FlashComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
+use Web\Component\View\Info\InfoBoardComponent;
 
 // configuration
 use Configuration\ComponentConfiguration;
@@ -79,7 +79,7 @@ use Configuration\ComponentConfigurationInterface;
 use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - StatusViewModel definován v app kontejneru
 
 use Web\Component\ViewModel\Flash\FlashViewModel;
-use Red\Component\ViewModel\Manage\InfoBoardViewModel;
+use Web\Component\ViewModel\Info\InfoBoardViewModel;
 
 // renderer
 use Component\Renderer\Html\NoContentForStatusRenderer;
@@ -329,7 +329,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             ItemActionService::class => function(ContainerInterface $c) {
                 return new ItemActionService($c->get(ItemActionRepo::class));
             },   
-                    
+  
             // database account
             Account::class => function(ContainerInterface $c) {
                 /* @var $user LoginAggregateFullInterface */

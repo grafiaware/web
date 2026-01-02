@@ -21,8 +21,10 @@ use Pes\Database\Handler\HandlerInterface;
  * @author pes2704
  */
 interface HookedMenuItemActorInterface {
+    
+    const PRETTY_URI_MAX_LENGTH = 200;        
+    
     /**
-
      * Metoda add
      *
      * Vloží nové řádky do tabulky položek menu_item. Při vkládání se řídí vlastnostmí předchůdce v hierarchii, tedy rodiče nebo sourozence,
@@ -33,7 +35,17 @@ interface HookedMenuItemActorInterface {
      * @param string $uid uid položky hierarchie vložené v probíhající transakci
      */
     public function add(HandlerInterface $transactionHandler, $parentUid, $uid);
-
+    
+    /**
+     * Generuje řetězec pro vložení do sloupce pretty_uri.
+     * Pretty uri generuje z proměnné text. Pokud je zadán prefix, připojí ho před řetězec vygenerovaného pretty uri.
+     * 
+     * @param type $text
+     * @param type $prefix
+     * @return string
+     */
+    public function genaratePrettyUri($text, $prefix=''): string;
+    
     /**
      * Metoda delete
      *

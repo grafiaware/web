@@ -24,6 +24,7 @@ use Red\Component\View\Manage\ButtonsMenuCutCopyComponent;
 use Red\Component\View\Manage\ButtonsMenuDeleteComponent;
 
 use Red\Middleware\Redactor\Controler\HierarchyControler;
+use Access\Enum\RoleEnum;
 
 /**
  * Description of Menu
@@ -123,8 +124,8 @@ class DriverService implements DriverServiceInterface{
         $driverViewModel->withMenuItem($menuItem);         
         $driverViewModel->setPresented($isPresented);
         if($this->statusViewModel->presentEditableContent()) {
-            if ($driverViewModel->isPresented() && $menuItem->getApiGeneratorFk()!='root') {
-                $driverViewModel->setItemType($itemType);     // užito tady pro create buttons a v  ButtonsMenuAddRenderer + ButtonsMenuPasteRenderer pro renderování buttonů
+            if ($this->createButtons($driverViewModel)) {
+                $driverViewModel->setItemType($itemType);     // itemType je hodnota ItemTypeEnum - užito tady pro create buttons a v  ButtonsMenuAddRenderer + ButtonsMenuPasteRenderer pro renderování buttonů
                 $buttonsComponent = $this->container->get(DriverButtonsComponent::class);
                 $driver->appendComponentView($buttonsComponent, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel
                 $buttons = $this->getDriverButtonComponents($itemType);
@@ -135,5 +136,15 @@ class DriverService implements DriverServiceInterface{
             $driver->setRendererName(DriverRenderer::class);                                    
         }        
         return $driver;
-    }    
+    }
+    
+    /**
+     * Buttony se vytvářejí pokud je item právě zobrazen a není to kořen nějakého menu s výjimkou uživatele supervisor - ten může editovat i kořeny menu (v menu supervisor).
+     * 
+     * @param DriverViewModelInterface $driverViewModel
+     * @return bool
+     */
+    private function createButtons(DriverViewModelInterface $driverViewModel) {
+        return $driverViewModel->isPresented() && ($driverViewModel->getMenuItem()->getApiGeneratorFk()!='menu' || $this->statusViewModel->getUserRole()==RoleEnum::SUPERVISOR);
+    }
 }

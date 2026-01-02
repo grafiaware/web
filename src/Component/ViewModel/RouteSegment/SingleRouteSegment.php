@@ -18,21 +18,32 @@ class SingleRouteSegment implements SingleRouteSegmentInterface {
 
     public function __construct(string $prefix, string $listName) {
         if (! (strlen($listName))) {
-            throw new UnexpectedValueException("nejsou nastaveny všechny povinné parametry. Parametry routy musí neprázdné.");
+            throw new UnexpectedValueException("Nejsou nastaveny všechny povinné parametry routy.");
         }
         $this->prefix = $prefix;
         $this->listName = $listName;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @return bool
+     */
     public function hasList(): bool {
         return ($this->listName);
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @return string|null
+     */
     public function getList(): ?string {
         return $this->listName;
     }
     
     /**
+     * {@inheritDoc}
      * 
      * @param string $id
      */
@@ -40,10 +51,20 @@ class SingleRouteSegment implements SingleRouteSegmentInterface {
         $this->childId = $id;
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @return bool
+     */
     public function hasChildId(): bool {
         return isset($this->childId);
     }
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @return string|null
+     */
     public function getChildId(): ?string {
         return $this->childId;
     }

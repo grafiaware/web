@@ -820,13 +820,15 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 // a) uid - nový uid, list - prázdný (jinak by vznikly duplicity při výběru podle jazyka a listu)
                 // prettyUri - složit s novým uid
                 // active - vždy 0 - zjednodušené řešení, zkopírované položky jsou vždy všechny neaktivní
+                // sloupec prettyUri má 200chars. Limit titulku nastavuji na 200. (totéž HierarchyAggregateEditDao)
+                $prefix = $sourceItem['lang_code_fk'].$targetUid.'-';
+                $prettyUri = $this->hookedActor->genaratePrettyUri($sourceItem['title'], $prefix);
                 $this->bindParams($insertTargetItemStmt, [
                     'lang_code_fk'=>$sourceItem['lang_code_fk'], 'uid_fk'=>$targetUid, 
                     'api_module_fk'=>$sourceItem['api_module_fk'], 'api_generator_fk'=>$sourceItem['api_generator_fk'],
                     'list'=>($sourceItem['list'] ? 'copy_'.$sourceItem['list'] : ''), 
                     'order'=>$sourceItem['order'], 'title'=>$sourceItem['title'],
-                    // uniquid generuje 13 znaků, pro lang_code rezervuji 3, sloupec prettyUri má 100chars. Limit titulku nastavuji 80. (totéž EditItemControler)
-                    'prettyuri'=>$sourceItem['lang_code_fk'].$targetUid.FriendlyUrl::friendlyUrlText($sourceItem['title'], 80),
+                    'prettyuri'=>$prettyUri,             
                     'active'=> ($deactivate ? 0 : $sourceItem['active']),
                     'auto_generated'=>$sourceItem['auto_generated']]);
                 $insertTargetItemStmt->execute();

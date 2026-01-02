@@ -17,7 +17,7 @@ use Status\Model\Repository\StatusFlashRepo;
  *
  * @author pes2704
  */
-abstract class ItemCreatorAbstract implements ItemCreatorInterface {
+abstract class ItemCreatorAbstract {
 
 
     /**

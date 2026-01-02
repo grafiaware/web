@@ -28,5 +28,5 @@ interface MenuItemAssetAggregateAssetInterface extends MenuItemAssetInterface {
      * @param array $assets
      * @return MenuItemAssetAggregateAssetInterface
      */
-    public function setAAssetsArray(array $assets=[]): MenuItemAssetAggregateAssetInterface;    
+    public function setAssetsArray(array $assets=[]): MenuItemAssetAggregateAssetInterface;    
 }

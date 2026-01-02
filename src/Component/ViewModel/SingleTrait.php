@@ -31,5 +31,8 @@ trait SingleTrait {
     public function getSingleRouteSegment(): ?SingleRouteSegmentInterface {
         return $this->singleRouteSegment;
     }
-
+    
+    public function __clone() {
+        $this->singleRouteSegment = clone $this->singleRouteSegment;
+    }
 }

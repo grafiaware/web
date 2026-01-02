@@ -12,14 +12,14 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use Container\StaticItemContainerConfigurator;
 use Container\RedGetContainerConfigurator;
-
 use Container\RedPostContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 
 use Red\Middleware\Redactor\Controler\ComponentControler;
-use Red\Middleware\Redactor\Controler\RedStaticControler;
+use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\PresentationActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
@@ -73,9 +73,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         // jsou v jednotlivých kontejnerech)
         $this->container =
             (new RedGetContainerConfigurator())->configure(
-                (new RedModelContainerConfigurator())->configure(
-                    (new DbUpgradeContainerConfigurator())->configure(
-                            new Container($this->getApp()->getAppContainer())
+                (new StaticItemContainerConfigurator())->configure(
+                    (new RedModelContainerConfigurator())->configure(
+                        (new DbUpgradeContainerConfigurator())->configure(
+                                new Container($this->getApp()->getAppContainer())
+                        )
                     )
                 )
             );
@@ -90,18 +92,13 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
+        
         #### StaticControler ####
-        $this->routeGenerator->addRouteForAction('GET', '/red/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var RedStaticControler $ctrl */
-            $ctrl = $this->container->get(RedStaticControler::class);
-            return $ctrl->static($request, $staticName);
+        $this->routeGenerator->addRouteForAction('GET', '/red/v1/static/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticControler $ctrl */
+            $ctrl = $this->container->get(StaticControler::class);
+            return $ctrl->static($request, $menuItemId);
             });
-//        $this->routeGenerator->addRouteForAction('GET', '/red/v1/staticfolded/:folderName', function(ServerRequestInterface $request, $staticName) {
-//            /** @var StaticControler $ctrl */
-//            $ctrl = $this->container->get(StaticControler::class);
-//            return $ctrl->static($request, $staticName);
-//            });
-//            
         #### ComponentControler ####
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/service/:name', function(ServerRequestInterface $request, $name) {
             /** @var ComponentControler $ctrl */

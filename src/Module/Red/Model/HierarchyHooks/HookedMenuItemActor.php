@@ -10,6 +10,8 @@ namespace Red\Model\HierarchyHooks;
 
 use Pes\Database\Handler\HandlerInterface;
 use Red\Model\Dao\Hierarchy\HookedActorAbstract;
+use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
+use Pes\Text\FriendlyUrl;
 use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
 
 /**
@@ -76,6 +78,8 @@ class HookedMenuItemActor extends HookedActorAbstract {
         $defaultModule = $this->defaultModule ? "'$this->defaultModule'" : "NULL";
         $defaultGenerator = $this->defaultGenerator ? "'$this->defaultGenerator'" : "NULL";
         $newTitle = $this->newTitle ? "'$this->newTitle'" : "''";
+                $prettyUri = $this->genaratePrettyUri($sourceItem['lang_code_fk'], $targetUid, $sourceItem['title']);
+        
         $stmt = $transactionHandler->prepare(
                 " INSERT INTO $this->menuItemTableName (lang_code_fk, uid_fk, api_module_fk, api_generator_fk, title, prettyuri)
                     SELECT lang_code_fk, '$uid', $defaultModule, $defaultGenerator, $newTitle, CONCAT(lang_code_fk, '$uid')
@@ -85,7 +89,19 @@ class HookedMenuItemActor extends HookedActorAbstract {
         $stmt->bindParam(':predecessorUid', $predecessorUid);
         $stmt->execute();
     }
-
+    
+    /**
+     * Generuje řetězec pro vložení do sloupce pretty_uri.
+     * 
+     * @param type $langCodeFk
+     * @param type $uidFk
+     * @param type $text
+     * @return string
+     */
+    public function genaratePrettyUri($text, $prefix=''): string {
+        return FriendlyUrl::friendlyUrlText($text, $prefix, HookedMenuItemActorInterface::PRETTY_URI_MAX_LENGTH);
+    }
+    
     /**
      * {@inheritdoc}
      * Metoda delete smaže položky menu_item, paper a všechny položky content. Maže položky ve všech jazykových verzích.

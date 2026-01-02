@@ -1,7 +1,7 @@
 <?php
 namespace Auth\Middleware\Login;
 
-use Auth\Middleware\Login\Controler\AuthStaticControler;
+use Auth\Middleware\Login\Controler\StaticControler;
 use Auth\Middleware\Login\Controler\ComponentControler;
 
 use Auth\Middleware\Login\Controler\LoginLogoutControler;
@@ -15,6 +15,7 @@ use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Container\AuthContainerConfigurator;
+use Container\StaticItemContainerConfigurator;
 use Container\AuthDbContainerConfigurator;
 use Container\MailContainerConfigurator;
 
@@ -42,9 +43,11 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new AuthDbContainerConfigurator())->configure(
-                    (new MailContainerConfigurator())->configure(
-                        (new Container($this->getApp()->getAppContainer()))
+                (new StaticItemContainerConfigurator())->configure(                    
+                    (new AuthDbContainerConfigurator())->configure(
+                        (new MailContainerConfigurator())->configure(
+                            (new Container($this->getApp()->getAppContainer()))
+                        )
                     )
                 )
             );
@@ -68,10 +71,10 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
              
              
              
-        #### AuthStaticControler ####
+        #### StaticControler ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var AuthStaticControler $ctrl */
-            $ctrl = $this->container->get(AuthStaticControler::class);
+            /** @var StaticControler $ctrl */
+            $ctrl = $this->container->get(StaticControler::class);
             return $ctrl->static($request, $staticName);
             });     
             

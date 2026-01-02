@@ -80,7 +80,7 @@ class SelectorItems {
 
         //
         $this->items = [
-            '/web/v1/page' => $default,
+            '/web' => $default,
             '/ping'=>
             function() {
                 return [
