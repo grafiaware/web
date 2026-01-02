@@ -53,4 +53,4 @@ LOWER(
         '\n', '-')
     ) AS template,
 'transform' AS creator
-FROM najdisi.menu_item WHERE api_generator_fk='static';
+FROM menu_item WHERE api_generator_fk='static';
