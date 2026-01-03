@@ -15,15 +15,6 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Configuration\ComponentConfiguration;
 use Configuration\ComponentConfigurationInterface;
 
-// logger
-use Pes\Logger\FileLogger;
-
-// renderer kontejner
-use Container\RendererContainerConfigurator;
-
-// template renderer container
-use Pes\View\Renderer\Container\TemplateRendererContainer;
-
 // template + renderer
 use Pes\View\Renderer\PhpTemplateRenderer;
 
@@ -51,16 +42,6 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
  * @author pes2704
  */
 class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
-
-//    public function getParams(): iterable {
-//        return array_merge(
-//                ConfigurationCache::web(),  //db
-//                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
-//                ConfigurationCache::menu(),
-//                Configuration::renderer(),
-//                ConfigurationCache::redTemplates()
-//                );
-//    }
     
     public function getFactoriesDefinitions(): iterable {
         return [
@@ -90,15 +71,6 @@ class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions(): iterable {
         return [
-            // configuration - používá parametry nastavené metodou getParams()
-//            ComponentConfiguration::class => function(ContainerInterface $c) {
-//                return new ComponentConfiguration(
-//                        $c->get('logs.directory'),
-//                        $c->get('logs.render'),
-//                        $c->get('logs.type'),
-//                        $c->get('templates')
-//                    );
-//            },
             StaticItemViewModel::class => function(ContainerInterface $c) {
                 return (new StaticItemViewModel(
                             $c->get(StatusViewModel::class))
