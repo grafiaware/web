@@ -9,6 +9,7 @@
 namespace Red\Service\ItemCreator\Article;
 
 use Red\Service\ItemCreator\ItemCreatorAbstract;
+use Red\Service\ItemCreator\ItemCreatorInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -23,7 +24,7 @@ use Red\Model\Entity\Article;
  *
  * @author pes2704
  */
-class ArticleCreator extends ItemCreatorAbstract {
+class ArticleCreator extends ItemCreatorAbstract implements ItemCreatorInterface {
 
     /**
      * @var ArticleRepo
@@ -46,7 +47,7 @@ class ArticleCreator extends ItemCreatorAbstract {
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem): void {
+    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void {
         $article = new Article();
         $article->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $article->setMenuItemIdFk($menuItem->getId());

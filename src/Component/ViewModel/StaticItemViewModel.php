@@ -37,19 +37,12 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
      */
     protected $statusViewModel;
     
-    /**
-     * @var StaticItemRepoInterface
-     */
-    private $staticRepo;
-    
     private $container;
 
     public function __construct(
-            StatusViewModelInterface $status, 
-            StaticItemRepoInterface $staticRepo
+            StatusViewModelInterface $status
             ) {
         $this->statusViewModel = $status;
-        $this->staticRepo = $staticRepo;
     }
     
     public function injectContainer(ContainerInterface $container): StaticItemViewModelInterface {
@@ -59,6 +52,11 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
     
     /**
      * Vrací StaticIrem získaný z presentation statusu.
+     * 
+     * Očekává ve statusu nastavený StaticItem (při volání statické komponenty a view modelu není k dispozici Red databáze)
+     * StaticItem do statusu dává LayoutControler (v té chvíli je Red databáze připojena)
+     *  - vždy zkusí načíst StaticItem z repository pro id menuItem 
+     *  - když exituje záznam v tabulce static, načte StaticItem jinak null
      * 
      * @return StaticItemInterface
      * @throws UnexpectedValueException

@@ -164,7 +164,7 @@ use Red\Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Red\Component\Renderer\Html\Generated\SearchResultRenderer;
 
 use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
-
+use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectExtendedRenderer;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 
@@ -922,6 +922,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 if($accessPresentation->isAllowed(ItemTypeSelectComponent::class, AccessPresentationEnum::EDIT)) {
                     $component->setData($c->get(ItemTypeSelectViewModel::class));
                     $component->setRendererName(ItemTypeSelectRenderer::class);
+//                    $component->setRendererName(ItemTypeSelectExtendedRenderer::class);
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }

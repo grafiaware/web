@@ -16,6 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Container\WebContainerConfigurator;
 use Container\StaticItemContainerConfigurator;
+use Container\WebModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 
 use Web\Middleware\Page\Controler\PageControler;
@@ -46,8 +47,10 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->container =
             (new WebContainerConfigurator())->configure(
                 (new StaticItemContainerConfigurator())->configure(
-                    (new DbUpgradeContainerConfigurator())->configure(
-                        new Container($this->getApp()->getAppContainer())
+                    (new WebModelContainerConfigurator())->configure(
+                        (new DbUpgradeContainerConfigurator())->configure(
+                            new Container($this->getApp()->getAppContainer())
+                        )
                     )
                 )
             );

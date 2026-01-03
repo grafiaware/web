@@ -32,23 +32,12 @@ use Access\AccessPresentation;
 use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
-// pro alias v rodičovském kontejneru
-use Pes\Database\Handler\HandlerInterface;
-
-// pro rodičovský kontejner
-use Model\Builder\Sql;
-use Model\RowData\PdoRowData;
-
 //component
 
 
 // static
 use Component\View\StaticItemComponent;
 use Component\ViewModel\StaticItemViewModel;
-
-use Red\Model\Dao\StaticItemDao;
-use Red\Model\Hydrator\StaticItemHydrator;
-use Red\Model\Repository\StaticItemRepo;
 
 // viewModel
 use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - StatusViewModel definován v app kontejneru
@@ -90,7 +79,7 @@ class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
                     $component->setRendererName(PhpTemplateRenderer::class);
                     $viewModel = $c->get(StaticItemViewModel::class);
                     $component->setData($viewModel);
-                } else {
+                        } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -112,22 +101,9 @@ class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
 //            },
             StaticItemViewModel::class => function(ContainerInterface $c) {
                 return (new StaticItemViewModel(
-                            $c->get(StatusViewModel::class),
-                            $c->get(StaticItemRepo::class))
+                            $c->get(StatusViewModel::class))
                         )->injectContainer($c);  // inject component kontejner - pro statické stránky - vznikne automaticky proměnná $container
 
-            },
-            StaticItemDao::class => function(ContainerInterface $c) {
-                return new StaticItemDao(
-                        $c->get(HandlerInterface::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            StaticItemHydrator::class => function(ContainerInterface $c) {
-                return new StaticItemHydrator();
-            },
-            StaticItemRepo::class => function(ContainerInterface $c) {
-                return new StaticItemRepo($c->get(StaticItemDao::class), $c->get(StaticItemHydrator::class));
             },
         ];
     }

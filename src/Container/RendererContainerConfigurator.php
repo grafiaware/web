@@ -57,6 +57,7 @@ use Red\Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Red\Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Red\Component\Renderer\Html\Generated\SearchResultRenderer;
 use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
+use Red\Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectExtendedRenderer;
 
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\View\Renderer\InterpolateRenderer;
@@ -284,6 +285,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ItemTypeSelectRenderer::class => function(ContainerInterface $c) {
                 return new ItemTypeSelectRenderer();
+            },
+            ItemTypeSelectExtendedRenderer::class => function(ContainerInterface $c) {
+                return new ItemTypeSelectExtendedRenderer();
             },
         ###########################
         #  default template renderer
