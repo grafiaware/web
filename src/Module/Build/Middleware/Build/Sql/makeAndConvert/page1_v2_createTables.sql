@@ -200,9 +200,9 @@ CREATE TABLE `menu_root` (
   `uid_fk` varchar(45) NOT NULL,
   PRIMARY KEY (`name`),
   KEY `nested_set_uid_fk2` (`uid_fk`),
-  CONSTRAINT `nested_set_uid_fk2` FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `nested_set_uid_fk2` FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`) ON DELETE CASCADE
 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Table structure for multipage
 -- ----------------------------

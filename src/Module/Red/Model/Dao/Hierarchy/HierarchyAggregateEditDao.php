@@ -303,6 +303,10 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
             $stmt->execute();
             $uidsToDelete = $stmt->fetchAll(\PDO::FETCH_COLUMN, 0);  //první sloupec
             // nejdřív je třeba smazat položky, které obsahují klíče z $this->nestedSetTableName jako cizí klíče - jinak dojde k chybě Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails
+            // maže se menu_item (ten má ON DELETE RESTRICT) a asset a menu_item_aset (menu_item_aset je vazební tabulka a nesmazaly by se assets po mastavení ON DELETE CASCADE na menu_item_aset)
+            // article, paper (včetně sections), multipage, static se mažou samy mají ON DELETE CASCADE na menu_item_fk
+            // menu root se také maže sám, má ON DELETE CASCADE na menu_item_fk (ne ma hierarchy - to asi není dokonalé)
+            // asi bylo možné nastavit menu_item ON DELETE CASCADE na menu_item_uid_fk, pak by zůstal je problém s vazební tabulkou assetů (??)
             if (isset($this->hookedActor)) {
                 $this->hookedActor->delete($dbhTransact, $uidsToDelete);
             }

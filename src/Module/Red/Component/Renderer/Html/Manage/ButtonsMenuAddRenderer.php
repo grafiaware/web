@@ -22,7 +22,7 @@ class ButtonsMenuAddRenderer extends ButtonsMenuRendererAbstract {
                 $buttons[] = $this->expandButtons([$this->getButtonAdd($viewModel)], $this->classMap->get('Icons', 'icon.plus'));
                 break;
             default:
-                throw new LogicException("Nerozpoznán typ položek menu '$itemType'.");
+                throw new LogicException("Nerozpoznán typ položek menu '$viewModel->getItemType()'.");
         }
         return $buttons;
     }
