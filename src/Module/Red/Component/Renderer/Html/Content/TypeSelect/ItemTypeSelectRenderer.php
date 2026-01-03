@@ -27,6 +27,9 @@ class ItemTypeSelectRenderer extends HtmlRendererAbstract {
                     .Html::tag('div', ['class'=>'item-type'], //'class'=>$this->classMap->get('Template', 'div.templateItemType')
                         $radioHtml
                      )
+                    .Html::tag('p', [], "pro static stránku zadejte:")
+                    .Html::input("path", "Path: ").Html::input("template", "Template: ")
+                    .Html::tag('p', [])
                     .Html::tag("div", [],
                         Html::tag("button", [], Message::t("Odeslat"))
                     )

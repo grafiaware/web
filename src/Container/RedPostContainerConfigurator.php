@@ -216,7 +216,8 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new StaticItemCreator(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(StatusFlashRepo::class)
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StaticItemRepo::class)
                     );
             },
             MenuItemCreator::class => function(ContainerInterface $c) {

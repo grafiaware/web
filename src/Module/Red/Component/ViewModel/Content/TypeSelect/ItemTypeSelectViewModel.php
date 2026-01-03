@@ -37,7 +37,7 @@ class ItemTypeSelectViewModel extends MenuItemViewModel implements ItemTypeSelec
             'auth static - stránka vytvářená html šablonou s možností použít data modulu Auth'=> ApiModuleEnum::AUTH_MODULE.ItemEditControler::SEPARATOR.ItemApiGeneratorEnum::STATIC_GENERATOR
             ];
         if ($this->statusViewModel->getUserRole()==RoleEnum::SUPERVISOR) {
-            $typeGenerators['red menu root - kořen menu'] = ApiModuleEnum::RED_MODULE.ItemEditControler::SEPARATOR.ItemApiGeneratorEnum::MENU_ROOT_GENERATOR;
+            $typeGenerators['red menu - kořen menu'] = ApiModuleEnum::RED_MODULE.ItemEditControler::SEPARATOR.ItemApiGeneratorEnum::MENU_ROOT_GENERATOR;
 
         }
         return $typeGenerators;

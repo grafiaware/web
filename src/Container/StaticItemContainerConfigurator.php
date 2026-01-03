@@ -15,15 +15,6 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Configuration\ComponentConfiguration;
 use Configuration\ComponentConfigurationInterface;
 
-// logger
-use Pes\Logger\FileLogger;
-
-// renderer kontejner
-use Container\RendererContainerConfigurator;
-
-// template renderer container
-use Pes\View\Renderer\Container\TemplateRendererContainer;
-
 // template + renderer
 use Pes\View\Renderer\PhpTemplateRenderer;
 
@@ -32,23 +23,12 @@ use Access\AccessPresentation;
 use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
-// pro alias v rodičovském kontejneru
-use Pes\Database\Handler\HandlerInterface;
-
-// pro rodičovský kontejner
-use Model\Builder\Sql;
-use Model\RowData\PdoRowData;
-
 //component
 
 
 // static
 use Component\View\StaticItemComponent;
 use Component\ViewModel\StaticItemViewModel;
-
-use Red\Model\Dao\StaticItemDao;
-use Red\Model\Hydrator\StaticItemHydrator;
-use Red\Model\Repository\StaticItemRepo;
 
 // viewModel
 use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - StatusViewModel definován v app kontejneru
@@ -62,16 +42,6 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
  * @author pes2704
  */
 class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
-
-//    public function getParams(): iterable {
-//        return array_merge(
-//                ConfigurationCache::web(),  //db
-//                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
-//                ConfigurationCache::menu(),
-//                Configuration::renderer(),
-//                ConfigurationCache::redTemplates()
-//                );
-//    }
     
     public function getFactoriesDefinitions(): iterable {
         return [
@@ -90,7 +60,7 @@ class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
                     $component->setRendererName(PhpTemplateRenderer::class);
                     $viewModel = $c->get(StaticItemViewModel::class);
                     $component->setData($viewModel);
-                } else {
+                        } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -101,33 +71,11 @@ class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions(): iterable {
         return [
-            // configuration - používá parametry nastavené metodou getParams()
-//            ComponentConfiguration::class => function(ContainerInterface $c) {
-//                return new ComponentConfiguration(
-//                        $c->get('logs.directory'),
-//                        $c->get('logs.render'),
-//                        $c->get('logs.type'),
-//                        $c->get('templates')
-//                    );
-//            },
             StaticItemViewModel::class => function(ContainerInterface $c) {
                 return (new StaticItemViewModel(
-                            $c->get(StatusViewModel::class),
-                            $c->get(StaticItemRepo::class))
+                            $c->get(StatusViewModel::class))
                         )->injectContainer($c);  // inject component kontejner - pro statické stránky - vznikne automaticky proměnná $container
 
-            },
-            StaticItemDao::class => function(ContainerInterface $c) {
-                return new StaticItemDao(
-                        $c->get(HandlerInterface::class),
-                        $c->get(Sql::class),
-                        PdoRowData::class);
-            },
-            StaticItemHydrator::class => function(ContainerInterface $c) {
-                return new StaticItemHydrator();
-            },
-            StaticItemRepo::class => function(ContainerInterface $c) {
-                return new StaticItemRepo($c->get(StaticItemDao::class), $c->get(StaticItemHydrator::class));
             },
         ];
     }

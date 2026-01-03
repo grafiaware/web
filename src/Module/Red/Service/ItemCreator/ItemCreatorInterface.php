@@ -9,6 +9,7 @@
 namespace Red\Service\ItemCreator;
 
 use Red\Model\Entity\MenuItemInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  *
@@ -21,5 +22,5 @@ interface ItemCreatorInterface {
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem): void;
+    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void;
 }

@@ -9,6 +9,7 @@
 namespace Red\Service\ItemCreator\Paper;
 
 use Red\Service\ItemCreator\ItemCreatorAbstract;
+use Red\Service\ItemCreator\ItemCreatorInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -23,7 +24,7 @@ use Red\Model\Entity\Paper;
  *
  * @author pes2704
  */
-class PaperCreator extends ItemCreatorAbstract {
+class PaperCreator extends ItemCreatorAbstract implements ItemCreatorInterface {
 
     /**
      * @var PaperRepo
@@ -46,7 +47,7 @@ class PaperCreator extends ItemCreatorAbstract {
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem): void {
+    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void {
         $paper = new Paper();
         $paper->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $paper->setMenuItemIdFk($menuItem->getId());

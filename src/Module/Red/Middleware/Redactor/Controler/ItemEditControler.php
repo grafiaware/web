@@ -166,7 +166,7 @@ class ItemEditControler extends FrontControlerAbstract {
      */
     public function type(ServerRequestInterface $request, $uid) {
         // POST parametry
-        $postedType = (new RequestParams())->getParam($request, self::TYPE_VARIABLE_NAME);
+        $postedType = (new RequestParams())->getParam($request, self::TYPE_VARIABLE_NAME);      
         list($postedModule, $postedGenerator) = explode(self::SEPARATOR, $postedType);
         // načtení položek menu - změnit se musí item ve všech jazykových verzích
         $allLangVersionsMenuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
@@ -187,7 +187,7 @@ class ItemEditControler extends FrontControlerAbstract {
             $langMenuItem->setApiModuleFk($postedModule);
             $langMenuItem->setApiGeneratorFk($postedGenerator);
             // přidá záznam do article nebo paper nebo multipage nebo static ...
-            $contentGenerator->initialize($langMenuItem);   
+            $contentGenerator->initialize($langMenuItem, $request);   
         }
         $this->addFlashMessage("menuItem type($postedModule, $postedGenerator)", FlashSeverityEnum::SUCCESS);
 //        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);

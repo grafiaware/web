@@ -9,6 +9,7 @@
 namespace Red\Service\ItemCreator\Multipage;
 
 use Red\Service\ItemCreator\ItemCreatorAbstract;
+use Red\Service\ItemCreator\ItemCreatorInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -23,7 +24,7 @@ use Red\Model\Entity\Multipage;
  *
  * @author pes2704
  */
-class MultipageCreator extends ItemCreatorAbstract {
+class MultipageCreator extends ItemCreatorAbstract implements ItemCreatorInterface {
 
     /**
      * @var PaperRepo
@@ -46,7 +47,7 @@ class MultipageCreator extends ItemCreatorAbstract {
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem): void {
+    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void {
         $multipage = new Multipage();
         $multipage->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $multipage->setMenuItemIdFk($menuItem->getId());
