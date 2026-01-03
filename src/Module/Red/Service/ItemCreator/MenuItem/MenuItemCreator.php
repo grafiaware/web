@@ -8,23 +8,15 @@
 namespace Red\Service\ItemCreator\MenuItem;   // Static je keyword a použití Red\Service\ItemCreator\Static je syntaktická chyba
 
 use Red\Service\ItemCreator\ItemCreatorAbstract;
+use Red\Service\ItemCreator\ItemCreatorInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\MenuRootRepo;
 
+use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\MenuRoot;
-use Red\Service\ItemCreator\ItemCreatorAbstract;
-
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\StaticItemRepo;
-
-use Red\Model\Entity\MenuItemInterface;
-use Red\Model\Entity\StaticItemClass;
 
 /**
  * Description of StaticService
@@ -58,7 +50,8 @@ class MenuItemCreator extends ItemCreatorAbstract implements ItemCreatorInterfac
      */
     public function initialize(MenuItemInterface $menuItem): void {
         $menuRoot = new MenuRoot();
-        $menuRoot->setUidFk($menuItem->getId());
+        $menuRoot->setUidFk($menuItem->getUidFk());
+        //TODO: SV do menu_root se nemůže zapsat title - musíš doplnit komponent pro POST zadání jména menu_root - a ten zobrazovat při kliknutí na "menu" položku (v supervisor režimu)
         $menuRoot->setName($menuItem->getTitle());
         $this->menuRootRepo->add($menuRoot);
     }

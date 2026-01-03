@@ -293,20 +293,29 @@ class ConfigurationWeb extends ConfigurationConstants {
     }
     public static function menu() {
             // menu
-            // 'jméno služby kontejneru' => [pole parametrů menu]
-            // 'jméno služby kontejneru' - jméno služby kontejneru, která vrací příslušný menu komponent
+            // 'identifikátor parametrů' => [parametry menu]
+            // parametry se použijí v kontejneru: $c->get('menu.services')['identifikátor parametrů']
             // parametry menu jsou:
-            //      'rootName' => jméno kořene menu v db tabulce root_name,
+            //      'rootName' => jméno kořene menu v db tabulce root_name, podle root name se najde uid kořene v hierarchii položek menu a načte se podstrom položek patřících do menu
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
             //      'levelRendererEditable' => jméno rendereru pro editační režim
+        
+        /*
+         * V šabloně (layout) se volá komponent. Například (v PHP): Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSupervisor",])  
+         * Zde v konfiguraci je 'menuSupervisor' => [.....]
+         * V kontejneru je služba 'menuSupervisor', ta vrací komponent pro zobrazení (resp. načtení prostřednictvím cascade a zobrazení) menuSupervisor v šabloně.
+         * ( podle root_name
+         * Tato služba kontejneru použije parametry 'menuSupervisor' z konfigurace $c->get('menu.services')['menuSupervisor']
+         */
+        
         return [
             'menu.services' => [
 
-//                menuSupervisor:
-//            - nástroj jak vůbec umět přidávat menu - jinak asi nutno přidat do build
+//            menuSupervisor:
+//            - nástroj jak vůbec umět přidávat menu
 //            - právo display jen supervisor
-//            - rootName - menu_supervisor - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
+//            - rootName - root - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
 //            - 
                     'menuSupervisor' => [
                         'rootName' => 'root',

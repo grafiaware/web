@@ -4,7 +4,7 @@ namespace Red\Component\ViewModel\Menu\Enum;
 use Pes\Type\Enum;
 
 /**
- * Description of ItemTypeEnum
+ * Description of MenuTypeEnum
  *
  * @author pes2704
  */

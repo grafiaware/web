@@ -48,6 +48,8 @@ class StaticItemCreator extends ItemCreatorAbstract {
      */
     public function initialize(MenuItemInterface $menuItem): void {
         $static = new StaticItemClass();
+        //TODO: SV musíš doplnit komponent pro POST zadání cesty a jména template (jméno složky) - a ten zobrazovat při kliknutí na static položku (v editačním režimu)
+        
         $static->setCreator($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $static->setMenuItemIdFk($menuItem->getId());
         $this->staticRepo->add($static);

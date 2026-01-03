@@ -189,11 +189,19 @@ class HierarchyControler extends FrontControlerAbstract {
         return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
     }
 
+    /**
+     * Smaže z databáze (nevratně pomocí DELETE) položku menu a podřízené záznamy v dalších tabulkách
+     *  - maže hierarchy pomocí DAO, hooked actor v metodě delete smaže menu_item a případný menu_item_asset a asset (nemaže soubory "assets") a menu_root
+     *  - následně díky cizím klíčům s constraint On delete: CASCADE dojde i ke smazání řádku v article nebo paper včetně sections nebo multipage nebo static
+     * Metoda smaže všechny jazykové verze (vybírá menu itemy jen podle uid).
+     * 
+     * @param ServerRequestInterface $request
+     * @param type $uid
+     * @return ResponseInterface
+     */
     public function delete(ServerRequestInterface $request, $uid): ResponseInterface {
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
-        // maže hierarchy, menu_item (menu_item_asset má fk CASCADE) a asset - nemaže soubory "assets"
         $this->editHierarchyDao->deleteSubTree($uid);
-        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);
         $redirectUid = $parentNode['uid'];   // kořen trash
             return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);

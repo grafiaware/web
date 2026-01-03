@@ -115,13 +115,18 @@ class HookedMenuItemActor extends HookedActorAbstract {
         $uidsIn = $this->getInFromUidsArray($uidsArray);
 
         // !! article, paper a content, multipage i menu_item_asset mají constraint ON DELETE CASCADE
-        //  - smazání menu_item smaže i položky v těchro tabulkách
+        //  - smazání menu_item smaže i položky v těchto tabulkách
         // !! delete vybírá menu_item jen podle uid_fk => smaže všechny jazykové verze
         $transactionHandler->exec(
             "DELETE FROM $this->menuItemTableName
             WHERE uid_fk IN ( $uidsIn )"
             );
-        // promazání asset - smaže assety, kzeré nemají cizí klíč c menu_tem_asset
+        // promazání menu_root - položka mohla být kořen menu
+//        $transactionHandler->exec(
+//            "DELETE FROM menu_root
+//            WHERE uid_fk IN ( $uidsIn )"
+//            );
+        // promazání asset - smaže assety, které nemají cizí klíč v menu_item_asset
         // !! nemaže soubory
         $transactionHandler->exec(
             "DELETE a FROM asset AS a
