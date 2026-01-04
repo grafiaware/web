@@ -50,13 +50,8 @@ class StaticItemCreator extends ItemCreatorAbstract implements ItemCreatorInterf
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void {
-        $path = (new RequestParams())->getParam($request, "path");
-        $template = (new RequestParams())->getParam($request, "template");        
+    public function initialize(MenuItemInterface $menuItem): void {  
         $static = new StaticItemClass();
-        //TODO: SV musíš doplnit komponent pro POST zadání cesty a jména template (jméno složky) - a ten zobrazovat při kliknutí na static položku (v editačním režimu)
-        $static->setPath($path);
-        $static->setTemplate($template);
         $static->setCreator($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $static->setMenuItemIdFk($menuItem->getId());
         $this->staticRepo->add($static);

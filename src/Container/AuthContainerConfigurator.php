@@ -72,8 +72,8 @@ use Auth\Middleware\Login\Controler\RegistrationControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\AuthControler;
-use Auth\Middleware\Login\Controler\StaticControler;
-use Auth\Middleware\Login\Controler\ComponentControler;
+use Auth\Middleware\Login\Controler\ComponentStaticControler;
+use Auth\Middleware\Login\Controler\ComponentAuthControler;
 
 use Auth\Middleware\Login\Controler\SynchroControler;
 
@@ -306,8 +306,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 //---------------------------------------------------------------------------
             // front kontrolery
-            StaticControler::class => function(ContainerInterface $c) {
-                return (new StaticControler(
+            ComponentStaticControler::class => function(ContainerInterface $c) {
+                return (new ComponentStaticControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
@@ -315,8 +315,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
-            ComponentControler::class => function(ContainerInterface $c) {
-                return (new ComponentControler(
+            ComponentAuthControler::class => function(ContainerInterface $c) {
+                return (new ComponentAuthControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),

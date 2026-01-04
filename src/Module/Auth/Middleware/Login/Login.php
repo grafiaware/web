@@ -1,8 +1,8 @@
 <?php
 namespace Auth\Middleware\Login;
 
-use Auth\Middleware\Login\Controler\StaticControler;
-use Auth\Middleware\Login\Controler\ComponentControler;
+use Auth\Middleware\Login\Controler\ComponentStaticControler;
+use Auth\Middleware\Login\Controler\ComponentAuthControler;
 
 use Auth\Middleware\Login\Controler\LoginLogoutControler;
 use Auth\Middleware\Login\Controler\RegistrationControler;
@@ -73,15 +73,15 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
              
         #### StaticControler ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var StaticControler $ctrl */
-            $ctrl = $this->container->get(StaticControler::class);
+            /** @var ComponentStaticControler $ctrl */
+            $ctrl = $this->container->get(ComponentStaticControler::class);
             return $ctrl->static($request, $staticName);
             });     
             
         #### ComponentControler ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/component/:name', function(ServerRequestInterface $request, $name) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentAuthControler $ctrl */
+            $ctrl = $this->container->get(ComponentAuthControler::class);
             $comp = $ctrl->component($request, $name);
             return $comp;
             });

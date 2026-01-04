@@ -50,7 +50,7 @@ class MenuItemCreator extends ItemCreatorAbstract implements ItemCreatorInterfac
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void {
+    public function initialize(MenuItemInterface $menuItem): void {
         $menuRoot = new MenuRoot();
         $menuRoot->setUidFk($menuItem->getUidFk());
         //TODO: SV do menu_root se nemůže zapsat title - musíš doplnit komponent pro POST zadání jména menu_root - a ten zobrazovat při kliknutí na "menu" položku (v supervisor režimu)

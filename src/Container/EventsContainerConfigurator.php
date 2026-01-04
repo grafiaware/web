@@ -82,8 +82,8 @@ use Events\Component\ViewModel\Data\DocumentSingleListViewModel;
 
 
 // controler
-use Events\Middleware\Events\Controler\StaticControler;
-use Events\Middleware\Events\Controler\ComponentControler;
+use Events\Middleware\Events\Controler\ComponentStaticControler;
+use Events\Middleware\Events\Controler\ComponentEventsControler;
 use Events\Middleware\Events\Controler\LoginSyncControler;
 
 use Events\Middleware\Events\Controler\SynchroControler;
@@ -596,8 +596,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
             // front kontrolery
-            StaticControler::class => function(ContainerInterface $c) {
-                return (new StaticControler(
+            ComponentStaticControler::class => function(ContainerInterface $c) {
+                return (new ComponentStaticControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
@@ -605,8 +605,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
-            ComponentControler::class => function(ContainerInterface $c) {
-                return (new ComponentControler(
+            ComponentEventsControler::class => function(ContainerInterface $c) {
+                return (new ComponentEventsControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),

@@ -20,7 +20,7 @@ class TemplateCompiler implements TemplateCompilerInterface {
 
     private $templateVariables = [];
 
-    public function injectTemplateVars(array $templateVariables) {
+    public function injectTemplateVars(iterable $templateVariables) {
         $this->templateVariables = $templateVariables;
     }
 
@@ -30,7 +30,7 @@ class TemplateCompiler implements TemplateCompilerInterface {
      * @param string $templatePath
      * @return string
      */
-    public function getCompiledContent(ServerRequestInterface $request, $templatePath): string {
+    public function getCompiledContent($templatePath): string {
         $templateFilename = $templatePath.self::TEMPLATE_FILE_NAME;
         $compiledPath = ConfigurationCache::componentControler()['compiled'];
         $compiledFileName = $compiledPath.$staticName.".html";
@@ -50,10 +50,9 @@ class TemplateCompiler implements TemplateCompilerInterface {
 //                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);   // 35ms
 //            }
 //        } else {
-            $referrerPageUri = $request->getUri()->getPath();
 
             // templateVariables do proměnných šalony, přednost mají proměnné nastavené v poli vlevo před +
-            $compiledContent = $this->compileContent($templateFilename, ['referrerPageUri' => $referrerPageUri] + $this->templateVariables, $compiledFileName);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
+            $compiledContent = $this->compileContent($templateFilename, $this->templateVariables, $compiledFileName);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
 //        }
         return $compiledContent;
     }

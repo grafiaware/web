@@ -47,7 +47,7 @@ class StaticTemplateControler extends PresentationFrontControlerAbstract {
         if($this->isAllowed(AccessActionEnum::GET)) {
             $realName = str_replace('_', '/', $staticName);
             $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
-            $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
+            $compiledContent = $this->templateCompiler->getCompiledContent($realName);
             return $this->createStringOKResponse($compiledContent);
         } else {
             return $this->getNonPermittedContentView(AccessActionEnum::GET);

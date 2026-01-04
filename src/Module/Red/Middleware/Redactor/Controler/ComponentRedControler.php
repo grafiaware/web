@@ -46,7 +46,7 @@ use Component\View\StaticItemComponentInterface;
  *
  * @author pes2704
  */
-class ComponentControler extends ComponentControlerAbstract {
+class ComponentRedControler extends ComponentControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [

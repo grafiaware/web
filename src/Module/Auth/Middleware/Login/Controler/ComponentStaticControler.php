@@ -26,7 +26,7 @@ use Component\View\StaticItemComponentInterface;
  *
  * @author pes2704
  */
-class StaticControler extends StaticComponentControlerAbstract {
+class ComponentStaticControler extends StaticComponentControlerAbstract {
 
     protected function getActionPermissions(): array {
         return [

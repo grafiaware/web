@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\View\Renderer\PhpTemplateRenderer;
 use Pes\View\Recorder\RecorderProvider;
 use Pes\View\Recorder\VariablesUsageRecorder;
+use Template\Compiler\TemplateCompiler;
 
 use Red\Component\Renderer\Html\Menu\MenuRenderer;
 use Red\Component\Renderer\Html\Menu\LevelRenderer;
@@ -39,6 +40,7 @@ use Red\Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable
 
 use Red\Component\Renderer\Html\Content\Authored\Multipage\MultipageRenderer;
 use Red\Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEditable;
+use Component\Renderer\Html\StaticItemRenderer;
 
 use Red\Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 use Red\Component\Renderer\Html\Manage\EditContentSwitchOffRenderer;
@@ -272,6 +274,14 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MultipageRendererEditable($c->get('authored.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
         ###########################
+        #  static item renderer
+        ###########################
+        StaticItemRenderer::class => function(ContainerInterface $c) {
+                return new StaticItemRenderer(
+                    $c->get(TemplateCompiler::class),
+                );
+            },                    
+        ###########################
         #  generated renderer
         ###########################
             LanguageSelectRenderer::class => function(ContainerInterface $c) {
@@ -301,7 +311,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 $provider = new RecorderProvider();  // nemá nasteven recorder v konstruktoru, generuje recorder s default hodnotami
                 return $provider;
             },
-                    
+            TemplateCompiler::class => function(ContainerInterface $c) {
+                return new TemplateCompiler();
+            },
         ####
         # components logger
         #

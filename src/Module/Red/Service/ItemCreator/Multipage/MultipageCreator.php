@@ -47,7 +47,7 @@ class MultipageCreator extends ItemCreatorAbstract implements ItemCreatorInterfa
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void {
+    public function initialize(MenuItemInterface $menuItem): void {
         $multipage = new Multipage();
         $multipage->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $multipage->setMenuItemIdFk($menuItem->getId());
