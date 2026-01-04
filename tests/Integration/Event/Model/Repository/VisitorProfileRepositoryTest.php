@@ -168,7 +168,6 @@ class VisitorProfileRepositoryTest extends AppRunner {
         $visitorProfile->setName("Jméno");
         $visitorProfile->setSurname("Příjmení");
         $visitorProfile->setPostfix("Blabla.");
-        $visitorProfile->setEmail("qwertzuio@twrqew.qt");
         $visitorProfile->setPhone('+999 888 777 666');
         $visitorProfile->setCvEducationText("Školy mám.");
         $visitorProfile->setCvSkillsText("Umím fčecko nejlýp.");
@@ -200,7 +199,6 @@ class VisitorProfileRepositoryTest extends AppRunner {
         $visitorProfile->setName("Jméno");
         $visitorProfile->setSurname("Příjmení");
         $visitorProfile->setPostfix("Blabla.");
-        $visitorProfile->setEmail("qwertzuio@twrqew.qt");
         $visitorProfile->setPhone('+999 888 777 666');
         $visitorProfile->setCvEducationText("Školy mám.");
         $visitorProfile->setCvSkillsText("Umím fčecko nejlýp.");

@@ -38,7 +38,14 @@ interface CompanyRepoInterface  extends RepoInterface  {
      * @return CompanyInterface[]
      */
     public function findAll() :array ;
-
+    
+    /**
+     * 
+     * @param type $versionFk
+     * @return CompanyInterface[]
+     */
+    public function findByVersion($versionFk) : array;
+    
     /**
      * 
      * @param CompanyInterface $company 

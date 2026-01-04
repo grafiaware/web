@@ -24,7 +24,8 @@ class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface 
         /** @var CompanyInterface $company */
         $company
             ->setId( $this->getPhpValue ( $rowData, 'id') )   
-            ->setName( $this->getPhpValue( $rowData, 'name' ) );                        
+            ->setName( $this->getPhpValue( $rowData, 'name' ) )
+            ->setVersionFk( $this->getPhpValue( $rowData, 'version_fk' ) );                        
     } 
     
     
@@ -37,6 +38,7 @@ class CompanyHydrator extends TypeHydratorAbstract implements HydratorInterface 
         /** @var CompanyInterface $company */
         // id je autoincrement       
         $this->setSqlValue( $rowData, 'name', $company->getName() );
+        $this->setSqlValue( $rowData, 'version_fk', $company->getVersionFk() );
     }
 
 }

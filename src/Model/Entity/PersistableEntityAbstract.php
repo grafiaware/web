@@ -59,4 +59,13 @@ abstract class PersistableEntityAbstract implements PersistableEntityInterface {
     public function isLocked(): bool {
         return $this->locked;
     }
+    
+    /**
+     * Po klonování nastaví klonu unpersisted a unlock. Tím vznikne "nový" nepersistovaný objekt. !! Metoda neumí smazat identitu (id) neví, která vlastnost (vlastnosti) definuje identitu.
+     * Pokud je entita načtená z databáze je nutné nastavit identitu na null.
+     */
+    public function __clone() {   //Netbeans generuje __clone(): void - je to bug, na tom PHP tiše skončí!
+        $this->setUnpersisted();
+        $this->unlock();
+    }
 }

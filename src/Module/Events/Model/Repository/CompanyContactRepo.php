@@ -50,7 +50,15 @@ class CompanyContactRepo extends RepoAbstract implements CompanyContactRepoInter
     public function findAll(): array {
         return $this->findEntities();
     }
-
+    
+    /**
+     * 
+     * @param type $companyId
+     * @return CompanyContactInterface[]
+     */
+    public function findByCompanyId($companyId) : array {
+        return $this->findEntities("company_id = :company_id", [":company_id"=>$companyId] );
+    }
    /**
      *
      * @param CompanyContactInterface $companyContact
