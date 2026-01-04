@@ -2,6 +2,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Model\Dao\DaoWithReferenceInterface;
 use Model\Dao\DaoEditAbstract;
 
 use Model\Dao\DaoAutoincrementTrait;
@@ -11,7 +12,7 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author vlse2610
  */
-class CompanyDao  extends DaoEditAbstract implements  DaoEditAutoincrementKeyInterface {
+class CompanyDao  extends DaoEditAbstract implements  DaoEditAutoincrementKeyInterface, DaoWithReferenceInterface {
 
     use DaoAutoincrementTrait;
 
@@ -24,9 +25,15 @@ class CompanyDao  extends DaoEditAbstract implements  DaoEditAutoincrementKeyInt
     }
 
     public function getAttributes(): array {
-        return ['id', 'name'];
+        return ['id', 'name', 'version_fk'];
     }
-
+    
+    public function getReferenceAttributes($referenceName): array {
+        return [
+            'company_version'=>['version_fk'=>'version']
+        ][$referenceName];
+    }
+    
     public function getTableName(): string {
         return "company";
     }

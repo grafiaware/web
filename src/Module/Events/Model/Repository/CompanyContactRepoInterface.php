@@ -32,8 +32,14 @@ interface CompanyContactRepoInterface  extends RepoInterface  {
      * 
      * @return CompanyContactInterface[]
      */
-    public function findAll() :array ;
-
+    public function findAll() : array;
+    
+    /**
+     * 
+     * @param type $companyId
+     * @return CompanyContactInterface[]
+     */
+    public function findByCompanyId($companyId) : array;
     /**
      * 
      * @param CompanyContactInterface $companyContact 

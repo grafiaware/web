@@ -51,7 +51,16 @@ class CompanyRepo extends RepoAbstract implements CompanyRepoInterface {
     public function find($whereClause="", $touplesToBind=[]): array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
-
+    
+    /**
+     * 
+     * @param string $versionFk
+     * @return CompanyInterface[]
+     */
+    public function findByVersion($versionFk) : array {
+        return $this->findEntities("version_fk = :version_fk", [":version_fk"=>$versionFk] );
+    }
+    
     /**
      *
      * @return CompanyInterface[]

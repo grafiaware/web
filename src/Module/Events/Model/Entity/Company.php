@@ -15,34 +15,60 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
     
     private $name;
    
-    public function getId()  {
+    private $versionFk; //NOT NULL
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getId(): string {
         return $this->id;
     }
+    
     /**
-     *
+     * 
      * @return string|null
      */
-    public function getName()  {
+    public function getName(): ?string  {
         return $this->name;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getVersionFk(): string {
+        return $this->versionFk;
     }
 
     /**
      *
-     * @param type $id
+     * @param string $id
      * @return CompanyInterface
      */
-    public function setId( $id ) :CompanyInterface {
+    public function setId($id): CompanyInterface {
         $this->id = $id;
         return $this;
     }
+    
     /**
      *
      * @param string $name
      * @return CompanyInterface
      */
-    public function setName(  $name ) :CompanyInterface {
+    public function setName($name): CompanyInterface {
         $this->name = $name;
         return $this;
     }
+
+    /**
+     * 
+     * @param string $versionFk
+     * @return CompanyInterface
+     */
+    public function setVersionFk($versionFk): CompanyInterface {
+        $this->versionFk = $versionFk;
+        return $this;
+    }    
 }
 
