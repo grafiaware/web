@@ -18,8 +18,8 @@ use Container\RedPostContainerConfigurator;
 use Container\RedModelContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 
-use Red\Middleware\Redactor\Controler\ComponentControler;
-use Red\Middleware\Redactor\Controler\StaticControler;
+use Red\Middleware\Redactor\Controler\ComponentRedControler;
+use Red\Middleware\Redactor\Controler\ComponentStaticControler;
 use Red\Middleware\Redactor\Controler\TemplateControler;
 use Red\Middleware\Redactor\Controler\PresentationActionControler;
 use Red\Middleware\Redactor\Controler\HierarchyControler;
@@ -31,6 +31,7 @@ use Red\Middleware\Redactor\Controler\ArticleControler;
 use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\MultipageControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
+use Red\Middleware\Redactor\Controler\StaticControler;
 
 use Red\Middleware\Redactor\Controler\Exception\UnexpectedRequestMethodException;
 
@@ -95,49 +96,49 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         
         #### StaticControler ####
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/static/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var StaticControler $ctrl */
-            $ctrl = $this->container->get(StaticControler::class);
+            /** @var ComponentStaticControler $ctrl */
+            $ctrl = $this->container->get(ComponentStaticControler::class);
             return $ctrl->static($request, $menuItemId);
             });
         #### ComponentControler ####
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/service/:name', function(ServerRequestInterface $request, $name) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentRedControler $ctrl */
+            $ctrl = $this->container->get(ComponentRedControler::class);
             return $ctrl->serviceComponent($request, $name);
             });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/component/:name', function(ServerRequestInterface $request, $name) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentRedControler $ctrl */
+            $ctrl = $this->container->get(ComponentRedControler::class);
             return $ctrl->component($request, $name);
             });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/root/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentRedControler $ctrl */
+            $ctrl = $this->container->get(ComponentRedControler::class);
             return $ctrl->root($request, $menuItemId);
             });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/empty/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentRedControler $ctrl */
+            $ctrl = $this->container->get(ComponentRedControler::class);
             return $ctrl->empty($request, $menuItemId);
             });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/select/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentRedControler $ctrl */
+            $ctrl = $this->container->get(ComponentRedControler::class);
             return $ctrl->select($request, $menuItemId);
             });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/paper/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentRedControler $ctrl */
+            $ctrl = $this->container->get(ComponentRedControler::class);
             return $ctrl->paper($request, $menuItemId);
             });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/article/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentRedControler $ctrl */
+            $ctrl = $this->container->get(ComponentRedControler::class);
             return $ctrl->article($request, $menuItemId);
             });
         $this->routeGenerator->addRouteForAction('GET', '/red/v1/multipage/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentRedControler $ctrl */
+            $ctrl = $this->container->get(ComponentRedControler::class);
             return $ctrl->multipage($request, $menuItemId);
             });
             
@@ -283,7 +284,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 return $ctrl->templateRemove($request, $multipageId);
         });
 
-        #### ContentControler ####
+        #### SectionsControler ####
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section', function(ServerRequestInterface $request, $paperId) {
                 /** @var ContentControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
@@ -373,6 +374,13 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 return $ctrl->delete($request, $sectionId);
         });
 
+        #### StaticControler ####
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/static/:staticId', function(ServerRequestInterface $request, $staticId) {
+                /** @var StaticControler $ctrl */
+                $ctrl = $this->container->get(StaticControler::class);
+                return $ctrl->update($request, $staticId);
+        });
+        
         #### EditItemControler ####
         $this->routeGenerator->addRouteForAction('PUT', '/red/v1/menu/:menuItemUidFk/toggle', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var ItemEditControler $ctrl */

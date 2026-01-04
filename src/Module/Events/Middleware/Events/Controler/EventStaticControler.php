@@ -45,7 +45,7 @@ class EventStaticControler extends PresentationFrontControlerAbstract {
         $staticPath = ConfigurationCache::componentControler()['static'].$staticName;            
         $realName = str_replace('_', '/', $staticPath);
         $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
-        $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
+        $compiledContent = $this->templateCompiler->getCompiledContent($realName);
         return $this->createStringOKResponse($compiledContent);
     }
 

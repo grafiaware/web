@@ -30,8 +30,6 @@ use UnexpectedValueException;
  */
 class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewModelInterface {
 
-    const DEFAULT_TEMPLATE_FILENAME='template.php';
-
     /**
      * @var StatusViewModelInterface
      */
@@ -51,7 +49,7 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
     }
     
     /**
-     * Vrací StaticIrem získaný z presentation statusu.
+     * Vrací StaticItem získaný z presentation statusu.
      * 
      * Očekává ve statusu nastavený StaticItem (při volání statické komponenty a view modelu není k dispozici Red databáze)
      * StaticItem do statusu dává LayoutControler (v té chvíli je Red databáze připojena)
@@ -61,12 +59,24 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
      * @return StaticItemInterface
      * @throws UnexpectedValueException
      */
-    public function getStaticItem(): StaticItemInterface {
+    private function getStaticItem(): StaticItemInterface {
         $staticEntity = $this->statusViewModel->getPresentedStaticItem();
         if (!isset($staticEntity)) {
             throw new UnexpectedValueException("Nenačtena static položka z presentation status view modelu.");
         }
         return $staticEntity;
+    }
+    
+    public function getStaticItemId(): string {
+        return $this->getStaticItem()->getId() ?? '';
+    }
+    
+    public function getStaticItemPath(): string {
+        return $this->getStaticItem()->getPath() ?? '';
+    }
+    
+    public function getStaticItemTemplate(): string {
+        return $this->getStaticItem()->getTemplate() ?? '';
     }
 
     /**
@@ -74,17 +84,21 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
      * 
      * @return string
      */
-    public function getStaticTemplatePath(): string {
+    public function getStaticFullTemplatePath(): string {
         $staticEntity = $this->getStaticItem();
         $basePath = ConfigurationCache::componentControler()['static'] ?? '';
         $path = $staticEntity->getPath() ?? '';
-        return $basePath.$path.$staticEntity->getTemplate().'/'.self::DEFAULT_TEMPLATE_FILENAME;        
+        $template = null!==$staticEntity->getTemplate() ?  $staticEntity->getTemplate().'/' : '';
+        return $basePath.$path.$template;
     }
-    
+    public function isEditable(): bool {
+        $editorActions = $this->statusViewModel->getEditorActions();
+        return isset($editorActions) ? $editorActions->presentEditableContent() : false;
+    }
     public function getIterator(): \Traversable {
         $this->appendData(
                 [
-                    'staticTemplatePath' => $this->getStaticTemplatePath(),
+                    'staticTemplatePath' => $this->getStaticFullTemplatePath(),
                     'container' => $this->container,        // v proměnné $container ve včech statických stránkách a šablonách je k dispozici kontainer
                 ]
                 );

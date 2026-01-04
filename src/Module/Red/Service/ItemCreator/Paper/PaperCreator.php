@@ -47,7 +47,7 @@ class PaperCreator extends ItemCreatorAbstract implements ItemCreatorInterface {
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void {
+    public function initialize(MenuItemInterface $menuItem): void {
         $paper = new Paper();
         $paper->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $paper->setMenuItemIdFk($menuItem->getId());

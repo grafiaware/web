@@ -32,7 +32,7 @@ use LogicException;
  *
  * @author pes2704
  */
-class ComponentControler extends ComponentControlerAbstract {
+class ComponentEventsControler extends ComponentControlerAbstract {
 
     const LIST_COMPONENT_NAME_POSTFIX = 'List';
     const ROUTE_PREFIX = "events/v1";

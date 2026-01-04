@@ -39,10 +39,10 @@ class StaticItemComponent extends ComponentCompositeAbstract implements StaticIt
      * 
      * @return void
      */
-    public function beforeRenderingHook(): void {        
-        $templateFilename = $this->contextData->getStaticTemplatePath();
-        $this->setTemplate(new PhpTemplate($templateFilename));
-    }
+//    public function beforeRenderingHook(): void {        
+//        $templateFilename = $this->contextData->getStaticTemplatePath();
+//        $this->setTemplate(new PhpTemplate($templateFilename));
+//    }
     
     public function static(ServerRequestInterface $request, $menuItemId) {
         
@@ -50,7 +50,7 @@ class StaticItemComponent extends ComponentCompositeAbstract implements StaticIt
         
         $realName = str_replace('_', '/', $staticName);
         $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
-        $compiledContent = $this->templateCompiler->getCompiledContent($request, $realName);
+        $compiledContent = $this->templateCompiler->getCompiledContent($realName);
         return $this->createStringOKResponse($compiledContent);
     }    
 }

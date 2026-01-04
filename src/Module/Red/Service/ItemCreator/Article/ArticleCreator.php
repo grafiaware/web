@@ -47,7 +47,7 @@ class ArticleCreator extends ItemCreatorAbstract implements ItemCreatorInterface
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void {
+    public function initialize(MenuItemInterface $menuItem): void {
         $article = new Article();
         $article->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $article->setMenuItemIdFk($menuItem->getId());

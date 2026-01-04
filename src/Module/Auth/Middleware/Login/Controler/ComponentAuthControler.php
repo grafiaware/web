@@ -16,7 +16,7 @@ use Access\Enum\AccessActionEnum;
  *
  * @author pes2704
  */
-class ComponentControler extends ComponentControlerAbstract {
+class ComponentAuthControler extends ComponentControlerAbstract {
 
     protected function getActionPermissions(): array {
         

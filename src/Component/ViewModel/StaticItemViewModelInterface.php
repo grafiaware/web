@@ -22,15 +22,9 @@ interface StaticItemViewModelInterface extends ViewModelInterface {
 
     public function injectContainer(ContainerInterface $container): StaticItemViewModelInterface;
     
-    /**
-     * 
-     * @return StaticItemInterface
-     */
-    public function getStaticItem(): StaticItemInterface;
-    
-    /**
-     * 
-     * @return string
-     */
-    public function getStaticTemplatePath(): string;    
+    public function getStaticItemId(): string;
+    public function getStaticItemPath(): string;
+    public function getStaticItemTemplate(): string;
+    public function isEditable(): bool;
+    public function getStaticFullTemplatePath(): string;    
 }

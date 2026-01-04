@@ -34,6 +34,7 @@ use Component\ViewModel\StaticItemViewModel;
 use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - StatusViewModel definován v app kontejneru
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
+use Component\Renderer\Html\StaticItemRenderer;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 
 /**
@@ -57,11 +58,10 @@ class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class); 
                 if($accessPresentation->isAllowed(StaticItemComponent::class, AccessPresentationEnum::DISPLAY)) {
                     // StaticItemComponent nemá svůj specifický renderer, používá PhpTemplateRenderer
-                    $component->setRendererName(PhpTemplateRenderer::class);
+//                    $component->setRendererName(PhpTemplateRenderer::class);
+                    $component->setRendererName(StaticItemRenderer::class);
                     $viewModel = $c->get(StaticItemViewModel::class);
                     $component->setData($viewModel);
-                        } else {
-                    $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;                

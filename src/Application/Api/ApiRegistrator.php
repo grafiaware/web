@@ -134,7 +134,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/trash'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/restore'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/delete'));
-
+        
+        #### StaticControler ####
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/:staticId'));
+        
         #### EditItemControler ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
         //TODO: POST version

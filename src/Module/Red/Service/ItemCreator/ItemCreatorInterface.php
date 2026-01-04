@@ -22,5 +22,5 @@ interface ItemCreatorInterface {
      * @param MenuItemInterface $menuItem
      * @return void
      */
-    public function initialize(MenuItemInterface $menuItem, ServerRequestInterface $request=null): void;
+    public function initialize(MenuItemInterface $menuItem): void;
 }

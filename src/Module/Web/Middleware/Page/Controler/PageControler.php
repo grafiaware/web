@@ -92,7 +92,7 @@ class PageControler extends LayoutControlerAbstract implements PageControlerInte
         $homeStaticFallback = ConfigurationCache::layoutControler()['home_static_fallback'];
         // injektování kontejneru do template
         $this->templateCompiler->injectTemplateVars([TemplateCompilerInterface::VARNAME_CONTAINER => $this->container]);
-        $compiledContent = $this->templateCompiler->getCompiledContent($request, $homeStaticFallback);
+        $compiledContent = $this->templateCompiler->getCompiledContent($homeStaticFallback);
         return $this->createStringOKResponse($compiledContent);
     }
 }

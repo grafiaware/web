@@ -28,6 +28,7 @@ use Red\Middleware\Redactor\Controler\PaperControler;
 use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\ArticleControler;
 use Red\Middleware\Redactor\Controler\MultipageControler;
+use Red\Middleware\Redactor\Controler\StaticControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
 use Events\Middleware\Events\Controler\EventControler;
@@ -163,12 +164,12 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(MultipageRepo::class));
             },
-            FilesUploadControler::class => function(ContainerInterface $c) {
-                return new FilesUploadControler(
+            StaticControler::class => function(ContainerInterface $c) {
+                return new StaticControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(AssetService::class));
+                        $c->get(StaticItemRepo::class));
             },
             // generator service
 

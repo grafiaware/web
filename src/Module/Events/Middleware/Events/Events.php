@@ -11,9 +11,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Events\Middleware\Events\Controler\ComponentControler;
+use Events\Middleware\Events\Controler\ComponentEventsControler;
 use Events\Middleware\Events\Controler\RepresentationControler;
-use Events\Middleware\Events\Controler\StaticControler;
+use Events\Middleware\Events\Controler\ComponentStaticControler;
 use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\EventControler_2;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
@@ -63,8 +63,8 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         ## StaticControler
         ###########################
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var StaticControler $ctrl */
-            $ctrl = $this->container->get(StaticControler::class);
+            /** @var ComponentStaticControler $ctrl */
+            $ctrl = $this->container->get(ComponentStaticControler::class);
             return $ctrl->static($request, $staticName);
             });
                                       
@@ -72,28 +72,28 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         ## ComponentControler
         ###########################
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/component/:name', function(ServerRequestInterface $request, $name) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentEventsControler $ctrl */
+            $ctrl = $this->container->get(ComponentEventsControler::class);
             return $ctrl->component($request, $name);
             });
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:name', function(ServerRequestInterface $request, $name) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentEventsControler $ctrl */
+            $ctrl = $this->container->get(ComponentEventsControler::class);
             return $ctrl->dataList($request, $name);
             });
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:name/:id', function(ServerRequestInterface $request, $name, $id) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentEventsControler $ctrl */
+            $ctrl = $this->container->get(ComponentEventsControler::class);
             return $ctrl->dataItem($request, $name, $id);
             });
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:parentName/:parentId/:name', function(ServerRequestInterface $request, $parentName, $parentId, $name) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentEventsControler $ctrl */
+            $ctrl = $this->container->get(ComponentEventsControler::class);
             return $ctrl->familyDataList($request, $parentName, $parentId, $name);
             });
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/data/:parentName/:parentId/:name/:id', function(ServerRequestInterface $request, $parentName, $parentId, $name, $id) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentEventsControler $ctrl */
+            $ctrl = $this->container->get(ComponentEventsControler::class);
             return $ctrl->familyDataItem($request, $parentName, $parentId, $name, $id);
             });
         }
