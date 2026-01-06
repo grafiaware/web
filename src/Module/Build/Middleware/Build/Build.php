@@ -105,7 +105,7 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var DatabaseControler $ctrl */
             $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->import();
-            });        
+            });           
 ####################################
         /** @var RouterInterface $router */
         $router = $this->container->get(RouterInterface::class);

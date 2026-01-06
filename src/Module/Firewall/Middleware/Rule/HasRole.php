@@ -46,6 +46,6 @@ class HasRole implements RoleInterface {
     }
     
     public function restrictMessage() {
-        return "Přístup omezen.";
+        return "Přístup mají uživatelé s určenou rolí.";
     }    
 }

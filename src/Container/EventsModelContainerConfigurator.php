@@ -66,6 +66,10 @@ use Events\Model\Dao\CompanyDao;
 use Events\Model\Hydrator\CompanyHydrator;
 use Events\Model\Repository\CompanyRepo;
 
+use Events\Model\Dao\CompanyVersionDao;
+use Events\Model\Hydrator\CompanyVersionHydrator;
+use Events\Model\Repository\CompanyVersionRepo;
+
 use Events\Model\Dao\CompanyParameterDao;
 use Events\Model\Hydrator\CompanyParameterHydrator;
 use Events\Model\Repository\CompanyParameterRepo;
@@ -349,7 +353,18 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new CompanyInfoRepo($c->get(CompanyInfoDao::class), $c->get(CompanyInfoHydrator::class));
             },
                     
-             //CompanyParameter
+            //CompanyVersion
+            CompanyVersionDao::class => function(ContainerInterface $c) {
+                return new CompanyVersionDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            CompanyVersionHydrator::class => function(ContainerInterface $c) {
+                return new CompanyVersionHydrator();
+            },
+            CompanyVersionRepo::class => function(ContainerInterface $c) {
+                return new CompanyVersionRepo($c->get(CompanyVersionDao::class), $c->get(CompanyVersionHydrator::class));
+            },
+                    
+            //CompanyParameter
             CompanyParameterDao::class => function(ContainerInterface $c) {
                 return new CompanyParameterDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
