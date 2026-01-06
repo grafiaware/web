@@ -96,11 +96,6 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var LoginLogoutControler $ctrl */
             $ctrl = $this->container->get(LoginLogoutControler::class);
             return $ctrl->login($request);
-            });       
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/login', function(ServerRequestInterface $request) {
-            /** @var LoginLogoutControler $ctrl */
-            $ctrl = $this->container->get(LoginLogoutControler::class);
-            return $ctrl->superlogin($request);
             });
             
         // RegistrationControler

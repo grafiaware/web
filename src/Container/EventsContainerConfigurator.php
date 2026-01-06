@@ -95,7 +95,7 @@ use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\EventControler_2;
 use Events\Middleware\Events\Controler\FilterControler;
-
+use Build\Middleware\Build\Controler\MaintenanceControler;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -105,6 +105,7 @@ use Events\Model\Repository\VisitorJobRequestRepo;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\LoginRepo;
 use Events\Model\Repository\CompanyRepo;
+use Events\Model\Repository\CompanyVersionRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\CompanyInfoRepo;
@@ -741,6 +742,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                        )->injectContainer($c);
             },        
+            MaintenanceControler::class => function(ContainerInterface $c) {
+                return (new MaintenanceControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(CompanyRepo::class),
+                        $c->get(CompanyAddressRepo::class),
+                        $c->get(CompanyContactRepo::class),
+                        $c->get(CompanyVersionRepo::class),
+                        ))->injectContainer($c);
+            },
                     
         ####
         # renderer container

@@ -17,7 +17,7 @@ ADD COLUMN `version_fk` VARCHAR(45) NOT NULL AFTER `name`;
 INSERT INTO `company_version` (`version`) VALUES ('2025');
 INSERT INTO `company_version` (`version`) VALUES ('2026');
 
-UPDATE `company` SET `version_fk` = '2025'
+UPDATE `company` SET `version_fk` = '2025';
 
 ALTER TABLE `company` 
 ADD CONSTRAINT `company_version_fk_version`

@@ -269,7 +269,10 @@ class ApiRegistrator {
 
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink'));
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId'));
-        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId/remove'));      
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/eventlink/:eventLinkId/remove'));
+        
+        #### MaintenanceControler ####
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/maintenance/archivecompanies/:sourceVersion/:targetVersion'));
         
     ### mail module ###
     #
@@ -296,7 +299,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/build/droptables'));
         $registry->register($this->postPrototype->withUrlPattern('/build/convert'));
         $registry->register($this->postPrototype->withUrlPattern('/build/make'));
-        $registry->register($this->postPrototype->withUrlPattern('/build/import'));
+        $registry->register($this->postPrototype->withUrlPattern('/build/import'));         
 
     ### consent module ###
     #

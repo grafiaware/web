@@ -22,6 +22,7 @@ use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\FilterControler;
 use Events\Middleware\Events\Controler\SynchroControler;
+use Build\Middleware\Build\Controler\MaintenanceControler;
 
 class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -116,9 +117,6 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->cleanFilterJob($request);
         });   
             
-        
-        
-
         ###########################
         ## RepresentationControler
         ###########################
@@ -137,7 +135,6 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->enroll($request);
         });
         
-      
         ###########################
         ## CompanyControler
         ###########################        
@@ -172,7 +169,6 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(CompanyControler::class);
             return $ctrl->removeCompanyContact($request, $idCompany, $idCompanyContact);
         });
-        
         
         $this->routeGenerator->addRouteForAction('POST', '/events/v1/company/:companyId/companyaddress', function(ServerRequestInterface $request, $idCompany) {
             /** @var CompanyControler $ctrl */
@@ -449,6 +445,14 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeEventLink($request, $eventLinkId);
         });
                          
+        ###################        
+        # MaintenanceControler
+        ###################
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/maintenance/archivecompanies/:sourceVersion/:targetVersion', function(ServerRequestInterface $request, $sourceVersion, $targetVersion) {
+            /** @var MaintenanceControler $ctrl */
+            $ctrl = $this->container->get(MaintenanceControler::class);
+            return $ctrl->archiveCompanies($request, $sourceVersion, $targetVersion);
+            });             
                 
     }
 }

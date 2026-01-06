@@ -9,17 +9,10 @@ use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Repository\CompanyRepo;
-use Events\Model\Entity\Company;
-use Events\Model\Entity\CompanyInterface;
-
 use Events\Model\Repository\CompanyAddressRepo;
-use Events\Model\Entity\CompanyAddress;
-use Events\Model\Entity\CompanyAddressInterface;
-
 use Events\Model\Repository\CompanyContactRepo;
-use Events\Model\Entity\CompanyContact;
-use Events\Model\Entity\CompanyContactInterface;
-
+use Events\Model\Repository\CompanyVersionRepo;
+use Events\Model\Entity\CompanyVersion;
 use Model\Repository\Exception\OperationWithLockedEntityException;
 use Model\RowData\RowData;
 
@@ -40,6 +33,12 @@ class CompanyArchiveTest extends AppRunner {
     private $companyRepo;
     
     /**
+     * 
+     * @var CompanyVersionRepo
+     */
+    private $companyVersionRepo;
+
+    /**
      *
      * @var CompanyAddressRepo
      */
@@ -51,17 +50,6 @@ class CompanyArchiveTest extends AppRunner {
      */
     private $companyContactRepo;
     
-    private static $companyName = "proCompanyRepoTest";
-    private static $companyName2 = "proCompanyRepoTest" ."trrwqz.zu?aa";
-    private static $companyId;
-
-    /**
-     *
-     * @var Company
-     */
-    private static $company2;
-
-
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
@@ -73,7 +61,6 @@ class CompanyArchiveTest extends AppRunner {
         self::insertRecords($container);
     }
 
-
     private static function insertRecords( Container $container) {
           /** @var CompanyDao $companyDao */
 //        $companyDao = $container->get(CompanyDao::class);
@@ -84,7 +71,6 @@ class CompanyArchiveTest extends AppRunner {
 //        self::$companyId = $companyDao->getLastInsertedPrimaryKey()[$companyDao->getAutoincrementFieldName()];
     }
 
-
     private static function deleteRecords(Container $container) {
           /** @var CompanyDao $companyDao */
 //        $companyDao = $container->get( CompanyDao::class);
@@ -94,8 +80,6 @@ class CompanyArchiveTest extends AppRunner {
 //        }
     }
 
-
-
     protected function setUp(): void {
         $this->container =
             (new EventsModelContainerConfigurator())->configure(
@@ -104,18 +88,16 @@ class CompanyArchiveTest extends AppRunner {
         $this->companyRepo = $this->container->get(CompanyRepo::class);
         $this->companyAddressRepo = $this->container->get(CompanyAddressRepo::class);
         $this->companyContactRepo = $this->container->get(CompanyContactRepo::class);
+        $this->companyVersionRepo = $this->container->get(CompanyVersionRepo::class);
         
     }
-
-
 
     protected function tearDown(): void {
         $this->companyContactRepo->__destruct();
         $this->companyAddressRepo->__destruct();        
         $this->companyRepo->__destruct();
-
+        $this->companyVersionRepo->__destruct();
     }
-
 
     public static function tearDownAfterClass(): void {
         $container =
@@ -125,14 +107,22 @@ class CompanyArchiveTest extends AppRunner {
         self::deleteRecords($container);
     }
 
-
     public function testSetUp() {
         $this->assertInstanceOf( CompanyRepo::class, $this->companyRepo );
         $this->assertInstanceOf( CompanyAddressRepo::class, $this->companyAddressRepo );
         $this->assertInstanceOf( CompanyContactRepo::class, $this->companyContactRepo );
+        $this->assertInstanceOf( CompanyVersionRepo::class, $this->companyVersionRepo );
     }
 
-
+    public function testVersionsExists() {
+        $source = $this->companyVersionRepo->get('2025');
+        $this->assertInstanceOf(CompanyVersion::class, $source);
+        $archive = $this->companyVersionRepo->get('archive_2025');
+        $this->assertInstanceOf(CompanyVersion::class, $archive);
+        $target = $this->companyVersionRepo->get('2026');
+        $this->assertInstanceOf(CompanyVersion::class, $target);
+    }
+    
     public function testFindByVersion() {
         // !! všechny hodnoty version musí být v databázo - v tabulve company_version (constraint violation)
         $sourceVersion = '2025';
