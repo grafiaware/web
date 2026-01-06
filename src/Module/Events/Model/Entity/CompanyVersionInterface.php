@@ -2,6 +2,7 @@
 namespace Events\Model\Entity;
 
 use Model\Entity\PersistableEntityInterface;
+use Events\Model\Entity\CompanyVersionInterface;
 
 /**
  *

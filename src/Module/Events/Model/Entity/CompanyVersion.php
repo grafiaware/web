@@ -19,5 +19,6 @@ class CompanyVersion extends PersistableEntityAbstract implements CompanyVersion
     
     public function setVersion($version): CompanyVersionInterface {
         $this->version = $version;
+        return $this;
     }
 }

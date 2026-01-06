@@ -22,7 +22,7 @@ use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\FilterControler;
 use Events\Middleware\Events\Controler\SynchroControler;
-use Build\Middleware\Build\Controler\MaintenanceControler;
+use Events\Middleware\Events\Controler\MaintenanceControler;
 
 class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 
