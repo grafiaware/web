@@ -21,7 +21,7 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
      * 
      * @return string
      */
-    public function getId(): string {
+    public function getId() {
         return $this->id;
     }
     
@@ -29,7 +29,7 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
      * 
      * @return string|null
      */
-    public function getName(): ?string  {
+    public function getName()  {
         return $this->name;
     }
     
@@ -37,7 +37,7 @@ class Company  extends PersistableEntityAbstract implements CompanyInterface {
      * 
      * @return string
      */
-    public function getVersionFk(): string {
+    public function getVersionFk() {
         return $this->versionFk;
     }
 

@@ -34,9 +34,28 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
     public function isListEditable(): bool {
         return $this->isAdministrator();
     }
-    
-    protected function loadListEntities() {
-        $this->listEntities = $this->companyRepo->findAll();
+        /**
+     * {@inheritdoc}
+     *
+     * @param array $names
+     * @param string $placeholderPrefix
+     * @return array
+     */
+    private function touples(array $names): array {
+        $touples = [];
+        foreach ($names as $name) {
+            $touples[] =  $name . " = :".$name;   // $this->identificator($name) . " = :".$placeholderPrefix.$name;
+        }
+        return $touples;
+    }
+    protected function loadListEntities() {  //TODO: SV QUERY - testovací implementace
+        $query = $this->getQuery();
+        if ($query) {
+            $whereClause = implode(' AND ', $this->touples(array_keys($query)));
+            $this->listEntities = $this->companyRepo->find($whereClause, $query);
+        } else {
+            $this->listEntities = $this->companyRepo->findAll();            
+        }
     }
     
     protected function newListEntity() {

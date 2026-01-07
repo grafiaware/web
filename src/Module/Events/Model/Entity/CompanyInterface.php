@@ -15,19 +15,19 @@ interface CompanyInterface   extends PersistableEntityInterface {
      * 
      * @return string
      */
-    public function getId(): string;   
+    public function getId();   
     
     /**
      * 
      * @return string|null
      */
-    public function getName(): ?string;
+    public function getName();
     
     /**
      * 
      * @return string
      */
-    public function getVersionFk(): string;
+    public function getVersionFk();
      
     /**
      * 

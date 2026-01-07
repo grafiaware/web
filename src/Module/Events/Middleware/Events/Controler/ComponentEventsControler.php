@@ -16,10 +16,13 @@ use Component\View\ComponentListInterface;
 use Component\View\ComponentFamilyInterface;
 use Component\View\ComponentSingleInterface;
 
+use Component\ViewModel\ViewModelListInterface;
 use Component\ViewModel\ViewModelInterface;
 use Component\ViewModel\ViewModelItemInterface;
 use Component\ViewModel\ViewModelFamilyListInterface;
 use Component\ViewModel\FamilyInterface;
+
+
 use Pes\Text\Html;
 
 use Exception;
@@ -63,12 +66,16 @@ class ComponentEventsControler extends ComponentControlerAbstract {
      */
     public function dataList(ServerRequestInterface $request, $parentName): ResponseInterface {
         if($this->isAllowed(AccessActionEnum::GET)) {
+            $query = $request->getQueryParams();
             $listName = $parentName."List";
             if($this->container->has($listName)) {   // musí být definován alias name => jméno třídy komponentu
                 $component = $this->container->get($listName);
                 if ($component instanceof ComponentSingleInterface) {
                     $component->createSingleRouteSegment(self::ROUTE_PREFIX, $parentName);
-                }                
+                }
+                if ($query AND $component instanceof ComponentListInterface) {
+                    $component->getListViewModel()->setQuery($query);
+                }
             } else {
                 $component = $this->errorView($request, "Component $listName is not defined (configured) or have no alias in container.");                    
             }
