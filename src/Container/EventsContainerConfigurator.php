@@ -95,7 +95,7 @@ use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\EventControler_2;
 use Events\Middleware\Events\Controler\FilterControler;
-use Build\Middleware\Build\Controler\MaintenanceControler;
+use Events\Middleware\Events\Controler\MaintenanceControler;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -750,6 +750,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(CompanyRepo::class),
                         $c->get(CompanyAddressRepo::class),
                         $c->get(CompanyContactRepo::class),
+                        $c->get(CompanyInfoRepo::class),
                         $c->get(CompanyVersionRepo::class),
                         ))->injectContainer($c);
             },
