@@ -34,7 +34,13 @@ if ( $userRole == RoleEnum::EVENTS_ADMINISTRATOR AND $getEditable ) {
 //        );
     
     echo Html::tag('h4', $pStyle, "Cyklus pro všechny company");
-
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade nazev-firmy',
+                    'data-red-apiuri'=>"events/v1/data/company",
+                ]
+            );
+        
     foreach ($companies as $company) {
         $companyId = $company->getId();
         echo Html::tag('p',['class'=>'nadpis'] ,$company->getName());
