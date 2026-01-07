@@ -48,18 +48,7 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getFactoriesDefinitions(): iterable {
-        return [
-            Mail::class => function(ContainerInterface $c) {
-                return new Mail(
-                        $c->get(PHPMailer::class),
-                        ParamsTemplates::params($c->get('mail.paramsname')), 
-                        $c->get('mailLogger')
-                    );
-            },
-            HtmlMessage::class => function(ContainerInterface $c) {
-                return new HtmlMessage();
-            },                    
-        ];
+        return [];
     }
 
     public function getAliases(): iterable {
@@ -76,16 +65,16 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
             PHPMailer::class => function(ContainerInterface $c) {
                 return new PHPMailer(true);   // true enables exceptions
             },
-//            Mail::class => function(ContainerInterface $c) {
-//                return new Mail(
-//                        $c->get(PHPMailer::class),
-//                        ParamsTemplates::params($c->get('mail.paramsname')), 
-//                        $c->get('mailLogger')
-//                    );
-//            },
-//            HtmlMessage::class => function(ContainerInterface $c) {
-//                return new HtmlMessage();
-//            },
+            Mail::class => function(ContainerInterface $c) {
+                return new Mail(
+                        $c->get(PHPMailer::class),
+                        ParamsTemplates::params($c->get('mail.paramsname')), 
+                        $c->get('mailLogger')
+                    );
+            },
+            HtmlMessage::class => function(ContainerInterface $c) {
+                return new HtmlMessage();
+            },
                     
             AssemblyProvider::class => function(ContainerInterface $c) {   
                 return new AssemblyProvider(

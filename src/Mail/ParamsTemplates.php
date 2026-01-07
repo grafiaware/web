@@ -11,7 +11,6 @@ namespace Mail;
 use Mail\Assembly;
 use Mail\AssemblyInterface;
 use Mail\Assembly\Host;
-use Mail\Assembly\Encryption;
 use Mail\Assembly\SmtpConnection;
 use Mail\Assembly\Party;
 use Mail\Assembly\Content;
@@ -64,7 +63,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('pes@localhost')
                         ->setPassword('Heslo')
-                        ->setEncryption(Encryption::NONE)
+                        ->setEncryption(SmtpConnection::NONE)
                     )
             ->setHeaders(
                     (new Headers())
@@ -96,7 +95,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('it.grafia@gmail.com')
                         ->setPassword('ItDiskAdmin')
-                        ->setEncryption(Encryption::STARTTLS)
+                        ->setEncryption(SmtpConnection::STARTTLS)
                     )
             ->setHeaders(
                     (new Headers())
@@ -129,7 +128,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('info@najdisi.cz')
                         ->setPassword('Kostrčnenihouba')
-                        ->setEncryption(Encryption::SMTPS)
+                        ->setEncryption(SmtpConnection::SMTPS)
                     )
             ->setHeaders(
                     (new Headers())
@@ -179,7 +178,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('allmail')
                         ->setPassword('Liamlla123')
-                        ->setEncryption(Encryption::NONE)
+                        ->setEncryption(SmtpConnection::NONE)
                     )
             ->setHeaders(
                     (new Headers())
@@ -220,7 +219,7 @@ class ParamsTemplates {
                         ->setSmtpAuth(true)
                         ->setUserName('info@najdisi.cz')
                         ->setPassword('KroKF56uJ2pp')
-                        ->setEncryption(Encryption::NONE)
+                        ->setEncryption(SmtpConnection::NONE)
                     )
             ->setHeaders(
                     (new Headers())
@@ -254,7 +253,7 @@ class ParamsTemplates {
                         ->setSmtpAuth($smtpAuth)
                         ->setUserName($userName)
                         ->setPassword($password)
-                        ->setEncryption(Encryption::NONE)
+                        ->setEncryption(SmtpConnection::NONE)
                     )
             ->setHeaders(
                     (new Headers())
