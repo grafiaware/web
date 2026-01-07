@@ -51,21 +51,21 @@ class CompanyInfoRepo  extends RepoAbstract implements CompanyInfoRepoInterface 
 
    /**
      *
-     * @param CompanyInfoInterface $companyAddress
+     * @param CompanyInfoInterface $companyInfo
      * @return void
      */
-    public function add( CompanyInfoInterface $companyAddress ) : void {
-        $this->addEntity($companyAddress);
+    public function add( CompanyInfoInterface $companyInfo ) : void {
+        $this->addEntity($companyInfo);
     }
 
 
     /**
      *
-     * @param CompanyInfoInterface $companyAddress
+     * @param CompanyInfoInterface $companyInfo
      * @return void
      */
-    public function remove(CompanyInfoInterface $companyAddress)  :void {
-        $this->removeEntity($companyAddress);
+    public function remove(CompanyInfoInterface $companyInfo)  :void {
+        $this->removeEntity($companyInfo);
     }
 
     protected function createEntity() : CompanyInfoInterface {

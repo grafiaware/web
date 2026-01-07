@@ -88,12 +88,13 @@ class MaintenanceControler extends FrontControlerAbstract {
             if (isset($info)) {
                 $newInfo = clone $info;
                 $newInfo->setCompanyId($newId);
+                $this->companyInfoRepo->add($newInfo);
             }
         }
         $cnt = count($companies);
-        $msg ="Archived $cnt items company in version $sourceVersion and subordinate address and contact to archive version $archiveVersion and changed their version to $targetVersion.";
-        $this->addFlashMessage("Archived $cnt items company in version $sourceVersion and subordinate address and contact to archive version $archiveVersion and changed their version to $targetVersion.", FlashSeverityEnum::SUCCESS);        
-        return $this->createJsonPostCreatedResponse(["Message" => "Archived $cnt items company in version $sourceVersion and subordinate address and contact to archive version $archiveVersion and changed their version to $targetVersion."]);
+        $msg ="Archived $cnt items company in version $sourceVersion and subordinate info, address and contact to archive version $archiveVersion and changed their version to $targetVersion.";
+        $this->addFlashMessage("Archived $cnt items company in version $sourceVersion and subordinate info, address and contact to archive version $archiveVersion and changed their version to $targetVersion.", FlashSeverityEnum::SUCCESS);        
+        return $this->createJsonPostCreatedResponse(["Message" => "Archived $cnt items company in version $sourceVersion and subordinate info, address and contact to archive version $archiveVersion and changed their version to $targetVersion."]);
     }
     
     private function checkVersions($sourceVersion, $archiveVersion, $targetVersion) {
