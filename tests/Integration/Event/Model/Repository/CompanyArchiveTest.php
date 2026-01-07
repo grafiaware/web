@@ -128,7 +128,7 @@ class CompanyArchiveTest extends AppRunner {
         $sourceVersion = '2025';
         $archiveVersion = 'archive_2025';
         $targetVersion = '2026';
-        $companies = $this->companyRepo->findByVersion($sourceVersion);
+        $companies = $this->companyRepo->findByVersionAsc($sourceVersion);
         $this->assertIsArray($companies);
         foreach ($companies as $company) {
             $id = $company->getId();

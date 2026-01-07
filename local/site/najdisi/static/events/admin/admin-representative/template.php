@@ -72,7 +72,7 @@ if ( ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) AND ($getEditable) )  {
     //------------------------------------------------------------------         
     $selectCompanies =[];    
     $selectCompanies [''] =  "vyber - povinné pole" ;
-    $companyEntities = $companyRepo->findAll();
+    $companyEntities = $companyRepo->findByVersionAsc("2026");
         /** @var CompanyInterface $comp */ 
     foreach ( $companyEntities as $comp) {
         $selectCompanies [$comp->getId()] =  $comp->getName() ;

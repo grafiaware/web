@@ -59,7 +59,7 @@ class MaintenanceControler extends FrontControlerAbstract {
         if (!$this->checkVersions($sourceVersion, $archiveVersion, $targetVersion)) {
             return "No fk";
         }
-        $companies = $this->companyRepo->findByVersion($sourceVersion);
+        $companies = $this->companyRepo->findByVersionAsc($sourceVersion);
         foreach ($companies as $company) {
             $id = $company->getId();
             $address = $this->companyAddressRepo->get($id);
