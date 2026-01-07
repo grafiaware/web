@@ -160,6 +160,7 @@ class Mail implements MailInterface {
             //Recipients
             $from = $actualAssembly->getParty()->getFrom();
             $this->phpMailer->setFrom($from[0], $from[1]);
+            $this->phpMailer->clearAllRecipients();   // vymaže všechny To, Cc, Bcc
             foreach ($actualAssembly->getParty()->getToArray() as $to) {
                 $this->phpMailer->addAddress($to[0], $to[1]);     //Add a recipient            //Name is optional
             };
