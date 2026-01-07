@@ -31,7 +31,11 @@ use Site\ConfigurationCache;
 use Events\Middleware\Events\Controler\FilterControler;
 use Access\Enum\RoleEnum;
 
-
+/*
+ * Zobrazuje seznam pracovních pozic pro jednotlivé společnosti.
+ * 
+ * Zobrazuje je společnosti, které mají nějakou pracovní pozici.
+ */
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class ); 
     /** @var JobRepoInterface $jobRepo */
@@ -76,8 +80,14 @@ use Access\Enum\RoleEnum;
    }   
    
     //----------------------------------------------------
-            
-    $allCompanies = $companyRepo->find( " 1=1 order by name ASC ", []) ;
+    
+    ###########################
+    $version = '2026';
+    ###########################
+   
+    $allCompanies = $companyRepo->find( "1=1 order by name ASC ", [":version"=>$version]) ;
+//    $allCompanies = $companyRepo->find( "version_fk=:version order by name ASC ", [":version"=>$version]) ;
+
     $selectCompanies =[];    
     $selectCompanies [AuthControler::NULL_VALUE] =  "" ;
         /** @var CompanyInterface $company */ 
@@ -93,6 +103,7 @@ use Access\Enum\RoleEnum;
     if (isset($checksIdsIn)) {
         $jobToTagEntities = $jobToTagRepo->find( " job_tag_id in ($checksIdsIn) group by job_id " ,$dataChecksForSelectA );  // všechny vybrané (checked) a použité (jsou ve vazební tabulce)
     } else {
+        // jen pro ty company, které mají nějaký tag
         $jobToTagEntities=$jobToTagRepo->find( " 1 group by job_id " ,$dataChecksForSelectA ); //  [];
     }
     
@@ -101,10 +112,10 @@ use Access\Enum\RoleEnum;
     $jobsInWithPlaceholders=[];
     $ii = 0;
     foreach ($jobToTagEntities as $jobToTagE) {
-        $jobIds['in'.$ii++] = $jobToTagE->getJobId();
+        $jobIds['in'.$ii++] = $jobToTagE->getJobId();  // id také jen pro company, které mají nějaké tagy
     }
     if($jobIds) {
-        $jobsInWithPlaceholders = ":".implode(", :", array_keys($jobIds));
+        $jobsInWithPlaceholders = ":".implode(", :", array_keys($jobIds));  // 
     }
 
     if ( $selectCompanyId != 0 ) {
@@ -136,7 +147,7 @@ use Access\Enum\RoleEnum;
         echo Html::tag("div", ["class"=>"ui red segment"], Html::p("Zadanému fitru neodpovídá žádná položka." , []));                 
     } else {
         foreach ($viewCompanies as $viewCompany) {
-            $jobs = $viewCompany['companyJobs'];
+            $jobs = $viewCompany['companyJobs'];   // joby jedné company
             if ($jobs) {
                 $companyId = $viewCompany['company']->getId();
                 $uriCascadeCompany = "events/v1/data/company/$companyId";

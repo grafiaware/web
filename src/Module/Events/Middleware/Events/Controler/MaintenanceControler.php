@@ -18,6 +18,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\CompanyContactRepo;
+use Events\Model\Repository\CompanyInfoRepo;
 use Events\Model\Repository\CompanyVersionRepo;
 use Status\Model\Enum\FlashSeverityEnum;
 /**
@@ -30,6 +31,7 @@ class MaintenanceControler extends FrontControlerAbstract {
     private $companyRepo;
     private $companyAddressRepo;
     private $companyContactRepo;
+    private $companyInfoRepo;
     private $companyVersionRepo;
 
     public function __construct(
@@ -39,12 +41,14 @@ class MaintenanceControler extends FrontControlerAbstract {
             CompanyRepo $companyRepo,
             CompanyAddressRepo $companyAddressRepo,
             CompanyContactRepo $companyContactRepo,
+            CompanyInfoRepo $companyInfoRepo,
             CompanyVersionRepo $companyVersionRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->companyRepo = $companyRepo;
         $this->companyAddressRepo = $companyAddressRepo;
         $this->companyContactRepo = $companyContactRepo;
+        $this->companyInfoRepo = $companyInfoRepo;
         $this->companyVersionRepo = $companyVersionRepo;
     }
     
@@ -60,6 +64,7 @@ class MaintenanceControler extends FrontControlerAbstract {
             $id = $company->getId();
             $address = $this->companyAddressRepo->get($id);
             $contacts = $this->companyContactRepo->findByCompanyId($id);
+            $info = $this->companyInfoRepo->get($id);
             
             // zdrojovou verzi naklonuje a uloží jako archivní, pak jí změní verzi na cílovou 
             // - id původní company se nemění, všechny potomkovské entity zůstávají navázány (fk) na původní company
@@ -79,6 +84,10 @@ class MaintenanceControler extends FrontControlerAbstract {
                 $newContact = clone $contact;
                 $newContact->setCompanyId($newId);
                 $this->companyContactRepo->add($newContact);
+            }
+            if (isset($info)) {
+                $newInfo = clone $info;
+                $newInfo->setCompanyId($newId);
             }
         }
         $cnt = count($companies);

@@ -72,9 +72,9 @@ if (isset($representative)) {
             $jobs = $jobRepo->find("company_id = :company_id ORDER BY nazev ", ['company_id' => $companyId]);     
        
             ### proměnné pro companyPositions
-            $representative;
-            $jobs;
-            $companyId;
+            $representative;   // representant - pokud se zobrazuje "jeho" firma, zobrazují se job requesty
+            $jobs;  // pole jobů
+            $companyId; // id zobrazované společnosti
 
             include ConfigurationCache::eventTemplates()['templates']."page/companyPositions/positions.php";            
         }
