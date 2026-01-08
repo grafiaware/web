@@ -20,7 +20,7 @@
 @poznamkyBorderShadow: 1px 1px 10px 1px @mediumGrey;    
 @poznamkyBorderRadius: @borderRadius;         
 @poznamkyBackground: @white;                                       
-@poznamkyTransition: 0.3s linear;  
+@poznamkyTransition: 0.3s linear;   
 @poznamkyZIndex: 1;                           
 @poznamkyBreakPre: true;             
 //Flash toast  
@@ -86,7 +86,7 @@ body{
         }
         .content{ //obsah poznámek
             padding: @poznamkyContentPadding;
-            p{
+            p{  
                 margin-bottom: @poznamkyParagraphMarginBottom;
                 &:last-child{  
                     margin-bottom: @poznamkyLastParagraphMarginBottom;
@@ -95,8 +95,8 @@ body{
             pre{ //aby se předformátovaný text vešel do šířky divu poznámek a nepřetékal
                 .breakPre(@poznamkyBreakPre);
             }
-        }
-        &:not(.flash){ //pozice pro poznámky
+        } 
+        &:not(.flash){ //pozice pro poznámky    
             top: @poznamkyPositionTop;
             position: absolute;  
         }

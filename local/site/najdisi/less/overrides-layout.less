@@ -174,16 +174,10 @@ body{
                 z-index: 0;
             }
             &.svisle-menu--opravneni{
-                a{
-                    text-shadow: 1px 1px 4px @black;
-                    font-weight: 800;
-                    font-size: @fontSize+0.5;
-                    &::before{
-                        content: "\f101";
-                        font-family: icons;
-                        margin-right: 5px;
-                    }
-                }
+                margin-left: -18px;
+                background-color: @teal;
+                
+               
             }
         }
         .svisle-menu .menu .onpath{
@@ -202,6 +196,16 @@ body{
             padding: 10px 10px 10px 30px;
             margin: 0 -34px;
             width: 111%;
+        }
+        .svisle-menu--opravneni .ui.vertical.menu{
+            a{
+                &:hover{
+                    background-color: @teal;
+                }
+                &.presented{
+                    background-color: darken(@teal, 10);
+                }
+            } 
         }
          
     }
