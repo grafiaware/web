@@ -57,7 +57,7 @@ class MaintenanceControler extends FrontControlerAbstract {
         $archiveVersion = 'archive_'.$sourceVersion;
         
         if (!$this->checkVersions($sourceVersion, $archiveVersion, $targetVersion)) {
-            return "No fk";
+        return $this->createJsonPostCreatedResponse(["Message" => "Missing version fk in company_version."]);
         }
         $companies = $this->companyRepo->findByVersion($sourceVersion);
         foreach ($companies as $company) {

@@ -16,5 +16,7 @@ interface ViewModelListInterface extends ViewModelInterface {
      * @return iterable
      */
     public function provideItemEntityCollection(): iterable;  // MUSÍ být asociativní pole id=>entita pro správné zobrazené seznamu (list) persistovaných entit (k úpravě ne k přidání
+    public function getQuery(): array;  //TODO: SV QUERY
+    public function setQuery(array $query): void;  //TODO: SV QUERY
     public function isListEditable(): bool;
 }

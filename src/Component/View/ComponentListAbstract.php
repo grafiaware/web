@@ -59,7 +59,7 @@ abstract class ComponentListAbstract extends CollectionView implements Component
             throw new LogicException("Selhalo generování item komponent k list komponentě $cls. Komponent typu ComponentListInterface musí mít nastaven list view model metodou ->setListViewModel(ViewModelListInterface)");
         }
         $componentViewCollection = [];
-        foreach ($this->listViewModel->provideItemEntityCollection() as $entity) {
+        foreach ($this->listViewModel->provideItemEntityCollection() as $entity) {  // všechny načtené entity z db + jedna nová pro přidání položky (bez id)
             /** @var ComponentPrototypeInterface $itemComponent */
             $itemComponent = clone ($this->viewPrototype);
             $itemComponent->getItemViewModel()->receiveEntity($entity);

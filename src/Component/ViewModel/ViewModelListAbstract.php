@@ -15,11 +15,20 @@ abstract class ViewModelListAbstract extends ViewModelAbstract implements ViewMo
     protected $listRepo;
     
     protected $listEntities = [];    
-        
+    
+    protected $query = [];
+
+
     /**
      * Metoda musí načíst z databáze všchny entity pro list a vložit je do pole $this->listEntities
      */
-    abstract protected function loadListEntities();
+    abstract protected function loadListEntities();  //TODO: SV QUERY set a get query se volá v loadListEntities()
 
+    public function setQuery(array $query): void {  //TODO: SV QUERY
+        $this->query = $query;
+    }
     
+    public function getQuery(): array {  //TODO: SV QUERY
+        return $this->query;
+    }    
 }

@@ -187,7 +187,7 @@ class ItemEditControler extends FrontControlerAbstract {
             $langMenuItem->setApiModuleFk($postedModule);
             $langMenuItem->setApiGeneratorFk($postedGenerator);
             // přidá záznam do article nebo paper nebo multipage nebo static ...
-            $contentGenerator->initialize($langMenuItem, $request);   
+            $contentGenerator->initialize($langMenuItem);   
         }
         $this->addFlashMessage("menuItem type($postedModule, $postedGenerator)", FlashSeverityEnum::SUCCESS);
 //        return $this->createJsonOKResponse(["refresh"=>"item", "newitemuid"=>$uid]);

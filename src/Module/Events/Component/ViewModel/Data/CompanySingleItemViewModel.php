@@ -65,7 +65,7 @@ class CompanySingleItemViewModel extends ViewModelSingleItemAbstract {
         if (!isset($this->company)) {
             if ($this->getSingleRouteSegment()->getChildId()) {
                 $this->company = $this->companyRepo->get($this->getSingleRouteSegment()->getChildId());     
-            } else {
+                        } else {
                 throw new Exception;// exception s kódem, exception musí být odchycena v kontroleru a musí způsobit jiný response ? 204 No Content
             }
         }
