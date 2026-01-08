@@ -9,4 +9,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                     <input type="text" name="name" placeholder="" maxlength="250" value="<?= $name ?? '' ?>" required>
                     <span></span>
                 </div>  
-  
+                <div class="field">
+                    <label>Verze</label>
+                    <input type="text" name="version_fk" placeholder="" maxlength="250" value="<?= $version_fk ?? '' ?>" readonly>
+                    <span></span>
+                </div>    
