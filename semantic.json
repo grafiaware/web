@@ -9,7 +9,7 @@
     },
     "output": {
       "packaged": "../../../../public/site/najdisi/semantic-ui/",
-      "uncompressed": "dist\\components\\",
+      "uncompressed": "dist\\components\\", 
       "compressed": "dist\\components\\",
       "themes": "../../../../public/site/common/semantic-ui/themes/"
     },
