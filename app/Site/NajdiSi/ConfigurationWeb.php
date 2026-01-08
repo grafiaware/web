@@ -389,9 +389,9 @@ class ConfigurationWeb extends ConfigurationConstants {
             // volba sady parametrů z Mail\ParamsTemplates
 //            'mail.paramsname' => 'grafiaInterni', 
 //            'mail.paramsname' => 'najdisi', // funkční na hostingu
-//            'mail.paramsname' => 'najdisiWebSMTP',
+            'mail.paramsname' => 'najdisiWebSMTP',
 //            'mail.paramsname' => 'itGrafiaGmail', 
-            'mail.paramsname' => 'smtp4dev', 
+//            'mail.paramsname' => 'smtp4dev', 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'attachments/' : self::WEB_FILES_SITE.'attachments/',
             'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'sendmail/' : self::WEB_FILES_SITE.'sendmail/',
 
