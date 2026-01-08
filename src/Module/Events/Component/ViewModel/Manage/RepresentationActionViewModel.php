@@ -42,6 +42,7 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
     }
     
     public function getIterator() {
+        //TODO: Sv representative actions
         $representativeActions = $this->status->getRepresentativeActions();
         if (isset($representativeActions)) {
             $statusRepresesentative =  $representativeActions->getRepresentative();

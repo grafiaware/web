@@ -88,7 +88,8 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
         $staticEntity = $this->getStaticItem();
         $basePath = ConfigurationCache::componentControler()['static'] ?? '';
         $path = $staticEntity->getPath() ?? '';
-        $template = null!==$staticEntity->getTemplate() ?  $staticEntity->getTemplate().'/' : '';
+        // template nesmí být null - exception ani prázdný řetězec - vznikly by dvě /
+        $template = (null!==$staticEntity->getTemplate() AND $staticEntity->getTemplate()) ?  $staticEntity->getTemplate().'/' : '';
         return $basePath.$path.$template;
     }
     public function isEditable(): bool {

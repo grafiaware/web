@@ -82,7 +82,7 @@ class CompanySingleItemViewModel extends ViewModelSingleItemAbstract {
                 'actionSave' => $componentRouteSegment."/$id",
 //                'actionRemove' => $componentRouteSegment."/$id/remove",  !! příliš nebezpečná operace
                 // data
-                'fields' => ['name' => $this->company->getName()],
+                'fields' => ['name' => $this->company->getName(), 'version_fk'=> $this->company->getVersionFk()],
                 ];
         } elseif ($this->isItemEditable()) {
             $item = [
@@ -91,7 +91,8 @@ class CompanySingleItemViewModel extends ViewModelSingleItemAbstract {
                 // text
                 'addHeadline' => 'Přidej firmu',                
                 // data
-                'fields' => [],
+                // version_fk musí být nastavena vždy (fk), hodnota je získána z query a company je hydratována v CompanySingleListViewModel->newListEntity()
+                'fields' => ['version_fk'=> $this->company->getVersionFk()],      //TODO: SV QUERY - testovací implementace
                 ];
         } else {
             $item = [];

@@ -12,6 +12,9 @@ use Access\Enum\RoleEnum;
 
 use ArrayIterator;
 
+use Model\RowData\RowData;
+use Events\Model\Hydrator\CompanyHydrator;
+
 /**
  * Description of CompanySingleListViewModel
  *
@@ -59,7 +62,11 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
     }
     
     protected function newListEntity() {
-        return new Company();  // "prázdná" entita pro formulář pro přidání
+        $company = new Company();  // "prázdná" entita pro formulář pro přidání
+        $row = new RowData($this->query);  //TODO: SV QUERY - testovací implementace
+        $hydrator = new CompanyHydrator();
+        $hydrator->hydrate($company, $row);
+        return $company;
     }
     
     use RepresentativeTrait;

@@ -175,6 +175,7 @@ class CompanyControler extends FrontControlerAbstract {
             /** @var CompanyInterface $company */                        
             $company = new Company();
             $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
+            $company->setVersionFk( (new RequestParams())->getParsedBodyParam($request, 'version_fk') );    //TODO: SV QUERY - testovací implementace                
             $this->companyRepo->add($company);
         } else {
             $this->addFlashMessage("Nemáte oprávnění.");
