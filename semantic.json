@@ -1,5 +1,5 @@
 {
-  "base": "local\\site\\otevreneateliery\\semantic\\",
+  "base": "local\\site\\najdisi\\semantic\\",
   "paths": {
     "source": {
       "config": "src/theme.config",
@@ -8,8 +8,8 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "../../../../public/site/otevreneateliery/semantic-ui/",
-      "uncompressed": "dist\\components\\",
+      "packaged": "../../../../public/site/najdisi/semantic-ui/",
+      "uncompressed": "dist\\components\\", 
       "compressed": "dist\\components\\",
       "themes": "../../../../public/site/common/semantic-ui/themes/"
     },
