@@ -24,6 +24,18 @@ main{
                 z-index: 0;
                 top: 30px;
             }
+            &.svisle-menu--opravneni{
+                a{
+                    text-shadow: 1px 1px 4px @black;
+                    font-weight: 800;
+                    font-size: @fontSize+0.5;
+                    &::before{
+                        content: "\f101";
+                        font-family: icons;
+                        margin-right: 5px;
+                    }
+                }
+            }
         }
 }
 .accordion.border{

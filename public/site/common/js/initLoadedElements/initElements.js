@@ -144,8 +144,8 @@ function initLoadedElements() {
         .modal('show');
     });
     //modalni okno pro vyberFirmy
-    $('.btn-vyberFirmy').click(function(){
-        $('.page.modal.vyberFirmy').modal({
+    $('.btn-modalActions').click(function(){
+        $('.page.modal.modalActions').modal({
             useCSS   : true,
         })
         .modal('show');

@@ -6,16 +6,16 @@ use Pes\Text\Html;
         <div id="mySidenav" class="editMenu"> 
             <div class="close-item" onclick="hamburger_close()"><a href="javascript:void(0)"><i class="times circle outline large icon"></i>Zavřít</a></div>
   
-            <nav class="svisle-menu">
+            <nav class="svisle-menu svisle-menu--opravneni">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSupervisor",])  ?>
             </nav>
-            <nav class="svisle-menu">
+            <nav class="svisle-menu svisle-menu--opravneni">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsAdmin",])  ?>
             </nav>                     
-            <nav class="svisle-menu">
+            <nav class="svisle-menu svisle-menu--opravneni">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsRepresentative",])  ?>
             </nav>            
-            <nav class="svisle-menu">
+            <nav class="svisle-menu svisle-menu--opravneni">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsVisitor",])  ?>
             </nav>            
             <nav class="svisle-menu">

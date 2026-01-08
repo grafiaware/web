@@ -8,7 +8,7 @@ $mustSelectCompany = !$isAdministrator && (count($idCompanyArray)>1);
 
 
 <!--vyber firmy je modalni okno, jde zavrit pouze pri stisku buttonu 'odeslat' v js initElements-->
-    <button class="ui page icon button btn-vyberFirmy">
+    <button class="ui page icon button btn-modalActions">
         <p><b>Akce reprezentanta</b></p>
         <p class="">
             <i class="user icon"></i><?= $loginName ?>
@@ -21,7 +21,7 @@ $mustSelectCompany = !$isAdministrator && (count($idCompanyArray)>1);
         </p>
     </button>
 
-    <div class="ui mini page modal transition hidden vyberFirmy">
+    <div class="ui mini page modal transition hidden modalActions">
         <i class="white close icon"></i>
         <div class="content">
                 <p class="text velky zadne-okraje"><i class="user icon"></i><?= $loginName ?></p>
