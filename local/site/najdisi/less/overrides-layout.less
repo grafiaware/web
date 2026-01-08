@@ -173,6 +173,18 @@ body{
             li form ~ i.dropdown{
                 z-index: 0;
             }
+            &.svisle-menu--opravneni{
+                a{
+                    text-shadow: 1px 1px 4px @black;
+                    font-weight: 800;
+                    font-size: @fontSize+0.5;
+                    &::before{
+                        content: "\f101";
+                        font-family: icons;
+                        margin-right: 5px;
+                    }
+                }
+            }
         }
         .svisle-menu .menu .onpath{
             left: 2%;
