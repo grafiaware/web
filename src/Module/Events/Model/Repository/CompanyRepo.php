@@ -57,8 +57,8 @@ class CompanyRepo extends RepoAbstract implements CompanyRepoInterface {
      * @param string $versionFk
      * @return CompanyInterface[]
      */
-    public function findByVersion($versionFk) : array {
-        return $this->findEntities("version_fk = :version_fk", [":version_fk"=>$versionFk] );
+    public function findByVersionAsc($versionFk) : array {
+        return $this->findEntities("version_fk = :version_fk ORDER BY name ASC", [":version_fk"=>$versionFk] );
     }
     
     /**
