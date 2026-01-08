@@ -42,6 +42,13 @@ class RepresentationControler extends FrontControlerAbstract {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
         $this->representativeRepo = $representativeRepo;
     }
+    
+    /**
+     * Nastaví nebo mění reprezentanta firmy.
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
     public function setRepresentation(ServerRequestInterface $request) {
         $loginLoginName = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
         $companyId = (new RequestParams())->getParsedBodyParam($request, self::FORM_REPRESENTATION_COMPANY_ID);

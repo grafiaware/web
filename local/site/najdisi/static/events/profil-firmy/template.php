@@ -81,6 +81,6 @@ if (isset($representative)) {
     }
     
 } else {
-    echo Html::p("Stránka je určena pouze přihlášenému reprezentantu firmy.", ["class"=>"ui blue segment"]);
+    echo Html::p("Stránka je určena pouze přihlášenému reprezentantu firmy. Zapněte poprvé editaci.", ["class"=>"ui blue segment"]);
     
 }
