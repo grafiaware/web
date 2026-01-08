@@ -52,7 +52,6 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
                 // automatická akce - nastaví proměnné pro template a NASTAVÍ REPRESENTATIVE DO REPRESENTATIVE ACTIONS (do statusu) 
                 if(count($dbRepresentatives)==1) {
                     $statusRepresesentative = $dbRepresentatives[0];
-                    $representativeActions->setRepresentative($statusRepresesentative);
                     $companyId = $statusRepresesentative->getCompanyId();
                 } else {
                     $companyId = null;    // pro events administratora
