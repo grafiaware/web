@@ -173,6 +173,12 @@ body{
             li form ~ i.dropdown{
                 z-index: 0;
             }
+            &.svisle-menu--opravneni{
+                margin-left: -18px;
+                background-color: @teal;
+                
+               
+            }
         }
         .svisle-menu .menu .onpath{
             left: 2%;
@@ -190,6 +196,16 @@ body{
             padding: 10px 10px 10px 30px;
             margin: 0 -34px;
             width: 111%;
+        }
+        .svisle-menu--opravneni .ui.vertical.menu{
+            a{
+                &:hover{
+                    background-color: @teal;
+                }
+                &.presented{
+                    background-color: darken(@teal, 10);
+                }
+            } 
         }
          
     }
