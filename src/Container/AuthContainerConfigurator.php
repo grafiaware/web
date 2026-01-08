@@ -140,6 +140,7 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
+            AuthenticatorInterface::class => DbHashAuthenticator::class,
             // components
             'login' => LoginComponent::class,
             'logout' => LogoutComponent::class,

@@ -2,8 +2,8 @@
 use Site\ConfigurationCache;
 
 ##########################
-$companyId = 74;
+$name = "Česká";
 ##########################
-
+include "../data.php";
 include ConfigurationCache::eventTemplates()['templates']."presenter/company-profile.php"; ?>
 
