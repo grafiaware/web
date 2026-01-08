@@ -44,7 +44,7 @@ interface CompanyRepoInterface  extends RepoInterface  {
      * @param type $versionFk
      * @return CompanyInterface[]
      */
-    public function findByVersion($versionFk) : array;
+    public function findByVersionAsc($versionFk) : array;
     
     /**
      * 
