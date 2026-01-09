@@ -8,6 +8,7 @@ use Red\Middleware\Redactor\Controler\PresentationActionControler;
         <p><b>Akce editora</b></p>
         <p class="">
             <i class="user icon"></i><?= $loginName ?>
+            <div class="ui divider"></div>            
             <i class="<?= $editContent ? "green" : "red"?> power off icon"></i> <?= ($editContent ? "edituje " : "needituje ") ?>
         </p>
     </button>
