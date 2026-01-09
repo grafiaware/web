@@ -68,16 +68,6 @@
             padding: 0 1.3em; 
         }
     }
-    .svisle-menu--opravneni .ui.vertical.menu{
-        a{
-            &:hover{
-                background-color: @teal;
-            }
-            &.presented{
-                background-color: darken(@teal, 10);
-            }
-        } 
-    }
 }
 .ui.vertical.menu .item > .menu{
     margin-top: 0;  
