@@ -168,16 +168,25 @@ body{
                 position: absolute;
                 top: 10px;
                 right: 10px;
-                z-index: -1;
+                z-index: 0;
             }
             li form ~ i.dropdown{
                 z-index: 0;
             }
             &.svisle-menu--opravneni{
-                margin-left: -18px;
-                background-color: @teal;
-                
-               
+                margin-left: -10px;
+                padding-left: 10px;
+                background-color: lighten(@primaryColor, 15);
+                .ui.vertical.menu{
+                    a{
+                        &:hover{
+                            background-color: lighten(@primaryColor, 15);
+                        }
+                        &.presented{
+                            background-color: darken(@secondaryColor, 10);
+                        }
+                    }
+                }
             }
         }
         .svisle-menu .menu .onpath{
@@ -196,16 +205,6 @@ body{
             padding: 10px 10px 10px 30px;
             margin: 0 -34px;
             width: 111%;
-        }
-        .svisle-menu--opravneni .ui.vertical.menu{
-            a{
-                &:hover{
-                    background-color: @teal;
-                }
-                &.presented{
-                    background-color: darken(@teal, 10);
-                }
-            } 
         }
          
     }

@@ -77,7 +77,7 @@ body{
         box-shadow: @poznamkyBorderShadow;
         transition: @poznamkyTransition;
         z-index: @poznamkyZIndex;
-        font-size: @poznamkyFontSize;
+        font-size: @poznamkyFontSize;        
         .label{ //horní pruh s ikonou uprostřed 
             margin: @poznamkyLabelMargin !important;
             i{
@@ -93,7 +93,7 @@ body{
                 }
             }
             pre{ //aby se předformátovaný text vešel do šířky divu poznámek a nepřetékal
-                .breakPre(@poznamkyBreakPre);
+                .breakPre(@poznamkyBreakPre); 
             }
         } 
         &:not(.flash){ //pozice pro poznámky    

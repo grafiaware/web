@@ -29795,14 +29795,6 @@ Floated Menu / Item
   padding: 0 1.3em;
 }
 
-#mySidenav .svisle-menu--opravneni .ui.vertical.menu a:hover {
-  background-color: #00b5ad;
-}
-
-#mySidenav .svisle-menu--opravneni .ui.vertical.menu a.presented {
-  background-color: #00827c;
-}
-
 .ui.vertical.menu .item > .menu {
   margin-top: 0;
   margin-left: 12px;
