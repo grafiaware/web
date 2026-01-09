@@ -54,7 +54,7 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
     protected function loadListEntities() {  //TODO: SV QUERY - testovací implementace
         $query = $this->getQuery();
         if ($query) {
-            $whereClause = implode(' AND ', $this->touples(array_keys($query)));
+            $whereClause = implode(' AND ', $this->touples(array_keys($query)))." ORDER BY name ASC ";
             $this->listEntities = $this->companyRepo->find($whereClause, $query);
         } else {
             $this->listEntities = $this->companyRepo->findAll();            
