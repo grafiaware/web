@@ -37,7 +37,8 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
     public function isListEditable(): bool {
         return $this->isAdministrator();
     }
-        /**
+    
+    /**
      * {@inheritdoc}
      *
      * @param array $names
@@ -51,10 +52,11 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
         }
         return $touples;
     }
+    
     protected function loadListEntities() {  //TODO: SV QUERY - testovací implementace
-        $query = $this->getQuery();
+        $query = $this->getQuery();  // model je instance ViewModelListInterface
         if ($query) {
-            $whereClause = implode(' AND ', $this->touples(array_keys($query)));
+            $whereClause = implode(' AND ', $this->touples(array_keys($query)))." ORDER BY name ASC ";
             $this->listEntities = $this->companyRepo->find($whereClause, $query);
         } else {
             $this->listEntities = $this->companyRepo->findAll();            
