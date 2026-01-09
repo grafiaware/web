@@ -11,6 +11,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
                 </div>  
                 <div class="field">
                     <label>Verze</label>
-                    <input type="text" name="version_fk" placeholder="" maxlength="250" value="<?= $version_fk ?? '' ?>" readonly>
+                    <input type="hidden" name="version_fk" placeholder="" maxlength="250" value="<?= $version_fk ?? '' ?>" readonly>
                     <span></span>
                 </div>    
