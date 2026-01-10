@@ -615,7 +615,10 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
         return $transform;
     }
 
-    
+    /**
+     * 
+     * @param type $transform
+     */
     private function replaceInternalLinks( $transform ){  
         $selectSourceItemsStmt = $this->getPreparedStatement("
                     SELECT id FROM 
@@ -738,13 +741,14 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
      *
      * Výskyt aktivní položky mezi potomky neaktivní položky způsobí chyby při renderování stromu menu v needitačním režimu. To musí být splněno ve všech jazykových verzích.
      *
-     * Vrací pole kde indexy jsou uid zdrojových položek menu_item a hodnoty uid cílových položek menu_item.
+     * Vrací pole kde indexy jsou uid zdrojových položek menu_item a hodnoty uid cílových položek menu_item. 
+     * To lze využít pro nahrazení menu_item uid zdrojových položek v obsahu stránek (typicky v href) za uid cílových stránek.
      *  
      * @param type $dbhTransact transact handler
      * @param array $preparedNodeData pole dat připravených cílových uzlů nested set (hierarchy nodes)
      *  - data obsahují: zdrojové uid, cílový left node, cílový right node 
      * @param bool $deactivate
-     * @return array
+     * @return array Pole klíče menu_item uid k nahrazení v obsahu stránek.
      */
     private function copySourceContentIntoTarget($dbhTransact, $preparedNodeData, $deactivate=true) {
         $insertToTargetStmt = $this->getPreparedStatement("INSERT INTO $this->nestedSetTableName (uid, left_node, right_node)  VALUES (:uid, :left_node, :right_node)");
@@ -796,6 +800,14 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     WHERE
                     multipage.menu_item_id_fk=:source_menu_item_id
             ");
+        $preparedCopyStatic = $this->getPreparedStatement("
+                INSERT INTO `najdisi`.`static` (`menu_item_id_fk`,`path`,`template`,`creator`,`updated`)
+                    SELECT
+                    :new_menu_item_id, `path`,`template`,`creator`,`updated`
+                    FROM
+                    static
+                    WHERE menu_item_id_fk=:source_menu_item_id
+                    ");
         $preparedCopyAssets = $this->getPreparedStatement("
                 INSERT INTO menu_item_asset 
                     SELECT
@@ -804,6 +816,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     menu_item_asset
                     WHERE menu_item_id_fk=:source_menu_item_id
                     ");
+
         $transform = [];
         foreach ($preparedNodeData as $nodeData) {
             $sourceUid = $nodeData['uid'];  // uid zdrojového node
@@ -819,11 +832,12 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 // a) tabulka menu_item: unique key a) kombinace lang_code a uid, b) prettyUri
                 // při volání metody dao get c parametrem check duplicities vzniká chyba při duplicitě lang_code a list
                 // b) aktivní menu_item pod neaktivní - vyvolá chybné načtení stromu položek menu v needitačním režimu - ve stromu jsou "díry"
-                // a "rekurzivní" renderování selže
+                // a MOŽNÁ "rekurzivní" renderování selže
                 // ->
                 // a) uid - nový uid, list - prázdný (jinak by vznikly duplicity při výběru podle jazyka a listu)
                 // prettyUri - složit s novým uid
-                // active - vždy 0 - zjednodušené řešení, zkopírované položky jsou vždy všechny neaktivní
+                // active - pokud parametr deactivate je true nastaví vždy 0, zkopírované položky jsou vždy všechny neaktivní - pro případ selhávání rekurzivního renderování stromu menu
+                //        - pokud deactivate je false - zkopíruje active ze zdrojové položky
                 // sloupec prettyUri má 200chars. Limit titulku nastavuji na 200. (totéž HierarchyAggregateEditDao)
                 $prefix = $sourceItem['lang_code_fk'].$targetUid.'-';
                 $prettyUri = $this->hookedActor->genaratePrettyUri($sourceItem['title'], $prefix);
@@ -847,6 +861,8 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 $sectionCount = $preparedCopySections->execute();
                 $this->bindParams($preparedCopyMultipage, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
                 $multipageCount = $preparedCopyMultipage->execute();
+                $this->bindParams($preparedCopyStatic, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
+                $staticCount = $preparedCopyAssets->execute();  
                 $this->bindParams($preparedCopyAssets, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
                 $assetCount = $preparedCopyAssets->execute();                
             }
