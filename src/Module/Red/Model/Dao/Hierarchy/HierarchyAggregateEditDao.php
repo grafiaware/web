@@ -801,20 +801,20 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                     multipage.menu_item_id_fk=:source_menu_item_id
             ");
         $preparedCopyStatic = $this->getPreparedStatement("
-                INSERT INTO `najdisi`.`static` (`menu_item_id_fk`,`path`,`template`,`creator`,`updated`)
-                    SELECT
-                    :new_menu_item_id, `path`,`template`,`creator`,`updated`
-                    FROM
-                    static
-                    WHERE menu_item_id_fk=:source_menu_item_id
+                INSERT INTO static (menu_item_id_fk, path, template, creator, updated) 
+                    SELECT :new_menu_item_id, path, template, creator, updated 
+                    FROM 
+                    static 
+                    WHERE 
+                    static.menu_item_id_fk=:source_menu_item_id
                     ");
         $preparedCopyAssets = $this->getPreparedStatement("
-                INSERT INTO menu_item_asset 
-                    SELECT
-                    :new_menu_item_id, asset_id_fk
+                INSERT INTO menu_item_asset (menu_item_id_fk, asset_id_fk) 
+                    SELECT :new_menu_item_id, asset_id_fk
                     FROM
                     menu_item_asset
-                    WHERE menu_item_id_fk=:source_menu_item_id
+                    WHERE 
+                    menu_item_asset.menu_item_id_fk=:source_menu_item_id
                     ");
 
         $transform = [];
@@ -862,7 +862,7 @@ class HierarchyAggregateEditDao extends HierarchyAggregateReadonlyDao implements
                 $this->bindParams($preparedCopyMultipage, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
                 $multipageCount = $preparedCopyMultipage->execute();
                 $this->bindParams($preparedCopyStatic, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
-                $staticCount = $preparedCopyAssets->execute();  
+                $staticCount = $preparedCopyStatic->execute();  
                 $this->bindParams($preparedCopyAssets, ['new_menu_item_id'=>$lastMenuItemId, 'source_menu_item_id'=>$sourceItem['id']]);
                 $assetCount = $preparedCopyAssets->execute();                
             }
