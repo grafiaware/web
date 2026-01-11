@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59a8d323d9939516d237d4ade01038c5",
+    "content-hash": "db357dd3187c49e8f3f2ad8a1277ec2b",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -189,19 +189,20 @@
         },
         {
             "name": "pes/pes",
-            "version": "dev-master",
+            "version": "dev-master_php8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "356f77376012ff8fd978cac1f19b7b60e211e8d0"
+                "reference": "1c67b2bb8ec53999537cfc6307892fb74c252661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/356f77376012ff8fd978cac1f19b7b60e211e8d0",
-                "reference": "356f77376012ff8fd978cac1f19b7b60e211e8d0",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/1c67b2bb8ec53999537cfc6307892fb74c252661",
+                "reference": "1c67b2bb8ec53999537cfc6307892fb74c252661",
                 "shasum": ""
             },
             "require": {
+                "php": "<=8.4",
                 "psr/container": "^1.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0",
@@ -212,11 +213,10 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.25.x-dev"
+                    "dev-master": "8.26.x-dev"
                 }
             },
             "autoload": {
@@ -234,16 +234,16 @@
                     "email": "svoboda@grafia.cz"
                 }
             ],
-            "description": "Psí framework.",
+            "description": "Psí framework pro PHP 8.4.",
             "keywords": [
                 "framework",
                 "pes"
             ],
             "support": {
                 "issues": "https://github.com/box4pes/pes/issues",
-                "source": "https://github.com/box4pes/pes/tree/master"
+                "source": "https://github.com/box4pes/pes/tree/master_php8"
             },
-            "time": "2025-12-25T17:17:12+00:00"
+            "time": "2026-01-11T18:48:22+00:00"
         },
         {
             "name": "phar-io/manifest",

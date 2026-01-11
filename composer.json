@@ -9,9 +9,9 @@
             "email": "svoboda@grafia.cz"
         }
     ],
-    "version": "0.6",
+    "version": "8.0",
     "require": {
-        "pes/pes": "@dev",
+        "pes/pes": "dev-master_php8",
         "phpmailer/phpmailer": "^6.2",
         "phpunit/phpunit": "^9.5"
     },
