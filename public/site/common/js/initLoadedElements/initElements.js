@@ -142,7 +142,7 @@ function initLoadedElements() {
     function showRegisterOnQr() {
         const params = new URLSearchParams(window.location.search);
 
-        if (params.get('modal') === 'register') {
+        if (params.get('modal') === 'register0AXR56') {    // dočasný kód pro 2026
             $('.page.modal.register').modal({
                 closable: false,
                 useCSS   : true,
