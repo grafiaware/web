@@ -137,12 +137,36 @@ function initLoadedElements() {
         .modal('show');
     });
     //modalni okno pro registraci
+
+    // funkce zobrazení modal okna registrace - pro QR link s qurey paremetrem ?modal=register
+    function showRegisterOnQr() {
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.get('modal') === 'register') {
+            $('.page.modal.register').modal({
+                closable: false,
+                useCSS   : true,
+            })
+            .modal('show');
+        }
+    }
+    // vyčištění URL po zavření modálu - smaže query parametr a položku v historii
+    function clearUrlOnRegisterModalHide() {
+        const url = new URL(window.location);
+        if (url.searchParams.has('modal')) {
+            url.searchParams.delete('modal');
+            history.replaceState({}, '', url);
+        }
+    }
     $('.btn-register').click(function(){
         $('.page.modal.register').modal({
             useCSS   : true,
         })
         .modal('show');
     });
+    showRegisterOnQr();
+    
+    
     //modalni okno pro vyberFirmy
     $('.btn-modalActions').click(function(){
         $('.page.modal.modalActions').modal({
