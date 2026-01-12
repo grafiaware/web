@@ -82,6 +82,11 @@ use Auth\Authenticator\AuthenticatorInterface;
 use Auth\Authenticator\DbAuthenticator;
 use Auth\Authenticator\DbHashAuthenticator;
 
+// QR code
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Factory\QrCodeFactory;
+use Endroid\QrCode\Writer\PngWriter;
+
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -306,6 +311,13 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
 //---------------------------------------------------------------------------
+//Builder
+            QrCodeFactory::class => function(ContainerInterface $c) {
+                new QrCodeFactory();
+            },
+            PngWriter::class => function(ContainerInterface $c) {
+                new PngWriter();
+            },
             // front kontrolery
             ComponentStaticControler::class => function(ContainerInterface $c) {
                 return (new ComponentStaticControler(
