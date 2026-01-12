@@ -34,6 +34,8 @@ abstract class DaoAbstract implements DaoInterface {
 
     protected $fetchMode;
 
+    protected $fetchClassName;
+    
     /**
      * @var SqlInterface
      */
@@ -51,9 +53,10 @@ abstract class DaoAbstract implements DaoInterface {
      */
     protected $contextFactory;
 
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextProviderInterface $contextFactory=null) {
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ?ContextProviderInterface $contextFactory=null) {
         $this->dbHandler = $handler;
-        $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
+        $this->fetchMode = \PDO::FETCH_CLASS;
+        $this->fetchClassName = $fetchClassName;
         $this->sql = $sql;
         $this->contextFactory = $contextFactory;
     }
@@ -239,7 +242,7 @@ abstract class DaoAbstract implements DaoInterface {
     protected function getPreparedStatement($sql): StatementInterface {
         if (!isset($this->preparedStatements[$sql])) {
             $statement =$this->dbHandler->prepare($sql);
-            $statement->setFetchMode(...$this->fetchMode);
+            $statement->setFetchMode($this->fetchMode, $this->fetchClassName);            //(...$this->fetchMode);
             $this->preparedStatements[$sql] = $statement;
         }
         return $this->preparedStatements[$sql];
