@@ -141,8 +141,7 @@ function initLoadedElements() {
     // funkce zobrazení modal okna registrace - pro QR link s qurey paremetrem ?modal=register
     function showRegisterOnQr() {
         const params = new URLSearchParams(window.location.search);
-
-        if (params.get('modal') === 'register0AXR56') {    // dočasný kód pro 2026
+        if (params.get('modal') === 'register0AXR2026') {    // dočasný kód pro 2026
             $('.page.modal.register').modal({
                 closable: false,
                 useCSS   : true,
