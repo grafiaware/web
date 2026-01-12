@@ -32,7 +32,7 @@ function scrollToAnchorPosition() {
 //=== cascade load of components ===
 
 import {loadSubsequentElements} from "./cascade/cascade.js";
-import {initElements} from "./initLoadedElements/initElements_1.js";
+import {initElements} from "./initLoadedElements/initElements.js";
 
 showLoader();        
 //            showLoaded();            
