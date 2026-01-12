@@ -1,5 +1,3 @@
-//import {initElements} from "../initLoadedElements/initElements_1.js";
-
 // viz local\site\common\templates\layout\cascade\loaderElement.php
 const conf = {
     cascadeClass: 'cascade',
