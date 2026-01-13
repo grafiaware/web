@@ -28,9 +28,9 @@ use Auth\Middleware\Login\Controler\AuthControler;
 /** @var PhpTemplateRendererInterface $this */
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
-$getEditable = $statusViewModel->getRepresentativeActions()->getDataEditable();
+$getEditable = $statusViewModel->getRepresentativeActions()->getDataEditable();   //TODO: SV editace dat pro events admin
 $userRole = $statusViewModel->getUserRole();
-if ( ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) AND ($getEditable) ) {
+if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) {
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
     /** @var RoleRepoInterface $roleRepo */ 
