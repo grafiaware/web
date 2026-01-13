@@ -118,16 +118,16 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
      * @return void
      */
     public function beforeRenderingHook(): void {
-        $editable = $this->itemViewModel->isItemEditable();
+        $editableData = $this->itemViewModel->isItemEditable();
         if (isset($this->pluginTemplatePath)) {
             foreach ($this->pluginTemplatePath as $name => $paths) {
-                $this->itemViewModel->appendData([$name=>($editable ? $paths["editable"] : $paths["default"])]);                            
+                $this->itemViewModel->appendData([$name=>($editableData ? $paths["editable"] : $paths["default"])]);                            
             }
         }
         if(!isset($this->renderer) && !isset($this->rendererName)) {        // např. NoContentRenderer
             if (isset($this->itemTemplate) AND $this->itemTemplatePath) {
                 //když není editable, použije se vždy default
-                $this->itemTemplate->setTemplateFilename(($editable && $this->editableItemTemplatePath) ? $this->editableItemTemplatePath : $this->itemTemplatePath);
+                $this->itemTemplate->setTemplateFilename(($editableData && $this->editableItemTemplatePath) ? $this->editableItemTemplatePath : $this->itemTemplatePath);
             } else {
                 throw new LogicException("ComponentItem musí mít před renderováním nastavenu itemTemplate a alespoň první itemTemplatePath.");
             }

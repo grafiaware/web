@@ -85,6 +85,6 @@ trait RepresentativeTrait {
      * @return bool
      */
     protected function isAdministratorEditor(): bool {
-        return ($this->getStatusRepresentativeDataEditable() AND $this->isAdministrator());        
+        return ($this->getStatusRepresentativeDataEditable() OR $this->isAdministrator());        
     }
 }
