@@ -12,7 +12,7 @@ use Site\ConfigurationCache;
             <div class="register-info">
                 <div class="ui two column grid">
                     <div class="two wide column center aligned">
-                        <button class="ui circular orange basic icon button register-info-button"><i class="info icon"></i></button>
+                        <button class="ui circular orange basic icon button register-info-button priority"><i class="info icon"></i></button>
                     </div>
                     <div class="thirteen wide column">
                         <div class="register-info-text">
