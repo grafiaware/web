@@ -55,7 +55,7 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
     
@@ -86,7 +86,7 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
                     'emails' =>  $this->companyContact->getEmails(),
                     ],                      
                 ];
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $companyContactArray = [
                 // text
                 'addHeadline' => 'Přidej kontakt',                 

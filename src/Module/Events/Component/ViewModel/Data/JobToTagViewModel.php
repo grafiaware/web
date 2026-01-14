@@ -52,7 +52,7 @@ class JobToTagViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         $this->loadJobToTag();
         return $this->isAdministratorEditor();
     }
@@ -80,7 +80,7 @@ class JobToTagViewModel extends ViewModelFamilyItemAbstract {
                 // data
                 'fields' => ['tag' => $this->jobToTag->getTag()],
                 ];
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $item = [
                 // conditions
                 'editable' => true,    // seznam je editovatelný - zobrazí formulář a tlačítko přidat 

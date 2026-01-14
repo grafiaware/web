@@ -118,7 +118,7 @@ abstract class ComponentItemAbstract extends CollectionView implements Component
      * @return void
      */
     public function beforeRenderingHook(): void {
-        $editableData = $this->itemViewModel->isItemEditable();
+        $editableData = $this->itemViewModel->isDataEditable();
         if (isset($this->pluginTemplatePath)) {
             foreach ($this->pluginTemplatePath as $name => $paths) {
                 $this->itemViewModel->appendData([$name=>($editableData ? $paths["editable"] : $paths["default"])]);                            

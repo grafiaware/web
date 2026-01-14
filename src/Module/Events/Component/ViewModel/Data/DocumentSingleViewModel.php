@@ -66,7 +66,7 @@ class DocumentSingleViewModel extends ViewModelSingleItemAbstract implements Vie
         }
     }
 
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         $this->loadDocument();
         return $this->isAdministratorEditor();
     }
@@ -182,7 +182,7 @@ class DocumentSingleViewModel extends ViewModelSingleItemAbstract implements Vie
                     'filename'    => $this->document->getDocumentFilename(),
                     'accept' => $accept, ],
                 ];
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $item = [
                 //route
                 'actionAdd' => $componentRouteSegment,

@@ -53,7 +53,7 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
     
@@ -86,7 +86,7 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
         } else {
             /** @var CompanyInterface $company */ 
             if ($this->companyRepo->get($this->getFamilyRouteSegment()->getParentId())) {  // validace id rodiče
-                if ($this->isItemEditable()) {
+                if ($this->isDataEditable()) {
                     $companyAddrArray = [
                         // text
                         'addHeadline' => 'Přidej adresu',                      

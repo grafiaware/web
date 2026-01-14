@@ -52,7 +52,7 @@ class CompanySingleItemViewModel extends ViewModelSingleItemAbstract {
         }
     }
 
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         $this->loadCompany();
         return $this->isAdministratorEditor();
     }
@@ -84,7 +84,7 @@ class CompanySingleItemViewModel extends ViewModelSingleItemAbstract {
                 // data
                 'fields' => ['name' => $this->company->getName(), 'version_fk'=> $this->company->getVersionFk()],
                 ];
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $item = [
                 //route
                 'actionAdd' => $componentRouteSegment,
