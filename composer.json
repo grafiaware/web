@@ -13,8 +13,11 @@
     "require": {
         "pes/pes": "dev-master_php8",
         "phpmailer/phpmailer": "^6.2",
-        "endroid/qr-code": "^3.9.0",
-        "phpunit/phpunit": "^9.5"
+        "endroid/qr-code": "^3.9.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3.9.0"
     },
     "autoload": {
         "psr-4": {
