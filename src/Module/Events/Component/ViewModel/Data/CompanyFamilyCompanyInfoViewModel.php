@@ -56,7 +56,7 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
     
@@ -95,7 +95,7 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
         } else {
 
             if ($company) {  // validace id rodiče
-                if ($this->isItemEditable()) {
+                if ($this->isDataEditable()) {
                     $array = [
                         // text
                         'addHeadline' => 'Přidejte informace zaměstnavatele',                      

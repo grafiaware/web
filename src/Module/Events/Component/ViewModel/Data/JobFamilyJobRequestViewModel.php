@@ -69,7 +69,7 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
      * Přihlášen user s rolí visitor, má vytvořený profil, neexistuje job request a přihlašovací jméno je shodné s loginName (childId) požadovaného jobFamilyJobrequest.
      * @return bool
      */
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         // !! isItemEditable() mus načíst data - jinde se nato spoléhám
         $this->loadJobRequest(); 
         $this->loadVisitorProfile();
@@ -146,7 +146,7 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
                         'cvSkillsText' =>     $this->jobRequest->getCvSkillsText(),
                     ],
                 ];
-            } elseif ($this->isItemEditable()) {   // job request ještě nebyl uložen a uživatel může editovat = má profil a nemá request
+            } elseif ($this->isDataEditable()) {   // job request ještě nebyl uložen a uživatel může editovat = má profil a nemá request
                 // job request se předvyplní z profilu 
                 // profil se čte pro přihlášeného visitora
                     $item = [

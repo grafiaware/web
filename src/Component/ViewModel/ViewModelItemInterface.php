@@ -19,7 +19,7 @@ interface ViewModelItemInterface extends ViewModelInterface {
     
     public function receiveEntity(EntityInterface $entity);
         
-    public function isItemEditable(): bool;
+    public function isDataEditable(): bool;
     
     /**
      * Metoda nastaví hodnotu identifikátoru z requestu.

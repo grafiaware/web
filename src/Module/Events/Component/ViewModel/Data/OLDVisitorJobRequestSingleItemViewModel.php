@@ -72,7 +72,7 @@ class VisitorJobRequestSingleItemViewModel extends  ViewModelSingleItemAbstract 
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         $this->loadVisitorJobRequest();
         return $this->isVisitor() || $this->isAdministrator();
     }
@@ -110,7 +110,7 @@ class VisitorJobRequestSingleItemViewModel extends  ViewModelSingleItemAbstract 
                         'visitorEmail' => $visitorEmail,
                     ],
                 ];
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $item = [
                 //route
                 'actionAdd' => $this->getSingleRouteSegment()->getAddPath(),

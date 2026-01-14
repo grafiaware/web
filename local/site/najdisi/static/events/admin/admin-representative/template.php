@@ -27,9 +27,9 @@ use Access\Enum\RoleEnum;
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
 $representativeActions = $statusViewModel->getRepresentativeActions();
-$getEditable = isset($representativeActions) ? $representativeActions->getDataEditable() : false;
+$getEditable = isset($representativeActions) ? $representativeActions->getDataEditable() : false;   //TODO: SV editace dat pro events admin
 $userRole = $statusViewModel->getUserRole();
-if ( ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) AND ($getEditable) )  {
+if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR)  {
 
                 // asi navic 
                 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);

@@ -71,7 +71,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         $this->loadVisitorProfile();
         return $this->isVisitor() || $this->isAdministrator();
     }
@@ -169,7 +169,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
                         'visitorEmail' => $visitorEmail,
                     ],
                 ];
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $item = [
                 //route
                 'actionAdd' => $this->getSingleRouteSegment()->getAddPath(),

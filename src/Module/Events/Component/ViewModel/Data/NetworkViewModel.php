@@ -67,7 +67,7 @@ class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface 
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         $this->loadNetwork();
         return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
@@ -103,7 +103,7 @@ class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface 
                     'link'=> isset($this->companyToNetwork) ? $this->companyToNetwork->getLink() : ''
                     ],
                 ];
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $item = [
                 //route
                 'actionAdd' => $componentRouteSegment,

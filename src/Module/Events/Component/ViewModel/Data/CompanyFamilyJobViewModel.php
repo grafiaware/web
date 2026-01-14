@@ -57,7 +57,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         return $this->isCompanyEditor($this->getFamilyRouteSegment()->getParentId());
     }
     
@@ -105,7 +105,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
                     'selectEducations' =>  $selectEducations,
                     ],                
                 ];                
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $companyJob = [
                 // text
                 'addHeadline' => 'Přidej pozici', 
