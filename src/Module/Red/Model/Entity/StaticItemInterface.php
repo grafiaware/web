@@ -41,6 +41,6 @@ interface StaticItemInterface extends PersistableEntityInterface {
 
     public function setCreator($editor): StaticItemInterface;
 
-    public function setUpdated(DateTime $updated=null): StaticItemInterface;
+    public function setUpdated(?DateTime $updated=null): StaticItemInterface;
 
 }
