@@ -52,7 +52,7 @@ class JobTagViewModel extends ViewModelItemAbstract {
         }
     }
     
-    public function isItemEditable(): bool {
+    public function isDataEditable(): bool {
         $this->loadJobTag();
         return $this->isAdministratorEditor();
     }
@@ -81,7 +81,7 @@ class JobTagViewModel extends ViewModelItemAbstract {
                 // data
                 'fields' => ['tag' => $this->jobTag->getTag(), 'color' => $this->jobTag->getColor()],
                 ];
-        } elseif ($this->isItemEditable()) {
+        } elseif ($this->isDataEditable()) {
             $item = [
                 //route
                 'actionAdd' => $componentRouteSegment,
