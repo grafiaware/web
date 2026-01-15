@@ -69,7 +69,7 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadCompanyContact();
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         if ($componentRouteSegment->hasChildId()) {        

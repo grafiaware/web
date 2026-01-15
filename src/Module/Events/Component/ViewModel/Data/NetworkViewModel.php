@@ -83,7 +83,7 @@ class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface 
         $this->companyToNetwork = $this->companyToNetworkRepo->get($this->getFamilyRouteSegment()->getParentId(), $this->network->getId());
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadNetwork();
         $componentRouteSegment = 'events/v1/network';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 

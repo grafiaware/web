@@ -53,7 +53,7 @@ class DocumentSingleListViewModel extends ViewModelSingleListAbstract implements
      * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $array = [         
             'listHeadline'=>'Dokumenty', 
             'items' => $this->getArrayCopy()];

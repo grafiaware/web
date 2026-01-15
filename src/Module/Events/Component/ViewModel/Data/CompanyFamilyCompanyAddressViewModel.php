@@ -67,7 +67,7 @@ class CompanyFamilyCompanyAddressViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadCompanyAddress();
         $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($componentRouteSegment->hasChildId()) {        

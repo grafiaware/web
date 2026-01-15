@@ -9,9 +9,10 @@
 namespace Web\Component\ViewModel\Info;
 
 use Component\ViewModel\ViewModelAbstract;
-
 use Component\ViewModel\StatusViewModelInterface;
 use Access\Enum\RoleEnum;
+
+use ArrayIterator;
 
 /**
  * Description of StatusBoardViewModel
@@ -48,7 +49,7 @@ class InfoBoardViewModel extends ViewModelAbstract implements InfoBoardViewModel
         return ['presentation info:' => $this->statusViewModel->getPresentationInfos()];
     }
     
-    public function getIterator(): \Traversable {
+    public function getIterator(): ArrayIterator {
         $role = $this->statusViewModel->getUserRole();
             
         $boardInfo[] = $this->prettyDump($this->getLanguageInfo());

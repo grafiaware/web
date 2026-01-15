@@ -35,7 +35,7 @@ class RepresentativeCompanyAddressViewModel extends ViewModelItemAbstract implem
 
     use RepresentativeTrait;
     
-    public function getIterator() {                                                         
+    public function getIterator(): ArrayIterator {
         $representativeFromStatus = $this->getRepresentativeFromStatus();
 
         if (isset($representativeFromStatus)) {   

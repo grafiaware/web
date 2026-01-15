@@ -120,7 +120,7 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
     }
 
 
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
          $this->loadJobRequest();
         $visitorEmail = $this->status->getUserEmail();
 

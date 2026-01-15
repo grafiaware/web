@@ -10,8 +10,7 @@ use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Entity\CompanyInterface;
 use Model\Entity\EntityInterface;
 
-use Access\Enum\RoleEnum;
-
+use ArrayIterator;
 use Exception;
 use TypeError;
 
@@ -71,7 +70,7 @@ class CompanySingleItemViewModel extends ViewModelSingleItemAbstract {
         }
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadCompany();
         $componentRouteSegment = 'events/v1/company';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 

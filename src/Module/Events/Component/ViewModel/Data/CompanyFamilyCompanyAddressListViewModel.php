@@ -58,7 +58,7 @@ class CompanyFamilyCompanyAddressListViewModel extends ViewModelFamilyListAbstra
      * 
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $array = [         
             'listHeadline'=>'Adresa', 
             'items' => $this->getArrayCopy()];
