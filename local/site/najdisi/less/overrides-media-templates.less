@@ -588,17 +588,19 @@
             margin-bottom: 50px;
         }
     }
-    .text{
-        &:not(okraje-vertical):not(.okraje-dole):not(.zadne-okraje){
-            padding: 26px 17px;  
-        }
-        &.okraje-vertical{
-            padding: 20px 0px;
-        }
-        &.velky{
-        }
-        &.vpravo, &.vlevo{
-            width: 100%
+    div:not(.register-info-text){
+        > .text{
+            &:not(okraje-vertical):not(.okraje-dole):not(.zadne-okraje){
+                padding: 26px 17px;  
+            }
+            &.okraje-vertical{
+                padding: 20px 0px;
+            }
+            &.velky{
+            }
+            &.vpravo, &.vlevo{
+                width: 100%
+            }
         }
     }
     .obr-upoutavka{
