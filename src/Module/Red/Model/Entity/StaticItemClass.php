@@ -85,7 +85,7 @@ class StaticItemClass extends PersistableEntityAbstract implements StaticItemInt
      * @param DateTime $updated
      * @return StaticItemInterface
      */
-    public function setUpdated(DateTime $updated=null): StaticItemInterface {
+    public function setUpdated(?DateTime $updated=null): StaticItemInterface {
         $this->updated = $updated;
         return $this;
     }

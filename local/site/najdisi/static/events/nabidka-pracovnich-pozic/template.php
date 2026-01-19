@@ -85,8 +85,8 @@ use Access\Enum\RoleEnum;
     $version = '2026';
     ###########################
    
-    $allCompanies = $companyRepo->find( "version_fk=:version_fk order by name ASC ", [":version"=>$version]) ;   // pro výběr - select ve filtru
-//    $allCompanies = $companyRepo->find( "version_fk=:version order by name ASC ", [":version"=>$version]) ;
+    $allCompanies = $companyRepo->find( "version_fk=:version_fk order by name ASC ", [":version_fk"=>$version]) ;   // pro výběr - select ve filtru
+//    $allCompanies = $companyRepo->find( "version_fk=:version_fk order by name ASC ", [":version_fk"=>$version]) ;
 
     $selectCompanies =[];    
     $selectCompanies [AuthControler::NULL_VALUE] =  "" ;

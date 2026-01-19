@@ -52,6 +52,11 @@ interface PaperInterface extends PersistableEntityInterface {
 
     public function setEditor($editor): PaperInterface;
 
-    public function setUpdated(DateTime $updated=null): PaperInterface;
+    /**
+     * Hodnota může být null po insertu do db, po kterém nenásledovalo zpětné načtení dat.
+     * @param DateTime|null $updated
+     * @return PaperInterface
+     */
+    public function setUpdated(?DateTime $updated=null): PaperInterface;
 
 }

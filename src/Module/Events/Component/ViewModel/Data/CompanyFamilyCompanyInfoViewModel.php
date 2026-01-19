@@ -13,7 +13,7 @@ use Events\Model\Entity\CompanyInterface;
 
 use Site\ConfigurationCache;
 
-use Access\Enum\RoleEnum;
+use ArrayIterator;
 use TypeError;
 use Exception;
 
@@ -70,7 +70,7 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadCompanyInfo();
         /** @var CompanyInterface $company */ 
         $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());

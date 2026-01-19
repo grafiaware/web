@@ -20,7 +20,7 @@ class ItemRendererEditableQQQ extends HtmlRendererAbstract {
      */
     protected $viewModel;
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         return $this->renderEditableItem($viewModel);
     }
 

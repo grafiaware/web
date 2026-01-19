@@ -10,9 +10,9 @@ use Events\Model\Repository\CompanyContactRepoInterface;
 use Events\Model\Entity\CompanyContactInterface;
 use Model\Entity\EntityInterface;
 
-
 use Exception;
 use TypeError;
+use ArrayIterator;
 
 /**
  * Description of RepresentativeActionViewModel
@@ -69,7 +69,7 @@ class CompanyFamilyCompanyContactViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadCompanyContact();
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         if ($componentRouteSegment->hasChildId()) {        

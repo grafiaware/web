@@ -12,7 +12,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class EditContentSwitchRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel = NULL) {
+    public function render(?iterable $viewModel = NULL) {
         /** @var AuthoredViewModelInterface $viewModel */
         $menuItemId = $viewModel->getMenuItem()->getId();
         $userPerformActionWithContent = $viewModel->userPerformItemAction();

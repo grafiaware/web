@@ -12,6 +12,7 @@ use Model\Entity\EntityInterface;
 
 use Access\Enum\RoleEnum;
 
+use ArrayIterator;
 use Exception;
 use TypeError;
 
@@ -67,7 +68,7 @@ class JobTagViewModel extends ViewModelItemAbstract {
         }
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadJobTag();
         $componentRouteSegment = 'events/v1/jobtag';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 

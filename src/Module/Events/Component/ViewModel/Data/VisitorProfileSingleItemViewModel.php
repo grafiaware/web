@@ -87,7 +87,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         }
     }    
     
-    public function getIterator() {     
+    public function getIterator(): ArrayIterator {
         
 //        $isAdministrator = $this->isAdministrator();
 //        $editable =  $this->isAdministrator() || $this->isCurrentVisitor();

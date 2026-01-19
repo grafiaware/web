@@ -12,7 +12,7 @@ use Red\Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
  * @author pes2704
  */
 class SelectTemplateRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var AuthoredViewModelInterface $viewModel */
         $contentTemplateName = $viewModel->getAuthoredTemplateName();
         $authoredContentId = $viewModel->getAuthoredContentId();

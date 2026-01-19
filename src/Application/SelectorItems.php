@@ -64,7 +64,7 @@ class SelectorItems {
      *
      * @param AppInterface $app Kontejner pro předání do všech middleware stacků definovaných v konstruktoru.
      */
-    public function __construct(AppInterface $app=NULL) {
+    public function __construct(?AppInterface $app=NULL) {
         $this->app = $app;
         $default = function() {
                 return [

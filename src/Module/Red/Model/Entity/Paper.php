@@ -114,7 +114,7 @@ class Paper extends PersistableEntityAbstract implements PaperInterface {
      * @param DateTime $updated
      * @return PaperInterface
      */
-    public function setUpdated(DateTime $updated=null): PaperInterface {
+    public function setUpdated(?DateTime $updated=null): PaperInterface {
         $this->updated = $updated;
         return $this;
     }

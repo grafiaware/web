@@ -85,7 +85,7 @@ class Article extends PersistableEntityAbstract implements ArticleInterface {
      * @param DateTime $updated
      * @return ArticleInterface
      */
-    public function setUpdated(DateTime $updated=null): ArticleInterface {
+    public function setUpdated(?DateTime $updated=null): ArticleInterface {
         $this->updated = $updated;
         return $this;
     }

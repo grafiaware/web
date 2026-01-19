@@ -20,7 +20,7 @@ use Pes\Text\Html;
  */
 class LevelRenderer extends HtmlRendererAbstract {
 
-    public function render(iterable $contextData=NULL) {
+    public function render(?iterable $contextData=NULL) {
         // LevelComponent nedostává žádný view model - view předá do rendereru jen ContextData, který obsahuje vyrenderované komponentní view (tedy html)
             $levelItemsHtml = "";
             /** @var LevelViewModelInterface $contextData */

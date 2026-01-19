@@ -13,7 +13,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class ButtonsItemManipulationRenderer extends ButtonsMenuRendererAbstract {
-    public function render(iterable $viewModel = NULL) {
+    public function render(?iterable $viewModel = NULL) {
         return $this->renderButtons($viewModel);
     }
 

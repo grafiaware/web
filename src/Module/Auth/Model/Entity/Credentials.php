@@ -1,10 +1,8 @@
 <?php
-
 namespace Auth\Model\Entity;
 
-use Auth\Model\Entity\CredentialsInterface;
-
 use Model\Entity\PersistableEntityAbstract;
+use DateTime;
 
 /**
  * Description of 
@@ -25,11 +23,11 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      */
     private $roleFk;
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $created; //NOT NULL
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $updated; //NOT NULL
 
@@ -61,17 +59,17 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
 
     /**
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreated(): \DateTime {
+    public function getCreated(): DateTime {
         return $this->created;
     }
 
     /**
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getUpdated(): \DateTime {
+    public function getUpdated(): DateTime {
         return $this->updated;
     }
 
@@ -95,20 +93,20 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
 
     /**
      *
-     * @param \DateTime $created
+     * @param DateTime $created
      * @return CredentialsInterface
      */
-    public function setCreated(\DateTime $created): CredentialsInterface {
+    public function setCreated(DateTime $created): CredentialsInterface {
         $this->created = $created;
         return $this;
     }
 
     /**
      *
-     * @param \DateTime $updated
+     * @param DateTime $updated
      * @return CredentialsInterface
      */
-    public function setUpdated(\DateTime $updated): CredentialsInterface {
+    public function setUpdated(DateTime $updated): CredentialsInterface {
         $this->updated = $updated;
         return $this;
     }
@@ -118,7 +116,7 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      * @param string $roleFk
      * @return CredentialsInterface
      */
-    public function setRoleFk(string $roleFk=null): CredentialsInterface {
+    public function setRoleFk(?string $roleFk=null): CredentialsInterface {
         $this->roleFk = $roleFk;
         return $this;
     }

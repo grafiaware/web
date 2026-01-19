@@ -24,7 +24,7 @@ use Pes\Text\Html;
  */
 class SelectPaperTemplateRendererSelectVersion extends HtmlRendererAbstract {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $templatedContent = $viewModel->offsetExists('templatedContent') ? $viewModel->offsetGet('templatedContent') : '';
         $contentTemplateName = $viewModel->getPaper()->getTemplate();

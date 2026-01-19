@@ -209,7 +209,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * @param MenuItemInterface $menuItem
      * @return type
      */
-    protected function composeLayoutView(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
+    protected function composeLayoutView(ServerRequestInterface $request, ?MenuItemInterface $menuItem = null) {
         $layoutView = $this->getLayoutView($request);
         if (isset($menuItem)) {
             $layoutView->appendComponentViews($this->getContentViews($menuItem));

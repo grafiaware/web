@@ -43,7 +43,7 @@ abstract class TypeHydratorAbstract implements HydratorInterface {
      * @param DateTime $value
      * @return type
      */
-    protected function setSqlDatetime(ArrayAccess $rowData, $name, DateTime $value=null) {
+    protected function setSqlDatetime(ArrayAccess $rowData, $name, ?DateTime $value=null) {
         return isset($value) ? $rowData->offsetSet($name, $value->format('Y-m-d H:i:s')) : $rowData->offsetUnset($name);
     }
 
@@ -78,7 +78,7 @@ abstract class TypeHydratorAbstract implements HydratorInterface {
      * @param DateTime $value
      * @return type
      */
-    protected function setSqlDate(ArrayAccess $rowData, $name, DateTime $value=null) {
+    protected function setSqlDate(ArrayAccess $rowData, $name, ?DateTime $value=null) {
         return isset($value) ? $rowData->offsetSet($name, $value->format('Y-m-d')) : $rowData->offsetUnset($name);
     }
 

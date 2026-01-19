@@ -21,12 +21,12 @@ class StaticItemRenderer extends HtmlRendererAbstract {
     
     public function __construct(
             TemplateCompilerInterface $templateCompiler, 
-            ClassMapInterface $menuClassMap = NULL) {
+            ?ClassMapInterface $menuClassMap = NULL) {
         parent::__construct($menuClassMap);
         $this->templateCompiler = $templateCompiler;
     }
     
-    public function render(iterable $viewModel = NULL) {
+    public function render(?iterable $viewModel = NULL) {
         /** @var StaticItemViewModelInterface $viewModel */
         $html = '';
         if ($viewModel->isEditable()) {

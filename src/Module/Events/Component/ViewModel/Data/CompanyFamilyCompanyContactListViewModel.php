@@ -61,7 +61,7 @@ class CompanyFamilyCompanyContactListViewModel extends ViewModelFamilyListAbstra
      * 
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
 
         $array = [         
             'listHeadline'=>'Kontakty', 

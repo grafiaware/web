@@ -28,7 +28,7 @@ interface SingleRouteSegmentInterface {
      * 
      * @param string $id
      */
-    public function setChildId(string $id=null);
+    public function setChildId(?string $id=null);
     
     /**
      * Metoda informuje zda je nastaven identifikátor potomka pro metody getSavePath() a getRemovePath().

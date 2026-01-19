@@ -14,7 +14,7 @@ use Pes\Text\Html;
  */
 class ItemTypeSelectRenderer extends HtmlRendererAbstract {
 
-    public function render(iterable $viewModel = NULL) {
+    public function render(?iterable $viewModel = NULL) {
         /** @var ItemTypeSelectViewModelInterface $viewModel */
         $menuItemUidFk = $viewModel->getMenuItem()->getUidFk();
         $contentGeneratorsTypes = $viewModel->getTypeGenerators();

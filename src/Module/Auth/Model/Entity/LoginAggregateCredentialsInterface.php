@@ -9,7 +9,7 @@
 namespace Auth\Model\Entity;
 
 use Model\Entity\PersistableEntityInterface;
-
+use Auth\Model\Entity\CredentialsInterface;
 /**
  *
  * @author pes2704
@@ -18,7 +18,7 @@ interface LoginAggregateCredentialsInterface extends LoginInterface {
 
     /**
      *
-     * @return \Auth\Model\Entity\CredentialsInterface|null
+     * @return CredentialsInterface|null
      */
     public function getCredentials(): ?CredentialsInterface;
 
@@ -27,5 +27,5 @@ interface LoginAggregateCredentialsInterface extends LoginInterface {
      * @param CredentialsInterface $credentials
      * @return void
      */
-    public function setCredentials(CredentialsInterface $credentials = null): void;
+    public function setCredentials(?CredentialsInterface $credentials = null): void;
 }

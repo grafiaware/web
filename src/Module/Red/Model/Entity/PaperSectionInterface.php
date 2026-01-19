@@ -10,6 +10,8 @@ namespace Red\Model\Entity;
 
 use Model\Entity\PersistableEntityInterface;
 
+use DateTimeInterface;
+
 /**
  * Description of PaperInterface
  *
@@ -33,17 +35,17 @@ interface PaperSectionInterface extends PersistableEntityInterface {
 
     public function getPriority();
 
-    public function getShowTime(): ?\DateTimeInterface;
+    public function getShowTime(): ?DateTimeInterface;
 
-    public function getHideTime(): ?\DateTimeInterface;
+    public function getHideTime(): ?DateTimeInterface;
 
-    public function getEventStartTime(): ?\DateTimeInterface;
+    public function getEventStartTime(): ?DateTimeInterface;
 
-    public function getEventEndTime(): ?\DateTimeInterface;
+    public function getEventEndTime(): ?DateTimeInterface;
 
     public function getEditor();
 
-    public function getUpdated(): ?\DateTimeInterface;
+    public function getUpdated(): ?DateTimeInterface;
 
     public function getActual();
 
@@ -63,17 +65,17 @@ interface PaperSectionInterface extends PersistableEntityInterface {
 
     public function setPriority($priority): PaperSectionInterface;
 
-    public function setShowTime(\DateTimeInterface $showTime=null): PaperSectionInterface;
+    public function setShowTime(?DateTimeInterface $showTime=null): PaperSectionInterface;
 
-    public function setHideTime(\DateTimeInterface $hideTime=null): PaperSectionInterface;
+    public function setHideTime(?DateTimeInterface $hideTime=null): PaperSectionInterface;
 
-    public function setEventStartTime(\DateTimeInterface $eventStartTime=null): PaperSectionInterface;
+    public function setEventStartTime(?DateTimeInterface $eventStartTime=null): PaperSectionInterface;
 
-    public function setEventEndTime(\DateTimeInterface $eventEndTime=null): PaperSectionInterface;
+    public function setEventEndTime(?DateTimeInterface $eventEndTime=null): PaperSectionInterface;
 
     public function setEditor($editor): PaperSectionInterface;
 
-    public function setUpdated(\DateTimeInterface $updated=null): PaperSectionInterface;
+    public function setUpdated(?DateTimeInterface $updated=null): PaperSectionInterface;
 
     public function setActual($actual): PaperSectionInterface;
 }

@@ -15,7 +15,7 @@ use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
  * @author pes2704
  */
 class ArticleRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface
 
