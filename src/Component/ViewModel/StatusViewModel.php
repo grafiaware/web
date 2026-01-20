@@ -67,25 +67,25 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     #[\Override]
     public function getUserRole(): ?string {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurity->getLoginAggregate();
         return isset($loginAggregate) ? $loginAggregate->getCredentials()->getRoleFk() : null;
     }
 
     #[\Override]
     public function getUserLoginName(): ?string {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurity->getLoginAggregate();
         return isset($loginAggregate) ? $loginAggregate->getLoginName() : null;
     }
 
     #[\Override]
     public function getUserLoginHash(): ?string {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurity->getLoginAggregate();
         return isset($loginAggregate) ? $loginAggregate->getLoginNameHash() : null;
     }
 
     #[\Override]
     public function getUserEmail(): ?string {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurity->getLoginAggregate();
         $registration = isset($loginAggregate) ? $loginAggregate->getRegistration() : null;  
         return isset($registration) ? $registration->getEmail() : null;
     }
@@ -105,43 +105,43 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      */
     #[\Override]
     public function presentEditableContent(): bool {
-        $editorActions = $this->statusSecurityRepo->get()->getEditorActions();
+        $editorActions = $this->statusSecurity->getEditorActions();
         return $editorActions ? $editorActions->presentEditableContent() : false;
     }
 
     #[\Override]
     public function getPresentedLanguageCode(): ?string {
-        return $this->statusPresentationRepo->get()->getLanguageCode();
+        return $this->statusPresentation->getLanguageCode();
     }
 
     #[\Override]
     public function getEditorActions(): ?EditorActionsInterface {
-        return $this->statusSecurityRepo->get()->getEditorActions();
+        return $this->statusSecurity->getEditorActions();
     }
     
     #[\Override]
     public function getRepresentativeActions(): ?RepresentationActionsInterface {
-        return $this->statusSecurityRepo->get()->getRepresentativeActions();   
+        return $this->statusSecurity->getRepresentativeActions();   
     }
 
     #[\Override]
     public function getPresentedMenuItem(): ?MenuItemInterface {
-        return $this->statusPresentationRepo->get()->getMenuItem();
+        return $this->statusPresentation->getMenuItem();
     }
     
     #[\Override]
     public function getPresentedStaticItem(): ?StaticItemInterface {
-        return $this->statusPresentationRepo->get()->getStaticItem();
+        return $this->statusPresentation->getStaticItem();
     }
     
     #[\Override]
     public function getSecurityInfos(): array {
-        return $this->statusSecurityRepo->get()->getInfos();
+        return $this->statusSecurity->getInfos();
     }
     
     #[\Override]
     public function getPresentationInfos(): array {
-        return $this->statusPresentationRepo->get()->getInfos();
+        return $this->statusPresentation->getInfos();
     }
     
 }
