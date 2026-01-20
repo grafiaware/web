@@ -42,6 +42,7 @@ interface FlashInterface extends PersistableEntityInterface {
      * ale nechci command mazat. Ke smazání pak dojde voláním getPostCommand() v POST metodě kontroléru.
      */
     public function readPostCommand();
+    
     /**
      * Nastaví message a severity
      *

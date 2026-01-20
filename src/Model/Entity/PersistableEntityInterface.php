@@ -1,5 +1,6 @@
 <?php
 namespace Model\Entity;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,7 +8,7 @@ namespace Model\Entity;
  */
 
 /**
- * Interface entity, která se vyskytuje vevíce instancí odlišených od sebe identitou (klíčem).
+ * Interface entity, která se vyskytuje ve více instancích odlišených od sebe identitou (klíčem).
  *
  * @author pes2704
  */
@@ -32,4 +33,6 @@ interface PersistableEntityInterface extends EntityInterface {
     public function unlock(): PersistableEntityInterface;
 
     public function isLocked(): bool;
+    
+    public function __clone();
 }
