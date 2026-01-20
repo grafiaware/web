@@ -46,6 +46,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * 
      * @return array
      */
+    #[\Override]
     public function getMessages(): array {
         $messages = $this->storedFlashMessages;
         $this->storedFlashMessages = [];
@@ -58,6 +59,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * @param string $message
      * @return FlashInterface
      */
+    #[\Override]
     public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): FlashInterface {
         $en = $this->severityEnum;
         try {
@@ -73,6 +75,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * 
      * @return void
      */
+    #[\Override]
     public function storeMessages(): void {
         foreach ($this->preparedFlashMessages as $prep) {
             $this->storedFlashMessages[] = $prep;   //TODO: stack
@@ -105,6 +108,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * Typické použití je volání v metodě kontroleru při POST/PUT requestu, v takovém případě chci command smazat, příkaz nastavený pomocí command byl v kontroleru vykonán.
      * 
      */
+    #[\Override]
     public function getPostCommand() {
         $command = $this->storedPostFlashCommand;
         $this->storedPostFlashCommand = null;
@@ -118,6 +122,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * 
      * @return type
      */
+    #[\Override]
     public function readPostCommand() {
         return $this->storedPostFlashCommand;
     }
@@ -142,6 +147,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * @param type $command
      * @return FlashInterface
      */
+    #[\Override]
     public function setPostCommand($command): FlashInterface {
         $this->preparedPostFlashCommand = $command;
         return $this;

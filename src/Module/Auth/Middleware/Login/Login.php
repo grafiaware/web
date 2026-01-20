@@ -9,6 +9,7 @@ use Auth\Middleware\Login\Controler\RegistrationControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\AuthControler;
+use Auth\Middleware\Login\Controler\QrImageControler;
 use Auth\Middleware\Login\Controler\SynchroControler;
 
 use Pes\Middleware\AppMiddlewareAbstract;
@@ -157,6 +158,12 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->removeRole($request, $role);
         });   
         
+        // QrImageControler
+        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/qrimage/:qr', function(ServerRequestInterface $request, $qr) {
+            /** @var QrImageControler $ctrl */
+            $ctrl = $this->container->get(QrImageControler::class);
+            return $ctrl->qrImage($request, $qr);
+        });         
               
         // SynchroControler       
         $this->routeGenerator->addRouteForAction('POST', '/auth/v1/synchro', function(ServerRequestInterface $request) {
