@@ -8,12 +8,7 @@ use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\ViewModelSingleItemAbstract;
 use Component\ViewModel\ViewModelItemInterface;
 
-use Status\Model\Repository\StatusSecurityRepo;
-use Auth\Model\Entity\LoginAggregateFullInterface;
-use Status\Model\Entity\SecurityInterface;
-
 use Events\Model\Repository\VisitorProfileRepoInterface;
-use Events\Model\Repository\DocumentRepoInterface;
 
 use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Entity\DocumentInterface;
@@ -27,7 +22,7 @@ use ArrayIterator;
 /**
  * 
  */
-class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract implements ViewModelItemInterface {
+class VisitorProfileSingleItemViewModel extends ViewModelSingleItemAbstract implements ViewModelItemInterface {
 
     private $status;
     private $visitorProfileRepo;

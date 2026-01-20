@@ -2,6 +2,8 @@
 
 namespace Component\ViewModel;
 
+use Component\ViewModel\ViewModelItemAbstract;
+
 use Red\Model\Entity\EditorActionsInterface;
 use Events\Model\Entity\RepresentationActionsInterface;
 use Red\Model\Entity\MenuItemInterface;
@@ -16,7 +18,7 @@ use Status\Model\Repository\StatusFlashRepo;
  *
  * @author pes2704
  */
-class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterface {
+class StatusViewModel extends ViewModelItemAbstract implements StatusViewModelInterface {
 
     /**
      * @var StatusSecurityRepo
