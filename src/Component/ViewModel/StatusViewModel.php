@@ -3,6 +3,7 @@
 namespace Component\ViewModel;
 
 use Component\ViewModel\ViewModelItemAbstract;
+use Component\ViewModel\StatusViewModelInterface;
 
 use Red\Model\Entity\EditorActionsInterface;
 use Events\Model\Entity\RepresentationActionsInterface;

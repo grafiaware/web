@@ -55,6 +55,7 @@ class VisitorProfileSingleItemViewModel extends ViewModelSingleItemAbstract impl
         return ($this->isVisitor() && $this->status->getUserLoginName() == $requestedLogName );
     }
     
+    #[\Override]
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof VisitorProfileInterface) {
             $this->visitorProfile = $entity;
@@ -66,6 +67,7 @@ class VisitorProfileSingleItemViewModel extends ViewModelSingleItemAbstract impl
         }
     }
     
+    #[\Override]
     public function isDataEditable(): bool {
         $this->loadVisitorProfile();
         return $this->isVisitor() || $this->isAdministrator();
