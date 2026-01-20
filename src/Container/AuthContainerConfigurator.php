@@ -74,7 +74,7 @@ use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Middleware\Login\Controler\ComponentStaticControler;
 use Auth\Middleware\Login\Controler\ComponentAuthControler;
-
+use Auth\Middleware\Login\Controler\QrImageControler;
 use Auth\Middleware\Login\Controler\SynchroControler;
 
 // authenticator
@@ -86,6 +86,7 @@ use Auth\Authenticator\DbHashAuthenticator;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Factory\QrCodeFactory;
 use Endroid\QrCode\Writer\PngWriter;
+use Auth\Service\Qr\QrImageGenerator;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -311,13 +312,11 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
 //---------------------------------------------------------------------------
-//Builder
-            QrCodeFactory::class => function(ContainerInterface $c) {
-                new QrCodeFactory();
+//QR
+            QrImageGenerator::class => function(ContainerInterface $c) {
+                return new QrImageGenerator();
             },
-            PngWriter::class => function(ContainerInterface $c) {
-                new PngWriter();
-            },
+//---------------------------------------------------------------------------
             // front kontrolery
             ComponentStaticControler::class => function(ContainerInterface $c) {
                 return (new ComponentStaticControler(
@@ -338,7 +337,14 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     )->injectContainer($c);  // inject component kontejner
             },
 
-                    
+            QrImageControler::class => function(ContainerInterface $c) {
+                return new QrImageControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccessPresentation::class)
+                )->injectContainer($c);  // inject component kontejner
+            },
             SynchroControler::class =>   function(ContainerInterface $c) {
                 return (new SynchroControler(
                         $c->get(StatusSecurityRepo::class),
