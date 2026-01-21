@@ -285,7 +285,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         #### SectionsControler ####
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section', function(ServerRequestInterface $request, $paperId) {
+        $this->routeGenerator->addRouteForAction('PUT', '/red/v1/paper/:paperId/section', function(ServerRequestInterface $request, $paperId) {
                 /** @var ContentControler $ctrl */
                 $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->add($request, $paperId);

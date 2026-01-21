@@ -117,7 +117,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/multipage/:multipageId/templateremove'));
 
         #### SectionControler ####
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/section'));
+        $registry->register($this->putPrototype->withUrlPattern('/red/v1/paper/:paperId/section'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/toggle'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/section/:sectionId/actual'));
