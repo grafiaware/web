@@ -62,7 +62,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     #[\Override]
     public function getFlashMessages() {
-        return $this->statusFlashRepo->get()->getMessages();
+        return $this->statusFlash->getMessages();
     }
 
     #[\Override]
