@@ -141,7 +141,8 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
     }
 
 
-    public function setInfo(string $info=null): RegistrationInterface {
+    #[\Override]
+    public function setInfo(?string $info=null): RegistrationInterface {
         $this->info = $info;
         return $this;
     }

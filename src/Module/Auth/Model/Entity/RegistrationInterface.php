@@ -37,6 +37,6 @@ interface RegistrationInterface extends PersistableEntityInterface {
 
     public function setUid( string $uid ) : RegistrationInterface;
 
-    public function setInfo(string $info=null): RegistrationInterface;
+    public function setInfo(?string $info=null): RegistrationInterface;
 
 }
