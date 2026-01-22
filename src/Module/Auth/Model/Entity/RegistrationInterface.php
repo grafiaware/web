@@ -29,7 +29,7 @@ interface RegistrationInterface extends PersistableEntityInterface {
 
     public function setPasswordHash(string $passwordHash): RegistrationInterface;
 
-    public function setEmail(string $email = null): RegistrationInterface;
+    public function setEmail(?string $email = null): RegistrationInterface;
 
     public function setEmailTime(?DateTime $created = null): RegistrationInterface;
 
