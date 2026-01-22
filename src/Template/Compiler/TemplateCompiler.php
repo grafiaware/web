@@ -32,9 +32,10 @@ class TemplateCompiler implements TemplateCompilerInterface {
      */
     public function getCompiledContent($templatePath): string {
         $templateFilename = trim($templatePath, '/').'/'.self::TEMPLATE_FILE_NAME;
+        $staticName = trim($templatePath, '/').'.html';
         $compiledPath = ConfigurationCache::componentControler()['compiled'];
         //TOOD: Sv Není definována proměnná $staticName! V TemplateCompiler je vypnuto ukládání - tak to zatím nevadí.
-        $compiledFileName = $compiledPath.$staticName.".html";
+        $compiledFileName = $compiledPath.$staticName;
 //TODO: Compiled - souboru s šablonou a souboru se zkompilovaným obsahem pomocí touch() nastavit stejný čas poslední změny -> pak pokud je šablona novější, překlad
 // info: $datetime = DateTime::createFromFormat("n/d/Y h:i A T", $date); touch($filename, $datetime->getTimestamp()) ....
 //
