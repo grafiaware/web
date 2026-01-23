@@ -53,7 +53,7 @@ if (!empty($videoLink)) {
                         <img src="<?=$exhibitorStandImage?>" alt="stánek firmy" class="stanek-img"/>
                     </div> 
                 <?php } else { ?>
-                <div style="display: none;">Nenalezen soubor s obrázkem stánku. Název souboru je první slovo názvu firmy.</div>
+                <div style="display: none;">Nenalezen soubor s obrázkem stánku. Název souboru je první slovo názvu firmy. Obrázek "<?= $exhibitorStandImage ?>" nenalezen.</div>
                 <?php } ?>
                 <div class="sixteen wide tablet eight wide computer seven wide large screen seven wide widescreen column">
                     <?php if($videoLink ?? false) { ?>
