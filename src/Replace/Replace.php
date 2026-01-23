@@ -42,6 +42,9 @@ class Replace implements ReplaceInterface {
 //        );
         $transform = ConfigurationCache::files();
         // <a href="index.php?list=download&amp;file=1197476.txt" target="_blank">Obchodní podmínky e-shop Grafia ke stažení</a>
+        if (strpos($text, '@download') !== false) {
+            $dwnld = 1;
+        }
         $text = str_replace(array_keys($transform), array_values($transform), $text);
     }
     
