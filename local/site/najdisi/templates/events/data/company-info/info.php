@@ -7,8 +7,6 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */    
 
-$imagesPath = ConfigurationCache::files()['@siteimages'];
-
 if (!empty($videoLink)) {
     // Rozparsování URL
     $parsedUrl = parse_url($videoLink);
@@ -54,6 +52,8 @@ if (!empty($videoLink)) {
                     <div class="sixteen wide tablet eight wide computer nine wide large screen column">
                         <img src="<?=$exhibitorStandImage?>" alt="stánek firmy" class="stanek-img"/>
                     </div> 
+                <?php } else { ?>
+                <div style="display: none;">Nenalezen soubor s obrázkem stánku. Název souboru je první slovo názvu firmy.</div>
                 <?php } ?>
                 <div class="sixteen wide tablet eight wide computer seven wide large screen seven wide widescreen column">
                     <?php if($videoLink ?? false) { ?>
