@@ -148,7 +148,7 @@ class ItemEditControler extends FrontControlerAbstract {
         } else {
             if (isset($menuItem)) {
                 // změní menu item - title a pretty_uri
-                $menuItem->setTitle($postTitle);
+                $menuItem->setTitle(trim($postTitle));
                 $prefix = $menuItem->getLangCodeFk().$menuItem->getUidFk().'-';
                 $menuItem->setPrettyuri($this->hookedMenuItemActor->genaratePrettyUri($postTitle, $prefix));        
                 $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
