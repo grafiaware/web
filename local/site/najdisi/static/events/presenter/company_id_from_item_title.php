@@ -26,8 +26,7 @@ $itemTitle = $statusViewModel->getPresentedMenuItem()->getTitle();
 
 /** @var CompanyRepoInterface $companyRepo */
 $companyRepo = $container->get(CompanyRepo::class);
-//$company = $companyRepo->find(" name LIKE :name_like AND version_fk=:version_fk", [":name_like"=>"%$itemTitle%", "version_fk"=>$version_fk]);
-$company = $companyRepo->find(" name LIKE :name_like", [":name_like"=>"%$itemTitle%"]);
+$company = $companyRepo->find(" name LIKE :name_like AND version_fk=:version_fk", [":name_like"=>"%$itemTitle%", "version_fk"=>$version_fk]);
 $msg = print_r($company, true);
 echo "<code>$msg</code>";
 $cnt = count($company);
