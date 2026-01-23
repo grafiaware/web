@@ -14,48 +14,51 @@ use Events\Model\Entity\CompanyParameterInterface;
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
-/** @var CompanyParameterRepoInterface $companyParameterRepo */
-$companyParameterRepo = $container->get(CompanyParameterRepo::class);
+
+if (isset($companyId)) {
+
+    /** @var CompanyParameterRepoInterface $companyParameterRepo */
+    $companyParameterRepo = $container->get(CompanyParameterRepo::class);
 
 
-/** @var  CompanyParameterInterface $companyParameter*/
-$companyParameter = $companyParameterRepo->get($companyId);
-if ( isset($companyParameter) ) {
-    $jobLimit = $companyParameter->getJobLimit();
-}    
+    /** @var  CompanyParameterInterface $companyParameter*/
+    $companyParameter = $companyParameterRepo->get($companyId);
+    if ( isset($companyParameter) ) {
+        $jobLimit = $companyParameter->getJobLimit();
+    }    
 
-echo Html::tag('div', 
+    echo Html::tag('div', 
         [
             'class'=>'cascade nazev-firmy',
             'data-red-apiuri'=>"events/v1/data/company/$companyId",
         ]
     );
-echo Html::tag('div', 
+    echo Html::tag('div', 
         [
             'class'=>'cascade',
             'data-red-apiuri'=>"events/v1/data/company/$companyId/companyinfo",
         ]
     ); 
-echo Html::tag('div', 
+    echo Html::tag('div', 
         [
             'class'=>'cascade',
             'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
         ]
     );
-echo Html::tag('div', 
+    echo Html::tag('div', 
         [
             'class'=>'cascade',
             'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
         ]
     );
 
-if ( !isset($jobLimit) OR $jobLimit!=0)  {     
-    echo Html::tag('div', 
+    if ( !isset($jobLimit) OR $jobLimit!=0)  {     
+        echo Html::tag('div', 
                 [
                     'class'=>'cascade',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
                 ]
             );
+    }
+
 }
-
-
