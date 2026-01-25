@@ -7,6 +7,7 @@ use Component\ViewModel\StatusViewModelInterface;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyRepo;
+use Events\Model\Entity\CompanyInterface;
 
 /**
  * Vytvoří proměnnou $companyId pro statickou stránku presenter.
@@ -26,6 +27,7 @@ $itemTitle = $statusViewModel->getPresentedMenuItem()->getTitle();
 
 /** @var CompanyRepoInterface $companyRepo */
 $companyRepo = $container->get(CompanyRepo::class);
+/** @var CompanyInterface[] $company */
 $company = $companyRepo->find(" name LIKE :name_like AND version_fk=:version_fk", [":name_like"=>"%$itemTitle%", "version_fk"=>$version_fk]);
 $cnt = count($company);
 if ($cnt==0) {
@@ -34,6 +36,7 @@ if ($cnt==0) {
     echo "<p>Chyba: Nalezeno více company podle textu položky menu '$itemTitle' s verzí '$version_fk'. Počet nalezených: $cnt.</p>";
 } else {
     $companyId = $company[0]->getId();
+    $companyName = trim($company[0]->getName());
 }
 if (!isset($companyId)) {
     echo "<p>Chyba: Není company id.</p>";

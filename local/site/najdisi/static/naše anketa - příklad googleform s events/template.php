@@ -1,0 +1,108 @@
+<?php
+
+// template
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Pes\Text\Text;
+/** @var PhpTemplateRendererInterface $this */
+
+use Site\ConfigurationCache;
+use Access\Enum\RoleEnum;
+
+// visitor
+use Auth\Model\Entity\LoginAggregateFullInterface;
+use Status\Model\Repository\StatusSecurityRepo;
+use Events\Model\Repository\VisitorProfileRepo;
+use Events\Model\Entity\VisitorProfileInterface;
+
+
+//   zkrácené url https://forms.gle/w5NTnXbxEg6GGRLp7
+//    odkaz na formulář s předvyplněnými daty:
+//   https://docs.google.com/forms/d/e/1FAIpQLSdupUpxH5KBKVaQoZzLWlzeX0jdp2OX25aRc5ar53CEfZTzcg/viewform?usp=pp_url&entry.190219785=P%C5%99%C3%ADjmen%C3%AD&entry.1783510966=Jm%C3%A9no&entry.1428572852=email&entry.1017719627=Nezam%C4%9Bstnan%C3%BD&entry.913798124=S%C5%A0/maturita&entry.11912052=r%C3%A1dio&entry.1958175446=chci+m%C3%ADt+p%C5%99ehled+o+trhu+pr%C3%A1ce&entry.742183994=LoginName
+
+    $formUid = "1FAIpQLSdupUpxH5KBKVaQoZzLWlzeX0jdp2OX25aRc5ar53CEfZTzcg";
+
+    $formUrlArray[] = 'https://docs.google.com/forms/d/e/';
+    $formUrlArray[] = $formUid;
+    $formUrlArray[] = '/viewform';
+    $formUrlArray[] = '?';
+    $formUrlArray[] = 'usp=pp_url';
+
+
+//  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdupUpxH5KBKVaQoZzLWlzeX0jdp2OX25aRc5ar53CEfZTzcg/viewform?embedded=true" frameborder="0" id="gformQQQ" width=100% height="4000" frameborder="0" marginheight="0" marginwidth="0">Načítání…</iframe>
+
+    $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+    /** @var StatusSecurityRepo $statusSecurityRepo */
+    $statusSecurity = $statusSecurityRepo->get();
+    /** @var LoginAggregateFullInterface $loginAggregate */
+    $loginAggregate = $statusSecurity->getLoginAggregate();
+
+    if (isset($loginAggregate)) {
+        $loginName = $loginAggregate->getLoginName();
+        $role = $loginAggregate->getCredentials()->getRoleFk() ?? '';
+    }
+
+    // poue pro default roli 'visitor'
+    if (isset($role) AND $role==(RoleEnum::VISITOR)) {
+        /** @var VisitorProfileRepo $visitorProfileRepo */
+        $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
+        /** @var VisitorProfileInterface $visitorProfile */
+        $visitorProfile = $visitorProfileRepo->get($loginName);
+    }
+
+    if (isset($visitorProfile)) {
+        // když je $visitorProfile, jistě je $loginAggregate
+        $entries = [
+            'embedded' => 'true',
+    //        'usp' => 'pp_url',
+            '190219785' => $visitorProfile->getSurname() ?? '',
+            '1783510966' => $visitorProfile->getName() ?? '',
+            '1428572852' => $loginAggregate->getRegistration()->getEmail() ?? '',
+            '742183994' => $loginAggregate->getLoginName() ?? '',
+        ];
+    } else {
+        $entries = [
+            'embedded' => 'true'
+        ];
+    }
+
+    foreach ($entries as $key => $value) {
+        $queryArray[] = 'entry.'.$key.'='.urlencode($value);
+    }
+
+    $src = implode('', $formUrlArray).implode('&', $queryArray);
+    $textNadpis = "Anketa a slosování";
+    $perex = "Vyplňte Anktetu návštěvníka!" ; //  a zařaďte se do slosování o ceny, které proběhne 28. dubna!";
+
+?>
+<div class="ui segment">
+    <div class="paper editable">
+        <section>
+            <form>
+                <headline class="ui header borderDance">
+                    <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll"><?= $textNadpis ?></p>
+                </headline>
+            </form>
+        </section>
+        <section>
+            <form>
+                <perex class="borderDance">
+            <?= Text::mono("<p class=\"text\">$perex</p>"
+            .(isset($visitorProfile) ? '' : Text::mono('<p class="text">Pokud jste zaregistrovaní návštěvníci veletrhu, nezapomeňte se předtím <b>přihlásit!!</b></p>'))
+            .'<p class="text okraje-vertical"></p>');
+            ?>
+                </perex>
+            </form>
+        </section>
+        <section>
+            <div class="">
+                <div class="ui grid">
+                    <div class="row">
+                        <div class="sixteen wide column">
+                            <iframe src="<?= $src ?>" frameborder="0" id="gformQQQ" width=100% height="4000" frameborder="0" marginheight="0" marginwidth="0">Načítání…</iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
