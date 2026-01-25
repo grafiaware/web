@@ -399,6 +399,7 @@ class ConfigurationWeb extends ConfigurationConstants {
     }
 
     public static function files() {
+        // hodnoty nejsou cesty (path), nejsou zakončeny lomítkem, 
         return [
             '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'download' : self::WEB_FILES_SITE.'download',
             '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'images' : self::WEB_FILES_COMMON.'images',
