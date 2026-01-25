@@ -8,7 +8,7 @@ use Pes\Text\Text;
 use Site\ConfigurationCache;
 use View\Thief;
 
-        $urlPostfix = "index.php?lay=";
+        $urlPostfix = "web/v1/page/item/65aff921a0cc2";
         $urlPrefix = "http://praci.najdisi.cz/";
         $thief = new Thief();
         $steal = $thief->steal($urlPrefix, $urlPostfix);

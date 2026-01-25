@@ -11,7 +11,8 @@ use Access\Enum\RoleEnum;
 // visitor
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Repository\StatusSecurityRepo;
-use Red\Model\Repository\VisitorDataRepo;
+use Events\Model\Repository\VisitorProfileRepo;
+use Events\Model\Entity\VisitorProfileInterface;
 
 
 //   zkrácené url https://forms.gle/w5NTnXbxEg6GGRLp7
@@ -42,18 +43,21 @@ use Red\Model\Repository\VisitorDataRepo;
 
     // poue pro default roli 'visitor'
     if (isset($role) AND $role==(RoleEnum::VISITOR)) {
-        $visitorDataRepo = $container->get(VisitorDataRepo::class);
-        $visitorData = $visitorDataRepo->get($loginName);
+        /** @var VisitorProfileRepo $visitorProfileRepo */
+        $visitorProfileRepo = $container->get(VisitorProfileRepo::class);
+        /** @var VisitorProfileInterface $visitorProfile */
+        $visitorProfile = $visitorProfileRepo->get($loginName);
     }
 
-    if (isset($visitorData)) {
+    if (isset($visitorProfile)) {
+        // když je $visitorProfile, jistě je $loginAggregate
         $entries = [
             'embedded' => 'true',
     //        'usp' => 'pp_url',
-            '190219785' => $visitorData->getSurname() ?? '',
-            '1783510966' => $visitorData->getName() ?? '',
-            '1428572852' => $visitorData->getEmail() ?? '',
-            '742183994' => $visitorData->getLoginLoginName() ?? '',
+            '190219785' => $visitorProfile->getSurname() ?? '',
+            '1783510966' => $visitorProfile->getName() ?? '',
+            '1428572852' => $loginAggregate->getRegistration()->getEmail() ?? '',
+            '742183994' => $loginAggregate->getLoginName() ?? '',
         ];
     } else {
         $entries = [
@@ -66,6 +70,8 @@ use Red\Model\Repository\VisitorDataRepo;
     }
 
     $src = implode('', $formUrlArray).implode('&', $queryArray);
+    $textNadpis = "Anketa a slosování";
+    $perex = "Vyplňte Anktetu návštěvníka!" ; //  a zařaďte se do slosování o ceny, které proběhne 28. dubna!";
 
 ?>
 <div class="ui segment">
@@ -73,15 +79,15 @@ use Red\Model\Repository\VisitorDataRepo;
         <section>
             <form>
                 <headline class="ui header borderDance">
-                    <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Anketa a slosování</p>
+                    <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll"><?= $textNadpis ?></p>
                 </headline>
             </form>
         </section>
         <section>
             <form>
                 <perex class="borderDance">
-            <?= Text::mono('<p class="text">Vyplňte ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>'
-            .(isset($visitorData) ? '' : Text::mono('<p class="text">Pokud jste zaregistrovaní návštěvníci veletrhu, nezapomeňte se předtím <b>přihlásit!!</b></p>'))
+            <?= Text::mono("<p class=\"text\">$perex</p>"
+            .(isset($visitorProfile) ? '' : Text::mono('<p class="text">Pokud jste zaregistrovaní návštěvníci veletrhu, nezapomeňte se předtím <b>přihlásit!!</b></p>'))
             .'<p class="text okraje-vertical"></p>');
             ?>
                 </perex>
