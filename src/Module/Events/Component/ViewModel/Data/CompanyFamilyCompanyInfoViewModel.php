@@ -76,7 +76,8 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
         $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
 //        $companyShortcut = preg_split('~[^\p{L}\p{N}\']+~u',$company ? $company->getName() : '')[0];
         $companyShortcut = trim($company->getName());
-        $exhibitorStandImage = ConfigurationCache::files()['@presenter']."/stanky/2025/".$companyShortcut.".png";
+        $yearPath = '2026';
+        $exhibitorStandImage = ConfigurationCache::files()['@presenter']."/stanky/$yearPath/".$companyShortcut.".png";
         $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($componentRouteSegment->hasChildId()) {        
             $array = [
