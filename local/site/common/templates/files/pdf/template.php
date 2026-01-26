@@ -11,7 +11,7 @@ $toolbar = "#toolbar=0&navpanes=0";  // skryje panel (ne všude, ale často fung
 ?>
 
 <iframe
-  src="public/assets/pdfjs/scroll/simple.html?file=<?= "/web/".$path.$file ?>"
+  src="public/assets/pdfjs/scroll/simple.html?file=<?= $path.$file ?>"
   width="100%"
   height="800">
 </iframe>
