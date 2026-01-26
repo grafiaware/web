@@ -19,7 +19,6 @@ $filePath;  // _files/... relativní adresa vůči documentroot
 $file;
 
 $absoluteUrl = $basePath.$filePath;
-$toolbar = "#toolbar=0&navpanes=0";  // skryje panel (ne všude, ale často funguje) - v Opera, Edge ano, ve Firefox ne
 
 ?>
 
