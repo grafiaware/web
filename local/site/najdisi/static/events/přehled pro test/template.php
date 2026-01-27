@@ -3,6 +3,7 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
+use Site\ConfigurationCache;
 
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyRepoInterface;
