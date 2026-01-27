@@ -49,12 +49,7 @@ use Access\Enum\RoleEnum;
     $statusViewModel = $container->get(StatusViewModel::class);  
     $role = $statusViewModel->getUserRole();
     $loginName = $statusViewModel->getUserLoginName();
-if ($loginName!=="Barbie25Girl" && $loginName!=="JerryNoName") {
-    echo Html::p("Stránka je určena pouze pro testování před začátkem veletrhu.", ["class"=>"ui orange segment"]);
-    
-    
-} else {    
-    
+if ($loginName=="Barbie25Girl" || $loginName=="JerryNoName" || $loginName=="visitor") {    
     $isVisitor = (isset($role) AND $role==RoleEnum::VISITOR);
     $representativeActions = $statusViewModel->getRepresentativeActions();
     $representative = isset($representativeActions) ? $representativeActions->getRepresentative() : null;
@@ -88,7 +83,7 @@ if ($loginName!=="Barbie25Girl" && $loginName!=="JerryNoName") {
     //----------------------------------------------------
     
     ###########################
-    $version = 'test';
+    $version = '2026';
     ###########################
    
     $allCompanies = $companyRepo->find( "version_fk=:version_fk order by name ASC ", [":version_fk"=>$version]) ;
@@ -165,4 +160,6 @@ if ($loginName!=="Barbie25Girl" && $loginName!=="JerryNoName") {
             }
         }        
     }
-}    
+} else { 
+    echo Html::p("Stránka je určena pouze pro testování před začátkem veletrhu.", ["class"=>"ui orange segment"]);
+}
