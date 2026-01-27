@@ -66,6 +66,6 @@ if ($loginName=="Barbie25Girl" || $loginName=="JerryNoName" || $loginName=="visi
 
     }    
 } else {
-    echo Html::p("Stránka je až do termínu veletrhu zobrazena pouze přihlášeným reprezentantům firmy.", ["class"=>"ui blue segment"]);
+    echo Html::p("Stránka je urečena pouze pro test.", ["class"=>"ui blue segment"]);
     
 }
