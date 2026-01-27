@@ -18,26 +18,45 @@ use Access\Enum\RoleEnum;
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
 
-/** @var  RepresentativeInterface $representativeFromStatus*/
 $role = $statusViewModel->getUserRole();
+$loginName = $statusViewModel->getUserLoginName();
 
-if (isset($role) && ($role==RoleEnum::REPRESENTATIVE || $role==RoleEnum::EVENTS_ADMINISTRATOR)) {
-    echo Html::p("Přehled pracovních pozic je až do termínu konání veletrhu zobrazován pouze přihlášeným reprezentantům vystavovatelů a partnerů. Rozpracované informace o firmách a pozicích tak nejsou veřejné.", ["class"=>"ui segment"]);
+if ($loginName=="Barbie25Girl" || $loginName=="JerryNoName" || $loginName=="visitor") {    
 
+//if (isset($role) && ($role==RoleEnum::REPRESENTATIVE || $role==RoleEnum::EVENTS_ADMINISTRATOR)) {
+    echo Html::p("Přehled je až do termínu konání veletrhu zobrazován pouze přihlášeným testerům. Rozpracované informace o firmách a pozicích tak nejsou veřejné.", ["class"=>"ui segment"]);
+    ###########################
+    $version = '2026';
+    ###########################
     /** @var CompanyRepoInterface $companyRepo */
     $companyRepo = $container->get(CompanyRepo::class );
-    $companies = $companyRepo->findAll();
+   
+    $companies = $companyRepo->find( "version_fk=:version_fk order by name ASC ", [":version_fk"=>$version]) ;    
 
     foreach ($companies as $company) {
-        $companyId = $company->getId();
+        $companyId = $company->getId();     
+//        echo Html::p("Jedna company s id company: events/v1/data/company/$companyId", $pStyle);
         echo Html::tag('div', 
                 [
                     'class'=>'cascade nazev-firmy',
                     'data-red-apiuri'=>"events/v1/data/company/$companyId",
                 ]
-            );                 
-        
-            /** @var JobInterface $job */
+            );
+//        echo Html::p("Jedna adresa s id company (rodiče): events/v1/data/company/$companyId/companyaddress", $pStyle);
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
+                ]
+            );
+//        echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/data/company/$companyId/companycontact", $pStyle);
+        echo Html::tag('div', 
+                [
+                    'class'=>'cascade',
+                    'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
+                ]
+            );
+        /** @var JobInterface $job */
             echo Html::tag('div', 
                     [
                         'class'=>'cascade',
@@ -47,6 +66,6 @@ if (isset($role) && ($role==RoleEnum::REPRESENTATIVE || $role==RoleEnum::EVENTS_
 
     }    
 } else {
-    echo Html::p("Stránka je až do termínu veletrhu zobrazena pouze přihlášeným reprezentantům firmy.", ["class"=>"ui blue segment"]);
+    echo Html::p("Stránka je urečena pouze pro test.", ["class"=>"ui blue segment"]);
     
 }
