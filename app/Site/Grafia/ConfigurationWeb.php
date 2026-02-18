@@ -9,15 +9,6 @@
 namespace Site\Grafia;
 
 use Application\WebAppFactory;
-use Red\Component\View\Generated\LanguageSelectComponent;
-use Red\Component\View\Generated\SearchPhraseComponent;
-use Web\Component\View\Flash\FlashComponent;
-use Auth\Component\View\LoginComponent;
-use Auth\Component\View\LogoutComponent;
-use Auth\Component\View\RegisterComponent;
-use Red\Component\View\Manage\EditorActionComponent;
-use Events\Component\View\Manage\RepresentativeActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -34,15 +25,6 @@ class ConfigurationWeb extends ConfigurationConstants {
     const RED_TEMPLATES_COMMON = 'local/site/common/templates/red/';
     const RED_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/red/';
     const RED_STATIC = 'local/site/'.self::WEB_SITE.'static/';
-    
-    ### bootstrap ###
-    #
-    public static function bootstrap() {
-        return [
-            'bootstrap.logs.basepath' => self::WEB_BOOTSTRAP_LOGS,
-            'bootstrap.productionhost' => self::WEB_BOOTSTRAP_PRODUCTION_HOST,
-        ];
-    }
 
     ### kontejner ###
     #
@@ -57,14 +39,14 @@ class ConfigurationWeb extends ConfigurationConstants {
             # Konfigurace adresáře logů
             #
             'app.logs.directory' => 'Logs/App',
-            'app.logs.type' => FileLogger::REWRITE_LOG,
+            'app.logs.type' => FileLogger::APPEND_TO_LOG,
             #
             #################################
 
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_gr_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_na_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
@@ -93,7 +75,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             #
             ##################################
             #
-        ];
+            ];
     }
 
     /**
@@ -105,16 +87,38 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function webComponent() {
         return [
-            'webcomponent.logs.directory' => 'Logs/Web',
-            'webcomponent.logs.render' => 'Render.log',
-            'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
-            'webcomponent.templates' =>
-                [
+            'logs.directory' => 'Logs/Components',
+            'logs.render' => 'Render.log',
+            'logs.type' => FileLogger::REWRITE_LOG,
+            'templates' => [
+                
+                //gdpr    
+                'gdpr' => self::WEB_TEMPLATES_COMMON.'layout/gdpr/gdpr.php',
 
-                ]
+                // common layout templates
+                'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
+                'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+                'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
+                'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
+                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+
+                // site layout templates
+                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
+
+                
+            ],
         ];
     }
-
+    /**
+     * Konfigurace - parametry common templates
+     * @return array
+     */
+    public static function commonTemplates() {
+        return [
+            'templates' => self::WEB_TEMPLATES_COMMON,
+        ];
+    }
     ### presentation ###
     #
 
@@ -147,7 +151,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
 
             // title
-            'title' => "Grafia s.r.o.",
+            'title' => "Grafia, s.r.o.",
 
             // folders
             'linksCommon' => self::WEB_LINKS_COMMON,
@@ -182,8 +186,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             'urlContentTemplatesCss' => self::WEB_LINKS_COMMON."css/templates.css",
             'urlMediaCss' => self::WEB_LINKS_COMMON."css/media.css",
             // home page
-            'home_page' => ['block', 'home'],
-//           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+            'homePageBlockName' => 'home',  // jméno bloku v tabulce blocks
+            'homePageFallbackBlockName' => 'home_fallback',
 
             'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
@@ -209,74 +213,80 @@ class ConfigurationWeb extends ConfigurationConstants {
             // Toto jméno odpovídá jménu proměnné v PHP šabloně (bez znaku $) a tím je dáno, že smí obsahovat jen písmena a číslice, ale je case-sensitive. 
             // Navíc však bude použito jako část API path (api uri), např. 'red/v1/component/menuVlevo', URL je case-insensitive a může docházet ke kódování znaků.
             
-            //  název proměnné v šabloně => název služby v konteneru (obvykle název třídy komponentu)
+            //  název proměnné v šabloně => [routa => název služby v konteneru (obvykle název třídy komponentu)]
             'contextServiceMap' => [
-                    'flash' => FlashComponent::class,
-                    'modalLogin' => LoginComponent::class,
-                    'modalLogout' => LogoutComponent::class,
-                    'modalRegister' => RegisterComponent::class,
-                    'modalUserAction' => EditorActionComponent::class,
-                    'info' => InfoBoardComponent::class,
-                    'languageSelect'=> LanguageSelectComponent::class,
-                    'searchPhrase'=> SearchPhraseComponent::class,
+//                    'info' => ["web/v1/service/info"=>InfoBoardComponent::class],
                 ],
-            //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
+            //  název proměnné v šabloně => název služby v kontejneru (obvykle název menu komponentu jako string)
             'contextLayoutMap' => [
-                    'menuSvisle' => 'menuVertical',
-                    'menuVodorovne' => 'menuHorizontal',
-                    'menuPresmerovani' => 'menuRedirect',
+//                    'menuSvisle' => 'menuVertical',
                 ],
             //  název proměnné v šabloně => název služby v konteneru (obvykle název menu komponentu jako string)
             'contextLayoutEditableMap' => [
-                    'bloky' => 'menuBlocks',
-                    'kos' => 'menuTrash',
+//                    'bloky' => 'menuBlocks',
+//                    'kos' => 'menuTrash',
                 ],
             //  název proměnné v šabloně => hodnota targetId příslušná k menu z položky 'contextMenuMap'
             'contextTargetMap' => [
                     'content'=>['id'=>'menusvisle_target'],  
                 ],
             'contextMenuMap' => [
-                    'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
-                    'menuVodorovne' => ['service'=>'menuHorizontal', 'targetContext'=>'content'],
-                    'menuPresmerovani' => ['service'=>'menuRedirect', 'targetContext'=>'content'],
+//                    'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
                 ],
             'contextMenuEditableMap' => [
-                    'bloky' => ['service'=>'menuBlocks', 'targetId'=>'menutarget_content'],
-                    'kos' => ['service'=>'menuTrash', 'targetId'=>'menutarget_content'],
+//                    'bloky' => ['service'=>'menuBlocks', 'targetId'=>'menutarget_content'],
+//                    'kos' => ['service'=>'menuTrash', 'targetId'=>'menutarget_content'],
                 ],
             'contextBlocksMap' => [
-                'aktuality'=>'a1',
-                'nejblizsiAkce'=>'a2',
-                'rychleOdkazy'=>'a3',
-                'razitko'=>'a4',
-                'socialniSite'=>'a5',
                 ],            
             ];
     }
     public static function menu() {
             // menu
-            // 'jméno služby kontejneru' => [pole parametrů menu]
-            // 'jméno služby kontejneru' - jmébo služby kontejneru, která vrací příslušný menu komponent
+            // 'identifikátor parametrů' => [parametry menu]
+            // parametry se použijí v kontejneru: $c->get('menu.services')['identifikátor parametrů']
             // parametry menu jsou:
-            //      'rootName' => jméno kořene menu v db tabulce root_name,
+            //      'rootName' => jméno kořene menu v db tabulce root_name, podle root name se najde uid kořene v hierarchii položek menu a načte se podstrom položek patřících do menu
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
             //      'levelRenderer' => jméno rendereru pro renderování "úrovně menu" - rodičovského view, který obaluje jednotlivé item view
+            //      'levelRendererEditable' => jméno rendereru pro editační režim
+        
+        /*
+         * V šabloně (layout) se volá komponent. Například (v PHP): Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSupervisor",])  
+         * Zde v konfiguraci je 'menuSupervisor' => [.....]
+         * V kontejneru je služba 'menuSupervisor', ta vrací komponent pro zobrazení (resp. načtení prostřednictvím cascade a zobrazení) menuSupervisor v šabloně.
+         * ( podle root_name
+         * Tato služba kontejneru použije parametry 'menuSupervisor' z konfigurace $c->get('menu.services')['menuSupervisor']
+         */
+        
         return [
             'menu.services' => [
-                    '' => [
-                        'rootName' => 'menu_redirect',
+
+//            menuSupervisor:
+//            - nástroj jak vůbec umět přidávat menu
+//            - právo display jen supervisor
+//            - rootName - root - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
+//            - 
+                    'menuSupervisor' => [
+                        'rootName' => 'root',
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        ],
+                    'menuRedirect' => [
+                        'rootName' => 'menu redirect',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
-                        'levelRenderer' => 'menuRedirect.levelRenderer',
-                        'levelRendererEditable' => 'menuRedirect.levelRenderer.editable',
+                        'levelRenderer' => 'menuHorizontal.levelRenderer',
+                        'levelRendererEditable' => 'menuHorizontal.levelRenderer.editable',
                         ],
                     'menuHorizontal' => [
-                        'rootName' => 'menu_horizontal',
+                        'rootName' => 'menu horizontal',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuHorizontal.levelRenderer',
                         'levelRendererEditable' => 'menuHorizontal.levelRenderer.editable',
                         ],
                     'menuVertical' => [
-                        'rootName' => 'menu_vertical',
+                        'rootName' => 'menu vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
@@ -285,13 +295,13 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'rootName' => 'blocks',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuBlocks.levelRenderer',
-                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
                         ],
                     'menuTrash' => [
                         'rootName' => 'trash',
                         'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menuTrash.levelRenderer',
-                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
                         ],
                 ],
 
@@ -320,13 +330,20 @@ class ConfigurationWeb extends ConfigurationConstants {
         return [
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
-            'mail.paramsname' => 'grafiaInterni', //'najdisi', //'itGrafiaGmail', // 
+            // volba sady parametrů z Mail\ParamsTemplates
+//            'mail.paramsname' => 'grafiaInterni', 
+//            'mail.paramsname' => 'najdisi', // funkční na hostingu
+//            'mail.paramsname' => 'najdisiWebSMTP',
+//            'mail.paramsname' => 'itGrafiaGmail', 
+            'mail.paramsname' => 'smtp4dev', 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'attachments/' : self::WEB_FILES_SITE.'attachments/',
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'sendmail/' : self::WEB_FILES_SITE.'sendmail/',
 
         ];
     }
 
     public static function files() {
+        // hodnoty nejsou cesty (path), nejsou zakončeny lomítkem, 
         return [
             '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'download' : self::WEB_FILES_SITE.'download',
             '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_COMMON.'images' : self::WEB_FILES_COMMON.'images',
@@ -335,7 +352,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'movies' : self::WEB_FILES_SITE.'movies',
             '@siteupload' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload' : self::WEB_FILES_SITE.'upload',
 
-            '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter" : self::WEB_FILES_SITE."presenter",
+//            '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter" : self::WEB_FILES_SITE."presenter",
 
         ];
     }
