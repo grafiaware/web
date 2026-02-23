@@ -3,6 +3,7 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
+use Site\ConfigurationCache;
 
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyRepoInterface;
@@ -35,36 +36,8 @@ if ($loginName=="Barbie25Girl" || $loginName=="JerryNoName" || $loginName=="visi
 
     foreach ($companies as $company) {
         $companyId = $company->getId();     
-//        echo Html::p("Jedna company s id company: events/v1/data/company/$companyId", $pStyle);
-        echo Html::tag('div', 
-                [
-                    'class'=>'cascade nazev-firmy',
-                    'data-red-apiuri'=>"events/v1/data/company/$companyId",
-                ]
-            );
-//        echo Html::p("Jedna adresa s id company (rodiče): events/v1/data/company/$companyId/companyaddress", $pStyle);
-        echo Html::tag('div', 
-                [
-                    'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/company/$companyId/companyaddress",
-                ]
-            );
-//        echo Html::p("Všechny kontakty jedné company s id company (rodiče): events/v1/data/company/$companyId/companycontact", $pStyle);
-        echo Html::tag('div', 
-                [
-                    'class'=>'cascade',
-                    'data-red-apiuri'=>"events/v1/data/company/$companyId/companycontact",
-                ]
-            );
-        /** @var JobInterface $job */
-            echo Html::tag('div', 
-                    [
-                        'class'=>'cascade',
-                        'data-red-apiuri'=>"events/v1/data/company/$companyId/job",
-                    ]
-                );            
-
-    }    
+        include ConfigurationCache::eventTemplates()['templates']."presenter/company-profile.php";
+    }
 } else {
     echo Html::p("Stránka je urečena pouze pro test.", ["class"=>"ui blue segment"]);
     
