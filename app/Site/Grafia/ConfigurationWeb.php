@@ -91,22 +91,18 @@ class ConfigurationWeb extends ConfigurationConstants {
             'logs.render' => 'Render.log',
             'logs.type' => FileLogger::REWRITE_LOG,
             'templates' => [
-                
                 //gdpr    
                 'gdpr' => self::WEB_TEMPLATES_COMMON.'layout/gdpr/gdpr.php',
 
                 // common layout templates
                 'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                
                 'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
                 'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
-                'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
-                'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
-                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-
-                // site layout templates
-                'register' => self::WEB_TEMPLATES_SITE.'layout/status/register-with-exhibitor-representative.php',
-
+                'register' => self::WEB_TEMPLATES_COMMON.'layout/status/register.php',
                 
+                'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
+                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',                
             ],
         ];
     }
@@ -216,6 +212,15 @@ class ConfigurationWeb extends ConfigurationConstants {
             //  název proměnné v šabloně => [routa => název služby v konteneru (obvykle název třídy komponentu)]
             'contextServiceMap' => [
 //                    'info' => ["web/v1/service/info"=>InfoBoardComponent::class],
+                    
+//                    'flash' => FlashComponent::class,
+//                    'modalLogin' => LoginComponent::class,
+//                    'modalLogout' => LogoutComponent::class,
+////                    'modalRegister' => RegisterComponent::class,
+//                    'modalUserAction' => EditorActionComponent::class,
+//                    'info' => InfoBoardComponent::class,
+                    'languageSelect'=> ["web/v1/service/languageSelect"=>LanguageSelectComponent::class],
+                    'searchPhrase'=> ["web/v1/service/searchPhrase"=>SearchPhraseComponent::class],
                 ],
             //  název proměnné v šabloně => název služby v kontejneru (obvykle název menu komponentu jako string)
             'contextLayoutMap' => [
@@ -238,6 +243,11 @@ class ConfigurationWeb extends ConfigurationConstants {
 //                    'kos' => ['service'=>'menuTrash', 'targetId'=>'menutarget_content'],
                 ],
             'contextBlocksMap' => [
+                'aktuality'=>'a1',
+                'nejblizsiAkce'=>'a2',
+                'rychleOdkazy'=>'a3',
+                'razitko'=>'a4',
+                'socialniSite'=>'a5',
                 ],            
             ];
     }
