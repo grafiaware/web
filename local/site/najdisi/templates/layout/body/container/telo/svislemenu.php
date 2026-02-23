@@ -24,7 +24,6 @@ use Pes\Text\Html;
             <nav class="svisle-menu kos">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuTrash",])  ?>
             </nav>
-            </nav>
             <nav class="svisle-menu bloky">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuBlocks",])  ?>
             </nav>

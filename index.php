@@ -3,24 +3,7 @@ declare(strict_types=1);
 
 // Pokud potřebujete zobrazovat či logovat chyby PHP, změňte si příslušné nastavení PHP v klientské sekci ve správě domény v části Webserver » Nastavení PHP. 
 
-$deploy = false;
-if($deploy) {
-    error_reporting(E_ALL);     
-}
 
-define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
-//define('PROJECT_PATH', realpath(__DIR__ . '/..'));
-include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-
-if($deploy) {
-    error_log("Error log available!", 0);
-    echo PES_RUNNING_ON_PRODUCTION_HOST ? "<p>Production host</p>" : "<p>No production host - connection error will occur!</p>";
-    echo "<p>host name: ".gethostname()."<p>";
-    echo 'PES_PRODUCTION_MACHINE_HOST_NAME: '.PES_PRODUCTION_MACHINE_HOST_NAME;//
-    echo "<p>\$_SERVER['DOCUMENT_ROOT']: ".$_SERVER['DOCUMENT_ROOT']."<p>";
-    echo "<p>PROJECT_PATH: ".constant('PROJECT_PATH')."<p>";
-    echo "<p>PES_BOOTSTRAP_LOGS_BASE_PATH: ".constant('PES_BOOTSTRAP_LOGS_BASE_PATH')."<p>";
-}
  
 use Application\WebAppFactory;
 
@@ -39,6 +22,27 @@ use Pes\Middleware\UnprocessedRequestHandler;
 use Pes\Middleware\NoMatchedRouteRequestHandler;
 
 use Pes\Http\ResponseSender;
+
+$deploy = false;
+if($deploy) {
+    error_reporting(E_ALL);     
+}
+
+define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
+//define('PROJECT_PATH', realpath(__DIR__ . '/..'));
+include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
+
+if($deploy) {
+    error_log("Error log available!", 0);
+    echo PES_RUNNING_ON_PRODUCTION_HOST ? "<p>Production host</p>" : "<p>No production host - connection error will occur!</p>";
+    echo "<p>host name: ".gethostname()."<p>";
+    echo 'PES_PRODUCTION_MACHINE_HOST_NAME: '.PES_PRODUCTION_MACHINE_HOST_NAME;//
+    echo "<p>\$_SERVER['DOCUMENT_ROOT']: ".$_SERVER['DOCUMENT_ROOT']."<p>";
+    echo "<p>PROJECT_PATH: ".constant('PROJECT_PATH')."<p>";
+    echo "<p>PES_BOOTSTRAP_LOGS_BASE_PATH: ".constant('PES_BOOTSTRAP_LOGS_BASE_PATH')."<p>";
+}
+
+
 $environment = (new EnvironmentFactory())->createFromGlobals();
 $app = (new WebAppFactory())->createFromEnvironment($environment);
 $appContainer =(new AppContainerConfigurator())->configure(new Container());  //(new AppContainerConfigurator())->configure(new Container(new AutowiringContainer()));
