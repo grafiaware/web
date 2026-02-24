@@ -149,10 +149,15 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             'menuRedirect.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menuRedirect.classmap'));
             },
-
+            'menuRedirect.levelRenderer.editable' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuRedirect.classmap.editable'));
+            },
             'menuHorizontal.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menuHorizontal.classmap'));
             },                    
+            'menuHorizontal.levelRenderer.editable' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menuHorizontal.classmap.editable'));
+            }, 
             //bloky
             'menuBlocks.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menuVertical.classmap'));
