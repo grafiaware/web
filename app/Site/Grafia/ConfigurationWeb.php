@@ -287,13 +287,13 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'rootName' => 'menu redirect',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuHorizontal.levelRenderer',
-                        'levelRendererEditable' => 'menuHorizontal.levelRenderer.editable',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuHorizontal' => [
                         'rootName' => 'menu horizontal',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuHorizontal.levelRenderer',
-                        'levelRendererEditable' => 'menuHorizontal.levelRenderer.editable',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         ],
                     'menuVertical' => [
                         'rootName' => 'menu vertical',
