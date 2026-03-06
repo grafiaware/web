@@ -223,6 +223,8 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             AccountInterface::class => Account::class,
             'presentationAction' => EditorActionComponent::class,
+            'languageSelect' => LanguageSelectComponent::class,
+            'searchPhrase' => SearchPhraseComponent::class,
         ];
     }
 
