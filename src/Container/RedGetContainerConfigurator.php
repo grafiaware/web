@@ -897,12 +897,15 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             SearchResultComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
-                $component = new SearchResultComponent($c->get(ComponentConfiguration::class));
-                $component->setData($c->get(SearchResultViewModel::class));
-                $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setRendererName(SearchResultRenderer::class);
+                if($accessPresentation->isAllowed(LanguageSelectComponent::class, AccessPresentationEnum::DISPLAY)) {                
+                    /** @var ComponentConfigurationInterface $configuration */
+                    $component = new SearchResultComponent($c->get(ComponentConfiguration::class));
+                    $component->setData($c->get(SearchResultViewModel::class));
+                    $component->setRendererContainer($c->get('rendererContainer'));
+                    $component->setRendererName(SearchResultRenderer::class);
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }                
                 return $component;
             },
             SearchPhraseComponent::class => function(ContainerInterface $c) {

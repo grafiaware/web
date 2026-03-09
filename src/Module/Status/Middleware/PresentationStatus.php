@@ -43,31 +43,22 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      */
     #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-
-        //TODO: POST version
-        // možná není potřeba ukládat - nebude fungovat seeLastGet
-
-        $this->container = $this->getApp()->getAppContainer();
+        $container = $this->getApp()->getAppContainer();
         /** @var StatusPresentationRepo $statusPresentationRepo */
-        $this->statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
+        $statusPresentation = $statusPresentationRepo->get();
         if (!isset($statusPresentation)) {
             $statusPresentation = new Presentation();
-            $this->statusPresentationRepo->add($statusPresentation);
+            $statusPresentationRepo->add($statusPresentation);
         }
-        
         $this->setPresentationLanguage($statusPresentation, $request);
         $this->setLastGetPath($statusPresentation, $request); 
 
         if ($request->getMethod() == 'GET') {
-            $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
+            $statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         }
         
-        ###
         $response = $handler->handle($request);
-        ###
-        
-//        $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         return $response;
     }
 
