@@ -52,7 +52,7 @@ class VisitorProfileSingleListViewModel extends ViewModelSingleListAbstract impl
      * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $array = [         
             'listHeadline'=>'Návštěvníci', 
             'items' => $this->getArrayCopy()];

@@ -17,17 +17,10 @@ use Pes\Middleware\AppMiddlewareAbstract;
 use Application\WebAppFactory;
 use Site\ConfigurationCache;
 
-use Pes\Container\Container;
-use Container\DbUpgradeContainerConfigurator;
-use Container\RedModelContainerConfigurator;
-use Container\PresentationStatusComfigurator;
-
 use Status\Model\Entity\Presentation;
 use Status\Model\Repository\StatusPresentationRepo;
-use Red\Model\Repository\LanguageRepo;
 use Status\Model\Entity\PresentationInterface;
 use Red\Model\Entity\LanguageInterface;
-use Red\Model\Entity\EditorActions;
 
 use UnexpectedValueException;
 
@@ -41,32 +34,31 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     private $container;
     private $statusPresentationRepo;
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     */
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-
-        //TODO: POST version
-        // možná není potřeba ukládat - nebude fungoba seeLastGet
-
-        $this->container = $this->getApp()->getAppContainer();
+        $container = $this->getApp()->getAppContainer();
         /** @var StatusPresentationRepo $statusPresentationRepo */
-        $this->statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
+        $statusPresentation = $statusPresentationRepo->get();
         if (!isset($statusPresentation)) {
             $statusPresentation = new Presentation();
-            $this->statusPresentationRepo->add($statusPresentation);
+            $statusPresentationRepo->add($statusPresentation);
         }
-        
         $this->setPresentationLanguage($statusPresentation, $request);
         $this->setLastGetPath($statusPresentation, $request); 
 
         if ($request->getMethod() == 'GET') {
-            $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
+            $statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         }
         
-        ###
         $response = $handler->handle($request);
-        ###
-        
-//        $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
         return $response;
     }
 
@@ -79,12 +71,8 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguageCode())) {
             $langCode = $this->getRequestedLangCode($request);
-            /** @var LanguageRepo $lanuageRepo */
-//            $lanuageRepo = $this->container->get(LanguageRepo::class);
-//            $language = $lanuageRepo->get($langCode);
             $statusPresentation->setRequestedLangCode($langCode);
             $statusPresentation->setLanguageCode($langCode);
-//            $statusPresentation->setLanguage($language);
         }
     }
 

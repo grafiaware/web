@@ -15,7 +15,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class MultipageRenderer  extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var MultipageViewModelInterface $viewModel */
         $inner = (string) $viewModel->getContextVariable(MultipageComponent::CONTENT) ?? '';
         $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';

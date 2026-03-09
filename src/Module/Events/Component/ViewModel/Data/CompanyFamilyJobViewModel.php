@@ -15,6 +15,7 @@ use Access\Enum\RoleEnum;
 use Model\Entity\EntityInterface;
 
 use UnexpectedValueException;
+use ArrayIterator;
 
 /**
  * 
@@ -83,7 +84,7 @@ class CompanyFamilyJobViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function getIterator() {  
+    public function getIterator(): ArrayIterator {
         $this->loadJob();
         $componentRouteSegment = $this->getFamilyRouteSegment();        
         $selectEducations = $this->selectEducations();

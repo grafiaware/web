@@ -49,14 +49,6 @@ class RowData extends \ArrayObject implements RowDataInterface {
         return $changed;
     }
 
-    public function offsetGet($index) {
-        return parent::offsetGet($index);
-    }
-
-    public function offsetExists($index) {
-        return parent::offsetExists($index);
-    }
-
     /**
      * Přidá nebo změní data. Data přidá nebo změní pouze v těchto případech:
      *
@@ -68,23 +60,23 @@ class RowData extends \ArrayObject implements RowDataInterface {
      *
      * Metoda nic nemění pokud se změní jen vlastnosti objektu, který je hodnotou položky dat typu objekt.
      *
-     * @param type $index
+     * @param type $key
      * @param type $value
      */
-    public function offsetSet($index, $value) {
+    public function offsetSet(mixed $key, mixed $value): void {
         // změněná nebo nová data
-        if (parent::offsetExists($index)) {
-            if (parent::offsetGet($index) !== $value) {
-                $this->setNewValue($index, $value);
+        if (parent::offsetExists($key)) {
+            if (parent::offsetGet($key) !== $value) {
+                $this->setNewValue($key, $value);
             }
         } else {
-            $this->setNewValue($index, $value);
+            $this->setNewValue($key, $value);
         }
     }
 
-    public function offsetUnset($index) {
-        if (!$this->offsetExists($index) OR $this->offsetGet($index)!==null) {
-            $this->setNewValue($index, null);
+    public function offsetUnset(mixed $key): void {
+        if (!$this->offsetExists($key) OR $this->offsetGet($key)!==null) {
+            $this->setNewValue($key, null);
         }
     }
 
@@ -101,12 +93,12 @@ class RowData extends \ArrayObject implements RowDataInterface {
         }
     }
 
-    public function exchangeArray($data) {
+    public function exchangeArray(object|array $array): array {
         // Zde by se musely v cyklu vyhodnocovat varianty byla/nebyla data x jsou/nejsou nová data
         throw new \LogicException('Nelze použít metodu exchangeArray(). Použijte offsetSet().');
     }
 
-    public function append($value) {
+    public function append(mixed $value): void {
         throw new \LogicException('Nelze vkládat neindexovaná data. Použijte offsetSet().');
     }
 

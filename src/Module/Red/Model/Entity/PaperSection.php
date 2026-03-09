@@ -10,6 +10,7 @@ namespace Red\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
 
+use DateTimeInterface;
 /**
  * Description of Article
  *
@@ -65,19 +66,19 @@ class PaperSection extends PersistableEntityAbstract implements PaperSectionInte
         return $this->priority;
     }
 
-    public function getShowTime(): ?\DateTimeInterface {
+    public function getShowTime(): ?DateTimeInterface {
         return $this->showTime;
     }
 
-    public function getHideTime(): ?\DateTimeInterface {
+    public function getHideTime(): ?DateTimeInterface {
         return $this->hideTime;
     }
 
-    public function getEventStartTime(): ?\DateTimeInterface {
+    public function getEventStartTime(): ?DateTimeInterface {
         return $this->eventStartTime;
     }
 
-    public function getEventEndTime(): ?\DateTimeInterface {
+    public function getEventEndTime(): ?DateTimeInterface {
         return $this->eventEndTime;
     }
 
@@ -85,7 +86,7 @@ class PaperSection extends PersistableEntityAbstract implements PaperSectionInte
         return $this->editor;
     }
 
-    public function getUpdated(): ?\DateTimeInterface {
+    public function getUpdated(): ?DateTimeInterface {
         return $this->updated;
     }
 
@@ -133,22 +134,22 @@ class PaperSection extends PersistableEntityAbstract implements PaperSectionInte
         return $this;
     }
 
-    public function setShowTime(\DateTimeInterface $showTime=null): PaperSectionInterface {
+    public function setShowTime(?DateTimeInterface $showTime=null): PaperSectionInterface {
         $this->showTime = $showTime;
         return $this;
     }
 
-    public function setHideTime(\DateTimeInterface $hideTime=null): PaperSectionInterface {
+    public function setHideTime(?DateTimeInterface $hideTime=null): PaperSectionInterface {
         $this->hideTime = $hideTime;
         return $this;
     }
 
-    public function setEventStartTime(\DateTimeInterface $eventStartTime=null): PaperSectionInterface {
+    public function setEventStartTime(?DateTimeInterface $eventStartTime=null): PaperSectionInterface {
         $this->eventStartTime = $eventStartTime;
         return $this;
     }
 
-    public function setEventEndTime(\DateTimeInterface $eventEndTime=null): PaperSectionInterface {
+    public function setEventEndTime(?DateTimeInterface $eventEndTime=null): PaperSectionInterface {
         $this->eventEndTime = $eventEndTime;
         return $this;
     }
@@ -158,7 +159,7 @@ class PaperSection extends PersistableEntityAbstract implements PaperSectionInte
         return $this;
     }
 
-    public function setUpdated(\DateTimeInterface $updated=null): PaperSectionInterface {
+    public function setUpdated(?DateTimeInterface $updated=null): PaperSectionInterface {
         $this->updated = $updated;
         return $this;
     }

@@ -22,7 +22,7 @@ use Pes\Text\Html;
  */
 class ArticleRendererEditable extends AuthoredRendererAbstract {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací PaperAggregate
 

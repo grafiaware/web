@@ -209,7 +209,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * @param MenuItemInterface $menuItem
      * @return type
      */
-    protected function composeLayoutView(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
+    protected function composeLayoutView(ServerRequestInterface $request, ?MenuItemInterface $menuItem = null) {
         $layoutView = $this->getLayoutView($request);
         if (isset($menuItem)) {
             $layoutView->appendComponentViews($this->getContentViews($menuItem));
@@ -390,14 +390,15 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         // pro neexistující bloky nedělá nic
         foreach ($map as $variableName => $blockName) {
             try {
-                $menuItem = $this->getBlock($blockName);                
+                $block = $this->getBlock($blockName);                
             } catch (UnexpectedValueException $exc) {  // neexistuje block
                 $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);
             }
-            if (isset($menuItem)) {
+            try {
+                $menuItem = $this->getMenuItem($this->getPresentationLangCode(), $block->getUidFk());  // block uidFk - musí existovat v menuitem - cizí klíč
                 $componets[$variableName] = $this->getMenuItemLoader($menuItem);
-            } else {
-                $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);  // neex nebo neaktivní item
+            } catch (NoItemException $exc) {
+                $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);  // neex nebo neaktivní item                
             }
         }
         return $componets;

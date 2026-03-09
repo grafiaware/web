@@ -1,6 +1,5 @@
 <?php
 namespace Component\ViewModel\RouteSegment;
-
 /**
  *
  * @author pes2704
@@ -15,7 +14,7 @@ interface FamilyRouteSegmentInterface {
      * 
      * @param string $id
      */
-    public function setChildId(string $id=null);
+    public function setChildId(?string $id=null);
     
     public function getParentName(): string;
     

@@ -41,7 +41,7 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         return ($this->status->getUserRole()== RoleEnum::EVENTS_ADMINISTRATOR);
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         //TODO: Sv representative actions
         $representativeActions = $this->status->getRepresentativeActions();
         if (isset($representativeActions)) {

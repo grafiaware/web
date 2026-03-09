@@ -138,20 +138,28 @@ class ItemEditControler extends FrontControlerAbstract {
       * @return type
       */
     public function title(ServerRequestInterface $request, $uid) {
-        //TODO: NEUKLÁDAT  když postTitle je null nebo prázdný řetězec -> error response
         $menuItem = $this->getMenuItem($uid);
         $postTitle = (new RequestParams())->getParam($request, 'title');
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');  // nepoužito
+        //NEUKLÁDAT  když postTitle je null nebo prázdný řetězec
         if (!$postTitle) {
-            throw new UnexpectedValueException("Nelze uložit titulek položky menu. Titulek položky menu je null nebo prázdný.");
+            $this->addFlashMessage("Nelze uložit titulek položky menu. Titulek položky menu je null nebo prázdný.", FlashSeverityEnum::WARNING);
+            $response = $this->createJsonOKResponse(["refresh"=>"document", "message"=>"Nelze uložit titulek položky menu. Titulek položky menu prázdný."]);
+        } else {
+            if (isset($menuItem)) {
+                // změní menu item - title a pretty_uri
+                $menuItem->setTitle(trim($postTitle));
+                $prefix = $menuItem->getLangCodeFk().$menuItem->getUidFk().'-';
+                $menuItem->setPrettyuri($this->hookedMenuItemActor->genaratePrettyUri($postTitle, $prefix));        
+                $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
+                //TODO: v editačním režimu -> refresh kvůli ribbon
+                $response = $this->createJsonOKResponse(["refresh"=>"norefresh", "message"=>"Uložen nový titulek položky menu:".PHP_EOL.$postTitle]);
+            } else {
+                $this->addFlashMessage("Nelze uložit titulek položky menu. Položka menu nenalezena.", FlashSeverityEnum::WARNING);
+                $response = $this->createJsonOKResponse(["refresh"=>"document", "message"=>"Nelze uložit titulek položky menu. Položka menu nenalezena."]);                
+            }
         }
-        // změní menu item - title a pretty_uri
-        $menuItem->setTitle($postTitle);
-        $prefix = $menuItem->getLangCodeFk().$menuItem->getUidFk().'-';
-        $menuItem->setPrettyuri($this->hookedMenuItemActor->genaratePrettyUri($postTitle, $prefix));        
-        $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
-        //TODO: v editačním režimu -> refresh kvůli ribbon
-        return $this->createJsonOKResponse(["refresh"=>"norefresh", "message"=>"Uložen nový titulek položky menu:".PHP_EOL.$postTitle]);
+        return $response;
     }
 
     /**

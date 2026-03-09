@@ -56,7 +56,7 @@ abstract class AssociationOneToOneAbstract extends AssociationAbstract implement
      * @param PersistableEntityInterface $childEntity
      * @return void
      */
-    public function addEntity(PersistableEntityInterface $parentEntity=null): void {
+    public function addEntity(PersistableEntityInterface $parentEntity): void {
         $this->extractChild($parentEntity, $childEntity);
         // parametr entity může být null - metoda je volána např. repo->addChild($parentEntity->getCosi())
         if (isset($childEntity) AND !$childEntity->isLocked() AND !$childEntity->isPersisted()) {
@@ -70,7 +70,7 @@ abstract class AssociationOneToOneAbstract extends AssociationAbstract implement
      * @param PersistableEntityInterface $childEntity
      * @return void
      */
-    public function removeEntity(PersistableEntityInterface $parentEntity=null): void {
+    public function removeEntity(PersistableEntityInterface $parentEntity): void {
         $this->extractChild($parentEntity, $childEntity);
         // parametr entity může být null - metoda je volána např. repo->addChild($parentEntity->getCosi())
         if (isset($childEntity) AND !$childEntity->isLocked() AND $childEntity->isPersisted()) {

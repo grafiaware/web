@@ -9,7 +9,7 @@ use Red\Model\Entity\PaperSectionInterface;
 use Red\Middleware\Redactor\Controler\SectionsControler;
 
 use Pes\Text\Html;
-
+use DateTimeInterface;
 /**
  * Description of SectionRendererAbstract
  *
@@ -208,10 +208,10 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
 
     /**
      * Vrací hodnoty od 0 do 50 nebo -10. Pro čas v daleké minulosti vrací 0, pro čas "now" vrací 50. Pro null vrací -10.
-     * @param \DateTimeInterface $leftTime
+     * @param DateTimeInterface $leftTime
      * @return type
      */
-    private function left(\DateTimeInterface $leftTime = null) {
+    private function left(?DateTimeInterface $leftTime = null) {
         if (isset($leftTime)) {
             $l = $leftTime->getTimestamp()/(new \DateTime("now"))->getTimestamp();
 //            $left = $this->krivka($l)*53+47;
@@ -224,10 +224,10 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
 
     /**
      * Vrací hodnoty od 50 do 100 nebo 110. Pro čas "now" vrací 50, pro čas v daleké budoucnosti vrací 100. Pro null vrací 110.
-     * @param \DateTimeInterface $rightTime
+     * @param DateTimeInterface $rightTime
      * @return int
      */
-    private function right(\DateTimeInterface $rightTime = null) {
+    private function right(?DateTimeInterface $rightTime = null) {
         if (isset($rightTime)) {
             $r = $rightTime->getTimestamp()/(new \DateTime("now"))->getTimestamp();
 //            $right = $this->krivka($r)*47+53;

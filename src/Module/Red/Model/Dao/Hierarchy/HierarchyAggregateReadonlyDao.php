@@ -44,6 +44,19 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      */
     protected $contextFactory;
 
+    /**
+     *
+     * @param HandlerInterface $handler
+     * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
+     * @param string $itemTableName Jméno databázové tabulky menu item
+     */
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ?ContextProviderInterface $contextFactory=null) {
+        parent::__construct($handler, $sql, $fetchClassName);
+        $this->nestedSetTableName = $this->getTableName();
+        $this->itemTableName = $this->getItemTableName();
+        $this->contextFactory = $contextFactory;
+    }
+    
     public function getPrimaryKeyAttributes(): array {
         return ["lang_code_fk", "uid_fk"];
     }
@@ -61,19 +74,6 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
 
     private function getItemTableName(): string {
         return 'menu_item';
-    }
-
-    /**
-     *
-     * @param HandlerInterface $handler
-     * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
-     * @param string $itemTableName Jméno databázové tabulky menu item
-     */
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ContextProviderInterface $contextFactory=null) {
-        parent::__construct($handler, $sql, $fetchClassName);
-        $this->nestedSetTableName = $this->getTableName();
-        $this->itemTableName = $this->getItemTableName();
-        $this->contextFactory = $contextFactory;
     }
 
 ################

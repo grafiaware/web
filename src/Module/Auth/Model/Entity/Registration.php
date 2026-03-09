@@ -5,6 +5,8 @@ use Model\Entity\PersistableEntityAbstract;
 
 use Auth\Model\Entity\RegistrationInterface;
 
+use DateTime;
+
 class Registration extends PersistableEntityAbstract implements RegistrationInterface {
 
     /**
@@ -23,7 +25,7 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
     private $email;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      */
     private $emailTime;
 
@@ -40,7 +42,7 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
     private $info;
 
      /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $created;    //NOT NULL
 
@@ -85,28 +87,31 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
      *
      * @return string|null
      */
+    #[\Override]
     public function getEmail(): ?string {
         return $this->email;
     }
 
-    public function setEmail(string $email = null):RegistrationInterface {
+    public function setEmail(?string $email = null): RegistrationInterface {
         $this->email = $email;
         return $this;
     }
 
     /**
      *
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    public function getEmailTime(): ?\DateTime {
+    #[\Override]
+    public function getEmailTime(): ?DateTime {
         return $this->emailTime;
     }
     /**
      *
-     * @param \DateTime $emailTime
+     * @param DateTime $emailTime
      * @return RegistrationInterface
      */
-    public function setEmailTime(\DateTime $emailTime = null): RegistrationInterface {
+    #[\Override]
+    public function setEmailTime(?DateTime $emailTime = null): RegistrationInterface {
         $this->emailTime = $emailTime;
         return $this;
     }
@@ -125,34 +130,36 @@ class Registration extends PersistableEntityAbstract implements RegistrationInte
      * @param string $uid
      * @return RegistrationInterface
      */
-    public function setUid( string $uid ) : RegistrationInterface {
+    public function setUid( string $uid ): RegistrationInterface {
         $this->uid = $uid;
         return $this;
     }
 
+    #[\Override]
     public function getInfo(): ?string {
         return $this->info;
     }
 
 
-    public function setInfo(string $info=null): RegistrationInterface {
+    #[\Override]
+    public function setInfo(?string $info=null): RegistrationInterface {
         $this->info = $info;
         return $this;
     }
 
         /**
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreated(): \DateTime {
+    public function getCreated(): DateTime {
         return $this->created;
     }
     /**
      *
-     * @param \DateTime $created
+     * @param DateTime $created
      * @return RegistrationInterface
      */
-    public function setCreated(\DateTime $created): RegistrationInterface {
+    public function setCreated(DateTime $created): RegistrationInterface {
         $this->created = $created;
         return $this;
     }

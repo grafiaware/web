@@ -17,6 +17,7 @@ use Access\Enum\RoleEnum;
 use UnexpectedValueException;
 use LogicException;
 use TypeError;
+use ArrayIterator;
 
 /**
  * Description of RepresentativeActionViewModel
@@ -120,7 +121,7 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
     }
 
 
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
          $this->loadJobRequest();
         $visitorEmail = $this->status->getUserEmail();
 

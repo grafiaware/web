@@ -20,7 +20,7 @@ use Pes\View\Renderer\RendererModelAwareInterface;
  */
 class FlashRenderer extends HtmlRendererAbstract {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var FlashViewModelForRendererInterface $viewModel */
         return $viewModel->getMessage();
     }

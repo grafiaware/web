@@ -19,7 +19,7 @@ use Pes\Text\Html;
  */
 class MultipageRendererEditable  extends AuthoredRendererAbstract {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var MultipageViewModelInterface $viewModel */
         $multipage = $viewModel->getMultipage();
 

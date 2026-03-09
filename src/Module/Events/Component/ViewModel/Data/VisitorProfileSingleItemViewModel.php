@@ -8,12 +8,7 @@ use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\ViewModelSingleItemAbstract;
 use Component\ViewModel\ViewModelItemInterface;
 
-use Status\Model\Repository\StatusSecurityRepo;
-use Auth\Model\Entity\LoginAggregateFullInterface;
-use Status\Model\Entity\SecurityInterface;
-
 use Events\Model\Repository\VisitorProfileRepoInterface;
-use Events\Model\Repository\DocumentRepoInterface;
 
 use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Entity\DocumentInterface;
@@ -27,7 +22,7 @@ use ArrayIterator;
 /**
  * 
  */
-class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract implements ViewModelItemInterface {
+class VisitorProfileSingleItemViewModel extends ViewModelSingleItemAbstract implements ViewModelItemInterface {
 
     private $status;
     private $visitorProfileRepo;
@@ -60,6 +55,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         return ($this->isVisitor() && $this->status->getUserLoginName() == $requestedLogName );
     }
     
+    #[\Override]
     public function receiveEntity(EntityInterface $entity) {
         if ($entity instanceof VisitorProfileInterface) {
             $this->visitorProfile = $entity;
@@ -71,6 +67,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         }
     }
     
+    #[\Override]
     public function isDataEditable(): bool {
         $this->loadVisitorProfile();
         return $this->isVisitor() || $this->isAdministrator();
@@ -87,7 +84,7 @@ class VisitorProfileSingleItemViewModel extends  ViewModelSingleItemAbstract imp
         }
     }    
     
-    public function getIterator() {     
+    public function getIterator(): ArrayIterator {
         
 //        $isAdministrator = $this->isAdministrator();
 //        $editable =  $this->isAdministrator() || $this->isCurrentVisitor();

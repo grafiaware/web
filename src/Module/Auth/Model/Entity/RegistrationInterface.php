@@ -3,6 +3,7 @@
 namespace Auth\Model\Entity;
 
 use Model\Entity\PersistableEntityInterface;
+use DateTime;
 
 /**
  *
@@ -16,9 +17,9 @@ interface RegistrationInterface extends PersistableEntityInterface {
 
     public function getEmail(): ?string;
 
-    public function getEmailTime(): ?\DateTime;
+    public function getEmailTime(): ?DateTime;
 
-    public function getCreated(): \DateTime;
+    public function getCreated(): DateTime;
 
     public function getUid(): string;
 
@@ -28,14 +29,14 @@ interface RegistrationInterface extends PersistableEntityInterface {
 
     public function setPasswordHash(string $passwordHash): RegistrationInterface;
 
-    public function setEmail(string $email = null): RegistrationInterface;
+    public function setEmail(?string $email = null): RegistrationInterface;
 
-    public function setEmailTime(\DateTime $created = null): RegistrationInterface;
+    public function setEmailTime(?DateTime $created = null): RegistrationInterface;
 
-    public function setCreated(\DateTime $created): RegistrationInterface;
+    public function setCreated(DateTime $created): RegistrationInterface;
 
     public function setUid( string $uid ) : RegistrationInterface;
 
-    public function setInfo(string $info=null): RegistrationInterface;
+    public function setInfo(?string $info=null): RegistrationInterface;
 
 }

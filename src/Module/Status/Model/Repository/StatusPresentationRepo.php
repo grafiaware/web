@@ -26,7 +26,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu StatusPresentation. Pokud entita ješte nebyla načtena z úložiště,
      * načte ji (jen jednou) a vrací.
      *
-     * @return PresentationInterface|null
+     * @return PresentationInterface
      */
     public function get(): ?PresentationInterface {
         if (! isset($this->entity)) {

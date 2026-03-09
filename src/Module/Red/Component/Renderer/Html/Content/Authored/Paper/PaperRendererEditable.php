@@ -16,7 +16,7 @@ use Pes\Text\Html;
  */
 class PaperRendererEditable  extends AuthoredRendererAbstract {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $article = $viewModel->getPaper();  // vrací PaperAggregate
 

@@ -258,7 +258,7 @@ abstract class RepoAbstract {
      * @param RowDataInterface $rowData
      * @return PersistableEntityInterface
      */
-    protected function recreateEntityByRowData(RowDataInterface $rowData=null) {
+    protected function recreateEntityByRowData(?RowDataInterface $rowData=null) {
         if (!isset($rowData)) {
             return null;
         }
@@ -473,7 +473,7 @@ abstract class RepoAbstract {
         return array_key_exists($index, $this->data);
     }
 
-    private function addData($index, RowDataInterface $rowData = null) {
+    private function addData($index, ?RowDataInterface $rowData = null) {
         $this->data[$index] = $rowData;
     }
 

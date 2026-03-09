@@ -10,7 +10,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class NoContentForStatusRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel = null) {
+    public function render(?iterable $viewModel = null) {
         /** @var AuthoredViewModelInterface $viewModel */
         return Html::tag('div', ['style'=>'display: none;' ], 'No content for the current status.');
     }

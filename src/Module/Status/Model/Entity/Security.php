@@ -19,7 +19,7 @@ use Events\Model\Entity\RepresentationActions;
 use Events\Model\Entity\RepresentationActionsInterface;
 
 /**
- * Description of Login
+ * Description of Security
  *
  * @author pes2704
  */
@@ -48,6 +48,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      * 
      * @return SecurityInterface
      */
+    #[\Override]
     public function removeContext(): SecurityInterface {
         if (isset($this->loginAggregate)) {
             if (isset($this->editorActions)) {
@@ -75,6 +76,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
+    #[\Override]
     public function new(LoginAggregateFullInterface $loginAggregate): SecurityInterface {
         $this->loginAggregate = $loginAggregate;
         $this->editorActions = new EditorActions();
@@ -89,6 +91,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      * 
      * @return bool
      */
+    #[\Override]
     public function hasValidSecurityContext(): bool {
         return isset($this->loginAggregate) AND $this->loginAggregate->isPersisted();
     }
@@ -100,6 +103,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      *
      * @return LoginAggregateFullInterface|null
      */
+    #[\Override]
     public function getLoginAggregate(): ?LoginAggregateFullInterface {
         return $this->loginAggregate;
     }
@@ -108,18 +112,23 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      *
      * @return EditorActionsInterface|null
      */
+    #[\Override]
     public function getEditorActions(): ?EditorActionsInterface {
         return $this->editorActions;
     }
+    #[\Override]
     public function getRepresentativeActions(): ?RepresentationActionsInterface {
         return $this->represantativeActions;
     }
+    #[\Override]
     public function setInfo($name, $value) {
         $this->info[$name] = $value;
     }
+    #[\Override]
     public function getInfo($name) {
         return $this->info[$name] ?? null;
     }
+    #[\Override]
     public function getInfos(): array {
         return $this->info;
     }    

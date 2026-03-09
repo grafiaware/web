@@ -52,7 +52,7 @@ class Mail implements MailInterface {
      * @param AssemblyInterface $assembly
      * @param LoggerInterface $logger
      */
-    public function __construct(PHPMailer $phpMailer, AssemblyInterface $assembly = null, LoggerInterface $logger = null) {
+    public function __construct(PHPMailer $phpMailer, ?AssemblyInterface $assembly = null, ?LoggerInterface $logger = null) {
         $this->phpMailer = $phpMailer;
         $this->assembly = $assembly;
         self::$logger = $logger;

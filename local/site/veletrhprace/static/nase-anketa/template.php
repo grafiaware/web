@@ -13,6 +13,7 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Red\Model\Repository\VisitorDataRepo;
 
+!! nová naše anketa v najdisi!
 
 //   zkrácené url https://forms.gle/w5NTnXbxEg6GGRLp7
 //    odkaz na formulář s předvyplněnými daty:
@@ -42,18 +43,18 @@ use Red\Model\Repository\VisitorDataRepo;
 
     // poue pro default roli 'visitor'
     if (isset($role) AND $role==(RoleEnum::VISITOR)) {
-        $visitorDataRepo = $container->get(VisitorDataRepo::class);
-        $visitorData = $visitorDataRepo->get($loginName);
+        $visitorProfileRepo = $container->get(VisitorDataRepo::class);
+        $visitorProfile = $visitorProfileRepo->get($loginName);
     }
 
-    if (isset($visitorData)) {
+    if (isset($visitorProfile)) {
         $entries = [
             'embedded' => 'true',
     //        'usp' => 'pp_url',
-            '190219785' => $visitorData->getSurname() ?? '',
-            '1783510966' => $visitorData->getName() ?? '',
-            '1428572852' => $visitorData->getEmail() ?? '',
-            '742183994' => $visitorData->getLoginLoginName() ?? '',
+            '190219785' => $visitorProfile->getSurname() ?? '',
+            '1783510966' => $visitorProfile->getName() ?? '',
+            '1428572852' => $visitorProfile->getEmail() ?? '',
+            '742183994' => $visitorProfile->getLoginLoginName() ?? '',
         ];
     } else {
         $entries = [
@@ -81,7 +82,7 @@ use Red\Model\Repository\VisitorDataRepo;
             <form>
                 <perex class="borderDance">
             <?= Text::mono('<p class="text">Vyplňte ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>'
-            .(isset($visitorData) ? '' : Text::mono('<p class="text">Pokud jste zaregistrovaní návštěvníci veletrhu, nezapomeňte se předtím <b>přihlásit!!</b></p>'))
+            .(isset($visitorProfile) ? '' : Text::mono('<p class="text">Pokud jste zaregistrovaní návštěvníci veletrhu, nezapomeňte se předtím <b>přihlásit!!</b></p>'))
             .'<p class="text okraje-vertical"></p>');
             ?>
                 </perex>

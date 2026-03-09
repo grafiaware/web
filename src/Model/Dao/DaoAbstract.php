@@ -20,6 +20,8 @@ use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
 use Model\Dao\Exception\DaoContextualHasNoContextFactoryException;
 use UnexpectedValueException;
 
+use PDOStatement;
+
 /**
  * Description of DaoAbstract
  *
@@ -34,6 +36,8 @@ abstract class DaoAbstract implements DaoInterface {
 
     protected $fetchMode;
 
+    protected $fetchClassName;
+    
     /**
      * @var SqlInterface
      */
@@ -47,13 +51,14 @@ abstract class DaoAbstract implements DaoInterface {
     private $preparedStatements = [];
 
     /**
-     * @var ContextProviderInterface
+     * @var ?ContextProviderInterface
      */
     protected $contextFactory;
 
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextProviderInterface $contextFactory=null) {
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ?ContextProviderInterface $contextFactory=null) {
         $this->dbHandler = $handler;
-        $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
+        $this->fetchMode = \PDO::FETCH_CLASS;
+        $this->fetchClassName = $fetchClassName;
         $this->sql = $sql;
         $this->contextFactory = $contextFactory;
     }
@@ -239,7 +244,7 @@ abstract class DaoAbstract implements DaoInterface {
     protected function getPreparedStatement($sql): StatementInterface {
         if (!isset($this->preparedStatements[$sql])) {
             $statement =$this->dbHandler->prepare($sql);
-            $statement->setFetchMode(...$this->fetchMode);
+            $statement->setFetchMode($this->fetchMode, $this->fetchClassName);            //(...$this->fetchMode);
             $this->preparedStatements[$sql] = $statement;
         }
         return $this->preparedStatements[$sql];
@@ -289,18 +294,18 @@ abstract class DaoAbstract implements DaoInterface {
      * parametru s tímtéž jménem dvakrát. Využito je typicky při volání SQK update, kde sloupec, který je součástí klíče (a tedy hodnota nahrazuje placeholder v klausuli WHERE)
      * je také updatován (a nová hodnota nahrazuje placeholder v klasuli SET).
      *
-     * @param \PDOStatement $statement
+     * @param PDOStatement $statement
      * @param iterable $touplesToBind Pole nebo ArrayAccess obsahující dvojice jméno-hodnota
      * @param iterable $filterNames Filtr - výčet jmen.
      * @param type $placeholderPrefix Pokud je hodnota zadána, použije jako prefix před jménem parametru
-     * @return \PDOStatement
+     * @return PDOStatement
      */
-    protected function bindParams(\PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[], $placeholderPrefix='') {
+    protected function bindParams(PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[], $placeholderPrefix='') {
         if($filterNames) {
             foreach ($filterNames as $name) {
                 $value = $this->getValue($touplesToBind, $name);
                 if (isset($value)) {
-                        $statement->bindValue($placeholderPrefix.$name, $value);
+                        $statement->bindValue($placeholderPrefix.$name, $value, \PDO::PARAM_STR);
                 } else {
                         $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
                 }
@@ -309,7 +314,7 @@ abstract class DaoAbstract implements DaoInterface {
             foreach ($touplesToBind as $name => $value) {
                 $value = $this->getValue($touplesToBind, $name);
                 if (isset($value)) {
-                    $statement->bindValue($placeholderPrefix.$name, $value);
+                    $statement->bindValue($placeholderPrefix.$name, $value, \PDO::PARAM_STR);
                 } else {
                     $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
                 }

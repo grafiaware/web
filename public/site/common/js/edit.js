@@ -156,7 +156,7 @@ function sendOnEnter(event) {
             //hack - odstranění <br/> - innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
             // FF do obsahu elementu v modu contenteditable="true" vždy při uložení přidá na začátel tag <br/> (kvůli možnosti "kliknout" na element)
             // <br/> tag je odstraněn po změně na contenteditable="false" -> po dobu editace obsahu elementu je na žačátku obsahu vždy <br/> - skrýváme ho pomocí css
-            targetElement.innerHTML = targetElement.innerText;
+            //targetElement.innerHTML = targetElement.innerText;
             // data title z innerText, ostatní z data- atributů - zde musí být shoda jmen s html šablonou pro item!
 //            data['title'] = targetElement.innerText; // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
 //            data['original-title'] = targetElement.getAttribute('data-original-title');
@@ -180,7 +180,10 @@ function sendOnEnter(event) {
 //                    alert( "Selhalo: " + errorThrown );
 //                });
                 const formData = new FormData();  // pro FormData odeslaný pomocí fetch je vždy nastavena hlavička Content-Type: multipart/form-data
-                formData.append("title", targetElement.innerText);  // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
+//                const rawHtml = targetElement.innerHTML;              // uložit
+//                const safeHtml = DOMPurify.sanitize(rawHtml);  // např. <script src="https://unpkg.com/dompurify@3.0.8/dist/purify.min.js"></script>
+//                const visibleText = targetElement.innerText.trim();  // validace
+                formData.append("title", targetElement.textContent);  // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
                 formData.append("original-title", targetElement.getAttribute('data-original-title'));
 
                 fetch(url, 

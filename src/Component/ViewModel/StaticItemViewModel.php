@@ -9,18 +9,16 @@
 namespace Component\ViewModel;
 
 use Component\ViewModel\ViewModelAbstract;
-
 use Component\ViewModel\StaticItemViewModelInterface;
-
 use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\StaticItemRepoInterface;
-
 use Red\Model\Entity\StaticItemInterface;
 
-use \Site\ConfigurationCache;
+use Site\ConfigurationCache;
 
 use Psr\Container\ContainerInterface;
 
+use ArrayIterator;
 use UnexpectedValueException;
 
 /**
@@ -96,7 +94,8 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
         $editorActions = $this->statusViewModel->getEditorActions();
         return isset($editorActions) ? $editorActions->presentEditableContent() : false;
     }
-    public function getIterator(): \Traversable {
+    
+    public function getIterator(): ArrayIterator {
         $this->appendData(
                 [
                     'staticTemplatePath' => $this->getStaticFullTemplatePath(),

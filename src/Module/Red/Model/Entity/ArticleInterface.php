@@ -39,6 +39,6 @@ interface ArticleInterface extends PersistableEntityInterface {
 
     public function setEditor($editor): ArticleInterface;
 
-    public function setUpdated(DateTime $updated=null): ArticleInterface;
+    public function setUpdated(?DateTime $updated=null): ArticleInterface;
 
 }

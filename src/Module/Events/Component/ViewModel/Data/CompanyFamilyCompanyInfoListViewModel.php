@@ -10,7 +10,6 @@ use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyInfoRepoInterface;
 use Events\Model\Entity\CompanyInfo;
 
-use Access\Enum\RoleEnum;
 use ArrayIterator;
 
 /**
@@ -58,7 +57,7 @@ class CompanyFamilyCompanyInfoListViewModel extends ViewModelFamilyListAbstract 
      * 
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $array = [         
             'listHeadline'=>'Zaměstnavatel', 
             'items' => $this->getArrayCopy()];

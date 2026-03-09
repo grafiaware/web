@@ -1,10 +1,8 @@
 <?php
-
 namespace Auth\Model\Entity;
 
-use Auth\Model\Entity\CredentialsInterface;
-
 use Model\Entity\PersistableEntityAbstract;
+use DateTime;
 
 /**
  * Description of 
@@ -25,11 +23,11 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      */
     private $roleFk;
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $created; //NOT NULL
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $updated; //NOT NULL
 
@@ -37,6 +35,7 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      *
      * @return string
      */
+    #[\Override]
     public function getLoginNameFk(): string {
         return $this->loginNameFk;
     }
@@ -46,6 +45,7 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      * @param string $loginNameFk
      * @return CredentialsInterface
      */
+    #[\Override]
     public function setLoginNameFk(string $loginNameFk): CredentialsInterface {
         $this->loginNameFk = $loginNameFk;
         return $this;
@@ -55,23 +55,26 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      *
      * @return string
      */
+    #[\Override]
     public function getPasswordHash(): string {
         return $this->passwordHash;
     }
 
     /**
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreated(): \DateTime {
+    #[\Override]
+    public function getCreated(): DateTime {
         return $this->created;
     }
 
     /**
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getUpdated(): \DateTime {
+    #[\Override]
+    public function getUpdated(): DateTime {
         return $this->updated;
     }
 
@@ -79,6 +82,7 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      *
      * @return string|null
      */
+    #[\Override]
     public function getRoleFk(): ?string {
         return $this->roleFk;
     }
@@ -88,6 +92,7 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      * @param string $passwordHash
      * @return CredentialsInterface
      */
+    #[\Override]
     public function setPasswordHash(string $passwordHash): CredentialsInterface {
         $this->passwordHash = $passwordHash;
         return $this;
@@ -95,20 +100,22 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
 
     /**
      *
-     * @param \DateTime $created
+     * @param DateTime $created
      * @return CredentialsInterface
      */
-    public function setCreated(\DateTime $created): CredentialsInterface {
+    #[\Override]
+    public function setCreated(DateTime $created): CredentialsInterface {
         $this->created = $created;
         return $this;
     }
 
     /**
      *
-     * @param \DateTime $updated
+     * @param DateTime $updated
      * @return CredentialsInterface
      */
-    public function setUpdated(\DateTime $updated): CredentialsInterface {
+    #[\Override]
+    public function setUpdated(DateTime $updated): CredentialsInterface {
         $this->updated = $updated;
         return $this;
     }
@@ -118,7 +125,8 @@ class Credentials extends PersistableEntityAbstract implements CredentialsInterf
      * @param string $roleFk
      * @return CredentialsInterface
      */
-    public function setRoleFk(string $roleFk=null): CredentialsInterface {
+    #[\Override]
+    public function setRoleFk(?string $roleFk=null): CredentialsInterface {
         $this->roleFk = $roleFk;
         return $this;
     }

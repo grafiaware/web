@@ -20,7 +20,7 @@ class MenuRenderer extends HtmlRendererAbstract {
      */
     protected $viewModel;
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var MenuViewModelInterface $viewModel */
         $innerHtml = [];
         if ($viewModel->offsetExists(MenuComponentInterface::TOGGLE_EDIT_MENU_BUTTON)) {

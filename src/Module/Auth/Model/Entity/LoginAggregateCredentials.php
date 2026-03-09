@@ -31,7 +31,7 @@ class LoginAggregateCredentials extends Login implements LoginAggregateCredentia
      * @param CredentialsInterface $credentials
      * @return void
      */
-    public function setCredentials(CredentialsInterface $credentials = null): void {
+    public function setCredentials(?CredentialsInterface $credentials = null): void {
         $this->credentials = $credentials;
     }
 }

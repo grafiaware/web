@@ -1,6 +1,6 @@
 <?php
 
-include 'app/Site/ConfigurationCache.php';  // SetBootstrap se volá před autoload
+include 'web/app/Site/ConfigurationCache.php';  // SetBootstrap se volá před autoload
 
 use Pes\Logger\FileLogger;
 

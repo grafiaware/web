@@ -50,6 +50,9 @@ class ApiRegistrator {
         
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/mailCompletRegistrationRepre'));  
         
+        ### QrImageControler ####
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/qrimage/:qr'));
+        
         #### SynchroControler  auth ####
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/synchro'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/ladimsynchro'));

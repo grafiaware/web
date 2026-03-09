@@ -31,9 +31,11 @@ class TemplateCompiler implements TemplateCompilerInterface {
      * @return string
      */
     public function getCompiledContent($templatePath): string {
-        $templateFilename = $templatePath.self::TEMPLATE_FILE_NAME;
+        $templateFilename = trim($templatePath, '/').'/'.self::TEMPLATE_FILE_NAME;
+        $staticName = trim($templatePath, '/').'.html';
         $compiledPath = ConfigurationCache::componentControler()['compiled'];
-        $compiledFileName = $compiledPath.$staticName.".html";
+        //TOOD: Sv Není definována proměnná $staticName! V TemplateCompiler je vypnuto ukládání - tak to zatím nevadí.
+        $compiledFileName = $compiledPath.$staticName;
 //TODO: Compiled - souboru s šablonou a souboru se zkompilovaným obsahem pomocí touch() nastavit stejný čas poslední změny -> pak pokud je šablona novější, překlad
 // info: $datetime = DateTime::createFromFormat("n/d/Y h:i A T", $date); touch($filename, $datetime->getTimestamp()) ....
 //
@@ -52,7 +54,7 @@ class TemplateCompiler implements TemplateCompilerInterface {
 //        } else {
 
             // templateVariables do proměnných šalony, přednost mají proměnné nastavené v poli vlevo před +
-            $compiledContent = $this->compileContent($templateFilename, $this->templateVariables, $compiledFileName);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
+            $compiledContent = $this->compileContent($templateFilename, $compiledFileName, $this->templateVariables);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
 //        }
         return $compiledContent;
     }
@@ -77,7 +79,7 @@ class TemplateCompiler implements TemplateCompilerInterface {
         return $modTime;
     }
 
-    private function compileContent($templateFilename, $context=[], $compiledFileName) {
+    private function compileContent($templateFilename, $compiledFileName, $context=[]) {
         if(!is_readable($templateFilename)) {
             $compiledContent = Message::t("Není čitelný soubor statické stránky {file}.", ['file'=>$templateFilename]);
         } else {

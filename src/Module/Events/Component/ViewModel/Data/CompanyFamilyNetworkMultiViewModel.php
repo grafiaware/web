@@ -113,7 +113,7 @@ class CompanyFamilyNetworkMultiViewModel extends ViewModelFamilyMultiAbstract {
      * 
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         if ($this->isMultiEditable()) {
             $componentRouteSegment = $this->getFamilyRouteSegment();
             $array = array_merge(

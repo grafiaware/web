@@ -25,6 +25,7 @@ abstract class ViewModelItemAbstract extends ViewModelAbstract implements ViewMo
      * 
      * @param type $id
      */
+    #[\Override]
     public function setItemId(string $id) {
         $this->id = $id;
     }
@@ -34,6 +35,7 @@ abstract class ViewModelItemAbstract extends ViewModelAbstract implements ViewMo
      * 
      * @return bool
      */
+    #[\Override]
     public function hasItemId(): bool {
         return isset($this->id);
     }
@@ -43,6 +45,7 @@ abstract class ViewModelItemAbstract extends ViewModelAbstract implements ViewMo
      * 
      * @return mixed
      */
+    #[\Override]
     public function getItemId(): string {
         return $this->id ?? null;
     }

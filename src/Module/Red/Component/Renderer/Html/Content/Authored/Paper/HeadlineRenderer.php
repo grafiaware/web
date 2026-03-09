@@ -20,7 +20,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class HeadlineRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paper = $viewModel->getPaper();
         if (isset($paper)) {

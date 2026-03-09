@@ -23,7 +23,7 @@ use Pes\Text\Message;
  */
 class SearchResultRenderer extends HtmlRendererAbstract implements RendererModelAwareInterface {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var SearchResultViewModel $viewModel */
         $html = '';
         $n = 0;

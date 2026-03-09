@@ -13,7 +13,7 @@ use Events\Model\Entity\CompanyInterface;
 
 use Site\ConfigurationCache;
 
-use Access\Enum\RoleEnum;
+use ArrayIterator;
 use TypeError;
 use Exception;
 
@@ -70,12 +70,14 @@ class CompanyFamilyCompanyInfoViewModel extends ViewModelFamilyItemAbstract {
         }
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadCompanyInfo();
         /** @var CompanyInterface $company */ 
         $company = $this->companyRepo->get($this->getFamilyRouteSegment()->getParentId());
-        $companyShortcut = preg_split('~[^\p{L}\p{N}\']+~u',$company ? $company->getName() : '')[0];
-        $exhibitorStandImage = ConfigurationCache::files()['@siteimages']."/".$companyShortcut.".png";
+//        $companyShortcut = preg_split('~[^\p{L}\p{N}\']+~u',$company ? $company->getName() : '')[0];
+        $companyShortcut = trim($company->getName());
+        $yearPath = '2026';
+        $exhibitorStandImage = ConfigurationCache::files()['@presenter']."/stanky/$yearPath/$companyShortcut.png";
         $componentRouteSegment = $this->getFamilyRouteSegment();
         if ($componentRouteSegment->hasChildId()) {        
             $array = [

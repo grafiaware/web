@@ -11,7 +11,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class NoPermittedContentRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel = null) {
+    public function render(?iterable $viewModel = null) {
         /** @var AuthoredViewModelInterface $viewModel */
 //        if (PES_DEVELOPMENT) {
 //            $style = 'display: block; color: orange';

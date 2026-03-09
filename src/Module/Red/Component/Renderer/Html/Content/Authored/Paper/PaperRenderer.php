@@ -13,7 +13,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class PaperRenderer  extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
         if (isset($paperAggregate)) {
