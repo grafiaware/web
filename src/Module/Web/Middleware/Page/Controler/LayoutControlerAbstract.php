@@ -431,7 +431,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
     }
     
     private function getUnknownBlockView($blockName, $variableName) {
-        $message = "Unknown block $blockName configured for layout variable $variableName.";
+        $message = "Unknown  not published block $blockName configured for layout variable $variableName.";
         return $this->getNoContentView($message);
     }
 
