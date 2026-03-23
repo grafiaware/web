@@ -248,6 +248,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'rychleOdkazy'=>'a3',
                 'razitko'=>'a4',
                 'socialniSite'=>'a5',
+                'banner'=>'a6',
+                'logo'=>'a7',
                 ],            
             ];
     }

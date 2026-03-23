@@ -130,11 +130,11 @@ class ConfigurationDb {
          
             
             'build.config.convert.copy' => [
-                    'source' => 'wwwgrafia.stranky',
+                    'source' => 'grafiacz.stranky',
                     'target' => 'gr_upgrade.stranky'
             ],
             'build.config.import.copy' => [
-                    'source' => 'otevreneatelierycz_20230905.stranky',
+                    'source' => 'grafiacz.stranky',
                     'target' => 'gr_upgrade.stranky'
             ],
             'build.config.convert.repairs' => [
