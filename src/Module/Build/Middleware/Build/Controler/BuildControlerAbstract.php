@@ -141,7 +141,7 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
     private function executeTransaction($sqlString): void {
         $this->reportMessage[] = $sqlString;
         try {
-            $this->manipulator->execTransaction($sqlString);
+            $this->manipulator->executeTransaction($sqlString);
         } catch (\Exception $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v řetězci: ". substr($sqlString, 0, 100);
             $this->reportMessage[] = $message;
@@ -172,7 +172,7 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
         $this->interpolateRenderer->setTemplate(new InterpolateTemplate(self::RELATIVE_SQLFILE_PATH.$templateFilename));
         $sql = $this->interpolateRenderer->render($sqlData);
         try {
-            $this->executeTransactionFromString($sql);
+            $this->executeSequenceFromString($sql);
         } catch (SqlExecutionStepFailedException $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v template $templateFilename.";
             $this->reportMessage[] = $message;
@@ -186,7 +186,7 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
         $this->reportMessage[] = "## Execute from file '$fileName'.";
         $filePath = self::RELATIVE_SQLFILE_PATH.$fileName;
         try {
-            $this->executeTransactionFromString(file_get_contents($filePath));
+            $this->executeSequenceFromString(file_get_contents($filePath));
         } catch (SqlExecutionStepFailedException $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v souboru $filePath.";
             $this->reportMessage[] = $message;
@@ -196,13 +196,13 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
 
     protected function executeSequenceFromString($sqlString): void {
         $this->reportMessage[] = "## Execute from string '$sqlString'.";
-        $this->executeTransaction($sqlString);
+        $this->executeSequence($sqlString);
     }
     
     private function executeSequence($sqlString): void {
         $this->reportMessage[] = $sqlString;
         try {
-            $this->manipulator->execTransaction($sqlString);
+            $this->manipulator->executeSequence($sqlString);
         } catch (\Exception $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v řetězci: ". substr($sqlString, 0, 100);
             $this->reportMessage[] = $message;
