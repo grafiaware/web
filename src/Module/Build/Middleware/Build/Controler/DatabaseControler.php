@@ -202,7 +202,7 @@ class DatabaseControler extends BuildControlerAbstract {
         $this->manipulator = $this->container->get('manipulator_for_convert');
              
         $p_0_createStrankyInnoDbcopy_stranky = function() { // convert  // kopie tabulky stranky do stranky typu InnoDb INNODB
-                $this->executeTransactionFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
+                $this->executeSequenceFromTemplate("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
         };          
         $p_0_createStrankyInnoDb = function() { // make
                 $this->executeSequenceFromTemplate("makeAndConvert/page0_createStrankyInnoDb.sql");
