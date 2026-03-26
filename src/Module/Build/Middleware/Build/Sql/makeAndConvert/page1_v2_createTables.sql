@@ -120,7 +120,7 @@ CREATE TABLE `menu_item` (
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do menu_item
   `order` tinyint(1) NOT NULL DEFAULT '0',
   `title` text, -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
-  `prettyuri` varchar(100) DEFAULT NULL,
+  `prettyuri` varchar(200) DEFAULT NULL,
   `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `auto_generated` varchar(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -267,9 +267,9 @@ DROP TABLE IF EXISTS `static`;
 CREATE TABLE `static` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `menu_item_id_fk` int(11) unsigned NOT NULL,
-  `path` varchar(150) NOT NULL,
-  `folded` tinyint(1) NOT NULL DEFAULT '0',
-  `editor` varchar(20) DEFAULT '',
+  `path` varchar(250) NOT NULL DEFAULT '',
+  `template` varchar(150) NOT NULL,
+  `creator` varchar(100) DEFAULT '',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `menu_item_id_fk2` (`menu_item_id_fk`),

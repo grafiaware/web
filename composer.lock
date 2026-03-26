@@ -247,12 +247,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "e7ed1da2df8e41dfc7fbfd2a77dae50d3f375ea5"
+                "reference": "a0d58b2745455a7b36d1b16c438fec3f42bebcb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/e7ed1da2df8e41dfc7fbfd2a77dae50d3f375ea5",
-                "reference": "e7ed1da2df8e41dfc7fbfd2a77dae50d3f375ea5",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/a0d58b2745455a7b36d1b16c438fec3f42bebcb8",
+                "reference": "a0d58b2745455a7b36d1b16c438fec3f42bebcb8",
                 "shasum": ""
             },
             "require": {
@@ -299,7 +299,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master_php8"
             },
-            "time": "2026-03-25T12:00:35+00:00"
+            "time": "2026-03-25T16:38:30+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -1513,11 +1513,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.43",
+            "version": "2.1.44",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d01bebe3edfd4d49b9666ee5b8271ddca561042f",
-                "reference": "d01bebe3edfd4d49b9666ee5b8271ddca561042f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4a88c083c668b2c364a425c9b3171b2d9ea5d218",
+                "reference": "4a88c083c668b2c364a425c9b3171b2d9ea5d218",
                 "shasum": ""
             },
             "require": {
@@ -1562,7 +1562,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-24T20:40:50+00:00"
+            "time": "2026-03-25T17:34:21+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

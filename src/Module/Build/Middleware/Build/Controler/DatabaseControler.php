@@ -442,7 +442,7 @@ class DatabaseControler extends BuildControlerAbstract {
         
         $p_6_createHierarchy_view = function() {
             $fileName = "makeAndConvert/page6_createHierarchy_view.sql";
-            $this->executeTransactionFromFile($fileName);
+            $this->executeSequenceFromFile($fileName);
         };
         $p_7_insertIntoPaperAndSection = function() {    //convert  // naplní paper a section z stranky_innodb
                 $fileName = "makeAndConvert/page7_insertIntoPaperAndSection.sql";

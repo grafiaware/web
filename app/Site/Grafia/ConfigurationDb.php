@@ -103,21 +103,21 @@ class ConfigurationDb {
             'build.config.make.items' => [
                 [ 'trash', 'Trash'],
                 [ 'blocks', 'Blocks'],
-                ['menu_vertical', 'Menu vertical'],
-                ['menu_horizontal', 'Menu horizontal'],
-                ['menu_redirect', 'Menu redirect'], 
+                ['menu vertical', 'Menu vertical'],
+                ['menu horizontal', 'Menu horizontal'],
+                ['menu redirect', 'Menu redirect'], 
             ],    
             'build.config.convert.items' => [
                 [ 'trash', 'Trash'],
                 [ 'blocks', 'Blocks'],
-                ['menu_vertical', 'Menu vertical'],
-                ['menu_horizontal', 'Menu horizontal'],
-                ['menu_redirect', 'Menu redirect'],                 
+                ['menu vertical', 'Menu vertical'],
+                ['menu horizontal', 'Menu horizontal'],
+                ['menu redirect', 'Menu redirect'],                 
             ],
             'build.config.import.items' => [                
                 [ 'trash', 'Trash'],
                 [ 'blocks', 'Blocks'],
-                [ 'menu_vertical', 'Menu vertical'],                
+                [ 'menu vertical', 'Menu vertical'],                
             ],
                 
             'build.config.import.rootuid' => [
@@ -150,13 +150,13 @@ class ConfigurationDb {
                 ['a0', 's00', 0],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='l00', poradi=0
             ],
             'build.config.convert.prefixmap' => [
-                's'=>'menu_vertical',
-                'p'=>'menu_horizontal',
-                'l'=>'menu_redirect',
+                's'=>'menu vertical',
+                'p'=>'menu horizontal',
+                'l'=>'menu redirect',
                 'a'=>'blocks'
             ],
             'build.config.import.prefixmap' => [
-                's'=>'menu_vertical',
+                's'=>'menu vertical',
                 'a'=>'blocks'
             ],
             'build.config.convert.home' => [

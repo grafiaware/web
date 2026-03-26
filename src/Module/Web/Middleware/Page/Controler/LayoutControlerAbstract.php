@@ -390,16 +390,18 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         // pro neexistující bloky nedělá nic
         foreach ($map as $variableName => $blockName) {
             try {
-                $block = $this->getBlock($blockName);                
+                $block = $this->getBlock($blockName);      
+                try {
+                    $menuItem = $this->getMenuItem($this->getPresentationLangCode(), $block->getUidFk());  // block uidFk - musí existovat v menuitem - cizí klíč
+                    $componets[$variableName] = $this->getMenuItemLoader($menuItem);
+                } catch (NoItemException $exc) {
+                    $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);  // neex nebo neaktivní item                
+                }                
             } catch (UnexpectedValueException $exc) {  // neexistuje block
+                unset($block);
                 $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);
             }
-            try {
-                $menuItem = $this->getMenuItem($this->getPresentationLangCode(), $block->getUidFk());  // block uidFk - musí existovat v menuitem - cizí klíč
-                $componets[$variableName] = $this->getMenuItemLoader($menuItem);
-            } catch (NoItemException $exc) {
-                $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);  // neex nebo neaktivní item                
-            }
+
         }
         return $componets;
     }
