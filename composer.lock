@@ -247,12 +247,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "8163d463e4498fe99a00eafc0497f6393e686459"
+                "reference": "97421aa1e59459719108816aea4248a5b34d16b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/8163d463e4498fe99a00eafc0497f6393e686459",
-                "reference": "8163d463e4498fe99a00eafc0497f6393e686459",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/97421aa1e59459719108816aea4248a5b34d16b6",
+                "reference": "97421aa1e59459719108816aea4248a5b34d16b6",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +272,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "8.26.x-dev"
+                    "dev-master_php8": "8.26.x-dev"
                 }
             },
             "autoload": {
@@ -299,7 +299,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master_php8"
             },
-            "time": "2026-04-01T15:08:21+00:00"
+            "time": "2026-04-02T11:22:19+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
