@@ -43,7 +43,7 @@ class DatabaseControler extends BuildControlerAbstract {
         #
         ####
         $dropSteps[] = function() {
-            $this->executeFromTemplate("dropDb/drop_database_template.sql", $this->container->get('build.config.drop'));
+            $this->executeTransactionFromTemplate("dropDb/drop_database_template.sql", $this->container->get('build.config.drop'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_drop_database');
@@ -66,7 +66,7 @@ class DatabaseControler extends BuildControlerAbstract {
         #
         ####
         $createSteps[] = function() {
-            $this->executeFromTemplate("createDb/create_database_template.sql", $this->container->get('build.config.createdb'));
+            $this->executeSequenceFromTemplate("createDb/create_database_template.sql", $this->container->get('build.config.createdb'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_create_database');
@@ -80,10 +80,10 @@ class DatabaseControler extends BuildControlerAbstract {
 
     public function dropUsers() {
         $dropSteps[] = function() {
-            $this->executeFromTemplate("dropUsers/drop_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
+            $this->executeSequenceFromTemplate("dropUsers/drop_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
         };
         $dropSteps[] = function() {
-            $this->executeFromTemplate("dropUsers/drop_users_granted_template.sql", $this->container->get('build.config.createdropusers.granted'));
+            $this->executeSequenceFromTemplate("dropUsers/drop_users_granted_template.sql", $this->container->get('build.config.createdropusers.granted'));
         };
         // users
 
@@ -116,7 +116,7 @@ class DatabaseControler extends BuildControlerAbstract {
         foreach ($viewNamesRows as $viewNamesRow) {
             $viewNames[] = "`{$viewNamesRow['table_name']}`";
         }
-        $this->executeFromTemplate('dropTables/drop_tables_3_drop_views_template.sql', ['tables' => implode(", ", $viewNames)]);
+        $this->executeSequenceFromTemplate('dropTables/drop_tables_3_drop_views_template.sql', ['tables' => implode(", ", $viewNames)]);
 
         // tables
         $selectTablesStatement = $this->queryFromTemplate("dropTables/drop_tables_0_select_tables_template.sql", $this->container->get('build.config.droptables'));
@@ -125,7 +125,7 @@ class DatabaseControler extends BuildControlerAbstract {
         foreach ($tableNamesRows as $tableNamesRow) {
             $tableNames[] = "`{$tableNamesRow['table_name']}`";
         }
-        $this->executeFromTemplate('dropTables/drop_tables_1_drop_tables_template.sql', ['tables' => implode(", ", $tableNames)]);
+        $this->executeSequenceFromTemplate('dropTables/drop_tables_1_drop_tables_template.sql', ['tables' => implode(", ", $tableNames)]);
 
         
         
@@ -146,10 +146,10 @@ class DatabaseControler extends BuildControlerAbstract {
         #
         ####
         $createSteps[] = function() {
-            $this->executeFromTemplate("createUsers/create_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
+            $this->executeSequenceFromTemplate("createUsers/create_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
         };
         $createSteps[] = function() {
-            $this->executeFromTemplate("createUsers/create_granted_users_template.sql", $this->container->get('build.config.createdropusers.granted'));
+            $this->executeSequenceFromTemplate("createUsers/create_granted_users_template.sql", $this->container->get('build.config.createdropusers.granted'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_create_database');
@@ -202,21 +202,21 @@ class DatabaseControler extends BuildControlerAbstract {
         $this->manipulator = $this->container->get('manipulator_for_convert');
              
         $p_0_createStrankyInnoDbcopy_stranky = function() { // convert  // kopie tabulky stranky do stranky typu InnoDb INNODB
-                $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
+                $this->executeTransactionFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
         };          
         $p_0_createStrankyInnoDb = function() { // make
-                $this->executeFromFile("makeAndConvert/page0_createStrankyInnoDb.sql");
+                $this->executeSequenceFromTemplate("makeAndConvert/page0_createStrankyInnoDb.sql");
         };  
         
         $p_1_v2_createTables = function() {
-            $this->executeFromFile("makeAndConvert/page1_v2_createTables.sql");
+            $this->executeSequenceFromTemplate("makeAndConvert/page1_v2_createTables.sql");
         };       
         $p_2_0_insertIntoLanguageMenuItemApi = function() {
-            $this->executeFromFile("makeAndConvert/page2_0_insertIntoLanguage&MenuItemApi.sql");
+            $this->executeTransactionFromFile("makeAndConvert/page2_0_insertIntoLanguage&MenuItemApi.sql");
         };               
         
         $p_createListUidTemporaryTable = function() {
-            $this->executeFromFile("makeAndConvert/createTemporaryListUidTable.sql");
+            $this->executeSequenceFromTemplate("makeAndConvert/createTemporaryListUidTable.sql");
         };                
         
         $build_config_convert_copy = function()  {  // convert // kopie tabulky stranky ze staré do nové db
@@ -231,13 +231,13 @@ class DatabaseControler extends BuildControlerAbstract {
         $build_config_convert_repairs = function() { // convert  // prostor pro úpravy obsahu tabulky stranky v nove db
                 $convertRepairs = $this->container->get('build.config.convert.repairs');
                 foreach ($convertRepairs as $repair) {
-                    $this->executeFromString($repair);
+                    $this->executeTransactionFromString($repair);
                 }
         };
         $build_config_import_repairs = function() {   //  import prostor pro úpravy obsahu tabulky stranky v nove db
                 $convertRepairs = $this->container->get('build.config.import.repairs');
                 foreach ($convertRepairs as $repair) {
-                    $this->executeFromString($repair);
+                    $this->executeTransactionFromString($repair);
                 }
         };                   
         
@@ -245,7 +245,7 @@ class DatabaseControler extends BuildControlerAbstract {
         $p_2_1_updateStranky  = function() {   // convert - pro případ, kdy kořen menu je některá ze stránek označených aXX ve staré db
                 $oldRootsUpdateDefinitions = $this->container->get('build.config.convert.updatestranky');
                 foreach ($oldRootsUpdateDefinitions as $oldDef) {
-                    $this->executeFromTemplate("makeAndConvert/page2_1_updateStranky.sql",
+                    $this->executeTransactionFromTemplate("makeAndConvert/page2_1_updateStranky.sql",
                                     [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
                 }
         };                    
@@ -254,7 +254,7 @@ class DatabaseControler extends BuildControlerAbstract {
                 $rootsNamesList = $this->menuRootsFromItemsWithRoot('import');
                 foreach ($rootsNamesList as $rootName) {
                     if (($rootName != 'trash' )) {
-                        $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoStranky_innodbNewMenuRoot.sql",  
+                        $this->executeTransactionFromTemplate("makeAndConvert/page2_2_insertIntoStranky_innodbNewMenuRoot.sql",  
                                                     [                                                   
                                                     'menu_root_list'=> $rootName,
                                                     'menu_root_title'=> 'Tady začni...',
@@ -266,7 +266,7 @@ class DatabaseControler extends BuildControlerAbstract {
                 // [type, list, title]
                 $rootsNamesList = $this->menuRootsFromItemsWithRoot($type);                                
                 foreach ($rootsNamesList as $rootName) {
-                    $this->executeFromTemplate("makeAndConvert/page2_2_insertIntoStranky_innodbNewMenuRoot.sql", 
+                    $this->executeTransactionFromTemplate("makeAndConvert/page2_2_insertIntoStranky_innodbNewMenuRoot.sql", 
                         [                            
                             'menu_root_list'=>$rootName,
                             'menu_root_title'=>'Tady začni...',
@@ -281,7 +281,7 @@ class DatabaseControler extends BuildControlerAbstract {
                         
         // create menu_adjlist
         $p_3_0 = function() {  
-                $this->executeFromFile("makeAndConvert/page3_0.sql", );
+                $this->executeTransactionFromFile("makeAndConvert/page3_0.sql", );
         };        
         
         
@@ -292,7 +292,7 @@ class DatabaseControler extends BuildControlerAbstract {
                                             [$this->container->get("build.config.root")],
                                             $this->container->get("build.config.$type.items") );                               
                 foreach ($rootsDefinitions as $rootDef) {
-                    $this->executeFromTemplate("makeAndConvert/page3_5_1_updateMenuItemMenuRootsFromConfiguration.sql", 
+                    $this->executeTransactionFromTemplate("makeAndConvert/page3_5_1_updateMenuItemMenuRootsFromConfiguration.sql", 
                         [
                             'menu_root_api_module' => $api[0], 
                             'menu_root_api_generator' => $api[1],
@@ -315,8 +315,8 @@ class DatabaseControler extends BuildControlerAbstract {
             $inMenuRootsArr = $this->menuRootsFromItemsWithOutRoot($type);                        
             $inMenuRoots = implode("', '", $inMenuRootsArr);
                         
-            $this->executeFromTemplate("makeAndConvert/page3_1_selectIntoAdjList.sql", ['root'=>$rootName]);
-            $this->executeFromTemplate("makeAndConvert/page3_2_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
+            $this->executeTransactionFromTemplate("makeAndConvert/page3_1_selectIntoAdjList.sql", ['root'=>$rootName]);
+            $this->executeTransactionFromTemplate("makeAndConvert/page3_2_selectIntoAdjList.sql", ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);               
         };               
         $p_3_1_p_3_2_selectIntoAdjList_convert =
                 function() use ($p_3_1_p_3_2_selectIntoAdjList) {$p_3_1_p_3_2_selectIntoAdjList ('convert'); };
@@ -334,10 +334,10 @@ class DatabaseControler extends BuildControlerAbstract {
                
                 $map = $this->container->get('build.config.convert.prefixmap');
                 foreach ($map as $prefix=>$menuRoot) {
-                    $this->executeFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql",
+                    $this->executeTransactionFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql",
                                 ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName, 'menu_root'=>$menuRoot, 'prefix'=>$prefix]);                
                 }
-                $this->executeFromTemplate("makeAndConvert/page3_4_selectIntoAdjList.sql", 
+                $this->executeTransactionFromTemplate("makeAndConvert/page3_4_selectIntoAdjList.sql", 
                                 ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);                
         };     
 
@@ -349,10 +349,10 @@ class DatabaseControler extends BuildControlerAbstract {
                           
                 $map = $this->container->get('build.config.import.prefixmap');
                 foreach ($map as $prefix=>$menuRoot) {
-                    $this->executeFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql",
+                    $this->executeTransactionFromTemplate("makeAndConvert/page3_3_selectIntoAdjList.sql",
                                 ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName, 'menu_root'=>$menuRoot, 'prefix'=>$prefix]);                
                 }
-                $this->executeFromTemplate("makeAndConvert/page3_4_selectIntoAdjList.sql", 
+                $this->executeTransactionFromTemplate("makeAndConvert/page3_4_selectIntoAdjList.sql", 
                                 ['in_menu_roots'=>$inMenuRoots, 'root'=>$rootName]);                
         };             
 
@@ -417,41 +417,41 @@ class DatabaseControler extends BuildControlerAbstract {
        $p_3_5_0_selectNodesFromAjdlist_Hierarchy_import  = function () use ($p_3_5_0_selectNodesFromAjdlist_Hierarchy) { $p_3_5_0_selectNodesFromAjdlist_Hierarchy ('import'); };
                        
         $p_3_6_updateIntoMenuItemFromStranky = function() {                      
-           $this->executeFromFile("makeAndConvert/page3_6_updateIntoMenuItemFromStranky.sql");
+           $this->executeTransactionFromFile("makeAndConvert/page3_6_updateIntoMenuItemFromStranky.sql");
         };                 
         $p_3_7_updateMenuItemTypesAndActive=function() {    // úprava api_module, api_geherator a active v menu_item
-            $this->executeFromFile("makeAndConvert/page3_7_updateMenuItemTypes&Active.sql");  
+            $this->executeTransactionFromFile("makeAndConvert/page3_7_updateMenuItemTypes&Active.sql");  
         };         
                
         $p_5_1_insertIntoMenuRootTable = function() {
             // [type, list, title]          
             $rootsNamesList = $this->menuRootsFromItemsWithoutRoot('convert');
             foreach ($rootsNamesList as $rootName) {
-                $this->executeFromTemplate("makeAndConvert/page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
+                $this->executeTransactionFromTemplate("makeAndConvert/page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
             }
         };
                
         $p_5_2_insertHomeIntoBlockTable_convert = function() {  // convert - pro případ, kdy konvertovaný "starý" kořen menu je home page
                 $homeList = $this->container->get('build.config.convert.home');
-                $this->executeFromTemplate("makeAndConvert/page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1]]);
+                $this->executeTransactionFromTemplate("makeAndConvert/page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1]]);
         };
         $p_5_3_insertIntoBlockTable =  function() {  // convert
                 $fileName = "makeAndConvert/page5_3_insertIntoBlockTable.sql";
-                $this->executeFromFile($fileName);
+                $this->executeTransactionFromFile($fileName);
         };
         
         $p_6_createHierarchy_view = function() {
             $fileName = "makeAndConvert/page6_createHierarchy_view.sql";
-            $this->executeFromFile($fileName);
+            $this->executeTransactionFromFile($fileName);
         };
         $p_7_insertIntoPaperAndSection = function() {    //convert  // naplní paper a section z stranky_innodb
                 $fileName = "makeAndConvert/page7_insertIntoPaperAndSection.sql";
-                $this->executeFromFile($fileName);
+                $this->executeTransactionFromFile($fileName);
         };
         $build_config_convert_final = function() {   //convert 
                 $convertFinal = $this->container->get('build.config.convert.final');
                 foreach ($convertFinal as $final) {
-                    $this->executeFromString($final);
+                    $this->executeTransactionFromString($final);
                 }
         };    
         
@@ -571,10 +571,10 @@ class DatabaseControler extends BuildControlerAbstract {
         #
         ####
         $createSteps[] = function() {
-            $this->executeFromTemplate("createUsers/create_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
+            $this->executeSequenceFromTemplate("createUsers/create_user_everyone_template.sql", $this->container->get('build.config.createdropusers.everyone'));
         };
         $createSteps[] = function() {
-            $this->executeFromTemplate("createUsers/create_granted_users_template.sql", $this->container->get('build.config.createdropusers.granted'));
+            $this->executeSequenceFromTemplate("createUsers/create_granted_users_template.sql", $this->container->get('build.config.createdropusers.granted'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_create_database');
