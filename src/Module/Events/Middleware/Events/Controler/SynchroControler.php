@@ -77,9 +77,10 @@ class SynchroControler   extends FrontControlerAbstract {
                 'content' => $json,
             ],
         ];
-
+        
+        //--------------      
         $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);        
+        $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
         //--------------
         if ($result!==false) {
             $resultData = json_decode($result, true);            

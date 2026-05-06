@@ -18,6 +18,8 @@ use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\LoginSyncControler;
 
+use Events\Middleware\Events\Controler\SynchroControler;
+
 /**
  * Description of EventsAccess
  *
@@ -51,6 +53,18 @@ class EventsLoginSync extends AppMiddlewareAbstract implements MiddlewareInterfa
         $loginSyncControler = $this->container->get(LoginSyncControler::class);
         /** @var LoginSyncControler $loginSyncControler */
         $loginSyncControler->actualizeLogin();
+        //----------------
+        
+        
+        
+//               /** @var SynchroControler $synchroControler */
+//        $synchroControler = $this->container->get(SynchroControler::class);
+//        $synchroControler->synchro($request);
+        
+        
+        
+        
+        
         return $handler->handle($request);
     }
 }

@@ -74,41 +74,38 @@ class SynchroControler   extends FrontControlerAbstract {
         $existing=[];  
         $fullToAdd =[];
         
-        if (isset($controlledItems))  {   
+        if (isset($controlledItems)&&$controlledItems)  {   
             // beru logins z auth, zda jsou  v controlledItems. 
             // ty co nejsou, jsou v auth navic , a budou se  pak  pridavat
             $fulls = $this->loginAggregateFullRepo->findAll();
             
-            if ($fulls) {                                  
-                         /** @var LoginAggregateFullInterface $onefull */ 
-                foreach ($fulls  as $onefull) {
-                    $ideName = $onefull->getLoginName();
-                  
-                    //hledam ideName v $controlledItems
-                    if (in_array($ideName, $controlledItems)) {
-                        $existing[$ideName] = $onefull;                        
-                        $reArr = array_diff($controlledItems, [$ideName] ) ;
-                        $controlledItems = $reArr;
+            /** @var LoginAggregateFullInterface $onefull */ 
+            foreach ($fulls  as $onefull) {
+                $ideName = $onefull->getLoginName();
+
+                //hledam ideName v $controlledItems
+                if (in_array($ideName, $controlledItems)) {
+                    $existing[$ideName] = $onefull;                        
+                    $reArr = array_diff($controlledItems, [$ideName] ) ;
+                    $controlledItems = $reArr;
 //                        $controlledItems = array_diff($controlledItems, [0 =>$ideName] ) ; // muze byt ten samy? spis ne
-                    }
-                    else {
-                        if ( ( null !== $onefull->getCredentials() ) ) {
-                            $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();
-                        } else {
-                            $fullToAdd [$ideName]['role'] = "";
-                        } 
-                        if ( ( null !== $onefull->getRegistration() )) {
-                            $fullToAdd [$ideName]['email'] = $onefull->getRegistration()->getEmail();
-                            $fullToAdd [$ideName]['info'] = $onefull->getRegistration()->getInfo();
-                        }else {
-                            $fullToAdd [$ideName]['email'] = "";
-                            $fullToAdd [$ideName]['info'] = "";
-                        }                                               
-                    }
                 }
-                
-            }          
-        
+                else {
+                    if ( ( null !== $onefull->getCredentials() ) ) {
+                        $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();
+                    } else {
+                        $fullToAdd [$ideName]['role'] = "";
+                    } 
+                    if ( ( null !== $onefull->getRegistration() )) {
+                        $fullToAdd [$ideName]['email'] = $onefull->getRegistration()->getEmail();
+                        $fullToAdd [$ideName]['info'] = $onefull->getRegistration()->getInfo();
+                    }else {
+                        $fullToAdd [$ideName]['email'] = "";
+                        $fullToAdd [$ideName]['info'] = "";
+                    }                                               
+                }
+            }
+                        
             $result = [  'addItems' => $fullToAdd, 'remItems' => $controlledItems ];
             
         }else {
