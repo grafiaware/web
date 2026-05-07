@@ -69,6 +69,101 @@ class SynchroControler   extends FrontControlerAbstract {
         //  addItems - beru postupne polozky z referencmi db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db - jsou k  pridavani do zavisle db
         //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazanu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
         
+        $controlledItems = $request->getParsedBody();   //cislovane pole jmen ze zavisleDB (Events)
+       // $controlledItems  pole, jen loginy,  pole ze zavisle db
+        $existing=[];  
+        $fullToAdd =[];
+        
+        if (isset($controlledItems)&&$controlledItems)  {   
+            // beru logins z auth, zda jsou  v controlledItems. 
+            // ty co nejsou, jsou v auth navic , a budou se  pak  pridavat
+            $fullsZAuthSingle = $this->loginAggregateFullRepo->findAll(); // ze single_login
+            
+            /** @var LoginAggregateFullInterface $onefull */ 
+            foreach ($fullsZAuthSingle  as $onefull) {
+                $nameZAutSingle = $onefull->getLoginName(); // ze single_login po jednom
+
+                //hledam $nameZAutSingle v $controlledItems - je z eventsu
+//                if (in_array($nameZAutSingle, $controlledItems)) {
+//                    $existing[$nameZAutSingle] = $onefull;                        
+//                    unset($controlledItems[$nameZAutSingle]);    //                }                           
+                
+                if (($klic = array_search($nameZAutSingle, $controlledItems)) !== false) {
+                    unset($controlledItems[$klic]);
+                }    
+                else {  
+
+//tadz to prebrat<<<<<<<<AAAAAAAAAAAAA
+                    if ( ( null !== $onefull->getCredentials() ) ) {
+                        $fullToAdd [$nameZAutSingle]['role'] = $onefull->getCredentials()->getRoleFk();
+                    } else {
+                        $fullToAdd [$nameZAutSingle]['role'] = "";
+                    } 
+                    
+                    if ( ( null !== $onefull->getRegistration() )) {
+                        $fullToAdd [$nameZAutSingle]['email'] = $onefull->getRegistration()->getEmail();
+                        $fullToAdd [$nameZAutSingle]['info'] = $onefull->getRegistration()->getInfo();
+                    }else {
+                        $fullToAdd [$nameZAutSingle]['email'] = "";
+                        $fullToAdd [$nameZAutSingle]['info'] = "";
+                    }                                               
+                }
+                
+                
+                
+                
+                
+                
+            }        
+            
+//            foreach ($puvodni as $hodnota) {
+//            $nove[$hodnota] = $hodnota;
+//            }
+            foreach ($controlledItems as $hodnota) {
+                $remItems[$hodnota] = $hodnota;
+            }            
+            
+                    
+                    
+//                else {
+//                    if ( ( null !== $onefull->getCredentials() ) ) {
+//                        $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();
+//                    } else {
+//                        $fullToAdd [$ideName]['role'] = "";
+//                    } 
+//                    if ( ( null !== $onefull->getRegistration() )) {
+//                        $fullToAdd [$ideName]['email'] = $onefull->getRegistration()->getEmail();
+//                        $fullToAdd [$ideName]['info'] = $onefull->getRegistration()->getInfo();
+//                    }else {
+//                        $fullToAdd [$ideName]['email'] = "";
+//                        $fullToAdd [$ideName]['info'] = "";
+//                    }                                               
+//                }
+//            
+                    
+            
+            $result = [  'addItems' => $fullToAdd, 'remItems' => $remItems    /*$controlledItems*/ ];
+            
+        }else {
+            $this->addFlashMessage("Nejsou data pro synchro-login.",  FlashSeverityEnum::WARNING);
+            $result = [];
+        }        
+
+    return $this->createJsonOKResponse( $result, 200); // 303 See Other            
+//    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other                                     
+    }
+    
+    
+    
+    
+    
+    
+     public function synchro_puvod(ServerRequestInterface $request){   
+        // obsah zavisle db prijde v request, a ten se upravuje podle referencmi db 
+                
+        //  addItems - beru postupne polozky z referencmi db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db - jsou k  pridavani do zavisle db
+        //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazanu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
+        
         $controlledItems = $request->getParsedBody();     
        // $controlledItems  pole, jen loginy,  pole ze zavisle db
         $existing=[];  
@@ -116,6 +211,13 @@ class SynchroControler   extends FrontControlerAbstract {
     return $this->createJsonOKResponse( $result, 200); // 303 See Other            
 //    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other                                     
     }
+    
+    
+    
+    
+    
+    
+    
     
 }
         

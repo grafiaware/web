@@ -65,7 +65,7 @@ class SynchroControler   extends FrontControlerAbstract {
         $ruri = $this->getUriInfo($request)->getRestUri();
         $rap =$this->getUriInfo($request)->getRootAbsolutePath();
         $sp = $this->getUriInfo($request)->getSubdomainPath();        
-        $url = "$scheme://$host$sp"."auth/v1/synchro";
+        $url = "$scheme://$host$sp"."auth/v1/synchro"  ;   //.'?XDEBUG_SESSION_START=netbeans-xdebug';
         // options pro stream_context_create() vždy definuj s položkou http
         // url adresu pro file_get_contents(url, ..) definuj: https://....
         // use key 'http' even if you send the request to https://...
@@ -73,6 +73,7 @@ class SynchroControler   extends FrontControlerAbstract {
         $options = [
             'http' => [
                 'header' => "Content-type: application/json",
+                //'header' => "Cookie: XDEBUG_SESSION=netbeans-xdebug\r\n",
                 'method' => 'POST' ,
                 'content' => $json,
             ],
