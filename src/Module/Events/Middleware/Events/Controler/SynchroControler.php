@@ -49,7 +49,7 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     public function synchro (ServerRequestInterface $request){         
-       //  $controlledItems - obsah zavisle db, a ten se upravuje podle referencmi db, 
+       //  $controlledItems - obsah zavisle db (Events), a ten se upravuje podle referencmi db (single_login), 
        //  viz routa "auth/v1/synchro"
         
         

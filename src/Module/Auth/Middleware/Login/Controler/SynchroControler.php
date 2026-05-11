@@ -67,12 +67,13 @@ class SynchroControler   extends FrontControlerAbstract {
         // obsah zavisle db prijde v request, a ten se upravuje podle referencmi db 
                 
         //  addItems - beru postupne polozky z referencmi db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db - jsou k  pridavani do zavisle db
-        //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazanu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
+        //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
         
         $controlledItems = $request->getParsedBody();   //cislovane pole jmen ze zavisleDB (Events)
-       // $controlledItems  pole, jen loginy,  pole ze zavisle db
-        $existing=[];  
-        $fullToAdd =[];
+        // $controlledItems  pole, jen loginy,  pole ze zavisle db(Events)
+        // $existing=[];  
+        $fullToAdd = [];
+        $remItems = [];
         
         if (isset($controlledItems)&&$controlledItems)  {   
             // beru logins z auth, zda jsou  v controlledItems. 
@@ -83,7 +84,7 @@ class SynchroControler   extends FrontControlerAbstract {
             foreach ($fullsZAuthSingle  as $onefull) {
                 $nameZAutSingle = $onefull->getLoginName(); // ze single_login po jednom
 
-                //hledam $nameZAutSingle v $controlledItems - je z eventsu
+                //hledam $nameZAutSingle v $controlledItems=je z eventsu
 //                if (in_array($nameZAutSingle, $controlledItems)) {
 //                    $existing[$nameZAutSingle] = $onefull;                        
 //                    unset($controlledItems[$nameZAutSingle]);    //                }                           
@@ -93,7 +94,6 @@ class SynchroControler   extends FrontControlerAbstract {
                 }    
                 else {  
 
-//tadz to prebrat<<<<<<<<AAAAAAAAAAAAA
                     if ( ( null !== $onefull->getCredentials() ) ) {
                         $fullToAdd [$nameZAutSingle]['role'] = $onefull->getCredentials()->getRoleFk();
                     } else {
@@ -108,38 +108,15 @@ class SynchroControler   extends FrontControlerAbstract {
                         $fullToAdd [$nameZAutSingle]['info'] = "";
                     }                                               
                 }
-                
-                
-                
-                
-                
+      
                 
             }        
             
-//            foreach ($puvodni as $hodnota) {
-//            $nove[$hodnota] = $hodnota;
-//            }
             foreach ($controlledItems as $hodnota) {
                 $remItems[$hodnota] = $hodnota;
             }            
             
-                    
-                    
-//                else {
-//                    if ( ( null !== $onefull->getCredentials() ) ) {
-//                        $fullToAdd [$ideName]['role'] = $onefull->getCredentials()->getRoleFk();
-//                    } else {
-//                        $fullToAdd [$ideName]['role'] = "";
-//                    } 
-//                    if ( ( null !== $onefull->getRegistration() )) {
-//                        $fullToAdd [$ideName]['email'] = $onefull->getRegistration()->getEmail();
-//                        $fullToAdd [$ideName]['info'] = $onefull->getRegistration()->getInfo();
-//                    }else {
-//                        $fullToAdd [$ideName]['email'] = "";
-//                        $fullToAdd [$ideName]['info'] = "";
-//                    }                                               
-//                }
-//            
+                                                
                     
             
             $result = [  'addItems' => $fullToAdd, 'remItems' => $remItems    /*$controlledItems*/ ];
