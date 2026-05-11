@@ -303,25 +303,36 @@ abstract class DaoAbstract implements DaoInterface {
     protected function bindParams(PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[], $placeholderPrefix='') {
         if($filterNames) {
             foreach ($filterNames as $name) {
-                $value = $this->getValue($touplesToBind, $name);
-                if (isset($value)) {
-                        $statement->bindValue($placeholderPrefix.$name, $value, \PDO::PARAM_STR);
-                } else {
-                        $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
-                }
+                $this->getValueAndBind($statement, $touplesToBind, $name, $placeholderPrefix);
             }
         } else {
-            foreach ($touplesToBind as $name => $value) {
-                $value = $this->getValue($touplesToBind, $name);
-                if (isset($value)) {
-                    $statement->bindValue($placeholderPrefix.$name, $value, \PDO::PARAM_STR);
-                } else {
-                    $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
-                }
+            foreach (array_keys($touplesToBind) as $name) {
+                $this->getValueAndBind($statement, $touplesToBind, $name, $placeholderPrefix);
             }
         }
 
         return $statement;
+    }
+    
+    private function getValueAndBind($statement, $touplesToBind, $name, $placeholderPrefix): void {
+        $value = $this->getValue($touplesToBind, $name);
+        if (isset($value)) {
+            $param = false;
+            if(is_string($value)) {
+                $param = \PDO::PARAM_STR;
+            } elseif(is_bool($value)) {
+                $param = \PDO::PARAM_BOOL;
+            } elseif(is_int($value)) {
+                $param = \PDO::PARAM_INT;
+            }
+            if ($param) {
+                $statement->bindValue($placeholderPrefix.$name, $value, $param);
+            } else {
+                $statement->bindValue($placeholderPrefix.$name, $value);                
+            }
+        } else {
+            $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_NULL);
+        }        
     }
 
     private function getValue($touplesToBind, $name) {
