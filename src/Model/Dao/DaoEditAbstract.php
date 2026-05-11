@@ -135,7 +135,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
             $stmt = $this->getPreparedStatement($sql);
             $this->bindParams($stmt , $rowData, $keyNames );
             $stmt->execute();
-            $count = $stmt->rowCount();
+            $count = count($stmt->fetchAll());
             return  $count ? true : false;
         } else {
             throw new DaoUnexpectecCallOutOfTransactionException('Metodu '.__METHOD__.' lze volat pouze v průběhu spuštěné databázové transakce.');
