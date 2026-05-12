@@ -17,6 +17,18 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
      * @var string
      */
     private $loginName; //NOT NULL
+    
+    private $created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_due_to_auth`
+    
+    //`login_name` varchar(100) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_due_to_auth` tinyint(1) unsigned NOT NULL DEFAULT '0',
+    
+    
+    
 
     /**
      *
