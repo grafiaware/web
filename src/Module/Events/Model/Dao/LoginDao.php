@@ -18,7 +18,11 @@ class LoginDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface 
     }
 
     public function getAttributes(): array {
-        return ['login_name'];
+        return ['login_name',
+                'deleted_due_to_auth',
+                'created',
+                'updated'
+            ];
     }
 
     public function getTableName(): string {

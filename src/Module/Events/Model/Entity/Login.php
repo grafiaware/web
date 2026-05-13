@@ -5,6 +5,7 @@ namespace Events\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
 use Events\Model\Entity\LoginInterface;
+use DateTime;
 
 /**
  * Description of Login
@@ -16,36 +17,73 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
     /**
      * @var string
      */
-    private $loginName; //NOT NULL
-    
-    private $created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_due_to_auth`
-    
-    //`login_name` varchar(100) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_due_to_auth` tinyint(1) unsigned NOT NULL DEFAULT '0',
-    
-    
+    private $loginName; //NOT NULL    
+     /**
+     * @var DateTime
+     */
+    private $created; //NOT NULL
+    /**
+     * @var DateTime
+     */
+    private $updated;  
+    /**
+     * @var string
+     */
+    private $deletedDueToAuth; //NOT NULL
+        
     
 
-    /**
-     *
-     * @return string
-     */
-    public function getLoginName() {
+
+    #[\Override]
+    public function getLoginName() : string  {
         return $this->loginName;
     }
+    
+    #[\Override]
+    public function getCreated(): DateTime {
+        return $this->created;
+    }     
+ 
+    #[\Override]
+    public function getUpdated(): ?DateTime {
+        return $this->updated;
+    }
+       
+    #[\Override]
+    public function getDeletedDueToAuth() {
+        return $this->deletedDueToAuth;
+    }
 
-    /**
-     *
-     * @param string $loginName
-     * @return LoginInterface  $this
-     */
+    
+    
+    
+    #[\Override]
     public function setLoginName( $loginName): LoginInterface {
         $this->loginName = $loginName;
         return $this;
     }
-
+    
+    #[\Override]
+    public function setCreated(DateTime $created) : LoginInterface {
+        $this->created = $created;
+        return $this;
+    }    
+     
+    #[\Override]
+    public function setUpdated(DateTime $updated) : LoginInterface {
+        $this->updated = $updated;
+        return $this;
+    }
+ 
+    #[\Override]
+    public function setDeletedDueToAuth($deletedDueToAuth): LoginInterface{
+        $this->deletedDueToAuth = $deletedDueToAuth;
+        return $this;
+    }
+    
+    
+    
+    
+    
+    
 }

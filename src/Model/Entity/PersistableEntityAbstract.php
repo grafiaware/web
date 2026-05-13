@@ -30,20 +30,12 @@ abstract class PersistableEntityAbstract implements PersistableEntityInterface {
         return $this;
     }
 
-    /**
-     *
-     * @return \Model\Entity\PersistableEntityInterface
-     */
     #[\Override]
     public function setUnpersisted(): PersistableEntityInterface {
         $this->persisted = FALSE;
         return $this;
     }
 
-    /**
-     *
-     * @return bool
-     */
     #[\Override]
     public function isPersisted(): bool {
         return $this->persisted;
