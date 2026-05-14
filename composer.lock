@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88923691f322d48706ba24fe4dd750d4",
+    "content-hash": "d8435aa2b07794e1d672424fe75fdf73",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -243,16 +243,16 @@
         },
         {
             "name": "pes/pes",
-            "version": "dev-master",
+            "version": "dev-master_php8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "56f50b1b04a8e843a18c818ca50af9dc76f96097"
+                "reference": "10c69ca46b0844c337de9a0c309c0c8902e366c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/56f50b1b04a8e843a18c818ca50af9dc76f96097",
-                "reference": "56f50b1b04a8e843a18c818ca50af9dc76f96097",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/10c69ca46b0844c337de9a0c309c0c8902e366c8",
+                "reference": "10c69ca46b0844c337de9a0c309c0c8902e366c8",
                 "shasum": ""
             },
             "require": {
@@ -268,12 +268,8 @@
                 "friendsofphp/php-cs-fixer": "^3.93",
                 "phpunit/phpunit": "^9.6"
             },
+            "default-branch": true,
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "8.26.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Pes\\": "src/"
@@ -296,9 +292,9 @@
             ],
             "support": {
                 "issues": "https://github.com/box4pes/pes/issues",
-                "source": "https://github.com/box4pes/pes/tree/master"
+                "source": "https://github.com/box4pes/pes/tree/master_php8"
             },
-            "time": "2026-03-24T13:09:54+00:00"
+            "time": "2026-05-14T10:09:14+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
