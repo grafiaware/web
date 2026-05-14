@@ -243,16 +243,16 @@
         },
         {
             "name": "pes/pes",
-            "version": "dev-master_php8",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "c163920e3a3b890c24d62b8f4ac2873993d6627a"
+                "reference": "56f50b1b04a8e843a18c818ca50af9dc76f96097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/c163920e3a3b890c24d62b8f4ac2873993d6627a",
-                "reference": "c163920e3a3b890c24d62b8f4ac2873993d6627a",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/56f50b1b04a8e843a18c818ca50af9dc76f96097",
+                "reference": "56f50b1b04a8e843a18c818ca50af9dc76f96097",
                 "shasum": ""
             },
             "require": {
@@ -268,11 +268,10 @@
                 "friendsofphp/php-cs-fixer": "^3.93",
                 "phpunit/phpunit": "^9.6"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master_php8": "8.26.x-dev"
+                    "dev-master": "8.26.x-dev"
                 }
             },
             "autoload": {
@@ -297,9 +296,9 @@
             ],
             "support": {
                 "issues": "https://github.com/box4pes/pes/issues",
-                "source": "https://github.com/box4pes/pes/tree/master_php8"
+                "source": "https://github.com/box4pes/pes/tree/master"
             },
-            "time": "2026-05-11T18:33:08+00:00"
+            "time": "2026-03-24T13:09:54+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
