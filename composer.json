@@ -10,6 +10,9 @@
         }
     ],
     "version": "8.0",
+"repositories": [
+    { "type": "path", "url": "../pes/pes-session", "options": { "symlink": true } }
+],    
     "require": {
         "php": "^8.4",
         "pes/pes": "dev-split",
