@@ -50,7 +50,7 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
     }
        
     #[\Override]
-    public function getDeletedDueToAuth() {
+    public function getDeletedDueToAuth(): string {
         return $this->deletedDueToAuth;
     }
 
@@ -70,7 +70,7 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
     }    
      
     #[\Override]
-    public function setUpdated(DateTime $updated) : LoginInterface {
+    public function setUpdated(?DateTime $updated) : LoginInterface {
         $this->updated = $updated;
         return $this;
     }

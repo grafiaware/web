@@ -57,7 +57,9 @@ class SynchroControler   extends FrontControlerAbstract {
         $controlledItems=[];
               /** @var LoginInterface $login */
         foreach ($logins as $login) {
-            $controlledItems[] = $login->getLoginName();
+            if ($login->getDeletedDueToAuth()=='0') {
+                $controlledItems[] = $login->getLoginName();
+            }
         }        
         //--------------
         $scheme = $request->getUri()->getScheme();
@@ -84,38 +86,30 @@ class SynchroControler   extends FrontControlerAbstract {
         $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
         //--------------
         if ($result!==false) {
-            $resultData = json_decode($result, true);            
+            $resultData = json_decode($result, true);                                                
             
-            
-            if ( $resultData['addItems'] ) {                                           
-                foreach ($resultData['addItems'] as $key => $loginItem) {                                
-                    $loginA =  new Login();
-                    $loginA->setLoginName($key);
-                    
-                    $this->loginRepo->add($loginA);
-                }
-            } 
-            
-            if ( $resultData['remItems'] ) {        
-                
-                foreach ($resultData['remItems'] as  $loginItem) {                                
+            if ( $resultData['remItems'] ) {                        
+                foreach ($resultData['remItems'] as  $loginName) {                                
 //                    $loginA =  new Login();
 //                    $loginA->setLoginName($loginItem);                    
 //                    $this->loginRepo->remove($loginA);
                     
                     //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")
-                    //$loginA = $this->loginRepo->getLoginName($loginItem->getLoginName());
-                    
-                    $loginA = $this->loginRepo->getLoginName($loginItem);
-                    
+                    $loginA = $this->loginRepo->get($loginName);                    
                     $loginA->setDeletedDueToAuth('1');
-                    $loginA->setLoginName($loginName . date("Ymd_His") );
-                    
-                }                                            
-                
+                    $loginA->setLoginName($loginName . ' deleted ' . date("Ymd_His") );                    
+                }                                                            
             }    
             
-            
+            if ( $resultData['addItems'] ) {                                           
+                foreach ($resultData['addItems'] as $key => $loginItem) {                                
+                    $loginA =  new Login();
+                    $loginA->setDeletedDueToAuth(0);
+                    $loginA->setLoginName($key);
+                    
+                    $this->loginRepo->add($loginA);
+                }
+            }                         
         } else {
             $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
         }

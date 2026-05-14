@@ -55,10 +55,10 @@ interface LoginInterface extends PersistableEntityInterface {
     
     /**
       *
-      * @param DateTime $updated
+      * @param DateTime $updated 
       * @return  LoginInterface $this
       */
-    public function setUpdated(DateTime $updated) : LoginInterface;    
+    public function setUpdated(?DateTime $updated) : LoginInterface;    
     
     /**
      *

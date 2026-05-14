@@ -64,9 +64,9 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     public function synchro (ServerRequestInterface $request){   
-        // obsah zavisle db prijde v request, a ten se upravuje podle referencmi db 
+        // obsah zavisle db prijde v request, polozky ze zavisledb se upravi podle referencni db 
                 
-        //  addItems - beru postupne polozky z referencmi db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db - jsou k  pridavani do zavisle db
+        //  addItems - beru postupne polozky z referencni db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db -> jsou k  pridavani do zavisle db
         //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
         
         $controlledItems = $request->getParsedBody();   //cislovane pole jmen ze zavisleDB (Events)
@@ -76,49 +76,39 @@ class SynchroControler   extends FrontControlerAbstract {
         $remItems = [];
         
         if (isset($controlledItems)&&$controlledItems)  {   
-            // beru logins z auth, zda jsou  v controlledItems. 
-            // ty co nejsou, jsou v auth navic , a budou se  pak  pridavat
-            $fullsZAuthSingle = $this->loginAggregateFullRepo->findAll(); // ze single_login
+            // beru logins z auth referencni db, zda jsou  v controlledItems. 
+            // ty co nejsou, jsou v auth referencni navic , a budou se  pak  pridavat do zaviske
+            $fullsZReferencniDB = $this->loginAggregateFullRepo->findAll(); // ze single_login
             
             /** @var LoginAggregateFullInterface $onefull */ 
-            foreach ($fullsZAuthSingle  as $onefull) {
-                $nameZAutSingle = $onefull->getLoginName(); // ze single_login po jednom
+            foreach ($fullsZReferencniDB  as $onefull) {
+                $nameZReferencniDB = $onefull->getLoginName(); // ze single_login po jednom
 
-                //hledam $nameZAutSingle v $controlledItems=je z eventsu
-//                if (in_array($nameZAutSingle, $controlledItems)) {
-//                    $existing[$nameZAutSingle] = $onefull;                        
-//                    unset($controlledItems[$nameZAutSingle]);    //                }                           
-                
-                if (($klic = array_search($nameZAutSingle, $controlledItems)) !== false) {
+                //hledam $nameZAutSingle v $controlledItems=je z eventsu                                                         
+                if (($klic = array_search($nameZReferencniDB, $controlledItems)) !== false) {  // je v zavisle
                     unset($controlledItems[$klic]);
                 }    
-                else {  
-
+                else {  //neni v zavisle
                     if ( ( null !== $onefull->getCredentials() ) ) {
-                        $fullToAdd [$nameZAutSingle]['role'] = $onefull->getCredentials()->getRoleFk();
+                        $fullToAdd [$nameZReferencniDB]['role'] = $onefull->getCredentials()->getRoleFk();
                     } else {
-                        $fullToAdd [$nameZAutSingle]['role'] = "";
+                        $fullToAdd [$nameZReferencniDB]['role'] = "";
                     } 
                     
                     if ( ( null !== $onefull->getRegistration() )) {
-                        $fullToAdd [$nameZAutSingle]['email'] = $onefull->getRegistration()->getEmail();
-                        $fullToAdd [$nameZAutSingle]['info'] = $onefull->getRegistration()->getInfo();
+                        $fullToAdd [$nameZReferencniDB]['email'] = $onefull->getRegistration()->getEmail();
+                        $fullToAdd [$nameZReferencniDB]['info'] = $onefull->getRegistration()->getInfo();
                     }else {
-                        $fullToAdd [$nameZAutSingle]['email'] = "";
-                        $fullToAdd [$nameZAutSingle]['info'] = "";
+                        $fullToAdd [$nameZReferencniDB]['email'] = "";
+                        $fullToAdd [$nameZReferencniDB]['info'] = "";
                     }                                               
                 }
-      
-                
-            }        
-            
+                      
+            }                    
             foreach ($controlledItems as $hodnota) {
                 $remItems[$hodnota] = $hodnota;
             }            
-            
-                                                
-                    
-            
+  
             $result = [  'addItems' => $fullToAdd, 'remItems' => $remItems    /*$controlledItems*/ ];
             
         }else {
