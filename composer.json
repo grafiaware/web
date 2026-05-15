@@ -12,7 +12,7 @@
     "version": "8.0",
     "require": {
         "php": "^8.4",
-        "pes/pes": "dev-master_php8",
+        "pes/pes": "^8.26.x-dev",
         "phpmailer/phpmailer": "^6.2",
         "endroid/qr-code": "^6.1.0",
         "khanamiryan/qrcode-detector-decoder": "2.0.3"
