@@ -97,10 +97,10 @@ class SynchroControler   extends FrontControlerAbstract {
                     //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")
                     $loginA = $this->loginRepo->get($loginName);                    
                     $loginA->setDeletedDueToAuth('1');
-                    $loginA->setLoginName($loginName . ' deleted ' . date("Ymd_His") );                    
+                    $loginA->setLoginName($loginName . ' deleted_' . date("Ymd_His") );                    
                 }                                                            
             }    
-            
+            $this->loginRepo->flush();
             if ( $resultData['addItems'] ) {                                           
                 foreach ($resultData['addItems'] as $key => $loginItem) {                                
                     $loginA =  new Login();
@@ -111,7 +111,7 @@ class SynchroControler   extends FrontControlerAbstract {
                 }
             }                         
         } else {
-            $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
+            $this->addFlashMessage("Spojeni se nezdařilo. Nelze synchronizovat uživatele.", FlashSeverityEnum::ERROR);
         }
                 
         return $this->redirectSeeLastGet($request); // 303 See Other
