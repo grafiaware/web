@@ -58,7 +58,7 @@ class SynchroControler   extends FrontControlerAbstract {
               /** @var LoginInterface $login */
         foreach ($logins as $login) {
             if ($login->getDeletedDueToAuth()=='0') {
-                $controlledItems[] = $login->getLoginName();
+                $controlledItems[$login->getLoginName()] = $login->getLoginName();
             }
         }        
         //--------------
@@ -88,7 +88,9 @@ class SynchroControler   extends FrontControlerAbstract {
         if ($result!==false) {
             $resultData = json_decode($result, true);                                                
             
-            if ( $resultData['remItems'] ) {                        
+            //if ( $resultData['remItems'] ) {   
+            //if (!empty($resultData['remItems'])) {
+            if ($resultData ['remItems']?? [])      {               
                 foreach ($resultData['remItems'] as  $loginName) {                                
 //                    $loginA =  new Login();
 //                    $loginA->setLoginName($loginItem);                    
@@ -101,7 +103,10 @@ class SynchroControler   extends FrontControlerAbstract {
                 }                                                            
             }    
             $this->loginRepo->flush();
-            if ( $resultData['addItems'] ) {                                           
+            
+            //if ( $resultData['addItems'] ) {        
+            //if (!empty($resultData['addItems'])) {
+            if ($resultData ['addItems']?? [])      {         
                 foreach ($resultData['addItems'] as $key => $loginItem) {                                
                     $loginA =  new Login();
                     $loginA->setDeletedDueToAuth(0);

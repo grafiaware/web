@@ -55,7 +55,7 @@ class SynchroControler   extends FrontControlerAbstract {
             LoginAggregateFullRepoInterface $loginAggregateFullRepo        
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);       
-        $this->loginRepo = $loginRepo;
+       // $this->loginRepo = $loginRepo;
         $this->loginAggregateFullRepo = $loginAggregateFullRepo;
     }
 
@@ -69,47 +69,64 @@ class SynchroControler   extends FrontControlerAbstract {
         //  addItems - beru postupne polozky z referencni db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db -> jsou k  pridavani do zavisle db
         //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
         
-        $controlledItems = $request->getParsedBody();   //cislovane pole jmen ze zavisleDB (Events)
-        // $controlledItems  pole, jen loginy,  pole ze zavisle db(Events)
-        // $existing=[];  
+        $controlledItemsDepend = $request->getParsedBody();   //cislovane pole jmen ze zavisleDB (Events)
+        // $controlledItemsDepend  pole, jen loginy,  pole ze zavisle db(Events)
         $fullToAdd = [];
-        $remItems = [];
+       // $remItems = [];
         
-        if (isset($controlledItems)&&$controlledItems)  {   
+        if (isset($controlledItemsDepend)&&$controlledItemsDepend)  {   
             // beru logins z auth referencni db, zda jsou  v controlledItems. 
             // ty co nejsou, jsou v auth referencni navic , a budou se  pak  pridavat do zaviske
-            $fullsZReferencniDB = $this->loginAggregateFullRepo->findAll(); // ze single_login
+            $fullsRefDB = $this->loginAggregateFullRepo->findAll(); // ze single_login
             
             /** @var LoginAggregateFullInterface $onefull */ 
-            foreach ($fullsZReferencniDB  as $onefull) {
-                $nameZReferencniDB = $onefull->getLoginName(); // ze single_login po jednom
+            foreach ($fullsRefDB  as $onefull) {
+                $loginNameRefDB = $onefull->getLoginName(); // ze single_login po jednom
 
-                //hledam $nameZAutSingle v $controlledItems=je z eventsu                                                         
-                if (($klic = array_search($nameZReferencniDB, $controlledItems)) !== false) {  // je v zavisle
-                    unset($controlledItems[$klic]);
+                //hledam $nameZAutSingle v $controlledItems=je z eventsu   
+                // array_search  -  vyhledavani zastavi se na prvnim nalezenem (nam nevadi, je to klic)
+                // array _diff - odstrani vsechny vyskyty, narocnejsi na pamet, pomalejsi - vzdy prohledava vsechny 
+                // array_filter - 
+                if (($klic = array_search($loginNameRefDB, $controlledItemsDepend)) !== false) {  // je v zavisle
+                    unset($controlledItemsDepend[$klic]);
                 }    
                 else {  //neni v zavisle
-                    if ( ( null !== $onefull->getCredentials() ) ) {
-                        $fullToAdd [$nameZReferencniDB]['role'] = $onefull->getCredentials()->getRoleFk();
-                    } else {
-                        $fullToAdd [$nameZReferencniDB]['role'] = "";
-                    } 
-                    
-                    if ( ( null !== $onefull->getRegistration() )) {
-                        $fullToAdd [$nameZReferencniDB]['email'] = $onefull->getRegistration()->getEmail();
-                        $fullToAdd [$nameZReferencniDB]['info'] = $onefull->getRegistration()->getInfo();
-                    }else {
-                        $fullToAdd [$nameZReferencniDB]['email'] = "";
-                        $fullToAdd [$nameZReferencniDB]['info'] = "";
-                    }                                               
+                        $fullToAdd [$loginNameRefDB] = $loginNameRefDB;
+                
+//                    if ( ( null !== $onefull->getCredentials() ) ) {
+//                        $fullToAdd [$loginNameRefDB]['role'] = $onefull->getCredentials()->getRoleFk();
+//                    } else {
+//                        $fullToAdd [$loginNameRefDB]['role'] = "";
+//                    } 
+//                    
+//                    if ( ( null !== $onefull->getRegistration() )) {
+//                        $fullToAdd [$loginNameRefDB]['email'] = $onefull->getRegistration()->getEmail();
+//                        $fullToAdd [$loginNameRefDB]['info'] = $onefull->getRegistration()->getInfo();
+//                    }else {
+//                        $fullToAdd [$loginNameRefDB]['email'] = "";
+//                        $fullToAdd [$loginNameRefDB]['info'] = "";
+//                    }                                               
                 }
-                      
+              
+            
+                
             }                    
-            foreach ($controlledItems as $hodnota) {
-                $remItems[$hodnota] = $hodnota;
-            }            
+            
+//            $controlledItemsDepend_1 = $request->getParsedBody();
+//            $fullsRefDB_1 = $this->loginAggregateFullRepo->findAll(); // ze single_login,  agregat objektů
+//            $navicVzavisle  = array_diff( $controlledItemsDepend_1,  $fullsRefDB_1  );
+//            $navicVreferencni = array_diff($fullsRefDB_1, $controlledItemsDepend_1  );    
+                
+                
+                
+                
+            
+            
+//            foreach ($controlledItemsDepend as $hodnota) {
+//                $remItems[$hodnota] = $hodnota;
+//            }            
   
-            $result = [  'addItems' => $fullToAdd, 'remItems' => $remItems    /*$controlledItems*/ ];
+            $result = [  'addItems' => $fullToAdd, 'remItems' => $controlledItemsDepend    /* $remItems */ ];
             
         }else {
             $this->addFlashMessage("Nejsou data pro synchro-login.",  FlashSeverityEnum::WARNING);
