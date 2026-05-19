@@ -30,7 +30,8 @@ if($deploy) {
 
 define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
 //define('PROJECT_PATH', realpath(__DIR__ . '/..'));
-include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
+include 'vendor/pes/pes-bootstrap/src/BootstrapEntry.php';
+Pes\Bootstrap\BootstrapEntry::load();
 
 if($deploy) {
     error_log("Error log available!", 0);
