@@ -49,11 +49,11 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     public function synchro (ServerRequestInterface $request){         
-       //  $controlledItems - obsah zavisle db (Events), a ten se upravuje podle referencmi db (single_login), 
+       //  $controlledItems - obsah zavisle db (Events), a ten se upravuje podle referencmi db (single_login), v Auth\...\SynchroControler.php
        //  viz routa "auth/v1/synchro"
         
         
-        $logins = $this->loginRepo->findAll();        
+        $logins = $this->loginRepo->findAll();   // pole entit     
         $controlledItems=[];
               /** @var LoginInterface $login */
         foreach ($logins as $login) {
@@ -67,7 +67,7 @@ class SynchroControler   extends FrontControlerAbstract {
         $ruri = $this->getUriInfo($request)->getRestUri();
         $rap =$this->getUriInfo($request)->getRootAbsolutePath();
         $sp = $this->getUriInfo($request)->getSubdomainPath();        
-        $url = "$scheme://$host$sp"."auth/v1/synchro"  ;   //.'?XDEBUG_SESSION_START=netbeans-xdebug';
+        $url = "$scheme://$host$sp"."auth/v1/synchro";
         // options pro stream_context_create() vždy definuj s položkou http
         // url adresu pro file_get_contents(url, ..) definuj: https://....
         // use key 'http' even if you send the request to https://...
@@ -92,14 +92,12 @@ class SynchroControler   extends FrontControlerAbstract {
             //if (!empty($resultData['remItems'])) {
             if ($resultData ['remItems']?? [])      {               
                 foreach ($resultData['remItems'] as  $loginName) {                                
-//                    $loginA =  new Login();
-//                    $loginA->setLoginName($loginItem);                    
-//                    $this->loginRepo->remove($loginA);
+//                    $loginA =  new Login(); $loginA->setLoginName($loginItem); $this->loginRepo->remove($loginA);
                     
                     //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")
                     $loginA = $this->loginRepo->get($loginName);                    
                     $loginA->setDeletedDueToAuth('1');
-                    $loginA->setLoginName($loginName . ' deleted_' . date("Ymd_His") );                    
+                    $loginA->setLoginName($loginName . '_deleted_' . date("Ymd_His") );                    
                 }                                                            
             }    
             $this->loginRepo->flush();
@@ -107,10 +105,10 @@ class SynchroControler   extends FrontControlerAbstract {
             //if ( $resultData['addItems'] ) {        
             //if (!empty($resultData['addItems'])) {
             if ($resultData ['addItems']?? [])      {         
-                foreach ($resultData['addItems'] as $key => $loginItem) {                                
+                foreach ($resultData['addItems'] as $loginItem) {                                
                     $loginA =  new Login();
                     $loginA->setDeletedDueToAuth(0);
-                    $loginA->setLoginName($key);
+                    $loginA->setLoginName($loginItem); 
                     
                     $this->loginRepo->add($loginA);
                 }
@@ -121,35 +119,66 @@ class SynchroControler   extends FrontControlerAbstract {
                 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }      
+ 
+    
+    
+    
+      
+    public function ValidUser (ServerRequestInterface $request){         
+      
+        
+        
+     
+        //--------------
+        $scheme = $request->getUri()->getScheme();
+        $host = $request->getUri()->getHost();
+        $ruri = $this->getUriInfo($request)->getRestUri();
+        $rap =$this->getUriInfo($request)->getRootAbsolutePath();
+        $sp = $this->getUriInfo($request)->getSubdomainPath();        
+        $url = "$scheme://$host$sp"."auth/v1/synchro";
+        // options pro stream_context_create() vždy definuj s položkou http
+        // url adresu pro file_get_contents(url, ..) definuj: https://....
+        // use key 'http' even if you send the request to https://...
+        $json = json_encode($controlledItems);
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/json",
+                //'header' => "Cookie: XDEBUG_SESSION=netbeans-xdebug\r\n",
+                'method' => 'POST' ,
+                'content' => $json,
+            ],
+        ];
+        
+        //--------------      
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
+        //--------------
+        if ($result!==false) {
+            $resultData = json_decode($result, true);                                                
+            
+            //if ( $resultData['remItems'] ) {   
+            //if (!empty($resultData['remItems'])) {
+            if ($resultData ['login']?? [])      {               
+//                foreach ($resultData['remItems'] as  $loginName) {                                
+////                    $loginA =  new Login(); $loginA->setLoginName($loginItem); $this->loginRepo->remove($loginA);
+//                    
+//                    //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")
+//                    $loginA = $this->loginRepo->get($loginName);                    
+//                    $loginA->setDeletedDueToAuth('1');
+//                    $loginA->setLoginName($loginName . '_deleted_' . date("Ymd_His") );                    
+//                }                                                            
+            }    
+           
+                               
+        } else {
+            $this->addFlashMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
+        }
+                
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }      
           
+    
+    
+    
 }
 
-        
-//        $scheme = $request->getUri()->getScheme();
-//        $host = $request->getUri()->getHost();
-//
-//        $ruri = $this->getUriInfo($request)->getRestUri();
-//        $rap =$this->getUriInfo($request)->getRootAbsolutePath();
-//        $sp = $this->getUriInfo($request)->getSubdomainPath();        
-//        $url = "$scheme://$host$sp"."auth/v1/synchro";
-//        //$data = ['companyName' => $companyName, 'loginName' => $loginName ];
-//
-//        // options pro stream_context_create() vždy definuj s položkou http
-//        // url adresu pro file_get_contents(url, ..) definuj: https://....
-//        // use key 'http' even if you send the request to https://...
-//        $options = [
-//            'http' => [
-//                'header' => "Content-type: application/x-www-form-urlencoded",
-//                'method' => 'POST' //,
-//                //'content' => http_build_query($data),
-//            ],
-//        ];
-//        $context = stream_context_create($options);
-//        $result = file_get_contents($url, false, $context);
-//        if ($result === false) {
-//           $this->addFlashMessage("Spojeni synchro se nezdařilo.", FlashSeverityEnum::ERROR);
-//        }
-//        else {
-//            $this->addFlashMessage("Přišlo ** $result **", FlashSeverityEnum::SUCCESS);            
-//        }
-                        
