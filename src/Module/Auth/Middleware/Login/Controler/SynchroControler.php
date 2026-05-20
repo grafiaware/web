@@ -47,56 +47,50 @@ class SynchroControler   extends FrontControlerAbstract {
         $this->loginRepo = $loginRepo;
     }
 
-    
-    
+                   
+         
     
     
     public function synchro (ServerRequestInterface $request){   
-        // Obsah zavisle db prijde v request, polozky ze zavisle db se upravi podle referencni db                 
-        //  addItems - beru postupne polozky z referencni db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db -> jsou k  pridavani do zavisle db
-        //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
+        // Obsah zavisle db prijde v request, polozky ze zavisle db se upravi podle referencni db                         
+        //  remItems -  jsou v zavisle db k vymazani      
+        //  addItems -  jsou k  pridavani do zavisle db         
         
         $loginsDep = $request->getParsedBody();   // pole jmen ze zavisleDB (Events)jen loginy, $controlledLogins[jmeno]=> jmeno
         $toAdd = [];  $toRem = [];
-        $loginsRef = [];
-        
+        $loginsRef = [];        
         if (isset($loginsDep))  {              
             $loginsRefDB = $this->loginRepo->findAll(); // z auth referencni db, tj. ze single_login            
             /** @var LoginInterface $oneLogin */ 
             foreach ($loginsRefDB  as $oneLogin) {  // $oneLogin je entita
                  $loginsRef[$oneLogin->getLoginName()] = $oneLogin->getLoginName();                                    
-            }                    
-            
-            //LoginName ze zavisle db hleda vsechny, ktere nejsou v referencni db -> ty jsou na vymazani v zavisle
-            //LoginName ze referencni db hleda vsechny, ktere nejsou v zavisle db -> ty jsou na pridani do zavisle
+            }                                
+            //LoginName ze zavisle db hleda vsechny, ktere nejsou v referencni db -> ty jsou na vymazani v zavisle, $toRem
+            //LoginName ze referencni db hleda vsechny, ktere nejsou v zavisle db -> ty jsou na pridani do zavisle, $toAdd
             $toRem = array_diff($loginsDep, $loginsRef);
             $toAdd = array_diff($loginsRef, $loginsDep);                                    
   
-            $result = [  'addItems' => $toAdd, 'remItems' => $toRem  ];
-            
+            $result = [  'addItems' => $toAdd, 'remItems' => $toRem  ];            
         }else {
             $this->addFlashMessage("Nejsou data pro synchro-login.",  FlashSeverityEnum::WARNING);
             $result = [];
         }        
-
     return $this->createJsonOKResponse( $result, 200); // 303 See Other            
 //    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other                                     
     }
     
-         
-    
+             
     public function synchro_chodiciTaky (ServerRequestInterface $request){   
         // Obsah zavisle db prijde v request, polozky ze zavisle db se upravi podle referencni db                 
         //  addItems - beru postupne polozky z referencni db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db -> jsou k  pridavani do zavisle db
-        //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
+        //  remItems - ze vstupniho pole ze zavisle db $controlledLogins smazu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani                   
         
         $controlledLogins = $request->getParsedBody();   // pole jmen ze zavisleDB (Events)jen loginy, $controlledLogins[jmeno]=> jmeno
-        $toAdd = [];       
-        
+        $toAdd = [];               
         if (isset($controlledLogins))  {   
             // beru logins z auth referencni db, zjistuji zda jsou  v $controlledLogins. 
             // ty co nejsou, jsou v auth referencni navic , a budou se  pak  pridavat do zaviske
-            $loginsRefDB = $this->loginRepo->findAll(); // z auth referencni db, tj. ze single_login
+            $loginsRefDB = $this->loginRepo->findAll(); // z auth referencni db,( tj. ze single_login )
             
             /** @var LoginInterface $oneLogin */ 
             foreach ($loginsRefDB  as $oneLogin) {  // $oneLogin je entita
@@ -110,47 +104,41 @@ class SynchroControler   extends FrontControlerAbstract {
                     unset($controlledLogins[$klic]);
                 }    
                 else {  //neni v zavisle
-                    $toAdd [$loginNameRefDB] = $loginNameRefDB;
-                                                  
-                }                          
-                
-            }                                  
-                                  
-            $result = [  'addItems' => $toAdd, 'remItems' => $controlledLogins  ];
-            
+                    $toAdd [$loginNameRefDB] = $loginNameRefDB;                                                  
+                }                                          
+            }                                                                    
+            $result = [  'addItems' => $toAdd, 'remItems' => $controlledLogins  ];            
         }else {
             $this->addFlashMessage("Nejsou data pro synchro-login.",  FlashSeverityEnum::WARNING);
             $result = [];
         }        
-
     return $this->createJsonOKResponse( $result, 200); // 303 See Other            
 //    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other                                     
     }
+    
+    
     
     
     
     
    
     public function ValidUser (ServerRequestInterface $request){   
-        // Obsah zavisle db prijde v request, polozky ze zavisle db se upravi podle referencni db                 
-        //  addItems - beru postupne polozky z referencni db - do  vysledneho pole addItems  patri ty, co nenajdu v poli ze zavisle db -> jsou k  pridavani do zavisle db
-        //  remItems - ze vstupniho pole ze zavisle db $controlledItems smazu ty, co najdu v referencni db - zbytek pak je vysledne pole  remItems -> a jsou v zavisle db k vymazani            
+     
+        $validUser = $request->getParsedBody();
+
+        $validatedUserName  = $validUser[0];
+        //overit ze poslane jmeno ve $validUser[0]  je v single_login
         
-        $loginInArray = $request->getParsedBody();   // pole jmen ze zavisleDB (Events)jen loginy, $controlledLogins[jmeno]=> jmeno
-//        $toAdd = [];  $toRem = [];
-//        $loginsRef = [];
         
+        
+        
+         $result = [  'ok' => 'false', 'userName' => '1'  ];  
         
 
     return $this->createJsonOKResponse( $result, 200); // 303 See Other            
 //    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other                                     
     }
         
-    
-    
-    
-    
-    
     
     
 }

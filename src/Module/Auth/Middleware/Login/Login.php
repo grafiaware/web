@@ -175,6 +175,11 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var SynchroControler $ctrl */
             $ctrl = $this->container->get(SynchroControler::class);
             return $ctrl->synchro($request);
+        });  
+        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/validuser', function(ServerRequestInterface $request) {
+            /** @var SynchroControler $ctrl */
+            $ctrl = $this->container->get(SynchroControler::class);
+            return $ctrl->ValidUser($request);
         });   
         
         
