@@ -51,15 +51,21 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
      public function synchro (ServerRequestInterface $request){              
-        $ok = $this->ValidUser($request);
-        //$ok = true;
-        if ($ok) {                    
-            $this->addFlashMessage("Přihlašený je validní uživatel v single_login.",  FlashSeverityEnum::SUCCESS);
-        }    
-        else {
-            $this->addFlashMessage("Přihlašený není validní uživatel v single_login.",  FlashSeverityEnum::ERROR);
-        }        
-        //-----------------------------------------------------------------------------------
+        $val = $this->ValidUser($request);
+
+        
+        switch ($val) {
+            case 'validUser':
+               $this->addFlashMessage("Přihlašený je validní uživatel v single_login.",  FlashSeverityEnum::SUCCESS);
+                break;
+            case 'invalidUser':
+                $this->addFlashMessage("Přihlašený není validní uživatel v single_login.",  FlashSeverityEnum::ERROR);
+                break;
+            case 'noUser':
+                $this->addFlashMessage("Nikdo není přihlášen.",  FlashSeverityEnum::ERROR );               
+                break;
+        }
+        
         return $this->redirectSeeLastGet($request); // 303 See Other
     }     
     
@@ -146,56 +152,48 @@ class SynchroControler   extends FrontControlerAbstract {
     protected function ValidUser (ServerRequestInterface $request){                       
         /** @var SecurityInterface $statusPresentation */
         $statusPresentation = $this->statusSecurityRepo->get();
-        $validatedUser = $statusPresentation->getLoginAggregate()->getLoginName();
-vvvvvvvv
+        $loginAgregate = $statusPresentation->getLoginAggregate();
         
-        
-        
-        
-        //--------------
-        $scheme = $request->getUri()->getScheme();
-        $host = $request->getUri()->getHost();
-        $ruri = $this->getUriInfo($request)->getRestUri();
-        $rap =$this->getUriInfo($request)->getRootAbsolutePath();
-        $sp = $this->getUriInfo($request)->getSubdomainPath();        
-        $url = "$scheme://$host$sp"."auth/v1/validuser";
-        // options pro stream_context_create() vždy definuj s položkou http
-        // url adresu pro file_get_contents(url, ..) definuj: https://....
-        // use key 'http' even if you send the request to https://...
-        $json = json_encode($validatedUser);
-        $options = [
-            'http' => [
-                'header' => "Content-type: application/json",
-                //'header' => "Cookie: XDEBUG_SESSION=netbeans-xdebug\r\n",
-                'method' => 'POST' ,
-                'content' => $json,
-            ],
-        ];        
-        //--------------      
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
-        //--------------
-        if ($result!==false) {
-            $resultData = json_decode($result, true);                                                
-            
-//            //if ( $resultData['xx'] ) {   
-//            //if (!empty($resultData['xx'])) {
-//            if ($resultData ['ok']?? [])      {       
-//                                                
-//                                            
-//            }              
-//            if ($resultData ['userName']?? [])      {       
-//
-//
-//            }        
-                 
-        } else {
-            $this->addFlashMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
+        if (isset($loginAgregate))  {
+            $validatedUserName = $loginAgregate->getLoginName();
+
+            //--------------
+            $scheme = $request->getUri()->getScheme();
+            $host = $request->getUri()->getHost();
+            $ruri = $this->getUriInfo($request)->getRestUri();
+            $rap =$this->getUriInfo($request)->getRootAbsolutePath();
+            $sp = $this->getUriInfo($request)->getSubdomainPath();        
+            $url = "$scheme://$host$sp"."auth/v1/validuser";
+            // options pro stream_context_create() vždy definuj s položkou http
+            // url adresu pro file_get_contents(url, ..) definuj: https://....
+            // use key 'http' even if you send the request to https://...
+            $json = json_encode([$validatedUserName]);
+            $options = [
+                'http' => [
+                    'header' => "Content-type: application/json",
+                    //'header' => "Cookie: XDEBUG_SESSION=netbeans-xdebug\r\n",
+                    'method' => 'POST' ,
+                    'content' => $json,
+                ],
+            ];        
+            //--------------      
+            $context = stream_context_create($options);
+            $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
+            //--------------
+            if ($result!==false) {
+                $resultData = json_decode($result, true);                                                
+            } else {
+                $this->addFlashMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
+            }
+
+            $res = $resultData ['valid'];
+        }
+        else  {
+            $res = 'noUser';
         }
         
-        $ok = $resultData ['ok'];
-        return $ok;
-        //return $this->redirectSeeLastGet($request); // 303 See Other
+        return $res;
+        
     }      
           
     
