@@ -13,7 +13,11 @@ use Pes\Text\Html;
                 <?=                
                 "<button class='ui primary button' type='submit' "
                                 . "formaction='".Text::encodeUrlPath("events/v1/synchro")."' > Synchro </button>" 
-                ?>                                                                                                                                                                                                                                                 
+                ?>     
+                <?=                
+                "<button class='ui primary button' type='submit' "
+                                . "formaction='".Text::encodeUrlPath("events/v1/validateuser")."' > ValidateUser </button>" 
+                ?>     
             </div>
             <hr/>
         </form>           

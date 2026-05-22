@@ -118,8 +118,8 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
    
-   
-    public function ValidUser (ServerRequestInterface $request){        
+   /**/
+    public function validUser (ServerRequestInterface $request){        
         $validUserNames = $request->getParsedBody();
         $validatedUserName  = $validUserNames[0];
         

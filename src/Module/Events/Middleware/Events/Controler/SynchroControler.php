@@ -48,12 +48,9 @@ class SynchroControler   extends FrontControlerAbstract {
         $this->loginRepo = $loginRepo;
     }
 
-    
-    
-     public function synchro (ServerRequestInterface $request){              
-        $val = $this->ValidUser($request);
-
-        
+    /**/
+    public function validateUser (ServerRequestInterface $request){              
+        $val = $this->ValidUser($request);        
         switch ($val) {
             case 'validUser':
                $this->addFlashMessage("Přihlašený je validní uživatel v single_login.",  FlashSeverityEnum::SUCCESS);
@@ -64,8 +61,7 @@ class SynchroControler   extends FrontControlerAbstract {
             case 'noUser':
                 $this->addFlashMessage("Nikdo není přihlášen.",  FlashSeverityEnum::ERROR );               
                 break;
-        }
-        
+        }       
         return $this->redirectSeeLastGet($request); // 303 See Other
     }     
     
@@ -75,10 +71,9 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     
-    public function synchro_spravne (ServerRequestInterface $request){         
+    public function synchro  (ServerRequestInterface $request){         
        //  $controlledItems - obsah zavisle db (Events), a ten se upravuje podle referencmi db (single_login), v Auth\...\SynchroControler.php
-       //  viz routa "auth/v1/synchro"
-        
+       //  viz routa "auth/v1/synchro"        
         
         $logins = $this->loginRepo->findAll();   // pole entit     
         $controlledItems=[];
@@ -113,8 +108,7 @@ class SynchroControler   extends FrontControlerAbstract {
         $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
         //--------------
         if ($result!==false) {
-            $resultData = json_decode($result, true);                                                
-            
+            $resultData = json_decode($result, true);                                                            
             //if ( $resultData['remItems'] ) {   
             //if (!empty($resultData['remItems'])) {
             if ($resultData ['remItems']?? [])      {               
@@ -148,8 +142,8 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     
-      
-    protected function ValidUser (ServerRequestInterface $request){                       
+    /**/  
+    public function validUser (ServerRequestInterface $request){                       
         /** @var SecurityInterface $statusPresentation */
         $statusPresentation = $this->statusSecurityRepo->get();
         $loginAgregate = $statusPresentation->getLoginAggregate();

@@ -36,9 +36,9 @@ class LoginSyncControler extends FrontControlerAbstract {
         $this->fileLogger = $fileLogger;
     }
 
-    private function getValidLoginName(): ?string {
-
-    }
+//    private function getValidLoginName(): ?string {
+//
+//    }
     
     /**
      * Metoda přidá do tabulky login v db events jméno příhlášeného uživatele, pokud tam ještě není. Tím zajišťuje synchronizaci tabulky login v db events s tabulkou login v db auth.

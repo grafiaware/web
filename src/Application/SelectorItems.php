@@ -22,7 +22,7 @@ use Red\Middleware\Component\Component;
 
 use Red\Middleware\Redactor\Redactor;
 use Transformator\Middleware\Transformator\Transformator;
-use Events\Middleware\Events\EventsLoginSync;
+use Events\Middleware\Events\ValidateUser;
 use Events\Middleware\Events\Events;
 use Sendmail\Middleware\Sendmail\Sendmail;
 
@@ -119,7 +119,7 @@ class SelectorItems {
                     new FlashStatus(),
                     new PresentationStatus(),
                     new UnlockStatus(),
-                    new EventsLoginSync(),
+                    new ValidateUser(),
                     new Events()
                 ];},
             '/sendmail'=>

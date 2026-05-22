@@ -191,6 +191,7 @@ class ApiRegistrator {
         
         #### SynchroControler events ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/synchro'));
+        $registry->register($this->postPrototype->withUrlPattern('/events/v1/validateuser'));
         
         #### EventControler ####
         $registry->register($this->postPrototype->withUrlPattern('/events/v1/enroll'));

@@ -260,6 +260,11 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(SynchroControler::class);
             return $ctrl->synchro($request);
         }); 
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/validateuser', function(ServerRequestInterface $request) {
+            /** @var SynchroControler $ctrl */
+            $ctrl = $this->container->get(SynchroControler::class);
+            return $ctrl->validateUser($request);
+        }); 
         
         
         
