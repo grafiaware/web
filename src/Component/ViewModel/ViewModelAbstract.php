@@ -10,7 +10,7 @@ namespace Component\ViewModel;
 
 use Component\ViewModel\ViewModelInterface;
 
-use Pes\Type\ContextData;
+use Pes\Core\Type\ContextData;
 
 /**
  * Description of ViewModelAbstract

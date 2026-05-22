@@ -14,12 +14,12 @@ use Container\AppContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Container\AutowiringContainer;
 
-use Pes\Middleware\Selector;
+use Pes\Application\Middleware\Selector;
 use Application\SelectorItems;
 
 use Pes\Http\Factory\EnvironmentFactory;
-use Pes\Middleware\UnprocessedRequestHandler;
-use Pes\Middleware\NoMatchedRouteRequestHandler;
+use Pes\Application\Middleware\UnprocessedRequestHandler;
+use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
 
 use Pes\Http\ResponseSender;
 

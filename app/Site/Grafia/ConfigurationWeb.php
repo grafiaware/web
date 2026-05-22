@@ -8,7 +8,7 @@
 
 namespace Site\Grafia;
 
-use Application\WebAppFactory;
+use Pes\Application\SessionServicesConfigurator;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -46,7 +46,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_na_session',
+            SessionServicesConfigurator::SESSION_NAME_SERVICE => 'www_na_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #

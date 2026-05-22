@@ -1,7 +1,7 @@
 <?php
 namespace Sendmail\Middleware\Sendmail;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Pes\Router\RouteSegmentGenerator;

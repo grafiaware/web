@@ -1,7 +1,7 @@
 <?php
 namespace Events\Middleware\Events;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 
 use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;

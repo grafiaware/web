@@ -1,5 +1,5 @@
 <?php
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
                                     ?>
                                     <div class="sixteen wide column center aligned">

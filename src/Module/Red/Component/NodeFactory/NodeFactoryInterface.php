@@ -8,7 +8,7 @@
 
 namespace Red\Component\NodeFactory;
 
-use Pes\Dom\Node\NodeInterface;
+use Pes\View\Dom\Node\NodeInterface;
 
 /**
  *

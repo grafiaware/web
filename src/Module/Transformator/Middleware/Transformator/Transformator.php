@@ -2,7 +2,7 @@
 
 namespace Transformator\Middleware\Transformator;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -19,7 +19,7 @@ use Status\Model\Entity\PresentationInterface;
 use Status\Model\Repository\StatusFlashRepo;
 
 use Pes\Http\Body;
-use Pes\Debug\Timer;
+use Pes\Core\Debug\Timer;
 
 use Replace\Replace;
 use Replace\Exception\InvalidHtmlSourceException;

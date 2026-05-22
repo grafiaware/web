@@ -11,7 +11,7 @@ namespace Red\Component\Renderer\Html\Generated;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Generated\SearchPhraseViewModel;
 
-use Pes\Text\Message;
+use Pes\Core\Text\Message;
 
 /**
  * Description of SearchPhraseRenderer

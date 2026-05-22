@@ -5,7 +5,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

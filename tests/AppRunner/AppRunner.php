@@ -10,7 +10,7 @@ use Pes\Http\Environment;
 use Application\WebAppFactory;
 use Application\SelectorItems;
 
-use Pes\Middleware\NoMatchedRouteRequestHandler;
+use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

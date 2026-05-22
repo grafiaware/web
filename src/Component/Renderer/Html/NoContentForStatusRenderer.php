@@ -3,7 +3,7 @@ namespace Component\Renderer\Html;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Authored\AuthoredViewModelInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 /**
  * Description of EmptyRenderer
  *

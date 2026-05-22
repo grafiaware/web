@@ -3,7 +3,7 @@ namespace Red\Service\Asset;
 
 use Psr\Http\Message\UploadedFileInterface;
 use Site\ConfigurationCache;
-use Pes\Utils\Directory;
+use Pes\Core\Directory\Directory;
 
 use Red\Model\Entity\MenuItemAsset;
 use Red\Model\Entity\Asset;

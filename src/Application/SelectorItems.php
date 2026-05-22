@@ -9,7 +9,7 @@
 namespace Application;
 
 use Pes\Application\AppInterface;
-use Pes\Middleware\SelectorInterface;
+use Pes\Application\Middleware\SelectorInterface;
 
 use Auth\Middleware\Login\Login;
 use Firewall\Middleware\Firewall;
@@ -183,10 +183,10 @@ class SelectorItems {
     }
 
     /**
-     * Vytvoří objekt Pes\Middleware\Selector a nastaví mu potřebné položky SelectorItem.
+     * Vytvoří objekt Pes\Application\Middleware\Selector a nastaví mu potřebné položky SelectorItem.
      *
-     * Objekt Selector je middleware a implementuje Pes\Middleware\ContainerMiddlewareInterface.
-     * Proto je schopen přijímat middleware kontejner (metodou setMwContainer rozhraní Pes\Middleware\ContainerMiddlewareInterface).
+     * Objekt Selector je middleware a implementuje Pes\Application\Middleware\ContainerMiddlewareInterface.
+     * Proto je schopen přijímat middleware kontejner (metodou setMwContainer rozhraní Pes\Application\Middleware\ContainerMiddlewareInterface).
      * Pokud byl při volání konstruktoru této SelectorFactory nastaven kontejner, je tento kontejner nastaven jako middleware kontejner objektu Selector.
      * Selector svůj middleware kontejner sám nepoužívá, pouze ho předává jako parametr middleware stacku (Closure) vybraného SelectorItem.
      * Pokud je stack při volíní metody addItem() selektoru definován jako anonymní funkce (Closure), která jako parametr přijímá kontejner typu Psr\Container\AppInterface,

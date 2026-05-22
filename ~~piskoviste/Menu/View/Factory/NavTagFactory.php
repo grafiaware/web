@@ -2,8 +2,8 @@
 
 namespace Menu\Middleware\Menu\View\Factory;
 
-use Pes\Dom\Node\Tag;
-use Pes\Dom\Node\Text;
+use Pes\View\Dom\Node\Tag;
+use Pes\View\Dom\Node\Text;
 
 use Pes\View\View;
 use Pes\View\Template\FileInterpolateTemplate;

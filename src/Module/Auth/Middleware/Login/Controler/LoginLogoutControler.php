@@ -10,7 +10,7 @@ namespace Auth\Middleware\Login\Controler;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
-use Pes\Security\Password\Password;
+use Pes\Core\Security\Password\Password;
 
 use FrontControler\FrontControlerAbstract;
 

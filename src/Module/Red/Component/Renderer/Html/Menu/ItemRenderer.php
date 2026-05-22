@@ -7,9 +7,9 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 use Red\Component\View\Menu\ItemComponentInterface;
 
-use Pes\Type\ContextDataInterface;
+use Pes\Core\Type\ContextDataInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of ItemRenderer

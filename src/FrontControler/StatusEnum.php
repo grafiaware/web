@@ -7,7 +7,7 @@
 
 namespace FrontControler;
 
-use Pes\Type\Enum;
+use Pes\Core\Type\Enum;
 
 /**
  * Description of StatusEnum

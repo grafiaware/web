@@ -9,7 +9,7 @@ use Access\Enum\AccessActionEnum;
 
 use Pes\View\View;
 use Pes\View\Renderer\ImplodeRenderer;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of ComponentControlerAbstract

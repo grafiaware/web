@@ -1,7 +1,7 @@
 <?php
 namespace Menu\Middleware\Menu;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Router\RouterInterface;
 use Pes\Container\Container;
 

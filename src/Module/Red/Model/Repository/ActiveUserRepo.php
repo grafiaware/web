@@ -11,7 +11,7 @@ use Red\Model\Entity\ActiveUserInterface;
 use Red\Model\Entity\ActiveUser;
 use Red\Model\Dao\ActiveUserDao;
 
-use Pes\Type\Date;
+use Pes\Core\Type\Date;
 
 /**
  * Description of Menu

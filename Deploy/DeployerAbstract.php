@@ -20,7 +20,7 @@ use Pes\View\Template\InterpolateTemplate;
 use Pes\View\Renderer\InterpolateRenderer;
 
 use Pes\Database\Manipulator\Manipulator;
-use Pes\Debug\Timer;
+use Pes\Core\Debug\Timer;
 use Pes\Http\Headers;
 use Pes\Http\Body;
 use Pes\Http\Response;

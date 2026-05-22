@@ -1,7 +1,7 @@
 <?php
 namespace Red\Middleware\Redactor;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Pes\Router\RouteSegmentGenerator;

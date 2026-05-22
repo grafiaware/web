@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Model\Entity\PersistableEntityAbstract;
 use Status\Model\Enum\FlashSeverityEnum;
-use Pes\Type\Exception\ValueNotInEnumException;
+use Pes\Core\Type\Exception\ValueNotInEnumException;
 use Status\Model\Exception\UndefinedFlashMessageSeverityException;
 
 /**

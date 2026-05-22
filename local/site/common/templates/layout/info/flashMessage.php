@@ -1,6 +1,6 @@
 <?php
-use Pes\Text\Text;
-use Pes\Text\Html;
+use Pes\Core\Text\Text;
+use Pes\Core\Text\Html;
 
 // class flashtoast je selektor pro volání semantic funkce toast (body.js)
 $toastAtrributes = [

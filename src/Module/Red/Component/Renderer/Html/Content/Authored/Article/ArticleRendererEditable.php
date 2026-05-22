@@ -13,7 +13,7 @@ use Red\Component\View\Content\Authored\Article\ArticleComponent;
 
 use Red\Middleware\Redactor\Controler\ArticleControler;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PaperRenderer

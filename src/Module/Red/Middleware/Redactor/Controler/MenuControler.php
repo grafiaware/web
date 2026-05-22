@@ -32,10 +32,10 @@ use Red\Service\Menu\DriverService;
 
 ####################
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 ####################
-//use Pes\Debug\Timer;
+//use Pes\Core\Debug\Timer;
 use Pes\View\View;
 
 /**

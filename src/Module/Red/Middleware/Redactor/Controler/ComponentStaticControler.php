@@ -19,7 +19,7 @@ use Component\ViewModel\StaticItemViewModel;
 use Component\View\StaticItemComponent;
 use Component\View\StaticItemComponentInterface;
 
-//use Pes\Debug\Timer;
+//use Pes\Core\Debug\Timer;
 
 /**
  * Description of StaticControler

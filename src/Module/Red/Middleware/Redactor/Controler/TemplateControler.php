@@ -42,10 +42,10 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Template\Seeker\TemplateSeekerInterface;
 use Red\Model\Enum\AuthoredTemplateTypeEnum;
 
-use Pes\Text\Message;
+use Pes\Core\Text\Message;
 
 ####################
-//use Pes\Debug\Timer;
+//use Pes\Core\Debug\Timer;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use \View\Includer;

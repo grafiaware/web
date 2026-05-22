@@ -5,7 +5,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PaperRenderer

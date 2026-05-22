@@ -11,7 +11,7 @@ namespace Red\Model\HierarchyHooks;
 use Pes\Database\Handler\HandlerInterface;
 use Red\Model\Dao\Hierarchy\HookedActorAbstract;
 use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
-use Pes\Text\FriendlyUrl;
+use Pes\Core\Text\FriendlyUrl;
 use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
 
 /**

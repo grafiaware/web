@@ -14,7 +14,7 @@ use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Middleware\Redactor\Controler\PaperControler;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of HeadlineRenderer

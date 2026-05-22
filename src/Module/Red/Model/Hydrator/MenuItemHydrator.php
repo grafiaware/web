@@ -14,7 +14,7 @@ use Model\Entity\EntityInterface;
 use ArrayAccess;
 use Red\Model\Entity\MenuItemInterface;
 
-use Pes\Type\Date;
+use Pes\Core\Type\Date;
 
 /**
  * Description of MenuItemHydrator

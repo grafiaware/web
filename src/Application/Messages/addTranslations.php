@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-use Pes\Text\Message;
+use Pes\Core\Text\Message;
 
 Message::addTranslations(
     [

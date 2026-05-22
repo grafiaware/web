@@ -5,7 +5,7 @@ namespace Component\Renderer\Html;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
 use Component\ViewModel\StaticItemViewModelInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 use View\Includer;
 use Template\Compiler\TemplateCompilerInterface;
 use Red\Middleware\Redactor\Controler\StaticControler;

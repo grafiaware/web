@@ -1,7 +1,7 @@
 <?php
 namespace Sendmail\Middleware\Sendmail\Recipients;
 
-use Pes\Type\Enum;
+use Pes\Core\Type\Enum;
 
 class ValidityEnum extends Enum {
     const NO_MAIL = 0;

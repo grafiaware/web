@@ -4,7 +4,7 @@ namespace Template\Compiler;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Site\ConfigurationCache;
-use Pes\Text\Message;
+use Pes\Core\Text\Message;
 use Pes\View\View;
 use Pes\View\Renderer\PhpTemplateRenderer;
 use Pes\View\Template\PhpTemplate;

@@ -11,7 +11,7 @@ namespace Red\Component\Renderer\Html\Paper;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 use Red\Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of HeadlinedRenderer

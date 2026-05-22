@@ -1,8 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\Message;
+use Pes\Core\Text\Message;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 ?>
      

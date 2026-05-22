@@ -4,7 +4,7 @@ namespace Red\Component\Renderer\Html\Content\Authored\Article;
 use Red\Model\Entity\ArticleInterface;
 
 use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModelInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Component\View\Content\Authored\AuthoredComponentAbstract;

@@ -11,7 +11,7 @@ use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
-use Pes\Debug\Timer;
+use Pes\Core\Debug\Timer;
 
 use LogicException;
 

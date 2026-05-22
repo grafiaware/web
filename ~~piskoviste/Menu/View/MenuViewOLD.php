@@ -15,8 +15,8 @@ use Menu\Menu\Model\MenuListStyles;
 use Menu\Menu\View\ListView;
 use Menu\Menu\View\Layout\MenuTemplate;
 
-use Pes\Dom\Node\Tag;
-use Pes\Dom\Node\Text;
+use Pes\View\Dom\Node\Tag;
+use Pes\View\Dom\Node\Text;
 
 /**
  * Description of menuView

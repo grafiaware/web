@@ -7,7 +7,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Pes\Container\Container;
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
 

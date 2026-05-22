@@ -1,7 +1,7 @@
 <?php
 namespace Web\Middleware\Page;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Pes\Router\RouteSegmentGenerator;

@@ -1,5 +1,5 @@
 <?php
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 use Pes\View\Renderer\PhpTemplateFunctionsInterface;
 /** @var PhpTemplateFunctionsInterface $this */
 ?>

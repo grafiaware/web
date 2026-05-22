@@ -37,7 +37,7 @@ use Pes\Http\Response;
 use Pes\View\View;
 use Pes\View\ViewInterface;
 use Pes\View\Renderer\ImplodeRenderer;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 use LogicException;
 use UnexpectedValueException;

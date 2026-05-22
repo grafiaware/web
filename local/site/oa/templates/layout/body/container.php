@@ -1,5 +1,5 @@
 <?php
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 ?>
 <!--<div class="ui container editable">-->
 <div <?= Html::attributes($bodyContainerAttributes) ?> >

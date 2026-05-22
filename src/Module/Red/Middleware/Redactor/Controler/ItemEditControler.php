@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 
-use Pes\Text\FriendlyUrl;
+use Pes\Core\Text\FriendlyUrl;
 
 use Model\Entity\MenuItemInterface;
 
@@ -27,7 +27,7 @@ use Red\Service\ItemCreator\ItemCreatorRegistryInterface;
 use Red\Service\HierarchyManipulator\MenuItemToggleResultEnum;
 use Red\Service\ItemApi\ItemApiService;
 
-use Pes\Type\Exception\ValueNotInEnumException;
+use Pes\Core\Type\Exception\ValueNotInEnumException;
 use LogicException, UnexpectedValueException;
 
 /**

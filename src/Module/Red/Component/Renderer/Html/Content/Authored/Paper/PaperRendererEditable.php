@@ -7,7 +7,7 @@ use Red\Component\View\Content\Authored\Paper\PaperComponent;
 use Red\Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PaperRenderer

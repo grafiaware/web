@@ -3,7 +3,7 @@ namespace Sendmail\Middleware\Sendmail\Recipients;
 
 use Sendmail\Middleware\Sendmail\Recipients\RecipientsValidatorInterface;
 use Sendmail\Middleware\Sendmail\Recipients\ValidityEnum;
-use Pes\Type\Exception\ValueNotInEnumException;
+use Pes\Core\Type\Exception\ValueNotInEnumException;
 use UnexpectedValueException;
 
 /**

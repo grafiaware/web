@@ -28,7 +28,7 @@ use Red\Model\Repository\PaperSectionRepo;
 use Red\Model\Entity\PaperSectionInterface;
 use Red\Model\Entity\PaperSection;
 
-use Pes\Text\Message;
+use Pes\Core\Text\Message;
 
 use DateTime;
 

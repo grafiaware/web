@@ -8,7 +8,7 @@
 use Site\ConfigurationCache;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\FriendlyUrl;
+use Pes\Core\Text\FriendlyUrl;
 use Red\Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */

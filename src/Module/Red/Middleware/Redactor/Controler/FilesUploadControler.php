@@ -16,7 +16,7 @@ use Red\Service\Asset\AssetServiceInterface;
 use Pes\Http\Factory\ResponseFactory;
 
 use Exception;
-use Pes\Utils\Exception\CreateDirectoryFailedException;
+use Pes\Core\Directory\Exception\CreateDirectoryFailedException;
 use Pes\Http\Exception\UploadException;
 use FrontControler\Exception\UploadFileException;
 

@@ -14,7 +14,7 @@ use Red\Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
 
 use Model\Entity\MenuItemAggregateHierarchyInterface;
 use Model\Entity\MenuItemAggregatePaperInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of HeadlinedEditableRenderer

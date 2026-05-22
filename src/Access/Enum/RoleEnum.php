@@ -8,7 +8,7 @@
 
 namespace Access\Enum;
 
-use Pes\Type\Enum;
+use Pes\Core\Type\Enum;
 
 /**
  * Description of RoleEnum

@@ -8,7 +8,7 @@
 
 namespace Site\OtevreneAteliery;
 
-use Application\WebAppFactory;
+use Pes\Application\SessionServicesConfigurator;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
 
@@ -48,7 +48,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
+            SessionServicesConfigurator::SESSION_NAME_SERVICE => 'www_oa_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #

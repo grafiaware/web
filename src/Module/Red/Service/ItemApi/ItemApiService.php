@@ -4,7 +4,7 @@ namespace Red\Service\ItemApi;
 use Pes\View\ViewInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
-use Pes\Text\FriendlyUrl;
+use Pes\Core\Text\FriendlyUrl;
 
 use UnexpectedValueException;
 

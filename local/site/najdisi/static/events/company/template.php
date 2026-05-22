@@ -4,8 +4,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;
 
-use Pes\Text\Text;
-use Pes\Text\Html;
+use Pes\Core\Text\Text;
+use Pes\Core\Text\Html;
 
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Entity\CompanyInterface;

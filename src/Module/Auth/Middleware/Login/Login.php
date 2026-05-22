@@ -12,7 +12,7 @@ use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Middleware\Login\Controler\QrImageControler;
 use Auth\Middleware\Login\Controler\SynchroControler;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Container\AuthContainerConfigurator;

@@ -8,10 +8,10 @@ use Pes\Http\Factory\EnvironmentFactory;
 
 use Application\WebAppFactory;
 use Application\SelectorItems;
-use Pes\Middleware\Selector;
+use Pes\Application\Middleware\Selector;
 use Pes\Container\Container;
 
-use Pes\Middleware\NoMatchedRouteRequestHandler;
+use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
 use Pes\Http\ResponseSender;
 
 use Container\AppContainerConfigurator;

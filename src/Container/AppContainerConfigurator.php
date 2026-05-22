@@ -18,12 +18,12 @@ use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
 use Pes\Session\SaveHandler\PhpSaveHandler;
 
 // application
-use Application\WebAppFactory;
+use Pes\Application\SessionServicesConfigurator;
 
 // selector
-use Pes\Middleware\Selector;
+use Pes\Application\Middleware\Selector;
 
-use Pes\Middleware\NoMatchedRouteRequestHandler;
+use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
 
 // security context - použit v security status
 use StatusManager\Observer\SecurityContextObjectsRemover;
@@ -108,14 +108,14 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 if (PES_DEVELOPMENT) {
                     $logger = $c->get('sessionLogger');
                     $sessionHandler = new SessionStatusHandler(
-                        $c->get(WebAppFactory::SESSION_NAME_SERVICE),
+                        $c->get(SessionServicesConfigurator::SESSION_NAME_SERVICE),
                         new PhpLoggingSaveHandler($logger)
 //                            new PhpSaveHandler()
                     );
                     $sessionHandler->setLogger($logger);
                 } else {
                     $sessionHandler = new SessionStatusHandler(
-                        $c->get(WebAppFactory::SESSION_NAME_SERVICE),
+                        $c->get(SessionServicesConfigurator::SESSION_NAME_SERVICE),
                         new PhpSaveHandler()
                     );
                 }

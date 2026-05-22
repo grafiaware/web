@@ -14,7 +14,7 @@ use Pes\Http\Environment;
 use Pes\Application\AppFactory;
 use Pes\Application\AppInterface;
 
-use Pes\Text\Message;
+use Pes\Core\Text\Message;
 use Pes\Logger\FileLogger;
 use Pes\Http\Helper\RequestDumper;
 

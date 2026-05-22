@@ -5,7 +5,7 @@ use Red\Component\Renderer\Html\Manage\ButtonsMenuRendererAbstract;
 use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 use Red\Model\Entity\MenuItemInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of ButtonsItemManipulationRenderer

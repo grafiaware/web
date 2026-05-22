@@ -12,7 +12,7 @@ use Mail\Assembly\{Content, Attachment, Party};
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
-use Pes\Security\Password\Password;
+use Pes\Core\Security\Password\Password;
 
 // model
 use Status\Model\Repository\StatusPresentationRepo;

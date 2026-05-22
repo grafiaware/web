@@ -10,7 +10,7 @@ use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
 
 use Red\Model\Entity\MultipageInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PaperRenderer

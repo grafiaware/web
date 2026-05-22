@@ -9,7 +9,7 @@ use FrontControler\FrontControlerAbstract;
 
 use Pes\Http\Request\RequestParams;
 //use Security\Auth\AuthenticatorInterface;
-use Pes\Security\Password\Password;
+use Pes\Core\Security\Password\Password;
 
 // model
 use Model\Repository\Exception\UnableAddEntityException;

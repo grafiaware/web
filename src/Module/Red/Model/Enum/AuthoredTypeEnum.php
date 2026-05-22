@@ -8,7 +8,7 @@
 
 namespace Red\Model\Enum;
 
-use Pes\Type\Enum;
+use Pes\Core\Type\Enum;
 
 /**
  * Description of AuthoredEnum
