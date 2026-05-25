@@ -127,7 +127,7 @@ class SynchroControler   extends FrontControlerAbstract {
         $login = $this->loginRepo->get($validatedUserName);    
         $name =  $login->getLoginName();
         $valid = isset($name) ? 'validUser' : 'invalidUser';                
-        $result = [ 'valid' => $valid  ];          
+        $result = [ 'validFromAuth' => $valid  ];          
         
         return $this->createJsonOKResponse( $result, 200); // 303 See Other            
 //    return $this->createJsonOKResponse( ["dato-Byl jsem v AUTH Synchro","Byl jsem v AUTH Synchro"], 200); // 303 See Other                                     

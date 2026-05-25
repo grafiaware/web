@@ -125,6 +125,9 @@ use Events\Model\Repository\EventContentTypeRepo;
 use Events\Model\Repository\EventLinkPhaseRepo;
 use Events\Model\Repository\EventLinkRepo;
 
+// service
+use Events\Service\ValidateService;
+
 // renderer kontejner
 use Container\RendererContainerConfigurator;
 
@@ -954,8 +957,18 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                    );
             },                             
                     
-        
-        
+/// services
+                    
+            ValidateService::class => function(ContainerInterface $c) {
+                new ValidateService(
+                $c->get(StatusSecurityRepo::class),
+                $c->get(StatusFlashRepo::class),
+                $c->get(StatusPresentationRepo::class)
+                );
+            },
+                    
+// zbytek
+                    
             TemplateCompiler::class => function(ContainerInterface $c) {
                 return new TemplateCompiler();
             },

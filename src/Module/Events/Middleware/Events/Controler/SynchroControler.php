@@ -48,22 +48,7 @@ class SynchroControler   extends FrontControlerAbstract {
         $this->loginRepo = $loginRepo;
     }
 
-    /**/
-    public function validateUser (ServerRequestInterface $request){              
-        $val = $this->ValidUser($request);        
-        switch ($val) {
-            case 'validUser':
-               $this->addFlashMessage("Přihlašený je validní uživatel v single_login.",  FlashSeverityEnum::SUCCESS);
-                break;
-            case 'invalidUser':
-                $this->addFlashMessage("Přihlašený není validní uživatel v single_login.",  FlashSeverityEnum::ERROR);
-                break;
-            case 'noUser':
-                $this->addFlashMessage("Nikdo není přihlášen.",  FlashSeverityEnum::ERROR );               
-                break;
-        }       
-        return $this->redirectSeeLastGet($request); // 303 See Other
-    }     
+    
     
     
     
@@ -142,6 +127,24 @@ class SynchroControler   extends FrontControlerAbstract {
     
     
     
+    //-----------------------------------------------------------------------------------------------------------------
+    /**/
+    public function validateUser (ServerRequestInterface $request){              
+        $val = $this->ValidUser($request);        
+        switch ($val) {
+            case 'validUser':
+               $this->addFlashMessage("Přihlašený je validní uživatel v single_login. - routa- Events\SynchroControler",  FlashSeverityEnum::SUCCESS);
+                break;
+            case 'invalidUser':
+                $this->addFlashMessage("Přihlašený není validní uživatel v single_login. - routa- Events\SynchroControler",  FlashSeverityEnum::ERROR);
+                break;
+            case 'noUser':
+                $this->addFlashMessage("Nikdo není přihlášen. - routa- Events\SynchroControler",  FlashSeverityEnum::ERROR );               
+                break;
+        }       
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }     
+    
     /**/  
     public function validUser (ServerRequestInterface $request){                       
         /** @var SecurityInterface $statusPresentation */
@@ -180,7 +183,7 @@ class SynchroControler   extends FrontControlerAbstract {
                 $this->addFlashMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
             }
 
-            $res = $resultData ['valid'];
+            $res = $resultData ['validFromAuth'];   //'validUser' | 'invalidUser'
         }
         else  {
             $res = 'noUser';

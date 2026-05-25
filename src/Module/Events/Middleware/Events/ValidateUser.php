@@ -18,9 +18,14 @@ use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\LoginSyncControler;
 use Events\Service\ValidateServiceInterface;
-
-//use Events\Middleware\Events\Controler\SynchroControler;
 use Events\Service\ValidateService;
+
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
+
+
+
 
 /**
  * Description of EventsAccess
@@ -57,44 +62,25 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
         $loginSyncControler->actualizeLogin();
         //----------------
         
-        
-           
-        
-//        $statusSecurityRepo = $this->container->get(\Status\Model\Repository\StatusSecurityRepo::class ) ;
-//        $statusFlashRepo = $this->container->get(\Status\Model\Repository\StatusFlashRepo::class ) ;
-//        $statusPresentationRepo = $this->container->get(\Status\Model\Repository\StatusPresentationRepo::class ) ;
-        
-         
-        $statusSecurityRepo = $this->container->get(\Status\Model\Repository\StatusSecurityRepo::class ) ;
-        $statusFlashRepo = $this->container->get(\Status\Model\Repository\StatusFlashRepo::class ) ;
-        $statusPresentationRepo = $this->container->get(\Status\Model\Repository\StatusPresentationRepo::class ) ;
-
-
-                
         /** @var  ValidateServiceInterface $serviceValidate */
-        $serviceValidate = new ValidateService($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $jakToAsiDopadlo = $serviceValidate->validUser($request);
-        
-     
-        
-//               /** @var SynchroControler $synchroControler */
-//        $synchroControler = $this->container->get(SynchroControler::class);
-//        $synchroControler->validUser($request);
+        $serviceValidate = $this->container->get(ValidateService::class);
+        $jakToAsiDopadlo = $serviceValidate->validUser($request);    
         
         
-                                
+        if ($jakToAsiDopadlo== 'invalidUser'  ) {
+            //smazat uzivatele v requestu a poslat dal
+            $request->getBody()->getContents();
+        }
         
         
-        return $handler->handle($request);
-    }
-    
-    
-    
-     
-//   
-//    protected function validateUser (ServerRequestInterface $request){              
-//        $val = $this->ValidUser($request);        
-//        switch ($val) {
+        
+        
+        
+        
+        
+        
+        
+//        switch ($jakToAsiDopadlo) {
 //            case 'validUser':
 //               $this->addFlashMessage("Přihlašený je validní uživatel v single_login.",  FlashSeverityEnum::SUCCESS);
 //                break;
@@ -104,16 +90,20 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
 //            case 'noUser':
 //                $this->addFlashMessage("Nikdo není přihlášen.",  FlashSeverityEnum::ERROR );               
 //                break;
-//            default:
-//                // Kód, který se provede, pokud nevyhovuje žádný case
-//            break;            
-//        }              
-//        return $val;
-//        //eturn $this->redirectSeeLastGet($request); // 303 See Other
-//    }     
+//        }       
+        
+        
+        
+//               /** @var SynchroControler $synchroControler */
+//        $synchroControler = $this->container->get(SynchroControler::class);
+//        $synchroControler->validUser($request);
+   
+        return $handler->handle($request);
+    }
     
     
     
+   
     
     
 }

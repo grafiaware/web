@@ -12,6 +12,8 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Pes\Application\AppFactory;
 use LogicException;
 
+use Status\Model\Enum\FlashSeverityEnum;
+
 
 /**
  * Description of Validate
@@ -41,9 +43,9 @@ class ValidateService implements ValidateServiceInterface {
     #[\Override]
     public function validUser (ServerRequestInterface $request): string {  
                 
-        /** @var SecurityInterface $statusPresentation */
-        $statusPresentation = $this->statusSecurityRepo->get();
-        $loginAgregate = $statusPresentation->getLoginAggregate();
+        /** @var SecurityInterface $statuSecurity */
+            $statuSecurity = $this->statusSecurityRepo->get();
+        $loginAgregate = $statuSecurity->getLoginAggregate();
         
         if (isset($loginAgregate))  {
             $validatedUserName = $loginAgregate->getLoginName();
@@ -74,14 +76,40 @@ class ValidateService implements ValidateServiceInterface {
             if ($result!==false) {
                 $resultData = json_decode($result, true);                                                
             } else {
-                $this->addFlashMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
+                $this->statusFlashRepo->get()->setMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
             }
 
-            $res = $resultData ['valid'];
+            $res = $resultData ['validFromAuth'];   //'validUser' | 'invalidUser'
         }
         else  {
             $res = 'noUser';
         }
+        
+        
+        switch ($res) {
+            case 'validUser':
+               $this->statusFlashRepo->get()->setMessage("Přihlašený je validní uživatel v single_login. - service",  FlashSeverityEnum::SUCCESS);
+                break;
+            case 'invalidUser':
+                $this->statusFlashRepo->get()->setMessage("Přihlašený není validní uživatel v single_login. - service",  FlashSeverityEnum::ERROR);
+                break;
+            case 'noUser':
+                $this->statusFlashRepo->get()->setMessage("Nikdo není přihlášen. - service",  FlashSeverityEnum::ERROR );               
+                break;
+        }               
+        
+        
+//        switch ($res) {
+//            case 'validUser':
+//               $this->addFlashMessage("Přihlašený je validní uživatel v single_login.",  FlashSeverityEnum::SUCCESS);
+//                break;
+//            case 'invalidUser':
+//                $this->addFlashMessage("Přihlašený není validní uživatel v single_login.",  FlashSeverityEnum::ERROR);
+//                break;
+//            case 'noUser':
+//                $this->addFlashMessage("Nikdo není přihlášen.",  FlashSeverityEnum::ERROR );               
+//                break;
+//        }       
         
         return $res;
         
