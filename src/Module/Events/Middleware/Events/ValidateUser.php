@@ -17,6 +17,7 @@ use Container\EventsDbContainerConfigurator;
 use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\LoginSyncControler;
+use Events\Middleware\Events\Controler\SynchroControler;
 use Events\Service\ValidateServiceInterface;
 use Events\Service\ValidateService;
 
@@ -55,28 +56,19 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
             // Nový kontejner nastaví jako kontejner aplikace - pro middleware Events
             $this->getApp()->setAppContainer($this->container);
         #
-        ###############################       
-            
-        $loginSyncControler = $this->container->get(LoginSyncControler::class);
-        /** @var LoginSyncControler $loginSyncControler */
-        $loginSyncControler->actualizeLogin();
-        //----------------
+        ###############################     
         
+          
+//      todle tady nebude      
+//        $loginSyncControler = $this->container->get(LoginSyncControler::class);
+//        /** @var LoginSyncControler $loginSyncControler */
+//        $loginSyncControler->actualizeLogin();
+//        //----------------
+            
+            
         /** @var  ValidateServiceInterface $serviceValidate */
         $serviceValidate = $this->container->get(ValidateService::class);
-        $jakToAsiDopadlo = $serviceValidate->validUser($request);    
-        
-        
-        if ($jakToAsiDopadlo== 'invalidUser'  ) {
-            //smazat uzivatele v requestu a poslat dal
-            $request->getBody()->getContents();
-        }
-        
-        
-        
-        
-        
-        
+        $serviceValidate->validateUser($request);    
         
         
         
@@ -94,11 +86,13 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
         
         
         
-//               /** @var SynchroControler $synchroControler */
+//            /** @var SynchroControler $synchroControler */
 //        $synchroControler = $this->container->get(SynchroControler::class);
 //        $synchroControler->validUser($request);
-   
+//   
+        
         return $handler->handle($request);
+        
     }
     
     

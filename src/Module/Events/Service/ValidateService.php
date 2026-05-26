@@ -9,6 +9,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Entity\Security;
+use Status\Model\Entity\SecurityInterface;
+use Pes\Logger\FileLogger;
+
+
 use Pes\Application\AppFactory;
 use LogicException;
 
@@ -24,28 +29,32 @@ class ValidateService implements ValidateServiceInterface {
     private $statusSecurityRepo;
     private $statusFlashRepo;
     private $statusPresentationRepo;
+    private $fileLogger;
      
      
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo            
-             ) {        
+            StatusPresentationRepo $statusPresentationRepo,     
+            FileLogger $fileLogger
+            ) {        
             
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusFlashRepo = $statusFlashRepo;
-        $this->statusPresentationRepo = $statusPresentationRepo;          
+        $this->statusPresentationRepo = $statusPresentationRepo;       
+        $this->fileLogger = $fileLogger;
     } 
     
  
     
       
-    #[\Override]
-    public function validUser (ServerRequestInterface $request): string {  
-                
-        /** @var SecurityInterface $statuSecurity */
-            $statuSecurity = $this->statusSecurityRepo->get();
-        $loginAgregate = $statuSecurity->getLoginAggregate();
+    #[\Override]    
+    public function validateUser (ServerRequestInterface $request): void {      
+         //$rH = $request->getHeaders();
+        
+        /** @var SecurityInterface $statusSecurity */
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginAgregate = $statusSecurity->getLoginAggregate();
         
         if (isset($loginAgregate))  {
             $validatedUserName = $loginAgregate->getLoginName();
@@ -80,38 +89,33 @@ class ValidateService implements ValidateServiceInterface {
             }
 
             $res = $resultData ['validFromAuth'];   //'validUser' | 'invalidUser'
+      
         }
         else  {
             $res = 'noUser';
         }
-        
-        
+                
+       
         switch ($res) {
             case 'validUser':
-               $this->statusFlashRepo->get()->setMessage("Přihlašený je validní uživatel v single_login. - service",  FlashSeverityEnum::SUCCESS);
+                $this->statusFlashRepo->get()->setMessage("Přihlašený je validní uživatel v single_login. - service",  FlashSeverityEnum::SUCCESS);
                 break;
             case 'invalidUser':
-                $this->statusFlashRepo->get()->setMessage("Přihlašený není validní uživatel v single_login. - service",  FlashSeverityEnum::ERROR);
+       /**/         $this->statusFlashRepo->get()->setMessage("Přihlašený není validní uživatel v single_login. - service",  FlashSeverityEnum::ERROR);
                 break;
             case 'noUser':
                 $this->statusFlashRepo->get()->setMessage("Nikdo není přihlášen. - service",  FlashSeverityEnum::ERROR );               
                 break;
-        }               
+        }      
         
-        
-//        switch ($res) {
-//            case 'validUser':
-//               $this->addFlashMessage("Přihlašený je validní uživatel v single_login.",  FlashSeverityEnum::SUCCESS);
-//                break;
-//            case 'invalidUser':
-//                $this->addFlashMessage("Přihlašený není validní uživatel v single_login.",  FlashSeverityEnum::ERROR);
-//                break;
-//            case 'noUser':
-//                $this->addFlashMessage("Nikdo není přihlášen.",  FlashSeverityEnum::ERROR );               
-//                break;
-//        }       
-        
-        return $res;
+        $res='invalidUser';
+        if  ($res=='invalidUser') {
+            // smazat v statusuSecurity
+            $statusSecurity->removeContext();
+            
+            // LOGOVAT
+            $this->fileLogger->error("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." . "- result z auth - " . $resultData ['validFromAuth']);
+        }
         
     }      
           
@@ -129,5 +133,8 @@ class ValidateService implements ValidateServiceInterface {
         }
         return $uriInfo;
     }
+    
+    
+    
     
 }

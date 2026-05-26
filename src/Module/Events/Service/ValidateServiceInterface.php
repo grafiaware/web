@@ -14,6 +14,14 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface ValidateServiceInterface {
     
-    public function validUser (ServerRequestInterface $request): string;
+
+    /**
+     * Volá se  z middleware ValidateUser
+     * 
+     * @param ServerRequestInterface $request
+     * @return void
+     */
+    public function validateUser (ServerRequestInterface $request): void;
+    
     
 }

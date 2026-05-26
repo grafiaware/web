@@ -50,7 +50,12 @@ class SynchroControler   extends FrontControlerAbstract {
                    
          
     
-    
+    /** 
+     *  z routy '/auth/v1/synchro'
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
     public function synchro (ServerRequestInterface $request){   
         // Obsah zavisle db prijde v request, polozky ze zavisle db se upravi podle referencni db                         
         //  remItems -  jsou v zavisle db k vymazani      
@@ -119,6 +124,12 @@ class SynchroControler   extends FrontControlerAbstract {
     
    
    /**/
+    /** 
+     *  z routy '/auth/v1/validuser'
+     * 
+     * @param ServerRequestInterface $request
+     * @return type
+     */
     public function validUser (ServerRequestInterface $request){        
         $validUserNames = $request->getParsedBody();
         $validatedUserName  = $validUserNames[0];

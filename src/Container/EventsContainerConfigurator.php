@@ -960,7 +960,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 /// services
                     
             ValidateService::class => function(ContainerInterface $c) {
-                new ValidateService(
+                return new ValidateService(
                 $c->get(StatusSecurityRepo::class),
                 $c->get(StatusFlashRepo::class),
                 $c->get(StatusPresentationRepo::class)
