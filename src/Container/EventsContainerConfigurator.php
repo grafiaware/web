@@ -618,8 +618,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         )
                     )->injectContainer($c);  // inject component kontejner
             },            
-            'dbEventsLoginSynLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('dbEvents.logs.db.directory'), $c->get('dbEvents.logs.db.loginsync'), FileLogger::APPEND_TO_LOG);
+            'EventsValidateUserLogger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('dbEvents.logs.db.directory'), $c->get('dbEvents.logs.db.validateuser'), FileLogger::APPEND_TO_LOG);
             },
             LoginSyncControler::class => function(ContainerInterface $c) {
                 return (new LoginSyncControler(
@@ -627,7 +627,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(LoginRepo::class),
-                        $c->get('dbEventsLoginSynLogger')
+                        $c->get('EventsValidateUserLogger')
                         )
                     )->injectContainer($c);  // inject component kontejner
             },
@@ -949,7 +949,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DocumentRepo::class), 
                    );
             },             
-           DocumentSingleViewModel::class => function(ContainerInterface $c) {
+            DocumentSingleViewModel::class => function(ContainerInterface $c) {
                 return new DocumentSingleViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(DocumentRepo::class), 
@@ -961,9 +961,10 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     
             ValidateService::class => function(ContainerInterface $c) {
                 return new ValidateService(
-                $c->get(StatusSecurityRepo::class),
-                $c->get(StatusFlashRepo::class),
-                $c->get(StatusPresentationRepo::class)
+                    $c->get(StatusSecurityRepo::class),
+                    $c->get(StatusFlashRepo::class),
+                    $c->get(StatusPresentationRepo::class),
+                    $c->get('EventsValidateUserLogger')
                 );
             },
                     
