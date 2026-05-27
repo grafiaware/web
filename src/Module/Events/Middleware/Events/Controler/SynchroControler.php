@@ -57,7 +57,7 @@ class SynchroControler   extends FrontControlerAbstract {
     /**/  
     /**
      * volani routy "events/v1/synchro" , button Synchro  
-     * doptava se na "auth/v1/synchro" , maze a pridava loginName do db Events, tabulka login
+     * doptava se na "auth/v1/synchro" , "maze"  a pridava loginName do db Events, tabulka login
      * 
      * @param ServerRequestInterface $request
      * @return type

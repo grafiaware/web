@@ -36,7 +36,7 @@ class ValidateService implements ValidateServiceInterface {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,     
-            FileLogger $fileLogger
+            ?FileLogger $fileLogger = null
             ) {        
             
         $this->statusSecurityRepo = $statusSecurityRepo;
@@ -86,6 +86,8 @@ class ValidateService implements ValidateServiceInterface {
                 $resultData = json_decode($result, true);                                                
             } else {
                 $this->statusFlashRepo->get()->setMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
+                //zapsat do logu
+                // co s requestem ?
             }
 
             $res = $resultData ['validFromAuth'];   //'validUser' | 'invalidUser'
@@ -114,7 +116,13 @@ class ValidateService implements ValidateServiceInterface {
             $statusSecurity->removeContext();
             
             // LOGOVAT
-            $this->fileLogger->error("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." . "- result z auth - " . $resultData ['validFromAuth']);
+            if ( $this->fileLogger ) {
+                $this->fileLogger->error("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." . "- result z auth - " . $resultData ['validFromAuth']);
+            }
+
+            // "vymazat" z tabulky login events,tj. pridat "delete" --
+            
+            
         }
         
     }      
