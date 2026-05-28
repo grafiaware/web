@@ -17,6 +17,10 @@ use Events\Model\Entity\Login;
 
 use Status\Model\Enum\FlashSeverityEnum;
 
+use Events\Service\ValidateServiceInterface;
+use Events\Service\ValidateService;
+
+
 use Psr\Http\Message\ServerRequestInterface;
 
 use Psr\Http\Message\UploadedFileInterface;
@@ -99,16 +103,21 @@ class SynchroControler   extends FrontControlerAbstract {
         $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
         //--------------
         if ($result!==false) {
-            $resultData = json_decode($result, true);                                                            
+            $resultData = json_decode($result, true);   
+            /** @var ValidateServiceInterface  $serviceValidate*/
+            $serviceValidate = $this->container->get(ValidateService::class);
+            
             //if ( $resultData['remItems'] ) {   
             //if (!empty($resultData['remItems'])) {
             if ($resultData ['remItems']?? [])      {               
                 foreach ($resultData['remItems'] as  $loginName) {                                
 //                    $loginA =  new Login(); $loginA->setLoginName($loginItem); $this->loginRepo->remove($loginA);                    
                     //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")
-                    $loginA = $this->loginRepo->get($loginName);                    
-                    $loginA->setDeletedDueToAuth('1');
-                    $loginA->setLoginName($loginName . '_deleted_' . date("Ymd_His") );                    
+                      $serviceValidate->deleteUserNameFromEvents($loginName);
+                    
+//                    $loginA = $this->loginRepo->get($loginName);                    
+//                    $loginA->setDeletedDueToAuth('1');
+//                    $loginA->setLoginName($loginName . '_deleted_' . date("Ymd_His") );                    
                 }                                                            
             }    
             $this->loginRepo->flush();
@@ -116,12 +125,15 @@ class SynchroControler   extends FrontControlerAbstract {
             //if ( $resultData['addItems'] ) {        
             //if (!empty($resultData['addItems'])) {
             if ($resultData ['addItems']?? [])      {         
-                foreach ($resultData['addItems'] as $loginItem) {                                
-                    $loginA =  new Login();
-                    $loginA->setDeletedDueToAuth(0);
-                    $loginA->setLoginName($loginItem); 
+                foreach ($resultData['addItems'] as $loginItem) {           
+                    $serviceValidate->addUserNameToEvents($loginName);
                     
-                    $this->loginRepo->add($loginA);
+//                    $loginA =  new Login();
+//                    $loginA->setDeletedDueToAuth(0);
+//                    $loginA->setLoginName($loginItem); 
+//                    
+//                    $this->loginRepo->add($loginA);
+                                        
                 }
             }                         
         } else {

@@ -51,13 +51,10 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
                     )
                 )
             );        
-        #### kontejner pro Events #####
-        #
+        #### kontejner pro Events #####        
             // Nový kontejner nastaví jako kontejner aplikace - pro middleware Events
-            $this->getApp()->setAppContainer($this->container);
-        #
-        ###############################     
-        
+            $this->getApp()->setAppContainer($this->container);     
+        ###############################             
           
 //      todle tady nebude      
 //        $loginSyncControler = $this->container->get(LoginSyncControler::class);
@@ -66,11 +63,19 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
 //        //----------------
             
             
+        //kdyz neni prihlaseny neni v events.login tabulce a ja ok, tak zapsat do events login tabulky    
+            
+            
         /** @var  ValidateServiceInterface $serviceValidate */
         $serviceValidate = $this->container->get(ValidateService::class);
         $serviceValidate->validateUser($request);    
         
         
+        
+        
+        return $handler->handle($request);
+        
+    }
         
 //        switch ($jakToAsiDopadlo) {
 //            case 'validUser':
@@ -91,9 +96,7 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
 //        $synchroControler->validUser($request);
 //   
         
-        return $handler->handle($request);
-        
-    }
+      
     
     
     

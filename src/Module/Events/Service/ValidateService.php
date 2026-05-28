@@ -13,6 +13,7 @@ use Status\Model\Entity\Security;
 use Status\Model\Entity\SecurityInterface;
 use Pes\Logger\FileLogger;
 
+use Events\Model\Repository\LoginRepoInterface;
 
 use Pes\Application\AppFactory;
 use LogicException;
@@ -30,19 +31,27 @@ class ValidateService implements ValidateServiceInterface {
     private $statusFlashRepo;
     private $statusPresentationRepo;
     private $fileLogger;
+    
+    private $loginRepo;
      
      
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,     
+            StatusPresentationRepo $statusPresentationRepo,    
+           
+            LoginRepoInterface $loginRepo,
+
+            
             ?FileLogger $fileLogger = null
             ) {        
             
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusFlashRepo = $statusFlashRepo;
-        $this->statusPresentationRepo = $statusPresentationRepo;       
-        $this->fileLogger = $fileLogger;
+        $this->statusPresentationRepo = $statusPresentationRepo;                    
+        $this->loginRepo = $loginRepo;
+   
+        $this->fileLogger = $fileLogger;        
     } 
     
  
@@ -97,30 +106,48 @@ class ValidateService implements ValidateServiceInterface {
             $res = 'noUser';
         }
                 
-       
+       //*************************
+        $res='invalidUser';
+        $validatedUserName = 'XxX';       
+       //************************* 
+        
         switch ($res) {
-            case 'validUser':
-                $this->statusFlashRepo->get()->setMessage("Přihlašený je validní uživatel v single_login. - service",  FlashSeverityEnum::SUCCESS);
-                break;
-            case 'invalidUser':
-       /**/         $this->statusFlashRepo->get()->setMessage("Přihlašený není validní uživatel v single_login. - service",  FlashSeverityEnum::ERROR);
-                break;
             case 'noUser':
                 $this->statusFlashRepo->get()->setMessage("Nikdo není přihlášen. - service",  FlashSeverityEnum::ERROR );               
                 break;
-        }      
-        
-        $res='invalidUser';
-        if  ($res=='invalidUser') {
-            // smazat v statusuSecurity
-            $statusSecurity->removeContext();
             
-            // LOGOVAT
-            if ( $this->fileLogger ) {
-                $this->fileLogger->error("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." . "- result z auth - " . $resultData ['validFromAuth']);
-            }
+            case 'validUser':
+                $this->statusFlashRepo->get()->setMessage("Přihlašený je validní uživatel v single_login. - service",  FlashSeverityEnum::SUCCESS);
+                
+                //kdyz neni prihlaseny neni v events.login tabulce a ja ok, tak zapsat do events login tabulky                    
+                break;
+           
+            case 'invalidUser':                                
+                // smazat v statusuSecurity
+                $statusSecurity->removeContext();
+            
+                // LOGOVAT
+                if ( $this->fileLogger ) {
+                    $this->fileLogger->error("*Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." . "- result z auth byl - " . $res );
+                }
 
-            // "vymazat" z tabulky login events,tj. pridat "delete" --
+                // "vymazat" z tabulky login events,tj. pridat "delete" --   
+                if ($validatedUserName) {
+                    $login = $this->loginRepo->get($validatedUserName);
+                    if ($login) {
+                        $this->deleteUserNameFromEvents($validatedUserName);           
+                       
+                        $this->loginRepo->flush(); //??????
+                    }
+                    
+                }
+
+                                
+       /**/     $this->statusFlashRepo->get()->setMessage("Přihlašený není validní uživatel v single_login. - service",  FlashSeverityEnum::ERROR);       
+                break;            
+                 
+        
+        
             
             
         }
@@ -142,6 +169,26 @@ class ValidateService implements ValidateServiceInterface {
         return $uriInfo;
     }
     
+    
+    public function deleteUserNameFromEvents($loginName): void {
+        
+        $loginA = $this->loginRepo->get($loginName);                    
+        $loginA->setDeletedDueToAuth('1');
+        $loginA->setLoginName($loginName . '_deleted_' . date("Ymd_His") ); 
+        
+        
+    }
+    
+    
+    public function addUserNameToEvents($loginName): void {
+        
+        $loginA =  new Login();
+        $loginA->setDeletedDueToAuth(0);
+        $loginA->setLoginName($loginName); 
+
+        $this->loginRepo->add($loginA);
+        
+    }
     
     
     

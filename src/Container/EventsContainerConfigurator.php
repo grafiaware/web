@@ -964,6 +964,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
+                    $c->get(LoginRepo::class),                     
+                        
                     $c->get('EventsValidateUserLogger')
                 );
             },

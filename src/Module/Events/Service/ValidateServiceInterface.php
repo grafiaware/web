@@ -24,4 +24,21 @@ interface ValidateServiceInterface {
     public function validateUser (ServerRequestInterface $request): void;
     
     
+    /**
+     * Volá se  z middleware Events... SynchroControler, a interne z ValidateService
+     * 
+     * @param type $loginName
+     * @return void
+     */
+    public function deleteUserNameFromEvents($loginName): void;
+    
+    /**
+     * Volá se  z middleware Events... SynchroControler, a interne z ValidateService     * 
+     * 
+     * @param type $loginName
+     * @return void
+     */
+    public function addUserNameToEvents($loginName): void; 
+    
+    
 }
