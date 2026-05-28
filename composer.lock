@@ -247,12 +247,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "1d8056ce37cb32df090086230f47fc13f5f38b5c"
+                "reference": "29ee255961ec1d16aeb35293e69ebafc8cb2541b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/1d8056ce37cb32df090086230f47fc13f5f38b5c",
-                "reference": "1d8056ce37cb32df090086230f47fc13f5f38b5c",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/29ee255961ec1d16aeb35293e69ebafc8cb2541b",
+                "reference": "29ee255961ec1d16aeb35293e69ebafc8cb2541b",
                 "shasum": ""
             },
             "require": {
@@ -309,7 +309,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/split"
             },
-            "time": "2026-05-28T13:40:46+00:00"
+            "time": "2026-05-28T13:45:43+00:00"
         },
         {
             "name": "pes/pes-application",
