@@ -13,6 +13,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Pes\Application\Middleware\AppMiddlewareAbstract;
+use Pes\Http\Request;
+use Pes\Http\Helper\UriInfoInterface;
 
 use Application\WebAppFactory;
 use Site\ConfigurationCache;
@@ -96,7 +98,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     
     private function getRestUri(ServerRequestInterface $request) {
         /** @var UriInfoInterface $uriInfo */
-        $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+        $uriInfo = $request->getAttribute(Request::URI_INFO_ATTRIBUTE_NAME);
         return $uriInfo->getRestUri();    
     }
     
