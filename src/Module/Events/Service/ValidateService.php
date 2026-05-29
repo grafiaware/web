@@ -40,9 +40,7 @@ class ValidateService implements ValidateServiceInterface {
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,    
            
-            LoginRepoInterface $loginRepo,
-
-            
+            LoginRepoInterface $loginRepo,           
             ?FileLogger $fileLogger = null
             ) {        
             
@@ -59,76 +57,47 @@ class ValidateService implements ValidateServiceInterface {
       
     #[\Override]    
     public function validateUser (ServerRequestInterface $request): void {      
-         //$rH = $request->getHeaders();
         
-        /** @var SecurityInterface $statusSecurity */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        $loginAgregate = $statusSecurity->getLoginAggregate();
-        
-        if (isset($loginAgregate))  {
-            $validatedUserName = $loginAgregate->getLoginName();
-
-            //--------------
-            $scheme = $request->getUri()->getScheme();
-            $host = $request->getUri()->getHost();
-            $ruri = $this->getUriInfo($request)->getRestUri();
-            $rap =$this->getUriInfo($request)->getRootAbsolutePath();
-            $sp = $this->getUriInfo($request)->getSubdomainPath();        
-            $url = "$scheme://$host$sp"."auth/v1/validuser";
-            // options pro stream_context_create() vždy definuj s položkou http
-            // url adresu pro file_get_contents(url, ..) definuj: https://....
-            // use key 'http' even if you send the request to https://...
-            $json = json_encode([$validatedUserName]);
-            $options = [
-                'http' => [
-                    'header' => "Content-type: application/json",
-                    //'header' => "Cookie: XDEBUG_SESSION=netbeans-xdebug\r\n",
-                    'method' => 'POST' ,
-                    'content' => $json,
-                ],
-            ];        
-            //--------------      
-            $context = stream_context_create($options);
-            $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
-            //--------------
-            if ($result!==false) {
-                $resultData = json_decode($result, true);                                                
-            } else {
-                $this->statusFlashRepo->get()->setMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
-                //zapsat do logu
-                // co s requestem ?
-            }
-
-            $res = $resultData ['validFromAuth'];   //'validUser' | 'invalidUser'
-      
-        }
-        else  {
-            $res = 'noUser';
-        }
-                
+       
+        $kindOfUser = $this->whatKindOfUser();        
+ 
        //*************************
-        $res='invalidUser';
+        $kindOfUser='invalidUser';
         $validatedUserName = 'XxX';       
        //************************* 
         
-        switch ($res) {
+        switch ($kindOfUser) {
             case 'noUser':
                 $this->statusFlashRepo->get()->setMessage("Nikdo není přihlášen. - service",  FlashSeverityEnum::ERROR );               
-                break;
+            break;
             
             case 'validUser':
                 $this->statusFlashRepo->get()->setMessage("Přihlašený je validní uživatel v single_login. - service",  FlashSeverityEnum::SUCCESS);
                 
-                //kdyz neni prihlaseny neni v events.login tabulce a ja ok, tak zapsat do events login tabulky                    
-                break;
+               
+                //kdyz  prihlaseny neni v events.login tabulce a je ok, tak zapsat do events login tabulky, 
+                // todo
+                
+                
+                //neni-li ve statusu, poznamenant do statusu
+                $v = $this->$statusSecurity->getInfo("zvalidovany");
+                if (!$this->$statusSecurity->getInfo("zvalidovany")) {
+                    $this->$statusSecurity->setInfo("zvalidovany", "zvalidovany") ;
+                    $this->$statusSecurity->setInfo("user", "   ...") ;
+                    
+                    
+                
+            break;
            
-            case 'invalidUser':                                
-                // smazat v statusuSecurity
-                $statusSecurity->removeContext();
+            case 'invalidUser':                   
+                if ($statusSecurity)  {
+                    // smazat v statusuSecurity
+                    $statusSecurity->removeContext();
+                }
             
                 // LOGOVAT
-                if ( $this->fileLogger ) {
-                    $this->fileLogger->error("*Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." . "- result z auth byl - " . $res );
+                if ($this->fileLogger ) {
+                    $this->fileLogger->error("*Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." . "- result z auth byl: " . $kindOfUser );
                 }
 
                 // "vymazat" z tabulky login events,tj. pridat "delete" --   
@@ -137,23 +106,82 @@ class ValidateService implements ValidateServiceInterface {
                     if ($login) {
                         $this->deleteUserNameFromEvents($validatedUserName);           
                        
-                        $this->loginRepo->flush(); //??????
+                        //$this->loginRepo->flush(); //??????
                     }
                     
                 }
 
                                 
-       /**/     $this->statusFlashRepo->get()->setMessage("Přihlašený není validní uživatel v single_login. - service",  FlashSeverityEnum::ERROR);       
-                break;            
-                 
-        
-        
-            
-            
+       /**/     $this->statusFlashRepo->get()->setMessage("Přihlašený není validní uživatel v single_login. - service",  FlashSeverityEnum::ERROR);  
+                
+                //vratit se
+       
+            break;            
+  
         }
         
+                
     }      
-          
+        
+    
+    
+    
+    protected function whatKindOfUser() : string {               
+         /** @var SecurityInterface $statusSecurity */
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginAgregate = $statusSecurity->getLoginAggregate();
+                
+        if (isset($loginAgregate))  {
+            $validatedUserName = $loginAgregate->getLoginName();
+            
+            
+            //---------------------------------------------
+            if ($this->$statusSecurity->getInfo("zvalidovany")  /* isFirstRequest($statusSecurity)  prvni request, jeste nezvalidovano" */ ) {    
+                
+                    $scheme = $request->getUri()->getScheme();
+                    $host = $request->getUri()->getHost();
+                    $ruri = $this->getUriInfo($request)->getRestUri();
+                    $rap =$this->getUriInfo($request)->getRootAbsolutePath();
+                    $sp = $this->getUriInfo($request)->getSubdomainPath();        
+                    $url = "$scheme://$host$sp"."auth/v1/validuser";
+                    // options pro stream_context_create() vždy definuj s položkou http
+                    // url adresu pro file_get_contents(url, ..) definuj: https://....
+                    // use key 'http' even if you send the request to https://...
+                    $json = json_encode([$validatedUserName]);
+                    $options = [
+                        'http' => [
+                            'header' => "Content-type: application/json",
+                            //'header' => "Cookie: XDEBUG_SESSION=netbeans-xdebug\r\n",
+                            'method' => 'POST' ,
+                            'content' => $json,
+                        ],
+                    ];        
+                    //--------------      
+                    $context = stream_context_create($options);
+                    $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
+                    //--------------
+                    if ($result!==false) {
+                        $resultData = json_decode($result, true);                                                
+                    } else {
+                        $this->statusFlashRepo->get()->setMessage("Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.", FlashSeverityEnum::ERROR);
+                        //zapsat do logu
+                        // co s requestem ?
+                    }
+                    $res = $resultData ['validFromAuth'];   //'validUser' | 'invalidUser'           
+            } //-------------------------------
+                        
+        }
+        else  {
+            $res = 'noUser';
+        }
+        //***                
+        return $res; 
+        //***
+    }
+    
+    
+    
+    
     
     
      /**
@@ -170,25 +198,31 @@ class ValidateService implements ValidateServiceInterface {
     }
     
     
-    public function deleteUserNameFromEvents($loginName): void {
-        
+    #[\Override]
+    public function deleteUserNameFromEvents($loginName): void {        
         $loginA = $this->loginRepo->get($loginName);                    
         $loginA->setDeletedDueToAuth('1');
-        $loginA->setLoginName($loginName . '_deleted_' . date("Ymd_His") ); 
-        
-        
+        $loginA->setLoginName($loginName . '_deleted_' . date("Ymd_His") );                 
     }
-    
-    
-    public function addUserNameToEvents($loginName): void {
         
+    #[\Override]
+    public function addUserNameToEvents($loginName): void {        
         $loginA =  new Login();
         $loginA->setDeletedDueToAuth(0);
         $loginA->setLoginName($loginName); 
 
-        $this->loginRepo->add($loginA);
-        
+        $this->loginRepo->add($loginA);        
     }
+    
+    
+    
+//    
+//    protected function isFirstRequest(SecurityInterface $statusSecurity){
+//                    
+//            /** @var Security $statusSecurity */
+//    return $statusSecurity->getInfo($name);
+//               
+//    }
     
     
     

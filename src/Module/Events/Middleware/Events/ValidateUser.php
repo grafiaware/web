@@ -25,6 +25,9 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
+use Status\Model\Entity\Security;
+use Status\Model\Entity\SecurityInterface;
+
 
 
 
@@ -61,14 +64,16 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
 //        /** @var LoginSyncControler $loginSyncControler */
 //        $loginSyncControler->actualizeLogin();
 //        //----------------
+         
             
+
+        
+     
             
-        //kdyz neni prihlaseny neni v events.login tabulce a ja ok, tak zapsat do events login tabulky    
-            
-            
-        /** @var  ValidateServiceInterface $serviceValidate */
-        $serviceValidate = $this->container->get(ValidateService::class);
-        $serviceValidate->validateUser($request);    
+            /** @var  ValidateServiceInterface $serviceValidate */
+            $serviceValidate = $this->container->get(ValidateService::class);
+            $serviceValidate->validateUser($request);    
+
         
         
         
