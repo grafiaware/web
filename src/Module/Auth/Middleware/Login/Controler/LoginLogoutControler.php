@@ -75,7 +75,7 @@ class LoginLogoutControler extends FrontControlerAbstract {
                 if (isset($loginAggregateFull) AND $this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
                     $securityStatus = $this->statusSecurityRepo->get();  // ze session
                     /** @var SecurityInterface $securityStatus */
-                    $securityStatus->new($loginAggregateFull);
+                    $securityStatus->newContext($loginAggregateFull);
                     $this->addFlashMessage("Jste přihlášeni.", FlashSeverityEnum::SUCCESS);
                 }
                 else {
@@ -104,7 +104,7 @@ class LoginLogoutControler extends FrontControlerAbstract {
                 if (isset($loginAggregateFull) AND $this->superAuthenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
                     $securityStatus = $this->statusSecurityRepo->get();  // ze session
                     /** @var SecurityInterface $securityStatus */
-                    $securityStatus->new($loginAggregateFull);
+                    $securityStatus->newContext($loginAggregateFull);
                     $this->addFlashMessage("Jste přihlášeni.", FlashSeverityEnum::SUCCESS);
                 }
                 else {

@@ -42,7 +42,7 @@ interface SecurityInterface extends PersistableEntityInterface {
      * @param LoginAggregateFullInterface $loginAggregate
      * @return SecurityInterface
      */
-    public function new(LoginAggregateFullInterface $loginAggregate): SecurityInterface;
+    public function newContext(LoginAggregateFullInterface $loginAggregate): SecurityInterface;
         
     /**
      * Informuje, zda security kontext existuje a zda je platný.

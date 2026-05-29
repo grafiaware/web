@@ -10,8 +10,6 @@ namespace Status\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
 
-use Model\Entity\SecurityPersistableEntityInterface;
-
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\EditorActions;
 use Red\Model\Entity\EditorActionsInterface;
@@ -77,7 +75,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      * @return void
      */
     #[\Override]
-    public function new(LoginAggregateFullInterface $loginAggregate): SecurityInterface {
+    public function newContext(LoginAggregateFullInterface $loginAggregate): SecurityInterface {
         $this->loginAggregate = $loginAggregate;
         $this->editorActions = new EditorActions();
         $this->represantativeActions = new RepresentationActions();
