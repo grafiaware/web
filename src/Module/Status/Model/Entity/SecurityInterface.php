@@ -64,21 +64,21 @@ interface SecurityInterface extends SecurityPersistableEntityInterface {
      * @param string $loginName
      * @return void
      */
-    public function addUserNameVerifyedWithinSession(string $loginName): void;
+    public function addUserNameVerifiedWithinSession(string $loginName): void;
     
     /**
      * Smaže informaci, že uživatel s login name byl již v průběhu session ověřen.
      * @param string $loginName
      * @return void
      */
-    public function removeUserNameVerifyedWithinSession(string $loginName): void;
+    public function removeUserNameVerifiedWithinSession(string $loginName): void;
     
     /**
      * Poskytne informaci, jestli uživatel s login name byl již v průběhu session ověřen.
      * @param string $loginName
      * @return bool
      */
-    public function isUserNameVerifyedWithinSession(string $loginName): bool;
+    public function isUserNameVerifiedWithinSession(string $loginName): bool;
     
     /**
      * Vrací LoginAggregateFull - login s credentials a registration

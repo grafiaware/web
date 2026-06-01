@@ -98,17 +98,17 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
     ### UserNameVerifyedWithinSession
     
     #[\Override]
-    public function addUserNameVerifyedWithinSession(string $loginName): void {
+    public function addUserNameVerifiedWithinSession(string $loginName): void {
         $this->userNameVerifyedWithinSession[$loginName] = true;  // jméno jako klíč - nevzniknou duplicity
     }
     
     #[\Override]
-    public function removeUserNameVerifyedWithinSession(string $loginName): void {
+    public function removeUserNameVerifiedWithinSession(string $loginName): void {
         unset($this->userNameVerifyedWithinSession[$loginName]);
     }
     
     #[\Override]
-    public function isUserNameVerifyedWithinSession(string $loginName): bool {
+    public function isUserNameVerifiedWithinSession(string $loginName): bool {
         return $this->userNameVerifyedWithinSession[$loginName] ?? false;
     }
     
