@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Model\Entity\SecurityPersistableEntityInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\EditorActionsInterface;
@@ -25,8 +25,16 @@ use Events\Model\Entity\RepresentationActionsInterface;
  *
  * @author pes2704
  */
-interface SecurityInterface extends PersistableEntityInterface {
+interface SecurityInterface extends SecurityPersistableEntityInterface {
 
+    /**
+     * Nastaví výchozí parametry po vzniku security kontextu. Určeno pro volání po přihlášení uživatele.
+     * 
+     * @param LoginAggregateFullInterface $loginAggregate
+     * @return SecurityInterface
+     */
+    public function newContext(LoginAggregateFullInterface $loginAggregate): SecurityInterface;
+    
     /**
      * Odstraní parametry. Určeno pro volání při záníku securiry kontextu nebo pokud se zjistí, že security kontext neexistuje.
      * Zypicky po odhlášení uživatele nebo při zpracování požadavku a zjištění, že uživatžel není přihlášen.
@@ -35,39 +43,52 @@ interface SecurityInterface extends PersistableEntityInterface {
      * @return void
      */
     public function removeContext(): SecurityInterface;
-
-    /**
-     * Nastaví výchozí parametry po vzniku security kontextu. Určeno pro volání po přihlášení uživatele.
-     * 
-     * @param LoginAggregateFullInterface $loginAggregate
-     * @return SecurityInterface
-     */
-    public function new(LoginAggregateFullInterface $loginAggregate): SecurityInterface;
         
     /**
      * Informuje, zda security kontext existuje a zda je platný.
      * 
      * @return bool
      */
-    public function hasValidSecurityContext(): bool;
-
+    public function hasValidSecurityContext(): bool; 
+    
     /**
+     * Vrací login name uložené metodou processActionsForLossOfSecurityContext.
+     * Metoda použita pro smazání údajů vázaných na login na v databázi - to proběhne až při příštím GET requestu.
+     * 
+     * @return string|null
+     */
+    public function lastLoggedOffUsername(): ?string;
+    
+    /**
+     * Přidá informaci, že uživatel s login name byl již v průběhu session ověřen.
+     * @param string $loginName
+     * @return void
+     */
+    public function addUserNameVerifyedWithinSession(string $loginName): void;
+    
+    /**
+     * Smaže informaci, že uživatel s login name byl již v průběhu session ověřen.
+     * @param string $loginName
+     * @return void
+     */
+    public function removeUserNameVerifyedWithinSession(string $loginName): void;
+    
+    /**
+     * Poskytne informaci, jestli uživatel s login name byl již v průběhu session ověřen.
+     * @param string $loginName
+     * @return bool
+     */
+    public function isUserNameVerifyedWithinSession(string $loginName): bool;
+    
+    /**
+     * Vrací LoginAggregateFull - login s credentials a registration
      *
      * @return LoginAggregateFullInterface|null
      */
     public function getLoginAggregate(): ?LoginAggregateFullInterface;
-
-    //TODO: getEditorActions() a getRepresentativeActions() pryč -> nový StatusSecurityEditor (+repo, dao) do modulu RED a nový StatusSecurityRepresentative do modulu EVENTS, obě repo 
-    // budou repliky StatusSecurityRepo s const FRAGMENT_NAME = 'security.editor'; a const FRAGMENT_NAME = 'security.representative'; => entity se budou ukládat do $_SESSION
-    // jako fragmenty pod fragment security - viz Pes\Session\SessionStatusHandler
-    // a) smazáním StatusSecurity se (snad!!) smaže celý secirity fragment ze session a tím automaticky i security.editor a security.representative fragmenty
-    // b) StatusSecurityEditorRepo->get() vrací typově správně StatusSecurityEditor a StatusSecurityRepresentativeRepo->get() vrací typově správně StatusSecurityRepresentative atd.
-    // podmínka: nový StatusSecurityEditor (+repo, dao) do modulu RED a nový StatusSecurityRepresentative do modulu EVENTS => nedá se používat v jiném modulu -> statusSecurity musíš vymýtit
-    // z modulu WEB /např. PresentationFrontControlerAbstract, Prepare (????!!), LayoutControlerAbstract
-    
     
     /**
-     *
+     * 
      * @return EditorActionsInterface|null
      */
     public function getEditorActions(): ?EditorActionsInterface;
@@ -78,9 +99,26 @@ interface SecurityInterface extends PersistableEntityInterface {
      */
     public function getRepresentativeActions(): ?RepresentationActionsInterface; 
     
-    public function setInfo($name, $value);
+    /**
+     * Nastaví (přidá) informaci jako dvojici jméno->hodnota.
+     * 
+     * @param string|int $name
+     * @param mixed $value
+     */
+    public function setInfo(string|int $name, mixed $value);
     
-    public function getInfo($name);
+    /**
+     * Vrací informaci nastavenou (přidanou) s daným jménem.
+     * 
+     * @param string|int $name
+     * @return mixed
+     */
+    public function getInfo(string|int $name): mixed;
 
+    /**
+     * Vrací všechny nastavené (přidané) informace jako asociativní pole.
+     * 
+     * @return array
+     */
     public function getInfos(): array;        
 }

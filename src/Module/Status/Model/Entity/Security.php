@@ -9,8 +9,7 @@
 namespace Status\Model\Entity;
 
 use Model\Entity\PersistableEntityAbstract;
-
-use Model\Entity\SecurityPersistableEntityInterface;
+use Status\Model\Entity\SecurityInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\EditorActions;
@@ -29,7 +28,11 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      * @var LoginAggregateFullInterface
      */
     private $loginAggregate;
-
+    
+    private $userNameVerifyedWithinSession = [];
+    
+    private $loggedOffUserName;
+    
     /**
      * @var EditorActionsInterface
      */
@@ -46,88 +49,101 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
     /**
      * {@inheritdoc}
      * 
-     * @return SecurityInterface
-     */
-    #[\Override]
-    public function removeContext(): SecurityInterface {
-        if (isset($this->loginAggregate)) {
-            if (isset($this->editorActions)) {
-               $this->editorActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
-            }            
-            if (isset($this->represantativeActions)) {
-               $this->represantativeActions->processActionsForLossOfSecurityContext($this->loginAggregate->getLoginName());
-            }
-            $this->loginAggregate = null;
-        } else {
-            if (isset($this->editorActions)) {
-                $this->editorActions->processActionsForLossOfSecurityContext("unknown");
-            }            
-            if (isset($this->represantativeActions)) {
-                $this->represantativeActions->processActionsForLossOfSecurityContext("unknown");
-            }
-        }
-        $this->info = [];
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     * 
      * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
     #[\Override]
-    public function new(LoginAggregateFullInterface $loginAggregate): SecurityInterface {
+    public function newContext(LoginAggregateFullInterface $loginAggregate): SecurityInterface {
+        $this->loggedOffUserName = null;        
         $this->loginAggregate = $loginAggregate;
         $this->editorActions = new EditorActions();
         $this->represantativeActions = new RepresentationActions();
         return $this;
     }
     
-    
-
     /**
      * {@inheritdoc}
      * 
-     * @return bool
+     * @return SecurityInterface
      */
+    #[\Override]
+    public function removeContext(): SecurityInterface {
+        $this->processActionsForLossOfSecurityContext($this->loginAggregate?->getLoginName());
+        return $this;
+    }
+    
+    /**
+     * {@inheritdoc}
+     * 
+     * @param string|null $loggedOffUserName
+     */
+    #[\Override]
+    public function processActionsForLossOfSecurityContext(?string $loggedOffUserName=null) {
+        if (isset($this->editorActions)) {
+           $this->editorActions->processActionsForLossOfSecurityContext($loggedOffUserName);
+        }            
+        if (isset($this->represantativeActions)) {
+           $this->represantativeActions->processActionsForLossOfSecurityContext($loggedOffUserName);
+        }
+        $this->loggedOffUserName = $loggedOffUserName;      // uložení login name pro další request
+        $this->loginAggregate = null;
+        $this->info = [];        
+    }    
+
     #[\Override]
     public function hasValidSecurityContext(): bool {
         return isset($this->loginAggregate) AND $this->loginAggregate->isPersisted();
     }
+
+    ### UserNameVerifyedWithinSession
+    
+    #[\Override]
+    public function addUserNameVerifyedWithinSession(string $loginName): void {
+        $this->userNameVerifyedWithinSession[$loginName] = true;  // jméno jako klíč - nevzniknou duplicity
+    }
+    
+    #[\Override]
+    public function removeUserNameVerifyedWithinSession(string $loginName): void {
+        unset($this->userNameVerifyedWithinSession[$loginName]);
+    }
+    
+    #[\Override]
+    public function isUserNameVerifyedWithinSession(string $loginName): bool {
+        return $this->userNameVerifyedWithinSession[$loginName] ?? false;
+    }
     
     ### GETTERY
+
+    #[\Override]
+    public function lastLoggedOffUsername(): ?string {
+        return $this->loggedOffUserName;
+    }
     
-    /**
-     * Vrací LoginAggregateFull - login s credentials a registration
-     *
-     * @return LoginAggregateFullInterface|null
-     */
     #[\Override]
     public function getLoginAggregate(): ?LoginAggregateFullInterface {
         return $this->loginAggregate;
     }
 
-    /**
-     *
-     * @return EditorActionsInterface|null
-     */
     #[\Override]
     public function getEditorActions(): ?EditorActionsInterface {
         return $this->editorActions;
     }
+    
     #[\Override]
     public function getRepresentativeActions(): ?RepresentationActionsInterface {
         return $this->represantativeActions;
     }
+    
     #[\Override]
-    public function setInfo($name, $value) {
+    public function setInfo(string|int $name, mixed $value) {
         $this->info[$name] = $value;
     }
+    
     #[\Override]
-    public function getInfo($name) {
+    public function getInfo(string|int $name): mixed {
         return $this->info[$name] ?? null;
     }
+    
     #[\Override]
     public function getInfos(): array {
         return $this->info;
