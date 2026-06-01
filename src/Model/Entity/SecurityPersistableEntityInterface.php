@@ -12,14 +12,12 @@ namespace Model\Entity;
  * @author pes2704
  */
 interface SecurityPersistableEntityInterface extends PersistableEntityInterface {
-    
     /**
-     * Uloží Login name pro použití v jiném middleware a příštím requestu.
+     * Metoda provede ptřebná nastavení v situaci ztráty security kontextu (typicky při odhlášení uživatele). 
+     * Metoda přijímá login jméno uživatele, který se právě odhlásil. Nastavení této informace lze pak použít v následném requestu, 
+     * který bude přistupovat k databázi se zápisem informací závislých na přihlášeném uživateli.
      * 
-     * Akce jejichž stav byl zaznamenáván v dané entitě a také v v databázi je pak třeba provést v budoucnu, 
-     * v middleware s přístupem k databázi s uloženými informacemi zavíslými na stavu.
-     * 
-     * @param type $loggedOffUserName
+     * @param string|null $loggedOffUserName
      */
-    public function processActionsForLossOfSecurityContext($loggedOffUserName);
+    public function processActionsForLossOfSecurityContext(?string $loggedOffUserName=null);
 }

@@ -38,26 +38,6 @@ class EditorActions extends PersistableEntityAbstract implements EditorActionsIn
     }
 
     /**
-     * Informuje, zda prezentace je přepnuta do modu editace menu.
-     *
-     * @return bool
-     */
-//    public function presentEditableMenu(): bool {
-//        return $this->editableMenu;
-//    }
-
-    /**
-     * Nastaví informaci, že prezentace je přepnuta do modu editace layoutu.
-     *
-     * @param mixed $editLayout Metoda převede zadanou hodnotu na boolen hodnotu.
-     * @return UserActionsInterface
-     */
-//    public function setEditableLayout($editLayout): UserActionsInterface {
-//        $this->editLayout = boolval($editLayout);
-//        return $this;
-//    }
-
-    /**
      * Nastaví informaci, že prezentace je přepnuta do modu editace
      *
      * @param mixed $editContent Metoda převede zadanou hodnotu na boolean hodnotu.
@@ -69,14 +49,12 @@ class EditorActions extends PersistableEntityAbstract implements EditorActionsIn
     }
     
     /**
-     * Uloží Login entitu pro použití v jiném middleware a příštím requestu, odstraní stav editable content a editable menu.
+     * {@inheritdoc}
      * 
-     * Akce spojené s ItemActions je pak třeba provést v budoucnu, v middleware s přístupem k databázi s uloženými informacemi zavíslými na ItemActions.
-     * 
-     * @param string $loggedOffUserName
+     * @param string|null $loggedOffUserName
      */
-    public function processActionsForLossOfSecurityContext($loggedOffUserName) {
-        $this->loggedOffUserName = $loggedOffUserName;
+    #[\Override]
+    public function processActionsForLossOfSecurityContext(?string $loggedOffUserName=null) {
         $this->setEditableContent(false);
         unset($this->userItemActions);
     }

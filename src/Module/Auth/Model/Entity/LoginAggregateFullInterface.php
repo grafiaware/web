@@ -8,8 +8,6 @@
 
 namespace Auth\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
-
 /**
  *
  * @author pes2704
