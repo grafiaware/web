@@ -38,9 +38,9 @@ class ValidateService implements ValidateServiceInterface {
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,    
-           
-            LoginRepoInterface $loginRepo,           
+            StatusPresentationRepo $statusPresentationRepo,               
+            LoginRepoInterface $loginRepo,    
+            
             ?FileLogger $fileLogger = null
             ) {        
             
@@ -57,22 +57,25 @@ class ValidateService implements ValidateServiceInterface {
       
     #[\Override]    
     public function validateUser (ServerRequestInterface $request): void {      
-        
-       
-        $kindOfUser = $this->whatKindOfUser();        
+            /** @var SecurityInterface $security */
+        $security = $this->statusSecurityRepo->get();
+        $loginAgregate = $security->getLoginAggregate();
+        $validatedUserName = $loginAgregate->getLoginName();
+    
+        $userStatus = $this->userStatus($validatedUserName);        
  
        //*************************
-        $kindOfUser='invalidUser';
+        $userStatus='invalidUser';
         $validatedUserName = 'XxX';       
        //************************* 
         
-        switch ($kindOfUser) {
+        switch ($userStatus) {
             case 'noUser':
-                $this->statusFlashRepo->get()->setMessage("Nikdo není přihlášen. - service",  FlashSeverityEnum::ERROR );               
+                $this->statusFlashRepo->get()->setMessage("Nikdo není přihlášen. (- service)",  FlashSeverityEnum::ERROR );               
             break;
             
             case 'validUser':
-                $this->statusFlashRepo->get()->setMessage("Přihlašený je validní uživatel v single_login. - service",  FlashSeverityEnum::SUCCESS);
+                $this->statusFlashRepo->get()->setMessage("Přihlašený je validní uživatel v single_login. (- service)",  FlashSeverityEnum::SUCCESS);
                 
                
                 //kdyz  prihlaseny neni v events.login tabulce a je ok, tak zapsat do events login tabulky, 
@@ -80,24 +83,25 @@ class ValidateService implements ValidateServiceInterface {
                 
                 
                 //neni-li ve statusu, poznamenant do statusu
-                $v = $this->$statusSecurity->getInfo("zvalidovany");
-                if (!$this->$statusSecurity->getInfo("zvalidovany")) {
-                    $this->$statusSecurity->setInfo("zvalidovany", "zvalidovany") ;
-                    $this->$statusSecurity->setInfo("user", "   ...") ;
+                $v = $security->isUserNameVerifiedWithinSession();
+//                if (!$this->$security->getInfo("zvalidovany")) {
+//                    $this->$statusSecurity->setInfo("zvalidovany", "zvalidovany") ;
+//                    $this->$statusSecurity->setInfo("user", "   ...") ;
                     
                     
                 
             break;
            
             case 'invalidUser':                   
-                if ($statusSecurity)  {
+                if ($security)  {
                     // smazat v statusuSecurity
-                    $statusSecurity->removeContext();
+                    $security->removeContext();
                 }
             
                 // LOGOVAT
                 if ($this->fileLogger ) {
-                    $this->fileLogger->error("*Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." . "- result z auth byl: " . $kindOfUser );
+                    $this->fileLogger->error("*Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." .
+                                             "- result z auth byl: " . $userStatus );
                 }
 
                 // "vymazat" z tabulky login events,tj. pridat "delete" --   
@@ -126,17 +130,16 @@ class ValidateService implements ValidateServiceInterface {
     
     
     
-    protected function whatKindOfUser() : string {               
-         /** @var SecurityInterface $statusSecurity */
-        $statusSecurity = $this->statusSecurityRepo->get();
-        $loginAgregate = $statusSecurity->getLoginAggregate();
-                
-        if (isset($loginAgregate))  {
-            $validatedUserName = $loginAgregate->getLoginName();
+    protected function userStatus( string $validatedUserName ) : string {               
+//         /** @var SecurityInterface $security */
+       $security = $this->statusSecurityRepo->get();
+//        $loginAgregate = $statusSecurity->getLoginAggregate();                
+//        if (isset($loginAgregate))  {
+//            $validatedUserName = $loginAgregate->getLoginName();
             
-            
+        if (isset($validatedUserName))  {    
             //---------------------------------------------
-            if ($this->$statusSecurity->getInfo("zvalidovany")  /* isFirstRequest($statusSecurity)  prvni request, jeste nezvalidovano" */ ) {    
+            if (!$security->isUserNameVerifiedWithinSession )  { //getInfo("zvalidovany")  /* isFirstRequest($statusSecurity)  prvni request, jeste nezvalidovano" */ ) {    
                 
                     $scheme = $request->getUri()->getScheme();
                     $host = $request->getUri()->getHost();
