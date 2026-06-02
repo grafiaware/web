@@ -2,6 +2,7 @@
 namespace Events\Service;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Events\Model\Entity\LoginInterface;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -30,7 +31,7 @@ interface ValidateServiceInterface {
      * @param type $loginName
      * @return void
      */
-    public function deleteUserNameFromEvents($loginName): void;
+    public function deleteUserNameFromEvents(LoginInterface $login): void;
     
     /**
      * Volá se  z middleware Events... SynchroControler, a interne z ValidateService     * 
