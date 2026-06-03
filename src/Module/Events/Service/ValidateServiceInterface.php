@@ -39,7 +39,7 @@ interface ValidateServiceInterface {
      * @param type $loginName
      * @return void
      */
-    public function addUserNameToEvents($loginName): void; 
+    public function addUserNameToEvents(string $loginName): void; 
     
     
 }
