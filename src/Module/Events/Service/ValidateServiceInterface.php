@@ -26,17 +26,17 @@ interface ValidateServiceInterface {
     
     
     /**
-     * Volá se  z middleware Events... SynchroControler, a interne z ValidateService
+     * Volá se  z middleware Events... SynchroControler, a interne z ValidateService     
      * 
-     * @param type $loginName
+     * @param LoginInterface $login
      * @return void
      */
     public function deleteUserNameFromEvents(LoginInterface $login): void;
     
     /**
      * Volá se  z middleware Events... SynchroControler, a interne z ValidateService     * 
-     * 
-     * @param type $loginName
+     *      
+     * @param string $loginName
      * @return void
      */
     public function addUserNameToEvents(string $loginName): void; 

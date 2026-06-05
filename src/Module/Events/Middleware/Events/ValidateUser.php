@@ -64,48 +64,17 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
 //        /** @var LoginSyncControler $loginSyncControler */
 //        $loginSyncControler->actualizeLogin();
 //        //----------------
-         
-            
-
-        
-     
+                    
             
             /** @var  ValidateServiceInterface $serviceValidate */
             $serviceValidate = $this->container->get(ValidateService::class);
-            $serviceValidate->validateUser($request);    
-
+            $serviceValidate->validateUser($request);           
         
-        
-        
+       
         
         return $handler->handle($request);
         
     }
-        
-//        switch ($jakToAsiDopadlo) {
-//            case 'validUser':
-//               $this->addFlashMessage("Přihlašený je validní uživatel v single_login.",  FlashSeverityEnum::SUCCESS);
-//                break;
-//            case 'invalidUser':
-//                $this->addFlashMessage("Přihlašený není validní uživatel v single_login.",  FlashSeverityEnum::ERROR);
-//                break;
-//            case 'noUser':
-//                $this->addFlashMessage("Nikdo není přihlášen.",  FlashSeverityEnum::ERROR );               
-//                break;
-//        }       
-        
-        
-        
-//            /** @var SynchroControler $synchroControler */
-//        $synchroControler = $this->container->get(SynchroControler::class);
-//        $synchroControler->validUser($request);
-//   
-        
-      
-    
-    
-    
-   
-    
+                          
     
 }

@@ -16,6 +16,7 @@ use Pes\Logger\FileLogger;
 use Events\Model\Repository\LoginRepoInterface;
 use Events\Model\Entity\LoginInterface;
 use Events\Model\Entity\Login;
+use Access\Enum\RoleEnum;
 
 use Pes\Application\AppFactory;
 use LogicException;
@@ -58,117 +59,80 @@ class ValidateService implements ValidateServiceInterface {
     
       
     #[\Override]    
-    public function validateUser (ServerRequestInterface $request): void {   
+    public function validateUser (ServerRequestInterface $request): void {           
+        
              /** @var SecurityInterface $security */
         $security = $this->statusSecurityRepo->get();  //
         if (isset($security)) {
-            $loginAgregate = $security->getLoginAggregate();        
+            $loginAgregate = $security->getLoginAggregate();     
+                $role = $loginAgregate?->getCredentials()->getRoleFk();
+            
             $validatedUserName = $loginAgregate?->getLoginName();
             
-            if (isset($validatedUserName))  {          
-                //validovat                    
-                $userStatus = $this->userValidator($request, $security, $validatedUserName); 
-                          
-/*  **zkouska* */  // $userStatus = 'invalidUser';
-                    
-                switch ($userStatus) {
-                case 'validUser':
-                    //kdyz  prihlaseny neni v events.login tabulce a je validni, tak zapsat do events login tabulky,                       
-                    $login = $this->loginRepo->get($validatedUserName);
-                    if ($login) {
-                        if (isset($this->fileLogger )) {
-                            $this->fileLogger->error("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)." .
-                                             " - result z auth byl: " . $userStatus . ' a je v tabulce events.login.' );
-                        }                                     
-                    }
-                    else {
-                        $this->addUserNameToEvents($validatedUserName);
-                        if (isset($this->fileLogger )) {
-                            $this->fileLogger->error("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)." .
-                                             " - result z auth byl: " . $userStatus . ' a nebyl v tabulce events.login. -> a byl tam přidán.' );
-                        } 
-                    }                            
-
-                    //neni-li ve statusu security, poznamenat do statusu security        // prvni request, jeste nezvalidovano   
-                    if (!$security->isUserNameVerifiedWithinSession($validatedUserName)) {
-                        $security->addUserNameVerifiedWithinSession($validatedUserName);
-                    }
-                break;
-                case 'invalidUser':                                                      
-                    // smazat v statusu security
-                    $security->removeContext();                                                
-
-                    // "vymazat" z tabulky login events,tj. pridat "delete" --                     
-                    $login = $this->loginRepo->get($validatedUserName);
-                    if ($login) {
-                            $this->deleteUserNameFromEvents($login);           
-                    }
+            if (isset($validatedUserName))  {   
                 
-                    if (isset($this->fileLogger )) {
-                        $this->fileLogger->error("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." .
-                                                 " - result z auth byl: " . $userStatus . ' a byl vymazan z tabulky events.login (byl-li tam)' );
-                    }                        
-                break;       
-                }                
+                if(isset($role) && ( RoleEnum::EDITOR || $role==RoleEnum::EVENTS_ADMINISTRATOR)) {      // to je asi blbost          
+                    //validovat                    
+                    $userStatus = $this->userValidator($request, $security, $validatedUserName); 
+
+    /*  **zkouska* */  // $userStatus = 'invalidUser';
+
+                    switch ($userStatus) {
+                    case 'validUser':
+                        //kdyz  prihlaseny neni v events.login tabulce a je validni, tak zapsat do events login tabulky,                       
+                        $login = $this->loginRepo->get($validatedUserName);
+                        if ($login) {
+                            if (isset($this->fileLogger )) {
+                                $this->fileLogger->error("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)." .
+                                                 " - result z auth byl: " . $userStatus . ' a je v tabulce events.login.' );
+                            }                                     
+                        }
+                        else {
+                            $this->addUserNameToEvents($validatedUserName);
+                            if (isset($this->fileLogger )) {
+                                $this->fileLogger->error("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)." .
+                                                 " - result z auth byl: " . $userStatus . ' a nebyl v tabulce events.login. -> a byl tam přidán.' );
+                            } 
+                        }                            
+
+                        //neni-li ve statusu security, poznamenat do statusu security        // prvni request, jeste nezvalidovano   
+                        if (!$security->isUserNameVerifiedWithinSession($validatedUserName)) {
+                            $security->addUserNameVerifiedWithinSession($validatedUserName);
+                        }
+                    break;
+                    case 'invalidUser':                                                      
+                        // smazat v statusu security
+                        $security->removeContext();                                                
+
+                        // "vymazat" z tabulky login events,tj. pridat "delete" --                     
+                        $login = $this->loginRepo->get($validatedUserName);
+                        if ($login) {
+                                $this->deleteUserNameFromEvents($login);           
+                        }
+
+                        if (isset($this->fileLogger )) {
+                            $this->fileLogger->error("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." .
+                                                     " - result z auth byl: " . $userStatus . ' a byl vymazan z tabulky events.login (byl-li tam)' );
+                        }                        
+                    break;       
+                    } 
+                
+                }
+                else {
+                    if(isset($this->fileLogger )) {
+                        $this->fileLogger->error("Nevalidováno - Špatná role. - " . $role  );
+                    }   
+                }
             }
             else  {   //neni  $validatedUserName                
                 if(isset($this->fileLogger )) {
-                    $this->fileLogger->error("Nikdo není přihlašený. "  );
+                    $this->fileLogger->error("Nevalidováno - Nikdo není přihlašený. "  );
                 }                 
-            }
-    }           
-        
-        
-
-//        switch ($userStatus) {                   
-//                    case 'validUser':
-//                        //kdyz  prihlaseny neni v events.login tabulce a je ok, tak zapsat do events login tabulky, 
-//                        if ($validatedUserName) {
-//                            $login = $this->loginRepo->get($validatedUserName);
-//                            if ($login) {
-//                                if ($this->fileLogger ) {
-//                                    $this->fileLogger->error("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)." .
-//                                                     " - result z auth byl: " . $userStatus . ' a je v tabulce events.login.' );
-//                                }                                     
-//                            }
-//                            else {
-//                                $this->addUserNameToEvents($validatedUserName);
-//                                if ($this->fileLogger ) {
-//                                    $this->fileLogger->error("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)." .
-//                                                     " - result z auth byl: " . $userStatus . ' a nebyl v tabulce events.login. -> a byl tam přidán.' );
-//                                } 
-//                            }                            
-//                        }                                           
-//                        //neni-li ve statusu, poznamenat do statusu
-//                        if (!$security->isUserNameVerifiedWithinSession($validatedUserName)) {
-//                            $security->addUserNameVerifiedWithinSession($validatedUserName);
-//                        }
-//                    break;                    
-
-//                    case 'invalidUser':                              
-//                        if ($security)  {
-//                            // smazat v statusuSecurity
-//                            $security->removeContext();
-//                        }                        
-//
-//                        // "vymazat" z tabulky login events,tj. pridat "delete" --   
-//                        if ($validatedUserName) {
-//                            $login = $this->loginRepo->get($validatedUserName);
-//                            if ($login) {
-//                                $this->deleteUserNameFromEvents($login);           
-//
-//                                //$this->loginRepo->flush(); //??????
-//                            }
-//                        }
-//                        // logovat
-//                        if (isset($this->fileLogger )) {
-//                            $this->fileLogger->error("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." .
-//                                                     " - result z auth byl: " . $userStatus . ' a byl vymazan z tabulky events.login (byl-li tam)' );
-//                        }                        
-//                    break;            
-//                }  
-
-        
+            }           
+            
+            
+        }           
+    
     }      
         
     
@@ -221,9 +185,7 @@ class ValidateService implements ValidateServiceInterface {
         return $res; 
     }
     
-    
-    
-    
+            
     
     
      /**
@@ -256,17 +218,7 @@ class ValidateService implements ValidateServiceInterface {
 
         $this->loginRepo->add($loginA);        
     }
-    
-    
-    
-//    
-//    protected function isFirstRequest(SecurityInterface $statusSecurity){
-//                    
-//            /** @var Security $statusSecurity */
-//    return $statusSecurity->getInfo($name);
-//               
-//    }
-    
+        
     
     
 }
