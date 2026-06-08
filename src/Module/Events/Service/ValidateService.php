@@ -71,7 +71,6 @@ class ValidateService implements ValidateServiceInterface {
             
             if (isset($validatedUserName))  {   
                 
-                if(isset($role) && ( RoleEnum::EDITOR || $role==RoleEnum::EVENTS_ADMINISTRATOR)) {      // to je asi blbost          
                     //validovat                    
                     $userStatus = $this->userValidator($request, $security, $validatedUserName); 
 
@@ -117,13 +116,11 @@ class ValidateService implements ValidateServiceInterface {
                     break;       
                     } 
                 
-                }
-                else {
-                    if(isset($this->fileLogger )) {
-                        $this->fileLogger->error("Nevalidováno - Špatná role. - " . $role  );
-                    }   
-                }
+                
+                
+                
             }
+            
             else  {   //neni  $validatedUserName                
                 if(isset($this->fileLogger )) {
                     $this->fileLogger->error("Nevalidováno - Nikdo není přihlašený. "  );
