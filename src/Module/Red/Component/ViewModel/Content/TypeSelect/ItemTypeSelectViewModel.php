@@ -43,7 +43,7 @@ class ItemTypeSelectViewModel extends MenuItemViewModel implements ItemTypeSelec
         return $typeGenerators;
     }
 
-    public function getIterator(): \Traversable {
+    public function getIterator(): \Iterator {
         $this->appendData(
                 [
                     'menuItem' => $this->statusViewModel->getPresentedMenuItem(),
