@@ -36,9 +36,12 @@ class ValidateService implements ValidateServiceInterface {
     private $statusSecurityRepo;
     private $statusFlashRepo;
     private $statusPresentationRepo;
+    private $loginRepo;
+    private $loginService;
+    
     private $fileLogger;
     
-    private $loginRepo;
+    
      
      
     public function __construct(
@@ -46,6 +49,7 @@ class ValidateService implements ValidateServiceInterface {
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,               
             LoginRepoInterface $loginRepo,    
+            LoginServiceInterface $loginService,
             
             ?FileLogger $fileLogger = null
             ) {        
@@ -54,6 +58,7 @@ class ValidateService implements ValidateServiceInterface {
         $this->statusFlashRepo = $statusFlashRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;                    
         $this->loginRepo = $loginRepo;
+        $this->loginService = $loginService;
    
         $this->fileLogger = $fileLogger;        
     } 
@@ -63,10 +68,11 @@ class ValidateService implements ValidateServiceInterface {
       
     #[\Override]
     /**
+     * Volá se  z middleware ValidateUser.
      * Validuje uživatele.
-    * Neni-li ve statusu security (tj. ještě nezvalidováno, jedná se o první request ), poznamená do statusu security.   
-
-     * 
+     * Neni-li uživatel ve statusu security, tj. ještě nezvalidováno, jedná se o první request.
+     * Že zvalidováno, poznamená do statusu security.   
+     *     
      * @param ServerRequestInterface $request
      * @return void
      */    
@@ -81,52 +87,52 @@ class ValidateService implements ValidateServiceInterface {
             if (isset($validatedUserName))  {                                         
                 try {
                     //validovat                    
-                    $userStatus = $this->isUserValid($request, $security, $validatedUserName);      /*  **zkouska* */  // $userStatus = 'invalidUser';
+                   // $userStatus = $this->isUserValid($request, $security, $validatedUserName);      /*  **zkouska* */  // $userStatus = 'invalidUser';
 
                     if ($this->isUserValid($request, $security, $validatedUserName)) {
                     
-                        $this->addTologin_userNameIsValid($validatedUserName);                          
+                        $this->addToLogin($validatedUserName);                          
                         //není-li ve statusu security (prvni request, jeste nezvalidovano), poznamenat do statusu security 
                         if (!$security->isUserNameVerifiedWithinSession($validatedUserName)) {
                             $security->addUserNameVerifiedWithinSession($validatedUserName);
                         }                    
                     }
                     else{
-                        $this->deleteFromLogin_userNameIsNotValid($validatedUserName);                                     
+                        $this->deleteFromLogin($validatedUserName, $security );                                     
                     }
                 }
                 catch (ValidatingException $e)
                 {
                     $this->fileLogger?->error("isUserValid: Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.");  
-                }
-   
+                }   
             }
+            else{   //neni  $validatedUserName                  
+                $this->fileLogger?->notice("Nevalidováno - Nikdo není přihlašený. "  );                                
+            }   
            
-        }
-        else{   //neni  $validatedUserName                  
-            $this->fileLogger?->notice("Nevalidováno - Nikdo není přihlašený. "  );                                
-        }           
+        }                
       
     }
         
       
     
     /**
-     * Název prihlašeného $validatedUserName je validni (je v single-login.login tabulce).
+     * Zavoláno v případě, že název prihlašeného $validatedUserName JE validni (je v single-login.login tabulce).
      * Není-li v events.login tabulce, zapiše do events.login tabulky.
-     *  
-     * @param type $validatedUserName
+     *       
+     * @param string $validatedUserName
      * @return void
      */
-    protected function addTologin_userNameIsValid($validatedUserName): void {
-         //kdyz prihlaseny neni v events.login tabulce a je validni, tak zapsat do events login tabulky                     
+    protected function addToLogin(string $validatedUserName): void {
+         //kdyz prihlaseny je validni a neni v events.login tabulce, tak zapsat do events login tabulky                     
         $login = $this->loginRepo->get($validatedUserName);
         if ($login) {                            
             $this->fileLogger?->notice("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)." .
                                       " a je v tabulce events.login." );                                                                 
         }
-        else {
-            $this->addUserNameToEvents($validatedUserName);
+        else {  
+            
+            $this->loginService->setAddUserNameToEventsLogin($login /*$validatedUserName*/);                        
             $this->fileLogger?->notice("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)," .
                                        ' nebyl v tabulce events.login. -> a byl tam přidán.' );                             
         }                       
@@ -135,18 +141,18 @@ class ValidateService implements ValidateServiceInterface {
     
     
     /**
-     * Název prihlašeného $validatedUserName není validni (není v single-login.login tabulce).
-     * Smaže  $security. "Vymaže" název z tabulky events.login (tím, že změní název přidáním 'deleted'), byl-li tam.
-     * 
-     * @param type $validatedUserName
+     * Zavoláno v případě, že název prihlašeného $validatedUserName NENÍ validni (není v single-login.login tabulce).
+     * Odstraní ze $security. "Vymaže" název z tabulky events.login, byl-li tam.
+     *    
+     * @param string $validatedUserName
+     * @param SecurityInterface $security
+     * @return void
      */
-    protected function deleteFromLogin_userNameIsNotValid($validatedUserName) : void {
-        // smazat v statusu security
+    protected function deleteFromLogin(string $validatedUserName, SecurityInterface $security) : void {         
         $security->removeContext();                                                
-        // "vymazat" z tabulky events.login ,tj. pridat "deleted" --                     
         $login = $this->loginRepo->get($validatedUserName);
-        if ($login) {
-                $this->deleteUserNameFromEvents($login);           
+        if ($login) {                                                
+                 $this->loginService->setDeleteUserNameFromEventsLogin($login);           
         }                       
         $this->fileLogger?->notice("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." .
                                    " - a byl vymazán z tabulky events.login (byl-li tam)" );                                       
@@ -217,24 +223,5 @@ class ValidateService implements ValidateServiceInterface {
         return $uriInfo;
     }
     
-    
-    #[\Override]
-    public function deleteUserNameFromEvents(LoginInterface $login): void {        
-        //$loginA = $this->loginRepo->get($loginName);                    
-        $login->setDeletedDueToAuth('1');
-        $login->setLoginName($login->getLoginName() . '_deleted_' . date("Ymd_His") );                 
-    }
-        
-    #[\Override]
-    public function addUserNameToEvents(string $loginName): void {        
-        /**  @var LoginInterface $loginA */
-        $loginA =  new Login();
-        $loginA->setDeletedDueToAuth(0);
-        $loginA->setLoginName($loginName); 
-
-        $this->loginRepo->add($loginA);        
-    }
-        
-    
-    
+     
 }

@@ -4,10 +4,6 @@ namespace Events\Service;
 use Psr\Http\Message\ServerRequestInterface;
 use Events\Model\Entity\LoginInterface;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPInterface.php to edit this template
- */
 
 /**
  *
@@ -17,29 +13,17 @@ interface ValidateServiceInterface {
     
 
     /**
-     * Volá se  z middleware ValidateUser
-     * 
+     * Volá se  z middleware ValidateUser.
+     * Validuje uživatele.
+     * Neni-li uživatel ve statusu security, tj. ještě nezvalidováno, jedná se o první request.
+     * Že zvalidováno, poznamená do statusu security.   
+     *     
      * @param ServerRequestInterface $request
      * @return void
-     */
+     */    
     public function validateUser (ServerRequestInterface $request): void;
     
     
-    /**
-     * Volá se  z middleware Events... SynchroControler, a interne z ValidateService     
-     * 
-     * @param LoginInterface $login
-     * @return void
-     */
-    public function deleteUserNameFromEvents(LoginInterface $login): void;
-    
-    /**
-     * Volá se  z middleware Events... SynchroControler, a interne z ValidateService     * 
-     *      
-     * @param string $loginName
-     * @return void
-     */
-    public function addUserNameToEvents(string $loginName): void; 
     
     
 }

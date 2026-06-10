@@ -127,6 +127,7 @@ use Events\Model\Repository\EventLinkRepo;
 
 // service
 use Events\Service\ValidateService;
+use Events\Service\LoginService;
 
 // renderer kontejner
 use Container\RendererContainerConfigurator;
@@ -958,6 +959,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },                             
                     
 /// services
+            
+            LoginService::class=>function(ContainerInterface $c) {
+                
+            }
+                    
                     
             ValidateService::class => function(ContainerInterface $c) {
                 return new ValidateService(
