@@ -19,6 +19,8 @@ use Status\Model\Enum\FlashSeverityEnum;
 
 use Events\Service\ValidateServiceInterface;
 use Events\Service\ValidateService;
+use Events\Service\LoginService;
+use Events\Service\LoginServiceInterface;
 
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -73,73 +75,78 @@ class SynchroControler   extends FrontControlerAbstract {
              /** @var SecurityInterface $security */
         $security = $this->statusSecurityRepo->get();  //
         if (isset($security)) {
-            $loginAgregate = $security->getLoginAggregate();     
-                $role = $loginAgregate?->getCredentials()->getRoleFk();
-        
-        
-                
-                
-                
-        
-        $logins = $this->loginRepo->findAll();   // pole entit     
-        $controlledItems=[];
-              /** @var LoginInterface $login */
-        foreach ($logins as $login) {
-            if ($login->getDeletedDueToAuth()=='0') {
-                $controlledItems[$login->getLoginName()] = $login->getLoginName();
-            }
-        }        
-        //--------------
-        $scheme = $request->getUri()->getScheme();
-        $host = $request->getUri()->getHost();
-        $ruri = $this->getUriInfo($request)->getRestUri();
-        $rap =$this->getUriInfo($request)->getRootAbsolutePath();
-        $sp = $this->getUriInfo($request)->getSubdomainPath();        
-        $url = "$scheme://$host$sp"."auth/v1/synchro";
-        // options pro stream_context_create() vždy definuj s položkou http
-        // url adresu pro file_get_contents(url, ..) definuj: https://....
-        // use key 'http' even if you send the request to https://...
-        $json = json_encode($controlledItems);
-        $options = [
-            'http' => [
-                'header' => "Content-type: application/json",
-                //'header' => "Cookie: XDEBUG_SESSION=netbeans-xdebug\r\n",
-                'method' => 'POST' ,
-                'content' => $json,
-            ],
-        ];
-        
-        //--------------      
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
-        //--------------
-        if ($result!==false) {
-            $resultData = json_decode($result, true);   
-            /** @var ValidateServiceInterface  $serviceValidate*/
-            $serviceValidate = $this->container->get(ValidateService::class);
-            
-            //if ( $resultData['remItems'] ) {   
-            //if (!empty($resultData['remItems'])) {
-            if ($resultData ['remItems']?? [])      {               
-                foreach ($resultData['remItems'] as  $loginName) {                                
-                    //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")
-                      $loginA = $this->loginRepo->get($loginName); 
-                      $serviceValidate->deleteUserNameFromEvents($loginA);                                
-                }                                                            
-            }    
-            $this->loginRepo->flush();
-            
-            //if ( $resultData['addItems'] ) {        
-            //if (!empty($resultData['addItems'])) {
-            if ($resultData ['addItems']?? [])      {         
-                foreach ($resultData['addItems'] as $loginName) {           
-                    $serviceValidate->addUserNameToEvents($loginName);                    
+                //$loginAgregate = $security->getLoginAggregate();            
+
+
+
+
+
+            $logins = $this->loginRepo->findAll();   // pole entit     
+            $controlledItems=[];
+                  /** @var LoginInterface $login */
+            foreach ($logins as $login) {
+                if ($login->getDeletedDueToAuth()=='0') {
+                    $controlledItems[$login->getLoginName()] = $login->getLoginName();
                 }
-            }                         
-        } else {
-            $this->addFlashMessage("Spojeni se nezdařilo. Nelze synchronizovat uživatele.", FlashSeverityEnum::ERROR);
-        } 
-        
+            }        
+            //--------------
+            $scheme = $request->getUri()->getScheme();
+            $host = $request->getUri()->getHost();
+            $ruri = $this->getUriInfo($request)->getRestUri();
+            $rap =$this->getUriInfo($request)->getRootAbsolutePath();
+            $sp = $this->getUriInfo($request)->getSubdomainPath();        
+            $url = "$scheme://$host$sp"."auth/v1/synchro";
+            // options pro stream_context_create() vždy definuj s položkou http
+            // url adresu pro file_get_contents(url, ..) definuj: https://....
+            // use key 'http' even if you send the request to https://...
+            $json = json_encode($controlledItems);
+            $options = [
+                'http' => [
+                    'header' => "Content-type: application/json",
+                    //'header' => "Cookie: XDEBUG_SESSION=netbeans-xdebug\r\n",
+                    'method' => 'POST' ,
+                    'content' => $json,
+                ],
+            ];
+
+            //--------------      
+            $context = stream_context_create($options);
+            $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
+            //--------------
+            if ($result!==false) {
+                $resultData = json_decode($result, true);   
+                    /** @var ValidateServiceInterface  $serviceValidate */
+                $serviceValidate = $this->container->get(ValidateService::class);
+                    /** @var LoginServiceInterface  $serviceLogin */
+                $serviceLogin = $this->container->get(LoginService::class);
+
+                //if ( $resultData['remItems'] ) {   
+                //if (!empty($resultData['remItems'])) {
+                if ($resultData ['remItems']?? [])      {               
+                    foreach ($resultData['remItems'] as  $loginName) {                                
+                        //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")
+                          $loginA = $this->loginRepo->get($loginName); 
+                                            //$serviceValidate->deleteUserNameFromEvents($loginA);    
+                          $serviceLogin->setDeleteUserNameFromEventsLogin($loginA);
+                    }                                                            
+                }    
+                $this->loginRepo->flush();
+
+                //if ( $resultData['addItems'] ) {        
+                //if (!empty($resultData['addItems'])) {
+                if ($resultData ['addItems']?? [])      {         
+                    foreach ($resultData['addItems'] as $loginName) {           
+                                         //$serviceValidate->addUserNameToEvents($loginName);    
+                        $newLogin =  new Login();
+                        $newLogin->setLoginName($loginName);
+                        $serviceLogin->setAddUserNameToEventsLogin($newLogin);
+                        $this->loginRepo->add($newLogin); 
+                    }
+                }                         
+            } else {
+                $this->addFlashMessage("Spojeni se nezdařilo. Nelze synchronizovat uživatele.", FlashSeverityEnum::ERROR);
+            } 
+
         
         }
         
