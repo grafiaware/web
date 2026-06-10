@@ -9,7 +9,7 @@ use Events\Model\Entity\LoginInterface;
  *
  * @author vlse2610
  */
-interface ValidateServiceInterface {
+interface ValidatingServiceInterface {
     
 
     /**

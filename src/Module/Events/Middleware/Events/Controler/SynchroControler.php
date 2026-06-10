@@ -18,7 +18,7 @@ use Events\Model\Entity\Login;
 use Status\Model\Enum\FlashSeverityEnum;
 
 use Events\Service\ValidateServiceInterface;
-use Events\Service\ValidateService;
+use Events\Service\ValidatingService;
 use Events\Service\LoginService;
 use Events\Service\LoginServiceInterface;
 
@@ -116,7 +116,7 @@ class SynchroControler   extends FrontControlerAbstract {
             if ($result!==false) {
                 $resultData = json_decode($result, true);   
                     /** @var ValidateServiceInterface  $serviceValidate */
-                $serviceValidate = $this->container->get(ValidateService::class);
+                $serviceValidate = $this->container->get(ValidatingService::class);
                     /** @var LoginServiceInterface  $serviceLogin */
                 $serviceLogin = $this->container->get(LoginService::class);
 
@@ -146,7 +146,6 @@ class SynchroControler   extends FrontControlerAbstract {
             } else {
                 $this->addFlashMessage("Spojeni se nezdařilo. Nelze synchronizovat uživatele.", FlashSeverityEnum::ERROR);
             } 
-
         
         }
         

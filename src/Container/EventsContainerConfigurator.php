@@ -126,7 +126,7 @@ use Events\Model\Repository\EventLinkPhaseRepo;
 use Events\Model\Repository\EventLinkRepo;
 
 // service
-use Events\Service\ValidateService;
+use Events\Service\ValidatingService;
 use Events\Service\LoginService;
 
 // renderer kontejner
@@ -961,16 +961,19 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 /// services
             
             LoginService::class=>function(ContainerInterface $c) {
-                
-            }
+                return new LoginService(
+                        //$c->get(LoginRepo::class),  
+                );
+            },
                     
                     
-            ValidateService::class => function(ContainerInterface $c) {
-                return new ValidateService(
+            ValidatingService::class => function(ContainerInterface $c) {
+                return new ValidatingService(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginRepo::class),                     
+                    $c->get(LoginRepo::class),   
+                    $c->get(LoginService::class),                          
                         
                     $c->get('EventsValidateUserLogger')
                 );

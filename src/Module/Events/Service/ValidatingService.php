@@ -1,7 +1,7 @@
 <?php
 namespace Events\Service;
 
-use Events\Service\ValidateServiceInterface;
+use Events\Service\ValidatingServiceInterface;
 
 use Events\Service\ValidatingException;
 
@@ -32,7 +32,7 @@ use Status\Model\Enum\FlashSeverityEnum;
  *
  * @author vlse2610
  */
-class ValidateService implements ValidateServiceInterface {              
+class ValidatingService implements ValidatingServiceInterface {              
     private $statusSecurityRepo;
     private $statusFlashRepo;
     private $statusPresentationRepo;
@@ -97,12 +97,11 @@ class ValidateService implements ValidateServiceInterface {
                             $security->addUserNameVerifiedWithinSession($validatedUserName);
                         }                    
                     }
-                    else{
+                    else { 
                         $this->deleteFromLogin($validatedUserName, $security );                                     
                     }
                 }
-                catch (ValidatingException $e)
-                {
+                catch (ValidatingException $e) {
                     $this->fileLogger?->error("isUserValid: Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.");  
                 }   
             }
