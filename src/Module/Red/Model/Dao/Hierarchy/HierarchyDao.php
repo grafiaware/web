@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoAbstract;
+use Pes\Model\Dao\DaoAbstract;
 
 /**
  * Description of LanguageDao

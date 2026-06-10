@@ -1,15 +1,15 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Events\Model\Repository\InstitutionRepoInterface;
 use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Entity\Institution;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Hydrator\InstitutionHydrator;
-use Model\Repository\RepoAssotiatedManyInterface;
-use \Model\Repository\RepoAssotiatedManyTrait;
+use Pes\Model\Repository\RepoAssotiatedManyInterface;
+use \Pes\Model\Repository\RepoAssotiatedManyTrait;
 /**
  * Description of InstitutionRepo
  *

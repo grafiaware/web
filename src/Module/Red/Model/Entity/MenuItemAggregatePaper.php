@@ -35,7 +35,7 @@ class MenuItemAggregatePaper extends MenuItem implements MenuItemAggregatePaperI
     /**
      *
      * @param Paper $paperAggregate
-     * @return \Model\Entity\MenuItemAggregatePaperInterface
+     * @return \Pes\Model\Entity\MenuItemAggregatePaperInterface
      */
     public function setPaper(PaperAggregatePaperSectionInterface $paperAggregate): MenuItemAggregatePaperInterface {
         $this->paper = $paperAggregate;

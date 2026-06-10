@@ -10,10 +10,10 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 // rowdata
-use Model\RowData\PdoRowData;
+use Pes\Model\RowData\PdoRowData;
 
 //builder
-use Model\Builder\Sql;
+use Pes\Model\Builder\Sql;
 
 // repo
 use Events\Model\Context\ContextProvider;

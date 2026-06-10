@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\SecurityPersistableEntityInterface;
+use Pes\Model\Entity\SecurityPersistableEntityInterface;
 use Red\Model\Entity\ItemActionInterface;
 use Auth\Model\Entity\LoginInterface;
 

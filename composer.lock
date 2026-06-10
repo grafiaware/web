@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "089127411c426925e316d121928f3328",
+    "content-hash": "be3646276f2d904b179c95fe3beb9b38",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -247,12 +247,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "97820b72ea2f5aa904c9223eaa95695bee500c50"
+                "reference": "4668d4f5162fcdb11815f80dfc83c99dd2f6fa5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/97820b72ea2f5aa904c9223eaa95695bee500c50",
-                "reference": "97820b72ea2f5aa904c9223eaa95695bee500c50",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/4668d4f5162fcdb11815f80dfc83c99dd2f6fa5a",
+                "reference": "4668d4f5162fcdb11815f80dfc83c99dd2f6fa5a",
                 "shasum": ""
             },
             "require": {
@@ -263,6 +263,7 @@
                 "pes/pes-di": "@dev",
                 "pes/pes-http": "@dev",
                 "pes/pes-logger": "@dev",
+                "pes/pes-model": "@dev",
                 "pes/pes-router": "@dev",
                 "pes/pes-session": "@dev",
                 "pes/pes-view": "@dev",
@@ -309,7 +310,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/split"
             },
-            "time": "2026-06-09T12:31:33+00:00"
+            "time": "2026-06-10T07:09:13+00:00"
         },
         {
             "name": "pes/pes-application",
@@ -507,6 +508,34 @@
                 "MIT"
             ],
             "description": "File and array loggers for Pes (extends PSR-3).",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "pes/pes-model",
+            "version": "dev-split",
+            "dist": {
+                "type": "path",
+                "url": "../pes/pes-model",
+                "reference": "c123b8769d3b374fcc939359b628e401455783b2"
+            },
+            "require": {
+                "pes/pes-database": "@dev",
+                "pes/pes-session": "@dev",
+                "php": "<8.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pes\\Model\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Data model layer for Pes (DAO, repository, entity, hydrator, row data).",
             "transport-options": {
                 "symlink": true,
                 "relative": true

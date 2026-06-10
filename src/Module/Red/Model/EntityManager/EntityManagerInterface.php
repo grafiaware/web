@@ -8,7 +8,7 @@
 
 namespace Red\Model\EntityManager;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 /**
  *

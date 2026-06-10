@@ -1,11 +1,11 @@
 <?php
 namespace Auth\Model\Repository;
 
-use Model\Repository\RepoAbstract;
-use \Model\Repository\RepoAssotiatedOneTrait;
+use Pes\Model\Repository\RepoAbstract;
+use \Pes\Model\Repository\RepoAssotiatedOneTrait;
 
-use Model\Hydrator\HydratorInterface;
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Hydrator\HydratorInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Entity\RegistrationInterface;
 use Auth\Model\Entity\Registration;

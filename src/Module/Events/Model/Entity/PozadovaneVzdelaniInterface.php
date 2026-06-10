@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 use Events\Model\Entity\PozadovaneVzdelani;
 
 /**

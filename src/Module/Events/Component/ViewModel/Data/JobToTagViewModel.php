@@ -8,7 +8,7 @@ use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Events\Model\Repository\JobToTagRepoInterface;
 use Events\Model\Entity\JobToTagInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 use Access\Enum\RoleEnum;
 

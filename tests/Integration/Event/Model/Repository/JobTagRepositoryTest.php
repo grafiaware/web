@@ -10,12 +10,12 @@ use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\JobTagDao;
 use Events\Model\Repository\JobTagRepo;
-use Model\Repository\Exception\UnableAddEntityException;
-use Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\Repository\Exception\UnableAddEntityException;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
 
 use Events\Model\Entity\JobTag;
 use Events\Model\Entity\JobTagInterface;
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 
 /**
  * Description of JobTagRepositoryTest

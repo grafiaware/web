@@ -2,8 +2,8 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoContextualInterface;
-use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Pes\Model\Dao\DaoContextualInterface;
+use Pes\Model\Dao\DaoEditAutoincrementKeyInterface;
 
 /**
  *

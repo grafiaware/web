@@ -2,7 +2,7 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\CompanyInterface;
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 
 /**

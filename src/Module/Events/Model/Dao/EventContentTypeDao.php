@@ -1,9 +1,9 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditAutoincrementKeyInterface;
-use Model\Dao\DaoAutoincrementTrait;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditAutoincrementKeyInterface;
+use Pes\Model\Dao\DaoAutoincrementTrait;
 
 
 

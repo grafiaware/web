@@ -18,10 +18,10 @@ use Pes\Logger\FileLogger;
 use Auth\Model\Entity\Credentials;
 
 // rowdata
-use Model\RowData\PdoRowData;
+use Pes\Model\RowData\PdoRowData;
 
 //builder
-use Model\Builder\Sql;
+use Pes\Model\Builder\Sql;
 
 //login & credentials - db
 use Auth\Model\Dao\CredentialsDao;

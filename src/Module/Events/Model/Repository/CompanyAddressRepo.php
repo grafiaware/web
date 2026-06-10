@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Events\Model\Entity\CompanyAddress;
 use Events\Model\Entity\CompanyAddressInterface;

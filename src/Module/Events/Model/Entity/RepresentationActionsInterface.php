@@ -1,6 +1,6 @@
 <?php
 namespace Events\Model\Entity;
-use Model\Entity\SecurityPersistableEntityInterface;
+use Pes\Model\Entity\SecurityPersistableEntityInterface;
 use Events\Model\Entity\RepresentativeInterface;
 
 /**

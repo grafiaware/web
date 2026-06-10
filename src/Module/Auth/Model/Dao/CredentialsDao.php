@@ -3,10 +3,10 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditAbstract;
 
-use Model\Dao\DaoReferenceUniqueInterface;
-use Model\Dao\DaoReferenceUniqueTrait;
+use Pes\Model\Dao\DaoReferenceUniqueInterface;
+use Pes\Model\Dao\DaoReferenceUniqueTrait;
 /**
  * Description of UserDao
  *

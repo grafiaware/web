@@ -12,7 +12,7 @@ use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\PozadovaneVzdelaniRepoInterface;
 use Events\Model\Entity\JobInterface;
 use Access\Enum\RoleEnum;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 use UnexpectedValueException;
 use ArrayIterator;

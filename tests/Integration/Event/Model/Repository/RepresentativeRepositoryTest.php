@@ -15,8 +15,8 @@ use Events\Model\Repository\RepresentativeRepo;
 use Events\Model\Entity\Representative;
 use Events\Model\Entity\RepresentativeInterface;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
  /**

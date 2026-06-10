@@ -11,8 +11,8 @@ use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Dao\InstitutionDao;
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 use Pes\Database\Statement\Exception\ExecuteException;
 
 /**

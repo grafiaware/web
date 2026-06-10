@@ -8,8 +8,8 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
-use Model\Repository\RepoReadonlyInterface;
+use Pes\Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoReadonlyInterface;
 
 use Red\Model\Entity\Block;
 use Red\Model\Entity\BlockInterface;

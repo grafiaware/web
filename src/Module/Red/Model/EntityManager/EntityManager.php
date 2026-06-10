@@ -8,7 +8,7 @@
 
 namespace Red\Model\EntityManager;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 /**
  * Description of EntityManager
@@ -62,7 +62,7 @@ class EntityManager implements EntityManagerInterface {
 
     public function flush() {
         if ( !($this instanceof RepoReadonlyInterface)) {
-            /** @var \Model\Entity\PersistableEntityAbstract $entity */
+            /** @var \Pes\Model\Entity\PersistableEntityAbstract $entity */
             foreach ($this->collection as $entityClass => $entities) {
                 foreach ($entities as $entity) {
                     $row = [];

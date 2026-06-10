@@ -8,17 +8,17 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Red\Model\Entity\MenuItem;
 use Red\Model\Entity\MenuItemInterface;
 
 use Red\Model\Dao\MenuItemDao;
 
-use Model\Hydrator\HydratorInterface;
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Hydrator\HydratorInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
-use Model\Repository\RepoAssociatedWithJoinOneTrait;
+use Pes\Model\Repository\RepoAssociatedWithJoinOneTrait;
 
 /**
  * Description of MenuItemRepo

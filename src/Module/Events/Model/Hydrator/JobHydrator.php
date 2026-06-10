@@ -1,12 +1,12 @@
 <?php
 namespace Events\Model\Hydrator;
 
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 use Events\Model\Entity\JobInterface;
 
 use ArrayAccess;
-use Model\Hydrator\TypeHydratorAbstract;
-use Model\Hydrator\HydratorInterface;
+use Pes\Model\Hydrator\TypeHydratorAbstract;
+use Pes\Model\Hydrator\HydratorInterface;
 
 
 /**

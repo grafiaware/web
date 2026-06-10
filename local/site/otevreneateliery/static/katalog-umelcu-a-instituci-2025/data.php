@@ -17,7 +17,7 @@ use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 
 // context
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 
 class Katalog {
     

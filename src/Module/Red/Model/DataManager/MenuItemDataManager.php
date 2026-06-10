@@ -1,8 +1,8 @@
 <?php
 namespace Red\Model\DataManager;
 
-use Model\DataManager\DataManagerAbstract;
-use Model\RowData\RowDataInterface;
+use Pes\Model\DataManager\DataManagerAbstract;
+use Pes\Model\RowData\RowDataInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

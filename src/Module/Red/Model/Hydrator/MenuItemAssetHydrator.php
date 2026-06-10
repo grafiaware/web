@@ -2,9 +2,9 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
-use Model\Hydrator\TypeHydratorAbstract;
+use Pes\Model\Entity\EntityInterface;
+use Pes\Model\Hydrator\HydratorInterface;
+use Pes\Model\Hydrator\TypeHydratorAbstract;
 
 use Red\Model\Entity\MenuItemAssetInterface;
 use ArrayAccess;

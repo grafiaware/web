@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-use Model\RowData\RowDataInterface;
-use Model\RowData\RowData;
-use Model\RowData\Filter\NominateFilter;
+use Pes\Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\Filter\NominateFilter;
 /**
  * Description of RowDataTest
  *

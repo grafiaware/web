@@ -15,8 +15,8 @@ use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Dao\LoginDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 
 /**
  * Description of CompanyDaoTest

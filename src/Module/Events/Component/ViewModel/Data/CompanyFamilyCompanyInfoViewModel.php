@@ -8,7 +8,7 @@ use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Repository\CompanyInfoRepoInterface;
 use Events\Model\Entity\CompanyInfoInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 use Events\Model\Entity\CompanyInterface;
 
 use Site\ConfigurationCache;

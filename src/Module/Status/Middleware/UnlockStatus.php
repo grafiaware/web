@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Pes\Application\Middleware\AppMiddlewareAbstract;
 
-use Model\Dao\StatusDao;
+use Pes\Model\Dao\StatusDao;
 
 /**
  * Description of FinishStatus

@@ -1,12 +1,12 @@
 <?php
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoAbstract;
+use Pes\Model\Dao\DaoAbstract;
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Builder\SqlInterface;
-use Model\Context\ContextProviderInterface;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Builder\SqlInterface;
+use Pes\Model\Context\ContextProviderInterface;
+use Pes\Model\RowData\RowDataInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby

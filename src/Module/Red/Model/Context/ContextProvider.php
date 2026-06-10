@@ -8,7 +8,7 @@
 
 namespace Red\Model\Context;
 
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;

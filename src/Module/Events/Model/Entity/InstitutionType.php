@@ -3,7 +3,7 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\InstitutionTypeInterface;
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 
 
 

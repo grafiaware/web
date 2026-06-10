@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Red\Model\Entity\EditorActionsInterface;

@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditAbstract;
 
 /**
  * Description of CompanyAddressDao

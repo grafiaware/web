@@ -10,7 +10,7 @@ namespace Status\Model\Entity;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 use Status\Model\Enum\FlashSeverityEnum;
 use Pes\Core\Type\Exception\ValueNotInEnumException;
 use Status\Model\Exception\UndefinedFlashMessageSeverityException;

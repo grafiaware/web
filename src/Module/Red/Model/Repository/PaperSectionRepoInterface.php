@@ -8,7 +8,7 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAssotiatedManyInterface;
+use Pes\Model\Repository\RepoAssotiatedManyInterface;
 
 use Red\Model\Entity\PaperSectionInterface;
 

@@ -8,10 +8,10 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Red\Model\Dao\MenuItemDao;
-use Model\Hydrator\HydratorInterface;
+use Pes\Model\Hydrator\HydratorInterface;
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 
 use Red\Model\Repository\PaperAggregateSectionsRepo;
@@ -19,7 +19,7 @@ use Red\Model\Entity\MenuItemAggregatePaper;
 use Red\Model\Hydrator\MenuItemChildPaperHydrator;
 use Red\Model\Entity\PaperInterface;
 
-use \Model\Repository\RepoAssotiatingOneTrait;
+use \Pes\Model\Repository\RepoAssotiatingOneTrait;
 
 /**
  * Description of Menu

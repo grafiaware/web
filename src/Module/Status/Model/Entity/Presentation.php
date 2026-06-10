@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\StaticItemInterface;
