@@ -1,9 +1,9 @@
 <?php
 namespace Events\Model\Repository\Association;
 
-use Model\Repository\Association\AssociationOneToManyAbstract;
-use Model\Repository\Association\AssociationOneToManyInterface;
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Repository\Association\AssociationOneToManyAbstract;
+use Pes\Model\Repository\Association\AssociationOneToManyInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 use Events\Model\Dao\InstitutionDao;
 

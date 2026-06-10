@@ -12,7 +12,7 @@ use Events\Model\Repository\NetworkRepoInterface;
 use Events\Model\Repository\CompanytoNetworkRepoInterface;
 use Events\Model\Entity\CompanytoNetworkInterface;
 use Events\Model\Entity\NetworkInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 use Exception;
 use TypeError;

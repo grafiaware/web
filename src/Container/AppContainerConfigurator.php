@@ -29,8 +29,8 @@ use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
 use StatusManager\Observer\SecurityContextObjectsRemover;
 
 //user - session
-use Model\Entity\Credentials;
-use Model\Entity\CredentialsInterface;
+use Pes\Model\Entity\Credentials;
+use Pes\Model\Entity\CredentialsInterface;
 
 // entity
 use Status\Model\Entity\Presentation;
@@ -41,7 +41,7 @@ use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
 // dao
-use Model\Dao\StatusDao;
+use Pes\Model\Dao\StatusDao;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;

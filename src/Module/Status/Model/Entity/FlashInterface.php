@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 use Status\Model\Enum\FlashSeverityEnum;
 
 use Psr\Http\Message\ServerRequestInterface;

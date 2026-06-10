@@ -2,7 +2,7 @@
 
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Entity\VisitorJobRequest;
@@ -10,7 +10,7 @@ use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
 use Events\Model\Repository\VisitorJobRequestRepoInterface;
 
-//use Model\Repository\Exception\UnableRecreateEntityException;
+//use Pes\Model\Repository\Exception\UnableRecreateEntityException;
 
 
 /**

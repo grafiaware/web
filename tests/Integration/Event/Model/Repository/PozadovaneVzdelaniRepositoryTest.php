@@ -10,12 +10,12 @@ use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Repository\PozadovaneVzdelaniRepo;
-use Model\Repository\Exception\UnableAddEntityException;
-use Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\Repository\Exception\UnableAddEntityException;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
 
 use Events\Model\Entity\PozadovaneVzdelani;
 use Events\Model\Entity\PozadovaneVzdelaniInterface;
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 
 /**
  *

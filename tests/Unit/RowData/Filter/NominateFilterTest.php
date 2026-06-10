@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-use Model\RowData\Filter\NominateFilter;
-use Model\RowData\Filter\NominateFilterInterface;
+use Pes\Model\RowData\Filter\NominateFilter;
+use Pes\Model\RowData\Filter\NominateFilterInterface;
 
 /**
  * Description of NominateFilterTest

@@ -2,7 +2,7 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoInterface;
+use Pes\Model\Dao\DaoInterface;
 
 /**
  *

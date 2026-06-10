@@ -1,7 +1,7 @@
 <?php
 namespace Auth\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 use DateTime;
 
 /**

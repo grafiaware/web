@@ -13,8 +13,8 @@ use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyVersionRepo;
 use Events\Model\Entity\CompanyVersion;
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
  /**

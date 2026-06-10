@@ -1,15 +1,15 @@
 <?php
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Red\Model\Entity\StaticItemInterface;
 use Red\Model\Entity\StaticItemClass;
 use Red\Model\Dao\StaticItemDao;
-use Model\Dao\DaoReferenceUniqueInterface;
+use Pes\Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\StaticItemHydrator;
 
-use \Model\Repository\RepoAssotiatedOneTrait;
+use \Pes\Model\Repository\RepoAssotiatedOneTrait;
 
 /**
  * Description of StaticRepo

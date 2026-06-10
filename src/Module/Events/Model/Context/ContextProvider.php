@@ -10,7 +10,7 @@ namespace Events\Model\Context;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 
 /**
  * Description of ContextFactory

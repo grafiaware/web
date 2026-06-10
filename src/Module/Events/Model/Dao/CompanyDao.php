@@ -1,11 +1,11 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoEditAutoincrementKeyInterface;
-use Model\Dao\DaoWithReferenceInterface;
-use Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditAutoincrementKeyInterface;
+use Pes\Model\Dao\DaoWithReferenceInterface;
+use Pes\Model\Dao\DaoEditAbstract;
 
-use Model\Dao\DaoAutoincrementTrait;
+use Pes\Model\Dao\DaoAutoincrementTrait;
 
 /**
  * Description of CompanyDao

@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of MenuItemType

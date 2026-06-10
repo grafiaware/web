@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Hydrator\InstitutionTypeHydrator;

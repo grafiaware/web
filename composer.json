@@ -20,7 +20,8 @@
     { "type": "path", "url": "../pes/pes-logger", "options": { "symlink": true } },
     { "type": "path", "url": "../pes/pes-router", "options": { "symlink": true } },
     { "type": "path", "url": "../pes/pes-session", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-view", "options": { "symlink": true } }
+    { "type": "path", "url": "../pes/pes-view", "options": { "symlink": true } },
+    { "type": "path", "url": "../pes/pes-model", "options": { "symlink": true } }
 ],    
     "minimum-stability": "dev",
     "prefer-stable": true,

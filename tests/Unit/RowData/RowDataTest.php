@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-use Model\RowData\RowDataInterface;
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
 
 /**
  * Description of RowDataTest

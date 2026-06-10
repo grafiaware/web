@@ -2,10 +2,10 @@
 
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Hydrator\HydratorInterface;
+use Pes\Model\Entity\EntityInterface;
 use ArrayAccess;
-use Model\Hydrator\TypeHydratorAbstract;
+use Pes\Model\Hydrator\TypeHydratorAbstract;
 
 use Events\Model\Entity\EventContentTypeInterface;
 

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Form\Hydrator;
 use Form\EntityArrayCopy;
 
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 class Entka implements EntityInterface {
     private $prvni;

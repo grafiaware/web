@@ -2,9 +2,9 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoInterface;
-use Model\Dao\DaoContextualInterface;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Dao\DaoInterface;
+use Pes\Model\Dao\DaoContextualInterface;
+use Pes\Model\RowData\RowDataInterface;
 
 /**
  *

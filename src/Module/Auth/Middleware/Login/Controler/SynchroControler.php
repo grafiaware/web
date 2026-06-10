@@ -12,7 +12,7 @@ use Pes\Http\Request\RequestParams;
 use Pes\Core\Security\Password\Password;
 
 // model
-use Model\Repository\Exception\UnableAddEntityException;
+use Pes\Model\Repository\Exception\UnableAddEntityException;
 
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;

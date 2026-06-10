@@ -1,7 +1,7 @@
 <?php
 namespace Red\Model\Entity;
 
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 
 use Red\Model\Entity\AssetInterface;
 

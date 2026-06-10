@@ -13,8 +13,8 @@ use Events\Model\Repository\EventRepo;
 use Events\Model\Entity\Event;
 use Events\Model\Entity\EventInterface;
 
-use Model\RowData\RowData;
-use Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
 
 /**
  *

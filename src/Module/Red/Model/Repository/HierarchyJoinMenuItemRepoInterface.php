@@ -1,7 +1,7 @@
 <?php
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAssotiatingOneInterface;
+use Pes\Model\Repository\RepoAssotiatingOneInterface;
 use Red\Model\Entity\HierarchyAggregateInterface;
 
 /**

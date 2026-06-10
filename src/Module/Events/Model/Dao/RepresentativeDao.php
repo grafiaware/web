@@ -3,8 +3,8 @@
 namespace Events\Model\Dao;
 
 use Events\Model\Dao\RepresentativeDaoInterface;
-use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoReferenceNonuniqueTrait;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoReferenceNonuniqueTrait;
 
 /**
  * Description of RepresentativeDao

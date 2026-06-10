@@ -13,9 +13,9 @@ use Auth\Model\Entity\Role;
 use Auth\Model\Entity\RoleInterface;
 use Auth\Model\Dao\RoleDao;
 use Auth\Model\Repository\RoleRepo;
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
 
 
 
@@ -154,8 +154,8 @@ class RoleRepositoryTest  extends AppRunner {
         // pro automaticky|generovany klic a pro  overovany klic (tento pripad zde ) - !!! zapise se hned !!!   DaoEditKeyDbVerifiedInterface
         $this->assertTrue($role->isPersisted());
         $this->assertFalse($role->isLocked());
-        // Role není zamčena po add. protože RoleDao je typu Model\Dao\DaoKeyDbVerifiedInterface
-        // je isPersisted hned po ->add() protože je typu Model\Dao\DaoKeyDbVerifiedInterface
+        // Role není zamčena po add. protože RoleDao je typu Pes\Model\Dao\DaoKeyDbVerifiedInterface
+        // je isPersisted hned po ->add() protože je typu Pes\Model\Dao\DaoKeyDbVerifiedInterface
     }
 
 

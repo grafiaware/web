@@ -8,7 +8,7 @@
 
 namespace Status\Model\Repository;
 
-use Model\Repository\StatusRepositoryAbstract;
+use Pes\Model\Repository\StatusRepositoryAbstract;
 
 use Status\Model\Entity\FlashInterface;
 

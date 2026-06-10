@@ -1,8 +1,8 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
-use Model\Hydrator\HydratorInterface;
+use Pes\Model\Repository\RepoAbstract;
+use Pes\Model\Hydrator\HydratorInterface;
 
 use Events\Model\Entity\EventContent;
 use Events\Model\Entity\EventContentInterface;

@@ -2,8 +2,8 @@
 
 namespace Auth\Model\Hydrator;
 
-use Model\Entity\EntityInterface;
-use Model\Hydrator\HydratorInterface;
+use Pes\Model\Entity\EntityInterface;
+use Pes\Model\Hydrator\HydratorInterface;
 use ArrayAccess;
 
 use Auth\Model\Entity\RegistrationInterface;

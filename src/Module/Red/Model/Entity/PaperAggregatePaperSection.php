@@ -56,7 +56,7 @@ class PaperAggregatePaperSection extends Paper implements PaperAggregatePaperSec
     /**
      *
      * @param array $contents
-     * @return \Model\Entity\MenuItemAggregatePaperInterface
+     * @return \Pes\Model\Entity\MenuItemAggregatePaperInterface
      */
     public function setPaperSectionsArray(array $contents=[]): PaperAggregatePaperSectionInterface {
         $this->sections = $contents;

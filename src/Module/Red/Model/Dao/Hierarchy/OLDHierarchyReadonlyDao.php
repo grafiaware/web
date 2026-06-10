@@ -6,7 +6,7 @@ namespace Red\Model\Dao\Hierarchy;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby

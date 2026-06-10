@@ -8,7 +8,7 @@
 
 namespace Auth\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 use Auth\Model\Entity\LoginAggregate;

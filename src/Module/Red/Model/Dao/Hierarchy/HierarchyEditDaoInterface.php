@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoEditInterface;
+use Pes\Model\Dao\DaoEditInterface;
 
 /**
  *

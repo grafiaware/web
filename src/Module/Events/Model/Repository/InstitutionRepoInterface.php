@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAssotiatedManyInterface;
+use Pes\Model\Repository\RepoAssotiatedManyInterface;
 use Events\Model\Entity\InstitutionInterface;
 
 /**

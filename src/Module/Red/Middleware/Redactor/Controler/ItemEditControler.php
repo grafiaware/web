@@ -11,7 +11,7 @@ use Pes\Http\Response;
 
 use Pes\Core\Text\FriendlyUrl;
 
-use Model\Entity\MenuItemInterface;
+use Pes\Model\Entity\MenuItemInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;

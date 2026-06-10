@@ -8,8 +8,8 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\RowData\RowDataInterface;
 
 /**
  * Description of ItemActionDao

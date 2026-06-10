@@ -9,12 +9,12 @@ use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 use Events\Model\Dao\EventContentTypeDao;
 use Events\Model\Dao\EventContentDao;
 
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
-use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
+use Pes\Model\Dao\Exception\DaoKeyVerificationFailedException;
+use Pes\Model\Dao\Exception\DaoParamsBindNamesMismatchException;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
-use Model\RowData\PdoRowData;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
+use Pes\Model\RowData\PdoRowData;
 
 use Pes\Container\Container;
 use Pes\Database\Statement\Exception\ExecuteException;
