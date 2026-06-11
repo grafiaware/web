@@ -52,6 +52,8 @@ class WebAppFactory extends AppFactory {
         if (array_key_exists($requestLangCode, $localeLangCode)) {
             $appLocale = $localeLangCode[$requestLangCode].".".$appCodeset;
         } else {
+            //TODO: SV default lang code z konfigurace - ne z místní konstanty, (tady a Message o kousek níž), cca:
+            //Configuration::presentationStatus()['default_lang_code'];
             $appLocale = $localeLangCode[self::INITIAL_APP_LANGCODE].".".$appCodeset;
         }
         setlocale(LC_ALL, $appLocale);
@@ -63,6 +65,7 @@ class WebAppFactory extends AppFactory {
         require_once __DIR__.'/Messages/addTranslations.php';
 
         if (PES_DEVELOPMENT) {
+            //TODO: SV - loggery do konstruktoru z DI
             Message::setLogger(FileLogger::getInstance("Logs/App", 'Messages.log', FileLogger::REWRITE_LOG));
 
             $logger = FileLogger::getInstance('Logs/App', 'WebAppFactoryLogger.log', FileLogger::REWRITE_LOG);
