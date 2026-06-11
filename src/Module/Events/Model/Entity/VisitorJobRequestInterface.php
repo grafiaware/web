@@ -4,8 +4,6 @@
 namespace Events\Model\Entity;
 
 use Pes\Model\Entity\PersistableEntityInterface;
-use Events\Model\Entity\VisitorJobRequestInterface;
-
 
 /**
  *

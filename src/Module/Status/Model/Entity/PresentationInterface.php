@@ -12,7 +12,6 @@ use Pes\Model\Entity\PersistableEntityInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\StaticItemInterface;
-use Status\Model\Entity\PresentationInterface;
 
 /**
  *
