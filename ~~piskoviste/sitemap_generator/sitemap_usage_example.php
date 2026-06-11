@@ -1,68 +1,118 @@
 <?php
 
-require_once 'SitemapGenerator.php';
+declare(strict_types=1);
+
+/**
+ * Example: wiring SitemapGenerator from a DI container.
+ *
+ * This file shows two patterns:
+ *   1. Plain PHP manual wiring (no framework)
+ *   2. Registration snippet for Nette DI (config.neon)
+ *
+ * The generator itself has no knowledge of any framework —
+ * swap the DI wiring for Symfony, Laravel, or your own container as needed.
+ */
+
+require_once __DIR__ . '/vendor/autoload.php'; // or your framework's bootstrap
+
+use Psr\Log\NullLogger;
+use Sitemap\Cache\FilesystemSitemapCache;
+use Sitemap\Contract\SitemapCacheInterface;
+use Sitemap\Contract\SitemapGeneratorInterface;
+use Sitemap\Contract\SitemapRendererInterface;
+use Sitemap\Contract\SitemapWriterInterface;
+use Sitemap\Renderer\XmlSitemapRenderer;
+use Sitemap\SitemapConfig;
+use Sitemap\SitemapGenerator;
+use Sitemap\Writer\FilesystemSitemapWriter;
 
 // ---------------------------------------------------------------------------
-// Konfigurace
+// 1. Manual DI wiring (plain PHP)
 // ---------------------------------------------------------------------------
 
 $config = new SitemapConfig(
-    baseUrl: 'https://example.com',
-    outputDir: __DIR__ . '/public',
+    baseUrl:      'https://example.com',
+    outputDir:    __DIR__ . '/public',
+    indexFilename: 'sitemap.xml',
 
-    // false  → soubory se vždy přepíší (ideální pro generování při deployi / editaci)
-    // true   → soubory se přepíší jen pokud jsou starší než $cacheTtl sekund
+    // false → always regenerate (ideal for deploy hooks or on-edit triggers)
+    // true  → skip regeneration when files are younger than cacheTtl seconds
     cacheEnabled: false,
-    cacheTtl: 3600,
+    cacheTtl:     3600,
 );
 
-$generator = new SitemapGenerator($config);
+// Replace NullLogger with your PSR-3 compatible logger (Monolog, etc.)
+$logger = new NullLogger();
+
+/** @var SitemapGeneratorInterface $generator */
+$generator = new SitemapGenerator(
+    config:   $config,
+    cache:    new FilesystemSitemapCache($config),
+    renderer: new XmlSitemapRenderer(),
+    writer:   new FilesystemSitemapWriter(),
+    logger:   $logger,
+);
 
 // ---------------------------------------------------------------------------
-// Sekce: statické stránky
+// 2. Nette DI — config.neon snippet
+// ---------------------------------------------------------------------------
+//
+// services:
+//     sitemap.config:
+//         factory: Sitemap\SitemapConfig(
+//             baseUrl:      %siteUrl%,
+//             outputDir:    %wwwDir%,
+//             cacheEnabled: %sitemap.cacheEnabled%,
+//             cacheTtl:     %sitemap.cacheTtl%
+//         )
+//
+//     sitemap.cache:
+//         factory:    Sitemap\Cache\FilesystemSitemapCache(@sitemap.config)
+//         implements: Sitemap\Contract\SitemapCacheInterface
+//
+//     sitemap.renderer:
+//         factory:    Sitemap\Renderer\XmlSitemapRenderer
+//         implements: Sitemap\Contract\SitemapRendererInterface
+//
+//     sitemap.writer:
+//         factory:    Sitemap\Writer\FilesystemSitemapWriter
+//         implements: Sitemap\Contract\SitemapWriterInterface
+//
+//     sitemap.generator:
+//         factory:    Sitemap\SitemapGenerator(
+//             config:   @sitemap.config,
+//             cache:    @sitemap.cache,
+//             renderer: @sitemap.renderer,
+//             writer:   @sitemap.writer,
+//             logger:   @logger  # your PSR-3 service
+//         )
+//         implements: Sitemap\Contract\SitemapGeneratorInterface
+
+// ---------------------------------------------------------------------------
+// Usage — identical regardless of how DI is wired
 // ---------------------------------------------------------------------------
 
+// Static pages
 $generator->section('pages')
-    ->add('/',          '2025-06-01', 'daily',   1.0)
-    ->add('/about',     '2025-03-10', 'monthly', 0.4)
-    ->add('/contact',   '2025-01-20', 'monthly', 0.3)
-    ->add('/services',  '2025-05-01', 'monthly', 0.6);
+    ->add('/',         '2025-06-01', 'daily',   1.0)
+    ->add('/about',    '2025-03-10', 'monthly', 0.4)
+    ->add('/contact',  '2025-01-20', 'monthly', 0.3);
 
-// ---------------------------------------------------------------------------
-// Sekce: blog – dynamicky z databáze
-// ---------------------------------------------------------------------------
-
-// Simulace dat z DB (v reálu by bylo: $articles = $db->query('SELECT slug, updated_at FROM articles WHERE published = 1'))
-$articles = [
-    ['slug' => 'jak-pouzivat-sitemap',   'updated_at' => '2025-06-10'],
-    ['slug' => 'php-tipy-pro-framework', 'updated_at' => '2025-05-22'],
-    ['slug' => 'rest-api-best-practices','updated_at' => '2025-04-15'],
-];
-
-$blogSection = $generator->section('blog');
-
+// Blog — dynamic, lastmod from DB
+$articles = $database->fetchAll('SELECT slug, updated_at FROM articles WHERE published = 1');
 foreach ($articles as $article) {
-    $blogSection->add(
+    $generator->section('blog')->add(
         '/blog/' . $article['slug'],
-        $article['updated_at'],  // skutečný lastmod z DB, ne datum generování!
+        $article['updated_at'],   // real lastmod from DB, NOT date('Y-m-d')
         'weekly',
         0.7,
     );
 }
 
-// ---------------------------------------------------------------------------
-// Sekce: produkty / e-shop (příklad další sekce)
-// ---------------------------------------------------------------------------
-
-$products = [
-    ['slug' => 'produkt-alfa', 'updated_at' => '2025-06-08'],
-    ['slug' => 'produkt-beta', 'updated_at' => '2025-06-01'],
-];
-
-$productSection = $generator->section('products');
-
+// Products
+$products = $database->fetchAll('SELECT slug, updated_at FROM products WHERE active = 1');
 foreach ($products as $product) {
-    $productSection->add(
+    $generator->section('products')->add(
         '/produkty/' . $product['slug'],
         $product['updated_at'],
         'weekly',
@@ -71,38 +121,9 @@ foreach ($products as $product) {
 }
 
 // ---------------------------------------------------------------------------
-// Uložení souborů
+// Save — call this once at the end of a deploy hook or after content edit
 // ---------------------------------------------------------------------------
-
 $written = $generator->save();
 
-if ($written) {
-    echo "Sitemap vygenerována:" . PHP_EOL;
-    echo "  public/sitemap.xml          (index)" . PHP_EOL;
-    echo "  public/sitemap-pages.xml    (" . count($generator->section('pages')->getUrls()) . " URL)" . PHP_EOL;
-    echo "  public/sitemap-blog.xml     (" . count($generator->section('blog')->getUrls()) . " URL)" . PHP_EOL;
-    echo "  public/sitemap-products.xml (" . count($generator->section('products')->getUrls()) . " URL)" . PHP_EOL;
-} else {
-    echo "Cache je platná, soubory nebyly přepsány." . PHP_EOL;
-}
-
-
-// ---------------------------------------------------------------------------
-// Alternativa: dynamické servírování bez zápisu na disk
-// (pokud nechceš statické soubory, ale endpoint /sitemap.xml)
-// ---------------------------------------------------------------------------
-
-// Příklad PHP routy:
-//
-// if ($request->path === '/sitemap.xml') {
-//     header('Content-Type: application/xml; charset=utf-8');
-//     echo $generator->renderIndex();
-//     exit;
-// }
-//
-// if (preg_match('/^\/sitemap-(\w+)\.xml$/', $request->path, $m)) {
-//     $section = $generator->section($m[1]);
-//     header('Content-Type: application/xml; charset=utf-8');
-//     echo $section->render();
-//     exit;
-// }
+// $written === true  → files regenerated
+// $written === false → cache was valid or no sections registered
