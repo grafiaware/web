@@ -1,7 +1,7 @@
 <?php
 namespace Events\Service;
 
-use ValidatingExceptionInterface;
+use Events\Service\ValidatingExceptionInterface;
 use RuntimeException;
 
 class ValidatingException extends RuntimeException implements ValidatingExceptionInterface {

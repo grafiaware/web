@@ -962,7 +962,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             
             LoginService::class=>function(ContainerInterface $c) {
                 return new LoginService(
-                        //$c->get(LoginRepo::class),  
+                        $c->get(LoginRepo::class),  
+                        $c->get('EventsValidateUserLogger')
                 );
             },
                     
@@ -972,7 +973,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginRepo::class),   
+                    //$c->get(LoginRepo::class),   
                     $c->get(LoginService::class),                          
                         
                     $c->get('EventsValidateUserLogger')

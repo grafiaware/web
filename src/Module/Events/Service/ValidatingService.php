@@ -36,19 +36,16 @@ class ValidatingService implements ValidatingServiceInterface {
     private $statusSecurityRepo;
     private $statusFlashRepo;
     private $statusPresentationRepo;
-    private $loginRepo;
-    private $loginService;
-    
+    //private $loginRepo;
+    private $loginService;    
     private $fileLogger;
-    
-    
-     
+   
      
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,               
-            LoginRepoInterface $loginRepo,    
+           // LoginRepoInterface $loginRepo,    
             LoginServiceInterface $loginService,
             
             ?FileLogger $fileLogger = null
@@ -57,7 +54,7 @@ class ValidatingService implements ValidatingServiceInterface {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusFlashRepo = $statusFlashRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;                    
-        $this->loginRepo = $loginRepo;
+        //$this->loginRepo = $loginRepo;
         $this->loginService = $loginService;
    
         $this->fileLogger = $fileLogger;        
@@ -71,7 +68,7 @@ class ValidatingService implements ValidatingServiceInterface {
      * Volá se  z middleware ValidateUser.
      * Validuje uživatele.
      * Neni-li uživatel ve statusu security, tj. ještě nezvalidováno, jedná se o první request.
-     * Že zvalidováno, poznamená do statusu security.   
+     * Že je zvalidováno, poznamená do statusu security.   
      *     
      * @param ServerRequestInterface $request
      * @return void
@@ -84,79 +81,33 @@ class ValidatingService implements ValidatingServiceInterface {
             $loginAgregate = $security->getLoginAggregate();                 
             $validatedUserName = $loginAgregate?->getLoginName();
             
-            if (isset($validatedUserName))  {                                         
+            if (isset($validatedUserName))  {         
                 try {
                     //validovat                    
-                   // $userStatus = $this->isUserValid($request, $security, $validatedUserName);      /*  **zkouska* */  // $userStatus = 'invalidUser';
-
-                    if ($this->isUserValid($request, $security, $validatedUserName)) {
-                    
-                        $this->addToLogin($validatedUserName);                          
-                        //není-li ve statusu security (prvni request, jeste nezvalidovano), poznamenat do statusu security 
-                        if (!$security->isUserNameVerifiedWithinSession($validatedUserName)) {
-                            $security->addUserNameVerifiedWithinSession($validatedUserName);
-                        }                    
-                    }
-                    else { 
-                        $this->deleteFromLogin($validatedUserName, $security );                                     
-                    }
+                    $this->validateUserByAuthServer($request, $validatedUserName);
+                    $this->loginService->setAddUserNameToEventsLogin($validatedUserName);
+                    //není-li ve statusu security (prvni request, jeste nezvalidovano), poznamenat do statusu security 
+                    if (!$security->isUserNameVerifiedWithinSession($validatedUserName)) {
+                        $security->addUserNameVerifiedWithinSession($validatedUserName);
+                    }                    
                 }
                 catch (ValidatingException $e) {
-                    $this->fileLogger?->error("isUserValid: Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.");  
-                }   
+                    $security->removeContext();   
+                    $this->loginService->setDeleteUserNameFromEventsLogin($validatedUserName);
+                    $this->fileLogger?->error($e->getMessage());  
+                }  
+                catch (ConnectionException $e) {
+                    $security->removeContext();   
+                    $this->fileLogger?->error($e->getMessage());  
+                }
             }
             else{   //neni  $validatedUserName                  
                 $this->fileLogger?->notice("Nevalidováno - Nikdo není přihlašený. "  );                                
             }   
-           
         }                
-      
     }
         
-      
-    
-    /**
-     * Zavoláno v případě, že název prihlašeného $validatedUserName JE validni (je v single-login.login tabulce).
-     * Není-li v events.login tabulce, zapiše do events.login tabulky.
-     *       
-     * @param string $validatedUserName
-     * @return void
-     */
-    protected function addToLogin(string $validatedUserName): void {
-         //kdyz prihlaseny je validni a neni v events.login tabulce, tak zapsat do events login tabulky                     
-        $login = $this->loginRepo->get($validatedUserName);
-        if ($login) {                            
-            $this->fileLogger?->notice("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)." .
-                                      " a je v tabulce events.login." );                                                                 
-        }
-        else {  
-            
-            $this->loginService->setAddUserNameToEventsLogin($login /*$validatedUserName*/);                        
-            $this->fileLogger?->notice("Přihlašený " .$validatedUserName . " je validní uživatel(v single_login)," .
-                                       ' nebyl v tabulce events.login. -> a byl tam přidán.' );                             
-        }                       
-    }
-    
-    
-    
-    /**
-     * Zavoláno v případě, že název prihlašeného $validatedUserName NENÍ validni (není v single-login.login tabulce).
-     * Odstraní ze $security. "Vymaže" název z tabulky events.login, byl-li tam.
-     *    
-     * @param string $validatedUserName
-     * @param SecurityInterface $security
-     * @return void
-     */
-    protected function deleteFromLogin(string $validatedUserName, SecurityInterface $security) : void {         
-        $security->removeContext();                                                
-        $login = $this->loginRepo->get($validatedUserName);
-        if ($login) {                                                
-                 $this->loginService->setDeleteUserNameFromEventsLogin($login);           
-        }                       
-        $this->fileLogger?->notice("Přihlašený " .$validatedUserName . " není validní uživatel (v single_login)." .
-                                   " - a byl vymazán z tabulky events.login (byl-li tam)" );                                       
-    }
-    
+          
     
     
     
@@ -168,7 +119,7 @@ class ValidatingService implements ValidatingServiceInterface {
      * @param string $validatedUserName
      * @return void
      */
-    protected function isUserValid( ServerRequestInterface $request, SecurityInterface $security, string $validatedUserName ):bool {                               
+    private function validateUserByAuthServer( ServerRequestInterface $request, string $validatedUserName ):void {                               
 
         $scheme = $request->getUri()->getScheme();
         $host = $request->getUri()->getHost();
@@ -194,16 +145,19 @@ class ValidatingService implements ValidatingServiceInterface {
         //--------------
         
  //  /*  ** zkouska */     $result=false;
-        $res = '';
+        //$res = '';
         if ($result!==false) {
             $resultData = json_decode($result, true);       
-            if ($resultData ['validFromAuth'] == 'validUser')    {$res=true;}
-            if ($resultData ['validFromAuth'] == 'invalidUser')  {$res=false;}        
+          //  if ($resultData ['validFromAuth'] == 'validUser')    {$res=true;}
+            if ($resultData ['validFromAuth'] == 'invalidUser')  {
+                //$res=false;
+                throw new ValidatingException("isUserValid: Uživatel není validní.");              
+            }        
         } else {                                                      
-            throw new ValidatingException("isUserValid: Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.");            
+            throw new ConnectionException("isUserValid: Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.");            
         }
                        
-        return $res; 
+        
     }
     
             
@@ -214,7 +168,7 @@ class ValidatingService implements ValidatingServiceInterface {
      *
      * @return UriInfoInterface
      */
-    protected function getUriInfo(ServerRequestInterface $request): UriInfoInterface {
+     private function getUriInfo(ServerRequestInterface $request): UriInfoInterface {
         $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
         if (! $uriInfo instanceof UriInfoInterface) {
             throw new LogicException("Atribut requestu ".AppFactory::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
