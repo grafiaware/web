@@ -8,16 +8,15 @@
 
 namespace Auth\Model\Repository;
 
+use Pes\Model\Hydrator\HydratorInterface;
+
 use Pes\Model\Repository\RepoAbstract;
+use Auth\Model\Dao\LoginDao;
 
-use Auth\Model\Entity\LoginAggregateCredentialsInterface;
-use Auth\Model\Entity\LoginAggregate;
-use Auth\Model\Entity\Credentials;
-use Auth\Model\Dao\LoginAggregateReadonlyDao;
-use Auth\Model\Hydrator\HydratorReadonlyInterface;
-use Auth\Model\Hydrator\HydratorInterface;
+use Pes\Model\Repository\RepoAssotiatingOneTrait;
 
-use Auth\Model\Repository\Exception\UnableRecreateEntityException;
+use Auth\Model\Entity\LoginAggregateFull;
+use Auth\Model\Entity\LoginAggregateFullInterface;
 
 /**
  * Description of Menu
@@ -32,53 +31,34 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements LoginAggregateR
      */
     private $childHydrator;
 
-    public function __construct(
-            LoginAggregateReadonlyDao $loginAggregateDao,
-            HydratorInterface $loginAggregateHydrator,
-            HydratorInterface $credentialsHydrator
+    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator
             ) {
-        $this->dataManager = $loginAggregateDao;
-        $this->registerHydrator($loginAggregateHydrator);
-        $this->childHydrator = $credentialsHydrator;
+        $this->dataManager = $loginDao;
+        $this->registerHydrator($loginHydrator);
+    }
+
+    use RepoAssotiatingOneTrait;
+
+    protected function createEntity() {
+        return new LoginAggregateFull();
     }
 
     /**
-     *
-     * @param string $loginName
-     * @return LoginAggregateCredentialsInterface|null
+     * Summary of get
+     * @param mixed $loginName
+     * @return \Pes\Model\Entity\PersistableEntityInterface|null
      */
-    public function get($loginName): ?LoginAggregateCredentialsInterface {
-        $index = $this->indexFromKeyParams($loginName);
-        if (!isset($this->collection[$index])) {
-            $joinedRow = $this->dataManager->get($loginName);
-            if ($joinedRow) {
-                $credentials = $this->createChildEntity($joinedRow);
-                $this->recreateEntity($index, ['login_name'=>$joinedRow['login_name'], 'credentials'=>$credentials]);
-            }
-        }
-        return $this->collection[$index] ?? NULL;
+    public function get($loginName): ?LoginAggregateFullInterface {
+        return $this->getEntity($loginName);
     }
+    #### protected ###########
 
-    private function createChildEntity($joinedRow) {
-        $credentials = new Credentials();
-        $this->childHydrator->hydrate($credentials, $joinedRow);
-        return $credentials;
-    }
-
-    protected function createEntity() {
-        return new LoginAggregate();
-    }
-
-    protected function indexFromKeyParams($loginName) {
-        return $loginName;
-    }
-
-    protected function indexFromEntity(LoginAggregateCredentialsInterface $loginAggregate) {
-        return $loginAggregate->getLoginName();
+    protected function indexFromEntity(LoginAggregateFullInterface $loginAggReg) {
+        return $loginAggReg->getLoginName();
     }
 
     protected function indexFromRow($row) {
         return $row['login_name'];
     }
-    }
+}
 

@@ -17,6 +17,6 @@ use Auth\Model\Entity\LoginAggregateCredentialsInterface;
  * @author pes2704
  */
 interface LoginAggregateReadonlyRepoInterface  extends RepoReadonlyInterface {
-    public function get($loginName): ?LoginAggregateCredentialsInterface;
+    public function get($loginName): ?LoginAggregateFullInterface;
 
 }
