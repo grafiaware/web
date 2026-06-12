@@ -133,8 +133,9 @@ class SynchroControler   extends FrontControlerAbstract {
     public function validUser (ServerRequestInterface $request){        
         $validUserNames = $request->getParsedBody();
         $validatedUserName  = $validUserNames[0];
+        //$result = "";
         
-        //overit ze poslane jmeno je v single_login
+                //overit ze poslane jmeno je v single_login
         $login = $this->loginRepo->get($validatedUserName);    
         $name =  $login->getLoginName();
         $valid = isset($name) ? 'validUser' : 'invalidUser';                

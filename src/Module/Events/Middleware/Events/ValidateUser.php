@@ -18,8 +18,10 @@ use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\LoginSyncControler;
 use Events\Middleware\Events\Controler\SynchroControler;
-use Events\Service\ValidateServiceInterface;
+use Events\Service\ValidatingServiceInterface;
 use Events\Service\ValidatingService;
+
+
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -66,9 +68,9 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
 //        //----------------
                     
             
-            /** @var  ValidateServiceInterface $serviceValidate */
-            $serviceValidate = $this->container->get(ValidatingService::class);
-            $serviceValidate->validateUser($request);           
+            /** @var  ValidatingServiceInterface $serviceValidating */
+            $serviceValidating = $this->container->get(ValidatingService::class);
+            $serviceValidating->validateUser($request);           
         
        
         

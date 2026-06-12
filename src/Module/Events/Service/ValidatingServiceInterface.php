@@ -20,7 +20,7 @@ interface ValidatingServiceInterface {
      *     
      * @param ServerRequestInterface $request
      * @return void
-     */    
+     */       
     public function validateUser (ServerRequestInterface $request): void;
     
     

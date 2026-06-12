@@ -124,10 +124,8 @@ class SynchroControler   extends FrontControlerAbstract {
                 //if (!empty($resultData['remItems'])) {
                 if ($resultData ['remItems']?? [])      {               
                     foreach ($resultData['remItems'] as  $loginName) {                                
-                        //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")
-                          $loginA = $this->loginRepo->get($loginName); 
-                                            //$serviceValidate->deleteUserNameFromEvents($loginA);    
-                          $serviceLogin->setDeleteUserNameFromEventsLogin($loginA);
+                        //tady nemazat, ale zapsat priznak deleted_due_to_auth, a prejmenovat,t.j. pridat retezec datacasu  date("Ymd_His")                          
+                          $serviceLogin->setDeleteUserNameFromEventsLogin($loginName);
                     }                                                            
                 }    
                 $this->loginRepo->flush();
@@ -135,12 +133,8 @@ class SynchroControler   extends FrontControlerAbstract {
                 //if ( $resultData['addItems'] ) {        
                 //if (!empty($resultData['addItems'])) {
                 if ($resultData ['addItems']?? [])      {         
-                    foreach ($resultData['addItems'] as $loginName) {           
-                                         //$serviceValidate->addUserNameToEvents($loginName);    
-                        $newLogin =  new Login();
-                        $newLogin->setLoginName($loginName);
-                        $serviceLogin->setAddUserNameToEventsLogin($newLogin);
-                        $this->loginRepo->add($newLogin); 
+                    foreach ($resultData['addItems'] as $loginName) {                                  
+                        $serviceLogin->setAddUserNameToEventsLogin($loginName);
                     }
                 }                         
             } else {
@@ -148,10 +142,7 @@ class SynchroControler   extends FrontControlerAbstract {
             } 
         
         }
-        
-        
-        
-        
+      
         return $this->redirectSeeLastGet($request); // 303 See Other
     }      
  
@@ -195,7 +186,7 @@ class SynchroControler   extends FrontControlerAbstract {
      * @param ServerRequestInterface $request
      * @return string
      */
-    protected function validUser (ServerRequestInterface $request){                       
+    protected function validUser (ServerRequestInterface $request): string{                       
         /** @var SecurityInterface $statusPresentation */
         $statusPresentation = $this->statusSecurityRepo->get();
         $loginAgregate = $statusPresentation->getLoginAggregate();

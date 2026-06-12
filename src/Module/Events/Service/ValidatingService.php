@@ -15,7 +15,6 @@ use Status\Model\Entity\Security;
 use Status\Model\Entity\SecurityInterface;
 use Pes\Logger\FileLogger;
 
-use Events\Model\Repository\LoginRepoInterface;
 use Events\Model\Entity\LoginInterface;
 use Events\Model\Entity\Login;
 use Access\Enum\RoleEnum;
@@ -45,7 +44,6 @@ class ValidatingService implements ValidatingServiceInterface {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,               
-           // LoginRepoInterface $loginRepo,    
             LoginServiceInterface $loginService,
             
             ?FileLogger $fileLogger = null
@@ -54,7 +52,6 @@ class ValidatingService implements ValidatingServiceInterface {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusFlashRepo = $statusFlashRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;                    
-        //$this->loginRepo = $loginRepo;
         $this->loginService = $loginService;
    
         $this->fileLogger = $fileLogger;        
@@ -63,25 +60,16 @@ class ValidatingService implements ValidatingServiceInterface {
  
     
       
-    #[\Override]
-    /**
-     * Volá se  z middleware ValidateUser.
-     * Validuje uživatele.
-     * Neni-li uživatel ve statusu security, tj. ještě nezvalidováno, jedná se o první request.
-     * Že je zvalidováno, poznamená do statusu security.   
-     *     
-     * @param ServerRequestInterface $request
-     * @return void
-     */    
-    public function validateUser (ServerRequestInterface $request): void {           
-        
+    #[\Override]   
+    public function validateUser (ServerRequestInterface $request): void {                   
              /** @var SecurityInterface $security */
         $security = $this->statusSecurityRepo->get();  //
         if (isset($security)) {
             $loginAgregate = $security->getLoginAggregate();                 
             $validatedUserName = $loginAgregate?->getLoginName();
             
-            if (isset($validatedUserName))  {         
+            if (isset($validatedUserName))  {   
+                //$validatedUserName="Xxx";
                 try {
                     //validovat                    
                     $this->validateUserByAuthServer($request, $validatedUserName);
@@ -102,14 +90,11 @@ class ValidatingService implements ValidatingServiceInterface {
                 }
             }
             else{   //neni  $validatedUserName                  
-                $this->fileLogger?->notice("Nevalidováno - Nikdo není přihlašený. "  );                                
+                $this->fileLogger?->notice("Nevalidováno - Nikdo není přihlašený." );                                
             }   
         }                
     }
-        
-          
-    
-    
+                          
     
   
     /**
@@ -142,22 +127,16 @@ class ValidatingService implements ValidatingServiceInterface {
         //--------------      
         $context = stream_context_create($options);
         $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      
-        //--------------
-        
- //  /*  ** zkouska */     $result=false;
-        //$res = '';
+        //--------------        
+        //** zkouska    $result=false;
         if ($result!==false) {
-            $resultData = json_decode($result, true);       
-          //  if ($resultData ['validFromAuth'] == 'validUser')    {$res=true;}
+            $resultData = json_decode($result, true);            
             if ($resultData ['validFromAuth'] == 'invalidUser')  {
-                //$res=false;
-                throw new ValidatingException("isUserValid: Uživatel není validní.");              
+                throw new ValidatingException("validateUserByAuthServer: Uživatel není validní.");              
             }        
         } else {                                                      
-            throw new ConnectionException("isUserValid: Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.");            
-        }
-                       
-        
+            throw new ConnectionException("validateUserByAuthServer: Spojeni se nezdařilo. Nelze validovat(ověřit) uživatele.");            
+        }                               
     }
     
             
