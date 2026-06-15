@@ -72,8 +72,7 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
             $serviceValidating = $this->container->get(ValidatingService::class);
             $serviceValidating->validateUser($request);           
         
-       
-        
+               
         return $handler->handle($request);
         
     }

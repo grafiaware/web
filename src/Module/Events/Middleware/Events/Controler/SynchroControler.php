@@ -75,11 +75,6 @@ class SynchroControler   extends FrontControlerAbstract {
              /** @var SecurityInterface $security */
         $security = $this->statusSecurityRepo->get();  //
         if (isset($security)) {
-                //$loginAgregate = $security->getLoginAggregate();            
-
-
-
-
 
             $logins = $this->loginRepo->findAll();   // pole entit     
             $controlledItems=[];
@@ -108,7 +103,6 @@ class SynchroControler   extends FrontControlerAbstract {
                     'content' => $json,
                 ],
             ];
-
             //--------------      
             $context = stream_context_create($options);
             $result = file_get_contents($url, false, $context);   //posle  na url, vysledek z auth ...content pak priradi do result      

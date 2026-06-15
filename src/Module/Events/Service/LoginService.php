@@ -34,12 +34,9 @@ class LoginService implements LoginServiceInterface {
         if ($login) {                                                
             $login->setDeletedDueToAuth('1');
             $login->setLoginName($loginName . '_deleted_' . date("Ymd_His") );    
-        }          
-        
-        $this->fileLogger?->notice("Přihlašený " .$loginName . " není validní uživatel (není v single_login)." .
-                                   " - a byl 'vymazán' z tabulky events.login (byl-li tam)" );   
-        
-        
+        }                  
+        $this->fileLogger?->notice("*" .$loginName . " není validní uživatel (není v single_login)." .
+                                   " - a byl 'vymazán' z tabulky events.login (byl-li tam)" );                   
     }
         
     
@@ -49,22 +46,16 @@ class LoginService implements LoginServiceInterface {
         if ($login) {     //je v tabulce events.login                       
                     //   $this->fileLogger?->notice("Přihlašený " .$loginName . " je validní uživatel(v single_login)." .  " a je v tabulce events.login." );                                                                 
         }
-        else {              
-            //$this->loginService->setAddUserNameToEventsLogin($login /*$validatedUserName*/);                        
+        else {    //neni v tabulce events.login                                                
             /**  @var LoginInterface $login */
             $login =  new Login();
             $login->setDeletedDueToAuth(0);
             $login->setLoginName($loginName); 
-
-            $this->loginRepo->add($login);     
-            
+            $this->loginRepo->add($login);                 
                     //    $this->fileLogger?->notice("Přihlašený " .$loginName . " je validní uživatel(v single_login)," . ' nebyl v tabulce events.login. -> a byl tam přidán.' );                             
-        }   
-        
-        $this->fileLogger?->notice("Přihlašený " .$loginName . " je validní uživatel( je v single_login)," .
+        }           
+        $this->fileLogger?->notice("* " .$loginName . " je validní uživatel( je v single_login)," .
                                        ' pokud nebyl v tabulce events.login. -> tak tam byl přidán.' );        
-    }
-    
-    
+    }        
     
 }
