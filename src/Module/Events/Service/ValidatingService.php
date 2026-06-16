@@ -74,6 +74,8 @@ class ValidatingService implements ValidatingServiceInterface {
                     //validovat                    
                     $this->validateUserByAuthServer($request, $validatedUserName);
                     $this->loginService->setAddUserNameToEventsLogin($validatedUserName);
+//                    $this->fileLogger?->notice("* " . $validatedUserName . " je validní uživatel( je v single_login)," .
+//                                       ' pokud nebyl v tabulce events.login. -> tak tam byl přidán.' ); 
                     //není-li ve statusu security (prvni request, jeste nezvalidovano), poznamenat do statusu security 
                     if (!$security->isUserNameVerifiedWithinSession($validatedUserName)) {
                         $security->addUserNameVerifiedWithinSession($validatedUserName);
@@ -82,6 +84,8 @@ class ValidatingService implements ValidatingServiceInterface {
                 catch (ValidatingException $e) {
                     $security->removeContext();   
                     $this->loginService->setDeleteUserNameFromEventsLogin($validatedUserName);
+//                    $this->fileLogger?->notice("* " . $validatedUserName . " není validní uživatel (není v single_login)." .
+//                                                       " - a byl 'vymazán' z tabulky events.login (byl-li tam)" );                         
                     $this->fileLogger?->error($e->getMessage());  
                 }  
                 catch (ConnectionException $e) {
