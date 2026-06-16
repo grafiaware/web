@@ -171,6 +171,13 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StaticItemRepo::class));
             },
+            FilesUploadControler::class => function(ContainerInterface $c) {
+                return new FilesUploadControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AssetService::class));
+            },
             // generator service
 
             // volání nastavených služeb Red\Service\ItemCreator ->initialize() probíhá při nastavování typu menuItem - teď v Controler/EditItemControler->type()

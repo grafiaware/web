@@ -19,6 +19,7 @@ use Exception;
 use Pes\Core\Directory\Exception\CreateDirectoryFailedException;
 use Pes\Http\Exception\UploadException;
 use FrontControler\Exception\UploadFileException;
+use Red\Middleware\Redactor\Controler\Exception\NoEditedItemIdException;
 
 /**
  * Description of NestedFilesUpload
@@ -81,6 +82,7 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
             $uploadedKey,
             $maxFileSize,
             $acceptedExtensions = []) {
+        
         try {
             $uploadedFile = $this->getAndValidateUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
         } catch (UploadFileException $e) {
@@ -101,22 +103,16 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
         if (isset($httpError)) {
             $response = $this->errorResponse($request, $httpError, $httpStatus);
         } else {
-            $editedItemId = $this->getEditedItemId($request);
+            $editedItemId = $this->paramValue($request, 'edited_item_id');
+            if (!$editedItemId) {    
+                throw new NoEditedItemIdException("Not Acceptable. Redactor: Request has no 'edited_item_id' parameter.");
+            }              
             $editor = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
             $targetFilepath = $this->assetService->storeAsset($uploadedFile, $editedItemId, $editor);
             $response = $this->okTinyJsonResponse($targetFilepath);
         }
 
         return $response;
-    }
-    
-    private function getEditedItemId(ServerRequestInterface $request) {
-        $editedItemId = $this->paramValue($request, 'edited_item_id');
-        if ($editedItemId) {    
-            return $editedItemId;
-        }else {
-            throw new UploadFileException("Not Acceptable. Redactor: Request has no 'edited_item_id' variable.", 406);
-        }    
     }
     
     private function errorResponse($httpError, $httpStatus=null) {

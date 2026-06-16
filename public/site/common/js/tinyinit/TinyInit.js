@@ -239,7 +239,8 @@ var editHtmlConfig = {
     /* enable title field in the Image dialog*/
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs */
-    automatic_uploads: true, // default true
+    automatic_uploads: true, // default true, tiny po loadu stránky najde obrázky typu data:image/..., vytvoří z nich interní BlobInfo, uloží je do editorUpload.blobCache,
+    // nahradí dlouhý Base64 řetězec URL typu: <img src="blob:http://apacheroot/..."> (to je vidět v Firefox DOM Průzkumníkovi) a pro automatic_uploads: true vždy volá upload obrázků
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 //    odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option

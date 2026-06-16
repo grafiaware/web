@@ -4,6 +4,8 @@ namespace FrontControler;
 
 use Site\ConfigurationCache;
 
+use FrontControler\FrontControlerAbstract;
+
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -19,7 +21,7 @@ use FrontControler\Exception\UploadFileException;
  *
  * @author pes2704
  */
-class FilesUploadControlerAbstract extends PresentationFrontControlerAbstract {
+class FilesUploadControlerAbstract extends FrontControlerAbstract {
 
     const UPLOADED_KEY = "file";
     const MAX_FILE_SIZE = 0;
@@ -163,22 +165,3 @@ class FilesUploadControlerAbstract extends PresentationFrontControlerAbstract {
 
 
 }
-
-//$html = '
-//<!-- Learn about this code on MDN: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file -->
-//
-//<form method="post" enctype="multipart/form-data">
-//  <div>
-//    <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
-//    <input type="file" id="image_uploads" name="'.self::UPLOADED_KEY.'[]" accept=".jpg, .jpeg, .png" multiple>
-//  </div>
-//  <div class="preview">
-//    <p>No files currently selected for upload</p>
-//  </div>
-//  <div>
-//    <button>Submit</button>
-//  </div>
-//</form>';
-
-
-//                <input type="file" name="filesupl[]" multiple webkitdirectory id="files" />

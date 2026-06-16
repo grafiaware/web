@@ -37,45 +37,51 @@ class AssetService implements AssetServiceInterface {
         $this->assetRepo = $assetRepo;        
     }
     
-    /**
-     * 
-     * @param UploadedFileInterface $uploadedFile
-     * @param type $editedItemId
-     * @param type $editor
-     * @return string Location
-     */
-    public function storeAsset(UploadedFileInterface $uploadedFile, $editedItemId, $editor) {
-        // relativní cesta vzhledem k rootu
-        $baseFilepath = ConfigurationCache::redUploads()['upload.red'];
+
+    #[\Override]
+    public function storeAsset(UploadedFileInterface $uploadedFile, string $editedItemId, string $editor) {
+
         $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
         $clientMime = $uploadedFile->getClientMediaType();
-        $targetFilepath = $this->prepareAssetFilePath($baseFilepath, $clientFileName);
+        $targetFilepath = $this->prepareAssetTargetFilePath($clientFileName);
+        
         $uploadedFile->moveTo($targetFilepath);
         $this->recordAsset($clientFileName, $clientMime, $editedItemId, $editor);  
+        
         return $targetFilepath;
     } 
     
-    private function prepareAssetFilePath($baseFilepath, $clientFileName) {
+    /**
+     * Připraví cílovou cestu v uložení uploadovaného souboru - ve tvaru vhodném jako odkaz do html - relativní cesta vzhledem k rootu (t.j. např. hodnota pro <img src="cesta")
+     * 
+     * @param type $clientFileName
+     * @return type
+     */
+    private function prepareAssetTargetFilePath($clientFileName) {
+        // relativní cesta vzhledem k rootu
+        $baseFilepath = ConfigurationCache::redUploads()['upload.red'];
         return $baseFilepath.'/'.$clientFileName;        
     }
     
     private function recordAsset($clientFileName, $clientMime, $editedItemId, $editor) {
-        $asset = $this->assetRepo->findByFilename($clientFileName);
-        if ($asset) { //array
+        $assetsWithFilename = $this->assetRepo->findByFilename($clientFileName);
+        foreach ($assetsWithFilename as $asset) {
             // mám asset v databázi
             if ($this->menuItemAssetRepo->get($editedItemId, $asset->getId())) {
                 // asset byl již dříve uložen pro aktuální item
             } else {
-                $menuItemIds = $this->menuItemAssetRepo->findByAssetId($asset->getId());
-                if ($menuItemIds) {  // array
+                $menuItemAssets = $this->menuItemAssetRepo->findByAssetId($asset->getId());
+                foreach ($menuItemAssets as $menuItemAsset) {
                     // asset byl již uložen pro jiný (jiné) menu item
                     $this->addMenuitemAsset($editedItemId, $asset);
-                } else {
-                    throw new RuntimeException(" V databázi nalezen asset '$clientFileName', který není uložen jako asset pro menu item s id '$editedItemId'.");
                 }
+//                else {
+//                    throw new RuntimeException(" V databázi nalezen asset '$clientFileName', který není uložen jako asset pro menu item s id '$editedItemId'.");
+//                }
             }
-        } else {
-            $this->addAsset($clientFileName, $clientMime, $editedItemId, $editor);
+// else {
+//            $this->addAsset($clientFileName, $clientMime, $editedItemId, $editor);
+//        }            
         }
         
     }
@@ -86,7 +92,7 @@ class AssetService implements AssetServiceInterface {
         $asset->setMimeType($clientMime);
         $asset->setEditorLoginName($editor);
         $this->assetRepo->add($asset);
-        $this->assetRepo->flush();
+//        $this->assetRepo->flush();  // neměl by být potřebná AssetDao je DaoEditAutoincrementKeyInterface
         $this->addMenuitemAsset($editedItemId, $asset);
     }
     
