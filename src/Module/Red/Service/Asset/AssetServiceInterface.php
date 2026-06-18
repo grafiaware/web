@@ -9,7 +9,7 @@ use Psr\Http\Message\UploadedFileInterface;
  */
 interface AssetServiceInterface {
     /**
-     * Uloží soubor do cílového místa pro uploadované soubpry a zapíše do databáze informace o assetu.
+     * Uloží soubor do cílového místa pro uploadované soubory a zapíše do databáze informace o assetu.
      * 
      * @param UploadedFileInterface $uploadedFile Soubor přijaty v http requestu (uploadovaný)
      * @param string $editedItemId Id položky menu item, ve které je soubor jako asset použit

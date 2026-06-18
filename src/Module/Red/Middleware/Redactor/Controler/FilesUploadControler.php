@@ -101,11 +101,11 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
         }
 
         if (isset($httpError)) {
-            $response = $this->errorResponse($request, $httpError, $httpStatus);
+            $response = $this->errorResponse($httpStatus, $httpError);
         } else {
             $editedItemId = $this->paramValue($request, 'edited_item_id');
             if (!$editedItemId) {    
-                throw new NoEditedItemIdException("Not Acceptable. Redactor: Request has no 'edited_item_id' parameter.");
+                throw new NoEditedItemIdException("Not Acceptable. Request has no 'edited_item_id' parameter.");
             }              
             $editor = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
             $targetFilepath = $this->assetService->storeAsset($uploadedFile, $editedItemId, $editor);
@@ -115,7 +115,7 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
         return $response;
     }
     
-    private function errorResponse($httpError, $httpStatus=null) {
+    private function errorResponse($httpError, int $httpStatus=null) {
         return $this->addCacheHeaders((new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $httpError));
     }
     

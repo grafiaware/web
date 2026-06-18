@@ -57,37 +57,35 @@ class FilesUploadControlerAbstract extends FrontControlerAbstract {
         // POST - jeden soubor
         /* @var $uploadedFile UploadedFileInterface */
         $uploadedFile = $request->getUploadedFiles()[$uploadedKey];
-        if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
-            // message z uploadErrorMessage()
-            throw new UploadFileException('Bad Request. Redactor: '.$this->uploadErrorMessage($uploadedFile->getError()), 400); // 400 Bad Request
-        }
+//        if ($uploadedFile->getError() != UPLOAD_ERR_OK) {
+//            // message z uploadErrorMessage()
+//            throw new UploadFileException('Bad Request. '.$this->uploadErrorMessage($uploadedFile->getError()), 400); // 400 Bad Request
+//        }
 
         $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
         $clientFileSize = $uploadedFile->getSize();  // v bytech
         $clientFileExt = pathinfo($clientFileName,  PATHINFO_EXTENSION );
 
         if ($clientFileSize > $maxFileSize) {
-            $message = "Maximum controler file size ".$maxFileSize." bytes exceeded.";
-            throw new UploadFileException('Payload Too Large. Redactor: '.$message, 413); // 413 Payload Too Large
+            throw new UploadFileException("Payload Too Large. Maximum controler file size ".$maxFileSize." bytes exceeded.", 413); // 413 Payload Too Large
         }
         if (!in_array('.'.$clientFileExt, $acceptedExtensions)) {   // extension s tečkou - pro sjednocení s javascript
             $accepted = "'".implode("', '", $acceptedExtensions)."'";
-            $message = "Invalid file extension '$clientFileExt'. Accepted only: $accepted.";
-            throw new UploadFileException('Not Acceptable. Redactor: '.$message, 406);  // 406 Not Acceptable
+            throw new UploadFileException("Not Acceptable. Invalid file extension '$clientFileExt'. Accepted only: $accepted.", 406);  // 406 Not Acceptable
         }
         $clientMime = $uploadedFile->getClientMediaType();
         if (is_null($clientMime)) {
-            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no MIME type.", 406);
+            throw new UploadFileException("Not Acceptable. Request uploaded file has no MIME type.", 406);
         }
         if ($clientMime==='') {
-            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty MIME type.", 406);
+            throw new UploadFileException("Not Acceptable. Request uploaded file has empty MIME type.", 406);
         }
         $clientFName = $uploadedFile->getClientFilename();
         if (is_null($clientFName)) {
-            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has no filename.", 406);
+            throw new UploadFileException("Not Acceptable. Request uploaded file has no filename.", 406);
         }
         if ($clientFName==='') {
-            throw new UploadFileException("Not Acceptable. Redactor: Request uploaded file has empty filename.", 406);
+            throw new UploadFileException("Not Acceptable. Request uploaded file has empty filename.", 406);
         }        
         return $uploadedFile;
     }

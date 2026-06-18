@@ -11,6 +11,7 @@ use Red\Model\Entity\AssetInterface;
 use Red\Model\Repository\MenuItemAssetRepo;
 use Red\Model\Repository\AssetRepo;
 
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -39,20 +40,31 @@ class AssetService implements AssetServiceInterface {
     
 
     #[\Override]
-    public function storeAsset(UploadedFileInterface $uploadedFile, string $editedItemId, string $editor) {
+    public function storeAsset(UploadedFileInterface $uploadedFile, string $editedItemId, string $editor): string {
 
         $clientFileName = urldecode($uploadedFile->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
         $clientMime = $uploadedFile->getClientMediaType();
         $targetFilepath = $this->prepareAssetTargetFilePath($clientFileName);
         
-        $uploadedFile->moveTo($targetFilepath);
-        $this->recordAsset($clientFileName, $clientMime, $editedItemId, $editor);  
+//     * @throws \InvalidArgumentException if the $targetPath specified is invalid.
+//     * @throws \RuntimeException on any error during the move operation, or on  
+//     *     the second or subsequent call to the method.
+        try {
+            $uploadedFile->moveTo($targetFilepath);
+            $this->recordAsset($clientFileName, $clientMime, $editedItemId, $editor);              
+        } catch (InvalidArgumentException $exc) {
+            echo $exc->getTraceAsString();
+        } catch (RuntimeException $exc) {
+            echo $exc->getTraceAsString();
+        }
+
+
         
         return $targetFilepath;
     } 
     
     /**
-     * Připraví cílovou cestu v uložení uploadovaného souboru - ve tvaru vhodném jako odkaz do html - relativní cesta vzhledem k rootu (t.j. např. hodnota pro <img src="cesta")
+     * Připraví cílovou cestu pro uložení uploadovaného souboru - ve tvaru vhodném jako odkaz do html - relativní cesta vzhledem k rootu (t.j. např. hodnota pro <img src="cesta")
      * 
      * @param type $clientFileName
      * @return type
@@ -60,29 +72,32 @@ class AssetService implements AssetServiceInterface {
     private function prepareAssetTargetFilePath($clientFileName) {
         // relativní cesta vzhledem k rootu
         $baseFilepath = ConfigurationCache::redUploads()['upload.red'];
-        return $baseFilepath.'/'.$clientFileName;        
+        return $baseFilepath.$clientFileName;        
     }
     
     private function recordAsset($clientFileName, $clientMime, $editedItemId, $editor) {
         $assetsWithFilename = $this->assetRepo->findByFilename($clientFileName);
-        foreach ($assetsWithFilename as $asset) {
+        if ($assetsWithFilename) {  //array
             // mám asset v databázi
-            if ($this->menuItemAssetRepo->get($editedItemId, $asset->getId())) {
-                // asset byl již dříve uložen pro aktuální item
-            } else {
-                $menuItemAssets = $this->menuItemAssetRepo->findByAssetId($asset->getId());
-                foreach ($menuItemAssets as $menuItemAsset) {
-                    // asset byl již uložen pro jiný (jiné) menu item
-                    $this->addMenuitemAsset($editedItemId, $asset);
+            // pro unikátní jméno souboru (s UUID) - možná filename unique v databázi nebo separovat UUID a udělat další sloupec v tabulce asset
+            foreach ($assetsWithFilename as $asset) {
+                // pokud asset byl již dříve uložen pro aktuální item - nedělám nic
+                if (! $this->menuItemAssetRepo->get($editedItemId, $asset->getId())) {
+                    // pro aktuální menu item jde o nový asset
+                    $menuItemsWithAsset = $this->menuItemAssetRepo->findByAssetId($asset->getId());
+                    if ($menuItemsWithAsset) {  //array
+                        // asset byl již uložen pro jiný (jiné) menu item
+                        $this->addMenuitemAsset($editedItemId, $asset);
+                    } else {
+//                        log
+                        throw new RuntimeException(" V databázi nalezen asset '$clientFileName', který není uložen jako asset pro menu item s id '$editedItemId'.");
+                    }
                 }
-//                else {
-//                    throw new RuntimeException(" V databázi nalezen asset '$clientFileName', který není uložen jako asset pro menu item s id '$editedItemId'.");
-//                }
             }
-// else {
-//            $this->addAsset($clientFileName, $clientMime, $editedItemId, $editor);
-//        }            
-        }
+        } else {
+            // nový asset
+            $this->addAsset($clientFileName, $clientMime, $editedItemId, $editor);
+        }            
         
     }
     
