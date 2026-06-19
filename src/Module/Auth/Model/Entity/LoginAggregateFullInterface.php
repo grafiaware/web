@@ -8,11 +8,6 @@
 
 namespace Auth\Model\Entity;
 
-<<<<<<< HEAD
-use Pes\Model\Entity\PersistableEntityInterface;
-
-=======
->>>>>>> vs_master_Synchro
 /**
  *
  * @author pes2704

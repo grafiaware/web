@@ -2,14 +2,15 @@
 
 namespace Events\Model\Entity;
 
-<<<<<<< HEAD
 use Pes\Model\Entity\PersistableEntityInterface;
 
-=======
-use Model\Entity\PersistableEntityInterface;
-use Events\Model\Entity\LoginInterface;
-use DateTime;
->>>>>>> vs_master_Synchro
+namespace Events\Model\Entity;
+
+use Pes\Model\Entity\PersistableEntityInterface;
+
+
+
+
 
 /**
  *

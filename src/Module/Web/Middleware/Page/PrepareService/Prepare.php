@@ -64,11 +64,12 @@ class Prepare implements PrepareStatusServiceInterface {
         }
         $userActions = $this->statusSecurityRepo->get()->getEditorActions();
         if(isset($userActions)) {
-            $loggedOffUser = $this->statusSecurityRepo->get()->getEditorActions()->lastLoggedOffUsername();  // logged off user je automaticky smazáno z UserActions  
+            $loggedOffUser = $this->statusSecurityRepo->get()->lastLoggedOffUsername();  
+            if (isset($loggedOffUser)) {
+                // skutečné smazámí proběhne až po skončení skriptu - jde o GET request a tak zpoždění není velké (neprovádím repo->flush())
+                $this->itemActionService->removeUserItemActions($loggedOffUser);  // skutečné smazámí proběhne až po skončení skriptu
+            }
         }
-        if (isset($loggedOffUser)) {
-            // skutečné smazámí proběhne až po skončení skriptu - jde o GET request a tak zpoždění není velké (neprovádím repo->flush())
-            $this->itemActionService->removeUserItemActions($loggedOffUser);  // skutečné smazámí proběhne až po skončení skriptu
-        }
+
     }
 }

@@ -247,783 +247,266 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-<<<<<<< HEAD
-                "reference": "9a7c84a4b4745b1f997d421d63bc21d0ed40daaf"
-=======
-                "reference": "10c69ca46b0844c337de9a0c309c0c8902e366c8"
->>>>>>> vs_master_Synchro
-            },
-            "dist": {
-                "type": "zip",
-<<<<<<< HEAD
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/9a7c84a4b4745b1f997d421d63bc21d0ed40daaf",
-                "reference": "9a7c84a4b4745b1f997d421d63bc21d0ed40daaf",
-=======
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/10c69ca46b0844c337de9a0c309c0c8902e366c8",
-                "reference": "10c69ca46b0844c337de9a0c309c0c8902e366c8",
->>>>>>> vs_master_Synchro
-                "shasum": ""
-            },
-            "require": {
-                "pes/pes-application": "@dev",
-                "pes/pes-bootstrap": "@dev",
-                "pes/pes-core": "@dev",
-                "pes/pes-database": "@dev",
-                "pes/pes-di": "@dev",
-                "pes/pes-http": "@dev",
-                "pes/pes-logger": "@dev",
-                "pes/pes-model": "@dev",
-                "pes/pes-router": "@dev",
-                "pes/pes-session": "@dev",
-                "pes/pes-view": "@dev",
-                "php": "<8.5.0",
-                "psr/container": "^2.0",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^2.0",
-                "psr/http-server-handler": "^1.0",
-                "psr/http-server-middleware": "^1.0",
-                "psr/log": "^3.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpunit/phpunit": "^12.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Acl\\": "src/Acl/",
-                    "Pes\\Config\\": "src/Config/",
-                    "Pes\\Entity\\": "src/Entity/",
-                    "Pes\\Readers\\": "src/Readers/",
-                    "Pes\\Storage\\": "src/Storage/",
-                    "Pes\\Autoloader\\": "src/Autoloader/",
-                    "Pes\\Repository\\": "src/Repository/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
-                }
-            ],
-            "description": "Psí framework pro PHP 8.4.",
-            "keywords": [
-                "framework",
-                "pes"
-            ],
-            "support": {
-                "issues": "https://github.com/box4pes/pes/issues",
-                "source": "https://github.com/box4pes/pes/tree/split"
-            },
-<<<<<<< HEAD
-            "time": "2026-06-10T17:20:27+00:00"
-        },
-        {
-            "name": "pes/pes-application",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-application",
-                "reference": "80f437b39e9eec4b53b969844d71a45f3a535af2"
-            },
-            "require": {
-                "pes/pes-di": "@dev",
-                "pes/pes-http": "@dev",
-                "pes/pes-session": "@dev",
-                "php": "<8.5.0",
-                "psr/container": "^2.0",
-                "psr/http-message": "^2.0",
-                "psr/http-server-handler": "^1.0",
-                "psr/http-server-middleware": "^1.0",
-                "psr/log": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Application\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Application bootstrap, middleware, and HTTP app wiring for Pes.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-bootstrap",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-bootstrap",
-                "reference": "005c971f12e5e04d20d8d12241b7935191fcb7a5"
-            },
-            "require": {
-                "pes/pes-logger": "@dev",
-                "php": "<8.5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Bootstrap\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Procedurální bootstrap skripty pro Pes (autoloader, prostředí, error handlery, logy).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-core",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-core",
-                "reference": "519882fe903a09ba13a9aa4f81d3d00b2b2331a4"
-            },
-            "require": {
-                "php": "<8.5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Core\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Core primitives for Pes (security, validation, collections, types, text).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-database",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-database",
-                "reference": "a691f1bf7730debb33531816c55e91af602746ee"
-            },
-            "require": {
-                "pes/pes-core": "@dev",
-                "php": "<8.5.0",
-                "psr/log": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Database\\": "src/Database/",
-                    "Pes\\Query\\": "src/Query/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Database access and query criteria for Pes.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-di",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-di",
-                "reference": "e786f53876709d8f5724ed68f32443dfad7781dd"
-            },
-            "require": {
-                "php": "<8.5.0",
-                "psr/container": "^2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Container\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Dependency injection container for Pes (Pes\\Container).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-http",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-http",
-                "reference": "7fccf9d893f7124089f9f715253dde4baac20dcf"
-            },
-            "require": {
-                "pes/pes-core": "@dev",
-                "php": "<8.5.0",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^2.0",
-                "psr/log": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Http\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "HTTP stack for Pes (PSR-7 environment, factories, cookies, URI helpers).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-logger",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-logger",
-                "reference": "421e2d8a29b65346a8c211e470cfd4a66e2c9d88"
-            },
-            "require": {
-                "pes/pes-core": "@dev",
-                "php": "<8.5.0",
-                "psr/log": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Logger\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "File and array loggers for Pes (extends PSR-3).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-model",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-model",
-                "reference": "c123b8769d3b374fcc939359b628e401455783b2"
-            },
-            "require": {
-                "pes/pes-database": "@dev",
-                "pes/pes-session": "@dev",
-                "php": "<8.5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Model\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Data model layer for Pes (DAO, repository, entity, hydrator, row data).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-router",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-router",
-                "reference": "a59e358056818e83a1f02ac4f4f9cf098c1142cd"
-            },
-            "require": {
-                "pes/pes-core": "@dev",
-                "php": "<8.5.0",
-                "psr/http-message": "^2.0",
-                "psr/http-server-handler": "^1.0",
-                "psr/http-server-middleware": "^1.0",
-                "psr/log": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Router\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "HTTP routing for Pes.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-session",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-session",
-                "reference": "773458208e65a90fe772f9cf31e9907ecca186a8"
-            },
-            "require": {
-                "pes/pes-core": "@dev",
-                "php": "<8.5.0",
-                "psr/container": "^2.0",
-                "psr/log": "^3.0"
-            },
-            "suggest": {
-                "ext-session": "Native PHP sessions"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Session\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "PHP session handling for Pes (SessionStatusHandler, save handlers).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "pes/pes-view",
-            "version": "dev-split",
-            "dist": {
-                "type": "path",
-                "url": "../pes/pes-view",
-                "reference": "405937e6964376c70ea0aac6de1faa7628aad032"
-            },
-            "require": {
-                "pes/pes-core": "@dev",
-                "php": "<8.5.0",
-                "psr/container": "^2.0",
-                "psr/log": "^3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\View\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "View layer for Pes (templates, renderers, DOM nodes).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-=======
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
             "time": "2026-05-14T10:09:14+00:00"
->>>>>>> vs_master_Synchro
-        },
+        "This file is @generated automatically"
+    ],
+    "content-hash": "be3646276f2d904b179c95fe3beb9b38",
+    "packages": [
         {
-            "name": "phpmailer/phpmailer",
-            "version": "v6.12.0",
+            "name": "bacon/bacon-qr-code",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "d1ac35d784bf9f5e61b424901d5a014967f15b12"
+                "url": "https://github.com/Bacon/BaconQrCode.git",
+                "reference": "4da2233e72eeecd9be3b62e0dc2cc9ed8e2e31c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/d1ac35d784bf9f5e61b424901d5a014967f15b12",
-                "reference": "d1ac35d784bf9f5e61b424901d5a014967f15b12",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/4da2233e72eeecd9be3b62e0dc2cc9ed8e2e31c2",
+                "reference": "4da2233e72eeecd9be3b62e0dc2cc9ed8e2e31c2",
                 "shasum": ""
             },
             "require": {
-                "ext-ctype": "*",
-                "ext-filter": "*",
-                "ext-hash": "*",
-                "php": ">=5.5.0"
+                "dasprid/enum": "^1.0.3",
+                "ext-iconv": "*",
+                "php": "^8.1"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-                "doctrine/annotations": "^1.2.6 || ^1.13.3",
-                "php-parallel-lint/php-console-highlighter": "^1.0.0",
-                "php-parallel-lint/php-parallel-lint": "^1.3.2",
-                "phpcompatibility/php-compatibility": "^9.3.5",
-                "roave/security-advisories": "dev-latest",
-                "squizlabs/php_codesniffer": "^3.7.2",
-                "yoast/phpunit-polyfills": "^1.0.4"
+                "phly/keep-a-changelog": "^2.12",
+                "phpunit/phpunit": "^10.5.11 || ^11.0.4",
+                "spatie/phpunit-snapshot-assertions": "^5.1.5",
+                "spatie/pixelmatch-php": "^1.2.0",
+                "squizlabs/php_codesniffer": "^3.9"
             },
             "suggest": {
-                "decomplexity/SendOauth2": "Adapter for using XOAUTH2 authentication",
-                "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
-                "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
-                "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
-                "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
-                "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
-                "psr/log": "For optional PSR-3 debug logging",
-                "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
-                "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
+                "ext-imagick": "to generate QR code images"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "PHPMailer\\PHPMailer\\": "src/"
+                    "BaconQrCode\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1-only"
+                "BSD-2-Clause"
             ],
             "authors": [
                 {
-                    "name": "Marcus Bointon",
-                    "email": "phpmailer@synchromedia.co.uk"
-                },
-                {
-                    "name": "Jim Jagielski",
-                    "email": "jimjag@gmail.com"
-                },
-                {
-                    "name": "Andy Prevost",
-                    "email": "codeworxtech@users.sourceforge.net"
-                },
-                {
-                    "name": "Brent R. Matzelle"
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
                 }
             ],
-            "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "description": "BaconQrCode is a QR code generator for PHP.",
+            "homepage": "https://github.com/Bacon/BaconQrCode",
             "support": {
-                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.12.0"
+                "issues": "https://github.com/Bacon/BaconQrCode/issues",
+                "source": "https://github.com/Bacon/BaconQrCode/tree/v3.1.1"
+            },
+            "time": "2026-04-05T21:06:35+00:00"
+        },
+        {
+            "name": "dasprid/enum",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DASPRiD/Enum.git",
+                "reference": "b5874fa9ed0043116c72162ec7f4fb50e02e7cce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DASPRiD/Enum/zipball/b5874fa9ed0043116c72162ec7f4fb50e02e7cce",
+                "reference": "b5874fa9ed0043116c72162ec7f4fb50e02e7cce",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1 <9.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7 || ^8 || ^9 || ^10 || ^11",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DASPRiD\\Enum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP 7.1 enum implementation",
+            "keywords": [
+                "enum",
+                "map"
+            ],
+            "support": {
+                "issues": "https://github.com/DASPRiD/Enum/issues",
+                "source": "https://github.com/DASPRiD/Enum/tree/1.0.7"
+            },
+            "time": "2025-09-16T12:23:56+00:00"
+        },
+        {
+            "name": "endroid/qr-code",
+            "version": "6.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/endroid/qr-code.git",
+                "reference": "5fa534856ed95649d67c0eab0cabc03ab1d8e0e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/5fa534856ed95649d67c0eab0cabc03ab1d8e0e2",
+                "reference": "5fa534856ed95649d67c0eab0cabc03ab1d8e0e2",
+                "shasum": ""
+            },
+            "require": {
+                "bacon/bacon-qr-code": "^3.0",
+                "php": "^8.4"
+            },
+            "require-dev": {
+                "endroid/quality": "dev-main",
+                "ext-gd": "*",
+                "khanamiryan/qrcode-detector-decoder": "^2.0.3",
+                "setasign/fpdf": "^1.8.2"
+            },
+            "suggest": {
+                "ext-gd": "Enables you to write PNG images",
+                "khanamiryan/qrcode-detector-decoder": "Enables you to use the image validator",
+                "roave/security-advisories": "Makes sure package versions with known security issues are not installed",
+                "setasign/fpdf": "Enables you to use the PDF writer"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Endroid\\QrCode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen van den Enden",
+                    "email": "info@endroid.nl"
+                }
+            ],
+            "description": "Endroid QR Code",
+            "homepage": "https://github.com/endroid/qr-code",
+            "keywords": [
+                "code",
+                "endroid",
+                "php",
+                "qr",
+                "qrcode"
+            ],
+            "support": {
+                "issues": "https://github.com/endroid/qr-code/issues",
+                "source": "https://github.com/endroid/qr-code/tree/6.1.3"
             },
             "funding": [
                 {
-                    "url": "https://github.com/Synchro",
+                    "url": "https://github.com/endroid",
                     "type": "github"
                 }
             ],
-            "time": "2025-10-15T16:49:08+00:00"
+            "time": "2026-02-05T07:01:58+00:00"
         },
         {
-            "name": "psr/container",
-            "version": "2.0.2",
+            "name": "khanamiryan/qrcode-detector-decoder",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/container.git",
-                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
+                "url": "https://github.com/khanamiryan/php-qrcode-detector-decoder.git",
+                "reference": "17c570bb39f641cc1c4c41a46177ac491393a01d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
-                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "url": "https://api.github.com/repos/khanamiryan/php-qrcode-detector-decoder/zipball/17c570bb39f641cc1c4c41a46177ac491393a01d",
+                "reference": "17c570bb39f641cc1c4c41a46177ac491393a01d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4.0"
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5 | ^8.0 | ^9.0",
+                "rector/rector": "^1.0.4",
+                "symplify/easy-coding-standard": "^11.0",
+                "vimeo/psalm": "^4.24"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
             "autoload": {
+                "files": [
+                    "lib/Common/customFunctions.php"
+                ],
                 "psr-4": {
-                    "Psr\\Container\\": "src/"
+                    "Zxing\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "MIT",
+                "Apache-2.0"
             ],
             "authors": [
                 {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "name": "Ashot Khanamiryan",
+                    "email": "a.khanamiryan@gmail.com",
+                    "homepage": "https://github.com/khanamiryan",
+                    "role": "Developer"
                 }
             ],
-            "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
+            "description": "QR code decoder / reader",
+            "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder/",
             "keywords": [
-                "PSR-11",
-                "container",
-                "container-interface",
-                "container-interop",
-                "psr"
+                "barcode",
+                "qr",
+                "zxing"
             ],
             "support": {
-                "issues": "https://github.com/php-fig/container/issues",
-                "source": "https://github.com/php-fig/container/tree/2.0.2"
+                "issues": "https://github.com/khanamiryan/php-qrcode-detector-decoder/issues",
+                "source": "https://github.com/khanamiryan/php-qrcode-detector-decoder/tree/2.0.3"
             },
-            "time": "2021-11-05T16:47:00+00:00"
+            "time": "2025-06-10T08:44:02+00:00"
         },
         {
-            "name": "psr/http-factory",
-            "version": "1.1.0",
+            "name": "pes/pes",
+            "version": "dev-split",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
-                "reference": "2b4765fddfe3b508ac62f829e852b1501d3f6e8a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1",
-                "psr/http-message": "^1.0 || ^2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Message\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "PSR-17: Common interfaces for PSR-7 HTTP message factories",
-            "keywords": [
-                "factory",
-                "http",
-                "message",
-                "psr",
-                "psr-17",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/http-factory"
-            },
-            "time": "2024-04-15T12:06:14+00:00"
-        },
-        {
-            "name": "psr/http-message",
-            "version": "2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-message.git",
-                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
-                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^8.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Message\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP messages",
-            "homepage": "https://github.com/php-fig/http-message",
-            "keywords": [
-                "http",
-                "http-message",
-                "psr",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/http-message/tree/2.0"
-            },
-            "time": "2023-04-04T09:54:51+00:00"
-        },
-        {
-            "name": "psr/http-server-handler",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-server-handler.git",
-                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/84c4fb66179be4caaf8e97bd239203245302e7d4",
-                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0",
-                "psr/http-message": "^1.0 || ^2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Server\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP server-side request handler",
-            "keywords": [
-                "handler",
-                "http",
-                "http-interop",
-                "psr",
-                "psr-15",
-                "psr-7",
-                "request",
-                "response",
-                "server"
-            ],
-            "support": {
-                "source": "https://github.com/php-fig/http-server-handler/tree/1.0.2"
-            },
-            "time": "2023-04-10T20:06:20+00:00"
-        },
-        {
-            "name": "psr/http-server-middleware",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-server-middleware.git",
-                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
-                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0",
-                "psr/http-message": "^1.0 || ^2.0",
-                "psr/http-server-handler": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Server\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP server-side middleware",
-            "keywords": [
-                "http",
-                "http-interop",
-                "middleware",
-                "psr",
-                "psr-15",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "support": {
-                "issues": "https://github.com/php-fig/http-server-middleware/issues",
-                "source": "https://github.com/php-fig/http-server-middleware/tree/1.0.2"
-            },
-            "time": "2023-04-11T06:14:47+00:00"
-        },
-        {
-            "name": "psr/log",
-            "version": "3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
-                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
+                "url": "https://github.com/box4pes/pes.git",
+
+                "reference": "9a7c84a4b4745b1f997d421d63bc21d0ed40daaf"
+=======
+                "reference": "10c69ca46b0844c337de9a0c309c0c8902e366c8"
+
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/10c69ca46b0844c337de9a0c309c0c8902e366c8",
+                "reference": "10c69ca46b0844c337de9a0c309c0c8902e366c8",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/10c69ca46b0844c337de9a0c309c0c8902e366c8",
+                "reference": "10c69ca46b0844c337de9a0c309c0c8902e366c8",
+
+
             "autoload": {
                 "psr-4": {
                     "Psr\\Log\\": "src"
