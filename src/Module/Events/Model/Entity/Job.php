@@ -23,156 +23,110 @@ class Job extends PersistableEntityAbstract implements JobInterface {
     private $pozadujeme;
     private $nabizime;
 
-    /**
-     * 
-     * @return string|null
-     */
+
+    #[\Override]
     public function getId()  {
         return $this->id;
     }
 
-    /**
-     *
-     * @return string
-     */
+
+    #[\Override]
     public function getCompanyId()  {
         return $this->companyId;
     }
     
-    /**
-     * 
-     * @return string
-     */
+
+    #[\Override]
     public function getPublished() {
         return $this->published;
     }
 
-    /**
-     *
-     * @return string
-     */
+
+    #[\Override]
     public function getPozadovaneVzdelaniStupen()  {
         return $this->pozadovaneVzdelaniStupen;
     }
     
-    /**
-     *
-     * @return string|null
-     */
+
+    #[\Override]
     public function getNazev() {
         return $this->nazev;
     }
     
-    /**
-     *
-     * @return string|null
-     */
+
+    #[\Override]
     public function getMistoVykonu() {
         return $this->mistoVykonu;
     }
-    /**
-     *
-     * @return string|null
-     */
+
+    #[\Override]
     public function getPopisPozice() {
         return $this->popisPozice;
     }
-    /**
-     *
-     * @return string|null
-     */
+
+    #[\Override]
     public function getPozadujeme() {
         return $this->pozadujeme;
     }
-    /**
-     *
-     * @return string|null
-     */
+
+    #[\Override]
     public function getNabizime() {
         return $this->nabizime;
     }
 
 
-    /**
-     *
-     * @param type $id
-     * @return JobInterface
-     */
+    #[\Override]
     public function setId($id): JobInterface {
         $this->id = $id;
         return $this;
     }
-    /**
-     *
-     * @param type $companyId
-     * @return JobInterface
-     */
+
+    #[\Override]
     public function setCompanyId( $companyId): JobInterface {
         $this->companyId = $companyId;
         return $this;
     }
 
-    /**
-     * 
-     * @param type $published
-     * @return JobInterface
-     */
+   
+    #[\Override]
     public function setPublished($published): JobInterface {
         $this->published = $published;
         return $this;
     }
 
-    /**
-     *
-     * @param type $pozadovaneVzdelaniStupen
-     * @return JobInterface
-     */
+
+    #[\Override]
     public function setPozadovaneVzdelaniStupen(  $pozadovaneVzdelaniStupen): JobInterface {
         $this->pozadovaneVzdelaniStupen = $pozadovaneVzdelaniStupen;
         return $this;
     }
-    /**
-     *
-     * @param string|null $nazev
-     * @return JobInterface
-     */
+
+    #[\Override]
     public function setNazev( $nazev ): JobInterface {
         $this->nazev = $nazev;
         return $this;
     }
-    /**
-     *
-     * @param string|null $mistoVykonu
-     * @return JobInterface
-     */
+
+    #[\Override]
     public function setMistoVykonu( $mistoVykonu  ): JobInterface {
         $this->mistoVykonu = $mistoVykonu;
         return $this;
     }
 
-    /**
-     *
-     * @param string|null $popisPozice
-     * @return JobInterface
-     */
+   
+    #[\Override]
     public function setPopisPozice( $popisPozice ): JobInterface {
         $this->popisPozice = $popisPozice;
         return $this;
     }
-   /**
-    *
-    * @param string|null $pozadujeme
-    * @return JobInterface
-    */
+
+    #[\Override]
     public function setPozadujeme( $pozadujeme ): JobInterface {
         $this->pozadujeme = $pozadujeme;
         return $this;
     }
-    /**
-     *
-     * @param string|null $nabizime
-     * @return JobInterface
-     */
+
+    #[\Override]
     public function setNabizime( $nabizime ): JobInterface {
         $this->nabizime = $nabizime;
         return $this;

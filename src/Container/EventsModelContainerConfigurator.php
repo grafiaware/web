@@ -6,9 +6,6 @@ namespace Container;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
-// logger
-use Pes\Logger\FileLogger;
-
 // rowdata
 use Pes\Model\RowData\PdoRowData;
 

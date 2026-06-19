@@ -8,8 +8,12 @@
 
 namespace Status\Model\Repository;
 
+<<<<<<< HEAD
 use Pes\Model\Repository\StatusRepositoryAbstract;
 
+=======
+use Model\Repository\StatusRepositoryAbstract;
+>>>>>>> vs_master_Synchro
 use Status\Model\Entity\SecurityInterface;
 
 /**
