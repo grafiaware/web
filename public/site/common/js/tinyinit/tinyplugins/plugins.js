@@ -57,16 +57,16 @@ export const attachmentPlugin = (editor, url) => {
         // meta: { originalName: originalName, blobInfo: blobInfo)
         /* Insert content when the window form is submitted */
         // url.meta pbsahuje objekt předaný jako druhý parametr callback() v filesupload - příklad: data.fileInput.meta.fileName
-        let fileName = data.fileInput.meta.fileName;
-        let textToDisplay = data.textToDisplay;
-        let blobInfoFromFileupload = data.fileInput.meta.blobInfo;
+        const fileName = data.fileInput.meta.fileName;
+        const textToDisplay = data.textToDisplay;
+        const blobInfoFromFileupload = data.fileInput.meta.blobInfo;
         const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
         const file = blobCache.get(data.fileInput.meta.id);
         attachmentUploadHandler(blobInfoFromFileupload)
         .then(
             function(value) {
-                let location = value;
-                let html = htmlTemplate(location, fileName, textToDisplay);
+                const location = value;
+                const html = htmlTemplate(location, fileName, textToDisplay);
                 editor.insertContent(html);  
             },
             function(error) {
@@ -141,14 +141,14 @@ const attachmentUploadHandler = (blobInfo) => new Promise((resolve, reject) => {
 
     xhr.onload = () => {
         if (xhr.status < 200 || xhr.status >= 300) {
-            let message = 'Upload failed due to a HTTP error - HTTP status: ' + xhr.status + ', message: ' + xhr.statusText;
+            const message = 'Upload failed due to a HTTP error - HTTP status: ' + xhr.status + ', message: ' + xhr.statusText;
             tinyNotification.error(message);
             console.error('assetUploadHandler: ' + message);
             return;
         }
         const json = JSON.parse(xhr.responseText);
         if (!json || typeof json.location !== 'string') {
-            let message = 'Upload failed - message: ' + xhr.responseText;
+            const message = 'Upload failed - message: ' + xhr.responseText;
             tinyNotification.error(message);
             console.error('assetUploadHandler: ' + message);
             return;

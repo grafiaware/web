@@ -13,8 +13,8 @@
  * @returns {undefined}
  */
 export const redEditorSetup = (editor) => {
-    var form;
-    var val;
+    let form;
+    let val;
 
     editor.on('focus', function(e) {
         val = editor.getContent();
@@ -87,18 +87,18 @@ export const setupUserInputEditor = (editor) => {
     const allowedKeys = [10, 13, 16, 17, 18, 20];
     const maxChars = editor.getParam('max_chars');
     editor.on('keydown', function (e) {
-        let ctrl = e.ctrlKey ? e.ctrlKey : ((e.keyCode === 17) ? true : false); // ctrl detection        
+        const ctrl = e.ctrlKey ? e.ctrlKey : ((e.keyCode === 17) ? true : false); // ctrl detection        
         if (e.keyCode === 86 && ctrl)  return true;   // ctrl + v
         if (allowedKeys.indexOf(e.keyCode) !== -1) return true;
-        let editor = activeEditor();
-        let max = editor.getParam('max_chars');
-        let len = activeEditorContentLength();
+        const activeEditorInstance = activeEditor();
+        const max = activeEditorInstance.getParam('max_chars');
+        const len = activeEditorContentLength();
         if (len + 1 > max) {
             e.preventDefault();
             e.stopPropagation();
             return false;
         }
-        tinymce_updateCharCounter(editor, len+1);
+        tinymce_updateCharCounter(activeEditorInstance, len+1);
         return true;
     });
     editor.on('keyup', (e) => {
@@ -135,12 +135,12 @@ export const initInstanceUserInputEditor = function () { // initialize counter d
  * @returns {undefined}
  */
 export const pastePreprocessUserInput = function (plugin, args) {
-    let editor = activeEditor();
-    let len = activeEditorContentLength();
-    let max = editor.getParam('max_chars');    
+    const editor = activeEditor();
+    const len = activeEditorContentLength();
+    const max = editor.getParam('max_chars');    
     if (len + args.content.length > max) {
         alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + max + '.');
-        let shrinked = args.content.substring(0,max-len);
+        const shrinked = args.content.substring(0,max-len);
         args.content = shrinked;
     }
     tinymce_updateCharCounter(editor, len + args.content.length);

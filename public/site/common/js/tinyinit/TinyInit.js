@@ -5,6 +5,10 @@
 
 /* global tinyConfig */
 
+import {redEditorSetup, setupUserInputEditor, initInstanceUserInputEditor, pastePreprocessUserInput} from "./tinyfunctions/editorSetup.js";
+import {filePickerCallback, redImageUploadHandler} from "./tinyfunctions/fileupload.js";
+import {attachmentPlugin} from "./tinyplugins/plugins.js";
+
 /*
  * Přidání/změna selectoru pro Tiny
  * Pokud v Rendereru přidám html prvek, na kterém má být aktivní Tiny,
@@ -15,29 +19,6 @@
  *      2. do stylů (layout.less) css vlastnosti mujtag{"display: block; position: relative;"} - Tiny potřebuje blokový prvek
  * - pokud chci selektovat Tiny pomocí třídy/id, ujistím se, že jsem jej přidal/a také v RendererContainerConfigurator.php v classmapách
  */
-
-//
-// inicializace editorů
-//
-export const initEditors = () => {
-    tinymce.remove();
-    tinymce.init(editFormRepresentative);
-    tinymce.init(editTextConfig);
-    tinymce.init(editHtmlConfig);
-    tinymce.init(editMceEditableConfig);
-    tinymce.init(selectTemplateArticleConfig);
-    tinymce.init(selectTemplatePaperConfig);
-    tinymce.init(selectTemplateMultipageConfig);
-
-    //pro editaci pracovního popisu pro přihlášené uživatele
-    tinymce.init(editUserInputConfig);
-}
-    
-///////////////////////////////////////////////////////////////////////////////////////////
-
-import {redEditorSetup} from "./tinyfunctions/editorSetup.js";
-import {filePickerCallback} from "./tinyfunctions/fileupload.js";
-import {redImageUploadHandler} from "./tinyfunctions/fileupload.js";
 
 //open source plugins:
 //    Accordion
@@ -71,7 +52,7 @@ import {redImageUploadHandler} from "./tinyfunctions/fileupload.js";
 //    Word Count
 
 
-var editCommonPlugins = [
+const editCommonPlugins = [
        'lists',    // lists - add numbered and bulleted lists, 
        'advlist',   // advlist - extends by adding CSS list
        'anchor', // adds an anchor/bookmark button to the toolbar that inserts an anchor at the editor’s cursor
@@ -93,23 +74,23 @@ var editCommonPlugins = [
        'attachment'
     ];
 
-var menubarfull = 'file edit view insert format tools table help';  //TODO: help
-var toolbarfull = "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl";
+const menubarfull = 'file edit view insert format tools table help';  //TODO: help
+const toolbarfull = "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl";
 
-var toolbarText = 'save cancel | undo redo | styles | anchor'; //| fontstyle fontweight | aligment ';
+const toolbarText = 'save cancel | undo redo | styles | anchor'; //| fontstyle fontweight | aligment ';
 
-var toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
-var toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline nonbreaking | alignleft aligncenter alignright alignjustify | link';
-var toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | code visualchars visualblocks | template | image media attachment';
+const toolbarHtml = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image | code'; 
+const toolbarHtmlRow1 = 'save cancel | undo redo | removeformat | bold italic underline nonbreaking | alignleft aligncenter alignright alignjustify | link';
+const toolbarHtmlRow2 = 'styles fontsize forecolor | bullist numlist outdent indent | code visualchars visualblocks | template | image media attachment';
 
-var linkClassList = [
+const linkClassList = [
         {title: 'Vyberte styl odkazu', value: ''},
         {title: 'Výchozí odkaz', value: ''},
         {title: 'Primární tlačítko', value: 'ui primary button'},
         {title: 'Sekundární tlačítko', value: 'ui secondary button'},
         {title: 'Šedé tlačítko', value: 'ui button'}
     ];
-var imageClassList = [
+const imageClassList = [
         {title: 'Vyberte styl obrázku', value: 'ui image'},
         {title: 'Obrázek není obtékaný', value: 'block-img'},
         {title: 'Obrázek obtékaný zprava', value: 'float-img vlevo'},
@@ -119,7 +100,7 @@ var imageClassList = [
         {title: 'Kruhový obrázek obtékaný zleva', value: 'ui circular image float-img vpravo'},
     ];
 
-var toolbar_groups = {
+const toolbar_groups = {
         fontstyle: {
           icon: 'format',
           tooltip: 'Písmo',
@@ -141,16 +122,16 @@ var toolbar_groups = {
           items: 'bullist numlist outdent indent'
         }
     };
-var mobile = {
+const mobile = {
         menubar: false,
         plugins: [ 'save', 'cancel', 'lists', 'autolink' ],
         toolbar: [ 'save', 'cancel', 'undo', 'bold', 'italic', 'styles' ]
     };
 
-var editimage_toolbar = 'editimage | rotateleft rotateright | flipv fliph | imageoptions';
+const editimage_toolbar = 'editimage | rotateleft rotateright | flipv fliph | imageoptions';
 
 /////////////////////////////////////////
-let editCommonConfig = {
+const editCommonConfig = {
     schema : 'html5',
     promotion: false,   // vypíná tlačítko upgrade - Premium upgrade promotion option
     relative_urls : true,  // true — All URLs created in TinyMCE will be converted to a link relative to the document_base_url (false - absolute url's)
@@ -168,33 +149,33 @@ let editCommonConfig = {
     content_css: tinyConfig.contentCss,    
 };
 
-let editRedConfig = {
+const editRedConfig = {
     extended_valid_elements : 'headline[*],perex[*],content[*],i[*]',
     custom_elements: 'headline,perex,content',
     valid_children: '+a[div]',
     fixed_toolbar_container: '.item_action', //'.ribbon'   -- item_action=tužtička, zakomentovaný celý řádek -> toolbar zafixován k nadřazenému elementu
 };
 
-let editFullConfig = {
+const editFullConfig = {
     link_class_list: linkClassList,
     image_class_list: imageClassList,  
     smart_paste: true,   // Detect text that resembles a URL and change the text to a hyperlink.
                          //Detect text that resembles the URL for an image and will try to replace the text with the image.       
 };
 
-var editFormRepresentative = {
+const editFormRepresentative = {
     selector: 'form .edit-representative',
     placeholder: 'Napište text',
     paste_as_text: true,  // default false, true - převede vkládaný obsah na holý text
     menubar: false,  // bez vypnutí se zobeazí default menu
-    plugins: ['save', 'cancel', 'lists', 'autolink'], //var mobile
-    toolbar: ['save', 'cancel', 'undo', 'bold', 'italic', 'styles'], //var mobile
+    plugins: ['save', 'cancel', 'lists', 'autolink'], // mobile
+    toolbar: ['save', 'cancel', 'undo', 'bold', 'italic', 'styles'], // mobile
     setup: redEditorSetup   
     //plugin wordcount
     
 };
 
-var editTextConfig = {
+const editTextConfig = {
     ...editCommonConfig,
     ...editRedConfig,
     selector: 'form .edit-text',
@@ -217,7 +198,7 @@ var editTextConfig = {
     setup: redEditorSetup    
 };
 
-var editHtmlConfig = {
+const editHtmlConfig = {
     ...editCommonConfig,
     ...editRedConfig,
     ...editFullConfig,
@@ -263,7 +244,7 @@ var editHtmlConfig = {
     setup: redEditorSetup
 };
 
-var editMceEditableConfig = {
+const editMceEditableConfig = {
     ...editCommonConfig,
     ...editFullConfig,
     selector: 'form .edit-mceeditable',
@@ -294,7 +275,7 @@ var editMceEditableConfig = {
     setup: redEditorSetup
 };
 
-let selectTemplateCommonConfig = {
+const selectTemplateCommonConfig = {
     ...editCommonConfig,
     ...editRedConfig,
     body_class: "layout preview",
@@ -315,7 +296,7 @@ let selectTemplateCommonConfig = {
 //  }    
 };
 
-var selectTemplateArticleConfig = {
+const selectTemplateArticleConfig = {
     ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_article',
     placeholder: 'Výběr stylu zobrazení pro article',
@@ -323,7 +304,7 @@ var selectTemplateArticleConfig = {
     templates: 'red/v1/templateslist/article'
 };
 
-var selectTemplatePaperConfig = {
+const selectTemplatePaperConfig = {
     ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_paper',
     placeholder: 'Výběr stylu zobrazení pro paper',
@@ -336,7 +317,7 @@ var selectTemplatePaperConfig = {
     templates: 'red/v1/templateslist/paper'
 };
 
-var selectTemplateMultipageConfig = {
+const selectTemplateMultipageConfig = {
     ...selectTemplateCommonConfig,
     selector: '.tiny_select_template_multipage',
     placeholder: 'Výběr stylu zobrazení pro multipage',
@@ -344,11 +325,7 @@ var selectTemplateMultipageConfig = {
     templates: 'red/v1/templateslist/multipage'
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////
-
-import {setupUserInputEditor, initInstanceUserInputEditor, pastePreprocessUserInput} from "./tinyfunctions/editorSetup.js";
-
-var editUserInputConfig = {
+const editUserInputConfig = {
 //    ...editCommonConfig,
     selector: '.edit-userinput',
     schema : 'html5',
@@ -373,10 +350,8 @@ var editUserInputConfig = {
     paste_preprocess: pastePreprocessUserInput
 };
 
-////////////////////////////////////////
-
 // https://codepen.io/maibaduy/pen/KrGPve
-var editStickyConfig = {
+const editStickyConfig = {
   selector: 'textarea',
   height: 1100,
   menubar: false,
@@ -393,7 +368,23 @@ var editStickyConfig = {
     '//www.tinymce.com/css/codepen.min.css']
 };
 
-import {attachmentPlugin} from "./tinyplugins/plugins.js";
+//
+// inicializace editorů
+//
+export const initEditors = () => {
+    tinymce.remove();
+    tinymce.init(editFormRepresentative);
+    tinymce.init(editTextConfig);
+    tinymce.init(editHtmlConfig);
+    tinymce.init(editMceEditableConfig);
+    tinymce.init(selectTemplateArticleConfig);
+    tinymce.init(selectTemplatePaperConfig);
+    tinymce.init(selectTemplateMultipageConfig);
+
+    //pro editaci pracovního popisu pro přihlášené uživatele
+    tinymce.init(editUserInputConfig);
+};
+
 tinymce.PluginManager.add('attachment', attachmentPlugin);
 
 tinymce.on('AddEditor', function (e) {

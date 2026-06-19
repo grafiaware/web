@@ -31,7 +31,7 @@ export const filePickerCallback = (callback, value, meta) => {
             // vytváří blobInfo a ukládám do blobCache - tiny by to udělal sám, ale zde vytvářím 
             // - blobInfo s unikátním jménem souboru (s tím se odesílá na server)
             // - původní jméno souboru (ze souborového systému - načteno dialogem) uschovám pro nastavení atributů html elementu - nastaví tiny sám pomocí callback
-            var originalName = file.name.split('.').pop();  // split('.').pop - jméno souboru bez přípony
+            const originalName = file.name.split('.').pop();  // split('.').pop - jméno souboru bez přípony
             const uniqueName = image_unique_name(originalName);
             const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
             const base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string // Ignorujeme první prvek (před čárkou), extrahujeme druhý //const [, druhy] = str.split(','); 
@@ -107,7 +107,7 @@ export const filePickerCallback = (callback, value, meta) => {
 
 export const redImageUploadHandler = (blobInfo, progress) => new Promise((resolve, reject) => {
 
-    var blob = blobInfo.blob();
+    const blob = blobInfo.blob();
     console.log('blob=', blob);
 //        debugger;
     
@@ -126,7 +126,7 @@ export const redImageUploadHandler = (blobInfo, progress) => new Promise((resolv
             return;
         }
         try {
-            var json = JSON.parse(xhr.responseText);
+            const json = JSON.parse(xhr.responseText);
         } catch (e) {
             reject('Image upload failed due to invalid returned JSON.');
             return console.error('imageUploadHandler: ' + e);
@@ -210,7 +210,7 @@ function findImage(blobInfo) {
 }
 
 function createUniqueName() {
-            var originalName = file.name.split('.').pop();  // split('.').pop - jméno souboru bez přípony
+            const originalName = file.name.split('.').pop();  // split('.').pop - jméno souboru bez přípony
             const id = image_unique_name(originalName);
             const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
             const base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string
