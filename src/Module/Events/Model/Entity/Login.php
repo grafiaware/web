@@ -30,9 +30,6 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
      * @var string
      */
     private $deletedDueToAuth; //NOT NULL
-        
-    
-
 
     #[\Override]
     public function getLoginName() : string  {
@@ -53,9 +50,6 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
     public function getDeletedDueToAuth(): string {
         return $this->deletedDueToAuth;
     }
-
-    
-    
     
     #[\Override]
     public function setLoginName( $loginName): LoginInterface {
