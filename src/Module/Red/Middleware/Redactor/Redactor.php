@@ -226,16 +226,16 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 return $ctrl->removeUserItemAction($request, $itemId);
         });
         //TODO: POST version
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/add', function(ServerRequestInterface $request, $itemId) {
-                /** @var ItemActionControler $ctrl */
-                $ctrl = $this->container->get(ItemActionControler::class);
-                return $ctrl->addUserItemAction($request, $itemId);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/remove', function(ServerRequestInterface $request, $itemId) {
-                /** @var ItemActionControler $ctrl */
-                $ctrl = $this->container->get(ItemActionControler::class);
-                return $ctrl->removeUserItemAction($request, $itemId);
-        });
+//        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/add', function(ServerRequestInterface $request, $itemId) {
+//                /** @var ItemActionControler $ctrl */
+//                $ctrl = $this->container->get(ItemActionControler::class);
+//                return $ctrl->addUserItemAction($request, $itemId);
+//        });
+//        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/remove', function(ServerRequestInterface $request, $itemId) {
+//                /** @var ItemActionControler $ctrl */
+//                $ctrl = $this->container->get(ItemActionControler::class);
+//                return $ctrl->removeUserItemAction($request, $itemId);
+//        });
         
         #### PaperControler ####
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/template', function(ServerRequestInterface $request, $paperId) {
