@@ -29,8 +29,17 @@ class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
      */
     public function hydrate(EntityInterface $login, ArrayAccess $rowData) {
         /** @var LoginInterface $login */
-        $login->setLoginName( $this->getPhpValue( $rowData, 'login_name'));
+        $login->setLoginName( $this->getPhpValue( $rowData, 'login_name'))     
+       
+                    ->setDeletedDueToAuth( $this->getPhpValue( $rowData, 'deleted_due_to_auth'))
+
+                    ->setCreated($this->getPhpDatetime( $rowData, 'created') )
+                    ->setUpdated($this->getPhpDatetime( $rowData, 'updated') );    
         
+//            ->setCreated($this->getPhpValue( $rowData, 'created') ? \DateTime::createFromFormat('Y-m-d H:i:s', $this->getPhpValue( $rowData, 'created') ) : NULL)
+//            ->setUpdated($this->getPhpValue( $rowData, 'updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $this->getPhpValue( $rowData, 'updated') ) : NULL)      
+//            ->setCreated($rowData->offsetGet('created') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('created')) : NULL)
+//            ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL);           
     }
 
     /**
@@ -41,7 +50,8 @@ class LoginHydrator  extends TypeHydratorAbstract implements HydratorInterface {
     public function extract(EntityInterface $login, ArrayAccess $rowData) {
         /** @var LoginInterface $login */
          $this->setSqlValue( $rowData, 'login_name', $login->getLoginName());
-                
+         $this->setSqlValue( $rowData, 'deleted_due_to_auth', $login->getDeletedDueToAuth());
+         // created a updated jsou timestamp - readonly                
     }
 
 }

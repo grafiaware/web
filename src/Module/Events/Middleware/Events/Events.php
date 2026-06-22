@@ -37,8 +37,8 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
      * @return Response
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        // middleware kontejner: má nastaven kontejner z middleware EventsLoginSync
-        $this->container = $this->getApp()->getAppContainer();  // "dědí" kontejnet z EventsLoginSync
+        // middleware kontejner: má nastaven kontejner z middleware ValidateUser
+        $this->container = $this->getApp()->getAppContainer();  // "dědí" kontejnet z  ValidateUser
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         
@@ -259,6 +259,11 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var SynchroControler $ctrl */
             $ctrl = $this->container->get(SynchroControler::class);
             return $ctrl->synchro($request);
+        }); 
+        $this->routeGenerator->addRouteForAction('POST', '/events/v1/validateuser', function(ServerRequestInterface $request) {
+            /** @var SynchroControler $ctrl */
+            $ctrl = $this->container->get(SynchroControler::class);
+            return $ctrl->validateUser($request);
         }); 
         
         

@@ -1,9 +1,9 @@
 <?php
-
 namespace Events\Model\Entity;
 
 use Pes\Model\Entity\PersistableEntityInterface;
 
+use DateTime;
 
 /**
  *
@@ -15,8 +15,25 @@ interface LoginInterface extends PersistableEntityInterface {
      *
      * @return string
      */
-    public function getLoginName();
-    
+    public function getLoginName() : string ;
+               
+    /**
+     *
+     * @return DateTime
+     */
+    public function getCreated(): DateTime;    
+       
+    /**
+     *
+     * @return DateTime|null
+     */
+    public function getUpdated(): ?DateTime;
+      
+    /**
+     *
+     * @return string
+     */
+    public function getDeletedDueToAuth(): string ;
     
      /**
      *
@@ -24,4 +41,36 @@ interface LoginInterface extends PersistableEntityInterface {
      * @return LoginInterface  $this
      */
     public function setLoginName(string $loginName): LoginInterface;
+        
+     /**
+     *
+     * @param DateTime $created
+     * @return  LoginInterface $this
+     */
+    public function setCreated(DateTime $created) : LoginInterface ;
+    
+    /**
+      *
+      * @param DateTime $updated 
+      * @return  LoginInterface $this
+      */
+    public function setUpdated(?DateTime $updated) : LoginInterface;    
+    
+    /**
+     *
+     * @param DateTime $deletedDueToAuth
+     * @return  LoginInterface $this
+     */
+    public function setDeletedDueToAuth($deletedDueToAuth): LoginInterface;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

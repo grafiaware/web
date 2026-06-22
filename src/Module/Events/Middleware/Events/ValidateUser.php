@@ -17,13 +17,28 @@ use Container\EventsDbContainerConfigurator;
 use Container\MailContainerConfigurator;
 
 use Events\Middleware\Events\Controler\LoginSyncControler;
+use Events\Middleware\Events\Controler\SynchroControler;
+use Events\Service\ValidatingServiceInterface;
+use Events\Service\ValidatingService;
+
+
+
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
+
+use Status\Model\Entity\Security;
+use Status\Model\Entity\SecurityInterface;
+
+
+
 
 /**
  * Description of EventsAccess
  *
  * @author pes2704
  */
-class EventsLoginSync extends AppMiddlewareAbstract implements MiddlewareInterface {
+class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface {
     
     private $container;    
     
@@ -41,16 +56,26 @@ class EventsLoginSync extends AppMiddlewareAbstract implements MiddlewareInterfa
                     )
                 )
             );        
-        #### kontejner pro Events #####
-        #
+        #### kontejner pro Events #####        
             // Nový kontejner nastaví jako kontejner aplikace - pro middleware Events
-            $this->getApp()->setAppContainer($this->container);
-        #
-        ###############################       
+            $this->getApp()->setAppContainer($this->container);     
+        ###############################             
+          
+//      todle tady nebude      
+//        $loginSyncControler = $this->container->get(LoginSyncControler::class);
+//        /** @var LoginSyncControler $loginSyncControler */
+//        $loginSyncControler->actualizeLogin();
+//        //----------------
+                    
             
-        $loginSyncControler = $this->container->get(LoginSyncControler::class);
-        /** @var LoginSyncControler $loginSyncControler */
-        $loginSyncControler->actualizeLogin();
+            /** @var  ValidatingServiceInterface $serviceValidating */
+            $serviceValidating = $this->container->get(ValidatingService::class);
+            $serviceValidating->validateUser($request);           
+        
+               
         return $handler->handle($request);
+        
     }
+                          
+    
 }

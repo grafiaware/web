@@ -20,7 +20,13 @@ class RepresentationActions extends PersistableEntityAbstract implements Represe
     private $edit;
 
 
-    public function processActionsForLossOfSecurityContext($loggedOffUserName) {
+    /**
+     * {@inheritdoc}
+     * 
+     * @param string|null $loggedOffUserName
+     */
+    #[\Override]
+    public function processActionsForLossOfSecurityContext(?string $loggedOffUserName=null) {
 //        if($loggedOffUserName == $this->representative->getLoginLoginName()) {
 //            // nedělám nic, je to tu jen jako poznámka
 //        }

@@ -32,39 +32,41 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
         $this->registerHydrator($loginHydrator);
     }
 
-    /**
-     *
-     * @param type $loginName
-     * @return LoginInterface|null
-     */
+
+    #[\Override]
     public function get($loginName): ?LoginInterface {
         return $this->getEntity($loginName);
     }
     
-    /**
-     *
-     * @param type $whereClause
-     * @param type $touplesToBind
-     * @return LoginInterface[]
-     */
+    
+    #[\Override]
     public function find($whereClause="", $touplesToBind=[]): array {
         return $this->findEntities($whereClause, $touplesToBind);
     }
     
+  
+    #[\Override]
+    public function findAll() : array {
+        return $this->findEntities();
+    }
     
 
+    #[\Override]
     public function add(LoginInterface $login) {
         $this->addEntity($login);
     }
 
+    #[\Override]
     public function remove(LoginInterface $login) {
         $this->removeEntity($login);
     }
-
+    
+    
     protected function createEntity() {
         return new Login();
     }
 
+    #[\Override]
     protected function indexFromKeyParams(array $id) {  // číselné pole - vzniklo z variadic $params
         return $id[0];
     }
