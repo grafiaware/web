@@ -1,4 +1,6 @@
 // viz local\site\common\templates\layout\cascade\loaderElement.php
+import {reinitEditableContent} from "../initLoadedElements/initElements.js";
+
 const conf = {
     cascadeClass: 'cascade',
     elementApiUri: "data-red-apiuri",
@@ -25,6 +27,9 @@ var api = {
     presenteddriver: "red/v1/presenteddriver/",
 };
 
+/** true během počátečního loadSubsequentElements() — reinicializace Tiny se provede až v body.js/initElements() */
+let cascadeInitialLoadInProgress = false;
+
 /**
  * 
  * @param {Document} document Document
@@ -34,7 +39,10 @@ var api = {
 export function loadSubsequentElements(document, className) {
     conf.cascadeClass = className;
     history.replaceState({}, "", document.URL);  // https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API#using_replacestate
-    return fetchCascadeContents(document);
+    cascadeInitialLoadInProgress = true;
+    return fetchCascadeContents(document).finally(() => {
+        cascadeInitialLoadInProgress = false;
+    });
 }
 
 /**
@@ -114,7 +122,9 @@ function fetchCascadeContent(parentElement){
         return fetchCascadeContents(parentWithNewContent);
     }).then(allSettledPromise => {
         console.log(`cascade: Loaded content from ${apiUri}.`);
-//        initElements();  // import z initElements.js
+        if (!cascadeInitialLoadInProgress) {
+            return reinitEditableContent();
+        }
     }).catch(e => {
         throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
