@@ -87,21 +87,21 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
             $uploadedFile = $this->getAndValidateUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
         } catch (UploadFileException $e) {
             $httpStatus = $e->getCode(); // http status kód byl předán do Exception->code v getAndValidateUploadedFile()
-            $httpError =  $e->getMessage();
+            $statusText =  $e->getMessage();
         } catch (CreateDirectoryFailedException $e) {
             $httpStatus = 500; // 500 Internal Server Error
-            $httpError =  $e->getMessage();
+            $statusText =  $e->getMessage();
         } catch (Exception $e) {
             $httpStatus = 500; // 500 Internal Server Error
             if($e->getMessage()) {
-                $httpError =  $e->getMessage();
+                $statusText =  $e->getMessage();
             } else {
-                $httpError = get_class($e);   // vypíše typ exception - typicky PDO exception nemá message
+                $statusText = get_class($e);   // vypíše typ exception - typicky PDO exception nemá message
             }
         }
 
-        if (isset($httpError)) {
-            $response = $this->errorResponse($httpStatus, $httpError);
+        if (isset($statusText)) {
+            $response = $this->errorResponse($httpStatus, $statusText);
         } else {
             $editedItemId = $this->paramValue($request, 'edited_item_id');
             if (!$editedItemId) {    
@@ -115,18 +115,13 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
         return $response;
     }
     
-    private function errorResponse($httpError, int $httpStatus=null) {
-        return $this->addCacheHeaders((new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $httpError));
+    private function errorResponse(?int $httpStatus=null, ?string$statusText='' ) {
+        return $this->addCacheHeaders((new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $statusText));
     }
     
     private function okTinyJsonResponse($targetFilepath) {
         // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-//        $json = json_encode(['location' => $targetFilepath]);  //
-//        
-//        $response = $this->createStringOKResponse($json);
-//        return $response->withHeader('Content-Type', 'application/json');
-        
         return $this->createJsonOKResponse(['location' => $targetFilepath]);
     }
 

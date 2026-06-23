@@ -108,6 +108,7 @@ export const filePickerCallback = (callback, value, meta) => {
 export const redImageUploadHandler = (blobInfo, progress) => new Promise((resolve, reject) => {
 
     const blob = blobInfo.blob();
+    const filename = blobInfo.filename();
     console.log('blob=', blob);
 //        debugger;
     
@@ -122,26 +123,26 @@ export const redImageUploadHandler = (blobInfo, progress) => new Promise((resolv
     xhr.onload = () => {
         if (xhr.status < 200 || xhr.status >= 300) {
             reject({ message: 'HTTP Error: ' + xhr.status + '. ' + xhr.statusText, remove: true });  // remove:true - smaže img element z html
-            console.error('imageUploadHandler: failed upload - status: ' + xhr.status + ', message: ' + xhr.statusText);
+            console.error('fileuplad: failed upload - status: ' + xhr.status + ', message: ' + xhr.statusText + ' Filename: ' + filename);
             return;
         }
         try {
             const json = JSON.parse(xhr.responseText);
         } catch (e) {
-            reject('Image upload failed due to invalid returned JSON.');
+            reject('Image upload failed due to invalid returned JSON. Filename: ' + filename);
             return console.error('imageUploadHandler: ' + e);
         }
         if (!json || typeof json.location !== 'string') {
             reject('Invalid JSON: ' + xhr.responseText);
-            console.error('imageUploadHandler: failed upload - message: ' + xhr.responseText);
+            console.error('fileuplad: failed upload - message: ' + xhr.responseText + ' Filename: ' + filename);
             return;
         }
         resolve(json.location);
     };
     
     xhr.onerror = () => {
-        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
-        console.error('imageUploadHandler: failed upload - ' + xhr.status);
+        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status + ' Filename: ' + filename);
+        console.error('fileuplad: failed upload - ' + xhr.status);
     };
 
     // získání menu item id - z editovatelného elementu (element ke kterému je připojen tiny) - editor získávám hledání obrázku v html pro zadané blobInfo
@@ -165,7 +166,7 @@ export const redImageUploadHandler = (blobInfo, progress) => new Promise((resolv
     
     if(null === editedMenuItemId) {
         const msg = 'error image_upload_handler - element id ' + editedElementId + 'has no attribute data-red-menuitemid.';
-        console.warn('imageUploadHandler: ' + msg);
+        console.warn('fileuplad: ' + msg);
     } else {
         const formData = new FormData();
         formData.append('file', blobInfo.blob(), blobInfo.filename());  // blobinfo se vytváří v file_picker_callback_function
