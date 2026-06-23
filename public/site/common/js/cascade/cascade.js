@@ -23,8 +23,8 @@ const conf = {
 // cache control vypnuto ve funkci getCacheControl()
 var apiPrefix = "red/v1/";
 var api = {
-    driver: "red/v1/driver/",
-    presenteddriver: "red/v1/presenteddriver/",
+    driver: apiPrefix+"driver/",
+    presenteddriver: apiPrefix+"presenteddriver/",
 };
 
 /** true během počátečního loadSubsequentElements() — reinicializace Tiny se provede až v body.js/initElements() */
