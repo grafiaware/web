@@ -6,27 +6,29 @@ use Pes\Core\Text\Html;
         <div id="mySidenav" class="editMenu"> 
             <div class="close-item" onclick="hamburger_close()"><a href="javascript:void(0)"><i class="times circle outline large icon"></i>Zavřít</a></div>
   
-            <nav class="svisle-menu svisle-menu--opravneni">
-                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSupervisor",])  ?>
+            <nav class="svisle-menu">
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuVertical", 'data-nav-target-id'=>'menu_target'])  ?>
+            </nav>
+
+<!--            <nav class="svisle-menu svisle-menu--opravneni">
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSupervisor", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>
             <nav class="svisle-menu svisle-menu--opravneni">
-                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsAdmin",])  ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsAdmin", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>                     
             <nav class="svisle-menu svisle-menu--opravneni">
-                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsRepresentative",])  ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsRepresentative", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>            
             <nav class="svisle-menu svisle-menu--opravneni">
-                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsVisitor",])  ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsVisitor", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>            
-            <nav class="svisle-menu">
-                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuVertical",])  ?>
-            </nav>
+
             <nav class="svisle-menu kos">
-                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuTrash",])  ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuTrash", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>
             <nav class="svisle-menu bloky">
-                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuBlocks",])  ?>
-            </nav>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuBlocks", 'data-nav-target-id'=>'menu_target'])  ?>
+            </nav>-->
         </div>
         <div id="myOverlay" onclick="hamburger_close()"></div>
         <!--<div class="nav-mobile active" onclick="hamburger_open()"><div><i class="bars big icon"></i><p>Menu</p></div></div>-->

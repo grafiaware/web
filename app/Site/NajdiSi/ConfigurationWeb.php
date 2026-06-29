@@ -278,7 +278,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             //  název proměnné v šabloně => hodnota targetId příslušná k menu z položky 'contextMenuMap'
             'contextTargetMap' => [
-                    'content'=>['id'=>'menusvisle_target'],  
+                    'content'=>['id'=>'menu_target'],  
                 ],
             'contextMenuMap' => [
 //                    'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
@@ -293,8 +293,9 @@ class ConfigurationWeb extends ConfigurationConstants {
     }
     public static function menu() {
             // menu
-            // 'identifikátor parametrů' => [parametry menu]
+            // konfigurace pro kontejner
             // parametry se použijí v kontejneru: $c->get('menu.services')['identifikátor parametrů']
+            // 
             // parametry menu jsou:
             //      'rootName' => jméno kořene menu v db tabulce root_name, podle root name se najde uid kořene v hierarchii položek menu a načte se podstrom položek patřících do menu
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
@@ -310,54 +311,60 @@ class ConfigurationWeb extends ConfigurationConstants {
          */
         
         return [
+            // konfigurace menu komponent v kontejneru
             'menu.services' => [
-
+                    'menuSupervisor' => [
 //            menuSupervisor:
 //            - nástroj jak vůbec umět přidávat menu
 //            - právo display jen supervisor
 //            - rootName - root - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
-//            - 
-                    'menuSupervisor' => [
                         'rootName' => 'root',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuEventsAdmin' => [
                         'rootName' => 'menu events admin',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuEventsRepresentative' => [
                         'rootName' => 'menu representative',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuEventsVisitor' => [
                         'rootName' => 'menu visitor',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuVertical' => [
                         'rootName' => 'menu vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuBlocks' => [
                         'rootName' => 'blocks',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuBlocks.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
+                        'targetId'=>'menutarget_content',
                         ],
                     'menuTrash' => [
                         'rootName' => 'trash',
                         'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menuTrash.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
+                        'targetId'=>'menutarget_content',
                         ],
                 ],
 

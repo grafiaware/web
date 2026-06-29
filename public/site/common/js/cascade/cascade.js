@@ -320,8 +320,9 @@ function closestCascadeElement(element) {
  */
 function listenLinks(loaderElement) {  
     let cacheControl = getCacheControl(loaderElement);
-    
+    let targ = getTargetId(loaderElement);
     if (hasTargetId(loaderElement)) {
+        // contentTarget - element s id získaným z atributu loader element - targetId: "data-nav-target-id"
         const contentTarget = document.getElementById(getTargetId(loaderElement));
         // na všechny <li> v elementu s třídou conf.navigationClass přidá event listener
         let navs = loaderElement.getElementsByClassName(conf.navigationClass);
@@ -330,6 +331,7 @@ function listenLinks(loaderElement) {
         for (const navigation of [...navs]) {
             let items = navigation.querySelectorAll(conf.itemElementName);
             console.log(`cascade: Listen links match `+items.length+' items.');
+            // jeden handler (s contextTarget) pro všechny items
             for (const item of [...items]) {
                 // když event listener z nějakého důvodu nepracuje, provede se default akce elementu anchor -> volá se načtení celé stránky
                 item.addEventListener("click", linkListener.bind(contentTarget));
@@ -350,7 +352,10 @@ function listenLinks(loaderElement) {
  */
 function linkListener(event) {
     let currentItem = event.currentTarget;  // e.target is the element that triggered the event (e.g., the user clicked on) e.currentTarget is the element that the event listener is attached to
-    let contentTarget = this;  // bind
+    if (null===this) {
+        console.error(`cascade:linklistener není navázán na element contentTarget - contentTarget je null.`);
+    }
+    let contentTarget = this;  // bind - navázán contentTarget - item.addEventListener v listenLinks()
     menuAction(currentItem, contentTarget);
     switchContent(currentItem, contentTarget);    
     // event
@@ -432,8 +437,8 @@ function getNewDrivers(previousItem, currentItem){
             method: "GET",      //default
               cache: cacheControl,
               headers: {
-                "X-Cascade": "fetch driver",   // příznak pro PresentationStatus - neukládej request jako last GET
-              },
+                "X-Cascade": "fetch driver"   // příznak pro PresentationStatus - neukládej request jako last GET
+              }
             })
         .then(response => {
           if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false

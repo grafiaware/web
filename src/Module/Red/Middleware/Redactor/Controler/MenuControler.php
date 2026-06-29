@@ -89,18 +89,18 @@ class MenuControler extends PresentationFrontControlerAbstract {
     
     private function createDriver($uid, $isPresented): DriverComponentInterface {
         $menuItem = $this->getMenuItem($uid);
-        try {
-            $itemType = $this->driverService->getItemType($uid);
-        } catch (Exception $exc) {
-            throw $exc;
-        }
+//        try {
+//            $itemType = $this->driverService->getItemType($uid);
+//        } catch (Exception $exc) {
+//            throw $exc;
+//        }
 
 
         /** @var DriverComponent $driver */
         $driver = $this->container->get(DriverComponent::class);
         /** @var DriverServiceInterface $driverService */
         $driverService = $this->container->get(DriverService::class);
-        $driverService->completeDriverComponent($driver, $menuItem, $isPresented, $itemType);
+        $driverService->completeDriverComponent($driver, $menuItem, $isPresented);
         return $driver;
     }
 }

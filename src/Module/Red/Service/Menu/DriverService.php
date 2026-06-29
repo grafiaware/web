@@ -68,18 +68,19 @@ class DriverService implements DriverServiceInterface{
      * @param DriverComponentInterface $driver
      * @param MenuItemInterface $menuItem
      * @param type $isPresented
-     * @param type $itemType
      * @return DriverComponentInterface
      */
-    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, $isPresented, $itemType){
+    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, $isPresented){
         /** @var DriverViewModelInterface $driverViewModel */
         $driverViewModel = $driver->getData();
 
         $driverViewModel->withMenuItem($menuItem);         
         $driverViewModel->setPresented($isPresented);
         if($this->statusViewModel->presentEditableContent()) {
+            
             //TODO: Sv - pro item, který je menu root je nutné vytvořit vatiantu createButtons pro surevisora - smí vidět jen button přidat potomka - ostatní jsou nebezpečné nebo nesmyslné
             if ($this->createButtons($driverViewModel)) {
+                $itemType = $this->getItemType($menuItem->getUidFk());
                 $driverViewModel->setItemType($itemType);     // itemType je hodnota ItemTypeEnum - užito tady pro create buttons a v  ButtonsMenuAddRenderer + ButtonsMenuPasteRenderer pro renderování buttonů
                 $buttonsComponent = $this->container->get(DriverButtonsComponent::class);
                 $driver->appendComponentView($buttonsComponent, DriverComponentInterface::DRIVER_BUTTONS);// DriverButtonsComponent je typu InheritData - tímto vložením dědí DriverViewModel

@@ -12,5 +12,5 @@ interface DriverServiceInterface {
     
     public function getMenuItem($uid);
     
-    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, $isPresented, $itemType);
+    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, $isPresented);
 }
