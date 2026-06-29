@@ -209,7 +209,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * @param MenuItemInterface $menuItem
      * @return type
      */
-    protected function composeLayoutView(ServerRequestInterface $request, ?MenuItemInterface $menuItem = null) {
+    private function composeLayoutView(ServerRequestInterface $request, ?MenuItemInterface $menuItem = null) {
         $layoutView = $this->getLayoutView($request);
         if (isset($menuItem)) {
             $layoutView->appendComponentViews($this->getContentViews($menuItem));
@@ -254,7 +254,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         return $view;
     }
 
-    #### conzent #####
+    #### content #####
         
     private function getContentViews(MenuItemInterface $menuItem) {
         //TODO:  !! provizorní řešení pro pouze jednu "target" proměnnou v kontextu (jedno místo pro content)

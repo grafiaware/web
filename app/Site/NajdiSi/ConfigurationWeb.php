@@ -357,14 +357,14 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuBlocks.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
-                        'targetId'=>'menutarget_content',
+                        'targetId'=>'content',
                         ],
                     'menuTrash' => [
                         'rootName' => 'trash',
                         'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menuTrash.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
-                        'targetId'=>'menutarget_content',
+                        'targetId'=>'content',
                         ],
                 ],
 
