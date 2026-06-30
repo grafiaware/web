@@ -1,5 +1,6 @@
 var navConfig = {
     basePath: '{{basePath}}',
     cascadeClass: '{{cascadeClass}}',
-    apiActionClass: '{{apiActionClass}}'
+    apiActionClass: '{{apiActionClass}}',
+    menuSwapEnabled: {{menuSwapEnabled}}
 };

@@ -229,6 +229,7 @@ class ConfigurationWeb extends ConfigurationConstants {
 
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
+            'urlTitleScript' => self::WEB_LINKS_COMMON . 'js/title.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::WEB_LINKS_COMMON."css/old/styles.css",
@@ -251,6 +252,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
             'apiaction.class' => 'apiaction',
+            'menuSwap.enabled' => true,
             
             // mapování komponent na proměnné kontextu v šablonách
             // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'

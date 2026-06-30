@@ -31,9 +31,9 @@ class MenuRenderer extends HtmlRendererAbstract {
         }
         if ($viewModel->presentEditableContent()) {
 //            $class[] = 'hierarchy';   // class hierarchy - nutná pro cascade.js, event listener pro výměny DriverComponent v editačním menu
-            $class[] = 'navigation';   // class navigation - nutná pro cascade.js, event listener pro skrytí a zobrazení položek menu v needitačním režimu
+            $class[] = 'navigation';   // class navigation - nutná pro menuSwap.js, event listener pro skrytí a zobrazení položek menu v needitačním režimu
         } else {
-            $class[] = 'navigation';   // class navigation - nutná pro cascade.js, event listener pro skrytí a zobrazení položek menu v needitačním režimu
+            $class[] = 'navigation';   // class navigation - nutná pro menuSwap.js, event listener pro skrytí a zobrazení položek menu v needitačním režimu
         }
         return Html::tag('div', ['class'=>$class], $innerHtml);
     }

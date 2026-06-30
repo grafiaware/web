@@ -231,6 +231,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
                     'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
                     'cascadeClass' => ConfigurationCache::layoutControler()['cascade.class'],
                     'apiActionClass' => ConfigurationCache::layoutControler()['apiaction.class'],
+                    'menuSwapEnabled' => (ConfigurationCache::layoutControler()['menuSwap.enabled'] ?? false) ? 'true' : 'false',
                 ]);
         
         /** @var CompositeViewInterface $view */
@@ -318,6 +319,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
                     'urlTinyMCE' => ConfigurationCache::layoutControler()['urlTinyMCE'],
     //                    'urlJqueryTinyMCE' => ConfigurationCache::layoutControler()['urlJqueryTinyMCE'],
                     'urlTinyInit' => ConfigurationCache::layoutControler()['urlTinyInit'],
+                    'urlTitleScript' => ConfigurationCache::layoutControler()['urlTitleScript'] ?? '',
                     'urlEditScript' => ConfigurationCache::layoutControler()['urlEditScript'],
                     ]);
         $views ['redScripts'] = $redScriptsView;

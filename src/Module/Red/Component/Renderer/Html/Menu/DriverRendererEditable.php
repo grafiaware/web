@@ -60,8 +60,8 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                     +$this->dataRedAttributes($viewModel),
                     $this->form($viewModel)
                     .
-                    // POZOR: závislost na edit.js
-                    // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem):
+                    // POZOR: závislost na title.js
+                    // ve skriptu title.js je element k editaci textu položky vybírán pravidlem (selektorem):
                     //  acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
                     // t.j. selektor vybírá <p>, který má rodiče <div>
                     $pHtml

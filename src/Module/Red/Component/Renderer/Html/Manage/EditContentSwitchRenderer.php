@@ -34,7 +34,7 @@ class EditContentSwitchRenderer extends HtmlRendererAbstract {
         }
         return
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.itemAction')], //tlačítko "tužka" pro zvolení editace
-                Html::tag('form', ['class'=>'apiAction', 'method'=>'POST', 'action'=>$action],  //TODO: hodnota class se používá v cascade.js pro selektor -> do konfigurace
+                Html::tag('form', ['class'=>'apiAction', 'method'=>'POST', 'action'=>$action],  //TODO: hodnota class se používá v menuSwap.js pro selektor -> do konfigurace
                     [
                         Html::tag('button', [
                             'class'=>$this->classMap->resolve($userPerformActionWithContent, 'Buttons', 'button.offEditMode',  $disabled ? 'button.editMode.disabled':'button.editMode'),

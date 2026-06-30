@@ -44,7 +44,7 @@ class DriverPresentedRendererEditable extends HtmlRendererAbstract {
                 ]
                 +$this->dataRedAttributes($viewModel),
 
-                // POZOR: závislost na edit.js
+                // POZOR: závislost na title.js
                 // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
                 // t.j. selektor vybírá <span>, který má rodiče <p>
                 Html::tag('p', ['contenteditable'=> "true", 'data-original-title'=>$viewModel->getTitle()],
