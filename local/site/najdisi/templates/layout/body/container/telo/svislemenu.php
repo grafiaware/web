@@ -10,7 +10,7 @@ use Pes\Core\Text\Html;
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuVertical", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>
 
-<!--            <nav class="svisle-menu svisle-menu--opravneni">
+            <nav class="svisle-menu svisle-menu--opravneni">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuSupervisor", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>
             <nav class="svisle-menu svisle-menu--opravneni">
@@ -28,7 +28,7 @@ use Pes\Core\Text\Html;
             </nav>
             <nav class="svisle-menu bloky">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuBlocks", 'data-nav-target-id'=>'menu_target'])  ?>
-            </nav>-->
+            </nav>
         </div>
         <div id="myOverlay" onclick="hamburger_close()"></div>
         <!--<div class="nav-mobile active" onclick="hamburger_open()"><div><i class="bars big icon"></i><p>Menu</p></div></div>-->
