@@ -63,10 +63,11 @@ if (true OR $statusSecurity->getEditorActions() && $statusSecurity->getEditorAct
 ?>
 
 <?= $message ?? ""; ?>
+<? include 'datum_a_cas_konani.php'; ?>
 
 <p class="nadpis nastred">Umělci, kteří Vám představí svoji tvorbu</p >
 
-<p>Mapa Plzně a okolí se zaplní zastávkami, kde to 20. - 21. září 2025, 14 – 20:00 hodin ožije uměním. Pojďme se podívat, kdo otevře své ateliéry! Přinášíme Vám malou ochutnávku jejich děl. Pokud zde nenajdete profily všech umělců, je to proto, že některým jejich bohémská duše dosud nedopřála čas k odeslání podkladů pro tento web. ;-) </p>
+<p>Mapa Plzně a okolí se zaplní zastávkami, kde to <?= $datumAcas." " ?? ""; ?>ožije uměním. Pojďme se podívat, kdo otevře své ateliéry! Přinášíme Vám malou ochutnávku jejich děl. Pokud zde nenajdete profily všech umělců, je to proto, že některým jejich bohémská duše dosud nedopřála čas k odeslání podkladů pro tento web. ;-) </p>
 
 <p class="nastred">
     <?=  "|" . $this->repeat(__DIR__.'/katalog-chset.php', $chSet) ?>
