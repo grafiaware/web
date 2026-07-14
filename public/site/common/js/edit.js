@@ -100,4 +100,4 @@ $(document).ready(function(){
     $('.close.slim-icon').addClass(localStorage.getItem('hamburgerSlimIcon'));
 });
 //konec Vyuziti lokalniho uloziste pro menu
-// editace titulku položky menu je v title.js
+// cascade refactor: sekce EDIT MENU přesunuta do title.js (inline editace titulku položky menu)

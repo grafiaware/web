@@ -231,6 +231,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
                     'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
                     'cascadeClass' => ConfigurationCache::layoutControler()['cascade.class'],
                     'apiActionClass' => ConfigurationCache::layoutControler()['apiaction.class'],
+                    // cascade refactor: předáno do navConfig.js → body.js načte menuSwap.js
                     'menuSwapEnabled' => (ConfigurationCache::layoutControler()['menuSwap.enabled'] ?? false) ? 'true' : 'false',
                 ]);
         
@@ -319,6 +320,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
                     'urlTinyMCE' => ConfigurationCache::layoutControler()['urlTinyMCE'],
     //                    'urlJqueryTinyMCE' => ConfigurationCache::layoutControler()['urlJqueryTinyMCE'],
                     'urlTinyInit' => ConfigurationCache::layoutControler()['urlTinyInit'],
+                    // cascade refactor: skript title.js (editace titulku menu), načítán v redScripts.php
                     'urlTitleScript' => ConfigurationCache::layoutControler()['urlTitleScript'] ?? '',
                     'urlEditScript' => ConfigurationCache::layoutControler()['urlEditScript'],
                     ]);

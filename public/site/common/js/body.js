@@ -51,6 +51,7 @@ if (document.readyState === 'complete') {
         const init = async () => {
             console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
 
+            // cascade refactor: menuSwap.js jen pokud je v konfiguraci menuSwap.enabled (navConfig.menuSwapEnabled)
             if (navConfig.menuSwapEnabled) {
                 const { initMenuSwap } = await import("./menu/menuSwap.js");
                 initMenuSwap();
@@ -60,6 +61,7 @@ if (document.readyState === 'complete') {
             console.debug(resultComponents);
             console.log("body: load elements fullfilled");
 
+            // listenPopState jen s menuSwap (pushState při přepínání položek menu)
             if (navConfig.menuSwapEnabled) {
                 listenPopState();
             }

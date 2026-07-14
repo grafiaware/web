@@ -229,6 +229,7 @@ class ConfigurationWeb extends ConfigurationConstants {
 
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
+            // cascade refactor: editace titulku položky menu (dříve v edit.js)
             'urlTitleScript' => self::WEB_LINKS_COMMON . 'js/title.js',
 
             // linkEditorCss links
@@ -252,6 +253,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
             'apiaction.class' => 'apiaction',
+            // cascade refactor: true = body.js načte menuSwap.js; false = jen cascade bez JS navigace v menu
             'menuSwap.enabled' => true,
             
             // mapování komponent na proměnné kontextu v šablonách
@@ -395,7 +397,7 @@ class ConfigurationWeb extends ConfigurationConstants {
         return [
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
-            // volba sady parametrů z Mail\ParamsTemplates
+            // volba sady parametrů z Pes\Mail\ParamsTemplates
 //            'mail.paramsname' => 'grafiaInterni', 
 //            'mail.paramsname' => 'najdisi', // funkční na hostingu
 //            'mail.paramsname' => 'najdisiWebSMTP',
